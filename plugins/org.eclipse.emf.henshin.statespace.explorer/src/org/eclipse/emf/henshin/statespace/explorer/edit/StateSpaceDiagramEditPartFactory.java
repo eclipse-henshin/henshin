@@ -40,13 +40,13 @@ public class StateSpaceDiagramEditPartFactory implements EditPartFactory {
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof StateSpace) {
-			return new StateSpaceDiagramEditPart();
+			return new StateSpaceEditPart();
 		}
 		if (modelElement instanceof State) {
-			return new StateDiagramEditPart();
+			return new StateEditPart();
 		}
 		if (modelElement instanceof Transition) {
-			return new TransitionDiagramEditPart();
+			return new TransitionEditPart();
 		}
 		throw new RuntimeException(
 				"Can't create part for model element: "

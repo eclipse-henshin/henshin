@@ -43,7 +43,7 @@ public class StateNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 */
 	@Override
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
-		Transition transition = ((TransitionDiagramEditPart) request.getConnectionEditPart()).getTransition();
+		Transition transition = ((TransitionEditPart) request.getConnectionEditPart()).getTransition();
 		TransitionReconnectCommand command = new TransitionReconnectCommand(transition);
 		command.setNewSource(getState());
 		return command;
@@ -65,7 +65,7 @@ public class StateNodeEditPolicy extends GraphicalNodeEditPolicy {
 	 * Get the host state.
 	 */
 	private State getState() {
-		return ((StateDiagramEditPart) getHost()).getState();
+		return ((StateEditPart) getHost()).getState();
 	}
 	
 }

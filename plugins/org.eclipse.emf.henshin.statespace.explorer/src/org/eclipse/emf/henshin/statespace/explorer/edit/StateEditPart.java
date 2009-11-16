@@ -19,6 +19,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -27,7 +28,7 @@ import org.eclipse.swt.graphics.Color;
  * State diagram edit part.
  * @author Christian Krause
  */
-public class StateDiagramEditPart extends AbstractGraphicalEditPart implements NodeEditPart, PropertyChangeListener {
+public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, PropertyChangeListener {
 	
 	// Size of state figures.
 	public final static Dimension SIZE = new Dimension(-1,22);
@@ -213,6 +214,19 @@ public class StateDiagramEditPart extends AbstractGraphicalEditPart implements N
 			refreshTargetConnections();
 		}
 		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
+	 */
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType()==RequestConstants.REQ_OPEN) {
+			System.out.println("handle double click");
+		} else {
+			super.performRequest(request);
+		}
 	}
 	
 	/**

@@ -17,7 +17,7 @@ public class StateCreateCommand extends Command {
 	private final StateSpace stateSpace;
 	
 	// State coordinates:
-	private int x=-1, y=-1;
+	private int x=0, y=0;
 	
 	// Name of the state:
 	private String name;

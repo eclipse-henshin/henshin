@@ -34,7 +34,7 @@ import org.eclipse.gef.commands.Command;
  * create a new TransitionReconnectCommand, set the new connection <i>target</i> by calling
  * the <tt>setNewTarget(State)</tt> method and return the command instance.</li>
  * </ol>
- * @see org.eclipse.emf.henshin.statespace.explorer.edit.StateDiagramEditPart#createEditPolicies() for an
+ * @see org.eclipse.emf.henshin.statespace.explorer.edit.StateEditPart#createEditPolicies() for an
  * 			 example of the above procedure.
  * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy
  * @see #setNewSource(State)

@@ -18,14 +18,22 @@ public class Transition extends PropertyAdapter {
 	public static final int TRANSITION_NAME = 7;
 	
 	/**
-	 * Default constructor.
+	 * Constructor.
+	 * @param name Name of the transition.
+	 */
+	public Transition(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Constructor.
 	 * @param source Source of the transition.
 	 * @param target Target of the transition.
 	 * @param name Name of the transition.
 	 */
 	public Transition(State source, State target, String name) {
+		this(name);
 		reconnect(source, target);
-		this.name = name;
 	}
 	
 	public void disconnect() {

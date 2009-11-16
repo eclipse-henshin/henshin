@@ -32,10 +32,10 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 		
-		if (child instanceof StateDiagramEditPart && 
+		if (child instanceof StateEditPart && 
 			constraint instanceof Rectangle) {
 			
-			State state = ((StateDiagramEditPart) child).getState();
+			State state = ((StateEditPart) child).getState();
 			Rectangle bounds = (Rectangle) constraint;
 			return new StateSetConstraintCommand(state, request, bounds);
 			

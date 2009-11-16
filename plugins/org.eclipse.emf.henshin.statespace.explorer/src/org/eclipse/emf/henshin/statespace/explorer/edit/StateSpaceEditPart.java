@@ -22,7 +22,7 @@ import org.eclipse.swt.SWT;
  * State space diagram edit part.
  * @author Christian Krause
  */
-public class StateSpaceDiagramEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
+public class StateSpaceEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener {
 	
 	/*
 	 * (non-Javadoc)

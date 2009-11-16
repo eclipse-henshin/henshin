@@ -14,7 +14,7 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-public class TransitionDiagramEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
+public class TransitionEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
 
 	/*
 	 * (non-Javadoc)
