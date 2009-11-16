@@ -24,12 +24,23 @@ import org.eclipse.emf.henshin.statespace.*;
 }
 
 @parser::members{
-private Map<String,State> states;
 
+// Associate state names to states:
+private HashMap<String,State> states;
+
+// Keep only one name per transition type:
+private HashMap<String,String> transitionNames;
+
+/*
+ * Get the state name map.
+ */
 public Map<String,State> getStates() {
 	return states;
 }
 
+/*
+ * Parse a state attribute.
+ */
 private void parseAttribute(State state, String key, String value) throws RecognitionException {
 	if ("x".equals(key) || "y".equals(key)) {
 		try {
@@ -45,21 +56,45 @@ private void parseAttribute(State state, String key, String value) throws Recogn
 
 }
 
-start returns [StateSpace stateSpace]
+
+stateSpace returns [StateSpace stateSpace]
 @init { 
-	$stateSpace = new StateSpace(); 
-	states = new HashMap<String,State>();
+    
+    // Initialize state space:
+	$stateSpace = new StateSpace();
+	
+	// Create a state name map: 
+	states = new HashMap<String,State>() {
+		@Override
+		public State get(Object name) {
+			if (!containsKey(name)) put((String) name, new State((String) name));
+			return super.get(name);
+		}
+	};
+	
+	// Create a transition name map:
+	transitionNames = new HashMap<String,String>() {
+		@Override
+		public String get(Object name) {
+			if (!containsKey(name)) put((String) name, (String) name);
+			return super.get(name);
+		}
+	};
 } :
+	// Parse all states:
 	(state { $stateSpace.getStates().add($state.s); })*
 ;
 
 state returns [State s] : 
-	name=ID { $s = new State($name.text); }
+	name=ID { $s = states.get($name.text); }
 	(LBRACKET (attribute[$s] (COMMA attribute[$s])*)? RBRACKET)?
-    (
-    LINE (LPAREN rule=ID target=ID RPAREN { new Transition(s, states.get(target), $rule.text); } )+
-    )?
+    (LINE (transition[$s])+)?
  SEMICOLON
+;
+
+transition[State state] returns [Transition t] :
+	LPAREN rule=ID COMMA target=ID RPAREN 
+	{ new Transition($state, states.get($target.text), transitionNames.get($rule.text)); }
 ;
 
 attribute[State s] :

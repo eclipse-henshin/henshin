@@ -40,7 +40,7 @@ public class StateSpaceLoader {
             
            	// Run the parser:
            	StateSpaceParser parser = new StateSpaceParser(tokens);
-        	StateSpace result = parser.start();
+        	StateSpace result = parser.stateSpace();
         	return result;
         
         } catch (Throwable t)  {

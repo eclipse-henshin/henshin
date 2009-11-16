@@ -245,7 +245,7 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 		} catch (CoreException e) { 
 			stateSpace = new StateSpace();
 			MessageDialog.openError(getSite().getShell(), "Error", "Error loading file. See the error log for more info.");
-			StateSpaceExplorerPlugin.getInstance().logError("Error loading file", e);
+			StateSpaceExplorerPlugin.getInstance().logError("Error loading file", e.getCause());
 		}
 	}
 
