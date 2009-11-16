@@ -4,14 +4,16 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.statespace.properties.NotifyingList;
 import org.eclipse.emf.henshin.statespace.properties.PropertyAdapter;
-import org.eclipse.emf.henshin.statespace.properties.PropertyChangeEvent;
 
 /**
  * Light-weight model of a state space.
  * @author Christian Krause
  */
 public class StateSpace extends PropertyAdapter {
-	
+
+	// StateSpace properties:
+	public static final int STATES = 1;
+
 	// List of states.
 	private List<State> states;
 
@@ -19,7 +21,7 @@ public class StateSpace extends PropertyAdapter {
 	 * Default constructor.
 	 */
 	public StateSpace() {
-		this.states = new NotifyingList<State>(this, PropertyChangeEvent.STATES);
+		this.states = new NotifyingList<State>(this, STATES);
 	}
 	
 	/**

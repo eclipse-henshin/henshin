@@ -13,6 +13,9 @@ public class Transition extends PropertyAdapter {
 	
 	// Transition name:
 	private String name;
+
+	// Transition properties:
+	public static final int TRANSITION_NAME = 7;
 	
 	/**
 	 * Default constructor.

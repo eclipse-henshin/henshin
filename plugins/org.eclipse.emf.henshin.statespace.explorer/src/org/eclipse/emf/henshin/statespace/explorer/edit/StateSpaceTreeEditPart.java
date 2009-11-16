@@ -84,7 +84,7 @@ public class StateSpaceTreeEditPart extends AbstractTreeEditPart implements Prop
 	 */
 	@Override
 	public void propertyChanged(PropertyChangeEvent event) {		
-		if (event.getProperty()==PropertyChangeEvent.STATES) {
+		if (event.getProperty()==StateSpace.STATES) {
 			if (getStateSpace().getStates().contains(event.getValue())) {
 				addChild(createChild(event.getValue()), -1);
 			} else {

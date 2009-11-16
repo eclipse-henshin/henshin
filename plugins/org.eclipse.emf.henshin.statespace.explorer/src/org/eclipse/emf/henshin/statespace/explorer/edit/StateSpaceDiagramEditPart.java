@@ -98,7 +98,7 @@ public class StateSpaceDiagramEditPart extends AbstractGraphicalEditPart impleme
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePropertyChangeListener#propertyChanged(java.lang.Object, java.lang.String)
 	 */
 	public void propertyChanged(PropertyChangeEvent event) {
-		if (event.getProperty()==PropertyChangeEvent.STATES) {
+		if (event.getProperty()==StateSpace.STATES) {
 			refreshChildren();
 		}
 	}

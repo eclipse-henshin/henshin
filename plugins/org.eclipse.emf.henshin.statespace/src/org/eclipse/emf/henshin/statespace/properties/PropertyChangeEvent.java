@@ -6,19 +6,6 @@ package org.eclipse.emf.henshin.statespace.properties;
  */
 public class PropertyChangeEvent {
 	
-	// StateSpace properties:
-	public static final int STATES = 1;
-	
-	// State properties:
-	public static final int INCOMING_TRANSITIONS = 2;
-	public static final int OUTGOING_TRANSITIONS = 3;
-	public static final int STATE_NAME = 4;
-	public static final int STATE_LOCATION = 5;
-	
-	// Transition properties:
-	public static final int TRANSITION_NAME = 6;
-	
-	
 	// The property:
 	private int property;
 	

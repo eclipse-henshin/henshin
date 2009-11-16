@@ -1,13 +1,15 @@
 package org.eclipse.emf.henshin.statespace.properties;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Abstract property adapter class.
+ * @author Christian Krause
+ */
 public abstract class PropertyAdapter {
-
+	
+	// Listeners.
 	private Object listeners;	
 	
 	/**
@@ -74,14 +76,6 @@ public abstract class PropertyAdapter {
 			}
 		}
 		
-	}
-
-	/**
-	 * @deprecated
-	 */
-	private void readObject(ObjectInputStream in) 
-	throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
 	}
 
 }

@@ -200,16 +200,16 @@ public class StateDiagramEditPart extends AbstractGraphicalEditPart implements N
 		
 		int property = event.getProperty();
 		
-		if (property==PropertyChangeEvent.STATE_LOCATION) {
+		if (property==State.LOCATION) {
 			refreshLocation();
 		}
-		if (property==PropertyChangeEvent.STATE_NAME) {
+		if (property==State.NAME) {
 			refreshLabel();
 		}
-		else if (property==PropertyChangeEvent.OUTGOING_TRANSITIONS) {
+		else if (property==State.OUTGOING) {
 			refreshSourceConnections();
 		}
-		else if (property==PropertyChangeEvent.INCOMING_TRANSITIONS) {
+		else if (property==State.INCOMING) {
 			refreshTargetConnections();
 		}
 		
