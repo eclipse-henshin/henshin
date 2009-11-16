@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+     <extension point="org.eclipse.ui.editors">
+      <editor name="EMF Henshin State Space"
+              extensions="henshin_statespace"
+              icon="shapes.gif"
+              default="true"
+              class="org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorer"
+              contributorClass="org.eclipse.emf.henshin.statespace.explorer.StateSpaceEditorActionBarContributor"
+              id="EMF Henshin State Space Editor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category name="EMF Henshin"
+                id="org.eclipse.emf.henshin"/>
+      <wizard name="State Space Diagram"
+              icon="shapes.gif"
+              category="org.eclipse.emf.henshin"
+              class="org.eclipse.emf.henshin.statespace.explorer.StateSpaceCreationWizard"
+              id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+</plugin>
