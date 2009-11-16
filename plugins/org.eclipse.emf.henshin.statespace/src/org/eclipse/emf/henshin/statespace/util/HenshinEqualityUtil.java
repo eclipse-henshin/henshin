@@ -1,5 +1,8 @@
 package org.eclipse.emf.henshin.statespace.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -8,33 +11,34 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * @author Christian Krause
  */
-public class ResourceHelper {
-
-	/*
-	public static boolean equals(Resource r1, Resource r2) {
-		
-		// Compare the sizes.
-		if (r1.getContents().size()!=r2.getContents().size()) return false;
-
-		// Compare the objects:
-		for (int i=0; i<size(); i++) {
-			boolean found = false;
-			for (int j=0; j<copy.size(); j++) {
-				if (EcoreUtil.equals(get(i), copy.get(j))) {
-					copy.remove(j);
-					found = true;
-					break;
-				}
-			}
-			if (!found) return false;
-		}
-		return true;
+public class HenshinEqualityUtil {
+	
+	/**
+	 * Check whether two eObjects are Henshin equal.
+	 * @param eObject1 First object.
+	 * @param eObject2 Second object.
+	 * @return <code>true</code> if they are Henshin equal.
+	 */
+	public static boolean equals(EObject eObject1, EObject eObject2) {
+		EqualityHelper helper = new EqualityHelper();
+		return helper.equals(eObject1, eObject2);
 	}
-	*/
+
+	/**
+	 * Check whether two resources are Henshin equal.
+	 * @param resource1 First resource.
+	 * @param resource2 Second resource.
+	 * @return <code>true</code> if they are Henshin equal.
+	 */
+	public static boolean equals(Resource resource1, Resource resource2) {
+		EqualityHelper helper = new EqualityHelper();
+		return helper.equals(resource1.getContents(), resource2.getContents());
+	}
 	
 	/**
 	 * Compute the hashcode of a given resource.
@@ -51,8 +55,10 @@ public class ResourceHelper {
 	}
 	
 	
-	/*
-	 * Compute the hash code of an object.
+	/**
+	 * Compute the hash code of an eObject.
+	 * @param object eObject.
+	 * @return its hash code.
 	 */
 	private static int hashCode(EObject object) {
 		
@@ -117,6 +123,52 @@ public class ResourceHelper {
 		// Should not get here.
 		throw new IllegalArgumentException("Unknow feature type: " + feature);
 		
+	}
+	
+	
+	/**
+	 * Henshin equality helper class.
+	 * @see EcoreUtil.EqualityHelper
+	 */
+	public static class EqualityHelper extends EcoreUtil.EqualityHelper {
+		
+		// Default serial ID.
+		private static final long serialVersionUID = 1L;
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper#equals(java.util.List, java.util.List)
+		 */
+		@Override
+	    public boolean equals(List<EObject> list1, List<EObject> list2) {
+						
+			// Compare sizes:
+			int size = list1.size();
+			if (size != list2.size()) {
+				return false;
+			}
+			
+			// Copy the second list:
+			list2 = new ArrayList<EObject>(list2);
+
+			// Match objects:
+			for (int i=0; i<size; i++) {
+				boolean found = false;
+				for (int j=0; j<size; j++) {
+					if (equals(list1.get(i), list2.get(j))) {
+						list2.remove(j);
+						found = true;
+						break;
+					}
+				}
+				if (!found) return false;
+			}
+			
+			// Success:
+			return true;
+			
+		}
+
 	}
 	
 }

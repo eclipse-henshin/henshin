@@ -7,8 +7,8 @@
               extensions="henshin_statespace"
               icon="shapes.gif"
               default="true"
-              class="org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorer"
-              contributorClass="org.eclipse.emf.henshin.statespace.explorer.StateSpaceEditorActionBarContributor"
+              class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer"
+              contributorClass="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceEditorActionBarContributor"
               id="EMF Henshin State Space Editor">
       </editor>
    </extension>
@@ -18,7 +18,7 @@
       <wizard name="State Space Diagram"
               icon="shapes.gif"
               category="org.eclipse.emf.henshin"
-              class="org.eclipse.emf.henshin.statespace.explorer.StateSpaceCreationWizard"
+              class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceCreationWizard"
               id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>

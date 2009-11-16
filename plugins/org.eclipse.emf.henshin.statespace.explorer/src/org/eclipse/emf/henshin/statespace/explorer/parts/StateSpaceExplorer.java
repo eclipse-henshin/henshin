@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.explorer;
+package org.eclipse.emf.henshin.statespace.explorer.parts;
 
 import java.util.EventObject;
 
@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceDiagramEditPartFactory;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceTreeEditPartFactory;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceLoader;
@@ -55,7 +56,7 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 	private StateSpace stateSpace;
 	
 	// Palette root.
-	private static PaletteRoot PALETTE_MODEL;
+	private static PaletteRoot PALETTE_ROOT;
 
 	/** 
 	 * Create a new editor instance. 
@@ -96,19 +97,15 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 		super.commandStackChanged(event);
 	}
 	
-
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
 	 */
+	@Override
 	protected PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
-				// create a drag source listener for this palette viewer
-				// together with an appropriate transfer drop target listener, this will enable
-				// model element creation by dragging a CombinatedTemplateCreationEntries 
-				// from the palette into the editor
-				// @see ShapesEditor#createTransferDropTargetListener()
 				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
 			}
 		};
@@ -122,16 +119,17 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 	private TransferDropTargetListener createTransferDropTargetListener() {
 		return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
 			protected CreationFactory getFactory(Object template) {
-				return new SimpleFactory((Class) template);
+				return new SimpleFactory((Class<?>) template);
 			}
 		};
 	}
-
-	/* (non-Javadoc)
+	
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void doSave(IProgressMonitor monitor) {
-		
+	@Override
+	public void doSave(IProgressMonitor monitor) {		
 		try {
 			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 			StateSpaceLoader.save(getStateSpace(), file, monitor);
@@ -140,12 +138,13 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 			MessageDialog.openError(getSite().getShell(), "Error", "Error saving file. See the error log for more info.");
 			StateSpaceExplorerPlugin.getInstance().logError("Error saving file", e);
 		}
-		
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#doSaveAs()
 	 */
+	@Override
 	public void doSaveAs() {
 		
 		// Show a SaveAs dialog
@@ -200,19 +199,23 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 		return stateSpace;
 	}
 	
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
+	@Override
 	protected PaletteRoot getPaletteRoot() {
-		if (PALETTE_MODEL == null)
-			PALETTE_MODEL = StateSpaceEditorPaletteFactory.createPalette();
-		return PALETTE_MODEL;
+		if (PALETTE_ROOT == null) {
+			PALETTE_ROOT = StateSpaceEditorPaletteFactory.createPalette();
+		}
+		return PALETTE_ROOT;
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
 	 */
+	@Override
 	protected void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		

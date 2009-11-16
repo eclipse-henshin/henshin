@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.explorer;
+package org.eclipse.emf.henshin.statespace.explorer.parts;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
