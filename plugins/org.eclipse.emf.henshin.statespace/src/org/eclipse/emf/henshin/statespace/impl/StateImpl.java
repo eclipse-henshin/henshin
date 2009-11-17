@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -37,6 +38,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getLocation <em>Location</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getModel <em>Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +105,26 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 * @ordered
 	 */
 	protected int[] location = LOCATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getModel() <em>Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Resource MODEL_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected Resource model = MODEL_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -192,6 +214,27 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Resource getModel() {
+		return model;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModel(Resource newModel) {
+		Resource oldModel = model;
+		model = newModel;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__MODEL, oldModel, model));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public int getX() {
@@ -205,6 +248,15 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 */
 	public int getY() {
 		return (location!=null && location.length>1) ? location[1] : 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isInitial() {
+		return model!=null && model.getURI()!=null;
 	}
 
 	/**
@@ -256,6 +308,8 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return getOutgoing();
 			case StateSpacePackageImpl.STATE__LOCATION:
 				return getLocation();
+			case StateSpacePackageImpl.STATE__MODEL:
+				return getModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -283,6 +337,9 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__LOCATION:
 				setLocation((int[])newValue);
 				return;
+			case StateSpacePackageImpl.STATE__MODEL:
+				setModel((Resource)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -307,6 +364,9 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__LOCATION:
 				setLocation(LOCATION_EDEFAULT);
 				return;
+			case StateSpacePackageImpl.STATE__MODEL:
+				setModel(MODEL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -327,6 +387,8 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return outgoing != null && !outgoing.isEmpty();
 			case StateSpacePackageImpl.STATE__LOCATION:
 				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
+			case StateSpacePackageImpl.STATE__MODEL:
+				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
 		}
 		return super.eIsSet(featureID);
 	}

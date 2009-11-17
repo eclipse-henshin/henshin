@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Light-weight state model.
@@ -68,6 +69,27 @@ public interface State extends EObject {
 	void setLocation(int... location);
 
 	/**
+	 * Returns the value of the '<em><b>Model</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Model</em>' attribute.
+	 * @see #setModel(Resource)
+	 * @model transient="true"
+	 * @generated
+	 */
+	Resource getModel();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getModel <em>Model</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model</em>' attribute.
+	 * @see #getModel()
+	 * @generated
+	 */
+	void setModel(Resource value);
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * Get the X-coordinate of this state.
 	 * <!-- end-user-doc -->
@@ -84,5 +106,13 @@ public interface State extends EObject {
 	 * @generated
 	 */
 	int getY();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isInitial();
 		
 }

@@ -10,6 +10,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 /**
  * State space generator.
  * @author Christian Krause
+ * @generated NOT
  */
 public class StateSpaceGenerator {
 	

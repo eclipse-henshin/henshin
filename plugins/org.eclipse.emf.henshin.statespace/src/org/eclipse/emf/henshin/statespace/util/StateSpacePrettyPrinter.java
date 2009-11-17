@@ -16,6 +16,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  * Static pretty-printer methods for state spaces.
  * @author Christian Krause
  * @deprecated
+ * @generated NOT
  */
 public class StateSpacePrettyPrinter {
 	

@@ -15,14 +15,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * @author Christian Krause
+ * @generated NOT
  */
-public class HenshinEqualityUtil {
+public class StateSpaceEqualityUtil {
 	
 	/**
-	 * Check whether two eObjects are Henshin equal.
+	 * Check whether two eObjects are StateSpace equal.
 	 * @param eObject1 First object.
 	 * @param eObject2 Second object.
-	 * @return <code>true</code> if they are Henshin equal.
+	 * @return <code>true</code> if they are StateSpace equal.
 	 */
 	public static boolean equals(EObject eObject1, EObject eObject2) {
 		EqualityHelper helper = new EqualityHelper();
@@ -30,10 +31,10 @@ public class HenshinEqualityUtil {
 	}
 
 	/**
-	 * Check whether two resources are Henshin equal.
+	 * Check whether two resources are StateSpace equal.
 	 * @param resource1 First resource.
 	 * @param resource2 Second resource.
-	 * @return <code>true</code> if they are Henshin equal.
+	 * @return <code>true</code> if they are StateSpace equal.
 	 */
 	public static boolean equals(Resource resource1, Resource resource2) {
 		EqualityHelper helper = new EqualityHelper();
@@ -127,7 +128,7 @@ public class HenshinEqualityUtil {
 	
 	
 	/**
-	 * Henshin equality helper class.
+	 * StateSpace equality helper class.
 	 * @see EcoreUtil.EqualityHelper
 	 */
 	public static class EqualityHelper extends EcoreUtil.EqualityHelper {

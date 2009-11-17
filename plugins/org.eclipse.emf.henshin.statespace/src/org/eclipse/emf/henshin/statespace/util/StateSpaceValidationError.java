@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.statespace.util;
 /**
  * State space validation error class.
  * @author Christian Krause
+ * @generated NOT
  */
 public class StateSpaceValidationError extends Exception {
 	

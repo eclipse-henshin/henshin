@@ -38,6 +38,9 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	// Default color to be used.
 	public final static Color COLOR_DEFAULT = new Color(null, 220,220,220);
 
+	// Color to be used for initial states.
+	public final static Color COLOR_INITIAL = new Color(null, 40,220,40);
+	
 	// Color to be used for open states.
 	public final static Color COLOR_OPEN = new Color(null, 220,40,40);
 
@@ -181,11 +184,16 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	private void refreshLabel() {
 		
 		// Update label text:
-		String name = getState().getName()==null ? "?" : getState().getName();
+		String name = getState().getName();
+		if (name==null) name = "?";
 		((StateFigure) getFigure()).getLabel().setText(" " + name + " ");
 		
 		// Update color:
-		getFigure().setBackgroundColor(COLOR_DEFAULT);
+		if (getState().isInitial()) {
+			getFigure().setBackgroundColor(COLOR_INITIAL);	
+		} else {
+			getFigure().setBackgroundColor(COLOR_DEFAULT);
+		}
 		
 	}
 	

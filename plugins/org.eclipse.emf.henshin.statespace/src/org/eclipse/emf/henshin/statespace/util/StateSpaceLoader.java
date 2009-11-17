@@ -18,6 +18,7 @@ import org.eclipse.emf.henshin.statespace.parser.StateSpaceParser;
 /**
  * Utility methods for loading and saving state spaces.
  * @author Christian Krause
+ * @generated NOT
  */
 public class StateSpaceLoader {
 	
