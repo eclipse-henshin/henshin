@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.commands.Command;
 
@@ -55,8 +56,11 @@ public class StateExploreCommand extends Command {
 	@Override
 	public void execute() {
 		
-		State newState = new State("s" + stateSpace.getStates().size());
-		Transition newTransition = new Transition("test");
+		State newState = StateSpaceFactory.INSTANCE.createState();
+		newState.setName("s" + stateSpace.getStates().size());
+		
+		Transition newTransition = StateSpaceFactory.INSTANCE.createTransition();
+		newTransition.setTarget(newState);
 		
 		states.add(newState);
 		transitions.add(newTransition);
@@ -79,7 +83,8 @@ public class StateExploreCommand extends Command {
 		
 		// Add the transitions:
 		for (int i=0; i<transitions.size(); i++) {
-			transitions.get(i).reconnect(state, states.get(i));
+			transitions.get(i).setSource(state);
+			transitions.get(i).setTarget(states.get(i));
 		}
 		
 	}
@@ -98,7 +103,8 @@ public class StateExploreCommand extends Command {
 		
 		// Remove the transitions:
 		for (int i=0; i<transitions.size(); i++) {
-			transitions.get(i).disconnect();
+			transitions.get(i).setSource(null);
+			transitions.get(i).setTarget(null);			
 		}
 		
 	}

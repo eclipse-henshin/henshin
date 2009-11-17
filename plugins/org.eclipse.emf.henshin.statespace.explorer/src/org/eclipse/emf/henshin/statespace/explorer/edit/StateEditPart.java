@@ -11,9 +11,11 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.properties.PropertyChangeEvent;
-import org.eclipse.emf.henshin.statespace.properties.PropertyChangeListener;
+import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
@@ -28,7 +30,7 @@ import org.eclipse.swt.graphics.Color;
  * State diagram edit part.
  * @author Christian Krause
  */
-public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, PropertyChangeListener {
+public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, Adapter {
 	
 	// Size of state figures.
 	public final static Dimension SIZE = new Dimension(-1,22);
@@ -50,7 +52,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
-			getState().addPropertyChangeListener(this);
+			getState().eAdapters().add(this);
 		}
 	}
 	
@@ -60,7 +62,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new StateComponentEditPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new StateNodeEditPolicy());
 	}
 
@@ -80,8 +81,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	@Override
 	public void deactivate() {
 		if (isActive()) {
+			getState().eAdapters().remove(this);
 			super.deactivate();
-			getState().removePropertyChangeListener(this);
 		}
 	}
 	
@@ -127,7 +128,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
-	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
@@ -136,7 +136,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
 	 */
-	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
@@ -145,7 +144,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
-	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
@@ -154,7 +152,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
 	 */
-	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
@@ -194,30 +191,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.properties.PropertyChangeListener#propertyChanged(org.eclipse.emf.henshin.statespace.properties.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChanged(PropertyChangeEvent event) {
-		
-		int property = event.getProperty();
-		
-		if (property==State.LOCATION) {
-			refreshLocation();
-		}
-		if (property==State.NAME) {
-			refreshLabel();
-		}
-		else if (property==State.OUTGOING) {
-			refreshSourceConnections();
-		}
-		else if (property==State.INCOMING) {
-			refreshTargetConnections();
-		}
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
 	 */
 	@Override
@@ -249,4 +222,58 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		}
 		
 	}
+	
+	
+	/* -------------------- *
+	 * --- Notification --- *
+	 * -------------------- */
+	
+	private Notifier target;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
+	public Notifier getTarget() {
+		return target;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
+	public boolean isAdapterForType(Object type) {
+		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged(Notification event) {
+		switch (event.getFeatureID(State.class)) {
+		
+		case StateSpacePackageImpl.STATE__LOCATION: 
+			refreshLocation(); break;
+		
+		case StateSpacePackageImpl.STATE__NAME: 
+			refreshLabel(); break;
+			
+		case StateSpacePackageImpl.STATE__OUTGOING: 
+			refreshSourceConnections(); break;
+
+		case StateSpacePackageImpl.STATE__INCOMING: 
+			refreshTargetConnections(); break;
+
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void setTarget(Notifier target) {
+		this.target = target;
+	}
+	
 }

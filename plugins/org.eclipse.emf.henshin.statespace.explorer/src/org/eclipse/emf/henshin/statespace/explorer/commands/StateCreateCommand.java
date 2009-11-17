@@ -50,7 +50,7 @@ public class StateCreateCommand extends Command {
 	@Override
 	public void execute() {
 		state.setName(name);
-		state.setXY(x,y);
+		state.setLocation(x,y);
 		redo();
 	}
 

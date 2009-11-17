@@ -8,13 +8,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceDiagramEditPartFactory;
-import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceTreeEditPartFactory;
+import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceLoader;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
@@ -22,29 +21,20 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
-import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
-import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.IPageSite;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
  * State space diagram editor.
@@ -76,7 +66,7 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 		
 		// Initialize the graphical viewer:
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setEditPartFactory(new StateSpaceDiagramEditPartFactory());
+		viewer.setEditPartFactory(new StateSpaceEditPartFactory());
 		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 		
@@ -178,19 +168,6 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class type) {
-		if (type == IContentOutlinePage.class) {
-			return new StateSpaceOutlinePage(new TreeViewer());
-		}
-		return super.getAdapter(type);
-	}
-	
 	/**
 	 * Get the displayed state space.
 	 * @return State space.
@@ -246,78 +223,9 @@ public class StateSpaceExplorer extends GraphicalEditorWithFlyoutPalette {
 			setPartName(file.getName());
 			stateSpace = StateSpaceLoader.load(file);
 		} catch (CoreException e) { 
-			stateSpace = new StateSpace();
+			stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
 			MessageDialog.openError(getSite().getShell(), "Error", "Error loading file. See the error log for more info.");
 			StateSpaceExplorerPlugin.getInstance().logError("Error loading file", e.getCause());
-		}
-	}
-
-	/**
-	 * Creates an outline pagebook for this editor.
-	 */
-	public class StateSpaceOutlinePage extends ContentOutlinePage {	
-		/**
-		 * Create a new outline page for the shapes editor.
-		 * @param viewer a viewer (TreeViewer instance) used for this outline page
-		 * @throws IllegalArgumentException if editor is null
-		 */
-		public StateSpaceOutlinePage(EditPartViewer viewer) {
-			super(viewer);
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
-		 */
-		public void createControl(Composite parent) {
-			// create outline viewer page
-			getViewer().createControl(parent);
-			// configure outline viewer
-			getViewer().setEditDomain(getEditDomain());
-			getViewer().setEditPartFactory(new StateSpaceTreeEditPartFactory());
-			// configure & add context menu to viewer
-			ContextMenuProvider cmProvider = new StateSpaceEditorContextMenuProvider(
-					getViewer(), getActionRegistry()); 
-			getViewer().setContextMenu(cmProvider);
-			getSite().registerContextMenu(
-					"org.eclipse.gef.examples.shapes.outline.contextmenu",
-					cmProvider, getSite().getSelectionProvider());		
-			// hook outline viewer
-			getSelectionSynchronizer().addViewer(getViewer());
-			// initialize outline viewer with model
-			getViewer().setContents(getStateSpace());
-			// show outline viewer
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#dispose()
-		 */
-		public void dispose() {
-			// unhook outline viewer
-			getSelectionSynchronizer().removeViewer(getViewer());
-			// dispose
-			super.dispose();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.ui.part.IPage#getControl()
-		 */
-		public Control getControl() {
-			return getViewer().getControl();
-		}
-
-		/**
-		 * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
-		 */
-		public void init(IPageSite pageSite) {
-			super.init(pageSite);
-			ActionRegistry registry = getActionRegistry();
-			IActionBars bars = pageSite.getActionBars();
-			String id = ActionFactory.UNDO.getId();
-			bars.setGlobalActionHandler(id, registry.getAction(id));
-			id = ActionFactory.REDO.getId();
-			bars.setGlobalActionHandler(id, registry.getAction(id));
-			id = ActionFactory.DELETE.getId();
-			bars.setGlobalActionHandler(id, registry.getAction(id));
 		}
 	}
 

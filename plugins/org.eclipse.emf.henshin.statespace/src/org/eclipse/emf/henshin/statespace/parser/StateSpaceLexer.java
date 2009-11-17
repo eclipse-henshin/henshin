@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2009-11-16 16:43:41
+// $ANTLR 3.0.1 StateSpace.g 2009-11-17 16:26:33
 
 package org.eclipse.emf.henshin.statespace.parser;
 
@@ -177,8 +177,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
-            // StateSpace.g:105:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // StateSpace.g:105:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // StateSpace.g:120:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // StateSpace.g:120:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -190,7 +190,7 @@ public class StateSpaceLexer extends Lexer {
                 recover(mse);    throw mse;
             }
 
-            // StateSpace.g:105:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // StateSpace.g:120:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -238,10 +238,10 @@ public class StateSpaceLexer extends Lexer {
     public final void mINT() throws RecognitionException {
         try {
             int _type = INT;
-            // StateSpace.g:108:5: ( ( '0' .. '9' )+ )
-            // StateSpace.g:108:7: ( '0' .. '9' )+
+            // StateSpace.g:123:5: ( ( '0' .. '9' )+ )
+            // StateSpace.g:123:7: ( '0' .. '9' )+
             {
-            // StateSpace.g:108:7: ( '0' .. '9' )+
+            // StateSpace.g:123:7: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -255,7 +255,7 @@ public class StateSpaceLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // StateSpace.g:108:7: '0' .. '9'
+            	    // StateSpace.g:123:7: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -285,10 +285,10 @@ public class StateSpaceLexer extends Lexer {
     public final void mWS() throws RecognitionException {
         try {
             int _type = WS;
-            // StateSpace.g:111:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
-            // StateSpace.g:111:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // StateSpace.g:126:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
+            // StateSpace.g:126:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
             {
-            // StateSpace.g:111:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // StateSpace.g:126:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
             int cnt3=0;
             loop3:
             do {

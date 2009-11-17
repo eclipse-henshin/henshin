@@ -5,8 +5,6 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.explorer.commands.TransitionDeleteCommand;
-import org.eclipse.emf.henshin.statespace.properties.PropertyChangeEvent;
-import org.eclipse.emf.henshin.statespace.properties.PropertyChangeListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -14,7 +12,10 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-public class TransitionEditPart extends AbstractConnectionEditPart implements PropertyChangeListener {
+/**
+ * @author Christian Krause
+ */
+public class TransitionEditPart extends AbstractConnectionEditPart {
 
 	/*
 	 * (non-Javadoc)
@@ -24,7 +25,7 @@ public class TransitionEditPart extends AbstractConnectionEditPart implements Pr
 	public void activate() {
 		if (!isActive()) {
 			super.activate();
-			getTransition().addPropertyChangeListener(this);
+//			getTransition().eAdapters().add(this);
 		}
 	}
 
@@ -35,8 +36,8 @@ public class TransitionEditPart extends AbstractConnectionEditPart implements Pr
 	@Override
 	public void deactivate() {
 		if (isActive()) {
+//			getTransition().eAdapters().remove(this);
 			super.deactivate();
-			getTransition().removePropertyChangeListener(this);
 		}
 	}
 
@@ -62,7 +63,6 @@ public class TransitionEditPart extends AbstractConnectionEditPart implements Pr
 	@Override
 	protected IFigure createFigure() {
 		PolylineConnection connection = (PolylineConnection) super.createFigure();
-		// Add an arrow at the target endpoint:
 		connection.setTargetDecoration(new PolygonDecoration());
 		return connection;
 	}
@@ -71,11 +71,4 @@ public class TransitionEditPart extends AbstractConnectionEditPart implements Pr
 		return (Transition) getModel();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePropertyChangeListener#propertyChanged(org.eclipse.emf.henshin.statespace.StateSpacePropertyChangeEvent)
-	 */
-	public void propertyChanged(PropertyChangeEvent event) {
-	}
-
 }

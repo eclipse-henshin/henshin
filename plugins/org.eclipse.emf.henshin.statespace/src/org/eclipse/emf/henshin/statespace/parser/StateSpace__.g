@@ -12,14 +12,14 @@ RBRACKET : ']' ;
 COMMA : ',' ;
 SEMICOLON : ';' ;
 
-// $ANTLR src "StateSpace.g" 105
+// $ANTLR src "StateSpace.g" 120
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
     ;
 
-// $ANTLR src "StateSpace.g" 108
+// $ANTLR src "StateSpace.g" 123
 INT :	'0'..'9'+
     ;
 
-// $ANTLR src "StateSpace.g" 111
+// $ANTLR src "StateSpace.g" 126
 WS  :   (' '|'\t'|'\n'|'\r')+ { skip(); }
     ;

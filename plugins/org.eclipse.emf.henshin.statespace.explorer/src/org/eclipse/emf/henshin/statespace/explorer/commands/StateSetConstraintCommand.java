@@ -8,67 +8,70 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
- * A command to resize and/or move a shape.
+ * A command for moving a state.
+ * @author Christian Krause
  */
 public class StateSetConstraintCommand extends Command {
 	
+	// Locations:
 	private Point oldLocation, newLocation;
 	
-	/** A request to move/resize an edit part. */
+	// Request to move/resize an edit part:
 	private final ChangeBoundsRequest request;
 
-	/** State to manipulate. */
-	private final State shape;
+	// State to be moved:
+	private final State state;
 
 	/**
-	 * Create a command that can resize and/or move a shape. 
-	 * @param shape	the shape to manipulate
-	 * @param req		the move and resize request
-	 * @param newBounds the new size and location
-	 * @throws IllegalArgumentException if any of the parameters is null
+	 * Default constructor.
 	 */
-	public StateSetConstraintCommand(State shape, ChangeBoundsRequest req, 
-			Rectangle newBounds) {
-		if (shape == null || req == null || newBounds == null) {
+	public StateSetConstraintCommand(State state, ChangeBoundsRequest req, Rectangle newBounds) {
+		if (state == null || req == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
-		this.shape = shape;
+		this.state = state;
 		this.request = req;
 		this.newLocation = newBounds.getLocation();
-		setLabel("move / resize");
+		setLabel("move");
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
+	@Override
 	public boolean canExecute() {
-		Object type = request.getType();
-		// make sure the Request is of a type we support:
+		// Make sure the Request is of a type we support:
+		Object type = request.getType();		
 		return (RequestConstants.REQ_MOVE.equals(type)
-				|| RequestConstants.REQ_MOVE_CHILDREN.equals(type) 
-				|| RequestConstants.REQ_RESIZE.equals(type)
-				|| RequestConstants.REQ_RESIZE_CHILDREN.equals(type));
+			|| RequestConstants.REQ_MOVE_CHILDREN.equals(type));
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		oldLocation = new Point(shape.getX(), shape.getY());
+		oldLocation = new Point(state.getX(), state.getY());
 		redo();
 	}
-
-	/* (non-Javadoc)
+	
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
+	@Override
 	public void redo() {
-		shape.setXY(newLocation.x, newLocation.y);
+		state.setLocation(newLocation.x, newLocation.y);
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public void undo() {
-		shape.setXY(oldLocation.x, oldLocation.y);
+		state.setLocation(oldLocation.x, oldLocation.y);
 	}
+	
 }

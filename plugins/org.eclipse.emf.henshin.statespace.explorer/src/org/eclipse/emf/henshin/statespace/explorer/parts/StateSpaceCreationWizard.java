@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.util.StateSpacePrettyPrinter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -38,7 +39,6 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		page = new CreationPage(workbench, selection); 
 	}
@@ -108,7 +108,7 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 		 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
 		 */
 		protected InputStream getInitialContents() {			
-			StateSpace stateSpace = new StateSpace();
+			StateSpace stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
 			String data = StateSpacePrettyPrinter.print(stateSpace);
 			return new ByteArrayInputStream(data.getBytes());
 		}

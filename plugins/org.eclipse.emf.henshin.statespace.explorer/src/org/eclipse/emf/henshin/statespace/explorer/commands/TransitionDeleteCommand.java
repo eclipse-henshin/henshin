@@ -1,54 +1,62 @@
-/*******************************************************************************
- * Copyright (c) 2004, 2005 Elias Volanakis and others.
-?* All rights reserved. This program and the accompanying materials
-?* are made available under the terms of the Eclipse Public License v1.0
-?* which accompanies this distribution, and is available at
-?* http://www.eclipse.org/legal/epl-v10.html
-?*
-?* Contributors:
-?*????Elias Volanakis - initial API and implementation
-?*******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.commands.Command;
 
-
 /**
- * A command to disconnect (remove) a connection from its endpoints.
- * The command can be undone or redone.
- * @author Elias Volanakis
+ * A command for removing a transition.
+ * The command can be undone and redone.
+ * @author Christian Krause
  */
 public class TransitionDeleteCommand extends Command {
 
-	/** Transition instance to disconnect. */
-	private final Transition connection;
-
-	/** 
-	 * Create a command that will disconnect a connection from its endpoints.
-	 * @param conn the connection instance to disconnect (non-null)
-	 * @throws IllegalArgumentException if conn is null
-	 */ 
-	public TransitionDeleteCommand(Transition conn) {
-		if (conn == null) {
+	// Transition instance:
+	private final Transition transition;
+	
+	// Source and target of the transition:
+	private State source, target;
+	
+	/**
+	 * Default constructor.
+	 */
+	public TransitionDeleteCommand(Transition transition) {
+		if (transition == null) {
 			throw new IllegalArgumentException();
 		}
-		setLabel("connection deletion");
-		this.connection = conn;
+		this.transition = transition;
+		setLabel("transition deletion");
 	}
 
-
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
+	@Override
 	public void execute() {
-		connection.disconnect();
+		source = transition.getSource();
+		target = transition.getTarget();
+		redo();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#redo()
+	 */
+	@Override
+	public void redo() {
+		transition.setSource(null);
+		transition.setTarget(null);
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public void undo() {
-		connection.reconnect();
+		transition.setSource(source);
+		transition.setTarget(target);
 	}
+	
 }

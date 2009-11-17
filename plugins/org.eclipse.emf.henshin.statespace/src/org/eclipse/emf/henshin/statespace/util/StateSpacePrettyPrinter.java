@@ -11,11 +11,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * Static pretty-printer methods for state spaces.
  * @author Christian Krause
+ * @deprecated
  */
 public class StateSpacePrettyPrinter {
 	
@@ -32,19 +32,7 @@ public class StateSpacePrettyPrinter {
 		
 		// Write all states:
 		for (State state : stateSpace.getStates()) {
-			
-			writer.write(state.getName() + "[x=" + state.getX() + ",y=" + state.getY() + "]");
-			
-			// Outgoing transitions:
-			if (!state.getOutgoing().isEmpty()) {
-				writer.write(" -- ");
-				for (Transition transition : state.getOutgoing()) {
-					writer.write("(" + transition.getName() + "," + transition.getTarget().getName() + ")");
-				}
-			}
-			
-			// Done with the current state:
-			writer.write(";\n");
+			writer.write(state.toString() + "\n");
 			monitor.worked(1);
 		}
 		

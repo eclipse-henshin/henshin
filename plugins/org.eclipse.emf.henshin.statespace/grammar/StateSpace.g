@@ -45,8 +45,8 @@ private void parseAttribute(State state, String key, String value) throws Recogn
 	if ("x".equals(key) || "y".equals(key)) {
 		try {
 			int coordinate = Integer.parseInt(value);
-			if ("x".equals(key)) state.setX(coordinate); else
-			if ("y".equals(key)) state.setY(coordinate);
+			if ("x".equals(key)) state.setLocation(coordinate, state.getY()); else
+			if ("y".equals(key)) state.setLocation(state.getX(), coordinate);
 		} catch (Throwable t) {
 			throw new RecognitionException();
 		}
@@ -61,40 +61,55 @@ stateSpace returns [StateSpace stateSpace]
 @init { 
     
     // Initialize state space:
-	$stateSpace = new StateSpace();
+	$stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
 	
 	// Create a state name map: 
 	states = new HashMap<String,State>() {
+		
 		@Override
 		public State get(Object name) {
-			if (!containsKey(name)) put((String) name, new State((String) name));
+			// Create a new state if it does not exist yet:
+			if (!containsKey(name)) {
+				State state = StateSpaceFactory.INSTANCE.createState();
+				state.setName((String) name);
+				put((String) name, state);
+			}
 			return super.get(name);
 		}
+		
 	};
 	
 	// Create a transition name map:
 	transitionNames = new HashMap<String,String>() {
+		
 		@Override
 		public String get(Object name) {
-			if (!containsKey(name)) put((String) name, (String) name);
+			if (!containsKey(name)) {
+				put((String) name, (String) name);
+			}
 			return super.get(name);
 		}
+		
 	};
 } :
 	// Parse all states:
-	(state { $stateSpace.getStates().add($state.s); })*
+	(state { $stateSpace.getStates().add($state.state); })*
 ;
 
-state returns [State s] : 
-	name=ID { $s = states.get($name.text); }
-	(LBRACKET (attribute[$s] (COMMA attribute[$s])*)? RBRACKET)?
-    (LINE (transition[$s])+)?
+state returns [State state] : 
+	name=ID { $state = states.get($name.text); }
+	(LBRACKET (attribute[$state] (COMMA attribute[$state])*)? RBRACKET)?
+    (LINE (transition[$state])+)?
  SEMICOLON
 ;
 
-transition[State state] returns [Transition t] :
-	LPAREN rule=ID COMMA target=ID RPAREN 
-	{ new Transition($state, states.get($target.text), transitionNames.get($rule.text)); }
+transition[State state] returns [Transition transition] :
+	LPAREN rule=ID COMMA target=ID RPAREN { 
+		$transition = StateSpaceFactory.INSTANCE.createTransition();
+		$transition.setSource($state);
+		$transition.setTarget(states.get($target.text));
+		$transition.setRule(transitionNames.get($rule.text));
+	}
 ;
 
 attribute[State s] :

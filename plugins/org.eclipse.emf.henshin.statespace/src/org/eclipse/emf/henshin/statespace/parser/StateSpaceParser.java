@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2009-11-16 16:43:40
+// $ANTLR 3.0.1 StateSpace.g 2009-11-17 16:26:32
 
 package org.eclipse.emf.henshin.statespace.parser;
 
@@ -59,8 +59,8 @@ public class StateSpaceParser extends Parser {
     	if ("x".equals(key) || "y".equals(key)) {
     		try {
     			int coordinate = Integer.parseInt(value);
-    			if ("x".equals(key)) state.setX(coordinate); else
-    			if ("y".equals(key)) state.setY(coordinate);
+    			if ("x".equals(key)) state.setLocation(coordinate, state.getY()); else
+    			if ("y".equals(key)) state.setLocation(state.getX(), coordinate);
     		} catch (Throwable t) {
     			throw new RecognitionException();
     		}
@@ -82,31 +82,42 @@ public class StateSpaceParser extends Parser {
          
             
             // Initialize state space:
-        	stateSpace = new StateSpace();
+        	stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
         	
         	// Create a state name map: 
         	states = new HashMap<String,State>() {
+        		
         		@Override
         		public State get(Object name) {
-        			if (!containsKey(name)) put((String) name, new State((String) name));
+        			// Create a new state if it does not exist yet:
+        			if (!containsKey(name)) {
+        				State state = StateSpaceFactory.INSTANCE.createState();
+        				state.setName((String) name);
+        				put((String) name, state);
+        			}
         			return super.get(name);
         		}
+        		
         	};
         	
         	// Create a transition name map:
         	transitionNames = new HashMap<String,String>() {
+        		
         		@Override
         		public String get(Object name) {
-        			if (!containsKey(name)) put((String) name, (String) name);
+        			if (!containsKey(name)) {
+        				put((String) name, (String) name);
+        			}
         			return super.get(name);
         		}
+        		
         	};
 
         try {
-            // StateSpace.g:83:3: ( ( state )* )
-            // StateSpace.g:85:2: ( state )*
+            // StateSpace.g:94:3: ( ( state )* )
+            // StateSpace.g:96:2: ( state )*
             {
-            // StateSpace.g:85:2: ( state )*
+            // StateSpace.g:96:2: ( state )*
             loop1:
             do {
                 int alt1=2;
@@ -119,7 +130,7 @@ public class StateSpaceParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // StateSpace.g:85:3: state
+            	    // StateSpace.g:96:3: state
             	    {
             	    pushFollow(FOLLOW_state_in_stateSpace144);
             	    state1=state();
@@ -151,20 +162,20 @@ public class StateSpaceParser extends Parser {
 
 
     // $ANTLR start state
-    // StateSpace.g:88:1: state returns [State s] : name= ID ( LBRACKET ( attribute[$s] ( COMMA attribute[$s] )* )? RBRACKET )? ( LINE ( transition[$s] )+ )? SEMICOLON ;
+    // StateSpace.g:99:1: state returns [State state] : name= ID ( LBRACKET ( attribute[$state] ( COMMA attribute[$state] )* )? RBRACKET )? ( LINE ( transition[$state] )+ )? SEMICOLON ;
     public final State state() throws RecognitionException {
-        State s = null;
+        State state = null;
 
         Token name=null;
 
         try {
-            // StateSpace.g:88:25: (name= ID ( LBRACKET ( attribute[$s] ( COMMA attribute[$s] )* )? RBRACKET )? ( LINE ( transition[$s] )+ )? SEMICOLON )
-            // StateSpace.g:89:2: name= ID ( LBRACKET ( attribute[$s] ( COMMA attribute[$s] )* )? RBRACKET )? ( LINE ( transition[$s] )+ )? SEMICOLON
+            // StateSpace.g:99:29: (name= ID ( LBRACKET ( attribute[$state] ( COMMA attribute[$state] )* )? RBRACKET )? ( LINE ( transition[$state] )+ )? SEMICOLON )
+            // StateSpace.g:100:2: name= ID ( LBRACKET ( attribute[$state] ( COMMA attribute[$state] )* )? RBRACKET )? ( LINE ( transition[$state] )+ )? SEMICOLON
             {
             name=(Token)input.LT(1);
             match(input,ID,FOLLOW_ID_in_state165); 
-             s = states.get(name.getText()); 
-            // StateSpace.g:90:2: ( LBRACKET ( attribute[$s] ( COMMA attribute[$s] )* )? RBRACKET )?
+             state = states.get(name.getText()); 
+            // StateSpace.g:101:2: ( LBRACKET ( attribute[$state] ( COMMA attribute[$state] )* )? RBRACKET )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -173,10 +184,10 @@ public class StateSpaceParser extends Parser {
             }
             switch (alt4) {
                 case 1 :
-                    // StateSpace.g:90:3: LBRACKET ( attribute[$s] ( COMMA attribute[$s] )* )? RBRACKET
+                    // StateSpace.g:101:3: LBRACKET ( attribute[$state] ( COMMA attribute[$state] )* )? RBRACKET
                     {
                     match(input,LBRACKET,FOLLOW_LBRACKET_in_state171); 
-                    // StateSpace.g:90:12: ( attribute[$s] ( COMMA attribute[$s] )* )?
+                    // StateSpace.g:101:12: ( attribute[$state] ( COMMA attribute[$state] )* )?
                     int alt3=2;
                     int LA3_0 = input.LA(1);
 
@@ -185,13 +196,13 @@ public class StateSpaceParser extends Parser {
                     }
                     switch (alt3) {
                         case 1 :
-                            // StateSpace.g:90:13: attribute[$s] ( COMMA attribute[$s] )*
+                            // StateSpace.g:101:13: attribute[$state] ( COMMA attribute[$state] )*
                             {
                             pushFollow(FOLLOW_attribute_in_state174);
-                            attribute(s);
+                            attribute(state);
                             _fsp--;
 
-                            // StateSpace.g:90:27: ( COMMA attribute[$s] )*
+                            // StateSpace.g:101:31: ( COMMA attribute[$state] )*
                             loop2:
                             do {
                                 int alt2=2;
@@ -204,11 +215,11 @@ public class StateSpaceParser extends Parser {
 
                                 switch (alt2) {
                             	case 1 :
-                            	    // StateSpace.g:90:28: COMMA attribute[$s]
+                            	    // StateSpace.g:101:32: COMMA attribute[$state]
                             	    {
                             	    match(input,COMMA,FOLLOW_COMMA_in_state178); 
                             	    pushFollow(FOLLOW_attribute_in_state180);
-                            	    attribute(s);
+                            	    attribute(state);
                             	    _fsp--;
 
 
@@ -233,7 +244,7 @@ public class StateSpaceParser extends Parser {
 
             }
 
-            // StateSpace.g:91:5: ( LINE ( transition[$s] )+ )?
+            // StateSpace.g:102:5: ( LINE ( transition[$state] )+ )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -242,10 +253,10 @@ public class StateSpaceParser extends Parser {
             }
             switch (alt6) {
                 case 1 :
-                    // StateSpace.g:91:6: LINE ( transition[$s] )+
+                    // StateSpace.g:102:6: LINE ( transition[$state] )+
                     {
                     match(input,LINE,FOLLOW_LINE_in_state196); 
-                    // StateSpace.g:91:11: ( transition[$s] )+
+                    // StateSpace.g:102:11: ( transition[$state] )+
                     int cnt5=0;
                     loop5:
                     do {
@@ -259,10 +270,10 @@ public class StateSpaceParser extends Parser {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // StateSpace.g:91:12: transition[$s]
+                    	    // StateSpace.g:102:12: transition[$state]
                     	    {
                     	    pushFollow(FOLLOW_transition_in_state199);
-                    	    transition(s);
+                    	    transition(state);
                     	    _fsp--;
 
 
@@ -295,22 +306,22 @@ public class StateSpaceParser extends Parser {
         }
         finally {
         }
-        return s;
+        return state;
     }
     // $ANTLR end state
 
 
     // $ANTLR start transition
-    // StateSpace.g:95:1: transition[State state] returns [Transition t] : LPAREN rule= ID COMMA target= ID RPAREN ;
+    // StateSpace.g:106:1: transition[State state] returns [Transition transition] : LPAREN rule= ID COMMA target= ID RPAREN ;
     public final Transition transition(State state) throws RecognitionException {
-        Transition t = null;
+        Transition transition = null;
 
         Token rule=null;
         Token target=null;
 
         try {
-            // StateSpace.g:95:48: ( LPAREN rule= ID COMMA target= ID RPAREN )
-            // StateSpace.g:96:2: LPAREN rule= ID COMMA target= ID RPAREN
+            // StateSpace.g:106:57: ( LPAREN rule= ID COMMA target= ID RPAREN )
+            // StateSpace.g:107:2: LPAREN rule= ID COMMA target= ID RPAREN
             {
             match(input,LPAREN,FOLLOW_LPAREN_in_transition222); 
             rule=(Token)input.LT(1);
@@ -319,7 +330,12 @@ public class StateSpaceParser extends Parser {
             target=(Token)input.LT(1);
             match(input,ID,FOLLOW_ID_in_transition232); 
             match(input,RPAREN,FOLLOW_RPAREN_in_transition234); 
-             new Transition(state, states.get(target.getText()), transitionNames.get(rule.getText())); 
+             
+            		transition = StateSpaceFactory.INSTANCE.createTransition();
+            		transition.setSource(state);
+            		transition.setTarget(states.get(target.getText()));
+            		transition.setRule(transitionNames.get(rule.getText()));
+            	
 
             }
 
@@ -330,27 +346,27 @@ public class StateSpaceParser extends Parser {
         }
         finally {
         }
-        return t;
+        return transition;
     }
     // $ANTLR end transition
 
 
     // $ANTLR start attribute
-    // StateSpace.g:100:1: attribute[State s] : (key= ID ( EQUAL value= ( ID | INT ) )? ) ;
+    // StateSpace.g:115:1: attribute[State s] : (key= ID ( EQUAL value= ( ID | INT ) )? ) ;
     public final void attribute(State s) throws RecognitionException {
         Token key=null;
         Token value=null;
 
         try {
-            // StateSpace.g:100:20: ( (key= ID ( EQUAL value= ( ID | INT ) )? ) )
-            // StateSpace.g:101:2: (key= ID ( EQUAL value= ( ID | INT ) )? )
+            // StateSpace.g:115:20: ( (key= ID ( EQUAL value= ( ID | INT ) )? ) )
+            // StateSpace.g:116:2: (key= ID ( EQUAL value= ( ID | INT ) )? )
             {
-            // StateSpace.g:101:2: (key= ID ( EQUAL value= ( ID | INT ) )? )
-            // StateSpace.g:101:3: key= ID ( EQUAL value= ( ID | INT ) )?
+            // StateSpace.g:116:2: (key= ID ( EQUAL value= ( ID | INT ) )? )
+            // StateSpace.g:116:3: key= ID ( EQUAL value= ( ID | INT ) )?
             {
             key=(Token)input.LT(1);
-            match(input,ID,FOLLOW_ID_in_attribute252); 
-            // StateSpace.g:101:10: ( EQUAL value= ( ID | INT ) )?
+            match(input,ID,FOLLOW_ID_in_attribute250); 
+            // StateSpace.g:116:10: ( EQUAL value= ( ID | INT ) )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -359,9 +375,9 @@ public class StateSpaceParser extends Parser {
             }
             switch (alt7) {
                 case 1 :
-                    // StateSpace.g:101:11: EQUAL value= ( ID | INT )
+                    // StateSpace.g:116:11: EQUAL value= ( ID | INT )
                     {
-                    match(input,EQUAL,FOLLOW_EQUAL_in_attribute255); 
+                    match(input,EQUAL,FOLLOW_EQUAL_in_attribute253); 
                     value=(Token)input.LT(1);
                     if ( (input.LA(1)>=ID && input.LA(1)<=INT) ) {
                         input.consume();
@@ -370,7 +386,7 @@ public class StateSpaceParser extends Parser {
                     else {
                         MismatchedSetException mse =
                             new MismatchedSetException(null,input);
-                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_attribute259);    throw mse;
+                        recoverFromMismatchedSet(input,mse,FOLLOW_set_in_attribute257);    throw mse;
                     }
 
 
@@ -415,8 +431,8 @@ public class StateSpaceParser extends Parser {
     public static final BitSet FOLLOW_COMMA_in_transition228 = new BitSet(new long[]{0x0000000000001000L});
     public static final BitSet FOLLOW_ID_in_transition232 = new BitSet(new long[]{0x0000000000000080L});
     public static final BitSet FOLLOW_RPAREN_in_transition234 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_attribute252 = new BitSet(new long[]{0x0000000000000022L});
-    public static final BitSet FOLLOW_EQUAL_in_attribute255 = new BitSet(new long[]{0x0000000000003000L});
-    public static final BitSet FOLLOW_set_in_attribute259 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_attribute250 = new BitSet(new long[]{0x0000000000000022L});
+    public static final BitSet FOLLOW_EQUAL_in_attribute253 = new BitSet(new long[]{0x0000000000003000L});
+    public static final BitSet FOLLOW_set_in_attribute257 = new BitSet(new long[]{0x0000000000000002L});
 
 }

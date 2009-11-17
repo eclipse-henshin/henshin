@@ -1,18 +1,18 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.commands.Command;
 
 /**
  * Command for creating a new transition.
  * @author Christian Krause
- * 
  */
 public class TransitionCreateCommand extends Command {
 	
 	// Transition to be created.
-	private Transition connection;
+	private Transition transition;
 	
 	// Source and target.
 	private State source, target;
@@ -44,7 +44,9 @@ public class TransitionCreateCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		connection = new Transition(source, target, "test");
+		transition = StateSpaceFactory.INSTANCE.createTransition();
+		transition.setRule("test");
+		redo();
 	}
 
 	/* 
@@ -53,19 +55,22 @@ public class TransitionCreateCommand extends Command {
 	 */
 	@Override
 	public void redo() {
-		connection.reconnect();
+		transition.setSource(source);
+		transition.setTarget(target);
 	}
 
 	/* 
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
+	@Override
 	public void undo() {
-		connection.disconnect();
+		transition.setSource(null);
+		transition.setTarget(null);
 	}
 
 	/**
-	 * Set the target endpoint for the transition.
+	 * Set the target for the transition.
 	 */
 	public void setTarget(State target) {
 		this.target = target;

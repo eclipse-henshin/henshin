@@ -1,35 +1,21 @@
 package org.eclipse.emf.henshin.statespace;
 
-import java.util.List;
-
-import org.eclipse.emf.henshin.statespace.properties.NotifyingList;
-import org.eclipse.emf.henshin.statespace.properties.PropertyAdapter;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 /**
- * Light-weight model of a state space.
- * @author Christian Krause
+ * Light-weight state space model.
+ * @generated
  */
-public class StateSpace extends PropertyAdapter {
-
-	// StateSpace properties:
-	public static final int STATES = 1;
-
-	// List of states.
-	private List<State> states;
+public interface StateSpace extends EObject {
 
 	/**
-	 * Default constructor.
+	 * Returns the value of the '<em><b>States</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.statespace.State}.
+	 * @return the value of the '<em>States</em>' containment reference list.
+	 * @model containment="true"
+	 * @generated
 	 */
-	public StateSpace() {
-		this.states = new NotifyingList<State>(this, STATES);
-	}
-	
-	/**
-	 * Get the list of states in this state space.
-	 * @return List of states.
-	 */
-	public List<State> getStates() {
-		return states;
-	}
+	EList<State> getStates();
 	
 }
