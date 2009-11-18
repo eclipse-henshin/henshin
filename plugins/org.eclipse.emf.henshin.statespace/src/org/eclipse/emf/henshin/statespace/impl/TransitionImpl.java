@@ -30,6 +30,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getTarget <em>Target</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getRule <em>Rule</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getMatch <em>Match</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,6 +67,26 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	 * @ordered
 	 */
 	protected String rule = RULE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMatch() <em>Match</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMatch()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MATCH_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getMatch() <em>Match</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMatch()
+	 * @generated
+	 * @ordered
+	 */
+	protected int match = MATCH_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -213,6 +234,27 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getMatch() {
+		return match;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMatch(int newMatch) {
+		int oldMatch = match;
+		match = newMatch;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.TRANSITION__MATCH, oldMatch, match));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -273,6 +315,8 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 				return basicGetTarget();
 			case StateSpacePackageImpl.TRANSITION__RULE:
 				return getRule();
+			case StateSpacePackageImpl.TRANSITION__MATCH:
+				return getMatch();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -293,6 +337,9 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 				return;
 			case StateSpacePackageImpl.TRANSITION__RULE:
 				setRule((String)newValue);
+				return;
+			case StateSpacePackageImpl.TRANSITION__MATCH:
+				setMatch((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -315,6 +362,9 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 			case StateSpacePackageImpl.TRANSITION__RULE:
 				setRule(RULE_EDEFAULT);
 				return;
+			case StateSpacePackageImpl.TRANSITION__MATCH:
+				setMatch(MATCH_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -333,6 +383,8 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 				return target != null;
 			case StateSpacePackageImpl.TRANSITION__RULE:
 				return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
+			case StateSpacePackageImpl.TRANSITION__MATCH:
+				return match != MATCH_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -349,6 +401,8 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (rule: ");
 		result.append(rule);
+		result.append(", match: ");
+		result.append(match);
 		result.append(')');
 		return result.toString();
 	}

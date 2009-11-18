@@ -198,13 +198,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int TRANSITION__RULE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Match</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int TRANSITION__MATCH = 3;
+
+	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TRANSITION_FEATURE_COUNT = 3;
+	public static final int TRANSITION_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '<em>Location</em>' data type.
@@ -460,6 +469,20 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Match</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Transition#getMatch()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	public EAttribute getTransition_Match() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(3);
+	}
+
+
+	/**
 	 * Returns the meta object for data type '<em>Location</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -515,6 +538,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEReference(transitionEClass, TRANSITION__SOURCE);
 		createEReference(transitionEClass, TRANSITION__TARGET);
 		createEAttribute(transitionEClass, TRANSITION__RULE);
+		createEAttribute(transitionEClass, TRANSITION__MATCH);
 
 		// Create data types
 		locationEDataType = createEDataType(LOCATION);
@@ -570,6 +594,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		initEReference(getTransition_Source(), this.getState(), this.getState_Outgoing(), "source", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Target(), this.getState(), this.getState_Incoming(), "target", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTransition_Rule(), ecorePackage.getEString(), "rule", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_Match(), ecorePackage.getEInt(), "match", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(locationEDataType, int[].class, "Location", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -692,6 +717,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute TRANSITION__RULE = eINSTANCE.getTransition_Rule();
+
+		/**
+		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute TRANSITION__MATCH = eINSTANCE.getTransition_Match();
 
 		/**
 		 * The meta object literal for the '<em>Location</em>' data type.

@@ -26,6 +26,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"
         eOpposite="#//State/incoming"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Location" instanceClassName="int[]"/>
 </ecore:EPackage>
