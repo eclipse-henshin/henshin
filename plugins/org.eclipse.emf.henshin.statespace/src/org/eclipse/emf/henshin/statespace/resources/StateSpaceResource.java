@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceLexer;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceParser;
 
@@ -94,8 +95,9 @@ public class StateSpaceResource extends ResourceImpl {
             
            	// Run the parser:
            	StateSpaceParser parser = new StateSpaceParser(tokens);
+           	parser.setResource(this);
            	getContents().add(parser.stateSpace());
-        
+           	
         } catch (Throwable t)  {
 			throw new IOException("Error loading state space", t);
         }
@@ -121,13 +123,35 @@ public class StateSpaceResource extends ResourceImpl {
 	public static String printState(State state) {
 		
 		StringBuffer result = new StringBuffer();
-		result.append(state.getName() + "[x=" + state.getX() + ",y=" + state.getY() + "]");
+		result.append(state.getName() + "[");
+		
+		String sep = "";
+		if (state.getLocation()!=null) {
+			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, state.getLocation());
+			result.append(StateSpaceParser.STATE_LOCATION + "=\"" + location + "\""); 
+			sep = ",";
+		}
+		if (state.isInitial()) {
+			URI uri = state.getModel().getURI();
+			if (state.eResource().getURI()!=null) {
+				uri = uri.deresolve(state.eResource().getURI());
+			}
+			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\""); sep = ",";
+		}
+		if (state.isExplored()) {
+			result.append(sep + StateSpaceParser.STATE_EXPLORED + "=1"); sep = ",";
+		}
+		result.append("]");
 		
 		// Outgoing transitions:
 		if (!state.getOutgoing().isEmpty()) {
 			result.append(" --");
 			for (Transition transition : state.getOutgoing()) {
-				result.append(" (" + transition.getRule() + "," + transition.getTarget().getName() + ")");
+				result.append(" " + transition.getTarget().getName() + "[");
+				if (transition.getRule()!=null) {
+					result.append(StateSpaceParser.TRANSITION_RULE + "=\"" + transition.getRule() + "\"");
+				}
+				result.append("]");
 			}
 		}
 		result.append(";");

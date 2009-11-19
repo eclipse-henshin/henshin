@@ -18,41 +18,72 @@ package org.eclipse.emf.henshin.statespace.parser;
 @parser::header{
 package org.eclipse.emf.henshin.statespace.parser;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import org.antlr.runtime.BitSet;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.*;
+import org.eclipse.emf.henshin.statespace.impl.*;
 }
 
 @parser::members{
+	
+	// Attribute keys:
+	public static final String STATE_MODEL = "mod";
+	public static final String STATE_LOCATION = "loc";
+	public static final String STATE_EXPLORED = "exp";
+	public static final String TRANSITION_RULE = "rule";
+	
+	// State space resource to be used:
+	private Resource resource;
+	
+	// Associate state names to states:
+	private HashMap<String,State> states;
 
-// Associate state names to states:
-private HashMap<String,State> states;
-
-// Keep only one name per transition type:
-private HashMap<String,String> transitionNames;
-
-/*
- * Get the state name map.
- */
-public Map<String,State> getStates() {
-	return states;
-}
-
-/*
- * Parse a state attribute.
- */
-private void parseAttribute(State state, String key, String value) throws RecognitionException {
-	if ("x".equals(key) || "y".equals(key)) {
-		try {
-			int coordinate = Integer.parseInt(value);
-			if ("x".equals(key)) state.setLocation(coordinate, state.getY()); else
-			if ("y".equals(key)) state.setLocation(state.getX(), coordinate);
-		} catch (Throwable t) {
-			throw new RecognitionException();
-		}
+	// Keep only one name per transition type:
+	private HashMap<String,String> transitionNames;
+	
+	public void setResource(Resource resource) {
+		this.resource = resource;
 	}
-	else throw new RecognitionException();
-}
+	
+	/*
+	 * Get the state name map.
+	 */
+	public Map<String,State> getStates() {
+		return states;
+	}
+	
+	/*
+	 * Parse a state attribute.
+	 */
+	private void parseAttribute(Object owner, String key, String value) throws RecognitionException {
+		
+		if (owner instanceof State) {
+			State state = (State) owner;
+			if (STATE_LOCATION.equals(key)) {
+				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
+				state.setLocation(location);
+			}
+			else if (STATE_MODEL.equals(key)) {
+				URI uri = URI.createURI(value).resolve(resource.getURI());
+				Resource model = resource.getResourceSet().getResource(uri,true);
+				state.setModel(model);
+			}
+			else if (STATE_EXPLORED.equals(key)) {
+				boolean explored = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
+				state.setExplored(explored);
+			}
+		}
+		else if (owner instanceof Transition) {
+			Transition transition = (Transition) owner;
+			if (TRANSITION_RULE.equals(key)) {
+				transition.setRule(value);
+			}
+		}
+		
+	}
 
 }
 
@@ -60,7 +91,7 @@ private void parseAttribute(State state, String key, String value) throws Recogn
 stateSpace returns [StateSpace stateSpace]
 @init { 
     
-    // Initialize state space:
+    // Initialise the state space:
 	$stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
 	
 	// Create a state name map: 
@@ -93,35 +124,60 @@ stateSpace returns [StateSpace stateSpace]
 	};
 } :
 	// Parse all states:
-	(state { $stateSpace.getStates().add($state.state); })*
+	(state[$stateSpace])*
 ;
 
-state returns [State state] : 
-	name=ID { $state = states.get($name.text); }
+state [StateSpace stateSpace] returns [State state] : 
+	name=ID { 
+		$state = states.get($name.text); 
+		$stateSpace.getStates().add($state.state);
+	}
 	(LBRACKET (attribute[$state] (COMMA attribute[$state])*)? RBRACKET)?
     (LINE (transition[$state])+)?
  SEMICOLON
 ;
 
 transition[State state] returns [Transition transition] :
-	LPAREN rule=ID COMMA target=ID RPAREN { 
+	target=ID { 
 		$transition = StateSpaceFactory.INSTANCE.createTransition();
 		$transition.setSource($state);
 		$transition.setTarget(states.get($target.text));
-		$transition.setRule(transitionNames.get($rule.text));
 	}
+	(LBRACKET (attribute[$transition] (COMMA attribute[$transition])*)? RBRACKET)?
 ;
 
-attribute[State s] :
-	(key=ID (EQUAL value=(ID | INT))? { parseAttribute($s, $key.text, $value.text); } )
+attribute[Object owner] :
+	(key=ID (EQUAL value=(ID | INT | STRING))? { parseAttribute($owner, $key.text, $value.text); } )
 ;
 
 
-ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
-    ;
 
-INT :	'0'..'9'+
-    ;
-
-WS  :   (' '|'\t'|'\n'|'\r')+ { skip(); }
-    ;
+ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+INT :	'0'..'9'+;
+WS  :   (' '|'\t'|'\n'|'\r')+ { skip(); } ;
+STRING :
+		'"'
+		(   EscapeSequence
+        |   ~( '\\' | '"' | '\r' | '\n' )        
+        )* 
+        '"' {
+        	// Automatically remove the surrounding quotes: 
+        	setText( getText().substring(1,getText().length()-1));
+        	}
+;
+fragment
+EscapeSequence:
+		'\\' (
+                 'b' 
+             |   't' 
+             |   'n' 
+             |   'f' 
+             |   'r' 
+             |   '\"' 
+             |   '\'' 
+             |   '\\' 
+             |   ('0'..'3') ('0'..'7') ('0'..'7')
+             |   ('0'..'7') ('0'..'7') 
+             |   ('0'..'7')
+             )          
+;

@@ -40,5 +40,19 @@
                tooltip="Create a new initial state">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.statespace.explorer.contributions.State"
+            objectClass="org.eclipse.emf.henshin.statespace.explorer.edit.StateEditPart">
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.OpenStateModelAction"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
+               label="Open State Model"
+               menubarPath="additions"
+               style="push"
+               tooltip="Open state model">
+         </action>
+      </objectContribution>
    </extension>
 </plugin>

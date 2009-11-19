@@ -191,6 +191,12 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		if (name==null) name = "?";
 		((StateFigure) getFigure()).getLabel().setText(" " + name + " ");
 		
+		// Update tool tip:
+		if (getState().isInitial()) {
+			String tooltip = getState().getModel().getURI().deresolve(getState().eResource().getURI()).toString();
+			getFigure().setToolTip(new Label(tooltip));
+		}
+		
 		// Update color:
 		if (getState().isInitial()) {
 			getFigure().setBackgroundColor(COLOR_INITIAL);	
