@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -22,6 +23,8 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -204,7 +207,10 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	@Override
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN) {
-			System.out.println("handle double click");
+			// Explore the current state:
+			Command command = new StateExploreCommand(getState());
+			CommandStack stack = getViewer().getEditDomain().getCommandStack();
+			stack.execute(command);
 		} else {
 			super.performRequest(request);
 		}

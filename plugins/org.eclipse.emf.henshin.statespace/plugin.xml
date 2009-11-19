@@ -16,5 +16,12 @@
             class="org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl"
             genModel="model/statespace.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="org.eclipse.emf.henshin.statespace.resources.StateSpaceResourceFactory"
+            type="org.eclipse.emf.henshin.statespace.StateSpaceResourceFactory">
+      </parser>
+   </extension>
 
 </plugin>

@@ -90,6 +90,29 @@ public interface State extends EObject {
 	void setModel(Resource value);
 
 	/**
+	 * Returns the value of the '<em><b>State Space</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStates <em>States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>State Space</em>' container reference.
+	 * @see #setStateSpace(StateSpace)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStates
+	 * @model opposite="states" transient="false"
+	 * @generated
+	 */
+	StateSpace getStateSpace();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>State Space</em>' container reference.
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	void setStateSpace(StateSpace value);
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * Get the X-coordinate of this state.
 	 * <!-- end-user-doc -->

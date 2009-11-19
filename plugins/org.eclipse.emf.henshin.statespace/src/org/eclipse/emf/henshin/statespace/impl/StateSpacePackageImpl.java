@@ -152,13 +152,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int STATE__MODEL = 4;
 
 	/**
+	 * The feature id for the '<em><b>State Space</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE__STATE_SPACE = 5;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STATE_FEATURE_COUNT = 5;
+	public static final int STATE_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -418,6 +427,20 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>State Space</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getStateSpace()
+	 * @see #getState()
+	 * @generated
+	 */
+	public EReference getState_StateSpace() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(5);
+	}
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -533,6 +556,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEReference(stateEClass, STATE__OUTGOING);
 		createEAttribute(stateEClass, STATE__LOCATION);
 		createEAttribute(stateEClass, STATE__MODEL);
+		createEReference(stateEClass, STATE__STATE_SPACE);
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
@@ -575,7 +599,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStateSpace_States(), this.getState(), null, "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -583,6 +607,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		initEReference(getState_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Location(), this.getLocation(), "location", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Model(), ecorePackage.getEResource(), "model", null, 0, 1, State.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_StateSpace(), this.getStateSpace(), this.getStateSpace_States(), "stateSpace", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(stateEClass, ecorePackage.getEInt(), "getX", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -683,6 +708,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute STATE__MODEL = eINSTANCE.getState_Model();
+
+		/**
+		 * The meta object literal for the '<em><b>State Space</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference STATE__STATE_SPACE = eINSTANCE.getState_StateSpace();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.

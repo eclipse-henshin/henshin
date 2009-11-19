@@ -17,10 +17,11 @@ public class StateCreateCommand extends Command {
 	private final StateSpace stateSpace;
 	
 	// State coordinates:
-	private int x=0, y=0;
+	private int[] location;
 	
 	// Name of the state:
 	private String name;
+
 	
 	/**
 	 * Default constructor.
@@ -50,7 +51,7 @@ public class StateCreateCommand extends Command {
 	@Override
 	public void execute() {
 		state.setName(name);
-		state.setLocation(x,y);
+		state.setLocation(location);
 		redo();
 	}
 
@@ -77,9 +78,8 @@ public class StateCreateCommand extends Command {
 	 * @param x X-coordinate.
 	 * @param y Y-coordinate.
 	 */
-	public void setXY(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public void setLocation(int... location) {
+		this.location = location;
 	}
 	
 }

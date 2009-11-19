@@ -5,7 +5,7 @@
      <extension point="org.eclipse.ui.editors">
       <editor name="EMF Henshin State Space"
               extensions="henshin_statespace"
-              icon="shapes.gif"
+              icon="icons/HenshinDiagramFile.gif"
               default="true"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer"
               contributorClass="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceEditorActionBarContributor"
@@ -16,11 +16,29 @@
       <category name="EMF Henshin"
                 id="org.eclipse.emf.henshin"/>
       <wizard name="State Space Diagram"
-              icon="shapes.gif"
+              icon="icons/HenshinDiagramFile.gif"
               category="org.eclipse.emf.henshin"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceCreationWizard"
               id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.statespace.explorer.contributions.StateSpace"
+            objectClass="org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart">
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
+               enablesFor="1"
+               icon="icons/initialState.gif"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
+               label="New Initial State"
+               menubarPath="additions"
+               style="push"
+               tooltip="Create a new initial state">
+         </action>
+      </objectContribution>
    </extension>
 </plugin>

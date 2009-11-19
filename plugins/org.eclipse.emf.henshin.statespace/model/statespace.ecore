@@ -5,7 +5,7 @@
     nsURI="http://www.eclipse.org/emf/henshin/statespace/2009" nsPrefix="statespace">
   <eClassifiers xsi:type="ecore:EClass" name="StateSpace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        eType="#//State" containment="true"/>
+        eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State">
     <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -19,6 +19,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//Location"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateSpace" eType="#//StateSpace"
+        eOpposite="#//StateSpace/states"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//State"

@@ -8,6 +8,8 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -66,17 +68,34 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	 */
 	protected IFigure createFigure() {
 		
+		// Create free form layer:
 		Figure layer = new FreeformLayer();
 		layer.setBorder(new MarginBorder(3));
 		layer.setLayoutManager(new FreeformLayout());
 		
+		layer.addMouseListener(new MouseListener() {
+			
+			public void mouseReleased(MouseEvent me) {
+			}
+			
+			public void mousePressed(MouseEvent me) {
+			}
+			
+			public void mouseDoubleClicked(MouseEvent me) {
+				System.out.println("double click: " + me);
+			}
+		});
+		
 		// Create the static router for the connection layer
-		ConnectionLayer connectionLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		connectionLayer.setConnectionRouter(new ShortestPathConnectionRouter(layer));
-		connectionLayer.setAntialias(SWT.ON);
-		return layer;
-	}
+		ConnectionLayer connections = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		connections.setConnectionRouter(new ShortestPathConnectionRouter(layer));
+		connections.setAntialias(SWT.ON);
 
+		return layer;
+		
+	}
+	
+	
 	/**
 	 * Get the state space corresponding to this edit part.
 	 * @return State space.

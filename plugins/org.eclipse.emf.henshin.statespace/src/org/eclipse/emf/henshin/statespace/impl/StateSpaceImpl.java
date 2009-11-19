@@ -8,12 +8,16 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 
 import org.eclipse.emf.henshin.statespace.State;
@@ -69,9 +73,38 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 */
 	public EList<State> getStates() {
 		if (states == null) {
-			states = new EObjectEList<State>(State.class, this, StateSpacePackageImpl.STATE_SPACE__STATES);
+			states = new EObjectWithInverseEList<State>(State.class, this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpacePackageImpl.STATE__STATE_SPACE);
 		}
 		return states;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StateSpacePackageImpl.STATE_SPACE__STATES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStates()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case StateSpacePackageImpl.STATE_SPACE__STATES:
+				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

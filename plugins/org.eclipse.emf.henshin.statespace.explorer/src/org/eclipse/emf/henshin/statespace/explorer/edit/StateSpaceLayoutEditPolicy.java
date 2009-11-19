@@ -67,7 +67,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 			State state = (State) request.getNewObject();
 			Rectangle bounds = (Rectangle) getConstraintFor(request);
 			StateCreateCommand command = new StateCreateCommand(state, stateSpace);
-			command.setXY(bounds.x, bounds.y);
+			command.setLocation(bounds.x, bounds.y);
 			return command;
 		}
 		

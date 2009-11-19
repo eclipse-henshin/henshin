@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.commands.Command;
@@ -18,9 +17,6 @@ public class StateExploreCommand extends Command {
 	// State to be explored.
 	private State state;
 	
-	// State space to be added to.
-	private final StateSpace stateSpace;
-	
 	// New states:
 	private List<State> states;
 	
@@ -29,12 +25,11 @@ public class StateExploreCommand extends Command {
 	
 	/**
 	 * Default constructor.
-	 * @param state State to be expored.
+	 * @param state State to be explored.
 	 * @param stateSpace State space.
 	 */
-	public StateExploreCommand(State state, StateSpace stateSpace) {
+	public StateExploreCommand(State state) {
 		this.state = state;
-		this.stateSpace = stateSpace;
 		this.states = new ArrayList<State>();
 		this.transitions = new ArrayList<Transition>();
 		setLabel("exploring state");
@@ -46,7 +41,7 @@ public class StateExploreCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return state!=null && stateSpace!=null;
+		return state!=null && state.getStateSpace()!=null;
 	}
 	
 	/*
@@ -57,7 +52,8 @@ public class StateExploreCommand extends Command {
 	public void execute() {
 		
 		State newState = StateSpaceFactory.INSTANCE.createState();
-		newState.setName("s" + stateSpace.getStates().size());
+		newState.setName("s" + state.getStateSpace().getStates().size());
+		newState.setLocation(state.getX(), state.getY() + 100);
 		
 		Transition newTransition = StateSpaceFactory.INSTANCE.createTransition();
 		newTransition.setTarget(newState);
@@ -78,7 +74,7 @@ public class StateExploreCommand extends Command {
 		
 		// Add the states to the state space:
 		for (State current : states) {
-			stateSpace.getStates().add(current);			
+			state.getStateSpace().getStates().add(current);			
 		}
 		
 		// Add the transitions:
@@ -98,7 +94,7 @@ public class StateExploreCommand extends Command {
 		
 		// Remove the states from the state space:
 		for (State current : states) {
-			stateSpace.getStates().remove(current);			
+			state.getStateSpace().getStates().remove(current);			
 		}
 		
 		// Remove the transitions:

@@ -22,9 +22,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -39,6 +41,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getOutgoing <em>Outgoing</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getModel <em>Model</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getStateSpace <em>State Space</em>}</li>
  * </ul>
  * </p>
  *
@@ -235,6 +238,47 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateSpace getStateSpace() {
+		if (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE) return null;
+		return (StateSpace)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStateSpace(StateSpace newStateSpace) {
+		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE && newStateSpace != null)) {
+			if (EcoreUtil.isAncestor(this, newStateSpace))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newStateSpace != null)
+				msgs = ((InternalEObject)newStateSpace).eInverseAdd(this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpace.class, msgs);
+			msgs = basicSetStateSpace(newStateSpace, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__STATE_SPACE, newStateSpace, newStateSpace));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public int getX() {
@@ -272,6 +316,10 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
 			case StateSpacePackageImpl.STATE__OUTGOING:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetStateSpace((StateSpace)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -288,8 +336,24 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
 			case StateSpacePackageImpl.STATE__OUTGOING:
 				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				return basicSetStateSpace(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				return eInternalContainer().eInverseRemove(this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpace.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -310,6 +374,8 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return getLocation();
 			case StateSpacePackageImpl.STATE__MODEL:
 				return getModel();
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				return getStateSpace();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -340,6 +406,9 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__MODEL:
 				setModel((Resource)newValue);
 				return;
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				setStateSpace((StateSpace)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -367,6 +436,9 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__MODEL:
 				setModel(MODEL_EDEFAULT);
 				return;
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				setStateSpace((StateSpace)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -389,6 +461,8 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
 			case StateSpacePackageImpl.STATE__MODEL:
 				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
+			case StateSpacePackageImpl.STATE__STATE_SPACE:
+				return getStateSpace() != null;
 		}
 		return super.eIsSet(featureID);
 	}
