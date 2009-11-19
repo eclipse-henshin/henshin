@@ -6,41 +6,59 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.util.EObjectEList;
-
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>State Space</b></em>'.
- * <!-- end-user-doc -->
- * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl#getStates <em>States</em>}</li>
- * </ul>
- * </p>
- *
+ * Concrete implementation of the {@link State} interface.
  * @generated
  */
 public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
+		
+	/**
+	 * Get the integer array for the explored states in this state space.
+	 * @generated NOT
+	 */
+	public int[] getExplored() {
+		
+		// Make sure it is big enough:
+		if (explored==null) {
+			explored = new int[getMinimumExploredSize()];
+		}
+		else if (explored.length<getStates().size()) {
+			explored = Arrays.copyOf(explored, getMinimumExploredSize());
+		}
+		return explored;
+		
+	}
+	
+	/*
+	 * Minimum size of the explored-integer-array.
+	 */
+	private int getMinimumExploredSize() {
+		return (int) (2 * getStates().size() / Integer.SIZE) + 4;
+	}
+	
+	/* ---------------------------------------------------------------- *
+	 * GENERATED CODE.                                                  *
+	 * Do not edit below this line. If you need to edit, move it above  *
+	 * this line and change the '@generated'-tag to '@generated NOT'.   *
+	 * ---------------------------------------------------------------- */
+	
 	/**
 	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getStates()
 	 * @generated
 	 * @ordered
@@ -48,8 +66,37 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	protected EList<State> states;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getExplored() <em>Explored</em>}' attribute.
+	 * @see #getExplored()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int[] EXPLORED_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getExplored() <em>Explored</em>}' attribute.
+	 * @see #getExplored()
+	 * @generated
+	 * @ordered
+	 */
+	protected int[] explored = EXPLORED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getExploredCount() <em>Explored Count</em>}' attribute.
+	 * @see #getExploredCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int EXPLORED_COUNT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getExploredCount() <em>Explored Count</em>}' attribute.
+	 * @see #getExploredCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int exploredCount = EXPLORED_COUNT_EDEFAULT;
+
+	/**
 	 * @generated
 	 */
 	protected StateSpaceImpl() {
@@ -57,8 +104,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -67,20 +112,33 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<State> getStates() {
 		if (states == null) {
-			states = new EObjectWithInverseEList<State>(State.class, this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpacePackageImpl.STATE__STATE_SPACE);
+			states = new EObjectContainmentWithInverseEList<State>(State.class, this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpacePackageImpl.STATE__STATE_SPACE);
 		}
 		return states;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getExploredCount() {
+		return exploredCount;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setExploredCount(int newExploredCount) {
+		int oldExploredCount = exploredCount;
+		exploredCount = newExploredCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT, oldExploredCount, exploredCount));
+	}
+
+	/**
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -94,8 +152,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -108,8 +164,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -117,13 +171,15 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return getStates();
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED:
+				return getExplored();
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
+				return getExploredCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -134,13 +190,14 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 				getStates().clear();
 				getStates().addAll((Collection<? extends State>)newValue);
 				return;
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
+				setExploredCount((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -149,13 +206,14 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				getStates().clear();
 				return;
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
+				setExploredCount(EXPLORED_COUNT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -163,8 +221,28 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return states != null && !states.isEmpty();
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED:
+				return EXPLORED_EDEFAULT == null ? explored != null : !EXPLORED_EDEFAULT.equals(explored);
+			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
+				return exploredCount != EXPLORED_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (explored: ");
+		result.append(explored);
+		result.append(", exploredCount: ");
+		result.append(exploredCount);
+		result.append(')');
+		return result.toString();
 	}
 
 } //StateSpaceImpl

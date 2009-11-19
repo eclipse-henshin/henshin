@@ -89,8 +89,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case StateSpacePackageImpl.LOCATION:
-				return createLocationFromString(eDataType, initialValue);
+			case StateSpacePackageImpl.INTEGER_ARRAY:
+				return createIntegerArrayFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -104,8 +104,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case StateSpacePackageImpl.LOCATION:
-				return convertLocationToString(eDataType, instanceValue);
+			case StateSpacePackageImpl.INTEGER_ARRAY:
+				return convertIntegerArrayToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -146,15 +146,15 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public int[] createLocationFromString(EDataType eDataType, String initialValue) {		
+	public int[] createIntegerArrayFromString(EDataType eDataType, String initialValue) {		
 		StringTokenizer tokenizer = new StringTokenizer(initialValue, ",");
-		ArrayList<Integer> coordinates = new ArrayList<Integer>();
+		ArrayList<Integer> values = new ArrayList<Integer>();
 		while (tokenizer.hasMoreTokens()) {
-			coordinates.add(Integer.valueOf(tokenizer.nextToken().trim()));
+			values.add(Integer.valueOf(tokenizer.nextToken().trim()));
 		}
-		int[] location = new int[coordinates.size()];
-		for (int i=0; i<location.length; i++) location[i] = coordinates.get(i);
-		return location;
+		int[] array = new int[values.size()];
+		for (int i=0; i<array.length; i++) array[i] = values.get(i);
+		return array;
 	}
 	
 	/**
@@ -162,8 +162,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String convertLocationToString(EDataType eDataType, Object location) {
-		return convertLocationToString(eDataType, (int[]) location);
+	public String convertIntegerArrayToString(EDataType eDataType, Object location) {
+		return convertIntegerArrayToString(eDataType, (int[]) location);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String convertLocationToString(EDataType eDataType, int[] location) {
+	public String convertIntegerArrayToString(EDataType eDataType, int[] location) {
 		String result = "";
 		for (int i=0; i<location.length; i++) {
 			result = result + location[i];

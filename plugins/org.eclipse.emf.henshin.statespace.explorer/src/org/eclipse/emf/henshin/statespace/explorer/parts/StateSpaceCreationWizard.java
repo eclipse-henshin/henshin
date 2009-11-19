@@ -1,12 +1,19 @@
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.util.StateSpacePrettyPrinter;
+import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
@@ -57,7 +64,6 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	 */
 	private class CreationPage extends WizardNewFileCreationPage {
 		
-		private static final String DEFAULT_EXTENSION = ".henshin_statespace";
 		private final IWorkbench workbench;
 		
 		/**
@@ -69,8 +75,8 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 		CreationPage(IWorkbench workbench, IStructuredSelection selection) {
 			super("shapeCreationPage1", selection);
 			this.workbench = workbench;
-			setTitle("Create a new " + DEFAULT_EXTENSION + " file");
-			setDescription("Create a new " + DEFAULT_EXTENSION + " file");
+			setTitle("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
+			setDescription("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
 		}
 		
 		/* (non-Javadoc)
@@ -78,7 +84,7 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 		 */
 		public void createControl(Composite parent) {
 			super.createControl(parent);
-			setFileName("default" + DEFAULT_EXTENSION);
+			setFileName("default." + StateSpaceResource.FILE_EXTENSION);
 			setPageComplete(validatePage());
 		}
 
@@ -107,20 +113,42 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 		/* (non-Javadoc)
 		 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
 		 */
-		protected InputStream getInitialContents() {			
-			StateSpace stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
-			String data = StateSpacePrettyPrinter.print(stateSpace);
-			return new ByteArrayInputStream(data.getBytes());
+		protected InputStream getInitialContents() {
+			
+			// Get the file path:
+			final IPath containerPath = getContainerFullPath();
+			IPath filePath = containerPath.append(getFileName());
+			
+			try {
+			
+				// Create a state space resource:
+				URI uri = URI.createPlatformResourceURI(filePath.toString(), false);
+				ResourceSet resourceSet = new ResourceSetImpl();
+				Resource resource = resourceSet.createResource(uri);
+				StateSpace stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
+				resource.getContents().add(stateSpace);
+				resource.save(null);
+
+				// Refresh and load the created file:
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+				file.refreshLocal(1, new NullProgressMonitor());
+				return file.getContents();
+			
+			} catch (Throwable t) {
+				MessageDialog.openError(getShell(), "Create new state space file", "Error creating file: " + t.getMessage());
+				return null;
+			}
+			
 		}
 
 		/**
 		 * Return true, if the file name entered in this page is valid.
 		 */
 		private boolean validateFilename() {
-			if (getFileName() != null && getFileName().endsWith(DEFAULT_EXTENSION)) {
+			if (getFileName() != null && getFileName().endsWith("." + StateSpaceResource.FILE_EXTENSION)) {
 				return true;
 			}
-			setErrorMessage("The 'file' name must end with " + DEFAULT_EXTENSION);
+			setErrorMessage("The file name must end with " + StateSpaceResource.FILE_EXTENSION);
 			return false;
 		}
 

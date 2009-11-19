@@ -72,6 +72,9 @@ public class StateExploreCommand extends Command {
 	@Override
 	public void redo() {
 		
+		// Mark the state as explored:
+		state.setExplored(true);
+		
 		// Add the states to the state space:
 		for (State current : states) {
 			state.getStateSpace().getStates().add(current);			
@@ -91,7 +94,9 @@ public class StateExploreCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		
+
+		state.setExplored(false);
+
 		// Remove the states from the state space:
 		for (State current : states) {
 			state.getStateSpace().getStates().remove(current);			

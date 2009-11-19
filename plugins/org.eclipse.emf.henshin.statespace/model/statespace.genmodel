@@ -2,13 +2,13 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.statespace/src"
-    modelPluginID="org.eclipse.emf.henshin.statespace" modelName="StateSpace" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl"
-    suppressEMFMetaData="true" importerID="org.eclipse.emf.importer.ecore" suppressContainment="true"
-    complianceLevel="5.0" copyrightFields="false">
+    modelPluginID="org.eclipse.emf.henshin.statespace" modelName="StateSpace" modelPluginClass="StateSpacePlugin"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl" suppressEMFMetaData="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false">
   <foreignModel>statespace.ecore</foreignModel>
   <genPackages prefix="StateSpace" basePackage="org.eclipse.emf.henshin" disposableProviderFactory="true"
       ecorePackage="statespace.ecore#/">
-    <genDataTypes ecoreDataType="statespace.ecore#//Location"/>
+    <genDataTypes ecoreDataType="statespace.ecore#//IntegerArray"/>
     <genClasses ecoreClass="statespace.ecore#//StateSpace">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/states"/>
     </genClasses>
@@ -17,13 +17,17 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//State/incoming"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference statespace.ecore#//State/outgoing"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//State/model"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference statespace.ecore#//State/stateSpace"/>
       <genOperations ecoreOperation="statespace.ecore#//State/getX"/>
       <genOperations ecoreOperation="statespace.ecore#//State/getY"/>
+      <genOperations ecoreOperation="statespace.ecore#//State/isInitial"/>
     </genClasses>
     <genClasses ecoreClass="statespace.ecore#//Transition">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference statespace.ecore#//Transition/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//Transition/target"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//Transition/rule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//Transition/match"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

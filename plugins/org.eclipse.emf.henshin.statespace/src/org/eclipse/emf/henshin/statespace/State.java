@@ -9,10 +9,24 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @generated
  */
 public interface State extends EObject {
-
+	
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * @return the value of the '<em>Name</em>' attribute.
+	 * Set the location attribute of this state.
+	 * @param location The new location.
+	 * @see #getLocation()
+	 * @generated NOT
+	 */
+	void setLocation(int... location);
+	
+	/* ---------------------------------------------------------------- *
+	 * GENERATED CODE.                                                  *
+	 * Do not edit below this line. If you need to edit, move it above  *
+	 * this line and change the '@generated'-tag to '@generated NOT'.   *
+	 * ---------------------------------------------------------------- */
+	
+	/**
+	 * Get the name of this state..
+	 * @return the name of this state.
 	 * @see #setName(String)
 	 * @model
 	 * @generated
@@ -20,18 +34,18 @@ public interface State extends EObject {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getName <em>Name</em>}' attribute.
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * Sets the name of this state.
+	 * @param name The new name.
 	 * @see #getName()
 	 * @generated
 	 */
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Incoming</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
+	 * Get the list of incoming transitions of this state. The list contents 
+	 * are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.Transition#getTarget <em>Target</em>}'.
-	 * @return the value of the '<em>Incoming</em>' reference list.
+	 * @return list of incoming transitions.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getTarget
 	 * @model opposite="target"
 	 * @generated
@@ -39,10 +53,10 @@ public interface State extends EObject {
 	EList<Transition> getIncoming();
 
 	/**
-	 * Returns the value of the '<em><b>Outgoing</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
+	 * Get the list of outgoing transitions of this state. The list contents 
+	 * are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.Transition#getSource <em>Source</em>}'.
-	 * @return the value of the '<em>Outgoing</em>' containment reference list.
+	 * @return the outgoing transitions.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getSource
 	 * @model opposite="source" containment="true"
 	 * @generated
@@ -50,29 +64,17 @@ public interface State extends EObject {
 	EList<Transition> getOutgoing();
 
 	/**
-	 * Returns the value of the '<em><b>Location</b></em>' attribute.
-	 * @return the value of the '<em>Location</em>' attribute.
-	 * @see #setLocation(long)
+	 * Get the location of this state.
+	 * @return the location of this state.
+	 * @see #setLocation(int[])
 	 * @model
 	 * @generated
 	 */
 	int[] getLocation();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getLocation <em>Location</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Location</em>' attribute.
-	 * @see #getLocation()
-	 * @generated NOT
-	 */
-	void setLocation(int... location);
-
-	/**
-	 * Returns the value of the '<em><b>Model</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Model</em>' attribute.
+	 * Get the associated model of this state.
+	 * @return the associated model.
 	 * @see #setModel(Resource)
 	 * @model transient="true"
 	 * @generated
@@ -80,21 +82,17 @@ public interface State extends EObject {
 	Resource getModel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getModel <em>Model</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Model</em>' attribute.
+	 * Set the associated model of this state.
+	 * @param model the associated model.
 	 * @see #getModel()
 	 * @generated
 	 */
 	void setModel(Resource value);
 
 	/**
-	 * Returns the value of the '<em><b>State Space</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStates <em>States</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>State Space</em>' container reference.
+	 * Get the state space that contains this state. This is bidirectional reference 
+	 * and its opposite is '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStates <em>States</em>}'.
+	 * @return the state space that contains this state.
 	 * @see #setStateSpace(StateSpace)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStates
 	 * @model opposite="states" transient="false"
@@ -103,36 +101,49 @@ public interface State extends EObject {
 	StateSpace getStateSpace();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>State Space</em>' container reference.
+	 * Set the state space that contains this state.
+	 * @param stateSpace the container state space.
 	 * @see #getStateSpace()
 	 * @generated
 	 */
 	void setStateSpace(StateSpace value);
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * Get the X-coordinate of this state.
-	 * <!-- end-user-doc -->
+	 * Check whether this state is fully explored already.
+	 * @return <code>true</code> if it is fully explored.
+	 * @see #setExplored(boolean)
+	 * @model volatile="true"
+	 * @generated
+	 */
+	boolean isExplored();
+
+	/**
+	 * Set the explored flag of this state.
+	 * @param explored the new value of the explored-flag.
+	 * @see #isExplored()
+	 * @generated
+	 */
+	void setExplored(boolean value);
+
+	/**
+	 * Get the X-coordinate of this state. This is a convenience wrapper
+	 * for for the raw location attribute.
 	 * @model kind="operation"
 	 * @generated
 	 */
 	int getX();
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * Get the Y-coordinate of this state.
-	 * <!-- end-user-doc -->
+	 * Get the Y-coordinate of this state. This is a convenience wrapper
+	 * for for the raw location attribute.
 	 * @model kind="operation"
 	 * @generated
 	 */
 	int getY();
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Check whether this state is an initial one. A state is initial
+	 * if {@link #getModel()} returns a resource with a non-<code>null</code> URI.
 	 * @model kind="operation"
 	 * @generated
 	 */

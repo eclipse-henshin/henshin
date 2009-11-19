@@ -10,49 +10,148 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>State</b></em>'.
- * <!-- end-user-doc -->
- * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getIncoming <em>Incoming</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getOutgoing <em>Outgoing</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getLocation <em>Location</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getModel <em>Model</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.StateImpl#getStateSpace <em>State Space</em>}</li>
- * </ul>
- * </p>
- *
+ * Concrete implementation of the {@link State} interface.
  * @generated
  */
 public class StateImpl extends MinimalEObjectImpl implements State {
+		
+	/**
+	 * Check whether this state is an initial one.
+	 * @generated NOT
+	 */
+	public boolean isInitial() {
+		return model!=null && model.getURI()!=null;
+	}
+	
+	/**
+	 * Get the X-coordinate of this state.
+	 * @generated NOT
+	 */
+	public int getX() {
+		return (location!=null && location.length>0) ? location[0] : 0;
+	}
+
+	/**
+	 * Get the Y-coordinate of this state.
+	 * @generated NOT
+	 */
+	public int getY() {
+		return (location!=null && location.length>1) ? location[1] : 0;
+	}
+
+	/**
+	 * Set the location of this state.
+	 * @generated NOT
+	 */
+	public void setLocation(int... newLocation) {
+		int[] oldLocation = location;
+		location = newLocation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__LOCATION, oldLocation, location));
+	}
+
+	/**
+	 * Check whether this state is explored.
+	 * @generated NOT
+	 */
+	public boolean isExplored() {
+		if (getStateSpace()!=null) {
+			int[] explored = getStateSpace().getExplored();
+			int[] index = getExploredIndex();
+			int bit = (int) 1 << index[1];
+			return (explored[index[0]] & bit)==bit;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Set the explored flag.
+	 * @generated NOT
+	 */
+	public void setExplored(boolean newExplored) {
+		boolean oldExplored = isExplored();
+		
+		// Compute the index in the integer array:
+		int[] explored = getStateSpace().getExplored();
+		int[] index = getExploredIndex();
+		
+		
+		// Set or unset the bit and update the explored count in the state space:
+		if (!oldExplored && newExplored) {
+			explored[index[0]] |= ((int) 1 << index[1]); 
+			getStateSpace().setExploredCount(getStateSpace().getExploredCount()+1);
+		}
+		else if (oldExplored && !newExplored) {
+			explored[index[0]] &= ~((int) 1 << index[1]); 
+			getStateSpace().setExploredCount(getStateSpace().getExploredCount()-1);			
+		}
+		
+		// Perform the notification:
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__EXPLORED, oldExplored, newExplored));
+	}
+	
+	/*
+	 * Private helper for determining the explored index of this state.
+	 */
+	private int[] getExploredIndex() {
+		int index = getStateSpace().getStates().indexOf(this);
+		return new int[] { index / Integer.SIZE, index % Integer.SIZE };
+	}
+	
+	/**
+	 * Set the state space that contains this state.
+	 * @generated NOT
+	 */
+	public void setStateSpace(StateSpace newStateSpace) {
+		
+		// Remember the old state space and set the new state space:
+		StateSpace oldStateSpace = getStateSpace();
+		setStateSpaceGen(newStateSpace);
+		
+		// Update the explored-count:
+		if (isExplored()) {
+			oldStateSpace.setExploredCount(oldStateSpace.getExploredCount()-1);
+			newStateSpace.setExploredCount(newStateSpace.getExploredCount()+1);
+		}
+		
+	}
+
+	/**
+	 * Pretty-print this state.
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return StateSpaceResource.printState(this);
+	}
+	
+	
+	/* ---------------------------------------------------------------- *
+	 * GENERATED CODE.                                                  *
+	 * Do not edit below this line. If you need to edit, move it above  *
+	 * this line and change the '@generated'-tag to '@generated NOT'.   *
+	 * ---------------------------------------------------------------- */
 	
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -61,8 +160,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -71,8 +168,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getIncoming()
 	 * @generated
 	 * @ordered
@@ -81,8 +176,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getOutgoing()
 	 * @generated
 	 * @ordered
@@ -91,8 +184,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getLocation()
 	 * @generated
 	 * @ordered
@@ -101,8 +192,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getLocation() <em>Location</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getLocation()
 	 * @generated
 	 * @ordered
@@ -111,8 +200,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The default value of the '{@link #getModel() <em>Model</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getModel()
 	 * @generated
 	 * @ordered
@@ -121,8 +208,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getModel()
 	 * @generated
 	 * @ordered
@@ -130,8 +215,14 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	protected Resource model = MODEL_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isExplored() <em>Explored</em>}' attribute.
+	 * @see #isExplored()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean EXPLORED_EDEFAULT = false;
+
+	/**
 	 * @generated
 	 */
 	protected StateImpl() {
@@ -139,8 +230,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -149,8 +238,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getName() {
@@ -158,8 +245,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setName(String newName) {
@@ -170,8 +255,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Transition> getIncoming() {
@@ -182,41 +265,23 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Transition> getOutgoing() {
 		if (outgoing == null) {
-			outgoing = new EObjectWithInverseEList<Transition>(Transition.class, this, StateSpacePackageImpl.STATE__OUTGOING, StateSpacePackageImpl.TRANSITION__SOURCE);
+			outgoing = new EObjectContainmentWithInverseEList<Transition>(Transition.class, this, StateSpacePackageImpl.STATE__OUTGOING, StateSpacePackageImpl.TRANSITION__SOURCE);
 		}
 		return outgoing;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int[] getLocation() {
 		return location;
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public void setLocation(int... newLocation) {
-		int[] oldLocation = location;
-		location = newLocation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__LOCATION, oldLocation, location));
-	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Resource getModel() {
@@ -224,8 +289,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setModel(Resource newModel) {
@@ -236,31 +299,25 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public StateSpace getStateSpace() {
 		if (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE) return null;
 		return (StateSpace)eContainer();
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
+		msgs = eBasicSetContainer((InternalEObject) newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
 		return msgs;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStateSpace(StateSpace newStateSpace) {
+	public void setStateSpaceGen(StateSpace newStateSpace) {
 		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE && newStateSpace != null)) {
 			if (EcoreUtil.isAncestor(this, newStateSpace))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -277,35 +334,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public int getX() {
-		return (location!=null && location.length>0) ? location[0] : 0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public int getY() {
-		return (location!=null && location.length>1) ? location[1] : 0;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean isInitial() {
-		return model!=null && model.getURI()!=null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -325,8 +353,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -343,8 +369,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -357,8 +381,6 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -376,13 +398,13 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return getModel();
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				return getStateSpace();
+			case StateSpacePackageImpl.STATE__EXPLORED:
+				return isExplored();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -409,13 +431,14 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)newValue);
 				return;
+			case StateSpacePackageImpl.STATE__EXPLORED:
+				setExplored((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -439,13 +462,14 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)null);
 				return;
+			case StateSpacePackageImpl.STATE__EXPLORED:
+				setExplored(EXPLORED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -463,31 +487,10 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				return getStateSpace() != null;
+			case StateSpacePackageImpl.STATE__EXPLORED:
+				return isExplored() != EXPLORED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String toString() {
-		
-		StringBuffer result = new StringBuffer();
-		result.append(name + "[x=" + getX() + ",y=" + getY() + "]");
-		
-		// Outgoing transitions:
-		if (!getOutgoing().isEmpty()) {
-			result.append(" --");
-			for (Transition transition : getOutgoing()) {
-				result.append(" (" + transition.getRule() + "," + transition.getTarget().getName() + ")");
-			}
-		}
-		result.append(";");
-		return result.toString();
-		
 	}
 
 } //StateImpl

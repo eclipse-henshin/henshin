@@ -88,13 +88,31 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int STATE_SPACE__STATES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Explored</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE_SPACE__EXPLORED = 1;
+
+	/**
+	 * The feature id for the '<em><b>Explored Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE_SPACE__EXPLORED_COUNT = 2;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STATE_SPACE_FEATURE_COUNT = 1;
+	public static final int STATE_SPACE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -161,13 +179,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int STATE__STATE_SPACE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Explored</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE__EXPLORED = 6;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STATE_FEATURE_COUNT = 6;
+	public static final int STATE_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -225,13 +252,13 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int TRANSITION_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '<em>Location</em>' data type.
+	 * The meta object id for the '<em>Integer Array</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getLocation()
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getIntegerArray()
 	 * @generated
 	 */
-	public static final int LOCATION = 3;
+	public static final int INTEGER_ARRAY = 3;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -259,7 +286,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType locationEDataType = null;
+	private EDataType integerArrayEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -347,6 +374,34 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public EReference getStateSpace_States() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getExplored <em>Explored</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Explored</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getExplored()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	public EAttribute getStateSpace_Explored() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(1);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getExploredCount <em>Explored Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Explored Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getExploredCount()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	public EAttribute getStateSpace_ExploredCount() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(2);
+	}
+
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.State <em>State</em>}'.
@@ -441,6 +496,20 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#isExplored <em>Explored</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Explored</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#isExplored()
+	 * @see #getState()
+	 * @generated
+	 */
+	public EAttribute getState_Explored() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
+	}
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -506,16 +575,17 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for data type '<em>Location</em>'.
+	 * Returns the meta object for data type '<em>Integer Array</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Location</em>'.
+	 * @return the meta object for data type '<em>Integer Array</em>'.
 	 * @model instanceClass="int[]"
 	 * @generated
 	 */
-	public EDataType getLocation() {
-		return locationEDataType;
+	public EDataType getIntegerArray() {
+		return integerArrayEDataType;
 	}
+
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -549,6 +619,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		// Create classes and their features
 		stateSpaceEClass = createEClass(STATE_SPACE);
 		createEReference(stateSpaceEClass, STATE_SPACE__STATES);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__EXPLORED);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__EXPLORED_COUNT);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
@@ -557,6 +629,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEAttribute(stateEClass, STATE__LOCATION);
 		createEAttribute(stateEClass, STATE__MODEL);
 		createEReference(stateEClass, STATE__STATE_SPACE);
+		createEAttribute(stateEClass, STATE__EXPLORED);
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
@@ -565,7 +638,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEAttribute(transitionEClass, TRANSITION__MATCH);
 
 		// Create data types
-		locationEDataType = createEDataType(LOCATION);
+		integerArrayEDataType = createEDataType(INTEGER_ARRAY);
 	}
 
 	/**
@@ -600,14 +673,17 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_Explored(), this.getIntegerArray(), "explored", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_ExploredCount(), ecorePackage.getEInt(), "exploredCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getState_Location(), this.getLocation(), "location", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Location(), this.getIntegerArray(), "location", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Model(), ecorePackage.getEResource(), "model", null, 0, 1, State.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_StateSpace(), this.getStateSpace(), this.getStateSpace_States(), "stateSpace", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Explored(), ecorePackage.getEBoolean(), "explored", null, 0, 1, State.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(stateEClass, ecorePackage.getEInt(), "getX", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -622,7 +698,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		initEAttribute(getTransition_Match(), ecorePackage.getEInt(), "match", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
-		initEDataType(locationEDataType, int[].class, "Location", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(integerArrayEDataType, int[].class, "IntegerArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -658,6 +734,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EReference STATE_SPACE__STATES = eINSTANCE.getStateSpace_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Explored</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute STATE_SPACE__EXPLORED = eINSTANCE.getStateSpace_Explored();
+
+		/**
+		 * The meta object literal for the '<em><b>Explored Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute STATE_SPACE__EXPLORED_COUNT = eINSTANCE.getStateSpace_ExploredCount();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -718,6 +810,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		public static final EReference STATE__STATE_SPACE = eINSTANCE.getState_StateSpace();
 
 		/**
+		 * The meta object literal for the '<em><b>Explored</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute STATE__EXPLORED = eINSTANCE.getState_Explored();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -760,13 +860,13 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		public static final EAttribute TRANSITION__MATCH = eINSTANCE.getTransition_Match();
 
 		/**
-		 * The meta object literal for the '<em>Location</em>' data type.
+		 * The meta object literal for the '<em>Integer Array</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getLocation()
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getIntegerArray()
 		 * @generated
 		 */
-		public static final EDataType LOCATION = eINSTANCE.getLocation();
+		public static final EDataType INTEGER_ARRAY = eINSTANCE.getIntegerArray();
 
 	}
 

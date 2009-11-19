@@ -4,14 +4,19 @@ import java.util.EventObject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceLoader;
+import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -19,20 +24,16 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -42,8 +43,11 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class StateSpaceExplorer extends GraphicalEditor {
 	
-	// Root element.
+	// The state space:
 	private StateSpace stateSpace;
+	
+	// Tool menu:
+	private StateSpaceToolsMenu toolsMenu;
 	
 	/** 
 	 * Create a new editor instance. 
@@ -70,20 +74,13 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		createGraphicalViewer(sashForm);
 		
 		// Add the tools menu:
-		Composite tools = new Composite(sashForm, SWT.NONE);
-		tools.setLayout(new GridLayout(1, false));
-		
-		// The layouting group:
-		Group group = new Group(tools, SWT.NONE);
-		group.setText("Layouting");
-		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
+		toolsMenu.setStateSpace(stateSpace);
 		
 		// Weights must be set at the end!
 		sashForm.setWeights(new int[] { 4,1 });
 		
 	}
-
-	
 	
 	/*
 	 * (non-Javadoc)
@@ -133,10 +130,10 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	@Override
 	public void doSave(IProgressMonitor monitor) {		
 		try {
-			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			StateSpaceLoader.save(getStateSpace(), file, monitor);
+			Resource resource = getStateSpace().eResource();
+			resource.save(null);
 			getCommandStack().markSaveLocation();
-		} catch (CoreException e) { 
+		} catch (Exception e) { 
 			MessageDialog.openError(getSite().getShell(), "Error", "Error saving file. See the error log for more info.");
 			StateSpaceExplorerPlugin.getInstance().logError("Error saving file", e);
 		}
@@ -157,26 +154,25 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		IPath path = dialog.getResult();	
 		if (path != null) {
-			// try to save the editor's contents under a different file name
-			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			URI uri = URI.createPlatformResourceURI(path.toString(), false);
+			
 			try {
-				new ProgressMonitorDialog(shell).run(false, false, 
-						new WorkspaceModifyOperation() {
-							public void execute(final IProgressMonitor monitor) {
-								try {
-									StateSpaceLoader.save(getStateSpace(), file, monitor);
-								} catch (CoreException e) {
-									MessageDialog.openError(getSite().getShell(), "Error", "Error saving file. See the error log for more info.");
-									StateSpaceExplorerPlugin.getInstance().logError("Error saving file", e);
-								}
-							}
-						});
+				// Save the file:
+				StateSpaceResource resource = (StateSpaceResource) getStateSpace().eResource();
+				resource.setURI(uri);
+				resource.save(null);
+				
+				// Set the new file as editor input:
 				setInput(new FileEditorInput(file));
-				getCommandStack().markSaveLocation();
+				getCommandStack().markSaveLocation();				
+			
+			} catch (Exception e) {
+				MessageDialog.openError(getSite().getShell(), "Error", "Error saving file. See the error log for more info.");
+				StateSpaceExplorerPlugin.getInstance().logError("Error saving file", e);
 			}
-			catch (Throwable t) {
-				StateSpaceExplorerPlugin.getInstance().logError("Unexpected exception", t);
-			}
+			
 		}
 	}
 	
@@ -204,16 +200,49 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	protected void setInput(IEditorInput input) {
+		
 		super.setInput(input);
-		try {
-			IFile file = ((IFileEditorInput) input).getFile();
-			setPartName(file.getName());
-			stateSpace = StateSpaceLoader.load(file);
-		} catch (CoreException e) { 
+		
+		// Set the editor name:
+		final IFile file = ((IFileEditorInput) input).getFile();
+		setPartName(file.getName());
+		
+		// Prepare the loading:
+		ResourceSet resourceSet = new ResourceSetImpl();
+    	URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
+
+		try {			
+			// Perform the loading:
+			StateSpaceResource resource = (StateSpaceResource) resourceSet.getResource(uri, true);
+			stateSpace = resource.getStateSpace();
+			
+		} catch (Throwable e) { 
+			
+			// Create a fresh state space:
+			Resource resource = resourceSet.createResource(uri);
 			stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
-			MessageDialog.openError(getSite().getShell(), "Error", "Error loading file. See the error log for more info.");
-			StateSpaceExplorerPlugin.getInstance().logError("Error loading file", e.getCause());
+			resource.getContents().add(stateSpace);
+			
+			// Run a dummy reset command that marks the editor as dirty:
+			getCommandStack().execute(new Command("reset state space") { 
+				public boolean canUndo() {
+					return false;
+				}
+			} );
+			
+			// Give an error message:
+			String message = "Error loading file: " + file.getName();
+			StateSpaceExplorerPlugin.getInstance().logError(message, e);
+			IStatus status = new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, e.toString(), e);
+			ErrorDialog.openError(getSite().getShell(), "Error", message + ". See the error log for more details.", status);
+			
 		}
+		
+		// Refresh the tools menu:
+		if (toolsMenu!=null && !toolsMenu.isDisposed()) {
+			toolsMenu.setStateSpace(stateSpace);
+		}
+		
 	}
 	
 	/**
@@ -232,5 +261,5 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	public GraphicalViewer getGraphicalViewer() {
 		return super.getGraphicalViewer();
 	}
-
+	
 }

@@ -194,8 +194,10 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		// Update color:
 		if (getState().isInitial()) {
 			getFigure().setBackgroundColor(COLOR_INITIAL);	
-		} else {
+		} else if (getState().isExplored()) {
 			getFigure().setBackgroundColor(COLOR_DEFAULT);
+		} else {
+			getFigure().setBackgroundColor(COLOR_OPEN);			
 		}
 		
 	}
@@ -271,6 +273,9 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 			refreshLocation(); break;
 		
 		case StateSpacePackageImpl.STATE__NAME: 
+			refreshLabel(); break;
+			
+		case StateSpacePackageImpl.STATE__EXPLORED: 
 			refreshLabel(); break;
 			
 		case StateSpacePackageImpl.STATE__OUTGOING: 

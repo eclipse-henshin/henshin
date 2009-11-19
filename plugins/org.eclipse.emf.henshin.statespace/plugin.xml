@@ -20,7 +20,7 @@
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="org.eclipse.emf.henshin.statespace.resources.StateSpaceResourceFactory"
-            type="org.eclipse.emf.henshin.statespace.StateSpaceResourceFactory">
+            type="henshin_statespace">
       </parser>
    </extension>
 
