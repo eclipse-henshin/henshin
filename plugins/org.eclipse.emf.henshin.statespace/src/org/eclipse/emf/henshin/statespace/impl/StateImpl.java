@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -40,32 +39,25 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	}
 	
 	/**
-	 * Get the X-coordinate of this state.
-	 * @generated NOT
-	 */
-	public int getX() {
-		return (location!=null && location.length>0) ? location[0] : 0;
-	}
-
-	/**
-	 * Get the Y-coordinate of this state.
-	 * @generated NOT
-	 */
-	public int getY() {
-		return (location!=null && location.length>1) ? location[1] : 0;
-	}
-
-	/**
 	 * Set the location of this state.
 	 * @generated NOT
 	 */
 	public void setLocation(int... newLocation) {
-		int[] oldLocation = location;
-		location = newLocation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__LOCATION, oldLocation, location));
+		setLocationGen(newLocation);
 	}
-
+	
+	/**
+	 * Get the list of outgoing transitions of this state.
+	 * @generated NOT
+	 */
+	public EList<Transition> getOutgoing() {
+		if (outgoing == null) {
+			outgoing = new StateOutgoingTransitionsEList(this);
+		}
+		return outgoing;
+		
+	}
+	
 	/**
 	 * Check whether this state is explored.
 	 * @generated NOT
@@ -86,6 +78,7 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 * @generated NOT
 	 */
 	public void setExplored(boolean newExplored) {
+		
 		boolean oldExplored = isExplored();
 		
 		// Compute the index in the integer array:
@@ -93,7 +86,7 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 		int[] explored = stateSpace.getExplored();
 		int[] index = getExploredIndex();
 		
-		// Set or unset the bit and update the explored count in the state space:
+		// Set or unset the bit and update the count-attributes in the state space:
 		if (!oldExplored && newExplored) {
 			explored[index[0]] |= ((int) 1 << index[1]); 
 			stateSpace.internalSetExploredCount(getStateSpace().getExploredCount()+1);
@@ -120,29 +113,43 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 * Set the state space that contains this state.
 	 * @generated NOT
 	 */
-	public void setStateSpace(StateSpace newStateSpace) {
+	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
 		
 		// Remember whether this state is explored already:
 		boolean explored = isExplored();
 		
 		// Set the state to not-explored in the old state space:
-		setExplored(false);
-		
-		// Decrease explored count in old state space:
 		if (explored) {
-			((StateSpaceImpl) getStateSpace()).internalSetExploredCount(getStateSpace().getExploredCount()-1);
+			setExplored(false);
+		}
+		
+		if (getStateSpace()!=null) {
+			// Decrease explored count in old state space:
+			if (explored) {
+				((StateSpaceImpl) getStateSpace()).internalSetExploredCount(getStateSpace().getExploredCount() - 1);
+			}
+			// Update the number of transitions:
+			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() - getOutgoing().size());
 		}
 		
 		// Set the new state space:
-		setStateSpaceGen(newStateSpace);
+		msgs = basicSetStateSpaceGen(newStateSpace, msgs);
 		
 		// Update the explored flag in the new state space:
-		setExplored(explored);
-		
-		// Increase the explored count in the new state space:
 		if (explored) {
-			((StateSpaceImpl) newStateSpace).internalSetExploredCount(newStateSpace.getExploredCount()+1);
+			setExplored(explored);
 		}
+		
+		if (getStateSpace()!=null) {
+			// Update the number of transitions:
+			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() + getOutgoing().size());
+			// Increase the explored count in the new state space:
+			if (explored) {
+				((StateSpaceImpl) newStateSpace).internalSetExploredCount(newStateSpace.getExploredCount() + 1);
+			}
+		}
+		
+		return msgs;
 		
 	}
 	
@@ -275,22 +282,22 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 		}
 		return incoming;
 	}
-
-	/**
-	 * @generated
-	 */
-	public EList<Transition> getOutgoing() {
-		if (outgoing == null) {
-			outgoing = new EObjectContainmentWithInverseEList<Transition>(Transition.class, this, StateSpacePackageImpl.STATE__OUTGOING, StateSpacePackageImpl.TRANSITION__SOURCE);
-		}
-		return outgoing;
-	}
-
+	
 	/**
 	 * @generated
 	 */
 	public int[] getLocation() {
 		return location;
+	}
+	
+	/**
+	 * @generated
+	 */
+	protected void setLocationGen(int[] newLocation) {
+		int[] oldLocation = location;
+		location = newLocation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__LOCATION, oldLocation, location));
 	}
 	
 	/**
@@ -321,7 +328,7 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	/**
 	 * @generated
 	 */
-	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
+	public NotificationChain basicSetStateSpaceGen(StateSpace newStateSpace, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
 		return msgs;
 	}
@@ -329,7 +336,7 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	/**
 	 * @generated
 	 */
-	public void setStateSpaceGen(StateSpace newStateSpace) {
+	public void setStateSpace(StateSpace newStateSpace) {
 		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE && newStateSpace != null)) {
 			if (EcoreUtil.isAncestor(this, newStateSpace))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());

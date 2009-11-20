@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -33,31 +32,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 */
 	public EList<State> getStates() {
 		if (states == null) {
-			
-			// We do not support all operations:
-			states = new EObjectContainmentWithInverseEList<State>(State.class, this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpacePackageImpl.STATE__STATE_SPACE) {
-				
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public State remove(int index) {
-					if (index!=size-1) throw new UnsupportedOperationException();
-					else return super.remove(index);
-				}
-
-				@Override
-				public void add(int index, State state) {
-					if (index!=size) throw new UnsupportedOperationException();
-					else super.add(index, state);
-				}
-				
-				@Override
-				public State move(int from, int to) {
-					if (from!=to) throw new UnsupportedOperationException();
-					else return super.move(from, to);
-				}
-				
-			};
+			states = new StateSpaceStatesEList(this);
 		}
 		return states;
 	}
@@ -67,7 +42,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 * @generated NOT
 	 */
 	public int[] getExplored() {
-		
 		// Make sure it is big enough:
 		if (explored==null) {
 			explored = new int[getMinimumExploredSize()];
@@ -76,7 +50,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 			explored = Arrays.copyOf(explored, getMinimumExploredSize());
 		}
 		return explored;
-		
 	}
 	
 	/*
@@ -103,7 +76,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 */
 	public void internalSetTransitionCount(int newTransitionCount) {
 		int oldTransitionCount = transitionCount;
-		exploredCount = newTransitionCount;
+		transitionCount = newTransitionCount;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT, oldTransitionCount, transitionCount));
 	}

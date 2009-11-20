@@ -126,22 +126,6 @@ public interface State extends EObject {
 	void setExplored(boolean value);
 
 	/**
-	 * Get the X-coordinate of this state. This is a convenience wrapper
-	 * for for the raw location attribute.
-	 * @model kind="operation"
-	 * @generated
-	 */
-	int getX();
-
-	/**
-	 * Get the Y-coordinate of this state. This is a convenience wrapper
-	 * for for the raw location attribute.
-	 * @model kind="operation"
-	 * @generated
-	 */
-	int getY();
-
-	/**
 	 * Check whether this state is an initial one. A state is initial
 	 * if {@link #getModel()} returns a resource with a non-<code>null</code> URI.
 	 * @model kind="operation"

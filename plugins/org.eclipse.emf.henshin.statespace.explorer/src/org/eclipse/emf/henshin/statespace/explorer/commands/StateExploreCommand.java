@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.explorer.util.LocationUtil;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -53,7 +54,8 @@ public class StateExploreCommand extends Command {
 		
 		State newState = StateSpaceFactory.INSTANCE.createState();
 		newState.setName("s" + state.getStateSpace().getStates().size());
-		newState.setLocation(state.getX(), state.getY() + 100);
+		int[] location = LocationUtil.getMoved(state.getLocation(), 0, 100);
+		newState.setLocation(location);
 		
 		Transition newTransition = StateSpaceFactory.INSTANCE.createTransition();
 		newTransition.setTarget(newState);

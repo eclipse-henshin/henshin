@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
+import org.eclipse.emf.henshin.statespace.explorer.util.LocationUtil;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -176,8 +177,9 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * Update the state's location.
 	 */
 	private void refreshLocation() {
-		Point location = new Point(getState().getX(), getState().getY());
-		Rectangle bounds = new Rectangle(location, SIZE);
+		int[] location = getState().getLocation();
+		Point point = new Point(LocationUtil.getX(location), LocationUtil.getY(location));
+		Rectangle bounds = new Rectangle(point, SIZE);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 	}
 	

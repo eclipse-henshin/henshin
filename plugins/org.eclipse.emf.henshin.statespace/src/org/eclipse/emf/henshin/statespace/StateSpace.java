@@ -39,14 +39,8 @@ public interface StateSpace extends EObject {
 	int getExploredCount();
 	
 	/**
-	 * Returns the value of the '<em><b>Transition Count</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transition Count</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transition Count</em>' attribute.
+	 * Get the number of transitions in this state space.
+	 * @return number of transitions.
 	 * @model changeable="false"
 	 * @generated
 	 */
