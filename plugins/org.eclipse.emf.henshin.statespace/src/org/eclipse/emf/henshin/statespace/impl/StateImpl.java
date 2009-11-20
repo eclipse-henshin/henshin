@@ -30,7 +30,7 @@ import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
  * @generated
  */
 public class StateImpl extends MinimalEObjectImpl implements State {
-		
+	
 	/**
 	 * Check whether this state is an initial one.
 	 * @generated NOT
@@ -89,18 +89,18 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 		boolean oldExplored = isExplored();
 		
 		// Compute the index in the integer array:
-		int[] explored = getStateSpace().getExplored();
+		StateSpaceImpl stateSpace = (StateSpaceImpl) getStateSpace();
+		int[] explored = stateSpace.getExplored();
 		int[] index = getExploredIndex();
-		
 		
 		// Set or unset the bit and update the explored count in the state space:
 		if (!oldExplored && newExplored) {
 			explored[index[0]] |= ((int) 1 << index[1]); 
-			getStateSpace().setExploredCount(getStateSpace().getExploredCount()+1);
+			stateSpace.internalSetExploredCount(getStateSpace().getExploredCount()+1);
 		}
 		else if (oldExplored && !newExplored) {
 			explored[index[0]] &= ~((int) 1 << index[1]); 
-			getStateSpace().setExploredCount(getStateSpace().getExploredCount()-1);			
+			stateSpace.internalSetExploredCount(getStateSpace().getExploredCount()-1);			
 		}
 		
 		// Perform the notification:
@@ -122,18 +122,30 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 */
 	public void setStateSpace(StateSpace newStateSpace) {
 		
-		// Remember the old state space and set the new state space:
-		StateSpace oldStateSpace = getStateSpace();
+		// Remember whether this state is explored already:
+		boolean explored = isExplored();
+		
+		// Set the state to not-explored in the old state space:
+		setExplored(false);
+		
+		// Decrease explored count in old state space:
+		if (explored) {
+			((StateSpaceImpl) getStateSpace()).internalSetExploredCount(getStateSpace().getExploredCount()-1);
+		}
+		
+		// Set the new state space:
 		setStateSpaceGen(newStateSpace);
 		
-		// Update the explored-count:
-		if (isExplored()) {
-			oldStateSpace.setExploredCount(oldStateSpace.getExploredCount()-1);
-			newStateSpace.setExploredCount(newStateSpace.getExploredCount()+1);
+		// Update the explored flag in the new state space:
+		setExplored(explored);
+		
+		// Increase the explored count in the new state space:
+		if (explored) {
+			((StateSpaceImpl) newStateSpace).internalSetExploredCount(newStateSpace.getExploredCount()+1);
 		}
 		
 	}
-
+	
 	/**
 	 * Pretty-print this state.
 	 * @generated NOT
@@ -310,7 +322,7 @@ public class StateImpl extends MinimalEObjectImpl implements State {
 	 * @generated
 	 */
 	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject) newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
 		return msgs;
 	}
 	

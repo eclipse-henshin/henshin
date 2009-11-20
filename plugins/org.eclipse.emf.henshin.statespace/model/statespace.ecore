@@ -8,7 +8,10 @@
         eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="explored" eType="#//IntegerArray"
         changeable="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exploredCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exploredCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State">
     <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

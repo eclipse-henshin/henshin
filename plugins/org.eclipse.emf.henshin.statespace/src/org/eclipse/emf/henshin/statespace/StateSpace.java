@@ -39,12 +39,17 @@ public interface StateSpace extends EObject {
 	int getExploredCount();
 	
 	/**
-	 * Set the number of explored states in this state space.
-	 * <b>WARNING: this method is part of the internal API and should not be invoked by clients.<b>
-	 * @param number of explored states.
-	 * @see #getExploredCount()
+	 * Returns the value of the '<em><b>Transition Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Transition Count</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Transition Count</em>' attribute.
+	 * @model changeable="false"
 	 * @generated
 	 */
-	void setExploredCount(int value);
+	int getTransitionCount();
 	
 }

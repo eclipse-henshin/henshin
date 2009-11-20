@@ -106,13 +106,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int STATE_SPACE__EXPLORED_COUNT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Transition Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE_SPACE__TRANSITION_COUNT = 3;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STATE_SPACE_FEATURE_COUNT = 3;
+	public static final int STATE_SPACE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -404,6 +413,20 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount <em>Transition Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Transition Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	public EAttribute getStateSpace_TransitionCount() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(3);
+	}
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -621,6 +644,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEReference(stateSpaceEClass, STATE_SPACE__STATES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__EXPLORED);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__EXPLORED_COUNT);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
@@ -674,7 +698,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_Explored(), this.getIntegerArray(), "explored", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_ExploredCount(), ecorePackage.getEInt(), "exploredCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_ExploredCount(), ecorePackage.getEInt(), "exploredCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -750,6 +775,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute STATE_SPACE__EXPLORED_COUNT = eINSTANCE.getStateSpace_ExploredCount();
+
+		/**
+		 * The meta object literal for the '<em><b>Transition Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute STATE_SPACE__TRANSITION_COUNT = eINSTANCE.getStateSpace_TransitionCount();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
