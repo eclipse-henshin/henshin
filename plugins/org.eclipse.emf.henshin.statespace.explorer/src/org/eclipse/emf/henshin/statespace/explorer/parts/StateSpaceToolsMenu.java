@@ -5,14 +5,17 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scale;
 
 /**
  * Composite for the tools menu in the state space explorer.
@@ -22,7 +25,10 @@ import org.eclipse.swt.widgets.Label;
 public class StateSpaceToolsMenu extends Composite {
 	
 	// Background color to be used:
-	private static final Color BACKGROUND = new Color(null, 255, 255, 255);
+	public static final Color BACKGROUND = new Color(null, 255, 255, 255);
+	
+	// Supported zoom levels:
+	public static double[] ZOOM_LEVELS = { .1, .2, .3, .4, .5, .6, .7, .8, .9, 1};
 	
 	// Edit domain:
 	private EditDomain editDomain;
@@ -33,6 +39,10 @@ public class StateSpaceToolsMenu extends Composite {
 	// Labels:
 	private Label statesLabel;
 	private Label transitionsLabel;
+		
+	// ZoomManager:
+	private ZoomManager zoomManager;
+	private Scale zoomScale;
 	
 	/**
 	 * Default constructor
@@ -45,7 +55,7 @@ public class StateSpaceToolsMenu extends Composite {
 	}
 	
 	/*
-	 * Initialise the menu.
+	 * Initialize the menu.
 	 */
 	private void init() {
 		
@@ -56,7 +66,7 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		// The info group:
 		Group details = new Group(this, SWT.NONE);
-		details.setText("Statespace Details");
+		details.setText("Information");
 		details.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		details.setBackground(BACKGROUND);		
 		details.setLayout(new GridLayout(2, false));
@@ -80,6 +90,42 @@ public class StateSpaceToolsMenu extends Composite {
 		transitionsLabel.setText("0");
 		transitionsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		transitionsLabel.setBackground(BACKGROUND);
+
+		// The zoom group:
+		Group zoom = new Group(this, SWT.NONE);
+		zoom.setText("Zoom");
+		zoom.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		zoom.setBackground(BACKGROUND);		
+		zoom.setLayout(new GridLayout(3, false));
+		
+		label = new Label(zoom, SWT.NONE);
+		label.setText((int) (ZOOM_LEVELS[0]*100) + "%");
+		label.setBackground(BACKGROUND);
+		
+		zoomScale = new Scale(zoom, SWT.NONE);
+		zoomScale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		zoomScale.setBackground(BACKGROUND);
+		zoomScale.setEnabled(false);
+		zoomScale.setIncrement(1);
+		zoomScale.setPageIncrement(2);
+		zoomScale.setMinimum(0);
+		zoomScale.setMaximum(ZOOM_LEVELS.length-1);
+		zoomScale.setSelection(ZOOM_LEVELS.length-1);
+		zoomScale.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				if (zoomManager!=null) {
+					int index = zoomScale.getSelection();
+					zoomManager.setZoom(ZOOM_LEVELS[index]);
+				}
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		label = new Label(zoom, SWT.NONE);
+		label.setText((int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
+		label.setBackground(BACKGROUND);
 		
 	}
 
@@ -115,6 +161,14 @@ public class StateSpaceToolsMenu extends Composite {
 		
 	}
 	
+	public void setZoomManager(ZoomManager zoomManager) {
+		this.zoomManager = zoomManager;
+		zoomScale.setEnabled(zoomManager!=null);
+		if (zoomManager!=null) {
+			zoomManager.setZoomLevels(ZOOM_LEVELS);
+			zoomManager.setZoomAnimationStyle(ZoomManager.ANIMATE_ZOOM_IN_OUT);
+		}
+	}
 	
 	// State space adapter:
 	private Adapter adapter = new AdapterImpl() {

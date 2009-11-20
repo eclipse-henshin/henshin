@@ -20,8 +20,10 @@ import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -72,13 +74,16 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		// Create the graphical viewer:
 		createGraphicalViewer(sashForm);
+		RootEditPart root = getGraphicalViewer().getRootEditPart();
+		ZoomManager zoomManager = ((ScalableFreeformRootEditPart) root).getZoomManager();
 		
 		// Add the tools menu:
 		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
 		toolsMenu.setStateSpace(stateSpace);
+		toolsMenu.setZoomManager(zoomManager);
 		
 		// Weights must be set at the end!
-		sashForm.setWeights(new int[] { 4,1 });
+		sashForm.setWeights(new int[] { 5,2 });
 		
 	}
 	
