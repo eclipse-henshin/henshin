@@ -6,35 +6,33 @@
   <eClassifiers xsi:type="ecore:EClass" name="StateSpace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
         eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explored" eType="#//IntegerArray"
-        changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exploredCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         changeable="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="State">
+  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//AttributeHolder">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Transition" eOpposite="#//Transition/target"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
         eType="#//Transition" containment="true" eOpposite="#//Transition/source"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//IntegerArray"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateSpace" eType="#//StateSpace"
         eOpposite="#//StateSpace/states"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explored" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        volatile="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transition">
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//AttributeHolder">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//State"
         eOpposite="#//State/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"
         eOpposite="#//State/incoming"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeHolder">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attributes" eType="#//IntegerArray"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
 </ecore:EPackage>

@@ -64,7 +64,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 			State state = (State) owner;
 			if (STATE_LOCATION.equals(key)) {
 				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
-				state.setLocation(location);
+				StateAttributes.setLocation(state,location);
 			}
 			else if (STATE_MODEL.equals(key)) {
 				URI uri = URI.createURI(value).resolve(resource.getURI());
@@ -73,7 +73,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 			}
 			else if (STATE_EXPLORED.equals(key)) {
 				boolean explored = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
-				state.setExplored(explored);
+				StateAttributes.setExplored(state,explored);
 			}
 		}
 		else if (owner instanceof Transition) {

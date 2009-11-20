@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -51,7 +52,7 @@ public class StateCreateCommand extends Command {
 	@Override
 	public void execute() {
 		state.setName(name);
-		state.setLocation(location);
+		StateAttributes.setLocation(state,location);
 		redo();
 	}
 

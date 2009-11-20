@@ -16,7 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
-import org.eclipse.emf.henshin.statespace.explorer.util.LocationUtil;
+import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -171,14 +171,14 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	protected void refreshVisuals() {
 		refreshLocation();
 		refreshLabel();
+		refreshColor();
 	}
 	
 	/*
 	 * Update the state's location.
 	 */
 	private void refreshLocation() {
-		int[] location = getState().getLocation();
-		Point point = new Point(LocationUtil.getX(location), LocationUtil.getY(location));
+		Point point = new Point(StateAttributes.getX(getState()), StateAttributes.getY(getState()));
 		Rectangle bounds = new Rectangle(point, SIZE);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 	}
@@ -199,15 +199,19 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 			getFigure().setToolTip(new Label(tooltip));
 		}
 		
-		// Update color:
+	}
+	
+	/*
+	 * Refresh the color.
+	 */
+	private void refreshColor() {
 		if (getState().isInitial()) {
 			getFigure().setBackgroundColor(COLOR_INITIAL);	
-		} else if (getState().isExplored()) {
+		} else if (StateAttributes.isExplored(getState())) {
 			getFigure().setBackgroundColor(COLOR_DEFAULT);
 		} else {
 			getFigure().setBackgroundColor(COLOR_OPEN);			
-		}
-		
+		}		
 	}
 	
 	/*
@@ -277,21 +281,23 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void notifyChanged(Notification event) {
 		switch (event.getFeatureID(State.class)) {
 		
-		case StateSpacePackageImpl.STATE__LOCATION: 
-			refreshLocation(); break;
+		case StateSpacePackageImpl.STATE__ATTRIBUTES: 
+			refreshColor();
+			refreshLocation();
+			break;
 		
 		case StateSpacePackageImpl.STATE__NAME: 
-			refreshLabel(); break;
-			
-		case StateSpacePackageImpl.STATE__EXPLORED: 
-			refreshLabel(); break;
+			refreshLabel(); 
+			break;
 			
 		case StateSpacePackageImpl.STATE__OUTGOING: 
-			refreshSourceConnections(); break;
+			refreshSourceConnections(); 
+			break;
 
 		case StateSpacePackageImpl.STATE__INCOMING: 
-			refreshTargetConnections(); break;
-
+			refreshTargetConnections(); 
+			break;
+			
 		}
 	}
 	

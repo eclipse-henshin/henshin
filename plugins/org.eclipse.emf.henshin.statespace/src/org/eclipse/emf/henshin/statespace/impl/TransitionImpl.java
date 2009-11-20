@@ -8,40 +8,20 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Transition</b></em>'.
- * <!-- end-user-doc -->
- * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getRule <em>Rule</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl#getMatch <em>Match</em>}</li>
- * </ul>
- * </p>
- *
  * @generated
  */
-public class TransitionImpl extends MinimalEObjectImpl implements Transition {
+public class TransitionImpl extends AttributeHolderImpl implements Transition {
 	
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -50,8 +30,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 
 	/**
 	 * The default value of the '{@link #getRule() <em>Rule</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getRule()
 	 * @generated
 	 * @ordered
@@ -60,8 +38,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 
 	/**
 	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getRule()
 	 * @generated
 	 * @ordered
@@ -70,8 +46,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 
 	/**
 	 * The default value of the '{@link #getMatch() <em>Match</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getMatch()
 	 * @generated
 	 * @ordered
@@ -80,8 +54,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 
 	/**
 	 * The cached value of the '{@link #getMatch() <em>Match</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getMatch()
 	 * @generated
 	 * @ordered
@@ -89,8 +61,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	protected int match = MATCH_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TransitionImpl() {
@@ -98,8 +68,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -108,8 +76,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public State getSource() {
@@ -118,8 +84,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetSource(State newSource, NotificationChain msgs) {
@@ -128,8 +92,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setSource(State newSource) {
@@ -149,8 +111,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public State getTarget() {
@@ -166,8 +126,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public State basicGetTarget() {
@@ -175,8 +133,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetTarget(State newTarget, NotificationChain msgs) {
@@ -190,8 +146,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTarget(State newTarget) {
@@ -209,8 +163,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getRule() {
@@ -218,8 +170,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setRule(String newRule) {
@@ -230,8 +180,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getMatch() {
@@ -239,8 +187,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setMatch(int newMatch) {
@@ -251,8 +197,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -271,8 +215,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -287,8 +229,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -301,8 +241,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -322,8 +260,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -346,8 +282,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -370,8 +304,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -390,8 +322,6 @@ public class TransitionImpl extends MinimalEObjectImpl implements Transition {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

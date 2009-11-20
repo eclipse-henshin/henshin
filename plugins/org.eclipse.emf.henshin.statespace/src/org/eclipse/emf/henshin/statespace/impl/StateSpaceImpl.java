@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -35,28 +34,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 			states = new StateSpaceStatesEList(this);
 		}
 		return states;
-	}
-	
-	/**
-	 * Get the integer array for the explored states in this state space.
-	 * @generated NOT
-	 */
-	public int[] getExplored() {
-		// Make sure it is big enough:
-		if (explored==null) {
-			explored = new int[getMinimumExploredSize()];
-		}
-		else if (explored.length<getStates().size()) {
-			explored = Arrays.copyOf(explored, getMinimumExploredSize());
-		}
-		return explored;
-	}
-	
-	/*
-	 * Minimum size of the explored-integer-array.
-	 */
-	private int getMinimumExploredSize() {
-		return (int) (2 * getStates().size() / Integer.SIZE) + 4;
 	}
 	
 	/**
@@ -96,21 +73,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected EList<State> states;
-
-	/**
-	 * The default value of the '{@link #getExplored() <em>Explored</em>}' attribute.
-	 * @see #getExplored()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int[] EXPLORED_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getExplored() <em>Explored</em>}' attribute.
-	 * @see #getExplored()
-	 * @generated
-	 * @ordered
-	 */
-	protected int[] explored = EXPLORED_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getExploredCount() <em>Explored Count</em>}' attribute.
@@ -208,8 +170,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return getStates();
-			case StateSpacePackageImpl.STATE_SPACE__EXPLORED:
-				return getExplored();
 			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
 				return getExploredCount();
 			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
@@ -254,8 +214,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return states != null && !states.isEmpty();
-			case StateSpacePackageImpl.STATE_SPACE__EXPLORED:
-				return EXPLORED_EDEFAULT == null ? explored != null : !EXPLORED_EDEFAULT.equals(explored);
 			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
 				return exploredCount != EXPLORED_COUNT_EDEFAULT;
 			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
@@ -272,9 +230,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (explored: ");
-		result.append(explored);
-		result.append(", exploredCount: ");
+		result.append(" (exploredCount: ");
 		result.append(exploredCount);
 		result.append(", transitionCount: ");
 		result.append(transitionCount);

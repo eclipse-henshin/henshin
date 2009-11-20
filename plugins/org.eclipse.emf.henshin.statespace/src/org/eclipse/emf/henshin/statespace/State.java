@@ -1,28 +1,13 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Light-weight state model.
  * @generated
  */
-public interface State extends EObject {
-	
-	/**
-	 * Set the location attribute of this state.
-	 * @param location The new location.
-	 * @see #getLocation()
-	 * @generated NOT
-	 */
-	void setLocation(int... location);
-	
-	/* ---------------------------------------------------------------- *
-	 * GENERATED CODE.                                                  *
-	 * Do not edit below this line. If you need to edit, move it above  *
-	 * this line and change the '@generated'-tag to '@generated NOT'.   *
-	 * ---------------------------------------------------------------- */
+public interface State extends AttributeHolder {
 	
 	/**
 	 * Get the name of this state..
@@ -64,15 +49,6 @@ public interface State extends EObject {
 	EList<Transition> getOutgoing();
 
 	/**
-	 * Get the location of this state.
-	 * @return the location of this state.
-	 * @see #setLocation(int[])
-	 * @model
-	 * @generated
-	 */
-	int[] getLocation();
-
-	/**
 	 * Get the associated model of this state.
 	 * @return the associated model.
 	 * @see #setModel(Resource)
@@ -107,23 +83,6 @@ public interface State extends EObject {
 	 * @generated
 	 */
 	void setStateSpace(StateSpace value);
-
-	/**
-	 * Check whether this state is fully explored already.
-	 * @return <code>true</code> if it is fully explored.
-	 * @see #setExplored(boolean)
-	 * @model volatile="true"
-	 * @generated
-	 */
-	boolean isExplored();
-
-	/**
-	 * Set the explored flag of this state.
-	 * @param explored the new value of the explored-flag.
-	 * @see #isExplored()
-	 * @generated
-	 */
-	void setExplored(boolean value);
 
 	/**
 	 * Check whether this state is an initial one. A state is initial

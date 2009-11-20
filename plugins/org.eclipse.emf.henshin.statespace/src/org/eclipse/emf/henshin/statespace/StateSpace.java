@@ -20,16 +20,6 @@ public interface StateSpace extends EObject {
 	EList<State> getStates();
 
 	/**
-	 * Get the integer array for the explored states in this state space.
-	 * Clients should not use this method directly. Instead, {@link State#isExplored()}
-	 * can used to check whether a state is explored or not.
-	 * @return the '<em>explored</em>'-array.
-	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" changeable="false"
-	 * @generated
-	 */
-	int[] getExplored();
-
-	/**
 	 * Get the number of explored states in this state space.
 	 * @return number of explored  states.
 	 * @see #setExploredCount(int)

@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
  * Light-weight transition model.
  * @generated
  */
-public interface Transition extends EObject {
+public interface Transition extends AttributeHolder {
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' container reference.

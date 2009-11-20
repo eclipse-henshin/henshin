@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceLexer;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceParser;
@@ -126,8 +127,8 @@ public class StateSpaceResource extends ResourceImpl {
 		result.append(state.getName() + "[");
 		
 		String sep = "";
-		if (state.getLocation()!=null) {
-			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, state.getLocation());
+		if (StateAttributes.getLocation(state)!=null) {
+			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, StateAttributes.getLocation(state));
 			result.append(StateSpaceParser.STATE_LOCATION + "=\"" + location + "\""); 
 			sep = ",";
 		}
@@ -138,7 +139,7 @@ public class StateSpaceResource extends ResourceImpl {
 			}
 			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\""); sep = ",";
 		}
-		if (state.isExplored()) {
+		if (StateAttributes.isExplored(state)) {
 			result.append(sep + StateSpaceParser.STATE_EXPLORED + "=1"); sep = ",";
 		}
 		result.append("]");

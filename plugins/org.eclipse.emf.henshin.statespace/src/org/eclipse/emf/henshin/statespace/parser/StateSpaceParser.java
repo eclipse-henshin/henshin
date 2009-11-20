@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2009-11-19 17:00:07
+// $ANTLR 3.0.1 StateSpace.g 2009-11-20 15:55:40
 
 package org.eclipse.emf.henshin.statespace.parser;
 
@@ -80,7 +80,7 @@ public class StateSpaceParser extends Parser {
     			State state = (State) owner;
     			if (STATE_LOCATION.equals(key)) {
     				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
-    				state.setLocation(location);
+    				StateAttributes.setLocation(state,location);
     			}
     			else if (STATE_MODEL.equals(key)) {
     				URI uri = URI.createURI(value).resolve(resource.getURI());
@@ -89,7 +89,7 @@ public class StateSpaceParser extends Parser {
     			}
     			else if (STATE_EXPLORED.equals(key)) {
     				boolean explored = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
-    				state.setExplored(explored);
+    				StateAttributes.setExplored(state,explored);
     			}
     		}
     		else if (owner instanceof Transition) {
