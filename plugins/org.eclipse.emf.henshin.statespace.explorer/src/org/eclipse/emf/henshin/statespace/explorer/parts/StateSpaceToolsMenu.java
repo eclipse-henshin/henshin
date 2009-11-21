@@ -4,6 +4,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
@@ -12,6 +13,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -43,6 +45,10 @@ public class StateSpaceToolsMenu extends Composite {
 	// ZoomManager:
 	private ZoomManager zoomManager;
 	private Scale zoomScale;
+
+	// Layouter:
+	private StateSpaceSpringLayouter layouter;
+	private Button layouterCheckbox;
 	
 	/**
 	 * Default constructor
@@ -126,9 +132,40 @@ public class StateSpaceToolsMenu extends Composite {
 		label = new Label(zoom, SWT.NONE);
 		label.setText((int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
 		label.setBackground(BACKGROUND);
+
+		// The layouter group:
+		Group layouter = new Group(this, SWT.NONE);
+		layouter.setText("Layouter");
+		layouter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		layouter.setBackground(BACKGROUND);		
+		layouter.setLayout(new GridLayout(1, false));
+		
+		layouterCheckbox = new Button(layouter, SWT.CHECK);
+		layouterCheckbox.setText("Run spring layouter");
+		layouterCheckbox.setBackground(BACKGROUND);
+		layouterCheckbox.addSelectionListener(new SelectionListener() {			
+			public void widgetSelected(SelectionEvent e) {
+				if (layouterCheckbox.getSelection()) startLayouter();
+				else stopLayouter();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
 		
 	}
-
+	
+	
+	public void startLayouter() {
+		layouterCheckbox.setSelection(true);
+		layouter.update();
+	}
+	
+	public void stopLayouter() {
+		
+		layouterCheckbox.setSelection(false);
+	}
 	
 	public void refresh() {
 		
@@ -153,6 +190,10 @@ public class StateSpaceToolsMenu extends Composite {
 		// Set the state space:
 		this.stateSpace = stateSpace;
 		
+		// Create a new layouter instance:
+		layouter = new StateSpaceSpringLayouter();
+		layouter.setStateSpace(stateSpace);
+		
 		// Refresh:
 		if (stateSpace!=null) {
 			stateSpace.eAdapters().add(adapter);
@@ -161,6 +202,10 @@ public class StateSpaceToolsMenu extends Composite {
 		
 	}
 	
+	/**
+	 * Set the zoom manager to be used.
+	 * @param zoomManager Zoom manager.
+	 */
 	public void setZoomManager(ZoomManager zoomManager) {
 		this.zoomManager = zoomManager;
 		zoomScale.setEnabled(zoomManager!=null);
