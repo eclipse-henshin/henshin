@@ -4,7 +4,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceLayouterJob;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
@@ -15,6 +15,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
@@ -32,6 +33,15 @@ public class StateSpaceToolsMenu extends Composite {
 	// Supported zoom levels:
 	public static double[] ZOOM_LEVELS = { .1, .2, .3, .4, .5, .6, .7, .8, .9, 1};
 	
+	// Minimum and maximum repulsion:
+	public static final int LAYOUTER_PROPERTY_MIN = 10;
+	public static final int LAYOUTER_PROPERTY_MAX = 100;
+	
+	public static final double REPULSION_FACTOR = 2;
+	public static final double ATTRACTION_FACTOR = 0.2;
+	
+	public static final int NATURAL_LENGTH = 40;
+	
 	// Edit domain:
 	private EditDomain editDomain;
 	
@@ -47,8 +57,10 @@ public class StateSpaceToolsMenu extends Composite {
 	private Scale zoomScale;
 
 	// Layouter:
-	private StateSpaceSpringLayouter layouter;
 	private Button layouterCheckbox;
+	private StateSpaceLayouterJob layouterJob;
+	private Scale repulsionScale;
+	private Scale attractionScale;
 	
 	/**
 	 * Default constructor
@@ -137,8 +149,8 @@ public class StateSpaceToolsMenu extends Composite {
 		Group layouter = new Group(this, SWT.NONE);
 		layouter.setText("Layouter");
 		layouter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		layouter.setBackground(BACKGROUND);		
-		layouter.setLayout(new GridLayout(1, false));
+		layouter.setBackground(BACKGROUND);
+		layouter.setLayout(new GridLayout(3, false));
 		
 		layouterCheckbox = new Button(layouter, SWT.CHECK);
 		layouterCheckbox.setText("Run spring layouter");
@@ -152,18 +164,69 @@ public class StateSpaceToolsMenu extends Composite {
 				widgetSelected(e);
 			}
 		});
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		layouterCheckbox.setLayoutData(data);
 		
+		repulsionScale = newLayoutSlider(layouter, "State repulsion:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
+		attractionScale = newLayoutSlider(layouter, "Transition attraction:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
+
+	}
+	
+	private Scale newLayoutSlider(Composite parent, String name, int min, int max) {
+
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(name);
+		label.setBackground(BACKGROUND);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		label.setLayoutData(data);
+		
+		label = new Label(parent, SWT.NONE);
+		label.setText(min + "");
+		label.setBackground(BACKGROUND);
+		
+		final Scale scale = new Scale(parent, SWT.NONE);
+		scale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		scale.setBackground(BACKGROUND);
+		scale.setIncrement(1);
+		scale.setPageIncrement(2);
+		scale.setMinimum(min);
+		scale.setMaximum(max);
+		scale.setSelection((max-min) / 2);
+		scale.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				updateLayouterProperties();
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				updateLayouterProperties();
+			}
+		});
+		
+		label = new Label(parent, SWT.NONE);
+		label.setText(max + "");
+		label.setBackground(BACKGROUND);
+		return scale;
 		
 	}
 	
+	private void updateLayouterProperties() {
+		if (layouterJob!=null) {
+			layouterJob.getLayouter().setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
+			layouterJob.getLayouter().setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
+			layouterJob.getLayouter().setNaturalTransitionLength(NATURAL_LENGTH);
+		}
+	}
 	
 	public void startLayouter() {
 		layouterCheckbox.setSelection(true);
-		layouter.update();
+		layouterJob = new StateSpaceLayouterJob(stateSpace, Display.getCurrent());
+		updateLayouterProperties();
+		layouterJob.schedule();
 	}
 	
 	public void stopLayouter() {
-		
+		layouterJob.cancel();
 		layouterCheckbox.setSelection(false);
 	}
 	
@@ -189,10 +252,6 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		// Set the state space:
 		this.stateSpace = stateSpace;
-		
-		// Create a new layouter instance:
-		layouter = new StateSpaceSpringLayouter();
-		layouter.setStateSpace(stateSpace);
 		
 		// Refresh:
 		if (stateSpace!=null) {
@@ -221,4 +280,5 @@ public class StateSpaceToolsMenu extends Composite {
 			  refresh();
 		  }
 	};
+	
 }
