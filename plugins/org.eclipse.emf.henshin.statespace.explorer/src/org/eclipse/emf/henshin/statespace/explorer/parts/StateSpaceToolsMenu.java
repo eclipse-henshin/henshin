@@ -233,7 +233,8 @@ public class StateSpaceToolsMenu extends Composite {
 	public void refresh() {
 		
 		// Number of states and transitions:
-		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getExploredCount() + " explored)");
+		statesLabel.setText(stateSpace.getStates().size() + " (" + 
+							stateSpace.getOpenStatesCount() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 		
 	}

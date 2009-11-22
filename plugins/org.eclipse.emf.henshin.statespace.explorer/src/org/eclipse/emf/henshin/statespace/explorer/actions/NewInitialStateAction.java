@@ -12,7 +12,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateCreateCommand;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
-import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -55,7 +54,7 @@ public class NewInitialStateAction implements IObjectActionDelegate {
 		
 		// Check whether the location was set:
 		if (location==null) {
-			location = new int[] { 50, 50 };
+			location = new int[] { 50, 50, 0 };
 		}
 		
 		// Load the selected files:
@@ -78,7 +77,7 @@ public class NewInitialStateAction implements IObjectActionDelegate {
 			State state = StateSpaceFactory.INSTANCE.createState();
 			state.setName("s" + stateSpace.getStates().size());
 			state.setModel(resource);
-			StateAttributes.setLocation(state,location);
+			state.setLocation(location);
 			
 			explorer.getGraphicalViewer();
 			

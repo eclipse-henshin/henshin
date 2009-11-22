@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -53,7 +52,8 @@ public class StateSetConstraintCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		oldLocation = new Point(StateAttributes.getX(state), StateAttributes.getY(state));
+		int[] loc = state.getLocation();
+		oldLocation = new Point(loc[0], loc[1]);
 		redo();
 	}
 	
@@ -63,7 +63,7 @@ public class StateSetConstraintCommand extends Command {
 	 */
 	@Override
 	public void redo() {
-		StateAttributes.setLocation(state, newLocation.x, newLocation.y);
+		state.setLocation(newLocation.x, newLocation.y);
 	}
 
 	/* 
@@ -72,7 +72,7 @@ public class StateSetConstraintCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		StateAttributes.setLocation(state, oldLocation.x, oldLocation.y);
+		state.setLocation(oldLocation.x, oldLocation.y);
 	}
 	
 }

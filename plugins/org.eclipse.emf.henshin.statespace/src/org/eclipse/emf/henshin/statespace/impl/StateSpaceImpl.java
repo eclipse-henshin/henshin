@@ -40,11 +40,11 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 * Set the number of explored states. For internal use only!
 	 * @generated NOT
 	 */
-	public void internalSetExploredCount(int newExploredCount) {
-		int oldExploredCount = exploredCount;
-		exploredCount = newExploredCount;
+	public void internalSetOpenStatesCount(int newOpenStatesCount) {
+		int oldExploredCount = openStatesCount;
+		openStatesCount = newOpenStatesCount;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT, oldExploredCount, exploredCount));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT, oldExploredCount, openStatesCount));
 	}
 	
 	/**
@@ -75,20 +75,20 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	protected EList<State> states;
 
 	/**
-	 * The default value of the '{@link #getExploredCount() <em>Explored Count</em>}' attribute.
-	 * @see #getExploredCount()
+	 * The default value of the '{@link #getOpenStatesCount() <em>Open States Count</em>}' attribute.
+	 * @see #getOpenStatesCount()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int EXPLORED_COUNT_EDEFAULT = 0;
+	protected static final int OPEN_STATES_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getExploredCount() <em>Explored Count</em>}' attribute.
-	 * @see #getExploredCount()
+	 * The cached value of the '{@link #getOpenStatesCount() <em>Open States Count</em>}' attribute.
+	 * @see #getOpenStatesCount()
 	 * @generated
 	 * @ordered
 	 */
-	protected int exploredCount = EXPLORED_COUNT_EDEFAULT;
+	protected int openStatesCount = OPEN_STATES_COUNT_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
@@ -124,13 +124,11 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	/**
 	 * @generated
 	 */
-	public int getExploredCount() {
-		return exploredCount;
+	public int getOpenStatesCount() {
+		return openStatesCount;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getTransitionCount() {
@@ -170,8 +168,8 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return getStates();
-			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
-				return getExploredCount();
+			case StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT:
+				return getOpenStatesCount();
 			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
 				return getTransitionCount();
 		}
@@ -214,8 +212,8 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackageImpl.STATE_SPACE__STATES:
 				return states != null && !states.isEmpty();
-			case StateSpacePackageImpl.STATE_SPACE__EXPLORED_COUNT:
-				return exploredCount != EXPLORED_COUNT_EDEFAULT;
+			case StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT:
+				return openStatesCount != OPEN_STATES_COUNT_EDEFAULT;
 			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
 				return transitionCount != TRANSITION_COUNT_EDEFAULT;
 		}
@@ -230,8 +228,8 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (exploredCount: ");
-		result.append(exploredCount);
+		result.append(" (openStatesCount: ");
+		result.append(openStatesCount);
 		result.append(", transitionCount: ");
 		result.append(transitionCount);
 		result.append(')');

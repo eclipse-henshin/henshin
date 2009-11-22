@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceLexer;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceParser;
@@ -115,11 +114,11 @@ public class StateSpaceResource extends ResourceImpl {
 	}
 	
 	/**
-	 * Pretty-print a state. This is also used for serialisation.
+	 * Pretty-print a state. This is also used for serialization.
 	 * The result string includes all information about the state,
 	 * including all outgoing transitions.
 	 * @param state State to be printed.
-	 * @return Serialised version of the state.
+	 * @return Serialized version of the state.
 	 */
 	public static String printState(State state) {
 		
@@ -127,8 +126,8 @@ public class StateSpaceResource extends ResourceImpl {
 		result.append(state.getName() + "[");
 		
 		String sep = "";
-		if (StateAttributes.getLocation(state)!=null) {
-			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, StateAttributes.getLocation(state));
+		if (hasLocation(state)) {
+			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, state.getLocation());
 			result.append(StateSpaceParser.STATE_LOCATION + "=\"" + location + "\""); 
 			sep = ",";
 		}
@@ -139,8 +138,8 @@ public class StateSpaceResource extends ResourceImpl {
 			}
 			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\""); sep = ",";
 		}
-		if (StateAttributes.isExplored(state)) {
-			result.append(sep + StateSpaceParser.STATE_EXPLORED + "=1"); sep = ",";
+		if (state.isOpen()) {
+			result.append(sep + StateSpaceParser.STATE_OPEN + "=1"); sep = ",";
 		}
 		result.append("]");
 		
@@ -148,11 +147,11 @@ public class StateSpaceResource extends ResourceImpl {
 		if (!state.getOutgoing().isEmpty()) {
 			result.append(" --");
 			for (Transition transition : state.getOutgoing()) {
-				result.append(" " + transition.getTarget().getName() + "[");
+				result.append(" " + transition.getTarget().getName() + "(");
 				if (transition.getRule()!=null) {
 					result.append(StateSpaceParser.TRANSITION_RULE + "=\"" + transition.getRule() + "\"");
 				}
-				result.append("]");
+				result.append(")");
 			}
 		}
 		result.append(";");
@@ -160,12 +159,17 @@ public class StateSpaceResource extends ResourceImpl {
 		
 	}
 	
+	private static boolean hasLocation(State state) {
+		int[] l = state.getLocation();
+		return l==null || l[0]!=0 || l[1]!=0 || l[2]!=0;
+	}
+	
 	/**
-	 * Print the header of a state space. Serialising a complete state space is
+	 * Print the header of a state space. Serializing a complete state space is
 	 * done by first printing the state space header and then printing all states
 	 * using {@link #printState(State)}.
 	 * @param stateSpace State space.
-	 * @return Serialised version of the header information.
+	 * @return Serialized version of the header information.
 	 */
 	public static String printStateSpaceHeader(StateSpace stateSpace) {
 		return "";

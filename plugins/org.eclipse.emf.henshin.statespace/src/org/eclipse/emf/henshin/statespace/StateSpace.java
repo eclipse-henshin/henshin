@@ -20,14 +20,13 @@ public interface StateSpace extends EObject {
 	EList<State> getStates();
 
 	/**
-	 * Get the number of explored states in this state space.
-	 * @return number of explored  states.
-	 * @see #setExploredCount(int)
-	 * @model
+	 * Get the number of open states in this state space.
+	 * @return the number of open states.
+	 * @model changeable="false"
 	 * @generated
 	 */
-	int getExploredCount();
-	
+	int getOpenStatesCount();
+
 	/**
 	 * Get the number of transitions in this state space.
 	 * @return number of transitions.

@@ -30,9 +30,9 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 @parser::members{
 	
 	// Attribute keys:
-	public static final String STATE_MODEL = "mod";
-	public static final String STATE_LOCATION = "loc";
-	public static final String STATE_EXPLORED = "exp";
+	public static final String STATE_MODEL = "model";
+	public static final String STATE_LOCATION = "xyz";
+	public static final String STATE_OPEN = "open";
 	public static final String TRANSITION_RULE = "rule";
 	
 	// State space resource to be used:
@@ -64,16 +64,16 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 			State state = (State) owner;
 			if (STATE_LOCATION.equals(key)) {
 				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
-				StateAttributes.setLocation(state,location);
+				state.setLocation(location);
 			}
 			else if (STATE_MODEL.equals(key)) {
 				URI uri = URI.createURI(value).resolve(resource.getURI());
 				Resource model = resource.getResourceSet().getResource(uri,true);
 				state.setModel(model);
 			}
-			else if (STATE_EXPLORED.equals(key)) {
-				boolean explored = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
-				StateAttributes.setExplored(state,explored);
+			else if (STATE_OPEN.equals(key)) {
+				boolean open = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
+				state.setOpen(open);
 			}
 		}
 		else if (owner instanceof Transition) {
@@ -143,7 +143,7 @@ transition[State state] returns [Transition transition] :
 		$transition.setSource($state);
 		$transition.setTarget(states.get($target.text));
 	}
-	(LBRACKET (attribute[$transition] (COMMA attribute[$transition])*)? RBRACKET)?
+	(LPAREN (attribute[$transition] (COMMA attribute[$transition])*)? RPAREN)?
 ;
 
 attribute[Object owner] :

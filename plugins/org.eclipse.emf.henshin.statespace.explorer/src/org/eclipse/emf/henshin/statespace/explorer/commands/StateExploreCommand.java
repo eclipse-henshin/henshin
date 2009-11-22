@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -52,9 +51,12 @@ public class StateExploreCommand extends Command {
 	@Override
 	public void execute() {
 		
+		int[] location = state.getLocation();
+		location[1] += 100;
+		
 		State newState = StateSpaceFactory.INSTANCE.createState();
 		newState.setName("s" + state.getStateSpace().getStates().size());
-		StateAttributes.setLocation(newState,StateAttributes.getMovedLocation(state,0,100));
+		newState.setLocation(location);
 		
 		Transition newTransition = StateSpaceFactory.INSTANCE.createTransition();
 		newTransition.setTarget(newState);
@@ -74,7 +76,7 @@ public class StateExploreCommand extends Command {
 	public void redo() {
 		
 		// Mark the state as explored:
-		StateAttributes.setExplored(state,true);
+		state.setOpen(false);
 		
 		// Add the states to the state space:
 		for (State current : states) {
@@ -96,7 +98,7 @@ public class StateExploreCommand extends Command {
 	@Override
 	public void undo() {
 
-		StateAttributes.setExplored(state,false);
+		state.setOpen(true);
 
 		// Remove the states from the state space:
 		for (State current : states) {

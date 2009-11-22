@@ -27,7 +27,7 @@ import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
  * Concrete implementation of the {@link State} interface.
  * @generated
  */
-public class StateImpl extends AttributeHolderImpl implements State {
+public class StateImpl extends StorageImpl implements State {
 	
 	/**
 	 * Check whether this state is an initial one.
@@ -35,6 +35,42 @@ public class StateImpl extends AttributeHolderImpl implements State {
 	 */
 	public boolean isInitial() {
 		return model!=null && model.getURI()!=null;
+	}
+	
+	/**
+	 * Check whether this state is terminal.
+	 * @generated NOT
+	 */
+	public boolean isTerminal() {
+		return !isOpen() && getOutgoing().isEmpty();
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	public boolean isOpen() {
+		return (getData(0)!=0);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setOpen(boolean open) {
+		setData(0, open ? 1 : 0);
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	public int[] getLocation() {
+		return getData(1, 4);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setLocation(int... newLocation) {
+		setData(1, newLocation);
 	}
 	
 	/**
@@ -55,13 +91,11 @@ public class StateImpl extends AttributeHolderImpl implements State {
 	 */
 	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
 		
-		// Is this state explored?
-		boolean explored = StateAttributes.isExplored(this);
-		
 		if (getStateSpace()!=null) {
-			// Decrease explored count in old state space:
-			if (explored) {
-				((StateSpaceImpl) getStateSpace()).internalSetExploredCount(getStateSpace().getExploredCount() - 1);
+			// Decrease open state count in old state space:
+			if (isOpen()) {
+				int openStates = getStateSpace().getOpenStatesCount() - 1;
+				((StateSpaceImpl) getStateSpace()).internalSetOpenStatesCount(openStates);
 			}
 			// Update the number of transitions:
 			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() - getOutgoing().size());
@@ -71,9 +105,10 @@ public class StateImpl extends AttributeHolderImpl implements State {
 		msgs = basicSetStateSpaceGen(newStateSpace, msgs);
 		
 		if (getStateSpace()!=null) {
-			// Increase the explored count in the new state space:
-			if (explored) {
-				((StateSpaceImpl) newStateSpace).internalSetExploredCount(newStateSpace.getExploredCount() + 1);
+			// Increase the open state count in the new state space:
+			if (isOpen()) {
+				int openStates = getStateSpace().getOpenStatesCount() + 1;
+				((StateSpaceImpl) getStateSpace()).internalSetOpenStatesCount(openStates);
 			}
 			// Update the number of transitions:
 			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() + getOutgoing().size());
@@ -146,6 +181,22 @@ public class StateImpl extends AttributeHolderImpl implements State {
 	 * @ordered
 	 */
 	protected Resource model = MODEL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
+	 * @see #getLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int[] LOCATION_EDEFAULT = null;
+
+	/**
+	 * The default value of the '{@link #isOpen() <em>Open</em>}' attribute.
+	 * @see #isOpen()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean OPEN_EDEFAULT = false;
 
 	/**
 	 * @generated
@@ -304,6 +355,10 @@ public class StateImpl extends AttributeHolderImpl implements State {
 				return getModel();
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				return getStateSpace();
+			case StateSpacePackageImpl.STATE__LOCATION:
+				return getLocation();
+			case StateSpacePackageImpl.STATE__OPEN:
+				return isOpen();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -332,6 +387,12 @@ public class StateImpl extends AttributeHolderImpl implements State {
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)newValue);
 				return;
+			case StateSpacePackageImpl.STATE__LOCATION:
+				setLocation((int[])newValue);
+				return;
+			case StateSpacePackageImpl.STATE__OPEN:
+				setOpen((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -357,6 +418,12 @@ public class StateImpl extends AttributeHolderImpl implements State {
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)null);
 				return;
+			case StateSpacePackageImpl.STATE__LOCATION:
+				setLocation(LOCATION_EDEFAULT);
+				return;
+			case StateSpacePackageImpl.STATE__OPEN:
+				setOpen(OPEN_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -377,6 +444,10 @@ public class StateImpl extends AttributeHolderImpl implements State {
 				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
 			case StateSpacePackageImpl.STATE__STATE_SPACE:
 				return getStateSpace() != null;
+			case StateSpacePackageImpl.STATE__LOCATION:
+				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
+			case StateSpacePackageImpl.STATE__OPEN:
+				return isOpen() != OPEN_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

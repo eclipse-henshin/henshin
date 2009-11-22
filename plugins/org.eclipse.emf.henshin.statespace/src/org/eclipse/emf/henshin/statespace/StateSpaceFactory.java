@@ -51,12 +51,12 @@ public interface StateSpaceFactory {
 	Transition createTransition();
 
 	/**
-	 * Returns a new object of class '<em>Attribute Holder</em>'.
+	 * Returns a new object of class '<em>Storage</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute Holder</em>'.
+	 * @return a new object of class '<em>Storage</em>'.
 	 * @generated
 	 */
-	AttributeHolder createAttributeHolder();
+	Storage createStorage();
 
 } //StateSpaceFactory

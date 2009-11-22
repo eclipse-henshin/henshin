@@ -9,14 +9,12 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
-import org.eclipse.emf.henshin.statespace.impl.StateAttributes;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -44,7 +42,10 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 
 	// Color to be used for initial states.
 	public final static Color COLOR_INITIAL = new Color(null, 40,220,40);
-	
+
+	// Color to be used for terminal states.
+	public final static Color COLOR_TERMINAL = new Color(null, 40,40,220);
+
 	// Color to be used for open states.
 	public final static Color COLOR_OPEN = new Color(null, 220,40,40);
 
@@ -178,8 +179,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * Update the state's location.
 	 */
 	private void refreshLocation() {
-		Point point = new Point(StateAttributes.getX(getState()), StateAttributes.getY(getState()));
-		Rectangle bounds = new Rectangle(point, SIZE);
+		int[] loc = getState().getLocation();
+		Rectangle bounds = new Rectangle(loc[0], loc[1], SIZE.width, SIZE.height);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
 	}
 	
@@ -205,12 +206,18 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * Refresh the color.
 	 */
 	private void refreshColor() {
-		if (getState().isInitial()) {
+		State state = getState();
+		if (state.isInitial()) {
 			getFigure().setBackgroundColor(COLOR_INITIAL);	
-		} else if (StateAttributes.isExplored(getState())) {
-			getFigure().setBackgroundColor(COLOR_DEFAULT);
-		} else {
-			getFigure().setBackgroundColor(COLOR_OPEN);			
+		}
+		else if (state.isTerminal()) {
+			getFigure().setBackgroundColor(COLOR_TERMINAL);	
+		}
+		else if (state.isOpen()) {
+			getFigure().setBackgroundColor(COLOR_OPEN);
+		}
+		else {
+			getFigure().setBackgroundColor(COLOR_DEFAULT);			
 		}		
 	}
 	
@@ -281,7 +288,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void notifyChanged(Notification event) {
 		switch (event.getFeatureID(State.class)) {
 		
-		case StateSpacePackageImpl.STATE__ATTRIBUTES: 
+		case StateSpacePackageImpl.STATE__DATA: 
 			refreshColor();
 			refreshLocation();
 			break;

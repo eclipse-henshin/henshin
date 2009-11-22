@@ -7,10 +7,10 @@ import org.eclipse.emf.ecore.resource.Resource;
  * Light-weight state model.
  * @generated
  */
-public interface State extends AttributeHolder {
+public interface State extends Storage {
 	
 	/**
-	 * Get the name of this state..
+	 * Get the name of this state.
 	 * @return the name of this state.
 	 * @see #setName(String)
 	 * @model
@@ -19,7 +19,7 @@ public interface State extends AttributeHolder {
 	String getName();
 
 	/**
-	 * Sets the name of this state.
+	 * Set the name of this state.
 	 * @param name The new name.
 	 * @see #getName()
 	 * @generated
@@ -85,11 +85,54 @@ public interface State extends AttributeHolder {
 	void setStateSpace(StateSpace value);
 
 	/**
+	 * Get the location of this state. This always returns 
+	 * an integer array of size 3 (X,Y and Z coordinate).
+	 * @return the location of this state.
+	 * @see #setLocation(int[])
+	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
+	 * @generated
+	 */
+	int[] getLocation();
+
+	/**
+	 * Sets the location of this state. The argument must have length 3.
+	 * @param the new location of the state.
+	 * @see #getLocation()
+	 * @generated NOT
+	 */
+	void setLocation(int... location);
+
+	/**
+	 * Check whether this state is open.
+	 * @return <code>true</code> if it is open.
+	 * @see #setOpen(boolean)
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isOpen();
+
+	/**
+	 * Set the 'open' flag.
+	 * @param value the new value of the 'open' flag.
+	 * @see #isOpen()
+	 * @generated
+	 */
+	void setOpen(boolean value);
+
+	/**
 	 * Check whether this state is an initial one. A state is initial
 	 * if {@link #getModel()} returns a resource with a non-<code>null</code> URI.
 	 * @model kind="operation"
 	 * @generated
 	 */
 	boolean isInitial();
+
+	/**
+	 * Check if this state is terminal. A state is terminal if it is
+	 * not open and it has no outgoing transitions.
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isTerminal();
 		
 }

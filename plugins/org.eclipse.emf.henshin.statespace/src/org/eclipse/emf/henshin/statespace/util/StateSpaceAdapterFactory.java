@@ -86,8 +86,8 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 				return createTransitionAdapter();
 			}
 			@Override
-			public Adapter caseAttributeHolder(AttributeHolder object) {
-				return createAttributeHolderAdapter();
+			public Adapter caseStorage(Storage object) {
+				return createStorageAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -152,16 +152,16 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.statespace.AttributeHolder <em>Attribute Holder</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.statespace.Storage <em>Storage</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.statespace.AttributeHolder
+	 * @see org.eclipse.emf.henshin.statespace.Storage
 	 * @generated
 	 */
-	public Adapter createAttributeHolderAdapter() {
+	public Adapter createStorageAdapter() {
 		return null;
 	}
 

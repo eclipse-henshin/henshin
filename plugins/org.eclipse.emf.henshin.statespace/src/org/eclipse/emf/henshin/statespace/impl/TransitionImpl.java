@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 /**
  * @generated
  */
-public class TransitionImpl extends AttributeHolderImpl implements Transition {
+public class TransitionImpl extends StorageImpl implements Transition {
 	
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.

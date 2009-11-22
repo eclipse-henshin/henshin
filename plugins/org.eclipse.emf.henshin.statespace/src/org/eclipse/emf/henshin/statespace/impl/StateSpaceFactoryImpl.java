@@ -76,7 +76,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 			case StateSpacePackageImpl.STATE_SPACE: return createStateSpace();
 			case StateSpacePackageImpl.STATE: return createState();
 			case StateSpacePackageImpl.TRANSITION: return createTransition();
-			case StateSpacePackageImpl.ATTRIBUTE_HOLDER: return createAttributeHolder();
+			case StateSpacePackageImpl.STORAGE: return createStorage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -147,9 +147,9 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeHolder createAttributeHolder() {
-		AttributeHolderImpl attributeHolder = new AttributeHolderImpl();
-		return attributeHolder;
+	public Storage createStorage() {
+		StorageImpl storage = new StorageImpl();
+		return storage;
 	}
 
 	/**

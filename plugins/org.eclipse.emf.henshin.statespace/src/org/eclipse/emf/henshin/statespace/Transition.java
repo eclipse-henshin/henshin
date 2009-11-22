@@ -1,12 +1,11 @@
 package org.eclipse.emf.henshin.statespace;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * Light-weight transition model.
  * @generated
  */
-public interface Transition extends AttributeHolder {
+public interface Transition extends Storage {
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' container reference.
@@ -65,12 +64,6 @@ public interface Transition extends AttributeHolder {
 
 	/**
 	 * Returns the value of the '<em><b>Match</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Match</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Match</em>' attribute.
 	 * @see #setMatch(int)
 	 * @model
@@ -80,8 +73,6 @@ public interface Transition extends AttributeHolder {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Match</em>' attribute.
 	 * @see #getMatch()
 	 * @generated

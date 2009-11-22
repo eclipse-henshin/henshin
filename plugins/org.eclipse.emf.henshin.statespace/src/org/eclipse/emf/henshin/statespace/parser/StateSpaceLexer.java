@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2009-11-20 15:55:41
+// $ANTLR 3.0.1 StateSpace.g 2009-11-22 20:55:30
 
 package org.eclipse.emf.henshin.statespace.parser;
 

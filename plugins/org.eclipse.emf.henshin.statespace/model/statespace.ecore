@@ -6,13 +6,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="StateSpace">
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
         eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="exploredCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="openStatesCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         changeable="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//AttributeHolder">
+  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isTerminal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Transition" eOpposite="#//Transition/target"/>
@@ -22,8 +23,12 @@
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateSpace" eType="#//StateSpace"
         eOpposite="#//StateSpace/states"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//IntegerArray"
+        volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="open" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true" defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//AttributeHolder">
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//State"
         eOpposite="#//State/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"
@@ -31,8 +36,23 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AttributeHolder">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attributes" eType="#//IntegerArray"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Storage">
+    <eOperations name="getData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setData">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getData" eType="#//IntegerArray">
+      <eParameters name="beginIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="endIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setData">
+      <eParameters name="beginIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="value" eType="#//IntegerArray"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" eType="#//IntegerArray"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
 </ecore:EPackage>

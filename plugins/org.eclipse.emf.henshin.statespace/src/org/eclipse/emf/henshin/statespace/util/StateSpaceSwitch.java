@@ -98,20 +98,20 @@ public class StateSpaceSwitch<T> {
 			case StateSpacePackageImpl.STATE: {
 				State state = (State)theEObject;
 				T result = caseState(state);
-				if (result == null) result = caseAttributeHolder(state);
+				if (result == null) result = caseStorage(state);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case StateSpacePackageImpl.TRANSITION: {
 				Transition transition = (Transition)theEObject;
 				T result = caseTransition(transition);
-				if (result == null) result = caseAttributeHolder(transition);
+				if (result == null) result = caseStorage(transition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackageImpl.ATTRIBUTE_HOLDER: {
-				AttributeHolder attributeHolder = (AttributeHolder)theEObject;
-				T result = caseAttributeHolder(attributeHolder);
+			case StateSpacePackageImpl.STORAGE: {
+				Storage storage = (Storage)theEObject;
+				T result = caseStorage(storage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -165,17 +165,17 @@ public class StateSpaceSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute Holder</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Storage</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute Holder</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Storage</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAttributeHolder(AttributeHolder object) {
+	public T caseStorage(Storage object) {
 		return null;
 	}
 
