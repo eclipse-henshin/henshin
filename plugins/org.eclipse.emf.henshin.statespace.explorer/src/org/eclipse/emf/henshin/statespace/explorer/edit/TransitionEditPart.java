@@ -4,13 +4,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.explorer.commands.TransitionDeleteCommand;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * @author Christian Krause
@@ -49,11 +45,6 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	protected void createEditPolicies() {
 		// Makes the connection show a feedback, when selected by the user.
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicy() {
-			protected Command getDeleteCommand(GroupRequest request) {
-				return new TransitionDeleteCommand(getTransition());
-			}
-		});
 	}
 
 	/* 

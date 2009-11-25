@@ -17,7 +17,6 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
@@ -70,7 +69,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new StateNodeEditPolicy());
+		// installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new StateNodeEditPolicy());
 	}
 
 	/*
