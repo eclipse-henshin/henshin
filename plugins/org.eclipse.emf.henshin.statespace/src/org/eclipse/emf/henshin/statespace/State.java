@@ -120,6 +120,23 @@ public interface State extends Storage {
 	void setOpen(boolean value);
 
 	/**
+	 * Get the hash code of this state.
+	 * @return the hash code.
+	 * @see #setHashCode(int)
+	 * @model default="0" transient="true" volatile="true"
+	 * @generated
+	 */
+	int getHashCode();
+
+	/**
+	 * Set the hash code of this state.
+	 * @param hashCode the hash code.
+	 * @see #getHashCode()
+	 * @generated
+	 */
+	void setHashCode(int hashCode);
+
+	/**
 	 * Check whether this state is an initial one. A state is initial
 	 * if {@link #getModel()} returns a resource with a non-<code>null</code> URI.
 	 * @model kind="operation"

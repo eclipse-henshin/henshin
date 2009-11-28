@@ -227,13 +227,22 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	public static final int STATE__OPEN = STORAGE_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Hash Code</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STATE__HASH_CODE = STORAGE_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 7;
+	public static final int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -566,6 +575,20 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getHashCode <em>Hash Code</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Hash Code</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getHashCode()
+	 * @see #getState()
+	 * @generated
+	 */
+	public EAttribute getState_HashCode() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
+	}
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -713,6 +736,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		createEReference(stateEClass, STATE__STATE_SPACE);
 		createEAttribute(stateEClass, STATE__LOCATION);
 		createEAttribute(stateEClass, STATE__OPEN);
+		createEAttribute(stateEClass, STATE__HASH_CODE);
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
@@ -772,6 +796,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		initEReference(getState_StateSpace(), this.getStateSpace(), this.getStateSpace_States(), "stateSpace", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Location(), this.getIntegerArray(), "location", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Open(), ecorePackage.getEBoolean(), "open", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_HashCode(), ecorePackage.getEInt(), "hashCode", "0", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isInitial", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -920,6 +945,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		 * @generated
 		 */
 		public static final EAttribute STATE__OPEN = eINSTANCE.getState_Open();
+
+		/**
+		 * The meta object literal for the '<em><b>Hash Code</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute STATE__HASH_CODE = eINSTANCE.getState_HashCode();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.

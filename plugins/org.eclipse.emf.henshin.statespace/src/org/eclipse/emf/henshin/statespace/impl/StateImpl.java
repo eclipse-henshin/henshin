@@ -49,28 +49,42 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public boolean isOpen() {
-		return (getData(0)!=0);
+		return (getData(1)!=0);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setOpen(boolean open) {
-		setData(0, open ? 1 : 0);
+		setData(1, open ? 1 : 0);
 	}
 	
 	/**
 	 * @generated NOT
 	 */
+	public int getHashCode() {
+		return getData(0);
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setHashCode(int hashCode) {
+		setData(0, hashCode);
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public int[] getLocation() {
-		return getData(1, 4);
+		return getData(2, 4);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setLocation(int... newLocation) {
-		setData(1, newLocation);
+		setData(2, newLocation);
 	}
 	
 	/**
@@ -197,6 +211,16 @@ public class StateImpl extends StorageImpl implements State {
 	 * @ordered
 	 */
 	protected static final boolean OPEN_EDEFAULT = false;
+
+	/**
+	 * The default value of the '{@link #getHashCode() <em>Hash Code</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getHashCode()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int HASH_CODE_EDEFAULT = 0;
 
 	/**
 	 * @generated
@@ -359,6 +383,8 @@ public class StateImpl extends StorageImpl implements State {
 				return getLocation();
 			case StateSpacePackageImpl.STATE__OPEN:
 				return isOpen();
+			case StateSpacePackageImpl.STATE__HASH_CODE:
+				return getHashCode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -393,6 +419,9 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackageImpl.STATE__OPEN:
 				setOpen((Boolean)newValue);
 				return;
+			case StateSpacePackageImpl.STATE__HASH_CODE:
+				setHashCode((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -424,6 +453,9 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackageImpl.STATE__OPEN:
 				setOpen(OPEN_EDEFAULT);
 				return;
+			case StateSpacePackageImpl.STATE__HASH_CODE:
+				setHashCode(HASH_CODE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -448,6 +480,8 @@ public class StateImpl extends StorageImpl implements State {
 				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
 			case StateSpacePackageImpl.STATE__OPEN:
 				return isOpen() != OPEN_EDEFAULT;
+			case StateSpacePackageImpl.STATE__HASH_CODE:
+				return getHashCode() != HASH_CODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
