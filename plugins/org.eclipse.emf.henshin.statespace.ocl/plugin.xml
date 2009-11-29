@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.modelCheckers">
+      <modelChecker
+            class="org.eclipse.emf.henshin.statespace.ocl.OCLModelChecker"
+            id="org.eclipse.emf.henshin.statespace.ocl"
+            name="OCL">
+      </modelChecker>
+   </extension>
+
+</plugin>
