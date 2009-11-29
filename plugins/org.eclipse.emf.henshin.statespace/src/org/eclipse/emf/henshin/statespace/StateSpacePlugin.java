@@ -6,6 +6,8 @@
  */
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -72,7 +74,17 @@ public final class StateSpacePlugin extends EMFPlugin {
 	public static Implementation getPlugin() {
 		return plugin;
 	}
-
+	
+	/**
+	 * Log an error.
+	 * @param message Error message.
+	 * @param t Exception.
+	 * @generated NOT
+	 */
+	public void logError(String message, Throwable t) {
+		plugin.getLog().log(new Status(IStatus.ERROR, ID, 0, message, t));
+	}
+	
 	/**
 	 * The actual implementation of the Eclipse <b>Plugin</b>.
 	 * <!-- begin-user-doc -->

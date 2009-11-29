@@ -9,6 +9,7 @@
 -->
 
 <plugin>
+   <extension-point id="modelCheckers" name="Model Checkers" schema="schema/modelCheckers.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
