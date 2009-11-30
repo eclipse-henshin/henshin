@@ -1,11 +1,11 @@
-package org.eclipse.emf.henshin.statespace.modelchecking;
+package org.eclipse.emf.henshin.statespace;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * A registry implementation for model checkers.
@@ -13,14 +13,14 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
  * @generated NOT
  * @author Christian Krause
  */
-public class ModelCheckerRegistry extends ArrayList<ModelCheckerDescription> {
-	
+public class ModelCheckerRegistry {
+
 	// Default instance:
 	public static final ModelCheckerRegistry INSTANCE = new ModelCheckerRegistry();
 	
 	// Extension point Id for model checkers:
 	public static final String EXTENSION_POINT_ID = "org.eclipse.emf.henshin.statespace.modelCheckers";
-	
+
 	// Default serial Id:
 	private static final long serialVersionUID = 1L;
 	
@@ -28,6 +28,43 @@ public class ModelCheckerRegistry extends ArrayList<ModelCheckerDescription> {
 	static {
 		INSTANCE.loadFromPlatform();
 	}
+	
+	/**
+	 * Wrapper class for model checkers that provides
+	 * additional metadata, such as a name and an Id.
+	 */
+	public static class Entry {
+		
+		// ID and name of the model checker:
+		private String id, name;
+		
+		// Implementation:
+		private ModelChecker implementation;
+		
+		public Entry(String id, String name, ModelChecker implementation) {
+			this.id = id;
+			this.name = name;
+			this.implementation = implementation;
+		}
+		
+		public String getId() {
+			return id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public ModelChecker getImplementation() {
+			return implementation;
+		}
+		
+	}
+	
+	/**
+	 * Registered model checker entries.
+	 */
+	private List<Entry> entries = new ArrayList<Entry>();
 	
 	/*
 	 * Load the registry from the platform.
@@ -43,11 +80,9 @@ public class ModelCheckerRegistry extends ArrayList<ModelCheckerDescription> {
 			if ("modelChecker".equals(elements[i].getName())) {
 				try {
 					ModelChecker implementation = (ModelChecker) elements[i].createExecutableExtension("class");
-					ModelCheckerDescription description = new ModelCheckerDescription(
-																elements[i].getAttribute("id"),
-																elements[i].getAttribute("name"),
-																implementation);
-					add(description);
+					entries.add(new Entry(elements[i].getAttribute("id"),
+											elements[i].getAttribute("name"),
+											implementation));
 				}
 				catch (Exception e) {
 					StateSpacePlugin.INSTANCE.logError("Error loading model checker", e);
@@ -57,13 +92,21 @@ public class ModelCheckerRegistry extends ArrayList<ModelCheckerDescription> {
 	}
 	
 	/**
-	 * Find a model checker description based on its Id.
-	 * @param id Id of the model checker.
-	 * @return The model checker description if found.
+	 * Get the list of registered model checker entries.
+	 * @return List of registry entries.
 	 */
-	public ModelCheckerDescription get(String id) {
-		for (ModelCheckerDescription description : this) {
-			if (id.equals(description.getId())) return description;
+	public List<Entry> getEntries() {
+		return entries;
+	}
+	
+	/**
+	 * Find a registry entry based on its Id.
+	 * @param id Id of the model checker.
+	 * @return The registry entry if found.
+	 */
+	public Entry findEntry(String id) {
+		for (Entry entry : entries) {
+			if (id.equals(entry.getId())) return entry;
 		}
 		return null;
 	}

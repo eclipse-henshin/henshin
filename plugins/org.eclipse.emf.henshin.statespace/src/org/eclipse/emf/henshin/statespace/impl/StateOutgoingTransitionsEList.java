@@ -45,7 +45,7 @@ class StateOutgoingTransitionsEList extends EObjectContainmentWithInverseEList<T
 		StateSpaceImpl stateSpace = (StateSpaceImpl) state.getStateSpace();
 		if (stateSpace!=null) {
 			stateSpace.internalSetTransitionCount(stateSpace.getTransitionCount() + delta);
-		}		
+		}
 	}
 	
 }

@@ -10,9 +10,8 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
 
 /**
- * Abstract state space manager implementation that keeps
- * an index of the states. Only a subset of the state
- * models is kept in memory. 
+ * Abstract state space manager implementation that uses an
+ * hash-based index of looking up states.
  * 
  * @generated NOT
  * @author Christian Krause
@@ -21,9 +20,10 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 	
 	// The state space index:
 	private State[][] index;
-		
+	
 	/**
-	 * Default constructor.
+	 * Default constructor. Does not index the states.
+	 * Subclasses must do this manually using {@link #index(State)}.
 	 */
 	public StateSpaceManagerWithIndex(StateSpace stateSpace) {
 		super(stateSpace);
@@ -35,11 +35,11 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getState(org.eclipse.emf.ecore.resource.Resource, boolean)
 	 */
 	public State getState(Resource model, boolean create) {
-
+		
 		// Find all possibly matching states:
 		int hash = HenshinEqualityUtil.hashCode(model);
 		State[] matched = index[hash % index.length];
-
+		
 		// Check if one of them is the correct one:
 		if (matched!=null) {
 			for (State state : matched) {
@@ -147,7 +147,7 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 	}
 	
 	private int optimalSize() {
-		return Math.min(getStateSpace().getStates().size() * 2, 1024);
+		return Math.min(getStateSpace().getStates().size() * 2, 512);
 	}
 
 }
