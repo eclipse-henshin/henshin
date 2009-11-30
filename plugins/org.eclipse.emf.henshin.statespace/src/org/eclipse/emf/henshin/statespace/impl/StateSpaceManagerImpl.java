@@ -15,13 +15,16 @@ import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceManagerImpl extends StateSpaceIndexImpl {
+public class StateSpaceManagerImpl extends StateSpaceManagerWithIndex {
+	
+	// Determines how many models are kept in memory:
+	private int memoryUsage = 10;
 	
 	/**
 	 * Private constructor.
 	 */
-	private StateSpaceManagerImpl(StateSpace stateSpace, int inMemory) {
-		super(stateSpace, inMemory);
+	private StateSpaceManagerImpl(StateSpace stateSpace) {
+		super(stateSpace);
 	}
 	
 	/**
@@ -29,38 +32,64 @@ public class StateSpaceManagerImpl extends StateSpaceIndexImpl {
 	 * This builds up the index and computes temporary models.
 	 * 
 	 * @param stateSpace State space.
-	 * @param inMemory Determines how many state models are kept in memory.
+	 * @param memoryUsage Determines how many state models are kept in memory.
 	 * @param monitor Progress monitor.
 	 * @return The created manager.
 	 */
-	public static StateSpaceManager create(StateSpace stateSpace, int inMemory, IProgressMonitor monitor) {
+	public static StateSpaceManager create(StateSpace stateSpace, int memoryUsage, IProgressMonitor monitor) {
 		
-		// Create a new manager instance:
-		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace, inMemory);
-		
-		// Reset all derived state models and update the hash codes:
+		// Reset all derived state models:
 		for (State state : stateSpace.getStates()) {
-			if (state.isInitial()) {
-				state.setHashCode(HenshinEqualityUtil.hashCode(state.getModel()));
-			} else {
+			if (!state.isInitial()) {
 				state.setModel(null);
-				state.setHashCode(0);
 			}
 		}
+
+		// Create a new manager instance:
+		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
+		manager.setMemoryUsage(memoryUsage);
 		
-		
+		// Compute state models, update the hash code and the index:
+		for (State state : stateSpace.getStates()) {
+			Resource model = manager.getModel(state);
+			state.setHashCode(HenshinEqualityUtil.hashCode(model));
+			manager.index(state);
+		}
 		
 		return manager;
 		
 	}
-
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
 	public Resource getModel(State state) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Resource model = null;
+		if (state.getModel()!=null) {
+			
+			// Already there?
+			model = state.getModel();
+			
+		} else {
+			
+			// Otherwise derive the model:
+			
+		}
+		
+		// Reset the state model conditionally:
+		if (!state.isInitial()) {
+			if (memoryUsage!=0 && (getStateSpace().getStates().size() % memoryUsage) != 0) {
+				state.setModel(null);
+			} else {
+				state.setModel(model);
+			}
+		}
+		
+		return model;
+		
 	}
 	
 
@@ -73,4 +102,14 @@ public class StateSpaceManagerImpl extends StateSpaceIndexImpl {
 		return null;
 	}
 	
+	/**
+	 * Set the memory usage of this manager. The higher the value,
+	 * the lower the memory usage. Negative values mean that all
+	 * models are kept in memory. Zero means nothing is cached.
+	 * @param memoryUsage Memory usage.
+	 */
+	public void setMemoryUsage(int memoryUsage) {
+		this.memoryUsage = memoryUsage;
+	}
+
 }
