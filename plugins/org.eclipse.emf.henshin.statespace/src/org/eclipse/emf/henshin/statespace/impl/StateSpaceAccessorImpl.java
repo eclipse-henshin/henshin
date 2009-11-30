@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.util;
+package org.eclipse.emf.henshin.statespace.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -9,7 +9,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceAccessor extends AdapterImpl {
+public class StateSpaceAccessorImpl extends AdapterImpl {
 
 	// Thread that is allowed to change the state space:
 	private Thread accessingThread;
@@ -21,7 +21,7 @@ public class StateSpaceAccessor extends AdapterImpl {
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 */
-	public StateSpaceAccessor(StateSpace stateSpace) {
+	public StateSpaceAccessorImpl(StateSpace stateSpace) {
 		this.stateSpace = stateSpace;
 		stateSpace.eAdapters().add(this);
 	}
