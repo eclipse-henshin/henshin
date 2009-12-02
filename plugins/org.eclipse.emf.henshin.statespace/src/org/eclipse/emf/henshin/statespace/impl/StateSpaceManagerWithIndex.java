@@ -5,9 +5,6 @@ import java.util.Arrays;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
 
 /**
  * Abstract state space manager implementation that uses an
@@ -16,7 +13,7 @@ import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl implements StateSpaceManager {
+public abstract class StateSpaceManagerWithIndex extends AbstractStateSpaceManager {
 	
 	// The state space index:
 	private State[][] index;
@@ -32,60 +29,39 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getState(org.eclipse.emf.ecore.resource.Resource, boolean)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource, int)
 	 */
-	public State getState(Resource model, boolean create) {
+	@Override
+	protected State getState(Resource model, int hash) {
 		
 		// Find all possibly matching states:
-		int hash = HenshinEqualityUtil.hashCode(model);
 		State[] matched = index[hash % index.length];
 		
 		// Check if one of them is the correct one:
 		if (matched!=null) {
 			for (State state : matched) {
 				Resource current = getModel(state);
-				if (HenshinEqualityUtil.equals(model, current)) {
+				if (equals(model, current)) {
 					return state;
 				}
 			}
 		}
 		
-		// Not matching state found -- create a new one if requested:
-		if (create) {
-
-			// Maintain the index:
-			maintain();
-			
-			// Create a new state instance:
-			State state = StateSpaceFactory.INSTANCE.createState();
-			state.setName("s" + getStateSpace().getStates().size());
-			state.setHashCode(hash);
-			state.setModel(model);				
-			
-			// Add the state to the state space:
-			access();
-			getStateSpace().getStates().add(state);
-			release();
-			
-			// Add the state to the index as well:
-			index(state);
-			return state;
-
-		}
-		
-		// Not found and also not created:
+		// Not found:
 		return null;
 		
 	}
 	
 	/*
-	 * Add a state to the index. This does not check if this state 
-	 * (or an equivalent one) exists already in the index. Note that the 
-	 * hashCode attribute of the state must be set correctly. The method 
-	 * does not read or change the model attribute of the state.
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#registerState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	protected void index(State state) {
-
+	@Override
+	protected void registerState(State state) {
+		
+		// Check if the index needs to be resized:
+		maintainIndex();
+		
 		// Get the hash code of the state:
 		int hash = state.getHashCode();
 
@@ -93,7 +69,7 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 		if (index[hash]==null) {
 			index[hash] = new State[4];
 		}
-
+		
 		// Find the next free minor index:
 		int minor = index[hash].length;
 		for (int i=0; i<index[hash].length; i++) {
@@ -102,7 +78,7 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 				break;
 			}
 		}
-
+		
 		// Check if the array needs to be expanded:
 		if (minor>=index[hash].length) {
 			index[hash] = Arrays.copyOf(index[hash], index[hash].length*2);
@@ -110,7 +86,7 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 
 		// Add the state to the index:
 		index[hash][minor] = state;
-
+		
 	}
 
 	/*
@@ -118,7 +94,7 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 	 * and expands it if required. This method is linear in the
 	 * number of indexed states and does not compute any models.
 	 */
-	private void maintain() {
+	private void maintainIndex() {
 
 		// Check if the size of the index is to small:
 		if (getStateSpace().getStates().size() > index.length) {
@@ -131,23 +107,18 @@ public abstract class StateSpaceManagerWithIndex extends StateSpaceAccessorImpl 
 			for (int i=0; i<oldIndex.length; i++) {
 				if (oldIndex[i]==null) continue;
 				for (int j=0; j<oldIndex[i].length; j++) {
-					if (oldIndex[i][j]!=null) index(oldIndex[i][j]);
+					if (oldIndex[i][j]!=null) registerState(oldIndex[i][j]);
 				}
 			}
 			
 		}
 	}
-		
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceAccessorImpl#getStateSpace()
-	 */
-	public StateSpace getStateSpace() {
-		return super.getStateSpace();
-	}
 	
+	/*
+	 * Compute the optimal size of the index.
+	 */
 	private int optimalSize() {
 		return Math.min(getStateSpace().getStates().size() * 2, 512);
 	}
-
+	
 }

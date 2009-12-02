@@ -7,10 +7,13 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
+import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * Default state space manager implementation.
@@ -74,26 +77,9 @@ public class StateSpaceManagerImpl extends StateSpaceManagerWithIndex {
 	 * @return The created state space manager.
 	 */
 	public static StateSpaceManager create(StateSpace stateSpace, double memoryUsage, int cacheSize, IProgressMonitor monitor) {
-		
-		// Reset all derived state models:
-		for (State state : stateSpace.getStates()) {
-			if (!state.isInitial()) {
-				state.setModel(null);
-			}
-		}
-		
-		// Create a new manager instance:
 		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace, memoryUsage, cacheSize);
-		
-		// Compute state models, update the hash code and the index:
-		for (State state : stateSpace.getStates()) {
-			Resource model = manager.getModel(state);
-			state.setHashCode(HenshinEqualityUtil.hashCode(model));
-			manager.index(state);
-		}
-		
+		manager.reload(monitor);
 		return manager;
-		
 	}
 	
 	/*
@@ -138,9 +124,48 @@ public class StateSpaceManagerImpl extends StateSpaceManagerWithIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<State> explore(State state) {
+	public List<State> exploreState(State state) {
+		
 		List<State> newStates = new ArrayList<State>();
+		Resource model = getModel(state);
+		
+		// Find all matches:
+		
+		// Create a copy of the model.
+		Resource transformed = new ResourceImpl();
+		transformed.getContents().addAll(EcoreUtil.copyAll(model.getContents()));
+		
+		// Transform it:
+		
+		
+		// Check if a corresponding state exists already:
+		int hash = hashCode(transformed);
+		if (getState(transformed, hash)!=null) {
+			// Add an outgoing transition if not existent:
+			
+		} else {
+			State newState = createState(transformed, hash);
+			
+			// MOVE THIS CODE TO STATE:
+			Transition transition = StateSpaceFactory.INSTANCE.createTransition();
+			//transition.setRule(...);
+			//transition.setMatch(...);
+			transition.setTarget(newState);
+			transition.setSource(state);
+			
+			// Remember the new state:
+			newStates.add(newState);
+			
+		}
+		
+		// Mark the state as closed:
+		if (state.isOpen()) {
+			state.setOpen(false);
+		}
+		
+		// Done.
 		return newStates;
+		
 	}
 
 }

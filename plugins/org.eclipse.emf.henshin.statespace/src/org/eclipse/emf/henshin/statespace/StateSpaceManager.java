@@ -21,14 +21,10 @@ public interface StateSpaceManager {
 	
 	/**
 	 * Get the state that corresponds to the argument model. 
-	 * If no corresponding state was found and the create-argument 
-	 * is set to <code>true</code>, a new state is automatically added 
-	 * to the state space.
 	 * @param model State model.
-	 * @param create create-flag.
-	 * @return The corresponding state or <code>null</code>.
+	 * @return The corresponding state or <code>null</code> if none was found.
 	 */
-	State getState(Resource model, boolean create);
+	State getState(Resource model);
 
 	/**
 	 * Get the model that corresponds to a state.
@@ -38,12 +34,21 @@ public interface StateSpaceManager {
 	Resource getModel(State state);
 	
 	/**
+	 * Create a new initial state to the state space. This throws a 
+	 * runtime exception if the state is not contained in a resource 
+	 * or if there is already a state for it.
+	 * @param model Model of the initial state.
+	 * @return The newly created state.
+	 */
+	State createInitialState(Resource model);
+	
+	/**
 	 * Explore a state. This computes all outgoing transitions
 	 * and their target states and adds them to the state space
 	 * if they do not exist yet.
 	 * @param state State to be explored.
 	 * @return List of newly created states.
 	 */
-	List<State> explore(State state);
+	List<State> exploreState(State state);
 	
 }
