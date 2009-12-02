@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Storage;
 
 /**
@@ -153,7 +154,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackageImpl.Literals.STORAGE;
+		return StateSpacePackage.Literals.STORAGE;
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 		int[] oldData = data;
 		data = newData;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STORAGE__DATA, oldData, data));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STORAGE__DATA, oldData, data));
 	}
 
 	/**
@@ -172,7 +173,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STORAGE__DATA:
+			case StateSpacePackage.STORAGE__DATA:
 				return getData();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -184,7 +185,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STORAGE__DATA:
+			case StateSpacePackage.STORAGE__DATA:
 				setData((int[])newValue);
 				return;
 		}
@@ -197,7 +198,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STORAGE__DATA:
+			case StateSpacePackage.STORAGE__DATA:
 				setData(DATA_EDEFAULT);
 				return;
 		}
@@ -210,7 +211,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STORAGE__DATA:
+			case StateSpacePackage.STORAGE__DATA:
 				return DATA_EDEFAULT == null ? data != null : !DATA_EDEFAULT.equals(data);
 		}
 		return super.eIsSet(featureID);

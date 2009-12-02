@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
@@ -99,6 +100,14 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	public State getState() {
 		return (State) getModel();
+	}
+	
+	/**
+	 * Get the used state space manager.
+	 * @return State space manager.
+	 */
+	public StateSpaceManager getStateSpaceManager() {
+		return ((StateSpaceEditPart) getParent()).getStateSpaceManager();
 	}
 	
 	/*
@@ -228,7 +237,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN) {
 			// Explore the current state:
-			Command command = new StateExploreCommand(getState());
+			Command command = new StateExploreCommand(getState(), getStateSpaceManager());
 			CommandStack stack = getViewer().getEditDomain().getCommandStack();
 			stack.execute(command);
 		} else {

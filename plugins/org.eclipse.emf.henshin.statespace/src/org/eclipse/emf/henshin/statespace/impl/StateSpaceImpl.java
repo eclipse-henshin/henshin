@@ -8,57 +8,22 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
  * Concrete implementation of the {@link State} interface.
  * @generated
  */
 public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
-	
-	/**
-	 * Get the list of states in this state space.
-	 * @generated NOT
-	 */
-	public EList<State> getStates() {
-		if (states == null) {
-			states = new StateSpaceStatesEList(this);
-		}
-		return states;
-	}
-	
-	/**
-	 * Set the number of explored states. For internal use only!
-	 * @generated NOT
-	 */
-	public void internalSetOpenStatesCount(int newOpenStatesCount) {
-		int oldExploredCount = openStatesCount;
-		openStatesCount = newOpenStatesCount;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT, oldExploredCount, openStatesCount));
-	}
-	
-	/**
-	 * Set the total number of transitions. For internal use only!
-	 * @generated NOT
-	 */
-	public void internalSetTransitionCount(int newTransitionCount) {
-		int oldTransitionCount = transitionCount;
-		transitionCount = newTransitionCount;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT, oldTransitionCount, transitionCount));
-	}
-
-	
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -75,38 +40,6 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	protected EList<State> states;
 
 	/**
-	 * The default value of the '{@link #getOpenStatesCount() <em>Open States Count</em>}' attribute.
-	 * @see #getOpenStatesCount()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int OPEN_STATES_COUNT_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getOpenStatesCount() <em>Open States Count</em>}' attribute.
-	 * @see #getOpenStatesCount()
-	 * @generated
-	 * @ordered
-	 */
-	protected int openStatesCount = OPEN_STATES_COUNT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
-	 * @see #getTransitionCount()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int TRANSITION_COUNT_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
-	 * @see #getTransitionCount()
-	 * @generated
-	 * @ordered
-	 */
-	protected int transitionCount = TRANSITION_COUNT_EDEFAULT;
-
-	/**
 	 * @generated
 	 */
 	protected StateSpaceImpl() {
@@ -118,21 +51,18 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackageImpl.Literals.STATE_SPACE;
-	}
-
-	/**
-	 * @generated
-	 */
-	public int getOpenStatesCount() {
-		return openStatesCount;
+		return StateSpacePackage.Literals.STATE_SPACE;
 	}
 	
 	/**
+	 * Get the list of states in this state space.
 	 * @generated
 	 */
-	public int getTransitionCount() {
-		return transitionCount;
+	public EList<State> getStates() {
+		if (states == null) {
+			states = new EObjectContainmentWithInverseEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__STATES, StateSpacePackage.STATE__STATE_SPACE);
+		}
+		return states;
 	}
 
 	/**
@@ -142,7 +72,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getStates()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -154,7 +84,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -166,12 +96,8 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				return getStates();
-			case StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT:
-				return getOpenStatesCount();
-			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
-				return getTransitionCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -183,7 +109,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				getStates().clear();
 				getStates().addAll((Collection<? extends State>)newValue);
 				return;
@@ -197,7 +123,7 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				getStates().clear();
 				return;
 		}
@@ -210,30 +136,10 @@ public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE_SPACE__STATES:
+			case StateSpacePackage.STATE_SPACE__STATES:
 				return states != null && !states.isEmpty();
-			case StateSpacePackageImpl.STATE_SPACE__OPEN_STATES_COUNT:
-				return openStatesCount != OPEN_STATES_COUNT_EDEFAULT;
-			case StateSpacePackageImpl.STATE_SPACE__TRANSITION_COUNT:
-				return transitionCount != TRANSITION_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (openStatesCount: ");
-		result.append(openStatesCount);
-		result.append(", transitionCount: ");
-		result.append(transitionCount);
-		result.append(')');
-		return result.toString();
 	}
 
 } //StateSpaceImpl

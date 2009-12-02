@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -27,6 +28,9 @@ import org.eclipse.swt.SWT;
  * @author Christian Krause
  */
 public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Adapter {
+	
+	// State space manager to be used:
+	private StateSpaceManager manager;
 	
 	/*
 	 * (non-Javadoc)
@@ -94,14 +98,21 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 		return layer;
 		
 	}
-	
-	
+		
 	/**
 	 * Get the state space corresponding to this edit part.
 	 * @return State space.
 	 */
 	public StateSpace getStateSpace() {
 		return (StateSpace) getModel();
+	}
+	
+	public StateSpaceManager getStateSpaceManager() {
+		return manager;
+	}
+	
+	public void setStateSpaceManager(StateSpaceManager manager) {
+		this.manager = manager;
 	}
 	
 	/* 

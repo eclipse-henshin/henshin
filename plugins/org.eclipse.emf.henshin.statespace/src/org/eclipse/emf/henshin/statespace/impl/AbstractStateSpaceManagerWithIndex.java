@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class StateSpaceManagerWithIndex extends AbstractStateSpaceManager {
+public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManagerWithCache {
 	
 	// The state space index:
 	private State[][] index;
@@ -22,7 +22,7 @@ public abstract class StateSpaceManagerWithIndex extends AbstractStateSpaceManag
 	 * Default constructor. Does not index the states.
 	 * Subclasses must do this manually using {@link #index(State)}.
 	 */
-	public StateSpaceManagerWithIndex(StateSpace stateSpace) {
+	public AbstractStateSpaceManagerWithIndex(StateSpace stateSpace) {
 		super(stateSpace);
 		this.index = new State[optimalSize()][];
 	}

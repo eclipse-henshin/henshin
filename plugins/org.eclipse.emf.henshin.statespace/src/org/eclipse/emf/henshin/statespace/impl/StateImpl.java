@@ -15,11 +15,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 
@@ -67,12 +69,12 @@ public class StateImpl extends StorageImpl implements State {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setHashCode(int hashCode) {
-		setData(0, hashCode);
+		setData(0,hashCode);
 	}
-
+	
 	/**
 	 * @generated NOT
 	 */
@@ -85,51 +87,6 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	public void setLocation(int... newLocation) {
 		setData(2, newLocation);
-	}
-	
-	/**
-	 * Get the list of outgoing transitions of this state.
-	 * @generated NOT
-	 */
-	public EList<Transition> getOutgoing() {
-		if (outgoing == null) {
-			outgoing = new StateOutgoingTransitionsEList(this);
-		}
-		return outgoing;
-		
-	}
-	
-	/**
-	 * Set the state space that contains this state.
-	 * @generated NOT
-	 */
-	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
-		
-		if (getStateSpace()!=null) {
-			// Decrease open state count in old state space:
-			if (isOpen()) {
-				int openStates = getStateSpace().getOpenStatesCount() - 1;
-				((StateSpaceImpl) getStateSpace()).internalSetOpenStatesCount(openStates);
-			}
-			// Update the number of transitions:
-			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() - getOutgoing().size());
-		}
-		
-		// Set the new state space:
-		msgs = basicSetStateSpaceGen(newStateSpace, msgs);
-		
-		if (getStateSpace()!=null) {
-			// Increase the open state count in the new state space:
-			if (isOpen()) {
-				int openStates = getStateSpace().getOpenStatesCount() + 1;
-				((StateSpaceImpl) getStateSpace()).internalSetOpenStatesCount(openStates);
-			}
-			// Update the number of transitions:
-			((StateSpaceImpl) getStateSpace()).internalSetTransitionCount(getStateSpace().getTransitionCount() + getOutgoing().size());
-		}
-		
-		return msgs;
-		
 	}
 	
 	/**
@@ -214,8 +171,6 @@ public class StateImpl extends StorageImpl implements State {
 
 	/**
 	 * The default value of the '{@link #getHashCode() <em>Hash Code</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getHashCode()
 	 * @generated
 	 * @ordered
@@ -234,7 +189,7 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackageImpl.Literals.STATE;
+		return StateSpacePackage.Literals.STATE;
 	}
 
 	/**
@@ -251,19 +206,31 @@ public class StateImpl extends StorageImpl implements State {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__NAME, oldName, name));
 	}
 
 	/**
+	 * Get the list of incoming transitions of this state.
 	 * @generated
 	 */
 	public EList<Transition> getIncoming() {
 		if (incoming == null) {
-			incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, StateSpacePackageImpl.STATE__INCOMING, StateSpacePackageImpl.TRANSITION__TARGET);
+			incoming = new EObjectWithInverseResolvingEList<Transition>(Transition.class, this, StateSpacePackage.STATE__INCOMING, StateSpacePackage.TRANSITION__TARGET);
 		}
 		return incoming;
 	}
 	
+	/**
+	 * Get the list of outgoing transitions of this state.
+	 * @generated
+	 */
+	public EList<Transition> getOutgoing() {
+		if (outgoing == null) {
+			outgoing = new EObjectContainmentWithInverseEList<Transition>(Transition.class, this, StateSpacePackage.STATE__OUTGOING, StateSpacePackage.TRANSITION__SOURCE);
+		}
+		return outgoing;
+	}
+
 	/**
 	 * @generated
 	 */
@@ -278,22 +245,22 @@ public class StateImpl extends StorageImpl implements State {
 		Resource oldModel = model;
 		model = newModel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__MODEL, oldModel, model));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__MODEL, oldModel, model));
 	}
 
 	/**
 	 * @generated
 	 */
 	public StateSpace getStateSpace() {
-		if (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE) return null;
+		if (eContainerFeatureID() != StateSpacePackage.STATE__STATE_SPACE) return null;
 		return (StateSpace)eContainer();
 	}
 	
 	/**
 	 * @generated
 	 */
-	public NotificationChain basicSetStateSpaceGen(StateSpace newStateSpace, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackageImpl.STATE__STATE_SPACE, msgs);
+	public NotificationChain basicSetStateSpace(StateSpace newStateSpace, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newStateSpace, StateSpacePackage.STATE__STATE_SPACE, msgs);
 		return msgs;
 	}
 	
@@ -301,19 +268,19 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated
 	 */
 	public void setStateSpace(StateSpace newStateSpace) {
-		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackageImpl.STATE__STATE_SPACE && newStateSpace != null)) {
+		if (newStateSpace != eInternalContainer() || (eContainerFeatureID() != StateSpacePackage.STATE__STATE_SPACE && newStateSpace != null)) {
 			if (EcoreUtil.isAncestor(this, newStateSpace))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newStateSpace != null)
-				msgs = ((InternalEObject)newStateSpace).eInverseAdd(this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpace.class, msgs);
+				msgs = ((InternalEObject)newStateSpace).eInverseAdd(this, StateSpacePackage.STATE_SPACE__STATES, StateSpace.class, msgs);
 			msgs = basicSetStateSpace(newStateSpace, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackageImpl.STATE__STATE_SPACE, newStateSpace, newStateSpace));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__STATE_SPACE, newStateSpace, newStateSpace));
 	}
 
 	/**
@@ -323,11 +290,11 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetStateSpace((StateSpace)otherEnd, msgs);
@@ -341,11 +308,11 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				return basicSetStateSpace(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -357,8 +324,8 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
-				return eInternalContainer().eInverseRemove(this, StateSpacePackageImpl.STATE_SPACE__STATES, StateSpace.class, msgs);
+			case StateSpacePackage.STATE__STATE_SPACE:
+				return eInternalContainer().eInverseRemove(this, StateSpacePackage.STATE_SPACE__STATES, StateSpace.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -369,21 +336,21 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__NAME:
+			case StateSpacePackage.STATE__NAME:
 				return getName();
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				return getIncoming();
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				return getOutgoing();
-			case StateSpacePackageImpl.STATE__MODEL:
+			case StateSpacePackage.STATE__MODEL:
 				return getModel();
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace();
-			case StateSpacePackageImpl.STATE__LOCATION:
+			case StateSpacePackage.STATE__LOCATION:
 				return getLocation();
-			case StateSpacePackageImpl.STATE__OPEN:
+			case StateSpacePackage.STATE__OPEN:
 				return isOpen();
-			case StateSpacePackageImpl.STATE__HASH_CODE:
+			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -396,30 +363,30 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__NAME:
+			case StateSpacePackage.STATE__NAME:
 				setName((String)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				getIncoming().clear();
 				getIncoming().addAll((Collection<? extends Transition>)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				getOutgoing().clear();
 				getOutgoing().addAll((Collection<? extends Transition>)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__MODEL:
+			case StateSpacePackage.STATE__MODEL:
 				setModel((Resource)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__LOCATION:
+			case StateSpacePackage.STATE__LOCATION:
 				setLocation((int[])newValue);
 				return;
-			case StateSpacePackageImpl.STATE__OPEN:
+			case StateSpacePackage.STATE__OPEN:
 				setOpen((Boolean)newValue);
 				return;
-			case StateSpacePackageImpl.STATE__HASH_CODE:
+			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode((Integer)newValue);
 				return;
 		}
@@ -432,28 +399,28 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__NAME:
+			case StateSpacePackage.STATE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				getIncoming().clear();
 				return;
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				getOutgoing().clear();
 				return;
-			case StateSpacePackageImpl.STATE__MODEL:
+			case StateSpacePackage.STATE__MODEL:
 				setModel(MODEL_EDEFAULT);
 				return;
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)null);
 				return;
-			case StateSpacePackageImpl.STATE__LOCATION:
+			case StateSpacePackage.STATE__LOCATION:
 				setLocation(LOCATION_EDEFAULT);
 				return;
-			case StateSpacePackageImpl.STATE__OPEN:
+			case StateSpacePackage.STATE__OPEN:
 				setOpen(OPEN_EDEFAULT);
 				return;
-			case StateSpacePackageImpl.STATE__HASH_CODE:
+			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode(HASH_CODE_EDEFAULT);
 				return;
 		}
@@ -466,21 +433,21 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackageImpl.STATE__NAME:
+			case StateSpacePackage.STATE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case StateSpacePackageImpl.STATE__INCOMING:
+			case StateSpacePackage.STATE__INCOMING:
 				return incoming != null && !incoming.isEmpty();
-			case StateSpacePackageImpl.STATE__OUTGOING:
+			case StateSpacePackage.STATE__OUTGOING:
 				return outgoing != null && !outgoing.isEmpty();
-			case StateSpacePackageImpl.STATE__MODEL:
+			case StateSpacePackage.STATE__MODEL:
 				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
-			case StateSpacePackageImpl.STATE__STATE_SPACE:
+			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace() != null;
-			case StateSpacePackageImpl.STATE__LOCATION:
+			case StateSpacePackage.STATE__LOCATION:
 				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
-			case StateSpacePackageImpl.STATE__OPEN:
+			case StateSpacePackage.STATE__OPEN:
 				return isOpen() != OPEN_EDEFAULT;
-			case StateSpacePackageImpl.STATE__HASH_CODE:
+			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode() != HASH_CODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

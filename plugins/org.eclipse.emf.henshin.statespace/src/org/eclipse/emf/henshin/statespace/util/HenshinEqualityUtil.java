@@ -42,7 +42,7 @@ public class HenshinEqualityUtil {
 	}
 	
 	/**
-	 * Compute the hashcode of a given resource.
+	 * Compute the hash code of a given resource.
 	 */
 	public static int hashCode(Resource resource) {
 		

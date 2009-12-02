@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2009-11-22 20:55:30
+// $ANTLR 3.0.1 StateSpace.g 2009-12-02 10:41:10
 
 package org.eclipse.emf.henshin.statespace.parser;
 
@@ -79,7 +79,7 @@ public class StateSpaceParser extends Parser {
     		if (owner instanceof State) {
     			State state = (State) owner;
     			if (STATE_LOCATION.equals(key)) {
-    				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
+    				int[] location = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).createIntegerArrayFromString(null, value);
     				state.setLocation(location);
     			}
     			else if (STATE_MODEL.equals(key)) {
@@ -112,7 +112,7 @@ public class StateSpaceParser extends Parser {
          
             
             // Initialise the state space:
-        	stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
+        	stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
         	
         	// Create a state name map: 
         	states = new HashMap<String,State>() {
@@ -121,7 +121,7 @@ public class StateSpaceParser extends Parser {
         		public State get(Object name) {
         			// Create a new state if it does not exist yet:
         			if (!containsKey(name)) {
-        				State state = StateSpaceFactory.INSTANCE.createState();
+        				State state = StateSpaceFactory.eINSTANCE.createState();
         				state.setName((String) name);
         				put((String) name, state);
         			}
@@ -357,7 +357,7 @@ public class StateSpaceParser extends Parser {
             target=(Token)input.LT(1);
             match(input,ID,FOLLOW_ID_in_transition225); 
              
-            		transition = StateSpaceFactory.INSTANCE.createTransition();
+            		transition = StateSpaceFactory.eINSTANCE.createTransition();
             		transition.setSource(state);
             		transition.setTarget(states.get(target.getText()));
             	

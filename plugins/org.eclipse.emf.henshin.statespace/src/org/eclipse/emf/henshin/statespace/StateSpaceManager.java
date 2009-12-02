@@ -6,8 +6,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * State space manager interface. State managers are used to
- * index and explore a state space.
- * 
+ * index and explore state spaces.
  * @author Christian Krause
  * @generated NOT
  */
@@ -18,6 +17,12 @@ public interface StateSpaceManager {
 	 * @return The managed state space.
 	 */
 	StateSpace getStateSpace();
+	
+	/**
+	 * Get the number of transitions in the state space.
+	 * @return Number of transition.
+	 */
+	int getTransitionCount();
 	
 	/**
 	 * Get the state that corresponds to the argument model. 

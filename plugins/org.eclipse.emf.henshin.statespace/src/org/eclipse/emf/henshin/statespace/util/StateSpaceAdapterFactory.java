@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl
+ * @see org.eclipse.emf.henshin.statespace.StateSpacePackage
  * @generated
  */
 public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
@@ -32,7 +32,7 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static StateSpacePackageImpl modelPackage;
+	protected static StateSpacePackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -42,7 +42,7 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	public StateSpaceAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = StateSpacePackageImpl.eINSTANCE;
+			modelPackage = StateSpacePackage.eINSTANCE;
 		}
 	}
 

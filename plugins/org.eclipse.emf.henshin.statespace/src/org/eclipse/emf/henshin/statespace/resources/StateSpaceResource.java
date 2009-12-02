@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl;
 import org.eclipse.emf.henshin.statespace.parser.StateSpaceLexer;
@@ -127,7 +128,7 @@ public class StateSpaceResource extends ResourceImpl {
 		
 		String sep = "";
 		if (hasLocation(state)) {
-			String location = StateSpaceFactoryImpl.eINSTANCE.convertIntegerArrayToString(null, state.getLocation());
+			String location = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).convertIntegerArrayToString(null, state.getLocation());
 			result.append(StateSpaceParser.STATE_LOCATION + "=\"" + location + "\""); 
 			sep = ",";
 		}

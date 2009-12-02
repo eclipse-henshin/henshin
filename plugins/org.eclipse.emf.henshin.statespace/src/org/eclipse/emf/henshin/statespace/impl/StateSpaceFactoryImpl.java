@@ -29,22 +29,14 @@ import org.eclipse.emf.henshin.statespace.*;
 public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFactory {
 	
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final StateSpaceFactoryImpl eINSTANCE = init();
-
-	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static StateSpaceFactoryImpl init() {
+	public static StateSpaceFactory init() {
 		try {
-			StateSpaceFactoryImpl theStateSpaceFactory = (StateSpaceFactoryImpl)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/henshin/statespace/2009"); 
+			StateSpaceFactory theStateSpaceFactory = (StateSpaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/henshin/statespace/2009"); 
 			if (theStateSpaceFactory != null) {
 				return theStateSpaceFactory;
 			}
@@ -73,10 +65,10 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case StateSpacePackageImpl.STATE_SPACE: return createStateSpace();
-			case StateSpacePackageImpl.STATE: return createState();
-			case StateSpacePackageImpl.TRANSITION: return createTransition();
-			case StateSpacePackageImpl.STORAGE: return createStorage();
+			case StateSpacePackage.STATE_SPACE: return createStateSpace();
+			case StateSpacePackage.STATE: return createState();
+			case StateSpacePackage.TRANSITION: return createTransition();
+			case StateSpacePackage.STORAGE: return createStorage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -90,7 +82,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case StateSpacePackageImpl.INTEGER_ARRAY:
+			case StateSpacePackage.INTEGER_ARRAY:
 				return createIntegerArrayFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
@@ -105,7 +97,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case StateSpacePackageImpl.INTEGER_ARRAY:
+			case StateSpacePackage.INTEGER_ARRAY:
 				return convertIntegerArrayToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
@@ -196,8 +188,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StateSpacePackageImpl getStateSpacePackage() {
-		return (StateSpacePackageImpl)getEPackage();
+	public StateSpacePackage getStateSpacePackage() {
+		return (StateSpacePackage)getEPackage();
 	}
 
 	/**
@@ -207,8 +199,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * @generated
 	 */
 	@Deprecated
-	public static StateSpacePackageImpl getPackage() {
-		return StateSpacePackageImpl.eINSTANCE;
+	public static StateSpacePackage getPackage() {
+		return StateSpacePackage.eINSTANCE;
 	}
 
 } //StateSpaceFactoryImpl

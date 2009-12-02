@@ -74,7 +74,7 @@ public class NewInitialStateAction implements IObjectActionDelegate {
 		try {
 			
 			Resource resource = resourceSet.getResource(uri, true);
-			State state = StateSpaceFactory.INSTANCE.createState();
+			State state = StateSpaceFactory.eINSTANCE.createState();
 			state.setName("s" + stateSpace.getStates().size());
 			state.setModel(resource);
 			state.setLocation(location);
@@ -100,7 +100,7 @@ public class NewInitialStateAction implements IObjectActionDelegate {
 		stateSpace = null;
 		if (part instanceof StateSpaceExplorer) {
 			explorer = (StateSpaceExplorer) part;
-			stateSpace = explorer.getStateSpace();
+			stateSpace = explorer.getStateSpaceManager().getStateSpace();
 		}
 		action.setEnabled(stateSpace!=null);
 	}

@@ -8,14 +8,17 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -45,8 +48,11 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public class StateSpaceExplorer extends GraphicalEditor {
 	
-	// The state space:
-	private StateSpace stateSpace;
+	// State space manager:
+	private StateSpaceManager manager;
+	
+	// Job for loading the state space:
+	private Job loader;
 	
 	// Tool menu:
 	private StateSpaceToolsMenu toolsMenu;
@@ -79,7 +85,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		// Add the tools menu:
 		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
-		toolsMenu.setStateSpace(stateSpace);
+		toolsMenu.setStateSpaceManager(manager);
 		toolsMenu.setZoomManager(zoomManager);
 		
 		// Weights must be set at the end!
@@ -115,7 +121,8 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	protected void initializeGraphicalViewer() {
 		// Set the viewer content:
 		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setContents(getStateSpace());
+		((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(manager);
+		viewer.setContents(manager.getStateSpace());
 	}
 	
 	/* 
@@ -135,7 +142,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	@Override
 	public void doSave(IProgressMonitor monitor) {		
 		try {
-			Resource resource = getStateSpace().eResource();
+			Resource resource = manager.getStateSpace().eResource();
 			resource.save(null);
 			getCommandStack().markSaveLocation();
 		} catch (Exception e) { 
@@ -165,7 +172,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			
 			try {
 				// Save the file:
-				StateSpaceResource resource = (StateSpaceResource) getStateSpace().eResource();
+				StateSpaceResource resource = (StateSpaceResource) manager.getStateSpace().eResource();
 				resource.setURI(uri);
 				resource.save(null);
 				
@@ -182,13 +189,12 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	}
 	
 	/**
-	 * Get the displayed state space.
-	 * @return State space.
+	 * Get the used state space manager.
+	 * @return State space manager.
 	 */
-	public StateSpace getStateSpace() {
-		return stateSpace;
+	public StateSpaceManager getStateSpaceManager() {
+		return manager;
 	}
-	
 
 	/* 
 	 * (non-Javadoc)
@@ -215,6 +221,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		// Prepare the loading:
 		ResourceSet resourceSet = new ResourceSetImpl();
     	URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
+    	StateSpace stateSpace;
 
 		try {			
 			// Perform the loading:
@@ -225,9 +232,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			
 			// Create a fresh state space:
 			Resource resource = resourceSet.createResource(uri);
-			stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
+			stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 			resource.getContents().add(stateSpace);
-			
+						
 			// Run a dummy reset command that marks the editor as dirty:
 			getCommandStack().execute(new Command("reset state space") { 
 				public boolean canUndo() {
@@ -242,12 +249,40 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			ErrorDialog.openError(getSite().getShell(), "Error", message + ". See the error log for more details.", status);
 			
 		}
+
+		// Create the state space manager:
+		final StateSpaceManagerImpl managerImpl = new StateSpaceManagerImpl(stateSpace);
+		manager = managerImpl;
 		
 		// Refresh the tools menu:
 		if (toolsMenu!=null && !toolsMenu.isDisposed()) {
-			toolsMenu.setStateSpace(stateSpace);
+			toolsMenu.setStateSpaceManager(manager);
 		}
 		
+		// Load the state space manager:
+		loader = new Job("Loading state space") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				//managerImpl.reload(monitor);
+				loader = null;
+				return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
+			}
+		};
+		loader.setPriority(Job.LONG);
+		loader.schedule();
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
+	 */
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (loader!=null) {
+			loader.cancel();
+		}
 	}
 	
 	/**

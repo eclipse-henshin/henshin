@@ -125,7 +125,7 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 				URI uri = URI.createPlatformResourceURI(filePath.toString(), false);
 				ResourceSet resourceSet = new ResourceSetImpl();
 				Resource resource = resourceSet.createResource(uri);
-				StateSpace stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
+				StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 				resource.getContents().add(stateSpace);
 				resource.save(null);
 

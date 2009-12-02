@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl
+ * @see org.eclipse.emf.henshin.statespace.StateSpacePackage
  * @generated
  */
 public class StateSpaceSwitch<T> {
@@ -35,7 +35,7 @@ public class StateSpaceSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static StateSpacePackageImpl modelPackage;
+	protected static StateSpacePackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -45,7 +45,7 @@ public class StateSpaceSwitch<T> {
 	 */
 	public StateSpaceSwitch() {
 		if (modelPackage == null) {
-			modelPackage = StateSpacePackageImpl.eINSTANCE;
+			modelPackage = StateSpacePackage.eINSTANCE;
 		}
 	}
 
@@ -89,27 +89,27 @@ public class StateSpaceSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case StateSpacePackageImpl.STATE_SPACE: {
+			case StateSpacePackage.STATE_SPACE: {
 				StateSpace stateSpace = (StateSpace)theEObject;
 				T result = caseStateSpace(stateSpace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackageImpl.STATE: {
+			case StateSpacePackage.STATE: {
 				State state = (State)theEObject;
 				T result = caseState(state);
 				if (result == null) result = caseStorage(state);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackageImpl.TRANSITION: {
+			case StateSpacePackage.TRANSITION: {
 				Transition transition = (Transition)theEObject;
 				T result = caseTransition(transition);
 				if (result == null) result = caseStorage(transition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackageImpl.STORAGE: {
+			case StateSpacePackage.STORAGE: {
 				Storage storage = (Storage)theEObject;
 				T result = caseStorage(storage);
 				if (result == null) result = defaultCase(theEObject);

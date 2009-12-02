@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.statespace.Storage;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -33,290 +34,9 @@ import org.eclipse.emf.henshin.statespace.Transition;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.eclipse.emf.henshin.statespace.StateSpaceFactory
- * @model kind="package"
  * @generated
  */
-public class StateSpacePackageImpl extends EPackageImpl {
-	/**
-	 * The package name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final String eNAME = "statespace";
-
-	/**
-	 * The package namespace URI.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final String eNS_URI = "http://www.eclipse.org/emf/henshin/statespace/2009";
-
-	/**
-	 * The package namespace name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final String eNS_PREFIX = "statespace";
-
-	/**
-	 * The singleton instance of the package.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public static final StateSpacePackageImpl eINSTANCE = org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl.init();
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl <em>State Space</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateSpace()
-	 * @generated
-	 */
-	public static final int STATE_SPACE = 0;
-
-	/**
-	 * The feature id for the '<em><b>States</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE_SPACE__STATES = 0;
-
-	/**
-	 * The feature id for the '<em><b>Open States Count</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE_SPACE__OPEN_STATES_COUNT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Transition Count</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE_SPACE__TRANSITION_COUNT = 2;
-
-	/**
-	 * The number of structural features of the '<em>State Space</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE_SPACE_FEATURE_COUNT = 3;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StorageImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStorage()
-	 * @generated
-	 */
-	public static final int STORAGE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Data</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STORAGE__DATA = 0;
-
-	/**
-	 * The number of structural features of the '<em>Storage</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STORAGE_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getState()
-	 * @generated
-	 */
-	public static final int STATE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Data</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__DATA = STORAGE__DATA;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__NAME = STORAGE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__INCOMING = STORAGE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Outgoing</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__OUTGOING = STORAGE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Model</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__MODEL = STORAGE_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>State Space</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__STATE_SPACE = STORAGE_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__LOCATION = STORAGE_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Open</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__OPEN = STORAGE_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Hash Code</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE__HASH_CODE = STORAGE_FEATURE_COUNT + 7;
-
-	/**
-	 * The number of structural features of the '<em>State</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 8;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.TransitionImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getTransition()
-	 * @generated
-	 */
-	public static final int TRANSITION = 2;
-
-	/**
-	 * The feature id for the '<em><b>Data</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION__DATA = STORAGE__DATA;
-
-	/**
-	 * The feature id for the '<em><b>Source</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION__SOURCE = STORAGE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION__TARGET = STORAGE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Rule</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION__RULE = STORAGE_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Match</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION__MATCH = STORAGE_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Transition</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int TRANSITION_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '<em>Integer Array</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getIntegerArray()
-	 * @generated
-	 */
-	public static final int INTEGER_ARRAY = 4;
-
+public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePackage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -363,12 +83,12 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#eNS_URI
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
 	private StateSpacePackageImpl() {
-		super(eNS_URI, ((EFactory)StateSpaceFactory.INSTANCE));
+		super(eNS_URI, StateSpaceFactory.eINSTANCE);
 	}
 
 	/**
@@ -381,7 +101,7 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
-	 * <p>This method is used to initialize {@link StateSpacePackageImpl#eINSTANCE} when that field is accessed.
+	 * <p>This method is used to initialize {@link StateSpacePackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -390,8 +110,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-	public static StateSpacePackageImpl init() {
-		if (isInited) return (StateSpacePackageImpl)EPackage.Registry.INSTANCE.getEPackage(StateSpacePackageImpl.eNS_URI);
+	public static StateSpacePackage init() {
+		if (isInited) return (StateSpacePackage)EPackage.Registry.INSTANCE.getEPackage(StateSpacePackage.eNS_URI);
 
 		// Obtain or create and register package
 		StateSpacePackageImpl theStateSpacePackage = (StateSpacePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof StateSpacePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new StateSpacePackageImpl());
@@ -409,17 +129,14 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
   
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(StateSpacePackageImpl.eNS_URI, theStateSpacePackage);
+		EPackage.Registry.INSTANCE.put(StateSpacePackage.eNS_URI, theStateSpacePackage);
 		return theStateSpacePackage;
 	}
 
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>State Space</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace
 	 * @generated
 	 */
 	public EClass getStateSpace() {
@@ -427,12 +144,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStates <em>States</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>States</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStates()
-	 * @see #getStateSpace()
 	 * @generated
 	 */
 	public EReference getStateSpace_States() {
@@ -440,39 +153,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getOpenStatesCount <em>Open States Count</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Open States Count</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getOpenStatesCount()
-	 * @see #getStateSpace()
-	 * @generated
-	 */
-	public EAttribute getStateSpace_OpenStatesCount() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(1);
-	}
-
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount <em>Transition Count</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Transition Count</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount()
-	 * @see #getStateSpace()
-	 * @generated
-	 */
-	public EAttribute getStateSpace_TransitionCount() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(2);
-	}
-
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.State <em>State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>State</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State
 	 * @generated
 	 */
 	public EClass getState() {
@@ -480,12 +162,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getName()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EAttribute getState_Name() {
@@ -493,12 +171,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.State#getIncoming <em>Incoming</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Incoming</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getIncoming()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EReference getState_Incoming() {
@@ -506,12 +180,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.statespace.State#getOutgoing <em>Outgoing</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Outgoing</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getOutgoing()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EReference getState_Outgoing() {
@@ -519,12 +189,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Model</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getModel()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EAttribute getState_Model() {
@@ -533,12 +199,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>State Space</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getStateSpace()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EReference getState_StateSpace() {
@@ -547,12 +209,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getLocation <em>Location</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Location</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getLocation()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EAttribute getState_Location() {
@@ -561,12 +219,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#isOpen <em>Open</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Open</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#isOpen()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EAttribute getState_Open() {
@@ -575,12 +229,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getHashCode <em>Hash Code</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Hash Code</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getHashCode()
-	 * @see #getState()
 	 * @generated
 	 */
 	public EAttribute getState_HashCode() {
@@ -589,11 +239,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Transition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Transition</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition
 	 * @generated
 	 */
 	public EClass getTransition() {
@@ -601,12 +248,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.statespace.Transition#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Source</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getSource()
-	 * @see #getTransition()
 	 * @generated
 	 */
 	public EReference getTransition_Source() {
@@ -614,12 +257,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.statespace.Transition#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getTarget()
-	 * @see #getTransition()
 	 * @generated
 	 */
 	public EReference getTransition_Target() {
@@ -627,12 +266,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getRule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rule</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getRule()
-	 * @see #getTransition()
 	 * @generated
 	 */
 	public EAttribute getTransition_Rule() {
@@ -640,12 +275,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Match</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getMatch()
-	 * @see #getTransition()
 	 * @generated
 	 */
 	public EAttribute getTransition_Match() {
@@ -654,11 +285,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Storage <em>Storage</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Storage</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Storage
 	 * @generated
 	 */
 	public EClass getStorage() {
@@ -667,12 +295,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Storage#getData <em>Data</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Data</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Storage#getData()
-	 * @see #getStorage()
 	 * @generated
 	 */
 	public EAttribute getStorage_Data() {
@@ -681,11 +305,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the meta object for data type '<em>Integer Array</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Integer Array</em>'.
-	 * @model instanceClass="int[]"
 	 * @generated
 	 */
 	public EDataType getIntegerArray() {
@@ -694,10 +315,8 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 
 	/**
-	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
 	public StateSpaceFactory getStateSpaceFactory() {
@@ -725,8 +344,6 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		// Create classes and their features
 		stateSpaceEClass = createEClass(STATE_SPACE);
 		createEReference(stateSpaceEClass, STATE_SPACE__STATES);
-		createEAttribute(stateSpaceEClass, STATE_SPACE__OPEN_STATES_COUNT);
-		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
@@ -785,8 +402,6 @@ public class StateSpacePackageImpl extends EPackageImpl {
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_OpenStatesCount(), ecorePackage.getEInt(), "openStatesCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -831,198 +446,6 @@ public class StateSpacePackageImpl extends EPackageImpl {
 
 		// Create resource
 		createResource(eNS_URI);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * Defines literals for the meta objects that represent
-	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
-	 * </ul>
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public interface Literals {
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl <em>State Space</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateSpace()
-		 * @generated
-		 */
-		public static final EClass STATE_SPACE = eINSTANCE.getStateSpace();
-
-		/**
-		 * The meta object literal for the '<em><b>States</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference STATE_SPACE__STATES = eINSTANCE.getStateSpace_States();
-
-		/**
-		 * The meta object literal for the '<em><b>Open States Count</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE_SPACE__OPEN_STATES_COUNT = eINSTANCE.getStateSpace_OpenStatesCount();
-
-		/**
-		 * The meta object literal for the '<em><b>Transition Count</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE_SPACE__TRANSITION_COUNT = eINSTANCE.getStateSpace_TransitionCount();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getState()
-		 * @generated
-		 */
-		public static final EClass STATE = eINSTANCE.getState();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE__NAME = eINSTANCE.getState_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference STATE__INCOMING = eINSTANCE.getState_Incoming();
-
-		/**
-		 * The meta object literal for the '<em><b>Outgoing</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference STATE__OUTGOING = eINSTANCE.getState_Outgoing();
-
-		/**
-		 * The meta object literal for the '<em><b>Model</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE__MODEL = eINSTANCE.getState_Model();
-
-		/**
-		 * The meta object literal for the '<em><b>State Space</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference STATE__STATE_SPACE = eINSTANCE.getState_StateSpace();
-
-		/**
-		 * The meta object literal for the '<em><b>Location</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE__LOCATION = eINSTANCE.getState_Location();
-
-		/**
-		 * The meta object literal for the '<em><b>Open</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE__OPEN = eINSTANCE.getState_Open();
-
-		/**
-		 * The meta object literal for the '<em><b>Hash Code</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STATE__HASH_CODE = eINSTANCE.getState_HashCode();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.TransitionImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getTransition()
-		 * @generated
-		 */
-		public static final EClass TRANSITION = eINSTANCE.getTransition();
-
-		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference TRANSITION__SOURCE = eINSTANCE.getTransition_Source();
-
-		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference TRANSITION__TARGET = eINSTANCE.getTransition_Target();
-
-		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute TRANSITION__RULE = eINSTANCE.getTransition_Rule();
-
-		/**
-		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute TRANSITION__MATCH = eINSTANCE.getTransition_Match();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StorageImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStorage()
-		 * @generated
-		 */
-		public static final EClass STORAGE = eINSTANCE.getStorage();
-
-		/**
-		 * The meta object literal for the '<em><b>Data</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EAttribute STORAGE__DATA = eINSTANCE.getStorage_Data();
-
-		/**
-		 * The meta object literal for the '<em>Integer Array</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getIntegerArray()
-		 * @generated
-		 */
-		public static final EDataType INTEGER_ARRAY = eINSTANCE.getIntegerArray();
-
 	}
 
 } //StateSpacePackageImpl

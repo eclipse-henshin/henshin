@@ -4,6 +4,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceLayouterJob;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -45,9 +46,9 @@ public class StateSpaceToolsMenu extends Composite {
 	// Edit domain:
 	private EditDomain editDomain;
 	
-	// The state space:
-	private StateSpace stateSpace;
-		
+	// State space manager:
+	private StateSpaceManager manager;
+	
 	// Labels:
 	private Label statesLabel;
 	private Label transitionsLabel;
@@ -220,7 +221,7 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	public void startLayouter() {
 		layouterCheckbox.setSelection(true);
-		layouterJob = new StateSpaceLayouterJob(stateSpace, Display.getCurrent());
+		layouterJob = new StateSpaceLayouterJob(manager.getStateSpace(), Display.getCurrent());
 		updateLayouterProperties();
 		layouterJob.schedule();
 	}
@@ -230,36 +231,32 @@ public class StateSpaceToolsMenu extends Composite {
 		layouterCheckbox.setSelection(false);
 	}
 	
-	public void refresh() {
-		
-		// Number of states and transitions:
-		statesLabel.setText(stateSpace.getStates().size() + " (" + 
-							stateSpace.getOpenStatesCount() + " open)");
-		transitionsLabel.setText(stateSpace.getTransitionCount() + "");
-		
+	
+	public void refresh() {	
+		if (manager==null) {
+			statesLabel.setText("0");
+			transitionsLabel.setText("0");
+		} else {
+			StateSpace stateSpace = manager.getStateSpace();
+			statesLabel.setText(stateSpace.getStates().size() + " (" + "? open)");
+			transitionsLabel.setText(manager.getTransitionCount() + "");
+		}
 	}
 
 	
 	/**
-	 * Set the state space to be used.
-	 * @param stateSpace State space.
+	 * Set the state space manager to be used.
+	 * @param stateSpace State space manager.
 	 */
-	public void setStateSpace(StateSpace stateSpace) {
-		
-		// Unhook the adapter from the old state space:
-		if (this.stateSpace!=null) {
-			this.stateSpace.eAdapters().remove(adapter);
+	public void setStateSpaceManager(StateSpaceManager manager) {
+		if (this.manager!=null) {
+			this.manager.getStateSpace().eAdapters().remove(adapter);
 		}
-		
-		// Set the state space:
-		this.stateSpace = stateSpace;
-		
-		// Refresh:
-		if (stateSpace!=null) {
-			stateSpace.eAdapters().add(adapter);
-			refresh();
+		this.manager = manager;
+		if (manager!=null) {
+			manager.getStateSpace().eAdapters().add(adapter);
 		}
-		
+		refresh();
 	}
 	
 	/**

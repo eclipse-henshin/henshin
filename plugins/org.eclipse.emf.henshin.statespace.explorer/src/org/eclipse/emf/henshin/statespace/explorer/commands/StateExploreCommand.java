@@ -1,15 +1,10 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.gef.commands.Command;
 
 /**
- * 
  * @author Christian Krause
  */
 public class StateExploreCommand extends Command {
@@ -17,21 +12,17 @@ public class StateExploreCommand extends Command {
 	// State to be explored.
 	private State state;
 	
-	// New states:
-	private List<State> states;
-	
-	// New transitions:
-	private List<Transition> transitions;
+	// State space manager.
+	private StateSpaceManager manager;
 	
 	/**
 	 * Default constructor.
 	 * @param state State to be explored.
 	 * @param stateSpace State space.
 	 */
-	public StateExploreCommand(State state) {
+	public StateExploreCommand(State state, StateSpaceManager manager) {
 		this.state = state;
-		this.states = new ArrayList<State>();
-		this.transitions = new ArrayList<Transition>();
+		this.manager = manager;
 		setLabel("exploring state");
 	}
 	
@@ -41,7 +32,16 @@ public class StateExploreCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return state!=null && state.getStateSpace()!=null;
+		return state!=null && manager!=null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	@Override
+	public boolean canUndo() {
+		return false;
 	}
 	
 	/*
@@ -50,67 +50,7 @@ public class StateExploreCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		
-		int[] location = state.getLocation();
-		location[1] += 100;
-		
-		State newState = StateSpaceFactory.INSTANCE.createState();
-		newState.setName("s" + state.getStateSpace().getStates().size());
-		newState.setLocation(location);
-		
-		Transition newTransition = StateSpaceFactory.INSTANCE.createTransition();
-		newTransition.setTarget(newState);
-		
-		states.add(newState);
-		transitions.add(newTransition);
-		
-		redo();
-		
-	}
-
-	/* 
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	@Override
-	public void redo() {
-		
-		// Mark the state as explored:
-		state.setOpen(false);
-		
-		// Add the states to the state space:
-		for (State current : states) {
-			state.getStateSpace().getStates().add(current);			
-		}
-		
-		// Add the transitions:
-		for (int i=0; i<transitions.size(); i++) {
-			transitions.get(i).setSource(state);
-			transitions.get(i).setTarget(states.get(i));
-		}
-		
-	}
-
-	/* 
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	@Override
-	public void undo() {
-
-		state.setOpen(true);
-
-		// Remove the states from the state space:
-		for (State current : states) {
-			state.getStateSpace().getStates().remove(current);			
-		}
-		
-		// Remove the transitions:
-		for (int i=0; i<transitions.size(); i++) {
-			transitions.get(i).setSource(null);
-			transitions.get(i).setTarget(null);			
-		}
-		
+		manager.exploreState(state);
 	}
 	
 }

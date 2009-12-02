@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
 
 /**
@@ -20,6 +21,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 
 	// State space:
 	private StateSpace stateSpace;
+	
+	// Number of transitions:
+	private int transitionCount = 0;
 	
 	// Change flag:
 	private boolean change = false;
@@ -39,6 +43,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param stateSpace State space.
 	 */
 	public AbstractStateSpaceManager(StateSpace stateSpace) {
+		if (stateSpace==null) {
+			throw new IllegalArgumentException();
+		}	
 		this.stateSpace = stateSpace;
 		stateSpace.eAdapters().add(adapter);
 	}
@@ -59,8 +66,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		monitor.beginTask("Loading state space", stateSpace.getStates().size() + 2);
 		
-		// Reset the state registry:
+		// Reset the state registry and the number of transitions:
 		resetRegistry();
+		transitionCount = 0;
 		monitor.worked(1);
 		
 		// Reset all derived state models:
@@ -73,9 +81,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		// Compute state models, update the hash code and the index:
 		for (State state : stateSpace.getStates()) {
-			Resource model = getModel(state);
-			state.setHashCode(hashCode(model));
+			state.setHashCode(hashCode(getModel(state)));
 			registerState(state);
+			transitionCount += state.getOutgoing().size();
 			monitor.worked(1);
 		}
 		
@@ -110,7 +118,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	protected final State createState(Resource model, int hash) {
 		
 		// Create a new state instance:
-		State state = StateSpaceFactory.INSTANCE.createState();
+		State state = StateSpaceFactory.eINSTANCE.createState();
 		state.setName("s" + getStateSpace().getStates().size());
 		state.setHashCode(hash);
 		state.setModel(model);				
@@ -150,6 +158,48 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		// Ok: create the new state:
 		return createState(model, hash);
 		
+	}
+	
+	/**
+	 * Find an outgoing transition.
+	 * @param state State that should contain the transition.
+	 * @param rule Rule of the transition.
+	 * @param match Index of the match.
+	 * @return The transition or <code>null</code>.
+	 */
+	protected Transition getTransition(State state, String rule, int match) {
+		for (Transition transition : state.getOutgoing()) {
+			if (rule.equals(transition.getRule()) && match==transition.getMatch()) {
+				return transition;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Create a new outgoing transition. Note that the this does not check
+	 * if the same transition exists already (use {@link #getTransition(State, String, int)}
+	 * for that). Moreover the created transition is dangling (the target is not set).
+	 * @param state State that will contain the new transition.
+	 * @param rule Rule to be used.
+	 * @param match Match to be used.
+	 * @return The newly created transition.
+	 */
+	protected Transition createTransition(State state, String rule, int match) {		
+		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
+		transition.setRule(rule);
+		transition.setMatch(match);
+		state.getOutgoing().add(transition);
+		transitionCount++;
+		return transition;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getTransitionCount()
+	 */
+	public int getTransitionCount() {
+		return transitionCount;
 	}
 	
 	/**

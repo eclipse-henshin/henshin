@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.statespace.explorer.edit;
 
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -11,36 +12,46 @@ import org.eclipse.gef.EditPartFactory;
  * @author Christian Krause
  */
 public class StateSpaceEditPartFactory implements EditPartFactory {
-
+	
+	// State space manager to be used:
+	private StateSpaceManager manager;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	public EditPart createEditPart(EditPart context, Object modelElement) {
-		// get EditPart for model element
-		EditPart part = getPartForElement(modelElement);
-		// store model element in EditPart
-		part.setModel(modelElement);
-		return part;
+	public EditPart createEditPart(EditPart context, Object element) {
+		
+		EditPart editpart = null;
+		
+		if (element instanceof StateSpace) {
+			if (manager==null) {
+				throw new RuntimeException("No state space manager set");
+			}
+			editpart = new StateSpaceEditPart();			
+			((StateSpaceEditPart) editpart).setStateSpaceManager(manager);
+		}
+		
+		else if (element instanceof State) {
+			editpart = new StateEditPart();
+		}
+		
+		else if (element instanceof Transition) {
+			editpart = new TransitionEditPart();
+		}
+		
+		else throw new RuntimeException(
+				"Can't create part for model element: "
+				+ ((element != null) ? element.getClass().getName() : "null"));
+
+		// Store the model element in the edit part.
+		editpart.setModel(element);
+		return editpart;
+		
 	}
 
-	/**
-	 * Maps an object to an EditPart. 
-	 * @throws RuntimeException if no match was found (programming error)
-	 */
-	private EditPart getPartForElement(Object modelElement) {
-		if (modelElement instanceof StateSpace) {
-			return new StateSpaceEditPart();
-		}
-		if (modelElement instanceof State) {
-			return new StateEditPart();
-		}
-		if (modelElement instanceof Transition) {
-			return new TransitionEditPart();
-		}
-		throw new RuntimeException(
-				"Can't create part for model element: "
-				+ ((modelElement != null) ? modelElement.getClass().getName() : "null"));
+	public void setStateSpaceManager(StateSpaceManager manager) {
+		this.manager = manager;
 	}
 
 }

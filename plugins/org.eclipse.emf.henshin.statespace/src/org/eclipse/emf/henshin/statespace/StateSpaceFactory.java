@@ -6,14 +6,17 @@
  */
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.emf.ecore.EFactory;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * @see org.eclipse.emf.henshin.statespace.StateSpacePackage
  * @generated
  */
-public interface StateSpaceFactory {
+public interface StateSpaceFactory extends EFactory {
 	
 	/**
 	 * The singleton instance of the factory.
@@ -21,8 +24,7 @@ public interface StateSpaceFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	StateSpaceFactory INSTANCE = org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl.eINSTANCE;
-
+	StateSpaceFactory eINSTANCE = org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl.init();
 	/**
 	 * Returns a new object of class '<em>State Space</em>'.
 	 * <!-- begin-user-doc -->
@@ -58,5 +60,14 @@ public interface StateSpaceFactory {
 	 * @generated
 	 */
 	Storage createStorage();
+
+	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	StateSpacePackage getStateSpacePackage();
 
 } //StateSpaceFactory

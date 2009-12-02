@@ -134,7 +134,7 @@ public interface State extends Storage {
 	 * @see #getHashCode()
 	 * @generated
 	 */
-	void setHashCode(int hashCode);
+	void setHashCode(int value);
 
 	/**
 	 * Check whether this state is an initial one. A state is initial

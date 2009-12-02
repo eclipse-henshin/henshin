@@ -63,7 +63,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 		if (owner instanceof State) {
 			State state = (State) owner;
 			if (STATE_LOCATION.equals(key)) {
-				int[] location = StateSpaceFactoryImpl.eINSTANCE.createIntegerArrayFromString(null, value);
+				int[] location = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).createIntegerArrayFromString(null, value);
 				state.setLocation(location);
 			}
 			else if (STATE_MODEL.equals(key)) {
@@ -92,7 +92,7 @@ stateSpace returns [StateSpace stateSpace]
 @init { 
     
     // Initialise the state space:
-	$stateSpace = StateSpaceFactory.INSTANCE.createStateSpace();
+	$stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 	
 	// Create a state name map: 
 	states = new HashMap<String,State>() {
@@ -101,7 +101,7 @@ stateSpace returns [StateSpace stateSpace]
 		public State get(Object name) {
 			// Create a new state if it does not exist yet:
 			if (!containsKey(name)) {
-				State state = StateSpaceFactory.INSTANCE.createState();
+				State state = StateSpaceFactory.eINSTANCE.createState();
 				state.setName((String) name);
 				put((String) name, state);
 			}
@@ -139,7 +139,7 @@ state [StateSpace stateSpace] returns [State state] :
 
 transition[State state] returns [Transition transition] :
 	target=ID { 
-		$transition = StateSpaceFactory.INSTANCE.createTransition();
+		$transition = StateSpaceFactory.eINSTANCE.createTransition();
 		$transition.setSource($state);
 		$transition.setTarget(states.get($target.text));
 	}
