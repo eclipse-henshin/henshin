@@ -1,8 +1,11 @@
 package org.eclipse.emf.henshin.statespace.explorer.edit;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MidpointLocator;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -55,6 +58,18 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	protected IFigure createFigure() {
 		PolylineConnection connection = (PolylineConnection) super.createFigure();
 		connection.setTargetDecoration(new PolygonDecoration());
+		Label label = new Label(getTransition().getRule() + "!");
+		connection.add(label);
+		connection.getLayoutManager().setConstraint(label, new MidpointLocator(connection, 0) {
+			
+			@Override
+			protected Point getReferencePoint() {
+				Point p = super.getReferencePoint();
+				p.y -= 10;
+				return p;
+			}
+
+		});
 		return connection;
 	}
 

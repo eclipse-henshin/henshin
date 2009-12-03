@@ -52,8 +52,8 @@ public interface StateSpaceManager {
 	 * and their target states and adds them to the state space
 	 * if they do not exist yet.
 	 * @param state State to be explored.
-	 * @return List of newly created states.
+	 * @return List of newly created outgoing transitions.
 	 */
-	List<State> exploreState(State state);
+	List<Transition> exploreState(State state);
 	
 }

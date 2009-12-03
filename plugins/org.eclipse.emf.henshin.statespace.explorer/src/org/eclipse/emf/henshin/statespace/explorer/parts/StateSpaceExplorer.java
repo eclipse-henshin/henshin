@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -29,6 +30,7 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -80,13 +82,15 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		// Create the graphical viewer:
 		createGraphicalViewer(sashForm);
-		RootEditPart root = getGraphicalViewer().getRootEditPart();
-		ZoomManager zoomManager = ((ScalableFreeformRootEditPart) root).getZoomManager();
+		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
+		ScalableFreeformRootEditPart root = (ScalableFreeformRootEditPart) viewer.getRootEditPart();
+		FigureCanvas canvas = (FigureCanvas) viewer.getControl();
 		
 		// Add the tools menu:
 		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
 		toolsMenu.setStateSpaceManager(manager);
-		toolsMenu.setZoomManager(zoomManager);
+		toolsMenu.setZoomManager(root.getZoomManager());
+		toolsMenu.setCanvas(canvas);
 		
 		// Weights must be set at the end!
 		sashForm.setWeights(new int[] { 5,2 });

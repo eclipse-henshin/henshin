@@ -1,24 +1,33 @@
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceLayouterJob;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
 /**
@@ -32,16 +41,17 @@ public class StateSpaceToolsMenu extends Composite {
 	public static final Color BACKGROUND = new Color(null, 255, 255, 255);
 	
 	// Supported zoom levels:
-	public static double[] ZOOM_LEVELS = { .1, .2, .3, .4, .5, .6, .7, .8, .9, 1};
+	public static double[] ZOOM_LEVELS = {  .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, 
+											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
 	// Minimum and maximum repulsion:
 	public static final int LAYOUTER_PROPERTY_MIN = 10;
 	public static final int LAYOUTER_PROPERTY_MAX = 100;
 	
 	public static final double REPULSION_FACTOR = 2;
-	public static final double ATTRACTION_FACTOR = 0.2;
+	public static final double ATTRACTION_FACTOR = 0.1;
 	
-	public static final int NATURAL_LENGTH = 40;
+	public static final int NATURAL_LENGTH = 30;
 	
 	// Edit domain:
 	private EditDomain editDomain;
@@ -56,6 +66,9 @@ public class StateSpaceToolsMenu extends Composite {
 	// ZoomManager:
 	private ZoomManager zoomManager;
 	private Scale zoomScale;
+	
+	// Canvas:
+	private FigureCanvas canvas;
 
 	// Layouter:
 	private Button layouterCheckbox;
@@ -111,17 +124,17 @@ public class StateSpaceToolsMenu extends Composite {
 		transitionsLabel.setBackground(BACKGROUND);
 
 		// The zoom group:
-		Group zoom = new Group(this, SWT.NONE);
-		zoom.setText("Zoom");
-		zoom.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		zoom.setBackground(BACKGROUND);		
-		zoom.setLayout(new GridLayout(3, false));
+		Group display = new Group(this, SWT.NONE);
+		display.setText("Display");
+		display.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		display.setBackground(BACKGROUND);		
+		display.setLayout(new GridLayout(3, false));
 		
-		label = new Label(zoom, SWT.NONE);
-		label.setText((int) (ZOOM_LEVELS[0]*100) + "%");
+		label = new Label(display, SWT.NONE);
+		label.setText("Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%");
 		label.setBackground(BACKGROUND);
 		
-		zoomScale = new Scale(zoom, SWT.NONE);
+		zoomScale = new Scale(display, SWT.NONE);
 		zoomScale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		zoomScale.setBackground(BACKGROUND);
 		zoomScale.setEnabled(false);
@@ -142,7 +155,7 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 		});
 		
-		label = new Label(zoom, SWT.NONE);
+		label = new Label(display, SWT.NONE);
 		label.setText((int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
 		label.setBackground(BACKGROUND);
 
@@ -212,11 +225,24 @@ public class StateSpaceToolsMenu extends Composite {
 	}
 	
 	private void updateLayouterProperties() {
+		
 		if (layouterJob!=null) {
-			layouterJob.getLayouter().setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
-			layouterJob.getLayouter().setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
-			layouterJob.getLayouter().setNaturalTransitionLength(NATURAL_LENGTH);
+			
+			StateSpaceSpringLayouter layouter = layouterJob.getLayouter();
+			layouter.setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
+			layouter.setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
+			layouter.setNaturalTransitionLength(NATURAL_LENGTH);
+			
+			if (canvas!=null) {
+				Viewport port = canvas.getViewport();
+				int x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
+				int y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
+				layouter.setCenter(new int[] {x,y});
+			} else {
+				layouter.setCenter(null);
+			}
 		}
+		
 	}
 	
 	public void startLayouter() {
@@ -278,5 +304,27 @@ public class StateSpaceToolsMenu extends Composite {
 			  refresh();
 		  }
 	};
+
+	private SelectionListener listener = new SelectionListener() {
+		public void widgetDefaultSelected(SelectionEvent e) {
+			updateLayouterProperties();
+		}
+		public void widgetSelected(SelectionEvent e) {
+			updateLayouterProperties();
+		}
+	};
+
+	private Listener listener2 = new Listener() {
+		public void handleEvent(Event event) {
+			updateLayouterProperties();
+		}
+	};
+	
+	public void setCanvas(FigureCanvas canvas) {
+		this.canvas = canvas;
+		canvas.getHorizontalBar().addSelectionListener(listener);
+		canvas.getVerticalBar().addSelectionListener(listener);
+		canvas.addListener(SWT.Resize, listener2);
+	}
 	
 }

@@ -10,6 +10,8 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  */
 public class StateSpaceSpringLayouter {
 	
+	private static final int MIN_CHANGE = 1;
+	
 	// State space to be layouted:
 	private StateSpace stateSpace;
 	
@@ -21,6 +23,9 @@ public class StateSpaceSpringLayouter {
 	private int repulsion = 50;
 	private int attraction = 10;
 	private int naturalLength = 50;
+	
+	private int[] center;
+	
 	
 	/**
 	 * Set the state space.
@@ -55,15 +60,16 @@ public class StateSpaceSpringLayouter {
 			velocitiesY[i] = 0;
 			
 			State state = stateSpace.getStates().get(i);
+			int[] location = state.getLocation();
 			int[] netForce = new int[2];
-			
+						
 			// State repulsion:
 			for (int j=0; j<states; j++) {
 				
 				if (i==j) continue;            
 				State otherState = stateSpace.getStates().get(j);
 				
-				int[] repulsion = stateRepulsion(state,otherState);
+				int[] repulsion = stateRepulsion(location, otherState.getLocation());
 				netForce[0] += repulsion[0];
 				netForce[1] += repulsion[1];
 
@@ -83,10 +89,17 @@ public class StateSpaceSpringLayouter {
 				if (otherState==state || otherState==null) continue;
 				
 				// Calculate and add transition attraction:
-				int[] attraction = transitionAttraction(state, otherState);
+				int[] attraction = transitionAttraction(location, otherState.getLocation());
 				netForce[0] += attraction[0];
 				netForce[1] += attraction[1];
 				
+			}
+			
+			// Add the attraction to the center:
+			if (center!=null) {
+				int[] attraction = transitionAttraction(location, center);
+				netForce[0] += (attraction[0] / 5);
+				netForce[1] += (attraction[1] / 5);
 			}
 			
 			// Update the velocities:
@@ -94,10 +107,7 @@ public class StateSpaceSpringLayouter {
 			velocitiesY[i] = netForce[1];
 			
 			// Check if something changed:
-			if (!changed) {
-				changed = 	Math.abs(velocitiesX[i])>1 || 
-							Math.abs(velocitiesY[i])>1;
-			}
+			changed = changed || Math.abs(velocitiesX[i])>MIN_CHANGE || Math.abs(velocitiesY[i])>MIN_CHANGE;
 			
 		}
 		
@@ -129,13 +139,13 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the transition attraction between two states.
 	 */
-	private int[] transitionAttraction(State s1, State s2) {
-		int[] direction = direction(s2,s1);
+	private int[] transitionAttraction(int[] l1, int[] l2) {
+		int[] direction = direction(l2,l1);
 		double distance = length(direction);
-		if (distance>5) {
+		if (distance>1) {
 			double factor = attraction * Math.log(distance / naturalLength) / distance;
 			direction[0] *= factor;
-			direction[1] *= factor;
+			direction[1] *= factor;			
 		} else {
 			direction = randomShift();
 		}
@@ -145,10 +155,10 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the repulsion between two states.
 	 */
-	public int[] stateRepulsion(State s1, State s2) {
-		int[] direction = direction(s1,s2);
+	public int[] stateRepulsion(int[] l1, int[] l2) {
+		int[] direction = direction(l1,l2);
 		double distance = length(direction);
-		if (distance>1) {
+		if (distance>5) {
 			double factor = (repulsion*repulsion) / (distance*distance*distance);
 			direction[0] *= factor;
 			direction[1] *= factor;
@@ -161,13 +171,8 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the direction vector between two states.
 	 */
-	private int[] direction(State s1, State s2) {
-		int[] l1 = s1.getLocation();
-		int[] l2 = s2.getLocation();
-		l1[0] -= l2[0];
-		l1[1] -= l2[1];
-		//l1[2] -= l2[2];
-		return l1;
+	private int[] direction(int[] l1, int[] l2) {
+		return new int[] { l1[0]-l2[0], l1[1]-l2[1] } ;
 	}
 	
 	/*
@@ -189,8 +194,8 @@ public class StateSpaceSpringLayouter {
 	 */
 	private int[] randomShift() {
 		int[] shift = new int[3];
-		shift[0] += 10*Math.random()-5;
-		shift[1] += 10*Math.random()-5;
+		shift[0] += 5; //10*Math.random()-5;
+		shift[1] += 5; //10*Math.random()-5;
 		return shift;
 	}
 
@@ -217,5 +222,9 @@ public class StateSpaceSpringLayouter {
 	public void setNaturalTransitionLength(int naturalLength) {
 		this.naturalLength = naturalLength;
 	}
-
+	
+	public void setCenter(int[] center) {
+		this.center = center;
+	}
+	
 }
