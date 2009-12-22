@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.2 2009/10/28 10:37:49 enrico Exp $
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://emftiger"
+            class="org.eclipse.emf.henshin.model.HenshinPackage"
+            genModel="model/emftiger.genmodel"/>
+   </extension>
+
+</plugin>
