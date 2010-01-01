@@ -31,41 +31,41 @@ import org.eclipse.emf.henshin.model.PortObject;
  * @generated
  */
 public class PortObjectImpl extends PortImpl implements PortObject {
-        /**
+	/**
 	 * The cached value of the '{@link #getNode() <em>Node</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getNode()
 	 * @generated
 	 * @ordered
 	 */
-        protected Node node;
+	protected Node node;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected PortObjectImpl() {
+	protected PortObjectImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.PORT_OBJECT;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node getNode() {
+	public Node getNode() {
 		if (node != null && node.eIsProxy()) {
 			InternalEObject oldNode = (InternalEObject)node;
 			node = (Node)eResolveProxy(oldNode);
@@ -77,82 +77,82 @@ public class PortObjectImpl extends PortImpl implements PortObject {
 		return node;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node basicGetNode() {
+	public Node basicGetNode() {
 		return node;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setNode(Node newNode) {
+	public void setNode(Node newNode) {
 		Node oldNode = node;
 		node = newNode;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT_OBJECT__NODE, oldNode, node));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.PORT_OBJECT__NODE:
-				if (resolve) return getNode();
-				return basicGetNode();
+		case HenshinPackage.PORT_OBJECT__NODE:
+			if (resolve) return getNode();
+			return basicGetNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.PORT_OBJECT__NODE:
-				setNode((Node)newValue);
-				return;
+		case HenshinPackage.PORT_OBJECT__NODE:
+			setNode((Node)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PORT_OBJECT__NODE:
-				setNode((Node)null);
-				return;
+		case HenshinPackage.PORT_OBJECT__NODE:
+			setNode((Node)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PORT_OBJECT__NODE:
-				return node != null;
+		case HenshinPackage.PORT_OBJECT__NODE:
+			return node != null;
 		}
 		return super.eIsSet(featureID);
 	}

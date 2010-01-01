@@ -33,51 +33,51 @@ import org.eclipse.emf.henshin.model.Node;
  * @generated
  */
 public class MappingImpl extends EObjectImpl implements Mapping {
-        /**
+	/**
 	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getOrigin()
 	 * @generated
 	 * @ordered
 	 */
-        protected Node origin;
+	protected Node origin;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getImage() <em>Image</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getImage()
 	 * @generated
 	 * @ordered
 	 */
-        protected Node image;
+	protected Node image;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected MappingImpl() {
+	protected MappingImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.MAPPING;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node getOrigin() {
+	public Node getOrigin() {
 		if (origin != null && origin.eIsProxy()) {
 			InternalEObject oldOrigin = (InternalEObject)origin;
 			origin = (Node)eResolveProxy(oldOrigin);
@@ -89,33 +89,33 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 		return origin;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node basicGetOrigin() {
+	public Node basicGetOrigin() {
 		return origin;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setOrigin(Node newOrigin) {
+	public void setOrigin(Node newOrigin) {
 		Node oldOrigin = origin;
 		origin = newOrigin;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.MAPPING__ORIGIN, oldOrigin, origin));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node getImage() {
+	public Node getImage() {
 		if (image != null && image.eIsProxy()) {
 			InternalEObject oldImage = (InternalEObject)image;
 			image = (Node)eResolveProxy(oldImage);
@@ -127,93 +127,93 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 		return image;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Node basicGetImage() {
+	public Node basicGetImage() {
 		return image;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setImage(Node newImage) {
+	public void setImage(Node newImage) {
 		Node oldImage = image;
 		image = newImage;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.MAPPING__IMAGE, oldImage, image));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.MAPPING__ORIGIN:
-				if (resolve) return getOrigin();
-				return basicGetOrigin();
-			case HenshinPackage.MAPPING__IMAGE:
-				if (resolve) return getImage();
-				return basicGetImage();
+		case HenshinPackage.MAPPING__ORIGIN:
+			if (resolve) return getOrigin();
+			return basicGetOrigin();
+		case HenshinPackage.MAPPING__IMAGE:
+			if (resolve) return getImage();
+			return basicGetImage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.MAPPING__ORIGIN:
-				setOrigin((Node)newValue);
-				return;
-			case HenshinPackage.MAPPING__IMAGE:
-				setImage((Node)newValue);
-				return;
+		case HenshinPackage.MAPPING__ORIGIN:
+			setOrigin((Node)newValue);
+			return;
+		case HenshinPackage.MAPPING__IMAGE:
+			setImage((Node)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.MAPPING__ORIGIN:
-				setOrigin((Node)null);
-				return;
-			case HenshinPackage.MAPPING__IMAGE:
-				setImage((Node)null);
-				return;
+		case HenshinPackage.MAPPING__ORIGIN:
+			setOrigin((Node)null);
+			return;
+		case HenshinPackage.MAPPING__IMAGE:
+			setImage((Node)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.MAPPING__ORIGIN:
-				return origin != null;
-			case HenshinPackage.MAPPING__IMAGE:
-				return image != null;
+		case HenshinPackage.MAPPING__ORIGIN:
+			return origin != null;
+		case HenshinPackage.MAPPING__IMAGE:
+			return image != null;
 		}
 		return super.eIsSet(featureID);
 	}

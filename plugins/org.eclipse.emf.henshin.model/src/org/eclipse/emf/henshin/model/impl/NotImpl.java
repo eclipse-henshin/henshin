@@ -21,22 +21,22 @@ import org.eclipse.emf.henshin.model.Not;
  * @generated
  */
 public class NotImpl extends UnaryFormulaImpl implements Not {
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected NotImpl() {
+	protected NotImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.NOT;
 	}
 

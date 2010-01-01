@@ -31,59 +31,59 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public interface Node extends NamedElement {
-        /**
+	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Type</em>' reference isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Type()
 	 * @model required="true"
 	 * @generated
 	 */
-        EClass getType();
+	EClass getType();
 
-        /**
+	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getType <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' reference.
 	 * @see #getType()
 	 * @generated
 	 */
-        void setType(EClass value);
+	void setType(EClass value);
 
-        /**
+	/**
 	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Attribute}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Attribute#getNode <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Attributes()
 	 * @see org.eclipse.emf.henshin.model.Attribute#getNode
 	 * @model opposite="node" containment="true"
 	 * @generated
 	 */
-        EList<Attribute> getAttributes();
+	EList<Attribute> getAttributes();
 
-        /**
+	/**
 	 * Returns the value of the '<em><b>Graph</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Graph#getNodes <em>Nodes</em>}'.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Graph</em>' container reference isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Graph</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Graph()
@@ -91,52 +91,52 @@ public interface Node extends NamedElement {
 	 * @model opposite="nodes" required="true" transient="false"
 	 * @generated
 	 */
-        Graph getGraph();
+	Graph getGraph();
 
-        /**
+	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Node#getGraph <em>Graph</em>}' container reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Graph</em>' container reference.
 	 * @see #getGraph()
 	 * @generated
 	 */
-        void setGraph(Graph value);
+	void setGraph(Graph value);
 
-        /**
+	/**
 	 * Returns the value of the '<em><b>Incoming</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Edge#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Incoming</em>' reference list isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Incoming</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Incoming</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Incoming()
 	 * @see org.eclipse.emf.henshin.model.Edge#getTarget
 	 * @model opposite="target"
 	 * @generated
 	 */
-        EList<Edge> getIncoming();
+	EList<Edge> getIncoming();
 
-        /**
+	/**
 	 * Returns the value of the '<em><b>Outgoing</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Edge#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Outgoing</em>' reference list isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Outgoing</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outgoing</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Outgoing()
 	 * @see org.eclipse.emf.henshin.model.Edge#getSource
 	 * @model opposite="source"
 	 * @generated
 	 */
-        EList<Edge> getOutgoing();
+	EList<Edge> getOutgoing();
 
 } // Node

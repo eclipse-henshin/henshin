@@ -33,70 +33,70 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class CountedUnitImpl extends TransformationUnitImpl implements CountedUnit {
-        /**
+	/**
 	 * The cached value of the '{@link #getSubUnit() <em>Sub Unit</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSubUnit()
 	 * @generated
 	 * @ordered
 	 */
-        protected TransformationUnit subUnit;
+	protected TransformationUnit subUnit;
 
-        /**
+	/**
 	 * The default value of the '{@link #getCount() <em>Count</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getCount()
 	 * @generated
 	 * @ordered
 	 */
-        protected static final int COUNT_EDEFAULT = 0;
+	protected static final int COUNT_EDEFAULT = 0;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getCount() <em>Count</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getCount()
 	 * @generated
 	 * @ordered
 	 */
-        protected int count = COUNT_EDEFAULT;
+	protected int count = COUNT_EDEFAULT;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected CountedUnitImpl() {
+	protected CountedUnitImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.COUNTED_UNIT;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public TransformationUnit getSubUnit() {
+	public TransformationUnit getSubUnit() {
 		return subUnit;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetSubUnit(TransformationUnit newSubUnit, NotificationChain msgs) {
+	public NotificationChain basicSetSubUnit(TransformationUnit newSubUnit, NotificationChain msgs) {
 		TransformationUnit oldSubUnit = subUnit;
 		subUnit = newSubUnit;
 		if (eNotificationRequired()) {
@@ -106,12 +106,12 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setSubUnit(TransformationUnit newSubUnit) {
+	public void setSubUnit(TransformationUnit newSubUnit) {
 		if (newSubUnit != subUnit) {
 			NotificationChain msgs = null;
 			if (subUnit != null)
@@ -125,116 +125,116 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__SUB_UNIT, newSubUnit, newSubUnit));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public int getCount() {
+	public int getCount() {
 		return count;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setCount(int newCount) {
+	public void setCount(int newCount) {
 		int oldCount = count;
 		count = newCount;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__COUNT, oldCount, count));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				return basicSetSubUnit(null, msgs);
+		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+			return basicSetSubUnit(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				return getSubUnit();
-			case HenshinPackage.COUNTED_UNIT__COUNT:
-				return getCount();
+		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+			return getSubUnit();
+		case HenshinPackage.COUNTED_UNIT__COUNT:
+			return getCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				setSubUnit((TransformationUnit)newValue);
-				return;
-			case HenshinPackage.COUNTED_UNIT__COUNT:
-				setCount((Integer)newValue);
-				return;
+		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+			setSubUnit((TransformationUnit)newValue);
+			return;
+		case HenshinPackage.COUNTED_UNIT__COUNT:
+			setCount((Integer)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				setSubUnit((TransformationUnit)null);
-				return;
-			case HenshinPackage.COUNTED_UNIT__COUNT:
-				setCount(COUNT_EDEFAULT);
-				return;
+		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+			setSubUnit((TransformationUnit)null);
+			return;
+		case HenshinPackage.COUNTED_UNIT__COUNT:
+			setCount(COUNT_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				return subUnit != null;
-			case HenshinPackage.COUNTED_UNIT__COUNT:
-				return count != COUNT_EDEFAULT;
+		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+			return subUnit != null;
+		case HenshinPackage.COUNTED_UNIT__COUNT:
+			return count != COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public String toString() {
+	@Override
+	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

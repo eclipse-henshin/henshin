@@ -36,117 +36,117 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class PriorityUnitImpl extends TransformationUnitImpl implements PriorityUnit {
-        /**
+	/**
 	 * The cached value of the '{@link #getSubUnits() <em>Sub Units</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSubUnits()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<TransformationUnit> subUnits;
+	protected EList<TransformationUnit> subUnits;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected PriorityUnitImpl() {
+	protected PriorityUnitImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.PRIORITY_UNIT;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<TransformationUnit> getSubUnits() {
+	public EList<TransformationUnit> getSubUnits() {
 		if (subUnits == null) {
 			subUnits = new EObjectContainmentEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.PRIORITY_UNIT__SUB_UNITS);
 		}
 		return subUnits;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
-				return ((InternalEList<?>)getSubUnits()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
+			return ((InternalEList<?>)getSubUnits()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
-				return getSubUnits();
+		case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
+			return getSubUnits();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
-				getSubUnits().clear();
-				getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
-				return;
+		case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
+			getSubUnits().clear();
+			getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
-				getSubUnits().clear();
-				return;
+		case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
+			getSubUnits().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
-				return subUnits != null && !subUnits.isEmpty();
+		case HenshinPackage.PRIORITY_UNIT__SUB_UNITS:
+			return subUnits != null && !subUnits.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

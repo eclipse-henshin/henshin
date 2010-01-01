@@ -25,30 +25,30 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface DescribedElement extends EObject {
-        /**
+	/**
 	 * Returns the value of the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-         * <p>
-         * If the meaning of the '<em>Description</em>' attribute isn't clear,
-         * there really should be more of a description here...
-         * </p>
-         * <!-- end-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getDescribedElement_Description()
 	 * @model
 	 * @generated
 	 */
-        String getDescription();
+	String getDescription();
 
-        /**
+	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.DescribedElement#getDescription <em>Description</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Description</em>' attribute.
 	 * @see #getDescription()
 	 * @generated
 	 */
-        void setDescription(String value);
+	void setDescription(String value);
 
 } // DescribedElement

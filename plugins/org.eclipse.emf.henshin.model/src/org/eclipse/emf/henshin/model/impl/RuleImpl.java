@@ -52,131 +52,131 @@ import org.eclipse.emf.henshin.model.Variable;
  * @generated
  */
 public class RuleImpl extends DescribedElementImpl implements Rule {
-        /**
+	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-        protected static final String NAME_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = null;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-        protected String name = NAME_EDEFAULT;
+	protected String name = NAME_EDEFAULT;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLhs()
 	 * @generated
 	 * @ordered
 	 */
-        protected Graph lhs;
+	protected Graph lhs;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getRhs() <em>Rhs</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRhs()
 	 * @generated
 	 * @ordered
 	 */
-        protected Graph rhs;
+	protected Graph rhs;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getAttributeConditions() <em>Attribute Conditions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getAttributeConditions()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<AttributeCondition> attributeConditions;
+	protected EList<AttributeCondition> attributeConditions;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMappings()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<Mapping> mappings;
+	protected EList<Mapping> mappings;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getVariables() <em>Variables</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getVariables()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<Variable> variables;
+	protected EList<Variable> variables;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected RuleImpl() {
+	protected RuleImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.RULE;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public String getName() {
+	public String getName() {
 		return name;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setName(String newName) {
+	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__NAME, oldName, name));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Graph getLhs() {
+	public Graph getLhs() {
 		return lhs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetLhs(Graph newLhs, NotificationChain msgs) {
+	public NotificationChain basicSetLhs(Graph newLhs, NotificationChain msgs) {
 		Graph oldLhs = lhs;
 		lhs = newLhs;
 		if (eNotificationRequired()) {
@@ -186,12 +186,12 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setLhs(Graph newLhs) {
+	public void setLhs(Graph newLhs) {
 		if (newLhs != lhs) {
 			NotificationChain msgs = null;
 			if (lhs != null)
@@ -205,21 +205,21 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__LHS, newLhs, newLhs));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Graph getRhs() {
+	public Graph getRhs() {
 		return rhs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetRhs(Graph newRhs, NotificationChain msgs) {
+	public NotificationChain basicSetRhs(Graph newRhs, NotificationChain msgs) {
 		Graph oldRhs = rhs;
 		rhs = newRhs;
 		if (eNotificationRequired()) {
@@ -229,12 +229,12 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setRhs(Graph newRhs) {
+	public void setRhs(Graph newRhs) {
 		if (newRhs != rhs) {
 			NotificationChain msgs = null;
 			if (rhs != null)
@@ -248,56 +248,56 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__RHS, newRhs, newRhs));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<AttributeCondition> getAttributeConditions() {
+	public EList<AttributeCondition> getAttributeConditions() {
 		if (attributeConditions == null) {
 			attributeConditions = new EObjectContainmentWithInverseEList<AttributeCondition>(AttributeCondition.class, this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, HenshinPackage.ATTRIBUTE_CONDITION__RULE);
 		}
 		return attributeConditions;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<Mapping> getMappings() {
+	public EList<Mapping> getMappings() {
 		if (mappings == null) {
 			mappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.RULE__MAPPINGS);
 		}
 		return mappings;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public TransformationSystem getTransformationSystem() {
+	public TransformationSystem getTransformationSystem() {
 		if (eContainerFeatureID() != HenshinPackage.RULE__TRANSFORMATION_SYSTEM) return null;
 		return (TransformationSystem)eContainer();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetTransformationSystem(TransformationSystem newTransformationSystem, NotificationChain msgs) {
+	public NotificationChain basicSetTransformationSystem(TransformationSystem newTransformationSystem, NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newTransformationSystem, HenshinPackage.RULE__TRANSFORMATION_SYSTEM, msgs);
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setTransformationSystem(TransformationSystem newTransformationSystem) {
+	public void setTransformationSystem(TransformationSystem newTransformationSystem) {
 		if (newTransformationSystem != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.RULE__TRANSFORMATION_SYSTEM && newTransformationSystem != null)) {
 			if (EcoreUtil.isAncestor(this, newTransformationSystem))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -313,238 +313,238 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__TRANSFORMATION_SYSTEM, newTransformationSystem, newTransformationSystem));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<Variable> getVariables() {
+	public EList<Variable> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentWithInverseEList<Variable>(Variable.class, this, HenshinPackage.RULE__VARIABLES, HenshinPackage.VARIABLE__RULE);
 		}
 		return variables;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetTransformationSystem((TransformationSystem)otherEnd, msgs);
-			case HenshinPackage.RULE__VARIABLES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariables()).basicAdd(otherEnd, msgs);
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			return basicSetTransformationSystem((TransformationSystem)otherEnd, msgs);
+		case HenshinPackage.RULE__VARIABLES:
+			return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariables()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.RULE__LHS:
-				return basicSetLhs(null, msgs);
-			case HenshinPackage.RULE__RHS:
-				return basicSetRhs(null, msgs);
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				return ((InternalEList<?>)getAttributeConditions()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.RULE__MAPPINGS:
-				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return basicSetTransformationSystem(null, msgs);
-			case HenshinPackage.RULE__VARIABLES:
-				return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.RULE__LHS:
+			return basicSetLhs(null, msgs);
+		case HenshinPackage.RULE__RHS:
+			return basicSetRhs(null, msgs);
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			return ((InternalEList<?>)getAttributeConditions()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.RULE__MAPPINGS:
+			return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			return basicSetTransformationSystem(null, msgs);
+		case HenshinPackage.RULE__VARIABLES:
+			return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.RULE__NAME:
-				return getName();
-			case HenshinPackage.RULE__LHS:
-				return getLhs();
-			case HenshinPackage.RULE__RHS:
-				return getRhs();
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				return getAttributeConditions();
-			case HenshinPackage.RULE__MAPPINGS:
-				return getMappings();
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return getTransformationSystem();
-			case HenshinPackage.RULE__VARIABLES:
-				return getVariables();
+		case HenshinPackage.RULE__NAME:
+			return getName();
+		case HenshinPackage.RULE__LHS:
+			return getLhs();
+		case HenshinPackage.RULE__RHS:
+			return getRhs();
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			return getAttributeConditions();
+		case HenshinPackage.RULE__MAPPINGS:
+			return getMappings();
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			return getTransformationSystem();
+		case HenshinPackage.RULE__VARIABLES:
+			return getVariables();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.RULE__NAME:
-				setName((String)newValue);
-				return;
-			case HenshinPackage.RULE__LHS:
-				setLhs((Graph)newValue);
-				return;
-			case HenshinPackage.RULE__RHS:
-				setRhs((Graph)newValue);
-				return;
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				getAttributeConditions().clear();
-				getAttributeConditions().addAll((Collection<? extends AttributeCondition>)newValue);
-				return;
-			case HenshinPackage.RULE__MAPPINGS:
-				getMappings().clear();
-				getMappings().addAll((Collection<? extends Mapping>)newValue);
-				return;
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				setTransformationSystem((TransformationSystem)newValue);
-				return;
-			case HenshinPackage.RULE__VARIABLES:
-				getVariables().clear();
-				getVariables().addAll((Collection<? extends Variable>)newValue);
-				return;
+		case HenshinPackage.RULE__NAME:
+			setName((String)newValue);
+			return;
+		case HenshinPackage.RULE__LHS:
+			setLhs((Graph)newValue);
+			return;
+		case HenshinPackage.RULE__RHS:
+			setRhs((Graph)newValue);
+			return;
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			getAttributeConditions().clear();
+			getAttributeConditions().addAll((Collection<? extends AttributeCondition>)newValue);
+			return;
+		case HenshinPackage.RULE__MAPPINGS:
+			getMappings().clear();
+			getMappings().addAll((Collection<? extends Mapping>)newValue);
+			return;
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			setTransformationSystem((TransformationSystem)newValue);
+			return;
+		case HenshinPackage.RULE__VARIABLES:
+			getVariables().clear();
+			getVariables().addAll((Collection<? extends Variable>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.RULE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case HenshinPackage.RULE__LHS:
-				setLhs((Graph)null);
-				return;
-			case HenshinPackage.RULE__RHS:
-				setRhs((Graph)null);
-				return;
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				getAttributeConditions().clear();
-				return;
-			case HenshinPackage.RULE__MAPPINGS:
-				getMappings().clear();
-				return;
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				setTransformationSystem((TransformationSystem)null);
-				return;
-			case HenshinPackage.RULE__VARIABLES:
-				getVariables().clear();
-				return;
+		case HenshinPackage.RULE__NAME:
+			setName(NAME_EDEFAULT);
+			return;
+		case HenshinPackage.RULE__LHS:
+			setLhs((Graph)null);
+			return;
+		case HenshinPackage.RULE__RHS:
+			setRhs((Graph)null);
+			return;
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			getAttributeConditions().clear();
+			return;
+		case HenshinPackage.RULE__MAPPINGS:
+			getMappings().clear();
+			return;
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			setTransformationSystem((TransformationSystem)null);
+			return;
+		case HenshinPackage.RULE__VARIABLES:
+			getVariables().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.RULE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case HenshinPackage.RULE__LHS:
-				return lhs != null;
-			case HenshinPackage.RULE__RHS:
-				return rhs != null;
-			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-				return attributeConditions != null && !attributeConditions.isEmpty();
-			case HenshinPackage.RULE__MAPPINGS:
-				return mappings != null && !mappings.isEmpty();
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return getTransformationSystem() != null;
-			case HenshinPackage.RULE__VARIABLES:
-				return variables != null && !variables.isEmpty();
+		case HenshinPackage.RULE__NAME:
+			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+		case HenshinPackage.RULE__LHS:
+			return lhs != null;
+		case HenshinPackage.RULE__RHS:
+			return rhs != null;
+		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+			return attributeConditions != null && !attributeConditions.isEmpty();
+		case HenshinPackage.RULE__MAPPINGS:
+			return mappings != null && !mappings.isEmpty();
+		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+			return getTransformationSystem() != null;
+		case HenshinPackage.RULE__VARIABLES:
+			return variables != null && !variables.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-				case HenshinPackage.RULE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-				default: return -1;
+			case HenshinPackage.RULE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+			default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.RULE__NAME;
-				default: return -1;
+			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.RULE__NAME;
+			default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public String toString() {
+	@Override
+	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

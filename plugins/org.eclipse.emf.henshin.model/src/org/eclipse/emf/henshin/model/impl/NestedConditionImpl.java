@@ -42,101 +42,101 @@ import org.eclipse.emf.henshin.model.NestedCondition;
  * @generated
  */
 public class NestedConditionImpl extends FormulaImpl implements NestedCondition {
-        /**
+	/**
 	 * The default value of the '{@link #isNegated() <em>Negated</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isNegated()
 	 * @generated
 	 * @ordered
 	 */
-        protected static final boolean NEGATED_EDEFAULT = false;
+	protected static final boolean NEGATED_EDEFAULT = false;
 
-        /**
+	/**
 	 * The cached value of the '{@link #isNegated() <em>Negated</em>}' attribute.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isNegated()
 	 * @generated
 	 * @ordered
 	 */
-        protected boolean negated = NEGATED_EDEFAULT;
+	protected boolean negated = NEGATED_EDEFAULT;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getConclusion() <em>Conclusion</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getConclusion()
 	 * @generated
 	 * @ordered
 	 */
-        protected Graph conclusion;
+	protected Graph conclusion;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMappings()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<Mapping> mappings;
+	protected EList<Mapping> mappings;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected NestedConditionImpl() {
+	protected NestedConditionImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.NESTED_CONDITION;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public boolean isNegated() {
+	public boolean isNegated() {
 		return negated;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setNegated(boolean newNegated) {
+	public void setNegated(boolean newNegated) {
 		boolean oldNegated = negated;
 		negated = newNegated;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NESTED_CONDITION__NEGATED, oldNegated, negated));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Graph getConclusion() {
+	public Graph getConclusion() {
 		return conclusion;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetConclusion(Graph newConclusion, NotificationChain msgs) {
+	public NotificationChain basicSetConclusion(Graph newConclusion, NotificationChain msgs) {
 		Graph oldConclusion = conclusion;
 		conclusion = newConclusion;
 		if (eNotificationRequired()) {
@@ -146,12 +146,12 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setConclusion(Graph newConclusion) {
+	public void setConclusion(Graph newConclusion) {
 		if (newConclusion != conclusion) {
 			NotificationChain msgs = null;
 			if (conclusion != null)
@@ -165,121 +165,121 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NESTED_CONDITION__CONCLUSION, newConclusion, newConclusion));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<Mapping> getMappings() {
+	public EList<Mapping> getMappings() {
 		if (mappings == null) {
 			mappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.NESTED_CONDITION__MAPPINGS);
 		}
 		return mappings;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				return basicSetConclusion(null, msgs);
-			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+			return basicSetConclusion(null, msgs);
+		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+			return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.NESTED_CONDITION__NEGATED:
-				return isNegated();
-			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				return getConclusion();
-			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-				return getMappings();
+		case HenshinPackage.NESTED_CONDITION__NEGATED:
+			return isNegated();
+		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+			return getConclusion();
+		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+			return getMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.NESTED_CONDITION__NEGATED:
-				setNegated((Boolean)newValue);
-				return;
-			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				setConclusion((Graph)newValue);
-				return;
-			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-				getMappings().clear();
-				getMappings().addAll((Collection<? extends Mapping>)newValue);
-				return;
+		case HenshinPackage.NESTED_CONDITION__NEGATED:
+			setNegated((Boolean)newValue);
+			return;
+		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+			setConclusion((Graph)newValue);
+			return;
+		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+			getMappings().clear();
+			getMappings().addAll((Collection<? extends Mapping>)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.NESTED_CONDITION__NEGATED:
-				setNegated(NEGATED_EDEFAULT);
-				return;
-			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				setConclusion((Graph)null);
-				return;
-			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-				getMappings().clear();
-				return;
+		case HenshinPackage.NESTED_CONDITION__NEGATED:
+			setNegated(NEGATED_EDEFAULT);
+			return;
+		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+			setConclusion((Graph)null);
+			return;
+		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+			getMappings().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.NESTED_CONDITION__NEGATED:
-				return negated != NEGATED_EDEFAULT;
-			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-				return conclusion != null;
-			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-				return mappings != null && !mappings.isEmpty();
+		case HenshinPackage.NESTED_CONDITION__NEGATED:
+			return negated != NEGATED_EDEFAULT;
+		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+			return conclusion != null;
+		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+			return mappings != null && !mappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public String toString() {
+	@Override
+	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());

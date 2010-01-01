@@ -195,7 +195,7 @@
   </diagram>
   <plugin
       name="Henshin Diagram Editor Plugin"
-      provider="Eclipse.oorg">
+      provider="Eclipse.org">
     <requiredPlugins>org.eclipse.draw2d</requiredPlugins>
     <requiredPlugins>org.eclipse.gmf.runtime.draw2d.ui</requiredPlugins>
   </plugin>

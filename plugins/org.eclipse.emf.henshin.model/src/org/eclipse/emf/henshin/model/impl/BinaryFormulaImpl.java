@@ -33,60 +33,60 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
-        /**
+	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLeft()
 	 * @generated
 	 * @ordered
 	 */
-        protected Formula left;
+	protected Formula left;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRight()
 	 * @generated
 	 * @ordered
 	 */
-        protected Formula right;
+	protected Formula right;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected BinaryFormulaImpl() {
+	protected BinaryFormulaImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.BINARY_FORMULA;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Formula getLeft() {
+	public Formula getLeft() {
 		return left;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetLeft(Formula newLeft, NotificationChain msgs) {
+	public NotificationChain basicSetLeft(Formula newLeft, NotificationChain msgs) {
 		Formula oldLeft = left;
 		left = newLeft;
 		if (eNotificationRequired()) {
@@ -96,12 +96,12 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setLeft(Formula newLeft) {
+	public void setLeft(Formula newLeft) {
 		if (newLeft != left) {
 			NotificationChain msgs = null;
 			if (left != null)
@@ -115,21 +115,21 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.BINARY_FORMULA__LEFT, newLeft, newLeft));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Formula getRight() {
+	public Formula getRight() {
 		return right;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetRight(Formula newRight, NotificationChain msgs) {
+	public NotificationChain basicSetRight(Formula newRight, NotificationChain msgs) {
 		Formula oldRight = right;
 		right = newRight;
 		if (eNotificationRequired()) {
@@ -139,12 +139,12 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setRight(Formula newRight) {
+	public void setRight(Formula newRight) {
 		if (newRight != right) {
 			NotificationChain msgs = null;
 			if (right != null)
@@ -158,86 +158,86 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.BINARY_FORMULA__RIGHT, newRight, newRight));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.BINARY_FORMULA__LEFT:
-				return basicSetLeft(null, msgs);
-			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				return basicSetRight(null, msgs);
+		case HenshinPackage.BINARY_FORMULA__LEFT:
+			return basicSetLeft(null, msgs);
+		case HenshinPackage.BINARY_FORMULA__RIGHT:
+			return basicSetRight(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.BINARY_FORMULA__LEFT:
-				return getLeft();
-			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				return getRight();
+		case HenshinPackage.BINARY_FORMULA__LEFT:
+			return getLeft();
+		case HenshinPackage.BINARY_FORMULA__RIGHT:
+			return getRight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.BINARY_FORMULA__LEFT:
-				setLeft((Formula)newValue);
-				return;
-			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				setRight((Formula)newValue);
-				return;
+		case HenshinPackage.BINARY_FORMULA__LEFT:
+			setLeft((Formula)newValue);
+			return;
+		case HenshinPackage.BINARY_FORMULA__RIGHT:
+			setRight((Formula)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.BINARY_FORMULA__LEFT:
-				setLeft((Formula)null);
-				return;
-			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				setRight((Formula)null);
-				return;
+		case HenshinPackage.BINARY_FORMULA__LEFT:
+			setLeft((Formula)null);
+			return;
+		case HenshinPackage.BINARY_FORMULA__RIGHT:
+			setRight((Formula)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.BINARY_FORMULA__LEFT:
-				return left != null;
-			case HenshinPackage.BINARY_FORMULA__RIGHT:
-				return right != null;
+		case HenshinPackage.BINARY_FORMULA__LEFT:
+			return left != null;
+		case HenshinPackage.BINARY_FORMULA__RIGHT:
+			return right != null;
 		}
 		return super.eIsSet(featureID);
 	}

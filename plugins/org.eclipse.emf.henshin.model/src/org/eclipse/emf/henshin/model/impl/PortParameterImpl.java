@@ -31,41 +31,41 @@ import org.eclipse.emf.henshin.model.Variable;
  * @generated
  */
 public class PortParameterImpl extends PortImpl implements PortParameter {
-        /**
+	/**
 	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getVariable()
 	 * @generated
 	 * @ordered
 	 */
-        protected Variable variable;
+	protected Variable variable;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected PortParameterImpl() {
+	protected PortParameterImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.PORT_PARAMETER;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Variable getVariable() {
+	public Variable getVariable() {
 		if (variable != null && variable.eIsProxy()) {
 			InternalEObject oldVariable = (InternalEObject)variable;
 			variable = (Variable)eResolveProxy(oldVariable);
@@ -77,82 +77,82 @@ public class PortParameterImpl extends PortImpl implements PortParameter {
 		return variable;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Variable basicGetVariable() {
+	public Variable basicGetVariable() {
 		return variable;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setVariable(Variable newVariable) {
+	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		variable = newVariable;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT_PARAMETER__VARIABLE, oldVariable, variable));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.PORT_PARAMETER__VARIABLE:
-				if (resolve) return getVariable();
-				return basicGetVariable();
+		case HenshinPackage.PORT_PARAMETER__VARIABLE:
+			if (resolve) return getVariable();
+			return basicGetVariable();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.PORT_PARAMETER__VARIABLE:
-				setVariable((Variable)newValue);
-				return;
+		case HenshinPackage.PORT_PARAMETER__VARIABLE:
+			setVariable((Variable)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PORT_PARAMETER__VARIABLE:
-				setVariable((Variable)null);
-				return;
+		case HenshinPackage.PORT_PARAMETER__VARIABLE:
+			setVariable((Variable)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.PORT_PARAMETER__VARIABLE:
-				return variable != null;
+		case HenshinPackage.PORT_PARAMETER__VARIABLE:
+			return variable != null;
 		}
 		return super.eIsSet(featureID);
 	}

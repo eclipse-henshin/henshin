@@ -31,41 +31,41 @@ import org.eclipse.emf.henshin.model.SingleUnit;
  * @generated
  */
 public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit {
-        /**
+	/**
 	 * The cached value of the '{@link #getRule() <em>Rule</em>}' reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRule()
 	 * @generated
 	 * @ordered
 	 */
-        protected Rule rule;
+	protected Rule rule;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected SingleUnitImpl() {
+	protected SingleUnitImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.SINGLE_UNIT;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Rule getRule() {
+	public Rule getRule() {
 		if (rule != null && rule.eIsProxy()) {
 			InternalEObject oldRule = (InternalEObject)rule;
 			rule = (Rule)eResolveProxy(oldRule);
@@ -77,82 +77,82 @@ public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit
 		return rule;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Rule basicGetRule() {
+	public Rule basicGetRule() {
 		return rule;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setRule(Rule newRule) {
+	public void setRule(Rule newRule) {
 		Rule oldRule = rule;
 		rule = newRule;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.SINGLE_UNIT__RULE, oldRule, rule));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.SINGLE_UNIT__RULE:
-				if (resolve) return getRule();
-				return basicGetRule();
+		case HenshinPackage.SINGLE_UNIT__RULE:
+			if (resolve) return getRule();
+			return basicGetRule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.SINGLE_UNIT__RULE:
-				setRule((Rule)newValue);
-				return;
+		case HenshinPackage.SINGLE_UNIT__RULE:
+			setRule((Rule)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.SINGLE_UNIT__RULE:
-				setRule((Rule)null);
-				return;
+		case HenshinPackage.SINGLE_UNIT__RULE:
+			setRule((Rule)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.SINGLE_UNIT__RULE:
-				return rule != null;
+		case HenshinPackage.SINGLE_UNIT__RULE:
+			return rule != null;
 		}
 		return super.eIsSet(featureID);
 	}

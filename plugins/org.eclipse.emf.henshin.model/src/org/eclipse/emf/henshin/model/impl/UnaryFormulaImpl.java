@@ -32,50 +32,50 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * @generated
  */
 public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
-        /**
+	/**
 	 * The cached value of the '{@link #getChild() <em>Child</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getChild()
 	 * @generated
 	 * @ordered
 	 */
-        protected Formula child;
+	protected Formula child;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected UnaryFormulaImpl() {
+	protected UnaryFormulaImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.UNARY_FORMULA;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Formula getChild() {
+	public Formula getChild() {
 		return child;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetChild(Formula newChild, NotificationChain msgs) {
+	public NotificationChain basicSetChild(Formula newChild, NotificationChain msgs) {
 		Formula oldChild = child;
 		child = newChild;
 		if (eNotificationRequired()) {
@@ -85,12 +85,12 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setChild(Formula newChild) {
+	public void setChild(Formula newChild) {
 		if (newChild != child) {
 			NotificationChain msgs = null;
 			if (child != null)
@@ -104,74 +104,74 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.UNARY_FORMULA__CHILD, newChild, newChild));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.UNARY_FORMULA__CHILD:
-				return basicSetChild(null, msgs);
+		case HenshinPackage.UNARY_FORMULA__CHILD:
+			return basicSetChild(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.UNARY_FORMULA__CHILD:
-				return getChild();
+		case HenshinPackage.UNARY_FORMULA__CHILD:
+			return getChild();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.UNARY_FORMULA__CHILD:
-				setChild((Formula)newValue);
-				return;
+		case HenshinPackage.UNARY_FORMULA__CHILD:
+			setChild((Formula)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.UNARY_FORMULA__CHILD:
-				setChild((Formula)null);
-				return;
+		case HenshinPackage.UNARY_FORMULA__CHILD:
+			setChild((Formula)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.UNARY_FORMULA__CHILD:
-				return child != null;
+		case HenshinPackage.UNARY_FORMULA__CHILD:
+			return child != null;
 		}
 		return super.eIsSet(featureID);
 	}

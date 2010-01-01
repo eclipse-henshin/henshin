@@ -55,224 +55,224 @@ import org.eclipse.emf.henshin.model.Variable;
  * @generated
  */
 public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass namedElementEClass = null;
+	private EClass namedElementEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass describedElementEClass = null;
+	private EClass describedElementEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass transformationSystemEClass = null;
+	private EClass transformationSystemEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass ruleEClass = null;
+	private EClass ruleEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass attributeConditionEClass = null;
+	private EClass attributeConditionEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass variableEClass = null;
+	private EClass variableEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass portEClass = null;
+	private EClass portEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass portObjectEClass = null;
+	private EClass portObjectEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass portParameterEClass = null;
+	private EClass portParameterEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass graphEClass = null;
+	private EClass graphEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass mappingEClass = null;
+	private EClass mappingEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass nodeEClass = null;
+	private EClass nodeEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass attributeEClass = null;
+	private EClass attributeEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass edgeEClass = null;
+	private EClass edgeEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass transformationEClass = null;
+	private EClass transformationEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass transformationUnitEClass = null;
+	private EClass transformationUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass independentUnitEClass = null;
+	private EClass independentUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass sequentialUnitEClass = null;
+	private EClass sequentialUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass conditionalUnitEClass = null;
+	private EClass conditionalUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass priorityUnitEClass = null;
+	private EClass priorityUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass singleUnitEClass = null;
+	private EClass singleUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass amalgamatedUnitEClass = null;
+	private EClass amalgamatedUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass countedUnitEClass = null;
+	private EClass countedUnitEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass nestedConditionEClass = null;
+	private EClass nestedConditionEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass formulaEClass = null;
+	private EClass formulaEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass unaryFormulaEClass = null;
+	private EClass unaryFormulaEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass binaryFormulaEClass = null;
+	private EClass binaryFormulaEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass andEClass = null;
+	private EClass andEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass orEClass = null;
+	private EClass orEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EClass notEClass = null;
+	private EClass notEClass = null;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private EEnum portKindEEnum = null;
+	private EEnum portKindEEnum = null;
 
-        /**
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -281,36 +281,36 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * initialization of the package, or returns the registered package,
 	 * if one already exists.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
-        private HenshinPackageImpl() {
+	private HenshinPackageImpl() {
 		super(eNS_URI, HenshinFactory.eINSTANCE);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private static boolean isInited = false;
+	private static boolean isInited = false;
 
-        /**
+	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
 	 * <p>This method is used to initialize {@link HenshinPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
 	 * @generated
 	 */
-        public static HenshinPackage init() {
+	public static HenshinPackage init() {
 		if (isInited) return (HenshinPackage)EPackage.Registry.INSTANCE.getEPackage(HenshinPackage.eNS_URI);
 
 		// Obtain or create and register package
@@ -327,846 +327,846 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Mark meta-data to indicate it can't be changed
 		theHenshinPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(HenshinPackage.eNS_URI, theHenshinPackage);
 		return theHenshinPackage;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getNamedElement() {
+	public EClass getNamedElement() {
 		return namedElementEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getNamedElement_Name() {
+	public EAttribute getNamedElement_Name() {
 		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getDescribedElement() {
+	public EClass getDescribedElement() {
 		return describedElementEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getDescribedElement_Description() {
+	public EAttribute getDescribedElement_Description() {
 		return (EAttribute)describedElementEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getTransformationSystem() {
+	public EClass getTransformationSystem() {
 		return transformationSystemEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformationSystem_Rules() {
+	public EReference getTransformationSystem_Rules() {
 		return (EReference)transformationSystemEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformationSystem_Transformations() {
+	public EReference getTransformationSystem_Transformations() {
 		return (EReference)transformationSystemEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformationSystem_Imports() {
+	public EReference getTransformationSystem_Imports() {
 		return (EReference)transformationSystemEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformationSystem_Instances() {
+	public EReference getTransformationSystem_Instances() {
 		return (EReference)transformationSystemEClass.getEStructuralFeatures().get(3);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getRule() {
+	public EClass getRule() {
 		return ruleEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_Lhs() {
+	public EReference getRule_Lhs() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_Rhs() {
+	public EReference getRule_Rhs() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_AttributeConditions() {
+	public EReference getRule_AttributeConditions() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_Mappings() {
+	public EReference getRule_Mappings() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(3);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_TransformationSystem() {
+	public EReference getRule_TransformationSystem() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(4);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getRule_Variables() {
+	public EReference getRule_Variables() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(5);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getAttributeCondition() {
+	public EClass getAttributeCondition() {
 		return attributeConditionEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAttributeCondition_Rule() {
+	public EReference getAttributeCondition_Rule() {
 		return (EReference)attributeConditionEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getAttributeCondition_ConditionText() {
+	public EAttribute getAttributeCondition_ConditionText() {
 		return (EAttribute)attributeConditionEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getVariable() {
+	public EClass getVariable() {
 		return variableEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getVariable_Rule() {
+	public EReference getVariable_Rule() {
 		return (EReference)variableEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getPort() {
+	public EClass getPort() {
 		return portEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getPort_Direction() {
+	public EAttribute getPort_Direction() {
 		return (EAttribute)portEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getPort_Unit() {
+	public EReference getPort_Unit() {
 		return (EReference)portEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getPortObject() {
+	public EClass getPortObject() {
 		return portObjectEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getPortObject_Node() {
+	public EReference getPortObject_Node() {
 		return (EReference)portObjectEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getPortParameter() {
+	public EClass getPortParameter() {
 		return portParameterEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getPortParameter_Variable() {
+	public EReference getPortParameter_Variable() {
 		return (EReference)portParameterEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getGraph() {
+	public EClass getGraph() {
 		return graphEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getGraph_Nodes() {
+	public EReference getGraph_Nodes() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getGraph_Edges() {
+	public EReference getGraph_Edges() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getGraph_Formula() {
+	public EReference getGraph_Formula() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getMapping() {
+	public EClass getMapping() {
 		return mappingEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getMapping_Origin() {
+	public EReference getMapping_Origin() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getMapping_Image() {
+	public EReference getMapping_Image() {
 		return (EReference)mappingEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getNode() {
+	public EClass getNode() {
 		return nodeEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNode_Type() {
+	public EReference getNode_Type() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNode_Attributes() {
+	public EReference getNode_Attributes() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNode_Graph() {
+	public EReference getNode_Graph() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNode_Incoming() {
+	public EReference getNode_Incoming() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNode_Outgoing() {
+	public EReference getNode_Outgoing() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getAttribute() {
+	public EClass getAttribute() {
 		return attributeEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAttribute_Type() {
+	public EReference getAttribute_Type() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getAttribute_Value() {
+	public EAttribute getAttribute_Value() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAttribute_Node() {
+	public EReference getAttribute_Node() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getEdge() {
+	public EClass getEdge() {
 		return edgeEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getEdge_Source() {
+	public EReference getEdge_Source() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getEdge_Target() {
+	public EReference getEdge_Target() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getEdge_Type() {
+	public EReference getEdge_Type() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getEdge_Graph() {
+	public EReference getEdge_Graph() {
 		return (EReference)edgeEClass.getEStructuralFeatures().get(3);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getTransformation() {
+	public EClass getTransformation() {
 		return transformationEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformation_MainUnit() {
+	public EReference getTransformation_MainUnit() {
 		return (EReference)transformationEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformation_TransformationSystem() {
+	public EReference getTransformation_TransformationSystem() {
 		return (EReference)transformationEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getTransformationUnit() {
+	public EClass getTransformationUnit() {
 		return transformationUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getTransformationUnit_Activated() {
+	public EAttribute getTransformationUnit_Activated() {
 		return (EAttribute)transformationUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getTransformationUnit_Ports() {
+	public EReference getTransformationUnit_Ports() {
 		return (EReference)transformationUnitEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getIndependentUnit() {
+	public EClass getIndependentUnit() {
 		return independentUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getIndependentUnit_SubUnits() {
+	public EReference getIndependentUnit_SubUnits() {
 		return (EReference)independentUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getSequentialUnit() {
+	public EClass getSequentialUnit() {
 		return sequentialUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getSequentialUnit_SubUnits() {
+	public EReference getSequentialUnit_SubUnits() {
 		return (EReference)sequentialUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getConditionalUnit() {
+	public EClass getConditionalUnit() {
 		return conditionalUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getConditionalUnit_If() {
+	public EReference getConditionalUnit_If() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getConditionalUnit_Then() {
+	public EReference getConditionalUnit_Then() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getConditionalUnit_Else() {
+	public EReference getConditionalUnit_Else() {
 		return (EReference)conditionalUnitEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getPriorityUnit() {
+	public EClass getPriorityUnit() {
 		return priorityUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getPriorityUnit_SubUnits() {
+	public EReference getPriorityUnit_SubUnits() {
 		return (EReference)priorityUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getSingleUnit() {
+	public EClass getSingleUnit() {
 		return singleUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getSingleUnit_Rule() {
+	public EReference getSingleUnit_Rule() {
 		return (EReference)singleUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getAmalgamatedUnit() {
+	public EClass getAmalgamatedUnit() {
 		return amalgamatedUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAmalgamatedUnit_KernelRule() {
+	public EReference getAmalgamatedUnit_KernelRule() {
 		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAmalgamatedUnit_MultiRules() {
+	public EReference getAmalgamatedUnit_MultiRules() {
 		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAmalgamatedUnit_LhsMappings() {
+	public EReference getAmalgamatedUnit_LhsMappings() {
 		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getAmalgamatedUnit_RhsMappings() {
+	public EReference getAmalgamatedUnit_RhsMappings() {
 		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(3);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getCountedUnit() {
+	public EClass getCountedUnit() {
 		return countedUnitEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getCountedUnit_SubUnit() {
+	public EReference getCountedUnit_SubUnit() {
 		return (EReference)countedUnitEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getCountedUnit_Count() {
+	public EAttribute getCountedUnit_Count() {
 		return (EAttribute)countedUnitEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getNestedCondition() {
+	public EClass getNestedCondition() {
 		return nestedConditionEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EAttribute getNestedCondition_Negated() {
+	public EAttribute getNestedCondition_Negated() {
 		return (EAttribute)nestedConditionEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNestedCondition_Conclusion() {
+	public EReference getNestedCondition_Conclusion() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getNestedCondition_Mappings() {
+	public EReference getNestedCondition_Mappings() {
 		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(2);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getFormula() {
+	public EClass getFormula() {
 		return formulaEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getUnaryFormula() {
+	public EClass getUnaryFormula() {
 		return unaryFormulaEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getUnaryFormula_Child() {
+	public EReference getUnaryFormula_Child() {
 		return (EReference)unaryFormulaEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getBinaryFormula() {
+	public EClass getBinaryFormula() {
 		return binaryFormulaEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getBinaryFormula_Left() {
+	public EReference getBinaryFormula_Left() {
 		return (EReference)binaryFormulaEClass.getEStructuralFeatures().get(0);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EReference getBinaryFormula_Right() {
+	public EReference getBinaryFormula_Right() {
 		return (EReference)binaryFormulaEClass.getEStructuralFeatures().get(1);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getAnd() {
+	public EClass getAnd() {
 		return andEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getOr() {
+	public EClass getOr() {
 		return orEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EClass getNot() {
+	public EClass getNot() {
 		return notEClass;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EEnum getPortKind() {
+	public EEnum getPortKind() {
 		return portKindEEnum;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public HenshinFactory getHenshinFactory() {
+	public HenshinFactory getHenshinFactory() {
 		return (HenshinFactory)getEFactoryInstance();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private boolean isCreated = false;
+	private boolean isCreated = false;
 
-        /**
+	/**
 	 * Creates the meta-model objects for the package.  This method is
 	 * guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void createPackageContents() {
+	public void createPackageContents() {
 		if (isCreated) return;
 		isCreated = true;
 
@@ -1294,21 +1294,21 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		portKindEEnum = createEEnum(PORT_KIND);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        private boolean isInitialized = false;
+	private boolean isInitialized = false;
 
-        /**
+	/**
 	 * Complete the initialization of the package and its meta-model.  This
 	 * method is guarded to have no affect on any invocation but its first.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void initializePackageContents() {
+	public void initializePackageContents() {
 		if (isInitialized) return;
 		isInitialized = true;
 

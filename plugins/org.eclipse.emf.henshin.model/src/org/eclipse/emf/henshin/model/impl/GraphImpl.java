@@ -43,94 +43,94 @@ import org.eclipse.emf.henshin.model.Node;
  * @generated
  */
 public class GraphImpl extends NamedElementImpl implements Graph {
-        /**
+	/**
 	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getNodes()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<Node> nodes;
+	protected EList<Node> nodes;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getEdges()
 	 * @generated
 	 * @ordered
 	 */
-        protected EList<Edge> edges;
+	protected EList<Edge> edges;
 
-        /**
+	/**
 	 * The cached value of the '{@link #getFormula() <em>Formula</em>}' containment reference.
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getFormula()
 	 * @generated
 	 * @ordered
 	 */
-        protected Formula formula;
+	protected Formula formula;
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected GraphImpl() {
+	protected GraphImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.GRAPH;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<Node> getNodes() {
+	public EList<Node> getNodes() {
 		if (nodes == null) {
 			nodes = new EObjectContainmentWithInverseEList<Node>(Node.class, this, HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
 		}
 		return nodes;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public EList<Edge> getEdges() {
+	public EList<Edge> getEdges() {
 		if (edges == null) {
 			edges = new EObjectContainmentWithInverseEList<Edge>(Edge.class, this, HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
 		}
 		return edges;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public Formula getFormula() {
+	public Formula getFormula() {
 		return formula;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public NotificationChain basicSetFormula(Formula newFormula, NotificationChain msgs) {
+	public NotificationChain basicSetFormula(Formula newFormula, NotificationChain msgs) {
 		Formula oldFormula = formula;
 		formula = newFormula;
 		if (eNotificationRequired()) {
@@ -140,12 +140,12 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		return msgs;
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        public void setFormula(Formula newFormula) {
+	public void setFormula(Formula newFormula) {
 		if (newFormula != formula) {
 			NotificationChain msgs = null;
 			if (formula != null)
@@ -159,118 +159,118 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.GRAPH__FORMULA, newFormula, newFormula));
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNodes()).basicAdd(otherEnd, msgs);
-			case HenshinPackage.GRAPH__EDGES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEdges()).basicAdd(otherEnd, msgs);
+		case HenshinPackage.GRAPH__NODES:
+			return ((InternalEList<InternalEObject>)(InternalEList<?>)getNodes()).basicAdd(otherEnd, msgs);
+		case HenshinPackage.GRAPH__EDGES:
+			return ((InternalEList<InternalEObject>)(InternalEList<?>)getEdges()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.GRAPH__EDGES:
-				return ((InternalEList<?>)getEdges()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.GRAPH__FORMULA:
-				return basicSetFormula(null, msgs);
+		case HenshinPackage.GRAPH__NODES:
+			return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.GRAPH__EDGES:
+			return ((InternalEList<?>)getEdges()).basicRemove(otherEnd, msgs);
+		case HenshinPackage.GRAPH__FORMULA:
+			return basicSetFormula(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				return getNodes();
-			case HenshinPackage.GRAPH__EDGES:
-				return getEdges();
-			case HenshinPackage.GRAPH__FORMULA:
-				return getFormula();
+		case HenshinPackage.GRAPH__NODES:
+			return getNodes();
+		case HenshinPackage.GRAPH__EDGES:
+			return getEdges();
+		case HenshinPackage.GRAPH__FORMULA:
+			return getFormula();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @SuppressWarnings("unchecked")
-        @Override
-        public void eSet(int featureID, Object newValue) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				getNodes().clear();
-				getNodes().addAll((Collection<? extends Node>)newValue);
-				return;
-			case HenshinPackage.GRAPH__EDGES:
-				getEdges().clear();
-				getEdges().addAll((Collection<? extends Edge>)newValue);
-				return;
-			case HenshinPackage.GRAPH__FORMULA:
-				setFormula((Formula)newValue);
-				return;
+		case HenshinPackage.GRAPH__NODES:
+			getNodes().clear();
+			getNodes().addAll((Collection<? extends Node>)newValue);
+			return;
+		case HenshinPackage.GRAPH__EDGES:
+			getEdges().clear();
+			getEdges().addAll((Collection<? extends Edge>)newValue);
+			return;
+		case HenshinPackage.GRAPH__FORMULA:
+			setFormula((Formula)newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public void eUnset(int featureID) {
+	@Override
+	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				getNodes().clear();
-				return;
-			case HenshinPackage.GRAPH__EDGES:
-				getEdges().clear();
-				return;
-			case HenshinPackage.GRAPH__FORMULA:
-				setFormula((Formula)null);
-				return;
+		case HenshinPackage.GRAPH__NODES:
+			getNodes().clear();
+			return;
+		case HenshinPackage.GRAPH__EDGES:
+			getEdges().clear();
+			return;
+		case HenshinPackage.GRAPH__FORMULA:
+			setFormula((Formula)null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        public boolean eIsSet(int featureID) {
+	@Override
+	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.GRAPH__NODES:
-				return nodes != null && !nodes.isEmpty();
-			case HenshinPackage.GRAPH__EDGES:
-				return edges != null && !edges.isEmpty();
-			case HenshinPackage.GRAPH__FORMULA:
-				return formula != null;
+		case HenshinPackage.GRAPH__NODES:
+			return nodes != null && !nodes.isEmpty();
+		case HenshinPackage.GRAPH__EDGES:
+			return edges != null && !edges.isEmpty();
+		case HenshinPackage.GRAPH__FORMULA:
+			return formula != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -23,22 +23,22 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class FormulaImpl extends EObjectImpl implements Formula {
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        protected FormulaImpl() {
+	protected FormulaImpl() {
 		super();
 	}
 
-        /**
+	/**
 	 * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-        @Override
-        protected EClass eStaticClass() {
+	@Override
+	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.FORMULA;
 	}
 
