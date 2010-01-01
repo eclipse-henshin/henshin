@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.henshin.wizards"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.henshin.presentation.HenshinModelWizardID"
+            name="%_UI_HenshinModelWizard_label"
+            class="org.eclipse.emf.henshin.presentation.HenshinModelWizard"
+            category="org.eclipse.emf.henshin.wizards"
+            icon="icons/full/obj16/HenshinModelFile.gif">
+         <description>%_UI_HenshinModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.henshin.presentation.HenshinEditorID"
+            name="%_UI_HenshinEditor_label"
+            icon="icons/full/obj16/HenshinModelFile.gif"
+            extensions="henshin"
+            class="org.eclipse.emf.henshin.presentation.HenshinEditor"
+            contributorClass="org.eclipse.emf.henshin.presentation.HenshinActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
