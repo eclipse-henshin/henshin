@@ -38,317 +38,317 @@ import org.eclipse.emf.henshin.model.Rule;
  */
 public class AttributeConditionImpl extends DescribedElementImpl implements AttributeCondition {
         /**
-         * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getName()
-         * @generated
-         * @ordered
-         */
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
         protected static final String NAME_EDEFAULT = null;
 
         /**
-         * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getName()
-         * @generated
-         * @ordered
-         */
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
         protected String name = NAME_EDEFAULT;
 
         /**
-         * The default value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getConditionText()
-         * @generated
-         * @ordered
-         */
+	 * @see #getConditionText()
+	 * @generated
+	 * @ordered
+	 */
         protected static final String CONDITION_TEXT_EDEFAULT = null;
 
         /**
-         * The cached value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getConditionText()
-         * @generated
-         * @ordered
-         */
+	 * @see #getConditionText()
+	 * @generated
+	 * @ordered
+	 */
         protected String conditionText = CONDITION_TEXT_EDEFAULT;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected AttributeConditionImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.ATTRIBUTE_CONDITION;
-        }
+		return HenshinPackage.Literals.ATTRIBUTE_CONDITION;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getName() {
-                return name;
-        }
+		return name;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setName(String newName) {
-                String oldName = name;
-                name = newName;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__NAME, oldName, name));
-        }
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__NAME, oldName, name));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Rule getRule() {
-                if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
-                return (Rule)eContainer();
-        }
+		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE) return null;
+		return (Rule)eContainer();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NotificationChain basicSetRule(Rule newRule, NotificationChain msgs) {
-                msgs = eBasicSetContainer((InternalEObject)newRule, HenshinPackage.ATTRIBUTE_CONDITION__RULE, msgs);
-                return msgs;
-        }
+		msgs = eBasicSetContainer((InternalEObject)newRule, HenshinPackage.ATTRIBUTE_CONDITION__RULE, msgs);
+		return msgs;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setRule(Rule newRule) {
-                if (newRule != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE && newRule != null)) {
-                        if (EcoreUtil.isAncestor(this, newRule))
-                                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-                        NotificationChain msgs = null;
-                        if (eInternalContainer() != null)
-                                msgs = eBasicRemoveFromContainer(msgs);
-                        if (newRule != null)
-                                msgs = ((InternalEObject)newRule).eInverseAdd(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
-                        msgs = basicSetRule(newRule, msgs);
-                        if (msgs != null) msgs.dispatch();
-                }
-                else if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__RULE, newRule, newRule));
-        }
+		if (newRule != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE_CONDITION__RULE && newRule != null)) {
+			if (EcoreUtil.isAncestor(this, newRule))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newRule != null)
+				msgs = ((InternalEObject)newRule).eInverseAdd(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
+			msgs = basicSetRule(newRule, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__RULE, newRule, newRule));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getConditionText() {
-                return conditionText;
-        }
+		return conditionText;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setConditionText(String newConditionText) {
-                String oldConditionText = conditionText;
-                conditionText = newConditionText;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT, oldConditionText, conditionText));
-        }
+		String oldConditionText = conditionText;
+		conditionText = newConditionText;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT, oldConditionText, conditionText));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                if (eInternalContainer() != null)
-                                        msgs = eBasicRemoveFromContainer(msgs);
-                                return basicSetRule((Rule)otherEnd, msgs);
-                }
-                return super.eInverseAdd(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetRule((Rule)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                return basicSetRule(null, msgs);
-                }
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return basicSetRule(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-                switch (eContainerFeatureID()) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
-                }
-                return super.eBasicRemoveFromContainerFeature(msgs);
-        }
+		switch (eContainerFeatureID()) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object eGet(int featureID, boolean resolve, boolean coreType) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-                                return getName();
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                return getRule();
-                        case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-                                return getConditionText();
-                }
-                return super.eGet(featureID, resolve, coreType);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				return getName();
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return getRule();
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				return getConditionText();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eSet(int featureID, Object newValue) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-                                setName((String)newValue);
-                                return;
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                setRule((Rule)newValue);
-                                return;
-                        case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-                                setConditionText((String)newValue);
-                                return;
-                }
-                super.eSet(featureID, newValue);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				setRule((Rule)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				setConditionText((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eUnset(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-                                setName(NAME_EDEFAULT);
-                                return;
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                setRule((Rule)null);
-                                return;
-                        case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-                                setConditionText(CONDITION_TEXT_EDEFAULT);
-                                return;
-                }
-                super.eUnset(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				setRule((Rule)null);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				setConditionText(CONDITION_TEXT_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public boolean eIsSet(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-                                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-                        case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-                                return getRule() != null;
-                        case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-                                return CONDITION_TEXT_EDEFAULT == null ? conditionText != null : !CONDITION_TEXT_EDEFAULT.equals(conditionText);
-                }
-                return super.eIsSet(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return getRule() != null;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				return CONDITION_TEXT_EDEFAULT == null ? conditionText != null : !CONDITION_TEXT_EDEFAULT.equals(conditionText);
+		}
+		return super.eIsSet(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-                if (baseClass == NamedElement.class) {
-                        switch (derivedFeatureID) {
-                                case HenshinPackage.ATTRIBUTE_CONDITION__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-                                default: return -1;
-                        }
-                }
-                return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-        }
+		if (baseClass == NamedElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.ATTRIBUTE_CONDITION__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-                if (baseClass == NamedElement.class) {
-                        switch (baseFeatureID) {
-                                case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.ATTRIBUTE_CONDITION__NAME;
-                                default: return -1;
-                        }
-                }
-                return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-        }
+		if (baseClass == NamedElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.ATTRIBUTE_CONDITION__NAME;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public String toString() {
-                if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-                StringBuffer result = new StringBuffer(super.toString());
-                result.append(" (name: ");
-                result.append(name);
-                result.append(", conditionText: ");
-                result.append(conditionText);
-                result.append(')');
-                return result.toString();
-        }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", conditionText: ");
+		result.append(conditionText);
+		result.append(')');
+		return result.toString();
+	}
 
 } //AttributeConditionImpl

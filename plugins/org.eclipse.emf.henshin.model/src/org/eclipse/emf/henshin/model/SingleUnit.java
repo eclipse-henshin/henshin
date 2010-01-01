@@ -25,29 +25,29 @@ package org.eclipse.emf.henshin.model;
  */
 public interface SingleUnit extends TransformationUnit {
         /**
-         * Returns the value of the '<em><b>Rule</b></em>' reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Rule</em>' reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Rule</em>' reference.
-         * @see #setRule(Rule)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getSingleUnit_Rule()
-         * @model required="true"
-         * @generated
-         */
+	 * @return the value of the '<em>Rule</em>' reference.
+	 * @see #setRule(Rule)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getSingleUnit_Rule()
+	 * @model required="true"
+	 * @generated
+	 */
         Rule getRule();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.SingleUnit#getRule <em>Rule</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.SingleUnit#getRule <em>Rule</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Rule</em>' reference.
-         * @see #getRule()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Rule</em>' reference.
+	 * @see #getRule()
+	 * @generated
+	 */
         void setRule(Rule value);
 
 } // SingleUnit

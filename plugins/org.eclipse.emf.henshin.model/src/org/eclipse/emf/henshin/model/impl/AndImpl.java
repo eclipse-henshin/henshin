@@ -22,22 +22,22 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  */
 public class AndImpl extends BinaryFormulaImpl implements And {
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected AndImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.AND;
-        }
+		return HenshinPackage.Literals.AND;
+	}
 
 } //AndImpl

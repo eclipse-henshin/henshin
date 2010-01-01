@@ -39,291 +39,291 @@ import org.eclipse.emf.henshin.model.Node;
  */
 public class AttributeImpl extends EObjectImpl implements Attribute {
         /**
-         * The cached value of the '{@link #getType() <em>Type</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getType()
-         * @generated
-         * @ordered
-         */
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
         protected EAttribute type;
 
         /**
-         * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getValue()
-         * @generated
-         * @ordered
-         */
+	 * @see #getValue()
+	 * @generated
+	 * @ordered
+	 */
         protected static final String VALUE_EDEFAULT = null;
 
         /**
-         * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getValue()
-         * @generated
-         * @ordered
-         */
+	 * @see #getValue()
+	 * @generated
+	 * @ordered
+	 */
         protected String value = VALUE_EDEFAULT;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected AttributeImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.ATTRIBUTE;
-        }
+		return HenshinPackage.Literals.ATTRIBUTE;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EAttribute getType() {
-                if (type != null && type.eIsProxy()) {
-                        InternalEObject oldType = (InternalEObject)type;
-                        type = (EAttribute)eResolveProxy(oldType);
-                        if (type != oldType) {
-                                if (eNotificationRequired())
-                                        eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.ATTRIBUTE__TYPE, oldType, type));
-                        }
-                }
-                return type;
-        }
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (EAttribute)eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.ATTRIBUTE__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EAttribute basicGetType() {
-                return type;
-        }
+		return type;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setType(EAttribute newType) {
-                EAttribute oldType = type;
-                type = newType;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__TYPE, oldType, type));
-        }
+		EAttribute oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__TYPE, oldType, type));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getValue() {
-                return value;
-        }
+		return value;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setValue(String newValue) {
-                String oldValue = value;
-                value = newValue;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__VALUE, oldValue, value));
-        }
+		String oldValue = value;
+		value = newValue;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__VALUE, oldValue, value));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Node getNode() {
-                if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
-                return (Node)eContainer();
-        }
+		if (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE) return null;
+		return (Node)eContainer();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NotificationChain basicSetNode(Node newNode, NotificationChain msgs) {
-                msgs = eBasicSetContainer((InternalEObject)newNode, HenshinPackage.ATTRIBUTE__NODE, msgs);
-                return msgs;
-        }
+		msgs = eBasicSetContainer((InternalEObject)newNode, HenshinPackage.ATTRIBUTE__NODE, msgs);
+		return msgs;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setNode(Node newNode) {
-                if (newNode != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE && newNode != null)) {
-                        if (EcoreUtil.isAncestor(this, newNode))
-                                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-                        NotificationChain msgs = null;
-                        if (eInternalContainer() != null)
-                                msgs = eBasicRemoveFromContainer(msgs);
-                        if (newNode != null)
-                                msgs = ((InternalEObject)newNode).eInverseAdd(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
-                        msgs = basicSetNode(newNode, msgs);
-                        if (msgs != null) msgs.dispatch();
-                }
-                else if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__NODE, newNode, newNode));
-        }
+		if (newNode != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.ATTRIBUTE__NODE && newNode != null)) {
+			if (EcoreUtil.isAncestor(this, newNode))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newNode != null)
+				msgs = ((InternalEObject)newNode).eInverseAdd(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
+			msgs = basicSetNode(newNode, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__NODE, newNode, newNode));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                if (eInternalContainer() != null)
-                                        msgs = eBasicRemoveFromContainer(msgs);
-                                return basicSetNode((Node)otherEnd, msgs);
-                }
-                return super.eInverseAdd(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__NODE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetNode((Node)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                return basicSetNode(null, msgs);
-                }
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return basicSetNode(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-                switch (eContainerFeatureID()) {
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                return eInternalContainer().eInverseRemove(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
-                }
-                return super.eBasicRemoveFromContainerFeature(msgs);
-        }
+		switch (eContainerFeatureID()) {
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object eGet(int featureID, boolean resolve, boolean coreType) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__TYPE:
-                                if (resolve) return getType();
-                                return basicGetType();
-                        case HenshinPackage.ATTRIBUTE__VALUE:
-                                return getValue();
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                return getNode();
-                }
-                return super.eGet(featureID, resolve, coreType);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				return getValue();
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return getNode();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eSet(int featureID, Object newValue) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__TYPE:
-                                setType((EAttribute)newValue);
-                                return;
-                        case HenshinPackage.ATTRIBUTE__VALUE:
-                                setValue((String)newValue);
-                                return;
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                setNode((Node)newValue);
-                                return;
-                }
-                super.eSet(featureID, newValue);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				setType((EAttribute)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				setValue((String)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE__NODE:
+				setNode((Node)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eUnset(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__TYPE:
-                                setType((EAttribute)null);
-                                return;
-                        case HenshinPackage.ATTRIBUTE__VALUE:
-                                setValue(VALUE_EDEFAULT);
-                                return;
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                setNode((Node)null);
-                                return;
-                }
-                super.eUnset(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				setType((EAttribute)null);
+				return;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				setValue(VALUE_EDEFAULT);
+				return;
+			case HenshinPackage.ATTRIBUTE__NODE:
+				setNode((Node)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public boolean eIsSet(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.ATTRIBUTE__TYPE:
-                                return type != null;
-                        case HenshinPackage.ATTRIBUTE__VALUE:
-                                return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
-                        case HenshinPackage.ATTRIBUTE__NODE:
-                                return getNode() != null;
-                }
-                return super.eIsSet(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				return type != null;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return getNode() != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public String toString() {
-                if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-                StringBuffer result = new StringBuffer(super.toString());
-                result.append(" (value: ");
-                result.append(value);
-                result.append(')');
-                return result.toString();
-        }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (value: ");
+		result.append(value);
+		result.append(')');
+		return result.toString();
+	}
 
 } //AttributeImpl

@@ -29,83 +29,83 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Attribute extends EObject {
         /**
-         * Returns the value of the '<em><b>Type</b></em>' reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Type</em>' reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Type</em>' reference.
-         * @see #setType(EAttribute)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Type()
-         * @model required="true"
-         * @generated
-         */
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(EAttribute)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Type()
+	 * @model required="true"
+	 * @generated
+	 */
         EAttribute getType();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getType <em>Type</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getType <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Type</em>' reference.
-         * @see #getType()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
+	 * @generated
+	 */
         void setType(EAttribute value);
 
         /**
-         * Returns the value of the '<em><b>Value</b></em>' attribute.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Value</em>' attribute isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Value</em>' attribute.
-         * @see #setValue(String)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Value()
-         * @model
-         * @generated
-         */
+	 * @return the value of the '<em>Value</em>' attribute.
+	 * @see #setValue(String)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Value()
+	 * @model
+	 * @generated
+	 */
         String getValue();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getValue <em>Value</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Value</em>' attribute.
-         * @see #getValue()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Value</em>' attribute.
+	 * @see #getValue()
+	 * @generated
+	 */
         void setValue(String value);
 
         /**
-         * Returns the value of the '<em><b>Node</b></em>' container reference.
-         * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Node#getAttributes <em>Attributes</em>}'.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Node</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Node#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Node</em>' container reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Node</em>' container reference.
-         * @see #setNode(Node)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Node()
-         * @see org.eclipse.emf.henshin.model.Node#getAttributes
-         * @model opposite="attributes" required="true" transient="false"
-         * @generated
-         */
+	 * @return the value of the '<em>Node</em>' container reference.
+	 * @see #setNode(Node)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Node()
+	 * @see org.eclipse.emf.henshin.model.Node#getAttributes
+	 * @model opposite="attributes" required="true" transient="false"
+	 * @generated
+	 */
         Node getNode();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getNode <em>Node</em>}' container reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Attribute#getNode <em>Node</em>}' container reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Node</em>' container reference.
-         * @see #getNode()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Node</em>' container reference.
+	 * @see #getNode()
+	 * @generated
+	 */
         void setNode(Node value);
 
 } // Attribute

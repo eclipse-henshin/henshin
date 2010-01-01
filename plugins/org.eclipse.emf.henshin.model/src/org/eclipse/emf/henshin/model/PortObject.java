@@ -25,29 +25,29 @@ package org.eclipse.emf.henshin.model;
  */
 public interface PortObject extends Port {
         /**
-         * Returns the value of the '<em><b>Node</b></em>' reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Node</b></em>' reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Node</em>' reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Node</em>' reference.
-         * @see #setNode(Node)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getPortObject_Node()
-         * @model
-         * @generated
-         */
+	 * @return the value of the '<em>Node</em>' reference.
+	 * @see #setNode(Node)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getPortObject_Node()
+	 * @model
+	 * @generated
+	 */
         Node getNode();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.PortObject#getNode <em>Node</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.PortObject#getNode <em>Node</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Node</em>' reference.
-         * @see #getNode()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Node</em>' reference.
+	 * @see #getNode()
+	 * @generated
+	 */
         void setNode(Node value);
 
 } // PortObject

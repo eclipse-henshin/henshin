@@ -26,55 +26,55 @@ package org.eclipse.emf.henshin.model;
  */
 public interface BinaryFormula extends Formula {
         /**
-         * Returns the value of the '<em><b>Left</b></em>' containment reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Left</em>' containment reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Left</em>' containment reference.
-         * @see #setLeft(Formula)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Left()
-         * @model containment="true"
-         * @generated
-         */
+	 * @return the value of the '<em>Left</em>' containment reference.
+	 * @see #setLeft(Formula)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Left()
+	 * @model containment="true"
+	 * @generated
+	 */
         Formula getLeft();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.BinaryFormula#getLeft <em>Left</em>}' containment reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.BinaryFormula#getLeft <em>Left</em>}' containment reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Left</em>' containment reference.
-         * @see #getLeft()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Left</em>' containment reference.
+	 * @see #getLeft()
+	 * @generated
+	 */
         void setLeft(Formula value);
 
         /**
-         * Returns the value of the '<em><b>Right</b></em>' containment reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Right</em>' containment reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Right</em>' containment reference.
-         * @see #setRight(Formula)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Right()
-         * @model containment="true"
-         * @generated
-         */
+	 * @return the value of the '<em>Right</em>' containment reference.
+	 * @see #setRight(Formula)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula_Right()
+	 * @model containment="true"
+	 * @generated
+	 */
         Formula getRight();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.BinaryFormula#getRight <em>Right</em>}' containment reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.BinaryFormula#getRight <em>Right</em>}' containment reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Right</em>' containment reference.
-         * @see #getRight()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Right</em>' containment reference.
+	 * @see #getRight()
+	 * @generated
+	 */
         void setRight(Formula value);
 
 } // BinaryFormula

@@ -39,317 +39,317 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public abstract class PortImpl extends DescribedElementImpl implements Port {
         /**
-         * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getName()
-         * @generated
-         * @ordered
-         */
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
         protected static final String NAME_EDEFAULT = null;
 
         /**
-         * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getName()
-         * @generated
-         * @ordered
-         */
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
         protected String name = NAME_EDEFAULT;
 
         /**
-         * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getDirection()
-         * @generated
-         * @ordered
-         */
+	 * @see #getDirection()
+	 * @generated
+	 * @ordered
+	 */
         protected static final PortKind DIRECTION_EDEFAULT = PortKind.INPUT;
 
         /**
-         * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getDirection()
-         * @generated
-         * @ordered
-         */
+	 * @see #getDirection()
+	 * @generated
+	 * @ordered
+	 */
         protected PortKind direction = DIRECTION_EDEFAULT;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected PortImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.PORT;
-        }
+		return HenshinPackage.Literals.PORT;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getName() {
-                return name;
-        }
+		return name;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setName(String newName) {
-                String oldName = name;
-                name = newName;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__NAME, oldName, name));
-        }
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__NAME, oldName, name));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public PortKind getDirection() {
-                return direction;
-        }
+		return direction;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setDirection(PortKind newDirection) {
-                PortKind oldDirection = direction;
-                direction = newDirection == null ? DIRECTION_EDEFAULT : newDirection;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__DIRECTION, oldDirection, direction));
-        }
+		PortKind oldDirection = direction;
+		direction = newDirection == null ? DIRECTION_EDEFAULT : newDirection;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__DIRECTION, oldDirection, direction));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public TransformationUnit getUnit() {
-                if (eContainerFeatureID() != HenshinPackage.PORT__UNIT) return null;
-                return (TransformationUnit)eContainer();
-        }
+		if (eContainerFeatureID() != HenshinPackage.PORT__UNIT) return null;
+		return (TransformationUnit)eContainer();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NotificationChain basicSetUnit(TransformationUnit newUnit, NotificationChain msgs) {
-                msgs = eBasicSetContainer((InternalEObject)newUnit, HenshinPackage.PORT__UNIT, msgs);
-                return msgs;
-        }
+		msgs = eBasicSetContainer((InternalEObject)newUnit, HenshinPackage.PORT__UNIT, msgs);
+		return msgs;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setUnit(TransformationUnit newUnit) {
-                if (newUnit != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.PORT__UNIT && newUnit != null)) {
-                        if (EcoreUtil.isAncestor(this, newUnit))
-                                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-                        NotificationChain msgs = null;
-                        if (eInternalContainer() != null)
-                                msgs = eBasicRemoveFromContainer(msgs);
-                        if (newUnit != null)
-                                msgs = ((InternalEObject)newUnit).eInverseAdd(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
-                        msgs = basicSetUnit(newUnit, msgs);
-                        if (msgs != null) msgs.dispatch();
-                }
-                else if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__UNIT, newUnit, newUnit));
-        }
+		if (newUnit != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.PORT__UNIT && newUnit != null)) {
+			if (EcoreUtil.isAncestor(this, newUnit))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newUnit != null)
+				msgs = ((InternalEObject)newUnit).eInverseAdd(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
+			msgs = basicSetUnit(newUnit, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PORT__UNIT, newUnit, newUnit));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__UNIT:
-                                if (eInternalContainer() != null)
-                                        msgs = eBasicRemoveFromContainer(msgs);
-                                return basicSetUnit((TransformationUnit)otherEnd, msgs);
-                }
-                return super.eInverseAdd(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__UNIT:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetUnit((TransformationUnit)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__UNIT:
-                                return basicSetUnit(null, msgs);
-                }
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__UNIT:
+				return basicSetUnit(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-                switch (eContainerFeatureID()) {
-                        case HenshinPackage.PORT__UNIT:
-                                return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
-                }
-                return super.eBasicRemoveFromContainerFeature(msgs);
-        }
+		switch (eContainerFeatureID()) {
+			case HenshinPackage.PORT__UNIT:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object eGet(int featureID, boolean resolve, boolean coreType) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__NAME:
-                                return getName();
-                        case HenshinPackage.PORT__DIRECTION:
-                                return getDirection();
-                        case HenshinPackage.PORT__UNIT:
-                                return getUnit();
-                }
-                return super.eGet(featureID, resolve, coreType);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__NAME:
+				return getName();
+			case HenshinPackage.PORT__DIRECTION:
+				return getDirection();
+			case HenshinPackage.PORT__UNIT:
+				return getUnit();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eSet(int featureID, Object newValue) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__NAME:
-                                setName((String)newValue);
-                                return;
-                        case HenshinPackage.PORT__DIRECTION:
-                                setDirection((PortKind)newValue);
-                                return;
-                        case HenshinPackage.PORT__UNIT:
-                                setUnit((TransformationUnit)newValue);
-                                return;
-                }
-                super.eSet(featureID, newValue);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.PORT__DIRECTION:
+				setDirection((PortKind)newValue);
+				return;
+			case HenshinPackage.PORT__UNIT:
+				setUnit((TransformationUnit)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eUnset(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__NAME:
-                                setName(NAME_EDEFAULT);
-                                return;
-                        case HenshinPackage.PORT__DIRECTION:
-                                setDirection(DIRECTION_EDEFAULT);
-                                return;
-                        case HenshinPackage.PORT__UNIT:
-                                setUnit((TransformationUnit)null);
-                                return;
-                }
-                super.eUnset(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.PORT__DIRECTION:
+				setDirection(DIRECTION_EDEFAULT);
+				return;
+			case HenshinPackage.PORT__UNIT:
+				setUnit((TransformationUnit)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public boolean eIsSet(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.PORT__NAME:
-                                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-                        case HenshinPackage.PORT__DIRECTION:
-                                return direction != DIRECTION_EDEFAULT;
-                        case HenshinPackage.PORT__UNIT:
-                                return getUnit() != null;
-                }
-                return super.eIsSet(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.PORT__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.PORT__DIRECTION:
+				return direction != DIRECTION_EDEFAULT;
+			case HenshinPackage.PORT__UNIT:
+				return getUnit() != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-                if (baseClass == NamedElement.class) {
-                        switch (derivedFeatureID) {
-                                case HenshinPackage.PORT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-                                default: return -1;
-                        }
-                }
-                return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-        }
+		if (baseClass == NamedElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.PORT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-                if (baseClass == NamedElement.class) {
-                        switch (baseFeatureID) {
-                                case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.PORT__NAME;
-                                default: return -1;
-                        }
-                }
-                return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-        }
+		if (baseClass == NamedElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.PORT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public String toString() {
-                if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-                StringBuffer result = new StringBuffer(super.toString());
-                result.append(" (name: ");
-                result.append(name);
-                result.append(", direction: ");
-                result.append(direction);
-                result.append(')');
-                return result.toString();
-        }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", direction: ");
+		result.append(direction);
+		result.append(')');
+		return result.toString();
+	}
 
 } //PortImpl

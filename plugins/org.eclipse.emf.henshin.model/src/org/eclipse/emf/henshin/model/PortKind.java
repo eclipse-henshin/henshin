@@ -23,217 +23,217 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum PortKind implements Enumerator {
         /**
-         * The '<em><b>INPUT</b></em>' literal object.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>INPUT</b></em>' literal object.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #INPUT_VALUE
-         * @generated
-         * @ordered
-         */
+	 * @see #INPUT_VALUE
+	 * @generated
+	 * @ordered
+	 */
         INPUT(0, "INPUT", "INPUT"),
 
         /**
-         * The '<em><b>OUTPUT</b></em>' literal object.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>OUTPUT</b></em>' literal object.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #OUTPUT_VALUE
-         * @generated
-         * @ordered
-         */
+	 * @see #OUTPUT_VALUE
+	 * @generated
+	 * @ordered
+	 */
         OUTPUT(1, "OUTPUT", "OUTPUT"),
 
         /**
-         * The '<em><b>INPUT OUTPUT</b></em>' literal object.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>INPUT OUTPUT</b></em>' literal object.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #INPUT_OUTPUT_VALUE
-         * @generated
-         * @ordered
-         */
+	 * @see #INPUT_OUTPUT_VALUE
+	 * @generated
+	 * @ordered
+	 */
         INPUT_OUTPUT(2, "INPUT_OUTPUT", "INPUT_OUTPUT");
 
         /**
-         * The '<em><b>INPUT</b></em>' literal value.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>INPUT</b></em>' literal value.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of '<em><b>INPUT</b></em>' literal object isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @see #INPUT
-         * @model
-         * @generated
-         * @ordered
-         */
+	 * @see #INPUT
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
         public static final int INPUT_VALUE = 0;
 
         /**
-         * The '<em><b>OUTPUT</b></em>' literal value.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>OUTPUT</b></em>' literal value.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of '<em><b>OUTPUT</b></em>' literal object isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @see #OUTPUT
-         * @model
-         * @generated
-         * @ordered
-         */
+	 * @see #OUTPUT
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
         public static final int OUTPUT_VALUE = 1;
 
         /**
-         * The '<em><b>INPUT OUTPUT</b></em>' literal value.
-         * <!-- begin-user-doc -->
+	 * The '<em><b>INPUT OUTPUT</b></em>' literal value.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of '<em><b>INPUT OUTPUT</b></em>' literal object isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @see #INPUT_OUTPUT
-         * @model
-         * @generated
-         * @ordered
-         */
+	 * @see #INPUT_OUTPUT
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
         public static final int INPUT_OUTPUT_VALUE = 2;
 
         /**
-         * An array of all the '<em><b>Port Kind</b></em>' enumerators.
-         * <!-- begin-user-doc -->
+	 * An array of all the '<em><b>Port Kind</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         private static final PortKind[] VALUES_ARRAY =
                 new PortKind[] {
-                        INPUT,
-                        OUTPUT,
-                        INPUT_OUTPUT,
-                };
+			INPUT,
+			OUTPUT,
+			INPUT_OUTPUT,
+		};
 
         /**
-         * A public read-only list of all the '<em><b>Port Kind</b></em>' enumerators.
-         * <!-- begin-user-doc -->
+	 * A public read-only list of all the '<em><b>Port Kind</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public static final List<PortKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
         /**
-         * Returns the '<em><b>Port Kind</b></em>' literal with the specified literal value.
-         * <!-- begin-user-doc -->
+	 * Returns the '<em><b>Port Kind</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public static PortKind get(String literal) {
-                for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-                        PortKind result = VALUES_ARRAY[i];
-                        if (result.toString().equals(literal)) {
-                                return result;
-                        }
-                }
-                return null;
-        }
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PortKind result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal)) {
+				return result;
+			}
+		}
+		return null;
+	}
 
         /**
-         * Returns the '<em><b>Port Kind</b></em>' literal with the specified name.
-         * <!-- begin-user-doc -->
+	 * Returns the '<em><b>Port Kind</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public static PortKind getByName(String name) {
-                for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-                        PortKind result = VALUES_ARRAY[i];
-                        if (result.getName().equals(name)) {
-                                return result;
-                        }
-                }
-                return null;
-        }
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PortKind result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
 
         /**
-         * Returns the '<em><b>Port Kind</b></em>' literal with the specified integer value.
-         * <!-- begin-user-doc -->
+	 * Returns the '<em><b>Port Kind</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public static PortKind get(int value) {
-                switch (value) {
-                        case INPUT_VALUE: return INPUT;
-                        case OUTPUT_VALUE: return OUTPUT;
-                        case INPUT_OUTPUT_VALUE: return INPUT_OUTPUT;
-                }
-                return null;
-        }
+		switch (value) {
+			case INPUT_VALUE: return INPUT;
+			case OUTPUT_VALUE: return OUTPUT;
+			case INPUT_OUTPUT_VALUE: return INPUT_OUTPUT;
+		}
+		return null;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         private final int value;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         private final String name;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         private final String literal;
 
         /**
-         * Only this class can construct instances.
-         * <!-- begin-user-doc -->
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         private PortKind(int value, String name, String literal) {
-                this.value = value;
-                this.name = name;
-                this.literal = literal;
-        }
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public int getValue() {
-          return value;
-        }
+	  return value;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getName() {
-          return name;
-        }
+	  return name;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String getLiteral() {
-          return literal;
-        }
+	  return literal;
+	}
 
         /**
-         * Returns the literal value of the enumerator, which is its string representation.
-         * <!-- begin-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public String toString() {
-                return literal;
-        }
+		return literal;
+	}
         
 } //PortKind

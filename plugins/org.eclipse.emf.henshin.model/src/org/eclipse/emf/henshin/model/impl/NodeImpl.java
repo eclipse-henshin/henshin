@@ -48,337 +48,337 @@ import org.eclipse.emf.henshin.model.Node;
  */
 public class NodeImpl extends NamedElementImpl implements Node {
         /**
-         * The cached value of the '{@link #getType() <em>Type</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getType()
-         * @generated
-         * @ordered
-         */
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
         protected EClass type;
 
         /**
-         * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getAttributes()
-         * @generated
-         * @ordered
-         */
+	 * @see #getAttributes()
+	 * @generated
+	 * @ordered
+	 */
         protected EList<Attribute> attributes;
 
         /**
-         * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getIncoming()
-         * @generated
-         * @ordered
-         */
+	 * @see #getIncoming()
+	 * @generated
+	 * @ordered
+	 */
         protected EList<Edge> incoming;
 
         /**
-         * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getOutgoing() <em>Outgoing</em>}' reference list.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getOutgoing()
-         * @generated
-         * @ordered
-         */
+	 * @see #getOutgoing()
+	 * @generated
+	 * @ordered
+	 */
         protected EList<Edge> outgoing;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected NodeImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.NODE;
-        }
+		return HenshinPackage.Literals.NODE;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EClass getType() {
-                if (type != null && type.eIsProxy()) {
-                        InternalEObject oldType = (InternalEObject)type;
-                        type = (EClass)eResolveProxy(oldType);
-                        if (type != oldType) {
-                                if (eNotificationRequired())
-                                        eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__TYPE, oldType, type));
-                        }
-                }
-                return type;
-        }
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (EClass)eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.NODE__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EClass basicGetType() {
-                return type;
-        }
+		return type;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setType(EClass newType) {
-                EClass oldType = type;
-                type = newType;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TYPE, oldType, type));
-        }
+		EClass oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__TYPE, oldType, type));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EList<Attribute> getAttributes() {
-                if (attributes == null) {
-                        attributes = new EObjectContainmentWithInverseEList<Attribute>(Attribute.class, this, HenshinPackage.NODE__ATTRIBUTES, HenshinPackage.ATTRIBUTE__NODE);
-                }
-                return attributes;
-        }
+		if (attributes == null) {
+			attributes = new EObjectContainmentWithInverseEList<Attribute>(Attribute.class, this, HenshinPackage.NODE__ATTRIBUTES, HenshinPackage.ATTRIBUTE__NODE);
+		}
+		return attributes;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Graph getGraph() {
-                if (eContainerFeatureID() != HenshinPackage.NODE__GRAPH) return null;
-                return (Graph)eContainer();
-        }
+		if (eContainerFeatureID() != HenshinPackage.NODE__GRAPH) return null;
+		return (Graph)eContainer();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NotificationChain basicSetGraph(Graph newGraph, NotificationChain msgs) {
-                msgs = eBasicSetContainer((InternalEObject)newGraph, HenshinPackage.NODE__GRAPH, msgs);
-                return msgs;
-        }
+		msgs = eBasicSetContainer((InternalEObject)newGraph, HenshinPackage.NODE__GRAPH, msgs);
+		return msgs;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setGraph(Graph newGraph) {
-                if (newGraph != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.NODE__GRAPH && newGraph != null)) {
-                        if (EcoreUtil.isAncestor(this, newGraph))
-                                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-                        NotificationChain msgs = null;
-                        if (eInternalContainer() != null)
-                                msgs = eBasicRemoveFromContainer(msgs);
-                        if (newGraph != null)
-                                msgs = ((InternalEObject)newGraph).eInverseAdd(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
-                        msgs = basicSetGraph(newGraph, msgs);
-                        if (msgs != null) msgs.dispatch();
-                }
-                else if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__GRAPH, newGraph, newGraph));
-        }
+		if (newGraph != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.NODE__GRAPH && newGraph != null)) {
+			if (EcoreUtil.isAncestor(this, newGraph))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newGraph != null)
+				msgs = ((InternalEObject)newGraph).eInverseAdd(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
+			msgs = basicSetGraph(newGraph, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NODE__GRAPH, newGraph, newGraph));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EList<Edge> getIncoming() {
-                if (incoming == null) {
-                        incoming = new EObjectWithInverseResolvingEList<Edge>(Edge.class, this, HenshinPackage.NODE__INCOMING, HenshinPackage.EDGE__TARGET);
-                }
-                return incoming;
-        }
+		if (incoming == null) {
+			incoming = new EObjectWithInverseResolvingEList<Edge>(Edge.class, this, HenshinPackage.NODE__INCOMING, HenshinPackage.EDGE__TARGET);
+		}
+		return incoming;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public EList<Edge> getOutgoing() {
-                if (outgoing == null) {
-                        outgoing = new EObjectWithInverseResolvingEList<Edge>(Edge.class, this, HenshinPackage.NODE__OUTGOING, HenshinPackage.EDGE__SOURCE);
-                }
-                return outgoing;
-        }
+		if (outgoing == null) {
+			outgoing = new EObjectWithInverseResolvingEList<Edge>(Edge.class, this, HenshinPackage.NODE__OUTGOING, HenshinPackage.EDGE__SOURCE);
+		}
+		return outgoing;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @SuppressWarnings("unchecked")
         @Override
         public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
-                        case HenshinPackage.NODE__GRAPH:
-                                if (eInternalContainer() != null)
-                                        msgs = eBasicRemoveFromContainer(msgs);
-                                return basicSetGraph((Graph)otherEnd, msgs);
-                        case HenshinPackage.NODE__INCOMING:
-                                return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
-                        case HenshinPackage.NODE__OUTGOING:
-                                return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
-                }
-                return super.eInverseAdd(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__GRAPH:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGraph((Graph)otherEnd, msgs);
+			case HenshinPackage.NODE__INCOMING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__OUTGOING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
-                        case HenshinPackage.NODE__GRAPH:
-                                return basicSetGraph(null, msgs);
-                        case HenshinPackage.NODE__INCOMING:
-                                return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
-                        case HenshinPackage.NODE__OUTGOING:
-                                return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
-                }
-                return super.eInverseRemove(otherEnd, featureID, msgs);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__GRAPH:
+				return basicSetGraph(null, msgs);
+			case HenshinPackage.NODE__INCOMING:
+				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__OUTGOING:
+				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-                switch (eContainerFeatureID()) {
-                        case HenshinPackage.NODE__GRAPH:
-                                return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
-                }
-                return super.eBasicRemoveFromContainerFeature(msgs);
-        }
+		switch (eContainerFeatureID()) {
+			case HenshinPackage.NODE__GRAPH:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object eGet(int featureID, boolean resolve, boolean coreType) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__TYPE:
-                                if (resolve) return getType();
-                                return basicGetType();
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                return getAttributes();
-                        case HenshinPackage.NODE__GRAPH:
-                                return getGraph();
-                        case HenshinPackage.NODE__INCOMING:
-                                return getIncoming();
-                        case HenshinPackage.NODE__OUTGOING:
-                                return getOutgoing();
-                }
-                return super.eGet(featureID, resolve, coreType);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return getAttributes();
+			case HenshinPackage.NODE__GRAPH:
+				return getGraph();
+			case HenshinPackage.NODE__INCOMING:
+				return getIncoming();
+			case HenshinPackage.NODE__OUTGOING:
+				return getOutgoing();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @SuppressWarnings("unchecked")
         @Override
         public void eSet(int featureID, Object newValue) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__TYPE:
-                                setType((EClass)newValue);
-                                return;
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                getAttributes().clear();
-                                getAttributes().addAll((Collection<? extends Attribute>)newValue);
-                                return;
-                        case HenshinPackage.NODE__GRAPH:
-                                setGraph((Graph)newValue);
-                                return;
-                        case HenshinPackage.NODE__INCOMING:
-                                getIncoming().clear();
-                                getIncoming().addAll((Collection<? extends Edge>)newValue);
-                                return;
-                        case HenshinPackage.NODE__OUTGOING:
-                                getOutgoing().clear();
-                                getOutgoing().addAll((Collection<? extends Edge>)newValue);
-                                return;
-                }
-                super.eSet(featureID, newValue);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__TYPE:
+				setType((EClass)newValue);
+				return;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
+			case HenshinPackage.NODE__GRAPH:
+				setGraph((Graph)newValue);
+				return;
+			case HenshinPackage.NODE__INCOMING:
+				getIncoming().clear();
+				getIncoming().addAll((Collection<? extends Edge>)newValue);
+				return;
+			case HenshinPackage.NODE__OUTGOING:
+				getOutgoing().clear();
+				getOutgoing().addAll((Collection<? extends Edge>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eUnset(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__TYPE:
-                                setType((EClass)null);
-                                return;
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                getAttributes().clear();
-                                return;
-                        case HenshinPackage.NODE__GRAPH:
-                                setGraph((Graph)null);
-                                return;
-                        case HenshinPackage.NODE__INCOMING:
-                                getIncoming().clear();
-                                return;
-                        case HenshinPackage.NODE__OUTGOING:
-                                getOutgoing().clear();
-                                return;
-                }
-                super.eUnset(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__TYPE:
+				setType((EClass)null);
+				return;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				getAttributes().clear();
+				return;
+			case HenshinPackage.NODE__GRAPH:
+				setGraph((Graph)null);
+				return;
+			case HenshinPackage.NODE__INCOMING:
+				getIncoming().clear();
+				return;
+			case HenshinPackage.NODE__OUTGOING:
+				getOutgoing().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public boolean eIsSet(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.NODE__TYPE:
-                                return type != null;
-                        case HenshinPackage.NODE__ATTRIBUTES:
-                                return attributes != null && !attributes.isEmpty();
-                        case HenshinPackage.NODE__GRAPH:
-                                return getGraph() != null;
-                        case HenshinPackage.NODE__INCOMING:
-                                return incoming != null && !incoming.isEmpty();
-                        case HenshinPackage.NODE__OUTGOING:
-                                return outgoing != null && !outgoing.isEmpty();
-                }
-                return super.eIsSet(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.NODE__TYPE:
+				return type != null;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return attributes != null && !attributes.isEmpty();
+			case HenshinPackage.NODE__GRAPH:
+				return getGraph() != null;
+			case HenshinPackage.NODE__INCOMING:
+				return incoming != null && !incoming.isEmpty();
+			case HenshinPackage.NODE__OUTGOING:
+				return outgoing != null && !outgoing.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //NodeImpl

@@ -25,29 +25,29 @@ package org.eclipse.emf.henshin.model;
  */
 public interface PortParameter extends Port {
         /**
-         * Returns the value of the '<em><b>Variable</b></em>' reference.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Variable</b></em>' reference.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Variable</em>' reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Variable</em>' reference.
-         * @see #setVariable(Variable)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getPortParameter_Variable()
-         * @model
-         * @generated
-         */
+	 * @return the value of the '<em>Variable</em>' reference.
+	 * @see #setVariable(Variable)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getPortParameter_Variable()
+	 * @model
+	 * @generated
+	 */
         Variable getVariable();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.PortParameter#getVariable <em>Variable</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.PortParameter#getVariable <em>Variable</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Variable</em>' reference.
-         * @see #getVariable()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Variable</em>' reference.
+	 * @see #getVariable()
+	 * @generated
+	 */
         void setVariable(Variable value);
 
 } // PortParameter

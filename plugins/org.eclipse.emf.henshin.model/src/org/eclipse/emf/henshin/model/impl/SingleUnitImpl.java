@@ -32,129 +32,129 @@ import org.eclipse.emf.henshin.model.SingleUnit;
  */
 public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit {
         /**
-         * The cached value of the '{@link #getRule() <em>Rule</em>}' reference.
-         * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getRule() <em>Rule</em>}' reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @see #getRule()
-         * @generated
-         * @ordered
-         */
+	 * @see #getRule()
+	 * @generated
+	 * @ordered
+	 */
         protected Rule rule;
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected SingleUnitImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.SINGLE_UNIT;
-        }
+		return HenshinPackage.Literals.SINGLE_UNIT;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Rule getRule() {
-                if (rule != null && rule.eIsProxy()) {
-                        InternalEObject oldRule = (InternalEObject)rule;
-                        rule = (Rule)eResolveProxy(oldRule);
-                        if (rule != oldRule) {
-                                if (eNotificationRequired())
-                                        eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.SINGLE_UNIT__RULE, oldRule, rule));
-                        }
-                }
-                return rule;
-        }
+		if (rule != null && rule.eIsProxy()) {
+			InternalEObject oldRule = (InternalEObject)rule;
+			rule = (Rule)eResolveProxy(oldRule);
+			if (rule != oldRule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.SINGLE_UNIT__RULE, oldRule, rule));
+			}
+		}
+		return rule;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Rule basicGetRule() {
-                return rule;
-        }
+		return rule;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public void setRule(Rule newRule) {
-                Rule oldRule = rule;
-                rule = newRule;
-                if (eNotificationRequired())
-                        eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.SINGLE_UNIT__RULE, oldRule, rule));
-        }
+		Rule oldRule = rule;
+		rule = newRule;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.SINGLE_UNIT__RULE, oldRule, rule));
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object eGet(int featureID, boolean resolve, boolean coreType) {
-                switch (featureID) {
-                        case HenshinPackage.SINGLE_UNIT__RULE:
-                                if (resolve) return getRule();
-                                return basicGetRule();
-                }
-                return super.eGet(featureID, resolve, coreType);
-        }
+		switch (featureID) {
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				if (resolve) return getRule();
+				return basicGetRule();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eSet(int featureID, Object newValue) {
-                switch (featureID) {
-                        case HenshinPackage.SINGLE_UNIT__RULE:
-                                setRule((Rule)newValue);
-                                return;
-                }
-                super.eSet(featureID, newValue);
-        }
+		switch (featureID) {
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				setRule((Rule)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public void eUnset(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.SINGLE_UNIT__RULE:
-                                setRule((Rule)null);
-                                return;
-                }
-                super.eUnset(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				setRule((Rule)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public boolean eIsSet(int featureID) {
-                switch (featureID) {
-                        case HenshinPackage.SINGLE_UNIT__RULE:
-                                return rule != null;
-                }
-                return super.eIsSet(featureID);
-        }
+		switch (featureID) {
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				return rule != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //SingleUnitImpl

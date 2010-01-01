@@ -22,22 +22,22 @@ import org.eclipse.emf.henshin.model.Or;
  */
 public class OrImpl extends BinaryFormulaImpl implements Or {
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         protected OrImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         protected EClass eStaticClass() {
-                return HenshinPackage.Literals.OR;
-        }
+		return HenshinPackage.Literals.OR;
+	}
 
 } //OrImpl

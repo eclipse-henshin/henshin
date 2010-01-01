@@ -25,412 +25,412 @@ import org.eclipse.emf.henshin.model.*;
  */
 public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
         /**
-         * Creates the default factory implementation.
-         * <!-- begin-user-doc -->
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public static HenshinFactory init() {
-                try {
-                        HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.eclipse.emf.henshin"); 
-                        if (theHenshinFactory != null) {
-                                return theHenshinFactory;
-                        }
-                }
-                catch (Exception exception) {
-                        EcorePlugin.INSTANCE.log(exception);
-                }
-                return new HenshinFactoryImpl();
-        }
+		try {
+			HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.eclipse.emf.henshin"); 
+			if (theHenshinFactory != null) {
+				return theHenshinFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new HenshinFactoryImpl();
+	}
 
         /**
-         * Creates an instance of the factory.
-         * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public HenshinFactoryImpl() {
-                super();
-        }
+		super();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public EObject create(EClass eClass) {
-                switch (eClass.getClassifierID()) {
-                        case HenshinPackage.NAMED_ELEMENT: return createNamedElement();
-                        case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
-                        case HenshinPackage.RULE: return createRule();
-                        case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
-                        case HenshinPackage.VARIABLE: return createVariable();
-                        case HenshinPackage.PORT_OBJECT: return createPortObject();
-                        case HenshinPackage.PORT_PARAMETER: return createPortParameter();
-                        case HenshinPackage.GRAPH: return createGraph();
-                        case HenshinPackage.MAPPING: return createMapping();
-                        case HenshinPackage.NODE: return createNode();
-                        case HenshinPackage.ATTRIBUTE: return createAttribute();
-                        case HenshinPackage.EDGE: return createEdge();
-                        case HenshinPackage.TRANSFORMATION: return createTransformation();
-                        case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
-                        case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
-                        case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
-                        case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
-                        case HenshinPackage.SINGLE_UNIT: return createSingleUnit();
-                        case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
-                        case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
-                        case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
-                        case HenshinPackage.FORMULA: return createFormula();
-                        case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
-                        case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
-                        case HenshinPackage.AND: return createAnd();
-                        case HenshinPackage.OR: return createOr();
-                        case HenshinPackage.NOT: return createNot();
-                        default:
-                                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-                }
-        }
+		switch (eClass.getClassifierID()) {
+			case HenshinPackage.NAMED_ELEMENT: return createNamedElement();
+			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
+			case HenshinPackage.RULE: return createRule();
+			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
+			case HenshinPackage.VARIABLE: return createVariable();
+			case HenshinPackage.PORT_OBJECT: return createPortObject();
+			case HenshinPackage.PORT_PARAMETER: return createPortParameter();
+			case HenshinPackage.GRAPH: return createGraph();
+			case HenshinPackage.MAPPING: return createMapping();
+			case HenshinPackage.NODE: return createNode();
+			case HenshinPackage.ATTRIBUTE: return createAttribute();
+			case HenshinPackage.EDGE: return createEdge();
+			case HenshinPackage.TRANSFORMATION: return createTransformation();
+			case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
+			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
+			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
+			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
+			case HenshinPackage.SINGLE_UNIT: return createSingleUnit();
+			case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
+			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
+			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
+			case HenshinPackage.FORMULA: return createFormula();
+			case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
+			case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
+			case HenshinPackage.AND: return createAnd();
+			case HenshinPackage.OR: return createOr();
+			case HenshinPackage.NOT: return createNot();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public Object createFromString(EDataType eDataType, String initialValue) {
-                switch (eDataType.getClassifierID()) {
-                        case HenshinPackage.PORT_KIND:
-                                return createPortKindFromString(eDataType, initialValue);
-                        default:
-                                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-                }
-        }
+		switch (eDataType.getClassifierID()) {
+			case HenshinPackage.PORT_KIND:
+				return createPortKindFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         @Override
         public String convertToString(EDataType eDataType, Object instanceValue) {
-                switch (eDataType.getClassifierID()) {
-                        case HenshinPackage.PORT_KIND:
-                                return convertPortKindToString(eDataType, instanceValue);
-                        default:
-                                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-                }
-        }
+		switch (eDataType.getClassifierID()) {
+			case HenshinPackage.PORT_KIND:
+				return convertPortKindToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NamedElement createNamedElement() {
-                NamedElementImpl namedElement = new NamedElementImpl();
-                return namedElement;
-        }
+		NamedElementImpl namedElement = new NamedElementImpl();
+		return namedElement;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public TransformationSystem createTransformationSystem() {
-                TransformationSystemImpl transformationSystem = new TransformationSystemImpl();
-                return transformationSystem;
-        }
+		TransformationSystemImpl transformationSystem = new TransformationSystemImpl();
+		return transformationSystem;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Rule createRule() {
-                RuleImpl rule = new RuleImpl();
-                return rule;
-        }
+		RuleImpl rule = new RuleImpl();
+		return rule;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public AttributeCondition createAttributeCondition() {
-                AttributeConditionImpl attributeCondition = new AttributeConditionImpl();
-                return attributeCondition;
-        }
+		AttributeConditionImpl attributeCondition = new AttributeConditionImpl();
+		return attributeCondition;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Variable createVariable() {
-                VariableImpl variable = new VariableImpl();
-                return variable;
-        }
+		VariableImpl variable = new VariableImpl();
+		return variable;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public PortObject createPortObject() {
-                PortObjectImpl portObject = new PortObjectImpl();
-                return portObject;
-        }
+		PortObjectImpl portObject = new PortObjectImpl();
+		return portObject;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public PortParameter createPortParameter() {
-                PortParameterImpl portParameter = new PortParameterImpl();
-                return portParameter;
-        }
+		PortParameterImpl portParameter = new PortParameterImpl();
+		return portParameter;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Graph createGraph() {
-                GraphImpl graph = new GraphImpl();
-                return graph;
-        }
+		GraphImpl graph = new GraphImpl();
+		return graph;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Mapping createMapping() {
-                MappingImpl mapping = new MappingImpl();
-                return mapping;
-        }
+		MappingImpl mapping = new MappingImpl();
+		return mapping;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Node createNode() {
-                NodeImpl node = new NodeImpl();
-                return node;
-        }
+		NodeImpl node = new NodeImpl();
+		return node;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Attribute createAttribute() {
-                AttributeImpl attribute = new AttributeImpl();
-                return attribute;
-        }
+		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Edge createEdge() {
-                EdgeImpl edge = new EdgeImpl();
-                return edge;
-        }
+		EdgeImpl edge = new EdgeImpl();
+		return edge;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Transformation createTransformation() {
-                TransformationImpl transformation = new TransformationImpl();
-                return transformation;
-        }
+		TransformationImpl transformation = new TransformationImpl();
+		return transformation;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public IndependentUnit createIndependentUnit() {
-                IndependentUnitImpl independentUnit = new IndependentUnitImpl();
-                return independentUnit;
-        }
+		IndependentUnitImpl independentUnit = new IndependentUnitImpl();
+		return independentUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public SequentialUnit createSequentialUnit() {
-                SequentialUnitImpl sequentialUnit = new SequentialUnitImpl();
-                return sequentialUnit;
-        }
+		SequentialUnitImpl sequentialUnit = new SequentialUnitImpl();
+		return sequentialUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public ConditionalUnit createConditionalUnit() {
-                ConditionalUnitImpl conditionalUnit = new ConditionalUnitImpl();
-                return conditionalUnit;
-        }
+		ConditionalUnitImpl conditionalUnit = new ConditionalUnitImpl();
+		return conditionalUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public PriorityUnit createPriorityUnit() {
-                PriorityUnitImpl priorityUnit = new PriorityUnitImpl();
-                return priorityUnit;
-        }
+		PriorityUnitImpl priorityUnit = new PriorityUnitImpl();
+		return priorityUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public SingleUnit createSingleUnit() {
-                SingleUnitImpl singleUnit = new SingleUnitImpl();
-                return singleUnit;
-        }
+		SingleUnitImpl singleUnit = new SingleUnitImpl();
+		return singleUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public AmalgamatedUnit createAmalgamatedUnit() {
-                AmalgamatedUnitImpl amalgamatedUnit = new AmalgamatedUnitImpl();
-                return amalgamatedUnit;
-        }
+		AmalgamatedUnitImpl amalgamatedUnit = new AmalgamatedUnitImpl();
+		return amalgamatedUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public CountedUnit createCountedUnit() {
-                CountedUnitImpl countedUnit = new CountedUnitImpl();
-                return countedUnit;
-        }
+		CountedUnitImpl countedUnit = new CountedUnitImpl();
+		return countedUnit;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public NestedCondition createNestedCondition() {
-                NestedConditionImpl nestedCondition = new NestedConditionImpl();
-                return nestedCondition;
-        }
+		NestedConditionImpl nestedCondition = new NestedConditionImpl();
+		return nestedCondition;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Formula createFormula() {
-                FormulaImpl formula = new FormulaImpl();
-                return formula;
-        }
+		FormulaImpl formula = new FormulaImpl();
+		return formula;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public UnaryFormula createUnaryFormula() {
-                UnaryFormulaImpl unaryFormula = new UnaryFormulaImpl();
-                return unaryFormula;
-        }
+		UnaryFormulaImpl unaryFormula = new UnaryFormulaImpl();
+		return unaryFormula;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public BinaryFormula createBinaryFormula() {
-                BinaryFormulaImpl binaryFormula = new BinaryFormulaImpl();
-                return binaryFormula;
-        }
+		BinaryFormulaImpl binaryFormula = new BinaryFormulaImpl();
+		return binaryFormula;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public And createAnd() {
-                AndImpl and = new AndImpl();
-                return and;
-        }
+		AndImpl and = new AndImpl();
+		return and;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Or createOr() {
-                OrImpl or = new OrImpl();
-                return or;
-        }
+		OrImpl or = new OrImpl();
+		return or;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public Not createNot() {
-                NotImpl not = new NotImpl();
-                return not;
-        }
+		NotImpl not = new NotImpl();
+		return not;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public PortKind createPortKindFromString(EDataType eDataType, String initialValue) {
-                PortKind result = PortKind.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-        }
+		PortKind result = PortKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public String convertPortKindToString(EDataType eDataType, Object instanceValue) {
-                return instanceValue == null ? null : instanceValue.toString();
-        }
+		return instanceValue == null ? null : instanceValue.toString();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @generated
-         */
+	 * @generated
+	 */
         public HenshinPackage getHenshinPackage() {
-                return (HenshinPackage)getEPackage();
-        }
+		return (HenshinPackage)getEPackage();
+	}
 
         /**
-         * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @deprecated
-         * @generated
-         */
+	 * @deprecated
+	 * @generated
+	 */
         @Deprecated
         public static HenshinPackage getPackage() {
-                return HenshinPackage.eINSTANCE;
-        }
+		return HenshinPackage.eINSTANCE;
+	}
 
 } //HenshinFactoryImpl

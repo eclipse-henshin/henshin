@@ -25,31 +25,31 @@ package org.eclipse.emf.henshin.model;
  */
 public interface Variable extends DescribedElement, NamedElement {
         /**
-         * Returns the value of the '<em><b>Rule</b></em>' container reference.
-         * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Rule#getVariables <em>Variables</em>}'.
-         * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Rule</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Rule#getVariables <em>Variables</em>}'.
+	 * <!-- begin-user-doc -->
          * <p>
          * If the meaning of the '<em>Rule</em>' container reference isn't clear,
          * there really should be more of a description here...
          * </p>
          * <!-- end-user-doc -->
-         * @return the value of the '<em>Rule</em>' container reference.
-         * @see #setRule(Rule)
-         * @see org.eclipse.emf.henshin.model.HenshinPackage#getVariable_Rule()
-         * @see org.eclipse.emf.henshin.model.Rule#getVariables
-         * @model opposite="variables" transient="false"
-         * @generated
-         */
+	 * @return the value of the '<em>Rule</em>' container reference.
+	 * @see #setRule(Rule)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getVariable_Rule()
+	 * @see org.eclipse.emf.henshin.model.Rule#getVariables
+	 * @model opposite="variables" transient="false"
+	 * @generated
+	 */
         Rule getRule();
 
         /**
-         * Sets the value of the '{@link org.eclipse.emf.henshin.model.Variable#getRule <em>Rule</em>}' container reference.
-         * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Variable#getRule <em>Rule</em>}' container reference.
+	 * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
-         * @param value the new value of the '<em>Rule</em>' container reference.
-         * @see #getRule()
-         * @generated
-         */
+	 * @param value the new value of the '<em>Rule</em>' container reference.
+	 * @see #getRule()
+	 * @generated
+	 */
         void setRule(Rule value);
 
 } // Variable
