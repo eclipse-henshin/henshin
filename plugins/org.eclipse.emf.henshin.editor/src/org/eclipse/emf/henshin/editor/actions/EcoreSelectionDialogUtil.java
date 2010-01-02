@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.diagram.part;
+package org.eclipse.emf.henshin.editor.actions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +22,9 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.presentation.EcoreActionBarContributor.ExtendedLoadResourceAction.RegisteredPackageDialog;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.presentation.HenshinEditorPlugin;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -34,6 +35,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.IWorkbenchAdapter;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * @generated NOT
@@ -41,10 +43,16 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  */
 public class EcoreSelectionDialogUtil  {
 	
-	public static EPackage selectEcoreFilePackage(Shell shell) {
+	/**
+	 * Open a dialog for loading a package from an Ecore file.
+	 * @param shell Shell to be used.
+	 * @param resourceSet Resource set.
+	 * @return The loaded package or <code>null</code>.
+	 */
+	public static EPackage selectEcoreFilePackage(Shell shell, ResourceSet resourceSet) {
 		
 		// Create the dialog:
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new EcoreLabelProvider(), new EcoreContentProvider());
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new EcoreLabelProvider(), new EcoreContentProvider(resourceSet));
 		dialog.setTitle("Select EPackage");
 		dialog.setMessage("Please select the EPackage to import:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
@@ -63,7 +71,13 @@ public class EcoreSelectionDialogUtil  {
 		
 	}
 	
-	public static EPackage selectRegisteredPackage(Shell shell) {
+	/**
+	 * Open a dialog that lets the user choose a registered package.
+	 * @param shell Shell to be used.
+	 * @param resourceSet Resource set.
+	 * @return The selected package.
+	 */
+	public static EPackage selectRegisteredPackage(Shell shell, ResourceSet resourceSet) {
 		
 		RegisteredPackageDialog dialog = new RegisteredPackageDialog(shell);
 		dialog.setMultipleSelection(false);
@@ -75,15 +89,10 @@ public class EcoreSelectionDialogUtil  {
 			List<?> nsURIs = Arrays.asList(result);
 			
 			if (dialog.isDevelopmentTimeVersion()) {
-				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getURIConverter().getURIMap().putAll(
-					EcorePlugin.computePlatformURIMap());
-//				StringBuffer uris = new StringBuffer();
-				Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin
-					.getEPackageNsURIToGenModelLocationMap();
-//				for (int i = 0, length = result.length; i < length; i++) {
+				resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+				Map<String,URI> locationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
 				if (result.length > 0) {
-					URI location = ePackageNsURItoGenModelLocationMap.get(result[0]);
+					URI location = locationMap.get(result[0]);
 					Resource resource = resourceSet.getResource(location, true);
 					EcoreUtil.resolveAll(resource);
 				}
@@ -107,6 +116,9 @@ public class EcoreSelectionDialogUtil  {
 		
 	}
 
+	/*
+	 * Find all packages in a resource.
+	 */
 	protected static Collection<EPackage> getAllPackages(Resource resource) {
 		
 		// List of all packages:
@@ -210,8 +222,16 @@ public class EcoreSelectionDialogUtil  {
 	 */
 	static class EcoreContentProvider extends BaseWorkbenchContentProvider {
 		
-		ResourceSet resourceSet = new ResourceSetImpl();
+		// Resource set:
+		private ResourceSet resourceSet;
 		
+		/*
+		 * Default constructor.
+		 */
+		public EcoreContentProvider(ResourceSet resourceSet) {
+			this.resourceSet = resourceSet;
+		}
+
 		/* 
 		 * (non-Javadoc)
 		 * @see org.eclipse.ui.model.BaseWorkbenchContentProvider#getChildren(java.lang.Object)
@@ -249,16 +269,20 @@ public class EcoreSelectionDialogUtil  {
 			if (selection.length > 0) {
 				final Object obj = selection[0];
 				if (obj instanceof EPackage) {
-					return new Status(IStatus.OK, HenshinDiagramEditorPlugin.ID, "EPackage selected");
+					return new Status(IStatus.OK, HenshinEditorPlugin.ID, "EPackage selected");
 				}
 			}
-			return new Status(IStatus.ERROR, HenshinDiagramEditorPlugin.ID, "No valid EPackage selected");
+			return new Status(IStatus.ERROR, HenshinEditorPlugin.ID, "No valid EPackage selected");
 		}
 	};
 	
 	/* 
 	 * Package icon.
 	 */
-	static final Image PACKAGE_ICON = HenshinDiagramEditorPlugin.getBundledImageDescriptor("icons/package_green.png").createImage();
+	static final Image PACKAGE_ICON;
+	static {
+		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
+		PACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
+	}
 
 }

@@ -19,6 +19,13 @@ import org.eclipse.emf.common.util.ResourceLocator;
  * @generated
  */
 public final class HenshinEditorPlugin extends EMFPlugin {
+	
+	/**
+	 * Plug-In ID.
+	 * @generated NOT
+	 */
+	public static final String ID = "org.eclipse.emf.henshin.editor";
+	
 	/**
 	 * Keep track of the singleton.
 	 * <!-- begin-user-doc -->

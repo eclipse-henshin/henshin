@@ -508,30 +508,28 @@
             id="org.eclipse.emf.henshin.diagram.custom.systems"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart">
          <menu
-               icon="icons/package_add.png"
-               id="org.eclipse.emf.henshin.diagram.importPackageMenu"
+               icon="../org.eclipse.emf.henshin.editor/icons/full/ctool16/CreateEPackage.gif"
+               id="importPackageMenu"
                label="%importPackageActionLabel"
                path="additions">
             <separator
-                  name="group1">
+                  name="main">
             </separator>
          </menu>
          <action
                class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
-               definitionId="org.eclipse.emf.henshin.diagram.ImportFromRegistry"
                enablesFor="1"
-               id="org.eclipse.emf.henshin.diagram.ImportFromRegistry"
-               label="%fromRegistryActionLabel"
-               menubarPath="org.eclipse.emf.henshin.diagram.importPackageMenu/group1"
+               id="importFromWorkspace"
+               label="%fromWorkspaceActionLabel"
+               menubarPath="importPackageMenu/main"
                style="push">
          </action>
          <action
                class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
-               definitionId="org.eclipse.emf.henshin.diagram.ImportFromWorkspace"
                enablesFor="1"
-               id="org.eclipse.emf.henshin.diagram.ImportFromWorkspace"
-               label="%fromWorkspaceActionLabel"
-               menubarPath="org.eclipse.emf.henshin.diagram.importPackageMenu/group1"
+               id="importFromRegistry"
+               label="%fromRegistryActionLabel"
+               menubarPath="importPackageMenu/main"
                style="push">
          </action>
       </objectContribution>

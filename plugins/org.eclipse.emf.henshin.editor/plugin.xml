@@ -36,4 +36,36 @@
       </editor>
    </extension>
 
+   <extension point="org.eclipse.ui.popupMenus" id="custom-popup-menues">
+      <objectContribution
+            id="org.eclipse.emf.henshin.editor.TransformationSystem"
+            objectClass="org.eclipse.emf.henshin.model.TransformationSystem">
+         <menu
+               icon="icons/full/ctool16/CreateEPackage.gif"
+               id="importPackageMenu"
+               label="%importPackageActionLabel"
+               path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.editor.actions.ImportPackageAction"
+               enablesFor="1"
+               id="importFromWorkspace"
+               label="%fromWorkspaceActionLabel"
+               menubarPath="importPackageMenu/main"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.editor.actions.ImportPackageAction"
+               enablesFor="1"
+               id="importFromRegistry"
+               label="%fromRegistryActionLabel"
+               menubarPath="importPackageMenu/main"
+               style="push">
+         </action>
+      </objectContribution>
+	</extension>
+	
 </plugin>
