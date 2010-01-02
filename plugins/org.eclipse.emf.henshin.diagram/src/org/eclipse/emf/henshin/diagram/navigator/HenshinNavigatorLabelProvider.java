@@ -1,8 +1,11 @@
 package org.eclipse.emf.henshin.diagram.navigator;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeNameEditPart;
@@ -23,10 +26,12 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ITreePathLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.ViewerLabel;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
@@ -34,9 +39,10 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
 
 /**
  * @generated
+ * @implements IColorProvider
  */
 public class HenshinNavigatorLabelProvider extends LabelProvider implements
-		ICommonLabelProvider, ITreePathLabelProvider {
+		ICommonLabelProvider, ITreePathLabelProvider, IColorProvider {
 
 	/**
 	 * @generated
@@ -281,6 +287,31 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	private boolean isOwnView(View view) {
 		return TransformationSystemEditPart.MODEL_ID
 				.equals(HenshinVisualIDRegistry.getModelID(view));
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public Color getForeground(Object element) {
+		if (element instanceof HenshinNavigatorItem) {
+			HenshinNavigatorItem item = (HenshinNavigatorItem) element;
+			if (isOwnView(item.getView())) {
+				View view = item.getView();
+				if (view.getElement() instanceof Node) {
+					return NodeActionUtil.getNodeAction(
+							(Node) view.getElement()).getType().getColor();
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public Color getBackground(Object element) {
+		// Use default background color:
+		return null;
 	}
 
 }

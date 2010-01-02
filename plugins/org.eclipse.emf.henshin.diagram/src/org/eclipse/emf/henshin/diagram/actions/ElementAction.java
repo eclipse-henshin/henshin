@@ -12,7 +12,7 @@ import java.util.List;
 public class ElementAction {
 	
 	// Action type.
-	private ElementActionType type;
+	private ActionType type;
 	
 	// Optional arguments.
 	private String[] arguments;
@@ -22,12 +22,12 @@ public class ElementAction {
 	 * @param type Action type.
 	 * @param arguments Optional arguments.
 	 */
-	public ElementAction(ElementActionType type, String... arguments) {
+	public ElementAction(ActionType type, String... arguments) {
 		this.type = type;
 		this.arguments = arguments;
 	}
 	
-	public ElementActionType getType() {
+	public ActionType getType() {
 		return type;
 	}
 	
@@ -45,7 +45,7 @@ public class ElementAction {
 		
 		// Check if there is a colon:
 		int colon = value.indexOf(':');
-		ElementActionType type = ElementActionType.parse(colon < 0 ? value : value.substring(0,colon));
+		ActionType type = ActionType.parse(colon < 0 ? value : value.substring(0,colon));
 		
 		// Parse the arguments:
 		List<String> arguments = new ArrayList<String>();

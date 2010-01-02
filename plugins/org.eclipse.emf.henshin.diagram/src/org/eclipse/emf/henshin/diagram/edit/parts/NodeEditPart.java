@@ -9,9 +9,12 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -109,14 +112,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeNameEditPart) {
-			((NodeNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeNameLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeActionEditPart) {
 			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeActionLabel());
+			return true;
+		}
+		if (childEditPart instanceof NodeNameEditPart) {
+			((NodeNameEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeNameLabel());
 			return true;
 		}
 		return false;
@@ -126,10 +129,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeNameEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeNameEditPart) {
 			return true;
 		}
 		return false;
@@ -219,6 +222,16 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		if (primaryShape != null) {
 			primaryShape.setForegroundColor(color);
 		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshForegroundColor() {
+		Node node = (Node) getNotationView().getElement();
+		ElementAction action = NodeActionUtil.getNodeAction(node);
+		setForegroundColor(action.getType().getColor());
 	}
 
 	/**

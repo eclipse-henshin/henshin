@@ -9,10 +9,13 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -466,9 +469,26 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated NOT
 	 */
+	@Override
+	protected void refreshFontColor() {
+		Node node = (Node) getNotationView().getElement();
+		ElementAction action = NodeActionUtil.getNodeAction(node);
+		setForegroundColor(action.getType().getColor());
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void refreshForegroundColor() {
+		refreshFontColor();
+	}
+
+	/**
+	 * @generated
+	 */
 	protected void setFontColor(Color color) {
-		// We do not allow to change the font color of actions.
-		//getFigure().setForegroundColor(color);
+		getFigure().setForegroundColor(color);
 	}
 
 	/**
