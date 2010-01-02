@@ -509,21 +509,30 @@
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart">
          <menu
                icon="icons/package_add.png"
-               id="importPackage"
+               id="org.eclipse.emf.henshin.diagram.importPackageMenu"
                label="%importPackageActionLabel"
                path="additions">
+            <separator
+                  name="group1">
+            </separator>
          </menu>
          <action
                class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
+               definitionId="org.eclipse.emf.henshin.diagram.ImportFromRegistry"
+               enablesFor="1"
                id="org.eclipse.emf.henshin.diagram.ImportFromRegistry"
                label="%fromRegistryActionLabel"
-               menubarPath="additions/importPackage">
+               menubarPath="org.eclipse.emf.henshin.diagram.importPackageMenu/group1"
+               style="push">
          </action>
          <action
                class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
+               definitionId="org.eclipse.emf.henshin.diagram.ImportFromWorkspace"
+               enablesFor="1"
                id="org.eclipse.emf.henshin.diagram.ImportFromWorkspace"
                label="%fromWorkspaceActionLabel"
-               menubarPath="additions/importPackage">
+               menubarPath="org.eclipse.emf.henshin.diagram.importPackageMenu/group1"
+               style="push">
          </action>
       </objectContribution>
       
