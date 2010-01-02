@@ -38,6 +38,26 @@
         <ownedChild>
           <domainMetaElement
               href="henshin.ecore#//Node"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping"
+              viewPattern="{0}"
+              editorPattern="{0}"
+              editPattern="{0}">
+            <diagramLabel
+                href="henshin.gmfgraph#NodeName"/>
+            <features
+                href="henshin.ecore#//NamedElement/name"/>
+          </labelMappings>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping"
+              viewPattern="{0}"
+              editorPattern="{0}"
+              editPattern="{0}">
+            <diagramLabel
+                href="henshin.gmfgraph#NodeAction"/>
+            <features
+                href="henshin.ecore#//NamedElement/name"/>
+          </labelMappings>
           <tool
               xsi:type="gmftool:CreationTool"
               href="henshin.gmftool#//@palette/@tools.0/@tools.1"/>

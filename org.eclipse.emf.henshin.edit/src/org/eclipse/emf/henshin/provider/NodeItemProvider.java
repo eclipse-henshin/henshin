@@ -181,14 +181,21 @@ public class NodeItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Node)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Node_type") :
-			getString("_UI_Node_type") + " " + label;
+		
+		Node node = (Node) object;
+		String label = getString("_UI_Node_type");
+		
+		String name = "";
+		if (node.getName()!=null) name = name + node.getName();
+		if (node.getType()!=null) name = name + ":" + node.getType().getName();
+		name = name.trim();
+		
+		return name.length()!=0 ? label + " " + name : label;
+		
 	}
 
 	/**

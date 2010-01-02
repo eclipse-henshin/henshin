@@ -29,15 +29,27 @@
           xsi:type="gmfgraph:Rectangle"
           name="NodeFigure">
         <layout
-            xsi:type="gmfgraph:FlowLayout"/>
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="NodeNameFigure"
-            text="&lt;...>"/>
+            name="NodeActionLabel"
+            text="none">
+          <foregroundColor
+              xsi:type="gmfgraph:ConstantColor"
+              value="gray"/>
+        </children>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="NodeNameLabel"
+            text="Node"/>
       </actualFigure>
       <accessors
-          accessor="getNodeNameFigure"
+          accessor="getNodeActionLabel"
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.0"/>
+      <accessors
+          accessor="getNodeNameLabel"
+          figure="//@figures.0/@descriptors.1/@actualFigure/@children.1"/>
     </descriptors>
     <descriptors
         name="EdgeFigure">
@@ -63,7 +75,13 @@
       figure="RuleFigure"
       accessor="//@figures.0/@descriptors.0/@accessors.0"/>
   <labels
+      name="NodeAction"
+      figure="NodeFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.1/@accessors.0"/>
+  <labels
       name="NodeName"
       figure="NodeFigure"
-      accessor="//@figures.0/@descriptors.1/@accessors.0"/>
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.1/@accessors.1"/>
 </gmfgraph:Canvas>
