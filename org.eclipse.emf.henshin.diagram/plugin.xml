@@ -491,10 +491,10 @@
       <?gmfgen generated="true"?>
    </extension>
 
-   <extension point="org.eclipse.ui.popupMenus" id="set-element-action">
+   <extension point="org.eclipse.ui.popupMenus" id="custom-popup-menues">
       <?gmfgen generated="false"?>
       <objectContribution
-            id="org.eclipse.emf.henshin.diagram.SetElementAction"
+            id="org.eclipse.emf.henshin.diagram.custom.nodes"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart">
          <action
                label="%setElementActionLabel"
@@ -504,6 +504,29 @@
                id="org.eclipse.emf.henshin.diagram.SetElementAction">
          </action>
       </objectContribution>
+      <objectContribution
+            id="org.eclipse.emf.henshin.diagram.custom.systems"
+            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart">
+         <menu
+               icon="icons/package_add.png"
+               id="importPackage"
+               label="%importPackageActionLabel"
+               path="additions">
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
+               id="org.eclipse.emf.henshin.diagram.ImportFromRegistry"
+               label="%fromRegistryActionLabel"
+               menubarPath="additions/importPackage">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.diagram.part.ImportPackageAction"
+               id="org.eclipse.emf.henshin.diagram.ImportFromWorkspace"
+               label="%fromWorkspaceActionLabel"
+               menubarPath="additions/importPackage">
+         </action>
+      </objectContribution>
+      
    </extension>
 
    <!-- optionally, specify keybindings -->
