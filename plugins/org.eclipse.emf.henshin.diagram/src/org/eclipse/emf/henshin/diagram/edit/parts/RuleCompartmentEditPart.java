@@ -48,7 +48,7 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 			Rule rule = (Rule) getNotationView().getElement();
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
-					handleNotificationEvent(event);
+					refresh();
 				}
 			});
 		}

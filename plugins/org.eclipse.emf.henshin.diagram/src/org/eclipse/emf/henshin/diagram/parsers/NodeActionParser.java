@@ -37,7 +37,7 @@ public class NodeActionParser extends AbstractParser {
 	public String getEditString(IAdaptable element, int flags) {
 		Node node = (Node) element.getAdapter(EObject.class);
 		ElementAction action = NodeActionUtil.getNodeAction(node);
-		return action.toString();
+		return (action!=null) ? action.toString() : "unknown";
 	}
 	
 	/*
