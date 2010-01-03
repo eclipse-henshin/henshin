@@ -2,12 +2,12 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.Messages;
-import org.eclipse.emf.henshin.diagram.util.RuleAdapter;
-import org.eclipse.emf.henshin.diagram.util.RuleAdapter.Notifiable;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
@@ -18,10 +18,8 @@ import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * @generated
- * @implements Notifiable
  */
-public class RuleCompartmentEditPart extends ShapeCompartmentEditPart implements
-		Notifiable {
+public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 
 	/**
 	 * @generated
@@ -31,7 +29,7 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart implements
 	/**
 	 * @generated NOT
 	 */
-	private RuleAdapter ruleListener;
+	private RuleGraphsListener ruleListener;
 
 	/**
 	 * @generated
@@ -46,17 +44,14 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart implements
 	@Override
 	public void activate() {
 		if (!isActive()) {
-			Rule rule = (Rule) getNotationView().getElement();
-			ruleListener = new RuleAdapter(rule, this);
 			super.activate();
+			Rule rule = (Rule) getNotationView().getElement();
+			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+				public void notifyChanged(Notification event) {
+					handleNotificationEvent(event);
+				}
+			});
 		}
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	public void handleNotificationEvent(Notification event) {
-		super.handleNotificationEvent(event);
 	}
 
 	/**
