@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
@@ -473,7 +474,8 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	protected void refreshFontColor() {
 		Node node = (Node) getNotationView().getElement();
 		ElementAction action = NodeActionUtil.getNodeAction(node);
-		setForegroundColor(action.getType().getColor());
+		Color color = (action!=null) ? action.getType().getColor() : ColorConstants.gray;
+		setForegroundColor(color);
 	}
 
 	/**

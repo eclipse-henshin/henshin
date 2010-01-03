@@ -231,7 +231,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public void refreshForegroundColor() {
 		Node node = (Node) getNotationView().getElement();
 		ElementAction action = NodeActionUtil.getNodeAction(node);
-		setForegroundColor(action.getType().getColor());
+		Color color = (action!=null) ? action.getType().getColor() : ColorConstants.gray;
+		setForegroundColor(color);
 	}
 
 	/**

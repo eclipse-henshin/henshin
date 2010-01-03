@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeCompartmentEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
@@ -48,7 +49,8 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 			Rule rule = (Rule) getNotationView().getElement();
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
-					refresh();
+					CanonicalEditPolicy policy = (CanonicalEditPolicy) getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+					policy.refresh();
 				}
 			});
 		}

@@ -54,10 +54,11 @@ public class RuleCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected String getDefaultFactoryHint() {
-		return null;
+		// This is needed so that the edit policy knows what the semantic hint for new elements is.
+		return String.valueOf(NodeEditPart.VISUAL_ID);
 	}
 
 	/**

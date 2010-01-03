@@ -102,9 +102,20 @@ public class HenshinEditPartFactory implements EditPartFactory {
 		}
 
 		/**
-		 * @generated
+		 * @generated NOT
 		 */
 		public void relocate(CellEditor celleditor) {
+			Text text = (Text) celleditor.getControl();
+			// Make sure the text and its font are not disposed already.
+			if (!text.isDisposed() && !text.getFont().isDisposed()) {
+				relocateGen(celleditor);
+			}
+		}
+
+		/**
+		 * @generated
+		 */
+		public void relocateGen(CellEditor celleditor) {
 			Text text = (Text) celleditor.getControl();
 			Rectangle rect = getWrapLabel().getTextBounds().getCopy();
 			getWrapLabel().translateToAbsolute(rect);
