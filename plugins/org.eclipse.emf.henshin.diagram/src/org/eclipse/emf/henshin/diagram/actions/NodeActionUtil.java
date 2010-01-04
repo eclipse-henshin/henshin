@@ -35,7 +35,8 @@ public class NodeActionUtil {
 		if (graph==rule.getLhs()) {
 			
 			// Check if it is mapped to the RHS:
-			if (HenshinUtil.getOriginMapping(node, rule.getRhs())!=null) {
+			Mapping mapping = HenshinUtil.getOriginMapping(node, rule.getRhs(), rule.getMappings());
+			if (mapping!=null) {
 				return new ElementAction(ActionType.NONE);
 			} else {
 				return new ElementAction(ActionType.DELETE);
@@ -44,7 +45,7 @@ public class NodeActionUtil {
 		}
 		
 		// Otherwise find the origin in the LHS:
-		Mapping mapping = HenshinUtil.getImageMapping(node);
+		Mapping mapping = HenshinUtil.getImageMapping(node, rule.getMappings());
 		if (mapping==null) {
 			
 			// CREATE-action?
@@ -84,15 +85,17 @@ public class NodeActionUtil {
 			
 			// We know that the node is contained in the LHS
 			// and that it is mapped to a node in the RHS.
+			Mapping mapping = HenshinUtil.getOriginMapping(node, rule.getRhs(), rule.getMappings());
 			
 			// For CREATE actions, delete the node in the LHS:
-			if (action.getType()==ActionType.CREATE) {				
+			if (action.getType()==ActionType.CREATE) {
+				HenshinUtil.deleteNode(mapping.getImage());
 				HenshinUtil.deleteNode(node);
+				rule.getRhs().getNodes().add(node);
 			}
 			
 			// For DELETE actions, delete the node in the RHS:
 			if (action.getType()==ActionType.DELETE) {
-				Mapping mapping = HenshinUtil.getOriginMapping(node, rule.getRhs());
 				HenshinUtil.deleteNode(mapping.getImage());
 			}
 		}
