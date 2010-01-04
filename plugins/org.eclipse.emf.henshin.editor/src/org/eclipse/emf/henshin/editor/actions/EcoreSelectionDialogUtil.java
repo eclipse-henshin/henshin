@@ -42,7 +42,16 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author Christian Krause
  */
 public class EcoreSelectionDialogUtil  {
-	
+
+	/**
+	 * Package icon.
+	 */
+	public static final Image PACKAGE_ICON;
+	static {
+		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
+		PACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
+	}
+
 	/**
 	 * Open a dialog for loading a package from an Ecore file.
 	 * @param shell Shell to be used.
@@ -276,13 +285,4 @@ public class EcoreSelectionDialogUtil  {
 		}
 	};
 	
-	/* 
-	 * Package icon.
-	 */
-	static final Image PACKAGE_ICON;
-	static {
-		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
-		PACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
-	}
-
 }

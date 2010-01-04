@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -73,11 +74,19 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected PaletteRoot createPaletteRoot(PaletteRoot existingPaletteRoot) {
+		
+		// Create the palette root and fill it with the standard tools.
 		PaletteRoot root = super.createPaletteRoot(existingPaletteRoot);
 		new HenshinPaletteFactory().fillPalette(root);
+		
+		// Install the palette updater.
+		TransformationSystem system = (TransformationSystem) getDiagram().getElement();
+		new HenshinPaletteUpdater(root,system);
+		
+		// Done.
 		return root;
 	}
 
