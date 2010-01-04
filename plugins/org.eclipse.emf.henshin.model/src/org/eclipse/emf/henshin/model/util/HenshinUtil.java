@@ -92,9 +92,8 @@ public class HenshinUtil {
 	}
 	
 	/**
-	 * Delete a node. This removes the node from its container graph and
-	 * deletes all mappings that refer to it. If the node is not contained
-	 * in a graph, nothing happens.
+	 * Delete a node. This removes the node and all attached edges
+	 * from its container graph.
 	 * @param node Node to be deleted.
 	 */
 	public static void deleteNode(Node node) {
@@ -108,23 +107,10 @@ public class HenshinUtil {
 		}
 		
 		// Check if it is contained in a graph:
-		Graph graph = node.getGraph();
-		if (graph!=null) {
-			
-			// Remove the node from the graph:
-			graph.getNodes().remove(node);
-			Rule rule = getRule(graph);
-			if (rule!=null) {
-				
-				// Remove the mappings:
-				for (int i=0; i<rule.getMappings().size(); i++) {
-					Mapping mapping = rule.getMappings().get(i);
-					if (mapping.getOrigin()==node || mapping.getImage()==node) {
-						rule.getMappings().remove(i--);
-					}
-				}	
-			}
+		if (node.getGraph()!=null) {
+			node.setGraph(null);
 		}
+		
 	}
 	
 	/**

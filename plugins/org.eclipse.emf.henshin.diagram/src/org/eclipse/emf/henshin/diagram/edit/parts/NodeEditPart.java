@@ -9,12 +9,17 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.actions.ElementAction;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinUtil;
+import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -50,6 +55,11 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure primaryShape;
+	
+	/**
+	 * @generated NOT
+	 */
+	private RuleGraphsListener ruleListener;
 
 	/**
 	 * @generated
@@ -58,6 +68,44 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		super(view);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void activate() {
+		super.activate();
+		if (ruleListener==null) {
+			Node node = (Node) (getNotationView().getElement());
+			Rule rule = HenshinUtil.getRule(node.getGraph());
+			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+				public void notifyChanged(Notification event) {
+					refreshAction();
+				}
+			});
+		}
+	}
+	
+	/**
+	 * @generated NOT
+	 */	
+	public void refreshAction() {
+		refreshForegroundColor();
+		NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String.valueOf(NodeActionEditPart.VISUAL_ID));
+		actionLabel.refresh();
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void deactivate() {
+		if (ruleListener!=null) {
+			ruleListener.dispose();
+			ruleListener = null;
+		}
+		super.deactivate();
+	}
+	
 	/**
 	 * @generated
 	 */

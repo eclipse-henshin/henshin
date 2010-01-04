@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Mapping;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Mapping} object.
@@ -126,11 +127,18 @@ public class MappingItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Mapping_type");
+		Mapping mapping = (Mapping) object;
+		String result = getString("_UI_Mapping_type");
+		if (mapping.getOrigin()!=null || mapping.getImage()!=null) {
+			String origin = (mapping.getOrigin()!=null) ? mapping.getOrigin().getName() : "null";
+			String image = (mapping.getImage()!=null) ? mapping.getImage().getName() : "null";			
+			result = result + " " + origin + " -> " + image;
+		}
+		return result;
 	}
 
 	/**

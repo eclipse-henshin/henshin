@@ -83,60 +83,54 @@ public class NodeActionUtil {
 		// Current action type = NONE?
 		if (current.getType()==ActionType.NONE) {
 			
-			// We know that the node is contained in the LHS
-			// and that it is mapped to a node in the RHS.
-			Mapping mapping = HenshinUtil.getOriginMapping(node, rule.getRhs(), rule.getMappings());
+			// We know that the node is contained in the LHS and that it is mapped to a node in the RHS.
 			
-			// For CREATE actions, delete the node in the LHS:
+			// We delete the mapping and the image:
+			Mapping mapping = HenshinUtil.getOriginMapping(node, rule.getRhs(), rule.getMappings());			
+			HenshinUtil.deleteNode(mapping.getImage());
+			rule.getMappings().remove(mapping);
+			
+			// For CREATE actions, move the origin to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				HenshinUtil.deleteNode(mapping.getImage());
-				HenshinUtil.deleteNode(node);
-				rule.getRhs().getNodes().add(node);
+				node.setGraph(rule.getRhs());
 			}
 			
-			// For DELETE actions, delete the node in the RHS:
-			if (action.getType()==ActionType.DELETE) {
-				HenshinUtil.deleteNode(mapping.getImage());
-			}
 		}
 		
 		// Current action type = CREATE?
 		if (current.getType()==ActionType.CREATE) {
 			
-			// We know that the node is contained in the RHS 
-			// and that it is not an image of a mapping.
+			// We know that the node is contained in the RHS and that it is not an image of a mapping.
 			
-			// For NONE actions, create a node in the LHS and map it:
+			// We move the node to the LHS:
+			node.setGraph(rule.getLhs());
+			
+			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				Node origin = (Node) EcoreUtil.copy(node);
-				rule.getLhs().getNodes().add(origin);
-				HenshinUtil.createMapping(origin, node);
+				Node image = (Node) EcoreUtil.copy(node);
+				Mapping mapping = HenshinUtil.createMapping(node,image);
+				rule.getMappings().add(mapping);
+				rule.getRhs().getNodes().add(image);
 			}
 			
-			// For DELETE actions, move the node to the LHS:
-			if (action.getType()==ActionType.DELETE) {
-				HenshinUtil.deleteNode(node);
-				rule.getLhs().getNodes().add(node);
-			}
 		}
 
 		// Current action type = DELETE?
 		if (current.getType()==ActionType.DELETE) {
 			
-			// We know that the node is contained in the LHS 
-			// and that it has no image in the RHS.
+			// We know that the node is contained in the LHS and that it has no image in the RHS.
 			
-			// For NONE actions, create a node in the RHS and map to it:
+			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
 				Node image = (Node) EcoreUtil.copy(node);
+				Mapping mapping = HenshinUtil.createMapping(node, image);
+				rule.getMappings().add(mapping);
 				rule.getRhs().getNodes().add(image);
-				HenshinUtil.createMapping(node, image);
 			}
 			
 			// For CREATE actions, move the node to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				HenshinUtil.deleteNode(node);
-				rule.getRhs().getNodes().add(node);
+				node.setGraph(rule.getRhs());
 			}
 		}		
 		

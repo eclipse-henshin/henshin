@@ -116,17 +116,18 @@ public class NodeNameParser extends AbstractParser {
 		}
 		
 		// Find all mapped nodes:
-		List<Node> nodes = new ArrayList<Node>();
-		nodes.add(node);
+		List<Node> images = new ArrayList<Node>();
 		for (Mapping mapping : rule.getMappings()) {
-			if (mapping.getOrigin()==node) nodes.add(mapping.getImage());
-			if (mapping.getImage()==node) nodes.add(mapping.getOrigin());
+			if (mapping.getOrigin()==node) images.add(mapping.getImage());
+			if (mapping.getImage()==node) images.add(mapping.getOrigin());
 		}
 		
 		// Set the node attributes:
-		for (Node current : nodes) {
-			current.setName(name);
-			current.setType(eclass);
+		node.setName(name);
+		node.setType(eclass);
+		for (Node image : images) {
+			image.setName(name + "'");
+			image.setType(eclass);
 		}
 		
 		// Done.
