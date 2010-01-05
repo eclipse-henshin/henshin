@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -21,6 +22,12 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated
  */
 public class NodeCreateCommand extends EditElementCommand {
+
+	/**
+	 * Key for the node type parameter in creation requests.
+	 * @generated NOT
+	 */
+	public static final String TYPE_PARAMETER_KEY = "henshin_node_type";
 
 	/**
 	 * @generated
@@ -56,7 +63,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 
-		// The node is created in the context of a rule:
+		// The node is created in the context of a rule (NONE-action):
 		Rule rule = (Rule) getElementToEdit();
 		if (rule.getLhs() == null) {
 			Graph lhs = HenshinFactory.eINSTANCE.createGraph();
@@ -68,7 +75,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			rhs.setName("RHS");
 			rule.setRhs(rhs);
 		}
-
+		
 		// Create two new node instances:
 		Node lhsNode = HenshinFactory.eINSTANCE.createNode();
 		Node rhsNode = HenshinFactory.eINSTANCE.createNode();
@@ -76,17 +83,25 @@ public class NodeCreateCommand extends EditElementCommand {
 		// Add them to the LHS / RHS:
 		rule.getLhs().getNodes().add(lhsNode);
 		rule.getRhs().getNodes().add(rhsNode);
-
+		
 		// Create a mapping:
 		Mapping mapping = HenshinFactory.eINSTANCE.createMapping();
 		mapping.setOrigin(lhsNode);
 		mapping.setImage(rhsNode);
 		rule.getMappings().add(mapping);
-
+		
+		// Set the type of the nodes:
+		CreateElementRequest request = (CreateElementRequest) getRequest();
+		if (request.getParameter(TYPE_PARAMETER_KEY) instanceof EClass) {
+			EClass type = (EClass) request.getParameter(TYPE_PARAMETER_KEY);
+			lhsNode.setType(type);
+			rhsNode.setType(type);
+		}
+		
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);
 
-		((CreateElementRequest) getRequest()).setNewElement(lhsNode);
+		request.setNewElement(lhsNode);
 		return CommandResult.newOKCommandResult(lhsNode);
 
 	}

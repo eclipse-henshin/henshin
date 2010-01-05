@@ -15,7 +15,7 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  * @generated NOT
  * @author Christian Krause
  */
-public class DeleteNodeCommand extends AbstractTransactionalCommand {
+public class NodeDeleteCommand extends AbstractTransactionalCommand {
 
 	// Node to be deleted.
 	private Node node;
@@ -25,7 +25,7 @@ public class DeleteNodeCommand extends AbstractTransactionalCommand {
 	 * @param domain Editing domain.
 	 * @param node Node to be deleted.
 	 */
-	public DeleteNodeCommand(TransactionalEditingDomain domain, Node node) {
+	public NodeDeleteCommand(TransactionalEditingDomain domain, Node node) {
 		super(domain, "Delete Node", null);
 		this.node = node;
 	}

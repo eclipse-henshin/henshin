@@ -1,18 +1,24 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.henshin.diagram.edit.commands.NodeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.editor.actions.EcoreSelectionDialogUtil;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -67,6 +73,16 @@ public class HenshinPaletteUpdater {
 		// Create a new drawer for every package:
 		for (EPackage epackage : system.getImports()) {
 			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), PACKAGE_ICON);
+			
+			// Add entries for all classes:
+			List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
+			Collections.sort(eclassifiers, eclassComparator);
+			for (EClassifier eclassifier : eclassifiers){
+				if (eclassifier instanceof EClass) {
+					drawer.add(new EClassNodeToolEntry((EClass) eclassifier));
+				}
+			}
+			
 			palette.add(drawer);
 			drawers.put(epackage, drawer);
 		}
@@ -90,15 +106,22 @@ public class HenshinPaletteUpdater {
 	};
 	
 	
-	static class EClassNodeToolEntry extends ToolEntry {
-		
-		// Element types: Henshin node
-		private static final List<IElementType> types;
-		static {
-			types = new ArrayList<IElementType>(1);
-			types.add(HenshinElementTypes.Node_3001);
+	/*
+	 * A comparator for EClasses.
+	 */
+	private Comparator<EClassifier> eclassComparator = new Comparator<EClassifier>() {
+		public int compare(EClassifier c1, EClassifier c2) {
+			String n1 = c1.getName()!=null ? c1.getName() : "";
+			String n2 = c2.getName()!=null ? c2.getName() : "";
+			return n1.compareTo(n2);
 		}
-		
+	};
+	
+	/*
+	 * Creation palette tool entry for nodes.
+	 */
+	static class EClassNodeToolEntry extends ToolEntry {
+				
 		// EClass:
 		private EClass eclass;
 
@@ -109,10 +132,39 @@ public class HenshinPaletteUpdater {
 		
 		@Override
 		public Tool createTool() {
-			Tool tool = new UnspecifiedTypeCreationTool(types);
+			Tool tool = new EClassNodeTool(eclass);
 			tool.setProperties(getToolProperties());
 			return tool;
 		}
 	}
+	
+	/*
+	 * Creation tool for nodes.
+	 */
+	static class EClassNodeTool extends UnspecifiedTypeCreationTool {
 
+		// Element types: Henshin node
+		private static final List<IElementType> types;
+		static {
+			types = new ArrayList<IElementType>(1);
+			types.add(HenshinElementTypes.Node_3001);
+		}
+		
+		// Request parameters.
+		private Map<Object,Object> parameters = new HashMap<Object,Object>();
+		
+		public EClassNodeTool(EClass eclass) {
+			super(types);
+			parameters.put(NodeCreateCommand.TYPE_PARAMETER_KEY, eclass);
+		}
+		
+		@Override
+		protected Request createTargetRequest() {
+			Request request = super.createTargetRequest();
+			request.setExtendedData(parameters);
+			return request;
+		}
+
+	}
+	
 }

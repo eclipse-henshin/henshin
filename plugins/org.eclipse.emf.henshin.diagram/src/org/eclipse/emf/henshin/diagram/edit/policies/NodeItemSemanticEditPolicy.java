@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.henshin.diagram.edit.commands.DeleteNodeCommand;
+import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeReorientCommand;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -67,7 +67,7 @@ public class NodeItemSemanticEditPolicy extends
 		EAnnotation annotation = view.getEAnnotation("Shortcut");
 		if (annotation == null) {
 			addDestroyShortcutsCommand(composite, view);
-			composite.add(new DeleteNodeCommand(getEditingDomain(), node));
+			composite.add(new NodeDeleteCommand(getEditingDomain(), node));
 		} else {
 			composite.add(new DeleteCommand(getEditingDomain(), view));
 		}
