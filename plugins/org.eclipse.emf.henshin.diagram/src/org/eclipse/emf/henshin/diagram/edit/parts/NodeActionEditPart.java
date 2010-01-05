@@ -10,7 +10,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -473,7 +473,7 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	@Override
 	protected void refreshFontColor() {
 		Node node = (Node) getNotationView().getElement();
-		ElementAction action = NodeActionUtil.getNodeAction(node);
+		Action action = NodeActionUtil.getNodeAction(node);
 		Color color = (action != null) ? action.getType().getColor()
 				: ColorConstants.gray;
 		setForegroundColor(color);

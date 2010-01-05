@@ -11,14 +11,14 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinUtil;
+import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -76,7 +76,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		super.activate();
 		if (ruleListener == null) {
 			Node node = (Node) (getNotationView().getElement());
-			Rule rule = HenshinUtil.getRule(node.getGraph());
+			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
 					refreshAction();
@@ -286,7 +286,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshForegroundColor() {
 		Node node = (Node) getNotationView().getElement();
-		ElementAction action = NodeActionUtil.getNodeAction(node);
+		Action action = NodeActionUtil.getNodeAction(node);
 		Color color = (action != null) ? action.getType().getColor()
 				: ColorConstants.gray;
 		setForegroundColor(color);

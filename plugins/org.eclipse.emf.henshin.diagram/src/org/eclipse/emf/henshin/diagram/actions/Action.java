@@ -6,10 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Actions consist of an {@link ActionType} and an number of
+ * arguments, which are implemented as a simple {@link String} array.
+ * Actions can be printed, parsed and compared using equals().
  * @generated NOT
  * @author Christian Krause
  */
-public class ElementAction {
+public class Action {
 	
 	// Action type.
 	private ActionType type;
@@ -22,7 +25,7 @@ public class ElementAction {
 	 * @param type Action type.
 	 * @param arguments Optional arguments.
 	 */
-	public ElementAction(ActionType type, String... arguments) {
+	public Action(ActionType type, String... arguments) {
 		this.type = type;
 		this.arguments = arguments;
 	}
@@ -41,7 +44,7 @@ public class ElementAction {
 	 * @return The parsed element action.
 	 * @throws ParseException On parse errors.
 	 */
-	public static ElementAction parse(String value) throws ParseException {
+	public static Action parse(String value) throws ParseException {
 		
 		// Check if there is a colon:
 		int colon = value.indexOf(':');
@@ -69,7 +72,7 @@ public class ElementAction {
 		}
 		
 		// Create and return the new action:
-		return new ElementAction(type, arguments.toArray(new String[0]));
+		return new Action(type, arguments.toArray(new String[0]));
 	}
 	
 	/*
@@ -79,8 +82,8 @@ public class ElementAction {
 	@Override
 	public boolean equals(Object object) {
 		if (object==this) return true;
-		if (object instanceof ElementAction) {
-			ElementAction action = (ElementAction) object;
+		if (object instanceof Action) {
+			Action action = (Action) object;
 			return (type==action.getType() && Arrays.equals(arguments, action.getArguments()));
 		}
 		return false;

@@ -4,7 +4,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.emf.henshin.diagram.actions.ElementAction;
+import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -298,8 +298,8 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 			if (isOwnView(item.getView())) {
 				View view = item.getView();
 				if (view.getElement() instanceof Node) {
-					return NodeActionUtil.getNodeAction(
-							(Node) view.getElement()).getType().getColor();
+					Action action = NodeActionUtil.getNodeAction((Node) view.getElement());
+					if (action!=null) return action.getType().getColor();
 				}
 			}
 		}
