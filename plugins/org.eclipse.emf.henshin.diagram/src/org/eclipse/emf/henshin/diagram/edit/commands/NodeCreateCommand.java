@@ -75,7 +75,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			rhs.setName("RHS");
 			rule.setRhs(rhs);
 		}
-		
+
 		// Create two new node instances:
 		Node lhsNode = HenshinFactory.eINSTANCE.createNode();
 		Node rhsNode = HenshinFactory.eINSTANCE.createNode();
@@ -83,13 +83,13 @@ public class NodeCreateCommand extends EditElementCommand {
 		// Add them to the LHS / RHS:
 		rule.getLhs().getNodes().add(lhsNode);
 		rule.getRhs().getNodes().add(rhsNode);
-		
+
 		// Create a mapping:
 		Mapping mapping = HenshinFactory.eINSTANCE.createMapping();
 		mapping.setOrigin(lhsNode);
 		mapping.setImage(rhsNode);
 		rule.getMappings().add(mapping);
-		
+
 		// Set the type of the nodes:
 		CreateElementRequest request = (CreateElementRequest) getRequest();
 		if (request.getParameter(TYPE_PARAMETER_KEY) instanceof EClass) {
@@ -97,7 +97,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			lhsNode.setType(type);
 			rhsNode.setType(type);
 		}
-		
+
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);
 

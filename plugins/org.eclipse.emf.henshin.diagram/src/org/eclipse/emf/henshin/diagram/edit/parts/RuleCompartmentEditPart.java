@@ -1,10 +1,15 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.Messages;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeCompartmentEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
@@ -23,10 +28,52 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 	public static final int VISUAL_ID = 7001;
 
 	/**
+	 * @generated NOT
+	 */
+	private RuleGraphsListener ruleListener;
+
+	/**
 	 * @generated
 	 */
 	public RuleCompartmentEditPart(View view) {
 		super(view);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void activate() {
+		super.activate();
+		if (ruleListener == null) {
+			Rule rule = (Rule) (getNotationView().getElement());
+			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+				public void notifyChanged(Notification event) {
+					CanonicalEditPolicy policy = (CanonicalEditPolicy) getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+					policy.refresh();
+				}
+			});
+		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void deactivate() {
+		if (ruleListener != null) {
+			ruleListener.dispose();
+			ruleListener = null;
+		}
+		super.deactivate();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public boolean isSelectable() {
+		return false;
 	}
 
 	/**

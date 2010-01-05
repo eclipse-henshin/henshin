@@ -35,10 +35,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 public class HenshinPaletteUpdater {
 	
-	/**
-	 * Package icon.
-	 */
-	private static ImageDescriptor PACKAGE_ICON = ImageDescriptor.createFromImage(EcoreSelectionDialogUtil.PACKAGE_ICON);
+	// EPackage icon:
+	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(EcoreSelectionDialogUtil.EPACKAGE_ICON);
+	
+	// EClass icon:
+	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(EcoreSelectionDialogUtil.ECLASS_ICON);
 	
 	// Palette root to be updated.
 	private PaletteRoot palette;
@@ -72,7 +73,7 @@ public class HenshinPaletteUpdater {
 		
 		// Create a new drawer for every package:
 		for (EPackage epackage : system.getImports()) {
-			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), PACKAGE_ICON);
+			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), EPACKAGE_ICON);
 			
 			// Add entries for all classes:
 			List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
@@ -126,7 +127,7 @@ public class HenshinPaletteUpdater {
 		private EClass eclass;
 
 		public EClassNodeToolEntry(EClass eclass) {
-			super(eclass.getName(), "Create a " + eclass.getName() + " node", null, null);
+			super(eclass.getName(), "Create a " + eclass.getName() + " node", ECLASS_ICON, null);
 			this.eclass = eclass;
 		}
 		

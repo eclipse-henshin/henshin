@@ -43,13 +43,16 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class EcoreSelectionDialogUtil  {
 
-	/**
-	 * Package icon.
+	/*
+	 * Ecore icons.
 	 */
-	public static final Image PACKAGE_ICON;
+	public static final Image EPACKAGE_ICON, ECLASS_ICON;
+	
 	static {
 		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
-		PACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
+		EPACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
+		descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EClass.gif");
+		ECLASS_ICON = descriptor!=null ? descriptor.createImage() : null;
 	}
 
 	/**
@@ -199,7 +202,7 @@ public class EcoreSelectionDialogUtil  {
 				}
 			}
 			if (element instanceof EPackage) {
-				return PACKAGE_ICON;
+				return EPACKAGE_ICON;
 			}
 			return null;
 		}

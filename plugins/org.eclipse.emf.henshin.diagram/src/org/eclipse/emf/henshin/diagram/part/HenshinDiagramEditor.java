@@ -77,15 +77,16 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	 * @generated NOT
 	 */
 	protected PaletteRoot createPaletteRoot(PaletteRoot existingPaletteRoot) {
-		
+
 		// Create the palette root and fill it with the standard tools.
 		PaletteRoot root = super.createPaletteRoot(existingPaletteRoot);
 		new HenshinPaletteFactory().fillPalette(root);
-		
+
 		// Install the palette updater.
-		TransformationSystem system = (TransformationSystem) getDiagram().getElement();
-		new HenshinPaletteUpdater(root,system);
-		
+		TransformationSystem system = (TransformationSystem) getDiagram()
+				.getElement();
+		new HenshinPaletteUpdater(root, system);
+
 		// Done.
 		return root;
 	}

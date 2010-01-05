@@ -60,7 +60,14 @@
   </figures>
   <nodes
       name="Rule"
-      figure="RuleFigure"/>
+      figure="RuleFigure">
+    <facets
+        xsi:type="gmfgraph:DefaultSizeFacet">
+      <defaultSize
+          dx="250"
+          dy="200"/>
+    </facets>
+  </nodes>
   <nodes
       name="Node"
       figure="NodeFigure"/>

@@ -474,7 +474,8 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	protected void refreshFontColor() {
 		Node node = (Node) getNotationView().getElement();
 		ElementAction action = NodeActionUtil.getNodeAction(node);
-		Color color = (action!=null) ? action.getType().getColor() : ColorConstants.gray;
+		Color color = (action != null) ? action.getType().getColor()
+				: ColorConstants.gray;
 		setForegroundColor(color);
 	}
 

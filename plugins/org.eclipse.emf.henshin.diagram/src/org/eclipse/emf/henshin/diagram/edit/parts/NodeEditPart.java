@@ -55,7 +55,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure primaryShape;
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -74,7 +74,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void activate() {
 		super.activate();
-		if (ruleListener==null) {
+		if (ruleListener == null) {
 			Node node = (Node) (getNotationView().getElement());
 			Rule rule = HenshinUtil.getRule(node.getGraph());
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
@@ -84,28 +84,36 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			});
 		}
 	}
-	
+
 	/**
+	 * Refresh the action labels and colors.
 	 * @generated NOT
-	 */	
+	 */
 	public void refreshAction() {
-		refreshForegroundColor();
-		NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String.valueOf(NodeActionEditPart.VISUAL_ID));
-		actionLabel.refresh();
+
+		// Make sure the node still exists.
+		Node node = (Node) getNotationView().getElement();
+		if (node != null) {
+			refreshForegroundColor();
+			NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String
+					.valueOf(NodeActionEditPart.VISUAL_ID));
+			actionLabel.refresh();
+		}
+
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	@Override
 	public void deactivate() {
-		if (ruleListener!=null) {
+		if (ruleListener != null) {
 			ruleListener.dispose();
 			ruleListener = null;
 		}
 		super.deactivate();
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -160,14 +168,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeNameEditPart) {
 			((NodeNameEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeNameLabel());
+			return true;
+		}
+		if (childEditPart instanceof NodeActionEditPart) {
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeActionLabel());
 			return true;
 		}
 		return false;
@@ -177,10 +185,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeNameEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeNameEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
 		return false;
@@ -279,7 +287,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public void refreshForegroundColor() {
 		Node node = (Node) getNotationView().getElement();
 		ElementAction action = NodeActionUtil.getNodeAction(node);
-		Color color = (action!=null) ? action.getType().getColor() : ColorConstants.gray;
+		Color color = (action != null) ? action.getType().getColor()
+				: ColorConstants.gray;
 		setForegroundColor(color);
 	}
 
