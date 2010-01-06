@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.diagram.actions;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -28,7 +29,7 @@ public class NodeActionUtil {
 	public static Action getNodeAction(Node node) {
 		return InternalActionUtil.getAction(node);
 	}
-
+	
 	/**
 	 * Set the action for a node.
 	 * @param node Node.
@@ -39,7 +40,7 @@ public class NodeActionUtil {
 		// Get the current action.
 		Action current = getNodeAction(node);
 		if (action.equals(current)) return;
-
+		
 		// Get the container graph and rule.
 		Graph graph = node.getGraph();
 		Rule rule = HenshinGraphUtil.getRule(graph);
@@ -98,6 +99,23 @@ public class NodeActionUtil {
 			}
 		}		
 		
+	}
+	
+	/*
+	 * Private helper for moving a node to another graph.
+	 */
+	private static void moveNode(Node node, Graph graph, List<Mapping> mappings) {
+		for (Edge incoming : node.getIncoming()) {
+			Node newSource = HenshinMappingUtil.getNodeImage(incoming.getSource(), graph, mappings);
+			incoming.setSource(newSource);
+			incoming.setGraph(graph);
+		}
+		for (Edge outgoing : node.getOutgoing()) {
+			Node newTarget = HenshinMappingUtil.getNodeImage(outgoing.getTarget(), graph, mappings);
+			outgoing.setTarget(newTarget);
+			outgoing.setGraph(graph);
+		}
+		node.setGraph(graph);
 	}
 	
 	/**

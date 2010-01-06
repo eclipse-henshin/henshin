@@ -1,8 +1,11 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -106,5 +109,17 @@ public class HenshinGraphUtil {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Get a list of all coinciding edges of a node.
+	 * @param node Node.
+	 * @return List of edges.
+	 */
+	public static List<Edge> getAllEdges(Node node) {
+		List<Edge> edges = new ArrayList<Edge>();
+		edges.addAll(node.getIncoming());
+		edges.addAll(node.getOutgoing());
+		return Collections.unmodifiableList(edges);
+	}
+	
 }
