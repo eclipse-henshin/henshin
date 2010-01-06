@@ -98,11 +98,11 @@ public class EdgeActionUtil {
 		}		
 		
 	}
-
 	
 	/**
 	 * Get all edges in a rule that are associated with the given argument action.
 	 * @param rule Rule.
+	 * @param action Action or <code>null</code> for any action.
 	 * @return List of edges.
 	 */
 	public static List<Edge> getActionEdges(Rule rule, Action action) {
@@ -110,12 +110,23 @@ public class EdgeActionUtil {
 	}
 	
 	/**
-	 * Get all edges in a rule that are associated with an arbitrary action.
-	 * @param rule Rule.
-	 * @return List of edges.
+	 * Get all outgoing action edges.
+	 * @param node Node.
+	 * @param action Action or <code>null</code> for any action.
+	 * @return List of action edges.
 	 */
-	public static List<Edge> getActionEdges(Rule rule) {
-		return getActionEdges(rule, null);
+	public static List<Edge> getOutgoingActionEdges(Node node, Action action) {
+		return InternalActionUtil.getActionElements(node.getOutgoing(), action);
 	}
-	
+
+	/**
+	 * Get all incoming action edges.
+	 * @param node Node.
+	 * @param action Action or <code>null</code> for any action.
+	 * @return List of action edges.
+	 */
+	public static List<Edge> getIncomingActionEdges(Node node, Action action) {
+		return InternalActionUtil.getActionElements(node.getIncoming(), action);
+	}
+
 }

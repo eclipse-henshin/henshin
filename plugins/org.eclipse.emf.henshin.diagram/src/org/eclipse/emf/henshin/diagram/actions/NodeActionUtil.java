@@ -2,8 +2,6 @@ package org.eclipse.emf.henshin.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -57,7 +55,7 @@ public class NodeActionUtil {
 			
 			// For CREATE actions, move the origin to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				node.setGraph(rule.getRhs());
+				HenshinGraphUtil.moveNode(node, rule.getRhs(), rule.getMappings());
 			}
 			
 		}
@@ -68,14 +66,13 @@ public class NodeActionUtil {
 			// We know that the node is contained in the RHS and that it is not an image of a mapping.
 			
 			// We move the node to the LHS:
-			node.setGraph(rule.getLhs());
+			HenshinGraphUtil.moveNode(node, rule.getLhs(), rule.getMappings());
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				Node image = (Node) EcoreUtil.copy(node);
-				Mapping mapping = HenshinMappingUtil.createMapping(node,image);
+				Node image = HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings());
+				Mapping mapping = HenshinMappingUtil.createMapping(node, image);
 				rule.getMappings().add(mapping);
-				rule.getRhs().getNodes().add(image);
 			}
 			
 		}
@@ -87,53 +84,27 @@ public class NodeActionUtil {
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				Node image = (Node) EcoreUtil.copy(node);
+				Node image = HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings());
 				Mapping mapping = HenshinMappingUtil.createMapping(node, image);
 				rule.getMappings().add(mapping);
-				rule.getRhs().getNodes().add(image);
 			}
 			
 			// For CREATE actions, move the node to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				node.setGraph(rule.getRhs());
+				HenshinGraphUtil.moveNode(node, rule.getRhs(), rule.getMappings());
 			}
 		}		
 		
 	}
-	
-	/*
-	 * Private helper for moving a node to another graph.
-	 */
-	private static void moveNode(Node node, Graph graph, List<Mapping> mappings) {
-		for (Edge incoming : node.getIncoming()) {
-			Node newSource = HenshinMappingUtil.getNodeImage(incoming.getSource(), graph, mappings);
-			incoming.setSource(newSource);
-			incoming.setGraph(graph);
-		}
-		for (Edge outgoing : node.getOutgoing()) {
-			Node newTarget = HenshinMappingUtil.getNodeImage(outgoing.getTarget(), graph, mappings);
-			outgoing.setTarget(newTarget);
-			outgoing.setGraph(graph);
-		}
-		node.setGraph(graph);
-	}
-	
+
 	/**
 	 * Get all nodes in a rule that are associated with the given argument action.
 	 * @param rule Rule.
+	 * @param action Action or <code>null</code> for any action.
 	 * @return List of nodes.
 	 */
 	public static List<Node> getActionNodes(Rule rule, Action action) {
 		return InternalActionUtil.getActionElements(rule, action, HenshinPackage.eINSTANCE.getGraph_Nodes());
 	}
-	
-	/**
-	 * Get all nodes in a rule that are associated with an arbitrary action.
-	 * @param rule Rule.
-	 * @return List of nodes.
-	 */
-	public static List<Node> getActionNodes(Rule rule) {
-		return getActionNodes(rule, null);
-	}
-	
+		
 }

@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -51,7 +50,7 @@ public class HenshinGraphUtil {
 		edge.setGraph(source.getGraph());
 		return edge;
 	}
-	
+
 	/**
 	 * Find an edge.
 	 * @param source Source of the edge.
@@ -61,11 +60,63 @@ public class HenshinGraphUtil {
 	 */
 	public static Edge findEdge(Node source, Node target, EReference type) {
 		for (Edge edge : source.getOutgoing()) {
-			if (target==edge.getTarget() && (type==edge.getType())) return edge;
+			if (type==edge.getType() && target==edge.getTarget()) return edge;
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Find an outgoing edge.
+	 * @param source Source of the edge.
+	 * @param type Type of the edge.
+	 * @return The edge.
+	 */
+	public static Edge findOutgoingEdge(Node source, EReference type) {
+		for (Edge edge : source.getOutgoing()) {
+			if (type==edge.getType()) return edge;
+		}
+		return null;
+	}
+
+	/**
+	 * Find an incoming edge.
+	 * @param target Target of the edge.
+	 * @param type Type of the edge.
+	 * @return The edge.
+	 */
+	public static Edge findIncomingEdge(Node target, EReference type) {
+		for (Edge edge : target.getIncoming()) {
+			if (type==edge.getType()) return edge;
+		}
+		return null;
+	}
+
+	/**
+	 * Get a list of all coinciding edges of a node.
+	 * @param node Node.
+	 * @return List of edges.
+	 */
+	public static List<Edge> getAllEdges(Node node) {
+		List<Edge> edges = new ArrayList<Edge>();
+		edges.addAll(node.getIncoming());
+		edges.addAll(node.getOutgoing());
+		return Collections.unmodifiableList(edges);
+	}
+
+	/**
+	 * Get the rule a graph is contained in.
+	 * @param graph Graph.
+	 * @return Rule or <code>null</code>.
+	 */
+	public static Rule getRule(Graph graph) {
+		EObject container = graph.eContainer();
+		while (container!=null) {
+			if (container instanceof Rule) return (Rule) container;
+			container = container.eContainer();
+		}
+		return null;
+	}
+
 	/**
 	 * Delete an edge. This detaches the edge from its source and target node
 	 * and removes it from the graph it is contained in.
@@ -95,31 +146,59 @@ public class HenshinGraphUtil {
 			node.setGraph(null);
 		}
 	}
+		
+	/**
+	 * Move a node to another graph.
+	 * @param node Node to be moved.
+	 * @param graph Target graph
+	 * @param mappings Mappings to be used.
+	 */
+	public static void moveNode(Node node, Graph graph, List<Mapping> mappings) {
+		
+		// Move all incoming edges:
+		for (Edge incoming : node.getIncoming()) {
+			Node newSource = HenshinMappingUtil.getNodeImage(incoming.getSource(), graph, mappings);
+			incoming.setSource(newSource);
+			incoming.setGraph(graph);
+		}
+		
+		// Move all outgoing edges:
+		for (Edge outgoing : node.getOutgoing()) {
+			Node newTarget = HenshinMappingUtil.getNodeImage(outgoing.getTarget(), graph, mappings);
+			outgoing.setTarget(newTarget);
+			outgoing.setGraph(graph);
+		}
+		
+		// Move the node itself:
+		node.setGraph(graph);
+		
+	}
 
 	/**
-	 * Get the rule a graph is contained in.
-	 * @param graph Graph.
-	 * @return Rule or <code>null</code>.
+	 * Copy a node to another graph.
+	 * @param node Node to be copied.
+	 * @param graph Target graph
+	 * @param mappings Mappings to be used.
 	 */
-	public static Rule getRule(Graph graph) {
-		EObject container = graph.eContainer();
-		while (container!=null) {
-			if (container instanceof Rule) return (Rule) container;
-			container = container.eContainer();
+	public static Node copyNode(Node node, Graph graph, List<Mapping> mappings) {
+		
+		// Copy the node:
+		Node newNode = HenshinGraphUtil.createNode(graph, node.getType());
+		newNode.setName(node.getName());
+		
+		// Copy the incoming edges:
+		for (Edge incoming : node.getIncoming()) {
+			Node newSource = HenshinMappingUtil.getNodeImage(incoming.getSource(), graph, mappings);
+			HenshinGraphUtil.createEdge(newSource, newNode, incoming.getType());
 		}
-		return null;
+		
+		// Copy the outgoing edges:
+		for (Edge outgoing : node.getOutgoing()) {
+			Node newTarget = HenshinMappingUtil.getNodeImage(outgoing.getTarget(), graph, mappings);
+			HenshinGraphUtil.createEdge(newNode, newTarget, outgoing.getType());
+		}
+		
+		return newNode;
+		
 	}
-	
-	/**
-	 * Get a list of all coinciding edges of a node.
-	 * @param node Node.
-	 * @return List of edges.
-	 */
-	public static List<Edge> getAllEdges(Node node) {
-		List<Edge> edges = new ArrayList<Edge>();
-		edges.addAll(node.getIncoming());
-		edges.addAll(node.getOutgoing());
-		return Collections.unmodifiableList(edges);
-	}
-	
 }

@@ -4,11 +4,17 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.actions.Action;
+import org.eclipse.emf.henshin.diagram.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -51,7 +57,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	public boolean canExecute() {
+	public boolean canExecuteGen() {
 		if (source == null && target == null) {
 			return false;
 		}
@@ -73,22 +79,54 @@ public class EdgeCreateCommand extends EditElementCommand {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
+	 */
+	public boolean canExecute() {
+		
+		// Check the usual conditions:
+		if (!canExecuteGen()) return false;
+		
+		// Make sure source and target have the same action:
+		if (source!=null && target!=null) {
+			Action sourceAction = NodeActionUtil.getNodeAction(getSource());
+			Action targetAction = NodeActionUtil.getNodeAction(getTarget());
+			if (sourceAction==null || targetAction==null || !sourceAction.equals(targetAction)) {
+				return false;
+			}
+		}
+		
+		// Ok.
+		return true;
+		
+	}
+	
+	/**
+	 * @generated NOT
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
+		
 		if (!canExecute()) {
 			throw new ExecutionException(
-					"Invalid arguments in create link command"); //$NON-NLS-1$
+			"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
-
-		Edge newElement = HenshinFactory.eINSTANCE.createEdge();
-		getContainer().getEdges().add(newElement);
-		newElement.setSource(getSource());
-		newElement.setTarget(getTarget());
-		doConfigure(newElement, monitor, info);
-		((CreateElementRequest) getRequest()).setNewElement(newElement);
-		return CommandResult.newOKCommandResult(newElement);
+		
+		// Create the new edge:
+		Edge edge = HenshinGraphUtil.createEdge(getSource(), getTarget(), null);		
+		
+		// Check if we need to create a copy in the RHS:
+		Action action = NodeActionUtil.getNodeAction(getSource());
+		if (action.getType()==ActionType.NONE) {
+			Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
+			Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule.getRhs(), rule.getMappings());
+			Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(), rule.getRhs(),  rule.getMappings());
+			edge = HenshinGraphUtil.createEdge(sourceImage, targetImage, null);
+		}
+		
+		// Configure and return:
+		doConfigure(edge, monitor, info);
+		((CreateElementRequest) getRequest()).setNewElement(edge);
+		return CommandResult.newOKCommandResult(edge);
 
 	}
 

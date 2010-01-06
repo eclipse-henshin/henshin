@@ -119,7 +119,7 @@ public class HenshinMappingUtil {
 		if (edge.getSource()==null || edge.getTarget()==null) return null;
 		Node source = getNodeOrigin(edge.getSource(), mappings);
 		Node target = getNodeOrigin(edge.getTarget(), mappings);
-		if (source==null || target==null) return null;
+		if (source!=null || target==null) return null;
 		return HenshinGraphUtil.findEdge(source, target, edge.getType());
 	}
 	
