@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.policies.ActionLabelDirectEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
@@ -94,7 +95,7 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies() {
+	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
 				new HenshinTextSelectionEditPolicy());
@@ -121,6 +122,19 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 				});
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void createDefaultEditPolicies() {
+		createDefaultEditPoliciesGen();
+		
+		// Install a custom LabelDirectEditPolicy:
+		removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new ActionLabelDirectEditPolicy());
+	}
+	
 	/**
 	 * @generated
 	 */
