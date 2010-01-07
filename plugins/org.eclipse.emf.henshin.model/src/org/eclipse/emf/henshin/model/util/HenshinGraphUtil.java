@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -173,32 +174,52 @@ public class HenshinGraphUtil {
 		node.setGraph(graph);
 		
 	}
-
+	
 	/**
 	 * Copy a node to another graph.
 	 * @param node Node to be copied.
 	 * @param graph Target graph
 	 * @param mappings Mappings to be used.
 	 */
-	public static Node copyNode(Node node, Graph graph, List<Mapping> mappings) {
+	public static Node copyNode(Node node, Graph graph, List<Mapping> mappings, boolean map) {
 		
 		// Copy the node:
-		Node newNode = HenshinGraphUtil.createNode(graph, node.getType());
-		newNode.setName(node.getName());
+		Node newNode = (Node) EcoreUtil.copy(node);
+		
+		// Create the mapping if required:
+		if (map) {
+			Mapping mapping = HenshinMappingUtil.createMapping(node, newNode);
+			mappings.add(mapping);
+		}
 		
 		// Copy the incoming edges:
 		for (Edge incoming : node.getIncoming()) {
 			Node newSource = HenshinMappingUtil.getNodeImage(incoming.getSource(), graph, mappings);
-			HenshinGraphUtil.createEdge(newSource, newNode, incoming.getType());
+			Edge copy = HenshinFactory.eINSTANCE.createEdge();
+			copy.setSource(newSource);
+			copy.setTarget(node);
 		}
 		
 		// Copy the outgoing edges:
 		for (Edge outgoing : node.getOutgoing()) {
 			Node newTarget = HenshinMappingUtil.getNodeImage(outgoing.getTarget(), graph, mappings);
-			HenshinGraphUtil.createEdge(newNode, newTarget, outgoing.getType());
+			Edge copy = HenshinFactory.eINSTANCE.createEdge();
+			copy.setSource(node);
+			copy.setTarget(newTarget);
 		}
 		
+		// Add the node and the edges to the target graph:
+		graph.getNodes().add(newNode);
+		for (Edge incoming : newNode.getIncoming()) {
+			if (!graph.getEdges().contains(incoming)) graph.getEdges().add(incoming);
+		}
+		for (Edge outgoing : newNode.getOutgoing()) {
+			if (!graph.getEdges().contains(outgoing)) graph.getEdges().add(outgoing);
+		}
+		
+		// Done.
 		return newNode;
 		
 	}
+	
 }

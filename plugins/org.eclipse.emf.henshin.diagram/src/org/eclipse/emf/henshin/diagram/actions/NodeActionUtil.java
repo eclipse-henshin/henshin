@@ -70,9 +70,7 @@ public class NodeActionUtil {
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				Node image = HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings());
-				Mapping mapping = HenshinMappingUtil.createMapping(node, image);
-				rule.getMappings().add(mapping);
+				HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings(), true);
 			}
 			
 		}
@@ -84,9 +82,7 @@ public class NodeActionUtil {
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				Node image = HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings());
-				Mapping mapping = HenshinMappingUtil.createMapping(node, image);
-				rule.getMappings().add(mapping);
+				HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings(), true);
 			}
 			
 			// For CREATE actions, move the node to the RHS:

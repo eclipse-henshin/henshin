@@ -79,27 +79,13 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
-					refreshAction();
+					// Make sure the node still exists.
+					if (getNotationView().getElement()!=null) {
+						refreshVisuals();
+					}
 				}
 			});
 		}
-	}
-
-	/**
-	 * Refresh the action labels and colors.
-	 * @generated NOT
-	 */
-	public void refreshAction() {
-
-		// Make sure the node still exists.
-		Node node = (Node) getNotationView().getElement();
-		if (node != null) {
-			refreshForegroundColor();
-			NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String
-					.valueOf(NodeActionEditPart.VISUAL_ID));
-			actionLabel.refresh();
-		}
-
 	}
 
 	/**
@@ -112,6 +98,20 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			ruleListener = null;
 		}
 		super.deactivate();
+	}
+
+	/**
+	 * Refresh the action labels and colors.
+	 * @generated NOT
+	 */
+	@Override
+	public void refreshVisuals() {
+		super.refreshVisuals();
+		NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String
+				.valueOf(NodeActionEditPart.VISUAL_ID));
+		if (actionLabel!=null) {
+			actionLabel.refresh();
+		}
 	}
 
 	/**
