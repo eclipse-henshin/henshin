@@ -25,7 +25,7 @@ public class EdgeActionUtil {
 	 * @return Action or <code>null</code>.
 	 */
 	public static Action getEdgeAction(Edge edge) {
-		return InternalActionUtil.getAction(edge);
+		return ElementActionHelper.getAction(edge);
 	}
 	
 	
@@ -106,27 +106,7 @@ public class EdgeActionUtil {
 	 * @return List of edges.
 	 */
 	public static List<Edge> getActionEdges(Rule rule, Action action) {
-		return InternalActionUtil.getActionElements(rule, action, HenshinPackage.eINSTANCE.getGraph_Edges());
+		return ElementActionHelper.getActionElements(rule, action, HenshinPackage.eINSTANCE.getGraph_Edges());
 	}
 	
-	/**
-	 * Get all outgoing action edges.
-	 * @param node Node.
-	 * @param action Action or <code>null</code> for any action.
-	 * @return List of action edges.
-	 */
-	public static List<Edge> getOutgoingActionEdges(Node node, Action action) {
-		return InternalActionUtil.getActionElements(node.getOutgoing(), action);
-	}
-
-	/**
-	 * Get all incoming action edges.
-	 * @param node Node.
-	 * @param action Action or <code>null</code> for any action.
-	 * @return List of action edges.
-	 */
-	public static List<Edge> getIncomingActionEdges(Node node, Action action) {
-		return InternalActionUtil.getActionElements(node.getIncoming(), action);
-	}
-
 }

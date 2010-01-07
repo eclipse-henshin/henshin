@@ -25,7 +25,7 @@ public class NodeActionUtil {
 	 * @return Action or <code>null</code>.
 	 */
 	public static Action getNodeAction(Node node) {
-		return InternalActionUtil.getAction(node);
+		return ElementActionHelper.getAction(node);
 	}
 	
 	/**
@@ -47,15 +47,18 @@ public class NodeActionUtil {
 		if (current.getType()==ActionType.NONE) {
 			
 			// We know that the node is contained in the LHS and that it is mapped to a node in the RHS.
-			
-			// We delete the mapping and the image:
 			Mapping mapping = HenshinMappingUtil.getNodeImageMapping(node, rule.getRhs(), rule.getMappings());			
-			HenshinGraphUtil.deleteNode(mapping.getImage());
-			rule.getMappings().remove(mapping);
 			
-			// For CREATE actions, move the origin to the RHS:
+			// For delete actions, delete the image in the RHS:
+			if (action.getType()==ActionType.DELETE) {			
+				HenshinGraphUtil.deleteNode(mapping.getImage());
+				rule.getMappings().remove(mapping);
+			}
+			
+			// For CREATE actions, replace the image in the RHS by the origin:
 			if (action.getType()==ActionType.CREATE) {
-				HenshinGraphUtil.moveNode(node, rule.getRhs(), rule.getMappings());
+				GraphEdititingHelper.replaceNode(mapping.getImage(), node, rule.getMappings());
+				rule.getMappings().remove(mapping);
 			}
 			
 		}
@@ -66,11 +69,11 @@ public class NodeActionUtil {
 			// We know that the node is contained in the RHS and that it is not an image of a mapping.
 			
 			// We move the node to the LHS:
-			HenshinGraphUtil.moveNode(node, rule.getLhs(), rule.getMappings());
+			GraphEdititingHelper.moveNode(node, rule.getLhs(), rule.getMappings());
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings(), true);
+				GraphEdititingHelper.copyNode(node, rule.getRhs(), rule.getMappings());
 			}
 			
 		}
@@ -82,12 +85,12 @@ public class NodeActionUtil {
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				HenshinGraphUtil.copyNode(node, rule.getRhs(), rule.getMappings(), true);
+				GraphEdititingHelper.copyNode(node, rule.getRhs(), rule.getMappings());
 			}
 			
 			// For CREATE actions, move the node to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				HenshinGraphUtil.moveNode(node, rule.getRhs(), rule.getMappings());
+				GraphEdititingHelper.moveNode(node, rule.getRhs(), rule.getMappings());
 			}
 		}		
 		
@@ -100,7 +103,30 @@ public class NodeActionUtil {
 	 * @return List of nodes.
 	 */
 	public static List<Node> getActionNodes(Rule rule, Action action) {
-		return InternalActionUtil.getActionElements(rule, action, HenshinPackage.eINSTANCE.getGraph_Nodes());
+		return ElementActionHelper.getActionElements(rule, action, HenshinPackage.eINSTANCE.getGraph_Nodes());
 	}
+
+	/**
+	 * For an arbitrary node in a rule graph, find the corresponding action node.
+	 * @param node Some node.
+	 * @return The corresponding action node.
+	 */
+	public static Node getActionNode(Node node) {
 		
+		// Is the node itself already an action node?
+		if (getNodeAction(node)!=null) {
+			return node;
+		} else {
+			
+			// Get the graph and rule:
+			Graph graph = node.getGraph();
+			Rule rule = HenshinGraphUtil.getRule(graph);
+			
+			// Find the origin in the LHS:
+			return HenshinMappingUtil.getNodeOrigin(node, rule.getMappings());	
+			
+		}
+		
+	}
+
 }

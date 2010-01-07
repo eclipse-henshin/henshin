@@ -1,6 +1,8 @@
 package org.eclipse.emf.henshin.diagram.edit.policies;
 
+import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
@@ -19,10 +21,15 @@ public class EdgeItemSemanticEditPolicy extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
-		return getGEFWrapper(new DestroyElementCommand(req));
+		if (req.getElementToDestroy() instanceof Edge) {
+			return getGEFWrapper(new EdgeDeleteCommand(getEditingDomain(),
+					(Edge) req.getElementToDestroy()));
+		} else {
+			return null;
+		}
 	}
 
 }

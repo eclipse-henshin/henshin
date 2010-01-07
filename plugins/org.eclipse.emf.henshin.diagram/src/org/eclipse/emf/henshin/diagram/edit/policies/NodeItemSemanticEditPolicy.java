@@ -5,9 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
+import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeReorientCommand;
+import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
@@ -56,9 +57,10 @@ public class NodeItemSemanticEditPolicy extends
 		edges.addAll(view.getTargetEdges());
 		for (Edge edge : edges) {
 			if (HenshinVisualIDRegistry.getVisualID(edge) == EdgeEditPart.VISUAL_ID) {
-				DestroyElementRequest r = new DestroyElementRequest(edge
-						.getElement(), false);
-				composite.add(new DestroyElementCommand(r));
+				composite
+						.add(new EdgeDeleteCommand(getEditingDomain(),
+								(org.eclipse.emf.henshin.model.Edge) edge
+										.getElement()));
 				composite.add(new DeleteCommand(getEditingDomain(), edge));
 			}
 		}

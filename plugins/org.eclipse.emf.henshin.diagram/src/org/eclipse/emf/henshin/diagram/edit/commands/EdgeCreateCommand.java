@@ -4,13 +4,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
@@ -82,45 +79,54 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 * @generated NOT
 	 */
 	public boolean canExecute() {
-		
+
 		// Check the usual conditions:
-		if (!canExecuteGen()) return false;
-		
-		// Make sure source and target have the same action:
+		if (!canExecuteGen()) {
+			return false;
+		}
+
+		// Make sure source and target have compatible actions:
 		if (source!=null && target!=null) {
-			Action sourceAction = NodeActionUtil.getNodeAction(getSource());
-			Action targetAction = NodeActionUtil.getNodeAction(getTarget());
-			if (sourceAction==null || targetAction==null || !sourceAction.equals(targetAction)) {
+			
+			// If they are in the same graph it is ok.
+			if (getSource().getGraph()==getTarget().getGraph()) {
+				return true;
+			} else {
 				return false;
 			}
+			
 		}
-		
+
 		// Ok.
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		
+
 		if (!canExecute()) {
 			throw new ExecutionException(
-			"Invalid arguments in create link command"); //$NON-NLS-1$
+					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
 		
-		// Create the new edge:
-		Edge edge = HenshinGraphUtil.createEdge(getSource(), getTarget(), null);		
+		EReference type = null;
 		
+		// Create the new edge:
+		Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
+		Edge edge = HenshinGraphUtil.createEdge(getSource(), getTarget(), type);
+
 		// Check if we need to create a copy in the RHS:
-		Action action = NodeActionUtil.getNodeAction(getSource());
-		if (action.getType()==ActionType.NONE) {
-			Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
-			Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule.getRhs(), rule.getMappings());
-			Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(), rule.getRhs(),  rule.getMappings());
-			edge = HenshinGraphUtil.createEdge(sourceImage, targetImage, null);
+		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), 
+							rule.getRhs(), rule.getMappings());
+		Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(),
+							rule.getRhs(), rule.getMappings());
+		
+		if (sourceImage!=null && targetImage!=null) {
+			HenshinGraphUtil.createEdge(sourceImage, targetImage, type);
 		}
 		
 		// Configure and return:

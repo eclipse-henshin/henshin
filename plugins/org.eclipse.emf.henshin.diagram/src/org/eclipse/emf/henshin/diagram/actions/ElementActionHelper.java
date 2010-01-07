@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
  * @generated NOT
  * @author Christian Krause
  */
-class InternalActionUtil {
+class ElementActionHelper {
 	
 	/**
 	 * Determine the action for an element. If this returns <code>null</code>

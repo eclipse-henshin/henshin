@@ -49,8 +49,7 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 			Rule rule = (Rule) (getNotationView().getElement());
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
-					CanonicalEditPolicy policy = (CanonicalEditPolicy) getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
-					policy.refresh();
+					refreshSemantic();
 				}
 			});
 		}
@@ -66,6 +65,27 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 			ruleListener = null;
 		}
 		super.deactivate();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	private void refreshSemantic() {
+
+		// Refresh the canonical edit policy:
+		CanonicalEditPolicy policy = (CanonicalEditPolicy) getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+		policy.refresh();
+
+		// Refresh the canonical edit policy for the TransformationEditPart so that the links get updated as well:
+		if (getParent() instanceof RuleEditPart) {
+			RuleEditPart ruleEditPart = (RuleEditPart) getParent();
+			if (ruleEditPart.getParent() instanceof TransformationSystemEditPart) {
+				TransformationSystemEditPart systemEditPart = (TransformationSystemEditPart) ruleEditPart.getParent();
+				policy = (CanonicalEditPolicy) systemEditPart.getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+				policy.refresh();
+			}
+		}
+
 	}
 
 	/**

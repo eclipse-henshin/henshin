@@ -494,17 +494,6 @@
    <extension point="org.eclipse.ui.popupMenus" id="custom-popup-menues">
       <?gmfgen generated="false"?>
       <objectContribution
-            id="org.eclipse.emf.henshin.diagram.custom.nodes"
-            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart">
-         <action
-               label="%setElementActionLabel"
-               class="org.eclipse.emf.henshin.diagram.part.SetElementAction"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.eclipse.emf.henshin.diagram.SetElementAction">
-         </action>
-      </objectContribution>
-      <objectContribution
             id="org.eclipse.emf.henshin.diagram.custom.systems"
             objectClass="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart">
          <menu

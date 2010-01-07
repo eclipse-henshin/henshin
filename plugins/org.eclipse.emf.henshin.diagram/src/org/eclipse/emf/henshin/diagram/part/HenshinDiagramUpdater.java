@@ -49,7 +49,7 @@ public class HenshinDiagramUpdater {
 	 * @generated NOT
 	 */
 	public static List<?> getRuleRuleCompartment_7001SemanticChildren(View view) {
-		
+
 		// Check the container:
 		if (false == view.eContainer() instanceof View) {
 			return Collections.EMPTY_LIST;
@@ -58,18 +58,24 @@ public class HenshinDiagramUpdater {
 		if (!containerView.isSetElement()) {
 			return Collections.EMPTY_LIST;
 		}
-		
+
+		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
+		List<Node> actionNodes = NodeActionUtil.getActionNodes(rule, null);
+
+		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
-		for (Node node : NodeActionUtil.getActionNodes(rule, null)) {
+		for (Node node : actionNodes) {
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, node);
 			if (visualID == NodeEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(node, visualID));
 				continue;
 			}
 		}
+
+		// Done.
 		return result;
-		
+
 	}
 
 	/**
@@ -151,9 +157,29 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated NOT
 	 */
-	public static List getRule_2001ContainedLinks(View view) {
+	public static List<HenshinLinkDescriptor> getRule_2001ContainedLinks(
+			View view) {
+
+		// Get the action edges:
 		Rule rule = (Rule) view.getElement();
-		return EdgeActionUtil.getActionEdges(rule, null);
+		List<Edge> edges = EdgeActionUtil.getActionEdges(rule, null);
+
+		// Wrap them into node descriptors:
+		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
+		for (Edge edge : edges) {
+
+			// Get the proper source / target action nodes:
+			Node source = NodeActionUtil.getActionNode(edge.getSource());
+			Node target = NodeActionUtil.getActionNode(edge.getTarget());
+
+			// Create the descriptor:
+			result.add(new HenshinLinkDescriptor(source, target, edge,
+					HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
+		}
+
+		// Done.
+		return result;
+
 	}
 
 	/**
@@ -178,33 +204,26 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
-	public static List<?> getNode_3001IncomingLinks(View view) {
-		Node node = (Node) view.getElement();
-		List<Edge> edges = EdgeActionUtil.getIncomingActionEdges(node, null);
-		/*List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
-		for (Edge edge : edges) {
-			result.add(new HenshinLinkDescriptor(edge.getSource(), edge.getTarget(), edge,
-					HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
-		}
-		*/
-		return edges;
+	public static List getNode_3001IncomingLinks(View view) {
+		Node modelElement = (Node) view.getElement();
+		Map crossReferences = EcoreUtil.CrossReferencer.find(view.eResource()
+				.getResourceSet().getResources());
+		List result = new LinkedList();
+		result.addAll(getIncomingTypeModelFacetLinks_Edge_4001(modelElement,
+				crossReferences));
+		return result;
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
-	public static List<?> getNode_3001OutgoingLinks(View view) {
-		Node node = (Node) view.getElement();
-		List<Edge> edges = EdgeActionUtil.getOutgoingActionEdges(node, null);
-		/*List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
-		for (Edge edge : edges) {
-			result.add(new HenshinLinkDescriptor(edge.getSource(), edge.getTarget(), edge,
-					HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
-		}
-		*/
-		return edges;
+	public static List getNode_3001OutgoingLinks(View view) {
+		Node modelElement = (Node) view.getElement();
+		List result = new LinkedList();
+		result.addAll(getOutgoingTypeModelFacetLinks_Edge_4001(modelElement));
+		return result;
 	}
 
 	/**
@@ -220,7 +239,6 @@ public class HenshinDiagramUpdater {
 	public static List getRule_2001OutgoingLinks(View view) {
 		return Collections.EMPTY_LIST;
 	}
-
 
 	/**
 	 * @generated

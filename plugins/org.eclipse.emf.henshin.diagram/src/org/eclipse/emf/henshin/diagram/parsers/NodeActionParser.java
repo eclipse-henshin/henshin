@@ -82,6 +82,7 @@ public class NodeActionParser extends AbstractParser {
 			NodeActionUtil.setNodeAction(node, action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
+			t.printStackTrace();
 			return CommandResult.newErrorCommandResult(t);
 		}		
 	}

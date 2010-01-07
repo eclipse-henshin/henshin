@@ -24,6 +24,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -149,11 +150,18 @@ public class EdgeItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_Edge_type");
+		Edge edge = (Edge) object;
+		String result =  getString("_UI_Edge_type");
+		if (edge.getSource()!=null || edge.getTarget()!=null) {
+			String source = (edge.getSource()!=null) ? edge.getSource().getName() : "null";
+			String target = (edge.getTarget()!=null) ? edge.getTarget().getName() : "null";
+			result = result + " " + source + " -> " + target;
+		}
+		return result;
 	}
 
 	/**

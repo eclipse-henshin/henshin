@@ -25,10 +25,12 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
+import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -80,7 +82,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
 					// Make sure the node still exists.
-					if (getNotationView().getElement()!=null) {
+					if (getNotationView().getElement() instanceof Node) {
 						refreshVisuals();
 					}
 				}
@@ -107,9 +109,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
-		NodeActionEditPart actionLabel = (NodeActionEditPart) getChildBySemanticHint(String
+		IGraphicalEditPart actionLabel = getChildBySemanticHint(String
 				.valueOf(NodeActionEditPart.VISUAL_ID));
-		if (actionLabel!=null) {
+		if (actionLabel instanceof NodeActionEditPart) {
 			actionLabel.refresh();
 		}
 	}
@@ -125,7 +127,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
-
+	
 	/**
 	 * @generated
 	 */
@@ -285,11 +287,15 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	public void refreshForegroundColor() {
-		Node node = (Node) getNotationView().getElement();
-		Action action = NodeActionUtil.getNodeAction(node);
-		Color color = (action != null) ? action.getType().getColor()
-				: ColorConstants.gray;
-		setForegroundColor(color);
+		if (getNotationView().getElement() instanceof Node) {
+			Node node = (Node) getNotationView().getElement();
+			Action action = NodeActionUtil.getNodeAction(node);
+			if (action != null) {
+				setForegroundColor(action.getType().getColor());
+				return;
+			}
+		}
+		super.refreshForegroundColor();
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -16,7 +15,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * @generated
@@ -40,7 +38,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	public EdgeEditPart(View view) {
 		super(view);
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -53,7 +51,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 				public void notifyChanged(Notification event) {
 					// Make sure the edge still exists.
-					if (getNotationView().getElement()!=null) {
+					if (getNotationView().getElement() instanceof Edge) {
 						refreshVisuals();
 					}
 				}
@@ -100,17 +98,21 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	public PolylineConnectionEx getPrimaryShape() {
 		return (PolylineConnectionEx) getFigure();
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	@Override
 	public void refreshForegroundColor() {
-		Edge edge = (Edge) getNotationView().getElement();
-		Action action = EdgeActionUtil.getEdgeAction(edge);
-		Color color = (action != null) ? action.getType().getColor() 
-				: ColorConstants.gray;
-		setForegroundColor(color);
+		if (getNotationView().getElement() instanceof Edge) {
+			Edge edge = (Edge) getNotationView().getElement();
+			Action action = EdgeActionUtil.getEdgeAction(edge);
+			if (action != null) {
+				setForegroundColor(action.getType().getColor());
+				return;
+			}
+		}
+		super.refreshForegroundColor();
 	}
 
 	/**

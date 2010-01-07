@@ -5,6 +5,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.henshin.diagram.actions.Action;
+import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -16,6 +17,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
@@ -298,8 +300,16 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 			if (isOwnView(item.getView())) {
 				View view = item.getView();
 				if (view.getElement() instanceof Node) {
-					Action action = NodeActionUtil.getNodeAction((Node) view.getElement());
-					if (action!=null) return action.getType().getColor();
+					Action action = NodeActionUtil.getNodeAction((Node) view
+							.getElement());
+					if (action != null)
+						return action.getType().getColor();
+				}
+				if (view.getElement() instanceof Edge) {
+					Action action = EdgeActionUtil.getEdgeAction((Edge) view
+							.getElement());
+					if (action != null)
+						return action.getType().getColor();
 				}
 			}
 		}
