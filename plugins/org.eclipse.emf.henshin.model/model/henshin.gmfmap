@@ -46,9 +46,6 @@
             <diagramLabel
                 href="henshin.gmfgraph#NodeAction"/>
           </labelMappings>
-          <tool
-              xsi:type="gmftool:CreationTool"
-              href="henshin.gmftool#//@palette/@tools.0/@tools.1"/>
           <diagramNode
               href="henshin.gmfgraph#Node"/>
         </ownedChild>
@@ -71,7 +68,7 @@
         href="henshin.ecore#//Graph/edges"/>
     <tool
         xsi:type="gmftool:CreationTool"
-        href="henshin.gmftool#//@palette/@tools.0/@tools.2"/>
+        href="henshin.gmftool#//@palette/@tools.0/@tools.1"/>
     <diagramLink
         href="henshin.gmfgraph#Edge"/>
     <sourceMetaFeature

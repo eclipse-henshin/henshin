@@ -33,8 +33,7 @@ public class HenshinPaletteFactory {
 				Messages.Henshin1Group_title);
 		paletteContainer.setId("createHenshin1Group"); //$NON-NLS-1$
 		paletteContainer.add(createRule1CreationTool());
-		paletteContainer.add(createNode2CreationTool());
-		paletteContainer.add(createEdge3CreationTool());
+		paletteContainer.add(createEdge2CreationTool());
 		return paletteContainer;
 	}
 
@@ -57,29 +56,13 @@ public class HenshinPaletteFactory {
 	/**
 	 * @generated
 	 */
-	private ToolEntry createNode2CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(HenshinElementTypes.Node_3001);
-		NodeToolEntry entry = new NodeToolEntry(
-				Messages.Node2CreationTool_title,
-				Messages.Node2CreationTool_desc, types);
-		entry.setId("createNode2CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.Node_3001));
-		entry.setLargeIcon(entry.getSmallIcon());
-		return entry;
-	}
-
-	/**
-	 * @generated
-	 */
-	private ToolEntry createEdge3CreationTool() {
+	private ToolEntry createEdge2CreationTool() {
 		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
 		types.add(HenshinElementTypes.Edge_4001);
 		LinkToolEntry entry = new LinkToolEntry(
-				Messages.Edge3CreationTool_title,
-				Messages.Edge3CreationTool_desc, types);
-		entry.setId("createEdge3CreationTool"); //$NON-NLS-1$
+				Messages.Edge2CreationTool_title,
+				Messages.Edge2CreationTool_desc, types);
+		entry.setId("createEdge2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Edge_4001));
 		entry.setLargeIcon(entry.getSmallIcon());

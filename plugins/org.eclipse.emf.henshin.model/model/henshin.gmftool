@@ -19,15 +19,6 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="Node"
-          description="Create new Node">
-        <smallIcon
-            xsi:type="gmftool:DefaultImage"/>
-        <largeIcon
-            xsi:type="gmftool:DefaultImage"/>
-      </tools>
-      <tools
-          xsi:type="gmftool:CreationTool"
           title="Edge"
           description="Create new Edge">
         <smallIcon

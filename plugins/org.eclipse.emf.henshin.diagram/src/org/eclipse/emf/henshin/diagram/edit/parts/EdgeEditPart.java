@@ -57,7 +57,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		Rule rule = HenshinGraphUtil.getRule(edge.getGraph());
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement()!=null) {
+				if (getNotationView().getElement() != null) {
 					refreshVisuals();
 				}
 			}
@@ -146,7 +146,6 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		return (EdgeFigure) getFigure();
 	}
 
-	
 	/**
 	 * @generated NOT
 	 */
@@ -167,32 +166,33 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
-		
+
 		// Set the decorations:
 		Edge edge = (Edge) getNotationView().getElement();
 		EReference type = edge.getType();
-		
-		if (type!=null) {
-			
+
+		if (type != null) {
+
 			// Source decoration:
 			if (type.isContainment()) {
-				getPrimaryShape().setSourceDecoration(createDiamondDecoration());
-			} else if (type.getEOpposite()!=null) {
+				getPrimaryShape()
+						.setSourceDecoration(createDiamondDecoration());
+			} else if (type.getEOpposite() != null) {
 				getPrimaryShape().setSourceDecoration(createArrowDecoration());
 			} else {
 				getPrimaryShape().setSourceDecoration(null);
 			}
-			
+
 			// Target decoration:
-			getPrimaryShape().setTargetDecoration(createArrowDecoration());;			
-			
+			getPrimaryShape().setTargetDecoration(createArrowDecoration());
+			;
+
 		} else {
 			getPrimaryShape().setSourceDecoration(null);
 			getPrimaryShape().setTargetDecoration(null);
 		}
 	}
-	
-	
+
 	/**
 	 * Create a new diamond decoration, used for containent edges.
 	 * @generated NOT
@@ -209,7 +209,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		df.setScale(getMapMode().DPtoLP(7), getMapMode().DPtoLP(3));
 		return df;
 	}
-	
+
 	/**
 	 * Create a new arrow decoration.
 	 * @generated NOT
@@ -219,8 +219,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		df.setLineWidth(1);
 		return df;
 	}
-	
-	
+
 	/**
 	 * @generated
 	 */

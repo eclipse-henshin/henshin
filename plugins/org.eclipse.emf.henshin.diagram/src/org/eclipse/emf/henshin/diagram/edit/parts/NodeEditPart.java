@@ -88,7 +88,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		Rule rule = HenshinGraphUtil.getRule(node.getGraph());
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement()!=null && getParent()!=null) {
+				if (getNotationView().getElement() != null
+						&& getParent() != null) {
 					refreshVisuals();
 				}
 			}
@@ -197,14 +198,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeTypeLabel());
+			return true;
+		}
+		if (childEditPart instanceof NodeActionEditPart) {
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeActionLabel());
 			return true;
 		}
 		return false;
@@ -214,10 +215,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeTypeEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeTypeEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
 		return false;

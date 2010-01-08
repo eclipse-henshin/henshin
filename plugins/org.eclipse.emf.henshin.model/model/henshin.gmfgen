@@ -213,11 +213,6 @@
             genNodes="//@diagram/@topLevelNodes.0"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="Node"
-            description="Create new Node"
-            genNodes="//@diagram/@childNodes.0"/>
-        <entries
-            xsi:type="gmfgen:ToolEntry"
             title="Edge"
             description="Create new Edge"
             genLinks="//@diagram/@links.0"/>

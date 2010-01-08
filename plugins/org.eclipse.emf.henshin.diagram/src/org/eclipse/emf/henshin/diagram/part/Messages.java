@@ -258,22 +258,12 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
-	public static String Node2CreationTool_title;
+	public static String Edge2CreationTool_title;
 
 	/**
 	 * @generated
 	 */
-	public static String Node2CreationTool_desc;
-
-	/**
-	 * @generated
-	 */
-	public static String Edge3CreationTool_title;
-
-	/**
-	 * @generated
-	 */
-	public static String Edge3CreationTool_desc;
+	public static String Edge2CreationTool_desc;
 
 	/**
 	 * @generated
