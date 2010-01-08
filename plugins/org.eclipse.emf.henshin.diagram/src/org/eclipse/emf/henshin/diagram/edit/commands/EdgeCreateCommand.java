@@ -90,11 +90,15 @@ public class EdgeCreateCommand extends EditElementCommand {
 		if (!canExecuteGen()) {
 			return false;
 		}
-
-		// Make sure source and target have compatible actions:
+		
 		if (source!=null && target!=null) {
-			
-			// If they are in the same graph it is ok.
+
+			// Make sure the type is set:
+			//if (!(getRequest().getParameter(TYPE_PARAMETER_KEY) instanceof EReference)) {
+			//	return false;
+			//}
+
+			// Make sure source and target have compatible actions:
 			if (getSource().getGraph()==getTarget().getGraph()) {
 				return true;
 			} else {
@@ -119,7 +123,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
 		
-		EReference type = null;
+		// Get the edge type:
+		EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
 		
 		// Create the new edge:
 		Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());

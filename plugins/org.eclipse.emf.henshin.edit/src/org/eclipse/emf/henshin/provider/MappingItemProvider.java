@@ -133,10 +133,12 @@ public class MappingItemProvider
 	public String getText(Object object) {
 		Mapping mapping = (Mapping) object;
 		String result = getString("_UI_Mapping_type");
-		if (mapping.getOrigin()!=null || mapping.getImage()!=null) {
+		if (mapping.getOrigin()!=null && mapping.getImage()!=null) {
 			String origin = (mapping.getOrigin()!=null) ? mapping.getOrigin().getName() : "null";
-			String image = (mapping.getImage()!=null) ? mapping.getImage().getName() : "null";			
-			result = result + " " + origin + " -> " + image;
+			String image = (mapping.getImage()!=null) ? mapping.getImage().getName() : "null";
+			if (origin!=null && image!=null) {
+				result = result + " " + origin + " -> " + image;
+			}
 		}
 		return result;
 	}

@@ -156,10 +156,12 @@ public class EdgeItemProvider
 	public String getText(Object object) {
 		Edge edge = (Edge) object;
 		String result =  getString("_UI_Edge_type");
-		if (edge.getSource()!=null || edge.getTarget()!=null) {
+		if (edge.getSource()!=null && edge.getTarget()!=null) {
 			String source = (edge.getSource()!=null) ? edge.getSource().getName() : "null";
 			String target = (edge.getTarget()!=null) ? edge.getTarget().getName() : "null";
-			result = result + " " + source + " -> " + target;
+			if (source!=null && target!=null) {
+				result = result + " " + source + " -> " + target;
+			}
 		}
 		return result;
 	}

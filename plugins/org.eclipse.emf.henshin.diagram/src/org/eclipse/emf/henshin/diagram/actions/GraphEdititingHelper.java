@@ -26,7 +26,6 @@ class GraphEdititingHelper {
 		
 		// Make a copy of the node and map to it:
 		Node newNode = (Node) EcoreUtil.copy(node);
-		if (newNode.getName()!=null) newNode.setName(newNode.getName() + "'");
 		
 		// Create a mapping to the new node:
 		Rule rule = HenshinGraphUtil.getRule(graph);
