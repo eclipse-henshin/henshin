@@ -28,12 +28,12 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  * @generated NOT
  * @author Christian Krause
  */
-public class NodeNameParser extends AbstractParser {
+public class NodeTypeParser extends AbstractParser {
 	
 	/**
 	 * Default constructor.
 	 */
-	public NodeNameParser() {
+	public NodeTypeParser() {
 		super(new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() });
 	}
 
@@ -132,6 +132,17 @@ public class NodeNameParser extends AbstractParser {
 		// Done.
 		return CommandResult.newOKCommandResult();
 		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.AbstractParser#isAffectingFeature(java.lang.Object)
+	 */
+	@Override
+	protected boolean isAffectingFeature(Object feature) {
+		if (feature==HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
+		if (feature==HenshinPackage.eINSTANCE.getNode_Type()) return true;
+		return false;
 	}
 	
 	/*

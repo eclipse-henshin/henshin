@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
@@ -24,7 +25,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
  * @generated
  */
 public class EdgeCreateCommand extends EditElementCommand {
-	
+
 	/**
 	 * Key for the node type parameter in creation requests.
 	 * @generated NOT
@@ -90,8 +91,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 		if (!canExecuteGen()) {
 			return false;
 		}
-		
-		if (source!=null && target!=null) {
+
+		if (source != null && target != null) {
 
 			// Make sure the type is set:
 			//if (!(getRequest().getParameter(TYPE_PARAMETER_KEY) instanceof EReference)) {
@@ -99,12 +100,12 @@ public class EdgeCreateCommand extends EditElementCommand {
 			//}
 
 			// Make sure source and target have compatible actions:
-			if (getSource().getGraph()==getTarget().getGraph()) {
+			if (getSource().getGraph() == getTarget().getGraph()) {
 				return true;
 			} else {
 				return false;
 			}
-			
+
 		}
 
 		// Ok.
@@ -122,24 +123,25 @@ public class EdgeCreateCommand extends EditElementCommand {
 			throw new ExecutionException(
 					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
-		
+
 		// Get the edge type:
-		EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
-		
+		EReference type = (EReference) getRequest().getParameter(
+				TYPE_PARAMETER_KEY);
+
 		// Create the new edge:
 		Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
 		Edge edge = HenshinGraphUtil.createEdge(getSource(), getTarget(), type);
 
 		// Check if we need to create a copy in the RHS:
-		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), 
-							rule.getRhs(), rule.getMappings());
-		Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(),
-							rule.getRhs(), rule.getMappings());
-		
-		if (sourceImage!=null && targetImage!=null) {
+		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule
+				.getRhs(), rule.getMappings());
+		Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(), rule
+				.getRhs(), rule.getMappings());
+
+		if (sourceImage != null && targetImage != null) {
 			HenshinGraphUtil.createEdge(sourceImage, targetImage, type);
 		}
-		
+
 		// Configure and return:
 		doConfigure(edge, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(edge);

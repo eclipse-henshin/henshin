@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
@@ -29,9 +30,12 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IBorderItemEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.LabelEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.figures.IBorderItemLocator;
 import org.eclipse.gmf.runtime.diagram.ui.l10n.DiagramColorRegistry;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
@@ -52,7 +56,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @generated
  */
-public class NodeNameEditPart extends CompartmentEditPart implements
+public class NodeTypeEditPart extends CompartmentEditPart implements
 		ITextAwareEditPart {
 
 	/**
@@ -83,7 +87,7 @@ public class NodeNameEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated
 	 */
-	public NodeNameEditPart(View view) {
+	public NodeTypeEditPart(View view) {
 		super(view);
 	}
 
@@ -312,7 +316,7 @@ public class NodeNameEditPart extends CompartmentEditPart implements
 							HenshinElementTypes.Node_3001,
 							getParserElement(),
 							HenshinVisualIDRegistry
-									.getType(org.eclipse.emf.henshin.diagram.edit.parts.NodeNameEditPart.VISUAL_ID));
+									.getType(org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart.VISUAL_ID));
 		}
 		return parser;
 	}

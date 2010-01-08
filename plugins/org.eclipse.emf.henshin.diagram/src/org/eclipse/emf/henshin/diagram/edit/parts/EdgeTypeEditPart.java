@@ -1,42 +1,35 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
-import org.eclipse.emf.henshin.diagram.edit.policies.ActionLabelDirectEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.handles.MoveHandle;
-import org.eclipse.gef.handles.NonResizableHandleKit;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.LabelEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.NonResizableLabelEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.l10n.DiagramColorRegistry;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
@@ -57,13 +50,13 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @generated
  */
-public class NodeActionEditPart extends CompartmentEditPart implements
+public class EdgeTypeEditPart extends LabelEditPart implements
 		ITextAwareEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 5003;
+	public static final int VISUAL_ID = 6001;
 
 	/**
 	 * @generated
@@ -88,51 +81,46 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated
 	 */
-	public NodeActionEditPart(View view) {
+	static {
+		registerSnapBackPosition(
+				HenshinVisualIDRegistry
+						.getType(org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart.VISUAL_ID),
+				new Point(0, 40));
+	}
+
+	/**
+	 * @generated
+	 */
+	public EdgeTypeEditPart(View view) {
 		super(view);
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPoliciesGen() {
+	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new HenshinTextSelectionEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new LabelDirectEditPolicy());
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
+				new HenshinTextSelectionEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
-				new NonResizableEditPolicy() {
+				new NonResizableLabelEditPolicy() {
 
 					protected List createSelectionHandles() {
-						List handles = new ArrayList();
-						NonResizableHandleKit.addMoveHandle(
-								(GraphicalEditPart) getHost(), handles);
-						((MoveHandle) handles.get(0)).setBorder(null);
-						return handles;
-					}
-
-					public Command getCommand(Request request) {
-						return null;
-					}
-
-					public boolean understandsRequest(Request request) {
-						return false;
+						MoveHandle mh = new MoveHandle(
+								(GraphicalEditPart) getHost());
+						mh.setBorder(null);
+						return Collections.singletonList(mh);
 					}
 				});
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
-	@Override
-	protected void createDefaultEditPolicies() {
-		createDefaultEditPoliciesGen();
-
-		// Install a custom LabelDirectEditPolicy:
-		removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new ActionLabelDirectEditPolicy());
+	public int getKeyPoint() {
+		return ConnectionLocator.MIDDLE;
 	}
 
 	/**
@@ -327,10 +315,10 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 		if (parser == null) {
 			parser = HenshinParserProvider
 					.getParser(
-							HenshinElementTypes.Node_3001,
+							HenshinElementTypes.Edge_4001,
 							getParserElement(),
 							HenshinVisualIDRegistry
-									.getType(org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart.VISUAL_ID));
+									.getType(org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart.VISUAL_ID));
 		}
 		return parser;
 	}
@@ -482,26 +470,6 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated NOT
-	 */
-	@Override
-	protected void refreshFontColor() {
-		Node node = (Node) getNotationView().getElement();
-		Action action = NodeActionUtil.getNodeAction(node);
-		Color color = (action != null) ? action.getType().getColor()
-				: ColorConstants.gray;
-		setForegroundColor(color);
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	@Override
-	protected void refreshForegroundColor() {
-		refreshFontColor();
-	}
-
-	/**
 	 * @generated
 	 */
 	protected void setFontColor(Color color) {
@@ -558,22 +526,6 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 	 */
 	private View getFontStyleOwnerView() {
 		return getPrimaryView();
-	}
-
-	/**
-	 * @generated
-	 */
-	protected void addNotationalListeners() {
-		super.addNotationalListeners();
-		addListenerFilter("PrimaryView", this, getPrimaryView()); //$NON-NLS-1$
-	}
-
-	/**
-	 * @generated
-	 */
-	protected void removeNotationalListeners() {
-		super.removeNotationalListeners();
-		removeListenerFilter("PrimaryView"); //$NON-NLS-1$
 	}
 
 	/**

@@ -7,9 +7,10 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
@@ -36,6 +37,7 @@ import org.eclipse.gmf.runtime.notation.DecorationNode;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.Location;
 import org.eclipse.gmf.runtime.notation.MeasurementUnit;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
@@ -330,7 +332,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 				.getFillStyle_FillColor(), FigureUtilities
 				.RGBToInteger(fillRGB));
 		Node label5002 = createLabel(node, HenshinVisualIDRegistry
-				.getType(NodeNameEditPart.VISUAL_ID));
+				.getType(NodeTypeEditPart.VISUAL_ID));
 		Node label5003 = createLabel(node, HenshinVisualIDRegistry
 				.getType(NodeActionEditPart.VISUAL_ID));
 		return node;
@@ -382,6 +384,13 @@ public class HenshinViewProvider extends AbstractProvider implements
 			ViewUtil.setStructuralFeatureValue(edge, NotationPackage.eINSTANCE
 					.getRoutingStyle_Routing(), routing);
 		}
+		Node label6001 = createLabel(edge, HenshinVisualIDRegistry
+				.getType(EdgeTypeEditPart.VISUAL_ID));
+		label6001.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location6001 = (Location) label6001.getLayoutConstraint();
+		location6001.setX(0);
+		location6001.setY(40);
 		return edge;
 	}
 

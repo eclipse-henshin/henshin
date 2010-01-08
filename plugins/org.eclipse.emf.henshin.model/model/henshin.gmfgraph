@@ -41,21 +41,29 @@
         </children>
         <children
             xsi:type="gmfgraph:Label"
-            name="NodeNameLabel"
+            name="NodeTypeLabel"
             text="Node"/>
       </actualFigure>
       <accessors
           accessor="getNodeActionLabel"
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.0"/>
       <accessors
-          accessor="getNodeNameLabel"
+          accessor="getNodeTypeLabel"
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.1"/>
     </descriptors>
     <descriptors
         name="EdgeFigure">
       <actualFigure
           xsi:type="gmfgraph:PolylineConnection"
-          name="EdgeFigure"/>
+          name="EdgeFigure">
+        <children
+            xsi:type="gmfgraph:Label"
+            name="EdgeTypeLabel"
+            text="unknown"/>
+      </actualFigure>
+      <accessors
+          accessor="getEdgeTypeLabel"
+          figure="//@figures.0/@descriptors.2/@actualFigure/@children.0"/>
     </descriptors>
   </figures>
   <nodes
@@ -87,8 +95,13 @@
       elementIcon="false"
       accessor="//@figures.0/@descriptors.1/@accessors.0"/>
   <labels
-      name="NodeName"
+      name="NodeType"
       figure="NodeFigure"
       elementIcon="false"
       accessor="//@figures.0/@descriptors.1/@accessors.1"/>
+  <labels
+      name="EdgeType"
+      figure="EdgeFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.2/@accessors.0"/>
 </gmfgraph:Canvas>

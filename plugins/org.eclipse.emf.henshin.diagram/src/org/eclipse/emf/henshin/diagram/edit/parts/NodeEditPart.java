@@ -1,14 +1,17 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.actions.Action;
@@ -23,13 +26,19 @@ import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
+import org.eclipse.gef.handles.MoveHandle;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.AbstractBorderedShapeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IBorderItemEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.BorderItemSelectionEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemLocator;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -137,18 +146,18 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		
+
 		// Install a custom graphical node edit policy:
 		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new NodeGraphicalEditPolicy());
-		
+
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new NodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
-		
+
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -191,14 +200,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeNameEditPart) {
-			((NodeNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeNameLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeActionEditPart) {
 			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeActionLabel());
+			return true;
+		}
+		if (childEditPart instanceof NodeTypeEditPart) {
+			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeTypeLabel());
 			return true;
 		}
 		return false;
@@ -208,10 +217,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeNameEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeTypeEditPart) {
 			return true;
 		}
 		return false;
@@ -335,7 +344,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(HenshinVisualIDRegistry
-				.getType(NodeNameEditPart.VISUAL_ID));
+				.getType(NodeTypeEditPart.VISUAL_ID));
 	}
 
 	/**
@@ -400,11 +409,12 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		/**
 		 * @generated
 		 */
-		private WrappingLabel fNodeNameLabel;
+		private WrappingLabel fNodeActionLabel;
+
 		/**
 		 * @generated
 		 */
-		private WrappingLabel fNodeActionLabel;
+		private WrappingLabel fNodeTypeLabel;
 
 		/**
 		 * @generated
@@ -437,10 +447,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			this.add(fNodeActionLabel);
 
-			fNodeNameLabel = new WrappingLabel();
-			fNodeNameLabel.setText("Node");
+			fNodeTypeLabel = new WrappingLabel();
+			fNodeTypeLabel.setText("Node");
 
-			this.add(fNodeNameLabel);
+			this.add(fNodeTypeLabel);
 
 		}
 
@@ -466,15 +476,15 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getNodeNameLabel() {
-			return fNodeNameLabel;
+		public WrappingLabel getNodeActionLabel() {
+			return fNodeActionLabel;
 		}
 
 		/**
 		 * @generated
 		 */
-		public WrappingLabel getNodeActionLabel() {
-			return fNodeActionLabel;
+		public WrappingLabel getNodeTypeLabel() {
+			return fNodeTypeLabel;
 		}
 
 	}

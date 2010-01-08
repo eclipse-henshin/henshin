@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.diagram.navigator;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -8,8 +7,9 @@ import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
@@ -225,7 +225,7 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		IParser parser = HenshinParserProvider.getParser(
 				HenshinElementTypes.Node_3001, view.getElement() != null ? view
 						.getElement() : view, HenshinVisualIDRegistry
-						.getType(NodeNameEditPart.VISUAL_ID));
+						.getType(NodeTypeEditPart.VISUAL_ID));
 		if (parser != null) {
 			return parser.getPrintString(new EObjectAdapter(
 					view.getElement() != null ? view.getElement() : view),
@@ -241,7 +241,19 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getEdge_4001Text(View view) {
-		return ""; //$NON-NLS-1$
+		IParser parser = HenshinParserProvider.getParser(
+				HenshinElementTypes.Edge_4001, view.getElement() != null ? view
+						.getElement() : view, HenshinVisualIDRegistry
+						.getType(EdgeTypeEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			HenshinDiagramEditorPlugin.getInstance().logError(
+					"Parser was not found for label " + 6001); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 
 	/**

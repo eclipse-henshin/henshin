@@ -10,10 +10,12 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -81,6 +83,48 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	}
 
 	/**
+	 * @generated
+	 */
+	protected boolean addFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof EdgeTypeEditPart) {
+			((EdgeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getEdgeTypeLabel());
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (addFixedChild(childEditPart)) {
+			return;
+		}
+		super.addChildVisual(childEditPart, -1);
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean removeFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof EdgeTypeEditPart) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (removeFixedChild(childEditPart)) {
+			return;
+		}
+		super.removeChildVisual(childEditPart);
+	}
+
+	/**
 	 * Creates figure for this edit part.
 	 * 
 	 * Body of this method does not depend on settings in generation model
@@ -89,14 +133,54 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 * @generated
 	 */
 	protected Connection createConnectionFigure() {
-		return new PolylineConnectionEx();
+		return new EdgeFigure();
 	}
 
 	/**
 	 * @generated
 	 */
-	public PolylineConnectionEx getPrimaryShape() {
-		return (PolylineConnectionEx) getFigure();
+	public EdgeFigure getPrimaryShape() {
+		return (EdgeFigure) getFigure();
+	}
+
+	/**
+	 * @generated
+	 */
+	public class EdgeFigure extends PolylineConnectionEx {
+
+		/**
+		 * @generated
+		 */
+		private WrappingLabel fEdgeTypeLabel;
+
+		/**
+		 * @generated
+		 */
+		public EdgeFigure() {
+			this.setLineWidth(1);
+
+			createContents();
+		}
+
+		/**
+		 * @generated
+		 */
+		private void createContents() {
+
+			fEdgeTypeLabel = new WrappingLabel();
+			fEdgeTypeLabel.setText("unknown");
+
+			this.add(fEdgeTypeLabel);
+
+		}
+
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getEdgeTypeLabel() {
+			return fEdgeTypeLabel;
+		}
+
 	}
 
 	/**

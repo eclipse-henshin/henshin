@@ -3,12 +3,14 @@ package org.eclipse.emf.henshin.diagram.providers;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
+import org.eclipse.emf.henshin.diagram.parsers.EdgeTypeParser;
 import org.eclipse.emf.henshin.diagram.parsers.MessageFormatParser;
 import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;
-import org.eclipse.emf.henshin.diagram.parsers.NodeNameParser;
+import org.eclipse.emf.henshin.diagram.parsers.NodeTypeParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
@@ -33,6 +35,21 @@ public class HenshinParserProvider extends AbstractProvider implements
 	private IParser ruleName_5001Parser;
 
 	/**
+	 * @generated NOT
+	 */
+	private IParser nodeTypeParser = new NodeTypeParser();
+
+	/**
+	 * @generated NOT
+	 */
+	private IParser nodeActionParser = new NodeActionParser();
+
+	/**
+	 * @generated NOT
+	 */
+	private IParser edgeTypeParser = new EdgeTypeParser();
+
+	/**
 	 * @generated
 	 */
 	private IParser getRuleName_5001Parser() {
@@ -52,46 +69,18 @@ public class HenshinParserProvider extends AbstractProvider implements
 	}
 
 	/**
-	 * @generated
-	 */
-	private IParser nodeName_5002Parser;
-
-	/**
 	 * @generated NOT
-	 */
-	private IParser getNodeName_5002Parser() {
-		if (nodeName_5002Parser == null) {
-			nodeName_5002Parser = new NodeNameParser();
-		}
-		return nodeName_5002Parser;
-	}
-
-	/**
-	 * @generated
-	 */
-	private IParser nodeName_5003Parser;
-
-	/**
-	 * @generated NOT
-	 */
-	private IParser getNodeName_5003Parser() {
-		if (nodeName_5003Parser == null) {
-			nodeName_5003Parser = new NodeActionParser();
-		}
-		return nodeName_5003Parser;
-	}
-
-	/**
-	 * @generated
 	 */
 	protected IParser getParser(int visualID) {
 		switch (visualID) {
 		case RuleNameEditPart.VISUAL_ID:
 			return getRuleName_5001Parser();
-		case NodeNameEditPart.VISUAL_ID:
-			return getNodeName_5002Parser();
+		case NodeTypeEditPart.VISUAL_ID:
+			return nodeTypeParser;
 		case NodeActionEditPart.VISUAL_ID:
-			return getNodeName_5003Parser();
+			return nodeActionParser;
+		case EdgeTypeEditPart.VISUAL_ID:
+			return edgeTypeParser;
 		}
 		return null;
 	}
