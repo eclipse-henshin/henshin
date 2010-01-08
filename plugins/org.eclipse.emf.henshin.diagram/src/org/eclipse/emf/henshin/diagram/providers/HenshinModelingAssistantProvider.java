@@ -37,6 +37,11 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	public List getTypesForPopupBar(IAdaptable host) {
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
+		if (editPart instanceof NodeEditPart) {
+			ArrayList types = new ArrayList(1);
+			types.add(HenshinElementTypes.Attribute_3002);
+			return types;
+		}
 		if (editPart instanceof RuleCompartmentEditPart) {
 			ArrayList types = new ArrayList(1);
 			types.add(HenshinElementTypes.Node_3001);

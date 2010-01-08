@@ -81,7 +81,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		return HenshinBaseItemSemanticEditPolicy.LinkConstraints
 				.canCreateEdge_4001(getContainer(), getSource(), getTarget());
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -89,43 +89,46 @@ public class EdgeCreateCommand extends EditElementCommand {
 		if (!canExecuteGen()) {
 			return false;
 		}
-		if (source!=null && target!=null) {
-			EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
+		if (source != null && target != null) {
+			EReference type = (EReference) getRequest().getParameter(
+					TYPE_PARAMETER_KEY);
 			return canCreateEdge(getSource(), getTarget(), type);
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Check if an edge can be created.
 	 * @generated NOT
 	 */
-	public static boolean canCreateEdge(Node source, Node target, EReference type) {
-		
+	public static boolean canCreateEdge(Node source, Node target,
+			EReference type) {
+
 		// Everything must be set.
-		if (source==null || target==null || source.getType()==null || target.getType()==null || type==null) {
+		if (source == null || target == null || source.getType() == null
+				|| target.getType() == null || type == null) {
 			return false;
 		}
-		
+
 		// Reference must be owned by source.
 		if (!source.getType().getEReferences().contains(type)) {
 			return false;
 		}
-		
+
 		// Target type must be ok:
 		if (!target.getType().isSuperTypeOf(type.getEReferenceType())) {
 			return false;
 		}
 
 		// We allow edge only to be created if the graphs are the same. Should be relaxed later.
-		if (source.getGraph()!=target.getGraph()) {
+		if (source.getGraph() != target.getGraph()) {
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */

@@ -6,6 +6,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -17,6 +18,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -115,6 +117,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Node?http://org.eclipse.emf.henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
+		case AttributeEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://org.eclipse.emf.henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
 		case EdgeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?http://org.eclipse.emf.henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
@@ -233,6 +238,20 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		} else {
 			HenshinDiagramEditorPlugin.getInstance().logError(
 					"Parser was not found for label " + 5002); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getAttribute_3002Text(View view) {
+		Attribute domainModelElement = (Attribute) view.getElement();
+		if (domainModelElement != null) {
+			return domainModelElement.getValue();
+		} else {
+			HenshinDiagramEditorPlugin.getInstance().logError(
+					"No domain element for view with visualID = " + 3002); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}

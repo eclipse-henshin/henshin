@@ -21,7 +21,13 @@
     <nodeLabelTraces
         visualID="5003"
         queryText="true"/>
+    <compartmentTraces
+        visualID="7002"
+        queryText="true"/>
   </childNodeTraces>
+  <childNodeTraces
+      visualID="3002"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.eclipse.emf.henshin' and _eClass_.name = 'Attribute') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.eclipse.emf.henshin' and _eClass_.name = 'Node') and _containmentMF_.name = 'attributes')"/>
   <linkTraces
       visualID="4001"
       queryText="modelFacet.oclIsKindOf(gmfgen::TypeLinkModelFacet) and (let _eClass_:ecore::EClass = modelFacet.oclAsType(gmfgen::TypeLinkModelFacet).metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.eclipse.emf.henshin' and _eClass_.name = 'Edge')">

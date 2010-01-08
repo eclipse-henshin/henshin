@@ -213,7 +213,7 @@
       <viewProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Henshin"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,3001"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,3001,3002"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
@@ -226,7 +226,7 @@
             <method name="getType()" value="Henshin"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,3001"/>
+            <method name="getType()" value="2001,3001,3002"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001"/>
@@ -235,7 +235,7 @@
             <method name="getType()" value="5001,5002,5003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
-            <method name="getType()" value="7001"/>
+            <method name="getType()" value="7001,7002"/>
          </object>
          <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
@@ -299,6 +299,16 @@
       </metamodel>
       <metamodel nsURI="http://org.eclipse.emf.henshin">
          <metamodelType
+               id="org.eclipse.emf.henshin.diagram.Attribute_3002"
+               name="%metatype.name.Attribute_3002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Attribute"
+               edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.AttributeEditHelper">
+            <param name="semanticHint" value="3002"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.eclipse.emf.henshin">
+         <metamodelType
                id="org.eclipse.emf.henshin.diagram.Edge_4001"
                name="%metatype.name.Edge_4001"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
@@ -322,6 +332,7 @@
          <elementType ref="org.eclipse.emf.henshin.diagram.TransformationSystem_1000"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Rule_2001"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3001"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.Attribute_3002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Edge_4001"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>

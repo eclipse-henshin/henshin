@@ -11,11 +11,13 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -27,18 +29,24 @@ import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.handles.MoveHandle;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.AbstractBorderedShapeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IBorderItemEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.BorderItemSelectionEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ConstrainedToolbarLayoutEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemLocator;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -143,17 +151,27 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	protected void createDefaultEditPolicies() {
-		super.createDefaultEditPolicies();
+		createDefaultEditPoliciesGen();
 
 		// Install a custom graphical node edit policy:
 		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new NodeGraphicalEditPolicy());
 
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void createDefaultEditPoliciesGen() {
+		installEditPolicy(EditPolicyRoles.CREATION_ROLE,
+				new CreationEditPolicy());
+		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new NodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
-
+		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
+		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
 
 	/**
@@ -161,19 +179,15 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	protected LayoutEditPolicy createLayoutEditPolicy() {
 
-		FlowLayoutEditPolicy lep = new FlowLayoutEditPolicy() {
+		ConstrainedToolbarLayoutEditPolicy lep = new ConstrainedToolbarLayoutEditPolicy() {
 
-			protected Command createAddCommand(EditPart child, EditPart after) {
-				return null;
-			}
-
-			protected Command createMoveChildCommand(EditPart child,
-					EditPart after) {
-				return null;
-			}
-
-			protected Command getCreateCommand(CreateRequest request) {
-				return null;
+			protected EditPolicy createChildEditPolicy(EditPart child) {
+				if (child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE) == null) {
+					if (child instanceof ITextAwareEditPart) {
+						return new HenshinTextSelectionEditPolicy();
+					}
+				}
+				return super.createChildEditPolicy(child);
 			}
 		};
 		return lep;
@@ -198,14 +212,20 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeActionLabel());
+			return true;
+		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeTypeLabel());
 			return true;
 		}
-		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
+		if (childEditPart instanceof NodeCompartmentEditPart) {
+			IFigure pane = getPrimaryShape().getNodeCompartmentFigure();
+			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
+			pane.add(((NodeCompartmentEditPart) childEditPart).getFigure());
 			return true;
 		}
 		return false;
@@ -215,10 +235,16 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
+			return true;
+		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeCompartmentEditPart) {
+			IFigure pane = getPrimaryShape().getNodeCompartmentFigure();
+			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
+			pane.remove(((NodeCompartmentEditPart) childEditPart).getFigure());
 			return true;
 		}
 		return false;
@@ -248,6 +274,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
+		if (editPart instanceof NodeCompartmentEditPart) {
+			return getPrimaryShape().getNodeCompartmentFigure();
+		}
 		return getContentPane();
 	}
 
@@ -402,6 +431,24 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
+	public EditPart getTargetEditPart(Request request) {
+		if (request instanceof CreateViewAndElementRequest) {
+			CreateElementRequestAdapter adapter = ((CreateViewAndElementRequest) request)
+					.getViewAndElementDescriptor()
+					.getCreateElementRequestAdapter();
+			IElementType type = (IElementType) adapter
+					.getAdapter(IElementType.class);
+			if (type == HenshinElementTypes.Attribute_3002) {
+				return getChildBySemanticHint(HenshinVisualIDRegistry
+						.getType(NodeCompartmentEditPart.VISUAL_ID));
+			}
+		}
+		return super.getTargetEditPart(request);
+	}
+
+	/**
+	 * @generated
+	 */
 	public class NodeFigure extends RectangleFigure {
 
 		/**
@@ -417,16 +464,19 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		/**
 		 * @generated
 		 */
+		private RectangleFigure fNodeCompartmentFigure;
+
+		/**
+		 * @generated
+		 */
 		public NodeFigure() {
 
-			FlowLayout layoutThis = new FlowLayout();
-			layoutThis.setStretchMinorAxis(false);
-			layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
+			ToolbarLayout layoutThis = new ToolbarLayout();
+			layoutThis.setStretchMinorAxis(true);
+			layoutThis.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
 
-			layoutThis.setMajorAlignment(FlowLayout.ALIGN_CENTER);
-			layoutThis.setMajorSpacing(5);
-			layoutThis.setMinorSpacing(5);
-			layoutThis.setHorizontal(true);
+			layoutThis.setSpacing(0);
+			layoutThis.setVertical(true);
 
 			this.setLayoutManager(layoutThis);
 
@@ -449,6 +499,22 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			fNodeTypeLabel.setText("Node");
 
 			this.add(fNodeTypeLabel);
+
+			fNodeCompartmentFigure = new RectangleFigure();
+			fNodeCompartmentFigure.setLineWidth(1);
+
+			this.add(fNodeCompartmentFigure);
+
+			ToolbarLayout layoutFNodeCompartmentFigure = new ToolbarLayout();
+			layoutFNodeCompartmentFigure.setStretchMinorAxis(false);
+			layoutFNodeCompartmentFigure
+					.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
+
+			layoutFNodeCompartmentFigure.setSpacing(0);
+			layoutFNodeCompartmentFigure.setVertical(true);
+
+			fNodeCompartmentFigure
+					.setLayoutManager(layoutFNodeCompartmentFigure);
 
 		}
 
@@ -483,6 +549,13 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		 */
 		public WrappingLabel getNodeTypeLabel() {
 			return fNodeTypeLabel;
+		}
+
+		/**
+		 * @generated
+		 */
+		public RectangleFigure getNodeCompartmentFigure() {
+			return fNodeCompartmentFigure;
 		}
 
 	}

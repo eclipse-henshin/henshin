@@ -30,7 +30,12 @@
           name="NodeFigure">
         <layout
             xsi:type="gmfgraph:FlowLayout"
-            majorAlignment="CENTER"/>
+            vertical="true"
+            matchMinorSize="true"
+            forceSingleLine="true"
+            minorAlignment="CENTER"
+            majorSpacing="0"
+            minorSpacing="0"/>
         <children
             xsi:type="gmfgraph:Label"
             name="NodeActionLabel"
@@ -43,6 +48,16 @@
             xsi:type="gmfgraph:Label"
             name="NodeTypeLabel"
             text="Node"/>
+        <children
+            xsi:type="gmfgraph:Rectangle"
+            name="NodeCompartmentFigure">
+          <layout
+              xsi:type="gmfgraph:FlowLayout"
+              vertical="true"
+              forceSingleLine="true"
+              majorSpacing="0"
+              minorSpacing="0"/>
+        </children>
       </actualFigure>
       <accessors
           accessor="getNodeActionLabel"
@@ -50,6 +65,9 @@
       <accessors
           accessor="getNodeTypeLabel"
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.1"/>
+      <accessors
+          accessor="getNodeCompartmentFigure"
+          figure="//@figures.0/@descriptors.1/@actualFigure/@children.2"/>
     </descriptors>
     <descriptors
         name="EdgeFigure">
@@ -64,6 +82,13 @@
       <accessors
           accessor="getEdgeTypeLabel"
           figure="//@figures.0/@descriptors.2/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
+        name="AttributeFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Label"
+          name="AttributeLabel"
+          text="none"/>
     </descriptors>
   </figures>
   <nodes
@@ -85,6 +110,10 @@
   <compartments
       name="RuleCompartment"
       figure="RuleFigure"/>
+  <compartments
+      name="NodeCompartment"
+      figure="NodeFigure"
+      accessor="//@figures.0/@descriptors.1/@accessors.2"/>
   <labels
       name="RuleName"
       figure="RuleFigure"
@@ -104,4 +133,7 @@
       figure="EdgeFigure"
       elementIcon="false"
       accessor="//@figures.0/@descriptors.2/@accessors.0"/>
+  <labels
+      name="Attribute"
+      figure="AttributeFigure"/>
 </gmfgraph:Canvas>

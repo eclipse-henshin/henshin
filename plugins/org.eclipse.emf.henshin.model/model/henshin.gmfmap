@@ -48,6 +48,28 @@
           </labelMappings>
           <diagramNode
               href="henshin.gmfgraph#Node"/>
+          <children
+              compartment="//@nodes.0/@ownedChild/@children.0/@ownedChild/@compartments.0"
+              referencedChild="//@nodes.0/@ownedChild/@children.0/@ownedChild/@children.0/@ownedChild">
+            <containmentFeature
+                href="henshin.ecore#//Node/attributes"/>
+            <childrenFeature
+                href="henshin.ecore#//Node/attributes"/>
+            <ownedChild>
+              <domainMetaElement
+                  href="henshin.ecore#//Attribute"/>
+              <tool
+                  xsi:type="gmftool:CreationTool"
+                  href="henshin.gmftool#//@palette/@tools.0/@tools.2"/>
+              <diagramNode
+                  href="henshin.gmfgraph#Attribute"/>
+            </ownedChild>
+          </children>
+          <compartments
+              children="//@nodes.0/@ownedChild/@children.0/@ownedChild/@children.0">
+            <compartment
+                href="henshin.gmfgraph#NodeCompartment"/>
+          </compartments>
         </ownedChild>
       </children>
       <compartments

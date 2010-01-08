@@ -34,6 +34,7 @@ public class HenshinPaletteFactory {
 		paletteContainer.setId("createHenshin1Group"); //$NON-NLS-1$
 		paletteContainer.add(createRule1CreationTool());
 		paletteContainer.add(createEdge2CreationTool());
+		paletteContainer.add(createAttribute3CreationTool());
 		return paletteContainer;
 	}
 
@@ -65,6 +66,22 @@ public class HenshinPaletteFactory {
 		entry.setId("createEdge2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Edge_4001));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+
+	/**
+	 * @generated
+	 */
+	private ToolEntry createAttribute3CreationTool() {
+		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
+		types.add(HenshinElementTypes.Attribute_3002);
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.Attribute3CreationTool_title,
+				Messages.Attribute3CreationTool_desc, types);
+		entry.setId("createAttribute3CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinElementTypes
+				.getImageDescriptor(HenshinElementTypes.Attribute_3002));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}

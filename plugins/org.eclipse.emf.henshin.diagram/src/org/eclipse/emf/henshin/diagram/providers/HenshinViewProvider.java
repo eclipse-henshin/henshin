@@ -6,10 +6,12 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
@@ -148,6 +150,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 				switch (visualID) {
 				case RuleEditPart.VISUAL_ID:
 				case NodeEditPart.VISUAL_ID:
+				case AttributeEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != HenshinVisualIDRegistry
 									.getNodeVisualID(op.getContainerView(),
@@ -161,7 +164,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 			}
 		}
 		return RuleEditPart.VISUAL_ID == visualID
-				|| NodeEditPart.VISUAL_ID == visualID;
+				|| NodeEditPart.VISUAL_ID == visualID
+				|| AttributeEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
@@ -223,6 +227,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 					persisted, preferencesHint);
 		case NodeEditPart.VISUAL_ID:
 			return createNode_3001(domainElement, containerView, index,
+					persisted, preferencesHint);
+		case AttributeEditPart.VISUAL_ID:
+			return createAttribute_3002(domainElement, containerView, index,
 					persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
@@ -335,6 +342,51 @@ public class HenshinViewProvider extends AbstractProvider implements
 				.getType(NodeTypeEditPart.VISUAL_ID));
 		Node label5003 = createLabel(node, HenshinVisualIDRegistry
 				.getType(NodeActionEditPart.VISUAL_ID));
+		createCompartment(node, HenshinVisualIDRegistry
+				.getType(NodeCompartmentEditPart.VISUAL_ID), false, false,
+				true, true);
+		return node;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createAttribute_3002(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(HenshinVisualIDRegistry
+				.getType(AttributeEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+
+		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
+		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+				.getLineStyle_LineColor(), FigureUtilities
+				.RGBToInteger(lineRGB));
+		FontStyle nodeFontStyle = (FontStyle) node
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
+				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
+		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+				.getFillStyle_FillColor(), FigureUtilities
+				.RGBToInteger(fillRGB));
 		return node;
 	}
 

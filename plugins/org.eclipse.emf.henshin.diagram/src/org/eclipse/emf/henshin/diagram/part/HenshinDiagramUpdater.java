@@ -13,12 +13,15 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -39,6 +42,8 @@ public class HenshinDiagramUpdater {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
 		case RuleCompartmentEditPart.VISUAL_ID:
 			return getRuleRuleCompartment_7001SemanticChildren(view);
+		case NodeCompartmentEditPart.VISUAL_ID:
+			return getNodeNodeCompartment_7002SemanticChildren(view);
 		case TransformationSystemEditPart.VISUAL_ID:
 			return getTransformationSystem_1000SemanticChildren(view);
 		}
@@ -81,6 +86,32 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List getNodeNodeCompartment_7002SemanticChildren(View view) {
+		if (false == view.eContainer() instanceof View) {
+			return Collections.EMPTY_LIST;
+		}
+		View containerView = (View) view.eContainer();
+		if (!containerView.isSetElement()) {
+			return Collections.EMPTY_LIST;
+		}
+		Node modelElement = (Node) containerView.getElement();
+		List result = new LinkedList();
+		for (Iterator it = modelElement.getAttributes().iterator(); it
+				.hasNext();) {
+			Attribute childElement = (Attribute) it.next();
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,
+					childElement);
+			if (visualID == AttributeEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(childElement, visualID));
+				continue;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List getTransformationSystem_1000SemanticChildren(View view) {
 		if (!view.isSetElement()) {
 			return Collections.EMPTY_LIST;
@@ -111,6 +142,8 @@ public class HenshinDiagramUpdater {
 			return getRule_2001ContainedLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001ContainedLinks(view);
+		case AttributeEditPart.VISUAL_ID:
+			return getAttribute_3002ContainedLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001ContainedLinks(view);
 		}
@@ -126,6 +159,8 @@ public class HenshinDiagramUpdater {
 			return getRule_2001IncomingLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001IncomingLinks(view);
+		case AttributeEditPart.VISUAL_ID:
+			return getAttribute_3002IncomingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001IncomingLinks(view);
 		}
@@ -141,6 +176,8 @@ public class HenshinDiagramUpdater {
 			return getRule_2001OutgoingLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001OutgoingLinks(view);
+		case AttributeEditPart.VISUAL_ID:
+			return getAttribute_3002OutgoingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001OutgoingLinks(view);
 		}
@@ -192,6 +229,13 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List getAttribute_3002ContainedLinks(View view) {
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List getEdge_4001ContainedLinks(View view) {
 		return Collections.EMPTY_LIST;
 	}
@@ -219,11 +263,25 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List getAttribute_3002IncomingLinks(View view) {
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List getNode_3001OutgoingLinks(View view) {
 		Node modelElement = (Node) view.getElement();
 		List result = new LinkedList();
 		result.addAll(getOutgoingTypeModelFacetLinks_Edge_4001(modelElement));
 		return result;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List getAttribute_3002OutgoingLinks(View view) {
+		return Collections.EMPTY_LIST;
 	}
 
 	/**

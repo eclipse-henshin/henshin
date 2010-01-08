@@ -268,7 +268,22 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
+	public static String Attribute3CreationTool_title;
+
+	/**
+	 * @generated
+	 */
+	public static String Attribute3CreationTool_desc;
+
+	/**
+	 * @generated
+	 */
 	public static String RuleCompartmentEditPart_title;
+
+	/**
+	 * @generated
+	 */
+	public static String NodeCompartmentEditPart_title;
 
 	/**
 	 * @generated
