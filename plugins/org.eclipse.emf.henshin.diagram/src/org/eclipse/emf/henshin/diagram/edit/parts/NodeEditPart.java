@@ -82,32 +82,29 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated NOT
 	 */
 	@Override
-	public void activate() {
-		super.activate();
-		if (ruleListener == null) {
-			Node node = (Node) (getNotationView().getElement());
-			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
-			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
-				public void notifyChanged(Notification event) {
-					// Make sure the node still exists.
-					if (getNotationView().getElement() instanceof Node) {
-						refreshVisuals();
-					}
+	public void addSemanticListeners() {
+		super.addSemanticListeners();
+		Node node = (Node) (getNotationView().getElement());
+		Rule rule = HenshinGraphUtil.getRule(node.getGraph());
+		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+			public void notifyChanged(Notification event) {
+				if (getNotationView().getElement()!=null) {
+					refreshVisuals();
 				}
-			});
-		}
+			}
+		});
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	@Override
-	public void deactivate() {
+	public void removeSemanticListeners() {
+		super.removeSemanticListeners();
 		if (ruleListener != null) {
 			ruleListener.dispose();
 			ruleListener = null;
 		}
-		super.deactivate();
 	}
 
 	/**

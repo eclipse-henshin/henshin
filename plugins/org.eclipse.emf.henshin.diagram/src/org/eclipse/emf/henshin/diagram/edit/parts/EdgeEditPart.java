@@ -45,32 +45,29 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 * @generated NOT
 	 */
 	@Override
-	public void activate() {
-		super.activate();
-		if (ruleListener == null) {
-			Edge edge = (Edge) (getNotationView().getElement());
-			Rule rule = HenshinGraphUtil.getRule(edge.getGraph());
-			ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
-				public void notifyChanged(Notification event) {
-					// Make sure the edge still exists.
-					if (getNotationView().getElement() instanceof Edge) {
-						refreshVisuals();
-					}
+	protected void addSemanticListeners() {
+		super.addSemanticListeners();
+		Edge edge = (Edge) (getNotationView().getElement());
+		Rule rule = HenshinGraphUtil.getRule(edge.getGraph());
+		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+			public void notifyChanged(Notification event) {
+				if (getNotationView().getElement()!=null) {
+					refreshVisuals();
 				}
-			});
-		}
+			}
+		});
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	@Override
-	public void deactivate() {
+	public void removeSemanticListeners() {
+		super.removeSemanticListeners();
 		if (ruleListener != null) {
 			ruleListener.dispose();
 			ruleListener = null;
 		}
-		super.deactivate();
 	}
 
 	/**
