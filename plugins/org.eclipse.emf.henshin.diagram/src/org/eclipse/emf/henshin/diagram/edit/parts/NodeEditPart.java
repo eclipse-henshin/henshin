@@ -88,7 +88,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		Rule rule = HenshinGraphUtil.getRule(node.getGraph());
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement()!=null) {
+				if (getNotationView().getElement()!=null && getParent()!=null) {
 					refreshVisuals();
 				}
 			}
