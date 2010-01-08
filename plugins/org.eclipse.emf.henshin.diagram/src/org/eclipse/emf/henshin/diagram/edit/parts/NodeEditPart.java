@@ -13,6 +13,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
@@ -25,12 +26,10 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
-import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -117,15 +116,37 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
+	@Override
+	public void refreshForegroundColor() {
+		if (getNotationView().getElement() instanceof Node) {
+			Node node = (Node) getNotationView().getElement();
+			Action action = NodeActionUtil.getNodeAction(node);
+			if (action != null) {
+				setForegroundColor(action.getType().getColor());
+				return;
+			}
+		}
+		super.refreshForegroundColor();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
+		
+		// Install a custom graphical node edit policy:
+		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+				new NodeGraphicalEditPolicy());
+		
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new NodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
-		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
-		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
+		
 	}
 	
 	/**
@@ -280,22 +301,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		if (primaryShape != null) {
 			primaryShape.setForegroundColor(color);
 		}
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	@Override
-	public void refreshForegroundColor() {
-		if (getNotationView().getElement() instanceof Node) {
-			Node node = (Node) getNotationView().getElement();
-			Action action = NodeActionUtil.getNodeAction(node);
-			if (action != null) {
-				setForegroundColor(action.getType().getColor());
-				return;
-			}
-		}
-		super.refreshForegroundColor();
 	}
 
 	/**

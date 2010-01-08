@@ -24,6 +24,12 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
  * @generated
  */
 public class EdgeCreateCommand extends EditElementCommand {
+	
+	/**
+	 * Key for the node type parameter in creation requests.
+	 * @generated NOT
+	 */
+	public static final String TYPE_PARAMETER_KEY = "henshin_edge_type";
 
 	/**
 	 * @generated
