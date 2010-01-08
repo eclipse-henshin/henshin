@@ -3,11 +3,11 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.CreateRequest;
@@ -17,6 +17,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateUnspecifiedTypeConnectionRequest;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * A custom graphical node edit policy that pops up a selection menu
@@ -60,16 +61,10 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		Node src = (Node) source.getNotationView().getElement();
 		Node trg = (Node) target.getNotationView().getElement();
 		
-		// Both types must be set:
-		List<EReference> result = new ArrayList<EReference>();
-		if (src.getType()==null || trg.getType()==null) {
-			return result;
-		}
-		
 		// Collect all matching references:
+		List<EReference> result = new ArrayList<EReference>();
 		for (EReference reference : src.getType().getEReferences()) {
-			EClass refType = reference.getEReferenceType();
-			if (trg.getType().isSuperTypeOf(refType)) {
+			if (EdgeCreateCommand.canCreateEdge(src, trg, reference)) {
 				result.add(reference);
 			}
 		}
@@ -120,6 +115,15 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		@Override
 		public String getText(Object object) {
 			return ((EReference )object).getName();
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
+		 */
+		@Override
+		public Image getImage(Object element) {
+			return HenshinIcons.EREFERENCE_ICON;
 		}
 		
 	}

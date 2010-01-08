@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.presentation.HenshinEditorPlugin;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -35,25 +35,12 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.IWorkbenchAdapter;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * @generated NOT
  * @author Christian Krause
  */
 public class EcoreSelectionDialogUtil  {
-
-	/*
-	 * Ecore icons.
-	 */
-	public static final Image EPACKAGE_ICON, ECLASS_ICON;
-	
-	static {
-		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
-		EPACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
-		descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EClass.gif");
-		ECLASS_ICON = descriptor!=null ? descriptor.createImage() : null;
-	}
 
 	/**
 	 * Open a dialog for loading a package from an Ecore file.
@@ -202,7 +189,7 @@ public class EcoreSelectionDialogUtil  {
 				}
 			}
 			if (element instanceof EPackage) {
-				return EPACKAGE_ICON;
+				return HenshinIcons.EPACKAGE_ICON;
 			}
 			return null;
 		}

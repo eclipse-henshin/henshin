@@ -15,9 +15,9 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.diagram.edit.commands.NodeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.editor.actions.EcoreSelectionDialogUtil;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteDrawer;
@@ -36,10 +36,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class HenshinPaletteUpdater {
 	
 	// EPackage icon:
-	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(EcoreSelectionDialogUtil.EPACKAGE_ICON);
+	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(HenshinIcons.EPACKAGE_ICON);
 	
 	// EClass icon:
-	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(EcoreSelectionDialogUtil.ECLASS_ICON);
+	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(HenshinIcons.ECLASS_ICON);
 	
 	// Palette root to be updated.
 	private PaletteRoot palette;
