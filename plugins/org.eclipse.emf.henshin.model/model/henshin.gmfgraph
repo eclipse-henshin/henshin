@@ -39,25 +39,11 @@
         <children
             xsi:type="gmfgraph:Label"
             name="NodeActionLabel"
-            text="none">
-          <foregroundColor
-              xsi:type="gmfgraph:ConstantColor"
-              value="gray"/>
-        </children>
+            text="none"/>
         <children
             xsi:type="gmfgraph:Label"
             name="NodeTypeLabel"
             text="Node"/>
-        <children
-            xsi:type="gmfgraph:Rectangle"
-            name="NodeCompartmentFigure">
-          <layout
-              xsi:type="gmfgraph:FlowLayout"
-              vertical="true"
-              forceSingleLine="true"
-              majorSpacing="0"
-              minorSpacing="0"/>
-        </children>
       </actualFigure>
       <accessors
           accessor="getNodeActionLabel"
@@ -65,9 +51,6 @@
       <accessors
           accessor="getNodeTypeLabel"
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.1"/>
-      <accessors
-          accessor="getNodeCompartmentFigure"
-          figure="//@figures.0/@descriptors.1/@actualFigure/@children.2"/>
     </descriptors>
     <descriptors
         name="EdgeFigure">
@@ -112,8 +95,7 @@
       figure="RuleFigure"/>
   <compartments
       name="NodeCompartment"
-      figure="NodeFigure"
-      accessor="//@figures.0/@descriptors.1/@accessors.2"/>
+      figure="NodeFigure"/>
   <labels
       name="RuleName"
       figure="RuleFigure"

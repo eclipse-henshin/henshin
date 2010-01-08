@@ -6,7 +6,10 @@ import java.util.List;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FlowLayout;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
@@ -212,20 +215,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeTypeLabel());
 			return true;
 		}
-		if (childEditPart instanceof NodeCompartmentEditPart) {
-			IFigure pane = getPrimaryShape().getNodeCompartmentFigure();
-			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
-			pane.add(((NodeCompartmentEditPart) childEditPart).getFigure());
+		if (childEditPart instanceof NodeActionEditPart) {
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeActionLabel());
 			return true;
 		}
 		return false;
@@ -235,16 +232,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
-			return true;
-		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeCompartmentEditPart) {
-			IFigure pane = getPrimaryShape().getNodeCompartmentFigure();
-			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
-			pane.remove(((NodeCompartmentEditPart) childEditPart).getFigure());
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
 		return false;
@@ -274,9 +265,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
-		if (editPart instanceof NodeCompartmentEditPart) {
-			return getPrimaryShape().getNodeCompartmentFigure();
-		}
 		return getContentPane();
 	}
 
@@ -464,11 +452,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		/**
 		 * @generated
 		 */
-		private RectangleFigure fNodeCompartmentFigure;
-
-		/**
-		 * @generated
-		 */
 		public NodeFigure() {
 
 			ToolbarLayout layoutThis = new ToolbarLayout();
@@ -491,7 +474,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			fNodeActionLabel = new WrappingLabel();
 			fNodeActionLabel.setText("none");
-			fNodeActionLabel.setForegroundColor(ColorConstants.gray);
 
 			this.add(fNodeActionLabel);
 
@@ -499,22 +481,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			fNodeTypeLabel.setText("Node");
 
 			this.add(fNodeTypeLabel);
-
-			fNodeCompartmentFigure = new RectangleFigure();
-			fNodeCompartmentFigure.setLineWidth(1);
-
-			this.add(fNodeCompartmentFigure);
-
-			ToolbarLayout layoutFNodeCompartmentFigure = new ToolbarLayout();
-			layoutFNodeCompartmentFigure.setStretchMinorAxis(false);
-			layoutFNodeCompartmentFigure
-					.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
-
-			layoutFNodeCompartmentFigure.setSpacing(0);
-			layoutFNodeCompartmentFigure.setVertical(true);
-
-			fNodeCompartmentFigure
-					.setLayoutManager(layoutFNodeCompartmentFigure);
 
 		}
 
@@ -549,13 +515,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		 */
 		public WrappingLabel getNodeTypeLabel() {
 			return fNodeTypeLabel;
-		}
-
-		/**
-		 * @generated
-		 */
-		public RectangleFigure getNodeCompartmentFigure() {
-			return fNodeCompartmentFigure;
 		}
 
 	}
