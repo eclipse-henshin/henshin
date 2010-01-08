@@ -103,11 +103,14 @@ class GraphEdititingHelper {
 	 */
 	static void replaceNode(Node oldNode, Node newNode, List<Mapping> mappings) {
 		
-		// Graphs that we are dealing with:
 		Graph oldGraph = oldNode.getGraph();
-		
+
 		// Take care of the new edges:
-		for (Edge incoming : newNode.getIncoming()) {
+		
+		List<Edge> newIncoming = new ArrayList<Edge>(newNode.getIncoming());
+		List<Edge> newOutgoing = new ArrayList<Edge>(newNode.getOutgoing());
+		
+		for (Edge incoming : newIncoming) {
 			Edge mapped = getImageOrOrigin(incoming, oldGraph, mappings);
 			
 			// Remove mapped edges first:
@@ -115,13 +118,18 @@ class GraphEdititingHelper {
 				HenshinGraphUtil.deleteEdge(mapped);
 			}
 			
-			// Now wire the new edge and move it to the old graph already:
+			// Now wire the new edge and move it to the old graph:
 			Node oldSource = getImageOrOrigin(incoming.getSource(), oldGraph, mappings);
-			incoming.setSource(oldSource);
-			incoming.setGraph(oldGraph);
-		}		
+			if (oldSource!=null) {
+				incoming.setSource(oldSource);
+				incoming.setGraph(oldGraph);
+			} else {
+				HenshinGraphUtil.deleteEdge(incoming);				
+			}
+			
+		}	
 		
-		for (Edge outgoing : newNode.getOutgoing()) {
+		for (Edge outgoing : newOutgoing) {
 			Edge mapped = getImageOrOrigin(outgoing, oldGraph, mappings);
 			
 			// Remove mapped edges first:
@@ -129,14 +137,19 @@ class GraphEdititingHelper {
 				HenshinGraphUtil.deleteEdge(mapped);
 			}
 			
-			// Now wire the new edge and move it to the old graph already:
+			// Now wire the new edge and move it to the old graph:
 			Node oldTarget = getImageOrOrigin(outgoing.getTarget(), oldGraph, mappings);
-			outgoing.setTarget(oldTarget);
-			outgoing.setGraph(oldGraph);
+			if (oldTarget!=null) {
+				outgoing.setTarget(oldTarget);
+				outgoing.setGraph(oldGraph);
+			} else {
+				HenshinGraphUtil.deleteEdge(outgoing);
+			}
 		}
 
 		
 		// Take care of the old edges that are not mapped (the others are removed by now):
+		
 		for (Edge incoming : new ArrayList<Edge>(oldNode.getIncoming())) {
 			incoming.setTarget(newNode);
 		}
