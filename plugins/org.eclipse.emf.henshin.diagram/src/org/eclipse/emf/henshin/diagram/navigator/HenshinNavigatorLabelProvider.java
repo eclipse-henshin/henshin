@@ -246,12 +246,17 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 * @generated
 	 */
 	private String getAttribute_3002Text(View view) {
-		Attribute domainModelElement = (Attribute) view.getElement();
-		if (domainModelElement != null) {
-			return domainModelElement.getValue();
+		IParser parser = HenshinParserProvider.getParser(
+				HenshinElementTypes.Attribute_3002,
+				view.getElement() != null ? view.getElement() : view,
+				HenshinVisualIDRegistry.getType(AttributeEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(
+					view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
 		} else {
 			HenshinDiagramEditorPlugin.getInstance().logError(
-					"No domain element for view with visualID = " + 3002); //$NON-NLS-1$
+					"Parser was not found for label " + 3002); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}

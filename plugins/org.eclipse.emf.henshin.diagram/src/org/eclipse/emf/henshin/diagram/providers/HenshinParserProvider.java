@@ -3,10 +3,12 @@ package org.eclipse.emf.henshin.diagram.providers;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
+import org.eclipse.emf.henshin.diagram.parsers.AttributeParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeTypeParser;
 import org.eclipse.emf.henshin.diagram.parsers.MessageFormatParser;
 import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;
@@ -50,6 +52,12 @@ public class HenshinParserProvider extends AbstractProvider implements
 	private IParser edgeTypeParser = new EdgeTypeParser();
 
 	/**
+	 * @generated NOT
+	 */
+	private IParser attributeParser = new AttributeParser();
+
+
+	/**
 	 * @generated
 	 */
 	private IParser getRuleName_5001Parser() {
@@ -81,6 +89,8 @@ public class HenshinParserProvider extends AbstractProvider implements
 			return nodeActionParser;
 		case EdgeTypeEditPart.VISUAL_ID:
 			return edgeTypeParser;
+		case AttributeEditPart.VISUAL_ID:
+			return attributeParser;
 		}
 		return null;
 	}

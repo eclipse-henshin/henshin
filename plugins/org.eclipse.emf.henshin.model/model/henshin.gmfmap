@@ -58,6 +58,10 @@
             <ownedChild>
               <domainMetaElement
                   href="henshin.ecore#//Attribute"/>
+              <labelMappings>
+                <diagramLabel
+                    href="henshin.gmfgraph#Attribute"/>
+              </labelMappings>
               <tool
                   xsi:type="gmftool:CreationTool"
                   href="henshin.gmftool#//@palette/@tools.0/@tools.2"/>
