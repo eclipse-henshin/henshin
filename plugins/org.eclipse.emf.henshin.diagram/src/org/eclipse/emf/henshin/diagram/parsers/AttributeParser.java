@@ -5,8 +5,16 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.diagram.actions.Action;
+import org.eclipse.emf.henshin.diagram.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -35,7 +43,8 @@ public class AttributeParser  extends AbstractParser {
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
 		Attribute attribute = (Attribute) element.getAdapter(EObject.class);
-		return attribute.getValue()!=null ? attribute.getValue() : "null";
+		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
+		return type + "=" + attribute.getValue();
 	}
 	
 	/*
@@ -76,9 +85,52 @@ public class AttributeParser  extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Attribute attribute) {
 		
-		//Rule rule = (Rule) attribute.getNode().getGraph().eContainer();
+		Node node = attribute.getNode();
+		if (node==null || node.getType()==null) {
+			return CommandResult.newErrorCommandResult("Node and node type must be set");
+		}
 		
-		attribute.setValue(value);
+		int equalSign = value.indexOf('=');
+		if (equalSign<0) {
+			return CommandResult.newErrorCommandResult("Expected '='");
+		}
+		
+		String name = value.substring(equalSign+1).trim();
+		String type = value.substring(0,equalSign).trim();
+		
+		// Find the EAttribute:
+		EAttribute attr = null;
+		for (EAttribute current : node.getType().getEAllAttributes()) {
+			if (type.equals(current.getName())) {
+				attr = current;
+				break;
+			}
+		}
+		
+		if (attr==null) {
+			return CommandResult.newErrorCommandResult("Unknown attribute: " + type);
+		}
+		
+		// Set the properties:
+		attribute.setValue(name);
+		attribute.setType(attr);
+		
+		// Update mapped node as well:
+		Action action = NodeActionUtil.getNodeAction(node);
+		if (action!=null && action.getType()==ActionType.NONE) {
+			
+			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
+			Node image = HenshinMappingUtil.getImage(node, rule.getRhs(), rule.getMappings());
+			Attribute imageAttribute = HenshinGraphUtil.findAttribute(image, attr);
+			
+			// Update the image attribute:
+			if (imageAttribute!=null) {
+				imageAttribute.setValue(name);
+			} else {
+				imageAttribute = (Attribute) EcoreUtil.copy(attribute);
+				image.getAttributes().add(imageAttribute);
+			}
+		}
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

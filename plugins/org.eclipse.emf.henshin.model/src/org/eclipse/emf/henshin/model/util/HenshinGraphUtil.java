@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -145,5 +147,18 @@ public class HenshinGraphUtil {
 			node.setGraph(null);
 		}
 	}
-		
+	
+	/**
+	 * Find an attribute in a node, given its type.
+	 * @param node Node.
+	 * @param type Attribute type.
+	 * @return The attribute if found, <code>null</code> otherwise.
+	 */
+	public static Attribute findAttribute(Node node, EAttribute type) {
+		for (Attribute attribute : node.getAttributes()) {
+			if (attribute.getType()==type) return attribute;
+		}
+		return null;
+	}
+	
 }
