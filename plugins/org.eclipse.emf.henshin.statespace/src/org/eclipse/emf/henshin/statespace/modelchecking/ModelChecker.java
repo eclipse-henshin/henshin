@@ -1,6 +1,8 @@
-package org.eclipse.emf.henshin.statespace;
+package org.eclipse.emf.henshin.statespace.modelchecking;
 
 import java.text.ParseException;
+
+import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
  * Interface for Henshin state space model checkers.

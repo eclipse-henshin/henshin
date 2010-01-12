@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace;
+package org.eclipse.emf.henshin.statespace.modelchecking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * A registry implementation for model checkers.
