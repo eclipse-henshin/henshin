@@ -32,7 +32,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public static HenshinFactory init() {
 		try {
-			HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.eclipse.emf.henshin"); 
+			HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2010/Henshin"); 
 			if (theHenshinFactory != null) {
 				return theHenshinFactory;
 			}
@@ -61,35 +61,35 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-		case HenshinPackage.NAMED_ELEMENT: return createNamedElement();
-		case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
-		case HenshinPackage.RULE: return createRule();
-		case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
-		case HenshinPackage.VARIABLE: return createVariable();
-		case HenshinPackage.PORT_OBJECT: return createPortObject();
-		case HenshinPackage.PORT_PARAMETER: return createPortParameter();
-		case HenshinPackage.GRAPH: return createGraph();
-		case HenshinPackage.MAPPING: return createMapping();
-		case HenshinPackage.NODE: return createNode();
-		case HenshinPackage.ATTRIBUTE: return createAttribute();
-		case HenshinPackage.EDGE: return createEdge();
-		case HenshinPackage.TRANSFORMATION: return createTransformation();
-		case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
-		case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
-		case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
-		case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
-		case HenshinPackage.SINGLE_UNIT: return createSingleUnit();
-		case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
-		case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
-		case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
-		case HenshinPackage.FORMULA: return createFormula();
-		case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
-		case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
-		case HenshinPackage.AND: return createAnd();
-		case HenshinPackage.OR: return createOr();
-		case HenshinPackage.NOT: return createNot();
-		default:
-			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+			case HenshinPackage.NAMED_ELEMENT: return createNamedElement();
+			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
+			case HenshinPackage.RULE: return createRule();
+			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
+			case HenshinPackage.VARIABLE: return createVariable();
+			case HenshinPackage.PORT_OBJECT: return createPortObject();
+			case HenshinPackage.PORT_PARAMETER: return createPortParameter();
+			case HenshinPackage.GRAPH: return createGraph();
+			case HenshinPackage.MAPPING: return createMapping();
+			case HenshinPackage.NODE: return createNode();
+			case HenshinPackage.ATTRIBUTE: return createAttribute();
+			case HenshinPackage.EDGE: return createEdge();
+			case HenshinPackage.TRANSFORMATION: return createTransformation();
+			case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
+			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
+			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
+			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
+			case HenshinPackage.SINGLE_UNIT: return createSingleUnit();
+			case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
+			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
+			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
+			case HenshinPackage.FORMULA: return createFormula();
+			case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
+			case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
+			case HenshinPackage.AND: return createAnd();
+			case HenshinPackage.OR: return createOr();
+			case HenshinPackage.NOT: return createNot();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -101,10 +101,10 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-		case HenshinPackage.PORT_KIND:
-			return createPortKindFromString(eDataType, initialValue);
-		default:
-			throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+			case HenshinPackage.PORT_KIND:
+				return createPortKindFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -116,10 +116,10 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-		case HenshinPackage.PORT_KIND:
-			return convertPortKindToString(eDataType, instanceValue);
-		default:
-			throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+			case HenshinPackage.PORT_KIND:
+				return convertPortKindToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 

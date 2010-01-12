@@ -201,10 +201,10 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getRules()).basicAdd(otherEnd, msgs);
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getTransformations()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRules()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTransformations()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -217,12 +217,12 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			return ((InternalEList<?>)getTransformations()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-			return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				return ((InternalEList<?>)getTransformations()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -235,16 +235,16 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-			return getName();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			return getRules();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			return getTransformations();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
-			return getImports();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-			return getInstances();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
+				return getName();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				return getRules();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				return getTransformations();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
+				return getImports();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return getInstances();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -258,25 +258,25 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-			setName((String)newValue);
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			getRules().clear();
-			getRules().addAll((Collection<? extends Rule>)newValue);
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			getTransformations().clear();
-			getTransformations().addAll((Collection<? extends Transformation>)newValue);
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
-			getImports().clear();
-			getImports().addAll((Collection<? extends EPackage>)newValue);
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-			getInstances().clear();
-			getInstances().addAll((Collection<? extends Graph>)newValue);
-			return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends Rule>)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				getTransformations().clear();
+				getTransformations().addAll((Collection<? extends Transformation>)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
+				getImports().clear();
+				getImports().addAll((Collection<? extends EPackage>)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				getInstances().clear();
+				getInstances().addAll((Collection<? extends Graph>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -289,21 +289,21 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			getRules().clear();
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			getTransformations().clear();
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
-			getImports().clear();
-			return;
-		case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-			getInstances().clear();
-			return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				getRules().clear();
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				getTransformations().clear();
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
+				getImports().clear();
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				getInstances().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -316,16 +316,16 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			return rules != null && !rules.isEmpty();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-			return transformations != null && !transformations.isEmpty();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
-			return imports != null && !imports.isEmpty();
-		case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-			return instances != null && !instances.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
+				return rules != null && !rules.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
+				return transformations != null && !transformations.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
+				return imports != null && !imports.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return instances != null && !instances.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -339,8 +339,8 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-			default: return -1;
+				case HenshinPackage.TRANSFORMATION_SYSTEM__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -355,8 +355,8 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.TRANSFORMATION_SYSTEM__NAME;
-			default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.TRANSFORMATION_SYSTEM__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

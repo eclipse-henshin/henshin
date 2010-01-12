@@ -188,10 +188,10 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.PORT__UNIT:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetUnit((TransformationUnit)otherEnd, msgs);
+			case HenshinPackage.PORT__UNIT:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetUnit((TransformationUnit)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -204,8 +204,8 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.PORT__UNIT:
-			return basicSetUnit(null, msgs);
+			case HenshinPackage.PORT__UNIT:
+				return basicSetUnit(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -218,8 +218,8 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.PORT__UNIT:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
+			case HenshinPackage.PORT__UNIT:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, TransformationUnit.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -232,12 +232,12 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.PORT__NAME:
-			return getName();
-		case HenshinPackage.PORT__DIRECTION:
-			return getDirection();
-		case HenshinPackage.PORT__UNIT:
-			return getUnit();
+			case HenshinPackage.PORT__NAME:
+				return getName();
+			case HenshinPackage.PORT__DIRECTION:
+				return getDirection();
+			case HenshinPackage.PORT__UNIT:
+				return getUnit();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -250,15 +250,15 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.PORT__NAME:
-			setName((String)newValue);
-			return;
-		case HenshinPackage.PORT__DIRECTION:
-			setDirection((PortKind)newValue);
-			return;
-		case HenshinPackage.PORT__UNIT:
-			setUnit((TransformationUnit)newValue);
-			return;
+			case HenshinPackage.PORT__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.PORT__DIRECTION:
+				setDirection((PortKind)newValue);
+				return;
+			case HenshinPackage.PORT__UNIT:
+				setUnit((TransformationUnit)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -271,15 +271,15 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case HenshinPackage.PORT__DIRECTION:
-			setDirection(DIRECTION_EDEFAULT);
-			return;
-		case HenshinPackage.PORT__UNIT:
-			setUnit((TransformationUnit)null);
-			return;
+			case HenshinPackage.PORT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.PORT__DIRECTION:
+				setDirection(DIRECTION_EDEFAULT);
+				return;
+			case HenshinPackage.PORT__UNIT:
+				setUnit((TransformationUnit)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -292,12 +292,12 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case HenshinPackage.PORT__DIRECTION:
-			return direction != DIRECTION_EDEFAULT;
-		case HenshinPackage.PORT__UNIT:
-			return getUnit() != null;
+			case HenshinPackage.PORT__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.PORT__DIRECTION:
+				return direction != DIRECTION_EDEFAULT;
+			case HenshinPackage.PORT__UNIT:
+				return getUnit() != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -311,8 +311,8 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case HenshinPackage.PORT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-			default: return -1;
+				case HenshinPackage.PORT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -327,8 +327,8 @@ public abstract class PortImpl extends DescribedElementImpl implements Port {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.PORT__NAME;
-			default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.PORT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

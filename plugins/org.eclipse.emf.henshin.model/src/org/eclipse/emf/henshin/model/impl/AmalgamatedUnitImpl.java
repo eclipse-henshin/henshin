@@ -182,15 +182,15 @@ public class AmalgamatedUnitImpl extends TransformationUnitImpl implements Amalg
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
-			if (resolve) return getKernelRule();
-			return basicGetKernelRule();
-		case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
-			return getMultiRules();
-		case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
-			return getLhsMappings();
-		case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
-			return getRhsMappings();
+			case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
+				if (resolve) return getKernelRule();
+				return basicGetKernelRule();
+			case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
+				return getMultiRules();
+			case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
+				return getLhsMappings();
+			case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
+				return getRhsMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,21 +204,21 @@ public class AmalgamatedUnitImpl extends TransformationUnitImpl implements Amalg
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
-			setKernelRule((Rule)newValue);
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
-			getMultiRules().clear();
-			getMultiRules().addAll((Collection<? extends Rule>)newValue);
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
-			getLhsMappings().clear();
-			getLhsMappings().addAll((Collection<? extends Mapping>)newValue);
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
-			getRhsMappings().clear();
-			getRhsMappings().addAll((Collection<? extends Mapping>)newValue);
-			return;
+			case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
+				setKernelRule((Rule)newValue);
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
+				getMultiRules().clear();
+				getMultiRules().addAll((Collection<? extends Rule>)newValue);
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
+				getLhsMappings().clear();
+				getLhsMappings().addAll((Collection<? extends Mapping>)newValue);
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
+				getRhsMappings().clear();
+				getRhsMappings().addAll((Collection<? extends Mapping>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -231,18 +231,18 @@ public class AmalgamatedUnitImpl extends TransformationUnitImpl implements Amalg
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
-			setKernelRule((Rule)null);
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
-			getMultiRules().clear();
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
-			getLhsMappings().clear();
-			return;
-		case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
-			getRhsMappings().clear();
-			return;
+			case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
+				setKernelRule((Rule)null);
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
+				getMultiRules().clear();
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
+				getLhsMappings().clear();
+				return;
+			case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
+				getRhsMappings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -255,14 +255,14 @@ public class AmalgamatedUnitImpl extends TransformationUnitImpl implements Amalg
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
-			return kernelRule != null;
-		case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
-			return multiRules != null && !multiRules.isEmpty();
-		case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
-			return lhsMappings != null && !lhsMappings.isEmpty();
-		case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
-			return rhsMappings != null && !rhsMappings.isEmpty();
+			case HenshinPackage.AMALGAMATED_UNIT__KERNEL_RULE:
+				return kernelRule != null;
+			case HenshinPackage.AMALGAMATED_UNIT__MULTI_RULES:
+				return multiRules != null && !multiRules.isEmpty();
+			case HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS:
+				return lhsMappings != null && !lhsMappings.isEmpty();
+			case HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS:
+				return rhsMappings != null && !rhsMappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

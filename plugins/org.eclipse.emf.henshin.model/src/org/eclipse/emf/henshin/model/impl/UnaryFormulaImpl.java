@@ -112,8 +112,8 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.UNARY_FORMULA__CHILD:
-			return basicSetChild(null, msgs);
+			case HenshinPackage.UNARY_FORMULA__CHILD:
+				return basicSetChild(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -126,8 +126,8 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.UNARY_FORMULA__CHILD:
-			return getChild();
+			case HenshinPackage.UNARY_FORMULA__CHILD:
+				return getChild();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -140,9 +140,9 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.UNARY_FORMULA__CHILD:
-			setChild((Formula)newValue);
-			return;
+			case HenshinPackage.UNARY_FORMULA__CHILD:
+				setChild((Formula)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -155,9 +155,9 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.UNARY_FORMULA__CHILD:
-			setChild((Formula)null);
-			return;
+			case HenshinPackage.UNARY_FORMULA__CHILD:
+				setChild((Formula)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -170,8 +170,8 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.UNARY_FORMULA__CHILD:
-			return child != null;
+			case HenshinPackage.UNARY_FORMULA__CHILD:
+				return child != null;
 		}
 		return super.eIsSet(featureID);
 	}

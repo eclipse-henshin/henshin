@@ -106,9 +106,9 @@ public class PortObjectImpl extends PortImpl implements PortObject {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.PORT_OBJECT__NODE:
-			if (resolve) return getNode();
-			return basicGetNode();
+			case HenshinPackage.PORT_OBJECT__NODE:
+				if (resolve) return getNode();
+				return basicGetNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,9 +121,9 @@ public class PortObjectImpl extends PortImpl implements PortObject {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.PORT_OBJECT__NODE:
-			setNode((Node)newValue);
-			return;
+			case HenshinPackage.PORT_OBJECT__NODE:
+				setNode((Node)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -136,9 +136,9 @@ public class PortObjectImpl extends PortImpl implements PortObject {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT_OBJECT__NODE:
-			setNode((Node)null);
-			return;
+			case HenshinPackage.PORT_OBJECT__NODE:
+				setNode((Node)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -151,8 +151,8 @@ public class PortObjectImpl extends PortImpl implements PortObject {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT_OBJECT__NODE:
-			return node != null;
+			case HenshinPackage.PORT_OBJECT__NODE:
+				return node != null;
 		}
 		return super.eIsSet(featureID);
 	}

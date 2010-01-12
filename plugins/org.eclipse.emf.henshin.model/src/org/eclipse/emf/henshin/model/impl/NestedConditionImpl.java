@@ -185,10 +185,10 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-			return basicSetConclusion(null, msgs);
-		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-			return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+				return basicSetConclusion(null, msgs);
+			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -201,12 +201,12 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.NESTED_CONDITION__NEGATED:
-			return isNegated();
-		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-			return getConclusion();
-		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-			return getMappings();
+			case HenshinPackage.NESTED_CONDITION__NEGATED:
+				return isNegated();
+			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+				return getConclusion();
+			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+				return getMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -220,16 +220,16 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.NESTED_CONDITION__NEGATED:
-			setNegated((Boolean)newValue);
-			return;
-		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-			setConclusion((Graph)newValue);
-			return;
-		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-			getMappings().clear();
-			getMappings().addAll((Collection<? extends Mapping>)newValue);
-			return;
+			case HenshinPackage.NESTED_CONDITION__NEGATED:
+				setNegated((Boolean)newValue);
+				return;
+			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+				setConclusion((Graph)newValue);
+				return;
+			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+				getMappings().clear();
+				getMappings().addAll((Collection<? extends Mapping>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -242,15 +242,15 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NESTED_CONDITION__NEGATED:
-			setNegated(NEGATED_EDEFAULT);
-			return;
-		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-			setConclusion((Graph)null);
-			return;
-		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-			getMappings().clear();
-			return;
+			case HenshinPackage.NESTED_CONDITION__NEGATED:
+				setNegated(NEGATED_EDEFAULT);
+				return;
+			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+				setConclusion((Graph)null);
+				return;
+			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+				getMappings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -263,12 +263,12 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NESTED_CONDITION__NEGATED:
-			return negated != NEGATED_EDEFAULT;
-		case HenshinPackage.NESTED_CONDITION__CONCLUSION:
-			return conclusion != null;
-		case HenshinPackage.NESTED_CONDITION__MAPPINGS:
-			return mappings != null && !mappings.isEmpty();
+			case HenshinPackage.NESTED_CONDITION__NEGATED:
+				return negated != NEGATED_EDEFAULT;
+			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
+				return conclusion != null;
+			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
+				return mappings != null && !mappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -334,14 +334,14 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetTransformationSystem((TransformationSystem)otherEnd, msgs);
-		case HenshinPackage.RULE__VARIABLES:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariables()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetTransformationSystem((TransformationSystem)otherEnd, msgs);
+			case HenshinPackage.RULE__VARIABLES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVariables()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -354,18 +354,18 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.RULE__LHS:
-			return basicSetLhs(null, msgs);
-		case HenshinPackage.RULE__RHS:
-			return basicSetRhs(null, msgs);
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			return ((InternalEList<?>)getAttributeConditions()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.RULE__MAPPINGS:
-			return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			return basicSetTransformationSystem(null, msgs);
-		case HenshinPackage.RULE__VARIABLES:
-			return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__LHS:
+				return basicSetLhs(null, msgs);
+			case HenshinPackage.RULE__RHS:
+				return basicSetRhs(null, msgs);
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				return ((InternalEList<?>)getAttributeConditions()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__MAPPINGS:
+				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				return basicSetTransformationSystem(null, msgs);
+			case HenshinPackage.RULE__VARIABLES:
+				return ((InternalEList<?>)getVariables()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -378,8 +378,8 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -392,20 +392,20 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.RULE__NAME:
-			return getName();
-		case HenshinPackage.RULE__LHS:
-			return getLhs();
-		case HenshinPackage.RULE__RHS:
-			return getRhs();
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			return getAttributeConditions();
-		case HenshinPackage.RULE__MAPPINGS:
-			return getMappings();
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			return getTransformationSystem();
-		case HenshinPackage.RULE__VARIABLES:
-			return getVariables();
+			case HenshinPackage.RULE__NAME:
+				return getName();
+			case HenshinPackage.RULE__LHS:
+				return getLhs();
+			case HenshinPackage.RULE__RHS:
+				return getRhs();
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				return getAttributeConditions();
+			case HenshinPackage.RULE__MAPPINGS:
+				return getMappings();
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				return getTransformationSystem();
+			case HenshinPackage.RULE__VARIABLES:
+				return getVariables();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -419,30 +419,30 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.RULE__NAME:
-			setName((String)newValue);
-			return;
-		case HenshinPackage.RULE__LHS:
-			setLhs((Graph)newValue);
-			return;
-		case HenshinPackage.RULE__RHS:
-			setRhs((Graph)newValue);
-			return;
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			getAttributeConditions().clear();
-			getAttributeConditions().addAll((Collection<? extends AttributeCondition>)newValue);
-			return;
-		case HenshinPackage.RULE__MAPPINGS:
-			getMappings().clear();
-			getMappings().addAll((Collection<? extends Mapping>)newValue);
-			return;
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			setTransformationSystem((TransformationSystem)newValue);
-			return;
-		case HenshinPackage.RULE__VARIABLES:
-			getVariables().clear();
-			getVariables().addAll((Collection<? extends Variable>)newValue);
-			return;
+			case HenshinPackage.RULE__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.RULE__LHS:
+				setLhs((Graph)newValue);
+				return;
+			case HenshinPackage.RULE__RHS:
+				setRhs((Graph)newValue);
+				return;
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				getAttributeConditions().clear();
+				getAttributeConditions().addAll((Collection<? extends AttributeCondition>)newValue);
+				return;
+			case HenshinPackage.RULE__MAPPINGS:
+				getMappings().clear();
+				getMappings().addAll((Collection<? extends Mapping>)newValue);
+				return;
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				setTransformationSystem((TransformationSystem)newValue);
+				return;
+			case HenshinPackage.RULE__VARIABLES:
+				getVariables().clear();
+				getVariables().addAll((Collection<? extends Variable>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -455,27 +455,27 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.RULE__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case HenshinPackage.RULE__LHS:
-			setLhs((Graph)null);
-			return;
-		case HenshinPackage.RULE__RHS:
-			setRhs((Graph)null);
-			return;
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			getAttributeConditions().clear();
-			return;
-		case HenshinPackage.RULE__MAPPINGS:
-			getMappings().clear();
-			return;
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			setTransformationSystem((TransformationSystem)null);
-			return;
-		case HenshinPackage.RULE__VARIABLES:
-			getVariables().clear();
-			return;
+			case HenshinPackage.RULE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.RULE__LHS:
+				setLhs((Graph)null);
+				return;
+			case HenshinPackage.RULE__RHS:
+				setRhs((Graph)null);
+				return;
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				getAttributeConditions().clear();
+				return;
+			case HenshinPackage.RULE__MAPPINGS:
+				getMappings().clear();
+				return;
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				setTransformationSystem((TransformationSystem)null);
+				return;
+			case HenshinPackage.RULE__VARIABLES:
+				getVariables().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -488,20 +488,20 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.RULE__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case HenshinPackage.RULE__LHS:
-			return lhs != null;
-		case HenshinPackage.RULE__RHS:
-			return rhs != null;
-		case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
-			return attributeConditions != null && !attributeConditions.isEmpty();
-		case HenshinPackage.RULE__MAPPINGS:
-			return mappings != null && !mappings.isEmpty();
-		case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-			return getTransformationSystem() != null;
-		case HenshinPackage.RULE__VARIABLES:
-			return variables != null && !variables.isEmpty();
+			case HenshinPackage.RULE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.RULE__LHS:
+				return lhs != null;
+			case HenshinPackage.RULE__RHS:
+				return rhs != null;
+			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
+				return attributeConditions != null && !attributeConditions.isEmpty();
+			case HenshinPackage.RULE__MAPPINGS:
+				return mappings != null && !mappings.isEmpty();
+			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
+				return getTransformationSystem() != null;
+			case HenshinPackage.RULE__VARIABLES:
+				return variables != null && !variables.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -515,8 +515,8 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case HenshinPackage.RULE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-			default: return -1;
+				case HenshinPackage.RULE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -531,8 +531,8 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.RULE__NAME;
-			default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.RULE__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

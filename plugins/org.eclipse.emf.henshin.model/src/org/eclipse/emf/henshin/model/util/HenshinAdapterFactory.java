@@ -71,131 +71,131 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected HenshinSwitch<Adapter> modelSwitch =
 		new HenshinSwitch<Adapter>() {
-		@Override
-		public Adapter caseNamedElement(NamedElement object) {
-			return createNamedElementAdapter();
-		}
-		@Override
-		public Adapter caseDescribedElement(DescribedElement object) {
-			return createDescribedElementAdapter();
-		}
-		@Override
-		public Adapter caseTransformationSystem(TransformationSystem object) {
-			return createTransformationSystemAdapter();
-		}
-		@Override
-		public Adapter caseRule(Rule object) {
-			return createRuleAdapter();
-		}
-		@Override
-		public Adapter caseAttributeCondition(AttributeCondition object) {
-			return createAttributeConditionAdapter();
-		}
-		@Override
-		public Adapter caseVariable(Variable object) {
-			return createVariableAdapter();
-		}
-		@Override
-		public Adapter casePort(Port object) {
-			return createPortAdapter();
-		}
-		@Override
-		public Adapter casePortObject(PortObject object) {
-			return createPortObjectAdapter();
-		}
-		@Override
-		public Adapter casePortParameter(PortParameter object) {
-			return createPortParameterAdapter();
-		}
-		@Override
-		public Adapter caseGraph(Graph object) {
-			return createGraphAdapter();
-		}
-		@Override
-		public Adapter caseMapping(Mapping object) {
-			return createMappingAdapter();
-		}
-		@Override
-		public Adapter caseNode(Node object) {
-			return createNodeAdapter();
-		}
-		@Override
-		public Adapter caseAttribute(Attribute object) {
-			return createAttributeAdapter();
-		}
-		@Override
-		public Adapter caseEdge(Edge object) {
-			return createEdgeAdapter();
-		}
-		@Override
-		public Adapter caseTransformation(Transformation object) {
-			return createTransformationAdapter();
-		}
-		@Override
-		public Adapter caseTransformationUnit(TransformationUnit object) {
-			return createTransformationUnitAdapter();
-		}
-		@Override
-		public Adapter caseIndependentUnit(IndependentUnit object) {
-			return createIndependentUnitAdapter();
-		}
-		@Override
-		public Adapter caseSequentialUnit(SequentialUnit object) {
-			return createSequentialUnitAdapter();
-		}
-		@Override
-		public Adapter caseConditionalUnit(ConditionalUnit object) {
-			return createConditionalUnitAdapter();
-		}
-		@Override
-		public Adapter casePriorityUnit(PriorityUnit object) {
-			return createPriorityUnitAdapter();
-		}
-		@Override
-		public Adapter caseSingleUnit(SingleUnit object) {
-			return createSingleUnitAdapter();
-		}
-		@Override
-		public Adapter caseAmalgamatedUnit(AmalgamatedUnit object) {
-			return createAmalgamatedUnitAdapter();
-		}
-		@Override
-		public Adapter caseCountedUnit(CountedUnit object) {
-			return createCountedUnitAdapter();
-		}
-		@Override
-		public Adapter caseNestedCondition(NestedCondition object) {
-			return createNestedConditionAdapter();
-		}
-		@Override
-		public Adapter caseFormula(Formula object) {
-			return createFormulaAdapter();
-		}
-		@Override
-		public Adapter caseUnaryFormula(UnaryFormula object) {
-			return createUnaryFormulaAdapter();
-		}
-		@Override
-		public Adapter caseBinaryFormula(BinaryFormula object) {
-			return createBinaryFormulaAdapter();
-		}
-		@Override
-		public Adapter caseAnd(And object) {
-			return createAndAdapter();
-		}
-		@Override
-		public Adapter caseOr(Or object) {
-			return createOrAdapter();
-		}
-		@Override
-		public Adapter caseNot(Not object) {
-			return createNotAdapter();
-		}
-		@Override
-		public Adapter defaultCase(EObject object) {
-			return createEObjectAdapter();
-		}
-	};
+			@Override
+			public Adapter caseNamedElement(NamedElement object) {
+				return createNamedElementAdapter();
+			}
+			@Override
+			public Adapter caseDescribedElement(DescribedElement object) {
+				return createDescribedElementAdapter();
+			}
+			@Override
+			public Adapter caseTransformationSystem(TransformationSystem object) {
+				return createTransformationSystemAdapter();
+			}
+			@Override
+			public Adapter caseRule(Rule object) {
+				return createRuleAdapter();
+			}
+			@Override
+			public Adapter caseAttributeCondition(AttributeCondition object) {
+				return createAttributeConditionAdapter();
+			}
+			@Override
+			public Adapter caseVariable(Variable object) {
+				return createVariableAdapter();
+			}
+			@Override
+			public Adapter casePort(Port object) {
+				return createPortAdapter();
+			}
+			@Override
+			public Adapter casePortObject(PortObject object) {
+				return createPortObjectAdapter();
+			}
+			@Override
+			public Adapter casePortParameter(PortParameter object) {
+				return createPortParameterAdapter();
+			}
+			@Override
+			public Adapter caseGraph(Graph object) {
+				return createGraphAdapter();
+			}
+			@Override
+			public Adapter caseMapping(Mapping object) {
+				return createMappingAdapter();
+			}
+			@Override
+			public Adapter caseNode(Node object) {
+				return createNodeAdapter();
+			}
+			@Override
+			public Adapter caseAttribute(Attribute object) {
+				return createAttributeAdapter();
+			}
+			@Override
+			public Adapter caseEdge(Edge object) {
+				return createEdgeAdapter();
+			}
+			@Override
+			public Adapter caseTransformation(Transformation object) {
+				return createTransformationAdapter();
+			}
+			@Override
+			public Adapter caseTransformationUnit(TransformationUnit object) {
+				return createTransformationUnitAdapter();
+			}
+			@Override
+			public Adapter caseIndependentUnit(IndependentUnit object) {
+				return createIndependentUnitAdapter();
+			}
+			@Override
+			public Adapter caseSequentialUnit(SequentialUnit object) {
+				return createSequentialUnitAdapter();
+			}
+			@Override
+			public Adapter caseConditionalUnit(ConditionalUnit object) {
+				return createConditionalUnitAdapter();
+			}
+			@Override
+			public Adapter casePriorityUnit(PriorityUnit object) {
+				return createPriorityUnitAdapter();
+			}
+			@Override
+			public Adapter caseSingleUnit(SingleUnit object) {
+				return createSingleUnitAdapter();
+			}
+			@Override
+			public Adapter caseAmalgamatedUnit(AmalgamatedUnit object) {
+				return createAmalgamatedUnitAdapter();
+			}
+			@Override
+			public Adapter caseCountedUnit(CountedUnit object) {
+				return createCountedUnitAdapter();
+			}
+			@Override
+			public Adapter caseNestedCondition(NestedCondition object) {
+				return createNestedConditionAdapter();
+			}
+			@Override
+			public Adapter caseFormula(Formula object) {
+				return createFormulaAdapter();
+			}
+			@Override
+			public Adapter caseUnaryFormula(UnaryFormula object) {
+				return createUnaryFormulaAdapter();
+			}
+			@Override
+			public Adapter caseBinaryFormula(BinaryFormula object) {
+				return createBinaryFormulaAdapter();
+			}
+			@Override
+			public Adapter caseAnd(And object) {
+				return createAndAdapter();
+			}
+			@Override
+			public Adapter caseOr(Or object) {
+				return createOrAdapter();
+			}
+			@Override
+			public Adapter caseNot(Not object) {
+				return createNotAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.

@@ -154,8 +154,8 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-			return basicSetSubUnit(null, msgs);
+			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+				return basicSetSubUnit(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -168,10 +168,10 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-			return getSubUnit();
-		case HenshinPackage.COUNTED_UNIT__COUNT:
-			return getCount();
+			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+				return getSubUnit();
+			case HenshinPackage.COUNTED_UNIT__COUNT:
+				return getCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -184,12 +184,12 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-			setSubUnit((TransformationUnit)newValue);
-			return;
-		case HenshinPackage.COUNTED_UNIT__COUNT:
-			setCount((Integer)newValue);
-			return;
+			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+				setSubUnit((TransformationUnit)newValue);
+				return;
+			case HenshinPackage.COUNTED_UNIT__COUNT:
+				setCount((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -202,12 +202,12 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-			setSubUnit((TransformationUnit)null);
-			return;
-		case HenshinPackage.COUNTED_UNIT__COUNT:
-			setCount(COUNT_EDEFAULT);
-			return;
+			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+				setSubUnit((TransformationUnit)null);
+				return;
+			case HenshinPackage.COUNTED_UNIT__COUNT:
+				setCount(COUNT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -220,10 +220,10 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-			return subUnit != null;
-		case HenshinPackage.COUNTED_UNIT__COUNT:
-			return count != COUNT_EDEFAULT;
+			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
+				return subUnit != null;
+			case HenshinPackage.COUNTED_UNIT__COUNT:
+				return count != COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

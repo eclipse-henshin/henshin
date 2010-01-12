@@ -105,10 +105,10 @@ public enum PortKind implements Enumerator {
 	 */
 	private static final PortKind[] VALUES_ARRAY =
 		new PortKind[] {
-		INPUT,
-		OUTPUT,
-		INPUT_OUTPUT,
-	};
+			INPUT,
+			OUTPUT,
+			INPUT_OUTPUT,
+		};
 
 	/**
 	 * A public read-only list of all the '<em><b>Port Kind</b></em>' enumerators.
@@ -158,9 +158,9 @@ public enum PortKind implements Enumerator {
 	 */
 	public static PortKind get(int value) {
 		switch (value) {
-		case INPUT_VALUE: return INPUT;
-		case OUTPUT_VALUE: return OUTPUT;
-		case INPUT_OUTPUT_VALUE: return INPUT_OUTPUT;
+			case INPUT_VALUE: return INPUT;
+			case OUTPUT_VALUE: return OUTPUT;
+			case INPUT_OUTPUT_VALUE: return INPUT_OUTPUT;
 		}
 		return null;
 	}
@@ -204,7 +204,7 @@ public enum PortKind implements Enumerator {
 	 * @generated
 	 */
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
@@ -213,7 +213,7 @@ public enum PortKind implements Enumerator {
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
@@ -222,7 +222,7 @@ public enum PortKind implements Enumerator {
 	 * @generated
 	 */
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**

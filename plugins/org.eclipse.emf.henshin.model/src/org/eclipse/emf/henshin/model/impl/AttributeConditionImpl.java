@@ -187,10 +187,10 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetRule((Rule)otherEnd, msgs);
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetRule((Rule)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -203,8 +203,8 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			return basicSetRule(null, msgs);
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return basicSetRule(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -217,8 +217,8 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__ATTRIBUTE_CONDITIONS, Rule.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -231,12 +231,12 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-			return getName();
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			return getRule();
-		case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-			return getConditionText();
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				return getName();
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return getRule();
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				return getConditionText();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -249,15 +249,15 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-			setName((String)newValue);
-			return;
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			setRule((Rule)newValue);
-			return;
-		case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-			setConditionText((String)newValue);
-			return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				setRule((Rule)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				setConditionText((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -270,15 +270,15 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			setRule((Rule)null);
-			return;
-		case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-			setConditionText(CONDITION_TEXT_EDEFAULT);
-			return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				setRule((Rule)null);
+				return;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				setConditionText(CONDITION_TEXT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -291,12 +291,12 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
-			return getRule() != null;
-		case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-			return CONDITION_TEXT_EDEFAULT == null ? conditionText != null : !CONDITION_TEXT_EDEFAULT.equals(conditionText);
+			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
+				return getRule() != null;
+			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
+				return CONDITION_TEXT_EDEFAULT == null ? conditionText != null : !CONDITION_TEXT_EDEFAULT.equals(conditionText);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -310,8 +310,8 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-			default: return -1;
+				case HenshinPackage.ATTRIBUTE_CONDITION__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -326,8 +326,8 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.ATTRIBUTE_CONDITION__NAME;
-			default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.ATTRIBUTE_CONDITION__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

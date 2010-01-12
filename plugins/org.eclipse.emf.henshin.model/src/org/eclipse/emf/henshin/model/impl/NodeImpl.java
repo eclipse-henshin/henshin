@@ -230,16 +230,16 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.NODE__ATTRIBUTES:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
-		case HenshinPackage.NODE__GRAPH:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetGraph((Graph)otherEnd, msgs);
-		case HenshinPackage.NODE__INCOMING:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
-		case HenshinPackage.NODE__OUTGOING:
-			return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributes()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__GRAPH:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGraph((Graph)otherEnd, msgs);
+			case HenshinPackage.NODE__INCOMING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getIncoming()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.NODE__OUTGOING:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getOutgoing()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -252,14 +252,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.NODE__ATTRIBUTES:
-			return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.NODE__GRAPH:
-			return basicSetGraph(null, msgs);
-		case HenshinPackage.NODE__INCOMING:
-			return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
-		case HenshinPackage.NODE__OUTGOING:
-			return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return ((InternalEList<?>)getAttributes()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__GRAPH:
+				return basicSetGraph(null, msgs);
+			case HenshinPackage.NODE__INCOMING:
+				return ((InternalEList<?>)getIncoming()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.NODE__OUTGOING:
+				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -272,8 +272,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.NODE__GRAPH:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
+			case HenshinPackage.NODE__GRAPH:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__NODES, Graph.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -286,17 +286,17 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.NODE__TYPE:
-			if (resolve) return getType();
-			return basicGetType();
-		case HenshinPackage.NODE__ATTRIBUTES:
-			return getAttributes();
-		case HenshinPackage.NODE__GRAPH:
-			return getGraph();
-		case HenshinPackage.NODE__INCOMING:
-			return getIncoming();
-		case HenshinPackage.NODE__OUTGOING:
-			return getOutgoing();
+			case HenshinPackage.NODE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return getAttributes();
+			case HenshinPackage.NODE__GRAPH:
+				return getGraph();
+			case HenshinPackage.NODE__INCOMING:
+				return getIncoming();
+			case HenshinPackage.NODE__OUTGOING:
+				return getOutgoing();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -310,24 +310,24 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.NODE__TYPE:
-			setType((EClass)newValue);
-			return;
-		case HenshinPackage.NODE__ATTRIBUTES:
-			getAttributes().clear();
-			getAttributes().addAll((Collection<? extends Attribute>)newValue);
-			return;
-		case HenshinPackage.NODE__GRAPH:
-			setGraph((Graph)newValue);
-			return;
-		case HenshinPackage.NODE__INCOMING:
-			getIncoming().clear();
-			getIncoming().addAll((Collection<? extends Edge>)newValue);
-			return;
-		case HenshinPackage.NODE__OUTGOING:
-			getOutgoing().clear();
-			getOutgoing().addAll((Collection<? extends Edge>)newValue);
-			return;
+			case HenshinPackage.NODE__TYPE:
+				setType((EClass)newValue);
+				return;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				getAttributes().clear();
+				getAttributes().addAll((Collection<? extends Attribute>)newValue);
+				return;
+			case HenshinPackage.NODE__GRAPH:
+				setGraph((Graph)newValue);
+				return;
+			case HenshinPackage.NODE__INCOMING:
+				getIncoming().clear();
+				getIncoming().addAll((Collection<? extends Edge>)newValue);
+				return;
+			case HenshinPackage.NODE__OUTGOING:
+				getOutgoing().clear();
+				getOutgoing().addAll((Collection<? extends Edge>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -340,21 +340,21 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NODE__TYPE:
-			setType((EClass)null);
-			return;
-		case HenshinPackage.NODE__ATTRIBUTES:
-			getAttributes().clear();
-			return;
-		case HenshinPackage.NODE__GRAPH:
-			setGraph((Graph)null);
-			return;
-		case HenshinPackage.NODE__INCOMING:
-			getIncoming().clear();
-			return;
-		case HenshinPackage.NODE__OUTGOING:
-			getOutgoing().clear();
-			return;
+			case HenshinPackage.NODE__TYPE:
+				setType((EClass)null);
+				return;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				getAttributes().clear();
+				return;
+			case HenshinPackage.NODE__GRAPH:
+				setGraph((Graph)null);
+				return;
+			case HenshinPackage.NODE__INCOMING:
+				getIncoming().clear();
+				return;
+			case HenshinPackage.NODE__OUTGOING:
+				getOutgoing().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -367,16 +367,16 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NODE__TYPE:
-			return type != null;
-		case HenshinPackage.NODE__ATTRIBUTES:
-			return attributes != null && !attributes.isEmpty();
-		case HenshinPackage.NODE__GRAPH:
-			return getGraph() != null;
-		case HenshinPackage.NODE__INCOMING:
-			return incoming != null && !incoming.isEmpty();
-		case HenshinPackage.NODE__OUTGOING:
-			return outgoing != null && !outgoing.isEmpty();
+			case HenshinPackage.NODE__TYPE:
+				return type != null;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				return attributes != null && !attributes.isEmpty();
+			case HenshinPackage.NODE__GRAPH:
+				return getGraph() != null;
+			case HenshinPackage.NODE__INCOMING:
+				return incoming != null && !incoming.isEmpty();
+			case HenshinPackage.NODE__OUTGOING:
+				return outgoing != null && !outgoing.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

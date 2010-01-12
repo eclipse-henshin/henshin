@@ -86,6 +86,7 @@
         visualID="3002"
         editPartClassName="AttributeEditPart"
         itemSemanticEditPolicyClassName="AttributeItemSemanticEditPolicy"
+        notationViewFactoryClassName="AttributeViewFactory"
         canonicalEditPolicyClassName="AttributeCanonicalEditPolicy"
         graphicalNodeEditPolicyClassName="AttributeGraphicalNodeEditPolicy"
         createCommandClassName="AttributeCreateCommand"

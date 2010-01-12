@@ -98,8 +98,8 @@ public abstract class DescribedElementImpl extends EObjectImpl implements Descri
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
-			return getDescription();
+			case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
+				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,9 +112,9 @@ public abstract class DescribedElementImpl extends EObjectImpl implements Descri
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
-			setDescription((String)newValue);
-			return;
+			case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -127,9 +127,9 @@ public abstract class DescribedElementImpl extends EObjectImpl implements Descri
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
-			setDescription(DESCRIPTION_EDEFAULT);
-			return;
+			case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -142,8 +142,8 @@ public abstract class DescribedElementImpl extends EObjectImpl implements Descri
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
-			return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case HenshinPackage.DESCRIBED_ELEMENT__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
 	}

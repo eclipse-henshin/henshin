@@ -72,9 +72,9 @@ public class HenshinSwitch<T> {
 		else {
 			List<EClass> eSuperTypes = theEClass.getESuperTypes();
 			return
-			eSuperTypes.isEmpty() ?
+				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-						doSwitch(eSuperTypes.get(0), theEObject);
+					doSwitch(eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -87,223 +87,223 @@ public class HenshinSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-		case HenshinPackage.NAMED_ELEMENT: {
-			NamedElement namedElement = (NamedElement)theEObject;
-			T result = caseNamedElement(namedElement);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.DESCRIBED_ELEMENT: {
-			DescribedElement describedElement = (DescribedElement)theEObject;
-			T result = caseDescribedElement(describedElement);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.TRANSFORMATION_SYSTEM: {
-			TransformationSystem transformationSystem = (TransformationSystem)theEObject;
-			T result = caseTransformationSystem(transformationSystem);
-			if (result == null) result = caseDescribedElement(transformationSystem);
-			if (result == null) result = caseNamedElement(transformationSystem);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.RULE: {
-			Rule rule = (Rule)theEObject;
-			T result = caseRule(rule);
-			if (result == null) result = caseDescribedElement(rule);
-			if (result == null) result = caseNamedElement(rule);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.ATTRIBUTE_CONDITION: {
-			AttributeCondition attributeCondition = (AttributeCondition)theEObject;
-			T result = caseAttributeCondition(attributeCondition);
-			if (result == null) result = caseDescribedElement(attributeCondition);
-			if (result == null) result = caseNamedElement(attributeCondition);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.VARIABLE: {
-			Variable variable = (Variable)theEObject;
-			T result = caseVariable(variable);
-			if (result == null) result = caseDescribedElement(variable);
-			if (result == null) result = caseNamedElement(variable);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.PORT: {
-			Port port = (Port)theEObject;
-			T result = casePort(port);
-			if (result == null) result = caseDescribedElement(port);
-			if (result == null) result = caseNamedElement(port);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.PORT_OBJECT: {
-			PortObject portObject = (PortObject)theEObject;
-			T result = casePortObject(portObject);
-			if (result == null) result = casePort(portObject);
-			if (result == null) result = caseDescribedElement(portObject);
-			if (result == null) result = caseNamedElement(portObject);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.PORT_PARAMETER: {
-			PortParameter portParameter = (PortParameter)theEObject;
-			T result = casePortParameter(portParameter);
-			if (result == null) result = casePort(portParameter);
-			if (result == null) result = caseDescribedElement(portParameter);
-			if (result == null) result = caseNamedElement(portParameter);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.GRAPH: {
-			Graph graph = (Graph)theEObject;
-			T result = caseGraph(graph);
-			if (result == null) result = caseNamedElement(graph);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.MAPPING: {
-			Mapping mapping = (Mapping)theEObject;
-			T result = caseMapping(mapping);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.NODE: {
-			Node node = (Node)theEObject;
-			T result = caseNode(node);
-			if (result == null) result = caseNamedElement(node);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.ATTRIBUTE: {
-			Attribute attribute = (Attribute)theEObject;
-			T result = caseAttribute(attribute);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.EDGE: {
-			Edge edge = (Edge)theEObject;
-			T result = caseEdge(edge);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.TRANSFORMATION: {
-			Transformation transformation = (Transformation)theEObject;
-			T result = caseTransformation(transformation);
-			if (result == null) result = caseDescribedElement(transformation);
-			if (result == null) result = caseNamedElement(transformation);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.TRANSFORMATION_UNIT: {
-			TransformationUnit transformationUnit = (TransformationUnit)theEObject;
-			T result = caseTransformationUnit(transformationUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.INDEPENDENT_UNIT: {
-			IndependentUnit independentUnit = (IndependentUnit)theEObject;
-			T result = caseIndependentUnit(independentUnit);
-			if (result == null) result = caseTransformationUnit(independentUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.SEQUENTIAL_UNIT: {
-			SequentialUnit sequentialUnit = (SequentialUnit)theEObject;
-			T result = caseSequentialUnit(sequentialUnit);
-			if (result == null) result = caseTransformationUnit(sequentialUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.CONDITIONAL_UNIT: {
-			ConditionalUnit conditionalUnit = (ConditionalUnit)theEObject;
-			T result = caseConditionalUnit(conditionalUnit);
-			if (result == null) result = caseTransformationUnit(conditionalUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.PRIORITY_UNIT: {
-			PriorityUnit priorityUnit = (PriorityUnit)theEObject;
-			T result = casePriorityUnit(priorityUnit);
-			if (result == null) result = caseTransformationUnit(priorityUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.SINGLE_UNIT: {
-			SingleUnit singleUnit = (SingleUnit)theEObject;
-			T result = caseSingleUnit(singleUnit);
-			if (result == null) result = caseTransformationUnit(singleUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.AMALGAMATED_UNIT: {
-			AmalgamatedUnit amalgamatedUnit = (AmalgamatedUnit)theEObject;
-			T result = caseAmalgamatedUnit(amalgamatedUnit);
-			if (result == null) result = caseTransformationUnit(amalgamatedUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.COUNTED_UNIT: {
-			CountedUnit countedUnit = (CountedUnit)theEObject;
-			T result = caseCountedUnit(countedUnit);
-			if (result == null) result = caseTransformationUnit(countedUnit);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.NESTED_CONDITION: {
-			NestedCondition nestedCondition = (NestedCondition)theEObject;
-			T result = caseNestedCondition(nestedCondition);
-			if (result == null) result = caseFormula(nestedCondition);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.FORMULA: {
-			Formula formula = (Formula)theEObject;
-			T result = caseFormula(formula);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.UNARY_FORMULA: {
-			UnaryFormula unaryFormula = (UnaryFormula)theEObject;
-			T result = caseUnaryFormula(unaryFormula);
-			if (result == null) result = caseFormula(unaryFormula);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.BINARY_FORMULA: {
-			BinaryFormula binaryFormula = (BinaryFormula)theEObject;
-			T result = caseBinaryFormula(binaryFormula);
-			if (result == null) result = caseFormula(binaryFormula);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.AND: {
-			And and = (And)theEObject;
-			T result = caseAnd(and);
-			if (result == null) result = caseBinaryFormula(and);
-			if (result == null) result = caseFormula(and);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.OR: {
-			Or or = (Or)theEObject;
-			T result = caseOr(or);
-			if (result == null) result = caseBinaryFormula(or);
-			if (result == null) result = caseFormula(or);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		case HenshinPackage.NOT: {
-			Not not = (Not)theEObject;
-			T result = caseNot(not);
-			if (result == null) result = caseUnaryFormula(not);
-			if (result == null) result = caseFormula(not);
-			if (result == null) result = defaultCase(theEObject);
-			return result;
-		}
-		default: return defaultCase(theEObject);
+			case HenshinPackage.NAMED_ELEMENT: {
+				NamedElement namedElement = (NamedElement)theEObject;
+				T result = caseNamedElement(namedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.DESCRIBED_ELEMENT: {
+				DescribedElement describedElement = (DescribedElement)theEObject;
+				T result = caseDescribedElement(describedElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.TRANSFORMATION_SYSTEM: {
+				TransformationSystem transformationSystem = (TransformationSystem)theEObject;
+				T result = caseTransformationSystem(transformationSystem);
+				if (result == null) result = caseDescribedElement(transformationSystem);
+				if (result == null) result = caseNamedElement(transformationSystem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.RULE: {
+				Rule rule = (Rule)theEObject;
+				T result = caseRule(rule);
+				if (result == null) result = caseDescribedElement(rule);
+				if (result == null) result = caseNamedElement(rule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.ATTRIBUTE_CONDITION: {
+				AttributeCondition attributeCondition = (AttributeCondition)theEObject;
+				T result = caseAttributeCondition(attributeCondition);
+				if (result == null) result = caseDescribedElement(attributeCondition);
+				if (result == null) result = caseNamedElement(attributeCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.VARIABLE: {
+				Variable variable = (Variable)theEObject;
+				T result = caseVariable(variable);
+				if (result == null) result = caseDescribedElement(variable);
+				if (result == null) result = caseNamedElement(variable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.PORT: {
+				Port port = (Port)theEObject;
+				T result = casePort(port);
+				if (result == null) result = caseDescribedElement(port);
+				if (result == null) result = caseNamedElement(port);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.PORT_OBJECT: {
+				PortObject portObject = (PortObject)theEObject;
+				T result = casePortObject(portObject);
+				if (result == null) result = casePort(portObject);
+				if (result == null) result = caseDescribedElement(portObject);
+				if (result == null) result = caseNamedElement(portObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.PORT_PARAMETER: {
+				PortParameter portParameter = (PortParameter)theEObject;
+				T result = casePortParameter(portParameter);
+				if (result == null) result = casePort(portParameter);
+				if (result == null) result = caseDescribedElement(portParameter);
+				if (result == null) result = caseNamedElement(portParameter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.GRAPH: {
+				Graph graph = (Graph)theEObject;
+				T result = caseGraph(graph);
+				if (result == null) result = caseNamedElement(graph);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.MAPPING: {
+				Mapping mapping = (Mapping)theEObject;
+				T result = caseMapping(mapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.NODE: {
+				Node node = (Node)theEObject;
+				T result = caseNode(node);
+				if (result == null) result = caseNamedElement(node);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.ATTRIBUTE: {
+				Attribute attribute = (Attribute)theEObject;
+				T result = caseAttribute(attribute);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.EDGE: {
+				Edge edge = (Edge)theEObject;
+				T result = caseEdge(edge);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.TRANSFORMATION: {
+				Transformation transformation = (Transformation)theEObject;
+				T result = caseTransformation(transformation);
+				if (result == null) result = caseDescribedElement(transformation);
+				if (result == null) result = caseNamedElement(transformation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.TRANSFORMATION_UNIT: {
+				TransformationUnit transformationUnit = (TransformationUnit)theEObject;
+				T result = caseTransformationUnit(transformationUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.INDEPENDENT_UNIT: {
+				IndependentUnit independentUnit = (IndependentUnit)theEObject;
+				T result = caseIndependentUnit(independentUnit);
+				if (result == null) result = caseTransformationUnit(independentUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.SEQUENTIAL_UNIT: {
+				SequentialUnit sequentialUnit = (SequentialUnit)theEObject;
+				T result = caseSequentialUnit(sequentialUnit);
+				if (result == null) result = caseTransformationUnit(sequentialUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.CONDITIONAL_UNIT: {
+				ConditionalUnit conditionalUnit = (ConditionalUnit)theEObject;
+				T result = caseConditionalUnit(conditionalUnit);
+				if (result == null) result = caseTransformationUnit(conditionalUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.PRIORITY_UNIT: {
+				PriorityUnit priorityUnit = (PriorityUnit)theEObject;
+				T result = casePriorityUnit(priorityUnit);
+				if (result == null) result = caseTransformationUnit(priorityUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.SINGLE_UNIT: {
+				SingleUnit singleUnit = (SingleUnit)theEObject;
+				T result = caseSingleUnit(singleUnit);
+				if (result == null) result = caseTransformationUnit(singleUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.AMALGAMATED_UNIT: {
+				AmalgamatedUnit amalgamatedUnit = (AmalgamatedUnit)theEObject;
+				T result = caseAmalgamatedUnit(amalgamatedUnit);
+				if (result == null) result = caseTransformationUnit(amalgamatedUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.COUNTED_UNIT: {
+				CountedUnit countedUnit = (CountedUnit)theEObject;
+				T result = caseCountedUnit(countedUnit);
+				if (result == null) result = caseTransformationUnit(countedUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.NESTED_CONDITION: {
+				NestedCondition nestedCondition = (NestedCondition)theEObject;
+				T result = caseNestedCondition(nestedCondition);
+				if (result == null) result = caseFormula(nestedCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.FORMULA: {
+				Formula formula = (Formula)theEObject;
+				T result = caseFormula(formula);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.UNARY_FORMULA: {
+				UnaryFormula unaryFormula = (UnaryFormula)theEObject;
+				T result = caseUnaryFormula(unaryFormula);
+				if (result == null) result = caseFormula(unaryFormula);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.BINARY_FORMULA: {
+				BinaryFormula binaryFormula = (BinaryFormula)theEObject;
+				T result = caseBinaryFormula(binaryFormula);
+				if (result == null) result = caseFormula(binaryFormula);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.AND: {
+				And and = (And)theEObject;
+				T result = caseAnd(and);
+				if (result == null) result = caseBinaryFormula(and);
+				if (result == null) result = caseFormula(and);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.OR: {
+				Or or = (Or)theEObject;
+				T result = caseOr(or);
+				if (result == null) result = caseBinaryFormula(or);
+				if (result == null) result = caseFormula(or);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.NOT: {
+				Not not = (Not)theEObject;
+				T result = caseNot(not);
+				if (result == null) result = caseUnaryFormula(not);
+				if (result == null) result = caseFormula(not);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
 		}
 	}
 

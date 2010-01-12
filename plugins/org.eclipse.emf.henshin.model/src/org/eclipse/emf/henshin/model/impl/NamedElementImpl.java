@@ -98,8 +98,8 @@ public class NamedElementImpl extends EObjectImpl implements NamedElement {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.NAMED_ELEMENT__NAME:
-			return getName();
+			case HenshinPackage.NAMED_ELEMENT__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,9 +112,9 @@ public class NamedElementImpl extends EObjectImpl implements NamedElement {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.NAMED_ELEMENT__NAME:
-			setName((String)newValue);
-			return;
+			case HenshinPackage.NAMED_ELEMENT__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -127,9 +127,9 @@ public class NamedElementImpl extends EObjectImpl implements NamedElement {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NAMED_ELEMENT__NAME:
-			setName(NAME_EDEFAULT);
-			return;
+			case HenshinPackage.NAMED_ELEMENT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -142,8 +142,8 @@ public class NamedElementImpl extends EObjectImpl implements NamedElement {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.NAMED_ELEMENT__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.NAMED_ELEMENT__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
 	}

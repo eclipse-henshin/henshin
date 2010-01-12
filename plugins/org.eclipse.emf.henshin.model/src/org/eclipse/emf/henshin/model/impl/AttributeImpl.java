@@ -195,10 +195,10 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__NODE:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetNode((Node)otherEnd, msgs);
+			case HenshinPackage.ATTRIBUTE__NODE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetNode((Node)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -211,8 +211,8 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__NODE:
-			return basicSetNode(null, msgs);
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return basicSetNode(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -225,8 +225,8 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.ATTRIBUTE__NODE:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.NODE__ATTRIBUTES, Node.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -239,13 +239,13 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__TYPE:
-			if (resolve) return getType();
-			return basicGetType();
-		case HenshinPackage.ATTRIBUTE__VALUE:
-			return getValue();
-		case HenshinPackage.ATTRIBUTE__NODE:
-			return getNode();
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				return getValue();
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return getNode();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -258,15 +258,15 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__TYPE:
-			setType((EAttribute)newValue);
-			return;
-		case HenshinPackage.ATTRIBUTE__VALUE:
-			setValue((String)newValue);
-			return;
-		case HenshinPackage.ATTRIBUTE__NODE:
-			setNode((Node)newValue);
-			return;
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				setType((EAttribute)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				setValue((String)newValue);
+				return;
+			case HenshinPackage.ATTRIBUTE__NODE:
+				setNode((Node)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -279,15 +279,15 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__TYPE:
-			setType((EAttribute)null);
-			return;
-		case HenshinPackage.ATTRIBUTE__VALUE:
-			setValue(VALUE_EDEFAULT);
-			return;
-		case HenshinPackage.ATTRIBUTE__NODE:
-			setNode((Node)null);
-			return;
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				setType((EAttribute)null);
+				return;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				setValue(VALUE_EDEFAULT);
+				return;
+			case HenshinPackage.ATTRIBUTE__NODE:
+				setNode((Node)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -300,12 +300,12 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.ATTRIBUTE__TYPE:
-			return type != null;
-		case HenshinPackage.ATTRIBUTE__VALUE:
-			return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
-		case HenshinPackage.ATTRIBUTE__NODE:
-			return getNode() != null;
+			case HenshinPackage.ATTRIBUTE__TYPE:
+				return type != null;
+			case HenshinPackage.ATTRIBUTE__VALUE:
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+			case HenshinPackage.ATTRIBUTE__NODE:
+				return getNode() != null;
 		}
 		return super.eIsSet(featureID);
 	}

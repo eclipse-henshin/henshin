@@ -106,9 +106,9 @@ public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.SINGLE_UNIT__RULE:
-			if (resolve) return getRule();
-			return basicGetRule();
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				if (resolve) return getRule();
+				return basicGetRule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,9 +121,9 @@ public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.SINGLE_UNIT__RULE:
-			setRule((Rule)newValue);
-			return;
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				setRule((Rule)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -136,9 +136,9 @@ public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.SINGLE_UNIT__RULE:
-			setRule((Rule)null);
-			return;
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				setRule((Rule)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -151,8 +151,8 @@ public class SingleUnitImpl extends TransformationUnitImpl implements SingleUnit
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.SINGLE_UNIT__RULE:
-			return rule != null;
+			case HenshinPackage.SINGLE_UNIT__RULE:
+				return rule != null;
 		}
 		return super.eIsSet(featureID);
 	}

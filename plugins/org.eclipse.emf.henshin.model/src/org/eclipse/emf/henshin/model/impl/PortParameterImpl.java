@@ -106,9 +106,9 @@ public class PortParameterImpl extends PortImpl implements PortParameter {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.PORT_PARAMETER__VARIABLE:
-			if (resolve) return getVariable();
-			return basicGetVariable();
+			case HenshinPackage.PORT_PARAMETER__VARIABLE:
+				if (resolve) return getVariable();
+				return basicGetVariable();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,9 +121,9 @@ public class PortParameterImpl extends PortImpl implements PortParameter {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.PORT_PARAMETER__VARIABLE:
-			setVariable((Variable)newValue);
-			return;
+			case HenshinPackage.PORT_PARAMETER__VARIABLE:
+				setVariable((Variable)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -136,9 +136,9 @@ public class PortParameterImpl extends PortImpl implements PortParameter {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT_PARAMETER__VARIABLE:
-			setVariable((Variable)null);
-			return;
+			case HenshinPackage.PORT_PARAMETER__VARIABLE:
+				setVariable((Variable)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -151,8 +151,8 @@ public class PortParameterImpl extends PortImpl implements PortParameter {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.PORT_PARAMETER__VARIABLE:
-			return variable != null;
+			case HenshinPackage.PORT_PARAMETER__VARIABLE:
+				return variable != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -110,19 +110,19 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
 		case TransformationSystemEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Diagram?http://org.eclipse.emf.henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
+					"Navigator?Diagram?http://www.eclipse.org/emf/2010/Henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
 		case RuleEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?TopLevelNode?http://org.eclipse.emf.henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Node?http://org.eclipse.emf.henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
+					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
 		case AttributeEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Node?http://org.eclipse.emf.henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
+					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
 		case EdgeEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?Link?http://org.eclipse.emf.henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
+					"Navigator?Link?http://www.eclipse.org/emf/2010/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}

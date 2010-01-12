@@ -145,10 +145,10 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__RULE:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetRule((Rule)otherEnd, msgs);
+			case HenshinPackage.VARIABLE__RULE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetRule((Rule)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -161,8 +161,8 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__RULE:
-			return basicSetRule(null, msgs);
+			case HenshinPackage.VARIABLE__RULE:
+				return basicSetRule(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -175,8 +175,8 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.VARIABLE__RULE:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__VARIABLES, Rule.class, msgs);
+			case HenshinPackage.VARIABLE__RULE:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.RULE__VARIABLES, Rule.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -189,10 +189,10 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__NAME:
-			return getName();
-		case HenshinPackage.VARIABLE__RULE:
-			return getRule();
+			case HenshinPackage.VARIABLE__NAME:
+				return getName();
+			case HenshinPackage.VARIABLE__RULE:
+				return getRule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -205,12 +205,12 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__NAME:
-			setName((String)newValue);
-			return;
-		case HenshinPackage.VARIABLE__RULE:
-			setRule((Rule)newValue);
-			return;
+			case HenshinPackage.VARIABLE__NAME:
+				setName((String)newValue);
+				return;
+			case HenshinPackage.VARIABLE__RULE:
+				setRule((Rule)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -223,12 +223,12 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__NAME:
-			setName(NAME_EDEFAULT);
-			return;
-		case HenshinPackage.VARIABLE__RULE:
-			setRule((Rule)null);
-			return;
+			case HenshinPackage.VARIABLE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case HenshinPackage.VARIABLE__RULE:
+				setRule((Rule)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -241,10 +241,10 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.VARIABLE__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-		case HenshinPackage.VARIABLE__RULE:
-			return getRule() != null;
+			case HenshinPackage.VARIABLE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.VARIABLE__RULE:
+				return getRule() != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -258,8 +258,8 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case HenshinPackage.VARIABLE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-			default: return -1;
+				case HenshinPackage.VARIABLE__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -274,8 +274,8 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-			case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.VARIABLE__NAME;
-			default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.VARIABLE__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);

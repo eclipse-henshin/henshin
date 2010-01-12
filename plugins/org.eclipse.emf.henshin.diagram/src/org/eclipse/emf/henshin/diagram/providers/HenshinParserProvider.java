@@ -56,7 +56,6 @@ public class HenshinParserProvider extends AbstractProvider implements
 	 */
 	private IParser attributeParser = new AttributeParser();
 
-
 	/**
 	 * @generated
 	 */

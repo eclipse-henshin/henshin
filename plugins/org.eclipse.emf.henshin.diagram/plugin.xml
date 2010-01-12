@@ -267,7 +267,7 @@
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
       <?gmfgen generated="true"?>
-      <metamodel nsURI="http://org.eclipse.emf.henshin">
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.TransformationSystem_1000"
                name="%metatype.name.TransformationSystem_1000"
@@ -277,7 +277,7 @@
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://org.eclipse.emf.henshin">
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.Rule_2001"
                name="%metatype.name.Rule_2001"
@@ -287,7 +287,7 @@
             <param name="semanticHint" value="2001"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://org.eclipse.emf.henshin">
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.Node_3001"
                name="%metatype.name.Node_3001"
@@ -297,7 +297,7 @@
             <param name="semanticHint" value="3001"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://org.eclipse.emf.henshin">
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.Attribute_3002"
                name="%metatype.name.Attribute_3002"
@@ -307,7 +307,7 @@
             <param name="semanticHint" value="3002"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://org.eclipse.emf.henshin">
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.Edge_4001"
                name="%metatype.name.Edge_4001"

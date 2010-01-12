@@ -166,10 +166,10 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.BINARY_FORMULA__LEFT:
-			return basicSetLeft(null, msgs);
-		case HenshinPackage.BINARY_FORMULA__RIGHT:
-			return basicSetRight(null, msgs);
+			case HenshinPackage.BINARY_FORMULA__LEFT:
+				return basicSetLeft(null, msgs);
+			case HenshinPackage.BINARY_FORMULA__RIGHT:
+				return basicSetRight(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -182,10 +182,10 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.BINARY_FORMULA__LEFT:
-			return getLeft();
-		case HenshinPackage.BINARY_FORMULA__RIGHT:
-			return getRight();
+			case HenshinPackage.BINARY_FORMULA__LEFT:
+				return getLeft();
+			case HenshinPackage.BINARY_FORMULA__RIGHT:
+				return getRight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -198,12 +198,12 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.BINARY_FORMULA__LEFT:
-			setLeft((Formula)newValue);
-			return;
-		case HenshinPackage.BINARY_FORMULA__RIGHT:
-			setRight((Formula)newValue);
-			return;
+			case HenshinPackage.BINARY_FORMULA__LEFT:
+				setLeft((Formula)newValue);
+				return;
+			case HenshinPackage.BINARY_FORMULA__RIGHT:
+				setRight((Formula)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -216,12 +216,12 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.BINARY_FORMULA__LEFT:
-			setLeft((Formula)null);
-			return;
-		case HenshinPackage.BINARY_FORMULA__RIGHT:
-			setRight((Formula)null);
-			return;
+			case HenshinPackage.BINARY_FORMULA__LEFT:
+				setLeft((Formula)null);
+				return;
+			case HenshinPackage.BINARY_FORMULA__RIGHT:
+				setRight((Formula)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -234,10 +234,10 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.BINARY_FORMULA__LEFT:
-			return left != null;
-		case HenshinPackage.BINARY_FORMULA__RIGHT:
-			return right != null;
+			case HenshinPackage.BINARY_FORMULA__LEFT:
+				return left != null;
+			case HenshinPackage.BINARY_FORMULA__RIGHT:
+				return right != null;
 		}
 		return super.eIsSet(featureID);
 	}

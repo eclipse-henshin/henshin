@@ -85,8 +85,8 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-			return ((InternalEList<?>)getSubUnits()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
+				return ((InternalEList<?>)getSubUnits()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -99,8 +99,8 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-			return getSubUnits();
+			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
+				return getSubUnits();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -114,10 +114,10 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-			getSubUnits().clear();
-			getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
-			return;
+			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
+				getSubUnits().clear();
+				getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -130,9 +130,9 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-			getSubUnits().clear();
-			return;
+			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
+				getSubUnits().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -145,8 +145,8 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-			return subUnits != null && !subUnits.isEmpty();
+			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
+				return subUnits != null && !subUnits.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -156,12 +156,12 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.MAPPING__ORIGIN:
-			if (resolve) return getOrigin();
-			return basicGetOrigin();
-		case HenshinPackage.MAPPING__IMAGE:
-			if (resolve) return getImage();
-			return basicGetImage();
+			case HenshinPackage.MAPPING__ORIGIN:
+				if (resolve) return getOrigin();
+				return basicGetOrigin();
+			case HenshinPackage.MAPPING__IMAGE:
+				if (resolve) return getImage();
+				return basicGetImage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -174,12 +174,12 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.MAPPING__ORIGIN:
-			setOrigin((Node)newValue);
-			return;
-		case HenshinPackage.MAPPING__IMAGE:
-			setImage((Node)newValue);
-			return;
+			case HenshinPackage.MAPPING__ORIGIN:
+				setOrigin((Node)newValue);
+				return;
+			case HenshinPackage.MAPPING__IMAGE:
+				setImage((Node)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -192,12 +192,12 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.MAPPING__ORIGIN:
-			setOrigin((Node)null);
-			return;
-		case HenshinPackage.MAPPING__IMAGE:
-			setImage((Node)null);
-			return;
+			case HenshinPackage.MAPPING__ORIGIN:
+				setOrigin((Node)null);
+				return;
+			case HenshinPackage.MAPPING__IMAGE:
+				setImage((Node)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -210,10 +210,10 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.MAPPING__ORIGIN:
-			return origin != null;
-		case HenshinPackage.MAPPING__IMAGE:
-			return image != null;
+			case HenshinPackage.MAPPING__ORIGIN:
+				return origin != null;
+			case HenshinPackage.MAPPING__IMAGE:
+				return image != null;
 		}
 		return super.eIsSet(featureID);
 	}

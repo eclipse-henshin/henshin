@@ -327,7 +327,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Mark meta-data to indicate it can't be changed
 		theHenshinPackage.freeze();
 
-
+  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(HenshinPackage.eNS_URI, theHenshinPackage);
 		return theHenshinPackage;

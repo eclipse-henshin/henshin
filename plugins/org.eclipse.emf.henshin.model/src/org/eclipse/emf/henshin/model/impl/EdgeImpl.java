@@ -296,18 +296,18 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			if (source != null)
-				msgs = ((InternalEObject)source).eInverseRemove(this, HenshinPackage.NODE__OUTGOING, Node.class, msgs);
-			return basicSetSource((Node)otherEnd, msgs);
-		case HenshinPackage.EDGE__TARGET:
-			if (target != null)
-				msgs = ((InternalEObject)target).eInverseRemove(this, HenshinPackage.NODE__INCOMING, Node.class, msgs);
-			return basicSetTarget((Node)otherEnd, msgs);
-		case HenshinPackage.EDGE__GRAPH:
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			return basicSetGraph((Graph)otherEnd, msgs);
+			case HenshinPackage.EDGE__SOURCE:
+				if (source != null)
+					msgs = ((InternalEObject)source).eInverseRemove(this, HenshinPackage.NODE__OUTGOING, Node.class, msgs);
+				return basicSetSource((Node)otherEnd, msgs);
+			case HenshinPackage.EDGE__TARGET:
+				if (target != null)
+					msgs = ((InternalEObject)target).eInverseRemove(this, HenshinPackage.NODE__INCOMING, Node.class, msgs);
+				return basicSetTarget((Node)otherEnd, msgs);
+			case HenshinPackage.EDGE__GRAPH:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGraph((Graph)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -320,12 +320,12 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			return basicSetSource(null, msgs);
-		case HenshinPackage.EDGE__TARGET:
-			return basicSetTarget(null, msgs);
-		case HenshinPackage.EDGE__GRAPH:
-			return basicSetGraph(null, msgs);
+			case HenshinPackage.EDGE__SOURCE:
+				return basicSetSource(null, msgs);
+			case HenshinPackage.EDGE__TARGET:
+				return basicSetTarget(null, msgs);
+			case HenshinPackage.EDGE__GRAPH:
+				return basicSetGraph(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -338,8 +338,8 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-		case HenshinPackage.EDGE__GRAPH:
-			return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__EDGES, Graph.class, msgs);
+			case HenshinPackage.EDGE__GRAPH:
+				return eInternalContainer().eInverseRemove(this, HenshinPackage.GRAPH__EDGES, Graph.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -352,17 +352,17 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			if (resolve) return getSource();
-			return basicGetSource();
-		case HenshinPackage.EDGE__TARGET:
-			if (resolve) return getTarget();
-			return basicGetTarget();
-		case HenshinPackage.EDGE__TYPE:
-			if (resolve) return getType();
-			return basicGetType();
-		case HenshinPackage.EDGE__GRAPH:
-			return getGraph();
+			case HenshinPackage.EDGE__SOURCE:
+				if (resolve) return getSource();
+				return basicGetSource();
+			case HenshinPackage.EDGE__TARGET:
+				if (resolve) return getTarget();
+				return basicGetTarget();
+			case HenshinPackage.EDGE__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
+			case HenshinPackage.EDGE__GRAPH:
+				return getGraph();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -375,18 +375,18 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			setSource((Node)newValue);
-			return;
-		case HenshinPackage.EDGE__TARGET:
-			setTarget((Node)newValue);
-			return;
-		case HenshinPackage.EDGE__TYPE:
-			setType((EReference)newValue);
-			return;
-		case HenshinPackage.EDGE__GRAPH:
-			setGraph((Graph)newValue);
-			return;
+			case HenshinPackage.EDGE__SOURCE:
+				setSource((Node)newValue);
+				return;
+			case HenshinPackage.EDGE__TARGET:
+				setTarget((Node)newValue);
+				return;
+			case HenshinPackage.EDGE__TYPE:
+				setType((EReference)newValue);
+				return;
+			case HenshinPackage.EDGE__GRAPH:
+				setGraph((Graph)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -399,18 +399,18 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			setSource((Node)null);
-			return;
-		case HenshinPackage.EDGE__TARGET:
-			setTarget((Node)null);
-			return;
-		case HenshinPackage.EDGE__TYPE:
-			setType((EReference)null);
-			return;
-		case HenshinPackage.EDGE__GRAPH:
-			setGraph((Graph)null);
-			return;
+			case HenshinPackage.EDGE__SOURCE:
+				setSource((Node)null);
+				return;
+			case HenshinPackage.EDGE__TARGET:
+				setTarget((Node)null);
+				return;
+			case HenshinPackage.EDGE__TYPE:
+				setType((EReference)null);
+				return;
+			case HenshinPackage.EDGE__GRAPH:
+				setGraph((Graph)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -423,14 +423,14 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.EDGE__SOURCE:
-			return source != null;
-		case HenshinPackage.EDGE__TARGET:
-			return target != null;
-		case HenshinPackage.EDGE__TYPE:
-			return type != null;
-		case HenshinPackage.EDGE__GRAPH:
-			return getGraph() != null;
+			case HenshinPackage.EDGE__SOURCE:
+				return source != null;
+			case HenshinPackage.EDGE__TARGET:
+				return target != null;
+			case HenshinPackage.EDGE__TYPE:
+				return type != null;
+			case HenshinPackage.EDGE__GRAPH:
+				return getGraph() != null;
 		}
 		return super.eIsSet(featureID);
 	}

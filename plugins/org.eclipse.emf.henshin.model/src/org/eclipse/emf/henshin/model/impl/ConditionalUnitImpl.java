@@ -220,12 +220,12 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case HenshinPackage.CONDITIONAL_UNIT__IF:
-			return basicSetIf(null, msgs);
-		case HenshinPackage.CONDITIONAL_UNIT__THEN:
-			return basicSetThen(null, msgs);
-		case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-			return basicSetElse(null, msgs);
+			case HenshinPackage.CONDITIONAL_UNIT__IF:
+				return basicSetIf(null, msgs);
+			case HenshinPackage.CONDITIONAL_UNIT__THEN:
+				return basicSetThen(null, msgs);
+			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
+				return basicSetElse(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -238,12 +238,12 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case HenshinPackage.CONDITIONAL_UNIT__IF:
-			return getIf();
-		case HenshinPackage.CONDITIONAL_UNIT__THEN:
-			return getThen();
-		case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-			return getElse();
+			case HenshinPackage.CONDITIONAL_UNIT__IF:
+				return getIf();
+			case HenshinPackage.CONDITIONAL_UNIT__THEN:
+				return getThen();
+			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
+				return getElse();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -256,15 +256,15 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case HenshinPackage.CONDITIONAL_UNIT__IF:
-			setIf((TransformationUnit)newValue);
-			return;
-		case HenshinPackage.CONDITIONAL_UNIT__THEN:
-			setThen((TransformationUnit)newValue);
-			return;
-		case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-			setElse((TransformationUnit)newValue);
-			return;
+			case HenshinPackage.CONDITIONAL_UNIT__IF:
+				setIf((TransformationUnit)newValue);
+				return;
+			case HenshinPackage.CONDITIONAL_UNIT__THEN:
+				setThen((TransformationUnit)newValue);
+				return;
+			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
+				setElse((TransformationUnit)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -277,15 +277,15 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.CONDITIONAL_UNIT__IF:
-			setIf((TransformationUnit)null);
-			return;
-		case HenshinPackage.CONDITIONAL_UNIT__THEN:
-			setThen((TransformationUnit)null);
-			return;
-		case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-			setElse((TransformationUnit)null);
-			return;
+			case HenshinPackage.CONDITIONAL_UNIT__IF:
+				setIf((TransformationUnit)null);
+				return;
+			case HenshinPackage.CONDITIONAL_UNIT__THEN:
+				setThen((TransformationUnit)null);
+				return;
+			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
+				setElse((TransformationUnit)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -298,12 +298,12 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case HenshinPackage.CONDITIONAL_UNIT__IF:
-			return if_ != null;
-		case HenshinPackage.CONDITIONAL_UNIT__THEN:
-			return then != null;
-		case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-			return else_ != null;
+			case HenshinPackage.CONDITIONAL_UNIT__IF:
+				return if_ != null;
+			case HenshinPackage.CONDITIONAL_UNIT__THEN:
+				return then != null;
+			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
+				return else_ != null;
 		}
 		return super.eIsSet(featureID);
 	}
