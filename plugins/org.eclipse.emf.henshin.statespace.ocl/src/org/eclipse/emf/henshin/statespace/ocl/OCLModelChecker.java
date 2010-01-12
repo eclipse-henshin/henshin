@@ -7,10 +7,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.statespace.ModelChecker;
+import org.eclipse.emf.henshin.statespace.modelchecking.ModelChecker;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceModelHelper;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
@@ -54,7 +53,7 @@ public class OCLModelChecker implements ModelChecker {
 			
 			// Check all state models:
 			for (State state : stateSpace.getStates()) {
-				Resource model = StateSpaceModelHelper.getModel(state);
+				Resource model = null;//StateSpaceModelHelper.getModel(state);
 				TreeIterator<EObject> contents = model.getAllContents();
 				while (contents.hasNext()) {
 					EObject object = contents.next();
