@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Common EMT Interface
+Bundle-SymbolicName: org.eclipse.emf.henshin.common
+Bundle-Version: 0.5.0.qualifier
+Require-Bundle: org.eclipse.emf.henshin.model;bundle-version="0.1.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.4.0",
+ de.tuberlin.emt.model
+Export-Package: org.eclipse.emf.henshin.common.util,
+ org.eclipse.emf.henshin.internal.change,
+ org.eclipse.emf.henshin.internal.conditions.attribute,
+ org.eclipse.emf.henshin.internal.conditions.nested,
+ org.eclipse.emf.henshin.internal.constraints,
+ org.eclipse.emf.henshin.internal.matching
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
