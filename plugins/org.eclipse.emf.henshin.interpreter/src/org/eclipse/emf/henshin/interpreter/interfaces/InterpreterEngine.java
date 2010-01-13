@@ -19,7 +19,7 @@ public interface InterpreterEngine {
 	 * Returns all matches for the given rule.
 	 * 
 	 * @param rule
-	 *            An EmfTiger Rule.
+	 *            A Henshin Rule.
 	 * @return All computed matches for the rule.
 	 */
 	public abstract List<RuleMatch> findAllMatches(Rule rule);
@@ -28,7 +28,7 @@ public interface InterpreterEngine {
 	 * Returns all matches for the given rule.
 	 * 
 	 * @param rule
-	 *            An EmfTiger Rule.
+	 *            A Henshin Rule.
 	 * @param prematch
 	 *            A predefined partial match for some nodes of the rule.
 	 * @param assignments
@@ -43,7 +43,7 @@ public interface InterpreterEngine {
 	 * Returns a match for the given rule.
 	 * 
 	 * @param rule
-	 *            An EmfTiger Rule.
+	 *            A Henshin Rule.
 	 * @return One computed match for the rule.
 	 */
 	public abstract RuleMatch findMatch(Rule rule);
@@ -52,7 +52,7 @@ public interface InterpreterEngine {
 	 * Returns a match for the given rule.
 	 * 
 	 * @param rule
-	 *            An EmfTiger Rule.
+	 *            A Henshin Rule.
 	 * @param prematch
 	 *            A predefined partial match for some nodes of the rule.
 	 * @param assignments

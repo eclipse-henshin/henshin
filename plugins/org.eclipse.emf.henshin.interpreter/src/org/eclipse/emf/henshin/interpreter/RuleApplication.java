@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * An implementation of an executable rule application. It must be initialized
- * with an instance of <code>org.eclipse.emf.tiger.model.emftiger.Rule</code>.
+ * with an instance of <code>org.eclipse.emf.henshin.model.Rule</code>.
  */
 public class RuleApplication {
 	private InterpreterEngine interpreterEngine;

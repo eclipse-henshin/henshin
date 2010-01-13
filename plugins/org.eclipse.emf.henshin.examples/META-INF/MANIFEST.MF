@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMF Tiger Examples
+Bundle-Name: EMF Henshin Examples
 Bundle-SymbolicName: org.eclipse.emf.henshin.examples;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-Localization: plugin
@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.emf.henshin.common,
  org.eclipse.emf.henshin.model,
- org.eclipse.emf.henshin.interpreter,
- de.tuberlin.emt.model
+ org.eclipse.emf.henshin.interpreter
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
