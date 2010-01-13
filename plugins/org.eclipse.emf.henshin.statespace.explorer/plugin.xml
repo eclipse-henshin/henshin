@@ -8,16 +8,14 @@
               icon="icons/HenshinDiagramFile.gif"
               default="true"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer"
-              contributorClass="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceEditorActionBarContributor"
+              contributorClass="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceActionBarContributor"
               id="EMF Henshin State Space Editor">
       </editor>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
-      <category name="EMF Henshin"
-                id="org.eclipse.emf.henshin"/>
-      <wizard name="State Space Diagram"
+      <wizard name="State Space"
               icon="icons/HenshinDiagramFile.gif"
-              category="org.eclipse.emf.henshin"
+              category="org.eclipse.emf.henshin.wizards"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceCreationWizard"
               id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
          <selection class="org.eclipse.core.resources.IResource"/>
@@ -30,7 +28,7 @@
             id="org.eclipse.emf.henshin.statespace.explorer.contributions.StateSpace"
             objectClass="org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart">
          <action
-               class="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction"
                enablesFor="1"
                icon="icons/initialState.gif"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"

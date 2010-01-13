@@ -9,6 +9,7 @@ import org.eclipse.gef.EditPartFactory;
 
 /**
  * Factory that maps model elements to edit parts.
+ * @generated NOT
  * @author Christian Krause
  */
 public class StateSpaceEditPartFactory implements EditPartFactory {

@@ -5,9 +5,11 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.gef.commands.Command;
 
 /**
+ * Command for exploring a state.
+ * @generated NOT
  * @author Christian Krause
  */
-public class StateExploreCommand extends Command {
+public class ExploreStateCommand extends Command {
 	
 	// State to be explored.
 	private State state;
@@ -20,7 +22,7 @@ public class StateExploreCommand extends Command {
 	 * @param state State to be explored.
 	 * @param stateSpace State space.
 	 */
-	public StateExploreCommand(State state, StateSpaceManager manager) {
+	public ExploreStateCommand(State state, StateSpaceManager manager) {
 		this.state = state;
 		this.manager = manager;
 		setLabel("exploring state");

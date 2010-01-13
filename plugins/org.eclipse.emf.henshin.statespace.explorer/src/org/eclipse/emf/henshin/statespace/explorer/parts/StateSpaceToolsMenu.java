@@ -1,8 +1,6 @@
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
@@ -13,12 +11,12 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceLayouterJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -249,14 +247,26 @@ public class StateSpaceToolsMenu extends Composite {
 		layouterCheckbox.setSelection(true);
 		layouterJob = new StateSpaceLayouterJob(manager.getStateSpace(), Display.getCurrent());
 		updateLayouterProperties();
+		editDomain.getCommandStack().execute(new Command("Start layouter"){});
 		layouterJob.schedule();
 	}
 	
 	public void stopLayouter() {
-		layouterJob.cancel();
+		if (layouterJob!=null) {
+			layouterJob.cancel();
+			while (layouterJob.getState()==Job.RUNNING) {
+				try {
+					layouterJob.join();
+				} catch (InterruptedException e) {}
+			}
+			layouterJob = null;
+		}
 		layouterCheckbox.setSelection(false);
 	}
 	
+	public void stopAll() {
+		stopLayouter();
+	}
 	
 	public void refresh() {	
 		if (manager==null) {

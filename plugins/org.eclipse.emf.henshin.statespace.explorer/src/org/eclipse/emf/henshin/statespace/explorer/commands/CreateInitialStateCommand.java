@@ -1,37 +1,37 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Command for adding a state to a state space.
+ * Command for creating an initial state.
+ * @generated NOT
  * @author Christian Krause
  */
-public class StateCreateCommand extends Command {
+public class CreateInitialStateCommand extends Command {
 	
+	// State space manager.
+	private final StateSpaceManager manager;
+
 	// State to be added.
 	private State state;
 	
-	// State space to be added to.
-	private final StateSpace stateSpace;
-	
+	// State model:
+	private Resource model;
+		
 	// State coordinates:
 	private int[] location;
-	
-	// Name of the state:
-	private String name;
-
 	
 	/**
 	 * Default constructor.
 	 * @param state State to be added.
 	 * @param stateSpace State space.
 	 */
-	public StateCreateCommand(State state, StateSpace stateSpace) {
-		this.state = state;
-		this.stateSpace = stateSpace;
-		this.name = "s" + stateSpace.getStates().size();
+	public CreateInitialStateCommand(Resource model, StateSpaceManager manager) {
+		this.model = model;
+		this.manager = manager;
 		setLabel("adding state");
 	}
 	
@@ -41,7 +41,7 @@ public class StateCreateCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return state!=null && stateSpace!=null;
+		return model!=null && manager!=null;
 	}
 	
 	/*
@@ -50,8 +50,6 @@ public class StateCreateCommand extends Command {
 	 */
 	@Override
 	public void execute() {
-		state.setName(name);
-		state.setLocation(location);
 		redo();
 	}
 
@@ -61,7 +59,8 @@ public class StateCreateCommand extends Command {
 	 */
 	@Override
 	public void redo() {
-		stateSpace.getStates().add(state);
+		State state = manager.createInitialState(model);
+		state.setLocation(location);	
 	}
 
 	/* 
@@ -70,13 +69,11 @@ public class StateCreateCommand extends Command {
 	 */
 	@Override
 	public void undo() {
-		stateSpace.getStates().remove(state);
+		manager.removeState(state);
 	}
 	
 	/**
 	 * Set the state coordinates.
-	 * @param x X-coordinate.
-	 * @param y Y-coordinate.
 	 */
 	public void setLocation(int... location) {
 		this.location = location;

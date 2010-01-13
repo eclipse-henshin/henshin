@@ -25,6 +25,7 @@ import org.eclipse.swt.SWT;
 
 /**
  * State space diagram edit part.
+ * @generated NOT
  * @author Christian Krause
  */
 public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Adapter {

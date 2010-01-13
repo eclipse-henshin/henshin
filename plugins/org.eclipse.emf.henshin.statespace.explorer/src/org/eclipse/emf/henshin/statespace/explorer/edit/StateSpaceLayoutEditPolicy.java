@@ -7,9 +7,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.explorer.commands.StateCreateCommand;
-import org.eclipse.emf.henshin.statespace.explorer.commands.StateSetConstraintCommand;
+import org.eclipse.emf.henshin.statespace.explorer.commands.MoveStateCommand;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -22,6 +20,7 @@ import org.eclipse.swt.SWT;
 /**
  * State space layout edit policy.
  * @author Christian Krause
+ * @generated NOT
  */
 public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -37,7 +36,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 			
 			State state = ((StateEditPart) child).getState();
 			Rectangle bounds = (Rectangle) constraint;
-			return new StateSetConstraintCommand(state, request, bounds);
+			return new MoveStateCommand(state, request, bounds);
 			
 		} else {
 			return super.createChangeConstraintCommand(request, child, constraint);
@@ -62,6 +61,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	protected Command getCreateCommand(CreateRequest request) {
 		Object type = request.getNewObjectType();
 		
+		/*
 		if (type==State.class) {
 			StateSpace stateSpace = (StateSpace) getHost().getModel();
 			State state = (State) request.getNewObject();
@@ -70,6 +70,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 			command.setLocation(bounds.x, bounds.y);
 			return command;
 		}
+		*/
 		
 		return null;
 		

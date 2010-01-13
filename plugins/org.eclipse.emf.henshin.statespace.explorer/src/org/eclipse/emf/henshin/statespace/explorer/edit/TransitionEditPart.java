@@ -12,6 +12,8 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
+ * Edit part for transitions.
+ * @generated NOT
  * @author Christian Krause
  */
 public class TransitionEditPart extends AbstractConnectionEditPart {

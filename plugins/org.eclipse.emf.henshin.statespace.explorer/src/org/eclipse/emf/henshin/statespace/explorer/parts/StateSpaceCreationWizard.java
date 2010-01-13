@@ -27,6 +27,7 @@ import org.eclipse.ui.ide.IDE;
 /**
  * State space file creation wizard.
  * @author Christian Krause
+ * @generated NOT
  */
 public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	

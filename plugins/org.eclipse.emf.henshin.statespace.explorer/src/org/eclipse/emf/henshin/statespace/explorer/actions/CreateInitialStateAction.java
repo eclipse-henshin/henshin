@@ -5,11 +5,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.explorer.commands.StateCreateCommand;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.commands.CreateInitialStateCommand;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
 import org.eclipse.jface.action.IAction;
@@ -28,7 +26,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
  * Action for creating a new initial state to the current state space.
  * @author Christian Krause
  */
-public class NewInitialStateAction implements IObjectActionDelegate {
+public class CreateInitialStateAction implements IObjectActionDelegate {
 	
 	// Currently action state space explorer:
 	private StateSpaceExplorer explorer;
@@ -69,24 +67,20 @@ public class NewInitialStateAction implements IObjectActionDelegate {
 	private void load(IFile file) {
 		
 		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
-		ResourceSet resourceSet = new ResourceSetImpl();
+		ResourceSet resourceSet = stateSpace.eResource().getResourceSet();
 		
 		try {
 			
-			Resource resource = resourceSet.getResource(uri, true);
-			State state = StateSpaceFactory.eINSTANCE.createState();
-			state.setName("s" + stateSpace.getStates().size());
-			state.setModel(resource);
-			state.setLocation(location);
+			Resource model = resourceSet.getResource(uri, true);
+			StateSpaceManager manager = explorer.getStateSpaceManager();
+			CreateInitialStateCommand command = new CreateInitialStateCommand(model, manager);
+			command.setLocation(location);
 			
-			explorer.getGraphicalViewer();
-			
-			StateCreateCommand command = new StateCreateCommand(state, stateSpace);
 			explorer.executeCommand(command);
 			
 		} catch (Throwable t) {
 			Shell shell = explorer.getSite().getShell();
-			MessageDialog.openError(shell, "Load Resource", "Error loading resource: " + file);
+			MessageDialog.openError(shell, "Create Initial State", "Error creating initial state for " + file + ": " + t.getMessage());
 		}
 		
 	}

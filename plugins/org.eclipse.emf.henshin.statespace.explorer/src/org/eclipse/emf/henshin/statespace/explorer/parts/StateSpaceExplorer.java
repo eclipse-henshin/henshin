@@ -24,10 +24,8 @@ import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
-import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -45,7 +43,8 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * State space diagram editor.
+ * State space explorer.
+ * @generated NOT
  * @author Christian Krause
  */
 public class StateSpaceExplorer extends GraphicalEditor {
@@ -111,7 +110,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer));
 		
 		// Configure the context menu provider:
-		ContextMenuProvider provider = new StateSpaceEditorContextMenuProvider(viewer, getActionRegistry());
+		ContextMenuProvider provider = new StateSpaceContextMenuProvider(viewer, getActionRegistry());
 		viewer.setContextMenu(provider);
 		getSite().registerContextMenu(provider, viewer);
 		
@@ -144,7 +143,11 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void doSave(IProgressMonitor monitor) {		
+	public void doSave(IProgressMonitor monitor) {
+		
+		// Stop all background jobs first:
+		toolsMenu.stopAll();
+		
 		try {
 			Resource resource = manager.getStateSpace().eResource();
 			resource.save(null);
@@ -161,6 +164,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	public void doSaveAs() {
+		
+		// Stop all background jobs first:
+		toolsMenu.stopAll();
 		
 		// Show a SaveAs dialog
 		Shell shell = getSite().getWorkbenchWindow().getShell();
@@ -267,7 +273,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		loader = new Job("Loading state space") {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				//managerImpl.reload(monitor);
+				managerImpl.reload(monitor);
 				loader = null;
 				return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
 			}

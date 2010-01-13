@@ -15,9 +15,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.explorer.commands.StateExploreCommand;
+import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStateCommand;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
@@ -27,9 +28,11 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * State diagram edit part.
+ * @generated NOT
  * @author Christian Krause
  */
 public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, Adapter {
@@ -70,7 +73,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void createEditPolicies() {
-		// installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new StateNodeEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new StateComponentEditPolicy());
 	}
 
 	/*
@@ -237,7 +240,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN) {
 			// Explore the current state:
-			Command command = new StateExploreCommand(getState(), getStateSpaceManager());
+			Command command = new ExploreStateCommand(getState(), getStateSpaceManager());
 			CommandStack stack = getViewer().getEditDomain().getCommandStack();
 			stack.execute(command);
 		} else {
@@ -293,7 +296,17 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
-	public void notifyChanged(Notification event) {
+	public void notifyChanged(final Notification event) {
+		
+		// Check if the thread is correct:
+		if (Display.getDefault().getThread()!=Thread.currentThread()) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					notifyChanged(event);
+				}
+			});
+		}
+		
 		switch (event.getFeatureID(State.class)) {
 		
 		case StateSpacePackageImpl.STATE__DATA: 

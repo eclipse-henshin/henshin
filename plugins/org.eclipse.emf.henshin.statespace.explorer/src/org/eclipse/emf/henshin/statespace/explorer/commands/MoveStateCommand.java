@@ -9,9 +9,10 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
  * A command for moving a state.
+ * @generated NOT
  * @author Christian Krause
  */
-public class StateSetConstraintCommand extends Command {
+public class MoveStateCommand extends Command {
 	
 	// Locations:
 	private Point oldLocation, newLocation;
@@ -25,7 +26,7 @@ public class StateSetConstraintCommand extends Command {
 	/**
 	 * Default constructor.
 	 */
-	public StateSetConstraintCommand(State state, ChangeBoundsRequest req, Rectangle newBounds) {
+	public MoveStateCommand(State state, ChangeBoundsRequest req, Rectangle newBounds) {
 		if (state == null || req == null || newBounds == null) {
 			throw new IllegalArgumentException();
 		}
