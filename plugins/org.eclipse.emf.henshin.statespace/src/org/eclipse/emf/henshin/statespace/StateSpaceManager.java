@@ -17,13 +17,7 @@ public interface StateSpaceManager {
 	 * @return The managed state space.
 	 */
 	StateSpace getStateSpace();
-	
-	/**
-	 * Get the number of transitions in the state space.
-	 * @return Number of transition.
-	 */
-	int getTransitionCount();
-	
+		
 	/**
 	 * Get the state that corresponds to the argument model. 
 	 * @param model State model.
@@ -48,6 +42,14 @@ public interface StateSpaceManager {
 	State createInitialState(Resource model);
 	
 	/**
+	 * Remove a state from the state space. Unreachable states are automatically
+	 * removed afterwards and the open-attributes are updated.
+	 * @param state State to be removed.
+	 */
+	void removeState(State state);
+
+	
+	/**
 	 * Explore a state. This computes all outgoing transitions
 	 * and their target states and adds them to the state space
 	 * if they do not exist yet.
@@ -55,5 +57,11 @@ public interface StateSpaceManager {
 	 * @return List of newly created outgoing transitions.
 	 */
 	List<Transition> exploreState(State state);
+
+	/**
+	 * Get the total number of transitions in the state space.
+	 * @return Number of transition.
+	 */
+	int getTransitionCount();
 	
 }

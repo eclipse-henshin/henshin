@@ -81,7 +81,12 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		// Compute state models, update the hash code and the index:
 		for (State state : stateSpace.getStates()) {
-			state.setHashCode(hashCode(getModel(state)));
+			Resource model = getModel(state);
+			int hash = hashCode(model);
+			if (getState(model, hash)!=null) {
+				throw new RuntimeException("Duplicate state " + state.getName());
+			}			
+			state.setHashCode(hash);
 			registerState(state);
 			transitionCount += state.getOutgoing().size();
 			monitor.worked(1);
@@ -159,6 +164,28 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		return createState(model, hash);
 		
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
+	 */
+	public void removeState(State state) {
+		
+		synchronized (this) {
+			change = true;
+			boolean removed = getStateSpace().getStates().remove(state);
+			if (removed) {
+				for (Transition outgoing : state.getOutgoing()) {
+					outgoing.setTarget(null);
+				}
+			}
+			change = false;
+		}
+		
+	}
+
+
 	
 	/**
 	 * Find an outgoing transition.

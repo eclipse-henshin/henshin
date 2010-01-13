@@ -15,6 +15,9 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  */
 public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManagerWithCache {
 	
+	// Minimum size of the index:
+	private static final int MIN_INDEX_SIZE = 4;
+	
 	// The state space index:
 	private State[][] index;
 	
@@ -24,7 +27,7 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	 */
 	public AbstractStateSpaceManagerWithIndex(StateSpace stateSpace) {
 		super(stateSpace);
-		this.index = new State[optimalSize()][];
+		resetRegistry();
 	}
 	
 	/*
@@ -35,7 +38,8 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	protected State getState(Resource model, int hash) {
 		
 		// Find all possibly matching states:
-		State[] matched = index[hash % index.length];
+		int position = hash2position(hash);
+		State[] matched = index[position];
 		
 		// Check if one of them is the correct one:
 		if (matched!=null) {
@@ -63,16 +67,16 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		maintainIndex();
 		
 		// Get the hash code of the state:
-		int hash = state.getHashCode();
-
+		int position = hash2position(state.getHashCode());
+		
 		// Need to create a new array?
-		if (index[hash]==null) {
-			index[hash] = new State[4];
+		if (index[position]==null) {
+			index[position] = new State[4];
 		}
 		
 		// Find the next free minor index:
-		int minor = index[hash].length;
-		for (int i=0; i<index[hash].length; i++) {
+		int minor = index[position].length;
+		for (int i=0; i<index[position].length; i++) {
 			if (index[i]==null) {
 				minor = i;
 				break;
@@ -80,15 +84,24 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		}
 		
 		// Check if the array needs to be expanded:
-		if (minor>=index[hash].length) {
-			index[hash] = Arrays.copyOf(index[hash], index[hash].length*2);
+		if (minor>=index[position].length) {
+			index[position] = Arrays.copyOf(index[position], index[position].length*2);
 		}
 
 		// Add the state to the index:
-		index[hash][minor] = state;
+		index[position][minor] = state;
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#resetRegistry()
+	 */
+	@Override
+	protected void resetRegistry() {
+		this.index = new State[optimalSize()][];
+	}
+	
 	/*
 	 * Maintain the index. This checks if the index is to small
 	 * and expands it if required. This method is linear in the
@@ -101,8 +114,8 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 			
 			// Create a new array, but remember the old one:
 			State[][] oldIndex = index;
-			index = new State[optimalSize()][];
-
+			resetRegistry();
+			
 			// Add all states of the old index to the new index:
 			for (int i=0; i<oldIndex.length; i++) {
 				if (oldIndex[i]==null) continue;
@@ -115,10 +128,18 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	}
 	
 	/*
+	 * Convert a hash to an index position.
+	 */
+	private int hash2position(int hash) {
+		return Math.abs(hash) % index.length;
+	}
+	
+	/*
 	 * Compute the optimal size of the index.
 	 */
 	private int optimalSize() {
-		return Math.min(getStateSpace().getStates().size() * 2, 512);
+		int size = getStateSpace().getStates().size() * 2;
+		return (size<MIN_INDEX_SIZE) ? MIN_INDEX_SIZE : size;
 	}
 	
 }

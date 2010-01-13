@@ -31,8 +31,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 	
 	// Attribute keys:
 	public static final String STATE_MODEL = "model";
-	public static final String STATE_LOCATION = "xyz";
-	public static final String STATE_OPEN = "open";
+	public static final String STATE_DATA = "data";
 	public static final String TRANSITION_RULE = "rule";
 	
 	// State space resource to be used:
@@ -62,18 +61,14 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 		
 		if (owner instanceof State) {
 			State state = (State) owner;
-			if (STATE_LOCATION.equals(key)) {
-				int[] location = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).createIntegerArrayFromString(null, value);
-				state.setLocation(location);
+			if (STATE_DATA.equals(key)) {
+				int[] data = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).createIntegerArrayFromString(null, value);
+				state.setData(data);
 			}
 			else if (STATE_MODEL.equals(key)) {
 				URI uri = URI.createURI(value).resolve(resource.getURI());
 				Resource model = resource.getResourceSet().getResource(uri,true);
 				state.setModel(model);
-			}
-			else if (STATE_OPEN.equals(key)) {
-				boolean open = "1".equals(value) || "y".equals(value) || "yes".equals(value) || "true".equals(value);
-				state.setOpen(open);
 			}
 		}
 		else if (owner instanceof Transition) {

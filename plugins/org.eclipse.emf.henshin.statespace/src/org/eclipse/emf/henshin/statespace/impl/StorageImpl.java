@@ -26,7 +26,7 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	/**
 	 * @generated NOT
 	 */
-	public static int[] EMPTY_DATA = new int[0];
+	private static int[] EMPTY_DATA = new int[0];
 	
 	/**
 	 * @generated NOT
@@ -84,15 +84,16 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	public void setData(int beginIndex, int[] value) {
 
 		// Determine the new size of the data array:
-		int size = Math.max(beginIndex + minSize(value), minSize(data));
+		if (value==null) value = EMPTY_DATA;
+		int size = Math.max(beginIndex + minSize(value) + 1, minSize(data));
 		
 		// Set the new data:
 		if (size==0) {
 			setData(null);
 		} else {
 			int[] newData = resized(size);
-			for (int i=beginIndex; i<size; i++) {
-				newData[i] = value[i-beginIndex];
+			for (int i=0; i<value.length; i++) {
+				newData[i+beginIndex] = value[i];
 			}
 			setData(newData);
 		}

@@ -12,13 +12,13 @@ RBRACKET : ']' ;
 COMMA : ',' ;
 SEMICOLON : ';' ;
 
-// $ANTLR src "StateSpace.g" 155
+// $ANTLR src "StateSpace.g" 150
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-// $ANTLR src "StateSpace.g" 156
+// $ANTLR src "StateSpace.g" 151
 INT :	'0'..'9'+;
-// $ANTLR src "StateSpace.g" 157
+// $ANTLR src "StateSpace.g" 152
 WS  :   (' '|'\t'|'\n'|'\r')+ { skip(); } ;
-// $ANTLR src "StateSpace.g" 158
+// $ANTLR src "StateSpace.g" 153
 STRING :
 		'"'
 		(   EscapeSequence
@@ -29,7 +29,7 @@ STRING :
         	setText( getText().substring(1,getText().length()-1));
         	}
 ;
-// $ANTLR src "StateSpace.g" 168
+// $ANTLR src "StateSpace.g" 163
 fragment
 EscapeSequence:
 		'\\' (

@@ -127,9 +127,10 @@ public class StateSpaceResource extends ResourceImpl {
 		result.append(state.getName() + "[");
 		
 		String sep = "";
-		if (hasLocation(state)) {
-			String location = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).convertIntegerArrayToString(null, state.getLocation());
-			result.append(StateSpaceParser.STATE_LOCATION + "=\"" + location + "\""); 
+		int[] data = state.getData();
+		if (data!=null) {
+			String string = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).convertIntegerArrayToString(null, state.getData());
+			result.append(StateSpaceParser.STATE_DATA + "=\"" + string + "\""); 
 			sep = ",";
 		}
 		if (state.isInitial()) {
@@ -137,10 +138,7 @@ public class StateSpaceResource extends ResourceImpl {
 			if (state.eResource().getURI()!=null) {
 				uri = uri.deresolve(state.eResource().getURI());
 			}
-			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\""); sep = ",";
-		}
-		if (state.isOpen()) {
-			result.append(sep + StateSpaceParser.STATE_OPEN + "=1"); sep = ",";
+			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\"");
 		}
 		result.append("]");
 		
@@ -158,11 +156,6 @@ public class StateSpaceResource extends ResourceImpl {
 		result.append(";");
 		return result.toString();
 		
-	}
-	
-	private static boolean hasLocation(State state) {
-		int[] l = state.getLocation();
-		return l==null || l[0]!=0 || l[1]!=0 || l[2]!=0;
 	}
 	
 	/**

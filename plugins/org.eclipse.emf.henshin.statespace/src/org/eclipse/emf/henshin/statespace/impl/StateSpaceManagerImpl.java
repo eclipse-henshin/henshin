@@ -60,6 +60,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		// Otherwise derive the model:
 		Resource model = null;
 
+
 		
 
 		// Decide whether the current model should be kept in memory:
