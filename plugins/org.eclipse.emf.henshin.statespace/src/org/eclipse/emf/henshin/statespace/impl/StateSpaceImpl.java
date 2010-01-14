@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -46,6 +48,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		}
 	}
 	
+	/**
+	 * @generated NOT
+	 */
+	public EList<State> getInitialStates() {
+		EList<State> initial = new BasicEList<State>();
+		for (State state : getStates()) {
+			if (state.isInitial()) initial.add(state);
+		}
+		return ECollections.unmodifiableEList(initial);
+	}
+
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *

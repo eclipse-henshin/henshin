@@ -27,5 +27,13 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	boolean removeState(State state);
+
+	/**
+	 * Get the initial states in this state space.
+	 * Returns an unmodifiable list.
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<State> getInitialStates();
 	
 }

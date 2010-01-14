@@ -407,6 +407,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(stateSpaceEClass, this.getState(), "getInitialStates", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

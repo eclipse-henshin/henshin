@@ -53,24 +53,13 @@ public abstract class StateSpaceSearch {
 	 * @return <code>true</code> if the search should stop.
 	 */
 	protected abstract boolean shouldStop(State state, Path path);
-	
+		
 	/**
-	 * Perform a depth-first search.
-	 * @param states Start states.
+	 * Perform a depth-first search. Note that this does NOT clear the visited states.
+	 * @param state Start state.
 	 * @param reverse Flag indicating if the traversal should be in reverse direction.
 	 */
-	public synchronized boolean depthFirst(List<State> states, boolean reverse) {
-		visited.clear();
-		for (State state : states) {
-			if (depthFirst(state, reverse)) return true;
-		}
-		return false;
-	}
-	
-	/*
-	 * Depth-first search method.
-	 */
-	private boolean depthFirst(State state, boolean reverse) {
+	public boolean depthFirst(State state, boolean reverse) {
 		
 		// Visited already or finished?
 		if (visited(state)) return false;
@@ -123,13 +112,26 @@ public abstract class StateSpaceSearch {
 		return false;
 		
 	}
-		
+	
+	/**
+	 * Perform a depth-first search.
+	 * @param states Start states.
+	 * @param reverse Flag indicating if the traversal should be in reverse direction.
+	 */
+	public synchronized boolean depthFirst(List<State> states, boolean reverse) {
+		visited.clear();
+		for (State state : states) {
+			if (depthFirst(state, reverse)) return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Perform a depth-first search, starting at the initial states.
 	 * @param stateSpace State space.
 	 */
 	public void depthFirst(StateSpace stateSpace, boolean reverse) {
-		depthFirst(getInitialStates(stateSpace), reverse);
+		depthFirst(stateSpace.getInitialStates(), reverse);
 	}
 	
 	/*
@@ -139,17 +141,6 @@ public abstract class StateSpaceSearch {
 		if (visited.contains(state)) return true;
 		visited.add(state);
 		return false;
-	}
-	
-	/*
-	 * Find the initial states.
-	 */
-	private List<State> getInitialStates(StateSpace stateSpace) {
-		List<State> initial = new ArrayList<State>();
-		for (State state : stateSpace.getStates()) {
-			if (state.isInitial()) initial.add(state);
-		}
-		return initial;
 	}
 	
 	/**
