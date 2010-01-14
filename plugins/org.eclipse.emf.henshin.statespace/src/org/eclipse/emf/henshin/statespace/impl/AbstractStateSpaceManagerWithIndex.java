@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManagerWithCache {
+public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManagerWithRefresh {
 	
 	// Minimum size of the index:
 	private static final int MIN_INDEX_SIZE = 4;

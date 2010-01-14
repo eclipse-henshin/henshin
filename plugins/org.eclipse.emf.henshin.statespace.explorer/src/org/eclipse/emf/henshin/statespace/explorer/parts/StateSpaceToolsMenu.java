@@ -270,8 +270,8 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	public void refresh() {	
 		if (manager==null) {
-			statesLabel.setText("0");
-			transitionsLabel.setText("0");
+			statesLabel.setText("?");
+			transitionsLabel.setText("?");
 		} else {
 			StateSpace stateSpace = manager.getStateSpace();
 			statesLabel.setText(stateSpace.getStates().size() + " (" + "? open)");

@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -20,24 +18,21 @@ import org.eclipse.emf.henshin.statespace.Transition;
  */
 public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	
-	/**
-	 * Default memory usage: 10%
-	 */
+	// Default memory usage: 10%
 	public static final double DEFAULT_MEMORY_USAGE = 0.1;
 
 	// Percentage of models that are kept in memory:
 	private double memoryUsage = DEFAULT_MEMORY_USAGE;
 	
-	// Interpreter engine used for applying rules:
-	private InterpreterEngine engine;
-	
+	// State model cache:
+	private StateModelCache cache;
 	
 	/**
 	 * Default constructor.
 	 */
 	public StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
-		//this.engine = new EmfEngine();
+		this.cache = new StateModelCache();
 	}
 	
 	/*
@@ -52,17 +47,17 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		}
 		
 		// Cached?
-		Resource cached = getCache().get(state);
+		Resource cached = cache.get(state);
 		if (cached!=null) {
 			return cached;
 		}
 		
 		// Otherwise derive the model:
 		Resource model = null;
-
-
 		
-
+		
+		
+		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
 		int stored = (int) (states * memoryUsage);			
@@ -72,7 +67,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		state.setModel(storeCurrent ? model : null);
 		
 		// Always add it to the cache (is maintained automatically):
-		getCache().put(state, model);
+		cache.put(state, model);
 		
 		// Done.
 		return model;

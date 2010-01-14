@@ -8,7 +8,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -244,7 +246,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			Resource resource = resourceSet.createResource(uri);
 			stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 			resource.getContents().add(stateSpace);
-						
+			
 			// Run a dummy reset command that marks the editor as dirty:
 			getCommandStack().execute(new Command("reset state space") { 
 				public boolean canUndo() {
@@ -261,24 +263,10 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		}
 
 		// Create the state space manager:
-		final StateSpaceManagerImpl managerImpl = new StateSpaceManagerImpl(stateSpace);
-		manager = managerImpl;
-		
-		// Refresh the tools menu:
-		if (toolsMenu!=null && !toolsMenu.isDisposed()) {
-			toolsMenu.setStateSpaceManager(manager);
-		}
-		
+		manager = new StateSpaceManagerImpl(stateSpace);
+				
 		// Load the state space manager:
-		loader = new Job("Loading state space") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				managerImpl.reload(monitor);
-				loader = null;
-				return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
-			}
-		};
-		loader.setPriority(Job.LONG);
+		loader = new StateSpaceManagerRefreshJob(manager);
 		loader.schedule();
 		
 	}
@@ -289,10 +277,20 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	public void dispose() {
-		super.dispose();
-		if (loader!=null) {
+		
+		// Stop all jobs first:
+		if (loader!=null && loader.getState()!=Job.NONE) {
 			loader.cancel();
+			while (loader.getState()==Job.NONE) {
+				try {
+					loader.join();
+				} catch (InterruptedException e) {}
+			}
 		}
+		
+		// Dispose.
+		super.dispose();
+		
 	}
 	
 	/**

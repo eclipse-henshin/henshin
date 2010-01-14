@@ -3,7 +3,10 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="statespace"
     nsURI="http://www.eclipse.org/emf/henshin/statespace/2009" nsPrefix="statespace">
-  <eClassifiers xsi:type="ecore:EClass" name="StateSpace">
+  <eClassifiers xsi:type="ecore:EClass" name="StateSpace" eSuperTypes="#//Storage">
+    <eOperations name="removeState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="state" eType="#//State"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
         eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
   </eClassifiers>

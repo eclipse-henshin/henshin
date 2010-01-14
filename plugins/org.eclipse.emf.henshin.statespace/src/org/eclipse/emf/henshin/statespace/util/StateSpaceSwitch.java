@@ -92,6 +92,7 @@ public class StateSpaceSwitch<T> {
 			case StateSpacePackage.STATE_SPACE: {
 				StateSpace stateSpace = (StateSpace)theEObject;
 				T result = caseStateSpace(stateSpace);
+				if (result == null) result = caseStorage(stateSpace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

@@ -71,24 +71,6 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE = 0;
 
 	/**
-	 * The feature id for the '<em><b>States</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE__STATES = 0;
-
-	/**
-	 * The number of structural features of the '<em>State Space</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE_FEATURE_COUNT = 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -115,6 +97,33 @@ public interface StateSpacePackage extends EPackage {
 	 * @ordered
 	 */
 	int STORAGE_FEATURE_COUNT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__DATA = STORAGE__DATA;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__STATES = STORAGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>State Space</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.

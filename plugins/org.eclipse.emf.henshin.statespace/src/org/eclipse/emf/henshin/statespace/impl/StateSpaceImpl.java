@@ -6,24 +6,45 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * Concrete implementation of the {@link State} interface.
  * @generated
  */
-public class StateSpaceImpl extends MinimalEObjectImpl implements StateSpace {
+public class StateSpaceImpl extends StorageImpl implements StateSpace {
+
+	/**
+	 * Remove a state with all its transitions.
+	 * @generated NOT
+	 */
+	public boolean removeState(State state) {
+		if (getStates().remove(state)) {
+			List<Transition> transitions = new ArrayList<Transition>();
+			transitions.addAll(state.getOutgoing());
+			transitions.addAll(state.getIncoming());
+			for (Transition transition : transitions) {
+				transition.setSource(null);
+				transition.setTarget(null);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *

@@ -396,12 +396,16 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		stateSpaceEClass.getESuperTypes().add(this.getStorage());
 		stateEClass.getESuperTypes().add(this.getStorage());
 		transitionEClass.getESuperTypes().add(this.getStorage());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -426,7 +430,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEClass(storageEClass, Storage.class, "Storage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStorage_Data(), this.getIntegerArray(), "data", null, 0, 1, Storage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(storageEClass, ecorePackage.getEInt(), "getData", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(storageEClass, ecorePackage.getEInt(), "getData", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEInt(), "index", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(storageEClass, null, "setData", 0, 1, IS_UNIQUE, IS_ORDERED);

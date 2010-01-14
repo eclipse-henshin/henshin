@@ -1,7 +1,9 @@
 package org.eclipse.emf.henshin.statespace;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -17,14 +19,21 @@ public interface StateSpaceManager {
 	 * @return The managed state space.
 	 */
 	StateSpace getStateSpace();
-		
+	
+	/**
+	 * Refresh this manager instance. 
+	 * @param monitor Progress monitor.
+	 * @throws ExecutionException If an error occurs.
+	 */
+	void refresh(IProgressMonitor monitor) throws ExecutionException;
+	
 	/**
 	 * Get the state that corresponds to the argument model. 
 	 * @param model State model.
 	 * @return The corresponding state or <code>null</code> if none was found.
 	 */
 	State getState(Resource model);
-
+	
 	/**
 	 * Get the model that corresponds to a state.
 	 * @param state State in the state space.
@@ -34,8 +43,8 @@ public interface StateSpaceManager {
 	
 	/**
 	 * Create a new initial state to the state space. This throws a 
-	 * runtime exception if the state is not contained in a resource 
-	 * or if there is already a state for it.
+	 * runtime exception if the state is not contained in a resource.
+	 * If there is already a state for it, it is returned instead.
 	 * @param model Model of the initial state.
 	 * @return The newly created state.
 	 */
@@ -45,9 +54,9 @@ public interface StateSpaceManager {
 	 * Remove a state from the state space. Unreachable states are automatically
 	 * removed afterwards and the open-attributes are updated.
 	 * @param state State to be removed.
+	 * @return List of removed states.
 	 */
-	void removeState(State state);
-
+	List<State> removeState(State state);
 	
 	/**
 	 * Explore a state. This computes all outgoing transitions
@@ -57,7 +66,13 @@ public interface StateSpaceManager {
 	 * @return List of newly created outgoing transitions.
 	 */
 	List<Transition> exploreState(State state);
-
+	
+	/**
+	 * Reset the state space managed by this instance.
+	 * This removes all derived states and all transitions.
+	 */
+	void resetStateSpace();
+	
 	/**
 	 * Get the total number of transitions in the state space.
 	 * @return Number of transition.

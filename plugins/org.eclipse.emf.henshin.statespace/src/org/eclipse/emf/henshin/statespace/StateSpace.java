@@ -1,13 +1,12 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * Light-weight state space model.
  * @generated
  */
-public interface StateSpace extends EObject {
+public interface StateSpace extends Storage {
 
 	/**
 	 * Get the list of states in this state space. The list contents are of type 
@@ -20,5 +19,13 @@ public interface StateSpace extends EObject {
 	 * @generated
 	 */
 	EList<State> getStates();
+
+	/**
+	 * Remove a state from the state space. This automatically removes
+	 * all transitions coinciding in that state.
+	 * @model
+	 * @generated
+	 */
+	boolean removeState(State state);
 	
 }
