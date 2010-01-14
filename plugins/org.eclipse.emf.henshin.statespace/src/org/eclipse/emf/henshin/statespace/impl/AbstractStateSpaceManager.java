@@ -11,6 +11,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
  * Abstract base implementation of StateSpaceManager.
@@ -85,7 +86,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			int hash = hashCode(model);
 			if (getState(model, hash)!=null) {
 				throw new RuntimeException("Duplicate state " + state.getName());
-			}			
+			}
 			state.setHashCode(hash);
 			registerState(state);
 			transitionCount += state.getOutgoing().size();
@@ -170,15 +171,23 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public void removeState(State state) {
+	public final void removeState(State state) {
 		
 		synchronized (this) {
 			change = true;
-			boolean removed = getStateSpace().getStates().remove(state);
-			if (removed) {
+			if (getStateSpace().getStates().remove(state)) {
+				
+				// Unplug the transitions:
 				for (Transition outgoing : state.getOutgoing()) {
 					outgoing.setTarget(null);
 				}
+				for (Transition outgoing : state.getOutgoing()) {
+					outgoing.setTarget(null);
+				}
+				
+				// Remove unreachable states:
+				StateSpaceSearch.removeUnreachableStates(stateSpace);
+				
 			}
 			change = false;
 		}
