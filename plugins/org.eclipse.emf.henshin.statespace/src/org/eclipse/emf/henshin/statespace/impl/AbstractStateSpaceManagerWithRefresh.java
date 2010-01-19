@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -94,10 +95,10 @@ public abstract class AbstractStateSpaceManagerWithRefresh extends AbstractState
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#createTransition(org.eclipse.emf.henshin.statespace.State, java.lang.String, int)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#createTransition(org.eclipse.emf.henshin.statespace.State, org.eclipse.emf.henshin.model.Rule, int)
 	 */
 	@Override
-	protected Transition createTransition(State state, String rule, int match) {
+	protected Transition createTransition(State state, Rule rule, int match) {
 		Transition transition = super.createTransition(state, rule, match);
 		transitionCount++;
 		return transition;

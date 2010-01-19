@@ -2,6 +2,7 @@ grammar StateSpace;
 
 tokens {
 	LINE  	    = '--' ;
+	ARROW  	    = '->' ;
 	EQUAL  	    = '=' ;
 	LPAREN  	= '(' ;
 	RPAREN  	= ')' ;
@@ -40,8 +41,8 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 	// Associate state names to states:
 	private HashMap<String,State> states;
 
-	// Keep only one name per transition type:
-	private HashMap<String,String> transitionNames;
+	// Associate names to rules:
+	private HashMap<String,Rule> rules;
 	
 	public void setResource(Resource resource) {
 		this.resource = resource;
@@ -52,6 +53,13 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 	 */
 	public Map<String,State> getStates() {
 		return states;
+	}
+
+	/*
+	 * Get the rule name map.
+	 */
+	public Map<String,Rule> getRules() {
+		return rules;
 	}
 	
 	/*
@@ -74,7 +82,9 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 		else if (owner instanceof Transition) {
 			Transition transition = (Transition) owner;
 			if (TRANSITION_RULE.equals(key)) {
-				transition.setRule(value);
+				Rule rule = rules.get(value);
+				if (rule==null) throw new RuntimeException("Rule '"+ value +"' not found");
+				transition.setRule(rule);
 			}
 		}
 		
@@ -86,7 +96,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 stateSpace returns [StateSpace stateSpace]
 @init { 
     
-    // Initialise the state space:
+    // Initialize the state space:
 	$stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 	
 	// Create a state name map: 
@@ -105,18 +115,9 @@ stateSpace returns [StateSpace stateSpace]
 		
 	};
 	
-	// Create a transition name map:
-	transitionNames = new HashMap<String,String>() {
-		
-		@Override
-		public String get(Object name) {
-			if (!containsKey(name)) {
-				put((String) name, (String) name);
-			}
-			return super.get(name);
-		}
-		
-	};
+	// Create a rule name map:
+	rules = new HashMap<String,Rule>();
+	
 } :
 	// Parse all states:
 	(state[$stateSpace])*
@@ -128,12 +129,12 @@ state [StateSpace stateSpace] returns [State state] :
 		$stateSpace.getStates().add($state.state);
 	}
 	(LBRACKET (attribute[$state] (COMMA attribute[$state])*)? RBRACKET)?
-    (LINE (transition[$state])+)?
+    (transition[$state])*
  SEMICOLON
 ;
 
 transition[State state] returns [Transition transition] :
-	target=ID { 
+	LINE target=ID { 
 		$transition = StateSpaceFactory.eINSTANCE.createTransition();
 		$transition.setSource($state);
 		$transition.setTarget(states.get($target.text));

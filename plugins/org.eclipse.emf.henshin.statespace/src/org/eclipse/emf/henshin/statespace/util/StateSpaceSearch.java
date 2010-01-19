@@ -11,7 +11,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * Abstract state space search class.
+ * Abstract state space search class. Can easily be used for anonymous classes.
  * @generated NOT
  * @author Christian Krause
  */
@@ -53,65 +53,9 @@ public abstract class StateSpaceSearch {
 	 * @return <code>true</code> if the search should stop.
 	 */
 	protected abstract boolean shouldStop(State state, Path path);
-		
-	/**
-	 * Perform a depth-first search. Note that this does NOT clear the visited states.
-	 * @param state Start state.
-	 * @param reverse Flag indicating if the traversal should be in reverse direction.
-	 */
-	public boolean depthFirst(State state, boolean reverse) {
-		
-		// Visited already or finished?
-		if (visited(state)) return false;
-		if (shouldStop(state, path)) return true;
-		
-		// Nowhere to go from here?
-		if ((reverse && state.getIncoming().isEmpty()) ||
-			(!reverse && state.getOutgoing().isEmpty())) return false;
-		
-		// Create an initial path:
-		Transition first = reverse ? state.getIncoming().get(0) : state.getOutgoing().get(0);
-		path = new Path(first);
-		
-		// Search until the path is empty:
-		while (path.isEmpty()) {
-			
-			// Current and next state:
-			Transition transition = reverse ? path.getFirst() : path.getLast();
-			State current = reverse ? transition.getTarget() : transition.getSource();
-			State next = reverse ? transition.getSource() : transition.getTarget();
-			
-			// If visited already, switch to the next transition:
-			if (visited(next)) {
-				
-				// Remove the transition from the path:
-				if (reverse) path.removeFirst();
-				else path.removeLast();
-				
-				// Index of the current transition:
-				List<Transition> transitions = reverse ? current.getIncoming() : current.getOutgoing();
-				int index = transitions.indexOf(transition);
-				
-				// More transitions?
-				if (index+1 < transitions.size()) {
-					
-					// Add the next transition to the path:
-					Transition nextTransition = transitions.get(index+1);
-					if (reverse) path.addFirst(nextTransition);
-					else path.addLast(nextTransition);
-					
-				}
-				
-			} else {
-				
-			}
-			
-		}
-		
-		// Not found:
-		return false;
-		
-	}
+	
+	
+	/* ------ Depth-first search ------- */
 	
 	/**
 	 * Perform a depth-first search.
@@ -130,10 +74,101 @@ public abstract class StateSpaceSearch {
 	 * Perform a depth-first search, starting at the initial states.
 	 * @param stateSpace State space.
 	 */
-	public void depthFirst(StateSpace stateSpace, boolean reverse) {
-		depthFirst(stateSpace.getInitialStates(), reverse);
+	public boolean depthFirst(StateSpace stateSpace, boolean reverse) {
+		return depthFirst(stateSpace.getInitialStates(), reverse);
+	}
+
+	/**
+	 * Perform a depth-first search.
+	 * @param state Start state.
+	 */
+	public boolean depthFirst(State state, boolean reverse) {
+		this.state = state;
+		this.path = new Path();
+		return depthFirst(reverse);
 	}
 	
+	/*
+	 * Perform a depth-first search. Note that this does NOT clear the visited states.
+	 */
+	private boolean depthFirst(boolean reverse) {
+		
+		// Visited already or finished?
+		if (visited(state)) return false;
+		if (shouldStop(state, path)) return true;
+		
+		// Get the next transitions:
+		List<Transition> transitions = getNextTransitions(state, reverse);
+		
+		// Nowhere to go from here? Otherwise add the first transition to the empty path:
+		if (transitions.isEmpty()) return false;
+		path.add(transitions.get(0));
+		
+		// Search until the path is empty:
+		while (path.isEmpty()) {
+			
+			// Transition, current and next state:
+			Transition transition = reverse ? path.getFirst() : path.getLast();
+			state = reverse ? transition.getTarget() : transition.getSource();
+			State next = reverse ? transition.getSource() : transition.getTarget();
+			
+			// This will be our next transition:
+			Transition nextTransition = null;
+			
+			// If visited already, switch to the next transition:
+			if (visited(next)) {
+				
+				// Remove the current transition from the path:
+				if (reverse) path.removeFirst();
+				else path.removeLast();
+				
+				// Index of the current transition:
+				transitions = getNextTransitions(state, reverse);
+				int index = transitions.indexOf(transition);
+				
+				// More transitions?
+				if (index+1 < transitions.size()) {
+					nextTransition = transitions.get(index+1);
+				}
+				
+			}
+			
+			// Should we stop here because the search was successful?
+			else if (shouldStop(state, path)) {
+				return true; 
+			}
+			
+			// Otherwise go further depth-first:
+			else {
+				
+				// Take the first transition of the next state (depth-first):
+				transitions = getNextTransitions(next, reverse);
+				if (!transitions.isEmpty()) {
+					nextTransition = transitions.get(0);
+				}
+				
+			}
+
+			// Add the next transition to the path:
+			if (nextTransition!=null) {				
+				if (reverse) path.addFirst(nextTransition);
+				else path.addLast(nextTransition);
+			}
+			
+		}
+		
+		// Not found:
+		return false;
+		
+	}
+	
+	/*
+	 * Get the next transitions to be used in the search.
+	 */
+	private List<Transition> getNextTransitions(State state, boolean reverse) {
+		return reverse ? state.getIncoming() : state.getOutgoing();
+	}
+
 	/*
 	 * Visit a state and mark it as visited.
 	 */

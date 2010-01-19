@@ -9,6 +9,8 @@ import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
 
 /**
  * Default state space manager implementation.
@@ -52,11 +54,27 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			return cached;
 		}
 		
-		// Otherwise derive the model:
-		Resource model = null;
+		// Find a predecessor state that has a model:
+		StateSpaceSearch search = new StateSpaceSearch() {
+			@Override
+			protected boolean shouldStop(State current, Path path) {
+				return current.getModel()!=null || cache.get(current)!=null;
+			}
+		};
+		boolean found = search.depthFirst(state, true);
+		if (!found) {
+			throw new RuntimeException("Unable to derive state model for state " + state.getName());
+		}
 		
+		// Get the predecessor's model:
+		Resource model = search.getState().getModel();
+		if (model==null) model = cache.get(search.getState());
 		
-		
+		// Derive the model for the current state:
+		for (Transition transition : search.getPath()) {
+						
+			
+		}
 		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
@@ -89,7 +107,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		created.setLocation(location);
 		state.setOpen(false);
 		created.setOpen(true);
-		Transition transition = createTransition(state, "hi", 23);
+		Transition transition = createTransition(state, null, 23);
 		transition.setTarget(created);
 		if (true) return null;
 		
@@ -146,6 +164,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		
 	}
 	
+	/**
+	 * Set the memory usage for this state space manager.
+	 * Must be between 0 and 1, where 0 means that no model
+	 * are kept in memory (except a cache of constant size)
+	 * and 1 means that all models are kept in memory. 
+	 * @param memoryUsage Percentage for the memory usage.
+	 */
 	public void setMemoryUsage(double memoryUsage) {
 		this.memoryUsage = Math.max(Math.min(memoryUsage,1),0);
 	}

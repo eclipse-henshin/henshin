@@ -1,5 +1,7 @@
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.emf.henshin.model.Rule;
+
 
 /**
  * Light-weight transition model.
@@ -52,15 +54,17 @@ public interface Transition extends Storage {
 	 * @model
 	 * @generated
 	 */
-	String getRule();
+	Rule getRule();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.Transition#getRule <em>Rule</em>}' attribute.
-	 * @param value the new value of the '<em>Rule</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.Transition#getRule <em>Rule</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Rule</em>' reference.
 	 * @see #getRule()
 	 * @generated
 	 */
-	void setRule(String value);
+	void setRule(Rule value);
 
 	/**
 	 * Returns the value of the '<em><b>Match</b></em>' attribute.

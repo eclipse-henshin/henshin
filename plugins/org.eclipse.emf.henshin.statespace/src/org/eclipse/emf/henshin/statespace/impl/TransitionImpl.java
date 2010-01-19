@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -30,22 +31,6 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	protected State target;
 
 	/**
-	 * The default value of the '{@link #getRule() <em>Rule</em>}' attribute.
-	 * @see #getRule()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String RULE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
-	 * @see #getRule()
-	 * @generated
-	 * @ordered
-	 */
-	protected String rule = RULE_EDEFAULT;
-
-	/**
 	 * The default value of the '{@link #getMatch() <em>Match</em>}' attribute.
 	 * @see #getMatch()
 	 * @generated
@@ -60,6 +45,14 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	 * @ordered
 	 */
 	protected int match = MATCH_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * @see #getRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule rule;
 
 	/**
 	 * @generated
@@ -166,15 +159,34 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated
 	 */
-	public String getRule() {
+	public Rule getRule() {
+		if (rule != null && rule.eIsProxy()) {
+			InternalEObject oldRule = (InternalEObject)rule;
+			rule = (Rule)eResolveProxy(oldRule);
+			if (rule != oldRule) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.TRANSITION__RULE, oldRule, rule));
+			}
+		}
 		return rule;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRule(String newRule) {
-		String oldRule = rule;
+	public Rule basicGetRule() {
+		return rule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRule(Rule newRule) {
+		Rule oldRule = rule;
 		rule = newRule;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.TRANSITION__RULE, oldRule, rule));
@@ -252,10 +264,11 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case StateSpacePackage.TRANSITION__RULE:
-				return getRule();
 			case StateSpacePackage.TRANSITION__MATCH:
 				return getMatch();
+			case StateSpacePackage.TRANSITION__RULE:
+				if (resolve) return getRule();
+				return basicGetRule();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -272,11 +285,11 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__TARGET:
 				setTarget((State)newValue);
 				return;
-			case StateSpacePackage.TRANSITION__RULE:
-				setRule((String)newValue);
-				return;
 			case StateSpacePackage.TRANSITION__MATCH:
 				setMatch((Integer)newValue);
+				return;
+			case StateSpacePackage.TRANSITION__RULE:
+				setRule((Rule)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -294,11 +307,11 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__TARGET:
 				setTarget((State)null);
 				return;
-			case StateSpacePackage.TRANSITION__RULE:
-				setRule(RULE_EDEFAULT);
-				return;
 			case StateSpacePackage.TRANSITION__MATCH:
 				setMatch(MATCH_EDEFAULT);
+				return;
+			case StateSpacePackage.TRANSITION__RULE:
+				setRule((Rule)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -314,10 +327,10 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				return getSource() != null;
 			case StateSpacePackage.TRANSITION__TARGET:
 				return target != null;
-			case StateSpacePackage.TRANSITION__RULE:
-				return RULE_EDEFAULT == null ? rule != null : !RULE_EDEFAULT.equals(rule);
 			case StateSpacePackage.TRANSITION__MATCH:
 				return match != MATCH_EDEFAULT;
+			case StateSpacePackage.TRANSITION__RULE:
+				return rule != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -330,9 +343,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (rule: ");
-		result.append(rule);
-		result.append(", match: ");
+		result.append(" (match: ");
 		result.append(match);
 		result.append(')');
 		return result.toString();

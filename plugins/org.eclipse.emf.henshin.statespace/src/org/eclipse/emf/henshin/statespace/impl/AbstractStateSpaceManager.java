@@ -9,6 +9,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -204,7 +205,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param match Match to be used.
 	 * @return The newly created transition.
 	 */
-	protected Transition createTransition(State state, String rule, int match) {		
+	protected Transition createTransition(State state, Rule rule, int match) {	
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);

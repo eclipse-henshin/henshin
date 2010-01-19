@@ -263,22 +263,22 @@ public interface StateSpacePackage extends EPackage {
 	int TRANSITION__TARGET = STORAGE_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Rule</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__RULE = STORAGE_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Match</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__MATCH = STORAGE_FEATURE_COUNT + 3;
+	int TRANSITION__MATCH = STORAGE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__RULE = STORAGE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
@@ -451,15 +451,15 @@ public interface StateSpacePackage extends EPackage {
 	EReference getTransition_Target();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getRule <em>Rule</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.statespace.Transition#getRule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Rule</em>'.
+	 * @return the meta object for the reference '<em>Rule</em>'.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getRule()
 	 * @see #getTransition()
 	 * @generated
 	 */
-	EAttribute getTransition_Rule();
+	EReference getTransition_Rule();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
@@ -644,12 +644,12 @@ public interface StateSpacePackage extends EPackage {
 		EReference TRANSITION__TARGET = eINSTANCE.getTransition_Target();
 
 		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Rule</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TRANSITION__RULE = eINSTANCE.getTransition_Rule();
+		EReference TRANSITION__RULE = eINSTANCE.getTransition_Rule();
 
 		/**
 		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.
