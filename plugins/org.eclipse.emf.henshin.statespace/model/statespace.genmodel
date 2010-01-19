@@ -11,6 +11,7 @@
     <genDataTypes ecoreDataType="statespace.ecore#//IntegerArray"/>
     <genClasses ecoreClass="statespace.ecore#//StateSpace">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/states"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/rules"/>
       <genOperations ecoreOperation="statespace.ecore#//StateSpace/removeState">
         <genParameters ecoreParameter="statespace.ecore#//StateSpace/removeState/state"/>
       </genOperations>

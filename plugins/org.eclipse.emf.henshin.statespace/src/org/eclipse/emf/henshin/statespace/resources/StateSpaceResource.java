@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -30,6 +34,9 @@ public class StateSpaceResource extends ResourceImpl {
 	 * File extension for state space files.
 	 */
 	public static final String FILE_EXTENSION = "henshin_statespace";
+	
+	// Rules are associated with external names:
+	private Map<Rule,String> rules = new HashMap<Rule,String>();
 	
 	/**
 	 * Default constructor.
@@ -67,11 +74,12 @@ public class StateSpaceResource extends ResourceImpl {
 		// Create a new printer:
 		PrintWriter printer = new PrintWriter(out, false);
 		
-		// Print the header first:
-		String header = printStateSpaceHeader(getStateSpace());
-		if (!header.equals("")) printer.println(header);
+		// Print the rules:
+		for (Rule rule : getStateSpace().getRules()) {
+			printer.println(printRule(rule));
+		}
 		
-		// Then the states:
+		// Print the states:
 		for (State state : getStateSpace().getStates()) {
 			printer.println(printState(state));
 		}
@@ -87,7 +95,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doLoad(InputStream in, Map<?, ?> options) throws IOException {
-		 
+		
         try {
         	// Set up the lexer:
     		ANTLRInputStream antlrIn = new ANTLRInputStream(in);		
@@ -98,6 +106,11 @@ public class StateSpaceResource extends ResourceImpl {
            	StateSpaceParser parser = new StateSpaceParser(tokens);
            	parser.setResource(this);
            	getContents().add(parser.stateSpace());
+           	
+           	// Remember the rule names:
+           	for (Entry<String,Rule> entry : parser.getRules().entrySet()) {
+           		rules.put(entry.getValue(), entry.getKey());
+           	}
            	
         } catch (Throwable t)  {
 			throw new IOException("Error loading state space", t);
@@ -114,6 +127,28 @@ public class StateSpaceResource extends ResourceImpl {
 		return false;
 	}
 	
+	/*
+	 * Print a rule.
+	 */
+	private String printRule(Rule rule) {
+		return "#rule " + getRuleName(rule) + " \"" + EcoreUtil.getURI(rule) + "\";";
+	}
+	
+	/*
+	 * Get a rule name.
+	 */
+	private String getRuleName(Rule rule) {
+		if (!rules.containsKey(rule)) {
+			int i = 0;
+			String name;
+			do {
+				name = "r" + (i++);
+			} while (rules.values().contains(name));
+			rules.put(rule, name);
+		}
+		return rules.get(rule);
+	}
+	
 	/**
 	 * Pretty-print a state. This is also used for serialization.
 	 * The result string includes all information about the state,
@@ -121,7 +156,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 * @param state State to be printed.
 	 * @return Serialized version of the state.
 	 */
-	public static String printState(State state) {
+	public String printState(State state) {
 		
 		StringBuffer result = new StringBuffer();
 		result.append(state.getName() + "[");
@@ -130,7 +165,7 @@ public class StateSpaceResource extends ResourceImpl {
 		int[] data = state.getData();
 		if (data!=null) {
 			String string = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).convertIntegerArrayToString(null, state.getData());
-			result.append(StateSpaceParser.STATE_DATA + "=\"" + string + "\""); 
+			result.append(StateSpaceParser.DATA_KEY + "=\"" + string + "\""); 
 			sep = ",";
 		}
 		if (state.isInitial()) {
@@ -138,35 +173,17 @@ public class StateSpaceResource extends ResourceImpl {
 			if (state.eResource().getURI()!=null) {
 				uri = uri.deresolve(state.eResource().getURI());
 			}
-			result.append(sep + StateSpaceParser.STATE_MODEL + "=\"" + uri + "\"");
+			result.append(sep + StateSpaceParser.MODEL_KEY + "=\"" + uri + "\"");
 		}
 		result.append("]");
 		
 		// Outgoing transitions:
-		if (!state.getOutgoing().isEmpty()) {
-			result.append(" --");
-			for (Transition transition : state.getOutgoing()) {
-				result.append(" " + transition.getTarget().getName() + "(");
-				if (transition.getRule()!=null) {
-					result.append(StateSpaceParser.TRANSITION_RULE + "=\"" + transition.getRule() + "\"");
-				}
-				result.append(")");
-			}
+		for (Transition transition : state.getOutgoing()) {
+			result.append("\n\t-- " + getRuleName(transition.getRule()) + "," + transition.getMatch() + " -> " + transition.getTarget().getName());
 		}
 		result.append(";");
 		return result.toString();
 		
-	}
-	
-	/**
-	 * Print the header of a state space. Serializing a complete state space is
-	 * done by first printing the state space header and then printing all states
-	 * using {@link #printState(State)}.
-	 * @param stateSpace State space.
-	 * @return Serialized version of the header information.
-	 */
-	public static String printStateSpaceHeader(StateSpace stateSpace) {
-		return "";
 	}
 	
 }

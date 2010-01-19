@@ -10,6 +10,7 @@ tokens {
 	RBRACKET  	= ']' ;
 	COMMA		= ',';
 	SEMICOLON	= ';';
+	RULE_CMD	= '#rule';
 }
 
 @lexer::header{
@@ -22,8 +23,9 @@ package org.eclipse.emf.henshin.statespace.parser;
 import java.util.Map;
 import java.util.HashMap;
 import org.antlr.runtime.BitSet;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.*;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.henshin.model.*;
 import org.eclipse.emf.henshin.statespace.*;
 import org.eclipse.emf.henshin.statespace.impl.*;
 }
@@ -31,12 +33,14 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 @parser::members{
 	
 	// Attribute keys:
-	public static final String STATE_MODEL = "model";
-	public static final String STATE_DATA = "data";
-	public static final String TRANSITION_RULE = "rule";
+	public static final String MODEL_KEY = "model";
+	public static final String DATA_KEY = "data";
 	
 	// State space resource to be used:
 	private Resource resource;
+	
+	// Cached value of the resource set:
+	private ResourceSet resourceSet;
 	
 	// Associate state names to states:
 	private HashMap<String,State> states;
@@ -46,6 +50,7 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 	
 	public void setResource(Resource resource) {
 		this.resource = resource;
+		this.resourceSet = resource.getResourceSet();
 	}
 	
 	/*
@@ -69,22 +74,13 @@ import org.eclipse.emf.henshin.statespace.impl.*;
 		
 		if (owner instanceof State) {
 			State state = (State) owner;
-			if (STATE_DATA.equals(key)) {
+			if (DATA_KEY.equals(key)) {
 				int[] data = ((StateSpaceFactoryImpl) StateSpaceFactory.eINSTANCE).createIntegerArrayFromString(null, value);
 				state.setData(data);
 			}
-			else if (STATE_MODEL.equals(key)) {
+			else if (MODEL_KEY.equals(key)) {
 				URI uri = URI.createURI(value).resolve(resource.getURI());
-				Resource model = resource.getResourceSet().getResource(uri,true);
-				state.setModel(model);
-			}
-		}
-		else if (owner instanceof Transition) {
-			Transition transition = (Transition) owner;
-			if (TRANSITION_RULE.equals(key)) {
-				Rule rule = rules.get(value);
-				if (rule==null) throw new RuntimeException("Rule '"+ value +"' not found");
-				transition.setRule(rule);
+				state.setModel(resourceSet.getResource(uri,true));
 			}
 		}
 		
@@ -101,7 +97,6 @@ stateSpace returns [StateSpace stateSpace]
 	
 	// Create a state name map: 
 	states = new HashMap<String,State>() {
-		
 		@Override
 		public State get(Object name) {
 			// Create a new state if it does not exist yet:
@@ -112,16 +107,25 @@ stateSpace returns [StateSpace stateSpace]
 			}
 			return super.get(name);
 		}
-		
 	};
 	
 	// Create a rule name map:
 	rules = new HashMap<String,Rule>();
 	
 } :
-	// Parse all states:
-	(state[$stateSpace])*
+	// Parse content:
+	(rule[$stateSpace] | state[$stateSpace] SEMICOLON)*
 ;
+
+
+rule [StateSpace stateSpace] returns [Rule rule] :
+	RULE_CMD name=ID url=STRING {
+		URI uri = URI.createURI($url.text).resolve(resource.getURI());
+		$rule = (Rule) resourceSet.getEObject(uri,true);
+		if ($rule!=null) $stateSpace.getRules().add($rule.rule);
+	}
+;
+
 
 state [StateSpace stateSpace] returns [State state] : 
 	name=ID { 
@@ -130,17 +134,19 @@ state [StateSpace stateSpace] returns [State state] :
 	}
 	(LBRACKET (attribute[$state] (COMMA attribute[$state])*)? RBRACKET)?
     (transition[$state])*
- SEMICOLON
 ;
 
+
 transition[State state] returns [Transition transition] :
-	LINE target=ID { 
+	LINE ruleName=ID COMMA match=INT ARROW target=ID {
 		$transition = StateSpaceFactory.eINSTANCE.createTransition();
 		$transition.setSource($state);
 		$transition.setTarget(states.get($target.text));
+		$transition.setRule(rules.get($ruleName.text));
+		$transition.setMatch(Integer.parseInt($match.text));
 	}
-	(LPAREN (attribute[$transition] (COMMA attribute[$transition])*)? RPAREN)?
 ;
+
 
 attribute[Object owner] :
 	(key=ID (EQUAL value=(ID | INT | STRING))? { parseAttribute($owner, $key.text, $value.text); } )

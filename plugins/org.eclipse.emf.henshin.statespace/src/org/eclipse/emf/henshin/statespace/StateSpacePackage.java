@@ -117,13 +117,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__STATES = STORAGE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Rules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__RULES = STORAGE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 1;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -319,6 +328,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStateSpace_States();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Rules</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getRules()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EReference getStateSpace_Rules();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.State <em>State</em>}'.
@@ -542,6 +562,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE_SPACE__STATES = eINSTANCE.getStateSpace_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_SPACE__RULES = eINSTANCE.getStateSpace_Rules();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.

@@ -1,4 +1,4 @@
-// $ANTLR 3.0.1 StateSpace.g 2010-01-13 14:17:17
+// $ANTLR 3.0.1 StateSpace.g 2010-01-19 12:06:51
 
 package org.eclipse.emf.henshin.statespace.parser;
 
@@ -9,21 +9,23 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class StateSpaceLexer extends Lexer {
-    public static final int LBRACKET=8;
-    public static final int RPAREN=7;
-    public static final int WS=15;
-    public static final int COMMA=10;
-    public static final int EQUAL=5;
-    public static final int SEMICOLON=11;
-    public static final int INT=13;
-    public static final int RBRACKET=9;
-    public static final int ID=12;
-    public static final int Tokens=17;
+    public static final int RULE_CMD=13;
+    public static final int INT=16;
+    public static final int SEMICOLON=12;
+    public static final int ID=14;
     public static final int EOF=-1;
+    public static final int Tokens=19;
     public static final int LINE=4;
-    public static final int EscapeSequence=16;
-    public static final int LPAREN=6;
-    public static final int STRING=14;
+    public static final int LPAREN=7;
+    public static final int LBRACKET=9;
+    public static final int RPAREN=8;
+    public static final int WS=17;
+    public static final int COMMA=11;
+    public static final int EQUAL=6;
+    public static final int ARROW=5;
+    public static final int RBRACKET=10;
+    public static final int EscapeSequence=18;
+    public static final int STRING=15;
     public StateSpaceLexer() {;} 
     public StateSpaceLexer(CharStream input) {
         super(input);
@@ -49,12 +51,31 @@ public class StateSpaceLexer extends Lexer {
     }
     // $ANTLR end LINE
 
+    // $ANTLR start ARROW
+    public final void mARROW() throws RecognitionException {
+        try {
+            int _type = ARROW;
+            // StateSpace.g:7:7: ( '->' )
+            // StateSpace.g:7:9: '->'
+            {
+            match("->"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end ARROW
+
     // $ANTLR start EQUAL
     public final void mEQUAL() throws RecognitionException {
         try {
             int _type = EQUAL;
-            // StateSpace.g:7:7: ( '=' )
-            // StateSpace.g:7:9: '='
+            // StateSpace.g:8:7: ( '=' )
+            // StateSpace.g:8:9: '='
             {
             match('='); 
 
@@ -71,8 +92,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mLPAREN() throws RecognitionException {
         try {
             int _type = LPAREN;
-            // StateSpace.g:8:8: ( '(' )
-            // StateSpace.g:8:10: '('
+            // StateSpace.g:9:8: ( '(' )
+            // StateSpace.g:9:10: '('
             {
             match('('); 
 
@@ -89,8 +110,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mRPAREN() throws RecognitionException {
         try {
             int _type = RPAREN;
-            // StateSpace.g:9:8: ( ')' )
-            // StateSpace.g:9:10: ')'
+            // StateSpace.g:10:8: ( ')' )
+            // StateSpace.g:10:10: ')'
             {
             match(')'); 
 
@@ -107,8 +128,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mLBRACKET() throws RecognitionException {
         try {
             int _type = LBRACKET;
-            // StateSpace.g:10:10: ( '[' )
-            // StateSpace.g:10:12: '['
+            // StateSpace.g:11:10: ( '[' )
+            // StateSpace.g:11:12: '['
             {
             match('['); 
 
@@ -125,8 +146,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mRBRACKET() throws RecognitionException {
         try {
             int _type = RBRACKET;
-            // StateSpace.g:11:10: ( ']' )
-            // StateSpace.g:11:12: ']'
+            // StateSpace.g:12:10: ( ']' )
+            // StateSpace.g:12:12: ']'
             {
             match(']'); 
 
@@ -143,8 +164,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mCOMMA() throws RecognitionException {
         try {
             int _type = COMMA;
-            // StateSpace.g:12:7: ( ',' )
-            // StateSpace.g:12:9: ','
+            // StateSpace.g:13:7: ( ',' )
+            // StateSpace.g:13:9: ','
             {
             match(','); 
 
@@ -161,8 +182,8 @@ public class StateSpaceLexer extends Lexer {
     public final void mSEMICOLON() throws RecognitionException {
         try {
             int _type = SEMICOLON;
-            // StateSpace.g:13:11: ( ';' )
-            // StateSpace.g:13:13: ';'
+            // StateSpace.g:14:11: ( ';' )
+            // StateSpace.g:14:13: ';'
             {
             match(';'); 
 
@@ -175,12 +196,31 @@ public class StateSpaceLexer extends Lexer {
     }
     // $ANTLR end SEMICOLON
 
+    // $ANTLR start RULE_CMD
+    public final void mRULE_CMD() throws RecognitionException {
+        try {
+            int _type = RULE_CMD;
+            // StateSpace.g:15:10: ( '#rule' )
+            // StateSpace.g:15:12: '#rule'
+            {
+            match("#rule"); 
+
+
+            }
+
+            this.type = _type;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end RULE_CMD
+
     // $ANTLR start ID
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
-            // StateSpace.g:150:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
-            // StateSpace.g:150:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // StateSpace.g:157:5: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )* )
+            // StateSpace.g:157:7: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -192,7 +232,7 @@ public class StateSpaceLexer extends Lexer {
                 recover(mse);    throw mse;
             }
 
-            // StateSpace.g:150:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
+            // StateSpace.g:157:31: ( 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' )*
             loop1:
             do {
                 int alt1=2;
@@ -240,10 +280,10 @@ public class StateSpaceLexer extends Lexer {
     public final void mINT() throws RecognitionException {
         try {
             int _type = INT;
-            // StateSpace.g:151:5: ( ( '0' .. '9' )+ )
-            // StateSpace.g:151:7: ( '0' .. '9' )+
+            // StateSpace.g:158:5: ( ( '0' .. '9' )+ )
+            // StateSpace.g:158:7: ( '0' .. '9' )+
             {
-            // StateSpace.g:151:7: ( '0' .. '9' )+
+            // StateSpace.g:158:7: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -257,7 +297,7 @@ public class StateSpaceLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // StateSpace.g:151:7: '0' .. '9'
+            	    // StateSpace.g:158:7: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -287,10 +327,10 @@ public class StateSpaceLexer extends Lexer {
     public final void mWS() throws RecognitionException {
         try {
             int _type = WS;
-            // StateSpace.g:152:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
-            // StateSpace.g:152:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // StateSpace.g:159:5: ( ( ' ' | '\\t' | '\\n' | '\\r' )+ )
+            // StateSpace.g:159:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
             {
-            // StateSpace.g:152:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
+            // StateSpace.g:159:9: ( ' ' | '\\t' | '\\n' | '\\r' )+
             int cnt3=0;
             loop3:
             do {
@@ -344,11 +384,11 @@ public class StateSpaceLexer extends Lexer {
     public final void mSTRING() throws RecognitionException {
         try {
             int _type = STRING;
-            // StateSpace.g:153:8: ( '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"' )
-            // StateSpace.g:154:3: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"'
+            // StateSpace.g:160:8: ( '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"' )
+            // StateSpace.g:161:3: '\"' ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )* '\"'
             {
             match('\"'); 
-            // StateSpace.g:155:3: ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )*
+            // StateSpace.g:162:3: ( EscapeSequence | ~ ( '\\\\' | '\"' | '\\r' | '\\n' ) )*
             loop4:
             do {
                 int alt4=3;
@@ -364,14 +404,14 @@ public class StateSpaceLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // StateSpace.g:155:7: EscapeSequence
+            	    // StateSpace.g:162:7: EscapeSequence
             	    {
             	    mEscapeSequence(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // StateSpace.g:156:13: ~ ( '\\\\' | '\"' | '\\r' | '\\n' )
+            	    // StateSpace.g:163:13: ~ ( '\\\\' | '\"' | '\\r' | '\\n' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -410,11 +450,11 @@ public class StateSpaceLexer extends Lexer {
     // $ANTLR start EscapeSequence
     public final void mEscapeSequence() throws RecognitionException {
         try {
-            // StateSpace.g:164:15: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ) )
-            // StateSpace.g:165:3: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
+            // StateSpace.g:171:15: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ) )
+            // StateSpace.g:172:3: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
             {
             match('\\'); 
-            // StateSpace.g:165:8: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
+            // StateSpace.g:172:8: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )
             int alt5=11;
             switch ( input.LA(1) ) {
             case 'b':
@@ -493,87 +533,87 @@ public class StateSpaceLexer extends Lexer {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("165:8: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )", 5, 0, input);
+                    new NoViableAltException("172:8: ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' | ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) ( '0' .. '7' ) | ( '0' .. '7' ) )", 5, 0, input);
 
                 throw nvae;
             }
 
             switch (alt5) {
                 case 1 :
-                    // StateSpace.g:166:18: 'b'
+                    // StateSpace.g:173:18: 'b'
                     {
                     match('b'); 
 
                     }
                     break;
                 case 2 :
-                    // StateSpace.g:167:18: 't'
+                    // StateSpace.g:174:18: 't'
                     {
                     match('t'); 
 
                     }
                     break;
                 case 3 :
-                    // StateSpace.g:168:18: 'n'
+                    // StateSpace.g:175:18: 'n'
                     {
                     match('n'); 
 
                     }
                     break;
                 case 4 :
-                    // StateSpace.g:169:18: 'f'
+                    // StateSpace.g:176:18: 'f'
                     {
                     match('f'); 
 
                     }
                     break;
                 case 5 :
-                    // StateSpace.g:170:18: 'r'
+                    // StateSpace.g:177:18: 'r'
                     {
                     match('r'); 
 
                     }
                     break;
                 case 6 :
-                    // StateSpace.g:171:18: '\\\"'
+                    // StateSpace.g:178:18: '\\\"'
                     {
                     match('\"'); 
 
                     }
                     break;
                 case 7 :
-                    // StateSpace.g:172:18: '\\''
+                    // StateSpace.g:179:18: '\\''
                     {
                     match('\''); 
 
                     }
                     break;
                 case 8 :
-                    // StateSpace.g:173:18: '\\\\'
+                    // StateSpace.g:180:18: '\\\\'
                     {
                     match('\\'); 
 
                     }
                     break;
                 case 9 :
-                    // StateSpace.g:174:18: ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
+                    // StateSpace.g:181:18: ( '0' .. '3' ) ( '0' .. '7' ) ( '0' .. '7' )
                     {
-                    // StateSpace.g:174:18: ( '0' .. '3' )
-                    // StateSpace.g:174:19: '0' .. '3'
+                    // StateSpace.g:181:18: ( '0' .. '3' )
+                    // StateSpace.g:181:19: '0' .. '3'
                     {
                     matchRange('0','3'); 
 
                     }
 
-                    // StateSpace.g:174:29: ( '0' .. '7' )
-                    // StateSpace.g:174:30: '0' .. '7'
+                    // StateSpace.g:181:29: ( '0' .. '7' )
+                    // StateSpace.g:181:30: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
                     }
 
-                    // StateSpace.g:174:40: ( '0' .. '7' )
-                    // StateSpace.g:174:41: '0' .. '7'
+                    // StateSpace.g:181:40: ( '0' .. '7' )
+                    // StateSpace.g:181:41: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -583,17 +623,17 @@ public class StateSpaceLexer extends Lexer {
                     }
                     break;
                 case 10 :
-                    // StateSpace.g:175:18: ( '0' .. '7' ) ( '0' .. '7' )
+                    // StateSpace.g:182:18: ( '0' .. '7' ) ( '0' .. '7' )
                     {
-                    // StateSpace.g:175:18: ( '0' .. '7' )
-                    // StateSpace.g:175:19: '0' .. '7'
+                    // StateSpace.g:182:18: ( '0' .. '7' )
+                    // StateSpace.g:182:19: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
                     }
 
-                    // StateSpace.g:175:29: ( '0' .. '7' )
-                    // StateSpace.g:175:30: '0' .. '7'
+                    // StateSpace.g:182:29: ( '0' .. '7' )
+                    // StateSpace.g:182:30: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -603,10 +643,10 @@ public class StateSpaceLexer extends Lexer {
                     }
                     break;
                 case 11 :
-                    // StateSpace.g:176:18: ( '0' .. '7' )
+                    // StateSpace.g:183:18: ( '0' .. '7' )
                     {
-                    // StateSpace.g:176:18: ( '0' .. '7' )
-                    // StateSpace.g:176:19: '0' .. '7'
+                    // StateSpace.g:183:18: ( '0' .. '7' )
+                    // StateSpace.g:183:19: '0' .. '7'
                     {
                     matchRange('0','7'); 
 
@@ -628,47 +668,65 @@ public class StateSpaceLexer extends Lexer {
     // $ANTLR end EscapeSequence
 
     public void mTokens() throws RecognitionException {
-        // StateSpace.g:1:8: ( LINE | EQUAL | LPAREN | RPAREN | LBRACKET | RBRACKET | COMMA | SEMICOLON | ID | INT | WS | STRING )
-        int alt6=12;
+        // StateSpace.g:1:8: ( LINE | ARROW | EQUAL | LPAREN | RPAREN | LBRACKET | RBRACKET | COMMA | SEMICOLON | RULE_CMD | ID | INT | WS | STRING )
+        int alt6=14;
         switch ( input.LA(1) ) {
         case '-':
             {
-            alt6=1;
+            int LA6_1 = input.LA(2);
+
+            if ( (LA6_1=='-') ) {
+                alt6=1;
+            }
+            else if ( (LA6_1=='>') ) {
+                alt6=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("1:1: Tokens : ( LINE | ARROW | EQUAL | LPAREN | RPAREN | LBRACKET | RBRACKET | COMMA | SEMICOLON | RULE_CMD | ID | INT | WS | STRING );", 6, 1, input);
+
+                throw nvae;
+            }
             }
             break;
         case '=':
             {
-            alt6=2;
+            alt6=3;
             }
             break;
         case '(':
             {
-            alt6=3;
+            alt6=4;
             }
             break;
         case ')':
             {
-            alt6=4;
+            alt6=5;
             }
             break;
         case '[':
             {
-            alt6=5;
+            alt6=6;
             }
             break;
         case ']':
             {
-            alt6=6;
+            alt6=7;
             }
             break;
         case ',':
             {
-            alt6=7;
+            alt6=8;
             }
             break;
         case ';':
             {
-            alt6=8;
+            alt6=9;
+            }
+            break;
+        case '#':
+            {
+            alt6=10;
             }
             break;
         case 'A':
@@ -725,7 +783,7 @@ public class StateSpaceLexer extends Lexer {
         case 'y':
         case 'z':
             {
-            alt6=9;
+            alt6=11;
             }
             break;
         case '0':
@@ -739,7 +797,7 @@ public class StateSpaceLexer extends Lexer {
         case '8':
         case '9':
             {
-            alt6=10;
+            alt6=12;
             }
             break;
         case '\t':
@@ -747,17 +805,17 @@ public class StateSpaceLexer extends Lexer {
         case '\r':
         case ' ':
             {
-            alt6=11;
+            alt6=13;
             }
             break;
         case '\"':
             {
-            alt6=12;
+            alt6=14;
             }
             break;
         default:
             NoViableAltException nvae =
-                new NoViableAltException("1:1: Tokens : ( LINE | EQUAL | LPAREN | RPAREN | LBRACKET | RBRACKET | COMMA | SEMICOLON | ID | INT | WS | STRING );", 6, 0, input);
+                new NoViableAltException("1:1: Tokens : ( LINE | ARROW | EQUAL | LPAREN | RPAREN | LBRACKET | RBRACKET | COMMA | SEMICOLON | RULE_CMD | ID | INT | WS | STRING );", 6, 0, input);
 
             throw nvae;
         }
@@ -771,77 +829,91 @@ public class StateSpaceLexer extends Lexer {
                 }
                 break;
             case 2 :
-                // StateSpace.g:1:15: EQUAL
+                // StateSpace.g:1:15: ARROW
+                {
+                mARROW(); 
+
+                }
+                break;
+            case 3 :
+                // StateSpace.g:1:21: EQUAL
                 {
                 mEQUAL(); 
 
                 }
                 break;
-            case 3 :
-                // StateSpace.g:1:21: LPAREN
+            case 4 :
+                // StateSpace.g:1:27: LPAREN
                 {
                 mLPAREN(); 
 
                 }
                 break;
-            case 4 :
-                // StateSpace.g:1:28: RPAREN
+            case 5 :
+                // StateSpace.g:1:34: RPAREN
                 {
                 mRPAREN(); 
 
                 }
                 break;
-            case 5 :
-                // StateSpace.g:1:35: LBRACKET
+            case 6 :
+                // StateSpace.g:1:41: LBRACKET
                 {
                 mLBRACKET(); 
 
                 }
                 break;
-            case 6 :
-                // StateSpace.g:1:44: RBRACKET
+            case 7 :
+                // StateSpace.g:1:50: RBRACKET
                 {
                 mRBRACKET(); 
 
                 }
                 break;
-            case 7 :
-                // StateSpace.g:1:53: COMMA
+            case 8 :
+                // StateSpace.g:1:59: COMMA
                 {
                 mCOMMA(); 
 
                 }
                 break;
-            case 8 :
-                // StateSpace.g:1:59: SEMICOLON
+            case 9 :
+                // StateSpace.g:1:65: SEMICOLON
                 {
                 mSEMICOLON(); 
 
                 }
                 break;
-            case 9 :
-                // StateSpace.g:1:69: ID
+            case 10 :
+                // StateSpace.g:1:75: RULE_CMD
+                {
+                mRULE_CMD(); 
+
+                }
+                break;
+            case 11 :
+                // StateSpace.g:1:84: ID
                 {
                 mID(); 
 
                 }
                 break;
-            case 10 :
-                // StateSpace.g:1:72: INT
+            case 12 :
+                // StateSpace.g:1:87: INT
                 {
                 mINT(); 
 
                 }
                 break;
-            case 11 :
-                // StateSpace.g:1:76: WS
+            case 13 :
+                // StateSpace.g:1:91: WS
                 {
                 mWS(); 
 
                 }
                 break;
-            case 12 :
-                // StateSpace.g:1:79: STRING
+            case 14 :
+                // StateSpace.g:1:94: STRING
                 {
                 mSTRING(); 
 

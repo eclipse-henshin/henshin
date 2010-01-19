@@ -17,7 +17,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
@@ -74,6 +76,16 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected EList<State> states;
 
 	/**
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRules()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Rule> rules;
+
+	/**
 	 * @generated
 	 */
 	protected StateSpaceImpl() {
@@ -97,6 +109,18 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			states = new EObjectContainmentWithInverseEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__STATES, StateSpacePackage.STATE__STATE_SPACE);
 		}
 		return states;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Rule> getRules() {
+		if (rules == null) {
+			rules = new EObjectResolvingEList<Rule>(Rule.class, this, StateSpacePackage.STATE_SPACE__RULES);
+		}
+		return rules;
 	}
 
 	/**
@@ -132,6 +156,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackage.STATE_SPACE__STATES:
 				return getStates();
+			case StateSpacePackage.STATE_SPACE__RULES:
+				return getRules();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -147,6 +173,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				getStates().clear();
 				getStates().addAll((Collection<? extends State>)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends Rule>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -160,6 +190,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__STATES:
 				getStates().clear();
 				return;
+			case StateSpacePackage.STATE_SPACE__RULES:
+				getRules().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -172,6 +205,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackage.STATE_SPACE__STATES:
 				return states != null && !states.isEmpty();
+			case StateSpacePackage.STATE_SPACE__RULES:
+				return rules != null && !rules.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

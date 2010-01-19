@@ -95,7 +95,11 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	@Override
 	public String toString() {
-		return StateSpaceResource.printState(this);
+		if (eResource() instanceof StateSpaceResource) {
+			return ((StateSpaceResource) eResource()).printState(this);
+		} else {
+			return super.toString();
+		}
 	}
 	
 	

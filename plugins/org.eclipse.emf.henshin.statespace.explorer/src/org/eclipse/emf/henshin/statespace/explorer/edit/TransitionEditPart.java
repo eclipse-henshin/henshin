@@ -60,7 +60,7 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	protected IFigure createFigure() {
 		PolylineConnection connection = (PolylineConnection) super.createFigure();
 		connection.setTargetDecoration(new PolygonDecoration());
-		Label label = new Label(getTransition().getRule() + "!");
+		Label label = new Label(getTransition().getRule().getName());
 		connection.add(label);
 		connection.getLayoutManager().setConstraint(label, new MidpointLocator(connection, 0) {
 			

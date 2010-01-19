@@ -4,6 +4,7 @@ package org.eclipse.emf.henshin.statespace.parser;
 }
 
 LINE : '--' ;
+ARROW : '->' ;
 EQUAL : '=' ;
 LPAREN : '(' ;
 RPAREN : ')' ;
@@ -11,14 +12,15 @@ LBRACKET : '[' ;
 RBRACKET : ']' ;
 COMMA : ',' ;
 SEMICOLON : ';' ;
+RULE_CMD : '#rule' ;
 
-// $ANTLR src "StateSpace.g" 150
+// $ANTLR src "StateSpace.g" 157
 ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-// $ANTLR src "StateSpace.g" 151
+// $ANTLR src "StateSpace.g" 158
 INT :	'0'..'9'+;
-// $ANTLR src "StateSpace.g" 152
+// $ANTLR src "StateSpace.g" 159
 WS  :   (' '|'\t'|'\n'|'\r')+ { skip(); } ;
-// $ANTLR src "StateSpace.g" 153
+// $ANTLR src "StateSpace.g" 160
 STRING :
 		'"'
 		(   EscapeSequence
@@ -29,7 +31,7 @@ STRING :
         	setText( getText().substring(1,getText().length()-1));
         	}
 ;
-// $ANTLR src "StateSpace.g" 163
+// $ANTLR src "StateSpace.g" 170
 fragment
 EscapeSequence:
 		'\\' (
