@@ -146,7 +146,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		// Create the new edge:
 		Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
-		Edge edge = HenshinGraphUtil.createEdge(getSource(), getTarget(), type);
+		Edge edge = HenshinFactory.eINSTANCE.createEdge(getSource(), getTarget(), type);
 
 		// Check if we need to create a copy in the RHS:
 		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule
@@ -155,7 +155,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 				.getRhs(), rule.getMappings());
 
 		if (sourceImage != null && targetImage != null) {
-			HenshinGraphUtil.createEdge(sourceImage, targetImage, type);
+			 HenshinFactory.eINSTANCE.createEdge(sourceImage, targetImage, type);
 		}
 
 		// Configure and return:

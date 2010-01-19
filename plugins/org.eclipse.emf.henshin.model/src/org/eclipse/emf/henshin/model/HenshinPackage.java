@@ -721,13 +721,22 @@ public interface HenshinPackage extends EPackage {
 	int NODE__OUTGOING = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>All Edges</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__ALL_EDGES = NAMED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -1981,6 +1990,17 @@ public interface HenshinPackage extends EPackage {
 	EReference getNode_Outgoing();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Node#getAllEdges <em>All Edges</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>All Edges</em>'.
+	 * @see org.eclipse.emf.henshin.model.Node#getAllEdges()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_AllEdges();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2873,6 +2893,14 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NODE__OUTGOING = eINSTANCE.getNode_Outgoing();
+
+		/**
+		 * The meta object literal for the '<em><b>All Edges</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NODE__ALL_EDGES = eINSTANCE.getNode_AllEdges();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.

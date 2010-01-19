@@ -8,7 +8,9 @@ package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +25,7 @@ import org.eclipse.emf.ecore.EClass;
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Node#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Node#getAllEdges <em>All Edges</em>}</li>
  * </ul>
  * </p>
  *
@@ -138,5 +141,69 @@ public interface Node extends NamedElement {
 	 * @generated
 	 */
 	EList<Edge> getOutgoing();
+
+	/**
+	 * Returns the value of the '<em><b>All Edges</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an <i>unmodifiable</i> list of all coinciding edges of a node.<br>
+	 * Remark: This list is a snapshot of the current set of incoming and outgoing edges
+	 * i.e. it is not synchronized with subsequent changes of the sets of
+	 * incoming and outgoing edges. After such changes this method has to be
+	 * called again to retrieve an updated list of edges.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>All Edges</em>' reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_AllEdges()
+	 * @model transient="true" changeable="false" volatile="true" derived="true" ordered="false"
+	 * @generated
+	 */
+	EList<Edge> getAllEdges();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an <i>unmodifiable</i> list which contains all outgoing edges
+	 * this node contains, which are of the given type.<br>
+	 * Remark: This list is a snapshot according to the current set of outgoing
+	 * edges i.e. it is not synchronized with subsequent changes of that set.
+	 * After such changes this method has to be called again to retrieve an
+	 * updated list of edges.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model ordered="false" edgeTypeRequired="true"
+	 * @generated
+	 */
+	EList<Edge> findOutgoingEdgesOfType(EReference edgeType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an <i>unmodifiable</i> list which contains all incoming edges
+	 * this node contains, which are of the given type.<br>
+	 * Remark: This list is a snapshot according to the current set of incoming
+	 * edges i.e. it is not synchronized with subsequent changes of that set.
+	 * After such changes this method has to be called again to retrieve an
+	 * updated list of edges.
+	 * </p> 
+	 * <!-- end-user-doc -->
+	 * @model ordered="false" edgeTypeRequired="true"
+	 * @generated
+	 */
+	EList<Edge> findIncomingEdgesOfType(EReference edgeType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an {@link Attribute} instance according to the give attribute
+	 * type. If no such instance can be found, <code>null</code> is returned
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @model attributeTypeRequired="true"
+	 * @generated
+	 */
+	Attribute findAttributeOfType(EAttribute attributeType);
 
 } // Node

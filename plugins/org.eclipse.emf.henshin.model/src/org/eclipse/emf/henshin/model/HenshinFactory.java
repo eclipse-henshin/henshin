@@ -6,7 +6,9 @@
  */
 package org.eclipse.emf.henshin.model;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -116,6 +118,14 @@ public interface HenshinFactory extends EFactory {
 	Node createNode();
 
 	/**
+	 * Creates a new node and adds it to a graph.
+	 * @param graph Graph to be added to.
+	 * @param type Type of the node.
+	 * @return The created node.
+	 */
+	public Node createNode(Graph graph, EClass type);
+	
+	/**
 	 * Returns a new object of class '<em>Attribute</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -133,6 +143,16 @@ public interface HenshinFactory extends EFactory {
 	 */
 	Edge createEdge();
 
+	/**
+	 * Creates a new edge between two nodes. The edge is automatically
+	 * added to the graph of the source node if not <code>null</code>.
+	 * @param source Source node.
+	 * @param target Target node.
+	 * @param type Edge type.
+	 * @return The created edge.
+	 */
+	public Edge createEdge(Node source, Node target, EReference type);
+	
 	/**
 	 * Returns a new object of class '<em>Transformation</em>'.
 	 * <!-- begin-user-doc -->

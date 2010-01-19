@@ -6,23 +6,23 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -41,6 +41,7 @@ import org.eclipse.emf.henshin.model.Node;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getGraph <em>Graph</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getIncoming <em>Incoming</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getOutgoing <em>Outgoing</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getAllEdges <em>All Edges</em>}</li>
  * </ul>
  * </p>
  *
@@ -222,6 +223,74 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	}
 
 	/**
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public EList<Edge> getAllEdges() {
+		/*
+		 * This implementation may be optimized by introducing a private global
+		 * variable for this return value. This variable should be set to "null"
+		 * only when outgoing/incoming change.
+		 */
+		List<Edge> allEdges = new ArrayList<Edge>();
+		allEdges.addAll(this.getIncoming());
+		allEdges.addAll(this.getOutgoing());
+		
+		return new BasicEList.UnmodifiableEList<Edge>(allEdges.size(), allEdges
+				.toArray());
+	}// getAllEdges
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Edge> findOutgoingEdgesOfType(EReference edgeType) {
+		
+		List<Edge> edges = new ArrayList<Edge>();
+		for (Edge edge : this.getOutgoing()) {
+			if (edgeType == edge.getType())
+				edges.add(edge);
+		}// for
+
+		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
+				.toArray());		
+	}// findOutgoingEdgesOfType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Edge> findIncomingEdgesOfType(EReference edgeType) {
+
+		List<Edge> edges = new ArrayList<Edge>();
+		for (Edge edge : this.getIncoming()) {
+			if (edgeType == edge.getType())
+				edges.add(edge);
+		}// for
+
+		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
+				.toArray());
+	}// findIncomingEdgesOfType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Attribute findAttributeOfType(EAttribute attributeType) {
+
+		for (Attribute attribute : this.getAttributes()) {
+			if (attribute.getType() == attributeType)
+				return attribute;
+		}//for
+		return null;
+	}// findAttributeOfType
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -297,6 +366,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return getIncoming();
 			case HenshinPackage.NODE__OUTGOING:
 				return getOutgoing();
+			case HenshinPackage.NODE__ALL_EDGES:
+				return getAllEdges();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -377,6 +448,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return incoming != null && !incoming.isEmpty();
 			case HenshinPackage.NODE__OUTGOING:
 				return outgoing != null && !outgoing.isEmpty();
+			case HenshinPackage.NODE__ALL_EDGES:
+				return !getAllEdges().isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

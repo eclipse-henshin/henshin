@@ -121,7 +121,7 @@ public class AttributeParser  extends AbstractParser {
 			
 			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
 			Node image = HenshinMappingUtil.getImage(node, rule.getRhs(), rule.getMappings());
-			Attribute imageAttribute = HenshinGraphUtil.findAttribute(image, attr);
+			Attribute imageAttribute = image.findAttributeOfType(attr);
 			
 			// Update the image attribute:
 			if (imageAttribute!=null) {

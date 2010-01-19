@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
@@ -223,6 +224,17 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		return node;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createNode(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.ecore.EClass)
+	 */
+	public Node createNode(Graph graph, EClass type) {
+		Node node = createNode();
+		node.setType(type);
+		graph.getNodes().add(node);
+		return node;
+	}// createNode
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -240,6 +252,19 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public Edge createEdge() {
 		EdgeImpl edge = new EdgeImpl();
+		return edge;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createEdge(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
+	 */
+	public Edge createEdge(Node source, Node target, EReference type) {
+		Edge edge = createEdge();
+		edge.setSource(source);
+		edge.setTarget(target);
+		edge.setType(type);
+		edge.setGraph(source.getGraph());
 		return edge;
 	}
 
