@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Scale;
 /**
  * Composite for the tools menu in the state space explorer.
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceToolsMenu extends Composite {
 	

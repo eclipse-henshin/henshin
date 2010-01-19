@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * State diagram edit part.
- * @generated NOT
  * @author Christian Krause
  */
 public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, Adapter {

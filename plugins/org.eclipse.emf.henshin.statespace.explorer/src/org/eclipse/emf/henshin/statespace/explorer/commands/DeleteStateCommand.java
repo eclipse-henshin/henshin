@@ -6,7 +6,6 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command for deleting states.
- * @generated NOT
  * @author Christian Krause
  */
 public class DeleteStateCommand extends Command {

@@ -6,7 +6,6 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command for exploring a state.
- * @generated NOT
  * @author Christian Krause
  */
 public class ExploreStateCommand extends Command {

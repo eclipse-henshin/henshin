@@ -20,7 +20,6 @@ import org.eclipse.swt.SWT;
 /**
  * State space layout edit policy.
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 

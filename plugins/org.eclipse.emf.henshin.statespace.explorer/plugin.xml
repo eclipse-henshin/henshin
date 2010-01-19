@@ -16,7 +16,7 @@
       <wizard name="State Space"
               icon="icons/HenshinDiagramFile.gif"
               category="org.eclipse.emf.henshin.wizards"
-              class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceCreationWizard"
+              class="org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceCreationWizard"
               id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
@@ -32,10 +32,19 @@
                enablesFor="1"
                icon="icons/initialState.gif"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
-               label="New Initial State"
+               label="Load Initial State..."
                menubarPath="additions"
                style="push"
                tooltip="Create a new initial state">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction"
+               label="Import Rules..."
+               menubarPath="additions"
+               style="push"
+               tooltip="Import rules into the state space">
          </action>
       </objectContribution>
       <objectContribution

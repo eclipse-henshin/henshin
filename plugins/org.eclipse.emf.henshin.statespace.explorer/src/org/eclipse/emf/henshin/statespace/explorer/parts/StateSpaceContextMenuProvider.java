@@ -11,7 +11,7 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 
 /**
  * Provides context menu actions for the state space explorer.
- * @generated NOT
+ * @author Christian Krause
  */
 public class StateSpaceContextMenuProvider extends ContextMenuProvider {
 

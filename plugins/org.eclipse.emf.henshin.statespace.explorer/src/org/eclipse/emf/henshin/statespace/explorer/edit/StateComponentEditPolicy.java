@@ -9,7 +9,6 @@ import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * Component edit policy for states.
- * @generated NOT
  * @author Christian Krause
  */
 public class StateComponentEditPolicy extends ComponentEditPolicy {

@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command for creating an initial state.
- * @generated NOT
  * @author Christian Krause
  */
 public class CreateInitialStateCommand extends Command {

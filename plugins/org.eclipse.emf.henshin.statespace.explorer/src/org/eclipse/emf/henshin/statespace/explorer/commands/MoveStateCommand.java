@@ -9,7 +9,6 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
  * A command for moving a state.
- * @generated NOT
  * @author Christian Krause
  */
 public class MoveStateCommand extends Command {

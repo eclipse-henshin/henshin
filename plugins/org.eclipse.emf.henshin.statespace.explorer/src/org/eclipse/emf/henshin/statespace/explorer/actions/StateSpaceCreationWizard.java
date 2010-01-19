@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.explorer.parts;
+package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import java.io.InputStream;
 
@@ -27,7 +27,6 @@ import org.eclipse.ui.ide.IDE;
 /**
  * State space file creation wizard.
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	

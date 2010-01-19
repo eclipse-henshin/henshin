@@ -11,7 +11,6 @@ import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 
 /**
  * Job for refresh a state space manager.
- * @generated NOT
  * @author Christian Krause
  */
 public class StateSpaceManagerRefreshJob extends Job {

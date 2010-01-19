@@ -5,7 +5,6 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command that removes all derived states from a state space.
- * @generated NOT
  * @author Christian Krause
  */
 public class ResetStateSpaceCommand extends Command {

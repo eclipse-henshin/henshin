@@ -12,7 +12,6 @@ import org.eclipse.gef.ui.actions.UndoRetargetAction;
  * Contributes actions to a toolbar. This class is tied to the editor 
  * in the definition of editor-extension (see plugin.xml).
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceActionBarContributor extends ActionBarContributor {
 
