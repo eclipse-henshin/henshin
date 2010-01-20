@@ -13,7 +13,6 @@ import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;

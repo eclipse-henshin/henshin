@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.model.util;
+package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
