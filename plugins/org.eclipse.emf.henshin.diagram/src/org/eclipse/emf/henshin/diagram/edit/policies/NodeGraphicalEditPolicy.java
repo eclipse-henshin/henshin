@@ -61,6 +61,10 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		Node src = (Node) source.getNotationView().getElement();
 		Node trg = (Node) target.getNotationView().getElement();
 		
+		//no type was assigned yet
+		if (src.getType()==null)
+			return new ArrayList<EReference>();
+		
 		// Collect all matching references:
 		List<EReference> result = new ArrayList<EReference>();
 		for (EReference reference : src.getType().getEReferences()) {
