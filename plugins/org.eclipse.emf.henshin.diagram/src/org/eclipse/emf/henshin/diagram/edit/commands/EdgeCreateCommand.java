@@ -11,7 +11,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -145,7 +144,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 				TYPE_PARAMETER_KEY);
 
 		// Create the new edge:
-		Rule rule = HenshinGraphUtil.getRule(getSource().getGraph());
+		Rule rule = getSource().getGraph().getContainerRule();
 		Edge edge = HenshinFactory.eINSTANCE.createEdge(getSource(), getTarget(), type);
 
 		// Check if we need to create a copy in the RHS:

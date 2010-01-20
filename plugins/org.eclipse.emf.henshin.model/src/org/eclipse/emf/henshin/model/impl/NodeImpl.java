@@ -295,6 +295,34 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Edge findOutgoingEdgeOfType(Node targetNode, EReference edgeType) {
+
+		for (Edge edge : this.getOutgoing()) {
+			if (edgeType == edge.getType() && targetNode == edge.getTarget())
+				return edge;
+		}// for
+		return null;
+	}// findOutgoingEdgeOfType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Edge findIncomingEdgeOfType(Node sourceNode, EReference edgeType) {
+
+		for (Edge edge : this.getIncoming()) {
+			if (edgeType == edge.getType() && sourceNode == edge.getSource())
+				return edge;
+		}// for
+		return null;
+	}// findIncomingEdgeOfType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")

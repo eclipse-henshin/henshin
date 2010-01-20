@@ -9,7 +9,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -28,7 +27,7 @@ class GraphEdititingHelper {
 		Node newNode = (Node) EcoreUtil.copy(node);
 		
 		// Create a mapping to the new node:
-		Rule rule = HenshinGraphUtil.getRule(graph);
+		Rule rule = graph.getContainerRule();
 		Mapping mapping = HenshinMappingUtil.createMapping(node, newNode);
 		rule.getMappings().add(mapping);
 		
@@ -78,7 +77,7 @@ class GraphEdititingHelper {
 				incoming.setSource(newSource);
 				incoming.setGraph(graph);				
 			} else {
-				HenshinGraphUtil.deleteEdge(incoming);
+				incoming.getGraph().removeEdge(incoming);
 			}
 		}
 		
@@ -89,7 +88,7 @@ class GraphEdititingHelper {
 				outgoing.setTarget(newTarget);
 				outgoing.setGraph(graph);
 			} else {
-				HenshinGraphUtil.deleteEdge(outgoing);
+				outgoing.getGraph().removeEdge(outgoing);
 			}
 		}
 		
@@ -115,7 +114,7 @@ class GraphEdititingHelper {
 			
 			// Remove mapped edges first:
 			if (mapped!=null) {
-				HenshinGraphUtil.deleteEdge(mapped);
+				mapped.getGraph().removeEdge(mapped);
 			}
 			
 			// Now wire the new edge and move it to the old graph:
@@ -124,7 +123,7 @@ class GraphEdititingHelper {
 				incoming.setSource(oldSource);
 				incoming.setGraph(oldGraph);
 			} else {
-				HenshinGraphUtil.deleteEdge(incoming);				
+				incoming.getGraph().removeEdge(incoming);				
 			}
 			
 		}	
@@ -134,7 +133,7 @@ class GraphEdititingHelper {
 			
 			// Remove mapped edges first:
 			if (mapped!=null) {
-				HenshinGraphUtil.deleteEdge(mapped);
+				mapped.getGraph().removeEdge(mapped);
 			}
 			
 			// Now wire the new edge and move it to the old graph:
@@ -143,7 +142,7 @@ class GraphEdititingHelper {
 				outgoing.setTarget(oldTarget);
 				outgoing.setGraph(oldGraph);
 			} else {
-				HenshinGraphUtil.deleteEdge(outgoing);
+				outgoing.getGraph().removeEdge(outgoing);
 			}
 		}
 

@@ -168,7 +168,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_AWj9GATfEd-YGMPtXmeAGA"/>
     </children>
     <element xmi:type="ecore:EClass" href="henshin.ecore#//Graph"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWj9DgTfEd-YGMPtXmeAGA" x="1094" y="258"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWj9DgTfEd-YGMPtXmeAGA" x="1035" y="220"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_AWj9GQTfEd-YGMPtXmeAGA" type="2001" fontName="Segoe UI">
     <children xmi:type="notation:DecorationNode" xmi:id="_AWj9GwTfEd-YGMPtXmeAGA" type="5001"/>

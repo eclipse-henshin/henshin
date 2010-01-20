@@ -7,14 +7,12 @@ import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.RuleGraphsListener;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
@@ -54,7 +52,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	protected void addSemanticListeners() {
 		super.addSemanticListeners();
 		Edge edge = (Edge) (getNotationView().getElement());
-		Rule rule = HenshinGraphUtil.getRule(edge.getGraph());
+		Rule rule = edge.getGraph().getContainerRule();
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
 				if (getNotationView().getElement() != null) {

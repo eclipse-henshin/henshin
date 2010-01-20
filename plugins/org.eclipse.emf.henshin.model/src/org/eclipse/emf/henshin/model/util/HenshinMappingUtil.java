@@ -106,7 +106,7 @@ public class HenshinMappingUtil {
 		Node source = getNodeImage(edge.getSource(), graph, mappings);
 		Node target = getNodeImage(edge.getTarget(), graph, mappings);
 		if (source==null || target==null) return null;
-		return HenshinGraphUtil.findEdge(source, target, edge.getType());
+		return source.findOutgoingEdgeOfType(target, edge.getType());
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class HenshinMappingUtil {
 		Node source = getNodeOrigin(edge.getSource(), mappings);
 		Node target = getNodeOrigin(edge.getTarget(), mappings);
 		if (source==null || target==null) return null;
-		return HenshinGraphUtil.findEdge(source, target, edge.getType());
+		return source.findOutgoingEdgeOfType(target, edge.getType());
 	}
 	
 	/**

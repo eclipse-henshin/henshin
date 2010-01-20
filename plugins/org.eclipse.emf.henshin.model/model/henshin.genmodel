@@ -57,6 +57,13 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/nodes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/edges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/formula"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/removeEdge">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/removeEdge/edge"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/removeNode">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/removeNode/node"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getContainerRule"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//Mapping">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/origin"/>
@@ -77,6 +84,14 @@
       </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//Node/findAttributeOfType">
         <genParameters ecoreParameter="henshin.ecore#//Node/findAttributeOfType/attributeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findOutgoingEdgeOfType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findOutgoingEdgeOfType/targetNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Node/findOutgoingEdgeOfType/edgeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findIncomingEdgeOfType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findIncomingEdgeOfType/sourceNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Node/findIncomingEdgeOfType/edgeType"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//Attribute">

@@ -13,7 +13,6 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -119,7 +118,7 @@ public class AttributeParser  extends AbstractParser {
 		Action action = NodeActionUtil.getNodeAction(node);
 		if (action!=null && action.getType()==ActionType.NONE) {
 			
-			Rule rule = HenshinGraphUtil.getRule(node.getGraph());
+			Rule rule = node.getGraph().getContainerRule();
 			Node image = HenshinMappingUtil.getImage(node, rule.getRhs(), rule.getMappings());
 			Attribute imageAttribute = image.findAttributeOfType(attr);
 			

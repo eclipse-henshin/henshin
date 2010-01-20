@@ -7,7 +7,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -42,7 +41,7 @@ public class EdgeActionUtil {
 		
 		// Get the container graph and rule.
 		Graph graph = edge.getGraph();
-		Rule rule = HenshinGraphUtil.getRule(graph);
+		Rule rule = graph.getContainerRule();
 		
 		// Current action type = NONE?
 		if (current.getType()==ActionType.NONE) {
@@ -55,7 +54,7 @@ public class EdgeActionUtil {
 			Node target = image.getTarget();
 			
 			// We delete the edge image:
-			HenshinGraphUtil.deleteEdge(image);
+			graph.removeEdge(image);
 			
 			// For CREATE actions, move the edge to the RHS:
 			if (action.getType()==ActionType.CREATE) {

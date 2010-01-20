@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -31,7 +30,7 @@ class ElementActionHelper {
 		Graph graph = (Graph) element.eContainer();
 		
 		// Graph must be part of a rule:
-		Rule rule = HenshinGraphUtil.getRule(graph);
+		Rule rule =graph.getContainerRule();
 		if (rule==null) return null;
 		
 		// LHS element?

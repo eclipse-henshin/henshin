@@ -200,10 +200,35 @@ public interface Node extends NamedElement {
 	 * type. If no such instance can be found, <code>null</code> is returned
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model attributeTypeRequired="true"
 	 * @generated
 	 */
 	Attribute findAttributeOfType(EAttribute attributeType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an {@link Edge} with this node as source, the given node as
+	 * target and the given type as edge type. If no such instance can be found,
+	 * <code>null</code> is returned
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model targetNodeRequired="true" edgeTypeRequired="true"
+	 * @generated
+	 */
+	Edge findOutgoingEdgeOfType(Node targetNode, EReference edgeType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an {@link Edge} with this node as target, the given node as
+	 * source and the given type as edge type. If no such instance can be found,
+	 * <code>null</code> is returned
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model sourceNodeRequired="true" edgeTypeRequired="true"
+	 * @generated
+	 */
+	Edge findIncomingEdgeOfType(Node sourceNode, EReference edgeType);
 
 } // Node

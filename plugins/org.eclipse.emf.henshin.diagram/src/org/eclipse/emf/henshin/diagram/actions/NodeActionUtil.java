@@ -7,7 +7,6 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -41,7 +40,7 @@ public class NodeActionUtil {
 		
 		// Get the container graph and rule.
 		Graph graph = node.getGraph();
-		Rule rule = HenshinGraphUtil.getRule(graph);
+		Rule rule = graph.getContainerRule();
 		
 		// Current action type = NONE?
 		if (current.getType()==ActionType.NONE) {
@@ -50,8 +49,8 @@ public class NodeActionUtil {
 			Mapping mapping = HenshinMappingUtil.getNodeImageMapping(node, rule.getRhs(), rule.getMappings());			
 			
 			// For delete actions, delete the image in the RHS:
-			if (action.getType()==ActionType.DELETE) {			
-				HenshinGraphUtil.deleteNode(mapping.getImage());
+			if (action.getType()==ActionType.DELETE) {
+				rule.getRhs().removeNode(mapping.getImage());
 				rule.getMappings().remove(mapping);
 			}
 			
@@ -120,7 +119,7 @@ public class NodeActionUtil {
 			
 			// Get the graph and rule:
 			Graph graph = node.getGraph();
-			Rule rule = HenshinGraphUtil.getRule(graph);
+			Rule rule = graph.getContainerRule();
 			
 			// Find the origin in the LHS:
 			return HenshinMappingUtil.getNodeOrigin(node, rule.getMappings());	

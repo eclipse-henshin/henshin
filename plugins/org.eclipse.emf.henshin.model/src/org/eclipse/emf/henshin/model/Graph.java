@@ -89,4 +89,37 @@ public interface Graph extends NamedElement {
 	 */
 	void setFormula(Formula value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Detaches the given edge from its source and target node and removes it from this graph.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model edgeRequired="true"
+	 * @generated
+	 */
+	void removeEdge(Edge edge);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Detaches the given node from this graph i.e. all attached edges are removed implicitly.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void removeNode(Node node);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns the rule this graph is contained in.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Rule getContainerRule();
+
 } // Graph

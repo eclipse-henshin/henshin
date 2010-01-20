@@ -6,7 +6,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinGraphUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -45,14 +44,14 @@ public class EdgeDeleteCommand  extends AbstractTransactionalCommand {
 		// Delete mapped edges:
 		if (graph==rule.getLhs()) {
 			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
-			if (image!=null) HenshinGraphUtil.deleteEdge(image);
+			if (image!=null) rule.getRhs().removeEdge(image);
 		} else {
 			Edge origin = HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings());
-			if (origin!=null) HenshinGraphUtil.deleteEdge(origin);
+			if (origin!=null) origin.getGraph().removeEdge(origin);
 		}
 		
 		// Delete the edge:
-		HenshinGraphUtil.deleteEdge(edge);
+		graph.removeEdge(edge);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

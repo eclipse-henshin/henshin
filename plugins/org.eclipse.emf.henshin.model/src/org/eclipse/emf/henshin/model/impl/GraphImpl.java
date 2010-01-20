@@ -7,25 +7,23 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * <!-- begin-user-doc -->
@@ -158,6 +156,50 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.GRAPH__FORMULA, newFormula, newFormula));
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void removeEdge(Edge edge) {
+
+		edge.setSource(null);
+		edge.setTarget(null);
+		edge.setGraph(null);
+	}// removeEdge
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void removeNode(Node node) {
+
+		// Delete the edges first:
+		List<Edge> edges = node.getAllEdges();
+		for (Edge edge : edges) {
+			removeEdge(edge);
+		}// for
+
+		node.setGraph(null);
+	}// removeNode
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Rule getContainerRule() {
+		
+		EObject container = this.eContainer();
+		while (container!=null) {
+			if (container instanceof Rule) return (Rule) container;
+			container = container.eContainer();
+		}// while
+		
+		return null;
+	}// getContainerRule
 
 	/**
 	 * <!-- begin-user-doc -->
