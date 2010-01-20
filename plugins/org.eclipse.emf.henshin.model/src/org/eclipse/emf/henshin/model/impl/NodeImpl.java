@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -238,8 +239,9 @@ public class NodeImpl extends NamedElementImpl implements Node {
 		allEdges.addAll(this.getIncoming());
 		allEdges.addAll(this.getOutgoing());
 		
-		return new BasicEList.UnmodifiableEList<Edge>(allEdges.size(), allEdges
-				.toArray());
+		return new EcoreEList.UnmodifiableEList<Edge>(this,
+				HenshinPackage.Literals.NODE__ALL_EDGES, allEdges.size(),
+				allEdges.toArray());
 	}// getAllEdges
 
 	/**
@@ -271,7 +273,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 			if (edgeType == edge.getType())
 				edges.add(edge);
 		}// for
-
+		
 		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
 				.toArray());
 	}// findIncomingEdgesOfType
