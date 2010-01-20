@@ -157,7 +157,7 @@ public class RuleWrapper {
 		}
 
 		for (Attribute attribute : node.getAttributes()) {
-			if (ModelHelper.isVariable(rule, attribute)) {
+			if (attribute.containsVariableByRule(rule)) {
 				ParameterConstraint parQuery = new ParameterConstraint(
 						conditionHandler, var, attribute.getValue(), attribute
 								.getType());

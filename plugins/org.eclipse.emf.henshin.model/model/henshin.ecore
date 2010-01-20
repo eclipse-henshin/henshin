@@ -10,6 +10,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eOperations name="findRuleByName" eType="#//Rule">
+      <eParameters name="ruleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="#//Rule" containment="true" eOpposite="#//Rule/transformationSystem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformations" upperBound="-1"
@@ -59,6 +62,12 @@
       <eParameters name="node" eType="#//Node"/>
     </eOperations>
     <eOperations name="getContainerRule" eType="#//Rule"/>
+    <eOperations name="findNodesByType" ordered="false" upperBound="-1" eType="#//Node">
+      <eParameters name="nodeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eOperations>
+    <eOperations name="findEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
         eType="#//Node" containment="true" eOpposite="#//Node/graph"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
@@ -72,20 +81,20 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Node"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//NamedElement">
-    <eOperations name="findOutgoingEdgesOfType" ordered="false" upperBound="-1" eType="#//Edge">
+    <eOperations name="findOutgoingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="findIncomingEdgesOfType" ordered="false" upperBound="-1" eType="#//Edge">
+    <eOperations name="findIncomingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="findAttributeOfType" eType="#//Attribute">
+    <eOperations name="findAttributeByType" eType="#//Attribute">
       <eParameters name="attributeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     </eOperations>
-    <eOperations name="findOutgoingEdgeOfType" eType="#//Edge">
+    <eOperations name="findOutgoingEdgeByType" eType="#//Edge">
       <eParameters name="targetNode" lowerBound="1" eType="#//Node"/>
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="findIncomingEdgeOfType" eType="#//Edge">
+    <eOperations name="findIncomingEdgeByType" eType="#//Edge">
       <eParameters name="sourceNode" lowerBound="1" eType="#//Node"/>
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
@@ -103,6 +112,12 @@
         derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eOperations name="containsVariableByRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="rule" lowerBound="1" eType="#//Rule"/>
+    </eOperations>
+    <eOperations name="containsVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="variable" lowerBound="1" eType="#//Variable"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//Node"

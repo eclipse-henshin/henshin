@@ -175,7 +175,7 @@ public interface Node extends NamedElement {
 	 * @model ordered="false" edgeTypeRequired="true"
 	 * @generated
 	 */
-	EList<Edge> findOutgoingEdgesOfType(EReference edgeType);
+	EList<Edge> findOutgoingEdgesByType(EReference edgeType);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -191,7 +191,7 @@ public interface Node extends NamedElement {
 	 * @model ordered="false" edgeTypeRequired="true"
 	 * @generated
 	 */
-	EList<Edge> findIncomingEdgesOfType(EReference edgeType);
+	EList<Edge> findIncomingEdgesByType(EReference edgeType);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -203,7 +203,7 @@ public interface Node extends NamedElement {
 	 * @model attributeTypeRequired="true"
 	 * @generated
 	 */
-	Attribute findAttributeOfType(EAttribute attributeType);
+	Attribute findAttributeByType(EAttribute attributeType);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -216,7 +216,7 @@ public interface Node extends NamedElement {
 	 * @model targetNodeRequired="true" edgeTypeRequired="true"
 	 * @generated
 	 */
-	Edge findOutgoingEdgeOfType(Node targetNode, EReference edgeType);
+	Edge findOutgoingEdgeByType(Node targetNode, EReference edgeType);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -229,6 +229,6 @@ public interface Node extends NamedElement {
 	 * @model sourceNodeRequired="true" edgeTypeRequired="true"
 	 * @generated
 	 */
-	Edge findIncomingEdgeOfType(Node sourceNode, EReference edgeType);
+	Edge findIncomingEdgeByType(Node sourceNode, EReference edgeType);
 
 } // Node

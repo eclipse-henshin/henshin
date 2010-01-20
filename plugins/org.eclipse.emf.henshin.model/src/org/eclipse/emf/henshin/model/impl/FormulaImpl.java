@@ -41,5 +41,17 @@ public abstract class FormulaImpl extends EObjectImpl implements Formula {
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.FORMULA;
 	}
-
+	
+	/**
+	 * Renames all occurrences of a variable's name in this formula (i.e. in
+	 * attribute values of related graphs) from the old name to the new name.
+	 * This is performed for contained formulas as well.
+	 * 
+	 * @param oldVariableName
+	 *            Old name of the variable
+	 * @param newVariableName
+	 *            New name of the variable
+	 */
+	protected abstract void updateVariableName(String oldVariableName, String newVariableName);
+	
 } //FormulaImpl

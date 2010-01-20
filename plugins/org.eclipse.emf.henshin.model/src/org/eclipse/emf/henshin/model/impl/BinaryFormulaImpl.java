@@ -242,4 +242,21 @@ public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 		return super.eIsSet(featureID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
+	 * , java.lang.String)
+	 */
+	protected void updateVariableName(String oldVariableName, String newVariableName) {
+
+		((FormulaImpl) getLeft()).updateVariableName(oldVariableName,
+				newVariableName);
+		((FormulaImpl) getRight()).updateVariableName(oldVariableName,
+				newVariableName);
+	}// updateVariableName
+
+
+
 } //BinaryFormulaImpl

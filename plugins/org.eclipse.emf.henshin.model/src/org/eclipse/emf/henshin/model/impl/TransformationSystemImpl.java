@@ -195,6 +195,20 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Rule findRuleByName(String ruleName) {
+
+		for (Rule rule : this.getRules()) {
+			if (ruleName.equals(rule.getName()))
+				return rule;
+		}// for
+		return null;
+	}// findRuleByName
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")

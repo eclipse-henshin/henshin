@@ -8,14 +8,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -23,20 +20,17 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.Variable;
 
 public class ModelHelper {
-    public static boolean isVariable(Rule rule, Attribute attribute) {
-        for (Variable variable : rule.getVariables()) {
-            if (variable.getName().equals(attribute.getValue())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static boolean isVariable(Rule rule, Attribute attribute) {
+//        for (Variable variable : rule.getVariables()) {
+//            if (variable.getName().equals(attribute.getValue())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public static boolean compareObjects(EObject eObject1, EObject eObject2) {
         EClass eClass1 = eObject1.eClass();
@@ -94,19 +88,25 @@ public class ModelHelper {
         return false;
     }
 
-    public static boolean hasEdge(EReference type, Node source, Node target) {
-        return findEdge(type, source, target) != null;
-    }
-
-    public static Edge findEdge(EReference type, Node source, Node target) {
-        for (Edge edge : source.getOutgoing()) {
-            if (edge.getTarget() == target && edge.getType() == type) {
-                return edge;
-            }
-        }
-
-        return null;
-    }
+//    /**
+//     * @param type
+//     * @param source
+//     * @param target
+//     * @return
+//     */
+//    public static boolean hasEdge(EReference type, Node source, Node target) {
+//        return source.findOutgoingEdgeOfType(target, type) != null;
+//    }
+//
+//    public static Edge findEdge(EReference type, Node source, Node target) {
+//        for (Edge edge : source.getOutgoing()) {
+//            if (edge.getTarget() == target && edge.getType() == type) {
+//                return edge;
+//            }
+//        }
+//
+//        return null;
+//    }
 
     /**
      * Checks whether the specified edge is part of the mappings.
@@ -176,63 +176,63 @@ public class ModelHelper {
         return result;
     }
 
-    public static void renameVariableInRule(Rule rule, String oldName,
-            String newName) {
-        for (Variable currentVar : rule.getVariables()) {
-            if (oldName.equals(currentVar.getName())) {
-                currentVar.setName(newName);
-                break;
-            }
-        }
+//    public static void renameVariableInRule(Rule rule, String oldName,
+//            String newName) {
+//        for (Variable currentVar : rule.getVariables()) {
+//            if (oldName.equals(currentVar.getName())) {
+//                currentVar.setName(newName);
+//                break;
+//            }
+//        }
+//
+//        for (AttributeCondition condition : rule.getAttributeConditions()) {
+//            condition.setConditionText(renameInString(condition
+//                    .getConditionText(), oldName, newName));
+//        }
+//
+//        for (Node node : rule.getLhs().getNodes()) {
+//            for (Attribute attribute : node.getAttributes()) {
+//                attribute.setValue(renameInString(attribute.getValue(),
+//                        oldName, newName));
+//            }
+//        }
+//
+//        for (Node node : rule.getRhs().getNodes()) {
+//            for (Attribute attribute : node.getAttributes()) {
+//                attribute.setValue(renameInString(attribute.getValue(),
+//                        oldName, newName));
+//            }
+//        }
+//
+//        rule.getLhs().getFormula().updateVariableName(oldName, newName);
+//    }
 
-        for (AttributeCondition condition : rule.getAttributeConditions()) {
-            condition.setConditionText(renameInString(condition
-                    .getConditionText(), oldName, newName));
-        }
-
-        for (Node node : rule.getLhs().getNodes()) {
-            for (Attribute attribute : node.getAttributes()) {
-                attribute.setValue(renameInString(attribute.getValue(),
-                        oldName, newName));
-            }
-        }
-
-        for (Node node : rule.getRhs().getNodes()) {
-            for (Attribute attribute : node.getAttributes()) {
-                attribute.setValue(renameInString(attribute.getValue(),
-                        oldName, newName));
-            }
-        }
-
-        renameInFormula(rule.getLhs().getFormula(), oldName, newName);
-    }
-
-    public static void renameInFormula(Formula formula, String oldName,
-            String newName) {
-        if (formula instanceof NestedCondition) {
-            NestedCondition nestedCondition = (NestedCondition) formula;
-            for (Node node : nestedCondition.getConclusion().getNodes()) {
-                for (Attribute attribute : node.getAttributes()) {
-                    attribute.setValue(renameInString(attribute.getValue(),
-                            oldName, newName));
-                }
-            }
-        } else if (formula instanceof BinaryFormula) {
-            renameInFormula(((BinaryFormula) formula).getLeft(), oldName,
-                    newName);
-            renameInFormula(
-                    ((org.eclipse.emf.henshin.model.BinaryFormula) formula)
-                            .getRight(), oldName, newName);
-        } else if (formula instanceof UnaryFormula) {
-            renameInFormula(((UnaryFormula) formula).getChild(), oldName,
-                    newName);
-        }
-    }
+//    public static void renameInFormula(Formula formula, String oldName,
+//            String newName) {
+//        if (formula instanceof NestedCondition) {
+//            NestedCondition nestedCondition = (NestedCondition) formula;
+//            for (Node node : nestedCondition.getConclusion().getNodes()) {
+//                for (Attribute attribute : node.getAttributes()) {
+//                    attribute.setValue(renameInString(attribute.getValue(),
+//                            oldName, newName));
+//                }
+//            }
+//        } else if (formula instanceof BinaryFormula) {
+//            renameInFormula(((BinaryFormula) formula).getLeft(), oldName,
+//                    newName);
+//            renameInFormula(
+//                    ((org.eclipse.emf.henshin.model.BinaryFormula) formula)
+//                            .getRight(), oldName, newName);
+//        } else if (formula instanceof UnaryFormula) {
+//            renameInFormula(((UnaryFormula) formula).getChild(), oldName,
+//                    newName);
+//        }
+//    }
 
     /**
      * Returns the nested application condition the conclusion graph belongs to.
      * 
-     * @param condition
+     * @param formula
      *            The topmost formula which shall be checked.
      * @param graph
      *            The conclusion graph.
@@ -254,14 +254,14 @@ public class ModelHelper {
         return null;
     }
 
-    public static String renameInString(String testString, String oldString,
-            String newString) {
-        // if (testString.equals(oldString)) {
-        // return newString;
-        // }
-
-        return testString.replaceAll("\\b" + oldString + "\\b", newString);
-    }
+//    public static String renameInString(String testString, String oldString,
+//            String newString) {
+//        // if (testString.equals(oldString)) {
+//        // return newString;
+//        // }
+//
+//        return testString.replaceAll("\\b" + oldString + "\\b", newString);
+//    }
 
     public static Object castDown(Object complexValue, String type) {
         if (complexValue instanceof Double) {
@@ -275,13 +275,13 @@ public class ModelHelper {
         return complexValue;
     }
 
-    public static Rule getRuleByName(TransformationSystem ts, String name) {
-        for (Rule rule : ts.getRules()) {
-            if (name.equals(rule.getName()))
-                return rule;
-        }
-        return null;
-    }
+//    public static Rule findRuleByName(TransformationSystem ts, String name) {
+//        for (Rule rule : ts.getRules()) {
+//            if (name.equals(rule.getName()))
+//                return rule;
+//        }
+//        return null;
+//    }
 
     public static void registerFileExtension(String extension) {
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
@@ -304,13 +304,13 @@ public class ModelHelper {
         return resource.getContents().get(0);
     }
 
-    public static List<Node> getNodesByType(Graph graph, String name) {
-        List<Node> result = new ArrayList<Node>();
-        for (Node node : graph.getNodes()) {
-            if (name.equals(node.getType().getName()))
-                result.add(node);
-        }
-
-        return result;
-    }
+//    public static List<Node> findNodesByType(Graph graph, String name) {
+//        List<Node> result = new ArrayList<Node>();
+//        for (Node node : graph.getNodes()) {
+//            if (name.equals(node.getType().getName()))
+//                result.add(node);
+//        }
+//
+//        return result;
+//    }
 }

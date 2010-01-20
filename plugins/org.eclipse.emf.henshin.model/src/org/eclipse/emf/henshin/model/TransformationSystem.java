@@ -97,4 +97,18 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 */
 	EList<Graph> getInstances();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Finds and returns a rule with the given name in the rule-set of this
+	 * transformation system. If no appropriate rule is found <code>null</code>
+	 * is returned.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @model
+	 * @generated
+	 */
+	Rule findRuleByName(String ruleName);
+
 } // TransformationSystem

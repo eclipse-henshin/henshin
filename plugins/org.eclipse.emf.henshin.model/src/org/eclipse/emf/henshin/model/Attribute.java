@@ -108,4 +108,29 @@ public interface Attribute extends EObject {
 	 */
 	void setNode(Node value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns true if any variable contained in the given <code>rule</code> is
+	 * used in the value of this attribute. Otherwise false is returned.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * 
+	 * @model ruleRequired="true"
+	 * @generated
+	 */
+	boolean containsVariableByRule(Rule rule);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns true if this attribute's value contained the name of the given
+	 * variable. Otherwise false is returned.
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model variableRequired="true"
+	 * @generated
+	 */
+	boolean containsVariable(Variable variable);
+	
 } // Attribute

@@ -249,7 +249,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Edge> findOutgoingEdgesOfType(EReference edgeType) {
+	public EList<Edge> findOutgoingEdgesByType(EReference edgeType) {
 		
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Edge edge : this.getOutgoing()) {
@@ -259,14 +259,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 
 		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
 				.toArray());		
-	}// findOutgoingEdgesOfType
+	}// findOutgoingEdgesByType
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Edge> findIncomingEdgesOfType(EReference edgeType) {
+	public EList<Edge> findIncomingEdgesByType(EReference edgeType) {
 
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Edge edge : this.getIncoming()) {
@@ -276,49 +276,49 @@ public class NodeImpl extends NamedElementImpl implements Node {
 		
 		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
 				.toArray());
-	}// findIncomingEdgesOfType
+	}// findIncomingEdgesByType
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Attribute findAttributeOfType(EAttribute attributeType) {
+	public Attribute findAttributeByType(EAttribute attributeType) {
 
 		for (Attribute attribute : this.getAttributes()) {
 			if (attribute.getType() == attributeType)
 				return attribute;
 		}//for
 		return null;
-	}// findAttributeOfType
+	}// findAttributeByType
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge findOutgoingEdgeOfType(Node targetNode, EReference edgeType) {
+	public Edge findOutgoingEdgeByType(Node targetNode, EReference edgeType) {
 
 		for (Edge edge : this.getOutgoing()) {
 			if (edgeType == edge.getType() && targetNode == edge.getTarget())
 				return edge;
 		}// for
 		return null;
-	}// findOutgoingEdgeOfType
+	}// findOutgoingEdgeByType
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge findIncomingEdgeOfType(Node sourceNode, EReference edgeType) {
+	public Edge findIncomingEdgeByType(Node sourceNode, EReference edgeType) {
 
 		for (Edge edge : this.getIncoming()) {
 			if (edgeType == edge.getType() && sourceNode == edge.getSource())
 				return edge;
 		}// for
 		return null;
-	}// findIncomingEdgeOfType
+	}// findIncomingEdgeByType
 
 	/**
 	 * <!-- begin-user-doc -->

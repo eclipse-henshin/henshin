@@ -176,4 +176,17 @@ public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 		return super.eIsSet(featureID);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
+	 * , java.lang.String)
+	 */
+	protected void updateVariableName(String oldVariableName, String newVariableName) {
+
+		((FormulaImpl) getChild()).updateVariableName(oldVariableName,
+				newVariableName);
+	}// updateVariableName
+
 } //UnaryFormulaImpl

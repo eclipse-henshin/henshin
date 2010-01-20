@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.script.ScriptEngine;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.ModelHelper;
@@ -220,7 +221,7 @@ public class AmalgamationWrapper {
 				Node parallelSource = embedding.get(singleSource);
 				Node parallelTarget = embedding.get(singleTarget);
 
-				if (!ModelHelper.hasEdge(singleEdge.getType(), parallelSource,
+				if (!hasEdge(singleEdge.getType(), parallelSource,
 						parallelTarget)) {
 					Edge parallelEdge = factory.createEdge();
 					parallelEdge.setSource(parallelSource);
@@ -237,7 +238,7 @@ public class AmalgamationWrapper {
 				Node parallelSource = embedding.get(singleSource);
 				Node parallelTarget = embedding.get(singleTarget);
 
-				if (!ModelHelper.hasEdge(singleEdge.getType(), parallelSource,
+				if (!hasEdge(singleEdge.getType(), parallelSource,
 						parallelTarget)) {
 					Edge parallelEdge = factory.createEdge();
 					parallelEdge.setSource(parallelSource);
@@ -250,12 +251,25 @@ public class AmalgamationWrapper {
 			for (Variable variable : singleRule.getVariables()) {
 				Variable parallelVariable = (Variable) EcoreUtil.copy(variable);
 				parallelVariable.setRule(parallelRule);
-				ModelHelper.renameVariableInRule(parallelRule, variable
-						.getName(), variable.getName()
-						+ (Math.abs(new Random().nextInt())));
+				String newName = variable.getName() + Math.abs(new Random().nextInt());
+				variable.setName(newName);
 			}
 		}
 
 		return new RuleMatch(parallelRule, null, parallelNodeMapping);
 	}
+
+	/**
+	 * Checks if there is an {@link Edge} of type <code>type</code> with
+	 * {@link Node}s <code>source</code> and <code>target</code>.
+	 * 
+	 * @param type
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	public static boolean hasEdge(EReference type, Node source, Node target) {
+		return source.findOutgoingEdgeByType(target, type) != null;
+	}// hasEdge
+    
 }

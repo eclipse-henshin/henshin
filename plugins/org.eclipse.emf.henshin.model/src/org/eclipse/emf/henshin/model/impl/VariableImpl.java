@@ -8,14 +8,11 @@ package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Rule;
@@ -87,11 +84,18 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
+		
+		// *** manually inserted
+
+		updateVariableNames(oldName, newName);
+
+		// *** end
+		
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.VARIABLE__NAME, oldName, name));
 	}
@@ -297,4 +301,32 @@ public class VariableImpl extends DescribedElementImpl implements Variable {
 		return result.toString();
 	}
 
+	/**
+	 * Updates all occurrences of this variable's old name in the rule
+	 * container. This leads to updates in attribute conditions and rule graphs
+	 * as lhs and rhs ,their formulas included as well.
+	 * 
+	 * @param oldVariableName
+	 *            Old name of the variable
+	 * @param newVariableName
+	 *            New name of the variable
+	 */
+	private void updateVariableNames(String oldVariableName,
+			String newVariableName) {
+		
+		if (this.getRule() != null) {
+			
+			Rule rule = this.getRule();
+			
+			for (AttributeCondition condition : rule.getAttributeConditions()) {
+				((AttributeConditionImpl)condition).updateVariableName(oldVariableName, newVariableName);
+			}//for
+
+			((GraphImpl)rule.getLhs()).updateVariableName(oldVariableName, newVariableName);
+
+			((GraphImpl)rule.getRhs()).updateVariableName(oldVariableName, newVariableName);
+			
+		}//if
+	}// updateVariableNames
+	
 } //VariableImpl

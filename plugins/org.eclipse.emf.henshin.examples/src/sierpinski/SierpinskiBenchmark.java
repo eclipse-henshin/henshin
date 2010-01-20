@@ -43,7 +43,7 @@ public class SierpinskiBenchmark {
         EmfEngine engine = new EmfEngine(graph);
 
         // load a rule
-        Rule addTriangleRule = ModelHelper.getRuleByName(ts, "AddTriangle");
+		Rule addTriangleRule = ts.findRuleByName("AddTriangle");
 
         // compute different sierpinski levels
         int i = 0;

@@ -21,10 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 
 /**
  * <!-- begin-user-doc -->
@@ -288,5 +290,22 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 		result.append(')');
 		return result.toString();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
+	 * , java.lang.String)
+	 */
+	public void updateVariableName(String oldVariableName, String newVariableName) {
+
+		for (Node node : this.getConclusion().getNodes()) {
+			for (Attribute attribute : node.getAttributes()) {
+				((AttributeImpl) attribute).updateVariableName(
+						oldVariableName, newVariableName);
+			}// for
+		}// for
+	}// updateVariableName
 
 } //NestedConditionImpl

@@ -6,6 +6,8 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -21,6 +23,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Variable;
 
 /**
  * <!-- begin-user-doc -->
@@ -190,6 +194,42 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean containsVariableByRule(Rule rule) {
+
+		boolean found = false;
+		List<Variable> vl = rule.getVariables();
+		int size = vl.size();
+		for (int a = 0; a < size && !found; a++) {
+			found = containsVariable(vl.get(a));
+		}// for
+
+		return found;
+	}// containsVariableByRule
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean containsVariable(Variable variable) {
+
+		if (variable.getName() == null)
+			return false;
+		/*
+		 * TODO: Following regexp is ok for most cases. However, a variable name
+		 * within a string is recognized as variable name although it
+		 * is just as string. A more complex regexp may prevent that false positive.
+		 */
+		return this.value.matches("\\W*" + variable.getName() + "\\W*");
+		
+	}// containsVariable
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -325,5 +365,23 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 		result.append(')');
 		return result.toString();
 	}
+
+	/**
+	 * Updates all occurrences of the old variable name in this attribute's value
+	 * with the new variable name.
+	 * 
+	 * @param oldVariableName
+	 * @param newVariableName
+	 */
+	protected void updateVariableName(String oldVariableName,
+			String newVariableName) {
+
+		if (this.getValue() != null) {
+
+			String newValue = this.getValue().replaceAll(
+					"\\b" + oldVariableName + "\\b", newVariableName);
+			this.setValue(newValue);
+		}// if
+	}// updateVariableName
 
 } //AttributeImpl

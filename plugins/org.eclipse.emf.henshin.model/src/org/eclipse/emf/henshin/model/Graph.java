@@ -7,6 +7,8 @@
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -121,5 +123,21 @@ public interface Graph extends NamedElement {
 	 * @generated
 	 */
 	Rule getContainerRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model ordered="false" nodeTypeRequired="true"
+	 * @generated
+	 */
+	EList<Node> findNodesByType(EClass nodeType);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model ordered="false" edgeTypeRequired="true"
+	 * @generated
+	 */
+	EList<Edge> findEdgesByType(EReference edgeType);
 
 } // Graph

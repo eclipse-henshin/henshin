@@ -351,4 +351,25 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 		return result.toString();
 	}
 
+	
+
+	/**
+	 * Updates all occurrences of the old variable name in this condition's text
+	 * with the new variable name.
+	 * 
+	 * @param oldVariableName
+	 * @param newVariableName
+	 */
+	protected void updateVariableName(String oldVariableName,
+			String newVariableName) {
+
+		if (this.getConditionText() != null) {
+
+			String newConditionText = this.getConditionText().replaceAll(
+					"\\b" + oldVariableName + "\\b", newVariableName);
+			this.setConditionText(newConditionText);
+		}// if
+	}// updateVariableName
+	
+	
 } //AttributeConditionImpl

@@ -162,4 +162,5 @@ public interface Rule extends DescribedElement, NamedElement {
 	 */
 	EList<Variable> getVariables();
 
+	
 } // Rule

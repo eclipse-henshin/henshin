@@ -6,18 +6,22 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -204,6 +208,38 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Node> findNodesByType(EClass nodeType) {
+
+		List<Node> result = new ArrayList<Node>();
+		for (Node node : this.getNodes()) {
+			if (nodeType.equals(node.getType()))
+				result.add(node);
+		}// for
+
+		return new BasicEList<Node>(result);
+	}// findNodesByType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Edge> findEdgesByType(EReference edgeType) {
+		
+		List<Edge> result = new ArrayList<Edge>();
+		for (Edge edge : this.getEdges()) {
+			if (edgeType.equals(edge.getType()))
+				result.add(edge);
+		}// for
+
+		return new BasicEList<Edge>(result);
+	}// findEdgesByType
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -316,5 +352,29 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		}
 		return super.eIsSet(featureID);
 	}
+
+	/**
+	 * Updates all occurrences of the old variable name with the new variable
+	 * name. This is performed for all contained nodes and if available for contained formulas.
+	 * 
+	 * @param oldVariableName
+	 * @param newVariableName
+	 */
+	protected void updateVariableName(String oldVariableName,
+			String newVariableName) {
+
+		for (Node node : this.getNodes()) {
+			for (Attribute attribute : node.getAttributes()) {
+				((AttributeImpl) attribute).updateVariableName(oldVariableName,
+						newVariableName);
+			}// for
+		}// for
+
+		if (this.getFormula() != null) {
+			((FormulaImpl) this.getFormula()).updateVariableName(
+					oldVariableName, newVariableName);
+		}// if
+
+	}// updateVariableName
 
 } //GraphImpl
