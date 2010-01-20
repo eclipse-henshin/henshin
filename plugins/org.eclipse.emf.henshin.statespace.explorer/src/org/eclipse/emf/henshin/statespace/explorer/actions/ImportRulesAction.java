@@ -5,6 +5,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -27,9 +28,9 @@ public class ImportRulesAction implements IObjectActionDelegate {
 		IWizard wizard = new ImportRulesWizard(explorer);
 		
 		// Display a dialog:
-		WizardDialog dialog = new WizardDialog(explorer.getSite().getShell(), wizard);
+		Shell shell = explorer.getSite().getShell();
+		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.setTitle("Import Rules");
-		dialog.setMessage("Add or remove transformation rules for the state space.");
 		dialog.open();
 		
 	}
