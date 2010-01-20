@@ -23,7 +23,6 @@
       <edges source="//@rules.0/@lhs/@nodes.2" target="//@rules.0/@lhs/@nodes.3">
         <type href="http://Sierpinski#//Vertex/conn"/>
       </edges>
-      <formula/>
     </lhs>
     <rhs>
       <nodes outgoing="//@rules.0/@rhs/@edges.0 //@rules.0/@rhs/@edges.1">
