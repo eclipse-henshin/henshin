@@ -151,11 +151,6 @@ public class UnaryFormulaItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
-				 HenshinFactory.eINSTANCE.createFormula()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
 				 HenshinFactory.eINSTANCE.createNestedCondition()));
 
 		newChildDescriptors.add

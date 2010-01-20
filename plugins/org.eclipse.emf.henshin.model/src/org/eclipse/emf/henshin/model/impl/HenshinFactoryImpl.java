@@ -83,7 +83,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
 			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
-			case HenshinPackage.FORMULA: return createFormula();
 			case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
 			case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
 			case HenshinPackage.AND: return createAnd();
@@ -213,6 +212,19 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		MappingImpl mapping = new MappingImpl();
 		return mapping;
 	}
+
+	/**
+	 * Creates a mapping for a given node origin and image.
+	 * @param origin Origin node.
+	 * @param image Image node.
+	 * @return The created mapping.
+	 */
+	public Mapping createMapping(Node origin, Node image) {
+		Mapping mapping = createMapping();
+		mapping.setOrigin(origin);
+		mapping.setImage(image);
+		return mapping;
+	}// createMapping
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -356,16 +368,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public NestedCondition createNestedCondition() {
 		NestedConditionImpl nestedCondition = new NestedConditionImpl();
 		return nestedCondition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Formula createFormula() {
-		FormulaImpl formula = new FormulaImpl();
-		return formula;
 	}
 
 	/**

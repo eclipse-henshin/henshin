@@ -559,29 +559,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Formula} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected FormulaItemProvider formulaItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Formula}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createFormulaAdapter() {
-		if (formulaItemProvider == null) {
-			formulaItemProvider = new FormulaItemProvider(this);
-		}
-
-		return formulaItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.UnaryFormula} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -816,7 +793,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (amalgamatedUnitItemProvider != null) amalgamatedUnitItemProvider.dispose();
 		if (countedUnitItemProvider != null) countedUnitItemProvider.dispose();
 		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
-		if (formulaItemProvider != null) formulaItemProvider.dispose();
 		if (unaryFormulaItemProvider != null) unaryFormulaItemProvider.dispose();
 		if (binaryFormulaItemProvider != null) binaryFormulaItemProvider.dispose();
 		if (andItemProvider != null) andItemProvider.dispose();

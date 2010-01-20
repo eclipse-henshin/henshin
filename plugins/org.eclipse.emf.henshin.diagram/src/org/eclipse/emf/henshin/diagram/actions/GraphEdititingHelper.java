@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
@@ -28,7 +29,7 @@ class GraphEdititingHelper {
 		
 		// Create a mapping to the new node:
 		Rule rule = graph.getContainerRule();
-		Mapping mapping = HenshinMappingUtil.createMapping(node, newNode);
+		Mapping mapping = HenshinFactoryImpl.eINSTANCE.createMapping(node, newNode);
 		rule.getMappings().add(mapping);
 		
 		// Copy the incoming edges:

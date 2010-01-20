@@ -109,6 +109,14 @@ public interface HenshinFactory extends EFactory {
 	Mapping createMapping();
 
 	/**
+	 * Creates a mapping for a given node origin and image.
+	 * @param origin Origin node.
+	 * @param image Image node.
+	 * @return The created mapping.
+	 */
+	public Mapping createMapping(Node origin, Node image);	
+	
+	/**
 	 * Returns a new object of class '<em>Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -233,15 +241,6 @@ public interface HenshinFactory extends EFactory {
 	 * @generated
 	 */
 	NestedCondition createNestedCondition();
-
-	/**
-	 * Returns a new object of class '<em>Formula</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Formula</em>'.
-	 * @generated
-	 */
-	Formula createFormula();
 
 	/**
 	 * Returns a new object of class '<em>Unary Formula</em>'.

@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  *
  * @generated
  */
-public class FormulaImpl extends EObjectImpl implements Formula {
+public abstract class FormulaImpl extends EObjectImpl implements Formula {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

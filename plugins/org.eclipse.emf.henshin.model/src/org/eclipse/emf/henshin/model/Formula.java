@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getFormula()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface Formula extends EObject {

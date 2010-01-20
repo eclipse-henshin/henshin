@@ -168,11 +168,6 @@ public class GraphItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.GRAPH__FORMULA,
-				 HenshinFactory.eINSTANCE.createFormula()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.GRAPH__FORMULA,
 				 HenshinFactory.eINSTANCE.createNestedCondition()));
 
 		newChildDescriptors.add

@@ -172,7 +172,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Formula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" eSuperTypes="#//Formula">
     <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Formula"
         containment="true"/>

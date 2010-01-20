@@ -185,7 +185,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_AWj9JATfEd-YGMPtXmeAGA"/>
     </children>
     <element xmi:type="ecore:EClass" href="henshin.ecore#//Mapping"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWj9GgTfEd-YGMPtXmeAGA" x="1205" y="258"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWj9GgTfEd-YGMPtXmeAGA" x="1325" y="475"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_AWj9JQTfEd-YGMPtXmeAGA" type="2001" fontName="Segoe UI">
     <children xmi:type="notation:DecorationNode" xmi:id="_AWj9JwTfEd-YGMPtXmeAGA" type="5001"/>
@@ -423,7 +423,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_AWqD5gTfEd-YGMPtXmeAGA"/>
     </children>
     <element xmi:type="ecore:EClass" href="henshin.ecore#//Formula"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWqD3ATfEd-YGMPtXmeAGA" x="1379" y="139"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AWqD3ATfEd-YGMPtXmeAGA" x="1390" y="115"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_AWqD5wTfEd-YGMPtXmeAGA" type="2001" fontName="Segoe UI">
     <children xmi:type="notation:DecorationNode" xmi:id="_AWqD6QTfEd-YGMPtXmeAGA" type="5001"/>
@@ -593,7 +593,7 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_AdRozQTfEd-YGMPtXmeAGA" type="4003" source="_AWj8xQTfEd-YGMPtXmeAGA" target="_AWj9DQTfEd-YGMPtXmeAGA">
     <children xmi:type="notation:DecorationNode" xmi:id="_AdRo0ATfEd-YGMPtXmeAGA" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_AdRo0QTfEd-YGMPtXmeAGA" y="40"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_AdRo0QTfEd-YGMPtXmeAGA" x="-14" y="50"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_AdRo0gTfEd-YGMPtXmeAGA" type="6004">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_AdRo0wTfEd-YGMPtXmeAGA" y="60"/>
