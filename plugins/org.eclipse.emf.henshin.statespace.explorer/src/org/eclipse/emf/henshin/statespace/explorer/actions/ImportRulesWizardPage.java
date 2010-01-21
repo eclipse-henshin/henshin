@@ -4,17 +4,36 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
+import org.eclipse.ui.model.BaseWorkbenchContentProvider;
+import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
  * A wizard page that displays a list of imported transformation
@@ -39,7 +58,7 @@ public class ImportRulesWizardPage extends WizardPage {
 		super("Import Rules");
 		this.rules = new ArrayList<Rule>();
 		this.resourceSet = resourceSet;
-		setDescription("Add or remove transformation rules for the state space.");
+		setDescription("Add or remove transformation rules to be used for this state space.");
 	}
 
 	/*
@@ -67,19 +86,48 @@ public class ImportRulesWizardPage extends WizardPage {
 		
 	}
 	
-	private void add() {
+	/*
+	 * Open a selection dialog for rules.
+	 */
+	public void add() {
+		
+		// Open a selection dialog:
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new RuleLabelProvider(), new RuleContentProvider(resourceSet));
+		dialog.setTitle("Select Rule");
+		dialog.setMessage("Please select the transformation rule to be imported:");
+		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		dialog.addFilter(new RuleViewFilter());		
+		dialog.setValidator(new RuleSelectionValidator());
+		dialog.setAllowMultiple(true);
+		dialog.open();
+		
+		Object[] result = dialog.getResult();
+		if (result==null) return;
+		
+		for (int i=0; i<result.length; i++) {
+			if (result[i] instanceof Rule) {
+				Rule rule = (Rule) result[i];
+				if (!rules.contains(rule)) {
+					rules.add(rule);
+					list.add(rule.getName() + " (" + rule.eResource().getURI().lastSegment() + ")");
+				}
+			}
+		}
 		
 	}
 	
-	private void remove() {
+	/*
+	 * Remove the currently selected rules.
+	 */
+	public void remove() {
 		
 	}
 	
-	private void up() {
+	public void up() {
 		
 	}
 
-	private void down() {
+	public void down() {
 		
 	}
 	
@@ -90,12 +138,13 @@ public class ImportRulesWizardPage extends WizardPage {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText(name);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		final ImportRulesWizardPage thisPage = this;
 		button.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {}
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					Method method = ImportRulesWizardPage.class.getMethod(name.toLowerCase());
-					if (method!=null) method.invoke(this);
+					if (method!=null) method.invoke(thisPage);
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -111,4 +160,137 @@ public class ImportRulesWizardPage extends WizardPage {
 	public List<Rule> getRules() {
 		return rules;
 	}
+	
+	
+	/*
+	 * A view filter for henshin files.
+	 */
+	static class RuleViewFilter extends ViewerFilter {
+		
+		@Override
+		public boolean select(Viewer viewer, Object parentElement, Object element) {
+			if (element instanceof IAdaptable) {
+				IAdaptable adapter = (IAdaptable) element;
+				Object adaptedResource = adapter.getAdapter(IResource.class);
+				if (adaptedResource != null) {
+					IResource res = (IResource) adaptedResource;
+					if ("henshin".equals(res.getFileExtension()) || IResource.FILE!=res.getType()) {
+						return true;
+					}
+				}
+			}
+			return element instanceof Rule;
+		}
+		
+	}
+	
+	/*
+	 * Internal label provider class.
+	 */
+	static class RuleLabelProvider extends LabelProvider implements ILabelProvider {
+		
+		/* 
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
+		 */
+		@Override
+		public Image getImage(Object element) {
+			if (element instanceof IAdaptable) {
+				final IAdaptable adaptable = (IAdaptable) element;
+				final Object adapter = adaptable.getAdapter(IWorkbenchAdapter.class);
+				if (adapter != null) {
+					final IWorkbenchAdapter res = (IWorkbenchAdapter) adapter;
+					return res.getImageDescriptor(element).createImage();
+				}
+			}
+			if (element instanceof Rule) {
+				//return (Image) HenshinEditPlugin.INSTANCE.getImage("full/obj16/Rule.gif");
+			}
+			return null;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+		 */
+		@Override
+		public String getText(Object element) {
+			if (element instanceof IAdaptable) {
+				final IAdaptable adaptable = (IAdaptable) element;
+				final Object adapter = adaptable.getAdapter(IWorkbenchAdapter.class);
+				if (adapter != null) {
+					final IWorkbenchAdapter res = (IWorkbenchAdapter) adapter;
+					return res.getLabel(element);
+				}
+			}
+			if (element instanceof Rule) {
+				return ((Rule) element).getName();
+			}
+			return element.toString();
+		}
+		
+	}
+	
+	/*
+	 * Ecore content provider.
+	 */
+	static class RuleContentProvider extends BaseWorkbenchContentProvider {
+		
+		// Resource set:
+		private ResourceSet resourceSet;
+		
+		/*
+		 * Default constructor.
+		 */
+		public RuleContentProvider(ResourceSet resourceSet) {
+			this.resourceSet = resourceSet;
+		}
+
+		/* 
+		 * (non-Javadoc)
+		 * @see org.eclipse.ui.model.BaseWorkbenchContentProvider#getChildren(java.lang.Object)
+		 */
+		@Override
+		public Object[] getChildren(Object element) {
+			if (element instanceof IAdaptable) {
+				IAdaptable adapter = (IAdaptable) element;
+				Object adaptedResource = adapter.getAdapter(IResource.class);
+				if (adaptedResource != null) {
+					IResource res = (IResource) adaptedResource;
+					if ("henshin".equals(res.getFileExtension())) {
+						URI uri = URI.createPlatformResourceURI(res.getFullPath().toString(), true);
+						Resource resource = resourceSet.getResource(uri, true);
+						List<Rule> rules = new ArrayList<Rule>();
+						for (EObject item : resource.getContents()) {
+							if (item instanceof TransformationSystem) {
+								rules.addAll(((TransformationSystem) item).getRules());
+							}
+						}
+						return rules.toArray();
+					}
+				}
+			}
+			return super.getChildren(element);
+		}
+	}
+	
+	/*
+	 * Rule selection validator.
+	 */
+	static class RuleSelectionValidator implements ISelectionStatusValidator {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang.Object[])
+		 */
+		public IStatus validate(Object[] selection) {
+			if (selection.length > 0) {
+				final Object obj = selection[0];
+				if (obj instanceof Rule) {
+					return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, "Rule selected");
+				}
+			}
+			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, "No rule selected");
+		}
+	};
+
 }
