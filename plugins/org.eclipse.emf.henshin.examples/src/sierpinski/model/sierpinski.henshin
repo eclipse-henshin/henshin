@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:TransformationSystem xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin">
-  <rules description="" name="AddTriangle">
-    <lhs>
-      <nodes>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_co7DYAaFEd-zI5a8dcgd6w">
+  <rules xmi:id="_co7DYQaFEd-zI5a8dcgd6w" description="" name="AddTriangle">
+    <lhs xmi:id="_co7DYgaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_co7DYwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//VertexContainer"/>
       </nodes>
-      <nodes outgoing="//@rules.0/@lhs/@edges.0 //@rules.0/@lhs/@edges.1">
+      <nodes xmi:id="_co7DZAaFEd-zI5a8dcgd6w" outgoing="_co7DZwaFEd-zI5a8dcgd6w _co7DaAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@lhs/@edges.0" outgoing="//@rules.0/@lhs/@edges.2">
+      <nodes xmi:id="_co7DZQaFEd-zI5a8dcgd6w" incoming="_co7DZwaFEd-zI5a8dcgd6w" outgoing="_co7DaQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@lhs/@edges.1 //@rules.0/@lhs/@edges.2">
+      <nodes xmi:id="_co7DZgaFEd-zI5a8dcgd6w" incoming="_co7DaAaFEd-zI5a8dcgd6w _co7DaQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <edges source="//@rules.0/@lhs/@nodes.1" target="//@rules.0/@lhs/@nodes.2">
+      <edges xmi:id="_co7DZwaFEd-zI5a8dcgd6w" source="_co7DZAaFEd-zI5a8dcgd6w" target="_co7DZQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/left"/>
       </edges>
-      <edges source="//@rules.0/@lhs/@nodes.1" target="//@rules.0/@lhs/@nodes.3">
+      <edges xmi:id="_co7DaAaFEd-zI5a8dcgd6w" source="_co7DZAaFEd-zI5a8dcgd6w" target="_co7DZgaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/right"/>
       </edges>
-      <edges source="//@rules.0/@lhs/@nodes.2" target="//@rules.0/@lhs/@nodes.3">
+      <edges xmi:id="_co7DaQaFEd-zI5a8dcgd6w" source="_co7DZQaFEd-zI5a8dcgd6w" target="_co7DZgaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/conn"/>
       </edges>
     </lhs>
-    <rhs>
-      <nodes outgoing="//@rules.0/@rhs/@edges.0 //@rules.0/@rhs/@edges.1">
+    <rhs xmi:id="_co7DagaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_co7DawaFEd-zI5a8dcgd6w" outgoing="_co7DcgaFEd-zI5a8dcgd6w _co7DcwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@rhs/@edges.3" outgoing="//@rules.0/@rhs/@edges.2">
+      <nodes xmi:id="_co7DbAaFEd-zI5a8dcgd6w" incoming="_co7DdQaFEd-zI5a8dcgd6w" outgoing="_co7DdAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@rhs/@edges.7 //@rules.0/@rhs/@edges.8">
+      <nodes xmi:id="_co7DbQaFEd-zI5a8dcgd6w" incoming="_co7DeQaFEd-zI5a8dcgd6w _co7DegaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@rhs/@edges.0 //@rules.0/@rhs/@edges.9" outgoing="//@rules.0/@rhs/@edges.3 //@rules.0/@rhs/@edges.4 //@rules.0/@rhs/@edges.5">
+      <nodes xmi:id="_co7DbgaFEd-zI5a8dcgd6w" incoming="_co7DcgaFEd-zI5a8dcgd6w _co7DewaFEd-zI5a8dcgd6w" outgoing="_co7DdQaFEd-zI5a8dcgd6w _co7DdgaFEd-zI5a8dcgd6w _co7DdwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@rhs/@edges.1 //@rules.0/@rhs/@edges.4 //@rules.0/@rhs/@edges.11" outgoing="//@rules.0/@rhs/@edges.6 //@rules.0/@rhs/@edges.7">
+      <nodes xmi:id="_co7DbwaFEd-zI5a8dcgd6w" incoming="_co7DcwaFEd-zI5a8dcgd6w _co7DdgaFEd-zI5a8dcgd6w _co7DfQaFEd-zI5a8dcgd6w" outgoing="_co7DeAaFEd-zI5a8dcgd6w _co7DeQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes incoming="//@rules.0/@rhs/@edges.2 //@rules.0/@rhs/@edges.5 //@rules.0/@rhs/@edges.6 //@rules.0/@rhs/@edges.10" outgoing="//@rules.0/@rhs/@edges.8">
+      <nodes xmi:id="_co7DcAaFEd-zI5a8dcgd6w" incoming="_co7DdAaFEd-zI5a8dcgd6w _co7DdwaFEd-zI5a8dcgd6w _co7DeAaFEd-zI5a8dcgd6w _co7DfAaFEd-zI5a8dcgd6w" outgoing="_co7DegaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex"/>
       </nodes>
-      <nodes outgoing="//@rules.0/@rhs/@edges.9 //@rules.0/@rhs/@edges.10 //@rules.0/@rhs/@edges.11">
+      <nodes xmi:id="_co7DcQaFEd-zI5a8dcgd6w" outgoing="_co7DewaFEd-zI5a8dcgd6w _co7DfAaFEd-zI5a8dcgd6w _co7DfQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//VertexContainer"/>
       </nodes>
-      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.3">
+      <edges xmi:id="_co7DcgaFEd-zI5a8dcgd6w" source="_co7DawaFEd-zI5a8dcgd6w" target="_co7DbgaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/left"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.4">
+      <edges xmi:id="_co7DcwaFEd-zI5a8dcgd6w" source="_co7DawaFEd-zI5a8dcgd6w" target="_co7DbwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/right"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.1" target="//@rules.0/@rhs/@nodes.5">
+      <edges xmi:id="_co7DdAaFEd-zI5a8dcgd6w" source="_co7DbAaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/conn"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.3" target="//@rules.0/@rhs/@nodes.1">
+      <edges xmi:id="_co7DdQaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DbAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/left"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.3" target="//@rules.0/@rhs/@nodes.4">
+      <edges xmi:id="_co7DdgaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DbwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/conn"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.3" target="//@rules.0/@rhs/@nodes.5">
+      <edges xmi:id="_co7DdwaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/right"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.4" target="//@rules.0/@rhs/@nodes.5">
+      <edges xmi:id="_co7DeAaFEd-zI5a8dcgd6w" source="_co7DbwaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/left"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.4" target="//@rules.0/@rhs/@nodes.2">
+      <edges xmi:id="_co7DeQaFEd-zI5a8dcgd6w" source="_co7DbwaFEd-zI5a8dcgd6w" target="_co7DbQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/right"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.5" target="//@rules.0/@rhs/@nodes.2">
+      <edges xmi:id="_co7DegaFEd-zI5a8dcgd6w" source="_co7DcAaFEd-zI5a8dcgd6w" target="_co7DbQaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//Vertex/conn"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.6" target="//@rules.0/@rhs/@nodes.3">
+      <edges xmi:id="_co7DewaFEd-zI5a8dcgd6w" source="_co7DcQaFEd-zI5a8dcgd6w" target="_co7DbgaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//VertexContainer/vertices"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.6" target="//@rules.0/@rhs/@nodes.5">
+      <edges xmi:id="_co7DfAaFEd-zI5a8dcgd6w" source="_co7DcQaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//VertexContainer/vertices"/>
       </edges>
-      <edges source="//@rules.0/@rhs/@nodes.6" target="//@rules.0/@rhs/@nodes.4">
+      <edges xmi:id="_co7DfQaFEd-zI5a8dcgd6w" source="_co7DcQaFEd-zI5a8dcgd6w" target="_co7DbwaFEd-zI5a8dcgd6w">
         <type href="http://Sierpinski#//VertexContainer/vertices"/>
       </edges>
     </rhs>
-    <mappings origin="//@rules.0/@lhs/@nodes.1" image="//@rules.0/@rhs/@nodes.0"/>
-    <mappings origin="//@rules.0/@lhs/@nodes.2" image="//@rules.0/@rhs/@nodes.1"/>
-    <mappings origin="//@rules.0/@lhs/@nodes.3" image="//@rules.0/@rhs/@nodes.2"/>
-    <mappings origin="//@rules.0/@lhs/@nodes.0" image="//@rules.0/@rhs/@nodes.6"/>
+    <mappings xmi:id="_co7DfgaFEd-zI5a8dcgd6w" origin="_co7DZAaFEd-zI5a8dcgd6w" image="_co7DawaFEd-zI5a8dcgd6w"/>
+    <mappings xmi:id="_co7DfwaFEd-zI5a8dcgd6w" origin="_co7DZQaFEd-zI5a8dcgd6w" image="_co7DbAaFEd-zI5a8dcgd6w"/>
+    <mappings xmi:id="_co7DgAaFEd-zI5a8dcgd6w" origin="_co7DZgaFEd-zI5a8dcgd6w" image="_co7DbQaFEd-zI5a8dcgd6w"/>
+    <mappings xmi:id="_co7DgQaFEd-zI5a8dcgd6w" origin="_co7DYwaFEd-zI5a8dcgd6w" image="_co7DcQaFEd-zI5a8dcgd6w"/>
   </rules>
   <imports href="http://Sierpinski#/"/>
 </henshin:TransformationSystem>
