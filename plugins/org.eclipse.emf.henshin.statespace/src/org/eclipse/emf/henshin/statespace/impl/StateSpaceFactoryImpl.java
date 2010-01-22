@@ -36,7 +36,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 */
 	public static StateSpaceFactory init() {
 		try {
-			StateSpaceFactory theStateSpaceFactory = (StateSpaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/henshin/statespace/2009"); 
+			StateSpaceFactory theStateSpaceFactory = (StateSpaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2010/Henshin/StateSpace"); 
 			if (theStateSpaceFactory != null) {
 				return theStateSpaceFactory;
 			}

@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -70,7 +69,7 @@ public class ImportRulesWizardPage extends WizardPage {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(2,false));
 		
-		list = new org.eclipse.swt.widgets.List(container, SWT.BORDER);
+		list = new org.eclipse.swt.widgets.List(container, SWT.BORDER | SWT.SINGLE);
 		list.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		Composite buttons = new Composite(container, SWT.NONE);
@@ -79,8 +78,8 @@ public class ImportRulesWizardPage extends WizardPage {
 		
 		createButton(buttons, "Add");
 		createButton(buttons, "Remove");
-		createButton(buttons, "Up");
-		createButton(buttons, "Down");
+		//createButton(buttons, "Up");
+		//createButton(buttons, "Down");
 		
 		setControl(container);
 		
@@ -120,17 +119,13 @@ public class ImportRulesWizardPage extends WizardPage {
 	 * Remove the currently selected rules.
 	 */
 	public void remove() {
-		
+		int index = list.getSelectionIndex();
+		if (index>=0) {
+			list.remove(index);
+			rules.remove(index);
+		}
 	}
-	
-	public void up() {
 		
-	}
-
-	public void down() {
-		
-	}
-	
 	/*
 	 * Private helper method for creating buttons.
 	 */

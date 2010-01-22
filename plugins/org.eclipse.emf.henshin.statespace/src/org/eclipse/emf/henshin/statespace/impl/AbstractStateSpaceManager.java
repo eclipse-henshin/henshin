@@ -1,19 +1,24 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -25,19 +30,24 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  */
 public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 
+	// State space meta data feature. This is ignored when changed from outside.
+	private static final EAttribute METADATA_FEATURE = StateSpacePackage.eINSTANCE.getStorage_Data(); 
+	
 	// State space:
 	private StateSpace stateSpace;
+	
+	// Tainted flag;
+	private boolean tainted;
 	
 	// Change flag:
 	private boolean change = false;
 	
 	// State space adapter:
-	private Adapter adapter = new AdapterImpl() {
+	private Adapter adapter = new AdapterImpl() {		
 		@Override
 		public void notifyChanged(Notification event) {
-			if (!change) {
-				throw new RuntimeException("Illegal state space access");
-			}
+			// Check if the change is illegal:
+			if (!change && event.getFeature()==METADATA_FEATURE) tainted = true;
 		}
 	};
 	
@@ -50,16 +60,74 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			throw new IllegalArgumentException();
 		}	
 		this.stateSpace = stateSpace;
+		this.tainted = false;
 		stateSpace.eAdapters().add(adapter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getStateSpace()
+	/**
+	 * Reload this state space manager instance.
+	 * @param monitor Progress monitor.
+	 * @throws TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	public StateSpace getStateSpace() {
-		return stateSpace;
-	}	
+	protected void reload(IProgressMonitor monitor) throws TaintedStateSpaceException {
+		
+		monitor.beginTask("Load state space", getStateSpace().getStates().size() + 2);
+		try {
+			
+			// Reset the state registry:
+			resetRegistry();			
+			monitor.worked(1);
+
+			// Reset all derived state models:
+			for (State state : getStateSpace().getStates()) {
+				if (!state.isInitial()) {
+					state.setModel(null);
+				}
+			}
+			monitor.worked(1);
+
+			// Compute state models, update the hash code and the index:
+			int transitionCount = 0;
+			for (State state : getStateSpace().getStates()) {
+				
+				// Compute the model and its hash:
+				Resource model = getModel(state);
+				int hash = hashCode(model);
+				
+				// Check if it exists already: 
+				if (getState(model, hash)!=null) {
+					markTainted();
+					throw new TaintedStateSpaceException("Duplicate state " + state.getName());
+				}
+				
+				// Update the state properties:
+				state.setHashCode(hash);
+				state.setOpen(isOpen(state));
+				
+				// Register the state:
+				registerState(state);
+				
+				// Update the transition count:
+				transitionCount += state.getOutgoing().size();
+				monitor.worked(1);
+				
+			}
+			
+			// Update the transition count:
+			synchronized (this) {
+				change = true;
+				stateSpace.setTransitionCount(transitionCount);
+				change = false;
+			}
+			
+		} catch (Throwable t) {
+			markTainted();
+			throw new TaintedStateSpaceException(t.getMessage());
+		} finally {
+			monitor.done();	
+		}
+		
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -76,6 +144,16 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @return The corresponding state if it exists.
 	 */
 	protected abstract State getState(Resource model, int hash);
+	
+	/**
+	 * Decide whether a state is open.
+	 * @param state State state.
+	 * @return <code>true</code> if it is open.
+	 */
+	protected boolean isOpen(State state) {
+		// By default we just assume that all states are open.
+		return true;
+	}
 	
 	/**
 	 * Create a new state in the state space. Warning: this does not 
@@ -99,6 +177,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			getStateSpace().getStates().add(state);
 			change = false;
 		}
+		
+		// Register the state:
+		registerState(state);
 		return state;
 
 	}
@@ -130,20 +211,38 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<State> removeState(State state) {
+	public final List<State> removeState(State state) {
 		
+		// List of removed states:
+		List<State> removed = new ArrayList<State>();
+			
 		// Remove state and all unreachable states:
 		synchronized (this) {
 			change = true;
+			
+			// Remove the state and all reachable states:
 			if (stateSpace.removeState(state)) {
-				// Remove unreachable states as well:
-				List<State> removed = StateSpaceSearch.removeUnreachableStates(stateSpace);
+				removed.addAll(StateSpaceSearch.removeUnreachableStates(stateSpace));
 				removed.add(state);
 			}
+			
+			// Unregister states and adjust the transition count:
+			Set<Transition> transitions = new HashSet<Transition>();
+			for (State current : removed) {
+				unregisterState(current);
+				transitions.addAll(current.getOutgoing());
+				transitions.addAll(current.getIncoming());
+			}
+			
+			// Update transition count:
+			int number = stateSpace.getTransitionCount() - transitions.size();
+			stateSpace.setTransitionCount(number);
+			
 			change = false;
 		}
-		// Nothing changed:
-		return Collections.emptyList();
+		
+		// Done.
+		return removed;
 		
 	}
 	
@@ -151,12 +250,11 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace()
 	 */
-	public final void resetStateSpace() {		
+	public final void resetStateSpace() {
 		
+		// Remove derived states and all transitions:
 		synchronized (this) {
 			change = true;
-
-			// Remove states and transitions:
 			List<State> states = stateSpace.getStates();			
 			for (int i=0; i<states.size(); i++) {
 				State state = states.get(i);
@@ -167,17 +265,19 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 					states.remove(i--);
 				}
 			}
-			
-			// Refresh the manager:
-			try {
-				refresh(new NullProgressMonitor());
-			} catch (ExecutionException e) {
-				throw new RuntimeException(e);
-			}
-			
 			change = false;
 		}
 		
+		// Reload the manager:
+		try {
+			reload(new NullProgressMonitor());
+			tainted = false;
+		}
+		catch (TaintedStateSpaceException e) {
+			// This should not happen because the state space is reset.
+			e.printStackTrace();
+			tainted = true;
+		}
 	}
 	
 	/**
@@ -209,8 +309,37 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);
-		state.getOutgoing().add(transition);
+		synchronized (this) {
+			change = true;
+			state.getOutgoing().add(transition);
+			stateSpace.setTransitionCount(stateSpace.getTransitionCount()+1);
+			change = false;
+		}
 		return transition;
+	}
+		
+	/**
+	 * Register an existing state in an index so that it
+	 * can be found efficiently.
+	 * @param state State to be registered.
+	 */
+	protected void registerState(State state) {
+		// Do nothing by default.
+	}
+		
+	/**
+	 * Remove a state from the registry again.
+	 * @param state State to be unregistered.
+	 */
+	protected void unregisterState(State state) {
+		// Do nothing by default.
+	}
+	
+	/**
+	 * Reset the state registry.
+	 */
+	protected void resetRegistry() {
+		// Do nothing by default.
 	}
 	
 	/*
@@ -227,6 +356,30 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 */
 	protected static boolean equals(Resource model1, Resource model2) {
 		return HenshinEqualityUtil.equals(model1, model2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getStateSpace()
+	 */
+	public StateSpace getStateSpace() {
+		return stateSpace;
+	}	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#isTainted()
+	 */
+	public boolean isTainted() {
+		return tainted;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#markTainted()
+	 */
+	public void markTainted() {
+		tainted = true;
 	}
 
 }

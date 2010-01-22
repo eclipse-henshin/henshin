@@ -30,16 +30,23 @@ import org.eclipse.ui.ide.IDE;
  */
 public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	
-	// Wizard page.
-	private CreationPage page;
-
+	// First page:
+	private CreationPage creationPage;
+	
+	// Second page:
+	private ImportRulesWizardPage rulesPage;
+	
+	// ResourceSet to be used:
+	private ResourceSet resourceSet;
+	
 	/* 
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
 	@Override
 	public void addPages() {
-		addPage(page); 
+		addPage(creationPage); 
+		addPage(rulesPage);
 	}
 
 	/* 
@@ -47,7 +54,9 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		page = new CreationPage(workbench, selection); 
+		resourceSet = new ResourceSetImpl();
+		creationPage = new CreationPage(workbench, selection); 
+		rulesPage = new ImportRulesWizardPage(resourceSet);
 	}
 
 	/* 
@@ -56,14 +65,12 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		return page.finish();
+		return creationPage.finish();
 	}
 
-	/**
-	 * This WizardPage can create an empty .shapes file for the ShapesEditor.
-	 */
 	private class CreationPage extends WizardNewFileCreationPage {
 		
+		// Workbench:
 		private final IWorkbench workbench;
 		
 		/**
@@ -73,7 +80,7 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 		 * @see StateSpaceCreationWizard#init(IWorkbench, IStructuredSelection)
 		 */
 		CreationPage(IWorkbench workbench, IStructuredSelection selection) {
-			super("shapeCreationPage1", selection);
+			super("Create Statespace", selection);
 			this.workbench = workbench;
 			setTitle("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
 			setDescription("Create a new " + StateSpaceResource.FILE_EXTENSION + " file");
@@ -123,9 +130,9 @@ public class StateSpaceCreationWizard extends Wizard implements INewWizard {
 			
 				// Create a state space resource:
 				URI uri = URI.createPlatformResourceURI(filePath.toString(), false);
-				ResourceSet resourceSet = new ResourceSetImpl();
 				Resource resource = resourceSet.createResource(uri);
 				StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
+				stateSpace.getRules().addAll(rulesPage.getRules());
 				resource.getContents().add(stateSpace);
 				resource.save(null);
 

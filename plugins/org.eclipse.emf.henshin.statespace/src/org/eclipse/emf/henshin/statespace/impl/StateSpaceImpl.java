@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -49,31 +49,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			return false;
 		}
 	}
-	
-	/**
-	 * @generated NOT
-	 */
-	public EList<State> getInitialStates() {
-		EList<State> initial = new BasicEList<State>();
-		for (State state : getStates()) {
-			if (state.isInitial()) initial.add(state);
-		}
-		return ECollections.unmodifiableEList(initial);
-	}
 
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *
 	 * this line and change the '@generated'-tag to '@generated NOT'.   *
 	 * ---------------------------------------------------------------- */
-	
-	/**
-	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
-	 * @see #getStates()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<State> states;
 
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
@@ -84,6 +65,57 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected EList<Rule> rules;
+
+	
+	/**
+	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStates()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<State> states;
+
+	/**
+	 * The cached value of the '{@link #getInitialStates() <em>Initial States</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInitialStates()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<State> initialStates;
+
+	/**
+	 * The cached value of the '{@link #getOpenStates() <em>Open States</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOpenStates()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<State> openStates;
+
+	/**
+	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransitionCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int TRANSITION_COUNT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransitionCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int transitionCount = TRANSITION_COUNT_EDEFAULT;
 
 	/**
 	 * @generated
@@ -116,6 +148,18 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<State> getInitialStates() {
+		if (initialStates == null) {
+			initialStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__INITIAL_STATES);
+		}
+		return initialStates;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<Rule> getRules() {
 		if (rules == null) {
 			rules = new EObjectResolvingEList<Rule>(Rule.class, this, StateSpacePackage.STATE_SPACE__RULES);
@@ -124,6 +168,41 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<State> getOpenStates() {
+		if (openStates == null) {
+			openStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__OPEN_STATES);
+		}
+		return openStates;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getTransitionCount() {
+		return transitionCount;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTransitionCount(int newTransitionCount) {
+		int oldTransitionCount = transitionCount;
+		transitionCount = newTransitionCount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__TRANSITION_COUNT, oldTransitionCount, transitionCount));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -137,6 +216,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -149,66 +230,122 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_SPACE__STATES:
-				return getStates();
 			case StateSpacePackage.STATE_SPACE__RULES:
 				return getRules();
+			case StateSpacePackage.STATE_SPACE__STATES:
+				return getStates();
+			case StateSpacePackage.STATE_SPACE__INITIAL_STATES:
+				return getInitialStates();
+			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
+				return getOpenStates();
+			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
+				return getTransitionCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case StateSpacePackage.STATE_SPACE__RULES:
+				getRules().clear();
+				getRules().addAll((Collection<? extends Rule>)newValue);
+				return;
 			case StateSpacePackage.STATE_SPACE__STATES:
 				getStates().clear();
 				getStates().addAll((Collection<? extends State>)newValue);
 				return;
-			case StateSpacePackage.STATE_SPACE__RULES:
-				getRules().clear();
-				getRules().addAll((Collection<? extends Rule>)newValue);
+			case StateSpacePackage.STATE_SPACE__INITIAL_STATES:
+				getInitialStates().clear();
+				getInitialStates().addAll((Collection<? extends State>)newValue);
+				return;
+			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
+				getOpenStates().clear();
+				getOpenStates().addAll((Collection<? extends State>)newValue);
+				return;
+			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
+				setTransitionCount((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case StateSpacePackage.STATE_SPACE__RULES:
+				getRules().clear();
+				return;
 			case StateSpacePackage.STATE_SPACE__STATES:
 				getStates().clear();
 				return;
-			case StateSpacePackage.STATE_SPACE__RULES:
-				getRules().clear();
+			case StateSpacePackage.STATE_SPACE__INITIAL_STATES:
+				getInitialStates().clear();
+				return;
+			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
+				getOpenStates().clear();
+				return;
+			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
+				setTransitionCount(TRANSITION_COUNT_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_SPACE__STATES:
-				return states != null && !states.isEmpty();
 			case StateSpacePackage.STATE_SPACE__RULES:
 				return rules != null && !rules.isEmpty();
+			case StateSpacePackage.STATE_SPACE__STATES:
+				return states != null && !states.isEmpty();
+			case StateSpacePackage.STATE_SPACE__INITIAL_STATES:
+				return initialStates != null && !initialStates.isEmpty();
+			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
+				return openStates != null && !openStates.isEmpty();
+			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
+				return transitionCount != TRANSITION_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (transitionCount: ");
+		result.append(transitionCount);
+		result.append(')');
+		return result.toString();
 	}
 
 } //StateSpaceImpl

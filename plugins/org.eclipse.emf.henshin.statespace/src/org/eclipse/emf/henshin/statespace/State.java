@@ -12,7 +12,6 @@ public interface State extends Storage {
 	/**
 	 * Get the name of this state.
 	 * @return the name of this state.
-	 * @see #setName(String)
 	 * @model
 	 * @generated
 	 */
@@ -21,15 +20,12 @@ public interface State extends Storage {
 	/**
 	 * Set the name of this state.
 	 * @param name The new name.
-	 * @see #getName()
 	 * @generated
 	 */
 	void setName(String value);
 
 	/**
-	 * Get the list of incoming transitions of this state. The list contents 
-	 * are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.Transition#getTarget <em>Target</em>}'.
+	 * Get the list of incoming transitions of this state. 
 	 * @return list of incoming transitions.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getTarget
 	 * @model opposite="target"
@@ -38,9 +34,7 @@ public interface State extends Storage {
 	EList<Transition> getIncoming();
 
 	/**
-	 * Get the list of outgoing transitions of this state. The list contents 
-	 * are of type {@link org.eclipse.emf.henshin.statespace.Transition}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.statespace.Transition#getSource <em>Source</em>}'.
+	 * Get the list of outgoing transitions of this state. 
 	 * @return the outgoing transitions.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getSource
 	 * @model opposite="source" containment="true"
@@ -66,11 +60,9 @@ public interface State extends Storage {
 	void setModel(Resource value);
 
 	/**
-	 * Get the state space that contains this state. This is bidirectional reference 
-	 * and its opposite is '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStates <em>States</em>}'.
+	 * Get the state space that contains this state. 
 	 * @return the state space that contains this state.
 	 * @see #setStateSpace(StateSpace)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStates
 	 * @model opposite="states" transient="false"
 	 * @generated
 	 */
@@ -112,8 +104,8 @@ public interface State extends Storage {
 	boolean isOpen();
 
 	/**
-	 * Set the 'open' flag.
-	 * @param value the new value of the 'open' flag.
+	 * Set the open flag.
+	 * @param value the new value of the open flag.
 	 * @see #isOpen()
 	 * @generated
 	 */

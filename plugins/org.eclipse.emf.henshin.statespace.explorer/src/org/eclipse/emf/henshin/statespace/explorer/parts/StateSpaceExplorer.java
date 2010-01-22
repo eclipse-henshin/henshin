@@ -8,7 +8,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -19,7 +21,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -52,7 +53,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	private StateSpaceManager manager;
 	
 	// Job for loading the state space:
-	private Job loader;
+	private LoadStateSpaceManagerJob loader;
 	
 	// Tool menu:
 	private StateSpaceToolsMenu toolsMenu;
@@ -204,7 +205,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	public StateSpaceManager getStateSpaceManager() {
 		return manager;
 	}
-
+	
 	/* 
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
@@ -258,12 +259,15 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			ErrorDialog.openError(getSite().getShell(), "Error", message + ". See the error log for more details.", status);
 			
 		}
-
-		// Create the state space manager:
-		manager = new StateSpaceManagerImpl(stateSpace);
-				
+		
 		// Load the state space manager:
-		loader = new StateSpaceManagerRefreshJob(manager);
+		loader = new LoadStateSpaceManagerJob(stateSpace);
+		loader.setToolsMenu(toolsMenu);
+		loader.addJobChangeListener(new JobChangeAdapter() {
+			public void done(IJobChangeEvent event) {
+				manager = loader.getStateSpaceManager();
+			}
+		});
 		loader.schedule();
 		
 	}

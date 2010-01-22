@@ -13,10 +13,10 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManagerWithRefresh {
+public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSpaceManager {
 	
 	// Minimum size of the index:
-	private static final int MIN_INDEX_SIZE = 4;
+	private static final int MIN_INDEX_SIZE = 512;
 	
 	// The state space index:
 	private State[][] index;
@@ -39,15 +39,15 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		
 		// Find all possibly matching states:
 		int position = hash2position(hash);
-		State[] matched = index[position];
+		State[] matched = index[position];		
+		if (matched==null) return null;
 		
 		// Check if one of them is the correct one:
-		if (matched!=null) {
-			for (State state : matched) {
-				Resource current = getModel(state);
-				if (equals(model, current)) {
-					return state;
-				}
+		for (int i=0; i<matched.length; i++) {
+			if (matched[i]==null) continue;
+			Resource current = getModel(matched[i]);
+			if (equals(model, current)) {
+				return matched[i];
 			}
 		}
 		
@@ -64,7 +64,9 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	protected void registerState(State state) {
 		
 		// Check if the index needs to be resized:
-		maintainIndex();
+		if (minimalSize() > index.length) {
+			grow();
+		}
 		
 		// Get the hash code of the state:
 		int position = hash2position(state.getHashCode());
@@ -87,9 +89,31 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		if (minor>=index[position].length) {
 			index[position] = Arrays.copyOf(index[position], index[position].length*2);
 		}
-
+		
 		// Add the state to the index:
 		index[position][minor] = state;
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#unregisterState(org.eclipse.emf.henshin.statespace.State)
+	 */
+	@Override
+	protected void unregisterState(State state) {
+		
+		// Find all possibly matching states:
+		int position = hash2position(state.getHashCode());
+		State[] matched = index[position];		
+		if (matched==null) return;
+		
+		// Check if one of them is the correct one:
+		for (int i=0; i<matched.length; i++) {
+			if (matched[i]==state) {
+				matched[i] = null;
+				return;
+			}
+		}
 		
 	}
 	
@@ -103,28 +127,23 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	}
 	
 	/*
-	 * Maintain the index. This checks if the index is to small
-	 * and expands it if required. This method is linear in the
+	 * Grow the index. This method is linear in the
 	 * number of indexed states and does not compute any models.
 	 */
-	private void maintainIndex() {
+	private void grow() {
+		
+		// Create a new array, but remember the old one:
+		State[][] oldIndex = index;
+		resetRegistry();
 
-		// Check if the size of the index is to small:
-		if (getStateSpace().getStates().size() > index.length) {
-			
-			// Create a new array, but remember the old one:
-			State[][] oldIndex = index;
-			resetRegistry();
-			
-			// Add all states of the old index to the new index:
-			for (int i=0; i<oldIndex.length; i++) {
-				if (oldIndex[i]==null) continue;
-				for (int j=0; j<oldIndex[i].length; j++) {
-					if (oldIndex[i][j]!=null) registerState(oldIndex[i][j]);
-				}
+		// Add all states of the old index to the new index:
+		for (int i=0; i<oldIndex.length; i++) {
+			if (oldIndex[i]==null) continue;
+			for (int j=0; j<oldIndex[i].length; j++) {
+				if (oldIndex[i][j]!=null) registerState(oldIndex[i][j]);
 			}
-			
 		}
+		
 	}
 	
 	/*
@@ -140,6 +159,13 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	private int optimalSize() {
 		int size = getStateSpace().getStates().size() * 2;
 		return (size<MIN_INDEX_SIZE) ? MIN_INDEX_SIZE : size;
+	}
+	
+	/*
+	 * Compute the minimal size of the index.
+	 */
+	private int minimalSize() {
+		return getStateSpace().getStates().size();
 	}
 	
 }

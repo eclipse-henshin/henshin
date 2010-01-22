@@ -1,9 +1,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -21,11 +19,17 @@ public interface StateSpaceManager {
 	StateSpace getStateSpace();
 	
 	/**
-	 * Refresh this manager instance. 
-	 * @param monitor Progress monitor.
-	 * @throws ExecutionException If an error occurs.
+	 * Check whether the managed state space is tainted
+	 * and needs to be reset using {@link #resetStateSpace()}.
+	 * @return <code>true</code> if it needs to be reset.
 	 */
-	void refresh(IProgressMonitor monitor) throws ExecutionException;
+	boolean isTainted();
+	
+	/**
+	 * Mark the state space manager as tainted.
+	 * @see #isTainted()
+	 */
+	void markTainted();
 	
 	/**
 	 * Get the state that corresponds to the argument model. 
@@ -72,11 +76,5 @@ public interface StateSpaceManager {
 	 * This removes all derived states and all transitions.
 	 */
 	void resetStateSpace();
-	
-	/**
-	 * Get the total number of transitions in the state space.
-	 * @return Number of transition.
-	 */
-	int getTransitionCount();
 	
 }

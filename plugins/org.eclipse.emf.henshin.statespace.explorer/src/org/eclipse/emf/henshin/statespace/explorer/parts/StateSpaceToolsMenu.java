@@ -274,7 +274,7 @@ public class StateSpaceToolsMenu extends Composite {
 		} else {
 			StateSpace stateSpace = manager.getStateSpace();
 			statesLabel.setText(stateSpace.getStates().size() + " (" + "? open)");
-			transitionsLabel.setText(manager.getTransitionCount() + "");
+			//transitionsLabel.setText(manager.getTransitionCount() + "");
 		}
 	}
 

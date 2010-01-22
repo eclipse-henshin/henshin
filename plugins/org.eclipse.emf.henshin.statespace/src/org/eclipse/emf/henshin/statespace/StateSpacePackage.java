@@ -42,7 +42,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/emf/henshin/statespace/2009";
+	String eNS_URI = "http://www.eclipse.org/emf/2010/Henshin/StateSpace";
 
 	/**
 	 * The package namespace name.
@@ -108,22 +108,49 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__DATA = STORAGE__DATA;
 
 	/**
-	 * The feature id for the '<em><b>States</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE__STATES = STORAGE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Rules</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__RULES = STORAGE_FEATURE_COUNT + 1;
+	int STATE_SPACE__RULES = STORAGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>States</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__STATES = STORAGE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Initial States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__INITIAL_STATES = STORAGE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Open States</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__OPEN_STATES = STORAGE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Transition Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__TRANSITION_COUNT = STORAGE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -132,7 +159,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 2;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -328,6 +355,39 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStateSpace_States();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getInitialStates <em>Initial States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Initial States</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getInitialStates()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EReference getStateSpace_InitialStates();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getOpenStates <em>Open States</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Open States</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getOpenStates()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EReference getStateSpace_OpenStates();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount <em>Transition Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Transition Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_TransitionCount();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
@@ -562,6 +622,30 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE_SPACE__STATES = eINSTANCE.getStateSpace_States();
+
+		/**
+		 * The meta object literal for the '<em><b>Initial States</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_SPACE__INITIAL_STATES = eINSTANCE.getStateSpace_InitialStates();
+
+		/**
+		 * The meta object literal for the '<em><b>Open States</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE_SPACE__OPEN_STATES = eINSTANCE.getStateSpace_OpenStates();
+
+		/**
+		 * The meta object literal for the '<em><b>Transition Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__TRANSITION_COUNT = eINSTANCE.getStateSpace_TransitionCount();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

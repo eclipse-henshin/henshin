@@ -2,16 +2,20 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="statespace"
-    nsURI="http://www.eclipse.org/emf/henshin/statespace/2009" nsPrefix="statespace">
+    nsURI="http://www.eclipse.org/emf/2010/Henshin/StateSpace" nsPrefix="statespace">
   <eClassifiers xsi:type="ecore:EClass" name="StateSpace" eSuperTypes="#//Storage">
     <eOperations name="removeState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="state" eType="#//State"/>
     </eOperations>
-    <eOperations name="getInitialStates" upperBound="-1" eType="#//State"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
-        eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialStates" upperBound="-1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="openStates" upperBound="-1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

@@ -10,28 +10,14 @@ import org.eclipse.emf.henshin.model.Rule;
 public interface StateSpace extends Storage {
 
 	/**
-	 * Get the list of states in this state space. The list contents are of type 
-	 * {@link org.eclipse.emf.henshin.statespace.State}. It is bidirectional and its 
-	 * opposite is '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>StateSpace</em>}'.
-	 * 
-	 * @return list of states in this state space.
-	 * @see org.eclipse.emf.henshin.statespace.State#getStateSpace
+	 * Get the states stored in this state space.
 	 * @model opposite="stateSpace" containment="true"
 	 * @generated
 	 */
 	EList<State> getStates();
 
 	/**
-	 * Returns the value of the '<em><b>Rules</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rules</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rules</em>' reference list.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_Rules()
+	 * Get the rules used for generating this state space.
 	 * @model
 	 * @generated
 	 */
@@ -47,10 +33,31 @@ public interface StateSpace extends Storage {
 
 	/**
 	 * Get the initial states in this state space.
-	 * Returns an unmodifiable list.
-	 * @model kind="operation"
+	 * @model
 	 * @generated
 	 */
 	EList<State> getInitialStates();
+
+	/**
+	 * Get the open states in this state space.
+	 * @model
+	 * @generated
+	 */
+	EList<State> getOpenStates();
+
+	/**
+	 * Get the total number of transitions in this state space.
+	 * @see #setTransitionCount(int)
+	 * @model
+	 * @generated
+	 */
+	int getTransitionCount();
+
+	/**
+	 * Set the total number of transitions in this state space.
+	 * @see #getTransitionCount()
+	 * @generated
+	 */
+	void setTransitionCount(int value);
 	
 }

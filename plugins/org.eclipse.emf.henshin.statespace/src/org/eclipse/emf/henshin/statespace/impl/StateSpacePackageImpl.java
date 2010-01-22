@@ -153,7 +153,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EReference getStateSpace_States() {
-		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -161,8 +161,38 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getStateSpace_InitialStates() {
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(2);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStateSpace_OpenStates() {
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(3);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateSpace_TransitionCount() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(4);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getStateSpace_Rules() {
-		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(1);
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
 
 
@@ -357,8 +387,11 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		// Create classes and their features
 		stateSpaceEClass = createEClass(STATE_SPACE);
-		createEReference(stateSpaceEClass, STATE_SPACE__STATES);
 		createEReference(stateSpaceEClass, STATE_SPACE__RULES);
+		createEReference(stateSpaceEClass, STATE_SPACE__STATES);
+		createEReference(stateSpaceEClass, STATE_SPACE__INITIAL_STATES);
+		createEReference(stateSpaceEClass, STATE_SPACE__OPEN_STATES);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
@@ -420,13 +453,14 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_Rules(), theHenshinPackage.getRule(), null, "rules", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_States(), this.getState(), this.getState_StateSpace(), "states", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_InitialStates(), this.getState(), null, "initialStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_OpenStates(), this.getState(), null, "openStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(stateSpaceEClass, this.getState(), "getInitialStates", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

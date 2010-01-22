@@ -13,7 +13,7 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://www.eclipse.org/emf/henshin/statespace/2009"
+            uri="http://www.eclipse.org/emf/2010/Henshin/StateSpace"
             class="org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl"
             genModel="model/statespace.genmodel"/>
    </extension>

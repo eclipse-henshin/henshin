@@ -3,11 +3,14 @@ package org.eclipse.emf.henshin.statespace.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
@@ -29,12 +32,24 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	// State model cache:
 	private StateModelCache cache;
 	
-	/**
-	 * Default constructor.
+	/*
+	 * Private constructor.
 	 */
-	public StateSpaceManagerImpl(StateSpace stateSpace) {
+	private StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
 		this.cache = new StateModelCache();
+	}
+	
+	/**
+	 * Create a new state space manager instance.
+	 * @param stateSpace State space.
+	 * @param monitor Progress monitor.
+	 * @return State space manager.
+	 */
+	public static StateSpaceManager load(StateSpace stateSpace, IProgressMonitor monitor) throws TaintedStateSpaceException {
+		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
+		manager.reload(monitor);
+		return manager;
 	}
 	
 	/*
