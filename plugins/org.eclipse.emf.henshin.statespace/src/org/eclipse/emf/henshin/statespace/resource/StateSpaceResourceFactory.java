@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.resources;
+package org.eclipse.emf.henshin.statespace.resource;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;

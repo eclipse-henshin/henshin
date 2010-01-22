@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.resources;
+package org.eclipse.emf.henshin.statespace.resource;
 
 import java.io.IOException;
 

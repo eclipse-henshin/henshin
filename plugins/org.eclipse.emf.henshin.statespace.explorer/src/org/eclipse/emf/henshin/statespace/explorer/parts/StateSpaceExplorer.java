@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
-import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
+import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;

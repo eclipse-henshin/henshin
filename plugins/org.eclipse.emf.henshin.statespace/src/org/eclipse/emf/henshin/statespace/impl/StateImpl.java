@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
+import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 
 /**
  * Concrete implementation of the {@link State} interface.
