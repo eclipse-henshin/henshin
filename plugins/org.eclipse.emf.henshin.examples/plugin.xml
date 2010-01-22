@@ -16,5 +16,13 @@
             class="sierpinski.model.Sierpinski.SierpinskiPackage"
             genModel="src/sierpinski/model/sierpinski.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.eclipse.emf.henshin.examples.philosophers.PhilosophersPackage"
+            genModel="src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.genmodel"
+            uri="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers">
+      </package>
+   </extension>
 
 </plugin>
