@@ -8,7 +8,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceLayouterJob;
+import org.eclipse.emf.henshin.statespace.explorer.actions.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
@@ -69,7 +69,7 @@ public class StateSpaceToolsMenu extends Composite {
 
 	// Layouter:
 	private Button layouterCheckbox;
-	private StateSpaceLayouterJob layouterJob;
+	private LayoutStateSpaceJob layouterJob;
 	private Scale repulsionScale;
 	private Scale attractionScale;
 	
@@ -244,7 +244,7 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	public void startLayouter() {
 		layouterCheckbox.setSelection(true);
-		layouterJob = new StateSpaceLayouterJob(manager.getStateSpace(), Display.getCurrent());
+		layouterJob = new LayoutStateSpaceJob(manager.getStateSpace(), Display.getCurrent());
 		updateLayouterProperties();
 		editDomain.getCommandStack().execute(new Command("Start layouter"){});
 		layouterJob.schedule();

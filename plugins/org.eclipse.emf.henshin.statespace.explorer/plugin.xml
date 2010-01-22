@@ -16,7 +16,7 @@
       <wizard name="State Space"
               icon="icons/HenshinDiagramFile.gif"
               category="org.eclipse.emf.henshin.wizards"
-              class="org.eclipse.emf.henshin.statespace.explorer.actions.StateSpaceCreationWizard"
+              class="org.eclipse.emf.henshin.statespace.explorer.actions.CreateStateSpaceWizard"
               id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>

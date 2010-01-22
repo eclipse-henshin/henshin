@@ -2,8 +2,8 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -18,7 +18,7 @@ public class ImportRulesWizard extends Wizard {
 	private StateSpaceExplorer explorer;
 	
 	// Rules page:
-	private ImportRulesWizardPage rulesPage;
+	private ImportRulesPage rulesPage;
 	
 	/**
 	 * Default constructor.
@@ -36,8 +36,16 @@ public class ImportRulesWizard extends Wizard {
 	 */
 	@Override
     public void addPages() {
-		ResourceSet resourceSet = explorer.getStateSpaceManager().getStateSpace().eResource().getResourceSet();
-		addPage(rulesPage = new ImportRulesWizardPage(resourceSet));
+		
+		// The state space:
+		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
+		
+		// Create the rule page:
+		rulesPage = new ImportRulesPage();
+		rulesPage.setStateSpaceResource(stateSpace.eResource());
+		rulesPage.getRules().addAll(stateSpace.getRules());
+		addPage(rulesPage);
+		
     }
 	
 	/*

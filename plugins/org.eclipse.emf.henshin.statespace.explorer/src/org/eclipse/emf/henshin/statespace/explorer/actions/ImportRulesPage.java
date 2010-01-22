@@ -39,7 +39,7 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  * rules and that lets the user add and remove rules.
  * @author Christian Krause
  */
-public class ImportRulesWizardPage extends WizardPage {
+public class ImportRulesPage extends WizardPage {
 	
 	// Imported rules:
 	private List<Rule> rules;
@@ -47,19 +47,26 @@ public class ImportRulesWizardPage extends WizardPage {
 	// SWT list for the rules:
 	private org.eclipse.swt.widgets.List list;
 	
-	// Resource set used for loading:
-	private ResourceSet resourceSet;
+	// StateSpace resource:
+	private Resource stateSpaceResource;
 	
 	/**
 	 * Default constructor.
 	 */
-	protected ImportRulesWizardPage(ResourceSet resourceSet) {
+	protected ImportRulesPage() {
 		super("Import Rules");
 		this.rules = new ArrayList<Rule>();
-		this.resourceSet = resourceSet;
 		setDescription("Add or remove transformation rules to be used for this state space.");
 	}
-
+	
+	/**
+	 * Set the state space resource to be used.
+	 * @param resource State space resource.
+	 */
+	public void setStateSpaceResource(Resource resource) {
+		this.stateSpaceResource = resource;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
@@ -91,7 +98,7 @@ public class ImportRulesWizardPage extends WizardPage {
 	public void add() {
 		
 		// Open a selection dialog:
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new RuleLabelProvider(), new RuleContentProvider(resourceSet));
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new RuleLabelProvider(), new RuleContentProvider());
 		dialog.setTitle("Select Rule");
 		dialog.setMessage("Please select the transformation rule to be imported:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
@@ -133,12 +140,12 @@ public class ImportRulesWizardPage extends WizardPage {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText(name);
 		button.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		final ImportRulesWizardPage thisPage = this;
+		final ImportRulesPage thisPage = this;
 		button.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {}
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					Method method = ImportRulesWizardPage.class.getMethod(name.toLowerCase());
+					Method method = ImportRulesPage.class.getMethod(name.toLowerCase());
 					if (method!=null) method.invoke(thisPage);
 				} catch (Throwable t) {
 					t.printStackTrace();
@@ -228,18 +235,8 @@ public class ImportRulesWizardPage extends WizardPage {
 	/*
 	 * Ecore content provider.
 	 */
-	static class RuleContentProvider extends BaseWorkbenchContentProvider {
+	class RuleContentProvider extends BaseWorkbenchContentProvider {
 		
-		// Resource set:
-		private ResourceSet resourceSet;
-		
-		/*
-		 * Default constructor.
-		 */
-		public RuleContentProvider(ResourceSet resourceSet) {
-			this.resourceSet = resourceSet;
-		}
-
 		/* 
 		 * (non-Javadoc)
 		 * @see org.eclipse.ui.model.BaseWorkbenchContentProvider#getChildren(java.lang.Object)
@@ -247,13 +244,22 @@ public class ImportRulesWizardPage extends WizardPage {
 		@Override
 		public Object[] getChildren(Object element) {
 			if (element instanceof IAdaptable) {
+				
 				IAdaptable adapter = (IAdaptable) element;
 				Object adaptedResource = adapter.getAdapter(IResource.class);
+				
 				if (adaptedResource != null) {
 					IResource res = (IResource) adaptedResource;
 					if ("henshin".equals(res.getFileExtension())) {
-						URI uri = URI.createPlatformResourceURI(res.getFullPath().toString(), true);
+						
+						// Construct an URI:
+						URI baseURI = stateSpaceResource.getURI();
+						URI uri = URI.createPlatformResourceURI(res.getFullPath().toString(), true).resolve(baseURI);
+						
+						// Create the resource:
+						ResourceSet resourceSet = stateSpaceResource.getResourceSet();
 						Resource resource = resourceSet.getResource(uri, true);
+						
 						List<Rule> rules = new ArrayList<Rule>();
 						for (EObject item : resource.getContents()) {
 							if (item instanceof TransformationSystem) {
@@ -261,6 +267,7 @@ public class ImportRulesWizardPage extends WizardPage {
 							}
 						}
 						return rules.toArray();
+						
 					}
 				}
 			}

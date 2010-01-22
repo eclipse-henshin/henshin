@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Display;
  * Layouter job for state spaces.
  * @author Christian Krause
  */
-public class StateSpaceLayouterJob extends Job {
+public class LayoutStateSpaceJob extends Job {
 	
 	// Layouter:
 	private StateSpaceSpringLayouter layouter;
@@ -26,7 +26,7 @@ public class StateSpaceLayouterJob extends Job {
 	 * @param stateSpace State space.
 	 * @param display Display.
 	 */
-	public StateSpaceLayouterJob(StateSpace stateSpace, Display display) {
+	public LayoutStateSpaceJob(StateSpace stateSpace, Display display) {
 		
 		super("Layouting state space");
 		setPriority(LONG);
