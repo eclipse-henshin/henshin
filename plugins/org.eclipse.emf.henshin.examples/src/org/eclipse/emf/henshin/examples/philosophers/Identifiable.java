@@ -81,7 +81,7 @@ public abstract class Identifiable extends MinimalEObjectImpl implements EObject
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(int)
 	 * @see org.eclipse.emf.henshin.examples.philosophers.PhilosophersPackage#getIdentifiable_Id()
-	 * @model id="true"
+	 * @model
 	 * @generated
 	 */
 	public int getId() {
