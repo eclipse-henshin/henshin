@@ -1,12 +1,21 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
@@ -43,20 +52,78 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	/**
 	 * Create a new state space manager instance.
 	 * @param stateSpace State space.
+	 * @param memoryUsage Memory usage.
+	 * @param monitor Progress monitor.
+	 * @return State space manager.
+	 */
+	public static StateSpaceManager load(StateSpace stateSpace, double memoryUsage, IProgressMonitor monitor) throws TaintedStateSpaceException {
+		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
+		manager.setMemoryUsage(memoryUsage);
+		manager.reload(monitor);
+		return manager;
+	}
+	
+	/**
+	 * Create a new state space manager instance.
+	 * @param stateSpace State space.
 	 * @param monitor Progress monitor.
 	 * @return State space manager.
 	 */
 	public static StateSpaceManager load(StateSpace stateSpace, IProgressMonitor monitor) throws TaintedStateSpaceException {
-		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
-		manager.reload(monitor);
-		return manager;
+		return load(stateSpace, DEFAULT_MEMORY_USAGE, monitor);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#isOpen(org.eclipse.emf.henshin.statespace.State)
+	 */
+	@Override
+	protected boolean isOpen(State state) throws TaintedStateSpaceException {
+		
+		// Get the model:
+		Resource model = getModel(state);
+		
+		// Find all matches:
+		Map<Rule,List<RuleMatch>> matches = new HashMap<Rule,List<RuleMatch>>();
+		for (Rule rule : getStateSpace().getRules()) {
+			RuleApplication application = new RuleApplication(createEngine(model), rule);
+			matches.put(rule, application.findAllMatches());
+		}
+		
+		// Check if all outgoing transitions are legal:
+		for (Transition transition : state.getOutgoing()) {
+			
+			// Check the rule:
+			Rule rule = transition.getRule();
+			if (rule==null || getStateSpace().getRules().contains(rule)) {
+				throw new TaintedStateSpaceException("Illegal transition in state " + state);
+			}
+			
+			// Check if the match index is valid:
+			if (matches.get(rule).size()<=transition.getMatch()) {
+				throw new TaintedStateSpaceException("Illegal transition in state " + state);
+			}	
+			
+		}
+		
+		// Check if there is a transition for every found match:
+		for (Rule rule : matches.keySet()) {
+			int count = matches.get(rule).size();
+			for (int i=0; i<count; i++) {
+				if (findTransition(state, rule, i)==null) return true;
+			}
+		}
+		
+		// State is not open:
+		return false;
+		
 	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public Resource getModel(State state) {
+	public Resource getModel(State state) throws TaintedStateSpaceException {
 		
 		// Model already set?
 		if (state.getModel()!=null) {
@@ -81,15 +148,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			throw new RuntimeException("Unable to derive state model for state " + state.getName());
 		}
 		
-		// Get the predecessor's model:
-		Resource model = search.getState().getModel();
-		if (model==null) model = cache.get(search.getState());
-		
-		// Derive the model for the current state:
-		for (Transition transition : search.getPath()) {
-						
-			
-		}
+		// Derive the current model:
+		Resource model = deriveModel(search.getState().getModel(), search.getPath());
 		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
@@ -107,87 +167,162 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		
 	}
 	
-
+	/*
+	 * Derive a model.
+	 */
+	private Resource deriveModel(Resource start, Path path) throws TaintedStateSpaceException {
+		
+		// Copy the model first:
+		Resource model = copyModel(start, null);
+		
+		// Derive the model for the current state:
+		for (Transition transition : path) {
+			
+			Rule rule = transition.getRule();
+			if (rule==null || !getStateSpace().getRules().contains(rule)) {
+				throw new TaintedStateSpaceException("Illegal transition in state " + transition.getSource());
+			}
+			
+			RuleApplication application = new RuleApplication(createEngine(model), rule);
+			List<RuleMatch> matches = application.findAllMatches();
+			if (matches.size()<=transition.getMatch()) {
+				throw new TaintedStateSpaceException("Illegal transition in state " + transition.getSource());				
+			}
+			
+			// Apply the rule with the found match:
+			RuleMatch match = matches.get(transition.getMatch());
+			application.setMatch(match);
+			application.apply();
+			
+		}
+		
+		return model;
+		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<Transition> exploreState(State state) {
-
-		// ----- DUMMY IMPLEMENTATION FOR TESTING ------------------------ //
+	public List<Transition> exploreState(State state) throws TaintedStateSpaceException {
 		
-		State created = createState(new ResourceImpl(), 0);
-		int[] location = state.getLocation();
-		location[1] += 100;
-		created.setLocation(location);
-		state.setOpen(false);
-		created.setOpen(true);
-		Transition transition = createTransition(state, null, 23);
-		transition.setTarget(created);
-		if (true) return null;
-		
-		// --------------------------------------------------------------- //
-		
+		// Get the state model:
 		Resource model = getModel(state);
-		if (model==null) {
-			throw new RuntimeException("State without model");
-		}
 		
-		// Find all matches:
-		/*List<RuleMatch> matches = engine.findAllMatches(rule);
-		for (int i=0; i<matches.size(); i++) {
-			RuleMatch match = matches.get(i);
-			
-			// Create a copy of the model.
-			Resource transformed = new ResourceImpl();
-			transformed.getContents().addAll(EcoreUtil.copyAll(model.getContents()));
-			
-			
-		}
-		*/
-		
+		// List of newly created transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
 
-		
-		// Find all matches:
-		
-		
-		// Transform it:
-		
-		
-		// Check if a corresponding state exists already:
-/*		int hash = hashCode(transformed);
-		if (getState(transformed, hash)!=null) {
-			// Add an outgoing transition if not existent:
+		// Apply all rules:
+		for (Rule rule : getStateSpace().getRules()) {
 			
-		} else {
-			State newState = createState(transformed, hash);
-			createTransition(newState, null, 0);
+			RuleApplication application = new RuleApplication(createEngine(model), rule);
+			List<RuleMatch> matches = application.findAllMatches();
 			
-			// Remember the new state:
-			newStates.add(newState);
+			for (int i=0; i<matches.size(); i++) {
+				
+				// Transform the model:
+				RuleMatch match = matches.get(i);
+				Resource transformed = copyModel(model, match);
+				application = new RuleApplication(createEngine(transformed), rule);
+				application.setMatch(match);
+				application.apply();
+				
+				// Find existing transition / state:
+				Transition existingTransition = findTransition(state, rule, i);
+				State targetState = getState(transformed);
+				
+				if (existingTransition!=null) {
+					
+					// Check if the transition points to the correct state:
+					if (existingTransition.getTarget()!=targetState) {
+						markTainted();
+						throw new TaintedStateSpaceException("Illegal transition in state " + state);
+					}
+					
+				} else {
+					
+					// Create a new transition and state if required:
+					Transition newTransition = createTransition(state, rule, i);
+					if (targetState==null) {
+						targetState = createOpenState(transformed, hashCode(transformed));
+						targetState.setLocation(shiftedLocation(state, state.getOutgoing().indexOf(newTransition)));
+					}
+					newTransition.setTarget(targetState);
+					
+				}
+					
+			}
 			
 		}
-	*/	
+		
 		// Mark the state as closed:
-		if (state.isOpen()) {
-			state.setOpen(false);
-		}
+		state.setOpen(false);
 		
 		// Done.
 		return transitions;
 		
 	}
 	
+	/*
+	 * Find an outgoing transition.
+	 */
+	private Transition findTransition(State state, Rule rule, int match) {
+		for (Transition transition : state.getOutgoing()) {
+			if (rule==transition.getRule() && match==transition.getMatch()) {
+				return transition;
+			}
+		}
+		return null;
+	}
+	
+	/*
+	 * Create an interpreter engine
+	 */
+	private EmfEngine createEngine(Resource model) {
+		EmfGraph graph = new EmfGraph();
+		for (EObject root : model.getContents()) {
+			graph.addRoot(root);
+		}
+		return new EmfEngine(graph);
+	}
+	
+	/*
+	 * Copy a state model.
+	 */
+	private Resource copyModel(Resource model, RuleMatch match) {
+		Resource copy = new ResourceImpl();
+		Copier copier = new Copier();
+		copy.getContents().addAll(copier.copyAll(model.getContents()));
+		copier.copyReferences();
+		if (match!=null) {
+			List<Node> nodes = new ArrayList<Node>(match.getNodeMapping().keySet());
+			for (Node node : nodes) {
+				EObject newImage = copier.get(match.getNodeMapping().get(node));
+				match.getNodeMapping().put(node, newImage);
+			}
+		}
+		return copy;
+	}
+	
+	/*
+	 * Create a shifted location.
+	 */
+	private int[] shiftedLocation(State base, int index) {
+		int[] location = base.getLocation();
+		location[0] += 100 * index;
+		location[1] += 100;
+		return location;
+	}
+	
 	/**
-	 * Set the memory usage for this state space manager.
-	 * Must be between 0 and 1, where 0 means that no model
-	 * are kept in memory (except a cache of constant size)
-	 * and 1 means that all models are kept in memory. 
+	 * Set the memory usage for this state space manager. Must be between 0 and 1, 
+	 * where 0 means that no model are kept in memory (except a cache of constant size)
+	 * and 1 means that all models are kept in memory. For full effect, the manager has to
+	 * be reloaded using {@link #reload(IProgressMonitor)}.
 	 * @param memoryUsage Percentage for the memory usage.
 	 */
 	public void setMemoryUsage(double memoryUsage) {
-		this.memoryUsage = Math.max(Math.min(memoryUsage,1),0);
+		memoryUsage = Math.max(Math.min(memoryUsage,1),0);
 	}
 
 }

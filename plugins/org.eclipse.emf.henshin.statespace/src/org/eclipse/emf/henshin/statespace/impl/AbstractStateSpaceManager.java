@@ -65,11 +65,11 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	}
 	
 	/**
-	 * Reload this state space manager instance.
+	 * Reload this state space manager.
 	 * @param monitor Progress monitor.
 	 * @throws TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	protected void reload(IProgressMonitor monitor) throws TaintedStateSpaceException {
+	public final void reload(IProgressMonitor monitor) throws TaintedStateSpaceException {
 		
 		monitor.beginTask("Load state space", getStateSpace().getStates().size() + 2);
 		try {
@@ -133,7 +133,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State getState(Resource model) {
+	public final State getState(Resource model) throws TaintedStateSpaceException {
 		return getState(model, hashCode(model));
 	}
 
@@ -143,33 +143,33 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param hash Its hash code.
 	 * @return The corresponding state if it exists.
 	 */
-	protected abstract State getState(Resource model, int hash);
+	protected abstract State getState(Resource model, int hash) throws TaintedStateSpaceException;
 	
 	/**
 	 * Decide whether a state is open.
 	 * @param state State state.
 	 * @return <code>true</code> if it is open.
 	 */
-	protected boolean isOpen(State state) {
+	protected boolean isOpen(State state) throws TaintedStateSpaceException {
 		// By default we just assume that all states are open.
 		return true;
 	}
 	
 	/**
-	 * Create a new state in the state space. Warning: this does not 
-	 * check if an equivalent state exists already or whether the 
-	 * hash code is incorrect.
+	 * Create a new open state in the state space. Warning: this does not check if an 
+	 * equivalent state exists already or whether the hash code is incorrect.
 	 * @param model Its model.
 	 * @param hash The model's hash code.
 	 * @return The newly created state.
 	 */
-	protected State createState(Resource model, int hash) {
+	protected State createOpenState(Resource model, int hash) {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
 		state.setName("s" + getStateSpace().getStates().size());
 		state.setHashCode(hash);
-		state.setModel(model);				
+		state.setModel(model);
+		state.setOpen(true);
 		
 		// Add the state to the state space:
 		synchronized (this) {
@@ -188,7 +188,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#createInitialState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State createInitialState(Resource model) {
+	public final State createInitialState(Resource model) throws TaintedStateSpaceException {
 		
 		// Check if the resource is persisted:
 		if (model.getURI()==null) {
@@ -203,7 +203,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		if (state!=null) return state;
 		
 		// Otherwise create the new state:
-		return createState(model, hash);
+		return createOpenState(model, hash);
 		
 	}
 	
@@ -211,7 +211,10 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public final List<State> removeState(State state) {
+	public final List<State> removeState(State state) throws TaintedStateSpaceException {
+		
+		// Check if the state space is tainted:
+		if (tainted) throw new TaintedStateSpaceException();
 		
 		// List of removed states:
 		List<State> removed = new ArrayList<State>();
@@ -281,22 +284,6 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	}
 	
 	/**
-	 * Find an outgoing transition.
-	 * @param state State that should contain the transition.
-	 * @param rule Rule of the transition.
-	 * @param match Index of the match.
-	 * @return The transition or <code>null</code>.
-	 */
-	protected Transition getTransition(State state, String rule, int match) {
-		for (Transition transition : state.getOutgoing()) {
-			if (rule.equals(transition.getRule()) && match==transition.getMatch()) {
-				return transition;
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * Create a new outgoing transition. Note that the this does not check
 	 * if the same transition exists already (use {@link #getTransition(State, String, int)}
 	 * for that). Moreover the created transition is dangling (the target is not set).
@@ -305,7 +292,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param match Match to be used.
 	 * @return The newly created transition.
 	 */
-	protected Transition createTransition(State state, Rule rule, int match) {	
+	protected Transition createTransition(State state, Rule rule, int match) {
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);

@@ -3,17 +3,14 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 
 /**
  * Command for creating an initial state.
  * @author Christian Krause
  */
-public class CreateInitialStateCommand extends Command {
+public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	
-	// State space manager.
-	private final StateSpaceManager manager;
-
 	// State to be added.
 	private State state;
 	
@@ -29,9 +26,8 @@ public class CreateInitialStateCommand extends Command {
 	 * @param stateSpace State space.
 	 */
 	public CreateInitialStateCommand(Resource model, StateSpaceManager manager) {
+		super("creating initial state", manager);
 		this.model = model;
-		this.manager = manager;
-		setLabel("adding state");
 	}
 	
 	/*
@@ -40,35 +36,26 @@ public class CreateInitialStateCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return model!=null && manager!=null;
+		return model!=null && getStateSpaceManager()!=null;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doRedo()
 	 */
 	@Override
-	public void execute() {
-		redo();
-	}
-
-	/* 
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	@Override
-	public void redo() {
-		State state = manager.createInitialState(model);
+	public void doRedo() throws TaintedStateSpaceException {
+		State state = getStateSpaceManager().createInitialState(model);
 		state.setLocation(location);	
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doUndo()
 	 */
 	@Override
-	public void undo() {
-		manager.removeState(state);
+	public void doUndo() throws TaintedStateSpaceException {
+		getStateSpaceManager().removeState(state);
 	}
 	
 	/**

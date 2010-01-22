@@ -2,16 +2,13 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 
 /**
  * Command for deleting states.
  * @author Christian Krause
  */
-public class DeleteStateCommand extends Command {
-	
-	// State space manager.
-	private final StateSpaceManager manager;
+public class DeleteStateCommand extends AbstractStateSpaceCommand {
 
 	// State to be deleted.
 	private State state;
@@ -22,9 +19,8 @@ public class DeleteStateCommand extends Command {
 	 * @param stateSpace State space.
 	 */
 	public DeleteStateCommand(State state, StateSpaceManager manager) {
+		super("deleting state", manager);
 		this.state = state;
-		this.manager = manager;
-		setLabel("deleting state");
 	}
 	
 	/*
@@ -33,7 +29,7 @@ public class DeleteStateCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return state!=null && manager!=null && manager.getStateSpace().getStates().contains(state);
+		return state!=null && getStateSpaceManager()!=null;
 	}
 	
 	/*
@@ -47,11 +43,11 @@ public class DeleteStateCommand extends Command {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	@Override
-	public void execute() {
-		manager.removeState(state);
+	public void doExecute() throws TaintedStateSpaceException {
+		getStateSpaceManager().removeState(state);
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 
 /**
  * Abstract state space manager implementation that uses an
@@ -35,7 +36,7 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource, int)
 	 */
 	@Override
-	protected State getState(Resource model, int hash) {
+	protected State getState(Resource model, int hash) throws TaintedStateSpaceException {
 		
 		// Find all possibly matching states:
 		int position = hash2position(hash);

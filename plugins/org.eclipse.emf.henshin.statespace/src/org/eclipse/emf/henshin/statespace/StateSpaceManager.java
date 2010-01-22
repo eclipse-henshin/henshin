@@ -35,15 +35,18 @@ public interface StateSpaceManager {
 	 * Get the state that corresponds to the argument model. 
 	 * @param model State model.
 	 * @return The corresponding state or <code>null</code> if none was found.
+	 * @exception TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	State getState(Resource model);
+	State getState(Resource model) throws TaintedStateSpaceException;
 	
 	/**
-	 * Get the model that corresponds to a state.
+	 * Get the model that corresponds to a state. The model is either cached
+	 * or if not cached, it has to be derived on-the-fly.
 	 * @param state State in the state space.
 	 * @return The corresponding model.
+	 * @exception TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	Resource getModel(State state);
+	Resource getModel(State state) throws TaintedStateSpaceException;
 	
 	/**
 	 * Create a new initial state to the state space. This throws a 
@@ -51,16 +54,18 @@ public interface StateSpaceManager {
 	 * If there is already a state for it, it is returned instead.
 	 * @param model Model of the initial state.
 	 * @return The newly created state.
+	 * @exception TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	State createInitialState(Resource model);
+	State createInitialState(Resource model) throws TaintedStateSpaceException;
 	
 	/**
 	 * Remove a state from the state space. Unreachable states are automatically
 	 * removed afterwards and the open-attributes are updated.
 	 * @param state State to be removed.
 	 * @return List of removed states.
+	 * @exception TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	List<State> removeState(State state);
+	List<State> removeState(State state) throws TaintedStateSpaceException;
 	
 	/**
 	 * Explore a state. This computes all outgoing transitions
@@ -68,8 +73,9 @@ public interface StateSpaceManager {
 	 * if they do not exist yet.
 	 * @param state State to be explored.
 	 * @return List of newly created outgoing transitions.
+	 * @exception TaintedStateSpaceException If the state space turns out to be tainted.
 	 */
-	List<Transition> exploreState(State state);
+	List<Transition> exploreState(State state) throws TaintedStateSpaceException;
 	
 	/**
 	 * Reset the state space managed by this instance.

@@ -2,19 +2,16 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 
 /**
  * Command for exploring a state.
  * @author Christian Krause
  */
-public class ExploreStateCommand extends Command {
+public class ExploreStateCommand extends AbstractStateSpaceCommand {
 	
 	// State to be explored.
 	private State state;
-	
-	// State space manager.
-	private StateSpaceManager manager;
 	
 	/**
 	 * Default constructor.
@@ -22,9 +19,8 @@ public class ExploreStateCommand extends Command {
 	 * @param stateSpace State space.
 	 */
 	public ExploreStateCommand(State state, StateSpaceManager manager) {
+		super("exploring state", manager);
 		this.state = state;
-		this.manager = manager;
-		setLabel("exploring state");
 	}
 	
 	/*
@@ -33,7 +29,7 @@ public class ExploreStateCommand extends Command {
 	 */
 	@Override
 	public boolean canExecute() {
-		return state!=null && manager!=null;
+		return state!=null && getStateSpaceManager()!=null;
 	}
 	
 	/*
@@ -47,11 +43,11 @@ public class ExploreStateCommand extends Command {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	@Override
-	public void execute() {
-		manager.exploreState(state);
+	public void doExecute() throws TaintedStateSpaceException {
+		getStateSpaceManager().exploreState(state);
 	}
 	
 }
