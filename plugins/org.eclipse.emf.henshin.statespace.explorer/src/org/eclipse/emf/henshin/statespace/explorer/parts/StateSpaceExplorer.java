@@ -7,6 +7,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
@@ -19,8 +20,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resources.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -268,8 +271,14 @@ public class StateSpaceExplorer extends GraphicalEditor {
 				manager = loader.getStateSpaceManager();
 			}
 		});
-		loader.schedule();
+		//loader.schedule();
 		
+		try {
+			manager = StateSpaceManagerImpl.load(stateSpace, new NullProgressMonitor());
+		} catch (TaintedStateSpaceException e) {
+			StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);
+		}
+				
 	}
 	
 	/*
