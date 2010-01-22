@@ -79,14 +79,16 @@ public class ImportRulesPage extends WizardPage {
 		list = new org.eclipse.swt.widgets.List(container, SWT.BORDER | SWT.SINGLE);
 		list.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
+		for (Rule rule : rules) {
+			list.add(getRuleEntryName(rule));
+		}
+		
 		Composite buttons = new Composite(container, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.BEGINNING));
 		buttons.setLayout(new GridLayout(1,false));
 		
 		createButton(buttons, "Add");
 		createButton(buttons, "Remove");
-		//createButton(buttons, "Up");
-		//createButton(buttons, "Down");
 		
 		setControl(container);
 		
@@ -115,11 +117,18 @@ public class ImportRulesPage extends WizardPage {
 				Rule rule = (Rule) result[i];
 				if (!rules.contains(rule)) {
 					rules.add(rule);
-					list.add(rule.getName() + " (" + rule.eResource().getURI().lastSegment() + ")");
+					list.add(getRuleEntryName(rule));
 				}
 			}
 		}
 		
+	}
+	
+	/*
+	 * Get the rule name how it should be displayed in the list.
+	 */
+	private String getRuleEntryName(Rule rule) {
+		return rule.getName() + " (" + rule.eResource().getURI().lastSegment() + ")";
 	}
 	
 	/*
