@@ -36,10 +36,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class HenshinPaletteUpdater {
 	
 	// EPackage icon:
-	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(HenshinIcons.EPACKAGE_ICON);
+	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(HenshinIcons.EPACKAGE);
 	
 	// EClass icon:
-	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(HenshinIcons.ECLASS_ICON);
+	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(HenshinIcons.ECLASS);
 	
 	// Palette root to be updated.
 	private PaletteRoot palette;

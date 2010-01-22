@@ -189,7 +189,7 @@ public class EcoreSelectionDialogUtil  {
 				}
 			}
 			if (element instanceof EPackage) {
-				return HenshinIcons.EPACKAGE_ICON;
+				return HenshinIcons.EPACKAGE;
 			}
 			return null;
 		}

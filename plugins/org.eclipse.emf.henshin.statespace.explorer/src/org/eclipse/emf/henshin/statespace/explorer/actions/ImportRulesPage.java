@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -29,6 +30,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
@@ -44,8 +47,8 @@ public class ImportRulesPage extends WizardPage {
 	// Imported rules:
 	private List<Rule> rules;
 	
-	// SWT list for the rules:
-	private org.eclipse.swt.widgets.List list;
+	// SWT tree for the rules:
+	private Tree tree;
 	
 	// StateSpace resource:
 	private Resource stateSpaceResource;
@@ -76,12 +79,13 @@ public class ImportRulesPage extends WizardPage {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(2,false));
 		
-		list = new org.eclipse.swt.widgets.List(container, SWT.BORDER | SWT.SINGLE);
-		list.setLayoutData(new GridData(GridData.FILL_BOTH));
+		tree = new Tree(container, SWT.BORDER | SWT.SINGLE);
+		tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		for (Rule rule : rules) {
-			list.add(getRuleEntryName(rule));
+			addRuleTreeItem(rule);
 		}
+		tree.deselectAll();
 		
 		Composite buttons = new Composite(container, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.BEGINNING));
@@ -117,7 +121,7 @@ public class ImportRulesPage extends WizardPage {
 				Rule rule = (Rule) result[i];
 				if (!rules.contains(rule)) {
 					rules.add(rule);
-					list.add(getRuleEntryName(rule));
+					addRuleTreeItem(rule);
 				}
 			}
 		}
@@ -127,17 +131,20 @@ public class ImportRulesPage extends WizardPage {
 	/*
 	 * Get the rule name how it should be displayed in the list.
 	 */
-	private String getRuleEntryName(Rule rule) {
-		return rule.getName() + " (" + rule.eResource().getURI().lastSegment() + ")";
+	private void addRuleTreeItem(Rule rule) {
+		TreeItem item = new TreeItem(tree, SWT.NONE);
+		item.setText(rule.getName() + " (" + rule.eResource().getURI().path() + ")");
+		item.setImage(HenshinIcons.RULE);
 	}
 	
 	/*
 	 * Remove the currently selected rules.
 	 */
 	public void remove() {
-		int index = list.getSelectionIndex();
-		if (index>=0) {
-			list.remove(index);
+		TreeItem[] items = tree.getSelection();
+		if (items!=null && items.length>0) {
+			int index = tree.indexOf(items[0]);
+			items[0].dispose();
 			rules.remove(index);
 		}
 	}

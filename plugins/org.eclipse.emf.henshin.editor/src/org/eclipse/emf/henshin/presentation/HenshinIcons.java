@@ -11,21 +11,28 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class HenshinIcons {
 
-	public static final Image EPACKAGE_ICON;
-	public static final Image ECLASS_ICON;
-	public static final Image EREFERENCE_ICON;
+	// Ecore edit plugin id:
+	private static final String ECORE_EDIT = "org.eclipse.emf.ecore.edit";
 
-	static {
-		
-		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EPackage.gif");
-		EPACKAGE_ICON = descriptor!=null ? descriptor.createImage() : null;
-		
-		descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EClass.gif");
-		ECLASS_ICON = descriptor!=null ? descriptor.createImage() : null;
+	// Henshin edit plugin id:
+	private static final String HENSHIN_EDIT = "org.eclipse.emf.henshin.edit";
 
-		descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(HenshinEditorPlugin.ID, "icons/full/obj16/EReference.gif");
-		EREFERENCE_ICON = descriptor!=null ? descriptor.createImage() : null;
-
+	// Ecore icons:
+	public static final Image EPACKAGE = load(ECORE_EDIT, "icons/full/obj16/EPackage.gif");
+	public static final Image ECLASS = load(ECORE_EDIT, "icons/full/obj16/EClass.gif");
+	public static final Image EREFERENCE = load(ECORE_EDIT, "icons/full/obj16/EReference.gif");
+	
+	// Henshin icons:
+	public static final Image RULE = load(HENSHIN_EDIT, "icons/full/obj16/Rule.gif");
+	public static final Image NOE = load(HENSHIN_EDIT, "icons/full/obj16/Node.gif");
+	public static final Image EDGE = load(HENSHIN_EDIT, "icons/full/obj16/Edge.gif");
+	
+	/*
+	 * Load an image.
+	 */
+	private static Image load(String pluginId, String path) {
+		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(pluginId, path);
+		return (descriptor!=null) ? descriptor.createImage() : null;
 	}
 	
 }

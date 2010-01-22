@@ -127,7 +127,7 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		 */
 		@Override
 		public Image getImage(Object element) {
-			return HenshinIcons.EREFERENCE_ICON;
+			return HenshinIcons.EREFERENCE;
 		}
 		
 	}
