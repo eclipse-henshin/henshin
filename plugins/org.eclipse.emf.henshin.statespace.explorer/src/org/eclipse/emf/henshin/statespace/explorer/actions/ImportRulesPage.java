@@ -222,7 +222,7 @@ public class ImportRulesPage extends WizardPage {
 				}
 			}
 			if (element instanceof Rule) {
-				//return (Image) HenshinEditPlugin.INSTANCE.getImage("full/obj16/Rule.gif");
+				return HenshinIcons.RULE;
 			}
 			return null;
 		}
@@ -269,12 +269,15 @@ public class ImportRulesPage extends WizardPage {
 					if ("henshin".equals(res.getFileExtension())) {
 						
 						// Construct an URI:
+						String filePath = res.getFullPath().toString();
 						URI baseURI = stateSpaceResource.getURI();
-						URI uri = URI.createPlatformResourceURI(res.getFullPath().toString(), true).resolve(baseURI);
+						URI absolute = URI.createPlatformResourceURI(filePath, true);
+						URI relative = absolute.deresolve(baseURI);
 						
 						// Create the resource:
 						ResourceSet resourceSet = stateSpaceResource.getResourceSet();
-						Resource resource = resourceSet.getResource(uri, true);
+						Resource resource = resourceSet.getResource(absolute,true);
+						resource.setURI(relative);
 						
 						List<Rule> rules = new ArrayList<Rule>();
 						for (EObject item : resource.getContents()) {

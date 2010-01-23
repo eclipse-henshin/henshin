@@ -256,7 +256,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		}
 		
 		// Mark the state as closed:
-		state.setOpen(false);
+		setOpen(state, false);
 		
 		// Done.
 		return transitions;

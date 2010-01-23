@@ -72,6 +72,8 @@ public class StateSpaceToolsMenu extends Composite {
 	private LayoutStateSpaceJob layouterJob;
 	private Scale repulsionScale;
 	private Scale attractionScale;
+
+	private Label rulesLabel;
 	
 	/**
 	 * Default constructor
@@ -91,8 +93,6 @@ public class StateSpaceToolsMenu extends Composite {
 		setBackground(BACKGROUND);
 		setLayout(new GridLayout(1, false));
 		
-		Label label;
-		
 		// The info group:
 		Group details = new Group(this, SWT.NONE);
 		details.setText("Information");
@@ -100,26 +100,13 @@ public class StateSpaceToolsMenu extends Composite {
 		details.setBackground(BACKGROUND);		
 		details.setLayout(new GridLayout(2, false));
 		
-		label = new Label(details, SWT.NONE);
-		label.setText("States:");
-		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-		label.setBackground(BACKGROUND);
+		newLabel(details, "Rules:");
+		rulesLabel = newLabel(details, "0");
+		newLabel(details, "States:");
+		statesLabel = newLabel(details, "0");
+		newLabel(details, "Transitions:");
+		transitionsLabel = newLabel(details, "0");
 		
-		statesLabel = new Label(details, SWT.NONE);
-		statesLabel.setText("0");
-		statesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		statesLabel.setBackground(BACKGROUND);
-
-		label = new Label(details, SWT.NONE);
-		label.setText("Transitions:");
-		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-		label.setBackground(BACKGROUND);
-		
-		transitionsLabel = new Label(details, SWT.NONE);
-		transitionsLabel.setText("0");
-		transitionsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		transitionsLabel.setBackground(BACKGROUND);
-
 		// The zoom group:
 		Group display = new Group(this, SWT.NONE);
 		display.setText("Display");
@@ -127,9 +114,10 @@ public class StateSpaceToolsMenu extends Composite {
 		display.setBackground(BACKGROUND);		
 		display.setLayout(new GridLayout(3, false));
 		
-		label = new Label(display, SWT.NONE);
-		label.setText("Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%");
-		label.setBackground(BACKGROUND);
+		newLabel(display, "Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%");
+		//label = new Label(display, SWT.NONE);
+		//label.setText("Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%");
+		//label.setBackground(BACKGROUND);
 		
 		zoomScale = new Scale(display, SWT.NONE);
 		zoomScale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -152,9 +140,10 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 		});
 		
-		label = new Label(display, SWT.NONE);
-		label.setText((int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
-		label.setBackground(BACKGROUND);
+		newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
+		//label = new Label(display, SWT.NONE);
+		//label.setText((int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%");
+		//label.setBackground(BACKGROUND);
 
 		// The layouter group:
 		Group layouter = new Group(this, SWT.NONE);
@@ -181,9 +170,25 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		repulsionScale = newLayoutSlider(layouter, "State repulsion:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
 		attractionScale = newLayoutSlider(layouter, "Transition attraction:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
+		repulsionScale.setVisible(false);
+		attractionScale.setVisible(false);
 
 	}
 	
+	/*
+	 * Create a new label.
+	 */
+	private Label newLabel(Composite parent, String text) {
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(text);
+		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		label.setBackground(BACKGROUND);
+		return label;
+	}
+	
+	/*
+	 * Create a new slider.
+	 */
 	private Scale newLayoutSlider(Composite parent, String name, int min, int max) {
 
 		Label label = new Label(parent, SWT.NONE);
@@ -221,6 +226,9 @@ public class StateSpaceToolsMenu extends Composite {
 		
 	}
 	
+	/*
+	 * Update the layouter properties.
+	 */
 	private void updateLayouterProperties() {
 		
 		if (layouterJob!=null) {
@@ -242,14 +250,22 @@ public class StateSpaceToolsMenu extends Composite {
 		
 	}
 	
+	/**
+	 * Start a background spring layouter job.
+	 */
 	public void startLayouter() {
 		layouterCheckbox.setSelection(true);
+		repulsionScale.setVisible(true);
+		attractionScale.setVisible(true);
 		layouterJob = new LayoutStateSpaceJob(manager.getStateSpace(), Display.getCurrent());
 		updateLayouterProperties();
 		editDomain.getCommandStack().execute(new Command("Start layouter"){});
 		layouterJob.schedule();
 	}
 	
+	/**
+	 * Stop the background spring layouter job.
+	 */
 	public void stopLayouter() {
 		if (layouterJob!=null) {
 			layouterJob.cancel();
@@ -261,24 +277,33 @@ public class StateSpaceToolsMenu extends Composite {
 			layouterJob = null;
 		}
 		layouterCheckbox.setSelection(false);
+		repulsionScale.setVisible(false);
+		attractionScale.setVisible(false);
 	}
 	
+	/**
+	 * Stop all background jobs.
+	 */
 	public void stopAll() {
 		stopLayouter();
 	}
 	
-	public void refresh() {	
+	/**
+	 * Refresh the tools menu content.
+	 */
+	public void refresh() {
 		if (manager==null) {
-			statesLabel.setText("?");
-			transitionsLabel.setText("?");
+			statesLabel.setText("0");
+			transitionsLabel.setText("0");
+			rulesLabel.setText("0");
 		} else {
 			StateSpace stateSpace = manager.getStateSpace();
-			statesLabel.setText(stateSpace.getStates().size() + " (" + "? open)");
-			//transitionsLabel.setText(manager.getTransitionCount() + "");
+			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
+			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
+			rulesLabel.setText(stateSpace.getRules().size() + "");
 		}
 	}
 
-	
 	/**
 	 * Set the state space manager to be used.
 	 * @param stateSpace State space manager.

@@ -8,16 +8,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.CreateInitialStateCommand;
-import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
-import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -26,13 +20,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
  * Action for creating a new initial state to the current state space.
  * @author Christian Krause
  */
-public class CreateInitialStateAction implements IObjectActionDelegate {
-	
-	// Currently action state space explorer:
-	private StateSpaceExplorer explorer;
-	
-	// State space:
-	private StateSpace stateSpace;
+public class CreateInitialStateAction extends AbstractExplorerAction {
 	
 	// Location of the new state:
 	private int[] location;
@@ -44,7 +32,8 @@ public class CreateInitialStateAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		
 		// Display a dialog:
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(explorer.getSite().getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
+		Shell shell = getExplorer().getSite().getShell();
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
 		dialog.setTitle("Load resource");
 		dialog.setMessage("Select the resource to load:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
@@ -66,6 +55,8 @@ public class CreateInitialStateAction implements IObjectActionDelegate {
 	
 	private void load(IFile file) {
 		
+		StateSpaceManager manager = getExplorer().getStateSpaceManager();
+		StateSpace stateSpace = manager.getStateSpace();
 		ResourceSet resourceSet = stateSpace.eResource().getResourceSet();
 		URI absolute = URI.createPlatformResourceURI(file.getFullPath().toString(),true);
 		URI relative = absolute.deresolve(stateSpace.eResource().getURI());
@@ -76,54 +67,16 @@ public class CreateInitialStateAction implements IObjectActionDelegate {
 			Resource model = resourceSet.getResource(absolute, true);
 			model.setURI(relative);
 			
-			StateSpaceManager manager = explorer.getStateSpaceManager();
 			CreateInitialStateCommand command = new CreateInitialStateCommand(model, manager);
 			command.setLocation(location);
 			
-			explorer.executeCommand(command);
+			getExplorer().executeCommand(command);
 			
 		} catch (Throwable t) {
-			Shell shell = explorer.getSite().getShell();
+			Shell shell = getExplorer().getSite().getShell();
 			MessageDialog.openError(shell, "Create Initial State", "Error creating initial state for " + file + ": " + t.getMessage());
 		}
 		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart part) {
-		explorer = null;
-		stateSpace = null;
-		if (part instanceof StateSpaceExplorer) {
-			explorer = (StateSpaceExplorer) part;
-			stateSpace = explorer.getStateSpaceManager().getStateSpace();
-		}
-		action.setEnabled(stateSpace!=null);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		stateSpace = null;
-		if (selection instanceof IStructuredSelection) {
-			Object first = ((IStructuredSelection) selection).getFirstElement();
-			if (first instanceof StateSpaceEditPart) {
-				stateSpace = ((StateSpaceEditPart) first).getStateSpace();
-			}
-		}
-		action.setEnabled(stateSpace!=null);
-	}
-	
-	public void setStateSpace(StateSpace stateSpace) {
-		this.stateSpace = stateSpace;
-	}
-	
-	public void setStateSpaceExplorer(StateSpaceExplorer explorer) {
-		this.explorer = explorer;
 	}
 	
 	public void setLocation(int... location) {

@@ -200,7 +200,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	private void refreshLabel() {
 		
 		// Update label text:
-		String name = " s" + getState().getIndex() + " ";
+		String name = " " + getState().getIndex() + " ";
 		((StateFigure) getFigure()).getLabel().setText(name);
 		
 		// Update tool tip:

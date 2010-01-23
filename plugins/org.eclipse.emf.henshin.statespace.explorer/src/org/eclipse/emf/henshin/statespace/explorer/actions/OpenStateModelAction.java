@@ -1,26 +1,29 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateEditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 
 /**
  * @author Christian Krause
  */
-public class OpenStateModelAction implements IObjectActionDelegate {
+public class OpenStateModelAction extends AbstractExplorerAction {
 	
-	private State state;
-	private IWorkbenchPart part;
+	// States to be opened:
+	private List<State> states = new ArrayList<State>();
 	
 	/*
 	 * (non-Javadoc)
@@ -28,24 +31,23 @@ public class OpenStateModelAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 		
-		String path = state.getModel().getURI().toPlatformString(false);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));		
-		IWorkbenchPage page = part.getSite().getPage();
+		for (State state : states) {
 		
-		try {
-			IDE.openEditor(page, file, true);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
-		
-	}
+			// Build the absolute platform URI:
+			URI base = state.eResource().getURI();
+			URI unresolved = state.getModel().getURI();
+			URI resolved = unresolved.resolve(base);
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart part) {
-		this.part = part;
+			IPath path = new Path(resolved.toPlatformString(true));
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			IWorkbenchPage page = getExplorer().getSite().getPage();
+
+			try {
+				IDE.openEditor(page, file, true);
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/*
@@ -53,14 +55,17 @@ public class OpenStateModelAction implements IObjectActionDelegate {
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		state = null;
+		states.clear();
 		if (selection instanceof IStructuredSelection) {
-			Object first = ((IStructuredSelection) selection).getFirstElement();
-			if (first instanceof StateEditPart) {
-				state = ((StateEditPart) first).getState();
+			IStructuredSelection structured = (IStructuredSelection) selection;
+			for (Object selected : structured.toArray()) {
+				if (selected instanceof StateEditPart) {
+					State state = ((StateEditPart) selected).getState();
+					if (state.isInitial()) states.add(state);
+				}
 			}
 		}
-		action.setEnabled(state!=null && state.isInitial());
+		action.setEnabled(!states.isEmpty());
 	}
 	
 }

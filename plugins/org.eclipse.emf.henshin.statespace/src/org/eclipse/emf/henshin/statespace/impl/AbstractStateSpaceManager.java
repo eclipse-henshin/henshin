@@ -71,7 +71,8 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 */
 	public final void reload(IProgressMonitor monitor) throws TaintedStateSpaceException {
 		
-		monitor.beginTask("Load state space", getStateSpace().getStates().size() + 2);
+		monitor.beginTask("Load state space", stateSpace.getStates().size() + 2);
+		
 		try {
 			
 			// Reset the state registry:
@@ -79,16 +80,19 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			monitor.worked(1);
 
 			// Reset all derived state models:
-			for (State state : getStateSpace().getStates()) {
+			for (State state : stateSpace.getStates()) {
 				if (!state.isInitial()) {
 					state.setModel(null);
 				}
 			}
 			monitor.worked(1);
+			
+			// Clear transition count and open states.
+			int transitionCount = 0;
+			stateSpace.getOpenStates().clear();
 
 			// Compute state models, update the hash code and the index:
-			int transitionCount = 0;
-			for (State state : getStateSpace().getStates()) {
+			for (State state : stateSpace.getStates()) {
 				
 				// Compute the model and its hash:
 				Resource model = getModel(state);
@@ -102,7 +106,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 				
 				// Update the state properties:
 				state.setHashCode(hash);
-				state.setOpen(isOpen(state));
+				setOpen(state,isOpen(state));
 				
 				// Register the state:
 				registerState(state);
@@ -156,6 +160,22 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	}
 	
 	/**
+	 * Mark a state as open or closed.
+	 * @param state State.
+	 * @param open Open-flag.
+	 */
+	protected void setOpen(State state, boolean open) {
+		state.setOpen(open);
+		if (open) {
+			if (getStateSpace().getOpenStates().contains(state)) {
+				getStateSpace().getOpenStates().add(state);
+			}
+		} else {
+			getStateSpace().getOpenStates().remove(state);
+		}
+	}
+	
+	/**
 	 * Create a new open state in the state space. Warning: this does not check if an 
 	 * equivalent state exists already or whether the hash code is incorrect.
 	 * @param model Its model.
@@ -175,6 +195,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		synchronized (this) {
 			change = true;
 			getStateSpace().getStates().add(state);
+			getStateSpace().getOpenStates().add(state);
 			change = false;
 		}
 		
@@ -229,12 +250,19 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 				removed.add(state);
 			}
 			
+			// Update list of open states:
+			stateSpace.getOpenStates().removeAll(removed);
+			
 			// Unregister states and adjust the transition count:
 			Set<Transition> transitions = new HashSet<Transition>();
 			for (State current : removed) {
 				unregisterState(current);
 				transitions.addAll(current.getOutgoing());
 				transitions.addAll(current.getIncoming());
+				// Mark predecessor states as open:
+				for (Transition incoming : current.getIncoming()) {
+					setOpen(incoming.getSource(), true);
+				}
 			}
 			
 			// Update transition count:
@@ -259,13 +287,16 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		synchronized (this) {
 			change = true;
 			List<State> states = stateSpace.getStates();			
+			List<State> open = stateSpace.getOpenStates();			
 			for (int i=0; i<states.size(); i++) {
 				State state = states.get(i);
 				if (state.isInitial()) {
 					state.getIncoming().clear();
-					state.getOutgoing().clear();					
+					state.getOutgoing().clear();
+					setOpen(state,true);
 				} else {
 					states.remove(i--);
+					open.remove(state);
 				}
 			}
 			change = false;
