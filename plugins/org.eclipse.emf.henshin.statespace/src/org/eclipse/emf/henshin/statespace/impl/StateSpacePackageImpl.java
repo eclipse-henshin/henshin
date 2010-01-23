@@ -210,9 +210,10 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getState_Name() {
+	public EAttribute getState_Index() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(0);
 	}
+
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -394,7 +395,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
 
 		stateEClass = createEClass(STATE);
-		createEAttribute(stateEClass, STATE__NAME);
+		createEAttribute(stateEClass, STATE__INDEX);
 		createEReference(stateEClass, STATE__INCOMING);
 		createEReference(stateEClass, STATE__OUTGOING);
 		createEAttribute(stateEClass, STATE__MODEL);
@@ -463,7 +464,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getState_Name(), ecorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Index(), ecorePackage.getEInt(), "index", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Model(), ecorePackage.getEResource(), "model", null, 0, 1, State.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

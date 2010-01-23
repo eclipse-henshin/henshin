@@ -23,7 +23,6 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 
 /**
  * Concrete implementation of the {@link State} interface.
@@ -31,6 +30,26 @@ import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
  */
 public class StateImpl extends StorageImpl implements State {
 	
+	/**
+	 * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int INDEX_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected int index = INDEX_EDEFAULT;
+
 	/**
 	 * Check whether this state is an initial one.
 	 * @generated NOT
@@ -87,21 +106,7 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	public void setLocation(int... newLocation) {
 		setData(2, newLocation);
-	}
-	
-	/**
-	 * Pretty-print this state.
-	 * @generated NOT
-	 */
-	@Override
-	public String toString() {
-		if (eResource() instanceof StateSpaceResource) {
-			return ((StateSpaceResource) eResource()).printState(this);
-		} else {
-			return super.toString();
-		}
-	}
-	
+	}	
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -109,22 +114,6 @@ public class StateImpl extends StorageImpl implements State {
 	 * this line and change the '@generated'-tag to '@generated NOT'.   *
 	 * ---------------------------------------------------------------- */
 	
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
 	 * @see #getIncoming()
@@ -197,20 +186,24 @@ public class StateImpl extends StorageImpl implements State {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
+	public int getIndex() {
+		return index;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
+	public void setIndex(int newIndex) {
+		int oldIndex = index;
+		index = newIndex;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__INDEX, oldIndex, index));
 	}
 
 	/**
@@ -340,8 +333,8 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.STATE__NAME:
-				return getName();
+			case StateSpacePackage.STATE__INDEX:
+				return getIndex();
 			case StateSpacePackage.STATE__INCOMING:
 				return getIncoming();
 			case StateSpacePackage.STATE__OUTGOING:
@@ -367,8 +360,8 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.STATE__NAME:
-				setName((String)newValue);
+			case StateSpacePackage.STATE__INDEX:
+				setIndex((Integer)newValue);
 				return;
 			case StateSpacePackage.STATE__INCOMING:
 				getIncoming().clear();
@@ -403,8 +396,8 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE__NAME:
-				setName(NAME_EDEFAULT);
+			case StateSpacePackage.STATE__INDEX:
+				setIndex(INDEX_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__INCOMING:
 				getIncoming().clear();
@@ -437,8 +430,8 @@ public class StateImpl extends StorageImpl implements State {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case StateSpacePackage.STATE__INDEX:
+				return index != INDEX_EDEFAULT;
 			case StateSpacePackage.STATE__INCOMING:
 				return incoming != null && !incoming.isEmpty();
 			case StateSpacePackage.STATE__OUTGOING:
@@ -455,6 +448,24 @@ public class StateImpl extends StorageImpl implements State {
 				return getHashCode() != HASH_CODE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (index: ");
+		result.append(index);
+		result.append(", model: ");
+		result.append(model);
+		result.append(')');
+		return result.toString();
 	}
 
 } //StateImpl

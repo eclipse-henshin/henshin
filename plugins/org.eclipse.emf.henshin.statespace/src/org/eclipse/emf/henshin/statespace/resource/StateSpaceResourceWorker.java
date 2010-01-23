@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceResourceWorker implements Runnable {
 	

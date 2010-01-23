@@ -129,12 +129,13 @@ public class CreateStateSpacePage extends WizardNewFileCreationPage {
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
 	protected boolean validatePage() {
-		if (super.validatePage()) return false; 
-		if (getFileName() != null && getFileName().endsWith("." + StateSpaceResource.FILE_EXTENSION)) {
-			return true;
+		if (!super.validatePage()) return false; 
+		String fileName = getFileName();
+		if (fileName==null || !fileName.endsWith("." + StateSpaceResource.FILE_EXTENSION)) {
+			setErrorMessage("The file name must end with " + StateSpaceResource.FILE_EXTENSION);
+			return false;
 		}
-		setErrorMessage("The file name must end with " + StateSpaceResource.FILE_EXTENSION);
-		return false;
+		return true;
 	}
 
 	public Resource getStateSpaceResource() {

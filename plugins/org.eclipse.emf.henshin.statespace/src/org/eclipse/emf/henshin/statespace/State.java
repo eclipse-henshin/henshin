@@ -10,19 +10,30 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface State extends Storage {
 	
 	/**
-	 * Get the name of this state.
-	 * @return the name of this state.
+	 * Returns the value of the '<em><b>Index</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Index</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Index</em>' attribute.
+	 * @see #setIndex(int)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_Index()
 	 * @model
 	 * @generated
 	 */
-	String getName();
+	int getIndex();
 
 	/**
-	 * Set the name of this state.
-	 * @param name The new name.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getIndex <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Index</em>' attribute.
+	 * @see #getIndex()
 	 * @generated
 	 */
-	void setName(String value);
+	void setIndex(int value);
 
 	/**
 	 * Get the list of incoming transitions of this state. 

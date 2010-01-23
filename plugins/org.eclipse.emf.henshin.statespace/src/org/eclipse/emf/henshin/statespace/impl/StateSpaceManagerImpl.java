@@ -145,7 +145,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		};
 		boolean found = search.depthFirst(state, true);
 		if (!found) {
-			throw new RuntimeException("Unable to derive state model for state " + state.getName());
+			throw new RuntimeException("Unable to derive state model for state " + state.getIndex());
 		}
 		
 		// Derive the current model:

@@ -26,7 +26,7 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	 * @param stateSpace State space.
 	 */
 	public CreateInitialStateCommand(Resource model, StateSpaceManager manager) {
-		super("creating initial state", manager);
+		super("create initial state", manager);
 		this.model = model;
 	}
 	
@@ -45,10 +45,10 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	 */
 	@Override
 	public void doRedo() throws TaintedStateSpaceException {
-		State state = getStateSpaceManager().createInitialState(model);
+		state = getStateSpaceManager().createInitialState(model);
 		state.setLocation(location);	
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doUndo()

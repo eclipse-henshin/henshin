@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 /**
  * A resource factory for Henshin state space files.
  * @author Christian Krause
- * @generated NOT
  */
 public class StateSpaceResourceFactory implements Resource.Factory {
 	

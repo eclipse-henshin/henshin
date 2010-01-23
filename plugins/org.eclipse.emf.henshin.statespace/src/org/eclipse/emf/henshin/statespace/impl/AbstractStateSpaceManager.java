@@ -97,7 +97,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 				// Check if it exists already: 
 				if (getState(model, hash)!=null) {
 					markTainted();
-					throw new TaintedStateSpaceException("Duplicate state " + state.getName());
+					throw new TaintedStateSpaceException("Duplicate state: " + state.getIndex());
 				}
 				
 				// Update the state properties:
@@ -166,7 +166,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
-		state.setName("s" + getStateSpace().getStates().size());
+		state.setIndex(getStateSpace().getStates().size());
 		state.setHashCode(hash);
 		state.setModel(model);
 		state.setOpen(true);

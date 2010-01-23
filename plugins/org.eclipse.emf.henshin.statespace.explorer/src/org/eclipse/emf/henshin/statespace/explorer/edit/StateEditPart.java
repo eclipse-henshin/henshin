@@ -200,9 +200,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	private void refreshLabel() {
 		
 		// Update label text:
-		String name = getState().getName();
-		if (name==null) name = "?";
-		((StateFigure) getFigure()).getLabel().setText(" " + name + " ");
+		String name = " s" + getState().getIndex() + " ";
+		((StateFigure) getFigure()).getLabel().setText(name);
 		
 		// Update tool tip:
 		if (getState().isInitial()) {
@@ -313,7 +312,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 			refreshLocation();
 			break;
 		
-		case StateSpacePackageImpl.STATE__NAME: 
+		case StateSpacePackageImpl.STATE__INDEX: 
 			refreshLabel(); 
 			break;
 			

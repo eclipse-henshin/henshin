@@ -3,13 +3,13 @@
 <plugin>
 
      <extension point="org.eclipse.ui.editors">
-      <editor name="EMF Henshin State Space"
-              extensions="henshin_statespace"
+      <editor name="State Space Explorer"
+              extensions="statespace"
               icon="icons/HenshinDiagramFile.gif"
               default="true"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer"
               contributorClass="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceActionBarContributor"
-              id="EMF Henshin State Space Editor">
+              id="State Space Editor">
       </editor>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
@@ -30,7 +30,6 @@
          <action
                class="org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction"
                enablesFor="1"
-               icon="icons/initialState.gif"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.NewInitialStateAction"
                label="Load Initial State..."
                menubarPath="additions"

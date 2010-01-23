@@ -181,13 +181,13 @@ public interface StateSpacePackage extends EPackage {
 	int STATE__DATA = STORAGE__DATA;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Index</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__NAME = STORAGE_FEATURE_COUNT + 0;
+	int STATE__INDEX = STORAGE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
@@ -411,15 +411,15 @@ public interface StateSpacePackage extends EPackage {
 	EClass getState();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getIndex <em>Index</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getName()
+	 * @return the meta object for the attribute '<em>Index</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getIndex()
 	 * @see #getState()
 	 * @generated
 	 */
-	EAttribute getState_Name();
+	EAttribute getState_Index();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.State#getIncoming <em>Incoming</em>}'.
@@ -666,12 +666,12 @@ public interface StateSpacePackage extends EPackage {
 		EClass STATE = eINSTANCE.getState();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Index</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE__NAME = eINSTANCE.getState_Name();
+		EAttribute STATE__INDEX = eINSTANCE.getState_Index();
 
 		/**
 		 * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.

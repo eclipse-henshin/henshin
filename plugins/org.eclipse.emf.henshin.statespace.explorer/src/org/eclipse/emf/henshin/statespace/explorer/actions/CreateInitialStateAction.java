@@ -66,12 +66,16 @@ public class CreateInitialStateAction implements IObjectActionDelegate {
 	
 	private void load(IFile file) {
 		
-		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
 		ResourceSet resourceSet = stateSpace.eResource().getResourceSet();
+		URI absolute = URI.createPlatformResourceURI(file.getFullPath().toString(),true);
+		URI relative = absolute.deresolve(stateSpace.eResource().getURI());
 		
 		try {
 			
-			Resource model = resourceSet.getResource(uri, true);
+			// Load the model and assign the relative path to it:
+			Resource model = resourceSet.getResource(absolute, true);
+			model.setURI(relative);
+			
 			StateSpaceManager manager = explorer.getStateSpaceManager();
 			CreateInitialStateCommand command = new CreateInitialStateCommand(model, manager);
 			command.setLocation(location);
