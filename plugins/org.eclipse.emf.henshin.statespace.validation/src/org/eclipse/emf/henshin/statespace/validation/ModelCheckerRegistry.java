@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.modelchecking;
+package org.eclipse.emf.henshin.statespace.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 /**
  * A registry implementation for model checkers.
  * 
- * @generated NOT
  * @author Christian Krause
  */
 public class ModelCheckerRegistry {

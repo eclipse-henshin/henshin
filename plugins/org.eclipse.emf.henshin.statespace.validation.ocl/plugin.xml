@@ -2,9 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.emf.henshin.statespace.modelCheckers">
+         point="org.eclipse.emf.henshin.statespace.validation.modelCheckers">
       <modelChecker
-            class="org.eclipse.emf.henshin.statespace.ocl.OCLModelChecker"
+            class="org.eclipse.emf.henshin.statespace.validation.ocl.OCLModelChecker"
             id="org.eclipse.emf.henshin.statespace.ocl"
             name="OCL">
       </modelChecker>

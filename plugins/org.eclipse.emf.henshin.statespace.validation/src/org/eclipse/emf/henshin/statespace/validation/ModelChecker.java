@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.modelchecking;
+package org.eclipse.emf.henshin.statespace.validation;
 
 import java.text.ParseException;
 
@@ -6,7 +6,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
  * Interface for Henshin state space model checkers.
- * @generated NOT
  * @author Christian Krause
  */
 public interface ModelChecker {
