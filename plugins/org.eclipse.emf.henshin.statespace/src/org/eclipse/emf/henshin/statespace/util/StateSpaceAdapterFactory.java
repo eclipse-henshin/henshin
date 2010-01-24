@@ -8,14 +8,13 @@ package org.eclipse.emf.henshin.statespace.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.emf.henshin.statespace.*;
-
-import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
+import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.Storage;
+import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * <!-- begin-user-doc -->

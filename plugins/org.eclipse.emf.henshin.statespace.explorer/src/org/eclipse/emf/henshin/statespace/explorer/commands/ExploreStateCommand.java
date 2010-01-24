@@ -19,7 +19,7 @@ public class ExploreStateCommand extends AbstractStateSpaceCommand {
 	 * @param stateSpace State space.
 	 */
 	public ExploreStateCommand(State state, StateSpaceManager manager) {
-		super("exploring state", manager);
+		super("explore state", manager);
 		this.state = state;
 	}
 	

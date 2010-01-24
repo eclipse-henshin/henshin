@@ -18,4 +18,8 @@ public class TaintedStateSpaceException extends Exception {
 		super(message);
 	}
 
+	public TaintedStateSpaceException(Throwable cause) {
+		super(cause);
+	}
+
 }

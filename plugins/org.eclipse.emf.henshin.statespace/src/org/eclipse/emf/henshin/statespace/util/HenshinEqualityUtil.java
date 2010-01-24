@@ -116,13 +116,13 @@ public class HenshinEqualityUtil {
 			if (((EReference) feature).isContainment()) {
 				return hashCode((EObject) value);
 			} else {
-				return value.hashCode();
+				return 67;
 			}
 			
 		}
 		
 		// Should not get here.
-		throw new IllegalArgumentException("Unknow feature type: " + feature);
+		throw new IllegalArgumentException("Unsupported feature type: " + feature.getClass());
 		
 	}
 	
@@ -142,10 +142,9 @@ public class HenshinEqualityUtil {
 		 */
 		@Override
 	    public boolean equals(List<EObject> list1, List<EObject> list2) {
-						
+			
 			// Compare sizes:
-			int size = list1.size();
-			if (size != list2.size()) {
+			if (list1.size() != list2.size()) {
 				return false;
 			}
 			
@@ -153,9 +152,9 @@ public class HenshinEqualityUtil {
 			list2 = new ArrayList<EObject>(list2);
 
 			// Match objects:
-			for (int i=0; i<size; i++) {
+			for (int i=0; i<list1.size(); i++) {
 				boolean found = false;
-				for (int j=0; j<size; j++) {
+				for (int j=0; j<list2.size(); j++) {
 					if (equals(list1.get(i), list2.get(j))) {
 						list2.remove(j);
 						found = true;

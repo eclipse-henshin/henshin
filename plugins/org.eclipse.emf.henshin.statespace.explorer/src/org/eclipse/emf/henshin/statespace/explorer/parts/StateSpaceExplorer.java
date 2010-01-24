@@ -6,9 +6,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -20,7 +18,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
@@ -33,7 +30,6 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -125,10 +121,16 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	protected void initializeGraphicalViewer() {
-		// Set the viewer content:
+		setContent();
+	}
+	
+	/*
+	 *  Set the viewer content.
+	 */
+	private void setContent() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(manager);
-		viewer.setContents(manager.getStateSpace());
+		viewer.setContents(manager.getStateSpace());		
 	}
 	
 	/* 
@@ -255,11 +257,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 				}
 			} );
 			
-			// Give an error message:
-			String message = "Error loading file: " + file.getName();
-			StateSpaceExplorerPlugin.getInstance().logError(message, e);
-			IStatus status = new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, e.toString(), e);
-			ErrorDialog.openError(getSite().getShell(), "Error", message + ". See the error log for more details.", status);
+			throw new RuntimeException(e);
 			
 		}
 		
@@ -275,8 +273,8 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		try {
 			manager = StateSpaceManagerImpl.load(stateSpace, new NullProgressMonitor());
-		} catch (TaintedStateSpaceException e) {
-			StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
 		}
 				
 	}

@@ -15,7 +15,7 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	private StateSpaceManager manager;
 	
 	// Exception:
-	private TaintedStateSpaceException exception;
+	private Throwable exception;
 	
 	/**
 	 * Default constructor.
@@ -65,8 +65,8 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	public final void execute() {
 		try {
 			doExecute();
-		} catch (TaintedStateSpaceException e) {
-			StateSpaceExplorerPlugin.getInstance().logError("Tainted state space", e);
+		} catch (Throwable e) {
+			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
 			this.exception = e;
 		}
 	}
@@ -78,8 +78,8 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	public final void undo() {
 		try {
 			doUndo();
-		} catch (TaintedStateSpaceException e) {
-			StateSpaceExplorerPlugin.getInstance().logError("Tainted state space", e);
+		} catch (Throwable e) {
+			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
 			this.exception = e;
 		}
 	}
@@ -91,8 +91,8 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	public final void redo() {
 		try {
 			doRedo();
-		} catch (TaintedStateSpaceException e) {
-			StateSpaceExplorerPlugin.getInstance().logError("Tainted state space", e);
+		} catch (Throwable e) {
+			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
 			this.exception = e;
 		}
 	}
@@ -101,7 +101,7 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	 * Get the exception of this command.
 	 * @return Exception.
 	 */
-	public TaintedStateSpaceException getException() {
+	public Throwable getException() {
 		return exception;
 	}
 	

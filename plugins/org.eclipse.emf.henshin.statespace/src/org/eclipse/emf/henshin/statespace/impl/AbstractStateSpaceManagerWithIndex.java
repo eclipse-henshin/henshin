@@ -40,7 +40,7 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		
 		// Find all possibly matching states:
 		int position = hash2position(hash);
-		State[] matched = index[position];		
+		State[] matched = index[position];
 		if (matched==null) return null;
 		
 		// Check if one of them is the correct one:
@@ -80,7 +80,7 @@ public abstract class AbstractStateSpaceManagerWithIndex extends AbstractStateSp
 		// Find the next free minor index:
 		int minor = index[position].length;
 		for (int i=0; i<index[position].length; i++) {
-			if (index[i]==null) {
+			if (index[position][i]==null) {
 				minor = i;
 				break;
 			}

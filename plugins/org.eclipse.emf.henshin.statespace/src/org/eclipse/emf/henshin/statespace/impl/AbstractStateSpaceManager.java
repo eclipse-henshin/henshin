@@ -126,7 +126,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			
 		} catch (Throwable t) {
 			markTainted();
-			throw new TaintedStateSpaceException(t.getMessage());
+			throw new TaintedStateSpaceException(t);
 		} finally {
 			monitor.done();	
 		}
@@ -382,7 +382,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 */
 	public StateSpace getStateSpace() {
 		return stateSpace;
-	}	
+	}
 	
 	/*
 	 * (non-Javadoc)

@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	
 	// Default memory usage: 10%
-	public static final double DEFAULT_MEMORY_USAGE = 0.1;
+	public static final double DEFAULT_MEMORY_USAGE = 1;
 
 	// Percentage of models that are kept in memory:
 	private double memoryUsage = DEFAULT_MEMORY_USAGE;
@@ -309,8 +309,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	 */
 	private int[] shiftedLocation(State base, int index) {
 		int[] location = base.getLocation();
-		location[0] += 100 * index;
-		location[1] += 100;
+		location[0] += 50 * index;
+		location[1] += 50;
 		return location;
 	}
 	

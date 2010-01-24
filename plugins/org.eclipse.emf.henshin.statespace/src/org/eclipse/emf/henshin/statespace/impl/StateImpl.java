@@ -31,26 +31,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 public class StateImpl extends StorageImpl implements State {
 	
 	/**
-	 * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIndex()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int INDEX_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getIndex() <em>Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIndex()
-	 * @generated
-	 * @ordered
-	 */
-	protected int index = INDEX_EDEFAULT;
-
-	/**
 	 * Check whether this state is an initial one.
 	 * @generated NOT
 	 */
@@ -114,6 +94,26 @@ public class StateImpl extends StorageImpl implements State {
 	 * this line and change the '@generated'-tag to '@generated NOT'.   *
 	 * ---------------------------------------------------------------- */
 	
+	/**
+	 * The default value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int INDEX_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getIndex() <em>Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected int index = INDEX_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getIncoming() <em>Incoming</em>}' reference list.
 	 * @see #getIncoming()
