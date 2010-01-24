@@ -19,6 +19,9 @@ public class StateSpaceJobManager {
 	// Job for running the spring layouter:
 	private LayoutStateSpaceJob layoutJob;
 	
+	// Job for exploring the state space:
+	private ExploreStateSpaceJob exploreJob;
+	
 	// State space manager:
 	private StateSpaceManager stateSpaceManager;
 	
@@ -32,16 +35,19 @@ public class StateSpaceJobManager {
 	public StateSpaceJobManager(StateSpaceManager stateSpaceManager, EditDomain editDomain) {
 		this.stateSpaceManager = stateSpaceManager;
 		this.editDomain = editDomain;
+		this.reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
+		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace(), Display.getCurrent());
+		this.exploreJob = new ExploreStateSpaceJob(stateSpaceManager, editDomain);
 	}
 	
 	/**
 	 * Start the background spring layouter job.
 	 */
 	public LayoutStateSpaceJob startLayoutJob() {
-		if (!isTerminated(layoutJob)) return layoutJob;
-		layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace(), Display.getCurrent());
-		editDomain.getCommandStack().execute(new IrreversibleCommand("start layouter"));
-		layoutJob.schedule();
+		if (isTerminated(layoutJob)) {
+			editDomain.getCommandStack().execute(new IrreversibleCommand("start layouter"));
+			layoutJob.schedule();			
+		}
 		return layoutJob;
 	}
 	
@@ -49,20 +55,39 @@ public class StateSpaceJobManager {
 	 * Start the reload job.
 	 */
 	public ReloadStateSpaceJob startReloadJob() {
-		if (!isTerminated(reloadJob)) return reloadJob;
-		reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
-		reloadJob.schedule();
+		if (isTerminated(reloadJob)) reloadJob.schedule();
 		return reloadJob;
 	}
-	
+
 	/**
-	 * Stop the background spring layouter job.
+	 * Start the explore job.
+	 */
+	public ExploreStateSpaceJob startExploreJob() {
+		if (isTerminated(exploreJob)) exploreJob.schedule();
+		return exploreJob;
+	}
+
+	/**
+	 * Stop the spring layouter job.
 	 */
 	public void stopLayoutJob() {
 		stop(layoutJob);
-		layoutJob = null;
 	}
-	
+
+	/**
+	 * Stop the reload job.
+	 */
+	public void stopReloadJob() {
+		stop(reloadJob);
+	}
+
+	/**
+	 * Stop the explore job.
+	 */
+	public void stopExploreJob() {
+		stop(exploreJob);
+	}
+
 	/*
 	 * Stop a given job.
 	 */
@@ -79,7 +104,7 @@ public class StateSpaceJobManager {
 	 * Check if a job is terminated.
 	 */
 	private boolean isTerminated(Job job) {
-		return job==null || job.getState()==Job.NONE;
+		return job.getState()==Job.NONE;
 	}
 	
 	/**
@@ -107,7 +132,7 @@ public class StateSpaceJobManager {
 	
 	/**
 	 * Get the layout job.
-	 * @return layout job or <code>null</code>.
+	 * @return layout job.
 	 */
 	public LayoutStateSpaceJob getLayoutJob() {
 		return layoutJob;
@@ -115,14 +140,23 @@ public class StateSpaceJobManager {
 	
 	/**
 	 * Get the reload job.
-	 * @return reload job or <code>null</code>.
+	 * @return reload job.
 	 */
 	public ReloadStateSpaceJob getReloadJob() {
 		return reloadJob;
 	}
 
+	/**
+	 * Get the explore job.
+	 * @return explore job.
+	 */
+	public Job getExploreJob() {
+		return exploreJob;
+	}
+
 	public StateSpaceManager getStateSpaceManager() {
 		return stateSpaceManager;
 	}
+
 	
 }

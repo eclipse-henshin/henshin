@@ -15,7 +15,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStateCommand;
+import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -200,7 +200,9 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	private void refreshLabel() {
 		
 		// Update label text:
-		String name = " " + getState().getIndex() + " ";
+		int index = getState().getIndex();
+		String name = " " + index + " ";
+		if (index<10) name = " " + name + " ";
 		((StateFigure) getFigure()).getLabel().setText(name);
 		
 		// Update tool tip:
@@ -238,7 +240,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN) {
 			// Explore the current state:
-			Command command = new ExploreStateCommand(getState(), getStateSpaceManager());
+			Command command = new ExploreStatesCommand(getStateSpaceManager(), getState());
 			CommandStack stack = getViewer().getEditDomain().getCommandStack();
 			stack.execute(command);
 		} else {

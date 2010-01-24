@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.Viewport;
@@ -17,12 +18,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
@@ -58,6 +61,7 @@ public class StateSpaceToolsMenu extends Composite {
 	// Labels:
 	private Label statesLabel;
 	private Label transitionsLabel;
+	private Label rulesLabel;
 		
 	// ZoomManager:
 	private ZoomManager zoomManager;
@@ -65,14 +69,15 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	// Canvas:
 	private FigureCanvas canvas;
-
+	
 	// Layouter:
-	private Button layouterCheckbox;
 	private Scale repulsionScale;
 	private Scale attractionScale;
-
-	private Label rulesLabel;
 	
+	// Check boxes:
+	private Button layouterCheckbox;
+	private Button explorerCheckbox;
+
 	/**
 	 * Default constructor
 	 * @param parent Parent composite.
@@ -89,13 +94,13 @@ public class StateSpaceToolsMenu extends Composite {
 	private void init() {
 		
 		setBackground(BACKGROUND);
-		setLayout(new GridLayout(1, false));
+		setLayout(new FillLayout());
 		
-		// The info group:
-		Group details = new Group(this, SWT.NONE);
-		details.setText("Information");
-		details.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		details.setBackground(BACKGROUND);		
+		// Create expand bar:
+		ExpandBar bar = new ExpandBar(this, SWT.V_SCROLL);
+		
+		// The details group:
+		Composite details = newExpandItemComposite(bar);
 		details.setLayout(new GridLayout(2, false));
 		
 		newLabel(details, "Rules:", GridData.HORIZONTAL_ALIGN_END);
@@ -105,11 +110,11 @@ public class StateSpaceToolsMenu extends Composite {
 		newLabel(details, "Transitions:", GridData.HORIZONTAL_ALIGN_END);
 		transitionsLabel = newLabel(details, "0", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		
-		// The zoom group:
-		Group display = new Group(this, SWT.NONE);
-		display.setText("Display");
-		display.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		display.setBackground(BACKGROUND);		
+		newExpandItem(bar, details, "Details", 0);
+		
+		
+		// The display group:
+		Composite display = newExpandItemComposite(bar);
 		display.setLayout(new GridLayout(3, false));
 		
 		newLabel(display, "Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%", GridData.HORIZONTAL_ALIGN_END);
@@ -136,21 +141,25 @@ public class StateSpaceToolsMenu extends Composite {
 		});
 		
 		newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
-
-		// The layouter group:
-		Group layouter = new Group(this, SWT.NONE);
-		layouter.setText("Layouter");
-		layouter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		layouter.setBackground(BACKGROUND);
-		layouter.setLayout(new GridLayout(3, false));
 		
-		layouterCheckbox = new Button(layouter, SWT.CHECK);
-		layouterCheckbox.setText("Run spring layouter");
-		layouterCheckbox.setBackground(BACKGROUND);
-		layouterCheckbox.addSelectionListener(new SelectionListener() {			
+		newExpandItem(bar, display, "Display", 1);
+
+		
+		// The explorer group:
+		Composite explorer = newExpandItemComposite(bar);
+		explorer.setLayout(new GridLayout(3, false));
+		
+		explorerCheckbox = new Button(explorer, SWT.CHECK);
+		explorerCheckbox.setText("Run state space explorer");
+		explorerCheckbox.setBackground(BACKGROUND);
+		explorerCheckbox.addSelectionListener(new SelectionListener() {			
 			public void widgetSelected(SelectionEvent e) {
-				if (layouterCheckbox.getSelection()) startLayouter();
-				else if (jobManager!=null) jobManager.stopLayoutJob();
+				if (jobManager==null) return;
+				if (explorerCheckbox.getSelection()) {
+					jobManager.startExploreJob();
+				} else {
+					jobManager.stopExploreJob();
+				}
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -158,11 +167,66 @@ public class StateSpaceToolsMenu extends Composite {
 		});
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
+		explorerCheckbox.setLayoutData(data);
+
+		newExpandItem(bar, explorer, "Explorer", 2);
+		
+		
+		// The layouter group:
+		Composite layouter = newExpandItemComposite(bar);
+		layouter.setLayout(new GridLayout(3, false));
+		
+		layouterCheckbox = new Button(layouter, SWT.CHECK);
+		layouterCheckbox.setText("Run spring layouter");
+		layouterCheckbox.setBackground(BACKGROUND);
+		layouterCheckbox.addSelectionListener(new SelectionListener() {			
+			public void widgetSelected(SelectionEvent e) {
+				if (jobManager==null) return;
+				if (layouterCheckbox.getSelection()) {
+					updateLayouterProperties();
+					jobManager.startLayoutJob();
+				} else {
+					jobManager.stopLayoutJob();
+				}
+			}
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
 		
 		repulsionScale = newLayoutSlider(layouter, "State repulsion:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
 		attractionScale = newLayoutSlider(layouter, "Transition attraction:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
 
+		newExpandItem(bar, layouter, "Layouter", 3);
+
+	}
+	
+	/*
+	 * Create a new container composite for an expand bar item.
+	 */
+	private Composite newExpandItemComposite(Composite bar) {
+		Composite composite = new Composite(bar, SWT.NONE);
+		composite.setBackground(BACKGROUND);
+	    GridLayout layout = new GridLayout();
+	    layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 5;
+	    layout.verticalSpacing = 5;
+	    composite.setLayout(layout);
+	    return composite;
+	}
+	
+	/*
+	 * Create a new expand bar item.
+	 */
+	private ExpandItem newExpandItem(ExpandBar bar, Composite composite, String name, int index) {
+		ExpandItem item = new ExpandItem(bar, SWT.NONE, index);
+		item.setText(name);
+		item.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		item.setControl(composite);
+		item.setExpanded(true);
+		return item;
 	}
 	
 	/*
@@ -223,9 +287,8 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		if (jobManager==null) return;
 		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
-		if (layoutJob==null) return;
-
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
+		
 		layouter.setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
 		layouter.setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
@@ -239,27 +302,6 @@ public class StateSpaceToolsMenu extends Composite {
 			layouter.setCenter(null);
 		}
 		
-	}
-	
-	/*
-	 * Start the background spring layouter job.
-	 */
-	public void startLayouter() {
-		layouterCheckbox.setSelection(jobManager!=null);
-		if (jobManager!=null) {
-			jobManager.startLayoutJob().addJobChangeListener(new JobChangeAdapter() {
-				public void done(IJobChangeEvent event) {
-					getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							if (layouterCheckbox!=null && !layouterCheckbox.isDisposed()) {
-								layouterCheckbox.setSelection(false);
-							}
-						}
-					});
-				}
-			});
-			updateLayouterProperties();
-		}
 	}
 
 	/**
@@ -289,8 +331,27 @@ public class StateSpaceToolsMenu extends Composite {
 		this.jobManager = jobManager;
 		if (jobManager!=null) {
 			jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
+			addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
+			addJobListener(jobManager.getExploreJob(), explorerCheckbox);
 		}
 		refresh();
+	}
+	
+	/*
+	 * Add a job listener.
+	 */
+	private void addJobListener(Job job, final Button checkbox) {
+		job.addJobChangeListener(new JobChangeAdapter() {
+			public void done(IJobChangeEvent event) {
+				getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						if (checkbox!=null && !checkbox.isDisposed()) {
+							checkbox.setSelection(false);
+						}
+					}
+				});
+			}
+		});		
 	}
 	
 	/**

@@ -8,7 +8,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ResetStateSpaceCommand;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetRulesCommand;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 
@@ -63,17 +62,19 @@ public class ImportRulesWizard extends Wizard {
 		
 		List<Rule> newRules = rulesPage.getRules();
 		List<Rule> oldRules = manager.getStateSpace().getRules();
+		boolean changed = oldRules.size()!=newRules.size() || !oldRules.containsAll(newRules);
 		
-		if (oldRules.size()!=newRules.size() || !oldRules.containsAll(newRules)) {
+		if (changed) {
 			
-			// Execute as command:
-			Command command = new SetRulesCommand(manager, newRules);
-			explorer.executeCommand(command);
-			
-			if (MessageDialog.openQuestion(getShell(), "Reset", "Do you want to reset the state space (highly recommended)?")) {
-				command = new ResetStateSpaceCommand(manager);
-				explorer.executeCommand(command);
+			if (manager.getStateSpace().getStates().isEmpty() &&
+				MessageDialog.openConfirm(getShell(), "Reset", "State space needs to be reset. Really continue?")) {
+				
+				// Execute as command:
+				explorer.executeCommand(new SetRulesCommand(manager, newRules));
+				explorer.executeCommand(new ResetStateSpaceCommand(manager));
+				
 			}
+			
 		}
 		
 		return true;

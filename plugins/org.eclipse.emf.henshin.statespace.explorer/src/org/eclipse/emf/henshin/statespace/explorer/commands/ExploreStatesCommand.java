@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.henshin.statespace.State;
@@ -23,6 +24,15 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 		this(manager, manager.getStateSpace().getOpenStates());
 	}
 	
+	/**
+	 * Constructor for exploring a single state.
+	 * @param manager State space manager.
+	 * @param state State to be explored.
+	 */
+	public ExploreStatesCommand(StateSpaceManager manager, State state) {
+		this(manager, Collections.singletonList(state));
+	}
+
 	/**
 	 * General constructor.
 	 * @param manager State space manager.
@@ -52,4 +62,13 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canExecute()
+	 */
+	@Override
+	public boolean canExecute() {
+		return super.canExecute() && !states.isEmpty();
+	}
+
 }
