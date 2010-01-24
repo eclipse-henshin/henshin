@@ -153,13 +153,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__TRANSITION_COUNT = STORAGE_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Use Graph Equality</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__USE_GRAPH_EQUALITY = STORAGE_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 5;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -388,6 +397,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_TransitionCount();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isUseGraphEquality <em>Use Graph Equality</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isUseGraphEquality()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_UseGraphEquality();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
@@ -646,6 +666,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__TRANSITION_COUNT = eINSTANCE.getStateSpace_TransitionCount();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__USE_GRAPH_EQUALITY = eINSTANCE.getStateSpace_UseGraphEquality();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

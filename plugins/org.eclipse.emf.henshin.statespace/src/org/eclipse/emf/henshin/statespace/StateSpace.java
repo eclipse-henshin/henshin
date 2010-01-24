@@ -59,5 +59,20 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	void setTransitionCount(int value);
+
+	/**
+	 * Check whether this state space uses graph-equality instead of Ecore-equality.
+	 * @see #setUseGraphEquality(boolean)
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isUseGraphEquality();
+
+	/**
+	 * Set whether this state space uses graph-equality instead of Ecore-equality.
+	 * @see #isUseGraphEquality()
+	 * @generated
+	 */
+	void setUseGraphEquality(boolean value);
 	
 }

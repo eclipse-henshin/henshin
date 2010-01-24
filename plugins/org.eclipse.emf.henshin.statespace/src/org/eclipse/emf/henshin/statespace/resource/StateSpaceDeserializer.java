@@ -34,15 +34,29 @@ public class StateSpaceDeserializer {
 		StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 		
 		// Header:
-		if (readShort()!=StateSpaceSerializer.MARKER) throw new IOException("Marker not found"); // Marker
+		int marker = readShort(); // Marker
+		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("Marker not found"); // Marker
+		
+		int version = readShort(); // Version number
+		if (version!=0) throw new IOException("Unsupported format version: " + version);
+		
+		int useGraphEquality = readShort(); // Use graph equality?
+		stateSpace.setUseGraphEquality(useGraphEquality!=0);
+		
 		int ruleCount = readShort(); // Rule count
 		int stateCount = readInt(); // State count
 		int transitionCount = readInt(); // Transition count
-		int[] data = readData(); // Metadata
 		
-		// Set metadata:
+		int[] data = readData(); // Metadata
 		stateSpace.setTransitionCount(transitionCount);
 		stateSpace.setData(data);
+		
+		// Create states:
+		for (int i=0; i<stateCount; i++) {			
+			State state = StateSpaceFactory.eINSTANCE.createState();
+			state.setIndex(i);
+			stateSpace.getStates().add(state);
+		}
 		
 		// Load rules:
 		for (int i=0; i<ruleCount; i++) {
@@ -52,14 +66,7 @@ public class StateSpaceDeserializer {
 			rule.eResource().setURI(uri.trimFragment());
 			stateSpace.getRules().add(rule);
 		}
-		
-		// Create states:
-		for (int i=0; i<stateCount; i++) {			
-			State state = StateSpaceFactory.eINSTANCE.createState();
-			state.setIndex(i);
-			stateSpace.getStates().add(state);
-		}
-		
+				
 		// Load states and transitions:
 		for (State state : stateSpace.getStates()) {
 			

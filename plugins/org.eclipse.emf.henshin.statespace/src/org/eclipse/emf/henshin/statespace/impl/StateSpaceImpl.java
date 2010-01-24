@@ -118,6 +118,27 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected int transitionCount = TRANSITION_COUNT_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseGraphEquality()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean USE_GRAPH_EQUALITY_EDEFAULT = false;
+
+
+	/**
+	 * The cached value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseGraphEquality()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
+
+	/**
 	 * @generated
 	 */
 	protected StateSpaceImpl() {
@@ -205,6 +226,27 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isUseGraphEquality() {
+		return useGraphEquality;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUseGraphEquality(boolean newUseGraphEquality) {
+		boolean oldUseGraphEquality = useGraphEquality;
+		useGraphEquality = newUseGraphEquality;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -247,6 +289,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getOpenStates();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return getTransitionCount();
+			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
+				return isUseGraphEquality();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -279,6 +323,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				setTransitionCount((Integer)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
+				setUseGraphEquality((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -306,6 +353,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				setTransitionCount(TRANSITION_COUNT_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
+				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -328,6 +378,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return openStates != null && !openStates.isEmpty();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return transitionCount != TRANSITION_COUNT_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
+				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -344,6 +396,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
+		result.append(", useGraphEquality: ");
+		result.append(useGraphEquality);
 		result.append(')');
 		return result.toString();
 	}

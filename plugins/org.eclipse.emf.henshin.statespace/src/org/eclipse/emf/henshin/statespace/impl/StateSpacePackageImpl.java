@@ -9,19 +9,16 @@ package org.eclipse.emf.henshin.statespace.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.statespace.Storage;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.Storage;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -183,6 +180,16 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 */
 	public EAttribute getStateSpace_TransitionCount() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(4);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateSpace_UseGraphEquality() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(5);
 	}
 
 
@@ -393,6 +400,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(stateSpaceEClass, STATE_SPACE__INITIAL_STATES);
 		createEReference(stateSpaceEClass, STATE_SPACE__OPEN_STATES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__USE_GRAPH_EQUALITY);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__INDEX);
@@ -459,6 +467,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getStateSpace_InitialStates(), this.getState(), null, "initialStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_OpenStates(), this.getState(), null, "openStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_UseGraphEquality(), ecorePackage.getEBoolean(), "useGraphEquality", "false", 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
