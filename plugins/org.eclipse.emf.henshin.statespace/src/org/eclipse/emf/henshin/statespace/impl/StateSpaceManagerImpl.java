@@ -18,7 +18,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -34,43 +33,20 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	
 	// Default memory usage: 10%
 	public static final double DEFAULT_MEMORY_USAGE = 1;
-
+	
 	// Percentage of models that are kept in memory:
 	private double memoryUsage = DEFAULT_MEMORY_USAGE;
 	
 	// State model cache:
 	private StateModelCache cache;
 	
-	/*
-	 * Private constructor.
+	/**
+	 * Default constructor.
+	 * @param stateSpace State space.
 	 */
-	private StateSpaceManagerImpl(StateSpace stateSpace) {
+	public StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
 		this.cache = new StateModelCache();
-	}
-	
-	/**
-	 * Create a new state space manager instance.
-	 * @param stateSpace State space.
-	 * @param memoryUsage Memory usage.
-	 * @param monitor Progress monitor.
-	 * @return State space manager.
-	 */
-	public static StateSpaceManager load(StateSpace stateSpace, double memoryUsage, IProgressMonitor monitor) throws TaintedStateSpaceException {
-		StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
-		manager.setMemoryUsage(memoryUsage);
-		manager.reload(monitor);
-		return manager;
-	}
-	
-	/**
-	 * Create a new state space manager instance.
-	 * @param stateSpace State space.
-	 * @param monitor Progress monitor.
-	 * @return State space manager.
-	 */
-	public static StateSpaceManager load(StateSpace stateSpace, IProgressMonitor monitor) throws TaintedStateSpaceException {
-		return load(stateSpace, DEFAULT_MEMORY_USAGE, monitor);
 	}
 	
 	/*

@@ -1,17 +1,17 @@
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
-import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.explorer.actions.LayoutStateSpaceJob;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -21,7 +21,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -53,8 +52,8 @@ public class StateSpaceToolsMenu extends Composite {
 	// Edit domain:
 	private EditDomain editDomain;
 	
-	// State space manager:
-	private StateSpaceManager manager;
+	// State space job manager:
+	private StateSpaceJobManager jobManager;
 	
 	// Labels:
 	private Label statesLabel;
@@ -69,7 +68,6 @@ public class StateSpaceToolsMenu extends Composite {
 
 	// Layouter:
 	private Button layouterCheckbox;
-	private LayoutStateSpaceJob layouterJob;
 	private Scale repulsionScale;
 	private Scale attractionScale;
 
@@ -152,7 +150,7 @@ public class StateSpaceToolsMenu extends Composite {
 		layouterCheckbox.addSelectionListener(new SelectionListener() {			
 			public void widgetSelected(SelectionEvent e) {
 				if (layouterCheckbox.getSelection()) startLayouter();
-				else stopLayouter();
+				else if (jobManager!=null) jobManager.stopLayoutJob();
 			}
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
@@ -223,69 +221,57 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void updateLayouterProperties() {
 		
-		if (layouterJob!=null) {
-			
-			StateSpaceSpringLayouter layouter = layouterJob.getLayouter();
-			layouter.setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
-			layouter.setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
-			layouter.setNaturalTransitionLength(NATURAL_LENGTH);
-			
-			if (canvas!=null) {
-				Viewport port = canvas.getViewport();
-				int x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
-				int y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
-				layouter.setCenter(new int[] {x,y});
-			} else {
-				layouter.setCenter(null);
-			}
+		if (jobManager==null) return;
+		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
+		if (layoutJob==null) return;
+
+		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
+		layouter.setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
+		layouter.setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
+		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
+
+		if (canvas!=null) {
+			Viewport port = canvas.getViewport();
+			int x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
+			int y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
+			layouter.setCenter(new int[] {x,y});
+		} else {
+			layouter.setCenter(null);
 		}
 		
 	}
 	
-	/**
-	 * Start a background spring layouter job.
+	/*
+	 * Start the background spring layouter job.
 	 */
 	public void startLayouter() {
-		layouterCheckbox.setSelection(true);
-		layouterJob = new LayoutStateSpaceJob(manager.getStateSpace(), Display.getCurrent());
-		updateLayouterProperties();
-		editDomain.getCommandStack().execute(new Command("Start layouter"){});
-		layouterJob.schedule();
-	}
-	
-	/**
-	 * Stop the background spring layouter job.
-	 */
-	public void stopLayouter() {
-		if (layouterJob!=null) {
-			layouterJob.cancel();
-			while (layouterJob.getState()==Job.RUNNING) {
-				try {
-					layouterJob.join();
-				} catch (InterruptedException e) {}
-			}
-			layouterJob = null;
+		layouterCheckbox.setSelection(jobManager!=null);
+		if (jobManager!=null) {
+			jobManager.startLayoutJob().addJobChangeListener(new JobChangeAdapter() {
+				public void done(IJobChangeEvent event) {
+					getDisplay().asyncExec(new Runnable() {
+						public void run() {
+							if (layouterCheckbox!=null && !layouterCheckbox.isDisposed()) {
+								layouterCheckbox.setSelection(false);
+							}
+						}
+					});
+				}
+			});
+			updateLayouterProperties();
 		}
-		layouterCheckbox.setSelection(false);
 	}
-	
-	/**
-	 * Stop all background jobs.
-	 */
-	public void stopAll() {
-		stopLayouter();
-	}
-	
+
 	/**
 	 * Refresh the tools menu content.
 	 */
 	public void refresh() {
-		if (manager==null) {
+		if (jobManager==null) {
 			statesLabel.setText("0");
 			transitionsLabel.setText("0");
 			rulesLabel.setText("0");
 		} else {
-			StateSpace stateSpace = manager.getStateSpace();
+			StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
 			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
@@ -293,16 +279,16 @@ public class StateSpaceToolsMenu extends Composite {
 	}
 
 	/**
-	 * Set the state space manager to be used.
-	 * @param stateSpace State space manager.
+	 * Set the job manager to be used.
+	 * @param manager Job manager.
 	 */
-	public void setStateSpaceManager(StateSpaceManager manager) {
-		if (this.manager!=null) {
-			this.manager.getStateSpace().eAdapters().remove(adapter);
+	public void setJobManager(StateSpaceJobManager jobManager) {
+		if (this.jobManager!=null) {
+			this.jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);
 		}
-		this.manager = manager;
-		if (manager!=null) {
-			manager.getStateSpace().eAdapters().add(adapter);
+		this.jobManager = jobManager;
+		if (jobManager!=null) {
+			jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
 		}
 		refresh();
 	}

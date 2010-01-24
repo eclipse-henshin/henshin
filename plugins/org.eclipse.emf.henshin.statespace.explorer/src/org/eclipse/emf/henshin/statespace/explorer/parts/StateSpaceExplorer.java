@@ -7,9 +7,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -20,6 +17,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
@@ -49,10 +47,10 @@ import org.eclipse.ui.part.FileEditorInput;
 public class StateSpaceExplorer extends GraphicalEditor {
 	
 	// State space manager:
-	private StateSpaceManager manager;
+	private StateSpaceManager stateSpaceManager;
 	
-	// Job for loading the state space:
-	private LoadStateSpaceManagerJob loader;
+	// Job manager:
+	private StateSpaceJobManager jobManager;
 	
 	// Tool menu:
 	private StateSpaceToolsMenu toolsMenu;
@@ -86,9 +84,11 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		// Add the tools menu:
 		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
-		toolsMenu.setStateSpaceManager(manager);
 		toolsMenu.setZoomManager(root.getZoomManager());
 		toolsMenu.setCanvas(canvas);
+		if (jobManager!=null) {
+			toolsMenu.setJobManager(jobManager);
+		}
 		
 		// Weights must be set at the end!
 		sashForm.setWeights(new int[] { 5,2 });
@@ -129,8 +129,8 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	private void setContent() {
 		GraphicalViewer viewer = getGraphicalViewer();
-		((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(manager);
-		viewer.setContents(manager.getStateSpace());		
+		((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(stateSpaceManager);
+		viewer.setContents(stateSpaceManager.getStateSpace());		
 	}
 	
 	/* 
@@ -151,10 +151,10 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	public void doSave(IProgressMonitor monitor) {
 		
 		// Stop all background jobs first:
-		toolsMenu.stopAll();
+		jobManager.stopAllJobs();
 		
 		try {
-			Resource resource = manager.getStateSpace().eResource();
+			Resource resource = stateSpaceManager.getStateSpace().eResource();
 			resource.save(null);
 			getCommandStack().markSaveLocation();
 		} catch (Exception e) { 
@@ -171,7 +171,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	public void doSaveAs() {
 		
 		// Stop all background jobs first:
-		toolsMenu.stopAll();
+		jobManager.stopAllJobs();
 		
 		// Show a SaveAs dialog
 		Shell shell = getSite().getWorkbenchWindow().getShell();
@@ -187,7 +187,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			
 			try {
 				// Save the file:
-				StateSpaceResource resource = (StateSpaceResource) manager.getStateSpace().eResource();
+				StateSpaceResource resource = (StateSpaceResource) stateSpaceManager.getStateSpace().eResource();
 				resource.setURI(uri);
 				resource.save(null);
 				
@@ -208,7 +208,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 * @return State space manager.
 	 */
 	public StateSpaceManager getStateSpaceManager() {
-		return manager;
+		return stateSpaceManager;
 	}
 	
 	/* 
@@ -260,19 +260,18 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			throw new RuntimeException(e);
 			
 		}
-		
-		// Load the state space manager:
-		loader = new LoadStateSpaceManagerJob(stateSpace);
-		loader.setToolsMenu(toolsMenu);
-		loader.addJobChangeListener(new JobChangeAdapter() {
-			public void done(IJobChangeEvent event) {
-				manager = loader.getStateSpaceManager();
-			}
-		});
-		//loader.schedule();
-		
+				
 		try {
-			manager = StateSpaceManagerImpl.load(stateSpace, new NullProgressMonitor());
+			StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
+			manager.reload(new NullProgressMonitor());			
+			
+			this.stateSpaceManager = manager;
+			this.jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
+			
+			if (toolsMenu!=null) {
+				toolsMenu.setJobManager(jobManager);
+			}
+			
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -285,20 +284,8 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	public void dispose() {
-		
-		// Stop all jobs first:
-		if (loader!=null && loader.getState()!=Job.NONE) {
-			loader.cancel();
-			while (loader.getState()==Job.NONE) {
-				try {
-					loader.join();
-				} catch (InterruptedException e) {}
-			}
-		}
-		
-		// Dispose.
-		super.dispose();
-		
+		jobManager.stopAllJobs(); // stop all jobs first.
+		super.dispose(); // and dispose.
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.explorer.actions;
+package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
