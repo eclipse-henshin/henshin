@@ -1,0 +1,55 @@
+package org.eclipse.emf.henshin.statespace.explorer.commands;
+
+import java.util.List;
+
+import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+
+/**
+ * Command for exploring states.
+ * @author Christian Krause
+ */
+public class ExploreStatesCommand extends AbstractStateSpaceCommand {
+	
+	// States to be explored.
+	private List<State> states;
+	
+	/**
+	 * Default constructor. Explores all open states.
+	 * @param manager State space manager.
+	 */
+	public ExploreStatesCommand(StateSpaceManager manager) {
+		this(manager, manager.getStateSpace().getOpenStates());
+	}
+	
+	/**
+	 * General constructor.
+	 * @param manager State space manager.
+	 * @param states States to be explored.
+	 */
+	public ExploreStatesCommand(StateSpaceManager manager, List<State> states) {
+		super("explore states", manager);
+		this.states = states;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
+	 */
+	public void doExecute() throws TaintedStateSpaceException {
+		for (State state : states) {
+			getStateSpaceManager().exploreState(state);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	@Override
+	public boolean canUndo() {
+		return false;
+	}
+	
+}
