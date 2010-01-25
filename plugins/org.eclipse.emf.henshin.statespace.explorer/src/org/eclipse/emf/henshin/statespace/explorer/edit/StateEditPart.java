@@ -46,10 +46,10 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public final static Color COLOR_INITIAL = new Color(null, 40,220,40);
 
 	// Color to be used for terminal states.
-	public final static Color COLOR_TERMINAL = new Color(null, 40,40,220);
+	public final static Color COLOR_TERMINAL = new Color(null, 250,60,60);
 	
 	// Color to be used for open states.
-	public final static Color COLOR_OPEN = new Color(null, 220,40,40);
+	public final static Color COLOR_OPEN = new Color(null, 100,100,250);
 
 	// Connection anchor:
 	private ConnectionAnchor anchor;

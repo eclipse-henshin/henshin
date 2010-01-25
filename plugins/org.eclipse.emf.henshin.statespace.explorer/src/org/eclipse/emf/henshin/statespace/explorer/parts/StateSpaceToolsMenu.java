@@ -17,7 +17,6 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,9 +34,6 @@ import org.eclipse.swt.widgets.Scale;
  * @author Christian Krause
  */
 public class StateSpaceToolsMenu extends Composite {
-	
-	// Background color to be used:
-	public static final Color BACKGROUND = new Color(null, 255, 255, 255);
 	
 	// Supported zoom levels:
 	public static double[] ZOOM_LEVELS = {  .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, 
@@ -93,7 +89,6 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void init() {
 		
-		setBackground(BACKGROUND);
 		setLayout(new FillLayout());
 		
 		// Create expand bar:
@@ -104,11 +99,11 @@ public class StateSpaceToolsMenu extends Composite {
 		details.setLayout(new GridLayout(2, false));
 		
 		newLabel(details, "Rules:", GridData.HORIZONTAL_ALIGN_END);
-		rulesLabel = newLabel(details, "0", GridData.HORIZONTAL_ALIGN_BEGINNING);
+		rulesLabel = newLabel(details, "0", GridData.FILL_HORIZONTAL);
 		newLabel(details, "States:", GridData.HORIZONTAL_ALIGN_END);
-		statesLabel = newLabel(details, "0", GridData.HORIZONTAL_ALIGN_BEGINNING);
+		statesLabel = newLabel(details, "0", GridData.FILL_HORIZONTAL);
 		newLabel(details, "Transitions:", GridData.HORIZONTAL_ALIGN_END);
-		transitionsLabel = newLabel(details, "0", GridData.HORIZONTAL_ALIGN_BEGINNING);
+		transitionsLabel = newLabel(details, "0", GridData.FILL_HORIZONTAL);
 		
 		newExpandItem(bar, details, "Details", 0);
 		
@@ -121,7 +116,6 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		zoomScale = new Scale(display, SWT.NONE);
 		zoomScale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		zoomScale.setBackground(BACKGROUND);
 		zoomScale.setEnabled(false);
 		zoomScale.setIncrement(1);
 		zoomScale.setPageIncrement(2);
@@ -150,8 +144,7 @@ public class StateSpaceToolsMenu extends Composite {
 		explorer.setLayout(new GridLayout(3, false));
 		
 		explorerCheckbox = new Button(explorer, SWT.CHECK);
-		explorerCheckbox.setText("Run state space explorer");
-		explorerCheckbox.setBackground(BACKGROUND);
+		explorerCheckbox.setText("Run explorer");
 		explorerCheckbox.addSelectionListener(new SelectionListener() {			
 			public void widgetSelected(SelectionEvent e) {
 				if (jobManager==null) return;
@@ -178,7 +171,6 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		layouterCheckbox = new Button(layouter, SWT.CHECK);
 		layouterCheckbox.setText("Run spring layouter");
-		layouterCheckbox.setBackground(BACKGROUND);
 		layouterCheckbox.addSelectionListener(new SelectionListener() {			
 			public void widgetSelected(SelectionEvent e) {
 				if (jobManager==null) return;
@@ -201,20 +193,17 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale = newLayoutSlider(layouter, "Transition attraction:", LAYOUTER_PROPERTY_MIN, LAYOUTER_PROPERTY_MAX);
 
 		newExpandItem(bar, layouter, "Layouter", 3);
-
+		
+		setEnabled(false);
 	}
 	
 	/*
 	 * Create a new container composite for an expand bar item.
 	 */
 	private Composite newExpandItemComposite(Composite bar) {
-		Composite composite = new Composite(bar, SWT.NONE);
-		composite.setBackground(BACKGROUND);
-	    GridLayout layout = new GridLayout();
-	    layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 5;
-	    layout.verticalSpacing = 5;
-	    composite.setLayout(layout);
-	    return composite;
+		Composite composite = new Composite(bar, SWT.BORDER);
+		composite.setLayout(new FillLayout());
+		return composite;
 	}
 	
 	/*
@@ -236,7 +225,6 @@ public class StateSpaceToolsMenu extends Composite {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(text);
 		label.setLayoutData(new GridData(align));
-		label.setBackground(BACKGROUND);
 		return label;
 	}
 	
@@ -247,18 +235,15 @@ public class StateSpaceToolsMenu extends Composite {
 
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(name);
-		label.setBackground(BACKGROUND);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		label.setLayoutData(data);
 		
 		label = new Label(parent, SWT.NONE);
 		label.setText(min + "");
-		label.setBackground(BACKGROUND);
 		
 		final Scale scale = new Scale(parent, SWT.NONE);
 		scale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		scale.setBackground(BACKGROUND);
 		scale.setIncrement(1);
 		scale.setPageIncrement(2);
 		scale.setMinimum(min);
@@ -275,7 +260,6 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		label = new Label(parent, SWT.NONE);
 		label.setText(max + "");
-		label.setBackground(BACKGROUND);
 		return scale;
 		
 	}
@@ -319,7 +303,7 @@ public class StateSpaceToolsMenu extends Composite {
 			rulesLabel.setText(stateSpace.getRules().size() + "");
 		}
 	}
-
+	
 	/**
 	 * Set the job manager to be used.
 	 * @param manager Job manager.
@@ -334,7 +318,18 @@ public class StateSpaceToolsMenu extends Composite {
 			addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
 			addJobListener(jobManager.getExploreJob(), explorerCheckbox);
 		}
+		setEnabled(jobManager!=null);
 		refresh();
+	}
+	
+	/**
+	 * Enable or disable this menu.
+	 */
+	public void setEnabled(boolean enabled) {
+		layouterCheckbox.setEnabled(enabled);
+		explorerCheckbox.setEnabled(enabled);
+		repulsionScale.setEnabled(enabled);
+		attractionScale.setEnabled(enabled);
 	}
 	
 	/*
@@ -367,13 +362,34 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	}
 	
-	// State space adapter:
+	/**
+	 * Set the used figure canvas for the explorer.
+	 * @param canvas Figure canvas.
+	 */
+	public void setCanvas(FigureCanvas canvas) {
+		this.canvas = canvas;
+		canvas.getHorizontalBar().addSelectionListener(listener);
+		canvas.getVerticalBar().addSelectionListener(listener);
+		canvas.addListener(SWT.Resize, listener2);
+	}
+	
+	
+	// ------------------- //
+	// ---- LISTENERS ---- // 
+	// ------------------- //
+	
+	/*
+	 *  State space adapter.
+	 */
 	private Adapter adapter = new AdapterImpl() {
 		  public void notifyChanged(Notification event) {
 			  refresh();
 		  }
 	};
-
+	
+	/*
+	 * Selection listeners for sliders.
+	 */
 	private SelectionListener listener = new SelectionListener() {
 		public void widgetDefaultSelected(SelectionEvent e) {
 			updateLayouterProperties();
@@ -382,18 +398,11 @@ public class StateSpaceToolsMenu extends Composite {
 			updateLayouterProperties();
 		}
 	};
-
+	
 	private Listener listener2 = new Listener() {
 		public void handleEvent(Event event) {
 			updateLayouterProperties();
 		}
 	};
-	
-	public void setCanvas(FigureCanvas canvas) {
-		this.canvas = canvas;
-		canvas.getHorizontalBar().addSelectionListener(listener);
-		canvas.getVerticalBar().addSelectionListener(listener);
-		canvas.addListener(SWT.Resize, listener2);
-	}
-	
+		
 }
