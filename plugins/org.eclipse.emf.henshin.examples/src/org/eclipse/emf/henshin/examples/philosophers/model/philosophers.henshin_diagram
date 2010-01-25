@@ -45,7 +45,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="philosophers.henshin#_ltExIAdZEd-l9fE4S3UNLA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ltKQsQdZEd-l9fE4S3UNLA" x="123" y="76" width="397" height="329"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ltKQsQdZEd-l9fE4S3UNLA" x="49" y="45" width="397" height="329"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_PYTAIAdcEd-0LKv0uxhTyQ" type="2001" fontName="Sans">
     <children xmi:type="notation:DecorationNode" xmi:id="_PYTnMAdcEd-0LKv0uxhTyQ" type="5001"/>
@@ -58,7 +58,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_PYWDcgdcEd-0LKv0uxhTyQ"/>
         </children>
         <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnEgdcEd-0LKv0uxhTyQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYVcYQdcEd-0LKv0uxhTyQ" x="89" y="13"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYVcYQdcEd-0LKv0uxhTyQ" x="194" y="4"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_PYWDcwdcEd-0LKv0uxhTyQ" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_PYWDdQdcEd-0LKv0uxhTyQ" type="5002"/>
@@ -68,7 +68,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_PYWDeQdcEd-0LKv0uxhTyQ"/>
         </children>
         <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnEwdcEd-0LKv0uxhTyQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYWDdAdcEd-0LKv0uxhTyQ" x="27" y="118"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYWDdAdcEd-0LKv0uxhTyQ" x="176" y="107"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_PYWqgAdcEd-0LKv0uxhTyQ" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_PYWqggdcEd-0LKv0uxhTyQ" type="5002"/>
@@ -78,7 +78,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_PYWqhgdcEd-0LKv0uxhTyQ"/>
         </children>
         <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnFAdcEd-0LKv0uxhTyQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYWqgQdcEd-0LKv0uxhTyQ" x="235" y="118"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYWqgQdcEd-0LKv0uxhTyQ" x="380" y="107"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_PYXRkAdcEd-0LKv0uxhTyQ" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_PYXRkgdcEd-0LKv0uxhTyQ" type="5002"/>
@@ -88,11 +88,21 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_PYXRlgdcEd-0LKv0uxhTyQ"/>
         </children>
         <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnFQdcEd-0LKv0uxhTyQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYXRkQdcEd-0LKv0uxhTyQ" x="141" y="229"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYXRkQdcEd-0LKv0uxhTyQ" x="194" y="212"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_jsVg4AmoEd-BTP3GZpEOVA" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_jsX9IAmoEd-BTP3GZpEOVA" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_jsX9IQmoEd-BTP3GZpEOVA" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_jsYkMAmoEd-BTP3GZpEOVA" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_jsYkMQmoEd-BTP3GZpEOVA"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_jsYkMgmoEd-BTP3GZpEOVA"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_jqCa0AmoEd-BTP3GZpEOVA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jsVg4QmoEd-BTP3GZpEOVA" x="9" y="106"/>
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="philosophers.henshin#_LrKnEAdcEd-0LKv0uxhTyQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYTAIQdcEd-0LKv0uxhTyQ" x="555" y="76" width="406" height="329"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PYTAIQdcEd-0LKv0uxhTyQ" x="488" y="45" width="503" height="329"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_bc_BYQdZEd-l9fE4S3UNLA"/>
   <element xmi:type="henshin:TransformationSystem" href="philosophers.henshin#_bcD0UQdZEd-l9fE4S3UNLA"/>
@@ -139,7 +149,7 @@
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_ZBwNsAdcEd-0LKv0uxhTyQ" type="4001" source="_PYWDcwdcEd-0LKv0uxhTyQ" target="_PYXRkAdcEd-0LKv0uxhTyQ">
     <children xmi:type="notation:DecorationNode" xmi:id="_ZBw0wAdcEd-0LKv0uxhTyQ" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_ZBw0wQdcEd-0LKv0uxhTyQ" x="-12" y="25"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ZBw0wQdcEd-0LKv0uxhTyQ" x="-4" y="28"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_ZBwNsQdcEd-0LKv0uxhTyQ" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="philosophers.henshin#_ZBsjUAdcEd-0LKv0uxhTyQ"/>
@@ -160,5 +170,23 @@
     <styles xmi:type="notation:FontStyle" xmi:id="_kV2_MQdcEd-0LKv0uxhTyQ" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="philosophers.henshin#_LrKnHgdcEd-0LKv0uxhTyQ"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kV2_MgdcEd-0LKv0uxhTyQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_n23noAmoEd-BTP3GZpEOVA" type="4001" source="_PYWDcwdcEd-0LKv0uxhTyQ" target="_jsVg4AmoEd-BTP3GZpEOVA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_n25c0AmoEd-BTP3GZpEOVA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_n25c0QmoEd-BTP3GZpEOVA" x="-1" y="12"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_n23noQmoEd-BTP3GZpEOVA" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_n1yCgAmoEd-BTP3GZpEOVA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_n23nogmoEd-BTP3GZpEOVA" points="[-22, 0, 85, -3]$[-70, 3, 37, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_n3GRIAmoEd-BTP3GZpEOVA" id="(0.21641791044776118,0.40384615384615385)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_xherwAmoEd-BTP3GZpEOVA" type="4001" source="_PYXRkAdcEd-0LKv0uxhTyQ" target="_jsVg4AmoEd-BTP3GZpEOVA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_xhf54AmoEd-BTP3GZpEOVA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_xhgg8AmoEd-BTP3GZpEOVA" x="13" y="-26"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_xherwQmoEd-BTP3GZpEOVA" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_xhO0IAmoEd-BTP3GZpEOVA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_xherwgmoEd-BTP3GZpEOVA" points="[-14, -10, 102, 62]$[-113, -92, 3, -20]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_xhocwAmoEd-BTP3GZpEOVA" id="(0.19387755102040816,0.3076923076923077)"/>
   </edges>
 </notation:Diagram>

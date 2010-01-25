@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <philosophers:Table xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:philosophers="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers">
   <plates forks="//@forks.0 //@forks.1"/>
-  <plates id="1" forks="//@forks.1 //@forks.2"/>
-  <plates id="2" forks="//@forks.0 //@forks.2"/>
+  <plates forks="//@forks.1 //@forks.2"/>
+  <plates forks="//@forks.0 //@forks.2"/>
   <philosophers plate="//@plates.0"/>
-  <philosophers id="1" plate="//@plates.1"/>
-  <philosophers id="2" plate="//@plates.2"/>
+  <philosophers plate="//@plates.1"/>
+  <philosophers plate="//@plates.2"/>
   <forks/>
-  <forks id="1"/>
-  <forks id="2"/>
+  <forks/>
+  <forks/>
 </philosophers:Table>
