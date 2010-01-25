@@ -71,7 +71,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			
 			// Check the rule:
 			Rule rule = transition.getRule();
-			if (rule==null || getStateSpace().getRules().contains(rule)) {
+			if (rule==null || !getStateSpace().getRules().contains(rule)) {
 				throw new TaintedStateSpaceException("Illegal transition in state " + state);
 			}
 			
@@ -187,7 +187,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		
 		// List of newly created transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
-
+		int newStates = 0;
+		
 		// Apply all rules:
 		for (Rule rule : getStateSpace().getRules()) {
 			
@@ -221,7 +222,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 					Transition newTransition = createTransition(state, rule, i);
 					if (targetState==null) {
 						targetState = createOpenState(transformed, hashCode(transformed));
-						targetState.setLocation(shiftedLocation(state, state.getOutgoing().indexOf(newTransition)));
+						targetState.setLocation(shiftedLocation(state, newStates++));
 					}
 					newTransition.setTarget(targetState);
 					
@@ -285,8 +286,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	 */
 	private int[] shiftedLocation(State base, int index) {
 		int[] location = base.getLocation();
-		location[0] += 50 * index;
-		location[1] += 50;
+		double angle = (Math.PI * index * 0.25d);
+		location[0] += 60 * Math.cos(angle);
+		location[1] += 60 * Math.sin(angle);
 		return location;
 	}
 	

@@ -167,7 +167,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	protected void setOpen(State state, boolean open) {
 		state.setOpen(open);
 		if (open) {
-			if (getStateSpace().getOpenStates().contains(state)) {
+			if (!getStateSpace().getOpenStates().contains(state)) {
 				getStateSpace().getOpenStates().add(state);
 			}
 		} else {

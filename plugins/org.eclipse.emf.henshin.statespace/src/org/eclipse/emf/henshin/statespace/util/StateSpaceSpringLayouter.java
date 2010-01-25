@@ -142,7 +142,7 @@ public class StateSpaceSpringLayouter {
 	private int[] transitionAttraction(int[] l1, int[] l2) {
 		int[] direction = direction(l2,l1);
 		double distance = length(direction);
-		if (distance>1) {
+		if (distance>0) {
 			double factor = attraction * Math.log(distance / naturalLength) / distance;
 			direction[0] *= factor;
 			direction[1] *= factor;			
@@ -158,7 +158,7 @@ public class StateSpaceSpringLayouter {
 	public int[] stateRepulsion(int[] l1, int[] l2) {
 		int[] direction = direction(l1,l2);
 		double distance = length(direction);
-		if (distance>5) {
+		if (distance>0) {
 			double factor = (repulsion*repulsion) / (distance*distance*distance);
 			direction[0] *= factor;
 			direction[1] *= factor;
@@ -194,8 +194,9 @@ public class StateSpaceSpringLayouter {
 	 */
 	private int[] randomShift() {
 		int[] shift = new int[3];
-		shift[0] += 5; //10*Math.random()-5;
-		shift[1] += 5; //10*Math.random()-5;
+		double angle = (2.0 * Math.PI * Math.random());
+		shift[0] += 2 * Math.cos(angle);
+		shift[1] += 2 * Math.sin(angle);
 		return shift;
 	}
 

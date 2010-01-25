@@ -39,9 +39,9 @@ public class StateSpaceToolsMenu extends Composite {
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
 	public static final double REPULSION_FACTOR = 2;
-	public static final double ATTRACTION_FACTOR = 0.1;
+	public static final double ATTRACTION_FACTOR = 0.05;
 	
-	public static final int NATURAL_LENGTH = 30;
+	public static final int NATURAL_LENGTH = 10;
 	
 	// Edit domain:
 	private EditDomain editDomain;
