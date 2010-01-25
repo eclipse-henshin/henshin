@@ -28,7 +28,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * State diagram edit part.
@@ -202,7 +201,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		// Update label text:
 		int index = getState().getIndex();
 		String name = " " + index + " ";
-		if (index<10) name = " " + name + " ";
 		((StateFigure) getFigure()).getLabel().setText(name);
 		
 		// Update tool tip:
@@ -297,15 +295,6 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(final Notification event) {
-		
-		// Check if the thread is correct:
-		if (Display.getDefault().getThread()!=Thread.currentThread()) {
-			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
-					notifyChanged(event);
-				}
-			});
-		}
 		
 		switch (event.getFeatureID(State.class)) {
 		

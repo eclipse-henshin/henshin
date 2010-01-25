@@ -29,14 +29,11 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	@Override
 	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
-		
 		if (child instanceof StateEditPart && 
 			constraint instanceof Rectangle) {
-			
 			State state = ((StateEditPart) child).getState();
 			Rectangle bounds = (Rectangle) constraint;
 			return new MoveStateCommand(state, request, bounds);
-			
 		} else {
 			return super.createChangeConstraintCommand(request, child, constraint);
 		}
@@ -58,21 +55,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
-		Object type = request.getNewObjectType();
-		
-		/*
-		if (type==State.class) {
-			StateSpace stateSpace = (StateSpace) getHost().getModel();
-			State state = (State) request.getNewObject();
-			Rectangle bounds = (Rectangle) getConstraintFor(request);
-			StateCreateCommand command = new StateCreateCommand(state, stateSpace);
-			command.setLocation(bounds.x, bounds.y);
-			return command;
-		}
-		*/
-		
 		return null;
-		
 	}
 	
 	/*
@@ -82,10 +65,8 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {
 		return new NonResizableEditPolicy() {
-			
 			@Override
 			protected IFigure createDragSourceFeedbackFigure() {
-				
 				// Use a ghost ellipse for feedback:
 				Ellipse ghost = new Ellipse();
 				ghost.setAntialias(SWT.ON);				
@@ -95,9 +76,7 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 				ghost.setBounds(getInitialFeedbackBounds());
 				addFeedback(ghost);
 				return ghost;
-				
 			}
-			
 		};
 	}
 
