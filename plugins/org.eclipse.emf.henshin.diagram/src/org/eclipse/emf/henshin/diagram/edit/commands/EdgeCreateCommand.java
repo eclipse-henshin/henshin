@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
@@ -101,33 +102,94 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 * @generated NOT
 	 */
 	public static boolean canCreateEdge(Node source, Node target,
-			EReference type) {
+			EReference edgeType) {
 
+		EClass targetType = target.getType();
+		EClass sourceType = source.getType();
+		
 		// Everything must be set.
-		if (source == null || target == null || source.getType() == null
-				|| target.getType() == null || type == null) {
+		if (source == null || target == null || sourceType == null
+				|| targetType == null || edgeType == null) {
 			return false;
 		}
 
 		// Reference must be owned by source.
-		if (!source.getType().getEReferences().contains(type)) {
+		if (!sourceType.getEReferences().contains(edgeType)) {
 			return false;
 		}
 
 		// Target type must be ok:
-		if (!target.getType().isSuperTypeOf(type.getEReferenceType())) {
+		if (!targetType.isSuperTypeOf(edgeType.getEReferenceType())) {
 			return false;
 		}
 
-		// We allow edge only to be created if the graphs are the same. Should be relaxed later.
-		if (source.getGraph() != target.getGraph()) {
-			return false;
-		}
+		/*
+		 * Check for source/target consistency i.e. an edge between [delete]node
+		 * and [create]node is forbidden
+		 */
+		Graph sourceGraph = source.getGraph();
+		Graph targetGraph = target.getGraph();
+		Rule rule = sourceGraph.getContainerRule();
+		
+		if (rule == null) {
+			// if no rule is given, we require same graphs at least
+			if (sourceGraph != targetGraph) {
+				return false;
+			}// if
+
+		} else {
+
+			if (isCreate(rule, source) && isDelete(rule, target)) {
+				return false;
+			}// if
+
+			if (isDelete(rule, source) && isCreate(rule, target)) {
+				return false;
+			}// if
+
+		}// if else
 
 		return true;
+	}// canCreateEdge
 
-	}
-
+	/**
+	 * Return true if the given element indicates a deletion by rule application
+	 * i.e. the given node occurs only at the LHS without mapping to RHS.
+	 * 
+	 * TODO: Diese Methode sollten noch in die Modellklasse Rule
+	 * 
+	 * @param rule
+	 * @param node
+	 * @return
+	 */
+	private static boolean isDelete(Rule rule, Node node) {
+		
+		if ((rule.getLhs() == node.getGraph())) {
+			Node sourceImage = HenshinMappingUtil.getNodeImage(node, rule
+					.getRhs(), rule.getMappings());
+			return sourceImage==null;
+		}// if 
+		return false;
+	}// isDelete
+	
+	/**
+	 * Return true if the given element indicates a creation by rule application
+	 * i.e. the given node occurs only at the RHS without being mapped by LHS.
+	 * 
+	 * TODO: Diese Methode sollten noch in die Modellklasse Rule
+	 * @param rule
+	 * @param node
+	 * @return
+	 */
+	private static boolean isCreate(Rule rule, Node node) {
+		
+		if ((rule.getRhs() == node.getGraph())) {
+			Node sourceImage = HenshinMappingUtil.getNodeOrigin(node, rule.getMappings());
+			return sourceImage==null;
+		}// if 
+		return false;
+	}// isCreate
+	
 	/**
 	 * @generated NOT
 	 */
