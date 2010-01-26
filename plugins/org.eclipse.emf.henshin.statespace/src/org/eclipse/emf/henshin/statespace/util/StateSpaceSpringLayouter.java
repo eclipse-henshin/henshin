@@ -98,8 +98,8 @@ public class StateSpaceSpringLayouter {
 			// Add the attraction to the center:
 			if (center!=null) {
 				int[] attraction = transitionAttraction(location, center);
-				netForce[0] += (attraction[0] / 5);
-				netForce[1] += (attraction[1] / 5);
+				netForce[0] += (attraction[0]);
+				netForce[1] += (attraction[1]);
 			}
 			
 			// Update the velocities:
@@ -147,7 +147,8 @@ public class StateSpaceSpringLayouter {
 			direction[0] *= factor;
 			direction[1] *= factor;			
 		} else {
-			direction = randomShift();
+			direction[0] = 1;
+			direction[1] = 0;
 		}
 		return direction;
 	}
@@ -163,7 +164,8 @@ public class StateSpaceSpringLayouter {
 			direction[0] *= factor;
 			direction[1] *= factor;
 		} else {
-			direction = randomShift();
+			direction[0] = 0;
+			direction[1] = 1;
 		}
 		return direction;
 	}
@@ -189,17 +191,6 @@ public class StateSpaceSpringLayouter {
 		return (int) (1.5 * states + 2);
 	}
 	
-	/*
-	 * Create a random shift.
-	 */
-	private int[] randomShift() {
-		int[] shift = new int[3];
-		double angle = (2.0 * Math.PI * Math.random());
-		shift[0] += 2 * Math.cos(angle);
-		shift[1] += 2 * Math.sin(angle);
-		return shift;
-	}
-
 	/**
 	 * Set the state repulsion force.
 	 * @param repulsion State repulsion.
