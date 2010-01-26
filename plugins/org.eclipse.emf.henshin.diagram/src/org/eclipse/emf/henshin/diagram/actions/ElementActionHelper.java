@@ -26,7 +26,7 @@ class ElementActionHelper {
 	static <T extends EObject> Action getAction(T element) {
 		
 		// Must be contained in a graph:
-		if (element.eContainer() instanceof Graph == false) return null;
+		if (!(element.eContainer() instanceof Graph)) return null;
 		Graph graph = (Graph) element.eContainer();
 		
 		// Graph must be part of a rule:
@@ -92,17 +92,22 @@ class ElementActionHelper {
 		}
 		
 		// Look for the elements that actually match the action:
-		return getActionElements(elements, action);
+		return filterElementsByAction(elements, action);
 		
 	}
 
 	/**
-	 * Get elements associated with an action.
-	 * @param elements Elements.
-	 * @param action Action.
+	 * Returns a list of all elements of <code>elements</code>, which are
+	 * associated with the given <code>action</code>. If <code>action</code> is
+	 * null, the returned list contains all elements of the given list.
+	 * 
+	 * @param elements
+	 *            Elements.
+	 * @param action
+	 *            Action.
 	 * @return Action elements.
 	 */
-	static <T extends EObject> List<T> getActionElements(List<T> elements, Action action) {
+	static <T extends EObject> List<T> filterElementsByAction(List<T> elements, Action action) {
 		
 		// Collect all matching elements:
 		List<T> result = new ArrayList<T>();
