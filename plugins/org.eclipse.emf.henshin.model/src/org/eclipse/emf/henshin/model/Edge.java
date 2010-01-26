@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.henshin.model;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
 /**
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface Edge extends EObject {
+public interface Edge extends GraphElement {
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Node#getOutgoing <em>Outgoing</em>}'.
@@ -122,6 +121,7 @@ public interface Edge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
+	 * @see org.eclipse.emf.henshin.model.GraphElement#getGraph()
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getEdges
 	 * @model opposite="edges" required="true" transient="false"

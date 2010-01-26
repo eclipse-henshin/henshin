@@ -620,6 +620,25 @@ public interface HenshinPackage extends EPackage {
 	int GRAPH_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.GraphElement
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
+	 * @generated
+	 */
+	int GRAPH_ELEMENT = 10;
+
+	/**
+	 * The number of structural features of the '<em>Graph Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRAPH_ELEMENT_FEATURE_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -627,7 +646,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
 	 * @generated
 	 */
-	int MAPPING = 10;
+	int MAPPING = 11;
 
 	/**
 	 * The feature id for the '<em><b>Origin</b></em>' reference.
@@ -664,7 +683,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 11;
+	int NODE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -746,7 +765,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
 	 * @generated
 	 */
-	int ATTRIBUTE = 12;
+	int ATTRIBUTE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -792,7 +811,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 13;
+	int EDGE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -801,7 +820,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE__SOURCE = 0;
+	int EDGE__SOURCE = GRAPH_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -810,7 +829,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE__TARGET = 1;
+	int EDGE__TARGET = GRAPH_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -819,7 +838,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE__TYPE = 2;
+	int EDGE__TYPE = GRAPH_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Graph</b></em>' container reference.
@@ -828,7 +847,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE__GRAPH = 3;
+	int EDGE__GRAPH = GRAPH_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Edge</em>' class.
@@ -837,7 +856,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDGE_FEATURE_COUNT = 4;
+	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationImpl <em>Transformation</em>}' class.
@@ -847,7 +866,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformation()
 	 * @generated
 	 */
-	int TRANSFORMATION = 14;
+	int TRANSFORMATION = 15;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -902,7 +921,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
 	 * @generated
 	 */
-	int TRANSFORMATION_UNIT = 15;
+	int TRANSFORMATION_UNIT = 16;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -939,7 +958,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getIndependentUnit()
 	 * @generated
 	 */
-	int INDEPENDENT_UNIT = 16;
+	int INDEPENDENT_UNIT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -985,7 +1004,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSequentialUnit()
 	 * @generated
 	 */
-	int SEQUENTIAL_UNIT = 17;
+	int SEQUENTIAL_UNIT = 18;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1031,7 +1050,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getConditionalUnit()
 	 * @generated
 	 */
-	int CONDITIONAL_UNIT = 18;
+	int CONDITIONAL_UNIT = 19;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1095,7 +1114,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPriorityUnit()
 	 * @generated
 	 */
-	int PRIORITY_UNIT = 19;
+	int PRIORITY_UNIT = 20;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1141,7 +1160,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSingleUnit()
 	 * @generated
 	 */
-	int SINGLE_UNIT = 20;
+	int SINGLE_UNIT = 21;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1187,7 +1206,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamatedUnit()
 	 * @generated
 	 */
-	int AMALGAMATED_UNIT = 21;
+	int AMALGAMATED_UNIT = 22;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1260,7 +1279,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
 	 * @generated
 	 */
-	int COUNTED_UNIT = 22;
+	int COUNTED_UNIT = 23;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1315,7 +1334,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getFormula()
 	 * @generated
 	 */
-	int FORMULA = 24;
+	int FORMULA = 25;
 
 	/**
 	 * The number of structural features of the '<em>Formula</em>' class.
@@ -1334,7 +1353,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNestedCondition()
 	 * @generated
 	 */
-	int NESTED_CONDITION = 23;
+	int NESTED_CONDITION = 24;
 
 	/**
 	 * The feature id for the '<em><b>Negated</b></em>' attribute.
@@ -1380,7 +1399,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnaryFormula()
 	 * @generated
 	 */
-	int UNARY_FORMULA = 25;
+	int UNARY_FORMULA = 26;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1408,7 +1427,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getBinaryFormula()
 	 * @generated
 	 */
-	int BINARY_FORMULA = 26;
+	int BINARY_FORMULA = 27;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1445,7 +1464,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAnd()
 	 * @generated
 	 */
-	int AND = 27;
+	int AND = 28;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1482,7 +1501,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getOr()
 	 * @generated
 	 */
-	int OR = 28;
+	int OR = 29;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1519,7 +1538,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNot()
 	 * @generated
 	 */
-	int NOT = 29;
+	int NOT = 30;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1547,7 +1566,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortKind()
 	 * @generated
 	 */
-	int PORT_KIND = 30;
+	int PORT_KIND = 31;
 
 
 	/**
@@ -1891,6 +1910,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getGraph_Formula();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Graph Element</em>'.
+	 * @see org.eclipse.emf.henshin.model.GraphElement
+	 * @generated
+	 */
+	EClass getGraphElement();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Mapping <em>Mapping</em>}'.
@@ -2817,6 +2846,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference GRAPH__FORMULA = eINSTANCE.getGraph_Formula();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.GraphElement
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
+		 * @generated
+		 */
+		EClass GRAPH_ELEMENT = eINSTANCE.getGraphElement();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.

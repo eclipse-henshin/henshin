@@ -74,6 +74,9 @@
         <genParameters ecoreParameter="henshin.ecore#//Graph/findEdgesByType/edgeType"/>
       </genOperations>
     </genClasses>
+    <genClasses image="false" ecoreClass="henshin.ecore#//GraphElement">
+      <genOperations ecoreOperation="henshin.ecore#//GraphElement/getGraph"/>
+    </genClasses>
     <genClasses ecoreClass="henshin.ecore#//Mapping">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/origin"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/image"/>

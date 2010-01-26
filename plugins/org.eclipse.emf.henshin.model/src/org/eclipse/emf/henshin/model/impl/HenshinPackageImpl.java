@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.model.DescribedElement;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
@@ -125,6 +126,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass graphEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass graphElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -620,6 +628,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 */
 	public EReference getGraph_Formula() {
 		return (EReference)graphEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGraphElement() {
+		return graphElementEClass;
 	}
 
 	/**
@@ -1223,6 +1240,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEReference(graphEClass, GRAPH__EDGES);
 		createEReference(graphEClass, GRAPH__FORMULA);
 
+		graphElementEClass = createEClass(GRAPH_ELEMENT);
+
 		mappingEClass = createEClass(MAPPING);
 		createEReference(mappingEClass, MAPPING__ORIGIN);
 		createEReference(mappingEClass, MAPPING__IMAGE);
@@ -1347,6 +1366,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		portParameterEClass.getESuperTypes().add(this.getPort());
 		graphEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
+		nodeEClass.getESuperTypes().add(this.getGraphElement());
+		edgeEClass.getESuperTypes().add(this.getGraphElement());
 		transformationEClass.getESuperTypes().add(this.getDescribedElement());
 		transformationEClass.getESuperTypes().add(this.getNamedElement());
 		independentUnitEClass.getESuperTypes().add(this.getTransformationUnit());
@@ -1422,6 +1443,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		op = addEOperation(graphEClass, this.getEdge(), "findEdgesByType", 0, -1, IS_UNIQUE, !IS_ORDERED);
 		addEParameter(op, ecorePackage.getEReference(), "edgeType", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(graphElementEClass, GraphElement.class, "GraphElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(graphElementEClass, this.getGraph(), "getGraph", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(mappingEClass, Mapping.class, "Mapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMapping_Origin(), this.getNode(), null, "origin", null, 1, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

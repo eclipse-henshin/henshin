@@ -164,6 +164,12 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.GRAPH_ELEMENT: {
+				GraphElement graphElement = (GraphElement)theEObject;
+				T result = caseGraphElement(graphElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.MAPPING: {
 				Mapping mapping = (Mapping)theEObject;
 				T result = caseMapping(mapping);
@@ -174,6 +180,7 @@ public class HenshinSwitch<T> {
 				Node node = (Node)theEObject;
 				T result = caseNode(node);
 				if (result == null) result = caseNamedElement(node);
+				if (result == null) result = caseGraphElement(node);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -186,6 +193,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.EDGE: {
 				Edge edge = (Edge)theEObject;
 				T result = caseEdge(edge);
+				if (result == null) result = caseGraphElement(edge);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -454,6 +462,21 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T caseGraph(Graph object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Graph Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Graph Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGraphElement(GraphElement object) {
 		return null;
 	}
 

@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model
  * @generated
  */
-public interface Node extends NamedElement {
+public interface Node extends NamedElement, GraphElement {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -89,6 +89,7 @@ public interface Node extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
+	 * @see org.eclipse.emf.henshin.model.GraphElement#getGraph()
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getNodes
 	 * @model opposite="nodes" required="true" transient="false"
