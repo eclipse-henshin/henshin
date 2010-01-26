@@ -147,6 +147,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 				return false;
 			}// if
 
+			//TODO: Appropriate edge creation depending on <<create>>/<<delete>> nodes
+			
 		}// if else
 
 		return true;
