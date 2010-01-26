@@ -19,6 +19,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -38,8 +40,8 @@ public class StateSpaceToolsMenu extends Composite {
 	public static double[] ZOOM_LEVELS = {  .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, 
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
-	public static final double REPULSION_FACTOR = 3;
-	public static final double ATTRACTION_FACTOR = 0.025;
+	public static final double REPULSION_FACTOR = 2;
+	public static final double ATTRACTION_FACTOR = 0.05;
 	
 	public static final int NATURAL_LENGTH = 20;
 	
@@ -69,6 +71,10 @@ public class StateSpaceToolsMenu extends Composite {
 	private Button layouterCheckbox;
 	private Button explorerCheckbox;
 
+	// Radio-buttons
+	private Button ecoreButton;
+	private Button graphButton;
+
 	/**
 	 * Default constructor
 	 * @param parent Parent composite.
@@ -94,8 +100,7 @@ public class StateSpaceToolsMenu extends Composite {
 		statesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "States:", "0");
 		transitionsLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Transitions:", "0");
 		rulesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Rules:", "0");
-		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);
-		
+		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);		
 		
 		// The display group:
 		Composite display = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
@@ -142,8 +147,17 @@ public class StateSpaceToolsMenu extends Composite {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		explorerCheckbox.setLayoutData(data);
+		StateSpaceToolsMenuFactory.newLabel(explorer, "Equality:", GridData.HORIZONTAL_ALIGN_END);
+		Composite radioButtons = new Composite(explorer, SWT.NONE);
+		radioButtons.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		radioButtons.setLayout(new GridLayout(2,false));
+		ecoreButton = new Button(radioButtons, SWT.RADIO);
+		ecoreButton.setText("Ecore");
+		ecoreButton.setEnabled(false);
+		graphButton = new Button(radioButtons, SWT.RADIO);
+		graphButton.setText("Graph");
+		graphButton.setEnabled(false);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
-		
 		
 		// The layouter group:
 		Composite layouter = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);

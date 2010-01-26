@@ -11,11 +11,11 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * Abstract state space search class. Can easily be used for anonymous classes.
+ * State space search implementation.
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class StateSpaceSearch {
+public class StateSpaceSearch {
 	
 	/**
 	 * Data class for paths.
@@ -52,8 +52,10 @@ public abstract class StateSpaceSearch {
 	 * @param path Path from one of the start states to the current state.
 	 * @return <code>true</code> if the search should stop.
 	 */
-	protected abstract boolean shouldStop(State state, Path path);
-	
+	protected boolean shouldStop(State state, Path path) {
+		// By default we never stop searching.
+		return false;
+	}
 	
 	/* ------ Depth-first search ------- */
 	
@@ -105,7 +107,7 @@ public abstract class StateSpaceSearch {
 		path.add(transitions.get(0));
 		
 		// Search until the path is empty:
-		while (path.isEmpty()) {
+		while (!path.isEmpty()) {
 			
 			// Transition, current and next state:
 			Transition transition = reverse ? path.getFirst() : path.getLast();
@@ -185,12 +187,7 @@ public abstract class StateSpaceSearch {
 	public static List<State> removeUnreachableStates(StateSpace stateSpace) {
 		
 		// Search the state space.
-		StateSpaceSearch search = new StateSpaceSearch() {
-			@Override
-			protected boolean shouldStop(State state, Path path) {
-				return false;
-			}
-		};
+		StateSpaceSearch search = new StateSpaceSearch();
 		search.depthFirst(stateSpace,false);
 		
 		// Remove states that have not been visited:

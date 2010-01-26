@@ -87,10 +87,12 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			}
 			monitor.worked(1);
 			
-			// Clear transition count and open states.
+			// Clear transition count, open and initial states.
 			int transitionCount = 0;
+			stateSpace.setTransitionCount(0);
 			stateSpace.getOpenStates().clear();
-
+			stateSpace.getInitialStates().clear();
+			
 			// Compute state models, update the hash code and the index:
 			for (State state : stateSpace.getStates()) {
 				
@@ -104,9 +106,16 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 					throw new TaintedStateSpaceException("Duplicate state: " + state.getIndex());
 				}
 				
-				// Update the state properties:
+				// Set the hash code. Model is set by subclasses in getModel().
 				state.setHashCode(hash);
+				
+				// Set the open-flag.
 				setOpen(state,isOpen(state));
+				
+				// Is the state initial?
+				if (state.isInitial()) {
+					stateSpace.getInitialStates().add(state);
+				}
 				
 				// Register the state:
 				registerState(state);
@@ -223,8 +232,10 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		State state = getState(model,hash);
 		if (state!=null) return state;
 		
-		// Otherwise create the new state:
-		return createOpenState(model, hash);
+		// Otherwise create a new state:
+		State initial = createOpenState(model, hash);
+		stateSpace.getInitialStates().add(initial);
+		return initial;
 		
 	}
 	
