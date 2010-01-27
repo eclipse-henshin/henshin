@@ -4,7 +4,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -57,14 +56,6 @@ public class RuleCreateCommand extends EditElementCommand {
 
 		// Create a new rule instance:
 		Rule newRule = HenshinFactory.eINSTANCE.createRule();
-
-		// Create LHS and RHS:
-		Graph lhs = HenshinFactory.eINSTANCE.createGraph();
-		lhs.setName("LHS");
-		newRule.setLhs(lhs);
-		Graph rhs = HenshinFactory.eINSTANCE.createGraph();
-		rhs.setName("RHS");
-		newRule.setRhs(rhs);
 
 		// Add the rule and configure it:
 		TransformationSystem owner = (TransformationSystem) getElementToEdit();

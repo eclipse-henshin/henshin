@@ -25,6 +25,11 @@ import org.eclipse.emf.henshin.model.*;
  * @generated
  */
 public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
+	
+	public static final String DEFAULT_RULE_LHS_NAME = "LHS";
+	public static final String DEFAULT_RULE_RHS_NAME = "RHS";
+	
+	
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
@@ -146,12 +151,20 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Rule createRule() {
 		RuleImpl rule = new RuleImpl();
+		
+		Graph lhs = createGraph();
+		lhs.setName(DEFAULT_RULE_LHS_NAME);
+		rule.setLhs(lhs);
+		Graph rhs = createGraph();
+		rhs.setName(DEFAULT_RULE_RHS_NAME);
+		rule.setRhs(rhs);
+		
 		return rule;
-	}
+	}// createRule
 
 	/**
 	 * <!-- begin-user-doc -->

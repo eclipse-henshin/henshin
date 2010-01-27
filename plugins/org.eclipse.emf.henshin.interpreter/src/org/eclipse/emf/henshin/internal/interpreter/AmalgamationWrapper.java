@@ -134,13 +134,10 @@ public class AmalgamationWrapper {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 
 		Rule parallelRule = factory.createRule();
+		Graph parallelLhs = parallelRule.getLhs();
+		Graph parallelRhs = parallelRule.getRhs();
+		
 		Map<Node, EObject> parallelNodeMapping = new HashMap<Node, EObject>();
-
-		Graph parallelLhs = factory.createGraph();
-		parallelRule.setLhs(parallelLhs);
-
-		Graph parallelRhs = factory.createGraph();
-		parallelRule.setRhs(parallelRhs);
 
 		for (RuleMatch match : matches) {
 			Rule singleRule = match.getRule();
