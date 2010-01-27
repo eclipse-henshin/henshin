@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.HenshinEqualityUtil;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -375,16 +375,16 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * Compute the hash code of a state model.
 	 * This delegates to HenshinEqualityUtil#hashCode
 	 */
-	protected static int hashCode(Resource model) {
-		return HenshinEqualityUtil.hashCode(model);
+	protected int hashCode(Resource model) {
+		return StateSpaceEqualityUtil.hashCode(model, stateSpace.isUseGraphEquality());
 	}
 	
 	/*
 	 * Check if two state models are equal.
 	 * This delegates to HenshinEqualityUtil#equals
 	 */
-	protected static boolean equals(Resource model1, Resource model2) {
-		return HenshinEqualityUtil.equals(model1, model2);
+	protected boolean equals(Resource model1, Resource model2) {
+		return StateSpaceEqualityUtil.equals(model1, model2, stateSpace.isUseGraphEquality());
 	}
 
 	/*

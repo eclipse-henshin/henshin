@@ -9,11 +9,13 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -153,10 +155,10 @@ public class StateSpaceToolsMenu extends Composite {
 		radioButtons.setLayout(new GridLayout(2,false));
 		ecoreButton = new Button(radioButtons, SWT.RADIO);
 		ecoreButton.setText("Ecore");
-		ecoreButton.setEnabled(false);
+		ecoreButton.addSelectionListener(graphEqualityListener);		
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
-		graphButton.setEnabled(false);
+		graphButton.addSelectionListener(graphEqualityListener);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
 		
 		// The layouter group:
@@ -181,9 +183,9 @@ public class StateSpaceToolsMenu extends Composite {
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
 		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 10, 100, 5, 10);
-		repulsionScale.addSelectionListener(layouterPropertyListener);
+		repulsionScale.addSelectionListener(layouterScaleListener);
 		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 10, 100, 5, 10);
-		attractionScale.addSelectionListener(layouterPropertyListener);
+		attractionScale.addSelectionListener(layouterScaleListener);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, layouter, "Layouter", 3);
 		
 		setEnabled(false);
@@ -231,6 +233,8 @@ public class StateSpaceToolsMenu extends Composite {
 			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
+			graphButton.setSelection(stateSpace.isUseGraphEquality());
+			ecoreButton.setSelection(!stateSpace.isUseGraphEquality());
 		}
 	}
 	
@@ -260,6 +264,8 @@ public class StateSpaceToolsMenu extends Composite {
 		explorerCheckbox.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
 		attractionScale.setEnabled(enabled);
+		graphButton.setEnabled(enabled);
+		ecoreButton.setEnabled(enabled);
 	}
 	
 	/*
@@ -298,11 +304,25 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	public void setCanvas(FigureCanvas canvas) {
 		this.canvas = canvas;
-		canvas.getHorizontalBar().addSelectionListener(layouterPropertyListener);
-		canvas.getVerticalBar().addSelectionListener(layouterPropertyListener);
-		canvas.addListener(SWT.Resize, layouterPropertyListener2);
+		canvas.getHorizontalBar().addSelectionListener(layouterScaleListener);
+		canvas.getVerticalBar().addSelectionListener(layouterScaleListener);
+		canvas.addListener(SWT.Resize, canvasListener);
 	}
 	
+	/*
+	 * Change the graph-equality property.
+	 */
+	private void setGraphEquality(boolean graphEquality) {
+		StateSpaceManager manager = jobManager.getStateSpaceManager();
+		if (graphEquality!=manager.getStateSpace().isUseGraphEquality()) {
+			boolean confirmed = MessageDialog.openConfirm(getShell(), "Reset required", 
+					"Changing the equaity type requires a reset of the state space. Really continue?");
+			if (confirmed) {
+				manager.getStateSpace().setUseGraphEquality(graphEquality);
+				manager.resetStateSpace();
+			}
+		}
+	}
 	
 	// ------------------- //
 	// ---- LISTENERS ---- // 
@@ -318,9 +338,9 @@ public class StateSpaceToolsMenu extends Composite {
 	};
 	
 	/*
-	 * Selection listeners for sliders.
+	 * Selection listeners for layouter scales.
 	 */
-	private SelectionListener layouterPropertyListener = new SelectionListener() {
+	private SelectionListener layouterScaleListener = new SelectionListener() {
 		public void widgetDefaultSelected(SelectionEvent e) {
 			updateLayouterProperties();
 		}
@@ -329,10 +349,24 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	};
 	
-	private Listener layouterPropertyListener2 = new Listener() {
+	/*
+	 * Canvas listener.
+	 */
+	private Listener canvasListener = new Listener() {
 		public void handleEvent(Event event) {
 			updateLayouterProperties();
 		}
 	};
-		
+	
+	/*
+	 * Selection listener for graph equality radio buttons.
+	 */
+	private SelectionListener graphEqualityListener = new SelectionListener() {
+		public void widgetSelected(SelectionEvent e) {
+			setGraphEquality(graphButton.getSelection());
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
 }
