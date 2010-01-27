@@ -10,10 +10,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -22,7 +24,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -115,16 +116,6 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.setMinimum(0);
 		zoomScale.setMaximum(ZOOM_LEVELS.length-1);
 		zoomScale.setSelection(ZOOM_LEVELS.length-1);
-		zoomScale.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				if (zoomManager!=null) {
-					zoomManager.setZoom(ZOOM_LEVELS[zoomScale.getSelection()]);
-				}
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 		StateSpaceToolsMenuFactory.newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 1);
 
@@ -133,19 +124,6 @@ public class StateSpaceToolsMenu extends Composite {
 		Composite explorer = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
 		explorerCheckbox = new Button(explorer, SWT.CHECK);
 		explorerCheckbox.setText("Run explorer");
-		explorerCheckbox.addSelectionListener(new SelectionListener() {			
-			public void widgetSelected(SelectionEvent e) {
-				if (jobManager==null) return;
-				if (explorerCheckbox.getSelection()) {
-					jobManager.startExploreJob();
-				} else {
-					jobManager.stopExploreJob();
-				}
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		explorerCheckbox.setLayoutData(data);
@@ -155,37 +133,19 @@ public class StateSpaceToolsMenu extends Composite {
 		radioButtons.setLayout(new GridLayout(2,false));
 		ecoreButton = new Button(radioButtons, SWT.RADIO);
 		ecoreButton.setText("Ecore");
-		ecoreButton.addSelectionListener(graphEqualityListener);		
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
-		graphButton.addSelectionListener(graphEqualityListener);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
 		
 		// The layouter group:
 		Composite layouter = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
 		layouterCheckbox = new Button(layouter, SWT.CHECK);
 		layouterCheckbox.setText("Run spring layouter");
-		layouterCheckbox.addSelectionListener(new SelectionListener() {			
-			public void widgetSelected(SelectionEvent e) {
-				if (jobManager==null) return;
-				if (layouterCheckbox.getSelection()) {
-					updateLayouterProperties();
-					jobManager.startLayoutJob();
-				} else {
-					jobManager.stopLayoutJob();
-				}
-			}
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
 		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 10, 100, 5, 10);
-		repulsionScale.addSelectionListener(layouterScaleListener);
 		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 10, 100, 5, 10);
-		attractionScale.addSelectionListener(layouterScaleListener);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, layouter, "Layouter", 3);
 		
 		setEnabled(false);
@@ -243,17 +203,39 @@ public class StateSpaceToolsMenu extends Composite {
 	 * @param manager Job manager.
 	 */
 	public void setJobManager(StateSpaceJobManager jobManager) {
-		if (this.jobManager!=null) {
-			this.jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);
-		}
+		if (this.jobManager!=null) removeListeners();
 		this.jobManager = jobManager;
-		if (jobManager!=null) {
-			jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
-			addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
-			addJobListener(jobManager.getExploreJob(), explorerCheckbox);
-		}
 		setEnabled(jobManager!=null);
 		refresh();
+		if (jobManager!=null) addListeners();
+	}
+	
+	/*
+	 * Add all listeners.
+	 */
+	private void addListeners() {
+		jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
+		repulsionScale.addSelectionListener(layouterScaleListener);
+		attractionScale.addSelectionListener(layouterScaleListener);
+		zoomScale.addSelectionListener(zoomListener);
+		explorerCheckbox.addSelectionListener(explorerListener);
+		layouterCheckbox.addSelectionListener(layouterListener);
+		graphButton.addSelectionListener(graphEqualityListener);
+		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
+		addJobListener(jobManager.getExploreJob(), explorerCheckbox);
+	}
+	
+	/*
+	 * Remove all listeners.
+	 */
+	private void removeListeners() {
+		jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);	
+		repulsionScale.removeSelectionListener(layouterScaleListener);
+		attractionScale.removeSelectionListener(layouterScaleListener);
+		zoomScale.removeSelectionListener(zoomListener);
+		graphButton.removeSelectionListener(graphEqualityListener);
+		explorerCheckbox.removeSelectionListener(explorerListener);
+		layouterCheckbox.removeSelectionListener(layouterListener);
 	}
 	
 	/**
@@ -266,23 +248,6 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale.setEnabled(enabled);
 		graphButton.setEnabled(enabled);
 		ecoreButton.setEnabled(enabled);
-	}
-	
-	/*
-	 * Add a job listener.
-	 */
-	private void addJobListener(Job job, final Button checkbox) {
-		job.addJobChangeListener(new JobChangeAdapter() {
-			public void done(IJobChangeEvent event) {
-				Display.getDefault().asyncExec(new Runnable() {
-					public void run() {
-						if (checkbox!=null && !checkbox.isDisposed()) {
-							checkbox.setSelection(false);
-						}
-					}
-				});
-			}
-		});		
 	}
 	
 	/**
@@ -316,13 +281,16 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceManager manager = jobManager.getStateSpaceManager();
 		if (graphEquality!=manager.getStateSpace().isUseGraphEquality()) {
 			boolean confirmed = MessageDialog.openConfirm(getShell(), "Reset required", 
-					"Changing the equaity type requires a reset of the state space. Really continue?");
+					"Changing the equality type requires a reset of the state space. Continue?");
 			if (confirmed) {
-				manager.getStateSpace().setUseGraphEquality(graphEquality);
-				manager.resetStateSpace();
+				// Execute as command:
+				Command command = new SetGraphEqualityCommand(manager,graphEquality);
+				editDomain.getCommandStack().execute(command);
 			}
+			refresh();
 		}
 	}
+	
 	
 	// ------------------- //
 	// ---- LISTENERS ---- // 
@@ -369,4 +337,71 @@ public class StateSpaceToolsMenu extends Composite {
 			widgetSelected(e);
 		}
 	};
+
+	/*
+	 * Zoom listener.
+	 */
+	private SelectionListener zoomListener = new SelectionListener() {
+		public void widgetSelected(SelectionEvent e) {
+			if (zoomManager!=null) {
+				zoomManager.setZoom(ZOOM_LEVELS[zoomScale.getSelection()]);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+	
+	/*
+	 * Explorer checkbox  listener.
+	 */
+	private SelectionListener explorerListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (jobManager==null) return;
+			if (explorerCheckbox.getSelection()) {
+				jobManager.startExploreJob();
+			} else {
+				jobManager.stopExploreJob();
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+	
+	/*
+	 * Layouter checkbox listener.
+	 */
+	private SelectionListener layouterListener = new SelectionListener() {
+		public void widgetSelected(SelectionEvent e) {
+			if (jobManager==null) return;
+			if (layouterCheckbox.getSelection()) {
+				updateLayouterProperties();
+				jobManager.startLayoutJob();
+			} else {
+				jobManager.stopLayoutJob();
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+	
+	/*
+	 * Add a job listener.
+	 */
+	private void addJobListener(Job job, final Button checkbox) {
+		job.addJobChangeListener(new JobChangeAdapter() {
+			public void done(IJobChangeEvent event) {
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						if (checkbox!=null && !checkbox.isDisposed()) {
+							checkbox.setSelection(false);
+						}
+					}
+				});
+			}
+		});		
+	}
+	
 }

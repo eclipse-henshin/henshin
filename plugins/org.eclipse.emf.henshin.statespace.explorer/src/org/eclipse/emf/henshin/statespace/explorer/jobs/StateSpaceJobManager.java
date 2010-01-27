@@ -2,8 +2,8 @@ package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.commands.IrreversibleCommand;
 import org.eclipse.gef.EditDomain;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Display;
 
 
@@ -112,22 +112,6 @@ public class StateSpaceJobManager {
 	 */
 	public void stopAllJobs() {
 		stopLayoutJob();
-	}
-
-	/*
-	 * Irreversible helper command.
-	 */
-	class IrreversibleCommand extends Command {
-		
-		IrreversibleCommand(String name) {
-			super(name);
-		}
-		
-		@Override
-		public boolean canUndo() {
-			return false;
-		}
-		
 	}
 	
 	/**

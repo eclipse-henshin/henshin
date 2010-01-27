@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.statespace.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -60,9 +59,9 @@ public class StateSpaceEqualityUtil {
 	 * @param graphEquality Graph-equality flag.
 	 * @return The hash code.
 	 */
-	public static int hashCode(List<EObject> eObjects, boolean graphEquality) {
+	public static int hashCode(List<?> objects, boolean graphEquality) {
 		int hash = 0;
-		for (EObject object : eObjects) {
+		for (Object object : objects) {
 			hash += hashCode(object, graphEquality);
 			if (!graphEquality) hash = hash * 2;
 		}
@@ -102,7 +101,7 @@ public class StateSpaceEqualityUtil {
 				
 				// Many-feature?
 				if (feature.isMany()) {
-					EList<?> list = (EList<?>) eObject.eGet(feature);
+					List<?> list = (List<?>) eObject.eGet(feature);
 					valueHash += hashCode(list, graphEquality);
 				} else {
 					valueHash += hashCode(eObject.eGet(feature), graphEquality);

@@ -1,31 +1,27 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.gef.commands.Command;
 
 /**
  * Command that removes all derived states from a state space.
  * @author Christian Krause
  */
-public class ResetStateSpaceCommand extends Command {
-	
-	// State space manager:
-	private StateSpaceManager manager;
+public class ResetStateSpaceCommand extends AbstractStateSpaceCommand {
 	
 	/**
 	 * Default constructor.
 	 */
 	public ResetStateSpaceCommand(StateSpaceManager manager) {
-		this.manager = manager;
+		super("reset state space", manager);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
+	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	@Override
-	public void execute() { 
-		manager.resetStateSpace();
+	public void doExecute() { 
+		getStateSpaceManager().resetStateSpace();
 	}
 	
 	/*
