@@ -134,7 +134,7 @@ public class StateSpaceJobManager {
 	 * Get the explore job.
 	 * @return explore job.
 	 */
-	public Job getExploreJob() {
+	public ExploreStateSpaceJob getExploreJob() {
 		return exploreJob;
 	}
 

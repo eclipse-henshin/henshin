@@ -66,9 +66,10 @@ public class StateSpaceToolsMenu extends Composite {
 	// Canvas:
 	private FigureCanvas canvas;
 	
-	// Layouter:
+	// Scales:
 	private Scale repulsionScale;
 	private Scale attractionScale;
+	private Scale delayScale;
 	
 	// Check boxes:
 	private Button layouterCheckbox;
@@ -127,14 +128,17 @@ public class StateSpaceToolsMenu extends Composite {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		explorerCheckbox.setLayoutData(data);
-		StateSpaceToolsMenuFactory.newLabel(explorer, "Equality:", GridData.HORIZONTAL_ALIGN_END);
+		StateSpaceToolsMenuFactory.newLabel(explorer, "Equality:", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Composite radioButtons = new Composite(explorer, SWT.NONE);
-		radioButtons.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 2;
+		radioButtons.setLayoutData(data);
 		radioButtons.setLayout(new GridLayout(2,false));
 		ecoreButton = new Button(radioButtons, SWT.RADIO);
 		ecoreButton.setText("Ecore");
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
+		delayScale = StateSpaceToolsMenuFactory.newScale(explorer, "Delay:", 0, 1000, 50, 100, false, "ms");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
 		
 		// The layouter group:
@@ -144,8 +148,8 @@ public class StateSpaceToolsMenu extends Composite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 10, 100, 5, 10);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 10, 100, 5, 10);
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 10, 100, 5, 10, true, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 10, 100, 5, 10, true, null);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, layouter, "Layouter", 3);
 		
 		setEnabled(false);
@@ -208,35 +212,7 @@ public class StateSpaceToolsMenu extends Composite {
 		setEnabled(jobManager!=null);
 		refresh();
 		if (jobManager!=null) addListeners();
-	}
-	
-	/*
-	 * Add all listeners.
-	 */
-	private void addListeners() {
-		jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
-		repulsionScale.addSelectionListener(layouterScaleListener);
-		attractionScale.addSelectionListener(layouterScaleListener);
-		zoomScale.addSelectionListener(zoomListener);
-		explorerCheckbox.addSelectionListener(explorerListener);
-		layouterCheckbox.addSelectionListener(layouterListener);
-		graphButton.addSelectionListener(graphEqualityListener);
-		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
-		addJobListener(jobManager.getExploreJob(), explorerCheckbox);
-	}
-	
-	/*
-	 * Remove all listeners.
-	 */
-	private void removeListeners() {
-		jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);	
-		repulsionScale.removeSelectionListener(layouterScaleListener);
-		attractionScale.removeSelectionListener(layouterScaleListener);
-		zoomScale.removeSelectionListener(zoomListener);
-		graphButton.removeSelectionListener(graphEqualityListener);
-		explorerCheckbox.removeSelectionListener(explorerListener);
-		layouterCheckbox.removeSelectionListener(layouterListener);
-	}
+	}	
 	
 	/**
 	 * Enable or disable this menu.
@@ -295,6 +271,36 @@ public class StateSpaceToolsMenu extends Composite {
 	// ------------------- //
 	// ---- LISTENERS ---- // 
 	// ------------------- //
+	
+	/*
+	 * Add all listeners.
+	 */
+	private void addListeners() {
+		jobManager.getStateSpaceManager().getStateSpace().eAdapters().add(adapter);
+		repulsionScale.addSelectionListener(layouterScaleListener);
+		attractionScale.addSelectionListener(layouterScaleListener);
+		zoomScale.addSelectionListener(zoomListener);
+		delayScale.addSelectionListener(delayListener);
+		explorerCheckbox.addSelectionListener(explorerListener);
+		layouterCheckbox.addSelectionListener(layouterListener);
+		graphButton.addSelectionListener(graphEqualityListener);
+		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
+		addJobListener(jobManager.getExploreJob(), explorerCheckbox);
+	}
+	
+	/*
+	 * Remove all listeners.
+	 */
+	private void removeListeners() {
+		jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);	
+		repulsionScale.removeSelectionListener(layouterScaleListener);
+		attractionScale.removeSelectionListener(layouterScaleListener);
+		delayScale.removeSelectionListener(delayListener);
+		zoomScale.removeSelectionListener(zoomListener);
+		graphButton.removeSelectionListener(graphEqualityListener);
+		explorerCheckbox.removeSelectionListener(explorerListener);
+		layouterCheckbox.removeSelectionListener(layouterListener);
+	}
 	
 	/*
 	 *  State space adapter.
@@ -385,6 +391,18 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
 		}
+	};
+	
+	/*
+	 * Delay scale listener:
+	 */
+	private SelectionListener delayListener = new SelectionListener() {
+		public void widgetSelected(SelectionEvent e) {
+			jobManager.getExploreJob().setDelay(delayScale.getSelection());
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}		
 	};
 	
 	/*

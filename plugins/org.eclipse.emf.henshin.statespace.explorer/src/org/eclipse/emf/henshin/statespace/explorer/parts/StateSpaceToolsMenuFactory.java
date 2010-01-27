@@ -77,14 +77,17 @@ public class StateSpaceToolsMenuFactory {
 	 * @param max Maximum value.
 	 * @return The scale.
 	 */
-	public static Scale newScale(Composite parent, String name, int min, int max, int inc, int pageInc) {
+	public static Scale newScale(Composite parent, String name, int min, int max, int inc, int pageInc, boolean wrap, String unit) {
+		if (unit==null) unit = "";
 		Label label = new Label(parent, SWT.NONE);
-		label.setText(name);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 3;
+		label.setText(wrap ? name : name + " " + min + unit);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		if (wrap) data.horizontalSpan = 3;
 		label.setLayoutData(data);
-		label = new Label(parent, SWT.NONE);
-		label.setText(String.valueOf(min));
+		if (wrap) {
+			label = new Label(parent, SWT.NONE);
+			label.setText(min + unit);
+		}
 		Scale scale = new Scale(parent, SWT.NONE);
 		scale.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		scale.setIncrement(inc);
@@ -93,7 +96,7 @@ public class StateSpaceToolsMenuFactory {
 		scale.setMaximum(max);
 		scale.setSelection((max-min) / 2);
 		label = new Label(parent, SWT.NONE);
-		label.setText(String.valueOf(max));
+		label.setText(max + unit);
 		return scale;
 	}
 }
