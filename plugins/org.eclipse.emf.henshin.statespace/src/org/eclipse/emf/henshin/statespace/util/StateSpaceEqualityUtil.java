@@ -104,7 +104,10 @@ public class StateSpaceEqualityUtil {
 					List<?> list = (List<?>) eObject.eGet(feature);
 					valueHash += hashCode(list, graphEquality);
 				} else {
-					valueHash += hashCode(eObject.eGet(feature), graphEquality);
+					Object value = eObject.eGet(feature);
+					if (value!=null) {
+						valueHash += hashCode(value, graphEquality);
+					}
 				}
 				
 				// Include feature ID:

@@ -66,7 +66,7 @@ public class ImportRulesWizard extends Wizard {
 		
 		if (changed) {
 			
-			if (manager.getStateSpace().getStates().isEmpty() &&
+			if (manager.getStateSpace().getStates().isEmpty() ||
 				MessageDialog.openConfirm(getShell(), "Reset", "State space needs to be reset. Really continue?")) {
 				
 				// Execute as command:
