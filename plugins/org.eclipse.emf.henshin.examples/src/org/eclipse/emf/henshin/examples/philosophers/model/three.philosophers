@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <philosophers:Table xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:philosophers="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers">
-  <plates forks="//@forks.0 //@forks.1"/>
-  <plates forks="//@forks.1 //@forks.2"/>
-  <plates forks="//@forks.0 //@forks.2"/>
+  <plates left="//@forks.0" right="//@forks.1"/>
+  <plates left="//@forks.1" right="//@forks.2"/>
+  <plates left="//@forks.2" right="//@forks.0"/>
   <philosophers plate="//@plates.0"/>
   <philosophers plate="//@plates.1"/>
   <philosophers plate="//@plates.2"/>
