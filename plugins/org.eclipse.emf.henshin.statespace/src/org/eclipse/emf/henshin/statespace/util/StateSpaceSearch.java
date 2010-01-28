@@ -111,21 +111,21 @@ public class StateSpaceSearch {
 			
 			// Transition, current and next state:
 			Transition transition = reverse ? path.getFirst() : path.getLast();
-			state = reverse ? transition.getTarget() : transition.getSource();
-			State next = reverse ? transition.getSource() : transition.getTarget();
+			State previous = reverse ? transition.getTarget() : transition.getSource();
+			state = reverse ? transition.getSource() : transition.getTarget();
 			
 			// This will be our next transition:
 			Transition nextTransition = null;
 			
 			// If visited already, switch to the next transition:
-			if (visited(next)) {
+			if (visited(state)) {
 				
 				// Remove the current transition from the path:
 				if (reverse) path.removeFirst();
 				else path.removeLast();
 				
 				// Index of the current transition:
-				transitions = getNextTransitions(state, reverse);
+				transitions = getNextTransitions(previous, reverse);
 				int index = transitions.indexOf(transition);
 				
 				// More transitions?
@@ -137,14 +137,14 @@ public class StateSpaceSearch {
 			
 			// Should we stop here because the search was successful?
 			else if (shouldStop(state, path)) {
-				return true; 
+				return true;
 			}
 			
 			// Otherwise go further depth-first:
 			else {
 				
 				// Take the first transition of the next state (depth-first):
-				transitions = getNextTransitions(next, reverse);
+				transitions = getNextTransitions(state, reverse);
 				if (!transitions.isEmpty()) {
 					nextTransition = transitions.get(0);
 				}
