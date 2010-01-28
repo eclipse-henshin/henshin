@@ -108,34 +108,6 @@ public class PhilosophersPackage extends EPackageImpl {
 	public static final int TABLE_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.examples.philosophers.Identifiable <em>Identifiable</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.examples.philosophers.Identifiable
-	 * @see org.eclipse.emf.henshin.examples.philosophers.PhilosophersPackage#getIdentifiable()
-	 * @generated
-	 */
-	public static final int IDENTIFIABLE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int IDENTIFIABLE__ID = 0;
-
-	/**
-	 * The number of structural features of the '<em>Identifiable</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int IDENTIFIABLE_FEATURE_COUNT = 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher <em>Philosopher</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -146,31 +118,40 @@ public class PhilosophersPackage extends EPackageImpl {
 	public static final int PHILOSOPHER = 1;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int PHILOSOPHER__ID = IDENTIFIABLE__ID;
-
-	/**
-	 * The feature id for the '<em><b>Forks</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int PHILOSOPHER__FORKS = IDENTIFIABLE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Plate</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PHILOSOPHER__PLATE = IDENTIFIABLE_FEATURE_COUNT + 1;
+	public static final int PHILOSOPHER__PLATE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PHILOSOPHER__LEFT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PHILOSOPHER__RIGHT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PHILOSOPHER__ID = 3;
 
 	/**
 	 * The number of structural features of the '<em>Philosopher</em>' class.
@@ -179,7 +160,7 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PHILOSOPHER_FEATURE_COUNT = IDENTIFIABLE_FEATURE_COUNT + 2;
+	public static final int PHILOSOPHER_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.examples.philosophers.Plate <em>Plate</em>}' class.
@@ -192,22 +173,31 @@ public class PhilosophersPackage extends EPackageImpl {
 	public static final int PLATE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Left</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PLATE__LEFT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	public static final int PLATE__RIGHT = 1;
+
+	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PLATE__ID = IDENTIFIABLE__ID;
-
-	/**
-	 * The feature id for the '<em><b>Forks</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	public static final int PLATE__FORKS = IDENTIFIABLE_FEATURE_COUNT + 0;
+	public static final int PLATE__ID = 2;
 
 	/**
 	 * The number of structural features of the '<em>Plate</em>' class.
@@ -216,7 +206,7 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PLATE_FEATURE_COUNT = IDENTIFIABLE_FEATURE_COUNT + 1;
+	public static final int PLATE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.examples.philosophers.Fork <em>Fork</em>}' class.
@@ -235,7 +225,7 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FORK__ID = IDENTIFIABLE__ID;
+	public static final int FORK__ID = 0;
 
 	/**
 	 * The number of structural features of the '<em>Fork</em>' class.
@@ -244,7 +234,7 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FORK_FEATURE_COUNT = IDENTIFIABLE_FEATURE_COUNT + 0;
+	public static final int FORK_FEATURE_COUNT = 1;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -273,13 +263,6 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 */
 	private EClass forkEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass identifiableEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -407,20 +390,6 @@ public class PhilosophersPackage extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getForks <em>Forks</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Forks</em>'.
-	 * @see org.eclipse.emf.henshin.examples.philosophers.Philosopher#getForks()
-	 * @see #getPhilosopher()
-	 * @generated
-	 */
-	public EReference getPhilosopher_Forks() {
-		return (EReference)philosopherEClass.getEStructuralFeatures().get(0);
-	}
-
-
-	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getPlate <em>Plate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -430,7 +399,49 @@ public class PhilosophersPackage extends EPackageImpl {
 	 * @generated
 	 */
 	public EReference getPhilosopher_Plate() {
+		return (EReference)philosopherEClass.getEStructuralFeatures().get(0);
+	}
+
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getLeft <em>Left</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Left</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Philosopher#getLeft()
+	 * @see #getPhilosopher()
+	 * @generated
+	 */
+	public EReference getPhilosopher_Left() {
 		return (EReference)philosopherEClass.getEStructuralFeatures().get(1);
+	}
+
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getRight <em>Right</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Right</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Philosopher#getRight()
+	 * @see #getPhilosopher()
+	 * @generated
+	 */
+	public EReference getPhilosopher_Right() {
+		return (EReference)philosopherEClass.getEStructuralFeatures().get(2);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Philosopher#getId()
+	 * @see #getPhilosopher()
+	 * @generated
+	 */
+	public EAttribute getPhilosopher_Id() {
+		return (EAttribute)philosopherEClass.getEStructuralFeatures().get(3);
 	}
 
 
@@ -447,16 +458,44 @@ public class PhilosophersPackage extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.examples.philosophers.Plate#getForks <em>Forks</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.examples.philosophers.Plate#getLeft <em>Left</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Forks</em>'.
-	 * @see org.eclipse.emf.henshin.examples.philosophers.Plate#getForks()
+	 * @return the meta object for the reference '<em>Left</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Plate#getLeft()
 	 * @see #getPlate()
 	 * @generated
 	 */
-	public EReference getPlate_Forks() {
+	public EReference getPlate_Left() {
 		return (EReference)plateEClass.getEStructuralFeatures().get(0);
+	}
+
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.examples.philosophers.Plate#getRight <em>Right</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Right</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Plate#getRight()
+	 * @see #getPlate()
+	 * @generated
+	 */
+	public EReference getPlate_Right() {
+		return (EReference)plateEClass.getEStructuralFeatures().get(1);
+	}
+
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.examples.philosophers.Plate#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Plate#getId()
+	 * @see #getPlate()
+	 * @generated
+	 */
+	public EAttribute getPlate_Id() {
+		return (EAttribute)plateEClass.getEStructuralFeatures().get(2);
 	}
 
 
@@ -473,29 +512,18 @@ public class PhilosophersPackage extends EPackageImpl {
 	}
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.examples.philosophers.Identifiable <em>Identifiable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Identifiable</em>'.
-	 * @see org.eclipse.emf.henshin.examples.philosophers.Identifiable
-	 * @generated
-	 */
-	public EClass getIdentifiable() {
-		return identifiableEClass;
-	}
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.examples.philosophers.Identifiable#getId <em>Id</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.examples.philosophers.Fork#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Id</em>'.
-	 * @see org.eclipse.emf.henshin.examples.philosophers.Identifiable#getId()
-	 * @see #getIdentifiable()
+	 * @see org.eclipse.emf.henshin.examples.philosophers.Fork#getId()
+	 * @see #getFork()
 	 * @generated
 	 */
-	public EAttribute getIdentifiable_Id() {
-		return (EAttribute)identifiableEClass.getEStructuralFeatures().get(0);
+	public EAttribute getFork_Id() {
+		return (EAttribute)forkEClass.getEStructuralFeatures().get(0);
 	}
+
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -533,16 +561,18 @@ public class PhilosophersPackage extends EPackageImpl {
 		createEReference(tableEClass, TABLE__FORKS);
 
 		philosopherEClass = createEClass(PHILOSOPHER);
-		createEReference(philosopherEClass, PHILOSOPHER__FORKS);
 		createEReference(philosopherEClass, PHILOSOPHER__PLATE);
+		createEReference(philosopherEClass, PHILOSOPHER__LEFT);
+		createEReference(philosopherEClass, PHILOSOPHER__RIGHT);
+		createEAttribute(philosopherEClass, PHILOSOPHER__ID);
 
 		plateEClass = createEClass(PLATE);
-		createEReference(plateEClass, PLATE__FORKS);
+		createEReference(plateEClass, PLATE__LEFT);
+		createEReference(plateEClass, PLATE__RIGHT);
+		createEAttribute(plateEClass, PLATE__ID);
 
 		forkEClass = createEClass(FORK);
-
-		identifiableEClass = createEClass(IDENTIFIABLE);
-		createEAttribute(identifiableEClass, IDENTIFIABLE__ID);
+		createEAttribute(forkEClass, FORK__ID);
 	}
 
 	/**
@@ -573,9 +603,6 @@ public class PhilosophersPackage extends EPackageImpl {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		philosopherEClass.getESuperTypes().add(this.getIdentifiable());
-		plateEClass.getESuperTypes().add(this.getIdentifiable());
-		forkEClass.getESuperTypes().add(this.getIdentifiable());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -584,16 +611,18 @@ public class PhilosophersPackage extends EPackageImpl {
 		initEReference(getTable_Forks(), this.getFork(), null, "forks", null, 0, -1, Table.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(philosopherEClass, Philosopher.class, "Philosopher", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPhilosopher_Forks(), this.getFork(), null, "forks", null, 0, -1, Philosopher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPhilosopher_Plate(), this.getPlate(), null, "plate", null, 0, 1, Philosopher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPhilosopher_Left(), this.getFork(), null, "left", null, 0, 1, Philosopher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPhilosopher_Right(), this.getFork(), null, "right", null, 0, 1, Philosopher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPhilosopher_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Philosopher.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(plateEClass, Plate.class, "Plate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPlate_Forks(), this.getFork(), null, "forks", null, 0, -1, Plate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPlate_Left(), this.getFork(), null, "left", null, 0, 1, Plate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPlate_Right(), this.getFork(), null, "right", null, 0, 1, Plate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPlate_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Plate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(forkEClass, Fork.class, "Fork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(identifiableEClass, Identifiable.class, "Identifiable", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIdentifiable_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Identifiable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFork_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Fork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
@@ -657,20 +686,36 @@ public class PhilosophersPackage extends EPackageImpl {
 		public static final EClass PHILOSOPHER = eINSTANCE.getPhilosopher();
 
 		/**
-		 * The meta object literal for the '<em><b>Forks</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public static final EReference PHILOSOPHER__FORKS = eINSTANCE.getPhilosopher_Forks();
-
-		/**
 		 * The meta object literal for the '<em><b>Plate</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public static final EReference PHILOSOPHER__PLATE = eINSTANCE.getPhilosopher_Plate();
+
+		/**
+		 * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference PHILOSOPHER__LEFT = eINSTANCE.getPhilosopher_Left();
+
+		/**
+		 * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference PHILOSOPHER__RIGHT = eINSTANCE.getPhilosopher_Right();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute PHILOSOPHER__ID = eINSTANCE.getPhilosopher_Id();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.examples.philosophers.Plate <em>Plate</em>}' class.
@@ -683,12 +728,28 @@ public class PhilosophersPackage extends EPackageImpl {
 		public static final EClass PLATE = eINSTANCE.getPlate();
 
 		/**
-		 * The meta object literal for the '<em><b>Forks</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Left</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EReference PLATE__FORKS = eINSTANCE.getPlate_Forks();
+		public static final EReference PLATE__LEFT = eINSTANCE.getPlate_Left();
+
+		/**
+		 * The meta object literal for the '<em><b>Right</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EReference PLATE__RIGHT = eINSTANCE.getPlate_Right();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public static final EAttribute PLATE__ID = eINSTANCE.getPlate_Id();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.examples.philosophers.Fork <em>Fork</em>}' class.
@@ -701,22 +762,12 @@ public class PhilosophersPackage extends EPackageImpl {
 		public static final EClass FORK = eINSTANCE.getFork();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.examples.philosophers.Identifiable <em>Identifiable</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.examples.philosophers.Identifiable
-		 * @see org.eclipse.emf.henshin.examples.philosophers.PhilosophersPackage#getIdentifiable()
-		 * @generated
-		 */
-		public static final EClass IDENTIFIABLE = eINSTANCE.getIdentifiable();
-
-		/**
 		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public static final EAttribute IDENTIFIABLE__ID = eINSTANCE.getIdentifiable_Id();
+		public static final EAttribute FORK__ID = eINSTANCE.getFork_Id();
 
 	}
 

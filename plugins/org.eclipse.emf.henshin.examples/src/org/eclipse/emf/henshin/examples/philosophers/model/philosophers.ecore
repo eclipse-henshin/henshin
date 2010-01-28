@@ -11,17 +11,19 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="forks" upperBound="-1"
         eType="#//Fork" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Philosopher" eSuperTypes="#//Identifiable">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="forks" upperBound="-1"
-        eType="#//Fork" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Philosopher">
     <eStructuralFeatures xsi:type="ecore:EReference" name="plate" eType="#//Plate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fork" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fork"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Plate" eSuperTypes="#//Identifiable">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="forks" upperBound="-1"
-        eType="#//Fork"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Plate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fork"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fork"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Fork" eSuperTypes="#//Identifiable"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Identifiable" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Fork">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
 </ecore:EPackage>

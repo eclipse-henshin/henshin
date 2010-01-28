@@ -94,27 +94,18 @@ public class PhilosophersSwitch<T> {
 			case PhilosophersPackage.PHILOSOPHER: {
 				Philosopher philosopher = (Philosopher)theEObject;
 				T result = casePhilosopher(philosopher);
-				if (result == null) result = caseIdentifiable(philosopher);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PhilosophersPackage.PLATE: {
 				Plate plate = (Plate)theEObject;
 				T result = casePlate(plate);
-				if (result == null) result = caseIdentifiable(plate);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case PhilosophersPackage.FORK: {
 				Fork fork = (Fork)theEObject;
 				T result = caseFork(fork);
-				if (result == null) result = caseIdentifiable(fork);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case PhilosophersPackage.IDENTIFIABLE: {
-				Identifiable identifiable = (Identifiable)theEObject;
-				T result = caseIdentifiable(identifiable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,21 +170,6 @@ public class PhilosophersSwitch<T> {
 	 * @generated
 	 */
 	public T caseFork(Fork object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Identifiable</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Identifiable</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIdentifiable(Identifiable object) {
 		return null;
 	}
 
