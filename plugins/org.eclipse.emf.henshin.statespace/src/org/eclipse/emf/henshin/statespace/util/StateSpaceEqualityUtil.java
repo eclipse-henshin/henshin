@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.statespace.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -141,6 +140,27 @@ public class StateSpaceEqualityUtil {
 		
 		/*
 		 * (non-Javadoc)
+		 * @see org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper#equals(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
+		 */
+		@Override
+		public boolean equals(EObject eObject1, EObject eObject2) {
+			
+			// Decide whether they are equal.
+			boolean equal = super.equals(eObject1, eObject2);
+			
+			// If not, remove them from the map again for consistency:
+			if (!equal) {
+				remove(eObject1);
+				remove(eObject2);
+			}
+			
+			// That is all.
+			return equal;
+			
+		}
+		
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper#equals(java.util.List, java.util.List)
 		 */
 		@Override
@@ -152,28 +172,60 @@ public class StateSpaceEqualityUtil {
 			}
 			
 			// Compare sizes:
-			if (list1.size() != list2.size()) {
+			if (list1.size()!=list2.size()) {
 				return false;
 			}
 			
-			// Copy the second list:
-			list2 = new ArrayList<EObject>(list2);
+			// Create arrays which we can modify:
+			EObject[] array1 = list1.toArray(new EObject[0]);
+			EObject[] array2 = list2.toArray(new EObject[0]);
 
-			// Match objects:
-			for (int i=0; i<list1.size(); i++) {
-				boolean found = false;
-				for (int j=0; j<list2.size(); j++) {
-					if (equals(list1.get(i), list2.get(j))) {
-						list2.remove(j);
-						found = true;
-						break;
+			// Do an exhaustive equality check:
+			return exhaustiveEquals(array1, array2);
+						
+		}
+		
+		/*
+		 * Perform an exhaustive equality check. It is assumed that both lists have the same size.
+		 */
+		private boolean exhaustiveEquals(EObject[] list1, EObject[] list2) {
+			
+			// Try all possible combinations:
+			for (int i=0; i<list1.length; i++) {
+				
+				// Get the first object:
+				if (list1[i]==null) continue;
+				EObject e1 = list1[i];
+				
+				for (int j=0; j<list2.length; j++) {
+					
+					// Get the second object:
+					if (list2[j]==null) continue;
+					EObject e2 = list2[j];
+					
+					// Check if they are equal:
+					if (equals(e1,e2)) {
+						
+						// Remove the elements from the arrays:
+						list1[i] = null;
+						list2[j] = null;
+						
+						// Now compare the rest:
+						if (exhaustiveEquals(list1, list2)) {
+							return true;
+						}
+						
+						// Not successful, so add the objects back to the arrays again:
+						list1[i] = e1;
+						list2[j] = e2;
+						
 					}
 				}
-				if (!found) return false;
 			}
 			
-			// Success:
+			// Success (both arrays are empty):
 			return true;
+
 			
 		}
 	}
