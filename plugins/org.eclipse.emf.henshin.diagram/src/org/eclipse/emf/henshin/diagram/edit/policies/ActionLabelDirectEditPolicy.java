@@ -13,7 +13,10 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.LabelEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
@@ -61,11 +64,14 @@ public class ActionLabelDirectEditPolicy extends LabelDirectEditPolicy {
 				IAdaptable info) throws ExecutionException {
 			
 			// Refresh all edit parts:
-			EditPart editpart = getHost();			
+			EditPart editpart = getHost();
 			while (editpart!=null) {
 				EditPolicy policy = editpart.getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);				
 				if (policy instanceof CanonicalEditPolicy) {
 					((CanonicalEditPolicy) policy).refresh();
+				}
+				if (editpart instanceof LabelEditPart) {
+					((LabelEditPart) editpart).refresh();
 				}
 				editpart = editpart.getParent();
 			}

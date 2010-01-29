@@ -3,16 +3,21 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.actions.Action;
+import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.policies.ActionLabelDirectEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -98,7 +103,7 @@ public class EdgeActionEditPart extends LabelEditPart implements
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies() {
+	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new LabelDirectEditPolicy());
@@ -116,6 +121,19 @@ public class EdgeActionEditPart extends LabelEditPart implements
 				});
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void createDefaultEditPolicies() {
+		createDefaultEditPoliciesGen();
+
+		// Install a custom LabelDirectEditPolicy:
+		removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new ActionLabelDirectEditPolicy());
+	}
+	
 	/**
 	 * @generated
 	 */
@@ -467,6 +485,26 @@ public class EdgeActionEditPart extends LabelEditPart implements
 					| (style.isItalic() ? SWT.ITALIC : SWT.NORMAL));
 			setFont(fontData);
 		}
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void refreshFontColor() {
+		Edge edge = (Edge) getNotationView().getElement();
+		Action action = EdgeActionUtil.getEdgeAction(edge);
+		Color color = (action != null) ? action.getType().getColor()
+				: ColorConstants.gray;
+		setForegroundColor(color);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void refreshForegroundColor() {
+		refreshFontColor();
 	}
 
 	/**
