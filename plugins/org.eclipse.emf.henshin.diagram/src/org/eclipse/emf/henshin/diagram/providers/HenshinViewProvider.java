@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
@@ -415,6 +416,13 @@ public class HenshinViewProvider extends AbstractProvider implements
 		Location location6001 = (Location) label6001.getLayoutConstraint();
 		location6001.setX(0);
 		location6001.setY(40);
+		Node label6002 = createLabel(edge, HenshinVisualIDRegistry
+				.getType(EdgeActionEditPart.VISUAL_ID));
+		label6002.setLayoutConstraint(NotationFactory.eINSTANCE
+				.createLocation());
+		Location location6002 = (Location) label6002.getLayoutConstraint();
+		location6002.setX(0);
+		location6002.setY(60);
 		return edge;
 	}
 

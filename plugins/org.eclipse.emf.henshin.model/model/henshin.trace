@@ -34,5 +34,8 @@
     <linkLabelTraces
         visualID="6001"
         queryText="true"/>
+    <linkLabelTraces
+        visualID="6002"
+        queryText="true"/>
   </linkTraces>
 </trace:TraceModel>

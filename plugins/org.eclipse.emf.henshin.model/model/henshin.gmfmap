@@ -90,6 +90,10 @@
       <diagramLabel
           href="henshin.gmfgraph#EdgeType"/>
     </labelMappings>
+    <labelMappings>
+      <diagramLabel
+          href="henshin.gmfgraph#EdgeAction"/>
+    </labelMappings>
     <containmentFeature
         href="henshin.ecore#//Graph/edges"/>
     <tool

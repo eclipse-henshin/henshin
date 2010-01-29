@@ -61,10 +61,17 @@
             xsi:type="gmfgraph:Label"
             name="EdgeTypeLabel"
             text="unknown"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="EdgeActionLabel"
+            text="unknown"/>
       </actualFigure>
       <accessors
           accessor="getEdgeTypeLabel"
           figure="//@figures.0/@descriptors.2/@actualFigure/@children.0"/>
+      <accessors
+          accessor="getEdgeActionLabel"
+          figure="//@figures.0/@descriptors.2/@actualFigure/@children.1"/>
     </descriptors>
     <descriptors
         name="AttributeFigure">
@@ -115,6 +122,11 @@
       figure="EdgeFigure"
       elementIcon="false"
       accessor="//@figures.0/@descriptors.2/@accessors.0"/>
+  <labels
+      name="EdgeAction"
+      figure="EdgeFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.2/@accessors.1"/>
   <labels
       name="Attribute"
       figure="AttributeFigure"/>

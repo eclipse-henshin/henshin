@@ -106,7 +106,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		EClass targetType = target.getType();
 		EClass sourceType = source.getType();
-		
+
 		// Everything must be set.
 		if (source == null || target == null || sourceType == null
 				|| targetType == null || edgeType == null) {
@@ -130,7 +130,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		Graph sourceGraph = source.getGraph();
 		Graph targetGraph = target.getGraph();
 		Rule rule = sourceGraph.getContainerRule();
-		
+
 		if (rule == null) {
 			// if no rule is given, we require same graphs at least
 			if (sourceGraph != targetGraph) {
@@ -148,7 +148,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 			}// if
 
 			//TODO: Appropriate edge creation depending on <<create>>/<<delete>> nodes
-			
+
 		}// if else
 
 		return true;
@@ -165,15 +165,15 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 * @return
 	 */
 	private static boolean isDelete(Rule rule, Node node) {
-		
+
 		if ((rule.getLhs() == node.getGraph())) {
 			Node sourceImage = HenshinMappingUtil.getNodeImage(node, rule
 					.getRhs(), rule.getMappings());
-			return sourceImage==null;
+			return sourceImage == null;
 		}// if 
 		return false;
 	}// isDelete
-	
+
 	/**
 	 * Return true if the given element indicates a creation by rule application
 	 * i.e. the given node occurs only at the RHS without being mapped by LHS.
@@ -184,14 +184,15 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 * @return
 	 */
 	private static boolean isCreate(Rule rule, Node node) {
-		
+
 		if ((rule.getRhs() == node.getGraph())) {
-			Node sourceImage = HenshinMappingUtil.getNodeOrigin(node, rule.getMappings());
-			return sourceImage==null;
+			Node sourceImage = HenshinMappingUtil.getNodeOrigin(node, rule
+					.getMappings());
+			return sourceImage == null;
 		}// if 
 		return false;
 	}// isCreate
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -209,7 +210,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		// Create the new edge:
 		Rule rule = getSource().getGraph().getContainerRule();
-		Edge edge = HenshinFactory.eINSTANCE.createEdge(getSource(), getTarget(), type);
+		Edge edge = HenshinFactory.eINSTANCE.createEdge(getSource(),
+				getTarget(), type);
 
 		// Check if we need to create a copy in the RHS:
 		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule
@@ -218,7 +220,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 				.getRhs(), rule.getMappings());
 
 		if (sourceImage != null && targetImage != null) {
-			 HenshinFactory.eINSTANCE.createEdge(sourceImage, targetImage, type);
+			HenshinFactory.eINSTANCE.createEdge(sourceImage, targetImage, type);
 		}
 
 		// Configure and return:

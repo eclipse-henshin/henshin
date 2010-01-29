@@ -27,7 +27,6 @@ public class EdgeActionUtil {
 		return ElementActionHelper.getAction(edge);
 	}
 	
-	
 	/**
 	 * Set the action for an edge.
 	 * @param edge Edge.
@@ -46,7 +45,7 @@ public class EdgeActionUtil {
 		// Current action type = NONE?
 		if (current.getType()==ActionType.NONE) {
 			
-			// We know that the node is contained in the LHS and that it is mapped to a node in the RHS.
+			// We know that the edge is contained in the LHS and that it is mapped to an edge in the RHS.
 			
 			// Find the the image in the RHS:
 			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());

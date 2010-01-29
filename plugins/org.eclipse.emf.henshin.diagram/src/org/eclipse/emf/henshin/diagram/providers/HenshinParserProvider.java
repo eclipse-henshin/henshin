@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
@@ -54,6 +55,11 @@ public class HenshinParserProvider extends AbstractProvider implements
 	/**
 	 * @generated NOT
 	 */
+	private IParser edgeActionParser = new EdgeActionParser();
+
+	/**
+	 * @generated NOT
+	 */
 	private IParser attributeParser = new AttributeParser();
 
 	/**
@@ -88,6 +94,8 @@ public class HenshinParserProvider extends AbstractProvider implements
 			return nodeActionParser;
 		case EdgeTypeEditPart.VISUAL_ID:
 			return edgeTypeParser;
+		case EdgeActionEditPart.VISUAL_ID:
+			return edgeActionParser;
 		case AttributeEditPart.VISUAL_ID:
 			return attributeParser;
 		}

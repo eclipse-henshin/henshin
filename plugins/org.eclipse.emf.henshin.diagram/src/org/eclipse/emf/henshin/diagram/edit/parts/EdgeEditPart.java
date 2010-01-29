@@ -91,6 +91,11 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 					.getEdgeTypeLabel());
 			return true;
 		}
+		if (childEditPart instanceof EdgeActionEditPart) {
+			((EdgeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getEdgeActionLabel());
+			return true;
+		}
 		return false;
 	}
 
@@ -109,6 +114,9 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof EdgeTypeEditPart) {
+			return true;
+		}
+		if (childEditPart instanceof EdgeActionEditPart) {
 			return true;
 		}
 		return false;
@@ -230,6 +238,11 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		/**
 		 * @generated
 		 */
+		private WrappingLabel fEdgeActionLabel;
+
+		/**
+		 * @generated
+		 */
 		public EdgeFigure() {
 			this.setLineWidth(1);
 
@@ -246,6 +259,11 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 
 			this.add(fEdgeTypeLabel);
 
+			fEdgeActionLabel = new WrappingLabel();
+			fEdgeActionLabel.setText("unknown");
+
+			this.add(fEdgeActionLabel);
+
 		}
 
 		/**
@@ -253,6 +271,13 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		 */
 		public WrappingLabel getEdgeTypeLabel() {
 			return fEdgeTypeLabel;
+		}
+
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getEdgeActionLabel() {
+			return fEdgeActionLabel;
 		}
 
 	}

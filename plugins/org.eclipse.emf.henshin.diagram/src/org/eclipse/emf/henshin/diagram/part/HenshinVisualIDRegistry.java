@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
@@ -205,6 +206,9 @@ public class HenshinVisualIDRegistry {
 			break;
 		case EdgeEditPart.VISUAL_ID:
 			if (EdgeTypeEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (EdgeActionEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
