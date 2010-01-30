@@ -1,7 +1,10 @@
 package org.eclipse.emf.henshin.statespace.validation;
 
+import java.text.ParseException;
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
  * Interface for state space validators.
@@ -11,16 +14,29 @@ public interface StateSpaceValidator {
 	
 	/**
 	 * Perform the validation for a given state.
-	 * @param state State to be validated.
 	 * @param monitor Progress monitor.
 	 * @return Validation result.
 	 */
-	ValidationResult validate(State state, IProgressMonitor monitor);
+	ValidationResult validate(IProgressMonitor monitor);
 	
 	/**
-	 * Set the validation context to be used.
-	 * @param context Validation context.
+	 * Set the state space to be used.
+	 * @param stateSpace State space.
 	 */
-	void setContext(StateSpaceValidationContext context);
+	void setStateSpace(StateSpace stateSpace);
 	
+	/**
+	 * Set the property to be validated. It can be assumed
+	 * that the state space has been set already before this 
+	 * method is called.
+	 * @param property Property.
+	 * @throws ParseException If the property cannot be parsed.
+	 */
+	void setProperty(String property) throws ParseException;
+	
+	/**
+	 * Set the state validators to be used.
+	 * @param validators State validators.
+	 */
+	void setStateValidators(Map<String,StateValidator> validators);
 }
