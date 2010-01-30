@@ -8,6 +8,16 @@ import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidationResult;
  */
 public class StateSpaceValidationResultImpl implements StateSpaceValidationResult {
 	
+	/**
+	 * Static validation result for successful validations without messages and data.
+	 */
+	public static final StateSpaceValidationResult VALID = new StateSpaceValidationResultImpl(true);
+
+	/**
+	 * Static validation result for invalid properties, without extra message or data.
+	 */
+	public static final StateSpaceValidationResult INVALID = new StateSpaceValidationResultImpl(false);
+	
 	// Valid-flag.
 	private boolean valid;
 	
@@ -28,7 +38,15 @@ public class StateSpaceValidationResultImpl implements StateSpaceValidationResul
 		this.message = message;
 		this.data = data;
 	}
-	
+
+	/**
+	 * Convenience constructor.
+	 * @param valid Valid-flag.
+	 */
+	public StateSpaceValidationResultImpl(boolean valid) {
+		this(valid,null,null);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.validation.StateSpaceValidationResult#getData()
