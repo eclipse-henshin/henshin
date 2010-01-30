@@ -15,7 +15,7 @@ public interface StateSpaceValidator {
 	 * @param monitor Progress monitor.
 	 * @return Validation result.
 	 */
-	StateSpaceValidationResult validate(State state, IProgressMonitor monitor);
+	ValidationResult validate(State state, IProgressMonitor monitor);
 	
 	/**
 	 * Set the validation context to be used.

@@ -1,22 +1,22 @@
 package org.eclipse.emf.henshin.statespace.validation.impl;
 
-import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * Default implementation for state space validation results-
  * @author Christian Krause
  */
-public class StateSpaceValidationResultImpl implements StateSpaceValidationResult {
+public class StateSpaceValidationResultImpl implements ValidationResult {
 	
 	/**
 	 * Static validation result for successful validations without messages and data.
 	 */
-	public static final StateSpaceValidationResult VALID = new StateSpaceValidationResultImpl(true);
+	public static final ValidationResult VALID = new StateSpaceValidationResultImpl(true);
 
 	/**
 	 * Static validation result for invalid properties, without extra message or data.
 	 */
-	public static final StateSpaceValidationResult INVALID = new StateSpaceValidationResultImpl(false);
+	public static final ValidationResult INVALID = new StateSpaceValidationResultImpl(false);
 	
 	// Valid-flag.
 	private boolean valid;

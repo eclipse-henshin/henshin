@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidationContext;
-import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
 
 /**
@@ -30,7 +30,7 @@ public class StateSpaceValidatorDelegate implements StateSpaceValidator {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.State, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public StateSpaceValidationResult validate(State state, IProgressMonitor monitor) {
+	public ValidationResult validate(State state, IProgressMonitor monitor) {
 		return null;
 	}
 

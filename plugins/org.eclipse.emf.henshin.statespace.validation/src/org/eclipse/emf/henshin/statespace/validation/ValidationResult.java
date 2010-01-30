@@ -4,7 +4,7 @@ package org.eclipse.emf.henshin.statespace.validation;
  * Interface for state space validation results.
  * @author Christian Krause
  */
-public interface StateSpaceValidationResult {
+public interface ValidationResult {
 	
 	/**
 	 * Returns <code>true</code> if a property was successfully validated.
