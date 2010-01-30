@@ -10,7 +10,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * A registry implementation for model checkers.
- * 
+ * @deprecated
  * @author Christian Krause
  */
 public class ModelCheckerRegistry {

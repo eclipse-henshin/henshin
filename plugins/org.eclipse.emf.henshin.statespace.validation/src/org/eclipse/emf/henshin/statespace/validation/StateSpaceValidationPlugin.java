@@ -4,18 +4,18 @@ import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * The activator class controls the plug-in life cycle
+ * State space validation plug-in activator.
  */
 public class StateSpaceValidationPlugin extends Plugin {
-
-	// The plug-in ID
+	
+	// The plug-in ID:
 	public static final String PLUGIN_ID = "org.eclipse.emf.henshin.validation";
 
-	// The shared instance
+	// The shared instance:
 	private static StateSpaceValidationPlugin plugin;
 	
 	/**
-	 * The constructor
+	 * Default constructor.
 	 */
 	public StateSpaceValidationPlugin() {
 	}
@@ -39,11 +39,10 @@ public class StateSpaceValidationPlugin extends Plugin {
 	}
 
 	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
+	 * Returns the shared instance.
+	 * @return the shared instance.
 	 */
-	public static StateSpaceValidationPlugin getDefault() {
+	public static StateSpaceValidationPlugin getInstance() {
 		return plugin;
 	}
 

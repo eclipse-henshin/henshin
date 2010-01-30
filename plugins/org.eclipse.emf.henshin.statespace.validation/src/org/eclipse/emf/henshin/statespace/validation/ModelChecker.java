@@ -7,6 +7,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 /**
  * Interface for Henshin state space model checkers.
  * @author Christian Krause
+ * @deprecated
  */
 public interface ModelChecker {
 	
