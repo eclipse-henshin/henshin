@@ -1,6 +1,8 @@
 package org.eclipse.emf.henshin.statespace.validation.impl;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
@@ -10,17 +12,13 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
  * State validator delegate.
  * @author Christian Krause
  */
-public abstract class StateValidatorDelegate extends AbstractStateValidator {
+public class StateValidatorDelegate extends AbstractStateValidator {
 	
 	// The wrapped state validator.
 	private StateValidator validator;
 	
-	/**
-	 * Create a new state validator instance based on a given ID.
-	 * @param id Validator ID.
-	 * @return The new validator instance;
-	 */
-	protected abstract StateValidator createStateValidator(String id);
+	// Validator types.
+	private Map<String,Class<StateValidator>> validatorTypes = new HashMap<String,Class<StateValidator>>();
 	
 	/*
 	 * (non-Javadoc)
@@ -46,6 +44,29 @@ public abstract class StateValidatorDelegate extends AbstractStateValidator {
 		return validator.validate(state);
 	}
 	
+	/**
+	 * Get the supported state validator types.
+	 * @return State validator types.
+	 */
+	public Map<String, Class<StateValidator>> getValidatorTypes() {
+		return validatorTypes;
+	}
+	
+	/**
+	 * Create a new state validator instance based on a given ID.
+	 * @param id Validator ID.
+	 * @return The new validator instance;
+	 */
+	protected StateValidator createStateValidator(String id) {
+		Class<StateValidator> type = validatorTypes.get(id);
+		if (id==null) throw new RuntimeException("Unknown validator type id: '" + id + "'");
+		try {
+			return type.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException("Error loading validator '" + id + "'", e);
+		}
+	}
+
 	/*
 	 * Internal helper class for parsing wrapped validation properties.
 	 */

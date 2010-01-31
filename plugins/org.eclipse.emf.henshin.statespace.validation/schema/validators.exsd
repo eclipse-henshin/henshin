@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.emf.henshin.statespace" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.henshin.statespace" id="modelCheckers" name="Model Checkers"/>
+         <meta.schema plugin="org.eclipse.emf.henshin.statespace" id="validators" name="Validators"/>
       </appInfo>
       <documentation>
-         This extension point is used for providing model checkers for the EMF Henshin state space utilities.
+         This extension point is used for providing validator extensions for the Henshin state space utilities.
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="modelChecker" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="stateValidator" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,29 +47,44 @@
       </complexType>
    </element>
 
-   <element name="modelChecker">
+   <element name="stateValidator">
       <complexType>
-         <attribute name="id" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Id of this model checker
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  Name of this model checker
+                  Name of this validator. This must be an identifier.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  Model checker implementation
+                  State validator implementation.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.modelchecking.ModelChecker"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.validation.StateValidator"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="stateSpaceValidator">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of this validator. This must be an identifier.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  State space validator implementation.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator"/>
                </appInfo>
             </annotation>
          </attribute>
