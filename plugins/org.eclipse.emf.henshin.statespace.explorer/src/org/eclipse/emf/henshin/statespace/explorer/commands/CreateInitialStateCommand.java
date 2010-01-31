@@ -3,7 +3,7 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 
 /**
  * Command for creating an initial state.
@@ -44,7 +44,7 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doRedo()
 	 */
 	@Override
-	public void doRedo() throws TaintedStateSpaceException {
+	public void doRedo() throws StateSpaceException {
 		state = getStateSpaceManager().createInitialState(model);
 		state.setLocation(location);	
 	}
@@ -54,7 +54,7 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doUndo()
 	 */
 	@Override
-	public void doUndo() throws TaintedStateSpaceException {
+	public void doUndo() throws StateSpaceException {
 		getStateSpaceManager().removeState(state);
 	}
 	

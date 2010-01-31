@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -67,9 +67,9 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	/**
 	 * Reload this state space manager.
 	 * @param monitor Progress monitor.
-	 * @throws TaintedStateSpaceException If the state space turns out to be tainted.
+	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	public final void reload(IProgressMonitor monitor) throws TaintedStateSpaceException {
+	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
 		
 		monitor.beginTask("Load state space", stateSpace.getStates().size() + 2);
 		
@@ -103,7 +103,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 				// Check if it exists already: 
 				if (getState(model, hash)!=null) {
 					markTainted();
-					throw new TaintedStateSpaceException("Duplicate state: " + state.getIndex());
+					throw new StateSpaceException("Duplicate state: " + state.getIndex());
 				}
 				
 				// Set the hash code. Model is set by subclasses in getModel().
@@ -135,7 +135,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			
 		} catch (Throwable t) {
 			markTainted();
-			throw new TaintedStateSpaceException(t);
+			throw new StateSpaceException(t);
 		} finally {
 			monitor.done();	
 		}
@@ -146,7 +146,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State getState(Resource model) throws TaintedStateSpaceException {
+	public final State getState(Resource model) throws StateSpaceException {
 		return getState(model, hashCode(model));
 	}
 
@@ -156,14 +156,14 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param hash Its hash code.
 	 * @return The corresponding state if it exists.
 	 */
-	protected abstract State getState(Resource model, int hash) throws TaintedStateSpaceException;
+	protected abstract State getState(Resource model, int hash) throws StateSpaceException;
 	
 	/**
 	 * Decide whether a state is open.
 	 * @param state State state.
 	 * @return <code>true</code> if it is open.
 	 */
-	protected boolean isOpen(State state) throws TaintedStateSpaceException {
+	protected boolean isOpen(State state) throws StateSpaceException {
 		// By default we just assume that all states are open.
 		return true;
 	}
@@ -218,7 +218,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#createInitialState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State createInitialState(Resource model) throws TaintedStateSpaceException {
+	public final State createInitialState(Resource model) throws StateSpaceException {
 		
 		// Check if the resource is persisted:
 		if (model.getURI()==null) {
@@ -243,10 +243,10 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public final List<State> removeState(State state) throws TaintedStateSpaceException {
+	public final List<State> removeState(State state) throws StateSpaceException {
 		
 		// Check if the state space is tainted:
-		if (tainted) throw new TaintedStateSpaceException();
+		if (tainted) throw new StateSpaceException();
 		
 		// List of removed states:
 		List<State> removed = new ArrayList<State>();
@@ -318,7 +318,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			reload(new NullProgressMonitor());
 			tainted = false;
 		}
-		catch (TaintedStateSpaceException e) {
+		catch (StateSpaceException e) {
 			// This should not happen because the state space is reset.
 			e.printStackTrace();
 			tainted = true;

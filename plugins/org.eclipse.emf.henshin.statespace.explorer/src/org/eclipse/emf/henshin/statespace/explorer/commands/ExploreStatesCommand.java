@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 
 /**
  * Command for exploring states.
@@ -47,7 +47,7 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
-	public void doExecute() throws TaintedStateSpaceException {
+	public void doExecute() throws StateSpaceException {
 		for (State state : states) {
 			getStateSpaceManager().exploreState(state);
 		}

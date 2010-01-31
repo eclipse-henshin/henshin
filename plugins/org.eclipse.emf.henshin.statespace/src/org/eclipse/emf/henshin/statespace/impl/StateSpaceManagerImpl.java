@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
@@ -54,7 +54,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#isOpen(org.eclipse.emf.henshin.statespace.State)
 	 */
 	@Override
-	protected boolean isOpen(State state) throws TaintedStateSpaceException {
+	protected boolean isOpen(State state) throws StateSpaceException {
 		
 		// Get the model:
 		Resource model = getModel(state);
@@ -72,12 +72,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			// Check the rule:
 			Rule rule = transition.getRule();
 			if (rule==null || !getStateSpace().getRules().contains(rule)) {
-				throw new TaintedStateSpaceException("Illegal transition in state " + state);
+				throw new StateSpaceException("Illegal transition in state " + state);
 			}
 			
 			// Check if the match index is valid:
 			if (matches.get(rule).size()<=transition.getMatch()) {
-				throw new TaintedStateSpaceException("Illegal transition in state " + state);
+				throw new StateSpaceException("Illegal transition in state " + state);
 			}	
 			
 		}
@@ -99,7 +99,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public Resource getModel(State state) throws TaintedStateSpaceException {
+	public Resource getModel(State state) throws StateSpaceException {
 		
 		// Model already set?
 		if (state.getModel()!=null) {
@@ -146,7 +146,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	/*
 	 * Derive a model.
 	 */
-	private Resource deriveModel(Resource start, Path path) throws TaintedStateSpaceException {
+	private Resource deriveModel(Resource start, Path path) throws StateSpaceException {
 		
 		// Copy the model first:
 		Resource model = copyModel(start, null);
@@ -156,13 +156,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			
 			Rule rule = transition.getRule();
 			if (rule==null || !getStateSpace().getRules().contains(rule)) {
-				throw new TaintedStateSpaceException("Illegal transition in state " + transition.getSource());
+				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
 			RuleApplication application = new RuleApplication(createEngine(model), rule);
 			List<RuleMatch> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
-				throw new TaintedStateSpaceException("Illegal transition in state " + transition.getSource());				
+				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
 			}
 			
 			// Apply the rule with the found match:
@@ -180,7 +180,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<Transition> exploreState(State state) throws TaintedStateSpaceException {
+	public List<Transition> exploreState(State state) throws StateSpaceException {
 		
 		// Get the state model:
 		Resource model = getModel(state);
@@ -213,7 +213,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 					// Check if the transition points to the correct state:
 					if (existingTransition.getTarget()!=targetState) {
 						markTainted();
-						throw new TaintedStateSpaceException("Illegal transition in state " + state);
+						throw new StateSpaceException("Illegal transition in state " + state);
 					}
 					
 				} else {

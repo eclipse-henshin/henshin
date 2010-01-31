@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
 /**
  * Interface for state space validators.
@@ -20,10 +20,10 @@ public interface StateSpaceValidator {
 	ValidationResult validate(IProgressMonitor monitor);
 	
 	/**
-	 * Set the state space to be used.
-	 * @param stateSpace State space.
+	 * Set the state space index to be used.
+	 * @param index State space index.
 	 */
-	void setStateSpace(StateSpace stateSpace);
+	void setStateSpaceIndex(StateSpaceIndex index);
 	
 	/**
 	 * Set the property to be validated. It can be assumed

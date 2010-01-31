@@ -3,7 +3,7 @@ package org.eclipse.emf.henshin.statespace.validation;
 import java.text.ParseException;
 
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
 /**
  * Interface for state validators.
@@ -19,10 +19,10 @@ public interface StateValidator {
 	ValidationResult validate(State state);
 	
 	/**
-	 * Set the state space to be used.
-	 * @param stateSpace State space.
+	 * Set the state space index to be used.
+	 * @param index State space index.
 	 */
-	void setStateSpace(StateSpace stateSpace);
+	void setStateSpaceIndex(StateSpaceIndex index);
 	
 	/**
 	 * Set the property to be validated. It can be assumed

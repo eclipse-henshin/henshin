@@ -1,7 +1,7 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.gef.commands.Command;
 
@@ -36,25 +36,25 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	
 	/**
 	 * Execute the command.
-	 * @throws TaintedStateSpaceException If the state space is tainted.
+	 * @throws StateSpaceException If the state space is tainted.
 	 */
-	public void doExecute() throws TaintedStateSpaceException {
+	public void doExecute() throws StateSpaceException {
 		doRedo();
 	}
 
 	/**
 	 * Undo the command.
-	 * @throws TaintedStateSpaceException If the state space is tainted.
+	 * @throws StateSpaceException If the state space is tainted.
 	 */
-	public void doUndo() throws TaintedStateSpaceException {
+	public void doUndo() throws StateSpaceException {
 		// Do nothing.
 	}
 
 	/**
 	 * Redo the command.
-	 * @throws TaintedStateSpaceException If the state space is tainted.
+	 * @throws StateSpaceException If the state space is tainted.
 	 */
-	public void doRedo() throws TaintedStateSpaceException {
+	public void doRedo() throws StateSpaceException {
 		// Do nothing.
 	}
 	

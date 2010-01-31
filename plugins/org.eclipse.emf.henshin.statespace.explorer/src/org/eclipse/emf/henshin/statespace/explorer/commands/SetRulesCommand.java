@@ -5,7 +5,7 @@ import java.util.List;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.TaintedStateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 
 /**
  * @author Christian Krause
@@ -29,7 +29,7 @@ public class SetRulesCommand extends AbstractStateSpaceCommand {
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	@Override
-	public void doExecute() throws TaintedStateSpaceException {
+	public void doExecute() throws StateSpaceException {
 		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
 		stateSpace.getRules().clear();
 		stateSpace.getRules().addAll(rules);

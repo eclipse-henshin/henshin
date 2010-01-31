@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.statespace.validation.impl;
 
-import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 
 /**
@@ -9,23 +9,23 @@ import org.eclipse.emf.henshin.statespace.validation.StateValidator;
  */
 public abstract class AbstractStateValidator implements StateValidator {
 
-	// State space to be used.
-	private StateSpace stateSpace;
+	// State space index to be used.
+	private StateSpaceIndex index;
 	
 	/**
-	 * Get the state space to be used.
-	 * @return State space.
+	 * Get the state space index to be used.
+	 * @return State space index.
 	 */
-	protected StateSpace getStateSpace() {
-		return stateSpace;
+	protected StateSpaceIndex getStateSpaceIndex() {
+		return index;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator#setStateSpace(org.eclipse.emf.henshin.statespace.StateSpace)
+	 * @see org.eclipse.emf.henshin.statespace.validation.StateValidator#setStateSpaceIndex(org.eclipse.emf.henshin.statespace.StateSpaceIndex)
 	 */
-	public void setStateSpace(StateSpace stateSpace) {
-		this.stateSpace = stateSpace;
+	public void setStateSpaceIndex(StateSpaceIndex index) {
+		this.index = index;
 	}
 	
 }

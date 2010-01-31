@@ -51,7 +51,7 @@ public class EnabledRuleValidator extends AbstractStateValidator {
 		}
 		
 		// Find the corresponding rule:
-		for (Rule rule : getStateSpace().getRules()) {
+		for (Rule rule : getStateSpaceIndex().getStateSpace().getRules()) {
 			if (ruleName.equals(rule.getName())) {
 				this.rule = rule;
 				return;
