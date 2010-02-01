@@ -142,4 +142,8 @@ public class EmfGraph {
 
         return domain;
     }
+
+	public Set<EObject> geteObjects() {
+		return eObjects;
+	}
 }

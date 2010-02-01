@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.internal.conditions.nested;
+package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +9,8 @@ import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionH
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
-import org.eclipse.emf.henshin.internal.matching.DomainSlot;
-import org.eclipse.emf.henshin.internal.matching.Solution;
-import org.eclipse.emf.henshin.internal.matching.Variable;
 
-
-public class ApplicationCondition implements IFormula {
-	protected boolean negated;
-	protected IFormula formula;
-	
+public class GraphFinder {
 	protected EmfGraph graph;
 	protected AttributeConditionHandler conditionHandler;
 
@@ -26,13 +19,13 @@ public class ApplicationCondition implements IFormula {
 
 	protected List<Solution> solutions;
 
-	public ApplicationCondition(EmfGraph graph, Map<Variable, DomainSlot> domainMap, AttributeConditionHandler conditionHandler, boolean negated) {
+	public GraphFinder(EmfGraph graph, Map<Variable, DomainSlot> domainMap,
+			AttributeConditionHandler conditionHandler) {
 		this.domainMap = domainMap;
 		this.conditionHandler = conditionHandler;
 		this.graph = graph;
-		this.negated = negated;
 	}
-	
+
 	public boolean findGraph() {
 		boolean matchIsPossible = false;
 
@@ -69,9 +62,8 @@ public class ApplicationCondition implements IFormula {
 	 * vector.
 	 */
 	protected boolean findMatch(int index) {
-		if (index == variables.size()) {
-			return formula.eval();
-		}
+		if (index == variables.size())
+			return true;
 
 		Variable variable = variables.get(index);
 		DomainSlot slot = domainMap.get(variable);
@@ -140,37 +132,5 @@ public class ApplicationCondition implements IFormula {
 			DomainSlot slot = domainMap.get(variable);
 			slot.clear(variable);
 		}
-	}	
-
-	/**
-	 * @return the formula
-	 */
-	public IFormula getFormula() {
-		return formula;
-	}
-
-	public void setFormula(IFormula formula) {
-		this.formula = formula;
-	}
-
-	/**
-	 * @param negated
-	 *            the negated to set
-	 */
-	public void setNegated(boolean negated) {
-		this.negated = negated;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean eval() {
-		while (findGraph()) {
-			if (formula.eval()) {
-				return !negated;
-			}
-		}
-
-		return negated;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -22,7 +22,7 @@ public interface InterpreterEngine {
 	 *            A Henshin Rule.
 	 * @return All computed matches for the rule.
 	 */
-	public abstract List<RuleMatch> findAllMatches(Rule rule);
+	public List<Match> findAllMatches(Rule rule);
 
 	/**
 	 * Returns all matches for the given rule.
@@ -36,7 +36,7 @@ public interface InterpreterEngine {
 	 *            will be respected by the search engine.
 	 * @return All computed matches for the rule.
 	 */
-	public abstract List<RuleMatch> findAllMatches(Rule rule,
+	public List<Match> findAllMatches(Rule rule,
 			Map<Node, EObject> prematch, Map<String, Object> assignments);
 
 	/**
@@ -46,7 +46,7 @@ public interface InterpreterEngine {
 	 *            A Henshin Rule.
 	 * @return One computed match for the rule.
 	 */
-	public abstract RuleMatch findMatch(Rule rule);
+	public Match findMatch(Rule rule);
 
 	/**
 	 * Returns a match for the given rule.
@@ -60,7 +60,7 @@ public interface InterpreterEngine {
 	 *            will be respected by the search engine.
 	 * @return One computed match for the rule.
 	 */
-	public abstract RuleMatch findMatch(Rule rule, Map<Node, EObject> prematch,
+	public Match findMatch(Rule rule, Map<Node, EObject> prematch,
 			Map<String, Object> assignments);
 
 	/**
@@ -71,7 +71,7 @@ public interface InterpreterEngine {
 	 *            The amalgamated rule that should be executed.
 	 * @return true, if the kernel rule was found, otherwise false.
 	 */
-	public abstract boolean executeAmalgamatedUnit(
+	public boolean executeAmalgamatedUnit(
 			AmalgamatedUnit amalgamatedRule);
 
 	/**
@@ -81,14 +81,14 @@ public interface InterpreterEngine {
 	 *            An expression string.
 	 * @return The result of the computation.
 	 */
-	public abstract Object evalExpression(Map<String, Object> parameterMapping,
+	public Object evalExpression(Map<String, Object> parameterMapping,
 			String expr);
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract Map<Rule, RuleInfo> getRuleInformation();
+	public Map<Rule, RuleInfo> getRuleInformation();
 
 	/**
 	 * Adds an EObject to the EMFGraph handled by this engine.

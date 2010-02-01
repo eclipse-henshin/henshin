@@ -6,162 +6,115 @@ import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.ModelHelper;
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.conditions.nested.AndFormula;
-import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
-import org.eclipse.emf.henshin.internal.conditions.nested.IFormula;
-import org.eclipse.emf.henshin.internal.conditions.nested.NotFormula;
-import org.eclipse.emf.henshin.internal.conditions.nested.OrFormula;
-import org.eclipse.emf.henshin.internal.conditions.nested.TrueFormula;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
-import org.eclipse.emf.henshin.internal.constraints.InstanciationConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
-import org.eclipse.emf.henshin.internal.matching.Match;
-import org.eclipse.emf.henshin.internal.matching.Matchfinder;
 import org.eclipse.emf.henshin.internal.matching.Variable;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
-import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 
-//TODO(enrico): merge this class with RuleInfo
 public class RuleWrapper {
 	private Rule rule;
-	private EmfGraph emfGraph;
-	IFormula formula;
 
-	private Map<Graph, ApplicationCondition> graph2ac;
 	private Map<Node, Variable> node2variable;
 	private Map<Variable, Node> variable2node;
 
-	private AttributeConditionHandler conditionHandler;
-	private ScriptEngine scriptEngine;
+	private Map<Graph, List<Variable>> graph2variables;
+	private Map<Variable, Variable> variable2mainVariable;
 
-	private Matchfinder matchfinder;
-
-	public RuleWrapper(Rule rule, EmfGraph emfGraph, ScriptEngine scriptEngine) {
+	public RuleWrapper(Rule rule) {
 		this.rule = rule;
-		this.emfGraph = emfGraph;
 
-		this.conditionHandler = new AttributeConditionHandler(rule,
-				scriptEngine);
 		this.node2variable = new HashMap<Node, Variable>();
 		this.variable2node = new HashMap<Variable, Node>();
-		this.graph2ac = new HashMap<Graph, ApplicationCondition>();
-		this.scriptEngine = scriptEngine;
+		this.graph2variables = new HashMap<Graph, List<Variable>>();
+		this.variable2mainVariable = new HashMap<Variable, Variable>();
 
-		createLhsVariables();
-		ApplicationCondition ac = graph2ac.get(rule.getLhs());
-		ac.setFormula(translateFormula(rule.getLhs().getFormula()));
+		createVariables(rule.getLhs(), null);
+		translateFormula(rule.getLhs().getFormula());
 	}
 
-	private ApplicationCondition translateNestedCondition(
-			NestedCondition condition) {
-		createVariables(condition);
-		ApplicationCondition ac = graph2ac.get(condition.getConclusion());
-		ac.setNegated(condition.isNegated());
-		ac.setFormula(translateFormula(condition.getConclusion().getFormula()));
-
-		return ac;
+	private void translateNestedCondition(NestedCondition condition) {
+		createVariables(condition.getConclusion(), condition.getMappings());
+		translateFormula(condition.getConclusion().getFormula());
 	}
 
-	private IFormula translateFormula(
-			org.eclipse.emf.henshin.model.Formula formula) {
-		IFormula result = null;
-
-		if (formula instanceof And)
-			result = new AndFormula(
-					translateFormula(((And) formula).getLeft()),
-					translateFormula(((And) formula).getRight()));
-		else if (formula instanceof Or)
-			result = new OrFormula(translateFormula(((Or) formula).getLeft()),
-					translateFormula(((Or) formula).getRight()));
-		else if (formula instanceof Not)
-			result = new NotFormula(
-					translateFormula(((Not) formula).getChild()));
+	private void translateFormula(Formula formula) {
+		if (formula instanceof BinaryFormula) {
+			translateFormula(((BinaryFormula) formula).getLeft());
+			translateFormula(((BinaryFormula) formula).getRight());
+		} else if (formula instanceof UnaryFormula)
+			translateFormula(((UnaryFormula) formula).getChild());
 		else if (formula instanceof NestedCondition) {
-			result = translateNestedCondition((NestedCondition) formula);
-		} else {
-			result = new TrueFormula();
+			translateNestedCondition((NestedCondition) formula);
 		}
-
-		return result;
 	}
 
-	public void reset() {
-		matchfinder.reset();
-	}
-
-	private void createLhsVariables() {
+	private void createVariables(Graph g, List<Mapping> mappings) {
 		List<Variable> variables = new ArrayList<Variable>();
 
-		for (Node node : rule.getLhs().getNodes()) {
+		for (Node node : g.getNodes()) {
 			EClass type = node.getType();
-			Variable var = new Variable(emfGraph, type);
+			Variable var = new Variable(type);
 			variables.add(var);
 			node2variable.put(node, var);
 			variable2node.put(var, node);
 		}
 
-		for (Node node : rule.getLhs().getNodes()) {
-			createQueries(node, null);
+		for (Node node : g.getNodes()) {
+			Variable var = node2variable.get(node);
+
+			boolean isMinor = false;
+			createConstraints(node);
+			if (mappings != null) {
+				for (Mapping mapping : mappings) {
+					if (mapping.getImage() == node) {
+						Variable mainVariable = node2variable.get(mapping
+								.getOrigin());
+						variable2mainVariable.put(var, mainVariable);
+						isMinor = true;
+					}
+				}
+			}
+			if (!isMinor) {
+				variable2mainVariable.put(var, var);
+			}
 		}
 
-		matchfinder = new Matchfinder(variables, formula, conditionHandler);
-		graph2ac.put(rule.getLhs(), matchfinder);
+		graph2variables.put(g, variables);
 	}
 
-	private void createVariables(NestedCondition condition) {
-		List<Variable> variables = new ArrayList<Variable>();
-		Graph conclusion = condition.getConclusion();
-
-		for (Node node : conclusion.getNodes()) {
-			EClass type = node.getType();
-			Variable var = new Variable(emfGraph, type);
-			variables.add(var);
-			node2variable.put(node, var);
-			variable2node.put(var, node);
-		}
-
-		for (Node node : conclusion.getNodes()) {
-			createQueries(node, condition.getMappings());
-		}
-
-		ApplicationCondition ac = new ApplicationCondition(variables,
-				new TrueFormula(), true);
-		graph2ac.put(conclusion, ac);
-	}
-
-	private void createQueries(Node node, List<Mapping> mapping) {
+	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
 
 		for (Edge edge : node.getOutgoing()) {
 			Variable targetVariable = node2variable.get(edge.getTarget());
-			ReferenceConstraint refQuery = new ReferenceConstraint(var,
+			ReferenceConstraint constraint = new ReferenceConstraint(
 					targetVariable, edge.getType());
-			var.addQuery(refQuery);
+			var.getReferenceConstraints().add(constraint);
 		}
+
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		ScriptEngine scriptEngine = mgr.getEngineByName("JavaScript");
 
 		for (Attribute attribute : node.getAttributes()) {
 			if (attribute.containsVariableByRule(rule)) {
-				ParameterConstraint parQuery = new ParameterConstraint(
-						conditionHandler, var, attribute.getValue(), attribute
-								.getType());
-				var.addQuery(parQuery);
+				ParameterConstraint constraint = new ParameterConstraint(
+						attribute.getValue(), attribute.getType());
+				var.getParameterConstraints().add(constraint);
 			} else {
 				Object attributeValue = null;
 
@@ -174,61 +127,26 @@ public class RuleWrapper {
 					ex.printStackTrace();
 				}
 
-				AttributeConstraint attrQuery = new AttributeConstraint(var,
+				AttributeConstraint constraint = new AttributeConstraint(
 						attribute.getType(), attributeValue);
-				var.addQuery(attrQuery);
-			}
-		}
-
-		if (mapping != null) {
-			Node premiseNode = ModelHelper.getRemoteNode(mapping, node);
-			if (premiseNode != null) {
-				Variable premiseVariable = node2variable.get(premiseNode);
-				InstanciationConstraint instanceQuery = new InstanciationConstraint(
-						premiseVariable, var);
-				premiseVariable.addACQuery(instanceQuery);
+				var.getAttributeConstraints().add(constraint);
 			}
 		}
 	}
 
-	public void setAssignments(Map<String, Object> assignments) {
-		if (assignments == null)
-			return;
-
-		for (org.eclipse.emf.henshin.model.Variable var : rule.getVariables()) {
-			String name = var.getName();
-			if (assignments.keySet().contains(name)) {
-				conditionHandler.setParameter(name, assignments.get(name));
-				conditionHandler.fixParameter(name);
-			}
-		}
+	public Map<Variable, Variable> getVariable2mainVariable() {
+		return variable2mainVariable;
 	}
 
-	public void setMatchObjects(Map<Node, EObject> prematch) {
-		if (prematch == null)
-			return;
-
-		for (Node node : prematch.keySet()) {
-			node2variable.get(node).enable(prematch.get(node));
-		}
+	public Map<Graph, List<Variable>> getGraph2variables() {
+		return graph2variables;
 	}
 
-	public RuleMatch getMatch() {
-		Match match = matchfinder.getNextMatch();
-
-		if (match != null)
-			return new RuleMatch(rule, match, node2variable);
-
-		return null;
+	public Map<Node, Variable> getNode2variable() {
+		return node2variable;
 	}
 
-	public List<RuleMatch> getAllMatches() {
-		List<Match> matches = matchfinder.getAllMatches();
-		List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-		for (Match match : matches) {
-			ruleMatches.add(new RuleMatch(rule, match, node2variable));
-		}
-
-		return ruleMatches;
+	public Map<Variable, Node> getVariable2node() {
+		return variable2node;
 	}
 }

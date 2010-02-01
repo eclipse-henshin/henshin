@@ -1,8 +1,13 @@
 package org.eclipse.emf.henshin.internal.conditions.nested;
 
-public class OrFormula extends BinaryFormula {
+
+public class OrFormula implements IFormula {
+	private IFormula left;
+	private IFormula right;
+	
 	public OrFormula(IFormula left, IFormula right) {
-		super(left, right);
+		this.left = left;
+		this.right = right;
 	}
 	
 	public boolean eval() {

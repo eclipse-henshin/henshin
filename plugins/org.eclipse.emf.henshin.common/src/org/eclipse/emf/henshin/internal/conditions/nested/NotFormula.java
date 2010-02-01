@@ -1,8 +1,11 @@
 package org.eclipse.emf.henshin.internal.conditions.nested;
 
-public class NotFormula extends UnaryFormula {
+
+public class NotFormula implements IFormula {
+	private IFormula child;
+	
 	public NotFormula(IFormula child) {
-		super(child);
+		this.child = child;
 	}
 	
 	@Override

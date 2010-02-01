@@ -12,7 +12,7 @@ import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.internal.change.ModelChange;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
@@ -28,8 +28,8 @@ public class RuleApplication {
 	private Rule rule;
 	private ModelChange modelChange;
 
-	private RuleMatch match;
-	private RuleMatch comatch;
+	private Match match;
+	private Match comatch;
 
 	// flags for execution status of the rule
 	private boolean isExecuted = false;
@@ -61,7 +61,7 @@ public class RuleApplication {
 	 * 
 	 * @return the comatch from the RHS into the instance
 	 */
-	private RuleMatch generateModelChanges() {
+	private Match generateModelChanges() {
 		if (!match.isComplete())
 			return null;
 
@@ -117,14 +117,15 @@ public class RuleApplication {
 			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
 			Object value = interpreterEngine.evalExpression(match
 					.getParameterMapping(), attribute.getValue());
-		
-			value = EcoreUtil.createFromString(attribute.getType().getEAttributeType(), value.toString());
-			
+
+			value = EcoreUtil.createFromString(attribute.getType()
+					.getEAttributeType(), value.toString());
+
 			modelChange.addObjectChange(targetObject, attribute.getType(),
 					value);
 		}
 
-		return new RuleMatch(rule, match.getParameterMapping(),
+		return new Match(rule, match.getParameterMapping(),
 				comatchNodeMapping);
 	}
 
@@ -133,7 +134,7 @@ public class RuleApplication {
 	 * 
 	 * @return One match for this rule.
 	 */
-	public RuleMatch findMatch() {
+	public Match findMatch() {
 		return interpreterEngine.findMatch(rule, prematch, assignments);
 	}
 
@@ -142,7 +143,7 @@ public class RuleApplication {
 	 * 
 	 * @return A list of all matches.
 	 */
-	public List<RuleMatch> findAllMatches() {
+	public List<Match> findAllMatches() {
 		return interpreterEngine.findAllMatches(rule, prematch, assignments);
 	}
 
@@ -157,7 +158,6 @@ public class RuleApplication {
 				return false;
 
 			comatch = generateModelChanges();
-
 			if (comatch == null)
 				return false;
 
@@ -176,15 +176,15 @@ public class RuleApplication {
 	public void undo() {
 		if (isExecuted && !isUndone) {
 			modelChange.undoChanges();
-			
-			for (EObject deletedObject: modelChange.getDeletedObjects()) {
+
+			for (EObject deletedObject : modelChange.getDeletedObjects()) {
 				interpreterEngine.addEObject(deletedObject);
 			}
-			
-			for (EObject createdObject: modelChange.getCreatedObjects()) {
+
+			for (EObject createdObject : modelChange.getCreatedObjects()) {
 				interpreterEngine.removeEObject(createdObject);
 			}
-			
+
 			isUndone = true;
 		}
 	}
@@ -194,16 +194,16 @@ public class RuleApplication {
 	 */
 	public void redo() {
 		if (isExecuted && isUndone) {
-			for (EObject createdObject: modelChange.getCreatedObjects()) {
+			for (EObject createdObject : modelChange.getCreatedObjects()) {
 				interpreterEngine.addEObject(createdObject);
 			}
-			
-			for (EObject deletedObject: modelChange.getDeletedObjects()) {
+
+			for (EObject deletedObject : modelChange.getDeletedObjects()) {
 				interpreterEngine.removeEObject(deletedObject);
 			}
-			
+
 			modelChange.redoChanges();
-			
+
 			isUndone = false;
 		}
 	}
@@ -254,7 +254,7 @@ public class RuleApplication {
 	 * 
 	 * @param match
 	 */
-	public void setMatch(RuleMatch match) {
+	public void setMatch(Match match) {
 		this.prematch = match.getNodeMapping();
 		this.assignments = match.getParameterMapping();
 	}
@@ -274,14 +274,14 @@ public class RuleApplication {
 	/**
 	 * @return the match
 	 */
-	public RuleMatch getMatch() {
+	public Match getMatch() {
 		return match;
 	}
 
 	/**
 	 * @return the comatch
 	 */
-	public RuleMatch getComatch() {
+	public Match getComatch() {
 		return comatch;
 	}
 }

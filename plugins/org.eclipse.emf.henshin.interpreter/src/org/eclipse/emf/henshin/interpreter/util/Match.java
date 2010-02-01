@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.internal.matching.Match;
+import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * Encapsulates information about a single match from a Henshin rule into an EMF
  * instance.
  */
-public class RuleMatch {
+public class Match {
     // the rule which will be matched
     private Rule rule;
 
@@ -25,19 +25,19 @@ public class RuleMatch {
     // variable assignments
     private Map<String, Object> parameterMapping;
 
-    public RuleMatch(Rule rule, Map<String, Object> parameterMapping,
+    public Match(Rule rule, Map<String, Object> parameterMapping,
             Map<Node, EObject> nodeMapping) {
         this.parameterMapping = parameterMapping;
         this.nodeMapping = nodeMapping;
         this.rule = rule;
     }
 
-    public RuleMatch(Rule rule, Match match, Map<Node, Variable> node2variable) {
-        this.parameterMapping = match.getParameterMatches();
-
+    public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
+        this.parameterMapping = solution.getParameterMatches();
         this.nodeMapping = new HashMap<Node, EObject>();
-        if (match != null) {
-            HashMap<Variable, EObject> objectMatch = match.getObjectMatches();
+        
+        if (solution != null) {
+            Map<Variable, EObject> objectMatch = solution.getObjectMatches();
             for (Node node : rule.getLhs().getNodes()) {
                 Variable var = node2variable.get(node);
                 EObject eObject = objectMatch.get(var);
@@ -70,7 +70,7 @@ public class RuleMatch {
      *            A second match to check against.
      * @return true, if both matches have common targets
      */
-    public boolean overlapsWith(RuleMatch match) {
+    public boolean overlapsWith(Match match) {
         List<EObject> thistargets = new ArrayList<EObject>(nodeMapping.values());
         List<EObject> matchtargets = new ArrayList<EObject>(match
                 .getNodeMapping().values());

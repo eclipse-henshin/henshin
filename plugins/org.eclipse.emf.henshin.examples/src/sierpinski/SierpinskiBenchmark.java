@@ -6,7 +6,7 @@ import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
@@ -40,6 +40,7 @@ public class SierpinskiBenchmark {
         // initialize the henshin interpreter
         EmfGraph graph = new EmfGraph();
         graph.addRoot(container);
+        graph.removeEObject(container);
         EmfEngine engine = new EmfEngine(graph);
 
         // load a rule
@@ -52,10 +53,10 @@ public class SierpinskiBenchmark {
             long startTime = System.currentTimeMillis();
             RuleApplication addTriangle = new RuleApplication(engine,
                     addTriangleRule);
-            List<RuleMatch> matches = addTriangle.findAllMatches();
+            List<Match> matches = addTriangle.findAllMatches();
             System.out.println("Level: " + i);
             System.out.println("Rule applications:" + matches.size());
-            for (RuleMatch match : matches) {
+            for (Match match : matches) {
                 addTriangle = new RuleApplication(engine, addTriangleRule);
                 addTriangle.setMatch(match);
                 addTriangle.apply();
@@ -64,7 +65,7 @@ public class SierpinskiBenchmark {
             // System.out.println("Rule applications: "+matches.size());
 
             System.out.println("Time: " + runtime + "ms");
-            System.out.println("Nodes: " + container.getVertices().size());
+            System.out.println("Nodes: " + graph.geteObjects().size());
             System.out.println();
         } while (true);
     }

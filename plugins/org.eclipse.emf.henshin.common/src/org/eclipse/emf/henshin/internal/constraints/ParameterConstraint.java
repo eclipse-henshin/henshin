@@ -3,35 +3,32 @@ package org.eclipse.emf.henshin.internal.constraints;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.matching.Variable;
 
 /**
  * This constraint checks if the attribute has the same value as the parameter.
  * If the parameter is not currently set, it will be set to the value of the
- * attribute.
+ * attribute. 
  */
-public class ParameterConstraint extends Constraint {
+public class ParameterConstraint {
+	private String parameterName;
+	private EAttribute attribute;
 
-	AttributeConditionHandler conditionHandler;
-	String parameterName;
-	EAttribute attribute;
-
-	public ParameterConstraint(AttributeConditionHandler conditionHandler,
-			Variable creator, String parameterName, EAttribute attribute) {
-		super(creator, creator);
-
-		this.conditionHandler = conditionHandler;
+	public ParameterConstraint(String parameterName, EAttribute attribute) {
 		this.parameterName = parameterName;
 		this.attribute = attribute;
 	}
 
-	public boolean eval() {
-		EObject creatorValue = ownerVariable.getInstanceValue();
-		Object attributeValue = creatorValue.eGet(attribute);
-		evaluated = true;
+	public boolean check(EObject value,
+			AttributeConditionHandler conditionHandler) {
+		Object attributeValue = value.eGet(attribute);
 
 		if (!conditionHandler.isSet(parameterName)) {
-			return conditionHandler.setParameter(parameterName, attributeValue);
+			boolean ok = conditionHandler.setParameter(parameterName,
+					attributeValue);
+			if (!ok)
+				conditionHandler.unsetParameter(parameterName);
+
+			return ok;
 		} else {
 			Object parameterValue = conditionHandler
 					.getParameter(parameterName);
@@ -41,12 +38,5 @@ public class ParameterConstraint extends Constraint {
 				return attributeValue == null;
 			}
 		}
-	}
-
-	public void undo() {
-		if (evaluated)
-			conditionHandler.unsetParameter(parameterName);
-
-		super.undo();
 	}
 }

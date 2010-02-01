@@ -1,5 +1,7 @@
 package org.eclipse.emf.henshin.internal.constraints;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -10,54 +12,73 @@ import org.eclipse.emf.henshin.internal.matching.Variable;
  * This constraint checks whether the value of an EReference contains objects
  * from the target domain.
  */
-public class ReferenceConstraint extends Constraint {
-	private EReference eReference;
+public class ReferenceConstraint {
+	private EReference reference;
+	private Variable target;
 
-	public ReferenceConstraint(Variable creator, Variable target,
-			EReference eReference) {
-		super(creator, target);
-		this.eReference = eReference;
+	public ReferenceConstraint(Variable target, EReference eReference) {
+		this.target = target;
+		this.reference = eReference;
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean eval() {
-		EObject creatorValue = ownerVariable.getInstanceValue();
-		evaluated = true;
+	public boolean check(EObject sourceValue, EObject targetValue) {
+		if (sourceValue == null)
+			return false;
 
-		if (targetVariable.isEnabled()) {
-			if (targetVariable.isInstanciated()) {
-				if (eReference.isMany()) {
-					return checkDomainForObjects((List<EObject>) creatorValue
-							.eGet(eReference));
-				} else {
-					return checkDomainForObject((EObject) creatorValue
-							.eGet(eReference));
-				}
-
-			} else {
-				if (eReference.isMany()) {
-					return retainObjects((List<EObject>) creatorValue
-							.eGet(eReference));
-				} else {
-					return retainObjects((EObject) creatorValue
-							.eGet(eReference));
-				}
-			}
+		if (reference.isMany()) {
+			List<EObject> referedObjects = (List<EObject>) sourceValue
+					.eGet(reference);
+			return (referedObjects.contains(targetValue));
 		} else {
-			targetEnabled = true;
-			if (creatorValue.eGet(eReference) != null) {
-				if (eReference.isMany()) {
-					targetVariable.enable((List<EObject>) creatorValue
-							.eGet(eReference));
-					targetVariable.getDomain().removeAll(ownerVariable.getEmfGraph().usedObjects);
-				} else {
-					targetVariable.enable((EObject) creatorValue
-							.eGet(eReference));
-					targetVariable.getDomain().removeAll(ownerVariable.getEmfGraph().usedObjects);
-				}
-				return true;
+			return sourceValue.eGet(reference) == targetValue;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public DomainChange reduceTargetDomain(EObject sourceValue,
+			List<EObject> targetDomain) {
+		List<EObject> referredObjects = null;
+
+		if (sourceValue == null)
+			return new DomainChange(targetDomain, null);
+
+		if (reference.isMany()) {
+			referredObjects = (List<EObject>) sourceValue.eGet(reference);
+		} else {
+			EObject referredObject = (EObject) sourceValue.eGet(reference);
+			if (referredObject != null) {
+				referredObjects = new ArrayList<EObject>();
+				referredObjects.add((EObject) sourceValue.eGet(reference));
 			}
 		}
-		return false;
+
+		if (targetDomain == null) {
+			if (referredObjects != null)
+				targetDomain = new ArrayList<EObject>(referredObjects);
+			return new DomainChange(targetDomain, null);
+		} else {
+			List<EObject> removedObjects = new ArrayList<EObject>(targetDomain);
+
+			targetDomain.retainAll(referredObjects);
+			removedObjects.removeAll(targetDomain);
+
+//			if (referredObjects != null) {
+//				for (Iterator<EObject> iterator = targetDomain.iterator(); iterator
+//						.hasNext();) {
+//					EObject domainObject = iterator.next();
+//					if (!referredObjects.contains(domainObject)) {
+//						removedObjects.add(domainObject);
+//						iterator.remove();
+//					}
+//				}
+//			}
+
+			return new DomainChange(targetDomain, removedObjects);
+		}
+	}
+
+	public Variable getTarget() {
+		return target;
 	}
 }

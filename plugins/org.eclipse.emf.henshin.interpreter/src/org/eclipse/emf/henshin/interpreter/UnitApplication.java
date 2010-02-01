@@ -8,7 +8,7 @@ import java.util.Random;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.CountedUnit;
@@ -48,33 +48,24 @@ public class UnitApplication {
 	}
 
 	public boolean execute() {
-		boolean success = false;
-
 		switch (transformationUnit.eClass().getClassifierID()) {
 		case HenshinPackage.SINGLE_UNIT:
-			executeSingleUnit();
-			break;
+			return executeSingleUnit();
 		case HenshinPackage.AMALGAMATED_UNIT:
-			executeAmalgamatedUnit();
-			break;
+			return executeAmalgamatedUnit();
 		case HenshinPackage.INDEPENDENT_UNIT:
-			executeIndependentUnit();
-			break;
+			return executeIndependentUnit();
 		case HenshinPackage.SEQUENTIAL_UNIT:
-			executeSequentialUnit();
-			break;
+			return executeSequentialUnit();
 		case HenshinPackage.CONDITIONAL_UNIT:
-			executeConditionalUnit();
-			break;
+			return executeConditionalUnit();
 		case HenshinPackage.PRIORITY_UNIT:
-			executePriorityUnit();
-			break;
+			return executePriorityUnit();
 		case HenshinPackage.COUNTED_UNIT:
-			executeCountedUnit();
-			break;
+			return executeCountedUnit();
 		}
 
-		return success;
+		return false;
 	}
 
 	public void undo() {
@@ -85,7 +76,7 @@ public class UnitApplication {
 		return new UnitApplication(engine, unit, portValues);
 	}
 
-	private void updatePortValues(RuleMatch comatch) {
+	private void updatePortValues(Match comatch) {
 		for (Port port : transformationUnit.getPorts()) {
 			if (port.getDirection() == PortKind.OUTPUT
 					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
@@ -164,7 +155,7 @@ public class UnitApplication {
 		SingleUnit singleUnit = (SingleUnit) transformationUnit;
 		Rule rule = singleUnit.getRule();
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
-		RuleMatch match = new RuleMatch(rule, createAssignments(),
+		Match match = new Match(rule, createAssignments(),
 				createPrematch());
 		ruleApplication.setMatch(match);
 		success = ruleApplication.apply();
@@ -259,6 +250,13 @@ public class UnitApplication {
 		}
 
 		return success;
+	}
+
+	/**
+	 * @return the transformationUnit
+	 */
+	public TransformationUnit getTransformationUnit() {
+		return transformationUnit;
 	}
 
 }

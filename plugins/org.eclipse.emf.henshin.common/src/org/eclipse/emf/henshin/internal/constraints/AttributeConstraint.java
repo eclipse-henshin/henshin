@@ -1,26 +1,32 @@
 package org.eclipse.emf.henshin.internal.constraints;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.henshin.internal.matching.Variable;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * This constraint checks whether an attribute has a specific value.
  */
-public class AttributeConstraint extends Constraint {
-	
+public class AttributeConstraint {
 	EAttribute attribute;
-	Object value;
-	
-	public AttributeConstraint(Variable creator, EAttribute attribute, Object value) {
-		super(creator, creator);
-		
+	Object attributeValue;
+
+	public AttributeConstraint(EAttribute attribute, Object value) {
 		this.attribute = attribute;
-		this.value = value;
+		this.attributeValue = value;
 	}
 
-	public boolean eval() {
-		evaluated = true;
-		return removeObjectsWithoutProperty(attribute, value);
+	public boolean check(EObject sourceValue) {
+		return sourceValue.eGet(attribute) == attributeValue;
 	}
 
+	public void reduceDomain(List<EObject> sourceDomain) {
+		for (Iterator<EObject> iterator = sourceDomain.iterator(); iterator.hasNext();) {
+			EObject domainObject = (EObject) iterator.next();
+			if (!attributeValue.equals(domainObject.eGet(attribute)))
+				iterator.remove();
+		}
+	}
 }

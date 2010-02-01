@@ -19,7 +19,7 @@ public class AttributeConditionHandler {
 	List<AttributeCondition> attributeConditions;
 
 	HashMap<String, Object> assignedParameters;
-	HashMap<String, ArrayList<AttributeCondition>> involvedConditions;
+	HashMap<String, List<AttributeCondition>> involvedConditions;
 
 	ScriptEngine engine;
 
@@ -28,7 +28,7 @@ public class AttributeConditionHandler {
 		this.parameterNames = parameterNames;
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
-		this.involvedConditions = new HashMap<String, ArrayList<AttributeCondition>>();
+		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
 		this.constants = new HashSet<String>();
 		this.engine = scriptEngine;
 
@@ -41,7 +41,7 @@ public class AttributeConditionHandler {
 		this.parameterNames = new ArrayList<String>();
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
-		this.involvedConditions = new HashMap<String, ArrayList<AttributeCondition>>();
+		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
 		this.constants = new HashSet<String>();
 
 		engine = scriptEngine;
@@ -64,7 +64,7 @@ public class AttributeConditionHandler {
 				conditionText, usedParameters);
 
 		for (String parameter : usedParameters) {
-			ArrayList<AttributeCondition> conditionList = involvedConditions
+			List<AttributeCondition> conditionList = involvedConditions
 					.get(parameter);
 			if (conditionList == null) {
 				conditionList = new ArrayList<AttributeCondition>();
@@ -105,7 +105,7 @@ public class AttributeConditionHandler {
 	}
 
 	private void increaseAssignCounter(String parameterName) {
-		ArrayList<AttributeCondition> conditions = involvedConditions
+		List<AttributeCondition> conditions = involvedConditions
 				.get(parameterName);
 		if (conditions != null) {
 			for (AttributeCondition condition : conditions) {
@@ -115,7 +115,7 @@ public class AttributeConditionHandler {
 	}
 
 	private void decreaseAssignCounter(String parameterName) {
-		ArrayList<AttributeCondition> conditions = involvedConditions
+		List<AttributeCondition> conditions = involvedConditions
 				.get(parameterName);
 		if (conditions != null) {
 			for (AttributeCondition condition : conditions) {

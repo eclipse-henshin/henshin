@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -52,10 +52,10 @@ public class AmalgamationWrapper {
 		this.subruleEmbedding = new HashMap<Rule, Map<Node, Node>>();
 	}
 
-	public RuleMatch getAmalgamatedRule() {
-		List<RuleMatch> kernelMatches = new ArrayList<RuleMatch>();
+	public Match getAmalgamatedRule() {
+		List<Match> kernelMatches = new ArrayList<Match>();
 		for (Rule kernelRule : kernelRules) {
-			RuleMatch kernelMatch = engine.findMatch(kernelRule);
+			Match kernelMatch = engine.findMatch(kernelRule);
 			if (kernelMatch != null) {
 				kernelMatches.add(kernelMatch);
 			} else {
@@ -63,12 +63,12 @@ public class AmalgamationWrapper {
 			}
 		}
 
-		ArrayList<RuleMatch> multiMatches = new ArrayList<RuleMatch>();
+		ArrayList<Match> multiMatches = new ArrayList<Match>();
 		for (Rule multiRule : multiRules) {
-			RuleWrapper wrapper = new RuleWrapper(multiRule, emfGraph,
-					scriptEngine);
-			wrapper.setMatchObjects(translateMapping(multiRule, kernelMatches));
-			multiMatches.addAll((wrapper.getAllMatches()));
+			RuleWrapper wrapper = new RuleWrapper(multiRule);
+			//TODO(enrico): fix this
+			//wrapper.setMatchObjects(translateMapping(multiRule, kernelMatches));
+			//multiMatches.addAll((wrapper.getAllMatches()));
 		}
 
 		kernelMatches.addAll(multiMatches);
@@ -77,11 +77,11 @@ public class AmalgamationWrapper {
 	}
 
 	private HashMap<Node, EObject> translateMapping(Rule multiRule,
-			List<RuleMatch> kernelMatches) {
+			List<Match> kernelMatches) {
 		HashMap<Node, EObject> myNodeMapping = new HashMap<Node, EObject>();
 		List<Mapping> interactionScheme = this.rule2mappings.get(multiRule);
 
-		for (RuleMatch kernelMatch : kernelMatches) {
+		for (Match kernelMatch : kernelMatches) {
 			Map<Node, EObject> kernelNodeMapping = kernelMatch.getNodeMapping();
 			List<Mapping> usedMappings = new ArrayList<Mapping>(
 					this.rule2mappings.get(kernelMatch.getRule()));
@@ -130,7 +130,7 @@ public class AmalgamationWrapper {
 		return result;
 	}
 
-	private RuleMatch createParallelRule(List<RuleMatch> matches) {
+	private Match createParallelRule(List<Match> matches) {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 
 		Rule parallelRule = factory.createRule();
@@ -139,7 +139,7 @@ public class AmalgamationWrapper {
 		
 		Map<Node, EObject> parallelNodeMapping = new HashMap<Node, EObject>();
 
-		for (RuleMatch match : matches) {
+		for (Match match : matches) {
 			Rule singleRule = match.getRule();
 			Map<Node, EObject> singleNodeMapping = match.getNodeMapping();
 			List<Mapping> involvedMappings = rule2mappings.get(singleRule);
@@ -253,7 +253,7 @@ public class AmalgamationWrapper {
 			}
 		}
 
-		return new RuleMatch(parallelRule, null, parallelNodeMapping);
+		return new Match(parallelRule, null, parallelNodeMapping);
 	}
 
 	/**
