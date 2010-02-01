@@ -43,8 +43,8 @@ public class StateSpaceToolsMenu extends Composite {
 	public static double[] ZOOM_LEVELS = {  .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, 
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
-	public static final double REPULSION_FACTOR = 2;
-	public static final double ATTRACTION_FACTOR = 0.05;
+	public static final double REPULSION_FACTOR = 1.5;
+	public static final double ATTRACTION_FACTOR = 0.03;
 	
 	public static final int NATURAL_LENGTH = 20;
 	
@@ -168,8 +168,8 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
 		
 		// Set basic properties:
-		layouter.setStateRepulsion((int) (repulsionScale.getSelection() * REPULSION_FACTOR));
-		layouter.setTransitionAttraction((int) (attractionScale.getSelection() * ATTRACTION_FACTOR));
+		layouter.setStateRepulsion(((double) repulsionScale.getSelection()) * REPULSION_FACTOR);
+		layouter.setTransitionAttraction(((double) attractionScale.getSelection()) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
 		
 		// Set the center:

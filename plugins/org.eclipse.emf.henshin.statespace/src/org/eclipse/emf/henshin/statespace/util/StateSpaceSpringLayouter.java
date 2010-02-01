@@ -10,8 +10,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  */
 public class StateSpaceSpringLayouter {
 	
-	private static final int MIN_CHANGE = 1;
-	
 	// State space to be layouted:
 	private StateSpace stateSpace;
 	
@@ -23,6 +21,7 @@ public class StateSpaceSpringLayouter {
 	private double repulsion = 50;
 	private double attraction = 10;
 	private double naturalLength = 50;
+	private double damping = 0.5;
 	
 	private int[] center;
 	
@@ -103,11 +102,11 @@ public class StateSpaceSpringLayouter {
 			}
 			
 			// Update the velocities:
-			velocitiesX[i] = netForce[0];
-			velocitiesY[i] = netForce[1];
+			velocitiesX[i] = netForce[0] * damping;
+			velocitiesY[i] = netForce[1] * damping;
 			
 			// Check if something changed:
-			changed = changed || Math.abs(velocitiesX[i])>MIN_CHANGE || Math.abs(velocitiesY[i])>MIN_CHANGE;
+			changed = changed || Math.abs(velocitiesX[i])>0 || Math.abs(velocitiesY[i])>0;
 			
 		}
 		
@@ -195,7 +194,7 @@ public class StateSpaceSpringLayouter {
 	 * Set the state repulsion force.
 	 * @param repulsion State repulsion.
 	 */
-	public void setStateRepulsion(int repulsion) {
+	public void setStateRepulsion(double repulsion) {
 		this.repulsion  = repulsion;
 	}
 	
@@ -203,7 +202,7 @@ public class StateSpaceSpringLayouter {
 	 * Set the transition attraction force.
 	 * @param attraction Attraction force.
 	 */
-	public void setTransitionAttraction(int attraction) {
+	public void setTransitionAttraction(double attraction) {
 		this.attraction = attraction;
 	}
 	
@@ -213,6 +212,10 @@ public class StateSpaceSpringLayouter {
 	 */
 	public void setNaturalTransitionLength(int naturalLength) {
 		this.naturalLength = naturalLength;
+	}
+	
+	public void setDamping(double damping) {
+		this.damping = damping;
 	}
 	
 	public void setCenter(int[] center) {
