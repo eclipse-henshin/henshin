@@ -78,20 +78,15 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public int[] getLocation() {
-		//return getData(2, 4);
-		return new int[] {x,y};
+		return getData(2, 4);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setLocation(int... newLocation) {
-		x=newLocation[0];
-		y=newLocation[1];
 		setData(2, newLocation);
 	}
-	
-	private int x,y;
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
