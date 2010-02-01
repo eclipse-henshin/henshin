@@ -73,7 +73,7 @@
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate"/>
       </nodes>
       <edges xmi:id="_NvAC5QxFEd-NSqR1D2XGHA" source="_NvAC5AxFEd-NSqR1D2XGHA" target="_NvAC4wxFEd-NSqR1D2XGHA">
-        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate/left"/>
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate/right"/>
       </edges>
       <edges xmi:id="_NvAC5gxFEd-NSqR1D2XGHA" source="_NvAC4gxFEd-NSqR1D2XGHA" target="_NvAC5AxFEd-NSqR1D2XGHA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher/plate"/>
@@ -99,7 +99,7 @@
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Table"/>
       </nodes>
       <edges xmi:id="_NvAC7gxFEd-NSqR1D2XGHA" source="_NvAC7AxFEd-NSqR1D2XGHA" target="_NvAC6wxFEd-NSqR1D2XGHA">
-        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate/left"/>
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate/right"/>
       </edges>
       <edges xmi:id="_NvAC7wxFEd-NSqR1D2XGHA" source="_NvAC6gxFEd-NSqR1D2XGHA" target="_NvAC6wxFEd-NSqR1D2XGHA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher/right"/>
