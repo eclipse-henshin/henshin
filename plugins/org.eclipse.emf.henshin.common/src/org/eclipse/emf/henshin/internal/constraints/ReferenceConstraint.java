@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.internal.constraints;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -53,29 +52,21 @@ public class ReferenceConstraint {
 			}
 		}
 
-		if (targetDomain == null) {
-			if (referredObjects != null)
+		if (referredObjects != null) {
+			if (targetDomain == null) {
 				targetDomain = new ArrayList<EObject>(referredObjects);
-			return new DomainChange(targetDomain, null);
-		} else {
-			List<EObject> removedObjects = new ArrayList<EObject>(targetDomain);
+				return new DomainChange(targetDomain, null);
+			} else {
+				List<EObject> removedObjects = new ArrayList<EObject>(
+						targetDomain);
 
-			targetDomain.retainAll(referredObjects);
-			removedObjects.removeAll(targetDomain);
+				targetDomain.retainAll(referredObjects);
+				removedObjects.removeAll(targetDomain);
 
-//			if (referredObjects != null) {
-//				for (Iterator<EObject> iterator = targetDomain.iterator(); iterator
-//						.hasNext();) {
-//					EObject domainObject = iterator.next();
-//					if (!referredObjects.contains(domainObject)) {
-//						removedObjects.add(domainObject);
-//						iterator.remove();
-//					}
-//				}
-//			}
-
-			return new DomainChange(targetDomain, removedObjects);
-		}
+				return new DomainChange(targetDomain, removedObjects);
+			}
+		} else 
+			return new DomainChange(null, null);
 	}
 
 	public Variable getTarget() {
