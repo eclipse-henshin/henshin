@@ -46,16 +46,14 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 	 * @generated NOT
 	 */
 	public int[] getData(int beginIndex, int endIndex) {
-		if (data==null) {
-			return new int[endIndex-beginIndex];
-		} else {
-			int[] result = new int[endIndex-beginIndex];
+		int[] result = new int[endIndex-beginIndex];
+		if (data!=null) {
 			int end = Math.min(endIndex, data.length);
 			for (int i=beginIndex; i<end; i++) {
 				result[i-beginIndex] = data[i];
 			}
-			return result;	
 		}
+		return result;	
 	}
 
 	/**
