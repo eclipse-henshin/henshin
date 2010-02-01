@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.util.RuleMatch;
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -60,7 +60,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		Resource model = getModel(state);
 		
 		// Find all matches:
-		Map<Rule,List<RuleMatch>> matches = new HashMap<Rule,List<RuleMatch>>();
+		Map<Rule,List<Match>> matches = new HashMap<Rule,List<Match>>();
 		for (Rule rule : getStateSpace().getRules()) {
 			RuleApplication application = new RuleApplication(createEngine(model), rule);
 			matches.put(rule, application.findAllMatches());
@@ -160,13 +160,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 			}
 			
 			RuleApplication application = new RuleApplication(createEngine(model), rule);
-			List<RuleMatch> matches = application.findAllMatches();
+			List<Match> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
 			}
 			
 			// Apply the rule with the found match:
-			RuleMatch match = matches.get(transition.getMatch());
+			Match match = matches.get(transition.getMatch());
 			application.setMatch(match);
 			application.apply();
 			
@@ -193,12 +193,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		for (Rule rule : getStateSpace().getRules()) {
 			
 			RuleApplication application = new RuleApplication(createEngine(model), rule);
-			List<RuleMatch> matches = application.findAllMatches();
+			List<Match> matches = application.findAllMatches();
 			
 			for (int i=0; i<matches.size(); i++) {
 				
 				// Transform the model:
-				RuleMatch match = matches.get(i);
+				Match match = matches.get(i);
 				Resource transformed = copyModel(model, match);
 				application = new RuleApplication(createEngine(transformed), rule);
 				application.setMatch(match);
@@ -266,7 +266,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 	/*
 	 * Copy a state model.
 	 */
-	private Resource copyModel(Resource model, RuleMatch match) {
+	private Resource copyModel(Resource model, Match match) {
 		Resource copy = new ResourceImpl();
 		Copier copier = new Copier();
 		copy.getContents().addAll(copier.copyAll(model.getContents()));
