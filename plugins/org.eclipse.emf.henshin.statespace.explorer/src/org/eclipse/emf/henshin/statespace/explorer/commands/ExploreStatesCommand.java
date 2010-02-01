@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	 */
 	public ExploreStatesCommand(StateSpaceManager manager, List<State> states) {
 		super("explore states", manager);
-		this.states = states;
+		this.states = new ArrayList<State>(states);
 	}
 
 	/*
