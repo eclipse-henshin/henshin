@@ -43,8 +43,8 @@ public class StateSpaceToolsMenu extends Composite {
 	public static double[] ZOOM_LEVELS = {  .1, .15, .2, .25, .3, .35, .4, .45, .5, .55, 
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
-	public static final double REPULSION_FACTOR = 1.5;
-	public static final double ATTRACTION_FACTOR = 0.03;
+	public static final double REPULSION_FACTOR = 2;
+	public static final double ATTRACTION_FACTOR = 0.02;
 	
 	public static final int NATURAL_LENGTH = 20;
 	
@@ -138,7 +138,7 @@ public class StateSpaceToolsMenu extends Composite {
 		ecoreButton.setText("Ecore");
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
-		delayScale = StateSpaceToolsMenuFactory.newScale(explorer, "Delay:", 0, 1000, 50, 100, false, "ms");
+		delayScale = StateSpaceToolsMenuFactory.newScale(explorer, "Delay:", 1, 10, 1, 2, false, "s");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
 		
 		// The layouter group:
@@ -148,8 +148,8 @@ public class StateSpaceToolsMenu extends Composite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 10, 100, 5, 10, true, null);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 10, 100, 5, 10, true, null);
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 0, 100, 5, 10, true, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 0, 100, 5, 10, true, null);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, layouter, "Layouter", 3);
 		
 		setEnabled(false);
@@ -168,8 +168,8 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
 		
 		// Set basic properties:
-		layouter.setStateRepulsion(((double) repulsionScale.getSelection()) * REPULSION_FACTOR);
-		layouter.setTransitionAttraction(((double) attractionScale.getSelection()) * ATTRACTION_FACTOR);
+		layouter.setStateRepulsion(((double) repulsionScale.getSelection()+10) * REPULSION_FACTOR);
+		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
 		
 		// Set the center:
@@ -398,7 +398,7 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener delayListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
-			jobManager.getExploreJob().setDelay(delayScale.getSelection());
+			jobManager.getExploreJob().setDelay(delayScale.getSelection()*1000);
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);

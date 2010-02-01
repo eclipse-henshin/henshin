@@ -21,7 +21,7 @@ public class StateSpaceSpringLayouter {
 	private double repulsion = 50;
 	private double attraction = 10;
 	private double naturalLength = 50;
-	private double damping = 0.5;
+	private double damping = 1;
 	
 	private int[] center;
 	
