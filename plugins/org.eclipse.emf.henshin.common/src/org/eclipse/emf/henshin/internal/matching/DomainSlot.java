@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.internal.matching;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,48 +13,94 @@ import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.DomainChange;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.internal.constraints.TargetConstraint;
 import org.eclipse.emf.henshin.internal.constraints.TypeConstraint;
 
 public class DomainSlot {
 	Variable owner;
 	boolean locked;
+	boolean initialized;
 
 	EObject value;
 	List<EObject> domain;
+	List<EObject> localChanges;
 	Map<DomainSlot, List<EObject>> slotChanges;
+
 	Set<EObject> usedObjects;
 
 	public DomainSlot(Variable owner, Set<EObject> usedObjects) {
 		this.owner = owner;
 		this.locked = false;
-		
+		this.initialized = false;
+
 		if (usedObjects != null)
 			this.usedObjects = usedObjects;
 
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 	}
-	
+
 	public DomainSlot(EObject value) {
 		this.locked = true;
 		this.value = value;
+		this.localChanges = null;
 	}
 
-	public boolean instanciate() {
-		if (!locked && domain.size() == 0)
-			return false;
+	public boolean instanciate(Variable variable,
+			Map<Variable, DomainSlot> domainMap, EmfGraph graph,
+			AttributeConditionHandler conditionHandler) {
+		if (!initialized) {
+			if (domain != null)
+				localChanges = new ArrayList<EObject>(domain);
+			else
+				localChanges = null;
+			
+			initialized = true;
+			
+			if (!applyTypeConstraint(variable.getTypeConstraint(), graph))
+				return false;
 
-		if (!locked && domain.size() > 0) {
-			value = domain.get(domain.size() - 1);
-			domain.remove(value);
-			usedObjects.add(value);
+			for (AttributeConstraint constraint : variable
+					.getAttributeConstraints()) {
+				if (!applyAttributeConstraint(constraint))
+					return false;
+			}
+		}
+		
+		if (!locked) {
+			if (domain.size() == 0) {
+				return false;
+			} else {
+				value = domain.get(domain.size() - 1);
+				domain.remove(value);
+				usedObjects.add(value);
 
-			locked = true;
+				locked = true;
+			}
+			
+			for (ParameterConstraint constraint : variable
+					.getParameterConstraints()) {
+				if (!applyParameterConstraint(constraint, conditionHandler))
+					return false;
+			}
+
+//			for (TargetConstraint constraint : variable.getTargetConstraints()) {
+//				if (!applyTargetConstraint(constraint, domainMap.get(constraint
+//						.getSource())))
+//					return false;
+//			}
+
+			for (ReferenceConstraint constraint : variable
+					.getReferenceConstraints()) {
+				if (!applyReferenceConstraint(constraint, domainMap.get(constraint.getTarget())))
+					return false;
+			}
 		}
 
 		return true;
 	}
 
-	public boolean applyTypeConstraint(TypeConstraint constraint, EmfGraph graph) {
+	private boolean applyTypeConstraint(TypeConstraint constraint,
+			EmfGraph graph) {
 		if (locked) {
 			return constraint.check(value);
 		} else {
@@ -63,16 +110,16 @@ public class DomainSlot {
 		}
 	}
 
-	public boolean applyParameterConstraint(ParameterConstraint constraint,
+	private boolean applyParameterConstraint(ParameterConstraint constraint,
 			AttributeConditionHandler conditionHandler) {
 		if (locked) {
 			return constraint.check(value, conditionHandler);
 		}
-		
+
 		return false;
 	}
 
-	public boolean applyAttributeConstraint(AttributeConstraint constraint) {
+	private boolean applyAttributeConstraint(AttributeConstraint constraint) {
 		if (!locked) {
 			constraint.reduceDomain(domain);
 			return domain.size() > 0;
@@ -81,7 +128,7 @@ public class DomainSlot {
 		}
 	}
 
-	public boolean applyReferenceConstraint(ReferenceConstraint constraint,
+	private boolean applyReferenceConstraint(ReferenceConstraint constraint,
 			DomainSlot target) {
 		if (target.locked) {
 			return constraint.check(value, target.value);
@@ -89,11 +136,21 @@ public class DomainSlot {
 			DomainChange change = constraint.reduceTargetDomain(value,
 					target.domain);
 			target.domain = change.remainingObjects;
-			if (change.removedObjects != null)
-				slotChanges.put(target, change.removedObjects);
-			
+
+			// if (change.removedObjects != null)
+			slotChanges.put(target, change.removedObjects);
+
 			return target.domain != null && target.domain.size() > 0;
 		}
+	}
+
+	private boolean applyTargetConstraint(TargetConstraint constraint,
+			DomainSlot source) {
+		if (source.locked) {
+			return constraint.check(source.value, value);
+		}
+
+		return true;
 	}
 
 	public boolean unlock(Variable sender) {
@@ -102,8 +159,11 @@ public class DomainSlot {
 			usedObjects.remove(value);
 			for (DomainSlot slot : slotChanges.keySet()) {
 				List<EObject> removedObjects = slotChanges.get(slot);
-				if (slot.domain != null)
+
+				if (removedObjects != null) {
 					slot.domain.addAll(removedObjects);
+				} else
+					slot.domain = null;
 			}
 			slotChanges.clear();
 
@@ -118,7 +178,9 @@ public class DomainSlot {
 			locked = false;
 
 			value = null;
-			domain = null;
+			domain = localChanges;
+			localChanges = null;
+			initialized = false;
 
 			slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		}

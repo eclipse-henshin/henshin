@@ -40,10 +40,11 @@ public class ReferenceConstraint {
 		List<EObject> referredObjects = null;
 
 		if (sourceValue == null)
-			return new DomainChange(targetDomain, null);
+			return null;
 
 		if (reference.isMany()) {
-			referredObjects = (List<EObject>) sourceValue.eGet(reference);
+			if (sourceValue.eGet(reference) != null)
+				referredObjects = (List<EObject>) sourceValue.eGet(reference);
 		} else {
 			EObject referredObject = (EObject) sourceValue.eGet(reference);
 			if (referredObject != null) {
@@ -53,17 +54,16 @@ public class ReferenceConstraint {
 		}
 
 		if (referredObjects != null) {
-			if (targetDomain == null) {
-				targetDomain = new ArrayList<EObject>(referredObjects);
-				return new DomainChange(targetDomain, null);
-			} else {
+			if (targetDomain != null) {
 				List<EObject> removedObjects = new ArrayList<EObject>(
 						targetDomain);
-
 				targetDomain.retainAll(referredObjects);
 				removedObjects.removeAll(targetDomain);
 
 				return new DomainChange(targetDomain, removedObjects);
+			} else {
+				targetDomain = new ArrayList<EObject>(referredObjects);
+				return new DomainChange(targetDomain, null);
 			}
 		} else 
 			return new DomainChange(null, null);

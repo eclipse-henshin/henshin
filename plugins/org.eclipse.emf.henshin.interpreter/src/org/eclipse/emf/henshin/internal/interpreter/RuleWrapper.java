@@ -14,6 +14,7 @@ import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.internal.constraints.TargetConstraint;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -100,6 +101,13 @@ public class RuleWrapper {
 	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
 
+		for (Edge edge : node.getIncoming()) {
+			Variable sourceVariable = node2variable.get(edge.getSource());
+			TargetConstraint constraint = new TargetConstraint(
+					sourceVariable, edge.getType());
+			var.getTargetConstraints().add(constraint);
+		}
+		
 		for (Edge edge : node.getOutgoing()) {
 			Variable targetVariable = node2variable.get(edge.getTarget());
 			ReferenceConstraint constraint = new ReferenceConstraint(

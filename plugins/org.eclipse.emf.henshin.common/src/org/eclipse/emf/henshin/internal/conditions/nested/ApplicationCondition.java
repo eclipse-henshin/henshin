@@ -6,18 +6,14 @@ import java.util.Map;
 
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
-import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
-import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
 import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 
-
 public class ApplicationCondition implements IFormula {
 	protected boolean negated;
 	protected IFormula formula;
-	
+
 	protected EmfGraph graph;
 	protected AttributeConditionHandler conditionHandler;
 
@@ -26,13 +22,15 @@ public class ApplicationCondition implements IFormula {
 
 	protected List<Solution> solutions;
 
-	public ApplicationCondition(EmfGraph graph, Map<Variable, DomainSlot> domainMap, AttributeConditionHandler conditionHandler, boolean negated) {
+	public ApplicationCondition(EmfGraph graph,
+			Map<Variable, DomainSlot> domainMap,
+			AttributeConditionHandler conditionHandler, boolean negated) {
 		this.domainMap = domainMap;
 		this.conditionHandler = conditionHandler;
 		this.graph = graph;
 		this.negated = negated;
 	}
-	
+
 	public boolean findGraph() {
 		boolean matchIsPossible = false;
 
@@ -45,8 +43,7 @@ public class ApplicationCondition implements IFormula {
 				if (domainMap.get(var).unlock(var)) {
 					matchIsPossible = true;
 					break;
-				}
-				else {
+				} else {
 					domainMap.get(var).clear(var);
 				}
 			}
@@ -79,37 +76,8 @@ public class ApplicationCondition implements IFormula {
 		boolean validAssignment = false;
 
 		while (!validAssignment) {
-			validAssignment = slot.applyTypeConstraint(variable
-					.getTypeConstraint(), graph);
-
-			for (AttributeConstraint constraint : variable
-					.getAttributeConstraints()) {
-				if (validAssignment)
-					validAssignment = slot.applyAttributeConstraint(constraint);
-				else
-					break;
-			}
-
-			if (validAssignment)
-				validAssignment = slot.instanciate();
-
-			for (ParameterConstraint constraint : variable
-					.getParameterConstraints()) {
-				if (validAssignment)
-					validAssignment = slot.applyParameterConstraint(constraint,
-							conditionHandler);
-				else
-					break;
-			}
-
-			for (ReferenceConstraint constraint : variable
-					.getReferenceConstraints()) {
-				if (validAssignment)
-					validAssignment = slot.applyReferenceConstraint(constraint,
-							domainMap.get(constraint.getTarget()));
-				else
-					break;
-			}
+			validAssignment = slot.instanciate(variable, domainMap, graph,
+					conditionHandler);
 
 			if (validAssignment) {
 				validAssignment = findMatch(index + 1);
@@ -140,7 +108,7 @@ public class ApplicationCondition implements IFormula {
 			DomainSlot slot = domainMap.get(variable);
 			slot.clear(variable);
 		}
-	}	
+	}
 
 	/**
 	 * @return the formula
