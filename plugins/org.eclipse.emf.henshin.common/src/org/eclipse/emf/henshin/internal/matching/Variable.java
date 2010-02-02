@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
-import org.eclipse.emf.henshin.internal.constraints.TargetConstraint;
 import org.eclipse.emf.henshin.internal.constraints.TypeConstraint;
 
 public class Variable {// implements Comparable<Variable> {
@@ -15,7 +14,6 @@ public class Variable {// implements Comparable<Variable> {
 	private List<AttributeConstraint> attributeConstraints;
 	private List<ParameterConstraint> parameterConstraints;
 	private List<ReferenceConstraint> referenceConstraints;
-	private List<TargetConstraint> targetConstraints;
 
 	public Variable(EClass type) {
 		typeConstraint = new TypeConstraint(type);
@@ -23,7 +21,6 @@ public class Variable {// implements Comparable<Variable> {
 		attributeConstraints = new ArrayList<AttributeConstraint>();
 		parameterConstraints = new ArrayList<ParameterConstraint>();
 		referenceConstraints = new ArrayList<ReferenceConstraint>();
-		targetConstraints = new ArrayList<TargetConstraint>();
 	}
 
 	public TypeConstraint getTypeConstraint() {
@@ -40,9 +37,5 @@ public class Variable {// implements Comparable<Variable> {
 
 	public List<ReferenceConstraint> getReferenceConstraints() {
 		return referenceConstraints;
-	}
-
-	public List<TargetConstraint> getTargetConstraints() {
-		return targetConstraints;
 	}
 }
