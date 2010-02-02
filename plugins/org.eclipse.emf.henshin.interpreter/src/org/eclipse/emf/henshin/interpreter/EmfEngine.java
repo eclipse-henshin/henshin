@@ -66,7 +66,7 @@ public class EmfEngine implements InterpreterEngine {
 			Node node = wrapper.getVariable2node().get(var);
 			DomainSlot slot;
 			if (prematch.get(node) != null) {
-				slot = new DomainSlot(prematch.get(node));
+				slot = new DomainSlot(prematch.get(node), usedObjects);
 			} else {
 				slot = new DomainSlot(var, usedObjects);
 			}
