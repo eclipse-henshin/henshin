@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
+public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// Default memory usage: 10%
 	public static final double DEFAULT_MEMORY_USAGE = 1;
@@ -121,7 +121,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithIndex {
 		};
 		boolean found = search.depthFirst(state, true);
 		if (!found) {
-			throw new RuntimeException("Unable to derive state model for state " + state.getIndex());
+			throw new StateSpaceException("Unable to derive state model for state " + state.getIndex());
 		}
 		
 		// Derive the current model:

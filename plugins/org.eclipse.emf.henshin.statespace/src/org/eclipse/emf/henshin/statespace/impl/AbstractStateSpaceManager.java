@@ -15,12 +15,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -28,13 +27,10 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  * @author Christian Krause
  * @generated NOT
  */
-public abstract class AbstractStateSpaceManager implements StateSpaceManager {
+public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
 	// State space meta data feature. This is ignored when changed from outside.
 	private static final EAttribute METADATA_FEATURE = StateSpacePackage.eINSTANCE.getStorage_Data(); 
-	
-	// State space:
-	private StateSpace stateSpace;
 	
 	// Tainted flag;
 	private boolean tainted;
@@ -56,10 +52,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 * @param stateSpace State space.
 	 */
 	public AbstractStateSpaceManager(StateSpace stateSpace) {
-		if (stateSpace==null) {
-			throw new IllegalArgumentException();
-		}	
-		this.stateSpace = stateSpace;
+		super(stateSpace);
 		this.tainted = false;
 		stateSpace.eAdapters().add(adapter);
 	}
@@ -71,16 +64,16 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 	 */
 	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
 		
-		monitor.beginTask("Load state space", stateSpace.getStates().size() + 2);
+		monitor.beginTask("Load state space", getStateSpace().getStates().size() + 2);
 		
 		try {
 			
-			// Reset the state registry:
-			resetRegistry();			
+			// Reset the state index:
+			resetIndex();
 			monitor.worked(1);
 
 			// Reset all derived state models:
-			for (State state : stateSpace.getStates()) {
+			for (State state : getStateSpace().getStates()) {
 				if (!state.isInitial()) {
 					state.setModel(null);
 				}
@@ -89,12 +82,12 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			
 			// Clear transition count, open and initial states.
 			int transitionCount = 0;
-			stateSpace.setTransitionCount(0);
-			stateSpace.getOpenStates().clear();
-			stateSpace.getInitialStates().clear();
+			getStateSpace().setTransitionCount(0);
+			getStateSpace().getOpenStates().clear();
+			getStateSpace().getInitialStates().clear();
 			
 			// Compute state models, update the hash code and the index:
-			for (State state : stateSpace.getStates()) {
+			for (State state : getStateSpace().getStates()) {
 				
 				// Compute the model and its hash:
 				Resource model = getModel(state);
@@ -114,11 +107,11 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 				
 				// Is the state initial?
 				if (state.isInitial()) {
-					stateSpace.getInitialStates().add(state);
+					getStateSpace().getInitialStates().add(state);
 				}
 				
-				// Register the state:
-				registerState(state);
+				// Add to index:
+				addToIndex(state);
 				
 				// Update the transition count:
 				transitionCount += state.getOutgoing().size();
@@ -129,7 +122,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			// Update the transition count:
 			synchronized (this) {
 				change = true;
-				stateSpace.setTransitionCount(transitionCount);
+				getStateSpace().setTransitionCount(transitionCount);
 				change = false;
 			}
 			
@@ -141,22 +134,6 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		}
 		
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource)
-	 */
-	public final State getState(Resource model) throws StateSpaceException {
-		return getState(model, hashCode(model));
-	}
-
-	/**
-	 * Get the state for a given model and its hash code.
-	 * @param model State model.
-	 * @param hash Its hash code.
-	 * @return The corresponding state if it exists.
-	 */
-	protected abstract State getState(Resource model, int hash) throws StateSpaceException;
 	
 	/**
 	 * Decide whether a state is open.
@@ -208,8 +185,8 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			change = false;
 		}
 		
-		// Register the state:
-		registerState(state);
+		// Add the state to the index:
+		addToIndex(state);
 		return state;
 
 	}
@@ -234,7 +211,7 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		// Otherwise create a new state:
 		State initial = createOpenState(model, hash);
-		stateSpace.getInitialStates().add(initial);
+		getStateSpace().getInitialStates().add(initial);
 		return initial;
 		
 	}
@@ -250,24 +227,24 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		
 		// List of removed states:
 		List<State> removed = new ArrayList<State>();
-			
+		
 		// Remove state and all unreachable states:
 		synchronized (this) {
 			change = true;
 			
 			// Remove the state and all reachable states:
-			if (stateSpace.removeState(state)) {
-				removed.addAll(StateSpaceSearch.removeUnreachableStates(stateSpace));
+			if (getStateSpace().removeState(state)) {
+				removed.addAll(StateSpaceSearch.removeUnreachableStates(getStateSpace()));
 				removed.add(state);
 			}
 			
 			// Update list of open states:
-			stateSpace.getOpenStates().removeAll(removed);
+			getStateSpace().getOpenStates().removeAll(removed);
 			
 			// Unregister states and adjust the transition count:
 			Set<Transition> transitions = new HashSet<Transition>();
 			for (State current : removed) {
-				unregisterState(current);
+				removeFromIndex(current);
 				transitions.addAll(current.getOutgoing());
 				transitions.addAll(current.getIncoming());
 				// Mark predecessor states as open:
@@ -277,8 +254,8 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 			}
 			
 			// Update transition count:
-			int number = stateSpace.getTransitionCount() - transitions.size();
-			stateSpace.setTransitionCount(number);
+			int number = getStateSpace().getTransitionCount() - transitions.size();
+			getStateSpace().setTransitionCount(number);
 			
 			change = false;
 		}
@@ -297,8 +274,8 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		// Remove derived states and all transitions:
 		synchronized (this) {
 			change = true;
-			List<State> states = stateSpace.getStates();			
-			List<State> open = stateSpace.getOpenStates();			
+			List<State> states = getStateSpace().getStates();			
+			List<State> open = getStateSpace().getOpenStates();			
 			for (int i=0; i<states.size(); i++) {
 				State state = states.get(i);
 				if (state.isInitial()) {
@@ -341,58 +318,10 @@ public abstract class AbstractStateSpaceManager implements StateSpaceManager {
 		synchronized (this) {
 			change = true;
 			state.getOutgoing().add(transition);
-			stateSpace.setTransitionCount(stateSpace.getTransitionCount()+1);
+			getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
 			change = false;
 		}
 		return transition;
-	}
-		
-	/**
-	 * Register an existing state in an index so that it
-	 * can be found efficiently.
-	 * @param state State to be registered.
-	 */
-	protected void registerState(State state) {
-		// Do nothing by default.
-	}
-		
-	/**
-	 * Remove a state from the registry again.
-	 * @param state State to be unregistered.
-	 */
-	protected void unregisterState(State state) {
-		// Do nothing by default.
-	}
-	
-	/**
-	 * Reset the state registry.
-	 */
-	protected void resetRegistry() {
-		// Do nothing by default.
-	}
-	
-	/*
-	 * Compute the hash code of a state model.
-	 * This delegates to HenshinEqualityUtil#hashCode
-	 */
-	protected int hashCode(Resource model) {
-		return StateSpaceEqualityUtil.hashCode(model, stateSpace.isUseGraphEquality());
-	}
-	
-	/*
-	 * Check if two state models are equal.
-	 * This delegates to HenshinEqualityUtil#equals
-	 */
-	protected boolean equals(Resource model1, Resource model2) {
-		return StateSpaceEqualityUtil.equals(model1, model2, stateSpace.isUseGraphEquality());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getStateSpace()
-	 */
-	public StateSpace getStateSpace() {
-		return stateSpace;
 	}
 	
 	/*
