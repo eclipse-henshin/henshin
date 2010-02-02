@@ -44,7 +44,7 @@ public class RuleInfo {
 		}
 
 		for (Edge edge : rule.getLhs().getEdges()) {
-			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
+			if (!ModelHelper.isEdgeMapped(ModelHelper.getRuleMappings(rule), edge)) {
 				deletedEdges.add(edge);
 			}
 		}
