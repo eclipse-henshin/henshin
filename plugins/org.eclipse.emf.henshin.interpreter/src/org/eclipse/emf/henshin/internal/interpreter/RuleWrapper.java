@@ -34,6 +34,8 @@ public class RuleWrapper {
 
 	private Map<Graph, List<Variable>> graph2variables;
 	private Map<Variable, Variable> variable2mainVariable;
+	
+	private List<Variable> mainVariables;
 
 	public RuleWrapper(Rule rule) {
 		this.rule = rule;
@@ -43,12 +45,18 @@ public class RuleWrapper {
 		this.graph2variables = new HashMap<Graph, List<Variable>>();
 		this.variable2mainVariable = new HashMap<Variable, Variable>();
 
-		createVariables(rule.getLhs(), null);
+		createVariables(rule.getLhs());
 		translateFormula(rule.getLhs().getFormula());
+		
+		createVariableDependencies(rule.getMappings());
+		createVariableDependencies(rule.getLhs().getFormula());
+		
+		mainVariables = new ArrayList<Variable>(variable2node.keySet());
+		mainVariables.removeAll(variable2mainVariable.keySet());
 	}
 
 	private void translateNestedCondition(NestedCondition condition) {
-		createVariables(condition.getConclusion(), condition.getMappings());
+		createVariables(condition.getConclusion());
 		translateFormula(condition.getConclusion().getFormula());
 	}
 
@@ -63,7 +71,7 @@ public class RuleWrapper {
 		}
 	}
 
-	private void createVariables(Graph g, List<Mapping> mappings) {
+	private void createVariables(Graph g) {
 		List<Variable> variables = new ArrayList<Variable>();
 
 		for (Node node : g.getNodes()) {
@@ -75,26 +83,40 @@ public class RuleWrapper {
 		}
 
 		for (Node node : g.getNodes()) {
-			Variable var = node2variable.get(node);
-
-			boolean isMinor = false;
 			createConstraints(node);
-			if (mappings != null) {
-				for (Mapping mapping : mappings) {
-					if (mapping.getImage() == node) {
-						Variable mainVariable = node2variable.get(mapping
-								.getOrigin());
-						variable2mainVariable.put(var, mainVariable);
-						isMinor = true;
-					}
-				}
-			}
-			if (!isMinor) {
-				variable2mainVariable.put(var, var);
+		}
+		
+		graph2variables.put(g, variables);
+	}
+	
+	private Variable getMainVariable(Variable var) {
+		Variable predecessor = variable2mainVariable.get(var); 
+		
+		return (predecessor == null) ? var : getMainVariable(predecessor);
+	}
+	
+	private void createVariableDependencies(List<Mapping> mappings) {
+		if (mappings != null) {
+			for (Mapping mapping : mappings) {
+				Variable sourceVar = node2variable.get(mapping.getOrigin());
+				Variable targetVar = node2variable.get(mapping.getImage());
+				
+				variable2mainVariable.put(targetVar, getMainVariable(sourceVar));
 			}
 		}
-
-		graph2variables.put(g, variables);
+	}
+	
+	private void createVariableDependencies(Formula formula) {
+		if (formula instanceof BinaryFormula) {
+			createVariableDependencies(((BinaryFormula) formula).getLeft());
+			createVariableDependencies(((BinaryFormula) formula).getRight());
+		} else if (formula instanceof UnaryFormula)
+			createVariableDependencies(((UnaryFormula) formula).getChild());
+		else if (formula instanceof NestedCondition) {
+			NestedCondition nc = (NestedCondition) formula;
+			createVariableDependencies(nc.getMappings());
+			createVariableDependencies(nc.getConclusion().getFormula());
+		}
 	}
 
 	private void createConstraints(Node node) {
@@ -148,5 +170,9 @@ public class RuleWrapper {
 
 	public Map<Variable, Node> getVariable2node() {
 		return variable2node;
+	}
+
+	public List<Variable> getMainVariables() {
+		return mainVariables;
 	}
 }

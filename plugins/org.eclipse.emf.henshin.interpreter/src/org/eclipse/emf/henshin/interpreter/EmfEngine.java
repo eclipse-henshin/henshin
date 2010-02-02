@@ -54,23 +54,20 @@ public class EmfEngine implements InterpreterEngine {
 		rule2ruleInfo = new HashMap<Rule, RuleInfo>();
 	}
 
-	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper, Map<Node, EObject> prematch) {
+	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper,
+			Map<Node, EObject> prematch) {
 		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
 		Map<Variable, Variable> mainVariableMap = wrapper
 				.getVariable2mainVariable();
-		Set<Variable> mainVariables = new HashSet<Variable>(mainVariableMap
-				.values());
 		Set<EObject> usedObjects = new HashSet<EObject>();
 
-		for (Variable var : mainVariables) {
+		for (Variable var : wrapper.getMainVariables()) {
 			Node node = wrapper.getVariable2node().get(var);
-			DomainSlot slot;
-			if (prematch.get(node) != null) {
-				slot = new DomainSlot(prematch.get(node), usedObjects);
-			} else {
-				slot = new DomainSlot(var, usedObjects);
-			}
-			
+
+			DomainSlot slot = (prematch.get(node) != null) ? new DomainSlot(
+					prematch.get(node), usedObjects) : new DomainSlot(var,
+					usedObjects);
+
 			domainMap.put(var, slot);
 		}
 
@@ -95,8 +92,9 @@ public class EmfEngine implements InterpreterEngine {
 		AttributeConditionHandler handler = new AttributeConditionHandler(rule,
 				scriptEngine);
 		if (assignments != null) {
-			for (String parameterName: assignments.keySet()) {
-				handler.setParameter(parameterName, assignments.get(parameterName));
+			for (String parameterName : assignments.keySet()) {
+				handler.setParameter(parameterName, assignments
+						.get(parameterName));
 			}
 		}
 
