@@ -33,18 +33,18 @@ public class DomainSlot {
 		this.locked = false;
 		this.initialized = false;
 
-		if (usedObjects != null)
-			this.usedObjects = usedObjects;
-
+		this.usedObjects = usedObjects;
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.checkedVariables = new ArrayList<Variable>();
 	}
 
-	public DomainSlot(EObject value) {
-		this.locked = true;
+	public DomainSlot(EObject value, Set<EObject> usedObjects) {
 		this.initialized = true;
+		this.locked = true;
 		this.value = value;
-		this.localChanges = null;
+		
+		this.usedObjects = usedObjects;
+		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.checkedVariables = new ArrayList<Variable>();
 	}
 
@@ -58,7 +58,7 @@ public class DomainSlot {
 					: null;
 
 			domain = variable.getTypeConstraint().reduceDomain(domain, graph);
-			domain.remove(usedObjects);
+			domain.removeAll(usedObjects);
 			if (domain.size() == 0)
 				return false;
 
@@ -137,8 +137,6 @@ public class DomainSlot {
 			DomainChange change = constraint.reduceTargetDomain(value,
 					target.domain);
 			target.domain = change.remainingObjects;
-
-			// if (change.removedObjects != null)
 			slotChanges.put(target, change.removedObjects);
 
 			return target.domain != null && target.domain.size() > 0;

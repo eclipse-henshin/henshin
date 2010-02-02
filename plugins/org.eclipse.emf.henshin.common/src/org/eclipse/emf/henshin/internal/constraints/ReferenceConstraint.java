@@ -22,9 +22,6 @@ public class ReferenceConstraint {
 
 	@SuppressWarnings("unchecked")
 	public boolean check(EObject sourceValue, EObject targetValue) {
-		if (sourceValue == null)
-			return false;
-
 		if (reference.isMany()) {
 			List<EObject> referedObjects = (List<EObject>) sourceValue
 					.eGet(reference);
@@ -39,15 +36,10 @@ public class ReferenceConstraint {
 			List<EObject> targetDomain) {
 		List<EObject> referredObjects = null;
 
-		if (sourceValue == null)
-			return null;
-
-		if (reference.isMany()) {
-			if (sourceValue.eGet(reference) != null)
+		if (sourceValue.eGet(reference) != null) {
+			if (reference.isMany()) {
 				referredObjects = (List<EObject>) sourceValue.eGet(reference);
-		} else {
-			EObject referredObject = (EObject) sourceValue.eGet(reference);
-			if (referredObject != null) {
+			} else {
 				referredObjects = new ArrayList<EObject>();
 				referredObjects.add((EObject) sourceValue.eGet(reference));
 			}
@@ -65,8 +57,9 @@ public class ReferenceConstraint {
 				targetDomain = new ArrayList<EObject>(referredObjects);
 				return new DomainChange(targetDomain, null);
 			}
-		} else 
-			return new DomainChange(null, null);
+		}
+		
+		return new DomainChange(null, null);
 	}
 
 	public Variable getTarget() {
