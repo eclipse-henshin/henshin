@@ -118,8 +118,13 @@ public class RuleApplication {
 			Object value = interpreterEngine.evalExpression(match
 					.getParameterMapping(), attribute.getValue());
 
+			//workaround for Double conversion
+			String valueString = value.toString();
+			if (valueString.endsWith(".0"))
+				valueString = valueString.substring(0, valueString.length() - 2);
+			
 			value = EcoreUtil.createFromString(attribute.getType()
-					.getEAttributeType(), value.toString());
+					.getEAttributeType(), valueString);
 
 			modelChange.addObjectChange(targetObject, attribute.getType(),
 					value);
