@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
@@ -41,6 +41,7 @@ public class UnitApplication {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.portValues = new HashMap<String, Object>();
+		this.oldPortValues = new HashMap<String, Object>(portValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -51,6 +52,7 @@ public class UnitApplication {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.portValues = portValues;
+		this.oldPortValues = new HashMap<String, Object>(portValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -80,7 +82,7 @@ public class UnitApplication {
 		while (!appliedRules.isEmpty())
 			appliedRules.pop().undo();
 
-		restorePortValues();
+		portValues = oldPortValues;
 	}
 
 	private UnitApplication createApplicationFor(TransformationUnit unit) {
@@ -88,8 +90,6 @@ public class UnitApplication {
 	}
 
 	private void updatePortValues(Match comatch) {
-		oldPortValues = new HashMap<String, Object>(portValues);
-
 		for (Port port : transformationUnit.getPorts()) {
 			if (port.getDirection() == PortKind.OUTPUT
 					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
@@ -105,42 +105,6 @@ public class UnitApplication {
 				}
 			}
 		}
-	}
-
-	private void restorePortValues() {
-		portValues = oldPortValues;
-	}
-
-	private Map<String, Object> createAssignments() {
-		Map<String, Object> assignments = new HashMap<String, Object>();
-		for (Port port : transformationUnit.getPorts()) {
-			if (port.getDirection() == PortKind.INPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
-
-				if (port instanceof PortParameter) {
-					Variable var = ((PortParameter) port).getVariable();
-					assignments.put(var.getName(), portValues.get(port
-							.getName()));
-				}
-			}
-		}
-		return assignments;
-	}
-
-	private Map<Node, EObject> createPrematch() {
-		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
-		for (Port port : transformationUnit.getPorts()) {
-			if (port.getDirection() == PortKind.INPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
-
-				if (port instanceof PortObject) {
-					Node node = ((PortObject) port).getNode();
-					prematch
-							.put(node, (EObject) portValues.get(port.getName()));
-				}
-			}
-		}
-		return prematch;
 	}
 
 	private boolean executeIndependentUnit() {
@@ -167,30 +131,36 @@ public class UnitApplication {
 	}
 
 	private boolean executeSingleUnit() {
-		boolean success = false;
-
 		SingleUnit singleUnit = (SingleUnit) transformationUnit;
 		Rule rule = singleUnit.getRule();
+
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
-		Match match = new Match(rule, createAssignments(), createPrematch());
+		Match match = new Match(rule, ModelHelper.createAssignments(
+				transformationUnit, portValues), ModelHelper.createPrematch(
+				transformationUnit, portValues));
 		ruleApplication.setMatch(match);
-		success = ruleApplication.apply();
-		if (success) {
+		if (ruleApplication.apply()) {
 			updatePortValues(ruleApplication.getComatch());
 			appliedRules.push(ruleApplication);
+			return true;
+		} else {
+			return false;
 		}
-
-		return success;
 	}
 
-	// TODO: save rule application for amalgamated unit
 	private boolean executeAmalgamatedUnit() {
-		boolean success = false;
-
 		AmalgamatedUnit amalUnit = (AmalgamatedUnit) transformationUnit;
-		success = engine.executeAmalgamatedUnit(amalUnit);
+		RuleApplication amalgamatedRule = engine.generateAmalgamatedRule(
+				amalUnit, portValues);
 
-		return success;
+		if (amalgamatedRule != null) {
+			amalgamatedRule.apply();
+			updatePortValues(amalgamatedRule.getComatch());
+			appliedRules.push(amalgamatedRule);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private boolean executeSequentialUnit() {

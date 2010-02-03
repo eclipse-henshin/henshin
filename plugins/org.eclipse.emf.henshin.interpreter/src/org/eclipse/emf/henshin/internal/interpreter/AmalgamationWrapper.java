@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.script.ScriptEngine;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.Edge;
@@ -25,37 +24,37 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Variable;
 
 public class AmalgamationWrapper {
+	private AmalgamatedUnit amalgamatedUnit;
+	private Map<String, Object> portValues;
+
 	private List<Rule> kernelRules;
 	private List<Rule> multiRules;
+	private Map<Rule, Map<Node, Node>> subruleEmbedding;
 	private Map<Rule, List<Mapping>> rule2mappings;
-
-	EmfGraph emfGraph;
-	ScriptEngine scriptEngine;
-
-	Map<Rule, Map<Node, Node>> subruleEmbedding;
-
-	EmfEngine engine;
+	private InterpreterEngine engine;
 
 	public AmalgamationWrapper(EmfEngine engine,
-			AmalgamatedUnit amalgamatedUnit, EmfGraph emfGraph,
-			ScriptEngine scriptEngine) {
+			AmalgamatedUnit amalgamatedUnit, Map<String, Object> portValues) {
+		this.amalgamatedUnit = amalgamatedUnit;
+		this.portValues = portValues;
+
 		kernelRules = new ArrayList<Rule>();
 		kernelRules.add(amalgamatedUnit.getKernelRule());
 		multiRules = amalgamatedUnit.getMultiRules();
+
+		this.engine = engine;
 		this.rule2mappings = sortInteractionScheme(amalgamatedUnit
 				.getLhsMappings(), amalgamatedUnit.getRhsMappings());
-		this.engine = engine;
-		this.scriptEngine = scriptEngine;
-
-		this.emfGraph = emfGraph;
-
 		this.subruleEmbedding = new HashMap<Rule, Map<Node, Node>>();
 	}
 
-	public Match getAmalgamatedRule() {
+	public RuleApplication getAmalgamatedRule() {
 		List<Match> kernelMatches = new ArrayList<Match>();
+
 		for (Rule kernelRule : kernelRules) {
-			Match kernelMatch = engine.findMatch(kernelRule);
+			Match kernelMatch = engine.findMatch(kernelRule, ModelHelper
+					.createPrematch(amalgamatedUnit, portValues), ModelHelper
+					.createAssignments(amalgamatedUnit, portValues));
 			if (kernelMatch != null) {
 				kernelMatches.add(kernelMatch);
 			} else {
@@ -63,12 +62,26 @@ public class AmalgamationWrapper {
 			}
 		}
 
-		ArrayList<Match> multiMatches = new ArrayList<Match>();
+		List<Match> multiMatches = new ArrayList<Match>();
 		for (Rule multiRule : multiRules) {
-			RuleWrapper wrapper = new RuleWrapper(multiRule);
-			//TODO(enrico): fix this
-			//wrapper.setMatchObjects(translateMapping(multiRule, kernelMatches));
-			//multiMatches.addAll((wrapper.getAllMatches()));
+			RuleApplication ruleApplication = new RuleApplication(engine,
+					multiRule);
+
+			Map<Node, EObject> mappings = translateMapping(multiRule,
+					kernelMatches);
+			for (Node node : mappings.keySet()) {
+				ruleApplication.addMatch(node, mappings.get(node));
+			}
+			
+			Map<Node, EObject> portMappings = ModelHelper.createPrematch(amalgamatedUnit, portValues);
+			for (Node node : portMappings.keySet()) {
+				ruleApplication.addMatch(node, portMappings.get(node));
+			}
+
+			ruleApplication.addAssignments(ModelHelper.createAssignments(
+					amalgamatedUnit, portValues));
+
+			multiMatches.addAll(ruleApplication.findAllMatches());
 		}
 
 		kernelMatches.addAll(multiMatches);
@@ -76,7 +89,7 @@ public class AmalgamationWrapper {
 		return createParallelRule(kernelMatches);
 	}
 
-	private HashMap<Node, EObject> translateMapping(Rule multiRule,
+	private Map<Node, EObject> translateMapping(Rule multiRule,
 			List<Match> kernelMatches) {
 		HashMap<Node, EObject> myNodeMapping = new HashMap<Node, EObject>();
 		List<Mapping> interactionScheme = this.rule2mappings.get(multiRule);
@@ -130,13 +143,13 @@ public class AmalgamationWrapper {
 		return result;
 	}
 
-	private Match createParallelRule(List<Match> matches) {
+	private RuleApplication createParallelRule(List<Match> matches) {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 
 		Rule parallelRule = factory.createRule();
 		Graph parallelLhs = parallelRule.getLhs();
 		Graph parallelRhs = parallelRule.getRhs();
-		
+
 		Map<Node, EObject> parallelNodeMapping = new HashMap<Node, EObject>();
 
 		for (Match match : matches) {
@@ -248,12 +261,20 @@ public class AmalgamationWrapper {
 			for (Variable variable : singleRule.getVariables()) {
 				Variable parallelVariable = (Variable) EcoreUtil.copy(variable);
 				parallelVariable.setRule(parallelRule);
-				String newName = variable.getName() + Math.abs(new Random().nextInt());
+				String newName = variable.getName()
+						+ Math.abs(new Random().nextInt());
 				variable.setName(newName);
 			}
 		}
 
-		return new Match(parallelRule, null, parallelNodeMapping);
+		RuleApplication parallelRuleApplication = new RuleApplication(engine,
+				parallelRule);
+		for (Node node : parallelNodeMapping.keySet()) {
+			parallelRuleApplication.addMatch(node, parallelNodeMapping
+					.get(node));
+		}
+
+		return parallelRuleApplication;
 	}
 
 	/**
@@ -265,8 +286,8 @@ public class AmalgamationWrapper {
 	 * @param target
 	 * @return
 	 */
-	public static boolean hasEdge(EReference type, Node source, Node target) {
+	private boolean hasEdge(EReference type, Node source, Node target) {
 		return source.findOutgoingEdgeByType(target, type) != null;
 	}// hasEdge
-    
+
 }

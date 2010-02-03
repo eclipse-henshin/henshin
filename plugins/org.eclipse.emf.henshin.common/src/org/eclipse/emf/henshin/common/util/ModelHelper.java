@@ -2,7 +2,9 @@ package org.eclipse.emf.henshin.common.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -20,8 +22,14 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.PortKind;
+import org.eclipse.emf.henshin.model.PortObject;
+import org.eclipse.emf.henshin.model.PortParameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.Variable;
 
 public class ModelHelper {
 	// public static boolean isVariable(Rule rule, Attribute attribute) {
@@ -140,10 +148,10 @@ public class ModelHelper {
 		List<Mapping> ruleMappings = new ArrayList<Mapping>();
 
 		for (Mapping mapping : rule.getMappings()) {
-			if (mapping.getImage().eContainer().eContainer() == rule) 
+			if (mapping.getImage().eContainer().eContainer() == rule)
 				ruleMappings.add(mapping);
 		}
-		
+
 		return ruleMappings;
 	}
 
@@ -315,6 +323,40 @@ public class ModelHelper {
 		Resource resource = resourceSet.getResource(
 				URI.createFileURI(filename), true);
 		return resource.getContents().get(0);
+	}
+
+	public static Map<String, Object> createAssignments(
+			TransformationUnit unit, Map<String, Object> portValues) {
+		Map<String, Object> assignments = new HashMap<String, Object>();
+		for (Port port : unit.getPorts()) {
+			if (port.getDirection() == PortKind.INPUT
+					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
+
+				if (port instanceof PortParameter) {
+					Variable var = ((PortParameter) port).getVariable();
+					assignments.put(var.getName(), portValues.get(port
+							.getName()));
+				}
+			}
+		}
+		return assignments;
+	}
+
+	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
+			Map<String, Object> portValues) {
+		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
+		for (Port port : unit.getPorts()) {
+			if (port.getDirection() == PortKind.INPUT
+					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
+
+				if (port instanceof PortObject) {
+					Node node = ((PortObject) port).getNode();
+					prematch
+							.put(node, (EObject) portValues.get(port.getName()));
+				}
+			}
+		}
+		return prematch;
 	}
 
 	// public static List<Node> findNodesByType(Graph graph, String name) {

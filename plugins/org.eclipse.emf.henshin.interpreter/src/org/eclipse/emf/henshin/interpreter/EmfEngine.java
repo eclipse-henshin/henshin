@@ -22,8 +22,8 @@ import org.eclipse.emf.henshin.internal.conditions.nested.TrueFormula;
 import org.eclipse.emf.henshin.internal.interpreter.AmalgamationWrapper;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
 import org.eclipse.emf.henshin.internal.interpreter.RuleWrapper;
-import org.eclipse.emf.henshin.internal.matching.Matchfinder;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
+import org.eclipse.emf.henshin.internal.matching.Matchfinder;
 import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
@@ -211,22 +211,13 @@ public class EmfEngine implements InterpreterEngine {
 			return null;
 	}
 
-	public boolean executeAmalgamatedUnit(AmalgamatedUnit amalgamatedUnit) {
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine scriptEngine = mgr.getEngineByName("JavaScript");
+	public RuleApplication generateAmalgamatedRule(
+			AmalgamatedUnit amalgamatedUnit, Map<String, Object> portValues) {
 
 		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
-				amalgamatedUnit, emfGraph, scriptEngine);
-		Match amalgamatedMatch = amalgamationWrapper.getAmalgamatedRule();
+				amalgamatedUnit, portValues);
 
-		if (amalgamatedMatch != null) {
-			RuleApplication amalgamatedRule = new RuleApplication(this,
-					amalgamatedMatch.getRule());
-			amalgamatedRule.setMatch(amalgamatedMatch);
-			return amalgamatedRule.apply();
-		} else {
-			return false;
-		}
+		return amalgamationWrapper.getAmalgamatedRule();
 	}
 
 	@Override

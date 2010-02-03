@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.Node;
@@ -36,8 +37,8 @@ public interface InterpreterEngine {
 	 *            will be respected by the search engine.
 	 * @return All computed matches for the rule.
 	 */
-	public List<Match> findAllMatches(Rule rule,
-			Map<Node, EObject> prematch, Map<String, Object> assignments);
+	public List<Match> findAllMatches(Rule rule, Map<Node, EObject> prematch,
+			Map<String, Object> assignments);
 
 	/**
 	 * Returns a match for the given rule.
@@ -64,15 +65,17 @@ public interface InterpreterEngine {
 			Map<String, Object> assignments);
 
 	/**
-	 * Applies an amalgamated rule. The amalgamated rule is dynamically
-	 * constructed and applied.
+	 * Generates a RuleApplication for an amalgamated rule. The amalgamated rule
+	 * is dynamically constructed and its nodes are matched, but the
+	 * RuleApplication is not executed.
 	 * 
-	 * @param amalgamatedRule
-	 *            The amalgamated rule that should be executed.
+	 * @param amalgamatedRule The amalgamated rule that should be executed.
+	 * @param portValues 
+	 * 
 	 * @return true, if the kernel rule was found, otherwise false.
 	 */
-	public boolean executeAmalgamatedUnit(
-			AmalgamatedUnit amalgamatedRule);
+	public RuleApplication generateAmalgamatedRule(
+			AmalgamatedUnit amalgamatedRule, Map<String, Object> portValues);
 
 	/**
 	 * Evaluates the given Java-Expression.
@@ -92,15 +95,17 @@ public interface InterpreterEngine {
 
 	/**
 	 * Adds an EObject to the EMFGraph handled by this engine.
-	 *  
-	 * @param eObject The EObject that should be added.
+	 * 
+	 * @param eObject
+	 *            The EObject that should be added.
 	 */
 	public void addEObject(EObject eObject);
-	
+
 	/**
 	 * Removes an EObject from the EmfGraph handled by this engine.
 	 * 
-	 * @param eObject The EObject that should be removed.
+	 * @param eObject
+	 *            The EObject that should be removed.
 	 */
 	public void removeEObject(EObject eObject);
 }
