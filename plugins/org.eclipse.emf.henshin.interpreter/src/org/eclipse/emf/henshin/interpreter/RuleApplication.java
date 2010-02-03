@@ -289,4 +289,9 @@ public class RuleApplication {
 	public Match getComatch() {
 		return comatch;
 	}
+	
+	@Override
+	public String toString() {
+		return rule.getName();
+	}
 }
