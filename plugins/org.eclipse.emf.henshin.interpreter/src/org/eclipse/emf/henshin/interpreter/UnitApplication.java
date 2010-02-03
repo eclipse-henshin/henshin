@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
@@ -31,12 +32,17 @@ public class UnitApplication {
 	TransformationUnit transformationUnit;
 
 	Map<String, Object> portValues;
+	Map<String, Object> oldPortValues;
+
+	Stack<RuleApplication> appliedRules;
 
 	public UnitApplication(InterpreterEngine engine,
 			TransformationUnit transformationUnit) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.portValues = new HashMap<String, Object>();
+
+		this.appliedRules = new Stack<RuleApplication>();
 	}
 
 	public UnitApplication(InterpreterEngine engine,
@@ -45,6 +51,8 @@ public class UnitApplication {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.portValues = portValues;
+
+		this.appliedRules = new Stack<RuleApplication>();
 	}
 
 	public boolean execute() {
@@ -69,7 +77,10 @@ public class UnitApplication {
 	}
 
 	public void undo() {
-		//TODO(enrico): Implement undo()
+		while (!appliedRules.isEmpty())
+			appliedRules.pop().undo();
+
+		restorePortValues();
 	}
 
 	private UnitApplication createApplicationFor(TransformationUnit unit) {
@@ -77,6 +88,8 @@ public class UnitApplication {
 	}
 
 	private void updatePortValues(Match comatch) {
+		oldPortValues = new HashMap<String, Object>(portValues);
+
 		for (Port port : transformationUnit.getPorts()) {
 			if (port.getDirection() == PortKind.OUTPUT
 					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
@@ -92,6 +105,10 @@ public class UnitApplication {
 				}
 			}
 		}
+	}
+
+	private void restorePortValues() {
+		portValues = oldPortValues;
 	}
 
 	private Map<String, Object> createAssignments() {
@@ -127,8 +144,6 @@ public class UnitApplication {
 	}
 
 	private boolean executeIndependentUnit() {
-		boolean success = false;
-
 		IndependentUnit independentUnit = (IndependentUnit) transformationUnit;
 		List<TransformationUnit> possibleUnits = new ArrayList<TransformationUnit>(
 				independentUnit.getSubUnits());
@@ -140,13 +155,15 @@ public class UnitApplication {
 			if (!unitApplication.execute()) {
 				possibleUnits.remove(index);
 			} else {
-				possibleUnits = new ArrayList<TransformationUnit>(
-						independentUnit.getSubUnits());
-				success = true;
+				if (unitApplication.appliedRules.size() > 0) {
+					appliedRules.addAll(unitApplication.appliedRules);
+					possibleUnits = new ArrayList<TransformationUnit>(
+							independentUnit.getSubUnits());
+				}
 			}
 		}
 
-		return success;
+		return true;
 	}
 
 	private boolean executeSingleUnit() {
@@ -155,19 +172,18 @@ public class UnitApplication {
 		SingleUnit singleUnit = (SingleUnit) transformationUnit;
 		Rule rule = singleUnit.getRule();
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
-		Match match = new Match(rule, createAssignments(),
-				createPrematch());
+		Match match = new Match(rule, createAssignments(), createPrematch());
 		ruleApplication.setMatch(match);
 		success = ruleApplication.apply();
 		if (success) {
 			updatePortValues(ruleApplication.getComatch());
-			// if (sequence != null)
-			// sequence.addRuleApplication(ruleApplication);
+			appliedRules.push(ruleApplication);
 		}
 
 		return success;
 	}
 
+	// TODO: save rule application for amalgamated unit
 	private boolean executeAmalgamatedUnit() {
 		boolean success = false;
 
@@ -178,19 +194,18 @@ public class UnitApplication {
 	}
 
 	private boolean executeSequentialUnit() {
-		boolean success = false;
-
 		SequentialUnit sequentialUnit = (SequentialUnit) transformationUnit;
-		success = true;
 		for (TransformationUnit subUnit : sequentialUnit.getSubUnits()) {
 			UnitApplication genericUnit = createApplicationFor(subUnit);
-			success = success && genericUnit.execute();
-			if (!success) {
-				break;
+			if (genericUnit.execute()) {
+				appliedRules.addAll(genericUnit.appliedRules);
+			} else {
+				undo();
+				return false;
 			}
 		}
 
-		return success;
+		return true;
 	}
 
 	private boolean executeConditionalUnit() {
@@ -200,9 +215,12 @@ public class UnitApplication {
 		TransformationUnit ifUnit = conditionalUnit.getIf();
 		UnitApplication genericIfUnit = createApplicationFor(ifUnit);
 		if (genericIfUnit.execute()) {
+			appliedRules.addAll(genericIfUnit.appliedRules);
+
 			TransformationUnit thenUnit = conditionalUnit.getThen();
 			UnitApplication genericThenUnit = createApplicationFor(thenUnit);
 			success = genericThenUnit.execute();
+			appliedRules.addAll(genericThenUnit.appliedRules);
 		} else {
 			if (conditionalUnit.getElse() != null) {
 				TransformationUnit elseUnit = conditionalUnit.getElse();
@@ -211,12 +229,13 @@ public class UnitApplication {
 			}
 		}
 
+		if (!success)
+			undo();
+
 		return success;
 	}
 
 	private boolean executePriorityUnit() {
-		boolean success = false;
-
 		PriorityUnit priorityUnit = (PriorityUnit) transformationUnit;
 		List<TransformationUnit> possibleUnits = new ArrayList<TransformationUnit>(
 				priorityUnit.getSubUnits());
@@ -227,29 +246,31 @@ public class UnitApplication {
 			if (!genericUnit.execute()) {
 				possibleUnits.remove(0);
 			} else {
-				possibleUnits = new ArrayList<TransformationUnit>(priorityUnit
-						.getSubUnits());
-				success = true;
+				if (genericUnit.appliedRules.size() > 0) {
+					appliedRules.addAll(genericUnit.appliedRules);
+					possibleUnits = new ArrayList<TransformationUnit>(
+							priorityUnit.getSubUnits());
+				}
 			}
 		}
 
-		return success;
+		return true;
 	}
 
 	private boolean executeCountedUnit() {
-		boolean success = false;
-
 		CountedUnit countedUnit = (CountedUnit) transformationUnit;
 		for (int i = 0; i < countedUnit.getCount(); i++) {
 			UnitApplication genericUnit = createApplicationFor(countedUnit
 					.getSubUnit());
-			success = genericUnit.execute();
-			if (!success) {
-				break;
+			if (genericUnit.execute()) {
+				appliedRules.addAll(genericUnit.appliedRules);
+			} else {
+				undo();
+				return false;
 			}
 		}
 
-		return success;
+		return true;
 	}
 
 	/**
@@ -258,5 +279,4 @@ public class UnitApplication {
 	public TransformationUnit getTransformationUnit() {
 		return transformationUnit;
 	}
-
 }
