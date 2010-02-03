@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,15 +21,15 @@ import org.eclipse.emf.ecore.EPackage;
 public class EmfGraph {
     protected Set<EObject> eObjects;
     protected Set<EPackage> ePackages;
-    Map<EClass, Set<EObject>> domainMap;
+    Map<EClass, List<EObject>> domainMap;
     Map<EClass, Set<EClass>> inheritanceMap;
 
     public List<EObject> usedObjects = new ArrayList<EObject>();
 
     public EmfGraph() {
-        eObjects = new HashSet<EObject>();
+        eObjects = new LinkedHashSet<EObject>();
         ePackages = new HashSet<EPackage>();
-        domainMap = new HashMap<EClass, Set<EObject>>();
+        domainMap = new HashMap<EClass, List<EObject>>();
         inheritanceMap = new HashMap<EClass, Set<EClass>>();
     }
 
@@ -80,9 +81,9 @@ public class EmfGraph {
             EClass type = eObject.eClass();
             EPackage ePackage = type.getEPackage();
 
-            Set<EObject> domain = domainMap.get(type);
+            List<EObject> domain = domainMap.get(type);
             if (domain == null) {
-                domain = new HashSet<EObject>();
+                domain = new ArrayList<EObject>();
                 domainMap.put(type, domain);
             }
             domain.add(eObject);
@@ -99,7 +100,7 @@ public class EmfGraph {
         if (wasRemoved) {
             EClass type = eObject.eClass();
 
-            Set<EObject> domain = domainMap.get(type);
+            List<EObject> domain = domainMap.get(type);
             domain.remove(eObject);
         }
 
@@ -132,11 +133,11 @@ public class EmfGraph {
         children.add(child);
     }
 
-    protected Set<EObject> getDomain(EClass type) {
-        Set<EObject> domain = domainMap.get(type);
+    protected List<EObject> getDomain(EClass type) {
+        List<EObject> domain = domainMap.get(type);
 
         if (domain == null) {
-            domain = new HashSet<EObject>();
+            domain = new ArrayList<EObject>();
             domainMap.put(type, domain);
         }
 
