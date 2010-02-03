@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.internal.matching;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,13 +10,44 @@ import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionH
 import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
 
 public class Matchfinder extends ApplicationCondition {
-
+	private List<Solution> solutions;
+	
 	public Matchfinder(EmfGraph emfGraph,
 			Map<Variable, DomainSlot> variableDomainMap,
 			AttributeConditionHandler conditionHandler) {
 		super(emfGraph, variableDomainMap, conditionHandler, false);
 	}
 
+	public boolean findSolution() {
+		boolean matchIsPossible = false;
+
+		if (solutions == null) {
+			solutions = new ArrayList<Solution>();
+			matchIsPossible = true;
+		} else {
+			for (int i = variables.size() - 1; i >= 0; i--) {
+				Variable var = variables.get(i);
+				if (domainMap.get(var).unlock(var)) {
+					matchIsPossible = true;
+					break;
+				} else {
+					domainMap.get(var).clear(var);
+				}
+			}
+		}
+
+		if (matchIsPossible) {
+			boolean success = findGraph();
+			if (success)
+				solutions.add(new Solution(variables, domainMap,
+						conditionHandler));
+
+			return success;
+		}
+
+		return false;
+	}
+	
 	/**
 	 * Returns a random match. This is as slow as computing all matches because
 	 * it actually does compute all matches and randomly chooses one as a
@@ -41,7 +73,7 @@ public class Matchfinder extends ApplicationCondition {
 	 * @return A match or null if no match exists.
 	 */
 	public Solution getNextMatch() {
-		boolean success = findGraph();
+		boolean success = findSolution();
 
 		if (success)
 			return solutions.get(solutions.size() - 1);

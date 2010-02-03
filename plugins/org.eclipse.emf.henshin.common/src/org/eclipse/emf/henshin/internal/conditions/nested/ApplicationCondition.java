@@ -20,8 +20,6 @@ public class ApplicationCondition implements IFormula {
 	protected List<Variable> variables;
 	protected Map<Variable, DomainSlot> domainMap;
 
-	protected List<Solution> solutions;
-
 	public ApplicationCondition(EmfGraph graph,
 			Map<Variable, DomainSlot> domainMap,
 			AttributeConditionHandler conditionHandler, boolean negated) {
@@ -32,33 +30,7 @@ public class ApplicationCondition implements IFormula {
 	}
 
 	public boolean findGraph() {
-		boolean matchIsPossible = false;
-
-		if (solutions == null) {
-			solutions = new ArrayList<Solution>();
-			matchIsPossible = true;
-		} else {
-			for (int i = variables.size() - 1; i >= 0; i--) {
-				Variable var = variables.get(i);
-				if (domainMap.get(var).unlock(var)) {
-					matchIsPossible = true;
-					break;
-				} else {
-					domainMap.get(var).clear(var);
-				}
-			}
-		}
-
-		if (matchIsPossible) {
-			boolean success = findMatch(0);
-			if (success)
-				solutions.add(new Solution(variables, domainMap,
-						conditionHandler));
-
-			return success;
-		}
-
-		return false;
+		return findMatch(0);
 	}
 
 	/**
@@ -103,13 +75,6 @@ public class ApplicationCondition implements IFormula {
 		this.variables = variables;
 	}
 
-	public void reset() {
-		for (Variable variable : variables) {
-			DomainSlot slot = domainMap.get(variable);
-			slot.clear(variable);
-		}
-	}
-
 	/**
 	 * @return the formula
 	 */
@@ -121,24 +86,19 @@ public class ApplicationCondition implements IFormula {
 		this.formula = formula;
 	}
 
-	/**
-	 * @param negated
-	 *            the negated to set
-	 */
-	public void setNegated(boolean negated) {
-		this.negated = negated;
+	private void resetVariables() {
+		for (Variable var : variables) {
+			domainMap.get(var).clear(var);
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public boolean eval() {
-		while (findGraph()) {
-			if (formula.eval()) {
-				return !negated;
-			}
-		}
+		boolean result = findGraph();
+		resetVariables();
 
-		return negated;
+		return (result) ? !negated : negated;
 	}
 }
