@@ -61,6 +61,15 @@
                style="push"
                tooltip="Open state model">
          </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.reset"
+               label="Reset State Space"
+               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               style="push"
+               tooltip="Reset the state space">
+         </action>
       </viewerContribution>
    </extension>
 </plugin>

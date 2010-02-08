@@ -1,6 +1,8 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -36,9 +38,14 @@ public class CreateInitialStateAction extends AbstractExplorerAction {
 		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
 		dialog.setTitle("Load resource");
 		dialog.setMessage("Select the resource to load:");
-		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.open();
 		
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		dialog.setInput(root);
+		URI uri = getExplorer().getStateSpaceManager().getStateSpace().eResource().getURI().trimSegments(1);
+		IResource container = root.findMember(uri.toPlatformString(true));
+		if (container!=null) dialog.setInitialSelection(container);
+		dialog.open();
+
 		// Check whether the location was set:
 		if (location==null) {
 			location = new int[] { 50, 50, 0 };

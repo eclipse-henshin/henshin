@@ -10,6 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
@@ -30,6 +31,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
@@ -79,6 +81,9 @@ public class StateSpaceToolsMenu extends Composite {
 	private Button ecoreButton;
 	private Button graphButton;
 
+	// Explorer link:
+	private Link explorerLink;
+	
 	/**
 	 * Default constructor
 	 * @param parent Parent composite.
@@ -126,8 +131,10 @@ public class StateSpaceToolsMenu extends Composite {
 		explorerCheckbox = new Button(explorer, SWT.CHECK);
 		explorerCheckbox.setText("Run explorer");
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 3;
+		data.horizontalSpan = 2;
 		explorerCheckbox.setLayoutData(data);
+		explorerLink = new Link(explorer, SWT.NONE);
+		explorerLink.setText("<a>Explore once</a>");
 		StateSpaceToolsMenuFactory.newLabel(explorer, "Equality:", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		Composite radioButtons = new Composite(explorer, SWT.NONE);
 		data = new GridData(GridData.FILL_HORIZONTAL);
@@ -166,11 +173,16 @@ public class StateSpaceToolsMenu extends Composite {
 		if (jobManager==null) return;
 		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
+		int numStates = jobManager.getStateSpaceManager().getStateSpace().getStates().size();
 		
 		// Set basic properties:
 		layouter.setStateRepulsion(((double) repulsionScale.getSelection()+10) * REPULSION_FACTOR);
 		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
+		if (numStates>0) {
+			double damping = 1.0 / (Math.log(numStates) + 1.0);
+			layouter.setDamping(damping);
+		}
 		
 		// Set the center:
 		if (canvas!=null) {
@@ -256,8 +268,12 @@ public class StateSpaceToolsMenu extends Composite {
 	private void setGraphEquality(boolean graphEquality) {
 		StateSpaceManager manager = jobManager.getStateSpaceManager();
 		if (graphEquality!=manager.getStateSpace().isUseGraphEquality()) {
-			boolean confirmed = MessageDialog.openConfirm(getShell(), "Reset required", 
-					"Changing the equality type requires a reset of the state space. Continue?");
+			
+			StateSpace stateSpace = manager.getStateSpace();
+			boolean confirmed = stateSpace.getStates().size()==stateSpace.getInitialStates().size() ||
+								MessageDialog.openConfirm(getShell(), "Reset required", 
+								"Changing the equality type requires a reset of the state space. Continue?");
+			
 			if (confirmed) {
 				// Execute as command:
 				Command command = new SetGraphEqualityCommand(manager,graphEquality);
@@ -282,6 +298,7 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.addSelectionListener(zoomListener);
 		delayScale.addSelectionListener(delayListener);
 		explorerCheckbox.addSelectionListener(explorerListener);
+		explorerLink.addSelectionListener(explorerListener2);
 		layouterCheckbox.addSelectionListener(layouterListener);
 		graphButton.addSelectionListener(graphEqualityListener);
 		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
@@ -299,6 +316,7 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.removeSelectionListener(zoomListener);
 		graphButton.removeSelectionListener(graphEqualityListener);
 		explorerCheckbox.removeSelectionListener(explorerListener);
+		explorerLink.removeSelectionListener(explorerListener2);
 		layouterCheckbox.removeSelectionListener(layouterListener);
 	}
 	
@@ -374,7 +392,22 @@ public class StateSpaceToolsMenu extends Composite {
 			widgetSelected(e);
 		}
 	};
-	
+
+	/*
+	 * Explorer link listener.
+	 */
+	private SelectionListener explorerListener2 = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (jobManager==null) return;
+			StateSpaceManager manager = jobManager.getStateSpaceManager();
+			ExploreStatesCommand command = new ExploreStatesCommand(manager);
+			editDomain.getCommandStack().execute(command);
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
 	/*
 	 * Layouter checkbox listener.
 	 */

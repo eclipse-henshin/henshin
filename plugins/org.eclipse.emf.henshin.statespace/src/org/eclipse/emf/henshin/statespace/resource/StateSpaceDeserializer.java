@@ -52,7 +52,8 @@ public class StateSpaceDeserializer {
 		stateSpace.setData(data);
 		
 		// Create states:
-		for (int i=0; i<stateCount; i++) {			
+		System.out.println("reading " + stateCount + " states");
+		for (int i=0; i<stateCount; i++) {
 			State state = StateSpaceFactory.eINSTANCE.createState();
 			state.setIndex(i);
 			stateSpace.getStates().add(state);
@@ -66,7 +67,7 @@ public class StateSpaceDeserializer {
 			rule.eResource().setURI(uri.trimFragment());
 			stateSpace.getRules().add(rule);
 		}
-				
+			
 		// Load states and transitions:
 		for (State state : stateSpace.getStates()) {
 			
@@ -85,12 +86,13 @@ public class StateSpaceDeserializer {
 			
 			// Transitions:
 			int transitions = readShort();
-			for (int i=0; i<transitions; i++) {				
+			System.out.println("reading " + transitions + " transitions");
+			for (int i=0; i<transitions; i++) {
 				Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 				transition.setRule(stateSpace.getRules().get(readShort()));
 				transition.setMatch(readShort());
 				transition.setTarget(stateSpace.getStates().get(readInt()));
-				state.getOutgoing().add(transition);				
+				state.getOutgoing().add(transition);
 			}
 			
 		}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
@@ -106,8 +107,14 @@ public class ImportRulesPage extends WizardPage {
 		// Open a selection dialog:
 		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new RuleLabelProvider(), new RuleContentProvider());
 		dialog.setTitle("Select Rule");
-		dialog.setMessage("Please select the transformation rule to be imported:");
-		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		dialog.setMessage("Please select the transformation rule to be imported:");		
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		dialog.setInput(root);
+		
+		URI uri = stateSpaceResource.getURI().trimSegments(1);
+		IResource container = root.findMember(uri.toPlatformString(true));
+		if (container!=null) dialog.setInitialSelection(container);
+		
 		dialog.addFilter(new RuleViewFilter());		
 		dialog.setValidator(new RuleSelectionValidator());
 		dialog.setAllowMultiple(true);

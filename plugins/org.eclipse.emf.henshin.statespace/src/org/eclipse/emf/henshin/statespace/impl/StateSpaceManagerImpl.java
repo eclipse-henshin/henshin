@@ -1,9 +1,9 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
@@ -32,7 +33,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// Default memory usage: 10%
-	public static final double DEFAULT_MEMORY_USAGE = 1;
+	public static final double DEFAULT_MEMORY_USAGE = 0.5;
 	
 	// Percentage of models that are kept in memory:
 	private double memoryUsage = DEFAULT_MEMORY_USAGE;
@@ -56,38 +57,23 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	@Override
 	protected boolean isOpen(State state) throws StateSpaceException {
 		
-		// Get the model:
-		Resource model = getModel(state);
+		// Do a dry exploration of the state:
+		List<Transition> transitions = doExplore(state);
+		Set<Transition> matched = new HashSet<Transition>();
 		
-		// Find all matches:
-		Map<Rule,List<Match>> matches = new HashMap<Rule,List<Match>>();
-		for (Rule rule : getStateSpace().getRules()) {
-			RuleApplication application = new RuleApplication(createEngine(model), rule);
-			matches.put(rule, application.findAllMatches());
-		}
-		
-		// Check if all outgoing transitions are legal:
-		for (Transition transition : state.getOutgoing()) {
+		for (Transition transition : transitions) {
 			
-			// Check the rule:
-			Rule rule = transition.getRule();
-			if (rule==null || !getStateSpace().getRules().contains(rule)) {
-				throw new StateSpaceException("Illegal transition in state " + state);
-			}
-			
-			// Check if the match index is valid:
-			if (matches.get(rule).size()<=transition.getMatch()) {
-				throw new StateSpaceException("Illegal transition in state " + state);
-			}	
+			// Find the corresponding transition in the state space:
+			Resource transformed = transition.getTarget().getModel();
+			Transition existing = findTransition(state, transition.getRule(), transformed);
+			if (existing==null) return true;
+			matched.add(existing);
 			
 		}
 		
-		// Check if there is a transition for every found match:
-		for (Rule rule : matches.keySet()) {
-			int count = matches.get(rule).size();
-			for (int i=0; i<count; i++) {
-				if (findTransition(state, rule, i)==null) return true;
-			}
+		// Check if there are extra transitions (illegal):
+		if (!matched.containsAll(state.getOutgoing())) {
+			throw new StateSpaceException("Illegal transition in state " + state.getIndex());
 		}
 		
 		// State is not open:
@@ -182,12 +168,64 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	public List<Transition> exploreState(State state) throws StateSpaceException {
 		
+		// Explore the state without changing the state space:
+		List<Transition> transitions = doExplore(state);
+		
+		int newStates = 0;
+		for (Transition transition : transitions) {
+			
+			// Get the hash and model of the new target state:
+			int hashCode = transition.getTarget().getHashCode();
+			Resource transformed = transition.getTarget().getModel();
+			
+			// Find existing state / transition:
+			Transition existingTransition = findTransition(state, transition.getRule(), transformed);
+			State existingState = getState(transformed, hashCode);
+			
+			if (existingTransition!=null) {
+				
+				// Check if the transition points to the correct state:
+				Resource existingModel = getModel(existingTransition.getTarget());
+				if (!equals(existingModel,transformed)) {
+					markTainted();
+					throw new StateSpaceException("Illegal transition in state " + state);
+				}
+				
+			} else {
+				
+				// Create a new transition and state if required:
+				Transition newTransition = createTransition(state, transition.getRule(), transition.getMatch());
+				if (existingState==null) {
+					existingState = createOpenState(transformed, hashCode);
+					existingState.setLocation(shiftedLocation(state, newStates++));
+				}
+				newTransition.setTarget(existingState);
+			}
+		}
+		
+		// Mark the state as closed:
+		setOpen(state, false);
+		
+		// Done.
+		return transitions;
+		
+	}
+	
+	/**
+	 * Explore a state without actually changing the state space.
+	 * This method does not check if the state is explored already
+	 * or whether any of the transitions or states exists already.
+	 * @param state State to be explored.
+	 * @return List of outgoing transition.
+	 * @throws StateSpaceException On explore errors.
+	 */
+	private List<Transition> doExplore(State state) throws StateSpaceException {
+		
 		// Get the state model:
 		Resource model = getModel(state);
 		
-		// List of newly created transitions.
+		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
-		int newStates = 0;
 		
 		// Apply all rules:
 		for (Rule rule : getStateSpace().getRules()) {
@@ -204,48 +242,31 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				application.setMatch(match);
 				application.apply();
 				
-				// Find existing transition / state:
-				Transition existingTransition = findTransition(state, rule, i);
-				State targetState = getState(transformed);
+				// Create a new transition and state:								
+				State newState = StateSpaceFactory.eINSTANCE.createState();
+				newState.setHashCode(hashCode(transformed));
+				newState.setModel(transformed);
 				
-				if (existingTransition!=null) {
-					
-					// Check if the transition points to the correct state:
-					if (existingTransition.getTarget()!=targetState) {
-						markTainted();
-						throw new StateSpaceException("Illegal transition in state " + state);
-					}
-					
-				} else {
-					
-					// Create a new transition and state if required:
-					Transition newTransition = createTransition(state, rule, i);
-					if (targetState==null) {
-						targetState = createOpenState(transformed, hashCode(transformed));
-						targetState.setLocation(shiftedLocation(state, newStates++));
-					}
-					newTransition.setTarget(targetState);
-					
-				}
-					
+				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
+				newTransition.setRule(rule);
+				newTransition.setMatch(i);
+				newTransition.setTarget(newState);
+				
+				transitions.add(newTransition);
+				
 			}
-			
 		}
 		
-		// Mark the state as closed:
-		setOpen(state, false);
-		
-		// Done.
 		return transitions;
-		
+
 	}
 	
 	/*
 	 * Find an outgoing transition.
 	 */
-	private Transition findTransition(State state, Rule rule, int match) {
+	private Transition findTransition(State state, Rule rule, Resource targetModel) throws StateSpaceException {
 		for (Transition transition : state.getOutgoing()) {
-			if (rule==transition.getRule() && match==transition.getMatch()) {
+			if (rule==transition.getRule() && equals(getModel(transition.getTarget()),targetModel)) {
 				return transition;
 			}
 		}
@@ -286,7 +307,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private int[] shiftedLocation(State base, int index) {
 		int[] location = base.getLocation();
-		double angle = (Math.PI * index * 0.25d);
+		double angle = (Math.PI * index * 0.17d);
 		location[0] += 60 * Math.cos(angle);
 		location[1] += 60 * Math.sin(angle);
 		return location;
