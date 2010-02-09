@@ -100,7 +100,12 @@ public class Match {
 	 * @return true, if all LHS nodes are matched
 	 */
 	public boolean isComplete() {
+		if (nodeMapping == null && rule.getLhs().getNodes().size() > 0)
+			return false;
+		
 		for (Node node : rule.getLhs().getNodes()) {
+			
+			
 			if (nodeMapping.get(node) == null)
 				return false;
 		}
