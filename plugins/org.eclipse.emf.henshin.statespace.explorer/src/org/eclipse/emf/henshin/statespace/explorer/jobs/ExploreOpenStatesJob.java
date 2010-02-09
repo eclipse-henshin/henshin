@@ -49,8 +49,13 @@ public class ExploreOpenStatesJob extends Job {
 			StateSpace stateSpace = manager.getStateSpace();
 			do {
 				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+STATES_AT_ONCE) {
+					
+					// Execute as command:
 					Command command = createExploreCommand(i,STATES_AT_ONCE);
 					executeExploreCommand(command, monitor);
+					
+					// Update / check monitor:
+					if (monitor.isCanceled()) break;
 					monitor.subTask(stateSpace.getStates().size() + " states, " + stateSpace.getOpenStates().size() + " open");
 				}
 			} while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled());
