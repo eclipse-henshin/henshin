@@ -47,11 +47,16 @@ public class EmfEngine implements InterpreterEngine {
 	Map<Rule, RuleWrapper> rule2wrapper;
 	Map<Rule, RuleInfo> rule2ruleInfo;
 
+	ScriptEngine scriptEngine;
+
 	public EmfEngine(EmfGraph emfGraph) {
 		this.emfGraph = emfGraph;
 
 		rule2wrapper = new HashMap<Rule, RuleWrapper>();
 		rule2ruleInfo = new HashMap<Rule, RuleInfo>();
+
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		scriptEngine = mgr.getEngineByName("JavaScript");
 	}
 
 	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper,
@@ -83,10 +88,6 @@ public class EmfEngine implements InterpreterEngine {
 	// TODO(enrico): refactor matchfinder construction to a factory class
 	private Matchfinder prepareMatchfinder(Rule rule,
 			Map<Node, EObject> prematch, Map<String, Object> assignments) {
-		// TODO(enrico): check whether local script engine is a big slowdown
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine scriptEngine = mgr.getEngineByName("JavaScript");
-
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		AttributeConditionHandler handler = new AttributeConditionHandler(rule,
@@ -250,8 +251,6 @@ public class EmfEngine implements InterpreterEngine {
 	// TODO: delete this method
 	public Object evalExpression(Map<String, Object> parameterMapping,
 			String expr) {
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine scriptEngine = mgr.getEngineByName("JavaScript");
 		try {
 			for (String parameter : parameterMapping.keySet()) {
 				scriptEngine.put(parameter, parameterMapping.get(parameter));
