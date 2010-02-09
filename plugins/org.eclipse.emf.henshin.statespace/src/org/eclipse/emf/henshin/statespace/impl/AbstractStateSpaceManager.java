@@ -161,6 +161,10 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 	}
 	
+	protected State createOpenState(Resource model, int hash) {
+		return createOpenState(model, hash, null);
+	}
+
 	/**
 	 * Create a new open state in the state space. Warning: this does not check if an 
 	 * equivalent state exists already or whether the hash code is incorrect.
@@ -168,7 +172,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param hash The model's hash code.
 	 * @return The newly created state.
 	 */
-	protected State createOpenState(Resource model, int hash) {
+	protected State createOpenState(Resource model, int hash, int[] location) {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
@@ -176,6 +180,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		state.setHashCode(hash);
 		state.setModel(model);
 		state.setOpen(true);
+		if (location!=null) state.setLocation(location);
 		
 		// Add the state to the state space:
 		synchronized (this) {

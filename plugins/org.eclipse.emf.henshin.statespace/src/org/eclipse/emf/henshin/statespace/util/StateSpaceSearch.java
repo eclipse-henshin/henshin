@@ -195,11 +195,25 @@ public class StateSpaceSearch {
 		List<State> removed = new ArrayList<State>();
 		Set<State> visited = search.getVisitedStates();
 		
+		// Number of states that were not reached:
+		int numUnreached = states.size() - visited.size();
+		if (numUnreached==0) return removed;
+		
+		// Check all states:
 		for (int i=0; i<states.size(); i++) {
+			
 			State state = states.get(i);
+			
 			if (!visited.contains(state)) {
+				
+				// Remove the state from the state space.
 				stateSpace.removeState(state);
 				removed.add(state);
+				
+				// Check if we removed all:
+				if (removed.size()==numUnreached) break;
+				
+				// Otherwise continue:
 				i--;
 			}
 		}

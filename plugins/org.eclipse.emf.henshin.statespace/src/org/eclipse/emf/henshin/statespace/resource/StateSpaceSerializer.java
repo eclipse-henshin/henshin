@@ -57,12 +57,18 @@ public class StateSpaceSerializer {
 		
 		// States:
 		for (State state : stateSpace.getStates()) {
+			
 			writeString(state.isInitial() ? state.getModel().getURI().toString() : null);
 			writeData(state.getData());
 			
 			// Transitions:
 			writeShort(state.getOutgoing().size());
+			
 			for (Transition transition : state.getOutgoing()) {
+				if (transition.getTarget()==null) 
+					throw new IOException("Dangling transition");
+				if (transition.getTarget().getStateSpace()!=stateSpace) 
+					throw new IOException("Transition target not contained in state space");
 				writeShort(rules.indexOf(transition.getRule()));
 				writeShort(transition.getMatch());
 				writeInt(transition.getTarget().getIndex());

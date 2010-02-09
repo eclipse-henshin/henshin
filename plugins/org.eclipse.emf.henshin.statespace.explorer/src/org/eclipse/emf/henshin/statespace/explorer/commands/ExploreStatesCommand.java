@@ -63,13 +63,8 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 		return false;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canExecute()
-	 */
-	@Override
-	public boolean canExecute() {
-		return super.canExecute() && !states.isEmpty();
+	public List<State> getStatesToExplore() {
+		return states;
 	}
-
+	
 }

@@ -35,7 +35,7 @@ public class StateSpaceDeserializer {
 		
 		// Header:
 		int marker = readShort(); // Marker
-		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("Marker not found"); // Marker
+		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("State space file marker not found"); // Marker
 		
 		int version = readShort(); // Version number
 		if (version!=0) throw new IOException("Unsupported format version: " + version);
@@ -52,7 +52,6 @@ public class StateSpaceDeserializer {
 		stateSpace.setData(data);
 		
 		// Create states:
-		System.out.println("reading " + stateCount + " states");
 		for (int i=0; i<stateCount; i++) {
 			State state = StateSpaceFactory.eINSTANCE.createState();
 			state.setIndex(i);
@@ -86,7 +85,6 @@ public class StateSpaceDeserializer {
 			
 			// Transitions:
 			int transitions = readShort();
-			System.out.println("reading " + transitions + " transitions");
 			for (int i=0; i<transitions; i++) {
 				Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 				transition.setRule(stateSpace.getRules().get(readShort()));

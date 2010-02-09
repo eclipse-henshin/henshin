@@ -71,7 +71,6 @@ public class StateSpaceToolsMenu extends Composite {
 	// Scales:
 	private Scale repulsionScale;
 	private Scale attractionScale;
-	private Scale delayScale;
 	
 	// Check boxes:
 	private Button layouterCheckbox;
@@ -145,7 +144,6 @@ public class StateSpaceToolsMenu extends Composite {
 		ecoreButton.setText("Ecore");
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
-		delayScale = StateSpaceToolsMenuFactory.newScale(explorer, "Delay:", 1, 10, 1, 2, false, "s");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
 		
 		// The layouter group:
@@ -296,7 +294,6 @@ public class StateSpaceToolsMenu extends Composite {
 		repulsionScale.addSelectionListener(layouterScaleListener);
 		attractionScale.addSelectionListener(layouterScaleListener);
 		zoomScale.addSelectionListener(zoomListener);
-		delayScale.addSelectionListener(delayListener);
 		explorerCheckbox.addSelectionListener(explorerListener);
 		explorerLink.addSelectionListener(explorerListener2);
 		layouterCheckbox.addSelectionListener(layouterListener);
@@ -312,7 +309,6 @@ public class StateSpaceToolsMenu extends Composite {
 		jobManager.getStateSpaceManager().getStateSpace().eAdapters().remove(adapter);	
 		repulsionScale.removeSelectionListener(layouterScaleListener);
 		attractionScale.removeSelectionListener(layouterScaleListener);
-		delayScale.removeSelectionListener(delayListener);
 		zoomScale.removeSelectionListener(zoomListener);
 		graphButton.removeSelectionListener(graphEqualityListener);
 		explorerCheckbox.removeSelectionListener(explorerListener);
@@ -385,7 +381,7 @@ public class StateSpaceToolsMenu extends Composite {
 			if (explorerCheckbox.getSelection()) {
 				jobManager.startExploreJob();
 			} else {
-				jobManager.stopExploreJob();
+				jobManager.getExploreJob().cancel();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -425,19 +421,7 @@ public class StateSpaceToolsMenu extends Composite {
 			widgetSelected(e);
 		}
 	};
-	
-	/*
-	 * Delay scale listener:
-	 */
-	private SelectionListener delayListener = new SelectionListener() {
-		public void widgetSelected(SelectionEvent e) {
-			jobManager.getExploreJob().setDelay(delayScale.getSelection()*1000);
-		}
-		public void widgetDefaultSelected(SelectionEvent e) {
-			widgetSelected(e);
-		}		
-	};
-	
+		
 	/*
 	 * Add a job listener.
 	 */

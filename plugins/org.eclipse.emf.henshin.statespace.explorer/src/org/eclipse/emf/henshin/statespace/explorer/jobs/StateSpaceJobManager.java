@@ -20,7 +20,7 @@ public class StateSpaceJobManager {
 	private LayoutStateSpaceJob layoutJob;
 	
 	// Job for exploring the state space:
-	private ExploreStateSpaceJob exploreJob;
+	private ExploreOpenStatesJobWithDisplay exploreJob;
 	
 	// State space manager:
 	private StateSpaceManager stateSpaceManager;
@@ -37,7 +37,7 @@ public class StateSpaceJobManager {
 		this.editDomain = editDomain;
 		this.reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
 		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace(), Display.getCurrent());
-		this.exploreJob = new ExploreStateSpaceJob(stateSpaceManager, editDomain);
+		this.exploreJob = new ExploreOpenStatesJobWithDisplay(stateSpaceManager, editDomain);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class StateSpaceJobManager {
 	/**
 	 * Start the explore job.
 	 */
-	public ExploreStateSpaceJob startExploreJob() {
+	public ExploreOpenStatesJobWithDisplay startExploreJob() {
 		if (isTerminated(exploreJob)) exploreJob.schedule();
 		return exploreJob;
 	}
@@ -134,7 +134,7 @@ public class StateSpaceJobManager {
 	 * Get the explore job.
 	 * @return explore job.
 	 */
-	public ExploreStateSpaceJob getExploreJob() {
+	public ExploreOpenStatesJobWithDisplay getExploreJob() {
 		return exploreJob;
 	}
 

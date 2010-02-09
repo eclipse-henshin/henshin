@@ -102,7 +102,19 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	protected List getModelChildren() {
 		return getStateSpace().getStates();
 	}
-
+	
+	/*
+	 * A slightly more efficient way of removing a child.
+	 */
+	protected void removeChild(int index) {
+		EditPart child = (EditPart) getChildren().get(index);
+		fireRemovingChild(child, index);
+		if (isActive()) child.deactivate();
+		child.removeNotify();
+		removeChildVisual(child);
+		child.setParent(null);
+		getChildren().remove(index);
+	}
 	
 	/* -------------------- *
 	 * --- Notification --- *
@@ -133,15 +145,16 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	public void notifyChanged(Notification event) {
 		switch (event.getFeatureID(StateSpace.class)) {
 		case StateSpacePackageImpl.STATE_SPACE__STATES:
-			/*int type = event.getEventType();
+			int type = event.getEventType();
 			if (type==Notification.ADD) {
-				createChild(event.getNewValue());
+				EditPart editpart = createChild(event.getNewValue());
+				addChild(editpart, event.getPosition());
 			} else if (type==Notification.REMOVE) {
-				EditPart editpart = (EditPart) getViewer().getEditPartRegistry().get(event.getOldValue());
-				if (editpart!=null) removeChild(editpart);
+				EditPart editpart = (EditPart) getChildren().get(event.getPosition());
+				removeChild(editpart);
 			} else {
-			*/	refreshChildren();
-			//}
+				refreshChildren();
+			}
 			break;
 		}
 	}

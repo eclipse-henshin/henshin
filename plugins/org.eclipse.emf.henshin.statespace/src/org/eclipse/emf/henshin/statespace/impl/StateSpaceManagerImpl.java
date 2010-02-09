@@ -111,7 +111,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Derive the current model:
-		Resource model = deriveModel(search.getState().getModel(), search.getPath());
+		Resource start = search.getState().getModel();
+		if (start==null) start = cache.get(search.getState());
+		Resource model = deriveModel(start, search.getPath());
 		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
@@ -170,6 +172,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
+		List<Transition> result = new ArrayList<Transition>(transitions.size());
 		
 		int newStates = 0;
 		for (Transition transition : transitions) {
@@ -196,18 +199,18 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Create a new transition and state if required:
 				Transition newTransition = createTransition(state, transition.getRule(), transition.getMatch());
 				if (existingState==null) {
-					existingState = createOpenState(transformed, hashCode);
-					existingState.setLocation(shiftedLocation(state, newStates++));
+					existingState = createOpenState(transformed, hashCode, shiftedLocation(state, newStates++));
 				}
 				newTransition.setTarget(existingState);
+				result.add(newTransition);
 			}
 		}
 		
 		// Mark the state as closed:
 		setOpen(state, false);
 		
-		// Done.
-		return transitions;
+		// Done: return the new transitions.
+		return result;
 		
 	}
 	

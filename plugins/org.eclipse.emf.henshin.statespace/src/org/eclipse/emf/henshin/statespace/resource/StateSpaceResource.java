@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.zip.ZipEntry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -55,7 +56,6 @@ public class StateSpaceResource extends ResourceImpl {
 	protected void doSave(OutputStream out, Map<?, ?> options) throws IOException {
 		StateSpaceSerializer serializer = new StateSpaceSerializer();
 		serializer.write(getStateSpace(), out);
-		out.flush();
 	}
 	
 	/*
@@ -74,7 +74,16 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected boolean useZip() {
-		return true;
+		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#newContentZipEntry()
+	 */
+	@Override
+	protected ZipEntry newContentZipEntry() {
+		return new ZipEntry("StateSpace");
 	}
 	
 }
