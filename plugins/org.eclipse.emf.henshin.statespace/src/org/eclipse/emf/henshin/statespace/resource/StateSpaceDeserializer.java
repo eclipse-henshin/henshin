@@ -96,7 +96,7 @@ public class StateSpaceDeserializer {
 		}
 		
 		// We expect EOF now:
-		if (in.read()>0) {
+		if (in.read()>=0) {
 			throw new IOException("Expected end of file");
 		}
 		
@@ -139,20 +139,22 @@ public class StateSpaceDeserializer {
 	 * Read an integer from the stream.
 	 */
 	private int readInt() throws IOException {
-		if (in.read(buffer,0,4)!=4) throw new IOException("Unexpected end of file");
-		return (buffer[0] << 24) + ((buffer[1] & 0xFF) << 16) +
-				((buffer[2] & 0xFF) << 8) + (buffer[3] & 0xFF);
+		int b0 = in.read();
+		int b1 = in.read();
+		int b2 = in.read();
+		int b3 = in.read();
+		if (b0<0 || b1<0 || b2<0 || b3<0) throw new IOException("Unexpected end of file");
+		return (b0 << 24) + ((b1 & 0xFF) << 16) + ((b2 & 0xFF) << 8) + (b3 & 0xFF);
 	}
 
 	/*
 	 * Read a short from the stream.
 	 */
 	private int readShort() throws IOException {
-		if (in.read(buffer,0,2)!=2) throw new IOException("Unexpected end of file");
-		return (buffer[0] << 8) + (buffer[1] & 0xFF);
+		int b0 = in.read();
+		int b1 = in.read();
+		if (b0<0 || b1<0) throw new IOException("Unexpected end of file");
+		return (b0 << 8) + (b1 & 0xFF);
 	}
-	
-	// Internal buffer:
-	private byte[] buffer = new byte[4];
 	
 }

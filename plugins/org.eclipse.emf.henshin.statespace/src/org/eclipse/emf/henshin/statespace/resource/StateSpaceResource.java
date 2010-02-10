@@ -56,6 +56,7 @@ public class StateSpaceResource extends ResourceImpl {
 	protected void doSave(OutputStream out, Map<?, ?> options) throws IOException {
 		StateSpaceSerializer serializer = new StateSpaceSerializer();
 		serializer.write(getStateSpace(), out);
+		out.flush();
 	}
 	
 	/*
@@ -74,7 +75,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected boolean useZip() {
-		return false;
+		return true;
 	}
 	
 	/*
@@ -83,7 +84,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected ZipEntry newContentZipEntry() {
-		return new ZipEntry("StateSpace");
+		return new ZipEntry("statespace.bin");
 	}
 	
 }

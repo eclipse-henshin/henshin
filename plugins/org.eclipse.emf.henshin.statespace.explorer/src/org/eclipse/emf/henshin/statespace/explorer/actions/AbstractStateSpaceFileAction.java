@@ -42,6 +42,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		file = null;
+		manager = null;
 		if (selection instanceof IStructuredSelection) {
 			Object first = ((IStructuredSelection) selection).getFirstElement();
 			if (first instanceof IFile && StateSpaceResource.FILE_EXTENSION.equals(((IFile) first).getFileExtension())) {
