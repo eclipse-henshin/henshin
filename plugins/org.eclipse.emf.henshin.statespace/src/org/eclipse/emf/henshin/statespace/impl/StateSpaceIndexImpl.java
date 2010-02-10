@@ -26,14 +26,20 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	private StateSpace stateSpace;
 	
 	/**
-	 * Default constructor. Does not index the states.
+	 * Default constructor. This fills the state index.
 	 */
 	public StateSpaceIndexImpl(StateSpace stateSpace) {
 		if (stateSpace==null) {
 			throw new IllegalArgumentException();
-		}	
+		}
 		this.stateSpace = stateSpace;
+		
+		// Initialize the index:
 		resetIndex();
+		for (State state : getStateSpace().getStates()) {
+			addToIndex(state);
+		}
+
 	}
 
 	/*

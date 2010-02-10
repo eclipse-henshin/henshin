@@ -55,6 +55,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		super(stateSpace);
 		this.tainted = false;
 		stateSpace.eAdapters().add(adapter);
+		updateMetaData();
 	}
 	
 	/**
@@ -63,15 +64,55 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
 	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
+		reloadModels(monitor);
+		updateMetaData();
+	}
+	
+	/**
+	 * Update meta data of the state space, i.e. initial and open states,
+	 * and transition count.
+	 */
+	public void updateMetaData() {
 		
-		monitor.beginTask("Load state space", getStateSpace().getStates().size() + 2);
+		synchronized (this) {
+			change = true;
+			
+			// Clear transition count, open and initial states.
+			StateSpace stateSpace = getStateSpace();
+			stateSpace.setTransitionCount(0);
+			stateSpace.getOpenStates().clear();
+			stateSpace.getInitialStates().clear();
+
+			// Update the data:
+			int transitionCount = 0;
+			for (State state : getStateSpace().getStates()) {
+				if (state.isInitial()) {
+					stateSpace.getInitialStates().add(state);
+				}
+				if (state.isOpen()) {
+					stateSpace.getOpenStates().add(state);				
+				}
+				transitionCount += state.getOutgoing().size();
+			}
 		
+			stateSpace.setTransitionCount(transitionCount);
+			change = false;
+		}
+		
+	}
+	
+	/**
+	 * Reload all models and update hash codes.
+	 * @param monitor Progress monitor.
+	 * @throws StateSpaceException On errors.
+	 */
+	public void reloadModels(IProgressMonitor monitor) throws StateSpaceException {
+		monitor.beginTask("Reload models", getStateSpace().getStates().size());
 		try {
 			
-			// Reset the state index:
+			// Reset state index:
 			resetIndex();
-			monitor.worked(1);
-
+			
 			// Reset all derived state models:
 			for (State state : getStateSpace().getStates()) {
 				if (!state.isInitial()) {
@@ -79,13 +120,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				}
 			}
 			monitor.worked(1);
-			
-			// Clear transition count, open and initial states.
-			int transitionCount = 0;
-			getStateSpace().setTransitionCount(0);
-			getStateSpace().getOpenStates().clear();
-			getStateSpace().getInitialStates().clear();
-			
+						
 			// Compute state models, update the hash code and the index:
 			for (State state : getStateSpace().getStates()) {
 				
@@ -105,25 +140,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				// Set the open-flag.
 				setOpen(state,isOpen(state));
 				
-				// Is the state initial?
-				if (state.isInitial()) {
-					getStateSpace().getInitialStates().add(state);
-				}
-				
-				// Add to index:
+				// Add the state to the index:
 				addToIndex(state);
 				
-				// Update the transition count:
-				transitionCount += state.getOutgoing().size();
 				monitor.worked(1);
 				
-			}
-			
-			// Update the transition count:
-			synchronized (this) {
-				change = true;
-				getStateSpace().setTransitionCount(transitionCount);
-				change = false;
 			}
 			
 		} catch (Throwable t) {
@@ -132,7 +153,6 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		} finally {
 			monitor.done();	
 		}
-		
 	}
 	
 	/**

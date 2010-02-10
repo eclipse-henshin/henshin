@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Display;
  * Explore open states job with display support.
  * @author Christian Krause
  */
-public class ExploreOpenStatesJobWithDisplay extends ExploreOpenStatesJob {
+public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 
 	// Execution flag:
 	private boolean executing;
@@ -20,7 +20,7 @@ public class ExploreOpenStatesJobWithDisplay extends ExploreOpenStatesJob {
 	 * @param manager State space manager.
 	 * @param editDomain Edit domain.
 	 */
-	public ExploreOpenStatesJobWithDisplay(StateSpaceManager manager, EditDomain editDomain) {
+	public ExploreStateSpaceJobWithDisplay(StateSpaceManager manager, EditDomain editDomain) {
 		super(manager, editDomain);
 	}
 	

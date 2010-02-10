@@ -22,7 +22,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
  * Action for creating a new initial state to the current state space.
  * @author Christian Krause
  */
-public class CreateInitialStateAction extends AbstractExplorerAction {
+public class CreateInitialStateAction extends AbstractStateSpaceAction {
 	
 	// Location of the new state:
 	private int[] location;

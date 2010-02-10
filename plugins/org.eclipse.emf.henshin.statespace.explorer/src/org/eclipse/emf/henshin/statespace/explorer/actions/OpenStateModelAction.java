@@ -20,7 +20,7 @@ import org.eclipse.ui.ide.IDE;
 /**
  * @author Christian Krause
  */
-public class OpenStateModelAction extends AbstractExplorerAction {
+public class OpenStateModelAction extends AbstractStateSpaceAction {
 	
 	// States to be opened:
 	private List<State> states = new ArrayList<State>();

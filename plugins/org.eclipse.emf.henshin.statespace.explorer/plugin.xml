@@ -71,5 +71,50 @@
                tooltip="Reset the state space">
          </action>
       </viewerContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.emf.henshin.statespace.explorer.contributions.file"
+            nameFilter="*.statespace"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="org.eclipse.emf.henshin.statespace.explorer.menus.file"
+               label="State Space"
+               path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExploreStateSpaceFileAction"
+               enablesFor="1"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.explore"
+               label="Explore Open States"
+               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
+               tooltip="Explore open states">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceFileAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.reset.file"
+               label="Reset State Space"
+               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
+               style="push"
+               tooltip="Reset the state space">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpacePropertyPage"
+            id="org.eclipse.emf.henshin.statespace.properties"
+            name="State Space"
+            nameFilter="*.statespace">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.core.resources.IFile">
+            </instanceof>
+         </enabledWhen>
+      </page>
    </extension>
 </plugin>

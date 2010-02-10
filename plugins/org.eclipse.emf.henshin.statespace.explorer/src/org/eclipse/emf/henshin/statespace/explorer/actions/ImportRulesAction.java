@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Shell;
  * Action that shows a dialog for importing rules into a statespace.
  * @author Christian Krause
  */
-public class ImportRulesAction extends AbstractExplorerAction {
+public class ImportRulesAction extends AbstractStateSpaceAction {
 	
 	/*
 	 * (non-Javadoc)

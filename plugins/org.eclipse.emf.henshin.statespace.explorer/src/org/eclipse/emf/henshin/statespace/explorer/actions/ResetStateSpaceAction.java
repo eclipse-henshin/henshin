@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Shell;
  * Action for resetting the state space.
  * @author Christian Krause
  */
-public class ResetStateSpaceAction  extends AbstractExplorerAction {
+public class ResetStateSpaceAction extends AbstractStateSpaceAction {
 	
 	/*
 	 * (non-Javadoc)

@@ -18,9 +18,7 @@ import org.eclipse.gef.commands.Command;
  * State space exploration job.
  * @author Christian Krause
  */
-public class ExploreOpenStatesJob extends Job {
-	
-	public static final int STATES_AT_ONCE = 5;
+public class ExploreStateSpaceJob extends Job {
 	
 	// State space manager.
 	protected StateSpaceManager manager;
@@ -28,11 +26,14 @@ public class ExploreOpenStatesJob extends Job {
 	// Edit domain.
 	protected EditDomain editDomain;
 	
+	// Number of states to be explored at once.
+	private int numStatesAtOnce = 5;
+	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
 	 */
-	public ExploreOpenStatesJob(StateSpaceManager manager, EditDomain editDomain) {
+	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain) {
 		super("Exploring states");
 		this.manager = manager;
 		this.editDomain = editDomain;
@@ -48,15 +49,16 @@ public class ExploreOpenStatesJob extends Job {
 		try {
 			StateSpace stateSpace = manager.getStateSpace();
 			do {
-				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+STATES_AT_ONCE) {
+				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+numStatesAtOnce) {
 					
 					// Execute as command:
-					Command command = createExploreCommand(i,STATES_AT_ONCE);
+					Command command = createExploreCommand(i,numStatesAtOnce);
 					executeExploreCommand(command, monitor);
 					
 					// Update / check monitor:
 					if (monitor.isCanceled()) break;
-					monitor.subTask(stateSpace.getStates().size() + " states, " + stateSpace.getOpenStates().size() + " open");
+					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
+							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
 				}
 			} while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled());
 		} catch (Throwable e) {
@@ -94,4 +96,7 @@ public class ExploreOpenStatesJob extends Job {
 		return manager;
 	}
 	
+	public void setNumStatesAtOnce(int num) {
+		this.numStatesAtOnce = num;
+	}
 }

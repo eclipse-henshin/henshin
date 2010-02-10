@@ -9,7 +9,7 @@ import org.eclipse.ui.IEditorPart;
 /**
  * @author Christian Krause
  */
-public abstract class AbstractExplorerAction implements IEditorActionDelegate {
+public abstract class AbstractStateSpaceAction implements IEditorActionDelegate {
 	
 	// Currently action state space explorer:
 	private StateSpaceExplorer explorer;

@@ -6,7 +6,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -262,10 +261,8 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		}
 				
 		try {
-			StateSpaceManagerImpl manager = new StateSpaceManagerImpl(stateSpace);
-			manager.reload(new NullProgressMonitor());			
 			
-			this.stateSpaceManager = manager;
+			this.stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
 			this.jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
 			
 			if (toolsMenu!=null) {
