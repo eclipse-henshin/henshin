@@ -26,6 +26,8 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.provider.descriptors.MappingImagePropertyDescriptor;
+import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Mapping} object.
@@ -72,44 +74,64 @@ public class MappingItemProvider
 	 * This adds a property descriptor for the Origin feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addOriginPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Mapping_origin_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_origin_feature", "_UI_Mapping_type"),
-				 HenshinPackage.Literals.MAPPING__ORIGIN,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		
+		itemPropertyDescriptors.add(new MappingOriginPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Mapping_origin_feature"), getString(
+						"_UI_PropertyDescriptor_description",
+						"_UI_Mapping_origin_feature", "_UI_Mapping_type"),
+				HenshinPackage.Literals.MAPPING__ORIGIN));
+		
+		
+//		itemPropertyDescriptors.add
+//			(createItemPropertyDescriptor
+//				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+//				 getResourceLocator(),
+//				 getString("_UI_Mapping_origin_feature"),
+//				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_origin_feature", "_UI_Mapping_type"),
+//				 HenshinPackage.Literals.MAPPING__ORIGIN,
+//				 true,
+//				 false,
+//				 true,
+//				 null,
+//				 null,
+//				 null));
 	}
 
 	/**
 	 * This adds a property descriptor for the Image feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addImagePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Mapping_image_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_image_feature", "_UI_Mapping_type"),
-				 HenshinPackage.Literals.MAPPING__IMAGE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		
+		
+		itemPropertyDescriptors.add(new MappingImagePropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Mapping_image_feature"), getString(
+						"_UI_PropertyDescriptor_description",
+						"_UI_Mapping_image_feature", "_UI_Mapping_type"),
+				HenshinPackage.Literals.MAPPING__IMAGE));
+		
+//		itemPropertyDescriptors.add
+//			(createItemPropertyDescriptor
+//				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+//				 getResourceLocator(),
+//				 getString("_UI_Mapping_image_feature"),
+//				 getString("_UI_PropertyDescriptor_description", "_UI_Mapping_image_feature", "_UI_Mapping_type"),
+//				 HenshinPackage.Literals.MAPPING__IMAGE,
+//				 true,
+//				 false,
+//				 true,
+//				 null,
+//				 null,
+//				 null));
 	}
 
 	/**
