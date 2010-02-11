@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 
 /**
@@ -22,7 +21,7 @@ import org.eclipse.emf.henshin.model.Node;
  * {@link Edge}. This descriptor collects nodes which are provided as a combo
  * box. In particular, only those nodes shall be provided, which are suitable as
  * target.
- *  
+ * 
  * @author Stefan Jurack
  * 
  */
@@ -46,11 +45,11 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.<br>
 	 * If the given <code>object</code>, which is an Edge instance, is equipped
-	 * with a type, only those nodes are collected, which are in the same graph and
-	 * of the required source type. If no type is given, all nodes in the same graph
-	 * are provided.
+	 * with a type, only those nodes are collected, which are in the same graph
+	 * and of the required source type. If no type is given, all nodes in the
+	 * same graph are provided.
 	 * 
-	 *  
+	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
 	 * 
 	 */
