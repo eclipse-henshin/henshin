@@ -15,6 +15,11 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
+ * Property descriptor for the <code>origin</code> feature of model class
+ * {@link Mapping}. This descriptor collects nodes which are provided as a combo
+ * box. In particular, only those nodes shall be collected, which are suitable
+ * as origin i.e. nodes have to be located in a LHS graph.
+ * 
  * @author Stefan Jurack
  * 
  */
@@ -34,12 +39,12 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				feature, true, false, true, null, null, null);
 	}// constructor
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Collects all nodes, which are provided by the combo box in a related
+	 * property sheet.
 	 * 
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects
-	 * (java.lang.Object)
+	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
+	 * 
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {

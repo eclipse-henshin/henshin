@@ -15,17 +15,26 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
+ * Property descriptor for the <code>image</code> feature of model class
+ * {@link Mapping}. This descriptor collects nodes which are provided as a combo
+ * box. In particular, only those nodes shall be collected, which are suitable
+ * as image according to a certain (pre-selected) origin.
+ * 
  * @author Stefan Jurack
  * 
  */
 public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 
 	/**
+	 * 
+	 * 
 	 * @param adapterFactory
 	 * @param resourceLocator
 	 * @param displayName
 	 * @param description
 	 * @param feature
+	 * 
+	 * @see ItemPropertyDescriptor
 	 */
 	public MappingImagePropertyDescriptor(AdapterFactory adapterFactory,
 			ResourceLocator resourceLocator, String displayName,
@@ -34,12 +43,12 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				feature, true, false, true, null, null, null);
 	}// constructor
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Collects all nodes, which are provided by the combo box in a related
+	 * property sheet.
 	 * 
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects
-	 * (java.lang.Object)
+	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
+	 * 
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
