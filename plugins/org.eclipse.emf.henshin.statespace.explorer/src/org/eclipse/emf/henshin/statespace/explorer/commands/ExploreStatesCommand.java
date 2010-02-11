@@ -17,6 +17,9 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	// States to be explored.
 	private List<State> states;
 	
+	// Whether to generate locations for new states:
+	private boolean generateLocations = false;
+	
 	/**
 	 * Default constructor. Explores all open states.
 	 * @param manager State space manager.
@@ -50,7 +53,7 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	 */
 	public void doExecute() throws StateSpaceException {
 		for (State state : states) {
-			getStateSpaceManager().exploreState(state);
+			getStateSpaceManager().exploreState(state, generateLocations);
 		}
 	}
 	
@@ -65,6 +68,10 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	
 	public List<State> getStatesToExplore() {
 		return states;
+	}
+	
+	public void setGenerateLocations(boolean generateLocations) {
+		this.generateLocations = generateLocations;
 	}
 	
 }

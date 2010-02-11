@@ -36,10 +36,11 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 * and their target states and adds them to the state space
 	 * if they do not exist yet.
 	 * @param state State to be explored.
+	 * @param generateLocation Whether to generate a location for the new states.
 	 * @return List of newly created outgoing transitions.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	List<Transition> exploreState(State state) throws StateSpaceException;
+	List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException;
 	
 	/**
 	 * Reset the state space managed by this instance.

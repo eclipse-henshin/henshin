@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Display;
@@ -24,6 +25,17 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		super(manager, editDomain);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreStateSpaceJob#createExploreCommand(int, int)
+	 */
+	@Override
+	protected ExploreStatesCommand createExploreCommand(int start, int count) {
+		ExploreStatesCommand command = super.createExploreCommand(start, count);
+		command.setGenerateLocations(true);
+		return command;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreOpenStatesJob#executeExploreCommand(org.eclipse.gef.commands.Command, org.eclipse.core.runtime.IProgressMonitor)

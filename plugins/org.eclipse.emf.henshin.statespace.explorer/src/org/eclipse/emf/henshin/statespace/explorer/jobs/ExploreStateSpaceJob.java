@@ -81,7 +81,7 @@ public class ExploreStateSpaceJob extends Job {
 	/*
 	 * Create a new explore-command.
 	 */
-	protected Command createExploreCommand(int start, int count) {
+	protected ExploreStatesCommand createExploreCommand(int start, int count) {
 		List<State> states = manager.getStateSpace().getOpenStates();
 		ExploreStatesCommand command = new ExploreStatesCommand(manager);
 		command.getStatesToExplore().clear();

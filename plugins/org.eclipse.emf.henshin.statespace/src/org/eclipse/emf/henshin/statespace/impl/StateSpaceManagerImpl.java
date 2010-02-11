@@ -179,7 +179,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<Transition> exploreState(State state) throws StateSpaceException {
+	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
@@ -210,7 +210,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Create a new transition and state if required:
 				Transition newTransition = createTransition(state, transition.getRule(), transition.getMatch());
 				if (existingState==null) {
-					existingState = createOpenState(transformed, hashCode, shiftedLocation(state, newStates++));
+					int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
+					existingState = createOpenState(transformed, hashCode, location);
 				}
 				newTransition.setTarget(existingState);
 				result.add(newTransition);

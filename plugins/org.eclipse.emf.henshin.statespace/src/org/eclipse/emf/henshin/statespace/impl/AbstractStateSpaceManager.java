@@ -256,19 +256,16 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		// Remove derived states and all transitions:
 		synchronized (this) {
 			change = true;
-			List<State> states = getStateSpace().getStates();			
-			List<State> open = getStateSpace().getOpenStates();			
-			for (int i=0; i<states.size(); i++) {
-				State state = states.get(i);
-				if (state.isInitial()) {
-					state.getIncoming().clear();
-					state.getOutgoing().clear();
-					setOpen(state,true);
-				} else {
-					states.remove(i--);
-					open.remove(state);
-				}
+			
+			getStateSpace().getStates().clear();
+			getStateSpace().getOpenStates().clear();
+			getStateSpace().getStates().addAll(getStateSpace().getInitialStates());
+			
+			for (State initial : getStateSpace().getStates()) {
+				initial.getOutgoing().clear();
+				initial.getIncoming().clear();
 			}
+						
 			change = false;
 		}
 		
