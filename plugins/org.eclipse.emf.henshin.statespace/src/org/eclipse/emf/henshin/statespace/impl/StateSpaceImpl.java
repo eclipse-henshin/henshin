@@ -32,6 +32,24 @@ import org.eclipse.emf.henshin.statespace.Transition;
 public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	/**
+	 * Get the list of open states in this state space.
+	 * @generated NOT
+	 */
+	public EList<State> getOpenStates() {
+		if (openStates == null) {
+			openStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__OPEN_STATES) {
+				private static final long serialVersionUID = 1L;
+				@Override
+				protected boolean isUnique() {
+					// For performance we omit the uniqueness check.
+					return false;
+				}
+			};
+		}
+		return openStates;
+	}
+	
+	/**
 	 * Remove a state with all its transitions.
 	 * @generated NOT
 	 */
@@ -186,18 +204,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			rules = new EObjectResolvingEList<Rule>(Rule.class, this, StateSpacePackage.STATE_SPACE__RULES);
 		}
 		return rules;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<State> getOpenStates() {
-		if (openStates == null) {
-			openStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__OPEN_STATES);
-		}
-		return openStates;
 	}
 
 	/**

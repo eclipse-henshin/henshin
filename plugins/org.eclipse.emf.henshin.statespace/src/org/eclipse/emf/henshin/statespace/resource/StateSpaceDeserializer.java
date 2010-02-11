@@ -68,20 +68,31 @@ public class StateSpaceDeserializer {
 		}
 			
 		// Load states and transitions:
+		transitionCount = 0;
 		for (State state : stateSpace.getStates()) {
 			
 			// Initial states:
 			String modelUri = readString();
 			if (modelUri!=null) {
+				
+				// Load the model:
 				URI uri = URI.createURI(modelUri);
 				URI resolved = uri.resolve(resource.getURI());
 				Resource model = resource.getResourceSet().getResource(resolved,true);
 				model.setURI(uri);
 				state.setModel(model);
+				
+				// Add it to the list of initial states:
+				stateSpace.getInitialStates().add(state);
 			}
 			
-			// Metadata:
+			// Read metadata:
 			state.setData(readData());
+			
+			// Check if it is an open state:
+			if (state.isOpen()) {
+				stateSpace.getOpenStates().add(state);
+			}
 			
 			// Transitions:
 			int transitions = readShort();
@@ -92,14 +103,18 @@ public class StateSpaceDeserializer {
 				transition.setTarget(stateSpace.getStates().get(readInt()));
 				state.getOutgoing().add(transition);
 			}
-			
+			transitionCount += transitions;
+
 		}
+		
+		// Update transition count:
+		stateSpace.setTransitionCount(transitionCount);
 		
 		// We expect EOF now:
 		if (in.read()>=0) {
 			throw new IOException("Expected end of file");
 		}
-		
+				
 		// Attach the state space to the resource:
 		resource.getContents().clear();
 		resource.getContents().add(stateSpace);

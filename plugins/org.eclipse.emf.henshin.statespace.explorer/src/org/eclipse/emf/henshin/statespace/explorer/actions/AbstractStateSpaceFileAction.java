@@ -104,10 +104,20 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	}
 	
 	/**
+	 * Set the state space manager to be used.
+	 * @param manager State space manager.
+	 */
+	public void setStateSpaceManager(StateSpaceManager manager) {
+		this.manager = manager;
+	}
+	
+	/**
 	 * Save the state space resource.
 	 */
 	protected void saveStateSpace() {
 		if (manager!=null) {
+			
+			// Perform saving:
 			Resource resource = manager.getStateSpace().eResource();
 			try {
 				resource.save(null);
@@ -115,6 +125,10 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 				StateSpaceExplorerPlugin.getInstance().logError("Error saving state space", e);
 				MessageDialog.openError(shell, "Load State Space", "Error saving state space. See the error log for mor information.");				
 			}
+			
+			// Free some memory:
+			manager = null;
+			System.gc();
 		}
 	}
 	

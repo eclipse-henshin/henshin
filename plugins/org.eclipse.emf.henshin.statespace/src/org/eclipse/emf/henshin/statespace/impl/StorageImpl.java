@@ -83,15 +83,16 @@ public class StorageImpl extends MinimalEObjectImpl implements Storage {
 
 		// Determine the new size of the data array:
 		if (value==null) value = EMPTY_DATA;
-		int size = Math.max(beginIndex + minSize(value) + 1, minSize(data));
+		int valueSize = minSize(value);
+		int size = Math.max(beginIndex + valueSize, minSize(data));
 		
 		// Set the new data:
 		if (size==0) {
 			setData(null);
 		} else {
 			int[] newData = resized(size);
-			for (int i=0; i<value.length; i++) {
-				newData[i+beginIndex] = value[i];
+			for (int i=0; i<valueSize; i++) {
+				newData[beginIndex+i] = value[i];
 			}
 			setData(newData);
 		}

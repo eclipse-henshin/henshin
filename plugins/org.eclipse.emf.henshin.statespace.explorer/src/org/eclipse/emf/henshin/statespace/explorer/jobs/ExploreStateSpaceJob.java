@@ -34,7 +34,7 @@ public class ExploreStateSpaceJob extends Job {
 	 * @param manager State space manager.
 	 */
 	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain) {
-		super("Exploring states");
+		super("Exploring state space");
 		this.manager = manager;
 		this.editDomain = editDomain;
 		setPriority(LONG);
@@ -46,8 +46,11 @@ public class ExploreStateSpaceJob extends Job {
 	 */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
+		
+		monitor.beginTask("Exploring state space", IProgressMonitor.UNKNOWN);
+		StateSpace stateSpace = manager.getStateSpace();
+
 		try {
-			StateSpace stateSpace = manager.getStateSpace();
 			do {
 				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+numStatesAtOnce) {
 					
@@ -61,6 +64,7 @@ public class ExploreStateSpaceJob extends Job {
 							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
 				}
 			} while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled());
+		
 		} catch (Throwable e) {
 			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error exploring state space", e);
 		}

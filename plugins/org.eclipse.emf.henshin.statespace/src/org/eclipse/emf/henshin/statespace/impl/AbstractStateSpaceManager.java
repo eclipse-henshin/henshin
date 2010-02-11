@@ -55,61 +55,18 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		super(stateSpace);
 		this.tainted = false;
 		stateSpace.eAdapters().add(adapter);
-		updateMetaData();
-	}
-	
-	/**
-	 * Reload this state space manager.
-	 * @param monitor Progress monitor.
-	 * @exception StateSpaceException If the state space contains errors.
-	 */
-	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
-		reloadModels(monitor);
-		updateMetaData();
-	}
-	
-	/**
-	 * Update meta data of the state space, i.e. initial and open states,
-	 * and transition count.
-	 */
-	public void updateMetaData() {
-		
-		synchronized (this) {
-			change = true;
-			
-			// Clear transition count, open and initial states.
-			StateSpace stateSpace = getStateSpace();
-			stateSpace.setTransitionCount(0);
-			stateSpace.getOpenStates().clear();
-			stateSpace.getInitialStates().clear();
-
-			// Update the data:
-			int transitionCount = 0;
-			for (State state : getStateSpace().getStates()) {
-				if (state.isInitial()) {
-					stateSpace.getInitialStates().add(state);
-				}
-				if (state.isOpen()) {
-					stateSpace.getOpenStates().add(state);				
-				}
-				transitionCount += state.getOutgoing().size();
-			}
-		
-			stateSpace.setTransitionCount(transitionCount);
-			change = false;
-		}
-		
 	}
 	
 	/**
 	 * Reload all models and update hash codes.
 	 * @param monitor Progress monitor.
-	 * @throws StateSpaceException On errors.
+	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	public void reloadModels(IProgressMonitor monitor) throws StateSpaceException {
+	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
+		
 		monitor.beginTask("Reload models", getStateSpace().getStates().size());
-		try {
-			
+		
+		try {			
 			// Reset state index:
 			resetIndex();
 			
@@ -146,13 +103,13 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				monitor.worked(1);
 				
 			}
-			
 		} catch (Throwable t) {
 			markTainted();
 			throw new StateSpaceException(t);
 		} finally {
 			monitor.done();	
 		}
+		
 	}
 	
 	/**
@@ -350,18 +307,16 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#isTainted()
+	 * Check if the state space is tainted.
 	 */
-	public boolean isTainted() {
+	protected boolean isTainted() {
 		return tainted;
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#markTainted()
+	 * Mark this state space as tainted.
 	 */
-	public void markTainted() {
+	protected void markTainted() {
 		tainted = true;
 	}
 

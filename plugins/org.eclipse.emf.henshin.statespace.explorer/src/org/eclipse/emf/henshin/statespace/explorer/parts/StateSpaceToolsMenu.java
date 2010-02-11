@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
@@ -31,7 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
@@ -80,9 +78,6 @@ public class StateSpaceToolsMenu extends Composite {
 	private Button ecoreButton;
 	private Button graphButton;
 
-	// Explorer link:
-	private Link explorerLink;
-	
 	/**
 	 * Default constructor
 	 * @param parent Parent composite.
@@ -108,6 +103,16 @@ public class StateSpaceToolsMenu extends Composite {
 		statesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "States:", "0");
 		transitionsLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Transitions:", "0");
 		rulesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Rules:", "0");
+		StateSpaceToolsMenuFactory.newLabel(details, "Equality:", GridData.HORIZONTAL_ALIGN_END);
+		Composite radioButtons = new Composite(details, SWT.NONE);
+		radioButtons.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		GridLayout layout = new GridLayout(2,false);
+		layout.marginHeight = layout.marginWidth = 0;
+		radioButtons.setLayout(layout);
+		ecoreButton = new Button(radioButtons, SWT.RADIO);
+		ecoreButton.setText("Ecore");
+		graphButton = new Button(radioButtons, SWT.RADIO);
+		graphButton.setText("Graph");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);		
 		
 		// The display group:
@@ -123,45 +128,26 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.setSelection(ZOOM_LEVELS.length-1);
 		StateSpaceToolsMenuFactory.newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 1);
-
 		
-		// The explorer group:
-		Composite explorer = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
-		explorerCheckbox = new Button(explorer, SWT.CHECK);
-		explorerCheckbox.setText("Run explorer");
+		// The actions group:
+		Composite actions = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
+		explorerCheckbox = new Button(actions, SWT.CHECK);
+		explorerCheckbox.setText("Run state space explorer");
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 2;
+		data.horizontalSpan = 3;
 		explorerCheckbox.setLayoutData(data);
-		explorerLink = new Link(explorer, SWT.NONE);
-		explorerLink.setText("<a>Explore once</a>");
-		StateSpaceToolsMenuFactory.newLabel(explorer, "Equality:", GridData.HORIZONTAL_ALIGN_BEGINNING);
-		Composite radioButtons = new Composite(explorer, SWT.NONE);
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 2;
-		radioButtons.setLayoutData(data);
-		radioButtons.setLayout(new GridLayout(2,false));
-		ecoreButton = new Button(radioButtons, SWT.RADIO);
-		ecoreButton.setText("Ecore");
-		graphButton = new Button(radioButtons, SWT.RADIO);
-		graphButton.setText("Graph");
-		StateSpaceToolsMenuFactory.newExpandItem(bar, explorer, "Explorer", 2);
-		
-		// The layouter group:
-		Composite layouter = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
-		layouterCheckbox = new Button(layouter, SWT.CHECK);
+		layouterCheckbox = new Button(actions, SWT.CHECK);
 		layouterCheckbox.setText("Run spring layouter");
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(layouter, "State repulsion:", 0, 100, 5, 10, true, null);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(layouter, "Transition attraction:", 0, 100, 5, 10, true, null);
-		StateSpaceToolsMenuFactory.newExpandItem(bar, layouter, "Layouter", 3);
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 0, 100, 5, 10, true, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 0, 100, 5, 10, true, null);
+		StateSpaceToolsMenuFactory.newExpandItem(bar, actions, "Actions", 2);
 		
 		setEnabled(false);
 	}
-	
-	
-	
+		
 	/*
 	 * Update the layouter properties.
 	 */
@@ -295,7 +281,6 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale.addSelectionListener(layouterScaleListener);
 		zoomScale.addSelectionListener(zoomListener);
 		explorerCheckbox.addSelectionListener(explorerListener);
-		explorerLink.addSelectionListener(explorerListener2);
 		layouterCheckbox.addSelectionListener(layouterListener);
 		graphButton.addSelectionListener(graphEqualityListener);
 		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
@@ -312,7 +297,6 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.removeSelectionListener(zoomListener);
 		graphButton.removeSelectionListener(graphEqualityListener);
 		explorerCheckbox.removeSelectionListener(explorerListener);
-		explorerLink.removeSelectionListener(explorerListener2);
 		layouterCheckbox.removeSelectionListener(layouterListener);
 	}
 	
@@ -383,21 +367,6 @@ public class StateSpaceToolsMenu extends Composite {
 			} else {
 				jobManager.getExploreJob().cancel();
 			}
-		}
-		public void widgetDefaultSelected(SelectionEvent e) {
-			widgetSelected(e);
-		}
-	};
-
-	/*
-	 * Explorer link listener.
-	 */
-	private SelectionListener explorerListener2 = new SelectionListener() {			
-		public void widgetSelected(SelectionEvent e) {
-			if (jobManager==null) return;
-			StateSpaceManager manager = jobManager.getStateSpaceManager();
-			ExploreStatesCommand command = new ExploreStatesCommand(manager);
-			editDomain.getCommandStack().execute(command);
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);

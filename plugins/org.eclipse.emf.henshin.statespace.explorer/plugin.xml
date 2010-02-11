@@ -88,7 +88,7 @@
                class="org.eclipse.emf.henshin.statespace.explorer.actions.ExploreStateSpaceFileAction"
                enablesFor="1"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.explore"
-               label="Explore Open States"
+               label="Explore State Space"
                menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
                tooltip="Explore open states">
          </action>

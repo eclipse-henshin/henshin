@@ -5,7 +5,7 @@ import org.eclipse.gef.EditDomain;
 import org.eclipse.jface.action.IAction;
 
 /**
- * Action for exploring open states in a statespace file.
+ * Action for exploring open states in a state space file.
  * @author Christian Krause
  */
 public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
@@ -24,5 +24,5 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		job.schedule();
 		
 	}
-		
+	
 }

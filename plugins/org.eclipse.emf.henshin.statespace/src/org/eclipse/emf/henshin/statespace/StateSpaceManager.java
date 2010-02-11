@@ -47,17 +47,4 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 */
 	void resetStateSpace();
 	
-	/**
-	 * Mark the state space manager as tainted.
-	 * @see #isTainted()
-	 */
-	void markTainted();		
-
-	/**
-	 * Check whether the managed state space is tainted
-	 * and needs to be reset using {@link #resetStateSpace()}.
-	 * @return <code>true</code> if it needs to be reset.
-	 */
-	boolean isTainted();
-
 }

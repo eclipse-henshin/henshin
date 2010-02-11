@@ -32,12 +32,6 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
  */
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
-	// Default memory usage: 10%
-	public static final double DEFAULT_MEMORY_USAGE = 0.5;
-	
-	// Percentage of models that are kept in memory:
-	private double memoryUsage = DEFAULT_MEMORY_USAGE;
-	
 	// State model cache:
 	private StateModelCache cache;
 	
@@ -115,13 +109,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		if (start==null) start = cache.get(search.getState());
 		Resource model = deriveModel(start, search.getPath());
 		
-		// Decide whether the current model should be kept in memory:
-		int states = getStateSpace().getStates().size();
-		int stored = (int) (states * memoryUsage);			
-		boolean storeCurrent = (stored>0) && (states % stored)==0;
-		
-		// Associated the model with the state (or not):
-		state.setModel(storeCurrent ? model : null);
+		// The model is stored already in deriveModel()
+		//storeModel(state,model);
 		
 		// Always add it to the cache (is maintained automatically):
 		cache.put(state, model);
@@ -129,6 +118,25 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Done.
 		return model;
 		
+	}
+	
+	/*
+	 * Store a model in a state.
+	 */
+	private void storeModel(State state, Resource model) {
+		
+		// Decide whether the current model should be kept in memory:
+		int states = getStateSpace().getStates().size();
+		double memoryUsage = 1.0 / (Math.log10(states+1) + 1.0);
+		int stored = (int) (states * memoryUsage);
+		
+		// Associated the model with the state (or not):
+		if ((stored>0) && (states % stored)==0) {
+			state.setModel(copyModel(model,null));
+		} else {
+			state.setModel(null);
+		}
+
 	}
 	
 	/*
@@ -157,6 +165,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			Match match = matches.get(transition.getMatch());
 			application.setMatch(match);
 			application.apply();
+			
+			// Store model:
+			storeModel(transition.getTarget(),model);
 			
 		}
 		
