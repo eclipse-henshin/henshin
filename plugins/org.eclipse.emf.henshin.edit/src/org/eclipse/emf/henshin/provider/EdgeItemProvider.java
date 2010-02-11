@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Edge} object.
@@ -76,19 +77,29 @@ public class EdgeItemProvider
 	 * @generated
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Edge_source_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Edge_source_feature", "_UI_Edge_type"),
-				 HenshinPackage.Literals.EDGE__SOURCE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		
+		
+		itemPropertyDescriptors.add(new EdgeSourcePropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Edge_source_feature"), getString(
+						"_UI_PropertyDescriptor_description",
+						"_UI_Edge_source_feature", "_UI_Edge_type"),
+				HenshinPackage.Literals.EDGE__SOURCE));		
+		
+//		itemPropertyDescriptors.add
+//			(createItemPropertyDescriptor
+//				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+//				 getResourceLocator(),
+//				 getString("_UI_Edge_source_feature"),
+//				 getString("_UI_PropertyDescriptor_description", "_UI_Edge_source_feature", "_UI_Edge_type"),
+//				 HenshinPackage.Literals.EDGE__SOURCE,
+//				 true,
+//				 false,
+//				 true,
+//				 null,
+//				 null,
+//				 null));
 	}
 
 	/**
@@ -98,19 +109,29 @@ public class EdgeItemProvider
 	 * @generated
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Edge_target_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Edge_target_feature", "_UI_Edge_type"),
-				 HenshinPackage.Literals.EDGE__TARGET,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		
+		
+		itemPropertyDescriptors.add(new EdgeSourcePropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory)
+						.getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Edge_target_feature"), getString(
+						"_UI_PropertyDescriptor_description",
+						"_UI_Edge_target_feature", "_UI_Edge_type"),
+				HenshinPackage.Literals.EDGE__TARGET));				
+		
+//		itemPropertyDescriptors.add
+//			(createItemPropertyDescriptor
+//				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+//				 getResourceLocator(),
+//				 getString("_UI_Edge_target_feature"),
+//				 getString("_UI_PropertyDescriptor_description", "_UI_Edge_target_feature", "_UI_Edge_type"),
+//				 HenshinPackage.Literals.EDGE__TARGET,
+//				 true,
+//				 false,
+//				 true,
+//				 null,
+//				 null,
+//				 null));
 	}
 
 	/**
