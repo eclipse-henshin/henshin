@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
@@ -242,29 +241,20 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			StateSpaceResource resource = (StateSpaceResource) resourceSet.getResource(uri, true);
 			stateSpace = resource.getStateSpace();
 			
-		} catch (Throwable e) { 
+			// Ask for confirmation if the state space is big:
+			int numStates = stateSpace.getStates().size();
+			if (numStates>5000) {
+				boolean confirmed = MessageDialog.openConfirm(getSite().getShell(), "Open State Space", 
+						"This state space contains " + numStates + " states. Displaying it in the graphical " + 
+						"explorer might take a while and be very slow. Really display it?");
+				if (!confirmed) throw new RuntimeException("State space too large to be displayed");
+			}
 			
-			// Create a fresh state space:
-			Resource resource = resourceSet.createResource(uri);
-			stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
-			resource.getContents().add(stateSpace);
+			// Create a new state space manager:
+			stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
+			jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
 			
-			// Run a dummy reset command that marks the editor as dirty:
-			getCommandStack().execute(new Command("reset state space") { 
-				public boolean canUndo() {
-					return false;
-				}
-			} );
-			
-			throw new RuntimeException(e);
-			
-		}
-				
-		try {
-			
-			this.stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
-			this.jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
-			
+			// Initialize tools menu:
 			if (toolsMenu!=null) {
 				toolsMenu.setJobManager(jobManager);
 			}
@@ -272,7 +262,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
-				
+			
 	}
 	
 	/*
