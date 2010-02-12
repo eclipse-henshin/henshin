@@ -74,7 +74,7 @@ public class EdgeItemProvider
 	 * This adds a property descriptor for the Source feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
 		
@@ -106,7 +106,7 @@ public class EdgeItemProvider
 	 * This adds a property descriptor for the Target feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated  NOT
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
 		
