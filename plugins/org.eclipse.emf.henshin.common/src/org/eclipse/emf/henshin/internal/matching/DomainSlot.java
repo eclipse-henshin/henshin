@@ -77,7 +77,7 @@ public class DomainSlot {
 				return false;
 			} else {
 				value = domain.get(domain.size() - 1);
-				domain.remove(value);
+				domain.remove(domain.size() - 1);
 				usedObjects.add(value);
 
 				locked = true;
