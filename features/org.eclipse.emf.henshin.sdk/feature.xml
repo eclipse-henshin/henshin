@@ -50,29 +50,16 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.core.resources" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.model" version="0.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.common" version="0.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.interpreter" version="0.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gef" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.views" version="3.4.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.workbench" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.statespace" version="0.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.edit" version="0.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.henshin.editor" version="0.5.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.eclipse.emf.henshin.common"
-         download-size="0"
-         install-size="0"
-         version="0.5.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.henshin.diagram"
+         id="org.eclipse.emf.henshin.model"
          download-size="0"
          install-size="0"
          version="0.5.0.qualifier"
@@ -93,26 +80,26 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.henshin.examples"
+         id="org.eclipse.emf.henshin.diagram"
          download-size="0"
          install-size="0"
          version="0.5.0.qualifier"
          unpack="false"/>
-
+         
+   <plugin
+         id="org.eclipse.emf.henshin.common"
+         download-size="0"
+         install-size="0"
+         version="0.5.0.qualifier"
+         unpack="false"/>
+  
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
          version="0.5.0.qualifier"
          unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.henshin.model"
-         download-size="0"
-         install-size="0"
-         version="0.5.0.qualifier"
-         unpack="false"/>
-
+         
    <plugin
          id="org.eclipse.emf.henshin.statespace"
          download-size="0"
@@ -122,6 +109,13 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.explorer"
+         download-size="0"
+         install-size="0"
+         version="0.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
          version="0.5.0.qualifier"
