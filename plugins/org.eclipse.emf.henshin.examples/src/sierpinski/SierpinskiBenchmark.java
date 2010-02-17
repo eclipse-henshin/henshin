@@ -50,21 +50,26 @@ public class SierpinskiBenchmark {
         int i = 0;
         do {
             i++;
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             RuleApplication addTriangle = new RuleApplication(engine,
                     addTriangleRule);
             List<Match> matches = addTriangle.findAllMatches();
+            long matchingTime = (System.nanoTime() - startTime) / 1000000;
             System.out.println("Level: " + i);
             System.out.println("Rule applications:" + matches.size());
+            System.out.println("Matching: " + matchingTime + "ms");
+            startTime = System.nanoTime();
             for (Match match : matches) {
                 addTriangle = new RuleApplication(engine, addTriangleRule);
                 addTriangle.setMatch(match);
                 addTriangle.apply();
             }
-            long runtime = System.currentTimeMillis() - startTime;
+            long runtime = (System.nanoTime() - startTime) / 1000000;
             // System.out.println("Rule applications: "+matches.size());
 
-            System.out.println("Time: " + runtime + "ms");
+            System.out.println("Application: " + runtime + "ms");
+            System.out.println("Total: " + (matchingTime  + runtime) + "ms");
+            
             System.out.println("Nodes: " + graph.geteObjects().size());
             System.out.println();
         } while (true);
