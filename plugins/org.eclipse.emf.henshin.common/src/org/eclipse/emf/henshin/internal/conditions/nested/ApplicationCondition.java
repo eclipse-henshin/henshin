@@ -1,13 +1,11 @@
 package org.eclipse.emf.henshin.internal.conditions.nested;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
-import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 
 public class ApplicationCondition implements IFormula {
