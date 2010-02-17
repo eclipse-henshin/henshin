@@ -8,3 +8,4 @@ plugin@org.eclipse.emf.henshin.model=SVN,,svn://dev.eclipse.org/svnroot/modeling
 plugin@org.eclipse.emf.henshin.edit=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/plugins,,org.eclipse.emf.henshin.edit
 plugin@org.eclipse.emf.henshin.editor=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/plugins,,org.eclipse.emf.henshin.editor
 plugin@org.eclipse.emf.henshin.diagram=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/plugins,,org.eclipse.emf.henshin.diagram
+plugin@org.eclipse.emf.henshin.common=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/plugins,,org.eclipse.emf.henshin.common

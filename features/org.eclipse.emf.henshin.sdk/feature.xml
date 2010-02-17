@@ -85,14 +85,14 @@ http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.5.0.qualifier"
          unpack="false"/>
-<!--         
+      
    <plugin
          id="org.eclipse.emf.henshin.common"
          download-size="0"
          install-size="0"
          version="0.5.0.qualifier"
          unpack="false"/>
-  
+ <!--   
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
