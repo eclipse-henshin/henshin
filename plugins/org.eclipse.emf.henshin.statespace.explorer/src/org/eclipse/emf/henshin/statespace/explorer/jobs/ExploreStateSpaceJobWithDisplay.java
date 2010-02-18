@@ -53,14 +53,13 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		});
 		
 		// Sleep until done:
-		while (executing) {
-			try {
-				for (int j=0; j<10; j++) {
-					Thread.sleep(50);
-					if (monitor.isCanceled()) break;
-				}
-			} catch (InterruptedException e) {}
-		}
+		do {
+			for (int j=0; j<15; j++) {
+				try { Thread.sleep(50); } 
+				catch (InterruptedException e) {}
+				if (monitor.isCanceled()) break;
+			}
+		} while (executing);
 
 	}
 

@@ -19,7 +19,7 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		// Run exploration job.
 		ExploreStateSpaceJob job = new ExploreStateSpaceJob(getStateSpaceManager(), new EditDomain());
 		job.setUser(true);
-		job.setNumStatesAtOnce(20);
+		job.setNumStatesAtOnce(10);
 		job.addJobChangeListener(new StateSpaceResourceSaveAdapter());
 		job.schedule();
 		

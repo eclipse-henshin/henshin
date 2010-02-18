@@ -44,9 +44,9 @@ public class StateSpaceToolsMenu extends Composite {
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
 	public static final double REPULSION_FACTOR = 2;
-	public static final double ATTRACTION_FACTOR = 0.02;
+	public static final double ATTRACTION_FACTOR = 0.025;
 	
-	public static final int NATURAL_LENGTH = 20;
+	public static final int NATURAL_LENGTH = 35;
 	
 	// Edit domain:
 	private EditDomain editDomain;
@@ -164,7 +164,7 @@ public class StateSpaceToolsMenu extends Composite {
 		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
 		if (numStates>0) {
-			double damping = 1.0 / (Math.log(numStates) + 1.0);
+			double damping = 1.0 / (Math.log10(numStates) + 1.0);
 			layouter.setDamping(damping);
 		}
 		
