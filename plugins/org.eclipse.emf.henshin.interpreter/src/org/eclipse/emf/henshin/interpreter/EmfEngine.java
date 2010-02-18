@@ -186,7 +186,7 @@ public class EmfEngine implements InterpreterEngine {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
-			wrapper = new RuleWrapper(rule);
+			wrapper = new RuleWrapper(rule, scriptEngine);
 			rule2wrapper.put(rule, wrapper);
 		}
 
@@ -211,7 +211,7 @@ public class EmfEngine implements InterpreterEngine {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
-			wrapper = new RuleWrapper(rule);
+			wrapper = new RuleWrapper(rule, scriptEngine);
 			rule2wrapper.put(rule, wrapper);
 		}
 

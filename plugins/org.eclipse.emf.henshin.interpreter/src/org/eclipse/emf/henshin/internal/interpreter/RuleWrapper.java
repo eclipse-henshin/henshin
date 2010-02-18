@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
@@ -40,9 +39,12 @@ public class RuleWrapper {
 	
 	private List<String> ruleParameters;
 	private List<String> conditionStrings;
+	
+	private ScriptEngine scriptEngine;
 
-	public RuleWrapper(Rule rule) {
+	public RuleWrapper(Rule rule, ScriptEngine scriptEngine) {
 		this.rule = rule;
+		this.scriptEngine = scriptEngine;
 
 		this.node2variable = new HashMap<Node, Variable>();
 		this.variable2node = new HashMap<Variable, Node>();
@@ -142,9 +144,6 @@ public class RuleWrapper {
 					targetVariable, edge.getType());
 			var.getReferenceConstraints().add(constraint);
 		}
-
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		ScriptEngine scriptEngine = mgr.getEngineByName("JavaScript");
 
 		for (Attribute attribute : node.getAttributes()) {
 			if (attribute.containsVariableByRule(rule)) {
