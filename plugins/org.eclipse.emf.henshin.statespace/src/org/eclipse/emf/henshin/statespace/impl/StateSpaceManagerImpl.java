@@ -35,6 +35,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	// State model cache:
 	private StateModelCache cache;
 	
+	// Transformation engine:
+	private EmfEngine engine;
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -42,6 +45,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	public StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
 		this.cache = new StateModelCache();
+		this.engine = new EmfEngine();
 	}
 	
 	/*
@@ -127,8 +131,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
-		double memoryUsage = 1.0 / (Math.log10(states+1) + 1.0);
-		int stored = (int) (states * memoryUsage);
+		double memoryUsage = 1.0 / (Math.log(states+1) + 1.0); // memory usage between 0 and 1
+		int stored = (int) (states / (states * memoryUsage + 1.0));
 		
 		// Associated the model with the state (or not):
 		if ((stored>0) && (states % stored)==0) {
@@ -155,7 +159,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
-			RuleApplication application = new RuleApplication(createEngine(model), rule);
+			RuleApplication application = createRuleApplication(model, rule);
 			List<Match> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
@@ -245,7 +249,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Apply all rules:
 		for (Rule rule : getStateSpace().getRules()) {
 			
-			RuleApplication application = new RuleApplication(createEngine(model), rule);
+			RuleApplication application = createRuleApplication(model, rule);
 			List<Match> matches = application.findAllMatches();
 			
 			for (int i=0; i<matches.size(); i++) {
@@ -253,7 +257,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Transform the model:
 				Match match = matches.get(i);
 				Resource transformed = copyModel(model, match);
-				application = new RuleApplication(createEngine(transformed), rule);
+				application = createRuleApplication(transformed, rule);
 				application.setMatch(match);
 				application.apply();
 				
@@ -289,14 +293,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
-	 * Create an interpreter engine
+	 * Create a new RuleApplication
 	 */
-	private EmfEngine createEngine(Resource model) {
+	private RuleApplication createRuleApplication(Resource model, Rule rule) {
 		EmfGraph graph = new EmfGraph();
 		for (EObject root : model.getContents()) {
 			graph.addRoot(root);
 		}
-		return new EmfEngine(graph);
+		engine.setEmfGraph(graph);
+		return new RuleApplication(engine,rule);
 	}
 	
 	/*

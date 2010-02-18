@@ -18,7 +18,7 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	private List<State> states;
 	
 	// Whether to generate locations for new states:
-	private boolean generateLocations = false;
+	private boolean generateLocations = true;
 	
 	/**
 	 * Default constructor. Explores all open states.

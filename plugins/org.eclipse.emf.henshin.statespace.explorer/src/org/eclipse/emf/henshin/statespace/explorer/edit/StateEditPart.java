@@ -238,7 +238,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN) {
 			// Explore the current state:
-			Command command = new ExploreStatesCommand(getStateSpaceManager(), getState());
+			ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), getState());
+			command.setGenerateLocations(true);
 			CommandStack stack = getViewer().getEditDomain().getCommandStack();
 			stack.execute(command);
 		} else {

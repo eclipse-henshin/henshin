@@ -53,15 +53,16 @@ public class ExploreStateSpaceJob extends Job {
 		try {
 			do {
 				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+numStatesAtOnce) {
-					
+
+					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
+							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
+
 					// Execute as command:
 					Command command = createExploreCommand(i,numStatesAtOnce);
 					executeExploreCommand(command, monitor);
 					
 					// Update / check monitor:
 					if (monitor.isCanceled()) break;
-					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
-							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
 				}
 			} while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled());
 		
@@ -84,6 +85,7 @@ public class ExploreStateSpaceJob extends Job {
 	protected ExploreStatesCommand createExploreCommand(int start, int count) {
 		List<State> states = manager.getStateSpace().getOpenStates();
 		ExploreStatesCommand command = new ExploreStatesCommand(manager);
+		command.setGenerateLocations(false);
 		command.getStatesToExplore().clear();
 		for (int i=0; i<count; i++) {
 			if (start+i>=states.size()) break;
