@@ -10,12 +10,13 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.internal.matching.Variable;
+import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -36,6 +37,9 @@ public class RuleWrapper {
 	private Map<Variable, Variable> variable2mainVariable;
 	
 	private List<Variable> mainVariables;
+	
+	private List<String> ruleParameters;
+	private List<String> conditionStrings;
 
 	public RuleWrapper(Rule rule) {
 		this.rule = rule;
@@ -44,6 +48,8 @@ public class RuleWrapper {
 		this.variable2node = new HashMap<Variable, Node>();
 		this.graph2variables = new HashMap<Graph, List<Variable>>();
 		this.variable2mainVariable = new HashMap<Variable, Variable>();
+		this.conditionStrings = new ArrayList<String>();
+		this.ruleParameters = new ArrayList<String>();
 
 		createVariables(rule.getLhs());
 		translateFormula(rule.getLhs().getFormula());
@@ -53,6 +59,14 @@ public class RuleWrapper {
 		
 		mainVariables = new ArrayList<Variable>(variable2node.keySet());
 		mainVariables.removeAll(variable2mainVariable.keySet());
+		
+		for (org.eclipse.emf.henshin.model.Variable var: rule.getVariables()) {
+			ruleParameters.add(var.getName());
+		}
+		
+		for (AttributeCondition condition: rule.getAttributeConditions()) {
+			conditionStrings.add(condition.getConditionText());
+		}
 	}
 
 	private void translateNestedCondition(NestedCondition condition) {
@@ -178,5 +192,13 @@ public class RuleWrapper {
 
 	public Rule getRule() {
 		return rule;
+	}
+
+	public List<String> getRuleParameters() {
+		return ruleParameters;
+	}
+
+	public List<String> getConditionStrings() {
+		return conditionStrings;
 	}
 }

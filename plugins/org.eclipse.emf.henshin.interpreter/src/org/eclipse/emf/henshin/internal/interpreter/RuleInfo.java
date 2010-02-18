@@ -3,7 +3,7 @@ package org.eclipse.emf.henshin.internal.interpreter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.henshin.common.util.ModelHelper;
+import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;

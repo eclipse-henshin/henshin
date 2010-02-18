@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
-import org.eclipse.emf.henshin.common.util.ModelHelper;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.CountedUnit;

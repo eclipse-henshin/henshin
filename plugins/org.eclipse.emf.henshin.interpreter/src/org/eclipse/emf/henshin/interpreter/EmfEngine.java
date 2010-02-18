@@ -103,8 +103,9 @@ public class EmfEngine implements InterpreterEngine {
 			Map<Node, EObject> prematch, Map<String, Object> assignments) {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
-		AttributeConditionHandler handler = new AttributeConditionHandler(rule,
-				scriptEngine);
+		AttributeConditionHandler handler = new AttributeConditionHandler(
+				scriptEngine, wrapper.getRuleParameters(), wrapper
+						.getConditionStrings());
 		if (assignments != null) {
 			for (String parameterName : assignments.keySet()) {
 				handler.setParameter(parameterName, assignments

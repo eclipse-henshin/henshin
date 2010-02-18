@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.common.util;
+package org.eclipse.emf.henshin.interpreter.util;
 
 import java.io.IOException;
 import java.util.ArrayList;

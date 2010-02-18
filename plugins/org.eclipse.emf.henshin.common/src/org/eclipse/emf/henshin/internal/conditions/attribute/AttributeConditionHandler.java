@@ -9,9 +9,6 @@ import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Variable;
-
 public class AttributeConditionHandler {
 	List<String> parameterNames;
 	Set<String> constants; //TODO(enrico): find better way to handle constants
@@ -37,8 +34,8 @@ public class AttributeConditionHandler {
 		}
 	}
 
-	public AttributeConditionHandler(Rule rule, ScriptEngine scriptEngine) {
-		this.parameterNames = new ArrayList<String>();
+	public AttributeConditionHandler(ScriptEngine scriptEngine, List<String> parameterNames, List<String> conditionStrings) {
+		this.parameterNames = parameterNames;
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
 		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
@@ -46,15 +43,8 @@ public class AttributeConditionHandler {
 
 		engine = scriptEngine;
 
-		for (Variable variable : rule.getVariables()) {
-			if (!parameterNames.contains(variable.getName())) {
-				parameterNames.add(variable.getName());
-			}
-		}
-
-		for (org.eclipse.emf.henshin.model.AttributeCondition condition : rule
-				.getAttributeConditions()) {
-			addAttributeCondition(condition.getConditionText());
+		for (String conditionString: conditionStrings) {
+			addAttributeCondition(conditionString);
 		}
 	}
 
