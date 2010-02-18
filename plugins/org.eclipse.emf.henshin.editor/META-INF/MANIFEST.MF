@@ -12,9 +12,9 @@ Export-Package: org.eclipse.emf.henshin.editor.actions,
  org.eclipse.emf.henshin.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
- org.eclipse.emf.henshin.edit;bundle-version="0.5.0";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.ecore.editor,
  org.eclipse.emf.edit.ui;visibility:=reexport,
- org.eclipse.ui.ide;visibility:=reexport
+ org.eclipse.ui.ide;visibility:=reexport,
+ org.eclipse.emf.henshin.edit;bundle-version="0.5.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
