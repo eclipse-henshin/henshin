@@ -262,6 +262,10 @@ public class EmfEngine implements InterpreterEngine {
 		return emfGraph;
 	}
 
+	public void setEmfGraph(EmfGraph emfGraph) {
+		this.emfGraph = emfGraph;
+	}
+
 	// TODO: delete this method
 	public Object evalExpression(Map<String, Object> parameterMapping,
 			String expr) {
