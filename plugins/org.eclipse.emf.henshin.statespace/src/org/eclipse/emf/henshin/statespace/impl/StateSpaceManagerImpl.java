@@ -113,9 +113,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		if (start==null) start = cache.get(search.getState());
 		Resource model = deriveModel(start, search.getPath());
 		
-		// The model is stored already in deriveModel()
-		//storeModel(state,model);
-		
 		// Always add it to the cache (is maintained automatically):
 		cache.put(state, model);
 		
@@ -129,14 +126,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private void storeModel(State state, Resource model) {
 		
+		// Do not override initial state models!!!
+		if (state.isInitial()) return;
+		
 		// Decide whether the current model should be kept in memory:
 		int states = getStateSpace().getStates().size();
-		double memoryUsage = 1.0 / (Math.log(states+1) + 1.0); // memory usage between 0 and 1
+		double memoryUsage = 1.0 / (Math.log(states+1)+1.0); // memory usage between 0 and 1
 		int stored = (int) (states / (states * memoryUsage + 1.0));
+		
+		//System.out.println(stored);
 		
 		// Associated the model with the state (or not):
 		if ((stored>0) && (states % stored)==0) {
-			state.setModel(copyModel(model,null));
+			state.setModel(model);
 		} else {
 			state.setModel(null);
 		}
@@ -144,7 +146,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
-	 * Derive a model.
+	 * Derive a model. The path is assumed to be non-empty.
 	 */
 	private Resource deriveModel(Resource start, Path path) throws StateSpaceException {
 		
@@ -171,10 +173,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			application.apply();
 			
 			// Store model:
-			storeModel(transition.getTarget(),model);
+			storeModel(transition.getTarget(),copyModel(model,null));
 			
 		}
 		
+		// Decide whether the model in the start state should be kept:
+		storeModel(path.getSource(),start);
+
 		return model;
 		
 	}
@@ -198,7 +203,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Find existing state / transition:
 			Transition existingTransition = findTransition(state, transition.getRule(), transformed);
-			State existingState = getState(transformed, hashCode);
+			State targetState = getState(transformed, hashCode);
 			
 			if (existingTransition!=null) {
 				
@@ -213,11 +218,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				
 				// Create a new transition and state if required:
 				Transition newTransition = createTransition(state, transition.getRule(), transition.getMatch());
-				if (existingState==null) {
+				if (targetState==null) {
 					int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
-					existingState = createOpenState(transformed, hashCode, location);
+					targetState = createOpenState(transformed, hashCode, location);
+					storeModel(targetState, transformed);
 				}
-				newTransition.setTarget(existingState);
+				newTransition.setTarget(targetState);
 				result.add(newTransition);
 			}
 		}
