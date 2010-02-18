@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.DomainChange;
@@ -24,11 +26,12 @@ public class DomainSlot {
 	List<EObject> localChanges;
 	Map<DomainSlot, List<EObject>> slotChanges;
 
+	TransformationOptions options;
+	
 	List<Variable> checkedVariables;
-
 	Set<EObject> usedObjects;
-
-	public DomainSlot(Variable owner, Set<EObject> usedObjects) {
+	
+	public DomainSlot(Variable owner, Set<EObject> usedObjects, TransformationOptions options) {
 		this.owner = owner;
 		this.locked = false;
 		this.initialized = false;
@@ -36,18 +39,26 @@ public class DomainSlot {
 		this.usedObjects = usedObjects;
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.checkedVariables = new ArrayList<Variable>();
+		
+		this.options = options;
 	}
 
-	public DomainSlot(EObject value, Set<EObject> usedObjects) {
+	public DomainSlot(EObject value, Set<EObject> usedObjects, TransformationOptions options) {
 		this.initialized = true;
 		this.locked = true;
 		this.value = value;
 		
 		this.usedObjects = usedObjects;
+		this.usedObjects.add(value);
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.checkedVariables = new ArrayList<Variable>();
+		
+		this.options = options;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#instanciate(org.eclipse.emf.henshin.internal.matching.Variable, java.util.Map, org.eclipse.emf.henshin.common.util.EmfGraph, org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler)
+	 */
 	public boolean instanciate(Variable variable,
 			Map<Variable, DomainSlot> domainMap, EmfGraph graph,
 			AttributeConditionHandler conditionHandler) {
@@ -58,7 +69,13 @@ public class DomainSlot {
 					: null;
 
 			domain = variable.getTypeConstraint().reduceDomain(domain, graph);
-			domain.removeAll(usedObjects);
+			
+			if (!options.isDeterministic())
+				Collections.shuffle(domain);
+			
+			if (options.isInjective())
+				domain.removeAll(usedObjects);
+			
 			if (domain.size() == 0)
 				return false;
 
@@ -143,6 +160,9 @@ public class DomainSlot {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#unlock(org.eclipse.emf.henshin.internal.matching.Variable)
+	 */
 	public boolean unlock(Variable sender) {
 		if (locked && sender == owner) {
 			locked = false;
@@ -164,6 +184,9 @@ public class DomainSlot {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#clear(org.eclipse.emf.henshin.internal.matching.Variable)
+	 */
 	public void clear(Variable sender) {
 		if (sender == owner) {
 			locked = false;
@@ -185,5 +208,9 @@ public class DomainSlot {
 			return domain.size() > 0;
 
 		return false;
+	}
+	
+	public void initDomain() {
+		
 	}
 }

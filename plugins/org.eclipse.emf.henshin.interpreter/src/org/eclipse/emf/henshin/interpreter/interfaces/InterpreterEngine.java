@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
@@ -108,4 +109,6 @@ public interface InterpreterEngine {
 	 *            The EObject that should be removed.
 	 */
 	public void removeEObject(EObject eObject);
+	
+	public void setOptions(TransformationOptions options);
 }

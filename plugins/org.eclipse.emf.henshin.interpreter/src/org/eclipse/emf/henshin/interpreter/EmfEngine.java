@@ -12,6 +12,7 @@ import javax.script.ScriptEngineManager;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.conditions.nested.AndFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
@@ -42,11 +43,12 @@ import org.eclipse.emf.henshin.model.Rule;
  * The default implementation of an interpreter engine.
  */
 public class EmfEngine implements InterpreterEngine {
-	EmfGraph emfGraph;
+	TransformationOptions options;
 
 	Map<Rule, RuleWrapper> rule2wrapper;
 	Map<Rule, RuleInfo> rule2ruleInfo;
 
+	EmfGraph emfGraph;
 	ScriptEngine scriptEngine;
 
 	public EmfEngine(EmfGraph emfGraph) {
@@ -57,6 +59,8 @@ public class EmfEngine implements InterpreterEngine {
 
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		scriptEngine = mgr.getEngineByName("JavaScript");
+
+		options = new TransformationOptions();
 	}
 
 	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper,
@@ -66,12 +70,21 @@ public class EmfEngine implements InterpreterEngine {
 				.getVariable2mainVariable();
 		Set<EObject> usedObjects = new HashSet<EObject>();
 
+		TransformationOptions defaultOptions = new TransformationOptions();
+
 		for (Variable var : wrapper.getMainVariables()) {
 			Node node = wrapper.getVariable2node().get(var);
 
-			DomainSlot slot = (prematch.get(node) != null) ? new DomainSlot(
-					prematch.get(node), usedObjects) : new DomainSlot(var,
-					usedObjects);
+			DomainSlot slot;
+			if (node.getGraph() == wrapper.getRule().getLhs()) {
+				slot = (prematch.get(node) == null) ? new DomainSlot(var,
+						usedObjects, options) : new DomainSlot(prematch
+						.get(node), usedObjects, options);
+			} else {
+				slot = (prematch.get(node) == null) ? new DomainSlot(var,
+						usedObjects, defaultOptions) : new DomainSlot(prematch
+						.get(node), usedObjects, defaultOptions);
+			}
 
 			domainMap.put(var, slot);
 		}
@@ -261,5 +274,14 @@ public class EmfEngine implements InterpreterEngine {
 			System.out.println(e);
 		}
 		return null;
+	}
+
+	@Override
+	public void setOptions(TransformationOptions options) {
+		this.options = options;
+	}
+
+	public TransformationOptions getOptions() {
+		return options;
 	}
 }

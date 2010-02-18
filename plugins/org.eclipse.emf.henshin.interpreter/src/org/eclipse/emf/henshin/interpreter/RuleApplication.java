@@ -42,9 +42,10 @@ public class RuleApplication {
 	private Map<String, Object> assignments;
 
 	/**
+	 * Creates a new RuleApplication.
 	 * 
-	 * @param engine
-	 * @param rule
+	 * @param engine The InterpreterEngine used for matchfinding
+	 * @param rule A Henshin rule
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
 		this.rule = rule;

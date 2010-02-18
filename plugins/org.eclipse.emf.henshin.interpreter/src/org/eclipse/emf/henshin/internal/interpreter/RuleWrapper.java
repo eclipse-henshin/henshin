@@ -175,4 +175,8 @@ public class RuleWrapper {
 	public List<Variable> getMainVariables() {
 		return mainVariables;
 	}
+
+	public Rule getRule() {
+		return rule;
+	}
 }
