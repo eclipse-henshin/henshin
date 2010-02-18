@@ -51,6 +51,18 @@ public class EmfEngine implements InterpreterEngine {
 	EmfGraph emfGraph;
 	ScriptEngine scriptEngine;
 
+	public EmfEngine() {
+		this.emfGraph = new EmfGraph();
+
+		rule2wrapper = new HashMap<Rule, RuleWrapper>();
+		rule2ruleInfo = new HashMap<Rule, RuleInfo>();
+
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		scriptEngine = mgr.getEngineByName("JavaScript");
+
+		options = new TransformationOptions();
+	}
+	
 	public EmfEngine(EmfGraph emfGraph) {
 		this.emfGraph = emfGraph;
 
