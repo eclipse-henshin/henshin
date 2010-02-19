@@ -29,6 +29,9 @@ public class ExploreStateSpaceJob extends Job {
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 5;
 	
+	// Clean up interval (default is 5 minutes):
+	private int cleanupAfterSeconds = 300; 
+	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
@@ -47,29 +50,61 @@ public class ExploreStateSpaceJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		
+		// Explore the state space...
 		monitor.beginTask("Exploring state space", IProgressMonitor.UNKNOWN);
 		StateSpace stateSpace = manager.getStateSpace();
-
+				
 		try {
-			do {
+			
+			// Measure how long it takes...
+			long time = System.currentTimeMillis();
+			boolean stop = false;
+			
+			while (!stop) {
+				
+				// Explore all open states:
 				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+numStatesAtOnce) {
-
+					
+					// Update the monitor:
 					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
 							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
-
-					// Execute as command:
+					
+					// Execute as explore command:
 					Command command = createExploreCommand(i,numStatesAtOnce);
 					executeExploreCommand(command, monitor);
 					
-					// Update / check monitor:
-					if (monitor.isCanceled()) break;
+					// Should we stop?
+					stop = stateSpace.getOpenStates().isEmpty() || monitor.isCanceled();
+					if (stop) break;
+					
+					// Perform a clean up?
+					if (cleanupAfterSeconds>0 && System.currentTimeMillis() > (time + (cleanupAfterSeconds*1000))) {
+						clearCache(monitor);
+						time = System.currentTimeMillis();
+					}
 				}
-			} while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled());
+				
+			}
 		
 		} catch (Throwable e) {
 			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error exploring state space", e);
 		}
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
+	}
+	
+	/*
+	 * Clear the state space cache. Resets all state models to null.
+	 */
+	private void clearCache(IProgressMonitor monitor) {
+		monitor.subTask("Clearing state space cache...");
+		System.out.println("Clearing state space cache...");
+		for (State state : getStateSpaceManager().getStateSpace().getStates()) {
+			if (state.isInitial()) {
+				state.setModel(null);
+			}
+			if (monitor.isCanceled()) break;
+		}
+		System.gc();
 	}
 	
 	/*
