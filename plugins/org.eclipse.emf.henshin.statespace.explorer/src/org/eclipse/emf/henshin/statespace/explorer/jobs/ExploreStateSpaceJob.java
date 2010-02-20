@@ -1,11 +1,11 @@
 package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
@@ -18,10 +18,7 @@ import org.eclipse.gef.commands.Command;
  * State space exploration job.
  * @author Christian Krause
  */
-public class ExploreStateSpaceJob extends Job {
-	
-	// State space manager.
-	protected StateSpaceManager manager;
+public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
 	// Edit domain.
 	protected EditDomain editDomain;
@@ -29,17 +26,17 @@ public class ExploreStateSpaceJob extends Job {
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 5;
 	
-	// Clean up interval (default is 5 minutes):
-	private int cleanupAfterSeconds = 300; 
+	// Save interval (default is 10 minutes):
+	private int saveInterval = 600; 
 	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
 	 */
 	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain) {
-		super("Exploring state space");
-		this.manager = manager;
+		super("Exploring state space", manager);
 		this.editDomain = editDomain;
+		setUser(true);
 		setPriority(LONG);
 	}
 
@@ -51,35 +48,40 @@ public class ExploreStateSpaceJob extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		
 		// Explore the state space...
-		monitor.beginTask("Exploring state space", IProgressMonitor.UNKNOWN);
-		StateSpace stateSpace = manager.getStateSpace();
-				
+		monitor.beginTask("Exploring state space...", IProgressMonitor.UNKNOWN);
+		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
+		
 		try {
 			
 			// Measure how long it takes...
 			long time = System.currentTimeMillis();
-			boolean stop = false;
 			
-			while (!stop) {
+			// Run until canceled or no more open states...
+			while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled()) {
+				
+				// Currently open states:
+				List<State> open = new ArrayList<State>(stateSpace.getOpenStates()); 
 				
 				// Explore all open states:
-				for (int i=0; i<stateSpace.getOpenStates().size(); i=i+numStatesAtOnce) {
+				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
 					
 					// Update the monitor:
 					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
 							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
 					
 					// Execute as explore command:
-					Command command = createExploreCommand(i,numStatesAtOnce);
+					Command command = createExploreCommand(open, index, numStatesAtOnce);
 					executeExploreCommand(command, monitor);
 					
 					// Should we stop?
-					stop = stateSpace.getOpenStates().isEmpty() || monitor.isCanceled();
-					if (stop) break;
+					if (monitor.isCanceled()) break;
 					
-					// Perform a clean up?
-					if (cleanupAfterSeconds>0 && System.currentTimeMillis() > (time + (cleanupAfterSeconds*1000))) {
-						clearCache(monitor);
+					// Perform a save?
+					if (saveInterval>0 && System.currentTimeMillis() > (time + (saveInterval*1000))) {
+						monitor.subTask("Saving state space...");
+						saveStateSpace();
+						monitor.subTask("Clearing cache...");
+						clearCache();
 						time = System.currentTimeMillis();
 					}
 				}
@@ -89,20 +91,25 @@ public class ExploreStateSpaceJob extends Job {
 		} catch (Throwable e) {
 			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error exploring state space", e);
 		}
+		
+		// Save the state space and clean up:
+		monitor.subTask("Saving state space...");
+		saveStateSpace();
+		disposeStateSpace();
+		
+		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
+		
 	}
 	
 	/*
 	 * Clear the state space cache. Resets all state models to null.
 	 */
-	private void clearCache(IProgressMonitor monitor) {
-		monitor.subTask("Clearing state space cache...");
-		System.out.println("Clearing state space cache...");
+	private void clearCache() {
 		for (State state : getStateSpaceManager().getStateSpace().getStates()) {
 			if (state.isInitial()) {
 				state.setModel(null);
 			}
-			if (monitor.isCanceled()) break;
 		}
 		System.gc();
 	}
@@ -117,27 +124,27 @@ public class ExploreStateSpaceJob extends Job {
 	/*
 	 * Create a new explore-command.
 	 */
-	protected ExploreStatesCommand createExploreCommand(int start, int count) {
-		List<State> states = manager.getStateSpace().getOpenStates();
-		ExploreStatesCommand command = new ExploreStatesCommand(manager);
+	protected ExploreStatesCommand createExploreCommand(List<State> states, int start, int count) {
+		int end = Math.min(start + count + 1, states.size());
+		ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), states.subList(start, end));
 		command.setGenerateLocations(false);
-		command.getStatesToExplore().clear();
-		for (int i=0; i<count; i++) {
-			if (start+i>=states.size()) break;
-			command.getStatesToExplore().add(states.get(start+i));
-		}
 		return command;
 	}
 	
 	/**
-	 * Get the loaded state space manager.
-	 * @return State space manager.
+	 * Set the number of states to be explored at once.
+	 * @param num Number of states.
 	 */
-	public StateSpaceManager getStateSpaceManager() {
-		return manager;
-	}
-	
 	public void setNumStatesAtOnce(int num) {
 		this.numStatesAtOnce = num;
 	}
+	
+	/**
+	 * Set the save interval in seconds.
+	 * @param seconds Save interval.
+	 */
+	public void setSaveInterval(int seconds) {
+		this.saveInterval = seconds;
+	}
+	
 }

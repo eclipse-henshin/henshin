@@ -106,14 +106,21 @@ public class StateSpaceSpringLayouter {
 			velocitiesY[i] = netForce[1] * damping;
 			
 			// Check if something changed:
-			changed = changed || Math.abs(velocitiesX[i])>0 || Math.abs(velocitiesY[i])>0;
+			changed = changed || hasVelocity(i);
 			
 		}
 		
 		return changed;
 		
 	}
-
+	
+	/*
+	 * Check if the state with the given index has a non-zero velocity.
+	 */
+	private boolean hasVelocity(int index) {
+		return Math.abs(velocitiesX[index])>0 || Math.abs(velocitiesY[index])>0;
+	}
+	
 	/**
 	 * Update the state locations.
 	 */
@@ -126,11 +133,13 @@ public class StateSpaceSpringLayouter {
 		
 		// Update all states:
 		for (int i=0; i<states; i++) {
-			State state = stateSpace.getStates().get(i);
-			int[] location = state.getLocation();
-			location[0] += velocitiesX[i];
-			location[1] += velocitiesY[i];
-			state.setLocation(location);
+			if (hasVelocity(i)) {
+				State state = stateSpace.getStates().get(i);
+				int[] location = state.getLocation();
+				location[0] += velocitiesX[i];
+				location[1] += velocitiesY[i];
+				state.setLocation(location);
+			}
 		}
 		
 	}

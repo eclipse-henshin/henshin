@@ -3,8 +3,6 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -116,7 +114,6 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	 */
 	protected void saveStateSpace() {
 		if (manager!=null) {
-			
 			// Perform saving:
 			Resource resource = manager.getStateSpace().eResource();
 			try {
@@ -124,26 +121,15 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 			} catch (IOException e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error saving state space", e);
 				MessageDialog.openError(shell, "Load State Space", "Error saving state space. See the error log for mor information.");				
-			}
-			
-			// Free some memory:
-			manager = null;
-			System.gc();
+			}	
 		}
 	}
 	
 	/**
-	 * Helper class for saving the state space resource after a job has finished.
+	 * Dispose the state space and its manager.
 	 */
-	class StateSpaceResourceSaveAdapter extends JobChangeAdapter {
-		
-		@Override
-		public void done(IJobChangeEvent event) {
-			shell.getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					saveStateSpace();
-				}
-			});
-		}
-	};
+	protected void disposeStateSpace() {
+		manager = null;
+		System.gc(); // free some memory
+	}
 }
