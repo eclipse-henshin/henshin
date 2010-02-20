@@ -22,7 +22,7 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		job.schedule();
 		
 		// We don't need the state space anymore.
-		disposeStateSpace();
+		setStateSpaceManager(null);
 		
 	}
 	

@@ -82,14 +82,14 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					if (monitor.isCanceled()) break;
 					
 					// Perform a save?
-					if (saveInterval>0 && System.currentTimeMillis() > (lastSave + (saveInterval*1000))) {
+					if (saveInterval>=0 && System.currentTimeMillis() > (lastSave + (saveInterval*1000))) {
 						monitor.subTask("Saving state space...");
 						saveStateSpace();
 						lastSave = System.currentTimeMillis();
 					}
 					
 					// Perform a clean up?
-					if (cleanupInterval>0 && System.currentTimeMillis() > (lastCleanup + (cleanupInterval*1000))) {
+					if (cleanupInterval>=0 && System.currentTimeMillis() > (lastCleanup + (cleanupInterval*1000))) {
 						monitor.subTask("Clearing cache...");
 						clearCache();
 						lastCleanup = System.currentTimeMillis();
@@ -104,9 +104,10 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		}
 		
 		// Save the state space and clean up:
-		monitor.subTask("Saving state space...");
-		saveStateSpace();
-		disposeStateSpace();
+		if (saveInterval>=0) {
+			monitor.subTask("Saving state space...");
+			saveStateSpace();
+		}
 		
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);

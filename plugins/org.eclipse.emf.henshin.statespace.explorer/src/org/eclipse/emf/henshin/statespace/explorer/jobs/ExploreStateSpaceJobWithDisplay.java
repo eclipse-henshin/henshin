@@ -26,8 +26,13 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 	 */
 	public ExploreStateSpaceJobWithDisplay(StateSpaceManager manager, EditDomain editDomain) {
 		super(manager, editDomain);
+		
+		// Always run in background:
+		setUser(false);
+		
 		// We don't want automatic saves:
 		setSaveInterval(-1);
+		
 	}
 	
 	/*

@@ -44,15 +44,7 @@ public abstract class AbstractStateSpaceJob extends Job {
 			}	
 		}
 	}
-	
-	/**
-	 * Dispose the state space and its manager.
-	 */
-	protected void disposeStateSpace() {
-		manager = null;
-		System.gc(); // free some memory
-	}
-	
+		
 	/**
 	 * Get the loaded state space manager.
 	 * @return State space manager.

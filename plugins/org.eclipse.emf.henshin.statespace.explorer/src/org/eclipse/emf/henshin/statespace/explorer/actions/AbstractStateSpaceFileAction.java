@@ -125,11 +125,4 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 		}
 	}
 	
-	/**
-	 * Dispose the state space and its manager.
-	 */
-	protected void disposeStateSpace() {
-		manager = null;
-		System.gc(); // free some memory
-	}
 }
