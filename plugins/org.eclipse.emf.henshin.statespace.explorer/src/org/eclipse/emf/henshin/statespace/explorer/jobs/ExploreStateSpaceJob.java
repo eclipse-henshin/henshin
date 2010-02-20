@@ -28,13 +28,17 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
 	// Save interval (default is 10 minutes):
 	private int saveInterval = 600; 
+
+	// Clean up interval (default is 10 minutes):
+	private int cleanupInterval = 600; 
+
 	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
 	 */
 	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain) {
-		super("Exploring state space", manager);
+		super("Exploring state space...", manager);
 		this.editDomain = editDomain;
 		setUser(true);
 		setPriority(LONG);
@@ -54,7 +58,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		try {
 			
 			// Measure how long it takes...
-			long time = System.currentTimeMillis();
+			long lastSave = System.currentTimeMillis();
+			long lastCleanup = System.currentTimeMillis();
 			
 			// Run until canceled or no more open states...
 			while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled()) {
@@ -77,13 +82,19 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					if (monitor.isCanceled()) break;
 					
 					// Perform a save?
-					if (saveInterval>0 && System.currentTimeMillis() > (time + (saveInterval*1000))) {
+					if (saveInterval>0 && System.currentTimeMillis() > (lastSave + (saveInterval*1000))) {
 						monitor.subTask("Saving state space...");
 						saveStateSpace();
+						lastSave = System.currentTimeMillis();
+					}
+					
+					// Perform a clean up?
+					if (cleanupInterval>0 && System.currentTimeMillis() > (lastCleanup + (cleanupInterval*1000))) {
 						monitor.subTask("Clearing cache...");
 						clearCache();
-						time = System.currentTimeMillis();
+						lastCleanup = System.currentTimeMillis();
 					}
+					
 				}
 				
 			}
@@ -146,5 +157,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	public void setSaveInterval(int seconds) {
 		this.saveInterval = seconds;
 	}
-	
+
+	/**
+	 * Set the cleanup interval in seconds.
+	 * @param seconds Cleanup interval.
+	 */
+	public void setCleanupInterval(int seconds) {
+		this.cleanupInterval = seconds;
+	}
+
 }
