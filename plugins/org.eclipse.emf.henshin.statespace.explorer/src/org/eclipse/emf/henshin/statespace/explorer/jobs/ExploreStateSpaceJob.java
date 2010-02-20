@@ -26,11 +26,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 5;
 	
-	// Save interval (default is 10 minutes):
-	private int saveInterval = 600; 
+	// Save interval (default is 5 minutes):
+	private int saveInterval = 300; 
 
-	// Clean up interval (default is 10 minutes):
-	private int cleanupInterval = 600; 
+	// Clean up interval (default is 15 minutes):
+	private int cleanupInterval = 900; 
 
 	
 	/**
