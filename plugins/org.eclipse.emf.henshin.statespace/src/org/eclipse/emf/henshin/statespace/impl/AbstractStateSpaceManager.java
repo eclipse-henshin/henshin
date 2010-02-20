@@ -220,19 +220,21 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				removed.add(state);
 			}
 			
-			// Update list of open states:
+			// Update list of open and initial states:
 			getStateSpace().getOpenStates().removeAll(removed);
+			getStateSpace().getInitialStates().removeAll(removed);
 			
-			// Unregister states and adjust the transition count:
+			// Remove the states from the index and adjust the transition count:
 			Set<Transition> transitions = new HashSet<Transition>();
 			for (State current : removed) {
+				
+				// Remove from index:
 				removeFromIndex(current);
+				
+				// Gather all transitions:
 				transitions.addAll(current.getOutgoing());
 				transitions.addAll(current.getIncoming());
-				// Mark predecessor states as open:
-				for (Transition incoming : current.getIncoming()) {
-					setOpen(incoming.getSource(), true);
-				}
+				
 			}
 			
 			// Update transition count:
@@ -265,7 +267,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				initial.getOutgoing().clear();
 				initial.getIncoming().clear();
 			}
-						
+			
+			getStateSpace().setTransitionCount(0);
+			
 			change = false;
 		}
 		

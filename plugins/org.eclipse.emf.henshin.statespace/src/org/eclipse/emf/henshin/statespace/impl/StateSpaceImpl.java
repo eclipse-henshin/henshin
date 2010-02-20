@@ -6,9 +6,7 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -50,22 +48,45 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 	
 	/**
-	 * Remove a state with all its transitions.
+	 * Remove a state and detach its transitions from the other states.
+	 * The transitions are still connected to the removed node afterwards.
+	 * All predecessor states are automatically marked as open.
 	 * @generated NOT
 	 */
 	public boolean removeState(State state) {
+		
+		// Try to remove the state:
 		if (getStates().remove(state)) {
-			List<Transition> transitions = new ArrayList<Transition>();
-			transitions.addAll(state.getOutgoing());
-			transitions.addAll(state.getIncoming());
-			for (Transition transition : transitions) {
+			
+			// Detach incoming transitions:
+			for (Transition transition : state.getIncoming()) {
+				
+				// Mark the predecessor state as open!
+				State source = transition.getSource();
+				if (source!=null) {
+					source.setOpen(true);
+					if (!getOpenStates().contains(source)) {
+						getOpenStates().add(source);
+					}
+				}
+				
+				// Detach...
 				transition.setSource(null);
+				
+			}
+			
+			// Detach outgoing transitions:
+			for (Transition transition : state.getOutgoing()) {
 				transition.setTarget(null);
 			}
+			
+			// Done.
 			return true;
+			
 		} else {
 			return false;
 		}
+		
 	}
 
 	/* ---------------------------------------------------------------- *
