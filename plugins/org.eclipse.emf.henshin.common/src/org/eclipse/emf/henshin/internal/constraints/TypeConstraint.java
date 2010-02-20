@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.internal.constraints;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -27,11 +26,11 @@ public class TypeConstraint {
 			return new ArrayList<EObject>(graph.getDomainForType(type));
 		} else {
 			if (sourceDomain != null && sourceDomain.size() > 0)
-				for (Iterator<EObject> iterator = sourceDomain.iterator(); iterator
-						.hasNext();) {
-					EObject eObject = iterator.next();
+				for (int i = 0; i < sourceDomain.size(); i++) {
+					EObject eObject = sourceDomain.get(i);
+					
 					if (eObject != null  && !type.isSuperTypeOf(eObject.eClass()))
-						sourceDomain.remove(eObject);
+						sourceDomain.remove(i);
 				}
 		}
 
