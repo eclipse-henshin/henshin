@@ -119,7 +119,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	 */
 	private void clearCache() {
 		for (State state : getStateSpaceManager().getStateSpace().getStates()) {
-			if (state.isInitial()) {
+			if (!state.isInitial()) {
 				state.setModel(null);
 			}
 		}
