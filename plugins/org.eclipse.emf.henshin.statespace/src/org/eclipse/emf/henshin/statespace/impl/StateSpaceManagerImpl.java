@@ -140,7 +140,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		//System.out.println(stored);
 		
 		// Associated the model with the state (or not):
-		if ((stored>0) && (states % stored)==0) {
+		int index = state.getIndex();
+		if (stored>0 && index>0 && (index % stored)==0) {
 			state.setModel(model);
 		} else {
 			state.setModel(null);
