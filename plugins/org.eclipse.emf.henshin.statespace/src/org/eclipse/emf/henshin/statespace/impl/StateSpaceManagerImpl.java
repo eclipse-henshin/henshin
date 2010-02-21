@@ -134,13 +134,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;
 		
 		// Decide whether the current model should be kept in memory:
-		double memoryUsage = 1.0 / (Math.log10(states+1) + 1.0); // memory usage between 0 and 1
-		int stored = (int) (states / (states * memoryUsage + 1.0));
+		int stored = (int) Math.log10(states) + 1;
+		int index = state.getIndex();
 		
 		//System.out.println(stored);
 		
-		// Associated the model with the state (or not):
-		int index = state.getIndex();
 		if (stored>0 && index>0 && (index % stored)==0) {
 			state.setModel(model);
 		} else {
