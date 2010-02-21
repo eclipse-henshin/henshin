@@ -83,7 +83,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					
 					// Perform a save?
 					if (saveInterval>=0 && System.currentTimeMillis() > (lastSave + (saveInterval*1000))) {
-						monitor.subTask("Saving state space...");
+						monitor.subTask("Auto saving state space...");
 						saveStateSpace();
 						lastSave = System.currentTimeMillis();
 					}
@@ -94,6 +94,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 						clearCache();
 						lastCleanup = System.currentTimeMillis();
 					}
+
+					// Stop now?
+					if (monitor.isCanceled()) break;
 					
 				}
 				

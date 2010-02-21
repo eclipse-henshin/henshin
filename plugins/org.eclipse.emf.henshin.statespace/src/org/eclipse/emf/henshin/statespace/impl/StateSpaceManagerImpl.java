@@ -129,9 +129,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Do not override initial state models!!!
 		if (state.isInitial()) return;
 		
-		// Decide whether the current model should be kept in memory:
+		// Number of states: rounded up for more stability:
 		int states = getStateSpace().getStates().size();
-		double memoryUsage = 1.0 / (Math.sqrt(Math.sqrt(states+1))); // memory usage between 0 and 1
+		states = states - (states % 1000) + 1000;
+		
+		// Decide whether the current model should be kept in memory:
+		double memoryUsage = 1.0 / (Math.log(states+1) + 1.0); // memory usage between 0 and 1
 		int stored = (int) (states / (states * memoryUsage + 1.0));
 		
 		//System.out.println(stored);
