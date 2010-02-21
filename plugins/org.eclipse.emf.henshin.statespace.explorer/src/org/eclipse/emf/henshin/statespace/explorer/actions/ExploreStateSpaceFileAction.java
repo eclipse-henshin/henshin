@@ -18,7 +18,6 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		
 		// Run exploration job.
 		ExploreStateSpaceJob job = new ExploreStateSpaceJob(getStateSpaceManager(), new EditDomain());
-		job.setNumStatesAtOnce(10);
 		job.schedule();
 		
 		// We don't need the state space anymore.
