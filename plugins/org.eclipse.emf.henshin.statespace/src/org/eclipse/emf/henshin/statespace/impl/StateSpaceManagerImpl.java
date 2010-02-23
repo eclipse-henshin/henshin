@@ -219,13 +219,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			} else {
 				
 				// Create a new transition and state if required:
-				Transition newTransition = createTransition(state, transition.getRule(), transition.getMatch());
 				if (targetState==null) {
 					int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
 					targetState = createOpenState(transformed, hashCode, location);
 					storeModel(targetState, transformed);
 				}
-				newTransition.setTarget(targetState);
+				Transition newTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
 				result.add(newTransition);
 			}
 		}

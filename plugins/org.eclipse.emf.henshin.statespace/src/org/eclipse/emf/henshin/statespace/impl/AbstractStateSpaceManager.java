@@ -128,13 +128,17 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param open Open-flag.
 	 */
 	protected void setOpen(State state, boolean open) {
-		state.setOpen(open);
-		if (open) {
-			if (!getStateSpace().getOpenStates().contains(state)) {
-				getStateSpace().getOpenStates().add(state);
-			}
-		} else {
-			getStateSpace().getOpenStates().remove(state);
+		synchronized (this) {
+			change = true;
+			state.setOpen(open);
+			if (open) {
+				if (!getStateSpace().getOpenStates().contains(state)) {
+					getStateSpace().getOpenStates().add(state);
+				}
+			} else {
+				getStateSpace().getOpenStates().remove(state);
+			}			
+			change = false;
 		}
 	}
 	
@@ -193,7 +197,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 		// Otherwise create a new state:
 		State initial = createOpenState(model, hash);
-		getStateSpace().getInitialStates().add(initial);
+		synchronized (this) {
+			change = true;
+			getStateSpace().getInitialStates().add(initial);
+			change = false;
+		}
 		return initial;
 		
 	}
@@ -289,18 +297,20 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * Create a new outgoing transition. Note that the this does not check
 	 * if the same transition exists already (use {@link #getTransition(State, String, int)}
 	 * for that). Moreover the created transition is dangling (the target is not set).
-	 * @param state State that will contain the new transition.
+	 * @param source Source state.
+	 * @param target Target state.
 	 * @param rule Rule to be used.
 	 * @param match Match to be used.
 	 * @return The newly created transition.
 	 */
-	protected Transition createTransition(State state, Rule rule, int match) {
+	protected Transition createTransition(State source, State target, Rule rule, int match) {
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);
 		synchronized (this) {
 			change = true;
-			state.getOutgoing().add(transition);
+			transition.setSource(source);
+			transition.setTarget(target);
 			getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
 			change = false;
 		}
