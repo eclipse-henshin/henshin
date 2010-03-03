@@ -3,14 +3,18 @@ package org.eclipse.emf.henshin.model.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.BinaryFormula;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -116,6 +120,34 @@ public class HenshinNACUtil {
 			Formula remainder = (binary.getLeft()!=null) ? binary.getLeft() : binary.getRight();
 			EcoreUtil.replace(binary, remainder);
 		}
+		
+	}
+	
+	/**
+	 * Check whether a NAC is trivial. A trivial NAC is one that
+	 * can always be matched and hence causes the rule never to
+	 * be applicable.
+	 * @param nac NAC.
+	 * @return <code>true</code> if the NAC can always be matched.
+	 */
+	public static boolean isTrivialNAC(NestedCondition nac) {
+		
+		// NAC Details:
+		Graph graph = nac.getConclusion();
+		EList<Mapping> mappings = nac.getMappings();
+		
+		// Check if any of the nodes is not the image of a mapping.
+		for (Node node : graph.getNodes()) {
+			if (HenshinMappingUtil.getNodeOrigin(node, mappings)==null) return false;
+		}
+
+		// Check if any of the edges is not the image of a mapping.
+		for (Edge edge : graph.getEdges()) {
+			if (HenshinMappingUtil.getEdgeOrigin(edge, mappings)==null) return false;
+		}
+		
+		// Otherwise it is trivial:
+		return true;
 		
 	}
 	

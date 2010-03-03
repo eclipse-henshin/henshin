@@ -10,6 +10,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.parsers.AttributeParser;
+import org.eclipse.emf.henshin.diagram.parsers.EdgeActionParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeTypeParser;
 import org.eclipse.emf.henshin.diagram.parsers.MessageFormatParser;
 import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;

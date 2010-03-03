@@ -68,7 +68,7 @@ public class EdgeActionUtil {
 		}
 		
 		// Current action type = CREATE?
-		if (current.getType()==ActionType.CREATE) {
+		else if (current.getType()==ActionType.CREATE) {
 			
 			// We know that the edge is contained in the RHS and that it is not an image of a mapping.
 			Node sourceOrigin = HenshinMappingUtil.getNodeOrigin(source, rule.getMappings());
@@ -91,7 +91,7 @@ public class EdgeActionUtil {
 		}
 
 		// Current action type = DELETE?
-		if (current.getType()==ActionType.DELETE) {
+		else if (current.getType()==ActionType.DELETE) {
 			
 			// We know that the node is contained in the LHS and that it has no image in the RHS.
 			Node sourceImage = HenshinMappingUtil.getNodeImage(source, rule.getRhs(), rule.getMappings());

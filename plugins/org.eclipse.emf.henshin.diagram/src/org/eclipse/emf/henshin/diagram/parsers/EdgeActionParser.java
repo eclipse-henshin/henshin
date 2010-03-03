@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.diagram.providers;
+package org.eclipse.emf.henshin.diagram.parsers;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
-import org.eclipse.emf.henshin.diagram.parsers.AbstractParser;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;

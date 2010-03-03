@@ -3,6 +3,10 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -44,31 +48,62 @@ public class RuleGraphsListener {
 	 */
 	public void dispose() {
 		rule.eAdapters().remove(proxy);
-		if (rule.getLhs()!=null) {
-			rule.getLhs().eAdapters().remove(proxy);
+		TreeIterator<Object> it = EcoreUtil.getAllContents(rule, true);
+		while (it.hasNext()) {
+			Object next = it.next();
+			if (next instanceof Notifier) {
+				((Notifier) next).eAdapters().remove(proxy);
+			}
 		}
-		if (rule.getRhs()!=null) {
-			rule.getRhs().eAdapters().remove(proxy);
-		}	
 	}
 	
-	// Proxy adapter:
+	/*
+	 *  Proxy adapter.
+	 */
 	private Adapter proxy = new Adapter() {
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
 		public void notifyChanged(Notification event) {
+			Object notifier = event.getNotifier();
 			
-			// Forward graph events to the main adapter:
-			if (event.getNotifier() instanceof Graph) {
-				adapter.notifyChanged(event);
-				return;
+			// Notify the main adapter about graph events:
+			if (notifier instanceof Graph) {
+				if (((Graph) notifier).getContainerRule()==rule) {
+					adapter.notifyChanged(event);					
+				} else {
+					((Graph) notifier).eAdapters().remove(proxy);
+				}
 			}
 			
-			// Otherwise it is a rule event:
-			if (event.getOldValue() instanceof Graph) {
-				((Graph) event.getNewValue()).eAdapters().remove(proxy);
-			}
-			if (event.getNewValue() instanceof Graph) {
-				((Graph) event.getNewValue()).eAdapters().add(proxy);
+			// We are interested in notifications from Graphs and Formulas
+			if (notifier instanceof Graph || notifier instanceof Formula) {
+			
+				// Containment reference value changed?
+				if (event.getFeature() instanceof EReference) {
+
+					EReference reference = (EReference) event.getFeature();
+					if (reference.isContainment()) {
+
+						if (event.getEventType()==Notification.ADD) {
+							((Notifier) event.getNewValue()).eAdapters().add(proxy);
+						}
+						else if (event.getEventType()==Notification.REMOVE) {
+							((Notifier) event.getOldValue()).eAdapters().remove(proxy);
+						}
+						else if (event.getEventType()==Notification.SET) {
+							if (event.getOldValue()!=null) {
+								((Notifier) event.getOldValue()).eAdapters().remove(proxy);								
+							}
+							if (event.getNewValue()!=null) {
+								((Notifier) event.getNewValue()).eAdapters().add(proxy);								
+							}
+						}
+					}
+
+				}
 			}
 			
 		}
