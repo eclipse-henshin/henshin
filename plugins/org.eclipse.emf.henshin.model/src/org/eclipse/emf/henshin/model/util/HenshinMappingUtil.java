@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 
@@ -14,7 +15,7 @@ import org.eclipse.emf.henshin.model.Node;
  * @author Christian Krause
  */
 public class HenshinMappingUtil {
-
+	
 	/**
 	 * Find a mapping for a given node origin and image.
 	 * 
@@ -34,6 +35,43 @@ public class HenshinMappingUtil {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Create a new mapping between the origin and image node.
+	 * If there exists already a mapping between the two nodes,
+	 * it is returned instead.
+	 * @param origin Origin node.
+	 * @param image Image node.
+	 * @param mappings Mappings.
+	 * @return The newly created mapping.
+	 */
+	public static Mapping createMapping(Node origin, Node image,
+			Collection<Mapping> mappings) {
+		Mapping mapping = getMapping(origin, image, mappings);
+		if (mapping==null) {
+			mapping = HenshinFactory.eINSTANCE.createMapping();
+			mapping.setOrigin(origin);
+			mapping.setImage(image);
+			mappings.add(mapping);
+		}
+		return mapping;
+	}
+
+	/**
+	 * Remove a mapping between the given origin and image node.
+	 * @param origin Origin node.
+	 * @param image Image node.
+	 * @param mappings Mappings.
+	 * @return The removed mapping.
+	 */
+	public static Mapping removeMapping(Node origin, Node image,
+			Collection<Mapping> mappings) {
+		Mapping mapping = getMapping(origin, image, mappings);
+		if (mapping!=null) {
+			mappings.remove(mapping);
+		}
+		return mapping;
 	}
 
 	/**

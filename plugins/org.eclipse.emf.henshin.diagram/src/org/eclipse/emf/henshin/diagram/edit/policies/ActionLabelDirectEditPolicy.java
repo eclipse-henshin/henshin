@@ -5,7 +5,9 @@ import java.util.List;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -13,8 +15,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.LabelEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy;
@@ -73,12 +73,31 @@ public class ActionLabelDirectEditPolicy extends LabelDirectEditPolicy {
 				if (editpart instanceof LabelEditPart) {
 					((LabelEditPart) editpart).refresh();
 				}
+				if (editpart instanceof NodeEditPart) {
+					for (Object con : ((NodeEditPart) editpart).getSourceConnections()) {
+						updateConnection((ConnectionEditPart) con);
+					}
+					for (Object con : ((NodeEditPart) editpart).getTargetConnections()) {
+						updateConnection((ConnectionEditPart) con);
+					}
+				}
 				editpart = editpart.getParent();
 			}
 			
 			// Done.
 			return CommandResult.newOKCommandResult();
 			
+		}
+		
+		/*
+		 * Refresh the labels of a connection edit part.
+		 */
+		private void updateConnection(ConnectionEditPart connection) {
+			for (Object child : connection.getChildren()) {
+				if (child instanceof LabelEditPart) {
+					((LabelEditPart) child).refresh();
+				}
+			}
 		}
 		
 	};

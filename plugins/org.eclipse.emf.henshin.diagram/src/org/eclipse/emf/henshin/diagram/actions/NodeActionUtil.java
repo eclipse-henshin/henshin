@@ -45,38 +45,33 @@ public class NodeActionUtil {
 		// Get the container graph and rule.
 		Graph graph = node.getGraph();
 		Rule rule = graph.getContainerRule();
+		GraphMorphismEditor editor;
 		
 		// Current action type = NONE?
 		if (current.getType()==ActionType.NONE) {
 			
 			// We know that the node is contained in the LHS and that it is mapped to a node in the RHS.
-			Mapping mapping = HenshinMappingUtil.getNodeImageMapping(node, rule.getRhs(), rule.getMappings());			
+			editor = new GraphMorphismEditor(rule.getLhs(), rule.getRhs(), rule.getMappings());
+			Node image = editor.getMappedNode(node);
 			
 			// For DELETE actions, delete the image in the RHS:
 			if (action.getType()==ActionType.DELETE) {
-				rule.getRhs().removeNode(mapping.getImage());
-				rule.getMappings().remove(mapping);
+				editor.removeNode(image);
 			}
 			
 			// For CREATE actions, replace the image in the RHS by the origin:
 			else if (action.getType()==ActionType.CREATE) {
-				GraphEditingHelper.replaceNode(mapping.getImage(), node, rule.getMappings(), false);
-				rule.getMappings().remove(mapping);
+				editor.replaceNode(image);
 			}
 			
 			// For FORBID actions, delete the image in the RHS and move the node to the NAC:
 			else if (action.getType()==ActionType.FORBID) {
-				
-				// Get the NAC first:
-				NestedCondition nac = ElementActionHelper.getOrCreateNAC(action, rule);
-				
-				// Remove the image from the RHS:
-				rule.getRhs().removeNode(mapping.getImage());
-				rule.getMappings().remove(mapping);
+				editor.removeNode(image);
 				
 				// Move the node to the NAC:
-				GraphEditingHelper.moveNode(node, nac.getConclusion(), nac.getMappings(), false);
-				
+				NestedCondition nac = ElementActionHelper.getOrCreateNAC(action, rule);
+				editor = new GraphMorphismEditor(rule.getLhs(), nac.getConclusion(), nac.getMappings());
+				editor.moveNode(node);
 			}
 			
 		}
@@ -85,19 +80,21 @@ public class NodeActionUtil {
 		else if (current.getType()==ActionType.CREATE) {
 			
 			// We know that the node is contained in the RHS and that it is not an image of a mapping.
+			editor = new GraphMorphismEditor(rule.getLhs(), rule.getRhs(), rule.getMappings());
 			
 			// We move the node to the LHS in any case:
-			GraphEditingHelper.moveNode(node, rule.getLhs(), rule.getMappings(), true);
+			editor.moveNode(node);
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				GraphEditingHelper.copyNode(node, rule.getRhs(), rule.getMappings(), false);
+				editor.copyNode(node);
 			}
 			
 			// For FORBID actions, move the node further to the NAC:
 			else if (action.getType()==ActionType.FORBID) {
 				NestedCondition nac = ElementActionHelper.getOrCreateNAC(action, rule);
-				GraphEditingHelper.moveNode(node, nac.getConclusion(), nac.getMappings(), false);
+				editor = new GraphMorphismEditor(rule.getLhs(), nac.getConclusion(), nac.getMappings());
+				editor.moveNode(node);
 			}
 			
 		}
@@ -106,21 +103,23 @@ public class NodeActionUtil {
 		else if (current.getType()==ActionType.DELETE) {
 			
 			// We know that the node is contained in the LHS and that it has no image in the RHS.
+			editor = new GraphMorphismEditor(rule.getLhs(), rule.getRhs(), rule.getMappings());
 			
 			// For NONE actions, create a copy of the node in the RHS and map to it:
 			if (action.getType()==ActionType.NONE) {
-				GraphEditingHelper.copyNode(node, rule.getRhs(), rule.getMappings(), false);
+				editor.copyNode(node);
 			}
 			
 			// For CREATE actions, move the node to the RHS:
 			else if (action.getType()==ActionType.CREATE) {
-				GraphEditingHelper.moveNode(node, rule.getRhs(), rule.getMappings(), false);
+				editor.moveNode(node);
 			}
 			
 			// For FORBID actions, move the node to the NAC:
 			else if (action.getType()==ActionType.FORBID) {
 				NestedCondition nac = ElementActionHelper.getOrCreateNAC(action, rule);
-				GraphEditingHelper.moveNode(node, nac.getConclusion(), nac.getMappings(), false);
+				editor = new GraphMorphismEditor(rule.getLhs(), nac.getConclusion(), nac.getMappings());
+				editor.moveNode(node);
 			}
 			
 		}		
@@ -130,19 +129,22 @@ public class NodeActionUtil {
 			
 			// We know that the node is contained in a NAC and that it has no origin in the LHS.
 			NestedCondition nac = (NestedCondition) graph.eContainer();
+			editor = new GraphMorphismEditor(rule.getLhs(), nac.getConclusion(), nac.getMappings());
 			
 			// We move the node to the LHS in any case:
-			GraphEditingHelper.moveNode(node, rule.getLhs(), nac.getMappings(), true);
+			editor.moveNode(node);
 			
 			// For NONE actions, create a copy in the RHS as well:
 			if (action.getType()==ActionType.NONE) {
-				GraphEditingHelper.copyNode(node, rule.getRhs(), rule.getMappings(), false);
+				editor = new GraphMorphismEditor(rule.getLhs(), rule.getRhs(), rule.getMappings());
+				editor.copyNode(node);
 			}
 
 			// For FORBID actions, move the node to the new NAC:
 			else if (action.getType()==ActionType.FORBID) {
-				NestedCondition target = ElementActionHelper.getOrCreateNAC(action, rule);
-				GraphEditingHelper.moveNode(node, target.getConclusion(), target.getMappings(), false);
+				NestedCondition newNac = ElementActionHelper.getOrCreateNAC(action, rule);
+				editor = new GraphMorphismEditor(rule.getLhs(), newNac.getConclusion(), newNac.getMappings());
+				editor.moveNode(node);
 			}
 			
 			// Delete the NAC is it became empty or trivial due to the current change.
