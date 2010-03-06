@@ -89,7 +89,6 @@ public interface Node extends NamedElement, GraphElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
-	 * @see org.eclipse.emf.henshin.model.GraphElement#getGraph()
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getNodes
 	 * @model opposite="nodes" required="true" transient="false"

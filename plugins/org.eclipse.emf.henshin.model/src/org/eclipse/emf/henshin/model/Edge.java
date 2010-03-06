@@ -121,7 +121,6 @@ public interface Edge extends GraphElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
-	 * @see org.eclipse.emf.henshin.model.GraphElement#getGraph()
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getEdges
 	 * @model opposite="edges" required="true" transient="false"

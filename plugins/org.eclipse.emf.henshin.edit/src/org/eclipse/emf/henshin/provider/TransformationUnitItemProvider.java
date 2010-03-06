@@ -107,6 +107,7 @@ public class TransformationUnitItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
@@ -152,6 +153,7 @@ public class TransformationUnitItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -178,6 +180,11 @@ public class TransformationUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
 				 HenshinFactory.eINSTANCE.createPortParameter()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
+				 HenshinFactory.eINSTANCE.createPortMapping()));
 	}
 
 	/**

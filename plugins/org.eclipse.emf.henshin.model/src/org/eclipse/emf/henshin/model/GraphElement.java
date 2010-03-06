@@ -25,7 +25,6 @@ public interface GraphElement extends EObject {
 	 * Returns the graph this graph element is contained in.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */

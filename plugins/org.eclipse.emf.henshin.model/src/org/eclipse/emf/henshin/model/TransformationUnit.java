@@ -20,11 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getPorts <em>Ports</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getPortMappings <em>Port Mappings</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit()
- * @model abstract="true"
+ * @model interface="true" abstract="true"
  * @generated
  */
 public interface TransformationUnit extends EObject {
@@ -71,5 +72,21 @@ public interface TransformationUnit extends EObject {
 	 * @generated
 	 */
 	EList<Port> getPorts();
+
+	/**
+	 * Returns the value of the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.PortMapping}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Port Mappings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Port Mappings</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_PortMappings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<PortMapping> getPortMappings();
 
 } // TransformationUnit

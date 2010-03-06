@@ -180,6 +180,11 @@ public class CountedUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -196,11 +201,6 @@ public class CountedUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

@@ -22,7 +22,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="instances" upperBound="-1"
         eType="#//Graph" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//DescribedElement #//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//DescribedElement #//NamedElement #//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Graph"
@@ -141,10 +141,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" lowerBound="1"
         eType="#//TransformationSystem" eOpposite="#//TransformationSystem/transformations"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
+      interface="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
         eType="#//Port" containment="true" eOpposite="#//Port/unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="portMappings" upperBound="-1"
+        eType="#//PortMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
@@ -165,9 +168,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
         eType="#//TransformationUnit" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SingleUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamatedUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" eType="#//Rule"/>
@@ -208,5 +208,9 @@
     <eLiterals name="INPUT"/>
     <eLiterals name="OUTPUT" value="1"/>
     <eLiterals name="INPUT_OUTPUT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PortMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Port"/>
   </eClassifiers>
 </ecore:EPackage>

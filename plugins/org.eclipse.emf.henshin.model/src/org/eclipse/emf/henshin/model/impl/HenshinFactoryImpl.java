@@ -84,7 +84,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
 			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
 			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
-			case HenshinPackage.SINGLE_UNIT: return createSingleUnit();
 			case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
 			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
@@ -93,6 +92,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.AND: return createAnd();
 			case HenshinPackage.OR: return createOr();
 			case HenshinPackage.NOT: return createNot();
+			case HenshinPackage.PORT_MAPPING: return createPortMapping();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -348,16 +348,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SingleUnit createSingleUnit() {
-		SingleUnitImpl singleUnit = new SingleUnitImpl();
-		return singleUnit;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public AmalgamatedUnit createAmalgamatedUnit() {
 		AmalgamatedUnitImpl amalgamatedUnit = new AmalgamatedUnitImpl();
 		return amalgamatedUnit;
@@ -431,6 +421,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public Not createNot() {
 		NotImpl not = new NotImpl();
 		return not;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PortMapping createPortMapping() {
+		PortMappingImpl portMapping = new PortMappingImpl();
+		return portMapping;
 	}
 
 	/**

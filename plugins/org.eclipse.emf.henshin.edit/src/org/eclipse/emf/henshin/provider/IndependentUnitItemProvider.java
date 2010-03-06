@@ -152,6 +152,11 @@ public class IndependentUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.INDEPENDENT_UNIT__SUB_UNITS,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.INDEPENDENT_UNIT__SUB_UNITS,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -168,11 +173,6 @@ public class IndependentUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.INDEPENDENT_UNIT__SUB_UNITS,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.INDEPENDENT_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

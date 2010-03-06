@@ -105,7 +105,6 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * is returned.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model
 	 * @generated
 	 */

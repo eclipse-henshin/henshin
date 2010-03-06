@@ -46,13 +46,13 @@ public interface HenshinFactory extends EFactory {
 	TransformationSystem createTransformationSystem();
 
 	/**
-	 * Returns a new object of class '<em>Rule</em>'. <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * Remark: LHS '<em>Graph</em>' and RHS '<em>Graph</em>' are created as well
 	 * and associated with this rule.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return a new object of class '<em>Rule</em>'.
 	 * @generated
 	 */
@@ -211,15 +211,6 @@ public interface HenshinFactory extends EFactory {
 	PriorityUnit createPriorityUnit();
 
 	/**
-	 * Returns a new object of class '<em>Single Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Single Unit</em>'.
-	 * @generated
-	 */
-	SingleUnit createSingleUnit();
-
-	/**
 	 * Returns a new object of class '<em>Amalgamated Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -290,6 +281,15 @@ public interface HenshinFactory extends EFactory {
 	 * @generated
 	 */
 	Not createNot();
+
+	/**
+	 * Returns a new object of class '<em>Port Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Port Mapping</em>'.
+	 * @generated
+	 */
+	PortMapping createPortMapping();
 
 	/**
 	 * Returns the package supported by this factory.

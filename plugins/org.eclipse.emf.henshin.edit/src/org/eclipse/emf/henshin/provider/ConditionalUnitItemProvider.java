@@ -156,6 +156,11 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -172,11 +177,6 @@ public class ConditionalUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -191,6 +191,11 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -207,11 +212,6 @@ public class ConditionalUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -226,6 +226,11 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -242,11 +247,6 @@ public class ConditionalUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

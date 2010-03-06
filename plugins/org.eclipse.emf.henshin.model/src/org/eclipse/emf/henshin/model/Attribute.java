@@ -115,7 +115,6 @@ public interface Attribute extends EObject {
 	 * used in the value of this attribute. Otherwise false is returned.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model ruleRequired="true"
 	 * @generated
 	 */

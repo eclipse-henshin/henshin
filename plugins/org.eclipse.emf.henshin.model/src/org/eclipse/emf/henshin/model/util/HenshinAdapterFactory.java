@@ -156,10 +156,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createPriorityUnitAdapter();
 			}
 			@Override
-			public Adapter caseSingleUnit(SingleUnit object) {
-				return createSingleUnitAdapter();
-			}
-			@Override
 			public Adapter caseAmalgamatedUnit(AmalgamatedUnit object) {
 				return createAmalgamatedUnitAdapter();
 			}
@@ -194,6 +190,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseNot(Not object) {
 				return createNotAdapter();
+			}
+			@Override
+			public Adapter casePortMapping(PortMapping object) {
+				return createPortMappingAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -510,20 +510,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.SingleUnit <em>Single Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.SingleUnit
-	 * @generated
-	 */
-	public Adapter createSingleUnitAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit <em>Amalgamated Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -646,6 +632,20 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.PortMapping <em>Port Mapping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.PortMapping
+	 * @generated
+	 */
+	public Adapter createPortMappingAdapter() {
 		return null;
 	}
 

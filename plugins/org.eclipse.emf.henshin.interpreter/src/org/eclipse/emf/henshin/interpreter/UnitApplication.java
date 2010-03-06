@@ -23,7 +23,6 @@ import org.eclipse.emf.henshin.model.PortParameter;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.SingleUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Variable;
 
@@ -59,8 +58,8 @@ public class UnitApplication {
 
 	public boolean execute() {
 		switch (transformationUnit.eClass().getClassifierID()) {
-		case HenshinPackage.SINGLE_UNIT:
-			return executeSingleUnit();
+		case HenshinPackage.RULE:
+			return executeRule();
 		case HenshinPackage.AMALGAMATED_UNIT:
 			return executeAmalgamatedUnit();
 		case HenshinPackage.INDEPENDENT_UNIT:
@@ -130,9 +129,8 @@ public class UnitApplication {
 		return true;
 	}
 
-	private boolean executeSingleUnit() {
-		SingleUnit singleUnit = (SingleUnit) transformationUnit;
-		Rule rule = singleUnit.getRule();
+	private boolean executeRule() {
+		Rule rule = (Rule) transformationUnit;
 
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		Match match = new Match(rule, ModelHelper.createAssignments(

@@ -152,6 +152,11 @@ public class PriorityUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -168,11 +173,6 @@ public class PriorityUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

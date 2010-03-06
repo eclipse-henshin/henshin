@@ -19,11 +19,13 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -35,6 +37,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getPorts <em>Ports</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getPortMappings <em>Port Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +73,16 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 	 * @ordered
 	 */
 	protected EList<Port> ports;
+
+	/**
+	 * The cached value of the '{@link #getPortMappings() <em>Port Mappings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPortMappings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<PortMapping> portMappings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,6 +141,18 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<PortMapping> getPortMappings() {
+		if (portMappings == null) {
+			portMappings = new EObjectContainmentEList<PortMapping>(PortMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS);
+		}
+		return portMappings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -148,6 +173,8 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
 				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -164,6 +191,8 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 				return isActivated();
 			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
 				return getPorts();
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+				return getPortMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -184,6 +213,10 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 				getPorts().clear();
 				getPorts().addAll((Collection<? extends Port>)newValue);
 				return;
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+				getPortMappings().clear();
+				getPortMappings().addAll((Collection<? extends PortMapping>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -202,6 +235,9 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
 				getPorts().clear();
 				return;
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+				getPortMappings().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -218,6 +254,8 @@ public abstract class TransformationUnitImpl extends EObjectImpl implements Tran
 				return activated != ACTIVATED_EDEFAULT;
 			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
 				return ports != null && !ports.isEmpty();
+			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+				return portMappings != null && !portMappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

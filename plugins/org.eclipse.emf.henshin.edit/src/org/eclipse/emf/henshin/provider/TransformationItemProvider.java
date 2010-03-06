@@ -182,6 +182,11 @@ public class TransformationItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION__MAIN_UNIT,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION__MAIN_UNIT,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
@@ -198,11 +203,6 @@ public class TransformationItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION__MAIN_UNIT,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION__MAIN_UNIT,
-				 HenshinFactory.eINSTANCE.createSingleUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

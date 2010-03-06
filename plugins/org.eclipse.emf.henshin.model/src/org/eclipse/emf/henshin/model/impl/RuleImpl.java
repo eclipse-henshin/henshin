@@ -28,8 +28,11 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NamedElement;
+import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Variable;
 
 /**
@@ -40,6 +43,9 @@ import org.eclipse.emf.henshin.model.Variable;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isActivated <em>Activated</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getPorts <em>Ports</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getPortMappings <em>Port Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getLhs <em>Lhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getRhs <em>Rhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getAttributeConditions <em>Attribute Conditions</em>}</li>
@@ -71,6 +77,46 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ACTIVATED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean activated = ACTIVATED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPorts()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Port> ports;
+
+	/**
+	 * The cached value of the '{@link #getPortMappings() <em>Port Mappings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPortMappings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<PortMapping> portMappings;
 
 	/**
 	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
@@ -160,6 +206,51 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isActivated() {
+		return activated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setActivated(boolean newActivated) {
+		boolean oldActivated = activated;
+		activated = newActivated;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__ACTIVATED, oldActivated, activated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Port> getPorts() {
+		if (ports == null) {
+			ports = new EObjectContainmentWithInverseEList<Port>(Port.class, this, HenshinPackage.RULE__PORTS, HenshinPackage.PORT__UNIT);
+		}
+		return ports;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<PortMapping> getPortMappings() {
+		if (portMappings == null) {
+			portMappings = new EObjectContainmentEList<PortMapping>(PortMapping.class, this, HenshinPackage.RULE__PORT_MAPPINGS);
+		}
+		return portMappings;
 	}
 
 	/**
@@ -334,6 +425,8 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case HenshinPackage.RULE__PORTS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPorts()).basicAdd(otherEnd, msgs);
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
 			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
@@ -354,6 +447,10 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case HenshinPackage.RULE__PORTS:
+				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__PORT_MAPPINGS:
+				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.RULE__LHS:
 				return basicSetLhs(null, msgs);
 			case HenshinPackage.RULE__RHS:
@@ -394,6 +491,12 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		switch (featureID) {
 			case HenshinPackage.RULE__NAME:
 				return getName();
+			case HenshinPackage.RULE__ACTIVATED:
+				return isActivated();
+			case HenshinPackage.RULE__PORTS:
+				return getPorts();
+			case HenshinPackage.RULE__PORT_MAPPINGS:
+				return getPortMappings();
 			case HenshinPackage.RULE__LHS:
 				return getLhs();
 			case HenshinPackage.RULE__RHS:
@@ -421,6 +524,17 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		switch (featureID) {
 			case HenshinPackage.RULE__NAME:
 				setName((String)newValue);
+				return;
+			case HenshinPackage.RULE__ACTIVATED:
+				setActivated((Boolean)newValue);
+				return;
+			case HenshinPackage.RULE__PORTS:
+				getPorts().clear();
+				getPorts().addAll((Collection<? extends Port>)newValue);
+				return;
+			case HenshinPackage.RULE__PORT_MAPPINGS:
+				getPortMappings().clear();
+				getPortMappings().addAll((Collection<? extends PortMapping>)newValue);
 				return;
 			case HenshinPackage.RULE__LHS:
 				setLhs((Graph)newValue);
@@ -458,6 +572,15 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 			case HenshinPackage.RULE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case HenshinPackage.RULE__ACTIVATED:
+				setActivated(ACTIVATED_EDEFAULT);
+				return;
+			case HenshinPackage.RULE__PORTS:
+				getPorts().clear();
+				return;
+			case HenshinPackage.RULE__PORT_MAPPINGS:
+				getPortMappings().clear();
+				return;
 			case HenshinPackage.RULE__LHS:
 				setLhs((Graph)null);
 				return;
@@ -490,6 +613,12 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		switch (featureID) {
 			case HenshinPackage.RULE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.RULE__ACTIVATED:
+				return activated != ACTIVATED_EDEFAULT;
+			case HenshinPackage.RULE__PORTS:
+				return ports != null && !ports.isEmpty();
+			case HenshinPackage.RULE__PORT_MAPPINGS:
+				return portMappings != null && !portMappings.isEmpty();
 			case HenshinPackage.RULE__LHS:
 				return lhs != null;
 			case HenshinPackage.RULE__RHS:
@@ -519,6 +648,14 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 				default: return -1;
 			}
 		}
+		if (baseClass == TransformationUnit.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.RULE__ACTIVATED: return HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED;
+				case HenshinPackage.RULE__PORTS: return HenshinPackage.TRANSFORMATION_UNIT__PORTS;
+				case HenshinPackage.RULE__PORT_MAPPINGS: return HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -532,6 +669,14 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
 				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.RULE__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == TransformationUnit.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED: return HenshinPackage.RULE__ACTIVATED;
+				case HenshinPackage.TRANSFORMATION_UNIT__PORTS: return HenshinPackage.RULE__PORTS;
+				case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS: return HenshinPackage.RULE__PORT_MAPPINGS;
 				default: return -1;
 			}
 		}
@@ -550,6 +695,8 @@ public class RuleImpl extends DescribedElementImpl implements Rule {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", activated: ");
+		result.append(activated);
 		result.append(')');
 		return result.toString();
 	}
