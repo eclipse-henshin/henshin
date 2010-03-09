@@ -2,7 +2,7 @@
 <gmfgen:GenEditorGenerator xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel">
+    xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel" copyrightText="Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, &#xA;University of Marburg and others. All rights reserved. &#xA;This program and the accompanying materials are made &#xA;available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    CWI Amsterdam - initial API and implementation">
   <diagram
       visualID="1000"
       editPartClassName="TransformationSystemEditPart"
@@ -319,7 +319,8 @@
   </diagram>
   <plugin
       name="Henshin Diagram Editor Plugin"
-      provider="Eclipse.org">
+      provider="Eclipse.org"
+      version="0.5.0.qualifier">
     <requiredPlugins>org.eclipse.draw2d</requiredPlugins>
     <requiredPlugins>org.eclipse.gmf.runtime.draw2d.ui</requiredPlugins>
   </plugin>
