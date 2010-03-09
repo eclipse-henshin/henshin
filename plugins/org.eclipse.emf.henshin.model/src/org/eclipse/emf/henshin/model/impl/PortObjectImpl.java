@@ -1,9 +1,14 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
+ * University of Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * $Id: PortObjectImpl.java,v 1.1 2009/10/28 10:38:12 enrico Exp $
- */
+ * Contributors:
+ *     Technical University of Berlin - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
