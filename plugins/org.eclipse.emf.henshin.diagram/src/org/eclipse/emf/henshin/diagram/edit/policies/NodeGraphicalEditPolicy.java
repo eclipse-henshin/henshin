@@ -78,7 +78,7 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		
 		// Collect all matching references:
 		List<EReference> result = new ArrayList<EReference>();
-		for (EReference reference : src.getType().getEReferences()) {
+		for (EReference reference : src.getType().getEAllReferences()) {
 			if (EdgeCreateCommand.canCreateEdge(src, trg, reference)) {
 				result.add(reference);
 			}

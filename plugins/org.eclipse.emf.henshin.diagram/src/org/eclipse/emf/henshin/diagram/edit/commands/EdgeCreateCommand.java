@@ -125,7 +125,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		}
 
 		// Reference must be owned by source.
-		if (!sourceType.getEReferences().contains(edgeType)) {
+		if (!sourceType.getEAllReferences().contains(edgeType)) {
 			return false;
 		}
 
