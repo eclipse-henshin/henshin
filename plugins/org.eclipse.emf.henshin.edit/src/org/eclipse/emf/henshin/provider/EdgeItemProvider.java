@@ -32,6 +32,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
+import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Edge} object.
@@ -116,7 +117,7 @@ public class EdgeItemProvider
 	protected void addTargetPropertyDescriptor(Object object) {
 		
 		
-		itemPropertyDescriptors.add(new EdgeSourcePropertyDescriptor(
+		itemPropertyDescriptors.add(new EdgeTargetPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(), getResourceLocator(),
 				getString("_UI_Edge_target_feature"), getString(

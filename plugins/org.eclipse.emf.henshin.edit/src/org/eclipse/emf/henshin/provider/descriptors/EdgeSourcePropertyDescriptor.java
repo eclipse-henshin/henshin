@@ -20,6 +20,7 @@ import java.util.Collections;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
@@ -74,10 +75,10 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 			Collection<Node> nodeList = null;
 
 			if (edgeType != null) {
-				EObject srcNodeType = edgeType.eContainer();
+				EClass srcNodeType = (EClass) edgeType.eContainer();
 				nodeList = new ArrayList<Node>();
 				for (Node node : graph.getNodes()) {
-					if (node.getType().equals(srcNodeType))
+					if ((node.getType().equals(srcNodeType)) || (srcNodeType.isSuperTypeOf(node.getType())))
 						nodeList.add(node);
 				}// for
 
