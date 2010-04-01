@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class CountedUnitItemProvider
-	extends TransformationUnitItemProvider
+	extends DescribedElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -69,9 +69,55 @@ public class CountedUnitItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
+			addActivatedPropertyDescriptor(object);
 			addCountPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NamedElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
+				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Activated feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActivatedPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TransformationUnit_activated_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
+				 HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -108,6 +154,8 @@ public class CountedUnitItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS);
 			childrenFeatures.add(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT);
 		}
 		return childrenFeatures;
@@ -145,8 +193,10 @@ public class CountedUnitItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		CountedUnit countedUnit = (CountedUnit)object;
-		return getString("_UI_CountedUnit_type") + " " + countedUnit.isActivated();
+		String label = ((CountedUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_CountedUnit_type") :
+			getString("_UI_CountedUnit_type") + " " + label;
 	}
 
 	/**
@@ -161,9 +211,13 @@ public class CountedUnitItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(CountedUnit.class)) {
+			case HenshinPackage.COUNTED_UNIT__NAME:
+			case HenshinPackage.COUNTED_UNIT__ACTIVATED:
 			case HenshinPackage.COUNTED_UNIT__COUNT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case HenshinPackage.COUNTED_UNIT__PORTS:
+			case HenshinPackage.COUNTED_UNIT__PORT_MAPPINGS:
 			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -181,6 +235,21 @@ public class CountedUnitItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
+				 HenshinFactory.eINSTANCE.createPortObject()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
+				 HenshinFactory.eINSTANCE.createPortParameter()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
+				 HenshinFactory.eINSTANCE.createPortMapping()));
 
 		newChildDescriptors.add
 			(createChildParameter

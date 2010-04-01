@@ -134,8 +134,8 @@ public class TransformationSystemItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATIONS);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
 		}
 		return childrenFeatures;
 	}
@@ -194,8 +194,8 @@ public class TransformationSystemItemProvider
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -220,15 +220,68 @@ public class TransformationSystemItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATIONS,
-				 HenshinFactory.eINSTANCE.createTransformation()));
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES,
+				 HenshinFactory.eINSTANCE.createGraph()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES,
-				 HenshinFactory.eINSTANCE.createGraph()));
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createIndependentUnit()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createSequentialUnit()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createConditionalUnit()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createPriorityUnit()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+				 HenshinFactory.eINSTANCE.createCountedUnit()));
 	}
 	
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES ||
+			childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
+	}
+
 	/**
 	 * This creates a primitive {@link org.eclipse.emf.edit.command.AddCommand}.
 	 * It provides a custom command for creating rules.

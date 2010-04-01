@@ -357,29 +357,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Transformation} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TransformationItemProvider transformationItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Transformation}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createTransformationAdapter() {
-		if (transformationItemProvider == null) {
-			transformationItemProvider = new TransformationItemProvider(this);
-		}
-
-		return transformationItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.IndependentUnit} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -789,7 +766,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (nodeItemProvider != null) nodeItemProvider.dispose();
 		if (attributeItemProvider != null) attributeItemProvider.dispose();
 		if (edgeItemProvider != null) edgeItemProvider.dispose();
-		if (transformationItemProvider != null) transformationItemProvider.dispose();
 		if (independentUnitItemProvider != null) independentUnitItemProvider.dispose();
 		if (sequentialUnitItemProvider != null) sequentialUnitItemProvider.dispose();
 		if (conditionalUnitItemProvider != null) conditionalUnitItemProvider.dispose();
