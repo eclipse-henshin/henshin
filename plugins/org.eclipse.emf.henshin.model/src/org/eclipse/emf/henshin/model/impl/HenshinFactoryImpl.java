@@ -84,7 +84,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.NODE: return createNode();
 			case HenshinPackage.ATTRIBUTE: return createAttribute();
 			case HenshinPackage.EDGE: return createEdge();
-			case HenshinPackage.TRANSFORMATION: return createTransformation();
 			case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
 			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
 			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
@@ -296,16 +295,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		edge.setType(type);
 		edge.setGraph(source.getGraph());
 		return edge;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Transformation createTransformation() {
-		TransformationImpl transformation = new TransformationImpl();
-		return transformation;
 	}
 
 	/**

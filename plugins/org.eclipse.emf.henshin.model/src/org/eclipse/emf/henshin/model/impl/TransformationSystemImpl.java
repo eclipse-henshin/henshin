@@ -28,8 +28,8 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Transformation;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,9 +40,9 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getRules <em>Rules</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getTransformations <em>Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getInstances <em>Instances</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getTransformationUnits <em>Transformation Units</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,16 +80,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	protected EList<Rule> rules;
 
 	/**
-	 * The cached value of the '{@link #getTransformations() <em>Transformations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTransformations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Transformation> transformations;
-
-	/**
 	 * The cached value of the '{@link #getImports() <em>Imports</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -108,6 +98,16 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * @ordered
 	 */
 	protected EList<Graph> instances;
+
+	/**
+	 * The cached value of the '{@link #getTransformationUnits() <em>Transformation Units</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransformationUnits()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<TransformationUnit> transformationUnits;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,18 +166,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Transformation> getTransformations() {
-		if (transformations == null) {
-			transformations = new EObjectContainmentWithInverseEList<Transformation>(Transformation.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS, HenshinPackage.TRANSFORMATION__TRANSFORMATION_SYSTEM);
-		}
-		return transformations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<EPackage> getImports() {
 		if (imports == null) {
 			imports = new EObjectResolvingEList<EPackage>(EPackage.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS);
@@ -195,6 +183,18 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 			instances = new EObjectContainmentEList<Graph>(Graph.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES);
 		}
 		return instances;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<TransformationUnit> getTransformationUnits() {
+		if (transformationUnits == null) {
+			transformationUnits = new EObjectContainmentEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
+		}
+		return transformationUnits;
 	}
 
 	/**
@@ -222,8 +222,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRules()).basicAdd(otherEnd, msgs);
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getTransformations()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -238,10 +236,10 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				return ((InternalEList<?>)getTransformations()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+				return ((InternalEList<?>)getTransformationUnits()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -258,12 +256,12 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				return getName();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				return getRules();
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				return getTransformations();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				return getImports();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				return getInstances();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+				return getTransformationUnits();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -284,10 +282,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				getRules().clear();
 				getRules().addAll((Collection<? extends Rule>)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				getTransformations().clear();
-				getTransformations().addAll((Collection<? extends Transformation>)newValue);
-				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				getImports().clear();
 				getImports().addAll((Collection<? extends EPackage>)newValue);
@@ -295,6 +289,10 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				getInstances().clear();
 				getInstances().addAll((Collection<? extends Graph>)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+				getTransformationUnits().clear();
+				getTransformationUnits().addAll((Collection<? extends TransformationUnit>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -314,14 +312,14 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				getRules().clear();
 				return;
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				getTransformations().clear();
-				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				getImports().clear();
 				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				getInstances().clear();
+				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+				getTransformationUnits().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -339,12 +337,12 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				return rules != null && !rules.isEmpty();
-			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATIONS:
-				return transformations != null && !transformations.isEmpty();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				return imports != null && !imports.isEmpty();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				return instances != null && !instances.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+				return transformationUnits != null && !transformationUnits.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

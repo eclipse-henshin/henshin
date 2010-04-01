@@ -32,78 +32,78 @@ package org.eclipse.emf.henshin.model;
  */
 public interface ConditionalUnit extends TransformationUnit {
 	/**
-	 * Returns the value of the '<em><b>If</b></em>' containment reference.
+	 * Returns the value of the '<em><b>If</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>If</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>If</em>' containment reference.
+	 * @return the value of the '<em>If</em>' reference.
 	 * @see #setIf(TransformationUnit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getConditionalUnit_If()
-	 * @model containment="true" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	TransformationUnit getIf();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getIf <em>If</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getIf <em>If</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>If</em>' containment reference.
+	 * @param value the new value of the '<em>If</em>' reference.
 	 * @see #getIf()
 	 * @generated
 	 */
 	void setIf(TransformationUnit value);
 
 	/**
-	 * Returns the value of the '<em><b>Then</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Then</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Then</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Then</em>' containment reference.
+	 * @return the value of the '<em>Then</em>' reference.
 	 * @see #setThen(TransformationUnit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getConditionalUnit_Then()
-	 * @model containment="true" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	TransformationUnit getThen();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getThen <em>Then</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getThen <em>Then</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Then</em>' containment reference.
+	 * @param value the new value of the '<em>Then</em>' reference.
 	 * @see #getThen()
 	 * @generated
 	 */
 	void setThen(TransformationUnit value);
 
 	/**
-	 * Returns the value of the '<em><b>Else</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Else</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Else</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Else</em>' containment reference.
+	 * @return the value of the '<em>Else</em>' reference.
 	 * @see #setElse(TransformationUnit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getConditionalUnit_Else()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	TransformationUnit getElse();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getElse <em>Else</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.ConditionalUnit#getElse <em>Else</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Else</em>' containment reference.
+	 * @param value the new value of the '<em>Else</em>' reference.
 	 * @see #getElse()
 	 * @generated
 	 */

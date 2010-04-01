@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -38,6 +39,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl#getPorts <em>Ports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl#getPortMappings <em>Port Mappings</em>}</li>
@@ -48,7 +50,27 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
+public class CountedUnitImpl extends DescribedElementImpl implements CountedUnit {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -90,7 +112,7 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	protected EList<PortMapping> portMappings;
 
 	/**
-	 * The cached value of the '{@link #getSubUnit() <em>Sub Unit</em>}' containment reference.
+	 * The cached value of the '{@link #getSubUnit() <em>Sub Unit</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSubUnit()
@@ -136,6 +158,27 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.COUNTED_UNIT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__NAME, oldName, name));
 	}
 
 	/**
@@ -189,6 +232,14 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	 * @generated
 	 */
 	public TransformationUnit getSubUnit() {
+		if (subUnit != null && subUnit.eIsProxy()) {
+			InternalEObject oldSubUnit = (InternalEObject)subUnit;
+			subUnit = (TransformationUnit)eResolveProxy(oldSubUnit);
+			if (subUnit != oldSubUnit) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.COUNTED_UNIT__SUB_UNIT, oldSubUnit, subUnit));
+			}
+		}
 		return subUnit;
 	}
 
@@ -197,14 +248,8 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSubUnit(TransformationUnit newSubUnit, NotificationChain msgs) {
-		TransformationUnit oldSubUnit = subUnit;
-		subUnit = newSubUnit;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__SUB_UNIT, oldSubUnit, newSubUnit);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public TransformationUnit basicGetSubUnit() {
+		return subUnit;
 	}
 
 	/**
@@ -213,17 +258,10 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	 * @generated
 	 */
 	public void setSubUnit(TransformationUnit newSubUnit) {
-		if (newSubUnit != subUnit) {
-			NotificationChain msgs = null;
-			if (subUnit != null)
-				msgs = ((InternalEObject)subUnit).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.COUNTED_UNIT__SUB_UNIT, null, msgs);
-			if (newSubUnit != null)
-				msgs = ((InternalEObject)newSubUnit).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.COUNTED_UNIT__SUB_UNIT, null, msgs);
-			msgs = basicSetSubUnit(newSubUnit, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__SUB_UNIT, newSubUnit, newSubUnit));
+		TransformationUnit oldSubUnit = subUnit;
+		subUnit = newSubUnit;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.COUNTED_UNIT__SUB_UNIT, oldSubUnit, subUnit));
 	}
 
 	/**
@@ -274,8 +312,6 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.COUNTED_UNIT__PORT_MAPPINGS:
 				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				return basicSetSubUnit(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -288,6 +324,8 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case HenshinPackage.COUNTED_UNIT__NAME:
+				return getName();
 			case HenshinPackage.COUNTED_UNIT__ACTIVATED:
 				return isActivated();
 			case HenshinPackage.COUNTED_UNIT__PORTS:
@@ -295,7 +333,8 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 			case HenshinPackage.COUNTED_UNIT__PORT_MAPPINGS:
 				return getPortMappings();
 			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				return getSubUnit();
+				if (resolve) return getSubUnit();
+				return basicGetSubUnit();
 			case HenshinPackage.COUNTED_UNIT__COUNT:
 				return getCount();
 		}
@@ -311,6 +350,9 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case HenshinPackage.COUNTED_UNIT__NAME:
+				setName((String)newValue);
+				return;
 			case HenshinPackage.COUNTED_UNIT__ACTIVATED:
 				setActivated((Boolean)newValue);
 				return;
@@ -340,6 +382,9 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.COUNTED_UNIT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case HenshinPackage.COUNTED_UNIT__ACTIVATED:
 				setActivated(ACTIVATED_EDEFAULT);
 				return;
@@ -367,6 +412,8 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.COUNTED_UNIT__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HenshinPackage.COUNTED_UNIT__ACTIVATED:
 				return activated != ACTIVATED_EDEFAULT;
 			case HenshinPackage.COUNTED_UNIT__PORTS:
@@ -387,11 +434,45 @@ public class CountedUnitImpl extends EObjectImpl implements CountedUnit {
 	 * @generated
 	 */
 	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == NamedElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.COUNTED_UNIT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == NamedElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.COUNTED_UNIT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (activated: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", activated: ");
 		result.append(activated);
 		result.append(", count: ");
 		result.append(count);

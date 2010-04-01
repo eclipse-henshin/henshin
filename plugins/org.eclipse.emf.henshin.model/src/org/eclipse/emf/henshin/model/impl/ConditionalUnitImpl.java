@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -38,6 +39,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getPorts <em>Ports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getPortMappings <em>Port Mappings</em>}</li>
@@ -49,7 +51,27 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit {
+public class ConditionalUnitImpl extends DescribedElementImpl implements ConditionalUnit {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -91,7 +113,7 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	protected EList<PortMapping> portMappings;
 
 	/**
-	 * The cached value of the '{@link #getIf() <em>If</em>}' containment reference.
+	 * The cached value of the '{@link #getIf() <em>If</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getIf()
@@ -101,7 +123,7 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	protected TransformationUnit if_;
 
 	/**
-	 * The cached value of the '{@link #getThen() <em>Then</em>}' containment reference.
+	 * The cached value of the '{@link #getThen() <em>Then</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getThen()
@@ -111,7 +133,7 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	protected TransformationUnit then;
 
 	/**
-	 * The cached value of the '{@link #getElse() <em>Else</em>}' containment reference.
+	 * The cached value of the '{@link #getElse() <em>Else</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getElse()
@@ -137,6 +159,27 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.CONDITIONAL_UNIT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__NAME, oldName, name));
 	}
 
 	/**
@@ -190,6 +233,14 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public TransformationUnit getIf() {
+		if (if_ != null && if_.eIsProxy()) {
+			InternalEObject oldIf = (InternalEObject)if_;
+			if_ = (TransformationUnit)eResolveProxy(oldIf);
+			if (if_ != oldIf) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
+			}
+		}
 		return if_;
 	}
 
@@ -198,14 +249,8 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetIf(TransformationUnit newIf, NotificationChain msgs) {
-		TransformationUnit oldIf = if_;
-		if_ = newIf;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, newIf);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public TransformationUnit basicGetIf() {
+		return if_;
 	}
 
 	/**
@@ -214,17 +259,10 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public void setIf(TransformationUnit newIf) {
-		if (newIf != if_) {
-			NotificationChain msgs = null;
-			if (if_ != null)
-				msgs = ((InternalEObject)if_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__IF, null, msgs);
-			if (newIf != null)
-				msgs = ((InternalEObject)newIf).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__IF, null, msgs);
-			msgs = basicSetIf(newIf, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__IF, newIf, newIf));
+		TransformationUnit oldIf = if_;
+		if_ = newIf;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
 	}
 
 	/**
@@ -233,6 +271,14 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public TransformationUnit getThen() {
+		if (then != null && then.eIsProxy()) {
+			InternalEObject oldThen = (InternalEObject)then;
+			then = (TransformationUnit)eResolveProxy(oldThen);
+			if (then != oldThen) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
+			}
+		}
 		return then;
 	}
 
@@ -241,14 +287,8 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetThen(TransformationUnit newThen, NotificationChain msgs) {
-		TransformationUnit oldThen = then;
-		then = newThen;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, newThen);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public TransformationUnit basicGetThen() {
+		return then;
 	}
 
 	/**
@@ -257,17 +297,10 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public void setThen(TransformationUnit newThen) {
-		if (newThen != then) {
-			NotificationChain msgs = null;
-			if (then != null)
-				msgs = ((InternalEObject)then).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__THEN, null, msgs);
-			if (newThen != null)
-				msgs = ((InternalEObject)newThen).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__THEN, null, msgs);
-			msgs = basicSetThen(newThen, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__THEN, newThen, newThen));
+		TransformationUnit oldThen = then;
+		then = newThen;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
 	}
 
 	/**
@@ -276,6 +309,14 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public TransformationUnit getElse() {
+		if (else_ != null && else_.eIsProxy()) {
+			InternalEObject oldElse = (InternalEObject)else_;
+			else_ = (TransformationUnit)eResolveProxy(oldElse);
+			if (else_ != oldElse) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
+			}
+		}
 		return else_;
 	}
 
@@ -284,14 +325,8 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetElse(TransformationUnit newElse, NotificationChain msgs) {
-		TransformationUnit oldElse = else_;
-		else_ = newElse;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, newElse);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public TransformationUnit basicGetElse() {
+		return else_;
 	}
 
 	/**
@@ -300,17 +335,10 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	public void setElse(TransformationUnit newElse) {
-		if (newElse != else_) {
-			NotificationChain msgs = null;
-			if (else_ != null)
-				msgs = ((InternalEObject)else_).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__ELSE, null, msgs);
-			if (newElse != null)
-				msgs = ((InternalEObject)newElse).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.CONDITIONAL_UNIT__ELSE, null, msgs);
-			msgs = basicSetElse(newElse, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ELSE, newElse, newElse));
+		TransformationUnit oldElse = else_;
+		else_ = newElse;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
 	}
 
 	/**
@@ -340,12 +368,6 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
 				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				return basicSetIf(null, msgs);
-			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				return basicSetThen(null, msgs);
-			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				return basicSetElse(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -358,6 +380,8 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case HenshinPackage.CONDITIONAL_UNIT__NAME:
+				return getName();
 			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
 				return isActivated();
 			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
@@ -365,11 +389,14 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
 				return getPortMappings();
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				return getIf();
+				if (resolve) return getIf();
+				return basicGetIf();
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				return getThen();
+				if (resolve) return getThen();
+				return basicGetThen();
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				return getElse();
+				if (resolve) return getElse();
+				return basicGetElse();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -383,6 +410,9 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case HenshinPackage.CONDITIONAL_UNIT__NAME:
+				setName((String)newValue);
+				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
 				setActivated((Boolean)newValue);
 				return;
@@ -415,6 +445,9 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.CONDITIONAL_UNIT__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
 				setActivated(ACTIVATED_EDEFAULT);
 				return;
@@ -445,6 +478,8 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.CONDITIONAL_UNIT__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
 				return activated != ACTIVATED_EDEFAULT;
 			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
@@ -467,11 +502,45 @@ public class ConditionalUnitImpl extends EObjectImpl implements ConditionalUnit 
 	 * @generated
 	 */
 	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == NamedElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.CONDITIONAL_UNIT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == NamedElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.CONDITIONAL_UNIT__NAME;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (activated: ");
+		result.append(" (name: ");
+		result.append(name);
+		result.append(", activated: ");
 		result.append(activated);
 		result.append(')');
 		return result.toString();

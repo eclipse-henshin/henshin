@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model interface="true" abstract="true"
  * @generated
  */
-public interface TransformationUnit extends EObject {
+public interface TransformationUnit extends DescribedElement, NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Activated</b></em>' attribute.
 	 * <!-- begin-user-doc -->

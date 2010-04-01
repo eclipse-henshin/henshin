@@ -31,7 +31,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface SequentialUnit extends TransformationUnit {
 	/**
-	 * Returns the value of the '<em><b>Sub Units</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Sub Units</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -39,9 +39,9 @@ public interface SequentialUnit extends TransformationUnit {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Sub Units</em>' containment reference list.
+	 * @return the value of the '<em>Sub Units</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getSequentialUnit_SubUnits()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	EList<TransformationUnit> getSubUnits();

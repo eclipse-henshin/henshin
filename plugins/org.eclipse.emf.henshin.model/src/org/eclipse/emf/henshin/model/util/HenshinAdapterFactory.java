@@ -137,10 +137,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createEdgeAdapter();
 			}
 			@Override
-			public Adapter caseTransformation(Transformation object) {
-				return createTransformationAdapter();
-			}
-			@Override
 			public Adapter caseTransformationUnit(TransformationUnit object) {
 				return createTransformationUnitAdapter();
 			}
@@ -427,20 +423,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEdgeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Transformation <em>Transformation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.Transformation
-	 * @generated
-	 */
-	public Adapter createTransformationAdapter() {
 		return null;
 	}
 

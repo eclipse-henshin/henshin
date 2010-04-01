@@ -15,12 +15,12 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="#//Rule" containment="true" eOpposite="#//Rule/transformationSystem"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transformations" upperBound="-1"
-        eType="#//Transformation" containment="true" eOpposite="#//Transformation/transformationSystem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instances" upperBound="-1"
         eType="#//Graph" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationUnits" upperBound="-1"
+        eType="#//TransformationUnit" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//DescribedElement #//NamedElement #//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
@@ -135,14 +135,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
         eOpposite="#//Graph/edges"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transformation" eSuperTypes="#//DescribedElement #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mainUnit" lowerBound="1"
-        eType="#//TransformationUnit" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" lowerBound="1"
-        eType="#//TransformationSystem" eOpposite="#//TransformationSystem/transformations"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
-      interface="true">
+      interface="true" eSuperTypes="#//DescribedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
         eType="#//Port" containment="true" eOpposite="#//Port/unit"/>
@@ -151,23 +145,20 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit" containment="true"/>
+        eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SequentialUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit" containment="true"/>
+        eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="if" lowerBound="1" eType="#//TransformationUnit"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="then" lowerBound="1" eType="#//TransformationUnit"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//TransformationUnit"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="if" lowerBound="1" eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" lowerBound="1" eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit" containment="true"/>
+        eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamatedUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" eType="#//Rule"/>
@@ -180,7 +171,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
-        eType="#//TransformationUnit" containment="true"/>
+        eType="#//TransformationUnit"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NestedCondition" eSuperTypes="#//Formula">

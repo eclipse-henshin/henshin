@@ -171,15 +171,6 @@ public interface HenshinFactory extends EFactory {
 	public Edge createEdge(Node source, Node target, EReference type);
 	
 	/**
-	 * Returns a new object of class '<em>Transformation</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Transformation</em>'.
-	 * @generated
-	 */
-	Transformation createTransformation();
-
-	/**
 	 * Returns a new object of class '<em>Independent Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

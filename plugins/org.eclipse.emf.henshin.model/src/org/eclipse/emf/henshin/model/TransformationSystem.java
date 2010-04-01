@@ -23,9 +23,9 @@ import org.eclipse.emf.ecore.EPackage;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getRules <em>Rules</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformations <em>Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getInstances <em>Instances</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits <em>Transformation Units</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,24 +51,6 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * @generated
 	 */
 	EList<Rule> getRules();
-
-	/**
-	 * Returns the value of the '<em><b>Transformations</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Transformation}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Transformation#getTransformationSystem <em>Transformation System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transformations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transformations</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Transformations()
-	 * @see org.eclipse.emf.henshin.model.Transformation#getTransformationSystem
-	 * @model opposite="transformationSystem" containment="true"
-	 * @generated
-	 */
-	EList<Transformation> getTransformations();
 
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' reference list.
@@ -101,6 +83,22 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * @generated
 	 */
 	EList<Graph> getInstances();
+
+	/**
+	 * Returns the value of the '<em><b>Transformation Units</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Transformation Units</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Transformation Units</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_TransformationUnits()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<TransformationUnit> getTransformationUnits();
 
 	/**
 	 * <!-- begin-user-doc -->
