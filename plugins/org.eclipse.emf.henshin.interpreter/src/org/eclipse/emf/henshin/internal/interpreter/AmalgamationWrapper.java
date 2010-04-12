@@ -31,12 +31,13 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Variable;
 
 public class AmalgamationWrapper {
 	private AmalgamatedUnit amalgamatedUnit;
-	private Map<String, Object> portValues;
+	private Map<Port, Object> portValues;
 
 	private List<Rule> kernelRules;
 	private List<Rule> multiRules;
@@ -45,7 +46,7 @@ public class AmalgamationWrapper {
 	private InterpreterEngine engine;
 
 	public AmalgamationWrapper(EmfEngine engine,
-			AmalgamatedUnit amalgamatedUnit, Map<String, Object> portValues) {
+			AmalgamatedUnit amalgamatedUnit, Map<Port, Object> portValues) {
 		this.amalgamatedUnit = amalgamatedUnit;
 		this.portValues = portValues;
 

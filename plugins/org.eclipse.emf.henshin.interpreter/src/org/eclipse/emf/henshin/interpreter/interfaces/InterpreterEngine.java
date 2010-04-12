@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -87,7 +88,7 @@ public interface InterpreterEngine {
 	 * @return true, if the kernel rule was found, otherwise false.
 	 */
 	public RuleApplication generateAmalgamatedRule(
-			AmalgamatedUnit amalgamatedRule, Map<String, Object> portValues);
+			AmalgamatedUnit amalgamatedRule, Map<Port, Object> portValues);
 
 	/**
 	 * Evaluates the given Java-Expression.

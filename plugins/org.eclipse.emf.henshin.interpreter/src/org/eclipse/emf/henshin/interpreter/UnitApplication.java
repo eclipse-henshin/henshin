@@ -26,23 +26,20 @@ import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.PortKind;
-import org.eclipse.emf.henshin.model.PortObject;
-import org.eclipse.emf.henshin.model.PortParameter;
+import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.Variable;
 
 public class UnitApplication {
 	InterpreterEngine engine;
 	TransformationUnit transformationUnit;
 
-	Map<String, Object> portValues;
-	Map<String, Object> oldPortValues;
+	Map<Port, Object> portValues;
+	Map<Port, Object> oldPortValues;
 
 	Stack<RuleApplication> appliedRules;
 
@@ -50,19 +47,18 @@ public class UnitApplication {
 			TransformationUnit transformationUnit) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
-		this.portValues = new HashMap<String, Object>();
-		this.oldPortValues = new HashMap<String, Object>(portValues);
+		this.portValues = new HashMap<Port, Object>();
+		this.oldPortValues = new HashMap<Port, Object>(portValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
 
 	public UnitApplication(InterpreterEngine engine,
-			TransformationUnit transformationUnit,
-			Map<String, Object> portValues) {
+			TransformationUnit transformationUnit, Map<Port, Object> portValues) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.portValues = portValues;
-		this.oldPortValues = new HashMap<String, Object>(portValues);
+		this.oldPortValues = new HashMap<Port, Object>(portValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -96,24 +92,36 @@ public class UnitApplication {
 	}
 
 	private UnitApplication createApplicationFor(TransformationUnit unit) {
-		return new UnitApplication(engine, unit, portValues);
+		Map<Port, Object> childPortValues = createChildPortValues(unit);
+		return new UnitApplication(engine, unit, childPortValues);
 	}
 
-	private void updatePortValues(Match comatch) {
-		for (Port port : transformationUnit.getPorts()) {
-			if (port.getDirection() == PortKind.OUTPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
-				if (port instanceof PortParameter) {
-					Variable var = ((PortParameter) port).getVariable();
-					Object value = comatch.getParameterMapping().get(
-							var.getName());
-					portValues.put(port.getName(), value);
-				} else {
-					Node node = ((PortObject) port).getNode();
-					Object value = comatch.getNodeMapping().get(node);
-					portValues.put(port.getName(), value);
+	private Map<Port, Object> createChildPortValues(TransformationUnit child) {
+		Map<Port, Object> childPortValues = new HashMap<Port, Object>();
+		for (PortMapping mapping : transformationUnit.getPortMappings()) {
+			Port sourcePort = mapping.getSource();
+			Port targetPort = mapping.getTarget();
+
+			if (sourcePort.getDirection() == PortKind.INPUT
+					|| sourcePort.getDirection() == PortKind.INPUT_OUTPUT)
+				if (targetPort.getUnit() == child) {
+					childPortValues.put(targetPort, portValues.get(sourcePort));
 				}
-			}
+		}
+		return childPortValues;
+	}
+
+	private void updatePortValues(UnitApplication childUnit) {
+		for (PortMapping mapping : transformationUnit.getPortMappings()) {
+			Port sourcePort = mapping.getSource();
+			Port targetPort = mapping.getTarget();
+
+			if (targetPort.getDirection() == PortKind.OUTPUT
+					|| targetPort.getDirection() == PortKind.INPUT_OUTPUT)
+				if (sourcePort.getUnit() == childUnit) {
+					portValues.put(targetPort, childUnit.portValues
+							.get(sourcePort));
+				}
 		}
 	}
 
@@ -129,6 +137,7 @@ public class UnitApplication {
 			if (!unitApplication.execute()) {
 				possibleUnits.remove(index);
 			} else {
+				updatePortValues(unitApplication);
 				if (unitApplication.appliedRules.size() > 0) {
 					appliedRules.addAll(unitApplication.appliedRules);
 					possibleUnits = new ArrayList<TransformationUnit>(
@@ -143,13 +152,14 @@ public class UnitApplication {
 	private boolean executeRule() {
 		Rule rule = (Rule) transformationUnit;
 
+		Match match = new Match(rule, ModelHelper.createAssignments(rule,
+				portValues), ModelHelper.createPrematch(rule, portValues));
+
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
-		Match match = new Match(rule, ModelHelper.createAssignments(
-				transformationUnit, portValues), ModelHelper.createPrematch(
-				transformationUnit, portValues));
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
-			updatePortValues(ruleApplication.getComatch());
+			portValues = ModelHelper.generatePortValues(rule, ruleApplication
+					.getComatch());
 			appliedRules.push(ruleApplication);
 			return true;
 		} else {
@@ -164,7 +174,8 @@ public class UnitApplication {
 
 		if (amalgamatedRule != null) {
 			amalgamatedRule.apply();
-			updatePortValues(amalgamatedRule.getComatch());
+			portValues = ModelHelper.generatePortValues(amalUnit,
+					amalgamatedRule.getComatch());
 			appliedRules.push(amalgamatedRule);
 			return true;
 		} else {
@@ -177,6 +188,7 @@ public class UnitApplication {
 		for (TransformationUnit subUnit : sequentialUnit.getSubUnits()) {
 			UnitApplication genericUnit = createApplicationFor(subUnit);
 			if (genericUnit.execute()) {
+				updatePortValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
 				undo();
@@ -194,17 +206,23 @@ public class UnitApplication {
 		TransformationUnit ifUnit = conditionalUnit.getIf();
 		UnitApplication genericIfUnit = createApplicationFor(ifUnit);
 		if (genericIfUnit.execute()) {
+			updatePortValues(genericIfUnit);
 			appliedRules.addAll(genericIfUnit.appliedRules);
 
 			TransformationUnit thenUnit = conditionalUnit.getThen();
 			UnitApplication genericThenUnit = createApplicationFor(thenUnit);
 			success = genericThenUnit.execute();
+			if (success)
+				updatePortValues(genericThenUnit);
 			appliedRules.addAll(genericThenUnit.appliedRules);
 		} else {
 			if (conditionalUnit.getElse() != null) {
 				TransformationUnit elseUnit = conditionalUnit.getElse();
 				UnitApplication genericElseUnit = createApplicationFor(elseUnit);
 				success = genericElseUnit.execute();
+				if (success)
+					updatePortValues(genericElseUnit);
+				appliedRules.addAll(genericElseUnit.appliedRules);
 			}
 		}
 
@@ -225,6 +243,7 @@ public class UnitApplication {
 			if (!genericUnit.execute()) {
 				possibleUnits.remove(0);
 			} else {
+				updatePortValues(genericUnit);
 				if (genericUnit.appliedRules.size() > 0) {
 					appliedRules.addAll(genericUnit.appliedRules);
 					possibleUnits = new ArrayList<TransformationUnit>(
@@ -242,6 +261,7 @@ public class UnitApplication {
 			UnitApplication genericUnit = createApplicationFor(countedUnit
 					.getSubUnit());
 			if (genericUnit.execute()) {
+				updatePortValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
 				undo();

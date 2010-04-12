@@ -337,7 +337,7 @@ public class ModelHelper {
 	}
 
 	public static Map<String, Object> createAssignments(
-			TransformationUnit unit, Map<String, Object> portValues) {
+			TransformationUnit unit, Map<Port, Object> portValues) {
 		Map<String, Object> assignments = new HashMap<String, Object>();
 		for (Port port : unit.getPorts()) {
 			if (port.getDirection() == PortKind.INPUT
@@ -345,8 +345,7 @@ public class ModelHelper {
 
 				if (port instanceof PortParameter) {
 					Variable var = ((PortParameter) port).getVariable();
-					assignments.put(var.getName(), portValues.get(port
-							.getName()));
+					assignments.put(var.getName(), portValues.get(port));
 				}
 			}
 		}
@@ -354,7 +353,7 @@ public class ModelHelper {
 	}
 
 	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
-			Map<String, Object> portValues) {
+			Map<Port, Object> portValues) {
 		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
 		for (Port port : unit.getPorts()) {
 			if (port.getDirection() == PortKind.INPUT
@@ -362,12 +361,32 @@ public class ModelHelper {
 
 				if (port instanceof PortObject) {
 					Node node = ((PortObject) port).getNode();
-					prematch
-							.put(node, (EObject) portValues.get(port.getName()));
+					prematch.put(node, (EObject) portValues.get(port));
 				}
 			}
 		}
 		return prematch;
+	}
+
+	public static Map<Port, Object> generatePortValues(TransformationUnit unit,
+			Match comatch) {
+		Map<Port, Object> newPortMap = new HashMap<Port, Object>();
+		for (Port port : unit.getPorts()) {
+			if (port.getDirection() == PortKind.OUTPUT
+					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
+				if (port instanceof PortObject) {
+					Node targetNode = ((PortObject) port).getNode();
+					newPortMap.put(port, comatch.getNodeMapping().get(
+							targetNode));
+				} else if (port instanceof PortParameter) {
+					Variable targetVar = ((PortParameter) port).getVariable();
+					newPortMap.put(port, comatch.getParameterMapping().get(
+							targetVar.getName()));
+				}
+			}
+		}
+
+		return null;
 	}
 
 	// public static List<Node> findNodesByType(Graph graph, String name) {

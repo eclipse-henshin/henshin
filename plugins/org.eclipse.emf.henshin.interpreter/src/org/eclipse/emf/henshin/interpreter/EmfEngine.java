@@ -48,6 +48,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
+import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -250,7 +251,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public RuleApplication generateAmalgamatedRule(
-			AmalgamatedUnit amalgamatedUnit, Map<String, Object> portValues) {
+			AmalgamatedUnit amalgamatedUnit, Map<Port, Object> portValues) {
 
 		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
 				amalgamatedUnit, portValues);
