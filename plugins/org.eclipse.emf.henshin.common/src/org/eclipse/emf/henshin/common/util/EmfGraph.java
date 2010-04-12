@@ -158,4 +158,8 @@ public class EmfGraph {
 	public Set<EObject> geteObjects() {
 		return eObjects;
 	}
+
+	public Set<EPackage> getePackages() {
+		return ePackages;
+	}
 }
