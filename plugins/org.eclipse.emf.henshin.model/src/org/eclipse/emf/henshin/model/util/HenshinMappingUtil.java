@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.model.util;
 
 import java.util.Collection;
 
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -200,6 +201,31 @@ public class HenshinMappingUtil {
 	}
 
 	/**
+	 * Find the image of an attribute.
+	 */
+	public static Attribute getAttributeImage(Attribute attribute, Graph targetGraph,
+			Collection<Mapping> mappings) {
+		if (attribute.getNode()==null)
+			return null;
+		Node nodeImage = getNodeImage(attribute.getNode(), targetGraph, mappings);
+		if (nodeImage==null)
+			return null;
+		return nodeImage.findAttributeByType(attribute.getType());
+	}
+
+	/**
+	 * Find the origin of an attribute.
+	 */
+	public static Attribute getAttributeOrigin(Attribute attribute, Collection<Mapping> mappings) {
+		if (attribute.getNode()==null)
+			return null;
+		Node nodeOrigin = getNodeOrigin(attribute.getNode(), mappings);
+		if (nodeOrigin==null)
+			return null;
+		return nodeOrigin.findAttributeByType(attribute.getType());
+	}
+
+	/**
 	 * Find the image of a node or an edge. This is a wrapper for
 	 * {@link #getNodeImage(Node, Graph, Collection)} and
 	 * {@link #getEdgeImage(Edge, Graph, Collection)}.
@@ -221,6 +247,8 @@ public class HenshinMappingUtil {
 			return (T) getNodeImage((Node) element, target, mappings);
 		} else if (element instanceof Edge) {
 			return (T) getEdgeImage((Edge) element, target, mappings);
+		} else if (element instanceof Attribute) {
+			return (T) getAttributeImage((Attribute) element, target, mappings);
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -245,6 +273,8 @@ public class HenshinMappingUtil {
 			return (T) getNodeOrigin((Node) element, mappings);
 		} else if (element instanceof Edge) {
 			return (T) getEdgeOrigin((Edge) element, mappings);
+		} else if (element instanceof Attribute) {
+			return (T) getAttributeOrigin((Attribute) element, mappings);
 		} else {
 			throw new IllegalArgumentException();
 		}
