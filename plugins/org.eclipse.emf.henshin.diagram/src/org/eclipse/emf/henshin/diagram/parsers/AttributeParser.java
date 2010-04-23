@@ -11,20 +11,20 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.parsers;
 
+import java.text.ParseException;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.actions.Action;
 import org.eclipse.emf.henshin.diagram.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -46,25 +46,27 @@ public class AttributeParser  extends AbstractParser {
 	public AttributeParser() {
 		super(new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() });
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
-	 */
-	public String getPrintString(IAdaptable element, int flags) {
-		Attribute attribute = (Attribute) element.getAdapter(EObject.class);
-		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
-		return type + "=" + attribute.getValue();
-	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getEditString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getEditString(IAdaptable element, int flags) {
-		return getPrintString(element, flags);
+		Attribute attribute = (Attribute) element.getAdapter(EObject.class);
+		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
+		Action action = AttributeActionUtil.getAttributeAction(attribute);
+		String actionName = (action==null || action.getType()==ActionType.NONE) ? "" : "<<" + action + ">> ";
+		return actionName + type + "=" + attribute.getValue();
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
+	 */
+	public String getPrintString(IAdaptable element, int flags) {
+		return getEditString(element, flags);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getParseCommand(org.eclipse.core.runtime.IAdaptable, java.lang.String, int)
@@ -99,7 +101,28 @@ public class AttributeParser  extends AbstractParser {
 		if (node==null || node.getType()==null) {
 			return CommandResult.newErrorCommandResult("Node and node type must be set");
 		}
+		value = value.trim();
+
+		// Determine the action:
+		Action action = new Action(ActionType.NONE);		
+		if (value.startsWith("<<")) {
+			value = value.substring(2);
+			int end = value.indexOf(">>");
+			try {
+				action = Action.parse(value.substring(0, end));
+			} catch (ParseException e) {
+				return CommandResult.newErrorCommandResult(e);
+			}
+			value = value.substring(end+2);
+		}
 		
+		// The node action must be NONE:
+		Action nodeAction = NodeActionUtil.getNodeAction(node);
+		if (nodeAction.getType()!=ActionType.NONE) {
+			action = new Action(ActionType.NONE);
+		}
+		
+		// Now parse the rest:
 		int equalSign = value.indexOf('=');
 		if (equalSign<0) {
 			return CommandResult.newErrorCommandResult("Expected '='");
@@ -125,22 +148,8 @@ public class AttributeParser  extends AbstractParser {
 		attribute.setValue(name);
 		attribute.setType(attr);
 		
-		// Update mapped node as well:
-		Action action = NodeActionUtil.getNodeAction(node);
-		if (action!=null && action.getType()==ActionType.NONE) {
-			
-			Rule rule = node.getGraph().getContainerRule();
-			Node image = HenshinMappingUtil.getImage(node, rule.getRhs(), rule.getMappings());
-			Attribute imageAttribute = image.findAttributeByType(attr);
-			
-			// Update the image attribute:
-			if (imageAttribute!=null) {
-				imageAttribute.setValue(name);
-			} else {
-				imageAttribute = (Attribute) EcoreUtil.copy(attribute);
-				image.getAttributes().add(imageAttribute);
-			}
-		}
+		// Set the action:
+		AttributeActionUtil.setAttributeAction(attribute, action);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

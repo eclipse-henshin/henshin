@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
 import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
@@ -95,28 +96,34 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
+	@SuppressWarnings("unchecked")
 	public static List getNodeNodeCompartment_7002SemanticChildren(View view) {
-		if (false == view.eContainer() instanceof View) {
+		
+		// Make sure the view is ok:
+		if (false==view.eContainer() instanceof View) {
 			return Collections.EMPTY_LIST;
 		}
 		View containerView = (View) view.eContainer();
 		if (!containerView.isSetElement()) {
 			return Collections.EMPTY_LIST;
 		}
-		Node modelElement = (Node) containerView.getElement();
+		
+		// Get the node and compute the action attributes:
+		Node node = (Node) containerView.getElement();
+		List<Attribute> attributes = AttributeActionUtil.getActionAttributes(node, null);
+				
+		// Wrap them into node descriptors:
 		List result = new LinkedList();
-		for (Iterator it = modelElement.getAttributes().iterator(); it
-				.hasNext();) {
-			Attribute childElement = (Attribute) it.next();
-			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,
-					childElement);
-			if (visualID == AttributeEditPart.VISUAL_ID) {
-				result.add(new HenshinNodeDescriptor(childElement, visualID));
+		for (Attribute attribute : attributes) {
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,attribute);
+			if (visualID==AttributeEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(attribute, visualID));
 				continue;
 			}
 		}
+		
 		return result;
 	}
 

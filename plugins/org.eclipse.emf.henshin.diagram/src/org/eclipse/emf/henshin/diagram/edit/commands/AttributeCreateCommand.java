@@ -14,10 +14,17 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
+import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -60,21 +67,61 @@ public class AttributeCreateCommand extends EditElementCommand {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		Attribute newElement = HenshinFactory.eINSTANCE.createAttribute();
+		
+		// The node:
+		Node node = (Node) getElementToEdit();
+		Rule rule = node.getGraph().getContainerRule();
+		
+		// Find the corresponding LHS node:
+		Node lhsNode = AttributeActionUtil.findLHSNode(node);
+		
+		// Create and initialize the attribute type
+		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();		
+		if (node.getType()!=null) {
+			for (EAttribute type : node.getType().getEAllAttributes()) {
+				if (node.findAttributeByType(type)==null) {
+					attribute.setType(type);
+					break;
+				}
+			}
+		}
+		
+		// Add the attribute to the node:
+		node.getAttributes().add(attribute);
 
-		Node owner = (Node) getElementToEdit();
-		owner.getAttributes().add(newElement);
+		// and to all mapped nodes...
+		if (lhsNode!=null) {
+			Node rhsNode = HenshinMappingUtil.getNodeImage(lhsNode, rule.getRhs(), rule.getMappings());
+			if (rhsNode!=null) {
+				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
+			}
+			for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
+				Node nacNode = HenshinMappingUtil.getNodeImage(lhsNode, nac.getConclusion(), nac.getMappings());
+				if (rhsNode!=null) {
+					addAttribute(nacNode, (Attribute) EcoreUtil.copy(attribute));
+				}
+			}
+		}
+		
+		doConfigure(attribute, monitor, info);
 
-		doConfigure(newElement, monitor, info);
-
-		((CreateElementRequest) getRequest()).setNewElement(newElement);
-		return CommandResult.newOKCommandResult(newElement);
+		((CreateElementRequest) getRequest()).setNewElement(attribute);
+		return CommandResult.newOKCommandResult(attribute);
 	}
-
+	
+	private void addAttribute(Node node, Attribute attribute) {
+		Attribute old = node.findAttributeByType(attribute.getType());
+		if (old!=null) {
+			node.getAttributes().set(node.getAttributes().indexOf(old), attribute);
+		} else {
+			node.getAttributes().add(attribute);
+		}
+	}
+	
 	/**
 	 * @generated
 	 */
