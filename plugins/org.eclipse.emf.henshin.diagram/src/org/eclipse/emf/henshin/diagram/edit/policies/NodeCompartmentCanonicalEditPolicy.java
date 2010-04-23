@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -65,10 +66,11 @@ public class NodeCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected String getDefaultFactoryHint() {
-		return null;
+		// This is needed so that the edit policy knows what the semantic hint for new elements is.
+		return String.valueOf(AttributeEditPart.VISUAL_ID);
 	}
 
 	/**

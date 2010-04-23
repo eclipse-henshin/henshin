@@ -41,15 +41,30 @@ class ElementActionHelper {
 	 * @param element Element.
 	 * @return Action or <code>null</code>.
 	 */
+	@SuppressWarnings("unchecked")
 	static <T extends EObject> Action getAction(T element) {
 		
+		// Get the container graph:
+		Graph graph = null;
+		EObject current = element;
+		while (graph==null && current!=null) {
+			if (current instanceof Graph) {
+				graph = (Graph) current;
+				break;
+			}
+			current = (T) current.eContainer();
+		}
+		
 		// Must be contained in a graph:
-		if (!(element.eContainer() instanceof Graph)) return null;
-		Graph graph = (Graph) element.eContainer();
+		if (graph==null) {
+			return null;
+		}
 		
 		// Graph must be part of a rule:
 		Rule rule = graph.getContainerRule();
-		if (rule==null) return null;
+		if (rule==null) {
+			return null;
+		}
 		
 		// LHS element?
 		if (graph==rule.getLhs()) {

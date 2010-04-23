@@ -101,7 +101,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 			}
 			for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
 				Node nacNode = HenshinMappingUtil.getNodeImage(lhsNode, nac.getConclusion(), nac.getMappings());
-				if (rhsNode!=null) {
+				if (nacNode!=null) {
 					addAttribute(nacNode, (Attribute) EcoreUtil.copy(attribute));
 				}
 			}

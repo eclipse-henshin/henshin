@@ -27,7 +27,19 @@ public class AttributeActionUtil {
 	 * @return Action or <code>null</code>.
 	 */
 	public static Action getAttributeAction(Attribute attribute) {
-		return ElementActionHelper.getAction(attribute);
+
+		// Compute the action:
+		Action action = ElementActionHelper.getAction(attribute);
+		if (action==null) return null;
+
+		// Actions of the parent node overrule:
+		Action nodeAction = NodeActionUtil.getNodeAction(attribute.getNode());
+		if (nodeAction!=null && nodeAction.getType()!=ActionType.NONE) {
+			return new Action(ActionType.NONE);
+		}
+		
+		return action;
+		
 	}
 	
 	/**
@@ -55,12 +67,27 @@ public class AttributeActionUtil {
 			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
 			Node nodeImage = image.getNode();
 			
-			// We delete the attribute image:
-			nodeImage.getAttributes().remove(image);
-			
-			// For CREATE actions, move the attribute to the node in the RHS:
+			// For CREATE actions, move the attribute to the RHS:
 			if (action.getType()==ActionType.CREATE) {
-				attribute.setNode(nodeImage);
+				nodeImage.getAttributes().remove(image);
+				nodeImage.getAttributes().add(attribute);
+			}
+			
+			// For DELETE actions, delete the attribute image in the RHS:
+			if (action.getType()==ActionType.DELETE) {
+				node.getAttributes().remove(attribute);
+			}
+			
+			// For FORBID actions, move the attribute to the NAC, and remove it from the RHS:
+			if (action.getType()==ActionType.FORBID) {
+				NestedCondition nac = ElementActionHelper.getOrCreateNAC(action, rule);
+				Node target = HenshinMappingUtil.getNodeImage(nodeImage, nac.getConclusion(), nac.getMappings());
+				if (target==null) {
+					GraphMorphismEditor editor = new GraphMorphismEditor(rule.getLhs(), nac.getConclusion(), nac.getMappings());
+					target = editor.copyNode(node);
+				}
+				attribute.setNode(target);
+				nodeImage.getAttributes().remove(image);
 			}
 			
 		}
@@ -102,6 +129,26 @@ public class AttributeActionUtil {
 			}
 		}		
 		
+		// Current action type = FORBID?
+		else if (current.getType()==ActionType.FORBID) {
+			
+			// We know that the attribute's node is contained in a NAC and that it has no origin in the LHS.
+			NestedCondition nac = (NestedCondition) graph.eContainer();
+			
+			// For NONE actions, create a copy in the LHS as well:
+			if (action.getType()==ActionType.NONE) {
+				Node target = HenshinMappingUtil.getNodeOrigin(node, nac.getMappings());
+				if (target==null) return;
+				target.getAttributes().add((Attribute) EcoreUtil.copy(attribute));
+			}
+			
+			// Delete the NAC is it became empty or trivial due to the current change.
+			if (HenshinNACUtil.isTrivialNAC(nac)) {
+				HenshinNACUtil.removeNAC(rule, nac);
+			}
+			
+		}
+		
 	}
 	
 	/**
@@ -118,7 +165,7 @@ public class AttributeActionUtil {
 		Node lhsNode = findLHSNode(node);
 		
 		// Lets go...
-		ActionType type = action.getType();
+		ActionType type = (action==null) ? null : action.getType();
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		
 		// We always need an lhsNode.

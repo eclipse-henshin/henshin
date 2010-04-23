@@ -118,7 +118,7 @@ public class AttributeParser  extends AbstractParser {
 		
 		// The node action must be NONE:
 		Action nodeAction = NodeActionUtil.getNodeAction(node);
-		if (nodeAction.getType()!=ActionType.NONE) {
+		if (nodeAction==null || nodeAction.getType()!=ActionType.NONE) {
 			action = new Action(ActionType.NONE);
 		}
 		

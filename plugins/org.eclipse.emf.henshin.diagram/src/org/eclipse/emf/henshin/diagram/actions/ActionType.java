@@ -22,7 +22,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public enum ActionType {
 	
-	NONE(ColorConstants.black), 
+	NONE(ColorConstants.gray), 
 	CREATE(new Color(null, 0, 200, 0)), 
 	DELETE(ColorConstants.red), 
 	FORBID(new Color(null, 200, 200, 0));

@@ -13,6 +13,8 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Shape;
@@ -20,12 +22,16 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.actions.Action;
+import org.eclipse.emf.henshin.diagram.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
 import org.eclipse.emf.henshin.diagram.edit.policies.AttributeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextNonResizableEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
@@ -430,7 +436,20 @@ public class AttributeEditPart extends CompartmentEditPart implements
 		refreshUnderline();
 		refreshStrikeThrough();
 	}
-
+	
+	/**
+	 * @generated NOT
+	 */
+	protected void refreshFontColor() {
+		Attribute attribute = (Attribute) getNotationView().getElement();
+		Action action = AttributeActionUtil.getAttributeAction(attribute);
+		if (action != null && action.getType()!=ActionType.NONE) {
+			setFontColor(action.getType().getColor());
+		} else {
+			setFontColor(ColorConstants.black);
+		}
+	}
+	
 	/**
 	 * @generated
 	 */

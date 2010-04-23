@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.Messages;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
@@ -41,12 +42,35 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
+	@Override
 	protected boolean hasModelChildrenChanged(Notification evt) {
-		return false;
+		return true;
 	}
-
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected boolean modeAutomatic() {
+		return true;
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void refresh() {
+		super.refresh();
+		for (Object child : getChildren()) {
+			// Always refresh the attribute edit parts:
+			if (child instanceof AttributeEditPart) {
+				((AttributeEditPart) child).refresh();
+			}
+		}
+	}
+	
 	/**
 	 * @generated
 	 */
