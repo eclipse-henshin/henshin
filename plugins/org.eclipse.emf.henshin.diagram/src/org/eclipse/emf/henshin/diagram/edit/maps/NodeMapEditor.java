@@ -174,7 +174,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 	/*
 	 * Perform a copy operation.
 	 */
-	private Node performCopy(Node node) {
+	Node performCopy(Node node) {
 		Node opposite = getOpposite(node);
 		if (opposite==null) {
 			opposite = (Node) EcoreUtil.copy(node);

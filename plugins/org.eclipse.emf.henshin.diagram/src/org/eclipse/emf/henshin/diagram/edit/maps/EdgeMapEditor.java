@@ -47,8 +47,8 @@ public class EdgeMapEditor extends AbstractMapEditor<Edge> {
 		if (opposite==null) {
 			opposite = HenshinFactory.eINSTANCE.createEdge();
 			opposite.setType( edge.getType() );
-			opposite.setSource( nodeMapEditor.getOpposite(edge.getSource()) );
-			opposite.setTarget( nodeMapEditor.getOpposite(edge.getTarget()) );
+			opposite.setSource( nodeMapEditor.performCopy(edge.getSource()) );
+			opposite.setTarget( nodeMapEditor.performCopy(edge.getTarget()) );
 			opposite.setGraph( getOpposite(edge.getGraph()) );
 		}
 		return opposite;
@@ -60,8 +60,8 @@ public class EdgeMapEditor extends AbstractMapEditor<Edge> {
 	 */
 	@Override
 	protected void doMove(Edge edge) {
-		Node newSource = nodeMapEditor.getOpposite(edge.getSource());
-		Node newTarget = nodeMapEditor.getOpposite(edge.getTarget());
+		Node newSource = nodeMapEditor.performCopy(edge.getSource());
+		Node newTarget = nodeMapEditor.performCopy(edge.getTarget());
 		if (newSource!=null && newTarget!=null) {
 			edge.setSource(newSource);
 			edge.setTarget(newTarget);
