@@ -21,8 +21,8 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
@@ -132,7 +132,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public void refreshForegroundColor() {
 		if (getNotationView().getElement() instanceof Node) {
 			Node node = (Node) getNotationView().getElement();
-			Action action = NodeActionUtil.getNodeAction(node);
+			Action action = NodeActionHelper.INSTANCE.getAction(node);
 			if (action != null) {
 				setForegroundColor(action.getType().getColor());
 				return;

@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -77,7 +77,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		Rule rule = node.getGraph().getContainerRule();
 		
 		// Find the corresponding LHS node:
-		Node lhsNode = AttributeActionUtil.findLHSNode(node);
+		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
 		
 		// Create and initialize the attribute type
 		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();		

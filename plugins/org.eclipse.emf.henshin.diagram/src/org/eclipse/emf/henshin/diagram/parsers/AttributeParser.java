@@ -18,10 +18,10 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
@@ -52,11 +52,19 @@ public class AttributeParser  extends AbstractParser {
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getEditString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getEditString(IAdaptable element, int flags) {
+		
+		// The attribute and its type:
 		Attribute attribute = (Attribute) element.getAdapter(EObject.class);
 		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
-		Action action = AttributeActionUtil.getAttributeAction(attribute);
-		String actionName = (action==null || action.getType()==ActionType.NONE) ? "" : "<<" + action + ">> ";
+		
+		// Get the action for the attribute and the node:
+		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
+		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(attribute.getNode());
+		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
+		
+		String actionName = (action==null || action.equals(nodeAction)) ? "" : "<<" + action + ">> ";
 		return actionName + type + "=" + attribute.getValue();
+		
 	}
 
 	/*
@@ -103,7 +111,7 @@ public class AttributeParser  extends AbstractParser {
 		}
 		value = value.trim();
 
-		// Determine the action:
+		// Parse the action:
 		Action action = new Action(ActionType.NONE);		
 		if (value.startsWith("<<")) {
 			value = value.substring(2);
@@ -117,9 +125,10 @@ public class AttributeParser  extends AbstractParser {
 		}
 		
 		// The node action must be NONE:
-		Action nodeAction = NodeActionUtil.getNodeAction(node);
-		if (nodeAction==null || nodeAction.getType()!=ActionType.NONE) {
-			action = new Action(ActionType.NONE);
+		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(node);
+		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
+		if (nodeAction.getType()!=ActionType.NONE) {
+			action = nodeAction;
 		}
 		
 		// Now parse the rest:
@@ -149,7 +158,7 @@ public class AttributeParser  extends AbstractParser {
 		attribute.setType(attr);
 		
 		// Set the action:
-		AttributeActionUtil.setAttributeAction(attribute, action);
+		AttributeActionHelper.INSTANCE.setAction(attribute, action);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

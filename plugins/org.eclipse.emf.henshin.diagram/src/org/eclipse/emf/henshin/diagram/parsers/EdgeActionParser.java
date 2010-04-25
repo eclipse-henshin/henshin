@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -48,7 +48,7 @@ public class EdgeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Edge edge = (Edge) element.getAdapter(EObject.class);
-		Action action = EdgeActionUtil.getEdgeAction(edge);
+		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -91,7 +91,7 @@ public class EdgeActionParser extends AbstractParser {
 	private CommandResult doParsing(String value, Edge edge) {
 		try {
 			Action action = Action.parse(value);
-			EdgeActionUtil.setEdgeAction(edge, action);
+			EdgeActionHelper.INSTANCE.setAction(edge, action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
 			t.printStackTrace();

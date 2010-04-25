@@ -22,9 +22,9 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.AttributeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextNonResizableEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
@@ -442,7 +442,7 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	 */
 	protected void refreshFontColor() {
 		Attribute attribute = (Attribute) getNotationView().getElement();
-		Action action = AttributeActionUtil.getAttributeAction(attribute);
+		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
 		if (action != null && action.getType()!=ActionType.NONE) {
 			setFontColor(action.getType().getColor());
 		} else {

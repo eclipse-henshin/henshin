@@ -22,9 +22,9 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.diagram.actions.AttributeActionUtil;
-import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -78,7 +78,7 @@ public class HenshinDiagramUpdater {
 
 		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
-		List<Node> actionNodes = NodeActionUtil.getActionNodes(rule, null);
+		List<Node> actionNodes = NodeActionHelper.INSTANCE.getActionElements(rule, null);
 
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
@@ -112,7 +112,7 @@ public class HenshinDiagramUpdater {
 		
 		// Get the node and compute the action attributes:
 		Node node = (Node) containerView.getElement();
-		List<Attribute> attributes = AttributeActionUtil.getActionAttributes(node, null);
+		List<Attribute> attributes = AttributeActionHelper.INSTANCE.getActionElements(node, null);
 				
 		// Wrap them into node descriptors:
 		List result = new LinkedList();
@@ -217,15 +217,15 @@ public class HenshinDiagramUpdater {
 
 		// Get the action edges:
 		Rule rule = (Rule) view.getElement();
-		List<Edge> edges = EdgeActionUtil.getActionEdges(rule, null);
+		List<Edge> edges = EdgeActionHelper.INSTANCE.getActionElements(rule, null);
 
 		// Wrap them into node descriptors:
 		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
 		for (Edge edge : edges) {
 
 			// Get the proper source / target action nodes:
-			Node source = NodeActionUtil.getActionNode(edge.getSource());
-			Node target = NodeActionUtil.getActionNode(edge.getTarget());
+			Node source = NodeActionHelper.INSTANCE.getActionNode(edge.getSource());
+			Node target = NodeActionHelper.INSTANCE.getActionNode(edge.getTarget());
 
 			// Create the descriptor:
 			result.add(new HenshinLinkDescriptor(source, target, edge,

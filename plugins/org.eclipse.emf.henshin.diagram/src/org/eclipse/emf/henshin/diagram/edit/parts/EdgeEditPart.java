@@ -19,8 +19,8 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.EdgeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
@@ -168,7 +168,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		Edge edge = (Edge) getNotationView().getElement();
-		Action action = EdgeActionUtil.getEdgeAction(edge);
+		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
 		if (action != null) {
 			setForegroundColor(action.getType().getColor());
 		} else {

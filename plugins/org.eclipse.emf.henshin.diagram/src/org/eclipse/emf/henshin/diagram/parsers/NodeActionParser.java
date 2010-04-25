@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.actions.Action;
-import org.eclipse.emf.henshin.diagram.actions.NodeActionUtil;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -47,7 +47,7 @@ public class NodeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Node node = (Node) element.getAdapter(EObject.class);
-		Action action = NodeActionUtil.getNodeAction(node);
+		Action action = NodeActionHelper.INSTANCE.getAction(node);
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -90,7 +90,7 @@ public class NodeActionParser extends AbstractParser {
 	private CommandResult doParsing(String value, Node node) {
 		try {
 			Action action = Action.parse(value);
-			NodeActionUtil.setNodeAction(node, action);
+			NodeActionHelper.INSTANCE.setAction(node, action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
 			// t.printStackTrace();
