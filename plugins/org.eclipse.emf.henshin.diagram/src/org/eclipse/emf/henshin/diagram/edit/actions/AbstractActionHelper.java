@@ -203,9 +203,9 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			}
 			
 			// Delete the NAC is it became empty or trivial due to the current change.
-			if (HenshinNACUtil.isTrivialNAC(nac)) {
-				HenshinNACUtil.removeNAC(rule, nac);
-			}
+			//if (HenshinNACUtil.isTrivialNAC(nac)) {
+			//	HenshinNACUtil.removeNAC(rule, nac);
+			//}
 			
 		}
 	}

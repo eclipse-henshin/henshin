@@ -25,14 +25,11 @@ public class AttributeActionHelper extends AbstractActionHelper<Attribute,Node> 
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.ActionHelper#getActionElements(java.lang.Object, org.eclipse.emf.henshin.diagram.edit.actions.Action)
 	 */
-	public List<Attribute> getActionElements(Node node, Action action) {
-		
-		// The container rule:
-		Rule rule = node.getGraph().getContainerRule();
+	public List<Attribute> getActionElements(Node node, Action action) {		
 		
 		// Compute list of candidates:
+		Rule rule = node.getGraph().getContainerRule();
 		List<Attribute> candidates = new ArrayList<Attribute>();
-		candidates.addAll(node.getAttributes());
 		
 		// Attributes in the LHS:
 		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
@@ -52,6 +49,8 @@ public class AttributeActionHelper extends AbstractActionHelper<Attribute,Node> 
 					candidates.addAll(nacNode.getAttributes());
 				}
 			}
+		} else {
+			candidates.addAll(node.getAttributes());
 		}
 		
 		// Filter by action:
