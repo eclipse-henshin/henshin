@@ -37,7 +37,7 @@ public class TypeConstraint {
 			return new ArrayList<EObject>(graph.getDomainForType(type));
 		} else {
 			if (sourceDomain != null && sourceDomain.size() > 0)
-				for (int i = 0; i < sourceDomain.size(); i++) {
+				for (int i = sourceDomain.size()-1; i >=0 ; i--) {
 					EObject eObject = sourceDomain.get(i);
 					
 					if (eObject != null  && !type.isSuperTypeOf(eObject.eClass()))
