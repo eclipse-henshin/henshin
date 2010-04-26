@@ -37,7 +37,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			
 			// Check if it is mapped to the RHS:
 			if (image!=null) {
-				return new Action(ActionType.NONE);
+				return new Action(ActionType.PRESERVE);
 			} else {
 				return new Action(ActionType.DELETE);
 			}
@@ -102,7 +102,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		MapEditor<E> editor;
 		
 		// Current action type = NONE?
-		if (current.getType()==ActionType.NONE) {
+		if (current.getType()==ActionType.PRESERVE) {
 			
 			// We know that the element is contained in the LHS and that it is mapped to a node in the RHS.
 			editor = getMapEditor(rule.getRhs());
@@ -141,7 +141,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			editor.move(element);
 			
 			// For NONE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==ActionType.NONE) {
+			if (action.getType()==ActionType.PRESERVE) {
 				editor.copy(element);
 			}
 			
@@ -161,7 +161,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			editor = getMapEditor(rule.getRhs());
 			
 			// For NONE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==ActionType.NONE) {
+			if (action.getType()==ActionType.PRESERVE) {
 				editor.copy(element);
 			}
 			
@@ -190,7 +190,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			editor.move(element);
 			
 			// For NONE actions, create a copy in the RHS as well:
-			if (action.getType()==ActionType.NONE) {
+			if (action.getType()==ActionType.PRESERVE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
 			}

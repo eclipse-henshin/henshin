@@ -112,7 +112,7 @@ public class AttributeParser  extends AbstractParser {
 		value = value.trim();
 
 		// Parse the action:
-		Action action = new Action(ActionType.NONE);		
+		Action action = new Action(ActionType.PRESERVE);		
 		if (value.startsWith("<<")) {
 			value = value.substring(2);
 			int end = value.indexOf(">>");
@@ -127,7 +127,7 @@ public class AttributeParser  extends AbstractParser {
 		// The node action must be NONE:
 		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(node);
 		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
-		if (nodeAction.getType()!=ActionType.NONE) {
+		if (nodeAction.getType()!=ActionType.PRESERVE) {
 			action = nodeAction;
 		}
 		

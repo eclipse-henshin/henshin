@@ -22,10 +22,10 @@ import org.eclipse.swt.graphics.Color;
  */
 public enum ActionType {
 	
-	NONE(ColorConstants.gray), 
+	PRESERVE(ColorConstants.gray), 
 	CREATE(new Color(null, 0, 200, 0)), 
 	DELETE(ColorConstants.red), 
-	FORBID(new Color(null, 200, 200, 0));
+	FORBID(ColorConstants.orange);
 	
 	// Color to be used for this action type.
 	private Color color;

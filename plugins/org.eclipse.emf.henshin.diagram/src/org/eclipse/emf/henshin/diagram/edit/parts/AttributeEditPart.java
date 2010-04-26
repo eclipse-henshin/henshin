@@ -443,7 +443,7 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	protected void refreshFontColor() {
 		Attribute attribute = (Attribute) getNotationView().getElement();
 		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
-		if (action != null && action.getType()!=ActionType.NONE) {
+		if (action != null && action.getType()!=ActionType.PRESERVE) {
 			setFontColor(action.getType().getColor());
 		} else {
 			setFontColor(ColorConstants.black);
