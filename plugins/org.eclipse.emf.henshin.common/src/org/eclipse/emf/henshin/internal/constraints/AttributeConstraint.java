@@ -33,7 +33,8 @@ public class AttributeConstraint {
 	}
 
 	public void reduceDomain(List<EObject> sourceDomain) {
-		for (int i = 0; i < sourceDomain.size(); i++) {
+		
+		for (int i = sourceDomain.size()-1; i >=0 ; i--) {
 			EObject domainObject = sourceDomain.get(i);
 			
 			if (!attributeValue.equals(domainObject.eGet(attribute)))
