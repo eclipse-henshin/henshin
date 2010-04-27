@@ -24,9 +24,13 @@
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//TransformationSystem">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/rules"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/transformations"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/imports"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/instances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/transformationUnits"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationSystem/findUnitByName">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findUnitByName/unitName"/>
+        <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findUnitByName/deep"/>
+      </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//TransformationSystem/findRuleByName">
         <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findRuleByName/ruleName"/>
       </genOperations>
@@ -123,13 +127,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Edge/type"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Edge/graph"/>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//Transformation">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Transformation/mainUnit"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Transformation/transformationSystem"/>
-    </genClasses>
     <genClasses image="false" ecoreClass="henshin.ecore#//TransformationUnit">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//TransformationUnit/activated"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/ports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/portMappings"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getAllSubUnits"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//IndependentUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//IndependentUnit/subUnits"/>
@@ -144,9 +146,6 @@
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//PriorityUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//PriorityUnit/subUnits"/>
-    </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//SingleUnit">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//SingleUnit/rule"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//AmalgamatedUnit">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamatedUnit/kernelRule"/>
@@ -174,5 +173,9 @@
     <genClasses ecoreClass="henshin.ecore#//And"/>
     <genClasses ecoreClass="henshin.ecore#//Or"/>
     <genClasses ecoreClass="henshin.ecore#//Not"/>
+    <genClasses ecoreClass="henshin.ecore#//PortMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//PortMapping/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//PortMapping/target"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

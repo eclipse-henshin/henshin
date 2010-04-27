@@ -10,6 +10,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eOperations name="findUnitByName" eType="#//TransformationUnit">
+      <eParameters name="unitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="deep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
     <eOperations name="findRuleByName" eType="#//Rule">
       <eParameters name="ruleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -137,6 +141,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
       interface="true" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eOperations name="getAllSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
         eType="#//Port" containment="true" eOpposite="#//Port/unit"/>

@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -196,6 +198,33 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 		}
 		return transformationUnits;
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TransformationUnit findUnitByName(String unitName, boolean deep) {
+
+		for (TransformationUnit unit : this.getTransformationUnits()) {
+
+			if (unitName.equals(unit.getName())) {
+				return unit;
+			}// if equal
+
+			if (deep) {
+				for (TransformationUnit subunit : unit.getAllSubUnits()) {
+					if (unitName.equals(subunit.getName())) {
+						return unit;
+					}// if equal
+				}// for subunits
+			}// if deep
+
+		}// for units
+
+		return null;
+	}// findUnitByName
+
 
 	/**
 	 * <!-- begin-user-doc -->

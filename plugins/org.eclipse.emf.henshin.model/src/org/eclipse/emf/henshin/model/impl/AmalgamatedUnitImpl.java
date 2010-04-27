@@ -11,23 +11,20 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -36,6 +33,7 @@ import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Port;
 import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -316,6 +314,20 @@ public class AmalgamatedUnitImpl extends DescribedElementImpl implements Amalgam
 		}
 		return rhsMappings;
 	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<TransformationUnit> getAllSubUnits() {
+
+		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
+		allunits.add(kernelRule);
+		allunits.addAll(multiRules);
+
+		return new BasicEList<TransformationUnit>(allunits);
+	}// getAllSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->
