@@ -33,6 +33,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Attribute} object.
@@ -79,11 +80,20 @@ public class AttributeItemProvider
 	 * This adds a property descriptor for the Type feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
+		
+//		itemPropertyDescriptors.add(new EdgeSourcePropertyDescriptor(
+//		((ComposeableAdapterFactory) adapterFactory)
+//				.getRootAdapterFactory(), getResourceLocator(),
+//		getString("_UI_Edge_source_feature"), getString(
+//				"_UI_PropertyDescriptor_description",
+//				"_UI_Edge_source_feature", "_UI_Edge_type"),
+//		HenshinPackage.Literals.EDGE__SOURCE));	
+		
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new AttributePropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_Attribute_type_feature"),
@@ -134,14 +144,20 @@ public class AttributeItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Attribute)object).getValue();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Attribute_type") :
-			getString("_UI_Attribute_type") + " " + label;
+		Attribute attr = ((Attribute) object);
+		String value = attr.getValue();
+		String type = null;
+		if (attr.getType() != null)
+			type = attr.getType().getName();
+		if (type == null || type.length() == 0)
+			type = "undefined";
+		if (value == null || value.length() == 0)
+			value = "";
+		return getString("_UI_Attribute_type") + " " + type + " = " + value;
 	}
 
 	/**
