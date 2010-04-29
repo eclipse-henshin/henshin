@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
  * {@link ActionType} and a number of string arguments. Actions can be printed,
  * parsed and compared using equals().
  * 
- * @generated NOT
  * @author Christian Krause
  * @author Stefan Jurack
+ * @generated NOT
  */
 public class Action {
 

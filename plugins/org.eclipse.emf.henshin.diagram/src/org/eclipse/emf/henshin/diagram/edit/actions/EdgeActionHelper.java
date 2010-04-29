@@ -9,6 +9,9 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 
+/**
+ * @generated NOT
+ */
 public class EdgeActionHelper extends AbstractActionHelper<Edge,Rule> {
 	
 	/**

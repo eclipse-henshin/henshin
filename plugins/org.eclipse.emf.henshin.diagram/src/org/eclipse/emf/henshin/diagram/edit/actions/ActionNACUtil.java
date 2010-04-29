@@ -4,6 +4,9 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
+/**
+ * @generated NOT
+ */
 public class ActionNACUtil {
 	
 	/**

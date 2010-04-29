@@ -21,9 +21,9 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		
 		// Get the graph and the rule:
 		Graph graph = getGraph(element);
-		if (graph==null) throw new IllegalArgumentException();
+		if (graph==null) return null;
 		Rule rule = graph.getContainerRule();
-		if (rule==null) throw new IllegalArgumentException();
+		if (rule==null) return null;
 		
 		// Map editor.
 		MapEditor<E> editor;

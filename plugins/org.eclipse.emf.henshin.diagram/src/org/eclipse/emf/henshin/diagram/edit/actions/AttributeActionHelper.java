@@ -13,7 +13,9 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
-
+/**
+ * @generated NOT
+ */
 public class AttributeActionHelper extends AbstractActionHelper<Attribute,Node> {
 	
 	/**

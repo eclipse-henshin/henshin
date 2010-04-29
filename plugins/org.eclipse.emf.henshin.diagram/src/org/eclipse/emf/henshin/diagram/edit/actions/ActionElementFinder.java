@@ -13,6 +13,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
+/**
+ * @generated NOT
+ */
 class ActionElementFinder {	
 	
 	/*

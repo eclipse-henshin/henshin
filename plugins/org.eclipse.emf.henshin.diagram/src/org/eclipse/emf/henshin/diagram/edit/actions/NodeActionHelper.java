@@ -9,6 +9,9 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
+/**
+ * @generated NOT
+ */
 public class NodeActionHelper extends AbstractActionHelper<Node,Rule> {
 	
 	/**

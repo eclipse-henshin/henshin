@@ -2,6 +2,9 @@ package org.eclipse.emf.henshin.diagram.edit.actions;
 
 import java.util.List;
 
+/**
+ * @generated NOT
+ */
 public interface ActionHelper<E,C> {
 	
 	/**
