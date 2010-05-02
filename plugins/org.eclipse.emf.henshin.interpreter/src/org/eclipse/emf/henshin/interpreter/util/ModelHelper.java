@@ -368,6 +368,14 @@ public class ModelHelper {
 		return prematch;
 	}
 
+	/**
+	 * Creates a Map at which each Port points to its value found in the given
+	 * co-match.
+	 * 
+	 * @param unit
+	 * @param comatch
+	 * @return
+	 */
 	public static Map<Port, Object> generatePortValues(TransformationUnit unit,
 			Match comatch) {
 		Map<Port, Object> newPortMap = new HashMap<Port, Object>();
@@ -382,12 +390,12 @@ public class ModelHelper {
 					Variable targetVar = ((PortParameter) port).getVariable();
 					newPortMap.put(port, comatch.getParameterMapping().get(
 							targetVar.getName()));
-				}
-			}
-		}
+				}// if else
+			}// if
+		}// for
 
-		return null;
-	}
+		return newPortMap;
+	}// generatePortValues
 
 	// public static List<Node> findNodesByType(Graph graph, String name) {
 	// List<Node> result = new ArrayList<Node>();
