@@ -13,4 +13,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi
 Export-Package: org.eclipse.emf.henshin.model,
  org.eclipse.emf.henshin.model.impl,
+ org.eclipse.emf.henshin.model.resource,
  org.eclipse.emf.henshin.model.util
