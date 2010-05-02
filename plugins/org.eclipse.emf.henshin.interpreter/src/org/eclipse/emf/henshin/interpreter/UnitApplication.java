@@ -324,11 +324,12 @@ public class UnitApplication {
 	 */
 	public Object getPortValue(String name) {
 
-		Port port = this.transformationUnit.getPortByName(name);
-		if (port != null)
-			return this.portValues.get(port);
-		else
-			return null;
+		if (this.portValues != null) {
+			Port port = this.transformationUnit.getPortByName(name);
+			if (port != null)
+				return this.portValues.get(port);
+		}// if
+		return null;
 	}// getPortValue
 
 }
