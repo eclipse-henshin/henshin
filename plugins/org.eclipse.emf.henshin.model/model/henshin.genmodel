@@ -132,6 +132,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/ports"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/portMappings"/>
       <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getAllSubUnits"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getPortByName">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getPortByName/portname"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//IndependentUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//IndependentUnit/subUnits"/>

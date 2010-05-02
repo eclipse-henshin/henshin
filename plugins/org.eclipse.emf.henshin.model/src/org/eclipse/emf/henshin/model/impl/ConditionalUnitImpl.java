@@ -39,10 +39,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#isActivated <em>Activated</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getPorts <em>Ports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getPortMappings <em>Port Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getIf <em>If</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getThen <em>Then</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getElse <em>Else</em>}</li>
@@ -51,67 +47,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-public class ConditionalUnitImpl extends DescribedElementImpl implements ConditionalUnit {
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isActivated()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ACTIVATED_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isActivated()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean activated = ACTIVATED_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPorts()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Port> ports;
-
-	/**
-	 * The cached value of the '{@link #getPortMappings() <em>Port Mappings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPortMappings()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<PortMapping> portMappings;
-
+public class ConditionalUnitImpl extends TransformationUnitImpl implements ConditionalUnit {
 	/**
 	 * The cached value of the '{@link #getIf() <em>If</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -159,72 +95,6 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.CONDITIONAL_UNIT;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isActivated() {
-		return activated;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActivated(boolean newActivated) {
-		boolean oldActivated = activated;
-		activated = newActivated;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ACTIVATED, oldActivated, activated));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Port> getPorts() {
-		if (ports == null) {
-			ports = new EObjectContainmentWithInverseEList<Port>(Port.class, this, HenshinPackage.CONDITIONAL_UNIT__PORTS, HenshinPackage.PORT__UNIT);
-		}
-		return ports;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<PortMapping> getPortMappings() {
-		if (portMappings == null) {
-			portMappings = new EObjectContainmentEList<PortMapping>(PortMapping.class, this, HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS);
-		}
-		return portMappings;
 	}
 
 	/**
@@ -361,48 +231,9 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPorts()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
-				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__NAME:
-				return getName();
-			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
-				return isActivated();
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				return getPorts();
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
-				return getPortMappings();
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 				if (resolve) return getIf();
 				return basicGetIf();
@@ -425,20 +256,6 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__NAME:
-				setName((String)newValue);
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
-				setActivated((Boolean)newValue);
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				getPorts().clear();
-				getPorts().addAll((Collection<? extends Port>)newValue);
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
-				getPortMappings().clear();
-				getPortMappings().addAll((Collection<? extends PortMapping>)newValue);
-				return;
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 				setIf((TransformationUnit)newValue);
 				return;
@@ -460,18 +277,6 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
-				setActivated(ACTIVATED_EDEFAULT);
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				getPorts().clear();
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
-				getPortMappings().clear();
-				return;
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 				setIf((TransformationUnit)null);
 				return;
@@ -493,14 +298,6 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.CONDITIONAL_UNIT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
-				return activated != ACTIVATED_EDEFAULT;
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-				return ports != null && !ports.isEmpty();
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
-				return portMappings != null && !portMappings.isEmpty();
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 				return if_ != null;
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
@@ -509,56 +306,6 @@ public class ConditionalUnitImpl extends DescribedElementImpl implements Conditi
 				return else_ != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
-			switch (derivedFeatureID) {
-				case HenshinPackage.CONDITIONAL_UNIT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
-			switch (baseFeatureID) {
-				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.CONDITIONAL_UNIT__NAME;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", activated: ");
-		result.append(activated);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ConditionalUnitImpl

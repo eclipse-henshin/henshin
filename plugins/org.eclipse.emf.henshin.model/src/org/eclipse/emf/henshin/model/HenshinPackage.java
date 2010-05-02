@@ -891,10 +891,10 @@ public interface HenshinPackage extends EPackage {
 	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.TransformationUnit <em>Transformation Unit</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit
+	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
 	 * @generated
 	 */
@@ -3165,10 +3165,10 @@ public interface HenshinPackage extends EPackage {
 		EReference EDGE__GRAPH = eINSTANCE.getEdge_Graph();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.TransformationUnit <em>Transformation Unit</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.TransformationUnit
+		 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
 		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
 		 * @generated
 		 */

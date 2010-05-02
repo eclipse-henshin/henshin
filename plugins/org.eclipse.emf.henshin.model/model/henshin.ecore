@@ -140,8 +140,11 @@
         eOpposite="#//Graph/edges"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
-      interface="true" eSuperTypes="#//DescribedElement #//NamedElement">
+      eSuperTypes="#//DescribedElement #//NamedElement">
     <eOperations name="getAllSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit"/>
+    <eOperations name="getPortByName" eType="#//Port">
+      <eParameters name="portname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
         eType="#//Port" containment="true" eOpposite="#//Port/unit"/>
