@@ -111,7 +111,14 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns a port with the given <code>name</code> found in this
+	 * transformation units port list (see {@link #getPorts()}). If no such port
+	 * could be found, <code>null</code> is returned.<br>
+	 * Note that port names are case-sensitive.
+	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @model
 	 * @generated
 	 */

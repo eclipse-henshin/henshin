@@ -297,26 +297,6 @@ public class UnitApplication {
 	}
 
 	/**
-	 * Returns a port with the given <code>name</code> found in this
-	 * transformation units port list (see
-	 * <code>{@link #transformationUnit}.getPorts()</code> ). If no such port
-	 * could be found, <code>null</code> is returned.<br>
-	 * Note that port names are case-sensitive.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	private Port findPortByName(String name) {
-		List<Port> portList = this.transformationUnit.getPorts();
-
-		for (Port port : portList) {
-			if ((port.getName() != null) && (port.getName().equals(name)))
-				return port;
-		}// for
-		return null;
-	}// getPortByName
-
-	/**
 	 * Sets a value corresponding to a port with the given name. If a mapping
 	 * between the related port and a value is already given, this mapping is
 	 * replace. If no such mapping exists, a new one is created.
@@ -328,7 +308,7 @@ public class UnitApplication {
 	 */
 	public void setPortValue(String name, Object value) {
 
-		Port port = findPortByName(name);
+		Port port = this.transformationUnit.getPortByName(name);
 		if (port != null)
 			this.portValues.put(port, value);
 	}// setPortValue
@@ -344,7 +324,7 @@ public class UnitApplication {
 	 */
 	public Object getPortValue(String name) {
 
-		Port port = findPortByName(name);
+		Port port = this.transformationUnit.getPortByName(name);
 		if (port != null)
 			return this.portValues.get(port);
 		else
