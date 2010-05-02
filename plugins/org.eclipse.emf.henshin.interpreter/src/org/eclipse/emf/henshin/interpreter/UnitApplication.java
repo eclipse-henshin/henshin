@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
@@ -43,6 +44,14 @@ public class UnitApplication {
 
 	Stack<RuleApplication> appliedRules;
 
+	/**
+	 * Constructor<br>
+	 * 
+	 * Arguments must NOT be <code>null</code>.
+	 * 
+	 * @param engine
+	 * @param transformationUnit
+	 */
 	public UnitApplication(InterpreterEngine engine,
 			TransformationUnit transformationUnit) {
 		this.engine = engine;
@@ -53,6 +62,15 @@ public class UnitApplication {
 		this.appliedRules = new Stack<RuleApplication>();
 	}
 
+	/**
+	 * Constructor<br>
+	 * 
+	 * Arguments must NOT be <code>null</code>.
+	 * 
+	 * @param engine
+	 * @param transformationUnit
+	 * @param portValues
+	 */
 	public UnitApplication(InterpreterEngine engine,
 			TransformationUnit transformationUnit, Map<Port, Object> portValues) {
 		this.engine = engine;
@@ -278,4 +296,60 @@ public class UnitApplication {
 	public TransformationUnit getTransformationUnit() {
 		return transformationUnit;
 	}
+
+	/**
+	 * Returns a port with the given <code>name</code> found in this
+	 * transformation units port list (see
+	 * <code>{@link #transformationUnit}.getPorts()</code> ). If no such port
+	 * could be found, <code>null</code> is returned.<br>
+	 * Note that port names are case-sensitive.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private Port findPortByName(String name) {
+		List<Port> portList = this.transformationUnit.getPorts();
+
+		for (Port port : portList) {
+			if ((port.getName() != null) && (port.getName().equals(name)))
+				return port;
+		}// for
+		return null;
+	}// getPortByName
+
+	/**
+	 * Sets a value corresponding to a port with the given name. If a mapping
+	 * between the related port and a value is already given, this mapping is
+	 * replace. If no such mapping exists, a new one is created.
+	 * 
+	 * @param name
+	 *            name of the Port
+	 * @param value
+	 *            (new) value of the Port
+	 */
+	public void setPortValue(String name, Object value) {
+
+		Port port = findPortByName(name);
+		if (port != null)
+			this.portValues.put(port, value);
+	}// setPortValue
+
+	/**
+	 * Returns the mapped value corresponding to a port with the given name. If
+	 * no value is mapped, <code>null</code> is returned. Furthermore, if no
+	 * such port is found, <code>null</code> is returned as well.
+	 * 
+	 * @param name
+	 *            name of the Port
+	 * @return
+	 */
+	public Object getPortValue(String name) {
+
+		Port port = findPortByName(name);
+		if (port != null)
+			return this.portValues.get(port);
+		else
+			return null;
+	}// getPortValue
+
 }
