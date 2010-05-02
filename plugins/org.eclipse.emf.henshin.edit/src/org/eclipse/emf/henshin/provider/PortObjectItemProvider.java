@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.PortObject;
+import org.eclipse.emf.henshin.provider.descriptors.PortObjectPropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.PortObject} object.
@@ -77,7 +78,7 @@ public class PortObjectItemProvider
 	 */
 	protected void addNodePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
+			(new PortObjectPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_PortObject_node_feature"),
