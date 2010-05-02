@@ -1340,9 +1340,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Add supertypes to classes
 		transformationSystemEClass.getESuperTypes().add(this.getDescribedElement());
 		transformationSystemEClass.getESuperTypes().add(this.getNamedElement());
+		ruleEClass.getESuperTypes().add(this.getTransformationUnit());
 		ruleEClass.getESuperTypes().add(this.getDescribedElement());
 		ruleEClass.getESuperTypes().add(this.getNamedElement());
-		ruleEClass.getESuperTypes().add(this.getTransformationUnit());
 		attributeConditionEClass.getESuperTypes().add(this.getDescribedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
 		variableEClass.getESuperTypes().add(this.getDescribedElement());

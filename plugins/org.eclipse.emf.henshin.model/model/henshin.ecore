@@ -26,7 +26,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformationUnits" upperBound="-1"
         eType="#//TransformationUnit" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//DescribedElement #//NamedElement #//TransformationUnit">
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit #//DescribedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Graph"

@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Rule extends DescribedElement, NamedElement, TransformationUnit {
+public interface Rule extends TransformationUnit, DescribedElement, NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
