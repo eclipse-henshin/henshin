@@ -216,7 +216,7 @@ public class PriorityUnitImpl extends DescribedElementImpl implements PriorityUn
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getAllSubUnits() {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
