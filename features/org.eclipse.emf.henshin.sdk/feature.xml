@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk"
       label="%featureName"
-      version="0.5.0.qualifier"
+      version="0.5.1.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -10,13 +10,13 @@
    </description>
 
    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
-Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
+      Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
 University of Marburg and others. All rights reserved. 
 This program and the accompanying materials are made 
 available under the terms of the Eclipse Public License v1.0
 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
-</copyright>
+   </copyright>
 
    <license url="%licenseURL">
       %license
@@ -63,63 +63,63 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.model"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.editor"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.diagram"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
-      
+
    <plugin
          id="org.eclipse.emf.henshin.common"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.emf.henshin.statespace"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.explorer"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
-         version="0.5.0.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
 </feature>
