@@ -1578,6 +1578,12 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	protected void createEcoreAnnotations() {
 		String source = "http://www.eclipse.org/emf/2002/Ecore";		
 		addAnnotation
+		  (namedElementEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "ValidName"
+		   });			
+		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
@@ -1594,10 +1600,16 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	protected void createOCLAnnotations() {
 		String source = "http://www.eclipse.org/emf/2010/Henshin/OCL";			
 		addAnnotation
+		  (namedElementEClass, 
+		   source, 
+		   new String[] {
+			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'"
+		   });			
+		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "EqualParentGraphs", "source.graph<>target.graph"
+			 "EqualParentGraphs", "source.graph=target.graph"
 		   });
 	}
 

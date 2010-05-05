@@ -26,7 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNamedElement()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidName'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ValidName='not self.name.oclIsUndefined() implies self.name<>\'\''"
  * @generated
  */
 public interface NamedElement extends EObject {

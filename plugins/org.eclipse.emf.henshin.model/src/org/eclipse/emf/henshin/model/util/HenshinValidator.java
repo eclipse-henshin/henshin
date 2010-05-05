@@ -68,6 +68,14 @@ public class HenshinValidator extends EObjectValidator {
 
 
 	/**
+	 * The parsed OCL expression for the definition of the '<em>ValidName</em>' invariant constraint.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static Constraint namedElement_ValidNameInvOCL;
+
+	/**
 	 * The parsed OCL expression for the definition of the '<em>EqualParentGraphs</em>' invariant constraint.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -181,7 +189,56 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNamedElement(NamedElement namedElement, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(namedElement, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(namedElement, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * Validates the ValidName constraint of '<em>Named Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateNamedElement_ValidName(NamedElement namedElement, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        if (namedElement_ValidNameInvOCL == null) {
+			OCL.Helper helper = OCL_ENV.createOCLHelper();
+			helper.setContext(HenshinPackage.Literals.NAMED_ELEMENT);
+			
+			EAnnotation ocl = HenshinPackage.Literals.NAMED_ELEMENT.getEAnnotation(OCL_ANNOTATION_SOURCE);
+			String expr = ocl.getDetails().get("ValidName");
+			
+			try {
+				namedElement_ValidNameInvOCL = helper.createInvariant(expr);
+			}
+			catch (ParserException e) {
+				throw new UnsupportedOperationException(e.getLocalizedMessage());
+			}
+		}
+		
+		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(namedElement_ValidNameInvOCL);
+		
+		if (!query.check(namedElement)) {
+			if (diagnostics != null) {
+				diagnostics.add
+					(createDiagnostic
+						(Diagnostic.ERROR,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",
+						 new Object[] { "ValidName", getObjectLabel(namedElement, context) },
+						 new Object[] { namedElement },
+						 context));
+			}
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -199,7 +256,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateTransformationSystem(TransformationSystem transformationSystem, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(transformationSystem, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(transformationSystem, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -208,7 +273,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateRule(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(rule, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(rule, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -217,7 +290,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateAttributeCondition(AttributeCondition attributeCondition, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(attributeCondition, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(attributeCondition, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -226,7 +307,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateVariable(Variable variable, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(variable, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(variable, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(variable, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -235,7 +324,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePort(Port port, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(port, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(port, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(port, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -244,7 +341,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePortObject(PortObject portObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(portObject, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(portObject, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(portObject, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -253,7 +358,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePortParameter(PortParameter portParameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(portParameter, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(portParameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(portParameter, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -262,7 +375,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateGraph(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(graph, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(graph, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -289,7 +410,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNode(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(node, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(node, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -365,7 +494,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateTransformationUnit(TransformationUnit transformationUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(transformationUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(transformationUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -374,7 +511,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateIndependentUnit(IndependentUnit independentUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(independentUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(independentUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -383,7 +528,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateSequentialUnit(SequentialUnit sequentialUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(sequentialUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(sequentialUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -392,7 +545,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateConditionalUnit(ConditionalUnit conditionalUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(conditionalUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(conditionalUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -401,7 +562,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePriorityUnit(PriorityUnit priorityUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(priorityUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(priorityUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -410,7 +579,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateAmalgamatedUnit(AmalgamatedUnit amalgamatedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(amalgamatedUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(amalgamatedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(amalgamatedUnit, diagnostics, context);
+		return result;
 	}
 
 	/**
@@ -419,7 +596,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateCountedUnit(CountedUnit countedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(countedUnit, diagnostics, context);
+		boolean result = validate_EveryMultiplicityConforms(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(countedUnit, diagnostics, context);
+		return result;
 	}
 
 	/**

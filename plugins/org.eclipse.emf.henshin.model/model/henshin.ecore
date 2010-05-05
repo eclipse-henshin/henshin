@@ -4,6 +4,12 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="henshin"
     nsURI="http://www.eclipse.org/emf/2010/Henshin" nsPrefix="henshin">
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ValidName" value="not self.name.oclIsUndefined() implies self.name&lt;>''"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DescribedElement" abstract="true">
