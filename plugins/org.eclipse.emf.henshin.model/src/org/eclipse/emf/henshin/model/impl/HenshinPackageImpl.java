@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.henshin.model.AmalgamatedUnit;
@@ -53,6 +54,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.Variable;
+import org.eclipse.emf.henshin.model.util.HenshinValidator;
 
 /**
  * <!-- begin-user-doc -->
@@ -329,6 +331,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		// Initialize created meta-data
 		theHenshinPackage.initializePackageContents();
+
+		// Register package validator
+		EValidator.Registry.INSTANCE.put
+			(theHenshinPackage, 
+			 new EValidator.Descriptor() {
+				 public EValidator getEValidator() {
+					 return HenshinValidator.INSTANCE;
+				 }
+			 });
 
 		// Mark meta-data to indicate it can't be changed
 		theHenshinPackage.freeze();
@@ -1550,6 +1561,44 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://www.eclipse.org/emf/2002/Ecore
+		createEcoreAnnotations();
+		// http://www.eclipse.org/emf/2010/Henshin/OCL
+		createOCLAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEcoreAnnotations() {
+		String source = "http://www.eclipse.org/emf/2002/Ecore";		
+		addAnnotation
+		  (edgeEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "EqualParentGraphs"
+		   });	
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2010/Henshin/OCL</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createOCLAnnotations() {
+		String source = "http://www.eclipse.org/emf/2010/Henshin/OCL";			
+		addAnnotation
+		  (edgeEClass, 
+		   source, 
+		   new String[] {
+			 "EqualParentGraphs", "source.graph<>target.graph"
+		   });
 	}
 
 } //HenshinPackageImpl
