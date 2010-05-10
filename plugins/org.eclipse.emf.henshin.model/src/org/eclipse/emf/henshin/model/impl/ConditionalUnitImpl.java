@@ -12,24 +12,16 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.NamedElement;
-import org.eclipse.emf.henshin.model.Port;
-import org.eclipse.emf.henshin.model.PortMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -219,8 +211,11 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	public EList<TransformationUnit> getAllSubUnits() {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 
+		allunits.add(if_);
 		allunits.addAll(if_.getAllSubUnits());
+		allunits.add(then);
 		allunits.addAll(then.getAllSubUnits());
+		allunits.add(else_);
 		allunits.addAll(else_.getAllSubUnits());
 
 		return new BasicEList<TransformationUnit>(allunits);
