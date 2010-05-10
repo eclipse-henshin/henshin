@@ -135,7 +135,7 @@ public class UnitApplication {
 
 			if (targetPort.getDirection() == PortKind.OUTPUT
 					|| targetPort.getDirection() == PortKind.INPUT_OUTPUT)
-				if (sourcePort.getUnit() == childUnit) {
+				if (sourcePort.getUnit() == childUnit.getTransformationUnit()) {
 					portValues.put(targetPort, childUnit.portValues
 							.get(sourcePort));
 				}

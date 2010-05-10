@@ -380,18 +380,14 @@ public class ModelHelper {
 			Match comatch) {
 		Map<Port, Object> newPortMap = new HashMap<Port, Object>();
 		for (Port port : unit.getPorts()) {
-			if (port.getDirection() == PortKind.OUTPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
-				if (port instanceof PortObject) {
-					Node targetNode = ((PortObject) port).getNode();
-					newPortMap.put(port, comatch.getNodeMapping().get(
-							targetNode));
-				} else if (port instanceof PortParameter) {
-					Variable targetVar = ((PortParameter) port).getVariable();
-					newPortMap.put(port, comatch.getParameterMapping().get(
-							targetVar.getName()));
-				}// if else
-			}// if
+			if (port instanceof PortObject) {
+				Node targetNode = ((PortObject) port).getNode();
+				newPortMap.put(port, comatch.getNodeMapping().get(targetNode));
+			} else if (port instanceof PortParameter) {
+				Variable targetVar = ((PortParameter) port).getVariable();
+				newPortMap.put(port, comatch.getParameterMapping().get(
+						targetVar.getName()));
+			}// if else
 		}// for
 
 		return newPortMap;
