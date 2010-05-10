@@ -14,6 +14,7 @@
  */
 package org.eclipse.emf.henshin.provider.descriptors;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -22,7 +23,11 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -64,25 +69,55 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
 
+		Collection<Node> result = null;
+
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
 			if (eobject instanceof Rule) {
-				Rule rule = (Rule) eobject;
-
 				/*
-				 * As I am currently not sure, how Enrico is implementing
-				 * NestedConditions and its Mappings, I decided to allow all
-				 * Nodes in this combo-box, except the ones of the LHS.
+				 * Image in a rule may be any node in the RHS.
 				 */
-				Collection<EObject> result = getReachableObjectsOfType(
-						(EObject) object, feature.getEType());
-				result.removeAll(rule.getLhs().getNodes());
+				Rule rule = (Rule) eobject;
+				result = rule.getRhs().getNodes();
+				// Collection<EObject> result = getReachableObjectsOfType(
+				// (EObject) object, feature.getEType());
+				// result.removeAll(rule.getLhs().getNodes());
+			} else if (eobject instanceof NestedCondition) {
+				/*
+				 * Image in a nested condition may be any node in the
+				 * conclusion, which is the graph directly contained by the
+				 * nested condition.
+				 */
+				NestedCondition nc = (NestedCondition) eobject;
+				result = nc.getConclusion().getNodes();
+			} else if (eobject instanceof AmalgamatedUnit) {
+				/*
+				 * The image in an amalgamation unit depends on the reference
+				 * the mapping is contained in. Either the all multi rule's LHS
+				 * nodes or RHS nodes may be an image.
+				 */
+				AmalgamatedUnit au = (AmalgamatedUnit) eobject;
+				EStructuralFeature sf = mapping.eContainingFeature();
 
-				return Collections.unmodifiableCollection(result);
-			}// if
+				if (sf.getFeatureID() == HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS) {
+					result = new ArrayList<Node>();
+					for (Rule rule : au.getMultiRules()) {
+						result.addAll(rule.getLhs().getNodes());
+					}// for
+				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS) {
+					result = new ArrayList<Node>();
+					for (Rule rule : au.getMultiRules()) {
+						result.addAll(rule.getRhs().getNodes());
+					}// for
+				}// if else if
+			}// if else if
 		}// if
-		return super.getComboBoxObjects(object);
-	}// getComboBoxObjects
 
+		if (result != null) {
+			return Collections.unmodifiableCollection(result);
+		} else {
+			return super.getComboBoxObjects(object);
+		}// if else
+	}// getComboBoxObjects
 }// class
