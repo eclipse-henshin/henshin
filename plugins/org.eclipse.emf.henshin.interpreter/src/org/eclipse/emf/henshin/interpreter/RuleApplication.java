@@ -55,8 +55,10 @@ public class RuleApplication {
 	/**
 	 * Creates a new RuleApplication.
 	 * 
-	 * @param engine The InterpreterEngine used for matchfinding
-	 * @param rule A Henshin rule
+	 * @param engine
+	 *            The InterpreterEngine used for matchfinding
+	 * @param rule
+	 *            A Henshin rule
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
 		this.rule = rule;
@@ -130,11 +132,15 @@ public class RuleApplication {
 			Object value = interpreterEngine.evalExpression(match
 					.getParameterMapping(), attribute.getValue());
 
-			//workaround for Double conversion
-			String valueString = value.toString();
-			if (valueString.endsWith(".0"))
-				valueString = valueString.substring(0, valueString.length() - 2);
-			
+			String valueString = null;
+			// workaround for Double conversion
+			if (value != null) {
+				valueString = value.toString();
+				if (valueString.endsWith(".0"))
+					valueString = valueString.substring(0,
+							valueString.length() - 2);
+			}
+
 			value = EcoreUtil.createFromString(attribute.getType()
 					.getEAttributeType(), valueString);
 
@@ -142,8 +148,7 @@ public class RuleApplication {
 					value);
 		}
 
-		return new Match(rule, match.getParameterMapping(),
-				comatchNodeMapping);
+		return new Match(rule, match.getParameterMapping(), comatchNodeMapping);
 	}
 
 	/**
@@ -301,7 +306,7 @@ public class RuleApplication {
 	public Match getComatch() {
 		return comatch;
 	}
-	
+
 	@Override
 	public String toString() {
 		return rule.getName();
