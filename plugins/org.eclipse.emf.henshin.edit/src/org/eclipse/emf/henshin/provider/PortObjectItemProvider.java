@@ -78,7 +78,7 @@ public class PortObjectItemProvider
 	 */
 	protected void addNodePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(new PortObjectPropertyDescriptor
+			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_PortObject_node_feature"),

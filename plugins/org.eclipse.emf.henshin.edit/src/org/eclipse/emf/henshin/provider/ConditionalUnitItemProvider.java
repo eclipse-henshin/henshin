@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class ConditionalUnitItemProvider
-	extends DescribedElementItemProvider
+	extends TransformationUnitItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -69,54 +69,8 @@ public class ConditionalUnitItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addActivatedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Activated feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addActivatedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TransformationUnit_activated_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
-				 HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -131,8 +85,6 @@ public class ConditionalUnitItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS);
 			childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__IF);
 			childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN);
 			childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE);
@@ -190,12 +142,6 @@ public class ConditionalUnitItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ConditionalUnit.class)) {
-			case HenshinPackage.CONDITIONAL_UNIT__NAME:
-			case HenshinPackage.CONDITIONAL_UNIT__ACTIVATED:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case HenshinPackage.CONDITIONAL_UNIT__PORTS:
-			case HenshinPackage.CONDITIONAL_UNIT__PORT_MAPPINGS:
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
@@ -215,21 +161,6 @@ public class ConditionalUnitItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortObject()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortParameter()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
-				 HenshinFactory.eINSTANCE.createPortMapping()));
 
 		newChildDescriptors.add
 			(createChildParameter

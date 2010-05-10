@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * @generated
  */
 public class RuleItemProvider
-	extends DescribedElementItemProvider
+	extends TransformationUnitItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -69,54 +69,8 @@ public class RuleItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
-			addActivatedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Activated feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addActivatedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TransformationUnit_activated_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
-				 HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -131,8 +85,6 @@ public class RuleItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__LHS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__RHS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS);
@@ -192,12 +144,6 @@ public class RuleItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Rule.class)) {
-			case HenshinPackage.RULE__NAME:
-			case HenshinPackage.RULE__ACTIVATED:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case HenshinPackage.RULE__PORTS:
-			case HenshinPackage.RULE__PORT_MAPPINGS:
 			case HenshinPackage.RULE__LHS:
 			case HenshinPackage.RULE__RHS:
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
@@ -219,21 +165,6 @@ public class RuleItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortObject()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortParameter()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
-				 HenshinFactory.eINSTANCE.createPortMapping()));
 
 		newChildDescriptors.add
 			(createChildParameter

@@ -44,7 +44,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class TransformationUnitItemProvider
-	extends ItemProviderAdapter
+	extends DescribedElementItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -72,9 +72,32 @@ public class TransformationUnitItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 			addActivatedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NamedElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
+				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -138,8 +161,10 @@ public class TransformationUnitItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		TransformationUnit transformationUnit = (TransformationUnit)object;
-		return getString("_UI_TransformationUnit_type") + " " + transformationUnit.isActivated();
+		String label = ((TransformationUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_TransformationUnit_type") :
+			getString("_UI_TransformationUnit_type") + " " + label;
 	}
 
 	/**
@@ -154,6 +179,7 @@ public class TransformationUnitItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TransformationUnit.class)) {
+			case HenshinPackage.TRANSFORMATION_UNIT__NAME:
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
@@ -190,17 +216,6 @@ public class TransformationUnitItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
 				 HenshinFactory.eINSTANCE.createPortMapping()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return HenshinEditPlugin.INSTANCE;
 	}
 
 }
