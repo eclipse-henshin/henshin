@@ -50,4 +50,8 @@ public class ParameterConstraint {
 			}
 		}
 	}
+
+	public String getParameterName() {
+		return parameterName;
+	}
 }

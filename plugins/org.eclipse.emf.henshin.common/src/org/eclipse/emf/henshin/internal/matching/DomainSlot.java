@@ -36,43 +36,50 @@ public class DomainSlot {
 	List<EObject> domain;
 	List<EObject> localChanges;
 	Map<DomainSlot, List<EObject>> slotChanges;
+	
+	List<String> initializedParameters;
+	AttributeConditionHandler conditionHandler;
 
 	TransformationOptions options;
 	
 	List<Variable> checkedVariables;
 	Set<EObject> usedObjects;
 	
-	public DomainSlot(Variable owner, Set<EObject> usedObjects, TransformationOptions options) {
+	public DomainSlot(Variable owner, AttributeConditionHandler conditionHandler, Set<EObject> usedObjects, TransformationOptions options) {
 		this.owner = owner;
 		this.locked = false;
 		this.initialized = false;
+		this.conditionHandler = conditionHandler;
 
 		this.usedObjects = usedObjects;
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
+		this.initializedParameters = new ArrayList<String>();
 		this.checkedVariables = new ArrayList<Variable>();
 		
 		this.options = options;
 	}
 
-	public DomainSlot(EObject value, Set<EObject> usedObjects, TransformationOptions options) {
+	public DomainSlot(EObject value, AttributeConditionHandler conditionHandler, Set<EObject> usedObjects, TransformationOptions options) {
 		this.initialized = true;
 		this.locked = true;
 		this.value = value;
+		this.conditionHandler = conditionHandler;
 		
 		this.usedObjects = usedObjects;
-		this.usedObjects.add(value);
+		
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.checkedVariables = new ArrayList<Variable>();
 		
 		this.options = options;
+		
+		this.usedObjects.add(value);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#instanciate(org.eclipse.emf.henshin.internal.matching.Variable, java.util.Map, org.eclipse.emf.henshin.common.util.EmfGraph, org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler)
 	 */
 	public boolean instanciate(Variable variable,
-			Map<Variable, DomainSlot> domainMap, EmfGraph graph,
-			AttributeConditionHandler conditionHandler) {
+			Map<Variable, DomainSlot> domainMap, EmfGraph graph) {
 		if (!initialized) {
 			initialized = true;
 
@@ -113,6 +120,8 @@ public class DomainSlot {
 
 			for (ParameterConstraint constraint : variable
 					.getParameterConstraints()) {
+				if (!conditionHandler.isSet(constraint.getParameterName()))
+					initializedParameters.add(constraint.getParameterName());
 				if (!constraint.check(value, conditionHandler))
 					return false;
 			}
@@ -178,6 +187,12 @@ public class DomainSlot {
 		if (locked && sender == owner) {
 			locked = false;
 			usedObjects.remove(value);
+			
+			for (String parameterName: initializedParameters) {
+				conditionHandler.unsetParameter(parameterName);
+			}
+			initializedParameters.clear();
+			
 			for (DomainSlot slot : slotChanges.keySet()) {
 				List<EObject> removedObjects = slotChanges.get(slot);
 

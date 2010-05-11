@@ -57,8 +57,7 @@ public class ApplicationCondition implements IFormula {
 		boolean validAssignment = false;
 
 		while (!validAssignment) {
-			validAssignment = slot.instanciate(variable, domainMap, graph,
-					conditionHandler);
+			validAssignment = slot.instanciate(variable, domainMap, graph);
 
 			if (validAssignment) {
 				validAssignment = findMatch(index + 1);

@@ -74,7 +74,7 @@ public class EmfEngine implements InterpreterEngine {
 
 		options = new TransformationOptions();
 	}
-	
+
 	public EmfEngine(EmfGraph emfGraph) {
 		this.emfGraph = emfGraph;
 
@@ -88,7 +88,8 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper,
-			Map<Node, EObject> prematch) {
+			Map<Node, EObject> prematch,
+			AttributeConditionHandler conditionHandler) {
 		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
 		Map<Variable, Variable> mainVariableMap = wrapper
 				.getVariable2mainVariable();
@@ -102,12 +103,14 @@ public class EmfEngine implements InterpreterEngine {
 			DomainSlot slot;
 			if (node.getGraph() == wrapper.getRule().getLhs()) {
 				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						usedObjects, options) : new DomainSlot(prematch
-						.get(node), usedObjects, options);
+						conditionHandler, usedObjects, options)
+						: new DomainSlot(prematch.get(node), conditionHandler,
+								usedObjects, options);
 			} else {
 				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						usedObjects, defaultOptions) : new DomainSlot(prematch
-						.get(node), usedObjects, defaultOptions);
+						conditionHandler, usedObjects, defaultOptions)
+						: new DomainSlot(prematch.get(node), conditionHandler,
+								usedObjects, defaultOptions);
 			}
 
 			domainMap.put(var, slot);
@@ -137,7 +140,7 @@ public class EmfEngine implements InterpreterEngine {
 			}
 		}
 
-		Map<Variable, DomainSlot> domainMap = createDomainMap(wrapper, prematch);
+		Map<Variable, DomainSlot> domainMap = createDomainMap(wrapper, prematch, handler);
 		Map<Graph, List<Variable>> graphMap = wrapper.getGraph2variables();
 
 		Matchfinder matchfinder = new Matchfinder(emfGraph, domainMap, handler);
