@@ -1,4 +1,4 @@
-<project default="run" name="org.eclipse.emf.henshin.releng/build.xml - Run a Henshin build using the Athena CBI">
+<project default="run" name="org.eclipse.emft.henshin/releng/build.xml - Run a Henshin build using the Athena CBI">
 	<target name="run">
 		<!-- 
 				1. You must check out the following projects to your workspace:
