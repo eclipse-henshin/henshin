@@ -1,4 +1,4 @@
-<project default="run" name="org.eclipse.emf.ecoretools.releng/promote.xml - Promote a build from build server to production server">
+<project default="run" name="org.eclipse.emft.henshin/releng/promote.xml - Promote a build from build server to production server">
 	<target name="run">
 		<!--
 			TODO: Copy this script into your .releng project and rename it to promote.xml
