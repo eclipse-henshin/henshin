@@ -129,37 +129,11 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.VARIABLE: {
-				Variable variable = (Variable)theEObject;
-				T result = caseVariable(variable);
-				if (result == null) result = caseDescribedElement(variable);
-				if (result == null) result = caseNamedElement(variable);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.PORT: {
-				Port port = (Port)theEObject;
-				T result = casePort(port);
-				if (result == null) result = caseDescribedElement(port);
-				if (result == null) result = caseNamedElement(port);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.PORT_OBJECT: {
-				PortObject portObject = (PortObject)theEObject;
-				T result = casePortObject(portObject);
-				if (result == null) result = casePort(portObject);
-				if (result == null) result = caseDescribedElement(portObject);
-				if (result == null) result = caseNamedElement(portObject);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.PORT_PARAMETER: {
-				PortParameter portParameter = (PortParameter)theEObject;
-				T result = casePortParameter(portParameter);
-				if (result == null) result = casePort(portParameter);
-				if (result == null) result = caseDescribedElement(portParameter);
-				if (result == null) result = caseNamedElement(portParameter);
+			case HenshinPackage.PARAMETER: {
+				Parameter parameter = (Parameter)theEObject;
+				T result = caseParameter(parameter);
+				if (result == null) result = caseDescribedElement(parameter);
+				if (result == null) result = caseNamedElement(parameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -247,12 +221,12 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.AMALGAMATED_UNIT: {
-				AmalgamatedUnit amalgamatedUnit = (AmalgamatedUnit)theEObject;
-				T result = caseAmalgamatedUnit(amalgamatedUnit);
-				if (result == null) result = caseTransformationUnit(amalgamatedUnit);
-				if (result == null) result = caseDescribedElement(amalgamatedUnit);
-				if (result == null) result = caseNamedElement(amalgamatedUnit);
+			case HenshinPackage.AMALGAMATION_UNIT: {
+				AmalgamationUnit amalgamationUnit = (AmalgamationUnit)theEObject;
+				T result = caseAmalgamationUnit(amalgamationUnit);
+				if (result == null) result = caseTransformationUnit(amalgamationUnit);
+				if (result == null) result = caseDescribedElement(amalgamationUnit);
+				if (result == null) result = caseNamedElement(amalgamationUnit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -316,9 +290,9 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.PORT_MAPPING: {
-				PortMapping portMapping = (PortMapping)theEObject;
-				T result = casePortMapping(portMapping);
+			case HenshinPackage.PARAMETER_MAPPING: {
+				ParameterMapping parameterMapping = (ParameterMapping)theEObject;
+				T result = caseParameterMapping(parameterMapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -402,62 +376,17 @@ public class HenshinSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Variable</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Variable</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseVariable(Variable object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Port</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Port</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePort(Port object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Port Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Port Object</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePortObject(PortObject object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Port Parameter</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Port Parameter</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T casePortParameter(PortParameter object) {
+	public T caseParameter(Parameter object) {
 		return null;
 	}
 
@@ -627,17 +556,17 @@ public class HenshinSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Amalgamated Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Amalgamation Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Amalgamated Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Amalgamation Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAmalgamatedUnit(AmalgamatedUnit object) {
+	public T caseAmalgamationUnit(AmalgamationUnit object) {
 		return null;
 	}
 
@@ -762,17 +691,17 @@ public class HenshinSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Port Mapping</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Parameter Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Port Mapping</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Parameter Mapping</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T casePortMapping(PortMapping object) {
+	public T caseParameterMapping(ParameterMapping object) {
 		return null;
 	}
 

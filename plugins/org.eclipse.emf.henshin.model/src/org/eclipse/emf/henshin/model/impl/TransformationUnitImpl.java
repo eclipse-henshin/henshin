@@ -24,8 +24,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
-import org.eclipse.emf.henshin.model.Port;
-import org.eclipse.emf.henshin.model.PortMapping;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -37,8 +37,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getPorts <em>Ports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getPortMappings <em>Port Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -86,24 +86,24 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	protected boolean activated = ACTIVATED_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPorts() <em>Ports</em>}' containment reference list.
+	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPorts()
+	 * @see #getParameters()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Port> ports;
+	protected EList<Parameter> parameters;
 
 	/**
-	 * The cached value of the '{@link #getPortMappings() <em>Port Mappings</em>}' containment reference list.
+	 * The cached value of the '{@link #getParameterMappings() <em>Parameter Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPortMappings()
+	 * @see #getParameterMappings()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<PortMapping> portMappings;
+	protected EList<ParameterMapping> parameterMappings;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -171,11 +171,11 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Port> getPorts() {
-		if (ports == null) {
-			ports = new EObjectContainmentWithInverseEList<Port>(Port.class, this, HenshinPackage.TRANSFORMATION_UNIT__PORTS, HenshinPackage.PORT__UNIT);
+	public EList<Parameter> getParameters() {
+		if (parameters == null) {
+			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
 		}
-		return ports;
+		return parameters;
 	}
 
 	/**
@@ -183,11 +183,11 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<PortMapping> getPortMappings() {
-		if (portMappings == null) {
-			portMappings = new EObjectContainmentEList<PortMapping>(PortMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS);
+	public EList<ParameterMapping> getParameterMappings() {
+		if (parameterMappings == null) {
+			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
 		}
-		return portMappings;
+		return parameterMappings;
 	}
 
 	/**
@@ -198,23 +198,23 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	public abstract EList<TransformationUnit> getAllSubUnits();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Port getPortByName(String portname) {
+	public Parameter getParameterByName(String parametername) {
+		if (this.parameters != null) {
 
-		if (this.ports != null) {
-
-			for (Port port : this.ports) {
-				if (port.getName().equals(portname))
-					return port;
+			for (Parameter parameter : this.parameters) {
+				if (parameter.getName().equals(parametername))
+					return parameter;
 			}// for
 
 		}// if
 
 		return null;
-	}// getPortByName
+	}
+
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,8 +225,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPorts()).basicAdd(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -239,10 +239,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				return ((InternalEList<?>)getPorts()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
-				return ((InternalEList<?>)getPortMappings()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+				return ((InternalEList<?>)getParameterMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -259,10 +259,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 				return getName();
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				return isActivated();
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				return getPorts();
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
-				return getPortMappings();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				return getParameters();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+				return getParameterMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -282,13 +282,13 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				setActivated((Boolean)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				getPorts().clear();
-				getPorts().addAll((Collection<? extends Port>)newValue);
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				getParameters().clear();
+				getParameters().addAll((Collection<? extends Parameter>)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
-				getPortMappings().clear();
-				getPortMappings().addAll((Collection<? extends PortMapping>)newValue);
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+				getParameterMappings().clear();
+				getParameterMappings().addAll((Collection<? extends ParameterMapping>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -308,11 +308,11 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				setActivated(ACTIVATED_EDEFAULT);
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				getPorts().clear();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				getParameters().clear();
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
-				getPortMappings().clear();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+				getParameterMappings().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -330,10 +330,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				return activated != ACTIVATED_EDEFAULT;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-				return ports != null && !ports.isEmpty();
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
-				return portMappings != null && !portMappings.isEmpty();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+				return parameters != null && !parameters.isEmpty();
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+				return parameterMappings != null && !parameterMappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

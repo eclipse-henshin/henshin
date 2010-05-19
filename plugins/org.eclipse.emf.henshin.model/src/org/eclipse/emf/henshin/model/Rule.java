@@ -26,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getAttributeConditions <em>Attribute Conditions</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMappings <em>Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.Rule#getVariables <em>Variables</em>}</li>
  * </ul>
  * </p>
  *
@@ -150,22 +149,12 @@ public interface Rule extends TransformationUnit, DescribedElement, NamedElement
 	void setTransformationSystem(TransformationSystem value);
 
 	/**
-	 * Returns the value of the '<em><b>Variables</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Variable}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Variable#getRule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variables</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variables</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Variables()
-	 * @see org.eclipse.emf.henshin.model.Variable#getRule
-	 * @model opposite="rule" containment="true"
+	 * @model
 	 * @generated
 	 */
-	EList<Variable> getVariables();
+	Node getNodeByName(String nodename, boolean isLhs);
 
 	
 } // Rule

@@ -200,24 +200,13 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public TransformationUnit findUnitByName(String unitName, boolean deep) {
-
+	public TransformationUnit findUnitByName(String unitName) {
 		for (TransformationUnit unit : this.getTransformationUnits()) {
-
 			if (unitName.equals(unit.getName())) {
 				return unit;
 			}// if equal
-
-			if (deep) {
-				for (TransformationUnit subunit : unit.getAllSubUnits()) {
-					if (unitName.equals(subunit.getName())) {
-						return unit;
-					}// if equal
-				}// for subunits
-			}// if deep
-
 		}// for units
 
 		return null;

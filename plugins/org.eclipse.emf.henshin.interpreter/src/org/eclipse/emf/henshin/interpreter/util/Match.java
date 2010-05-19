@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -36,9 +37,9 @@ public class Match {
 	private Map<Node, EObject> nodeMapping;
 
 	// variable assignments
-	private Map<String, Object> parameterMapping;
+	private Map<Parameter, Object> parameterMapping;
 
-	public Match(Rule rule, Map<String, Object> parameterMapping,
+	public Match(Rule rule, Map<Parameter, Object> parameterMapping,
 			Map<Node, EObject> nodeMapping) {
 		this.parameterMapping = parameterMapping;
 		this.nodeMapping = nodeMapping;
@@ -46,10 +47,18 @@ public class Match {
 	}
 
 	public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
-		this.parameterMapping = solution.getParameterMatches();
-		this.nodeMapping = new HashMap<Node, EObject>();
-
 		if (solution != null) {
+			this.parameterMapping = new HashMap<Parameter, Object>();
+			for (String parameterName : solution.getParameterMatches().keySet()) {
+				Parameter parameter = rule.getParameterByName(parameterName);
+				if (parameter != null) {
+					parameterMapping.put(parameter, solution
+							.getParameterMatches().get(parameterName));
+				}
+			}
+
+			this.nodeMapping = new HashMap<Node, EObject>();
+
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			for (Node node : rule.getLhs().getNodes()) {
 				Variable var = node2variable.get(node);
@@ -64,7 +73,7 @@ public class Match {
 	/**
 	 * @return the parameterMapping
 	 */
-	public Map<String, Object> getParameterMapping() {
+	public Map<Parameter, Object> getParameterMapping() {
 		return parameterMapping;
 	}
 
@@ -113,10 +122,9 @@ public class Match {
 	public boolean isComplete() {
 		if (nodeMapping == null && rule.getLhs().getNodes().size() > 0)
 			return false;
-		
+
 		for (Node node : rule.getLhs().getNodes()) {
-			
-			
+
 			if (nodeMapping.get(node) == null)
 				return false;
 		}
@@ -149,7 +157,8 @@ public class Match {
 				EObject target = nodeMapping.get(edge.getTarget());
 
 				if (edgeType.isMany()) {
-					List<EObject> targetObjects = (List<EObject>) source.eGet(edgeType); 
+					List<EObject> targetObjects = (List<EObject>) source
+							.eGet(edgeType);
 					if (!targetObjects.contains(target))
 						return false;
 				} else {

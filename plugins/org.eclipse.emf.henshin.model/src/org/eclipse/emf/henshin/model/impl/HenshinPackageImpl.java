@@ -13,15 +13,12 @@ package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
@@ -42,18 +39,14 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
-import org.eclipse.emf.henshin.model.Port;
-import org.eclipse.emf.henshin.model.PortKind;
-import org.eclipse.emf.henshin.model.PortMapping;
-import org.eclipse.emf.henshin.model.PortObject;
-import org.eclipse.emf.henshin.model.PortParameter;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.Variable;
 import org.eclipse.emf.henshin.model.util.HenshinValidator;
 
 /**
@@ -103,28 +96,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass variableEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass portEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass portObjectEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass portParameterEClass = null;
+	private EClass parameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -208,7 +180,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass amalgamatedUnitEClass = null;
+	private EClass amalgamationUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -271,14 +243,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass portMappingEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum portKindEEnum = null;
+	private EClass parameterMappingEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -490,15 +455,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getRule_Variables() {
-		return (EReference)ruleEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getAttributeCondition() {
 		return attributeConditionEClass;
 	}
@@ -526,8 +482,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getVariable() {
-		return variableEClass;
+	public EClass getParameter() {
+		return parameterEClass;
 	}
 
 	/**
@@ -535,71 +491,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getVariable_Rule() {
-		return (EReference)variableEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getPort() {
-		return portEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getPort_Direction() {
-		return (EAttribute)portEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getPort_Unit() {
-		return (EReference)portEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getPortObject() {
-		return portObjectEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getPortObject_Node() {
-		return (EReference)portObjectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getPortParameter() {
-		return portParameterEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getPortParameter_Variable() {
-		return (EReference)portParameterEClass.getEStructuralFeatures().get(0);
+	public EReference getParameter_Unit() {
+		return (EReference)parameterEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -841,7 +734,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransformationUnit_Ports() {
+	public EReference getTransformationUnit_Parameters() {
 		return (EReference)transformationUnitEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -850,7 +743,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTransformationUnit_PortMappings() {
+	public EReference getTransformationUnit_ParameterMappings() {
 		return (EReference)transformationUnitEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -949,8 +842,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAmalgamatedUnit() {
-		return amalgamatedUnitEClass;
+	public EClass getAmalgamationUnit() {
+		return amalgamationUnitEClass;
 	}
 
 	/**
@@ -958,8 +851,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAmalgamatedUnit_KernelRule() {
-		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(0);
+	public EReference getAmalgamationUnit_KernelRule() {
+		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -967,8 +860,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAmalgamatedUnit_MultiRules() {
-		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(1);
+	public EReference getAmalgamationUnit_MultiRules() {
+		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -976,8 +869,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAmalgamatedUnit_LhsMappings() {
-		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(2);
+	public EReference getAmalgamationUnit_LhsMappings() {
+		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -985,8 +878,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAmalgamatedUnit_RhsMappings() {
-		return (EReference)amalgamatedUnitEClass.getEStructuralFeatures().get(3);
+	public EReference getAmalgamationUnit_RhsMappings() {
+		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1138,8 +1031,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getPortMapping() {
-		return portMappingEClass;
+	public EClass getParameterMapping() {
+		return parameterMappingEClass;
 	}
 
 	/**
@@ -1147,8 +1040,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPortMapping_Source() {
-		return (EReference)portMappingEClass.getEStructuralFeatures().get(0);
+	public EReference getParameterMapping_Source() {
+		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1156,17 +1049,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPortMapping_Target() {
-		return (EReference)portMappingEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getPortKind() {
-		return portKindEEnum;
+	public EReference getParameterMapping_Target() {
+		return (EReference)parameterMappingEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1215,24 +1099,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEReference(ruleEClass, RULE__ATTRIBUTE_CONDITIONS);
 		createEReference(ruleEClass, RULE__MAPPINGS);
 		createEReference(ruleEClass, RULE__TRANSFORMATION_SYSTEM);
-		createEReference(ruleEClass, RULE__VARIABLES);
 
 		attributeConditionEClass = createEClass(ATTRIBUTE_CONDITION);
 		createEReference(attributeConditionEClass, ATTRIBUTE_CONDITION__RULE);
 		createEAttribute(attributeConditionEClass, ATTRIBUTE_CONDITION__CONDITION_TEXT);
 
-		variableEClass = createEClass(VARIABLE);
-		createEReference(variableEClass, VARIABLE__RULE);
-
-		portEClass = createEClass(PORT);
-		createEAttribute(portEClass, PORT__DIRECTION);
-		createEReference(portEClass, PORT__UNIT);
-
-		portObjectEClass = createEClass(PORT_OBJECT);
-		createEReference(portObjectEClass, PORT_OBJECT__NODE);
-
-		portParameterEClass = createEClass(PORT_PARAMETER);
-		createEReference(portParameterEClass, PORT_PARAMETER__VARIABLE);
+		parameterEClass = createEClass(PARAMETER);
+		createEReference(parameterEClass, PARAMETER__UNIT);
 
 		graphEClass = createEClass(GRAPH);
 		createEReference(graphEClass, GRAPH__NODES);
@@ -1266,8 +1139,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		transformationUnitEClass = createEClass(TRANSFORMATION_UNIT);
 		createEAttribute(transformationUnitEClass, TRANSFORMATION_UNIT__ACTIVATED);
-		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PORTS);
-		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PORT_MAPPINGS);
+		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PARAMETERS);
+		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
 
 		independentUnitEClass = createEClass(INDEPENDENT_UNIT);
 		createEReference(independentUnitEClass, INDEPENDENT_UNIT__SUB_UNITS);
@@ -1283,11 +1156,11 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		priorityUnitEClass = createEClass(PRIORITY_UNIT);
 		createEReference(priorityUnitEClass, PRIORITY_UNIT__SUB_UNITS);
 
-		amalgamatedUnitEClass = createEClass(AMALGAMATED_UNIT);
-		createEReference(amalgamatedUnitEClass, AMALGAMATED_UNIT__KERNEL_RULE);
-		createEReference(amalgamatedUnitEClass, AMALGAMATED_UNIT__MULTI_RULES);
-		createEReference(amalgamatedUnitEClass, AMALGAMATED_UNIT__LHS_MAPPINGS);
-		createEReference(amalgamatedUnitEClass, AMALGAMATED_UNIT__RHS_MAPPINGS);
+		amalgamationUnitEClass = createEClass(AMALGAMATION_UNIT);
+		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__KERNEL_RULE);
+		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__MULTI_RULES);
+		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__LHS_MAPPINGS);
+		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__RHS_MAPPINGS);
 
 		countedUnitEClass = createEClass(COUNTED_UNIT);
 		createEReference(countedUnitEClass, COUNTED_UNIT__SUB_UNIT);
@@ -1313,12 +1186,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		notEClass = createEClass(NOT);
 
-		portMappingEClass = createEClass(PORT_MAPPING);
-		createEReference(portMappingEClass, PORT_MAPPING__SOURCE);
-		createEReference(portMappingEClass, PORT_MAPPING__TARGET);
-
-		// Create enums
-		portKindEEnum = createEEnum(PORT_KIND);
+		parameterMappingEClass = createEClass(PARAMETER_MAPPING);
+		createEReference(parameterMappingEClass, PARAMETER_MAPPING__SOURCE);
+		createEReference(parameterMappingEClass, PARAMETER_MAPPING__TARGET);
 	}
 
 	/**
@@ -1356,12 +1226,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		ruleEClass.getESuperTypes().add(this.getNamedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getDescribedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
-		variableEClass.getESuperTypes().add(this.getDescribedElement());
-		variableEClass.getESuperTypes().add(this.getNamedElement());
-		portEClass.getESuperTypes().add(this.getDescribedElement());
-		portEClass.getESuperTypes().add(this.getNamedElement());
-		portObjectEClass.getESuperTypes().add(this.getPort());
-		portParameterEClass.getESuperTypes().add(this.getPort());
+		parameterEClass.getESuperTypes().add(this.getDescribedElement());
+		parameterEClass.getESuperTypes().add(this.getNamedElement());
 		graphEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getGraphElement());
@@ -1372,7 +1238,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		sequentialUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		conditionalUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		priorityUnitEClass.getESuperTypes().add(this.getTransformationUnit());
-		amalgamatedUnitEClass.getESuperTypes().add(this.getTransformationUnit());
+		amalgamationUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		countedUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		nestedConditionEClass.getESuperTypes().add(this.getFormula());
 		unaryFormulaEClass.getESuperTypes().add(this.getFormula());
@@ -1396,7 +1262,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		EOperation op = addEOperation(transformationSystemEClass, this.getTransformationUnit(), "findUnitByName", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "unitName", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEBoolean(), "deep", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(transformationSystemEClass, this.getRule(), "findRuleByName", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "ruleName", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1407,24 +1272,17 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getRule_AttributeConditions(), this.getAttributeCondition(), this.getAttributeCondition_Rule(), "attributeConditions", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_Mappings(), this.getMapping(), null, "mappings", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_TransformationSystem(), this.getTransformationSystem(), this.getTransformationSystem_Rules(), "transformationSystem", null, 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRule_Variables(), this.getVariable(), this.getVariable_Rule(), "variables", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(ruleEClass, this.getNode(), "getNodeByName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "nodename", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEBoolean(), "isLhs", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(attributeConditionEClass, AttributeCondition.class, "AttributeCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAttributeCondition_Rule(), this.getRule(), this.getRule_AttributeConditions(), "rule", null, 0, 1, AttributeCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAttributeCondition_ConditionText(), ecorePackage.getEString(), "conditionText", null, 0, 1, AttributeCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(variableEClass, Variable.class, "Variable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getVariable_Rule(), this.getRule(), this.getRule_Variables(), "rule", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(portEClass, Port.class, "Port", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPort_Direction(), this.getPortKind(), "direction", null, 0, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPort_Unit(), this.getTransformationUnit(), this.getTransformationUnit_Ports(), "unit", null, 0, 1, Port.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(portObjectEClass, PortObject.class, "PortObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPortObject_Node(), this.getNode(), null, "node", null, 0, 1, PortObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(portParameterEClass, PortParameter.class, "PortParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPortParameter_Variable(), this.getVariable(), null, "variable", null, 0, 1, PortParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameter_Unit(), this.getTransformationUnit(), this.getTransformationUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(graphEClass, Graph.class, "Graph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGraph_Nodes(), this.getNode(), this.getNode_Graph(), "nodes", null, 0, -1, Graph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1483,11 +1341,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEAttribute(getAttribute_Value(), ecorePackage.getEString(), "value", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAttribute_Node(), this.getNode(), this.getNode_Attributes(), "node", null, 1, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(attributeEClass, ecorePackage.getEBoolean(), "containsVariableByRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(attributeEClass, ecorePackage.getEBoolean(), "containsParameterByRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getRule(), "rule", 1, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(attributeEClass, ecorePackage.getEBoolean(), "containsVariable", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getVariable(), "variable", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEdge_Source(), this.getNode(), this.getNode_Outgoing(), "source", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1497,13 +1352,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(transformationUnitEClass, TransformationUnit.class, "TransformationUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTransformationUnit_Activated(), ecorePackage.getEBoolean(), "activated", null, 0, 1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTransformationUnit_Ports(), this.getPort(), this.getPort_Unit(), "ports", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTransformationUnit_PortMappings(), this.getPortMapping(), null, "portMappings", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransformationUnit_Parameters(), this.getParameter(), this.getParameter_Unit(), "parameters", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransformationUnit_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(transformationUnitEClass, this.getTransformationUnit(), "getAllSubUnits", 0, -1, IS_UNIQUE, !IS_ORDERED);
 
-		op = addEOperation(transformationUnitEClass, this.getPort(), "getPortByName", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "portname", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(transformationUnitEClass, this.getParameter(), "getParameterByName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "parametername", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(independentUnitEClass, IndependentUnit.class, "IndependentUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIndependentUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, IndependentUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1519,11 +1374,11 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(priorityUnitEClass, PriorityUnit.class, "PriorityUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPriorityUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, PriorityUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(amalgamatedUnitEClass, AmalgamatedUnit.class, "AmalgamatedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAmalgamatedUnit_KernelRule(), this.getRule(), null, "kernelRule", null, 0, 1, AmalgamatedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamatedUnit_MultiRules(), this.getRule(), null, "multiRules", null, 0, -1, AmalgamatedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamatedUnit_LhsMappings(), this.getMapping(), null, "lhsMappings", null, 0, -1, AmalgamatedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamatedUnit_RhsMappings(), this.getMapping(), null, "rhsMappings", null, 0, -1, AmalgamatedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(amalgamationUnitEClass, AmalgamationUnit.class, "AmalgamationUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAmalgamationUnit_KernelRule(), this.getRule(), null, "kernelRule", null, 0, 1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAmalgamationUnit_MultiRules(), this.getRule(), null, "multiRules", null, 0, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAmalgamationUnit_LhsMappings(), this.getMapping(), null, "lhsMappings", null, 0, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAmalgamationUnit_RhsMappings(), this.getMapping(), null, "rhsMappings", null, 0, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(countedUnitEClass, CountedUnit.class, "CountedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCountedUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, CountedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1549,15 +1404,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(notEClass, Not.class, "Not", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(portMappingEClass, PortMapping.class, "PortMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPortMapping_Source(), this.getPort(), null, "source", null, 0, 1, PortMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPortMapping_Target(), this.getPort(), null, "target", null, 0, 1, PortMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Initialize enums and add enum literals
-		initEEnum(portKindEEnum, PortKind.class, "PortKind");
-		addEEnumLiteral(portKindEEnum, PortKind.INPUT);
-		addEEnumLiteral(portKindEEnum, PortKind.OUTPUT);
-		addEEnumLiteral(portKindEEnum, PortKind.INPUT_OUTPUT);
+		initEClass(parameterMappingEClass, ParameterMapping.class, "ParameterMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getParameterMapping_Source(), this.getParameter(), null, "source", null, 0, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParameterMapping_Target(), this.getParameter(), null, "target", null, 0, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

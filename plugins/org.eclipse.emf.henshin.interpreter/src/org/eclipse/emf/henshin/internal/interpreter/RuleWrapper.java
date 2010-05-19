@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
@@ -73,8 +74,8 @@ public class RuleWrapper {
 		mainVariables = new ArrayList<Variable>(variable2node.keySet());
 		mainVariables.removeAll(variable2mainVariable.keySet());
 		
-		for (org.eclipse.emf.henshin.model.Variable var: rule.getVariables()) {
-			ruleParameters.add(var.getName());
+		for (Parameter parameter: rule.getParameters()) {
+			ruleParameters.add(parameter.getName());
 		}
 		
 		for (AttributeCondition condition: rule.getAttributeConditions()) {
@@ -157,7 +158,7 @@ public class RuleWrapper {
 		}
 
 		for (Attribute attribute : node.getAttributes()) {
-			if (attribute.containsVariableByRule(rule)) {
+			if (attribute.containsParameterByRule(rule)) {
 				ParameterConstraint constraint = new ParameterConstraint(
 						attribute.getValue(), attribute.getType());
 				var.getParameterConstraints().add(constraint);

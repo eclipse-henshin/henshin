@@ -21,14 +21,13 @@ import java.util.Stack;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
-import org.eclipse.emf.henshin.model.Port;
-import org.eclipse.emf.henshin.model.PortKind;
-import org.eclipse.emf.henshin.model.PortMapping;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -38,8 +37,8 @@ public class UnitApplication {
 	InterpreterEngine engine;
 	TransformationUnit transformationUnit;
 
-	Map<Port, Object> portValues;
-	Map<Port, Object> oldPortValues;
+	Map<Parameter, Object> parameterValues;
+	Map<Parameter, Object> oldParameterValues;
 
 	Stack<RuleApplication> appliedRules;
 
@@ -55,8 +54,8 @@ public class UnitApplication {
 			TransformationUnit transformationUnit) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
-		this.portValues = new HashMap<Port, Object>();
-		this.oldPortValues = new HashMap<Port, Object>(portValues);
+		this.parameterValues = new HashMap<Parameter, Object>();
+		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -68,14 +67,14 @@ public class UnitApplication {
 	 * 
 	 * @param engine
 	 * @param transformationUnit
-	 * @param portValues
+	 * @param parameterValues
 	 */
 	public UnitApplication(InterpreterEngine engine,
-			TransformationUnit transformationUnit, Map<Port, Object> portValues) {
+			TransformationUnit transformationUnit, Map<Parameter, Object> parameterValues) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
-		this.portValues = portValues;
-		this.oldPortValues = new HashMap<Port, Object>(portValues);
+		this.parameterValues = parameterValues;
+		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -84,7 +83,7 @@ public class UnitApplication {
 		switch (transformationUnit.eClass().getClassifierID()) {
 		case HenshinPackage.RULE:
 			return executeRule();
-		case HenshinPackage.AMALGAMATED_UNIT:
+		case HenshinPackage.AMALGAMATION_UNIT:
 			return executeAmalgamatedUnit();
 		case HenshinPackage.INDEPENDENT_UNIT:
 			return executeIndependentUnit();
@@ -105,40 +104,36 @@ public class UnitApplication {
 		while (!appliedRules.isEmpty())
 			appliedRules.pop().undo();
 
-		portValues = oldPortValues;
+		parameterValues = oldParameterValues;
 	}
 
 	private UnitApplication createApplicationFor(TransformationUnit unit) {
-		Map<Port, Object> childPortValues = createChildPortValues(unit);
+		Map<Parameter, Object> childPortValues = createChildParameterValues(unit);
 		return new UnitApplication(engine, unit, childPortValues);
 	}
 
-	private Map<Port, Object> createChildPortValues(TransformationUnit child) {
-		Map<Port, Object> childPortValues = new HashMap<Port, Object>();
-		for (PortMapping mapping : transformationUnit.getPortMappings()) {
-			Port sourcePort = mapping.getSource();
-			Port targetPort = mapping.getTarget();
+	private Map<Parameter, Object> createChildParameterValues(TransformationUnit child) {
+		Map<Parameter, Object> childParameterValues = new HashMap<Parameter, Object>();
+		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
+			Parameter sourceParameter = mapping.getSource();
+			Parameter targetParameter = mapping.getTarget();
 
-			if (sourcePort.getDirection() == PortKind.INPUT
-					|| sourcePort.getDirection() == PortKind.INPUT_OUTPUT)
-				if (targetPort.getUnit() == child) {
-					childPortValues.put(targetPort, portValues.get(sourcePort));
-				}
+			if (targetParameter.getUnit() == child) {
+				childParameterValues.put(targetParameter, parameterValues.get(sourceParameter));
+			}
 		}
-		return childPortValues;
+		return childParameterValues;
 	}
 
 	private void updatePortValues(UnitApplication childUnit) {
-		for (PortMapping mapping : transformationUnit.getPortMappings()) {
-			Port sourcePort = mapping.getSource();
-			Port targetPort = mapping.getTarget();
+		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
+			Parameter sourceParameter = mapping.getSource();
+			Parameter targetParameter = mapping.getTarget();
 
-			if (targetPort.getDirection() == PortKind.OUTPUT
-					|| targetPort.getDirection() == PortKind.INPUT_OUTPUT)
-				if (sourcePort.getUnit() == childUnit.getTransformationUnit()) {
-					portValues.put(targetPort, childUnit.portValues
-							.get(sourcePort));
-				}
+			if (sourceParameter.getUnit() == childUnit.getTransformationUnit()) {
+				parameterValues
+						.put(targetParameter, childUnit.parameterValues.get(sourceParameter));
+			}
 		}
 	}
 
@@ -169,13 +164,12 @@ public class UnitApplication {
 	private boolean executeRule() {
 		Rule rule = (Rule) transformationUnit;
 
-		Match match = new Match(rule, ModelHelper.createAssignments(rule,
-				portValues), ModelHelper.createPrematch(rule, portValues));
+		Match match = new Match(rule, parameterValues, ModelHelper.createPrematch(rule, parameterValues));
 
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
-			portValues = ModelHelper.generatePortValues(rule, ruleApplication
+			parameterValues = ModelHelper.generateParameterValues(rule, ruleApplication
 					.getComatch());
 			appliedRules.push(ruleApplication);
 			return true;
@@ -185,15 +179,15 @@ public class UnitApplication {
 	}
 
 	private boolean executeAmalgamatedUnit() {
-		AmalgamatedUnit amalUnit = (AmalgamatedUnit) transformationUnit;
-		RuleApplication amalgamatedRule = engine.generateAmalgamatedRule(
-				amalUnit, portValues);
+		AmalgamationUnit amalUnit = (AmalgamationUnit) transformationUnit;
+		RuleApplication amalgamationRule = engine.generateAmalgamationRule(
+				amalUnit, parameterValues);
 
-		if (amalgamatedRule != null) {
-			amalgamatedRule.apply();
-			portValues = ModelHelper.generatePortValues(amalUnit,
-					amalgamatedRule.getComatch());
-			appliedRules.push(amalgamatedRule);
+		if (amalgamationRule != null) {
+			amalgamationRule.apply();
+			parameterValues = ModelHelper.generateParameterValues(amalUnit,
+					amalgamationRule.getComatch());
+			appliedRules.push(amalgamationRule);
 			return true;
 		} else {
 			return false;
@@ -297,37 +291,37 @@ public class UnitApplication {
 	}
 
 	/**
-	 * Sets a value corresponding to a port with the given name. If a mapping
-	 * between the related port and a value is already given, this mapping is
+	 * Sets a value corresponding to a parameter with the given name. If a mapping
+	 * between the related parameter and a value is already given, this mapping is
 	 * replace. If no such mapping exists, a new one is created.
 	 * 
 	 * @param name
-	 *            name of the Port
+	 *            name of the Parameter
 	 * @param value
-	 *            (new) value of the Port
+	 *            (new) value of the Parameter
 	 */
-	public void setPortValue(String name, Object value) {
+	public void setParameterValue(String name, Object value) {
 
-		Port port = this.transformationUnit.getPortByName(name);
-		if (port != null)
-			this.portValues.put(port, value);
+		Parameter parameter = this.transformationUnit.getParameterByName(name);
+		if (parameter != null)
+			this.parameterValues.put(parameter, value);
 	}// setPortValue
 
 	/**
-	 * Returns the mapped value corresponding to a port with the given name. If
+	 * Returns the mapped value corresponding to a parameter with the given name. If
 	 * no value is mapped, <code>null</code> is returned. Furthermore, if no
 	 * such port is found, <code>null</code> is returned as well.
 	 * 
 	 * @param name
-	 *            name of the Port
+	 *            name of the Parameter
 	 * @return
 	 */
-	public Object getPortValue(String name) {
+	public Object getParameterValue(String name) {
 
-		if (this.portValues != null) {
-			Port port = this.transformationUnit.getPortByName(name);
-			if (port != null)
-				return this.portValues.get(port);
+		if (this.parameterValues != null) {
+			Parameter parameter = this.transformationUnit.getParameterByName(name);
+			if (parameter != null)
+				return this.parameterValues.get(parameter);
 		}// if
 		return null;
 	}// getPortValue

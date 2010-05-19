@@ -173,72 +173,26 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Variable} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Parameter} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VariableItemProvider variableItemProvider;
+	protected ParameterItemProvider parameterItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Variable}.
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Parameter}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createVariableAdapter() {
-		if (variableItemProvider == null) {
-			variableItemProvider = new VariableItemProvider(this);
+	public Adapter createParameterAdapter() {
+		if (parameterItemProvider == null) {
+			parameterItemProvider = new ParameterItemProvider(this);
 		}
 
-		return variableItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.PortObject} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PortObjectItemProvider portObjectItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.PortObject}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPortObjectAdapter() {
-		if (portObjectItemProvider == null) {
-			portObjectItemProvider = new PortObjectItemProvider(this);
-		}
-
-		return portObjectItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.PortParameter} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PortParameterItemProvider portParameterItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.PortParameter}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createPortParameterAdapter() {
-		if (portParameterItemProvider == null) {
-			portParameterItemProvider = new PortParameterItemProvider(this);
-		}
-
-		return portParameterItemProvider;
+		return parameterItemProvider;
 	}
 
 	/**
@@ -449,26 +403,26 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.AmalgamatedUnit} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.AmalgamationUnit} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AmalgamatedUnitItemProvider amalgamatedUnitItemProvider;
+	protected AmalgamationUnitItemProvider amalgamationUnitItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.AmalgamatedUnit}.
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.AmalgamationUnit}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createAmalgamatedUnitAdapter() {
-		if (amalgamatedUnitItemProvider == null) {
-			amalgamatedUnitItemProvider = new AmalgamatedUnitItemProvider(this);
+	public Adapter createAmalgamationUnitAdapter() {
+		if (amalgamationUnitItemProvider == null) {
+			amalgamationUnitItemProvider = new AmalgamationUnitItemProvider(this);
 		}
 
-		return amalgamatedUnitItemProvider;
+		return amalgamationUnitItemProvider;
 	}
 
 	/**
@@ -633,26 +587,26 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.PortMapping} instances.
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.ParameterMapping} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected PortMappingItemProvider portMappingItemProvider;
+	protected ParameterMappingItemProvider parameterMappingItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.PortMapping}.
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.ParameterMapping}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createPortMappingAdapter() {
-		if (portMappingItemProvider == null) {
-			portMappingItemProvider = new PortMappingItemProvider(this);
+	public Adapter createParameterMappingAdapter() {
+		if (parameterMappingItemProvider == null) {
+			parameterMappingItemProvider = new ParameterMappingItemProvider(this);
 		}
 
-		return portMappingItemProvider;
+		return parameterMappingItemProvider;
 	}
 
 	/**
@@ -758,9 +712,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (transformationSystemItemProvider != null) transformationSystemItemProvider.dispose();
 		if (ruleItemProvider != null) ruleItemProvider.dispose();
 		if (attributeConditionItemProvider != null) attributeConditionItemProvider.dispose();
-		if (variableItemProvider != null) variableItemProvider.dispose();
-		if (portObjectItemProvider != null) portObjectItemProvider.dispose();
-		if (portParameterItemProvider != null) portParameterItemProvider.dispose();
+		if (parameterItemProvider != null) parameterItemProvider.dispose();
 		if (graphItemProvider != null) graphItemProvider.dispose();
 		if (mappingItemProvider != null) mappingItemProvider.dispose();
 		if (nodeItemProvider != null) nodeItemProvider.dispose();
@@ -770,7 +722,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (sequentialUnitItemProvider != null) sequentialUnitItemProvider.dispose();
 		if (conditionalUnitItemProvider != null) conditionalUnitItemProvider.dispose();
 		if (priorityUnitItemProvider != null) priorityUnitItemProvider.dispose();
-		if (amalgamatedUnitItemProvider != null) amalgamatedUnitItemProvider.dispose();
+		if (amalgamationUnitItemProvider != null) amalgamationUnitItemProvider.dispose();
 		if (countedUnitItemProvider != null) countedUnitItemProvider.dispose();
 		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
 		if (unaryFormulaItemProvider != null) unaryFormulaItemProvider.dispose();
@@ -778,7 +730,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (andItemProvider != null) andItemProvider.dispose();
 		if (orItemProvider != null) orItemProvider.dispose();
 		if (notItemProvider != null) notItemProvider.dispose();
-		if (portMappingItemProvider != null) portMappingItemProvider.dispose();
+		if (parameterMappingItemProvider != null) parameterMappingItemProvider.dispose();
 	}
 
 }

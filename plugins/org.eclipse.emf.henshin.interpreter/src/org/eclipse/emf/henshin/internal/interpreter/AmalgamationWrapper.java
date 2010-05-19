@@ -25,19 +25,18 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Variable;
 
 public class AmalgamationWrapper {
-	private AmalgamatedUnit amalgamatedUnit;
-	private Map<Port, Object> portValues;
+	private AmalgamationUnit amalgamationUnit;
+	private Map<Parameter, Object> parameterValues;
 
 	private List<Rule> kernelRules;
 	private List<Rule> multiRules;
@@ -46,17 +45,18 @@ public class AmalgamationWrapper {
 	private InterpreterEngine engine;
 
 	public AmalgamationWrapper(EmfEngine engine,
-			AmalgamatedUnit amalgamatedUnit, Map<Port, Object> portValues) {
-		this.amalgamatedUnit = amalgamatedUnit;
-		this.portValues = portValues;
+			AmalgamationUnit amalgamationUnit,
+			Map<Parameter, Object> parameterValues) {
+		this.amalgamationUnit = amalgamationUnit;
+		this.parameterValues = parameterValues;
 
 		kernelRules = new ArrayList<Rule>();
-		kernelRules.add(amalgamatedUnit.getKernelRule());
-		multiRules = amalgamatedUnit.getMultiRules();
+		kernelRules.add(amalgamationUnit.getKernelRule());
+		multiRules = amalgamationUnit.getMultiRules();
 
 		this.engine = engine;
-		this.rule2mappings = sortInteractionScheme(amalgamatedUnit
-				.getLhsMappings(), amalgamatedUnit.getRhsMappings());
+		this.rule2mappings = sortInteractionScheme(amalgamationUnit
+				.getLhsMappings(), amalgamationUnit.getRhsMappings());
 		this.subruleEmbedding = new HashMap<Rule, Map<Node, Node>>();
 	}
 
@@ -65,8 +65,7 @@ public class AmalgamationWrapper {
 
 		for (Rule kernelRule : kernelRules) {
 			Match kernelMatch = engine.findMatch(kernelRule, ModelHelper
-					.createPrematch(amalgamatedUnit, portValues), ModelHelper
-					.createAssignments(amalgamatedUnit, portValues));
+					.createPrematch(amalgamationUnit, parameterValues), parameterValues);
 			if (kernelMatch != null) {
 				kernelMatches.add(kernelMatch);
 			} else {
@@ -84,14 +83,14 @@ public class AmalgamationWrapper {
 			for (Node node : mappings.keySet()) {
 				ruleApplication.addMatch(node, mappings.get(node));
 			}
-			
-			Map<Node, EObject> portMappings = ModelHelper.createPrematch(amalgamatedUnit, portValues);
+
+			Map<Node, EObject> portMappings = ModelHelper.createPrematch(
+					amalgamationUnit, parameterValues);
 			for (Node node : portMappings.keySet()) {
 				ruleApplication.addMatch(node, portMappings.get(node));
 			}
 
-			ruleApplication.addAssignments(ModelHelper.createAssignments(
-					amalgamatedUnit, portValues));
+			ruleApplication.setAssignments(parameterValues);
 
 			multiMatches.addAll(ruleApplication.findAllMatches());
 		}
@@ -270,12 +269,12 @@ public class AmalgamationWrapper {
 				}
 			}
 
-			for (Variable variable : singleRule.getVariables()) {
-				Variable parallelVariable = (Variable) EcoreUtil.copy(variable);
-				parallelVariable.setRule(parallelRule);
-				String newName = variable.getName()
+			for (Parameter parameter : singleRule.getParameters()) {
+				Parameter parallelParameter = (Parameter) EcoreUtil.copy(parameter);
+				parallelParameter.setUnit(parallelRule);
+				String newName = parameter.getName()
 						+ Math.abs(new Random().nextInt());
-				variable.setName(newName);
+				parameter.setName(newName);
 			}
 		}
 

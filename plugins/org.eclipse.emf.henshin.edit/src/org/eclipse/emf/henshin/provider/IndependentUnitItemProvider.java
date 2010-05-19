@@ -186,7 +186,7 @@ public class IndependentUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.INDEPENDENT_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

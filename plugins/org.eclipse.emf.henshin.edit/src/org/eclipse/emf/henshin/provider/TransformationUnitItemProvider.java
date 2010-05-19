@@ -134,8 +134,8 @@ public class TransformationUnitItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
@@ -183,8 +183,8 @@ public class TransformationUnitItemProvider
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PORTS:
-			case HenshinPackage.TRANSFORMATION_UNIT__PORT_MAPPINGS:
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -204,18 +204,13 @@ public class TransformationUnitItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortObject()));
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS,
+				 HenshinFactory.eINSTANCE.createParameter()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORTS,
-				 HenshinFactory.eINSTANCE.createPortParameter()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PORT_MAPPINGS,
-				 HenshinFactory.eINSTANCE.createPortMapping()));
+				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS,
+				 HenshinFactory.eINSTANCE.createParameterMapping()));
 	}
 
 }

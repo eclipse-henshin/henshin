@@ -19,9 +19,9 @@ import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -46,12 +46,12 @@ public interface InterpreterEngine {
 	 * @param prematch
 	 *            A predefined partial match for some nodes of the rule.
 	 * @param assignments
-	 *            A Map of Name-Value pairs for the variables of the rule, which
+	 *            A Map of Parameter-Value pairs of the rule, which
 	 *            will be respected by the search engine.
 	 * @return All computed matches for the rule.
 	 */
 	public List<Match> findAllMatches(Rule rule, Map<Node, EObject> prematch,
-			Map<String, Object> assignments);
+			Map<Parameter, Object> assignments);
 
 	/**
 	 * Returns a match for the given rule.
@@ -70,25 +70,25 @@ public interface InterpreterEngine {
 	 * @param prematch
 	 *            A predefined partial match for some nodes of the rule.
 	 * @param assignments
-	 *            A Map of Name-Value pairs for the variables of the rule, which
+	 *            A Map of Parameter-Value pairs of the rule, which
 	 *            will be respected by the search engine.
 	 * @return One computed match for the rule.
 	 */
 	public Match findMatch(Rule rule, Map<Node, EObject> prematch,
-			Map<String, Object> assignments);
+			Map<Parameter, Object> assignments);
 
 	/**
 	 * Generates a RuleApplication for an amalgamated rule. The amalgamated rule
 	 * is dynamically constructed and its nodes are matched, but the
 	 * RuleApplication is not executed.
 	 * 
-	 * @param amalgamatedRule The amalgamated rule that should be executed.
+	 * @param amalgamationRule The amalgamated rule that should be executed.
 	 * @param portValues 
 	 * 
 	 * @return true, if the kernel rule was found, otherwise false.
 	 */
-	public RuleApplication generateAmalgamatedRule(
-			AmalgamatedUnit amalgamatedRule, Map<Port, Object> portValues);
+	public RuleApplication generateAmalgamationRule(
+			AmalgamationUnit amalgamationRule, Map<Parameter, Object> portValues);
 
 	/**
 	 * Evaluates the given Java-Expression.
@@ -97,7 +97,7 @@ public interface InterpreterEngine {
 	 *            An expression string.
 	 * @return The result of the computation.
 	 */
-	public Object evalExpression(Map<String, Object> parameterMapping,
+	public Object evalExpression(Map<Parameter, Object> parameterMapping,
 			String expr);
 
 	/**

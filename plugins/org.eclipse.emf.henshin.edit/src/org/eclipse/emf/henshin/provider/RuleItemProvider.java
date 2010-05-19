@@ -89,7 +89,6 @@ public class RuleItemProvider
 			childrenFeatures.add(HenshinPackage.Literals.RULE__RHS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__MAPPINGS);
-			childrenFeatures.add(HenshinPackage.Literals.RULE__VARIABLES);
 		}
 		return childrenFeatures;
 	}
@@ -148,7 +147,6 @@ public class RuleItemProvider
 			case HenshinPackage.RULE__RHS:
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 			case HenshinPackage.RULE__MAPPINGS:
-			case HenshinPackage.RULE__VARIABLES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -185,11 +183,6 @@ public class RuleItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.RULE__MAPPINGS,
 				 HenshinFactory.eINSTANCE.createMapping()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.RULE__VARIABLES,
-				 HenshinFactory.eINSTANCE.createVariable()));
 	}
 
 	/**

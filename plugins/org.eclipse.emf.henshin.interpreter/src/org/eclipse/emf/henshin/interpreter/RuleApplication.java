@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -50,7 +51,7 @@ public class RuleApplication {
 	private Map<Node, EObject> prematch;
 
 	// contains the assignments for the variables of the rule
-	private Map<String, Object> assignments;
+	private Map<Parameter, Object> assignments;
 
 	/**
 	 * Creates a new RuleApplication.
@@ -66,7 +67,7 @@ public class RuleApplication {
 		modelChange = new ModelChange();
 		interpreterEngine = engine;
 		prematch = new HashMap<Node, EObject>();
-		assignments = new HashMap<String, Object>();
+		assignments = new HashMap<Parameter, Object>();
 	}
 
 	/**
@@ -87,6 +88,8 @@ public class RuleApplication {
 
 		Map<Node, EObject> matchNodeMapping = match.getNodeMapping();
 		Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
+		Map<Parameter, Object> comatchParameterMapping = new HashMap<Parameter, Object>();
+		comatchParameterMapping.putAll(match.getParameterMapping());
 
 		// create new EObjects with their attributes
 		for (Node node : ruleInfo.getCreatedNodes()) {
@@ -99,6 +102,14 @@ public class RuleApplication {
 			interpreterEngine.addEObject(newObject);
 
 			comatchNodeMapping.put(node, newObject);
+			
+			// add an assignment for node parameters which will be used to update ports
+			if (node.getName() != null && !node.getName().isEmpty()) {
+				Parameter parameter = rule.getParameterByName(node.getName());
+				if (parameter != null) {
+					comatchParameterMapping.put(parameter, newObject);
+				}
+			}
 		}
 
 		// delete EObjects
@@ -111,6 +122,14 @@ public class RuleApplication {
 			Node lhsNode = ModelHelper.getRemoteNode(rule.getMappings(), node);
 			EObject targetObject = matchNodeMapping.get(lhsNode);
 			comatchNodeMapping.put(node, targetObject);
+			
+			// add an assignment for node parameters which will be used to update ports
+			if (node.getName() != null && !node.getName().isEmpty()) {
+				Parameter parameter = rule.getParameterByName(node.getName());
+				if (parameter != null) {
+					comatchParameterMapping.put(parameter, targetObject);
+				}
+			}
 		}
 
 		// remove deleted edges
@@ -148,7 +167,7 @@ public class RuleApplication {
 					value);
 		}
 
-		return new Match(rule, match.getParameterMapping(), comatchNodeMapping);
+		return new Match(rule, comatchParameterMapping, comatchNodeMapping);
 	}
 
 	/**
@@ -239,7 +258,7 @@ public class RuleApplication {
 		return rule.getDescription();
 	}
 
-	public Map<String, Object> getAssignments() {
+	public Map<Parameter, Object> getParameterAssignments() {
 		if (isExecuted)
 			return comatch.getParameterMapping();
 		else
@@ -255,19 +274,13 @@ public class RuleApplication {
 	 *            Value of the input
 	 */
 	public void addAssignment(String name, Object value) {
-		assignments.put(name, value);
+		Parameter parameter = rule.getParameterByName(name);
+		assignments.put(parameter, value);
 	}
 
-	/**
-	 * Adds a value for an input parameter or input object to the current rule.
-	 * 
-	 * @param assignments
-	 *            A Map with assignments
-	 */
-	public void addAssignments(Map<String, Object> assignments) {
-		for (String name : assignments.keySet()) {
-			this.assignments.put(name, assignments.get(name));
-		}
+
+	public void setAssignments(Map<Parameter, Object> assignments) {
+		this.assignments = assignments;
 	}
 
 	/**

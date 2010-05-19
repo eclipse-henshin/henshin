@@ -23,7 +23,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -94,19 +94,19 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				if (graph != null) {
 					result = graph.getNodes();
 				}// if
-			} else if (eobject instanceof AmalgamatedUnit) {
+			} else if (eobject instanceof AmalgamationUnit) {
 				/*
 				 * Origin in an amalgamation unit depends on the reference the
 				 * mapping is contained in. Either the kernel rule's LHS nodes
 				 * or RHS nodes may be the origins.
 				 */
-				AmalgamatedUnit au = (AmalgamatedUnit) eobject;
+				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
 
-				if (sf.getFeatureID() == HenshinPackage.AMALGAMATED_UNIT__LHS_MAPPINGS) {
+				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					result = new ArrayList<Node>();
 					result = au.getKernelRule().getLhs().getNodes();
-				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATED_UNIT__RHS_MAPPINGS) {
+				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
 					result = new ArrayList<Node>();
 					result = au.getKernelRule().getRhs().getNodes();
 				}// if else if

@@ -18,7 +18,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//DescribedElement #//NamedElement">
     <eOperations name="findUnitByName" eType="#//TransformationUnit">
       <eParameters name="unitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="deep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
     <eOperations name="findRuleByName" eType="#//Rule">
       <eParameters name="ruleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -33,6 +32,10 @@
         eType="#//TransformationUnit" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit #//DescribedElement #//NamedElement">
+    <eOperations name="getNodeByName" eType="#//Node">
+      <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Graph"
@@ -43,26 +46,14 @@
         eType="#//Mapping" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" lowerBound="1"
         eType="#//TransformationSystem" eOpposite="#//TransformationSystem/rules"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
-        eType="#//Variable" containment="true" eOpposite="#//Variable/rule"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//DescribedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Rule" eOpposite="#//Rule/attributeConditions"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//DescribedElement #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Rule" eOpposite="#//Rule/variables"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//DescribedElement #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//PortKind"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DescribedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//TransformationUnit"
-        eOpposite="#//TransformationUnit/ports"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PortObject" eSuperTypes="#//Port">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="#//Node"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PortParameter" eSuperTypes="#//Port">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" eType="#//Variable"/>
+        eOpposite="#//TransformationUnit/parameters"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//NamedElement">
     <eOperations name="removeEdge">
@@ -125,11 +116,8 @@
         derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute">
-    <eOperations name="containsVariableByRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+    <eOperations name="containsParameterByRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="rule" lowerBound="1" eType="#//Rule"/>
-    </eOperations>
-    <eOperations name="containsVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="variable" lowerBound="1" eType="#//Variable"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -154,14 +142,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
       eSuperTypes="#//DescribedElement #//NamedElement">
     <eOperations name="getAllSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit"/>
-    <eOperations name="getPortByName" eType="#//Port">
-      <eParameters name="portname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getParameterByName" eType="#//Parameter">
+      <eParameters name="parametername" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
-        eType="#//Port" containment="true" eOpposite="#//Port/unit"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="portMappings" upperBound="-1"
-        eType="#//PortMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true" eOpposite="#//Parameter/unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterMappings" upperBound="-1"
+        eType="#//ParameterMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
@@ -180,14 +168,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
         eType="#//TransformationUnit"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AmalgamatedUnit" eSuperTypes="#//TransformationUnit">
+  <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" upperBound="-1"
         eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
-        eType="#//Mapping" containment="true"/>
+        eType="#//Mapping"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhsMappings" upperBound="-1"
-        eType="#//Mapping" containment="true"/>
+        eType="#//Mapping"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
@@ -215,13 +203,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
-  <eClassifiers xsi:type="ecore:EEnum" name="PortKind">
-    <eLiterals name="INPUT"/>
-    <eLiterals name="OUTPUT" value="1"/>
-    <eLiterals name="INPUT_OUTPUT" value="2"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PortMapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Port"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Port"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Parameter"/>
   </eClassifiers>
 </ecore:EPackage>

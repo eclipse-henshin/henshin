@@ -40,7 +40,7 @@ import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.model.AmalgamatedUnit;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -48,7 +48,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
-import org.eclipse.emf.henshin.model.Port;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -102,15 +102,14 @@ public class EmfEngine implements InterpreterEngine {
 
 			DomainSlot slot;
 			if (node.getGraph() == wrapper.getRule().getLhs()) {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						conditionHandler, usedObjects, options)
-						: new DomainSlot(prematch.get(node), conditionHandler,
-								usedObjects, options);
+				slot = (prematch.get(node) == null) ? new DomainSlot(var, conditionHandler, 
+						usedObjects, options) : new DomainSlot(prematch
+						.get(node), conditionHandler, usedObjects, options);
 			} else {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						conditionHandler, usedObjects, defaultOptions)
-						: new DomainSlot(prematch.get(node), conditionHandler,
-								usedObjects, defaultOptions);
+				slot = (prematch.get(node) == null) ? new DomainSlot(var, conditionHandler, 
+						usedObjects, defaultOptions) : new DomainSlot(prematch
+						.get(node), conditionHandler, usedObjects,
+						defaultOptions);
 			}
 
 			domainMap.put(var, slot);
@@ -127,16 +126,16 @@ public class EmfEngine implements InterpreterEngine {
 
 	// TODO(enrico): refactor matchfinder construction to a factory class
 	private Matchfinder prepareMatchfinder(Rule rule,
-			Map<Node, EObject> prematch, Map<String, Object> assignments) {
+			Map<Node, EObject> prematch, Map<Parameter, Object> assignments) {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		AttributeConditionHandler handler = new AttributeConditionHandler(
 				scriptEngine, wrapper.getRuleParameters(), wrapper
 						.getConditionStrings());
 		if (assignments != null) {
-			for (String parameterName : assignments.keySet()) {
-				handler.setParameter(parameterName, assignments
-						.get(parameterName));
+			for (Parameter parameter : assignments.keySet()) {
+				handler.setParameter(parameter.getName(), assignments
+						.get(parameter));
 			}
 		}
 
@@ -209,7 +208,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public List<Match> findAllMatches(Rule rule, Map<Node, EObject> prematch,
-			Map<String, Object> assignments) {
+			Map<Parameter, Object> assignments) {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
@@ -234,7 +233,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public Match findMatch(Rule rule, Map<Node, EObject> prematch,
-			Map<String, Object> assignments) {
+			Map<Parameter, Object> assignments) {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
@@ -253,11 +252,11 @@ public class EmfEngine implements InterpreterEngine {
 			return null;
 	}
 
-	public RuleApplication generateAmalgamatedRule(
-			AmalgamatedUnit amalgamatedUnit, Map<Port, Object> portValues) {
+	public RuleApplication generateAmalgamationRule(
+			AmalgamationUnit amalgamationUnit, Map<Parameter, Object> portValues) {
 
 		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
-				amalgamatedUnit, portValues);
+				amalgamationUnit, portValues);
 
 		return amalgamationWrapper.getAmalgamatedRule();
 	}
@@ -294,11 +293,12 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	// TODO: delete this method
-	public Object evalExpression(Map<String, Object> parameterMapping,
+	public Object evalExpression(Map<Parameter, Object> parameterMapping,
 			String expr) {
 		try {
-			for (String parameter : parameterMapping.keySet()) {
-				scriptEngine.put(parameter, parameterMapping.get(parameter));
+			for (Parameter parameter : parameterMapping.keySet()) {
+				scriptEngine.put(parameter.getName(), parameterMapping
+						.get(parameter));
 			}
 
 			return scriptEngine.eval(expr);

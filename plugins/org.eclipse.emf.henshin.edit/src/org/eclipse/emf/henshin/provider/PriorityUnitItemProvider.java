@@ -186,7 +186,7 @@ public class PriorityUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

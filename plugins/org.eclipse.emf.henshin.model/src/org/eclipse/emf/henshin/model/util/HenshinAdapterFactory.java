@@ -97,20 +97,8 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createAttributeConditionAdapter();
 			}
 			@Override
-			public Adapter caseVariable(Variable object) {
-				return createVariableAdapter();
-			}
-			@Override
-			public Adapter casePort(Port object) {
-				return createPortAdapter();
-			}
-			@Override
-			public Adapter casePortObject(PortObject object) {
-				return createPortObjectAdapter();
-			}
-			@Override
-			public Adapter casePortParameter(PortParameter object) {
-				return createPortParameterAdapter();
+			public Adapter caseParameter(Parameter object) {
+				return createParameterAdapter();
 			}
 			@Override
 			public Adapter caseGraph(Graph object) {
@@ -157,8 +145,8 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createPriorityUnitAdapter();
 			}
 			@Override
-			public Adapter caseAmalgamatedUnit(AmalgamatedUnit object) {
-				return createAmalgamatedUnitAdapter();
+			public Adapter caseAmalgamationUnit(AmalgamationUnit object) {
+				return createAmalgamationUnitAdapter();
 			}
 			@Override
 			public Adapter caseCountedUnit(CountedUnit object) {
@@ -193,8 +181,8 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createNotAdapter();
 			}
 			@Override
-			public Adapter casePortMapping(PortMapping object) {
-				return createPortMappingAdapter();
+			public Adapter caseParameterMapping(ParameterMapping object) {
+				return createParameterMappingAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -287,58 +275,16 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Variable <em>Variable</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Parameter <em>Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.Variable
+	 * @see org.eclipse.emf.henshin.model.Parameter
 	 * @generated
 	 */
-	public Adapter createVariableAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Port <em>Port</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.Port
-	 * @generated
-	 */
-	public Adapter createPortAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.PortObject <em>Port Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.PortObject
-	 * @generated
-	 */
-	public Adapter createPortObjectAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.PortParameter <em>Port Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.PortParameter
-	 * @generated
-	 */
-	public Adapter createPortParameterAdapter() {
+	public Adapter createParameterAdapter() {
 		return null;
 	}
 
@@ -497,16 +443,16 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit <em>Amalgamated Unit</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.AmalgamationUnit <em>Amalgamation Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit
 	 * @generated
 	 */
-	public Adapter createAmalgamatedUnitAdapter() {
+	public Adapter createAmalgamationUnitAdapter() {
 		return null;
 	}
 
@@ -623,16 +569,16 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.PortMapping <em>Port Mapping</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.ParameterMapping <em>Parameter Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.PortMapping
+	 * @see org.eclipse.emf.henshin.model.ParameterMapping
 	 * @generated
 	 */
-	public Adapter createPortMappingAdapter() {
+	public Adapter createParameterMappingAdapter() {
 		return null;
 	}
 

@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -154,11 +151,7 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	 */
 	public EList<TransformationUnit> getAllSubUnits() {
 
-		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-		allunits.add(subUnit);
-		allunits.addAll(subUnit.getAllSubUnits());
-
-		return new BasicEList<TransformationUnit>(allunits);
+		return new BasicEList<TransformationUnit>(subUnit.getAllSubUnits());
 	}// getAllSubUnits
 
 	/**

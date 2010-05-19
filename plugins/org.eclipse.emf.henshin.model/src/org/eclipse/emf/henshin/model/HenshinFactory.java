@@ -73,31 +73,13 @@ public interface HenshinFactory extends EFactory {
 	AttributeCondition createAttributeCondition();
 
 	/**
-	 * Returns a new object of class '<em>Variable</em>'.
+	 * Returns a new object of class '<em>Parameter</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Variable</em>'.
+	 * @return a new object of class '<em>Parameter</em>'.
 	 * @generated
 	 */
-	Variable createVariable();
-
-	/**
-	 * Returns a new object of class '<em>Port Object</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Object</em>'.
-	 * @generated
-	 */
-	PortObject createPortObject();
-
-	/**
-	 * Returns a new object of class '<em>Port Parameter</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Parameter</em>'.
-	 * @generated
-	 */
-	PortParameter createPortParameter();
+	Parameter createParameter();
 
 	/**
 	 * Returns a new object of class '<em>Graph</em>'.
@@ -207,13 +189,13 @@ public interface HenshinFactory extends EFactory {
 	PriorityUnit createPriorityUnit();
 
 	/**
-	 * Returns a new object of class '<em>Amalgamated Unit</em>'.
+	 * Returns a new object of class '<em>Amalgamation Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Amalgamated Unit</em>'.
+	 * @return a new object of class '<em>Amalgamation Unit</em>'.
 	 * @generated
 	 */
-	AmalgamatedUnit createAmalgamatedUnit();
+	AmalgamationUnit createAmalgamationUnit();
 
 	/**
 	 * Returns a new object of class '<em>Counted Unit</em>'.
@@ -279,13 +261,13 @@ public interface HenshinFactory extends EFactory {
 	Not createNot();
 
 	/**
-	 * Returns a new object of class '<em>Port Mapping</em>'.
+	 * Returns a new object of class '<em>Parameter Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Port Mapping</em>'.
+	 * @return a new object of class '<em>Parameter Mapping</em>'.
 	 * @generated
 	 */
-	PortMapping createPortMapping();
+	ParameterMapping createParameterMapping();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -186,7 +186,7 @@ public class SequentialUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

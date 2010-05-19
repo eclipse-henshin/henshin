@@ -129,14 +129,14 @@ public class Evolution1 {
 		 * classes in the meta-model. They are needed to perform a migration of
 		 * the instance model.
 		 */
-		EClass srcType = (EClass) mm_unit1App.getPortValue("objSource");
-		EClass trgType = (EClass) mm_unit1App.getPortValue("objTarget");
-		EClass refclassType = (EClass) mm_unit1App.getPortValue("objRefclass");
-		EReference refType = (EReference) mm_unit1App.getPortValue("objRef");
+		EClass srcType = (EClass) mm_unit1App.getParameterValue("objSource");
+		EClass trgType = (EClass) mm_unit1App.getParameterValue("objTarget");
+		EClass refclassType = (EClass) mm_unit1App.getParameterValue("objRefclass");
+		EReference refType = (EReference) mm_unit1App.getParameterValue("objRef");
 		EReference refSrcTrg = (EReference) mm_unit1App
-				.getPortValue("objRefSrcTrg");
+				.getParameterValue("objRefSrcTrg");
 		EReference refTrgSrc = (EReference) mm_unit1App
-				.getPortValue("objRefTrgSrc");
+				.getParameterValue("objRefTrgSrc");
 
 		/**
 		 * STEP 2: Migrate instance model i.e. create instance of new classes
@@ -194,9 +194,9 @@ public class Evolution1 {
 		 * parameter values (see below) or objects.
 		 */
 		UnitApplication mm_unit1App = new UnitApplication(engineM, mm_rule1);
-		mm_unit1App.setPortValue("parSourceName", srcNodeName);
-		mm_unit1App.setPortValue("parTargetName", trgNodeName);
-		mm_unit1App.setPortValue("parRefclassName", refclassName);
+		mm_unit1App.setParameterValue("srcName", srcNodeName);
+		mm_unit1App.setParameterValue("trgName", trgNodeName);
+		mm_unit1App.setParameterValue("refclassName", refclassName);
 
 		// perform the transformation
 		boolean resultM = mm_unit1App.execute();
@@ -364,7 +364,7 @@ public class Evolution1 {
 		 * provide a partial match to the rule into the graph.
 		 */
 		UnitApplication mm_unit2App = new UnitApplication(engineM, mm_rule2);
-		mm_unit2App.setPortValue("objDelRef", refType);
+		mm_unit2App.setParameterValue("objDelRef", refType);
 
 		// perform the transformation
 		boolean resultM = mm_unit2App.execute();

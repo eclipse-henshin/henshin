@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -33,14 +34,10 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Port;
-import org.eclipse.emf.henshin.model.PortKind;
-import org.eclipse.emf.henshin.model.PortObject;
-import org.eclipse.emf.henshin.model.PortParameter;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.Variable;
 
 public class ModelHelper {
 	// public static boolean isVariable(Rule rule, Attribute attribute) {
@@ -336,33 +333,22 @@ public class ModelHelper {
 		return resource.getContents().get(0);
 	}
 
-	public static Map<String, Object> createAssignments(
-			TransformationUnit unit, Map<Port, Object> portValues) {
-		Map<String, Object> assignments = new HashMap<String, Object>();
-		for (Port port : unit.getPorts()) {
-			if (port.getDirection() == PortKind.INPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
-
-				if (port instanceof PortParameter) {
-					Variable var = ((PortParameter) port).getVariable();
-					assignments.put(var.getName(), portValues.get(port));
-				}
-			}
-		}
-		return assignments;
-	}
 
 	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
-			Map<Port, Object> portValues) {
+			Map<Parameter, Object> parameterValues) {
 		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
-		for (Port port : unit.getPorts()) {
-			if (port.getDirection() == PortKind.INPUT
-					|| port.getDirection() == PortKind.INPUT_OUTPUT) {
 
-				if (port instanceof PortObject) {
-					Node node = ((PortObject) port).getNode();
-					prematch.put(node, (EObject) portValues.get(port));
-				}
+		for (Parameter parameter : unit.getParameters()) {
+			Rule rule = null;
+			if (unit instanceof Rule)
+				rule = (Rule) unit;
+			else if (unit instanceof AmalgamationUnit)
+				rule = ((AmalgamationUnit) unit).getKernelRule();
+
+			if (rule != null) {
+				Node node = rule.getNodeByName(parameter.getName(), true);
+				if (node != null)
+					prematch.put(node, (EObject) parameterValues.get(parameter));
 			}
 		}
 		return prematch;
@@ -376,22 +362,15 @@ public class ModelHelper {
 	 * @param comatch
 	 * @return
 	 */
-	public static Map<Port, Object> generatePortValues(TransformationUnit unit,
-			Match comatch) {
-		Map<Port, Object> newPortMap = new HashMap<Port, Object>();
-		for (Port port : unit.getPorts()) {
-			if (port instanceof PortObject) {
-				Node targetNode = ((PortObject) port).getNode();
-				newPortMap.put(port, comatch.getNodeMapping().get(targetNode));
-			} else if (port instanceof PortParameter) {
-				Variable targetVar = ((PortParameter) port).getVariable();
-				newPortMap.put(port, comatch.getParameterMapping().get(
-						targetVar.getName()));
-			}// if else
-		}// for
+	public static Map<Parameter, Object> generateParameterValues(
+			TransformationUnit unit, Match comatch) {
+		Map<Parameter, Object> newParameterMap = new HashMap<Parameter, Object>();
+		for (Parameter parameter: comatch.getParameterMapping().keySet()) {
+			newParameterMap.put(parameter, comatch.getParameterMapping().get(parameter));
+		}
 
-		return newPortMap;
-	}// generatePortValues
+		return newParameterMap;
+	}// generateParameterValues
 
 	// public static List<Node> findNodesByType(Graph graph, String name) {
 	// List<Node> result = new ArrayList<Node>();

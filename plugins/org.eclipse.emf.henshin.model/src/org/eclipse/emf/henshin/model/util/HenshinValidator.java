@@ -126,14 +126,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateRule((Rule)value, diagnostics, context);
 			case HenshinPackage.ATTRIBUTE_CONDITION:
 				return validateAttributeCondition((AttributeCondition)value, diagnostics, context);
-			case HenshinPackage.VARIABLE:
-				return validateVariable((Variable)value, diagnostics, context);
-			case HenshinPackage.PORT:
-				return validatePort((Port)value, diagnostics, context);
-			case HenshinPackage.PORT_OBJECT:
-				return validatePortObject((PortObject)value, diagnostics, context);
-			case HenshinPackage.PORT_PARAMETER:
-				return validatePortParameter((PortParameter)value, diagnostics, context);
+			case HenshinPackage.PARAMETER:
+				return validateParameter((Parameter)value, diagnostics, context);
 			case HenshinPackage.GRAPH:
 				return validateGraph((Graph)value, diagnostics, context);
 			case HenshinPackage.GRAPH_ELEMENT:
@@ -156,8 +150,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateConditionalUnit((ConditionalUnit)value, diagnostics, context);
 			case HenshinPackage.PRIORITY_UNIT:
 				return validatePriorityUnit((PriorityUnit)value, diagnostics, context);
-			case HenshinPackage.AMALGAMATED_UNIT:
-				return validateAmalgamatedUnit((AmalgamatedUnit)value, diagnostics, context);
+			case HenshinPackage.AMALGAMATION_UNIT:
+				return validateAmalgamationUnit((AmalgamationUnit)value, diagnostics, context);
 			case HenshinPackage.COUNTED_UNIT:
 				return validateCountedUnit((CountedUnit)value, diagnostics, context);
 			case HenshinPackage.NESTED_CONDITION:
@@ -174,10 +168,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateOr((Or)value, diagnostics, context);
 			case HenshinPackage.NOT:
 				return validateNot((Not)value, diagnostics, context);
-			case HenshinPackage.PORT_MAPPING:
-				return validatePortMapping((PortMapping)value, diagnostics, context);
-			case HenshinPackage.PORT_KIND:
-				return validatePortKind((PortKind)value, diagnostics, context);
+			case HenshinPackage.PARAMETER_MAPPING:
+				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -306,66 +298,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateVariable(Variable variable, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_EveryMultiplicityConforms(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(variable, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(variable, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePort(Port port, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_EveryMultiplicityConforms(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(port, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(port, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePortObject(PortObject portObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_EveryMultiplicityConforms(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(portObject, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(portObject, diagnostics, context);
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePortParameter(PortParameter portParameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_EveryMultiplicityConforms(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(portParameter, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(portParameter, diagnostics, context);
+	public boolean validateParameter(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_EveryMultiplicityConforms(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(parameter, diagnostics, context);
 		return result;
 	}
 
@@ -578,15 +519,15 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateAmalgamatedUnit(AmalgamatedUnit amalgamatedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_EveryMultiplicityConforms(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(amalgamatedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(amalgamatedUnit, diagnostics, context);
+	public boolean validateAmalgamationUnit(AmalgamationUnit amalgamationUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_EveryMultiplicityConforms(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(amalgamationUnit, diagnostics, context);
 		return result;
 	}
 
@@ -675,17 +616,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validatePortMapping(PortMapping portMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(portMapping, diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validatePortKind(PortKind portKind, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return true;
+	public boolean validateParameterMapping(ParameterMapping parameterMapping, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(parameterMapping, diagnostics, context);
 	}
 
 	/**

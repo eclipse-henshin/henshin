@@ -11,25 +11,19 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Variable;
 
 /**
  * <!-- begin-user-doc -->
@@ -196,39 +190,37 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__NODE, newNode, newNode));
 	}
 
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
-	public boolean containsVariableByRule(Rule rule) {
-
+	public boolean containsParameterByRule(Rule rule) {
 		boolean found = false;
-		List<Variable> vl = rule.getVariables();
-		int size = vl.size();
-		for (int a = 0; a < size && !found; a++) {
-			found = containsVariable(vl.get(a));
-		}// for
+		for (Parameter parameter: rule.getParameters()) {
+			found = containsParameter(parameter);
+			if (found)
+				break;
+		}
 
 		return found;
 	}// containsVariableByRule
 
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean containsVariable(Variable variable) {
-
-		if (variable.getName() == null)
+	private boolean containsParameter(Parameter parameter) {
+		if (parameter.getName() == null)
 			return false;
 		/*
 		 * TODO: Following regexp is ok for most cases. However, a variable name
 		 * within a string is recognized as variable name although it
 		 * is just as string. A more complex regexp may prevent that false positive.
 		 */
-		return this.value.matches("\\W*" + variable.getName() + "\\W*");
+		return this.value.matches("\\W*" + parameter.getName() + "\\W*");
 		
 	}// containsVariable
 

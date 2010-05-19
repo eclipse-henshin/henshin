@@ -212,7 +212,7 @@ public class CountedUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.COUNTED_UNIT__SUB_UNIT,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

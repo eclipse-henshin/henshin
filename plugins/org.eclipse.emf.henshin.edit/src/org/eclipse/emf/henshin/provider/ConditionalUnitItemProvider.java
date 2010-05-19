@@ -190,7 +190,7 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -225,7 +225,7 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -260,7 +260,7 @@ public class ConditionalUnitItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

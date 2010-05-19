@@ -215,46 +215,6 @@ public interface HenshinPackage extends EPackage {
 	int ATTRIBUTE_CONDITION = 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.VariableImpl <em>Variable</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.VariableImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getVariable()
-	 * @generated
-	 */
-	int VARIABLE = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.PortImpl <em>Port</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.PortImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPort()
-	 * @generated
-	 */
-	int PORT = 6;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.PortObjectImpl <em>Port Object</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.PortObjectImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortObject()
-	 * @generated
-	 */
-	int PORT_OBJECT = 7;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.PortParameterImpl <em>Port Parameter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.PortParameterImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortParameter()
-	 * @generated
-	 */
-	int PORT_PARAMETER = 8;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -262,7 +222,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraph()
 	 * @generated
 	 */
-	int GRAPH = 9;
+	int GRAPH = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
@@ -272,7 +232,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
 	 * @generated
 	 */
-	int GRAPH_ELEMENT = 10;
+	int GRAPH_ELEMENT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
@@ -282,7 +242,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
 	 * @generated
 	 */
-	int MAPPING = 11;
+	int MAPPING = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.NodeImpl <em>Node</em>}' class.
@@ -292,7 +252,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 12;
+	int NODE = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -302,7 +262,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
 	 * @generated
 	 */
-	int ATTRIBUTE = 13;
+	int ATTRIBUTE = 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.
@@ -312,7 +272,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 14;
+	int EDGE = 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
@@ -322,7 +282,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
 	 * @generated
 	 */
-	int TRANSFORMATION_UNIT = 15;
+	int TRANSFORMATION_UNIT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -352,22 +312,22 @@ public interface HenshinPackage extends EPackage {
 	int TRANSFORMATION_UNIT__ACTIVATED = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__PORTS = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int TRANSFORMATION_UNIT__PARAMETERS = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__PORT_MAPPINGS = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
+	int TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Transformation Unit</em>' class.
@@ -406,22 +366,22 @@ public interface HenshinPackage extends EPackage {
 	int RULE__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int RULE__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int RULE__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -469,22 +429,13 @@ public interface HenshinPackage extends EPackage {
 	int RULE__TRANSFORMATION_SYSTEM = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Variables</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE__VARIABLES = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
-
-	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 6;
+	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -532,40 +483,14 @@ public interface HenshinPackage extends EPackage {
 	int ATTRIBUTE_CONDITION_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.ParameterImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
 	 * @generated
-	 * @ordered
 	 */
-	int VARIABLE__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VARIABLE__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Rule</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VARIABLE__RULE = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Variable</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VARIABLE_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER = 5;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -574,7 +499,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
+	int PARAMETER__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -583,16 +508,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT__DIRECTION = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
+	int PARAMETER__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -601,124 +517,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT__UNIT = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER__UNIT = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Port</em>' class.
+	 * The number of structural features of the '<em>Parameter</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT__DESCRIPTION = PORT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT__NAME = PORT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT__DIRECTION = PORT__DIRECTION;
-
-	/**
-	 * The feature id for the '<em><b>Unit</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT__UNIT = PORT__UNIT;
-
-	/**
-	 * The feature id for the '<em><b>Node</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT__NODE = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Port Object</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_OBJECT_FEATURE_COUNT = PORT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER__DESCRIPTION = PORT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER__NAME = PORT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER__DIRECTION = PORT__DIRECTION;
-
-	/**
-	 * The feature id for the '<em><b>Unit</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER__UNIT = PORT__UNIT;
-
-	/**
-	 * The feature id for the '<em><b>Variable</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER__VARIABLE = PORT_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Port Parameter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PORT_PARAMETER_FEATURE_COUNT = PORT_FEATURE_COUNT + 1;
+	int PARAMETER_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -962,7 +770,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getIndependentUnit()
 	 * @generated
 	 */
-	int INDEPENDENT_UNIT = 16;
+	int INDEPENDENT_UNIT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -992,22 +800,22 @@ public interface HenshinPackage extends EPackage {
 	int INDEPENDENT_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INDEPENDENT_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int INDEPENDENT_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INDEPENDENT_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int INDEPENDENT_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Sub Units</b></em>' reference list.
@@ -1035,7 +843,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSequentialUnit()
 	 * @generated
 	 */
-	int SEQUENTIAL_UNIT = 17;
+	int SEQUENTIAL_UNIT = 14;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1065,22 +873,22 @@ public interface HenshinPackage extends EPackage {
 	int SEQUENTIAL_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEQUENTIAL_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int SEQUENTIAL_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEQUENTIAL_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int SEQUENTIAL_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Sub Units</b></em>' reference list.
@@ -1108,7 +916,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getConditionalUnit()
 	 * @generated
 	 */
-	int CONDITIONAL_UNIT = 18;
+	int CONDITIONAL_UNIT = 15;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1138,22 +946,22 @@ public interface HenshinPackage extends EPackage {
 	int CONDITIONAL_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int CONDITIONAL_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int CONDITIONAL_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>If</b></em>' reference.
@@ -1199,7 +1007,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPriorityUnit()
 	 * @generated
 	 */
-	int PRIORITY_UNIT = 19;
+	int PRIORITY_UNIT = 16;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1229,22 +1037,22 @@ public interface HenshinPackage extends EPackage {
 	int PRIORITY_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIORITY_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int PRIORITY_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIORITY_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int PRIORITY_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Sub Units</b></em>' reference list.
@@ -1265,14 +1073,14 @@ public interface HenshinPackage extends EPackage {
 	int PRIORITY_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamatedUnitImpl <em>Amalgamated Unit</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl <em>Amalgamation Unit</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.AmalgamatedUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamatedUnit()
+	 * @see org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamationUnit()
 	 * @generated
 	 */
-	int AMALGAMATED_UNIT = 20;
+	int AMALGAMATION_UNIT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1281,7 +1089,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int AMALGAMATION_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1290,7 +1098,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+	int AMALGAMATION_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1299,25 +1107,25 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int AMALGAMATION_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int AMALGAMATION_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int AMALGAMATION_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Kernel Rule</b></em>' reference.
@@ -1326,7 +1134,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__KERNEL_RULE = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int AMALGAMATION_UNIT__KERNEL_RULE = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Multi Rules</b></em>' reference list.
@@ -1335,34 +1143,34 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int AMALGAMATION_UNIT__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Lhs Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Lhs Mappings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__LHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
+	int AMALGAMATION_UNIT__LHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Rhs Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Rhs Mappings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT__RHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
+	int AMALGAMATION_UNIT__RHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Amalgamated Unit</em>' class.
+	 * The number of structural features of the '<em>Amalgamation Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AMALGAMATED_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
+	int AMALGAMATION_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
@@ -1372,7 +1180,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
 	 * @generated
 	 */
-	int COUNTED_UNIT = 21;
+	int COUNTED_UNIT = 18;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1402,22 +1210,22 @@ public interface HenshinPackage extends EPackage {
 	int COUNTED_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
-	 * The feature id for the '<em><b>Ports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__PORTS = TRANSFORMATION_UNIT__PORTS;
+	int COUNTED_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Port Mappings</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__PORT_MAPPINGS = TRANSFORMATION_UNIT__PORT_MAPPINGS;
+	int COUNTED_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Sub Unit</b></em>' reference.
@@ -1454,7 +1262,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getFormula()
 	 * @generated
 	 */
-	int FORMULA = 23;
+	int FORMULA = 20;
 
 	/**
 	 * The number of structural features of the '<em>Formula</em>' class.
@@ -1473,7 +1281,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNestedCondition()
 	 * @generated
 	 */
-	int NESTED_CONDITION = 22;
+	int NESTED_CONDITION = 19;
 
 	/**
 	 * The feature id for the '<em><b>Negated</b></em>' attribute.
@@ -1519,7 +1327,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnaryFormula()
 	 * @generated
 	 */
-	int UNARY_FORMULA = 24;
+	int UNARY_FORMULA = 21;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1547,7 +1355,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getBinaryFormula()
 	 * @generated
 	 */
-	int BINARY_FORMULA = 25;
+	int BINARY_FORMULA = 22;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1584,7 +1392,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAnd()
 	 * @generated
 	 */
-	int AND = 26;
+	int AND = 23;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1621,7 +1429,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getOr()
 	 * @generated
 	 */
-	int OR = 27;
+	int OR = 24;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1658,7 +1466,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNot()
 	 * @generated
 	 */
-	int NOT = 28;
+	int NOT = 25;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1679,14 +1487,14 @@ public interface HenshinPackage extends EPackage {
 	int NOT_FEATURE_COUNT = UNARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.PortMappingImpl <em>Port Mapping</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterMappingImpl <em>Parameter Mapping</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.PortMappingImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortMapping()
+	 * @see org.eclipse.emf.henshin.model.impl.ParameterMappingImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 	 * @generated
 	 */
-	int PORT_MAPPING = 29;
+	int PARAMETER_MAPPING = 26;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1695,7 +1503,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_MAPPING__SOURCE = 0;
+	int PARAMETER_MAPPING__SOURCE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -1704,27 +1512,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_MAPPING__TARGET = 1;
+	int PARAMETER_MAPPING__TARGET = 1;
 
 	/**
-	 * The number of structural features of the '<em>Port Mapping</em>' class.
+	 * The number of structural features of the '<em>Parameter Mapping</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PORT_MAPPING_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.PortKind <em>Port Kind</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.PortKind
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortKind()
-	 * @generated
-	 */
-	int PORT_KIND = 30;
-
+	int PARAMETER_MAPPING_FEATURE_COUNT = 2;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.NamedElement <em>Named Element</em>}'.
@@ -1888,17 +1685,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getRule_TransformationSystem();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Rule#getVariables <em>Variables</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Variables</em>'.
-	 * @see org.eclipse.emf.henshin.model.Rule#getVariables()
-	 * @see #getRule()
-	 * @generated
-	 */
-	EReference getRule_Variables();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AttributeCondition <em>Attribute Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1931,99 +1717,25 @@ public interface HenshinPackage extends EPackage {
 	EAttribute getAttributeCondition_ConditionText();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Variable <em>Variable</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Parameter <em>Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Variable</em>'.
-	 * @see org.eclipse.emf.henshin.model.Variable
+	 * @return the meta object for class '<em>Parameter</em>'.
+	 * @see org.eclipse.emf.henshin.model.Parameter
 	 * @generated
 	 */
-	EClass getVariable();
+	EClass getParameter();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Variable#getRule <em>Rule</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Rule</em>'.
-	 * @see org.eclipse.emf.henshin.model.Variable#getRule()
-	 * @see #getVariable()
-	 * @generated
-	 */
-	EReference getVariable_Rule();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Port <em>Port</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Port</em>'.
-	 * @see org.eclipse.emf.henshin.model.Port
-	 * @generated
-	 */
-	EClass getPort();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Port#getDirection <em>Direction</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Direction</em>'.
-	 * @see org.eclipse.emf.henshin.model.Port#getDirection()
-	 * @see #getPort()
-	 * @generated
-	 */
-	EAttribute getPort_Direction();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Port#getUnit <em>Unit</em>}'.
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.Port#getUnit()
-	 * @see #getPort()
+	 * @see org.eclipse.emf.henshin.model.Parameter#getUnit()
+	 * @see #getParameter()
 	 * @generated
 	 */
-	EReference getPort_Unit();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.PortObject <em>Port Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Port Object</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortObject
-	 * @generated
-	 */
-	EClass getPortObject();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.PortObject#getNode <em>Node</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Node</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortObject#getNode()
-	 * @see #getPortObject()
-	 * @generated
-	 */
-	EReference getPortObject_Node();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.PortParameter <em>Port Parameter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Port Parameter</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortParameter
-	 * @generated
-	 */
-	EClass getPortParameter();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.PortParameter#getVariable <em>Variable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Variable</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortParameter#getVariable()
-	 * @see #getPortParameter()
-	 * @generated
-	 */
-	EReference getPortParameter_Variable();
+	EReference getParameter_Unit();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Graph <em>Graph</em>}'.
@@ -2305,26 +2017,26 @@ public interface HenshinPackage extends EPackage {
 	EAttribute getTransformationUnit_Activated();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getPorts <em>Ports</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Ports</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getPorts()
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameters()
 	 * @see #getTransformationUnit()
 	 * @generated
 	 */
-	EReference getTransformationUnit_Ports();
+	EReference getTransformationUnit_Parameters();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getPortMappings <em>Port Mappings</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings <em>Parameter Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Port Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getPortMappings()
+	 * @return the meta object for the containment reference list '<em>Parameter Mappings</em>'.
+	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings()
 	 * @see #getTransformationUnit()
 	 * @generated
 	 */
-	EReference getTransformationUnit_PortMappings();
+	EReference getTransformationUnit_ParameterMappings();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.IndependentUnit <em>Independent Unit</em>}'.
@@ -2433,58 +2145,58 @@ public interface HenshinPackage extends EPackage {
 	EReference getPriorityUnit_SubUnits();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit <em>Amalgamated Unit</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AmalgamationUnit <em>Amalgamation Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Amalgamated Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit
+	 * @return the meta object for class '<em>Amalgamation Unit</em>'.
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit
 	 * @generated
 	 */
-	EClass getAmalgamatedUnit();
+	EClass getAmalgamationUnit();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit#getKernelRule <em>Kernel Rule</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getKernelRule <em>Kernel Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Kernel Rule</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit#getKernelRule()
-	 * @see #getAmalgamatedUnit()
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getKernelRule()
+	 * @see #getAmalgamationUnit()
 	 * @generated
 	 */
-	EReference getAmalgamatedUnit_KernelRule();
+	EReference getAmalgamationUnit_KernelRule();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit#getMultiRules <em>Multi Rules</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getMultiRules <em>Multi Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Multi Rules</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit#getMultiRules()
-	 * @see #getAmalgamatedUnit()
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getMultiRules()
+	 * @see #getAmalgamationUnit()
 	 * @generated
 	 */
-	EReference getAmalgamatedUnit_MultiRules();
+	EReference getAmalgamationUnit_MultiRules();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit#getLhsMappings <em>Lhs Mappings</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings <em>Lhs Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Lhs Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit#getLhsMappings()
-	 * @see #getAmalgamatedUnit()
+	 * @return the meta object for the reference list '<em>Lhs Mappings</em>'.
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings()
+	 * @see #getAmalgamationUnit()
 	 * @generated
 	 */
-	EReference getAmalgamatedUnit_LhsMappings();
+	EReference getAmalgamationUnit_LhsMappings();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamatedUnit#getRhsMappings <em>Rhs Mappings</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings <em>Rhs Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rhs Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamatedUnit#getRhsMappings()
-	 * @see #getAmalgamatedUnit()
+	 * @return the meta object for the reference list '<em>Rhs Mappings</em>'.
+	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings()
+	 * @see #getAmalgamationUnit()
 	 * @generated
 	 */
-	EReference getAmalgamatedUnit_RhsMappings();
+	EReference getAmalgamationUnit_RhsMappings();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.CountedUnit <em>Counted Unit</em>}'.
@@ -2655,46 +2367,36 @@ public interface HenshinPackage extends EPackage {
 	EClass getNot();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.PortMapping <em>Port Mapping</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ParameterMapping <em>Parameter Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Port Mapping</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortMapping
+	 * @return the meta object for class '<em>Parameter Mapping</em>'.
+	 * @see org.eclipse.emf.henshin.model.ParameterMapping
 	 * @generated
 	 */
-	EClass getPortMapping();
+	EClass getParameterMapping();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.PortMapping#getSource <em>Source</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.ParameterMapping#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortMapping#getSource()
-	 * @see #getPortMapping()
+	 * @see org.eclipse.emf.henshin.model.ParameterMapping#getSource()
+	 * @see #getParameterMapping()
 	 * @generated
 	 */
-	EReference getPortMapping_Source();
+	EReference getParameterMapping_Source();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.PortMapping#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.ParameterMapping#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Target</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortMapping#getTarget()
-	 * @see #getPortMapping()
+	 * @see org.eclipse.emf.henshin.model.ParameterMapping#getTarget()
+	 * @see #getParameterMapping()
 	 * @generated
 	 */
-	EReference getPortMapping_Target();
-
-	/**
-	 * Returns the meta object for enum '{@link org.eclipse.emf.henshin.model.PortKind <em>Port Kind</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Port Kind</em>'.
-	 * @see org.eclipse.emf.henshin.model.PortKind
-	 * @generated
-	 */
-	EEnum getPortKind();
+	EReference getParameterMapping_Target();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2847,14 +2549,6 @@ public interface HenshinPackage extends EPackage {
 		EReference RULE__TRANSFORMATION_SYSTEM = eINSTANCE.getRule_TransformationSystem();
 
 		/**
-		 * The meta object literal for the '<em><b>Variables</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RULE__VARIABLES = eINSTANCE.getRule_Variables();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2881,40 +2575,14 @@ public interface HenshinPackage extends EPackage {
 		EAttribute ATTRIBUTE_CONDITION__CONDITION_TEXT = eINSTANCE.getAttributeCondition_ConditionText();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.VariableImpl <em>Variable</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.VariableImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getVariable()
+		 * @see org.eclipse.emf.henshin.model.impl.ParameterImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
 		 * @generated
 		 */
-		EClass VARIABLE = eINSTANCE.getVariable();
-
-		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference VARIABLE__RULE = eINSTANCE.getVariable_Rule();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.PortImpl <em>Port</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.PortImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPort()
-		 * @generated
-		 */
-		EClass PORT = eINSTANCE.getPort();
-
-		/**
-		 * The meta object literal for the '<em><b>Direction</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PORT__DIRECTION = eINSTANCE.getPort_Direction();
+		EClass PARAMETER = eINSTANCE.getParameter();
 
 		/**
 		 * The meta object literal for the '<em><b>Unit</b></em>' container reference feature.
@@ -2922,43 +2590,7 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PORT__UNIT = eINSTANCE.getPort_Unit();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.PortObjectImpl <em>Port Object</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.PortObjectImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortObject()
-		 * @generated
-		 */
-		EClass PORT_OBJECT = eINSTANCE.getPortObject();
-
-		/**
-		 * The meta object literal for the '<em><b>Node</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PORT_OBJECT__NODE = eINSTANCE.getPortObject_Node();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.PortParameterImpl <em>Port Parameter</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.PortParameterImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortParameter()
-		 * @generated
-		 */
-		EClass PORT_PARAMETER = eINSTANCE.getPortParameter();
-
-		/**
-		 * The meta object literal for the '<em><b>Variable</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PORT_PARAMETER__VARIABLE = eINSTANCE.getPortParameter_Variable();
+		EReference PARAMETER__UNIT = eINSTANCE.getParameter_Unit();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
@@ -3183,20 +2815,20 @@ public interface HenshinPackage extends EPackage {
 		EAttribute TRANSFORMATION_UNIT__ACTIVATED = eINSTANCE.getTransformationUnit_Activated();
 
 		/**
-		 * The meta object literal for the '<em><b>Ports</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TRANSFORMATION_UNIT__PORTS = eINSTANCE.getTransformationUnit_Ports();
+		EReference TRANSFORMATION_UNIT__PARAMETERS = eINSTANCE.getTransformationUnit_Parameters();
 
 		/**
-		 * The meta object literal for the '<em><b>Port Mappings</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Parameter Mappings</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference TRANSFORMATION_UNIT__PORT_MAPPINGS = eINSTANCE.getTransformationUnit_PortMappings();
+		EReference TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = eINSTANCE.getTransformationUnit_ParameterMappings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.IndependentUnitImpl <em>Independent Unit</em>}' class.
@@ -3287,14 +2919,14 @@ public interface HenshinPackage extends EPackage {
 		EReference PRIORITY_UNIT__SUB_UNITS = eINSTANCE.getPriorityUnit_SubUnits();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamatedUnitImpl <em>Amalgamated Unit</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl <em>Amalgamation Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.AmalgamatedUnitImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamatedUnit()
+		 * @see org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamationUnit()
 		 * @generated
 		 */
-		EClass AMALGAMATED_UNIT = eINSTANCE.getAmalgamatedUnit();
+		EClass AMALGAMATION_UNIT = eINSTANCE.getAmalgamationUnit();
 
 		/**
 		 * The meta object literal for the '<em><b>Kernel Rule</b></em>' reference feature.
@@ -3302,7 +2934,7 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AMALGAMATED_UNIT__KERNEL_RULE = eINSTANCE.getAmalgamatedUnit_KernelRule();
+		EReference AMALGAMATION_UNIT__KERNEL_RULE = eINSTANCE.getAmalgamationUnit_KernelRule();
 
 		/**
 		 * The meta object literal for the '<em><b>Multi Rules</b></em>' reference list feature.
@@ -3310,23 +2942,23 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AMALGAMATED_UNIT__MULTI_RULES = eINSTANCE.getAmalgamatedUnit_MultiRules();
+		EReference AMALGAMATION_UNIT__MULTI_RULES = eINSTANCE.getAmalgamationUnit_MultiRules();
 
 		/**
-		 * The meta object literal for the '<em><b>Lhs Mappings</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Lhs Mappings</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AMALGAMATED_UNIT__LHS_MAPPINGS = eINSTANCE.getAmalgamatedUnit_LhsMappings();
+		EReference AMALGAMATION_UNIT__LHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_LhsMappings();
 
 		/**
-		 * The meta object literal for the '<em><b>Rhs Mappings</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Rhs Mappings</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AMALGAMATED_UNIT__RHS_MAPPINGS = eINSTANCE.getAmalgamatedUnit_RhsMappings();
+		EReference AMALGAMATION_UNIT__RHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_RhsMappings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
@@ -3473,14 +3105,14 @@ public interface HenshinPackage extends EPackage {
 		EClass NOT = eINSTANCE.getNot();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.PortMappingImpl <em>Port Mapping</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ParameterMappingImpl <em>Parameter Mapping</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.PortMappingImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortMapping()
+		 * @see org.eclipse.emf.henshin.model.impl.ParameterMappingImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 		 * @generated
 		 */
-		EClass PORT_MAPPING = eINSTANCE.getPortMapping();
+		EClass PARAMETER_MAPPING = eINSTANCE.getParameterMapping();
 
 		/**
 		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
@@ -3488,7 +3120,7 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PORT_MAPPING__SOURCE = eINSTANCE.getPortMapping_Source();
+		EReference PARAMETER_MAPPING__SOURCE = eINSTANCE.getParameterMapping_Source();
 
 		/**
 		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -3496,17 +3128,7 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PORT_MAPPING__TARGET = eINSTANCE.getPortMapping_Target();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.PortKind <em>Port Kind</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.PortKind
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPortKind()
-		 * @generated
-		 */
-		EEnum PORT_KIND = eINSTANCE.getPortKind();
+		EReference PARAMETER_MAPPING__TARGET = eINSTANCE.getParameterMapping_Target();
 
 	}
 

@@ -251,7 +251,7 @@ public class TransformationSystemItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
-				 HenshinFactory.eINSTANCE.createAmalgamatedUnit()));
+				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter

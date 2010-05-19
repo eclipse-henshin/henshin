@@ -76,9 +76,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
 			case HenshinPackage.RULE: return createRule();
 			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
-			case HenshinPackage.VARIABLE: return createVariable();
-			case HenshinPackage.PORT_OBJECT: return createPortObject();
-			case HenshinPackage.PORT_PARAMETER: return createPortParameter();
+			case HenshinPackage.PARAMETER: return createParameter();
 			case HenshinPackage.GRAPH: return createGraph();
 			case HenshinPackage.MAPPING: return createMapping();
 			case HenshinPackage.NODE: return createNode();
@@ -88,7 +86,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
 			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
 			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
-			case HenshinPackage.AMALGAMATED_UNIT: return createAmalgamatedUnit();
+			case HenshinPackage.AMALGAMATION_UNIT: return createAmalgamationUnit();
 			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
 			case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
@@ -96,39 +94,9 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.AND: return createAnd();
 			case HenshinPackage.OR: return createOr();
 			case HenshinPackage.NOT: return createNot();
-			case HenshinPackage.PORT_MAPPING: return createPortMapping();
+			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case HenshinPackage.PORT_KIND:
-				return createPortKindFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case HenshinPackage.PORT_KIND:
-				return convertPortKindToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -185,29 +153,9 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Variable createVariable() {
-		VariableImpl variable = new VariableImpl();
-		return variable;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PortObject createPortObject() {
-		PortObjectImpl portObject = new PortObjectImpl();
-		return portObject;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PortParameter createPortParameter() {
-		PortParameterImpl portParameter = new PortParameterImpl();
-		return portParameter;
+	public Parameter createParameter() {
+		ParameterImpl parameter = new ParameterImpl();
+		return parameter;
 	}
 
 	/**
@@ -342,9 +290,9 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AmalgamatedUnit createAmalgamatedUnit() {
-		AmalgamatedUnitImpl amalgamatedUnit = new AmalgamatedUnitImpl();
-		return amalgamatedUnit;
+	public AmalgamationUnit createAmalgamationUnit() {
+		AmalgamationUnitImpl amalgamationUnit = new AmalgamationUnitImpl();
+		return amalgamationUnit;
 	}
 
 	/**
@@ -422,29 +370,9 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PortMapping createPortMapping() {
-		PortMappingImpl portMapping = new PortMappingImpl();
-		return portMapping;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PortKind createPortKindFromString(EDataType eDataType, String initialValue) {
-		PortKind result = PortKind.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertPortKindToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
+	public ParameterMapping createParameterMapping() {
+		ParameterMappingImpl parameterMapping = new ParameterMappingImpl();
+		return parameterMapping;
 	}
 
 	/**

@@ -21,8 +21,8 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getPorts <em>Ports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getPortMappings <em>Port Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings <em>Parameter Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,39 +62,38 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 	void setActivated(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Ports</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Port}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Port#getUnit <em>Unit</em>}'.
+	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Parameter}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ports</em>' containment reference list isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ports</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_Ports()
-	 * @see org.eclipse.emf.henshin.model.Port#getUnit
+	 * @return the value of the '<em>Parameters</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_Parameters()
+	 * @see org.eclipse.emf.henshin.model.Parameter#getUnit
 	 * @model opposite="unit" containment="true"
 	 * @generated
 	 */
-	EList<Port> getPorts();
+	EList<Parameter> getParameters();
 
 	/**
-	 * Returns the value of the '<em><b>Port Mappings</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.PortMapping}.
-	 * <!-- begin-user-doc
-	 * -->
+	 * Returns the value of the '<em><b>Parameter Mappings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.ParameterMapping}.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Port Mappings</em>' containment reference list
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Parameter Mappings</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Port Mappings</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_PortMappings()
+	 * @return the value of the '<em>Parameter Mappings</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_ParameterMappings()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<PortMapping> getPortMappings();
+	EList<ParameterMapping> getParameterMappings();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -111,17 +110,10 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Returns a port with the given <code>name</code> found in this
-	 * transformation units port list (see {@link #getPorts()}). If no such port
-	 * could be found, <code>null</code> is returned.<br>
-	 * Note that port names are case-sensitive.
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model
 	 * @generated
 	 */
-	Port getPortByName(String portname);
+	Parameter getParameterByName(String parametername);
 
 } // TransformationUnit
