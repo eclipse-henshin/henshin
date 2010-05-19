@@ -37,7 +37,7 @@
 			<property name="relengBuilderDir" value="${basedir}" /> 
 		-->
 		<property name="localSourceCheckoutDir" value="${WORKSPACE}/org.eclipse.emft.henshin" />
-		<property name="relengBuilderDir" value="${WORKSPACE}/org.eclipse.emft.henshin/releng" /> 
+		<property name="relengBuilderDir" value="releng" /> 
 		
 		<property name="build.properties" value="build.properties" />
 		<property file="${build.properties}" />
