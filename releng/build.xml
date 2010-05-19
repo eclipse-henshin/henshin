@@ -36,7 +36,9 @@
 		<!-- <property name="localSourceCheckoutDir" value="${basedir}/.." />
 			<property name="relengBuilderDir" value="${basedir}" /> 
 		-->
-
+		<property name="localSourceCheckoutDir" value="${WORKSPACE}/org.eclipse.emft.henshin" />
+		<property name="relengBuilderDir" value="${WORKSPACE}/org.eclipse.emft.henshin/releng" /> 
+		
 		<property name="build.properties" value="build.properties" />
 		<property file="${build.properties}" />
 		<ant antfile="${relengCommonBuilderDir}/build.xml" />
