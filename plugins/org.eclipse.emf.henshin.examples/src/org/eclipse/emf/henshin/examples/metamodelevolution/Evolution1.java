@@ -190,8 +190,8 @@ public class Evolution1 {
 
 		/*
 		 * UnitApplication encapsulates a transformation basing on an engine and
-		 * a transformation unit. It allows furthermore to set input port
-		 * parameter values (see below) or objects.
+		 * a transformation unit. It allows furthermore to set parameters which are either
+		 * values (see below) or objects.
 		 */
 		UnitApplication mm_unit1App = new UnitApplication(engineM, mm_rule1);
 		mm_unit1App.setParameterValue("srcName", srcNodeName);

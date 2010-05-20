@@ -253,10 +253,10 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public RuleApplication generateAmalgamationRule(
-			AmalgamationUnit amalgamationUnit, Map<Parameter, Object> portValues) {
+			AmalgamationUnit amalgamationUnit, Map<Parameter, Object> parameterValues) {
 
 		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
-				amalgamationUnit, portValues);
+				amalgamationUnit, parameterValues);
 
 		return amalgamationWrapper.getAmalgamatedRule();
 	}

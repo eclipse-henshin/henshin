@@ -84,10 +84,10 @@ public class AmalgamationWrapper {
 				ruleApplication.addMatch(node, mappings.get(node));
 			}
 
-			Map<Node, EObject> portMappings = ModelHelper.createPrematch(
+			Map<Node, EObject> parameterMappings = ModelHelper.createPrematch(
 					amalgamationUnit, parameterValues);
-			for (Node node : portMappings.keySet()) {
-				ruleApplication.addMatch(node, portMappings.get(node));
+			for (Node node : parameterMappings.keySet()) {
+				ruleApplication.addMatch(node, parameterMappings.get(node));
 			}
 
 			ruleApplication.setAssignments(parameterValues);

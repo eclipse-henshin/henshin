@@ -40,14 +40,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 public class ModelHelper {
-	// public static boolean isVariable(Rule rule, Attribute attribute) {
-	// for (Variable variable : rule.getVariables()) {
-	// if (variable.getName().equals(attribute.getValue())) {
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
 
 	public static boolean compareObjects(EObject eObject1, EObject eObject2) {
 		EClass eClass1 = eObject1.eClass();
@@ -353,32 +345,4 @@ public class ModelHelper {
 		}
 		return prematch;
 	}
-
-	/**
-	 * Creates a Map at which each Port points to its value found in the given
-	 * co-match.
-	 * 
-	 * @param unit
-	 * @param comatch
-	 * @return
-	 */
-	public static Map<Parameter, Object> generateParameterValues(
-			TransformationUnit unit, Match comatch) {
-		Map<Parameter, Object> newParameterMap = new HashMap<Parameter, Object>();
-		for (Parameter parameter: comatch.getParameterMapping().keySet()) {
-			newParameterMap.put(parameter, comatch.getParameterMapping().get(parameter));
-		}
-
-		return newParameterMap;
-	}// generateParameterValues
-
-	// public static List<Node> findNodesByType(Graph graph, String name) {
-	// List<Node> result = new ArrayList<Node>();
-	// for (Node node : graph.getNodes()) {
-	// if (name.equals(node.getType().getName()))
-	// result.add(node);
-	// }
-	//
-	// return result;
-	// }
 }

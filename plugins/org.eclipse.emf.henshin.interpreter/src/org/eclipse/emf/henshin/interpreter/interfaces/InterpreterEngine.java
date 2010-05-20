@@ -83,12 +83,12 @@ public interface InterpreterEngine {
 	 * RuleApplication is not executed.
 	 * 
 	 * @param amalgamationRule The amalgamated rule that should be executed.
-	 * @param portValues 
+	 * @param parameterValues 
 	 * 
 	 * @return true, if the kernel rule was found, otherwise false.
 	 */
 	public RuleApplication generateAmalgamationRule(
-			AmalgamationUnit amalgamationRule, Map<Parameter, Object> portValues);
+			AmalgamationUnit amalgamationRule, Map<Parameter, Object> parameterValues);
 
 	/**
 	 * Evaluates the given Java-Expression.

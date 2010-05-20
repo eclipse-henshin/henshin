@@ -55,7 +55,8 @@ public class UnitApplication {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.parameterValues = new HashMap<Parameter, Object>();
-		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
+		this.oldParameterValues = new HashMap<Parameter, Object>(
+				parameterValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -70,11 +71,13 @@ public class UnitApplication {
 	 * @param parameterValues
 	 */
 	public UnitApplication(InterpreterEngine engine,
-			TransformationUnit transformationUnit, Map<Parameter, Object> parameterValues) {
+			TransformationUnit transformationUnit,
+			Map<Parameter, Object> parameterValues) {
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.parameterValues = parameterValues;
-		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
+		this.oldParameterValues = new HashMap<Parameter, Object>(
+				parameterValues);
 
 		this.appliedRules = new Stack<RuleApplication>();
 	}
@@ -112,27 +115,31 @@ public class UnitApplication {
 		return new UnitApplication(engine, unit, childPortValues);
 	}
 
-	private Map<Parameter, Object> createChildParameterValues(TransformationUnit child) {
+	private Map<Parameter, Object> createChildParameterValues(
+			TransformationUnit child) {
 		Map<Parameter, Object> childParameterValues = new HashMap<Parameter, Object>();
-		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
+		for (ParameterMapping mapping : transformationUnit
+				.getParameterMappings()) {
 			Parameter sourceParameter = mapping.getSource();
 			Parameter targetParameter = mapping.getTarget();
 
 			if (targetParameter.getUnit() == child) {
-				childParameterValues.put(targetParameter, parameterValues.get(sourceParameter));
+				childParameterValues.put(targetParameter, parameterValues
+						.get(sourceParameter));
 			}
 		}
 		return childParameterValues;
 	}
 
 	private void updatePortValues(UnitApplication childUnit) {
-		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
+		for (ParameterMapping mapping : transformationUnit
+				.getParameterMappings()) {
 			Parameter sourceParameter = mapping.getSource();
 			Parameter targetParameter = mapping.getTarget();
 
 			if (sourceParameter.getUnit() == childUnit.getTransformationUnit()) {
-				parameterValues
-						.put(targetParameter, childUnit.parameterValues.get(sourceParameter));
+				parameterValues.put(targetParameter, childUnit.parameterValues
+						.get(sourceParameter));
 			}
 		}
 	}
@@ -164,13 +171,14 @@ public class UnitApplication {
 	private boolean executeRule() {
 		Rule rule = (Rule) transformationUnit;
 
-		Match match = new Match(rule, parameterValues, ModelHelper.createPrematch(rule, parameterValues));
+		Match match = new Match(rule, parameterValues, ModelHelper
+				.createPrematch(rule, parameterValues));
 
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
-			parameterValues = ModelHelper.generateParameterValues(rule, ruleApplication
-					.getComatch());
+			parameterValues = ruleApplication.getComatch()
+					.getParameterMapping();
 			appliedRules.push(ruleApplication);
 			return true;
 		} else {
@@ -185,8 +193,8 @@ public class UnitApplication {
 
 		if (amalgamationRule != null) {
 			amalgamationRule.apply();
-			parameterValues = ModelHelper.generateParameterValues(amalUnit,
-					amalgamationRule.getComatch());
+			parameterValues = amalgamationRule.getComatch()
+					.getParameterMapping();
 			appliedRules.push(amalgamationRule);
 			return true;
 		} else {
@@ -291,9 +299,9 @@ public class UnitApplication {
 	}
 
 	/**
-	 * Sets a value corresponding to a parameter with the given name. If a mapping
-	 * between the related parameter and a value is already given, this mapping is
-	 * replace. If no such mapping exists, a new one is created.
+	 * Sets a value corresponding to a parameter with the given name. If a
+	 * mapping between the related parameter and a value is already given, this
+	 * mapping is replace. If no such mapping exists, a new one is created.
 	 * 
 	 * @param name
 	 *            name of the Parameter
@@ -308,9 +316,9 @@ public class UnitApplication {
 	}// setPortValue
 
 	/**
-	 * Returns the mapped value corresponding to a parameter with the given name. If
-	 * no value is mapped, <code>null</code> is returned. Furthermore, if no
-	 * such port is found, <code>null</code> is returned as well.
+	 * Returns the mapped value corresponding to a parameter with the given
+	 * name. If no value is mapped, <code>null</code> is returned. Furthermore,
+	 * if no such port is found, <code>null</code> is returned as well.
 	 * 
 	 * @param name
 	 *            name of the Parameter
@@ -319,7 +327,8 @@ public class UnitApplication {
 	public Object getParameterValue(String name) {
 
 		if (this.parameterValues != null) {
-			Parameter parameter = this.transformationUnit.getParameterByName(name);
+			Parameter parameter = this.transformationUnit
+					.getParameterByName(name);
 			if (parameter != null)
 				return this.parameterValues.get(parameter);
 		}// if

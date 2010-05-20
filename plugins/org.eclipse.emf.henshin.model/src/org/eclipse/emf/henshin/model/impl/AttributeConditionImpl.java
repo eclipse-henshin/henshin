@@ -359,19 +359,19 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	
 
 	/**
-	 * Updates all occurrences of the old variable name in this condition's text
-	 * with the new variable name.
+	 * Updates all occurrences of the old parameter name in this condition's text
+	 * with the new parameter name.
 	 * 
-	 * @param oldVariableName
-	 * @param newVariableName
+	 * @param oldParameterName
+	 * @param newParameterName
 	 */
-	protected void updateVariableName(String oldVariableName,
-			String newVariableName) {
+	protected void updateParameterName(String oldParameterName,
+			String newParameterName) {
 
 		if (this.getConditionText() != null) {
 
 			String newConditionText = this.getConditionText().replaceAll(
-					"\\b" + oldVariableName + "\\b", newVariableName);
+					"\\b" + oldParameterName + "\\b", newParameterName);
 			this.setConditionText(newConditionText);
 		}// if
 	}// updateVariableName

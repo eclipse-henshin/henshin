@@ -103,7 +103,7 @@ public class RuleApplication {
 
 			comatchNodeMapping.put(node, newObject);
 			
-			// add an assignment for node parameters which will be used to update ports
+			// add an assignment for parameters
 			if (node.getName() != null && !node.getName().isEmpty()) {
 				Parameter parameter = rule.getParameterByName(node.getName());
 				if (parameter != null) {
