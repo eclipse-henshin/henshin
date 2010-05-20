@@ -48,11 +48,12 @@
         eType="#//TransformationSystem" eOpposite="#//TransformationSystem/rules"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//DescribedElement #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="#//Rule" eOpposite="#//Rule/attributeConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
+        eOpposite="#//Rule/attributeConditions"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DescribedElement #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//TransformationUnit"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" lowerBound="1" eType="#//TransformationUnit"
         eOpposite="#//TransformationUnit/parameters"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//NamedElement">
@@ -169,7 +170,8 @@
         eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" lowerBound="1"
+        eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" upperBound="-1"
         eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
@@ -184,27 +186,29 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NestedCondition" eSuperTypes="#//Formula">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="conclusion" eType="#//Graph"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conclusion" lowerBound="1"
+        eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" eSuperTypes="#//Formula">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Formula"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//Formula"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BinaryFormula" eSuperTypes="#//Formula">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Formula"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Formula"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Formula"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Formula"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Parameter"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Parameter"/>
   </eClassifiers>
 </ecore:EPackage>

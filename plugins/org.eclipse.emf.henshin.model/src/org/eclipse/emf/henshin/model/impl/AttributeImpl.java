@@ -190,26 +190,27 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__NODE, newNode, newNode));
 	}
 
-
 	/**
-	 * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * 
+	 * @generated NOT
 	 */
 	public boolean containsParameterByRule(Rule rule) {
 		boolean found = false;
-		for (Parameter parameter: rule.getParameters()) {
+		for (Parameter parameter : rule.getParameters()) {
 			found = containsParameter(parameter);
 			if (found)
 				break;
-		}
+		}// for
 
 		return found;
 	}// containsVariableByRule
 
 	/**
-	 * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	private boolean containsParameter(Parameter parameter) {
@@ -217,11 +218,11 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 			return false;
 		/*
 		 * TODO: Following regexp is ok for most cases. However, a variable name
-		 * within a string is recognized as variable name although it
-		 * is just as string. A more complex regexp may prevent that false positive.
+		 * within a string is recognized as variable name although it is just a
+		 * string. A more complex regexp may prevent that false positive.
 		 */
 		return this.value.matches("\\W*" + parameter.getName() + "\\W*");
-		
+
 	}// containsVariable
 
 	/**

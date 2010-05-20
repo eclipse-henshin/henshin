@@ -40,7 +40,7 @@ public interface UnaryFormula extends Formula {
 	 * @return the value of the '<em>Child</em>' containment reference.
 	 * @see #setChild(Formula)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnaryFormula_Child()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Formula getChild();

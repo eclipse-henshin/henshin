@@ -43,7 +43,7 @@ public interface AttributeCondition extends DescribedElement, NamedElement {
 	 * @see #setRule(Rule)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttributeCondition_Rule()
 	 * @see org.eclipse.emf.henshin.model.Rule#getAttributeConditions
-	 * @model opposite="attributeConditions" transient="false"
+	 * @model opposite="attributeConditions" required="true" transient="false"
 	 * @generated
 	 */
 	Rule getRule();

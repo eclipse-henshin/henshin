@@ -39,7 +39,7 @@ public interface AmalgamationUnit extends TransformationUnit {
 	 * @return the value of the '<em>Kernel Rule</em>' reference.
 	 * @see #setKernelRule(Rule)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAmalgamationUnit_KernelRule()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	Rule getKernelRule();

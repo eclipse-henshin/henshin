@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -145,15 +148,19 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getAllSubUnits() {
+		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 
-		return new BasicEList<TransformationUnit>(subUnit.getAllSubUnits());
+			allunits.add(this.getSubUnit());
+			allunits.addAll(this.getSubUnit().getAllSubUnits());
+		return new BasicEList<TransformationUnit>(allunits);
 	}// getAllSubUnits
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -176,7 +183,6 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

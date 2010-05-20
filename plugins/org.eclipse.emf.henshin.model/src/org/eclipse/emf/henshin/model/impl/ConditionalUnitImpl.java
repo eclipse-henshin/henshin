@@ -210,9 +210,12 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	 */
 	public EList<TransformationUnit> getAllSubUnits() {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-
+		
+		allunits.add(if_);
 		allunits.addAll(if_.getAllSubUnits());
+		allunits.add(then);
 		allunits.addAll(then.getAllSubUnits());
+		allunits.add(else_);
 		allunits.addAll(else_.getAllSubUnits());
 
 		return new BasicEList<TransformationUnit>(allunits);
@@ -244,7 +247,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {

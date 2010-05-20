@@ -37,7 +37,7 @@ public interface Parameter extends DescribedElement, NamedElement {
 	 * @see #setUnit(TransformationUnit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter_Unit()
 	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameters
-	 * @model opposite="parameters" transient="false"
+	 * @model opposite="parameters" required="true" transient="false"
 	 * @generated
 	 */
 	TransformationUnit getUnit();
