@@ -335,4 +335,16 @@ public class UnitApplication {
 		return null;
 	}// getPortValue
 
+	public Map<Parameter, Object> getParameterValues() {
+		return parameterValues;
+	}
+
+	public void setParameterValues(Map<Parameter, Object> parameterValues) {
+		this.parameterValues = parameterValues;
+	}
+
+	public Stack<RuleApplication> getAppliedRules() {
+		return appliedRules;
+	}
+
 }
