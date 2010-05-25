@@ -113,6 +113,11 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 
 				addSynchronizedPair(node, eObject);
 			}
+			else{
+				if (!henshinGraph.getNodes().contains(node)){
+					henshinGraph.getNodes().add(node);
+				}
+			}
 		}
 
 		return isNew;

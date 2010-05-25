@@ -21,9 +21,13 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
+import org.eclipse.emf.henshin.internal.change.ModelChange;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.conditions.nested.AndFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
@@ -40,8 +44,11 @@ import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -102,14 +109,15 @@ public class EmfEngine implements InterpreterEngine {
 
 			DomainSlot slot;
 			if (node.getGraph() == wrapper.getRule().getLhs()) {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var, conditionHandler, 
-						usedObjects, options) : new DomainSlot(prematch
-						.get(node), conditionHandler, usedObjects, options);
+				slot = (prematch.get(node) == null) ? new DomainSlot(var,
+						conditionHandler, usedObjects, options)
+						: new DomainSlot(prematch.get(node), conditionHandler,
+								usedObjects, options);
 			} else {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var, conditionHandler, 
-						usedObjects, defaultOptions) : new DomainSlot(prematch
-						.get(node), conditionHandler, usedObjects,
-						defaultOptions);
+				slot = (prematch.get(node) == null) ? new DomainSlot(var,
+						conditionHandler, usedObjects, defaultOptions)
+						: new DomainSlot(prematch.get(node), conditionHandler,
+								usedObjects, defaultOptions);
 			}
 
 			domainMap.put(var, slot);
@@ -124,14 +132,19 @@ public class EmfEngine implements InterpreterEngine {
 		return domainMap;
 	}
 
-	// TODO(enrico): refactor matchfinder construction to a factory class
-	private Matchfinder prepareMatchfinder(Rule rule,
-			Map<Node, EObject> prematch, Map<Parameter, Object> assignments) {
+	private Matchfinder prepareMatchfinder(RuleApplication ruleApplication) {
+		Rule rule = ruleApplication.getRule();
+		Map<Parameter, Object> assignments = ruleApplication.getMatch()
+				.getParameterMapping();
+		Map<Node, EObject> prematch = ruleApplication.getMatch()
+				.getNodeMapping();
+
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		AttributeConditionHandler handler = new AttributeConditionHandler(
 				scriptEngine, wrapper.getRuleParameters(), wrapper
 						.getConditionStrings());
+
 		if (assignments != null) {
 			for (Parameter parameter : assignments.keySet()) {
 				handler.setParameter(parameter.getName(), assignments
@@ -139,7 +152,8 @@ public class EmfEngine implements InterpreterEngine {
 			}
 		}
 
-		Map<Variable, DomainSlot> domainMap = createDomainMap(wrapper, prematch, handler);
+		Map<Variable, DomainSlot> domainMap = createDomainMap(wrapper,
+				prematch, handler);
 		Map<Graph, List<Variable>> graphMap = wrapper.getGraph2variables();
 
 		Matchfinder matchfinder = new Matchfinder(emfGraph, domainMap, handler);
@@ -203,12 +217,10 @@ public class EmfEngine implements InterpreterEngine {
 		return ac;
 	}
 
-	public List<Match> findAllMatches(Rule rule) {
-		return findAllMatches(rule, null, null);
-	}
+	@Override
+	public List<Match> findAllMatches(RuleApplication ruleApplication) {
+		Rule rule = ruleApplication.getRule();
 
-	public List<Match> findAllMatches(Rule rule, Map<Node, EObject> prematch,
-			Map<Parameter, Object> assignments) {
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
@@ -216,8 +228,8 @@ public class EmfEngine implements InterpreterEngine {
 			rule2wrapper.put(rule, wrapper);
 		}
 
-		Matchfinder matchfinder = prepareMatchfinder(rule, prematch,
-				assignments);
+		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
+
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
 		for (Solution solution : solutions) {
@@ -228,12 +240,8 @@ public class EmfEngine implements InterpreterEngine {
 		return matches;
 	}
 
-	public Match findMatch(Rule rule) {
-		return findMatch(rule, null, null);
-	}
-
-	public Match findMatch(Rule rule, Map<Node, EObject> prematch,
-			Map<Parameter, Object> assignments) {
+	public Match findMatch(RuleApplication ruleApplication) {
+		Rule rule = ruleApplication.getRule();
 		RuleWrapper wrapper = rule2wrapper.get(rule);
 
 		if (wrapper == null) {
@@ -241,8 +249,7 @@ public class EmfEngine implements InterpreterEngine {
 			rule2wrapper.put(rule, wrapper);
 		}
 
-		Matchfinder matchfinder = prepareMatchfinder(rule, prematch,
-				assignments);
+		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 		Solution solution = matchfinder.getNextMatch();
 
 		if (solution != null) {
@@ -253,7 +260,8 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public RuleApplication generateAmalgamationRule(
-			AmalgamationUnit amalgamationUnit, Map<Parameter, Object> parameterValues) {
+			AmalgamationUnit amalgamationUnit,
+			Map<Parameter, Object> parameterValues) {
 
 		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
 				amalgamationUnit, parameterValues);
@@ -262,18 +270,17 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	@Override
-	public Map<Rule, RuleInfo> getRuleInformation() {
-		return rule2ruleInfo;
-	}
-
-	@Override
-	public void addEObject(EObject eObject) {
-		emfGraph.addEObject(eObject);
-	}
-
-	@Override
-	public void removeEObject(EObject eObject) {
-		emfGraph.removeEObject(eObject);
+	public boolean applyRule(RuleApplication ruleApplication) {
+		Match match = findMatch(ruleApplication);
+		if (match != null) {
+			ruleApplication.setMatch(match);
+			Match comatch = executeModelChanges(ruleApplication);
+			ruleApplication.setComatch(comatch);
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 	public void purgeRuleCache() {
@@ -292,8 +299,132 @@ public class EmfEngine implements InterpreterEngine {
 		this.emfGraph = emfGraph;
 	}
 
-	// TODO: delete this method
-	public Object evalExpression(Map<Parameter, Object> parameterMapping,
+	@Override
+	public void setOptions(TransformationOptions options) {
+		this.options = options;
+	}
+
+	public TransformationOptions getOptions() {
+		return options;
+	}
+
+	/**
+	 * Computes all necessary model changes resulting from the current match.
+	 * Note that this method doesn't actually change the model.
+	 * 
+	 * @return the comatch from the RHS into the instance
+	 */
+	private Match executeModelChanges(RuleApplication ruleApplication) {
+		Rule rule = ruleApplication.getRule();
+		Match match = ruleApplication.getMatch();
+		
+		if (!match.isComplete())
+			return null;
+
+		ModelChange modelChange = new ModelChange();
+
+		RuleInfo ruleInfo = rule2ruleInfo.get(rule);
+		if (ruleInfo == null) {
+			ruleInfo = new RuleInfo(rule);
+			rule2ruleInfo.put(rule, ruleInfo);
+		}
+
+		Map<Node, EObject> matchNodeMapping = match.getNodeMapping();
+		Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
+		Map<Parameter, Object> comatchParameterMapping = new HashMap<Parameter, Object>();
+		comatchParameterMapping.putAll(match.getParameterMapping());
+
+		// create new EObjects with their attributes
+		for (Node node : ruleInfo.getCreatedNodes()) {
+
+			EClass type = node.getType();
+			EPackage ePackage = type.getEPackage();
+
+			EObject newObject = ePackage.getEFactoryInstance().create(type);
+			modelChange.addCreatedObject(newObject);
+			emfGraph.addEObject(newObject);
+
+			comatchNodeMapping.put(node, newObject);
+
+			// add an assignment for parameters
+			if (node.getName() != null && !node.getName().isEmpty()) {
+				Parameter parameter = rule.getParameterByName(node.getName());
+				if (parameter != null) {
+					comatchParameterMapping.put(parameter, newObject);
+				}
+			}
+		}
+
+		// delete EObjects
+		for (Node node : ruleInfo.getDeletedNodes()) {
+			modelChange.addDeletedObject(match.getNodeMapping().get(node));
+			emfGraph.removeEObject(match.getNodeMapping().get(node));
+		}
+
+		for (Node node : ruleInfo.getPreservedNodes()) {
+			Node lhsNode = ModelHelper.getRemoteNode(rule.getMappings(), node);
+			EObject targetObject = matchNodeMapping.get(lhsNode);
+			comatchNodeMapping.put(node, targetObject);
+
+			// add an assignment for node parameters which will be used to
+			// update ports
+			if (node.getName() != null && !node.getName().isEmpty()) {
+				Parameter parameter = rule.getParameterByName(node.getName());
+				if (parameter != null) {
+					comatchParameterMapping.put(parameter, targetObject);
+				}
+			}
+		}
+
+		// remove deleted edges
+		for (Edge edge : ruleInfo.getDeletedEdges()) {
+			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()),
+					edge.getType(), matchNodeMapping.get(edge.getTarget()));
+
+		}
+
+		// add new edges
+		for (Edge edge : ruleInfo.getCreatedEdges()) {
+			modelChange.addObjectChange(comatchNodeMapping
+					.get(edge.getSource()), edge.getType(), comatchNodeMapping
+					.get(edge.getTarget()));
+		}
+
+		for (Attribute attribute : ruleInfo.getAttributeChanges()) {
+			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
+			Object value = evalExpression(match.getParameterMapping(),
+					attribute.getValue());
+
+			String valueString = null;
+			// workaround for Double conversion
+			if (value != null) {
+				valueString = value.toString();
+				if (valueString.endsWith(".0"))
+					valueString = valueString.substring(0,
+							valueString.length() - 2);
+			}
+
+			value = EcoreUtil.createFromString(attribute.getType()
+					.getEAttributeType(), valueString);
+
+			modelChange.addObjectChange(targetObject, attribute.getType(),
+					value);
+		}
+		
+		modelChange.applyChanges();
+		ruleApplication.setModelChange(modelChange);
+
+		return new Match(rule, comatchParameterMapping, comatchNodeMapping);
+	}
+
+	/**
+	 * Evaluates the given Java-Expression.
+	 * 
+	 * @param expr
+	 *            An expression string.
+	 * @return The result of the computation.
+	 */
+	private Object evalExpression(Map<Parameter, Object> parameterMapping,
 			String expr) {
 		try {
 			for (Parameter parameter : parameterMapping.keySet()) {
@@ -309,11 +440,32 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	@Override
-	public void setOptions(TransformationOptions options) {
-		this.options = options;
+	public void redoChanges(RuleApplication ruleApplication) {
+		ModelChange modelChange = ruleApplication.getModelChange();
+		
+		for (EObject createdObject : modelChange.getCreatedObjects()) {
+			emfGraph.addEObject(createdObject);
+		}
+
+		for (EObject deletedObject : modelChange.getDeletedObjects()) {
+			emfGraph.removeEObject(deletedObject);
+		}
+
+		modelChange.redoChanges();
 	}
 
-	public TransformationOptions getOptions() {
-		return options;
+	@Override
+	public void undoChanges(RuleApplication ruleApplication) {
+		ModelChange modelChange = ruleApplication.getModelChange();
+		
+		modelChange.undoChanges();
+
+		for (EObject deletedObject : modelChange.getDeletedObjects()) {
+			emfGraph.addEObject(deletedObject);
+		}
+
+		for (EObject createdObject : modelChange.getCreatedObjects()) {
+			emfGraph.removeEObject(createdObject);
+		}	
 	}
 }

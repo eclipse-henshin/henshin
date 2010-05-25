@@ -64,8 +64,14 @@ public class AmalgamationWrapper {
 		List<Match> kernelMatches = new ArrayList<Match>();
 
 		for (Rule kernelRule : kernelRules) {
-			Match kernelMatch = engine.findMatch(kernelRule, ModelHelper
-					.createPrematch(amalgamationUnit, parameterValues), parameterValues);
+			Map<Node, EObject> nodeMapping = ModelHelper.createPrematch(
+					amalgamationUnit, parameterValues);
+			Match prematch = new Match(kernelRule, parameterValues, nodeMapping);
+
+			RuleApplication kernelRuleApplication = new RuleApplication(engine,
+					kernelRule);
+			kernelRuleApplication.setMatch(prematch);
+			Match kernelMatch = engine.findMatch(kernelRuleApplication);
 			if (kernelMatch != null) {
 				kernelMatches.add(kernelMatch);
 			} else {
@@ -270,7 +276,8 @@ public class AmalgamationWrapper {
 			}
 
 			for (Parameter parameter : singleRule.getParameters()) {
-				Parameter parallelParameter = (Parameter) EcoreUtil.copy(parameter);
+				Parameter parallelParameter = (Parameter) EcoreUtil
+						.copy(parameter);
 				parallelParameter.setUnit(parallelRule);
 				String newName = parameter.getName()
 						+ Math.abs(new Random().nextInt());
