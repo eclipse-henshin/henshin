@@ -16,9 +16,8 @@
 	
     <%}
   }
-  <% // CB CHANGE START, fixed problem, removed for loop%>
   
-  
+    // CB CHANGE START, fixed problem, removed for loop
 	String derive = null;
 	EAnnotation ocl = genFeature.getEcoreFeature().getEAnnotation(oclNsURI);
 	if (ocl != null) derive = ocl.getDetails().get("derive");
@@ -33,9 +32,9 @@
 	private static <%=genModel.getImportedName("org.eclipse.ocl.expressions.OCLExpression")%><<%=genModel.getImportedName("org.eclipse.emf.ecore.EClassifier")%>> <%=genFeature.getSafeName()%>DeriveOCL;
 	
     <%}
-  <% // CB CHANGE STOP, fixed problem, removed for loop%>
+   // CB CHANGE STOP, fixed problem, removed for loop
       
-  if (hasOCL) { %>
+  	if (hasOCL) { %>
 	private static final String OCL_ANNOTATION_SOURCE = "<%=oclNsURI%>";<%=genModel.getNonNLS()%>
 	private static final <%=genModel.getImportedName("org.eclipse.ocl.ecore.OCL")%> OCL_ENV = <%=genModel.getImportedName("org.eclipse.ocl.ecore.OCL")%>.newInstance();
   <% }
