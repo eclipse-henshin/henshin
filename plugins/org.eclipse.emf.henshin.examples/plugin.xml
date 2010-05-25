@@ -13,12 +13,6 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="http://Sierpinski"
-            class="sierpinski.model.Sierpinski.SierpinskiPackage"
-            genModel="src/sierpinski/model/sierpinski.genmodel"/>
-   </extension>
    <extension
          point="org.eclipse.emf.ecore.generated_package">
       <package
