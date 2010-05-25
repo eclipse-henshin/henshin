@@ -35,10 +35,10 @@
 		-->
 		<!-- <property name="localSourceCheckoutDir" value="${basedir}/.." />
 			<property name="relengBuilderDir" value="${basedir}" /> 
-		-->
 		<property name="localSourceCheckoutDir" value="${WORKSPACE}" />
 		<property name="relengBuilderDir" value="${WORKSPACE}/releng" /> 
-		
+		-->
+
 		<property name="build.properties" value="build.properties" />
 		<property file="${build.properties}" />
 		<ant antfile="${relengCommonBuilderDir}/build.xml" />
