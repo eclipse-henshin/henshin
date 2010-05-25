@@ -324,4 +324,13 @@ public class RuleApplication {
 	public String toString() {
 		return rule.getName();
 	}
+
+	/**
+	 * @return the rule
+	 */
+	public Rule getRule() {
+		return rule;
+	}
+	
+	
 }
