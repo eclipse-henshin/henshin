@@ -12,13 +12,13 @@
     <genClasses>
       <ecoreClass href="flowchartdsl.ecore#//Transition"/>
       <genFeatures createChild="false">
-        <ecoreFeature xsi:type="ecore:EAttribute" href="flowchartdsl.ecore#//Transition/name"/>
-      </genFeatures>
-      <genFeatures createChild="false">
         <ecoreFeature xsi:type="ecore:EReference" href="flowchartdsl.ecore#//Transition/target"/>
       </genFeatures>
       <genFeatures createChild="false">
         <ecoreFeature xsi:type="ecore:EReference" href="flowchartdsl.ecore#//Transition/source"/>
+      </genFeatures>
+      <genFeatures createChild="false">
+        <ecoreFeature xsi:type="ecore:EAttribute" href="flowchartdsl.ecore#//Transition/name"/>
       </genFeatures>
     </genClasses>
     <genClasses>

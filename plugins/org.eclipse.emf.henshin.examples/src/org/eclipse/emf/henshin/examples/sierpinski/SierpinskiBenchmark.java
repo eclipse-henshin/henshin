@@ -51,7 +51,7 @@ public class SierpinskiBenchmark {
 		// VertexContainer container = (VertexContainer) ModelHelper
 		// .loadFile("src/sierpinski/instances/start.sierpinski");
 		EObject container = ModelHelper
-				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/instances/start.sierpinski");
+				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/model/start.sierpinski");
 
 		// initialize the henshin interpreter
 		EmfGraph graph = new EmfGraph();
