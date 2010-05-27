@@ -12,26 +12,29 @@
 package org.eclipse.emf.henshin.internal.conditions.attribute;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
 public class AttributeConditionHandler {
-	List<String> parameterNames;
-	List<AttributeCondition> attributeConditions;
+	Collection<String> parameterNames;
+	Collection<AttributeCondition> attributeConditions;
 
-	HashMap<String, Object> assignedParameters;
-	HashMap<String, List<AttributeCondition>> involvedConditions;
+	Map<String, Object> assignedParameters;
+	Map<String, Collection<AttributeCondition>> involvedConditions;
 
 	ScriptEngine engine;
 
-	public AttributeConditionHandler(ScriptEngine scriptEngine, List<String> parameterNames, List<String> conditionStrings) {
+	public AttributeConditionHandler(ScriptEngine scriptEngine, Collection<String> parameterNames, Collection<String> conditionStrings) {
 		this.parameterNames = parameterNames;
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
-		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
+		this.involvedConditions = new HashMap<String, Collection<AttributeCondition>>();
 
 		engine = scriptEngine;
 
@@ -41,12 +44,12 @@ public class AttributeConditionHandler {
 	}
 
 	private void addAttributeCondition(String conditionText) {
-		List<String> usedParameters = extractParameter(conditionText);
+		Collection<String> usedParameters = extractParameter(conditionText);
 		AttributeCondition attributeCondition = new AttributeCondition(engine,
 				conditionText, usedParameters);
 
 		for (String parameter : usedParameters) {
-			List<AttributeCondition> conditionList = involvedConditions
+			Collection<AttributeCondition> conditionList = involvedConditions
 					.get(parameter);
 			if (conditionList == null) {
 				conditionList = new ArrayList<AttributeCondition>();
@@ -59,8 +62,8 @@ public class AttributeConditionHandler {
 		attributeConditions.add(attributeCondition);
 	}
 
-	private List<String> extractParameter(String testString) {
-		ArrayList<String> usedParameters = new ArrayList<String>();
+	private Collection<String> extractParameter(String testString) {
+		Set<String> usedParameters = new HashSet<String>();
 
 		StringTokenizer quoteParser = new StringTokenizer(testString, "\"\'");
 
@@ -78,7 +81,7 @@ public class AttributeConditionHandler {
 				}
 			}
 
-			// discount the quoted part
+			// discard the quoted part
 			if (quoteParser.hasMoreElements())
 				quoteParser.nextElement();
 		}
@@ -87,7 +90,7 @@ public class AttributeConditionHandler {
 	}
 
 	private void increaseAssignCounter(String parameterName) {
-		List<AttributeCondition> conditions = involvedConditions
+		Collection<AttributeCondition> conditions = involvedConditions
 				.get(parameterName);
 		if (conditions != null) {
 			for (AttributeCondition condition : conditions) {
@@ -97,7 +100,7 @@ public class AttributeConditionHandler {
 	}
 
 	private void decreaseAssignCounter(String parameterName) {
-		List<AttributeCondition> conditions = involvedConditions
+		Collection<AttributeCondition> conditions = involvedConditions
 				.get(parameterName);
 		if (conditions != null) {
 			for (AttributeCondition condition : conditions) {
@@ -137,7 +140,7 @@ public class AttributeConditionHandler {
 	/**
 	 * @return the assignedParameters
 	 */
-	public HashMap<String, Object> getAssignedParameters() {
+	public Map<String, Object> getAssignedParameters() {
 		return assignedParameters;
 	}
 

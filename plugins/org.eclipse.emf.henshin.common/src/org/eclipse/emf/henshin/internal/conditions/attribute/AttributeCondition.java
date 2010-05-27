@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.conditions.attribute;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
@@ -19,14 +19,14 @@ import javax.script.ScriptException;
 
 public class AttributeCondition {
 	String conditionText;
-	List<String> usedParameters;
+	Collection<String> usedParameters;
 
 	ScriptEngine engine;
 
 	int assignedParameters;
 
 	public AttributeCondition(ScriptEngine engine, String condition,
-			List<String> usedParameters) {
+			Collection<String> usedParameters) {
 		this.conditionText = condition;
 		this.usedParameters = usedParameters;
 		this.assignedParameters = 0;
