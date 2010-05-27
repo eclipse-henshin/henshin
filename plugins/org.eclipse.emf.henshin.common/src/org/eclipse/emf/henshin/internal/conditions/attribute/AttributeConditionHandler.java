@@ -13,16 +13,13 @@ package org.eclipse.emf.henshin.internal.conditions.attribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
 public class AttributeConditionHandler {
 	List<String> parameterNames;
-	Set<String> constants; //TODO(enrico): find better way to handle constants
 								
 	List<AttributeCondition> attributeConditions;
 
@@ -37,7 +34,6 @@ public class AttributeConditionHandler {
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
 		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
-		this.constants = new HashSet<String>();
 		this.engine = scriptEngine;
 
 		for (String conditionString : conditionStrings) {
@@ -50,7 +46,6 @@ public class AttributeConditionHandler {
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.assignedParameters = new HashMap<String, Object>();
 		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
-		this.constants = new HashSet<String>();
 
 		engine = scriptEngine;
 
@@ -161,22 +156,9 @@ public class AttributeConditionHandler {
 	}
 
 	public void unsetParameter(String parameterName) {
-		if (assignedParameters.containsKey(parameterName)
-				&& !constants.contains(parameterName)) {
+		if (assignedParameters.containsKey(parameterName)) {
 			assignedParameters.remove(parameterName);
 			decreaseAssignCounter(parameterName);
 		}
-	}
-
-	public void clear() {
-		assignedParameters.clear();
-		constants.clear();
-		for (AttributeCondition condition : attributeConditions) {
-			condition.resetAssignCounter();
-		}
-	}
-
-	public void fixParameter(String parameterName) {
-		constants.add(parameterName);
 	}
 }
