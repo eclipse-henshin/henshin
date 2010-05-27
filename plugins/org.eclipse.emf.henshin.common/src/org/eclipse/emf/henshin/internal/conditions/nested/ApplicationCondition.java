@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 
@@ -24,16 +23,13 @@ public class ApplicationCondition implements IFormula {
 	protected IFormula formula;
 
 	protected EmfGraph graph;
-	protected AttributeConditionHandler conditionHandler;
 
 	protected List<Variable> variables;
 	protected Map<Variable, DomainSlot> domainMap;
 
 	public ApplicationCondition(EmfGraph graph,
-			Map<Variable, DomainSlot> domainMap,
-			AttributeConditionHandler conditionHandler, boolean negated) {
+			Map<Variable, DomainSlot> domainMap, boolean negated) {
 		this.domainMap = domainMap;
-		this.conditionHandler = conditionHandler;
 		this.graph = graph;
 		this.negated = negated;
 	}

@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -27,6 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -41,36 +40,26 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
 
 public class ModelHelper {
 
-	public static boolean compareObjects(EObject eObject1, EObject eObject2) {
-		EClass eClass1 = eObject1.eClass();
-		EClass eClass2 = eObject2.eClass();
+	/**
+	 * Checks whether the value of the given attribute corresponds to a
+	 * parameter of the rule.
+	 * 
+	 * @param rule
+	 *            The rule which contains the parameters.
+	 * @param attribute
+	 *            The attribute, which value should be checked.
+	 * @return true, if the attribute value equals a parameter name.
+	 */
+	public static boolean attributeIsParameter(Rule rule, Attribute attribute) {
+		String potentialParameter = attribute.getValue();
+		boolean found = false;
+		for (Parameter parameter : rule.getParameters()) {
+			found = parameter.getName().equals(potentialParameter);
+			if (found)
+				break;
+		}// for
 
-		if (eClass1 != eClass2)
-			return false;
-
-		if (eObject1.eContents().size() != eObject2.eContents().size())
-			return false;
-
-		for (EAttribute attribute : eClass1.getEAttributes()) {
-			Object value1 = eObject1.eGet(attribute);
-			Object value2 = eObject2.eGet(attribute);
-			if (value1 != null) {
-				if (!value1.equals(value2))
-					return false;
-			} else {
-				if (value2 != null)
-					return false;
-			}
-		}
-
-		boolean result = true;
-		for (int i = 0; i < eObject1.eContents().size(); i++) {
-			result = result
-					&& compareObjects(eObject1.eContents().get(i), eObject2
-							.eContents().get(i));
-		}
-
-		return result;
+		return found;
 	}
 
 	/**
@@ -86,37 +75,6 @@ public class ModelHelper {
 	public static boolean isNodeMapped(List<Mapping> mappings, Node node) {
 		return getRemoteNode(mappings, node) != null;
 	}
-
-	public static boolean containsMapping(List<Mapping> mappings,
-			Node sourceNode, Node targetNode) {
-		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == sourceNode
-					&& mapping.getImage() == targetNode)
-				return true;
-		}
-		return false;
-	}
-
-	// /**
-	// * @param type
-	// * @param source
-	// * @param target
-	// * @return
-	// */
-	// public static boolean hasEdge(EReference type, Node source, Node target)
-	// {
-	// return source.findOutgoingEdgeOfType(target, type) != null;
-	// }
-	//
-	// public static Edge findEdge(EReference type, Node source, Node target) {
-	// for (Edge edge : source.getOutgoing()) {
-	// if (edge.getTarget() == target && edge.getType() == type) {
-	// return edge;
-	// }
-	// }
-	//
-	// return null;
-	// }
 
 	/**
 	 * Checks whether the specified edge is part of the mappings.
@@ -142,17 +100,6 @@ public class ModelHelper {
 		}
 
 		return false;
-	}
-
-	public static List<Mapping> getRuleMappings(Rule rule) {
-		List<Mapping> ruleMappings = new ArrayList<Mapping>();
-
-		for (Mapping mapping : rule.getMappings()) {
-			if (mapping.getImage().eContainer().eContainer() == rule)
-				ruleMappings.add(mapping);
-		}
-
-		return ruleMappings;
 	}
 
 	/**
@@ -197,59 +144,6 @@ public class ModelHelper {
 		return result;
 	}
 
-	// public static void renameVariableInRule(Rule rule, String oldName,
-	// String newName) {
-	// for (Variable currentVar : rule.getVariables()) {
-	// if (oldName.equals(currentVar.getName())) {
-	// currentVar.setName(newName);
-	// break;
-	// }
-	// }
-	//
-	// for (AttributeCondition condition : rule.getAttributeConditions()) {
-	// condition.setConditionText(renameInString(condition
-	// .getConditionText(), oldName, newName));
-	// }
-	//
-	// for (Node node : rule.getLhs().getNodes()) {
-	// for (Attribute attribute : node.getAttributes()) {
-	// attribute.setValue(renameInString(attribute.getValue(),
-	// oldName, newName));
-	// }
-	// }
-	//
-	// for (Node node : rule.getRhs().getNodes()) {
-	// for (Attribute attribute : node.getAttributes()) {
-	// attribute.setValue(renameInString(attribute.getValue(),
-	// oldName, newName));
-	// }
-	// }
-	//
-	// rule.getLhs().getFormula().updateVariableName(oldName, newName);
-	// }
-
-	// public static void renameInFormula(Formula formula, String oldName,
-	// String newName) {
-	// if (formula instanceof NestedCondition) {
-	// NestedCondition nestedCondition = (NestedCondition) formula;
-	// for (Node node : nestedCondition.getConclusion().getNodes()) {
-	// for (Attribute attribute : node.getAttributes()) {
-	// attribute.setValue(renameInString(attribute.getValue(),
-	// oldName, newName));
-	// }
-	// }
-	// } else if (formula instanceof BinaryFormula) {
-	// renameInFormula(((BinaryFormula) formula).getLeft(), oldName,
-	// newName);
-	// renameInFormula(
-	// ((org.eclipse.emf.henshin.model.BinaryFormula) formula)
-	// .getRight(), oldName, newName);
-	// } else if (formula instanceof UnaryFormula) {
-	// renameInFormula(((UnaryFormula) formula).getChild(), oldName,
-	// newName);
-	// }
-	// }
-
 	/**
 	 * Returns the nested application condition the conclusion graph belongs to.
 	 * 
@@ -274,15 +168,6 @@ public class ModelHelper {
 
 		return null;
 	}
-
-	// public static String renameInString(String testString, String oldString,
-	// String newString) {
-	// // if (testString.equals(oldString)) {
-	// // return newString;
-	// // }
-	//
-	// return testString.replaceAll("\\b" + oldString + "\\b", newString);
-	// }
 
 	public static Object castDown(Object complexValue, String type) {
 		if (complexValue instanceof Double) {
@@ -325,7 +210,6 @@ public class ModelHelper {
 		return resource.getContents().get(0);
 	}
 
-
 	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
 			Map<Parameter, Object> parameterValues) {
 		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
@@ -340,7 +224,8 @@ public class ModelHelper {
 			if (rule != null) {
 				Node node = rule.getNodeByName(parameter.getName(), true);
 				if (node != null)
-					prematch.put(node, (EObject) parameterValues.get(parameter));
+					prematch
+							.put(node, (EObject) parameterValues.get(parameter));
 			}
 		}
 		return prematch;

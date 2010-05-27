@@ -48,21 +48,41 @@ public interface InterpreterEngine {
 	 * is dynamically constructed and its nodes are matched, but the
 	 * RuleApplication is not executed.
 	 * 
-	 * @param amalgamationRule
+	 * @param amalgamationUnit
 	 *            The amalgamated rule that should be executed.
 	 * @param parameterValues
+	 *            Values for the parameter of the amalgamation unit.
 	 * 
 	 * @return A RuleApplication instance representing the amalgamated rule
 	 */
 	public RuleApplication generateAmalgamationRule(
-			AmalgamationUnit amalgamationRule,
+			AmalgamationUnit amalgamationUnit,
 			Map<Parameter, Object> parameterValues);
 
+	/**
+	 * Sets the options for this interpreter engine.
+	 * 
+	 * @param options
+	 */
 	public void setOptions(TransformationOptions options);
 
+	/**
+	 * Executes the given <code>RuleApplication</code>.
+	 * 
+	 * @param ruleApplication The RuleApplication that will be executed.
+	 * @return true, if successful
+	 */
 	public boolean applyRule(RuleApplication ruleApplication);
 
+	/**
+	 * Undoes the given <code>RuleApplication</code>.
+	 * @param ruleApplicationThe RuleApplication that will be undone.
+	 */
 	public void undoChanges(RuleApplication ruleApplication);
 
+	/**
+	 * Redoes the given <code>RuleApplication</code>.
+	 * @param ruleApplicationThe RuleApplication that will be redone.
+	 */
 	public void redoChanges(RuleApplication ruleApplication);
 }

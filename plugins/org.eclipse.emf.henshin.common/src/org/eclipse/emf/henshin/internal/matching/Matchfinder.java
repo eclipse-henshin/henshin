@@ -22,11 +22,12 @@ import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
 
 public class Matchfinder extends ApplicationCondition {
 	private List<Solution> solutions;
+	private AttributeConditionHandler conditionHandler;
 	
 	public Matchfinder(EmfGraph emfGraph,
-			Map<Variable, DomainSlot> variableDomainMap,
-			AttributeConditionHandler conditionHandler) {
-		super(emfGraph, variableDomainMap, conditionHandler, false);
+			Map<Variable, DomainSlot> variableDomainMap, AttributeConditionHandler conditionHandler) {
+		super(emfGraph, variableDomainMap, false);
+		this.conditionHandler = conditionHandler;
 	}
 
 	public boolean findSolution() {

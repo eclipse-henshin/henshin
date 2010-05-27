@@ -20,6 +20,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
@@ -46,12 +47,9 @@ public class RuleWrapper {
 
 	private Map<Graph, List<Variable>> graph2variables;
 	private Map<Variable, Variable> variable2mainVariable;
-	
 	private List<Variable> mainVariables;
-	
-	private List<String> ruleParameters;
-	private List<String> conditionStrings;
-	
+
+	private AttributeConditionHandler conditionHandler;
 	private ScriptEngine scriptEngine;
 
 	public RuleWrapper(Rule rule, ScriptEngine scriptEngine) {
@@ -62,25 +60,28 @@ public class RuleWrapper {
 		this.variable2node = new HashMap<Variable, Node>();
 		this.graph2variables = new HashMap<Graph, List<Variable>>();
 		this.variable2mainVariable = new HashMap<Variable, Variable>();
-		this.conditionStrings = new ArrayList<String>();
-		this.ruleParameters = new ArrayList<String>();
 
 		createVariables(rule.getLhs());
 		translateFormula(rule.getLhs().getFormula());
-		
+
 		createVariableDependencies(rule.getMappings());
 		createVariableDependencies(rule.getLhs().getFormula());
-		
+
 		mainVariables = new ArrayList<Variable>(variable2node.keySet());
 		mainVariables.removeAll(variable2mainVariable.keySet());
-		
-		for (Parameter parameter: rule.getParameters()) {
+
+		List<String> ruleParameters = new ArrayList<String>();
+		for (Parameter parameter : rule.getParameters()) {
 			ruleParameters.add(parameter.getName());
 		}
-		
-		for (AttributeCondition condition: rule.getAttributeConditions()) {
+
+		List<String> conditionStrings = new ArrayList<String>();
+		for (AttributeCondition condition : rule.getAttributeConditions()) {
 			conditionStrings.add(condition.getConditionText());
 		}
+
+		conditionHandler = new AttributeConditionHandler(
+				scriptEngine, ruleParameters, conditionStrings);
 	}
 
 	private void translateNestedCondition(NestedCondition condition) {
@@ -113,27 +114,28 @@ public class RuleWrapper {
 		for (Node node : g.getNodes()) {
 			createConstraints(node);
 		}
-		
+
 		graph2variables.put(g, variables);
 	}
-	
+
 	private Variable getMainVariable(Variable var) {
-		Variable predecessor = variable2mainVariable.get(var); 
-		
+		Variable predecessor = variable2mainVariable.get(var);
+
 		return (predecessor == null) ? var : getMainVariable(predecessor);
 	}
-	
+
 	private void createVariableDependencies(List<Mapping> mappings) {
 		if (mappings != null) {
 			for (Mapping mapping : mappings) {
 				Variable sourceVar = node2variable.get(mapping.getOrigin());
 				Variable targetVar = node2variable.get(mapping.getImage());
-				
-				variable2mainVariable.put(targetVar, getMainVariable(sourceVar));
+
+				variable2mainVariable
+						.put(targetVar, getMainVariable(sourceVar));
 			}
 		}
 	}
-	
+
 	private void createVariableDependencies(Formula formula) {
 		if (formula instanceof BinaryFormula) {
 			createVariableDependencies(((BinaryFormula) formula).getLeft());
@@ -149,7 +151,7 @@ public class RuleWrapper {
 
 	private void createConstraints(Node node) {
 		Variable var = node2variable.get(node);
-		
+
 		for (Edge edge : node.getOutgoing()) {
 			Variable targetVariable = node2variable.get(edge.getTarget());
 			ReferenceConstraint constraint = new ReferenceConstraint(
@@ -158,7 +160,7 @@ public class RuleWrapper {
 		}
 
 		for (Attribute attribute : node.getAttributes()) {
-			if (attribute.containsParameterByRule(rule)) {
+			if (ModelHelper.attributeIsParameter(rule, attribute)) {
 				ParameterConstraint constraint = new ParameterConstraint(
 						attribute.getValue(), attribute.getType());
 				var.getParameterConstraints().add(constraint);
@@ -205,11 +207,7 @@ public class RuleWrapper {
 		return rule;
 	}
 
-	public List<String> getRuleParameters() {
-		return ruleParameters;
-	}
-
-	public List<String> getConditionStrings() {
-		return conditionStrings;
+	public AttributeConditionHandler getConditionHandler() {
+		return conditionHandler;
 	}
 }

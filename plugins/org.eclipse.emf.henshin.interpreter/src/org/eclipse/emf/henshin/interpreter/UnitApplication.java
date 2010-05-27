@@ -103,6 +103,10 @@ public class UnitApplication {
 		return false;
 	}
 
+	/**
+	 * Undoes the application of that unit and resets all parameter values to
+	 * the state before the unit was executed.
+	 */
 	public void undo() {
 		while (!appliedRules.isEmpty())
 			appliedRules.pop().undo();
@@ -177,8 +181,7 @@ public class UnitApplication {
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
-			parameterValues = ruleApplication.getComatch()
-					.getParameterMapping();
+			parameterValues = ruleApplication.getComatch().getParameterValues();
 			appliedRules.push(ruleApplication);
 			return true;
 		} else {
@@ -194,7 +197,7 @@ public class UnitApplication {
 		if (amalgamationRule != null) {
 			amalgamationRule.apply();
 			parameterValues = amalgamationRule.getComatch()
-					.getParameterMapping();
+					.getParameterValues();
 			appliedRules.push(amalgamationRule);
 			return true;
 		} else {
@@ -313,12 +316,12 @@ public class UnitApplication {
 		Parameter parameter = this.transformationUnit.getParameterByName(name);
 		if (parameter != null)
 			this.parameterValues.put(parameter, value);
-	}// setPortValue
+	}// setParameterValue
 
 	/**
 	 * Returns the mapped value corresponding to a parameter with the given
 	 * name. If no value is mapped, <code>null</code> is returned. Furthermore,
-	 * if no such port is found, <code>null</code> is returned as well.
+	 * if no such parameter is found, <code>null</code> is returned as well.
 	 * 
 	 * @param name
 	 *            name of the Parameter

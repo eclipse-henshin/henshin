@@ -156,5 +156,13 @@ public interface Rule extends TransformationUnit, DescribedElement, NamedElement
 	 */
 	Node getNodeByName(String nodename, boolean isLhs);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean containsMapping(Node sourceNode, Node targetNode);
+
 	
 } // Rule

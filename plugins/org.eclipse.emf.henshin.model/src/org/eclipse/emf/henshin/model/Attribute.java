@@ -113,13 +113,5 @@ public interface Attribute extends EObject {
 	 */
 	void setNode(Node value);
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model ruleRequired="true"
-	 * @generated
-	 */
-	boolean containsParameterByRule(Rule rule);
-
 
 } // Attribute

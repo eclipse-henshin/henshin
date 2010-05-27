@@ -37,22 +37,41 @@ public class Match {
 	private Map<Node, EObject> nodeMapping;
 
 	// variable assignments
-	private Map<Parameter, Object> parameterMapping;
+	private Map<Parameter, Object> parameterValues;
 
-	public Match(Rule rule, Map<Parameter, Object> parameterMapping,
+	/**
+	 * 
+	 * @param rule
+	 *            The rule this match is constructed for.
+	 * @param parameterValues
+	 *            Values for the parameter of the rule
+	 * @param nodeMapping
+	 *            Mapping between rule nodes and EObjects
+	 */
+	public Match(Rule rule, Map<Parameter, Object> parameterValues,
 			Map<Node, EObject> nodeMapping) {
-		this.parameterMapping = parameterMapping;
+		this.parameterValues = parameterValues;
 		this.nodeMapping = nodeMapping;
 		this.rule = rule;
 	}
 
+	/**
+	 * 
+	 * @param rule
+	 *            The rule this match is constructed for.
+	 * @param solution
+	 *            A solution of a matchfinder
+	 * @param node2variable
+	 *            Map of corresponding pairs of matchfinder variables and rule
+	 *            nodes.
+	 */
 	public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
 		if (solution != null) {
-			this.parameterMapping = new HashMap<Parameter, Object>();
+			this.parameterValues = new HashMap<Parameter, Object>();
 			for (String parameterName : solution.getParameterMatches().keySet()) {
 				Parameter parameter = rule.getParameterByName(parameterName);
 				if (parameter != null) {
-					parameterMapping.put(parameter, solution
+					parameterValues.put(parameter, solution
 							.getParameterMatches().get(parameterName));
 				}
 			}
@@ -71,13 +90,17 @@ public class Match {
 	}
 
 	/**
+	 * The parameter values of the rule corresponding to this match.
+	 * 
 	 * @return the parameterMapping
 	 */
-	public Map<Parameter, Object> getParameterMapping() {
-		return parameterMapping;
+	public Map<Parameter, Object> getParameterValues() {
+		return parameterValues;
 	}
 
 	/**
+	 * The node mapping of the rule corresponding to this match.
+	 * 
 	 * @return the nodeMapping
 	 */
 	public Map<Node, EObject> getNodeMapping() {
@@ -108,6 +131,8 @@ public class Match {
 	}
 
 	/**
+	 * The rule this match belongs to.
+	 * 
 	 * @return the rule
 	 */
 	public Rule getRule() {
@@ -133,8 +158,10 @@ public class Match {
 	}
 
 	/**
+	 * Checks whether this match is complete and typing between rule nodes and
+	 * EObjects is valid.
 	 * 
-	 * @return
+	 * @return true, if the match is complete and properly typed.
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean isValid() {

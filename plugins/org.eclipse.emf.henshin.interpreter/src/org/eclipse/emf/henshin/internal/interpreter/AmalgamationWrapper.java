@@ -232,8 +232,8 @@ public class AmalgamationWrapper {
 				Node parallelSourceNode = embedding.get(singleSourceNode);
 				Node parallelTargetNode = embedding.get(singleTargetNode);
 
-				if (!ModelHelper.containsMapping(parallelRule.getMappings(),
-						parallelSourceNode, parallelTargetNode)) {
+				if (!parallelRule.containsMapping(parallelSourceNode,
+						parallelTargetNode)) {
 					Mapping parallelMapping = factory.createMapping();
 					parallelMapping.setOrigin(parallelSourceNode);
 					parallelMapping.setImage(parallelTargetNode);

@@ -20,26 +20,12 @@ import javax.script.ScriptEngine;
 
 public class AttributeConditionHandler {
 	List<String> parameterNames;
-								
 	List<AttributeCondition> attributeConditions;
 
 	HashMap<String, Object> assignedParameters;
 	HashMap<String, List<AttributeCondition>> involvedConditions;
 
 	ScriptEngine engine;
-
-	public AttributeConditionHandler(ArrayList<String> parameterNames,
-			ArrayList<String> conditionStrings, ScriptEngine scriptEngine) {
-		this.parameterNames = parameterNames;
-		this.attributeConditions = new ArrayList<AttributeCondition>();
-		this.assignedParameters = new HashMap<String, Object>();
-		this.involvedConditions = new HashMap<String, List<AttributeCondition>>();
-		this.engine = scriptEngine;
-
-		for (String conditionString : conditionStrings) {
-			addAttributeCondition(conditionString);
-		}
-	}
 
 	public AttributeConditionHandler(ScriptEngine scriptEngine, List<String> parameterNames, List<String> conditionStrings) {
 		this.parameterNames = parameterNames;
@@ -159,6 +145,14 @@ public class AttributeConditionHandler {
 		if (assignedParameters.containsKey(parameterName)) {
 			assignedParameters.remove(parameterName);
 			decreaseAssignCounter(parameterName);
+		}
+	}
+
+	//TODO: seperate static condition analysis from dynamic condition handling
+	public void clear() {
+		assignedParameters.clear();
+		for (AttributeCondition condition : attributeConditions) {
+			condition.resetAssignCounter();
 		}
 	}
 }

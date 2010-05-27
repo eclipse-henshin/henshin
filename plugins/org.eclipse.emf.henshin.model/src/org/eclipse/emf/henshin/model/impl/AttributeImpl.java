@@ -22,8 +22,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * <!-- begin-user-doc -->
@@ -189,41 +187,6 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE__NODE, newNode, newNode));
 	}
-
-	/**
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public boolean containsParameterByRule(Rule rule) {
-		boolean found = false;
-		for (Parameter parameter : rule.getParameters()) {
-			found = containsParameter(parameter);
-			if (found)
-				break;
-		}// for
-
-		return found;
-	}// containsVariableByRule
-
-	/**
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	private boolean containsParameter(Parameter parameter) {
-		if (parameter.getName() == null)
-			return false;
-		/*
-		 * TODO: Following regexp is ok for most cases. However, a variable name
-		 * within a string is recognized as variable name although it is just a
-		 * string. A more complex regexp may prevent that false positive.
-		 */
-		return this.value.matches("\\W*" + parameter.getName() + "\\W*");
-
-	}// containsVariable
 
 	/**
 	 * <!-- begin-user-doc -->

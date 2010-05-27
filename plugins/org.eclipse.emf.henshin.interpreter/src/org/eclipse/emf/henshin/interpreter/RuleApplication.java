@@ -129,12 +129,12 @@ public class RuleApplication {
 	 */
 	public void addAssignment(String name, Object value) {
 		Parameter parameter = rule.getParameterByName(name);
-		match.getParameterMapping().put(parameter, value);
+		match.getParameterValues().put(parameter, value);
 	}
 
 	public void setAssignments(Map<Parameter, Object> assignments) {
-		match.getParameterMapping().clear();
-		match.getParameterMapping().putAll(assignments);
+		match.getParameterValues().clear();
+		match.getParameterValues().putAll(assignments);
 	}
 
 	/**
