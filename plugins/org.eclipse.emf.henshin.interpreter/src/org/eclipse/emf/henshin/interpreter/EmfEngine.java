@@ -12,11 +12,11 @@
 package org.eclipse.emf.henshin.interpreter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -35,9 +35,11 @@ import org.eclipse.emf.henshin.internal.conditions.nested.IFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.NotFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.OrFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.TrueFormula;
-import org.eclipse.emf.henshin.internal.interpreter.AmalgamationWrapper;
+import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
+import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
+import org.eclipse.emf.henshin.internal.interpreter.ConditionInfo;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
-import org.eclipse.emf.henshin.internal.interpreter.RuleWrapper;
+import org.eclipse.emf.henshin.internal.interpreter.VariableInfo;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
 import org.eclipse.emf.henshin.internal.matching.Matchfinder;
 import org.eclipse.emf.henshin.internal.matching.Solution;
@@ -62,19 +64,15 @@ import org.eclipse.emf.henshin.model.Rule;
  * The default implementation of an interpreter engine.
  */
 public class EmfEngine implements InterpreterEngine {
-	TransformationOptions options;
-
-	Map<Rule, RuleWrapper> rule2wrapper;
-	Map<Rule, RuleInfo> rule2ruleInfo;
-
 	EmfGraph emfGraph;
 	ScriptEngine scriptEngine;
+	
+	Map<Rule, RuleInfo> ruleInformation;
+	Map<AmalgamationUnit, AmalgamationInfo> amalgamationInformation;
+	TransformationOptions options;
 
 	public EmfEngine() {
-		this.emfGraph = new EmfGraph();
-
-		rule2wrapper = new HashMap<Rule, RuleWrapper>();
-		rule2ruleInfo = new HashMap<Rule, RuleInfo>();
+		ruleInformation = new HashMap<Rule, RuleInfo>();
 
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		scriptEngine = mgr.getEngineByName("JavaScript");
@@ -83,82 +81,68 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public EmfEngine(EmfGraph emfGraph) {
+		this();
+		
 		this.emfGraph = emfGraph;
-
-		rule2wrapper = new HashMap<Rule, RuleWrapper>();
-		rule2ruleInfo = new HashMap<Rule, RuleInfo>();
-
-		ScriptEngineManager mgr = new ScriptEngineManager();
-		scriptEngine = mgr.getEngineByName("JavaScript");
-
-		options = new TransformationOptions();
-	}
-
-	private Map<Variable, DomainSlot> createDomainMap(RuleWrapper wrapper,
-			Map<Node, EObject> prematch) {
-		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
-		Map<Variable, Variable> mainVariableMap = wrapper
-				.getVariable2mainVariable();
-		AttributeConditionHandler conditionHandler = wrapper
-				.getConditionHandler();
-
-		Set<EObject> usedObjects = new HashSet<EObject>();
-
-		TransformationOptions defaultOptions = new TransformationOptions();
-
-		for (Variable var : wrapper.getMainVariables()) {
-			Node node = wrapper.getVariable2node().get(var);
-
-			DomainSlot slot;
-			if (node.getGraph() == wrapper.getRule().getLhs()) {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						conditionHandler, usedObjects, options)
-						: new DomainSlot(prematch.get(node), conditionHandler,
-								usedObjects, options);
-			} else {
-				slot = (prematch.get(node) == null) ? new DomainSlot(var,
-						conditionHandler, usedObjects, defaultOptions)
-						: new DomainSlot(prematch.get(node), conditionHandler,
-								usedObjects, defaultOptions);
-			}
-
-			domainMap.put(var, slot);
-		}
-
-		for (Variable var : mainVariableMap.keySet()) {
-			Variable mainVariable = mainVariableMap.get(var);
-			DomainSlot slot = domainMap.get(mainVariable);
-			domainMap.put(var, slot);
-		}
-
-		return domainMap;
 	}
 
 	private Matchfinder prepareMatchfinder(RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
-		Map<Parameter, Object> assignments = ruleApplication.getMatch()
-				.getParameterValues();
+		RuleInfo ruleInfo = ruleInformation.get(rule);
+		ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
+		VariableInfo variableInfo = ruleInfo.getVariableInfo();
+
 		Map<Node, EObject> prematch = ruleApplication.getMatch()
 				.getNodeMapping();
+		Map<Parameter, Object> parameterValues = ruleApplication.getMatch()
+				.getParameterValues();
 
-		RuleWrapper wrapper = rule2wrapper.get(rule);
-		AttributeConditionHandler handler = wrapper.getConditionHandler();
-		handler.clear();
+		AttributeConditionHandler conditionHandler = new AttributeConditionHandler(
+				conditionInfo.getConditionParameters(), scriptEngine);
 
-		if (assignments != null) {
-			for (Parameter parameter : assignments.keySet()) {
-				wrapper.getConditionHandler().setParameter(parameter.getName(),
-						assignments.get(parameter));
+		// Creates a domain map where all variables are mapped to slots.
+		// Different variables may share one domain slot, if there is a mapping
+		// between the nodes of the variables.
+		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
+		for (Variable mainVariable : variableInfo.getMainVariables()) {
+			Node node = variableInfo.getVariableForNode(mainVariable);
+
+			// use injective, deterministic matching for nested conditions
+			TransformationOptions options = getOptions();
+			if (node.getGraph() != ruleInfo.getRule().getLhs()) {
+				options = new TransformationOptions();
+				options.setDeterministic(true);
+				options.setInjective(true);
+			}
+
+			// usedObjects ensures injective matching by removing already
+			// matched objects from other DomainSlots
+			Collection<EObject> usedObjects = new HashSet<EObject>();
+			DomainSlot domainSlot = new DomainSlot(mainVariable,
+					conditionHandler, usedObjects, options);
+
+			if (prematch.get(node) != null)
+				domainSlot.fixInstanciation(prematch.get(node));
+
+			for (Variable dependendVariable : variableInfo
+					.getDependendVariables(mainVariable)) {
+				domainMap.put(dependendVariable, domainSlot);
 			}
 		}
 
-		Map<Variable, DomainSlot> domainMap = createDomainMap(wrapper, prematch);
-		Map<Graph, List<Variable>> graphMap = wrapper.getGraph2variables();
+		if (parameterValues != null) {
+			for (Parameter parameter : parameterValues.keySet()) {
+				conditionHandler.setParameter(parameter.getName(),
+						parameterValues.get(parameter));
+			}
+		}
 
-		Matchfinder matchfinder = new Matchfinder(emfGraph, domainMap, handler);
+		Map<Graph, List<Variable>> graphMap = variableInfo.getGraph2variables();
+		Matchfinder matchfinder = new Matchfinder(emfGraph, domainMap,
+				conditionHandler);
 		matchfinder.setVariables(graphMap.get(rule.getLhs()));
 		matchfinder.setFormula(initFormula(rule.getLhs().getFormula(),
-				domainMap, graphMap, handler));
+				domainMap, graphMap, conditionHandler));
 
 		return matchfinder;
 	}
@@ -220,11 +204,11 @@ public class EmfEngine implements InterpreterEngine {
 	public List<Match> findAllMatches(RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
 
-		RuleWrapper wrapper = rule2wrapper.get(rule);
+		RuleInfo wrapper = ruleInformation.get(rule);
 
 		if (wrapper == null) {
-			wrapper = new RuleWrapper(rule, scriptEngine);
-			rule2wrapper.put(rule, wrapper);
+			wrapper = new RuleInfo(rule, scriptEngine);
+			ruleInformation.put(rule, wrapper);
 		}
 
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
@@ -232,7 +216,8 @@ public class EmfEngine implements InterpreterEngine {
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
 		for (Solution solution : solutions) {
-			Match match = new Match(rule, solution, wrapper.getNode2variable());
+			Match match = new Match(rule, solution, wrapper.getVariableInfo()
+					.getNode2variable());
 			matches.add(match);
 		}
 
@@ -241,18 +226,19 @@ public class EmfEngine implements InterpreterEngine {
 
 	public Match findMatch(RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
-		RuleWrapper wrapper = rule2wrapper.get(rule);
+		RuleInfo wrapper = ruleInformation.get(rule);
 
 		if (wrapper == null) {
-			wrapper = new RuleWrapper(rule, scriptEngine);
-			rule2wrapper.put(rule, wrapper);
+			wrapper = new RuleInfo(rule, scriptEngine);
+			ruleInformation.put(rule, wrapper);
 		}
 
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 		Solution solution = matchfinder.getNextMatch();
 
 		if (solution != null) {
-			Match match = new Match(rule, solution, wrapper.getNode2variable());
+			Match match = new Match(rule, solution, wrapper.getVariableInfo()
+					.getNode2variable());
 			return match;
 		} else
 			return null;
@@ -262,10 +248,10 @@ public class EmfEngine implements InterpreterEngine {
 			AmalgamationUnit amalgamationUnit,
 			Map<Parameter, Object> parameterValues) {
 
-		AmalgamationWrapper amalgamationWrapper = new AmalgamationWrapper(this,
+		AmalgamationInfo amalgamationWrapper = new AmalgamationInfo(this,
 				amalgamationUnit, parameterValues);
 
-		return amalgamationWrapper.getAmalgamatedRule();
+		return amalgamationWrapper.getAmalgamationRule();
 	}
 
 	@Override
@@ -282,9 +268,9 @@ public class EmfEngine implements InterpreterEngine {
 		return false;
 	}
 
-	public void purgeRuleCache() {
-		rule2ruleInfo.clear();
-		rule2wrapper.clear();
+	public void purgeCache() {
+		ruleInformation.clear();
+		amalgamationInformation.clear();
 	}
 
 	/**
@@ -315,6 +301,9 @@ public class EmfEngine implements InterpreterEngine {
 	 */
 	private Match executeModelChanges(RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
+		RuleInfo ruleInfo = ruleInformation.get(rule);
+		ChangeInfo changeInfo = ruleInfo.getChangeInfo();
+		
 		Match match = ruleApplication.getMatch();
 
 		if (!match.isComplete())
@@ -322,19 +311,13 @@ public class EmfEngine implements InterpreterEngine {
 
 		ModelChange modelChange = new ModelChange();
 
-		RuleInfo ruleInfo = rule2ruleInfo.get(rule);
-		if (ruleInfo == null) {
-			ruleInfo = new RuleInfo(rule);
-			rule2ruleInfo.put(rule, ruleInfo);
-		}
-
 		Map<Node, EObject> matchNodeMapping = match.getNodeMapping();
 		Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
 		Map<Parameter, Object> comatchParameterValues = new HashMap<Parameter, Object>();
 		comatchParameterValues.putAll(match.getParameterValues());
 
 		// create new EObjects with their attributes
-		for (Node node : ruleInfo.getCreatedNodes()) {
+		for (Node node : changeInfo.getCreatedNodes()) {
 
 			EClass type = node.getType();
 			EPackage ePackage = type.getEPackage();
@@ -355,12 +338,12 @@ public class EmfEngine implements InterpreterEngine {
 		}
 
 		// delete EObjects
-		for (Node node : ruleInfo.getDeletedNodes()) {
+		for (Node node : changeInfo.getDeletedNodes()) {
 			modelChange.addDeletedObject(match.getNodeMapping().get(node));
 			emfGraph.removeEObject(match.getNodeMapping().get(node));
 		}
 
-		for (Node node : ruleInfo.getPreservedNodes()) {
+		for (Node node : changeInfo.getPreservedNodes()) {
 			Node lhsNode = ModelHelper.getRemoteNode(rule.getMappings(), node);
 			EObject targetObject = matchNodeMapping.get(lhsNode);
 			comatchNodeMapping.put(node, targetObject);
@@ -376,20 +359,20 @@ public class EmfEngine implements InterpreterEngine {
 		}
 
 		// remove deleted edges
-		for (Edge edge : ruleInfo.getDeletedEdges()) {
+		for (Edge edge : changeInfo.getDeletedEdges()) {
 			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()),
 					edge.getType(), matchNodeMapping.get(edge.getTarget()));
 
 		}
 
 		// add new edges
-		for (Edge edge : ruleInfo.getCreatedEdges()) {
+		for (Edge edge : changeInfo.getCreatedEdges()) {
 			modelChange.addObjectChange(comatchNodeMapping
 					.get(edge.getSource()), edge.getType(), comatchNodeMapping
 					.get(edge.getTarget()));
 		}
 
-		for (Attribute attribute : ruleInfo.getAttributeChanges()) {
+		for (Attribute attribute : changeInfo.getAttributeChanges()) {
 			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
 			Object value = evalExpression(match.getParameterValues(), attribute
 					.getValue());

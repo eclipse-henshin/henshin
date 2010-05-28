@@ -11,102 +11,50 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.interpreter;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.script.ScriptEngine;
 
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 public class RuleInfo {
-	private List<Node> createdNodes;
-	private List<Node> deletedNodes;
-	private List<Node> preservedNodes;
-	private List<Edge> createdEdges;
-	private List<Edge> deletedEdges;
-	private List<Attribute> attributeChanges;
+	private Rule rule;
+	
+	private VariableInfo variableInfo;
+	private ChangeInfo changeInfo;
+	private ConditionInfo conditionInfo;
 
-	public RuleInfo(Rule rule) {
-		createdNodes = new ArrayList<Node>();
-		createdEdges = new ArrayList<Edge>();
-		deletedEdges = new ArrayList<Edge>();
-		deletedNodes = new ArrayList<Node>();
-		attributeChanges = new ArrayList<Attribute>();
-		preservedNodes = new ArrayList<Node>();
-
-		for (Node node : rule.getLhs().getNodes()) {
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
-				deletedNodes.add(node);
-			}
-		}
-
-		for (Node node : rule.getRhs().getNodes()) {
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
-				createdNodes.add(node);
-			} else {
-				preservedNodes.add(node);
-			}
-
-			for (Attribute attribute : node.getAttributes()) {
-				attributeChanges.add(attribute);
-			}
-		}
-
-		for (Edge edge : rule.getLhs().getEdges()) {
-			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
-				deletedEdges.add(edge);
-			}
-		}
-
-		for (Edge edge : rule.getRhs().getEdges()) {
-			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
-				createdEdges.add(edge);
-			}
-		}
-
+	public RuleInfo(Rule rule, ScriptEngine scriptEngine) {
+		this.rule = rule;
+		
+		this.conditionInfo = new ConditionInfo(rule, scriptEngine);
+		this.variableInfo = new VariableInfo(rule, scriptEngine);
+		this.changeInfo = new ChangeInfo(rule);
 	}
 
 	/**
-	 * @return the createdNodes
+	 * @return the rule
 	 */
-	public List<Node> getCreatedNodes() {
-		return createdNodes;
+	public Rule getRule() {
+		return rule;
 	}
 
 	/**
-	 * @return the preservedNodes
+	 * @return the variableInfo
 	 */
-	public List<Node> getPreservedNodes() {
-		return preservedNodes;
+	public VariableInfo getVariableInfo() {
+		return variableInfo;
 	}
 
 	/**
-	 * @return the createdEdges
+	 * @return the changeInfo
 	 */
-	public List<Edge> getCreatedEdges() {
-		return createdEdges;
+	public ChangeInfo getChangeInfo() {
+		return changeInfo;
 	}
 
 	/**
-	 * @return the deletedEdges
+	 * @return the conditionInfo
 	 */
-	public List<Edge> getDeletedEdges() {
-		return deletedEdges;
-	}
-
-	/**
-	 * @return the attributeChanges
-	 */
-	public List<Attribute> getAttributeChanges() {
-		return attributeChanges;
-	}
-
-	/**
-	 * @return the deletedNodes
-	 */
-	public List<Node> getDeletedNodes() {
-		return deletedNodes;
+	public ConditionInfo getConditionInfo() {
+		return conditionInfo;
 	}
 }

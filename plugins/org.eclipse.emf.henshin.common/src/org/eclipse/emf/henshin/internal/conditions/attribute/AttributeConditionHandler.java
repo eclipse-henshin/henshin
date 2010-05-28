@@ -16,146 +16,97 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
 public class AttributeConditionHandler {
-	Collection<String> parameterNames;
 	Collection<AttributeCondition> attributeConditions;
-
-	Map<String, Object> assignedParameters;
 	Map<String, Collection<AttributeCondition>> involvedConditions;
+	Collection<String> assignedParameters;
 
-	ScriptEngine engine;
+	ScriptEngine scriptEngine;
 
-	public AttributeConditionHandler(ScriptEngine scriptEngine, Collection<String> parameterNames, Collection<String> conditionStrings) {
-		this.parameterNames = parameterNames;
+	public AttributeConditionHandler(
+			Map<String, Collection<String>> conditionParameters,
+			ScriptEngine scriptEngine) {
 		this.attributeConditions = new ArrayList<AttributeCondition>();
-		this.assignedParameters = new HashMap<String, Object>();
 		this.involvedConditions = new HashMap<String, Collection<AttributeCondition>>();
+		this.assignedParameters = new HashSet<String>();
+		this.scriptEngine = scriptEngine;
 
-		engine = scriptEngine;
+		for (String conditionString : conditionParameters.keySet()) {
+			Collection<String> usedParameters = conditionParameters
+					.get(conditionString);
 
-		for (String conditionString: conditionStrings) {
-			addAttributeCondition(conditionString);
-		}
-	}
+			AttributeCondition attributeCondition = new AttributeCondition(
+					conditionString, usedParameters, scriptEngine);
+			attributeConditions.add(attributeCondition);
 
-	private void addAttributeCondition(String conditionText) {
-		Collection<String> usedParameters = extractParameter(conditionText);
-		AttributeCondition attributeCondition = new AttributeCondition(engine,
-				conditionText, usedParameters);
-
-		for (String parameter : usedParameters) {
-			Collection<AttributeCondition> conditionList = involvedConditions
-					.get(parameter);
-			if (conditionList == null) {
-				conditionList = new ArrayList<AttributeCondition>();
-				involvedConditions.put(parameter, conditionList);
-			}
-
-			conditionList.add(attributeCondition);
-		}
-
-		attributeConditions.add(attributeCondition);
-	}
-
-	private Collection<String> extractParameter(String testString) {
-		Set<String> usedParameters = new HashSet<String>();
-
-		StringTokenizer quoteParser = new StringTokenizer(testString, "\"\'");
-
-		while (quoteParser.hasMoreElements()) {
-			String nonQuotedString = quoteParser.nextToken();
-			StringTokenizer variableParser = new StringTokenizer(
-					nonQuotedString, ".()\t\r\n<>=! ");
-
-			while (variableParser.hasMoreElements()) {
-				String subString = variableParser.nextToken();
-				for (String parameterName : parameterNames) {
-					if (parameterName.equals(subString)) {
-						usedParameters.add(parameterName);
-					}
+			// create a map for easy lookup of conditions a parameter is
+			// involved in
+			for (String usedParameter : usedParameters) {
+				Collection<AttributeCondition> conditionList = involvedConditions
+						.get(usedParameter);
+				if (conditionList == null) {
+					conditionList = new ArrayList<AttributeCondition>();
+					involvedConditions.put(usedParameter, conditionList);
 				}
-			}
 
-			// discard the quoted part
-			if (quoteParser.hasMoreElements())
-				quoteParser.nextElement();
-		}
-
-		return usedParameters;
-	}
-
-	private void increaseAssignCounter(String parameterName) {
-		Collection<AttributeCondition> conditions = involvedConditions
-				.get(parameterName);
-		if (conditions != null) {
-			for (AttributeCondition condition : conditions) {
-				condition.increaseAssignCounter();
+				conditionList.add(attributeCondition);
 			}
 		}
 	}
 
-	private void decreaseAssignCounter(String parameterName) {
-		Collection<AttributeCondition> conditions = involvedConditions
-				.get(parameterName);
-		if (conditions != null) {
-			for (AttributeCondition condition : conditions) {
-				condition.decreaseAssignCounter();
-			}
-		}
-	}
-
-	private boolean validateConditions(String parameterName) {
+	public boolean setParameter(String parameterName, Object value) {
 		boolean result = true;
 
-		for (AttributeCondition condition : attributeConditions) {
-			result = result && condition.eval(assignedParameters);
+		if (!assignedParameters.contains(parameterName)) {
+			assignedParameters.add(parameterName);
+			scriptEngine.put(parameterName, value);
+
+			Collection<AttributeCondition> conditionList = involvedConditions
+					.get(parameterName);
+
+			if (conditionList != null) {
+				for (AttributeCondition condition : conditionList) {
+					condition.removeParameter(parameterName);
+					result = result && condition.eval();
+				}
+			}
 		}
 
 		return result;
 	}
 
-	public boolean isSet(String parameterName) {
-		return assignedParameters.keySet().contains(parameterName);
+	public void unsetParameter(String parameterName) {
+		if (assignedParameters.contains(parameterName)) {
+			assignedParameters.remove(parameterName);
+
+			Collection<AttributeCondition> conditionList = involvedConditions
+					.get(parameterName);
+
+			if (conditionList != null) {
+				for (AttributeCondition condition : involvedConditions
+						.get(parameterName)) {
+					condition.addParameter(parameterName);
+				}
+			}
+		}
 	}
 
-	public boolean setParameter(String parameterName, Object value) {
-		if (!assignedParameters.keySet().contains(parameterName)) {
-			assignedParameters.put(parameterName, value);
-
-			increaseAssignCounter(parameterName);
-			return validateConditions(parameterName);
-		}
-		return true;
+	public boolean isSet(String parameterName) {
+		return assignedParameters.contains(parameterName);
 	}
 
 	public Object getParameter(String parameterName) {
-		return assignedParameters.get(parameterName);
+		return scriptEngine.get(parameterName);
 	}
 
-	/**
-	 * @return the assignedParameters
-	 */
-	public Map<String, Object> getAssignedParameters() {
-		return assignedParameters;
-	}
-
-	public void unsetParameter(String parameterName) {
-		if (assignedParameters.containsKey(parameterName)) {
-			assignedParameters.remove(parameterName);
-			decreaseAssignCounter(parameterName);
+	public Map<String, Object> getParameterValues() {
+		Map<String, Object> parameterValues = new HashMap<String, Object>();
+		for (String parameterName : assignedParameters) {
+			parameterValues.put(parameterName, scriptEngine.get(parameterName));
 		}
-	}
-
-	//TODO: seperate static condition analysis from dynamic condition handling
-	public void clear() {
-		assignedParameters.clear();
-		for (AttributeCondition condition : attributeConditions) {
-			condition.resetAssignCounter();
-		}
+		return parameterValues;
 	}
 }

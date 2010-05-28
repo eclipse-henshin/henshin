@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.interpreter.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,8 +123,8 @@ public class ModelHelper {
 		return null;
 	}
 
-	public static List<Node> getSourceNodes(List<Mapping> mappings, Node node) {
-		List<Node> result = new ArrayList<Node>();
+	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings, Node node) {
+		Collection<Node> result = new ArrayList<Node>();
 
 		for (Mapping mapping : mappings) {
 			if (mapping.getImage() == node)
@@ -133,8 +134,8 @@ public class ModelHelper {
 		return result;
 	}
 
-	public static List<Node> getTargetNodes(List<Mapping> mappings, Node node) {
-		List<Node> result = new ArrayList<Node>();
+	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings, Node node) {
+		Collection<Node> result = new ArrayList<Node>();
 
 		for (Mapping mapping : mappings) {
 			if (mapping.getOrigin() == node)

@@ -12,11 +12,11 @@
 package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
@@ -37,15 +37,15 @@ public class DomainSlot {
 	List<EObject> localChanges;
 	Map<DomainSlot, List<EObject>> slotChanges;
 	
-	List<String> initializedParameters;
+	Collection<String> initializedParameters;
 	AttributeConditionHandler conditionHandler;
 
 	TransformationOptions options;
 	
 	List<Variable> checkedVariables;
-	Set<EObject> usedObjects;
+	Collection<EObject> usedObjects;
 	
-	public DomainSlot(Variable owner, AttributeConditionHandler conditionHandler, Set<EObject> usedObjects, TransformationOptions options) {
+	public DomainSlot(Variable owner, AttributeConditionHandler conditionHandler, Collection<EObject> usedObjects, TransformationOptions options) {
 		this.owner = owner;
 		this.locked = false;
 		this.initialized = false;
@@ -59,21 +59,6 @@ public class DomainSlot {
 		this.options = options;
 	}
 
-	public DomainSlot(EObject value, AttributeConditionHandler conditionHandler, Set<EObject> usedObjects, TransformationOptions options) {
-		this.initialized = true;
-		this.locked = true;
-		this.value = value;
-		this.conditionHandler = conditionHandler;
-		
-		this.usedObjects = usedObjects;
-		
-		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
-		this.checkedVariables = new ArrayList<Variable>();
-		
-		this.options = options;
-		
-		this.usedObjects.add(value);
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#instanciate(org.eclipse.emf.henshin.internal.matching.Variable, java.util.Map, org.eclipse.emf.henshin.common.util.EmfGraph, org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler)
@@ -236,7 +221,15 @@ public class DomainSlot {
 		return false;
 	}
 	
-	public void initDomain() {
-		
+	/**
+	 * Fixes the value 
+	 * @param value
+	 */
+	public void fixInstanciation(EObject value) {
+		this.locked = true;
+		this.value = value;
+		this.initialized = true;
+		this.usedObjects.add(value);
+		this.owner = null;
 	}
 }

@@ -12,35 +12,27 @@
 package org.eclipse.emf.henshin.internal.conditions.attribute;
 
 import java.util.Collection;
-import java.util.Map;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 public class AttributeCondition {
 	String conditionText;
-	Collection<String> usedParameters;
+	Collection<String> remainingParameters;
 
-	ScriptEngine engine;
+	ScriptEngine scriptEngine;
 
-	int assignedParameters;
-
-	public AttributeCondition(ScriptEngine engine, String condition,
-			Collection<String> usedParameters) {
+	public AttributeCondition(String condition,
+			Collection<String> conditionParameters, ScriptEngine engine) {
 		this.conditionText = condition;
-		this.usedParameters = usedParameters;
-		this.assignedParameters = 0;
-		this.engine = engine;
+		this.remainingParameters = conditionParameters;
+		this.scriptEngine = engine;
 	}
 
-	public boolean eval(Map<String, Object> assignment) {
-		if (assignedParameters == usedParameters.size()) {
-
-			for (String parameter : usedParameters) {
-				engine.put(parameter, assignment.get(parameter));
-			}
+	public boolean eval() {
+		if (remainingParameters.isEmpty()) {
 			try {
-				return (Boolean) engine.eval(conditionText);
+				return (Boolean) scriptEngine.eval(conditionText);
 			} catch (ScriptException ex) {
 				ex.printStackTrace();
 			} catch (ClassCastException ex) {
@@ -51,16 +43,12 @@ public class AttributeCondition {
 
 		return true;
 	}
-
-	public void increaseAssignCounter() {
-		assignedParameters++;
+	
+	void addParameter(String parameterName) {
+		remainingParameters.add(parameterName);
 	}
-
-	public void decreaseAssignCounter() {
-		assignedParameters--;
-	}
-
-	public void resetAssignCounter() {
-		assignedParameters = 0;
+	
+	void removeParameter(String parameterName) {
+		remainingParameters.remove(parameterName);
 	}
 }

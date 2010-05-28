@@ -68,11 +68,11 @@ public class Match {
 	public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
 		if (solution != null) {
 			this.parameterValues = new HashMap<Parameter, Object>();
-			for (String parameterName : solution.getParameterMatches().keySet()) {
+			for (String parameterName : solution.getParameterValues().keySet()) {
 				Parameter parameter = rule.getParameterByName(parameterName);
 				if (parameter != null) {
 					parameterValues.put(parameter, solution
-							.getParameterMatches().get(parameterName));
+							.getParameterValues().get(parameterName));
 				}
 			}
 
