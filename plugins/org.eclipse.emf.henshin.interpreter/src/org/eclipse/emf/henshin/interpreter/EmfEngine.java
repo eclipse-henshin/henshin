@@ -66,7 +66,7 @@ import org.eclipse.emf.henshin.model.Rule;
 public class EmfEngine implements InterpreterEngine {
 	EmfGraph emfGraph;
 	ScriptEngine scriptEngine;
-	
+
 	Map<Rule, RuleInfo> ruleInformation;
 	Map<AmalgamationUnit, AmalgamationInfo> amalgamationInformation;
 	TransformationOptions options;
@@ -82,7 +82,7 @@ public class EmfEngine implements InterpreterEngine {
 
 	public EmfEngine(EmfGraph emfGraph) {
 		this();
-		
+
 		this.emfGraph = emfGraph;
 	}
 
@@ -97,8 +97,13 @@ public class EmfEngine implements InterpreterEngine {
 		Map<Parameter, Object> parameterValues = ruleApplication.getMatch()
 				.getParameterValues();
 
+		// evaluates attribute conditions of the rule
 		AttributeConditionHandler conditionHandler = new AttributeConditionHandler(
 				conditionInfo.getConditionParameters(), scriptEngine);
+
+		// usedObjects ensures injective matching by removing already
+		// matched objects from other DomainSlots
+		Collection<EObject> usedObjects = new HashSet<EObject>();
 
 		// Creates a domain map where all variables are mapped to slots.
 		// Different variables may share one domain slot, if there is a mapping
@@ -115,11 +120,8 @@ public class EmfEngine implements InterpreterEngine {
 				options.setInjective(true);
 			}
 
-			// usedObjects ensures injective matching by removing already
-			// matched objects from other DomainSlots
-			Collection<EObject> usedObjects = new HashSet<EObject>();
-			DomainSlot domainSlot = new DomainSlot(mainVariable,
-					conditionHandler, usedObjects, options);
+			DomainSlot domainSlot = new DomainSlot(conditionHandler,
+					usedObjects, options);
 
 			if (prematch.get(node) != null)
 				domainSlot.fixInstanciation(prematch.get(node));
@@ -303,7 +305,7 @@ public class EmfEngine implements InterpreterEngine {
 		Rule rule = ruleApplication.getRule();
 		RuleInfo ruleInfo = ruleInformation.get(rule);
 		ChangeInfo changeInfo = ruleInfo.getChangeInfo();
-		
+
 		Match match = ruleApplication.getMatch();
 
 		if (!match.isComplete())

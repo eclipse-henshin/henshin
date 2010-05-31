@@ -28,25 +28,57 @@ import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 
 public class DomainSlot {
+	// The variable which will initialize this domain slot. All other variables
+	// which use this slot will only validate their constraints.
 	Variable owner;
-	boolean locked;
+
+	// Flag that describes whether this domain slot is initialized. After
+	// initialization the domain contains all possible values that are type
+	// compatible with the type constraint of the owner variable.
 	boolean initialized;
 
+	// Flag that describes whether this domain slot is locked. A slot is locked
+	// if a value from the domain is selected that fulfills the constraints of
+	// the owner variable.
+	boolean locked;
+
+	// The current fixed value for this domain slot. Instanciate() will pick one
+	// value from the domain.
 	EObject value;
+
+	// All possible values this domain slot might use for instanciation.
 	List<EObject> domain;
+
+	// A copy of the domain state prior to the initialisation.
+	// ReferenceConstraints can cause domain updates to slots that aren't
+	// initialized yet.
 	List<EObject> localChanges;
+
+	// All changes done to other domain slots by ReferenceConstraints of
+	// variables that use this domain slot.
 	Map<DomainSlot, List<EObject>> slotChanges;
-	
+
+	// A collection of parameters that were initialized by contraints belonging
+	// to variables of this domain slot.
 	Collection<String> initializedParameters;
+
+	// The handler for all attribute conditions. If a parameter constraints
+	// fixes the value of a parameter, the handler checks all conditions.
 	AttributeConditionHandler conditionHandler;
 
+	// The options which shall be used by this domain slot.
 	TransformationOptions options;
-	
-	List<Variable> checkedVariables;
+
+	// A collection of variables which constraints were already validated
+	// against the current value.
+	Collection<Variable> checkedVariables;
+
+	// A collection of the values of all domain slots that are currently locked.
+	// Required to ensure injectivity.
 	Collection<EObject> usedObjects;
-	
-	public DomainSlot(Variable owner, AttributeConditionHandler conditionHandler, Collection<EObject> usedObjects, TransformationOptions options) {
-		this.owner = owner;
+
+	public DomainSlot(AttributeConditionHandler conditionHandler,
+			Collection<EObject> usedObjects, TransformationOptions options) {
 		this.locked = false;
 		this.initialized = false;
 		this.conditionHandler = conditionHandler;
@@ -55,30 +87,35 @@ public class DomainSlot {
 		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
 		this.initializedParameters = new ArrayList<String>();
 		this.checkedVariables = new ArrayList<Variable>();
-		
+
 		this.options = options;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#instanciate(org.eclipse.emf.henshin.internal.matching.Variable, java.util.Map, org.eclipse.emf.henshin.common.util.EmfGraph, org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler)
+	/**
+	 * Sets the value of the domain slot. The domain will
+	 * 
+	 * @param variable
+	 * @param domainMap
+	 * @param graph
+	 * @return
 	 */
 	public boolean instanciate(Variable variable,
 			Map<Variable, DomainSlot> domainMap, EmfGraph graph) {
 		if (!initialized) {
 			initialized = true;
+			owner = variable;
 
 			localChanges = (domain != null) ? new ArrayList<EObject>(domain)
 					: null;
 
 			domain = variable.getTypeConstraint().reduceDomain(domain, graph);
-			
+
 			if (!options.isDeterministic())
 				Collections.shuffle(domain);
-			
+
 			if (options.isInjective())
 				domain.removeAll(usedObjects);
-			
+
 			if (domain.size() == 0)
 				return false;
 
@@ -150,7 +187,18 @@ public class DomainSlot {
 		return true;
 	}
 
-
+	/**
+	 * Checks whether a reference constraint of a variable is fulfilled by the
+	 * currently used value.
+	 * 
+	 * @param constraint
+	 *            The reference constraint that should be checked.
+	 * @param target
+	 *            The domain slot which is used by the target variable of the
+	 *            refrence constraint.
+	 * 
+	 * @return true, if the constraint is valid.
+	 */
 	private boolean applyReferenceConstraint(ReferenceConstraint constraint,
 			DomainSlot target) {
 		if (target.locked) {
@@ -165,19 +213,27 @@ public class DomainSlot {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#unlock(org.eclipse.emf.henshin.internal.matching.Variable)
+	/**
+	 * Removes the lock on this domain slot. If the domain contains additional
+	 * objects instanciate may be called again.
+	 * 
+	 * @param sender
+	 *            The variable which uses this domain slot. Only the variable
+	 *            which originally initialized this domain slot is able to
+	 *            unlock it.
+	 * 
+	 * @return true, on success and if another instanciation is possible.
 	 */
 	public boolean unlock(Variable sender) {
 		if (locked && sender == owner) {
 			locked = false;
 			usedObjects.remove(value);
-			
-			for (String parameterName: initializedParameters) {
+
+			for (String parameterName : initializedParameters) {
 				conditionHandler.unsetParameter(parameterName);
 			}
 			initializedParameters.clear();
-			
+
 			for (DomainSlot slot : slotChanges.keySet()) {
 				List<EObject> removedObjects = slotChanges.get(slot);
 
@@ -195,22 +251,32 @@ public class DomainSlot {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.internal.matching.VariableDomain#clear(org.eclipse.emf.henshin.internal.matching.Variable)
+	/**
+	 * Resets this domain slot to the state before it was initialized.
+	 * 
+	 * @param sender
+	 *            The variable which uses this domain slot. Only the variable
+	 *            which originally initialized this domain slot is able to clear
+	 *            it.
 	 */
 	public void clear(Variable sender) {
-		if (sender == owner) {
-			locked = false;
+		unlock(sender);
 
-			value = null;
-			domain = localChanges;
-			localChanges = null;
+		if (sender == owner) {
 			initialized = false;
 
-			slotChanges = new HashMap<DomainSlot, List<EObject>>();
+			owner = null;
+			value = null;
+			domain = localChanges;
 		}
 	}
 
+	/**
+	 * Checks whether the domain contains additional possible objects that may
+	 * be valid for a match.
+	 * 
+	 * @return true, if instanciation might be possible.
+	 */
 	public boolean instanciationPossible() {
 		if (domain == null)
 			return false;
@@ -220,10 +286,14 @@ public class DomainSlot {
 
 		return false;
 	}
-	
+
 	/**
-	 * Fixes the value 
+	 * Fixes the value for this slot. The slot will also be locked and marked as
+	 * initialized and the value can only be changed by calling this method
+	 * again.
+	 * 
 	 * @param value
+	 *            The object this domain slot will be mapped to.
 	 */
 	public void fixInstanciation(EObject value) {
 		this.locked = true;
