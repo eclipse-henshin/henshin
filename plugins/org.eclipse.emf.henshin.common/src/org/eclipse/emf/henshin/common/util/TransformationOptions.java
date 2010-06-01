@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.common.util;
 
+/**
+ * Possible options to control transformations. 
+ *
+ */
 public class TransformationOptions {
 	private boolean injective;
 	private boolean deterministic;
