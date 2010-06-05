@@ -110,8 +110,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Find a predecessor state that has a model:
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
-			protected boolean shouldStop(State current, Trace path) {
-				return current.getModel()!=null || cache.get(current)!=null;
+			protected boolean shouldStop(Trace trace) {
+				return getCurrentState().getModel()!=null || cache.get(getCurrentState())!=null;
 			}
 		};
 		boolean found = search.depthFirst(state, true);
@@ -120,9 +120,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Derive the current model:
-		Resource start = search.getState().getModel();
-		if (start==null) start = cache.get(search.getState());
-		Resource model = deriveModel(start, search.getPath());
+		Resource start = search.getCurrentState().getModel();
+		if (start==null) start = cache.get(search.getCurrentState());
+		Resource model = deriveModel(start, search.getTrace());
 		
 		// Always add it to the cache (is maintained automatically):
 		cache.put(state, model);

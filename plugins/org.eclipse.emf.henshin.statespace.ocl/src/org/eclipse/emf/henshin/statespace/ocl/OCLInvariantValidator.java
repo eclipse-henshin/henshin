@@ -18,10 +18,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
@@ -34,56 +36,115 @@ import org.eclipse.ocl.helper.OCLHelper;
  */
 public class OCLInvariantValidator implements StateSpaceValidator {
 	
+	// OCL:
+	private OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+	
 	// OCL helper:
 	private OCLHelper<EClassifier, ?, ?, Constraint> helper;
 	
-	// Context to be used:
-	private EClassifier context;
-	
-	// Constraint to be checked.
-	private Constraint constraint;
+	// Property to be checked.
+	private String property;
 
+	// State space index.
 	private StateSpaceIndex index;
+	
+	// Is the property in the current state valid?
+	private boolean valid;
+	
+	// Exception:
+	private Exception exception;
+	
+	/**
+	 * Default constructor.
+	 */
+	public OCLInvariantValidator() {
+		ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+		helper = ocl.createOCLHelper();
+	}
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#setProperty(java.lang.String)
 	 */
 	public void setProperty(String property) throws ParseException {
-		try {
-			constraint = getHelper().createInvariant(property);
-		} catch (ParserException e) {
-			throw new ParseException(e.getMessage(),0);
-		}
+		this.property = property;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public StateSpaceValidationResult validate(IProgressMonitor monitor) {
-/*		Resource model = state.getModel();
-		for (EObject root : model.getContents()) {
-			// Check the constraint .
-		}
-		*/
-		return StateSpaceValidationResult.VALID;
-	}
+	public StateSpaceValidationResult validate(final IProgressMonitor monitor) throws Exception {
+		
+		monitor.beginTask("Checking OCL constraint", index.getStateSpace().getStates().size());
+		
+		// Reset:
+		valid = true;
+		exception = null;
+		
+		// Create a state space search:
+		StateSpaceSearch search = new StateSpaceSearch() {
+			
+			Constraint constraint = null;
+			EClassifier classifier = null;
 
-	/*
-	 * Get the OCL helper.
-	 */
-	private OCLHelper<EClassifier, ?, ?, Constraint> getHelper() {
-		if (helper==null) {
-			OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
-			ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
-			helper = ocl.createOCLHelper();
+			@Override
+			protected boolean shouldStop(Trace trace) {
+				
+				// Get the model for the current state:
+				Resource model;
+				try {
+					model = index.getModel(getCurrentState());
+				} catch (StateSpaceException e) {
+					e.printStackTrace();
+					return true;
+				}
+								
+				// Check the constraint for all root elements:
+				for (EObject root : model.getContents()) {
+					
+					if (classifier!=root.eClass()) {
+						classifier = root.eClass();
+					  	helper.setContext(classifier);
+						try {
+							constraint = helper.createInvariant(property);
+						} catch (ParserException e) {
+							exception = e;
+							return true;
+						}
+					}
+					
+					// Check the constraint:
+					if (!ocl.check(root, constraint)) {
+						valid = false;
+						return true;
+					}
+					
+				}
+				
+				monitor.worked(1);
+				
+				// Don't stop:
+				return false;
+				
+			}
+		};
+		
+		// Search the state space:
+		search.depthFirst(index.getStateSpace(), false);
+		monitor.done();
+		
+		// Exception occurred?
+		if (exception!=null) {
+			throw exception;
 		}
 		
-		// Set the OCL context classifier
-	    helper.setContext(context);
-
-		return helper;
+		if (valid) {
+			return StateSpaceValidationResult.VALID;			
+		} else {
+			return new StateSpaceValidationResult(false, "Property not satisfied.", search.getTrace());
+		}
+		
 	}
 
 	/*

@@ -31,19 +31,18 @@ public class StateSpaceSearch {
 	// Visited states.
 	private final Set<State> visited = new HashSet<State>();
 	
-	// Current path.
-	private Trace path;
+	// Current trace.
+	private Trace trace;
 	
 	// Current state.
-	private State state;
+	private State current;
 	
 	/**
 	 * Visit a state and check whether the search should be stopped.
-	 * @param Current state.
-	 * @param path Path from one of the start states to the current state.
+	 * @param trace Trace from one of the start states to the current state.
 	 * @return <code>true</code> if the search should stop.
 	 */
-	protected boolean shouldStop(State state, Trace path) {
+	protected boolean shouldStop(Trace trace) {
 		// By default we never stop searching.
 		return false;
 	}
@@ -76,8 +75,8 @@ public class StateSpaceSearch {
 	 * @param state Start state.
 	 */
 	public boolean depthFirst(State state, boolean reverse) {
-		this.state = state;
-		this.path = new Trace();
+		this.current = state;
+		this.trace = new Trace(state);
 		return depthFirst(reverse);
 	}
 	
@@ -87,33 +86,33 @@ public class StateSpaceSearch {
 	private boolean depthFirst(boolean reverse) {
 		
 		// Visited already or finished?
-		if (visited(state)) return false;
-		if (shouldStop(state, path)) return true;
+		if (visited(current)) return false;
+		if (shouldStop(trace)) return true;
 		
 		// Get the next transitions:
-		List<Transition> transitions = getNextTransitions(state, reverse);
+		List<Transition> transitions = getNextTransitions(current, reverse);
 		
 		// Nowhere to go from here? Otherwise add the first transition to the empty path:
 		if (transitions.isEmpty()) return false;
-		path.add(transitions.get(0));
+		trace.add(transitions.get(0));
 		
 		// Search until the path is empty:
-		while (!path.isEmpty()) {
+		while (!trace.isEmpty()) {
 			
 			// Transition, current and next state:
-			Transition transition = reverse ? path.getFirst() : path.getLast();
+			Transition transition = reverse ? trace.getFirst() : trace.getLast();
 			State previous = reverse ? transition.getTarget() : transition.getSource();
-			state = reverse ? transition.getSource() : transition.getTarget();
+			current = reverse ? transition.getSource() : transition.getTarget();
 			
 			// This will be our next transition:
 			Transition nextTransition = null;
 			
 			// If visited already, switch to the next transition:
-			if (visited(state)) {
+			if (visited(current)) {
 				
 				// Remove the current transition from the path:
-				if (reverse) path.removeFirst();
-				else path.removeLast();
+				if (reverse) trace.removeFirst();
+				else trace.removeLast();
 				
 				// Index of the current transition:
 				transitions = getNextTransitions(previous, reverse);
@@ -127,7 +126,7 @@ public class StateSpaceSearch {
 			}
 			
 			// Should we stop here because the search was successful?
-			else if (shouldStop(state, path)) {
+			else if (shouldStop(trace)) {
 				return true;
 			}
 			
@@ -135,7 +134,7 @@ public class StateSpaceSearch {
 			else {
 				
 				// Take the first transition of the next state (depth-first):
-				transitions = getNextTransitions(state, reverse);
+				transitions = getNextTransitions(current, reverse);
 				if (!transitions.isEmpty()) {
 					nextTransition = transitions.get(0);
 				}
@@ -144,8 +143,8 @@ public class StateSpaceSearch {
 
 			// Add the next transition to the path:
 			if (nextTransition!=null) {				
-				if (reverse) path.addFirst(nextTransition);
-				else path.addLast(nextTransition);
+				if (reverse) trace.addFirst(nextTransition);
+				else trace.addLast(nextTransition);
 			}
 			
 		}
@@ -179,7 +178,7 @@ public class StateSpaceSearch {
 		
 		// Search the state space.
 		StateSpaceSearch search = new StateSpaceSearch();
-		search.depthFirst(stateSpace,false);
+		search.depthFirst(stateSpace, false);
 		
 		// Remove states that have not been visited:
 		List<State> states = stateSpace.getStates();
@@ -224,15 +223,15 @@ public class StateSpaceSearch {
 	 * Get the current state.
 	 * @return State.
 	 */
-	public State getState() {
-		return state;
+	public State getCurrentState() {
+		return current;
 	}
 	
 	/**
-	 * Get the current path.
-	 * @return Current path.
+	 * Get the current trace.
+	 * @return Current trace.
 	 */
-	public Trace getPath() {
-		return path;
+	public Trace getTrace() {
+		return trace;
 	}
 }

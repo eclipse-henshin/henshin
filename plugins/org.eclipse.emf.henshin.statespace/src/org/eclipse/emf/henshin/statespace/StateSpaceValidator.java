@@ -26,14 +26,9 @@ public interface StateSpaceValidator {
 	 * Perform the validation for a given state.
 	 * @param monitor Progress monitor.
 	 * @return Validation result.
+	 * @throws Exception If an error occurs during the validation.
 	 */
-	StateSpaceValidationResult validate(IProgressMonitor monitor);
-	
-	/**
-	 * Set the state space index to be used.
-	 * @param index State space index.
-	 */
-	void setStateSpaceIndex(StateSpaceIndex index);
+	StateSpaceValidationResult validate(IProgressMonitor monitor) throws Exception;
 	
 	/**
 	 * Set the property to be validated. It can be assumed
@@ -44,6 +39,12 @@ public interface StateSpaceValidator {
 	 */
 	void setProperty(String property) throws ParseException;
 	
+	/**
+	 * Set the state space index to be used.
+	 * @param index State space index.
+	 */
+	void setStateSpaceIndex(StateSpaceIndex index);
+
 	/**
 	 * Get the name of this validator.
 	 * @return Name of this validator.

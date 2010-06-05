@@ -37,7 +37,7 @@ public class StateSpaceValidatorPlatformHelper {
 		
 		// Load the validators:
 		for (IConfigurationElement element : point.getConfigurationElements()) {
-			if ("validator.".equals(element.getName())) {
+			if ("validator".equals(element.getName())) {
 				String id = element.getAttribute("id");
 				try {
 					StateSpaceValidator validator = (StateSpaceValidator) element.createExecutableExtension("class");
