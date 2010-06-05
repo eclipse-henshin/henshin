@@ -44,4 +44,10 @@ public interface StateSpaceValidator {
 	 */
 	void setProperty(String property) throws ParseException;
 	
+	/**
+	 * Get the name of this validator.
+	 * @return Name of this validator.
+	 */
+	String getName();
+	
 }

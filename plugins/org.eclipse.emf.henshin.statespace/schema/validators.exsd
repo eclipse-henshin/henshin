@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="stateSpaceValidator"/>
+            <element ref="validator"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,12 +47,12 @@
       </complexType>
    </element>
 
-   <element name="stateSpaceValidator">
+   <element name="validator">
       <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Name of this validator. This must be an identifier.
+                  Id of this validator.
                </documentation>
             </annotation>
          </attribute>

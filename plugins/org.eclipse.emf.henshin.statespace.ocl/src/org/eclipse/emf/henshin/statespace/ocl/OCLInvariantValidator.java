@@ -32,7 +32,7 @@ import org.eclipse.ocl.helper.OCLHelper;
  * OCL invariant state validator.
  * @author Christian Krause
  */
-public class OCLStateValidator implements StateSpaceValidator {
+public class OCLInvariantValidator implements StateSpaceValidator {
 	
 	// OCL helper:
 	private OCLHelper<EClassifier, ?, ?, Constraint> helper;
@@ -92,6 +92,14 @@ public class OCLStateValidator implements StateSpaceValidator {
 	 */
 	public void setStateSpaceIndex(StateSpaceIndex index) {
 		this.index = index;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#getName()
+	 */
+	public String getName() {
+		return "OCL Invariant";
 	}
 
 }

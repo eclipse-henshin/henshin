@@ -16,7 +16,7 @@
          point="org.eclipse.emf.henshin.statespace.validators">
       <validator
             class="org.eclipse.emf.henshin.statespace.ocl.OCLInvariantValidator"
-            name="OCL Invariant">
+            id="org.eclipse.emf.henshin.statespace.validators.ocl">
       </validator>
    </extension>
 </plugin>
