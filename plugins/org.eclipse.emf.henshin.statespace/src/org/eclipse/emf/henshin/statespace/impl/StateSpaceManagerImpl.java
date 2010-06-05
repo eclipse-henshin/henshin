@@ -31,9 +31,9 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch.Path;
 
 /**
  * Default state space manager implementation.
@@ -110,7 +110,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Find a predecessor state that has a model:
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
-			protected boolean shouldStop(State current, Path path) {
+			protected boolean shouldStop(State current, Trace path) {
 				return current.getModel()!=null || cache.get(current)!=null;
 			}
 		};
@@ -161,7 +161,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
-	private Resource deriveModel(Resource start, Path path) throws StateSpaceException {
+	private Resource deriveModel(Resource start, Trace path) throws StateSpaceException {
 		
 		// Copy the model first:
 		Resource model = copyModel(start, null);

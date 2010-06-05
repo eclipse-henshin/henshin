@@ -19,6 +19,7 @@
             class="org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl"
             genModel="model/statespace.genmodel"/>
    </extension>
+   <extension-point id="validators" name="Validators" schema="schema/validators.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser

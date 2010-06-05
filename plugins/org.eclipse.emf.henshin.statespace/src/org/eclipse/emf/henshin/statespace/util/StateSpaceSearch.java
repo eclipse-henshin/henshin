@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -28,31 +28,11 @@ import org.eclipse.emf.henshin.statespace.Transition;
  */
 public class StateSpaceSearch {
 	
-	/**
-	 * Data class for paths.
-	 */
-	public static class Path extends ArrayDeque<Transition> {
-		private static final long serialVersionUID = 1L;
-		
-		public Path(Transition... transitions) {
-			for (Transition transition : transitions) {
-				addLast(transition);
-			}
-		}
-		
-		public State getSource() {
-			return isEmpty() ? null : getFirst().getSource();
-		}
-		public State getTarget() {
-			return isEmpty() ? null : getLast().getTarget();
-		}
-	}
-	
 	// Visited states.
 	private final Set<State> visited = new HashSet<State>();
 	
 	// Current path.
-	private Path path;
+	private Trace path;
 	
 	// Current state.
 	private State state;
@@ -63,7 +43,7 @@ public class StateSpaceSearch {
 	 * @param path Path from one of the start states to the current state.
 	 * @return <code>true</code> if the search should stop.
 	 */
-	protected boolean shouldStop(State state, Path path) {
+	protected boolean shouldStop(State state, Trace path) {
 		// By default we never stop searching.
 		return false;
 	}
@@ -97,7 +77,7 @@ public class StateSpaceSearch {
 	 */
 	public boolean depthFirst(State state, boolean reverse) {
 		this.state = state;
-		this.path = new Path();
+		this.path = new Trace();
 		return depthFirst(reverse);
 	}
 	
@@ -252,7 +232,7 @@ public class StateSpaceSearch {
 	 * Get the current path.
 	 * @return Current path.
 	 */
-	public Path getPath() {
+	public Trace getPath() {
 		return path;
 	}
 }
