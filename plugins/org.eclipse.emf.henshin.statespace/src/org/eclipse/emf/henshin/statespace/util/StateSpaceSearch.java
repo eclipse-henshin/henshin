@@ -39,10 +39,11 @@ public class StateSpaceSearch {
 	
 	/**
 	 * Visit a state and check whether the search should be stopped.
+	 * @param current Current state.
 	 * @param trace Trace from one of the start states to the current state.
 	 * @return <code>true</code> if the search should stop.
 	 */
-	protected boolean shouldStop(Trace trace) {
+	protected boolean shouldStop(State current, Trace trace) {
 		// By default we never stop searching.
 		return false;
 	}
@@ -87,7 +88,7 @@ public class StateSpaceSearch {
 		
 		// Visited already or finished?
 		if (visited(current)) return false;
-		if (shouldStop(trace)) return true;
+		if (shouldStop(current,trace)) return true;
 		
 		// Get the next transitions:
 		List<Transition> transitions = getNextTransitions(current, reverse);
@@ -126,7 +127,7 @@ public class StateSpaceSearch {
 			}
 			
 			// Should we stop here because the search was successful?
-			else if (shouldStop(trace)) {
+			else if (shouldStop(current,trace)) {
 				return true;
 			}
 			

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
@@ -89,7 +90,7 @@ public class OCLInvariantValidator implements StateSpaceValidator {
 			EClassifier classifier = null;
 
 			@Override
-			protected boolean shouldStop(Trace trace) {
+			protected boolean shouldStop(State current, Trace trace) {
 				
 				// Get the model for the current state:
 				Resource model;

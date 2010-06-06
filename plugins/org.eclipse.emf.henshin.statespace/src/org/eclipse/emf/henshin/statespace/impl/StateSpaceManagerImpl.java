@@ -110,8 +110,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Find a predecessor state that has a model:
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
-			protected boolean shouldStop(Trace trace) {
-				return getCurrentState().getModel()!=null || cache.get(getCurrentState())!=null;
+			protected boolean shouldStop(State current, Trace trace) {
+				return current.getModel()!=null || cache.get(current)!=null;
 			}
 		};
 		boolean found = search.depthFirst(state, true);
