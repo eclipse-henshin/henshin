@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 
@@ -21,6 +22,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * Resource implementation for state spaces.
@@ -96,6 +99,30 @@ public class StateSpaceResource extends ResourceImpl {
 	@Override
 	protected ZipEntry newContentZipEntry() {
 		return new ZipEntry("statespace.bin");
+	}
+	
+	/**
+	 * Export the state space in this resource into the Aldebaran format.
+	 * @param out Output stream.
+	 * @throws IOException On I/O errors.
+	 */
+	public void exportAsAUT(OutputStream out) throws IOException {
+		OutputStreamWriter writer = new OutputStreamWriter(out);
+		StateSpace stateSpace = getStateSpace();
+		if (stateSpace.getInitialStates().size()!=1) {
+			StateSpacePlugin.INSTANCE.logError("AUT format can encode only state spaces with exactly one initial state!", null);
+			if (stateSpace.getInitialStates().isEmpty()) throw new IOException();
+		}
+		int initial = stateSpace.getStates().indexOf(stateSpace.getInitialStates().get(0));
+		writer.write("des (" + initial + "," + stateSpace.getTransitionCount() + "," + stateSpace.getStates().size() + ")\n");
+		for (int source=0; source<stateSpace.getStates().size(); source++) {
+			for (Transition transition : stateSpace.getStates().get(source).getOutgoing()) {
+				writer.write("(" + source + ",");
+				writer.write("\"" + transition.getRule().getName() + "\",");
+				writer.write(stateSpace.getStates().indexOf(transition.getTarget()) + ")\n");			
+			}
+		}
+		writer.close();
 	}
 	
 }
