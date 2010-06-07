@@ -28,10 +28,9 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	 * @param validator State space validator.
 	 * @param manager State space manager.
 	 */
-	public ValidateStateSpaceJob(String property, StateSpaceValidator validator, StateSpaceManager manager) {
+	public ValidateStateSpaceJob(StateSpaceManager manager) {
 		super("Validating state space", manager);
-		this.validator = validator;
-		this.property = property;
+		setUser(true);
 	}
 	
 	/*
@@ -52,6 +51,14 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	
 	public StateSpaceValidationResult getValidationResult() {
 		return result;
+	}
+
+	public void setValidator(StateSpaceValidator validator) {
+		this.validator = validator;
+	}
+
+	public void setProperty(String property) {
+		this.property = property;
 	}
 	
 }

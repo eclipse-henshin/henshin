@@ -11,6 +11,11 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -21,21 +26,30 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
+import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -43,6 +57,7 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Composite for the tools menu in the state space explorer.
@@ -64,7 +79,10 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	// State space job manager:
 	private StateSpaceJobManager jobManager;
-	
+
+	// State space explorer instance:
+	private StateSpaceExplorer explorer;
+
 	// Labels:
 	private Label statesLabel;
 	private Label transitionsLabel;
@@ -85,10 +103,23 @@ public class StateSpaceToolsMenu extends Composite {
 	private Button layouterCheckbox;
 	private Button explorerCheckbox;
 
-	// Radio-buttons
+	// Radio-buttons:
 	private Button ecoreButton;
 	private Button graphButton;
 
+	// Normal buttons:
+	private Button validateButton;
+	
+	// Text widget for validation property:
+	private Text validationText;
+	
+	// Combo for choosing validator:
+	private Combo validatorCombo;
+
+	// List of state space validators.
+	private List<StateSpaceValidator> validators;
+	
+	
 	/**
 	 * Default constructor
 	 * @param parent Parent composite.
@@ -156,9 +187,51 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 0, 100, 5, 10, true, null);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, actions, "Actions", 2);
 		
+		// The validation group:
+		Composite validation = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,2);
+		validationText = StateSpaceToolsMenuFactory.newMultiText(validation, 2, 80);
+		validatorCombo = new Combo(validation, SWT.BORDER);
+		validatorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		validateButton = StateSpaceToolsMenuFactory.newButton(validation, "Validate");
+		StateSpaceToolsMenuFactory.newExpandItem(bar, validation, "Validation", 3);
+
+		initControlsData();
 		setEnabled(false);
-	}
 		
+	}
+	
+	// Some preference keys:
+	private static final String VALIDATOR_KEY = "validator";
+	private static final String VALIDATION_PROPERTY_KEY = "validationProperty";
+	
+	/*
+	 * Initialize the controls with their required data.
+	 */
+	private void initControlsData() {
+		
+		// Load the validators:
+		validators = new ArrayList<StateSpaceValidator>();
+		validators.addAll(StateSpacePlugin.INSTANCE.getStateSpaceValidators().values());
+		String validatorId = getPreferenceStore().getString(VALIDATOR_KEY);
+		StateSpaceValidator validator = (validatorId!=null) ? StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(validatorId) : null;
+		Collections.sort(validators, new Comparator<StateSpaceValidator>() {
+			public int compare(StateSpaceValidator v1, StateSpaceValidator v2) {
+				String n1 = v1.getName();
+				String n2 = v2.getName();
+				return (n1!=null && n2!=null) ? n1.compareTo(n2) : 0;
+			}
+		});
+		for (StateSpaceValidator current : validators) {
+			validatorCombo.add(current.getName());
+		}
+		validatorCombo.select((validator!=null) ? validators.indexOf(validator) : 0);
+		
+		// Validation property:
+		String property = getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
+		validationText.setText(property!=null ? property : "");
+		
+	}	
+	
 	/*
 	 * Update the layouter properties.
 	 */
@@ -231,6 +304,9 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale.setEnabled(enabled);
 		graphButton.setEnabled(enabled);
 		ecoreButton.setEnabled(enabled);
+		validateButton.setEnabled(enabled);
+		validatorCombo.setEnabled(enabled);
+		validationText.setEnabled(enabled);
 	}
 	
 	/**
@@ -257,6 +333,14 @@ public class StateSpaceToolsMenu extends Composite {
 		canvas.addListener(SWT.Resize, canvasListener);
 	}
 	
+	/**
+	 * Set the state space explorer to be used.
+	 * @param explorer Explorer instance.
+	 */
+	public void setExplorer(StateSpaceExplorer explorer) {
+		this.explorer = explorer;
+	}
+	
 	/*
 	 * Change the graph-equality property.
 	 */
@@ -278,6 +362,30 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	}
 	
+	/*
+	 * Called when the validation job has finished.
+	 */
+	private void validationFinished(StateSpaceValidationResult result) {
+		if (result.getTrace()!=null && explorer!=null) {
+			explorer.selectTrace(result.getTrace());
+		}
+		if (result.isValid()) {
+			MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
+		} else {
+			MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+		}
+		validateButton.setEnabled(true);		
+	}
+
+	
+	private StateSpaceValidator getActiveValidator() {
+		int index = validatorCombo.getSelectionIndex();
+		return (index>=0) ? validators.get(index) : null;
+	}
+
+	private IPreferenceStore getPreferenceStore() {
+		return StateSpaceExplorerPlugin.getInstance().getPreferenceStore();
+	}
 	
 	// ------------------- //
 	// ---- LISTENERS ---- // 
@@ -294,8 +402,24 @@ public class StateSpaceToolsMenu extends Composite {
 		explorerCheckbox.addSelectionListener(explorerListener);
 		layouterCheckbox.addSelectionListener(layouterListener);
 		graphButton.addSelectionListener(graphEqualityListener);
-		addJobListener(jobManager.getLayoutJob(), layouterCheckbox);
-		addJobListener(jobManager.getExploreJob(), explorerCheckbox);
+		validateButton.addSelectionListener(validateListener);
+		validationText.addModifyListener(validationTextListener);
+		validatorCombo.addSelectionListener(validatorComboListener);
+		
+		addButtonJobListener(jobManager.getLayoutJob(), layouterCheckbox);
+		addButtonJobListener(jobManager.getExploreJob(), explorerCheckbox);
+		final ValidateStateSpaceJob validateJob = jobManager.getValidateJob();
+		addButtonJobListener(validateJob, validateButton);
+		validateJob.addJobChangeListener(new JobChangeAdapter() {
+			@Override
+			public void done(IJobChangeEvent event) {
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						validationFinished(validateJob.getValidationResult());
+					}
+				});
+			}			
+		});
 	}
 	
 	/*
@@ -309,6 +433,9 @@ public class StateSpaceToolsMenu extends Composite {
 		graphButton.removeSelectionListener(graphEqualityListener);
 		explorerCheckbox.removeSelectionListener(explorerListener);
 		layouterCheckbox.removeSelectionListener(layouterListener);
+		validateButton.removeSelectionListener(validateListener);
+		validationText.removeModifyListener(validationTextListener);
+		validatorCombo.removeSelectionListener(validatorComboListener);
 	}
 	
 	/*
@@ -401,17 +528,39 @@ public class StateSpaceToolsMenu extends Composite {
 			widgetSelected(e);
 		}
 	};
-		
+
 	/*
-	 * Add a job listener.
+	 * Explorer checkbox listener.
 	 */
-	private void addJobListener(Job job, final Button checkbox) {
+	private SelectionListener validateListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (jobManager==null) return;
+			validateButton.setEnabled(false);
+			jobManager.getValidateJob().setProperty(validationText.getText());
+			StateSpaceValidator validator = getActiveValidator();
+			try {
+				validator = validator.getClass().newInstance();
+			} catch (Exception t) {
+				StateSpaceExplorerPlugin.getInstance().logError("State space validator cannot be reinstantiated", t);
+			}
+			jobManager.getValidateJob().setValidator(validator);
+			jobManager.startValidateJob();
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
+	};
+
+	/*
+	 * Add a job listener for a (check-box) button.
+	 */
+	private void addButtonJobListener(Job job, final Button checkbox) {
 		job.addJobChangeListener(new JobChangeAdapter() {
 			public void done(IJobChangeEvent event) {
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
 						if (checkbox!=null && !checkbox.isDisposed()) {
-							checkbox.setSelection(false);
+							checkbox.setEnabled(true);    // normal buttons
+							checkbox.setSelection(false); // check-boxes
 						}
 					}
 				});
@@ -419,4 +568,37 @@ public class StateSpaceToolsMenu extends Composite {
 		});		
 	}
 	
+	/*
+	 * Modify listener for the validation property.
+	 */
+	private ModifyListener validationTextListener = new ModifyListener() {
+		public void modifyText(ModifyEvent e) {
+			getPreferenceStore().setValue(VALIDATION_PROPERTY_KEY, validationText.getText());
+			StateSpaceValidator validator = getActiveValidator();
+			for (String id : StateSpacePlugin.INSTANCE.getStateSpaceValidators().keySet()) {
+				if (StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(id)==validator) {
+					getPreferenceStore().setValue(VALIDATOR_KEY, id);
+					break;
+				}
+			}
+		}
+	};
+	
+	/*
+	 * Selection listener for the validator combo.
+	 */
+	private SelectionListener validatorComboListener = new SelectionListener() {
+		public void widgetDefaultSelected(SelectionEvent e) {
+		}
+		public void widgetSelected(SelectionEvent e) {
+			StateSpaceValidator validator = getActiveValidator();
+			for (String id : StateSpacePlugin.INSTANCE.getStateSpaceValidators().keySet()) {
+				if (StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(id)==validator) {
+					getPreferenceStore().setValue(VALIDATOR_KEY, id);
+					break;
+				}
+			}
+		}
+	};
+
 }

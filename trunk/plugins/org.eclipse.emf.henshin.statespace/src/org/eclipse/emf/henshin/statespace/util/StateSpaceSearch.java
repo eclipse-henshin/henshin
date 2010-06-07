@@ -155,6 +155,13 @@ public class StateSpaceSearch {
 		
 	}
 	
+	/**
+	 * Reset this state space search. This clears the set of visited states.
+	 */
+	public void reset() {
+		getVisitedStates().clear();
+	}
+	
 	/*
 	 * Get the next transitions to be used in the search.
 	 */

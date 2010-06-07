@@ -14,11 +14,13 @@ package org.eclipse.emf.henshin.statespace.explorer.parts;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Helper methods for the {@link StateSpaceToolsMenu}.
@@ -110,4 +112,26 @@ public class StateSpaceToolsMenuFactory {
 		label.setText(max + unit);
 		return scale;
 	}
+	
+	public static Text newMultiText(Composite parent, int horSpan, int minHeight) {
+		Text text = new Text(parent, SWT.MULTI | SWT.BORDER);
+		GridData data = new GridData(GridData.FILL_BOTH);
+		data.horizontalSpan = horSpan;
+		if (minHeight>=0) data.minimumHeight = minHeight;
+		text.setLayoutData(data);
+		return text;
+	}
+
+	public static void newHorizontalFill(Composite parent) {
+		Label composite = new Label(parent, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	}
+
+	public static Button newButton(Composite parent, String text) {
+		Button button = new Button(parent, SWT.PUSH);
+		button.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		button.setText(text);
+		return button;
+	}
+
 }

@@ -21,18 +21,15 @@ public final class StateSpaceValidationResult {
 	/**
 	 * Static validation result for successful validations without messages.
 	 */
-	public static final StateSpaceValidationResult VALID = new StateSpaceValidationResult(true,null,null);
+	public static final StateSpaceValidationResult VALID = new StateSpaceValidationResult(true,null);
 
 	/**
 	 * Static validation result for invalid properties, without extra message or data.
 	 */
-	public static final StateSpaceValidationResult INVALID = new StateSpaceValidationResult(false,null,null);
+	public static final StateSpaceValidationResult INVALID = new StateSpaceValidationResult(false,null);
 	
 	// Valid-flag.
 	private boolean valid;
-	
-	// Message.
-	private String message;
 	
 	// Trace.
 	private Trace trace;
@@ -43,9 +40,8 @@ public final class StateSpaceValidationResult {
 	 * @param message Message.
 	 * @param trace Trace.
 	 */
-	public StateSpaceValidationResult(boolean valid, String message, Trace trace) {
+	public StateSpaceValidationResult(boolean valid, Trace trace) {
 		this.valid = valid;
-		this.message = message;
 		this.trace = trace;
 	}
 
@@ -54,8 +50,8 @@ public final class StateSpaceValidationResult {
 	 * @param valid Valid-flag.
 	 * @param message Message.
 	 */
-	public StateSpaceValidationResult(boolean valid, String message) {
-		this(valid, message, null);
+	public StateSpaceValidationResult(boolean valid) {
+		this(valid,null);
 	}
 
 	/**
@@ -64,14 +60,6 @@ public final class StateSpaceValidationResult {
 	 */
 	public boolean isValid() {
 		return valid;
-	}
-
-	/**
-	 * Get the optional message of this validation result.
-	 * @return message.
-	 */
-	public String getMessage() {
-		return message;
 	}
 
 	/**

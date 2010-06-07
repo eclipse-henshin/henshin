@@ -128,19 +128,4 @@
          </enabledWhen>
       </page>
    </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="org.eclipse.emf.henshin.views"
-            name="Henshin">
-      </category>
-      <view
-            category="org.eclipse.emf.henshin.views"
-            class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceValidationView"
-            icon="icons/HenshinDiagramFile.gif"
-            id="org.eclipse.emf.henshin.views.stateSpaceValidation"
-            name="State Space Validation"
-            restorable="true">
-      </view>
-   </extension>
 </plugin>

@@ -32,7 +32,10 @@ public class StateSpaceJobManager {
 	
 	// Job for exploring the state space:
 	private ExploreStateSpaceJobWithDisplay exploreJob;
-	
+
+	// Job for running the validator:
+	private ValidateStateSpaceJob validateJob;
+
 	// State space manager:
 	private StateSpaceManager stateSpaceManager;
 	
@@ -49,6 +52,7 @@ public class StateSpaceJobManager {
 		this.reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
 		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace(), Display.getCurrent());
 		this.exploreJob = new ExploreStateSpaceJobWithDisplay(stateSpaceManager, editDomain);
+		this.validateJob = new ValidateStateSpaceJob(stateSpaceManager);
 	}
 	
 	/**
@@ -79,6 +83,14 @@ public class StateSpaceJobManager {
 	}
 
 	/**
+	 * Start the validate job.
+	 */
+	public ValidateStateSpaceJob startValidateJob() {
+		if (isTerminated(validateJob)) validateJob.schedule();
+		return validateJob;
+	}
+
+	/**
 	 * Stop the spring layouter job.
 	 */
 	public void stopLayoutJob() {
@@ -97,6 +109,13 @@ public class StateSpaceJobManager {
 	 */
 	public void stopExploreJob() {
 		stop(exploreJob);
+	}
+
+	/**
+	 * Stop the validate job.
+	 */
+	public void stopValidateJob() {
+		stop(validateJob);
 	}
 
 	/*
@@ -149,9 +168,16 @@ public class StateSpaceJobManager {
 		return exploreJob;
 	}
 
+	/**
+	 * Get the validate job.
+	 * @return validate job.
+	 */
+	public ValidateStateSpaceJob getValidateJob() {
+		return validateJob;
+	}
+
 	public StateSpaceManager getStateSpaceManager() {
 		return stateSpaceManager;
 	}
 
-	
 }

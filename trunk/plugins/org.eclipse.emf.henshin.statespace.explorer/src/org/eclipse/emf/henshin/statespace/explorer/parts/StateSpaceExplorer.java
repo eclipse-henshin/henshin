@@ -105,6 +105,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		if (jobManager!=null) {
 			toolsMenu.setJobManager(jobManager);
 		}
+		toolsMenu.setExplorer(this);
 		
 		// Weights must be set at the end!
 		sashForm.setWeights(new int[] { 5,2 });
@@ -290,6 +291,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	@Override
 	public void dispose() {
 		jobManager.stopAllJobs(); // stop all jobs first.
+		toolsMenu.dispose(); // explicitly dispose tools menu.
 		super.dispose(); // and dispose.
 	}
 	
