@@ -145,7 +145,7 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 
 	private void finished(StateSpaceValidationResult result) {
 		if (result.getTrace()!=null) {
-			explorer.showTrace(result.getTrace());
+			explorer.selectTrace(result.getTrace());
 		}
 		if (result.isValid()) {
 			MessageDialog.openInformation(getSite().getShell(), "Validation", "Property satified.");

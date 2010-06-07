@@ -11,7 +11,10 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -25,6 +28,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
@@ -32,6 +36,7 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
@@ -39,6 +44,7 @@ import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
@@ -304,8 +310,21 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		return super.getGraphicalViewer();
 	}
 
-	public void showTrace(Trace trace) {
-		
+	/**
+	 * Select a trace in this explorer instance.
+	 * @param trace Trace to be shown.
+	 */
+	public void selectTrace(Trace trace) {
+		Map<?,?> registry = getGraphicalViewer().getEditPartRegistry();
+		List<EditPart> editparts = new ArrayList<EditPart>();
+		if (registry.containsKey(trace.getSource())) {
+			editparts.add((EditPart) registry.get(trace.getSource()));
+			for (Transition transition : trace) {
+				editparts.add((EditPart) registry.get(transition));
+				editparts.add((EditPart) registry.get(transition.getTarget()));
+			}
+		}
+		getGraphicalViewer().setSelection(new StructuredSelection(editparts ));
 	}
 	
 }
