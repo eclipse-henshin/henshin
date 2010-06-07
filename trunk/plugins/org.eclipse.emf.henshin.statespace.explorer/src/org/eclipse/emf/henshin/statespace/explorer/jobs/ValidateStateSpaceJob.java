@@ -40,7 +40,6 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	 */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		
 		try {
 			validator.setStateSpaceIndex(getStateSpaceManager());
 			validator.setProperty(property);
@@ -48,9 +47,7 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 		} catch (Exception e) {
 			return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, 0, "Error validating property", e);
 		}
-		
 		return Status.OK_STATUS;
-		
 	}
 	
 	public StateSpaceValidationResult getValidationResult() {

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
+ * University of Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     CWI Amsterdam - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
 import java.util.ArrayList;
@@ -7,7 +18,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
@@ -52,11 +62,11 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 	// State space validators.
 	private List<StateSpaceValidator> validators;
 	
-	// Currently used state space manager:
-	private StateSpaceManager stateSpaceManager;
+	// Currently used state space explorer:
+	private StateSpaceExplorer explorer;
 
-	// Validation job.
-	private ValidateStateSpaceJob validationJob;
+	// Memento:
+	private IMemento memento;
 	
 	/*
 	 * (non-Javadoc)
@@ -72,14 +82,22 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 3;
 		propertyText.setLayoutData(data);
+		if (memento!=null) {
+			String property = memento.getString("property");
+			if (property!=null) propertyText.setText(property);
+		}
 		
 		selectionLabel = new Label(parent, SWT.RIGHT);
 		selectionLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		validatorCombo = new Combo(parent, SWT.BORDER);
 		validatorCombo.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		String activeValidator = (memento!=null) ? memento.getString("validator") : null;
 		for (StateSpaceValidator validator : validators) {
 			validatorCombo.add(validator.getName());
+			if (activeValidator!=null && activeValidator.equals(validator.getName())) {
+				validatorCombo.select(validators.indexOf(validator));
+			}
 		}
 		
 		validateButton = new Button(parent, SWT.PUSH);
@@ -97,40 +115,44 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 			validatorCombo.setEnabled(false);
 			validateButton.setEnabled(false);
 		} else {
-			validatorCombo.select(0);
+			if (validatorCombo.getSelectionIndex()<0) {
+				validatorCombo.select(0);
+			}
 		}
 		
 	}
-
-	public void performValidation() {
-		
+	
+	private StateSpaceValidator getActiveValidator() {
+		int index = validatorCombo.getSelectionIndex();
+		return (index>=0) ? validators.get(index) : null;
+	}
+	
+	public void performValidation() {		
 		validateButton.setEnabled(false);
-		StateSpaceValidator validator = validators.get(validatorCombo.getSelectionIndex());
-		
-		validationJob = new ValidateStateSpaceJob(propertyText.getText(), validator, null);
+		final ValidateStateSpaceJob validationJob = new ValidateStateSpaceJob(propertyText.getText(), getActiveValidator(), explorer.getStateSpaceManager());
 		validationJob.setUser(true);
 		validationJob.addJobChangeListener(new JobChangeAdapter() {
 			public void done(IJobChangeEvent event) {
-				finished();
+				getSite().getShell().getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						finished(validationJob.getValidationResult());
+					}
+				});
 			}			
 		});
 		validationJob.schedule();
-		
 	}
 
-	private void finished() {
-		final StateSpaceValidationResult result = validationJob.getValidationResult();
-		getSite().getShell().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				if (result.isValid()) {
-					MessageDialog.openInformation(getSite().getShell(), "Validation", "Property satified.");
-				} else {
-					MessageDialog.openError(getSite().getShell(), "Validation", "Property not satified.");					
-				}
-				validationJob = null;
-				validateButton.setEnabled(true);
-			}
-		});
+	private void finished(StateSpaceValidationResult result) {
+		if (result.getTrace()!=null) {
+			explorer.showTrace(result.getTrace());
+		}
+		if (result.isValid()) {
+			MessageDialog.openInformation(getSite().getShell(), "Validation", "Property satified.");
+		} else {
+			MessageDialog.openError(getSite().getShell(), "Validation", "Property not satified.");					
+		}
+		validateButton.setEnabled(true);		
 	}
 	
 	/*
@@ -139,6 +161,7 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 	 */
     public void init(IViewSite site, IMemento memento) throws PartInitException {
     	super.init(site, memento);
+    	this.memento = memento;
     	
 		// Load the validators:
 		validators = new ArrayList<StateSpaceValidator>();
@@ -151,10 +174,25 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 			}
 		});
 		
+		// Add selection listener to the workbench window.
 		site.getWorkbenchWindow().getSelectionService().addSelectionListener(this);
 		
     }
 	
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.part.ViewPart#saveState(org.eclipse.ui.IMemento)
+     */
+    @Override
+    public void saveState(IMemento memento) {
+    	if (!propertyText.isDisposed()) {
+    		memento.putString("property", propertyText.getText());
+    	}
+    	if (getActiveValidator()!=null) {
+    		memento.putString("validator", getActiveValidator().getName());
+    	}
+    }
+    
     /*
      * (non-Javadoc)
      * @see org.eclipse.ui.part.WorkbenchPart#dispose()
@@ -163,6 +201,7 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
     public void dispose() {
 		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
     	super.dispose();
+    	memento = null;
     }
     
 	/*
@@ -181,14 +220,12 @@ public class StateSpaceValidationView extends ViewPart implements ISelectionList
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		String filename = "none";
 		if (part instanceof StateSpaceExplorer) {
-			stateSpaceManager = ((StateSpaceExplorer) part).getStateSpaceManager();
-			filename = part.getTitle();
+			explorer = (StateSpaceExplorer) part;
+			filename = explorer.getTitle();
 		}
-		boolean enabled = (stateSpaceManager!=null && !validators.isEmpty());
-		
+		boolean enabled = (explorer!=null && !validators.isEmpty());
 		selectionLabel.setText("Validating " + filename + " using");
 		validateButton.setEnabled(enabled);
-		
 	}
 
 }
