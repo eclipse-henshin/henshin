@@ -14,23 +14,21 @@ package org.eclipse.emf.henshin.internal.conditions.nested;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.GraphSkeleton;
 import org.eclipse.emf.henshin.internal.matching.DomainSlot;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 
-public class ApplicationCondition implements IFormula {
+public class ApplicationCondition<TType, TNode> implements IFormula {
 	protected boolean negated;
 	protected IFormula formula;
 
-	protected EmfGraph graph;
+	protected List<Variable<TType, TNode>> variables;
+	protected Map<Variable<TType, TNode>, DomainSlot<TType, TNode>> domainMap;
 
-	protected List<Variable> variables;
-	protected Map<Variable, DomainSlot> domainMap;
-
-	public ApplicationCondition(EmfGraph graph,
-			Map<Variable, DomainSlot> domainMap, boolean negated) {
+	public ApplicationCondition(GraphSkeleton<TType, TNode> graph,
+			Map<Variable<TType, TNode>, DomainSlot<TType, TNode>> domainMap,
+			boolean negated) {
 		this.domainMap = domainMap;
-		this.graph = graph;
 		this.negated = negated;
 	}
 
@@ -47,13 +45,13 @@ public class ApplicationCondition implements IFormula {
 			return formula.eval();
 		}
 
-		Variable variable = variables.get(index);
-		DomainSlot slot = domainMap.get(variable);
+		Variable<TType, TNode> variable = variables.get(index);
+		DomainSlot<TType, TNode> slot = domainMap.get(variable);
 
 		boolean validAssignment = false;
 
 		while (!validAssignment) {
-			validAssignment = slot.instanciate(variable, domainMap, graph);
+			validAssignment = slot.instanciate(variable, domainMap);
 
 			if (validAssignment) {
 				validAssignment = findMatch(index + 1);
@@ -71,11 +69,11 @@ public class ApplicationCondition implements IFormula {
 		return true;
 	}
 
-	public List<Variable> getVariables() {
+	public List<Variable<TType, TNode>> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<Variable> variables) {
+	public void setVariables(List<Variable<TType, TNode>> variables) {
 		this.variables = variables;
 	}
 
@@ -91,7 +89,7 @@ public class ApplicationCondition implements IFormula {
 	}
 
 	private void resetVariables() {
-		for (Variable var : variables) {
+		for (Variable<TType, TNode> var : variables) {
 			domainMap.get(var).clear(var);
 		}
 	}

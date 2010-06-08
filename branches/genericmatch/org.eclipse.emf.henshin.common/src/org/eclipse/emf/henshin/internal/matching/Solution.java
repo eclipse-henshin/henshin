@@ -15,20 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 
-public class Solution {
-	Map<Variable, EObject> objectMatches;
+public class Solution<TType, TNode> {
+	Map<Variable<TType, TNode>, TNode> objectMatches;
 	Map<String, Object> parameterValues;
 
-	public Solution(List<Variable> variables,
-			Map<Variable, DomainSlot> domainMap,
+	public Solution(List<Variable<TType, TNode>> variables,
+			Map<Variable<TType, TNode>, DomainSlot<TType, TNode>> domainMap,
 			AttributeConditionHandler conditionHandler) {
-		Map<Variable, EObject> match = new HashMap<Variable, EObject>();
+		Map<Variable<TType, TNode>, TNode> match = new HashMap<Variable<TType, TNode>, TNode>();
 
-		for (Variable variable : variables) {
-			DomainSlot slot = domainMap.get(variable);
+		for (Variable<TType, TNode> variable : variables) {
+			DomainSlot<TType, TNode> slot = domainMap.get(variable);
 			match.put(variable, slot.value);
 		}
 
@@ -37,10 +36,11 @@ public class Solution {
 				.getParameterValues());
 	}
 
+
 	/**
 	 * @return the objectMatches
 	 */
-	public Map<Variable, EObject> getObjectMatches() {
+	public Map<Variable<TType, TNode>, TNode> getObjectMatches() {
 		return objectMatches;
 	}
 

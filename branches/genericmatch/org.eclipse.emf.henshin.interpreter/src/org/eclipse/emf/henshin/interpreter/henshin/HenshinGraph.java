@@ -9,36 +9,43 @@
  * Contributors:
  *     Technical University of Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.common.util;
+package org.eclipse.emf.henshin.interpreter.henshin;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.henshin.common.util.GraphSkeleton;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Node;
 
 /**
  * This is a graph-like representation of a set of EObjects. Only objects known
  * to this class will be used for matching.
  */
-public class EmfGraph implements GraphSkeleton<EClass, EObject> {
-	protected Collection<EObject> eObjects;
-	protected Collection<EPackage> ePackages;
-	Map<EClass, Collection<EObject>> domainMap;
+public class HenshinGraph implements GraphSkeleton<EClass, Node> {
+	protected Graph graph;
+	protected Set<EPackage> ePackages; 
+	
+	Map<EClass, Collection<Node>> domainMap;
 	public Map<EClass, Collection<EClass>> inheritanceMap;
 
-	public EmfGraph() {
-		eObjects = new LinkedHashSet<EObject>();
-		ePackages = new HashSet<EPackage>();
-		domainMap = new HashMap<EClass, Collection<EObject>>();
+	public HenshinGraph(Graph graph) {
+		this.graph = graph;
+		
+		domainMap = new HashMap<EClass, Collection<Node>>();
 		inheritanceMap = new HashMap<EClass, Collection<EClass>>();
+		ePackages = new HashSet<EPackage>();
+		
+		for (Node node: graph.getNodes()) {
+			addEObject(node);
+		}
 	}
 
 	/**
@@ -50,7 +57,7 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * @return true, if the object was added. false, if it is already contained
 	 *         in the graph.
 	 */
-	public boolean addEObject(EObject eObject) {
+	public boolean addEObject(Node eObject) {
 		return addEObjectToGraph(eObject);
 	}
 
@@ -63,7 +70,7 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * @return true, if the object was removed. false, if it wasn't contained in
 	 *         the graph.
 	 */
-	public boolean removeEObject(EObject eObject) {
+	public boolean removeEObject(Node eObject) {
 		return removeEObjectFromGraph(eObject);
 	}
 
@@ -75,15 +82,8 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * 
 	 * @return true, if any eObject was added.
 	 */
-	public boolean addRoot(EObject root) {
-		boolean collectionChanged = false;
-
-		collectionChanged |= addEObjectToGraph(root);
-		for (Iterator<EObject> it = root.eAllContents(); it.hasNext();) {
-			collectionChanged |= addEObjectToGraph(it.next());
-		}
-
-		return collectionChanged;
+	public boolean addRoot(Node root) {
+		return addEObjectToGraph(root);
 	}
 
 	/**
@@ -94,15 +94,8 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * 
 	 * @return true, if any eObject was removed.
 	 */
-	public boolean removeRoot(EObject root) {
-		boolean collectionChanged = false;
-
-		collectionChanged |= removeEObjectFromGraph(root);
-		for (Iterator<EObject> it = root.eAllContents(); it.hasNext();) {
-			collectionChanged |= removeEObjectFromGraph(it.next());
-		}
-
-		return collectionChanged;
+	public boolean removeRoot(Node root) {
+		return removeEObjectFromGraph(root);
 	}
 
 	/**
@@ -114,8 +107,8 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * 
 	 * @return A collection of eObjects compatible with the type.
 	 */
-	public Collection<EObject> getDomainForType(EClass type) {
-		Collection<EObject> domain = new ArrayList<EObject>();
+	public Collection<Node> getDomainForType(EClass type) {
+		Collection<Node> domain = new ArrayList<Node>();
 
 		if (inheritanceMap.get(type) != null)
 			for (EClass child : inheritanceMap.get(type)) {
@@ -125,33 +118,33 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 		return domain;
 	}
 
-	protected boolean addEObjectToGraph(EObject eObject) {
-		boolean isNew = eObjects.add(eObject);
-
+	protected boolean addEObjectToGraph(Node eObject) {
+		boolean isNew = !graph.getNodes().contains(eObject); 
+			
 		if (isNew) {
-			EClass type = eObject.eClass();
+			graph.getNodes().add(eObject);
+			EClass type = eObject.getType();
 			EPackage ePackage = type.getEPackage();
+			addEPackage(ePackage);
 
-			Collection<EObject> domain = domainMap.get(type);
+			Collection<Node> domain = domainMap.get(type);
 			if (domain == null) {
-				domain = new ArrayList<EObject>();
+				domain = new ArrayList<Node>();
 				domainMap.put(type, domain);
 			}
 			domain.add(eObject);
-
-			addEPackage(ePackage);
 		}
 
 		return isNew;
 	}
 
-	protected boolean removeEObjectFromGraph(EObject eObject) {
-		boolean wasRemoved = eObjects.remove(eObject);
+	protected boolean removeEObjectFromGraph(Node eObject) {
+		boolean wasRemoved = graph.getNodes().remove(eObject);
 
 		if (wasRemoved) {
 			EClass type = eObject.eClass();
 
-			Collection<EObject> domain = domainMap.get(type);
+			Collection<Node> domain = domainMap.get(type);
 			domain.remove(eObject);
 		}
 
@@ -184,11 +177,11 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 		children.add(child);
 	}
 
-	public Collection<EObject> getDomain(EClass type) {
-		Collection<EObject> domain = domainMap.get(type);
+	public Collection<Node> getDomain(EClass type) {
+		Collection<Node> domain = domainMap.get(type);
 
 		if (domain == null) {
-			domain = new ArrayList<EObject>();
+			domain = new ArrayList<Node>();
 			domainMap.put(type, domain);
 		}
 
@@ -200,7 +193,7 @@ public class EmfGraph implements GraphSkeleton<EClass, EObject> {
 	 * 
 	 * @return A collection of all eObjects.
 	 */
-	public Collection<EObject> geteObjects() {
-		return eObjects;
+	public Collection<Node> geteObjects() {
+		return graph.getNodes();
 	}
 }

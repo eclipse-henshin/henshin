@@ -12,41 +12,44 @@
 package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.internal.constraints.TypeConstraint;
 
-public class Variable {// implements Comparable<Variable> {
-	private TypeConstraint typeConstraint;
-	private List<AttributeConstraint> attributeConstraints;
-	private List<ParameterConstraint> parameterConstraints;
-	private List<ReferenceConstraint> referenceConstraints;
+public class Variable<TType, TNode> {
+	private TypeConstraint<TType, TNode> typeConstraint;
+	private Collection<AttributeConstraint<TNode>> attributeConstraints;
+	private Collection<ParameterConstraint<TNode>> parameterConstraints;
+	private Collection<ReferenceConstraint<TNode>> referenceConstraints;
 
-	public Variable(EClass type) {
-		typeConstraint = new TypeConstraint(type);
-		
-		attributeConstraints = new ArrayList<AttributeConstraint>();
-		parameterConstraints = new ArrayList<ParameterConstraint>();
-		referenceConstraints = new ArrayList<ReferenceConstraint>();
+	public Variable() {
+		attributeConstraints = new ArrayList<AttributeConstraint<TNode>>();
+		parameterConstraints = new ArrayList<ParameterConstraint<TNode>>();
+		referenceConstraints = new ArrayList<ReferenceConstraint<TNode>>();
+	}
+	
+
+	
+	public void setTypeConstraint(TypeConstraint<TType, TNode> typeConstraint) {
+		this.typeConstraint = typeConstraint;
 	}
 
-	public TypeConstraint getTypeConstraint() {
+	public TypeConstraint<TType, TNode> getTypeConstraint() {
 		return typeConstraint;
 	}
 
-	public List<AttributeConstraint> getAttributeConstraints() {
+	public Collection<AttributeConstraint<TNode>> getAttributeConstraints() {
 		return attributeConstraints;
 	}
 
-	public List<ParameterConstraint> getParameterConstraints() {
+	public Collection<ParameterConstraint<TNode>> getParameterConstraints() {
 		return parameterConstraints;
 	}
 
-	public List<ReferenceConstraint> getReferenceConstraints() {
+	public Collection<ReferenceConstraint<TNode>> getReferenceConstraints() {
 		return referenceConstraints;
 	}
 }

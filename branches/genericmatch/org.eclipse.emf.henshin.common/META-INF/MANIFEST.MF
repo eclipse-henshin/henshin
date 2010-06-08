@@ -13,4 +13,5 @@ Export-Package: org.eclipse.emf.henshin.common.util,
  org.eclipse.emf.henshin.internal.conditions.attribute,
  org.eclipse.emf.henshin.internal.conditions.nested,
  org.eclipse.emf.henshin.internal.constraints,
+ org.eclipse.emf.henshin.internal.constraints.impl,
  org.eclipse.emf.henshin.internal.matching

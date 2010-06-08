@@ -15,20 +15,23 @@ import javax.script.ScriptEngine;
 
 import org.eclipse.emf.henshin.model.Rule;
 
-public class RuleInfo {
+public abstract class RuleInfo<TType, TNode> {
 	private Rule rule;
-	
-	private VariableInfo variableInfo;
+
+	private VariableInfo<TType, TNode> variableInfo;
 	private ChangeInfo changeInfo;
 	private ConditionInfo conditionInfo;
 
 	public RuleInfo(Rule rule, ScriptEngine scriptEngine) {
 		this.rule = rule;
-		
+
 		this.conditionInfo = new ConditionInfo(rule, scriptEngine);
-		this.variableInfo = new VariableInfo(rule, scriptEngine);
 		this.changeInfo = new ChangeInfo(rule);
+		this.variableInfo = createVariableInfo(rule, scriptEngine);
 	}
+
+	protected abstract VariableInfo<TType, TNode> createVariableInfo(Rule rule,
+			ScriptEngine scriptEngine);
 
 	/**
 	 * @return the rule
@@ -40,7 +43,7 @@ public class RuleInfo {
 	/**
 	 * @return the variableInfo
 	 */
-	public VariableInfo getVariableInfo() {
+	public VariableInfo<TType, TNode> getVariableInfo() {
 		return variableInfo;
 	}
 

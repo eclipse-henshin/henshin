@@ -16,11 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.internal.matching.Solution;
 import org.eclipse.emf.henshin.internal.matching.Variable;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
@@ -29,12 +26,12 @@ import org.eclipse.emf.henshin.model.Rule;
  * Encapsulates information about a single match from a Henshin rule into an EMF
  * instance.
  */
-public class Match {
+public class Match<TType, TNode> {
 	// the rule which will be matched
 	private Rule rule;
 
 	// mapping of LHS or RHS nodes
-	private Map<Node, EObject> nodeMapping;
+	private Map<Node, TNode> nodeMapping;
 
 	// variable assignments
 	private Map<Parameter, Object> parameterValues;
@@ -49,7 +46,7 @@ public class Match {
 	 *            Mapping between rule nodes and EObjects
 	 */
 	public Match(Rule rule, Map<Parameter, Object> parameterValues,
-			Map<Node, EObject> nodeMapping) {
+			Map<Node, TNode> nodeMapping) {
 		this.parameterValues = parameterValues;
 		this.nodeMapping = nodeMapping;
 		this.rule = rule;
@@ -65,7 +62,7 @@ public class Match {
 	 *            Map of corresponding pairs of matchfinder variables and rule
 	 *            nodes.
 	 */
-	public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
+	public Match(Rule rule, Solution<TType, TNode> solution, Map<Node, Variable<TType, TNode>> node2variable) {
 		if (solution != null) {
 			this.parameterValues = new HashMap<Parameter, Object>();
 			for (String parameterName : solution.getParameterValues().keySet()) {
@@ -76,12 +73,12 @@ public class Match {
 				}
 			}
 
-			this.nodeMapping = new HashMap<Node, EObject>();
+			this.nodeMapping = new HashMap<Node, TNode>();
 
-			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
+			Map<Variable<TType, TNode>, TNode> objectMatch = solution.getObjectMatches();
 			for (Node node : rule.getLhs().getNodes()) {
-				Variable var = node2variable.get(node);
-				EObject eObject = objectMatch.get(var);
+				Variable<TType, TNode> var = node2variable.get(node);
+				TNode eObject = objectMatch.get(var);
 				nodeMapping.put(node, eObject);
 			}
 		}
@@ -103,7 +100,7 @@ public class Match {
 	 * 
 	 * @return the nodeMapping
 	 */
-	public Map<Node, EObject> getNodeMapping() {
+	public Map<Node, TNode> getNodeMapping() {
 		return nodeMapping;
 	}
 
@@ -115,9 +112,9 @@ public class Match {
 	 *            A second match to check against.
 	 * @return true, if both matches have common targets
 	 */
-	public boolean overlapsWith(Match match) {
-		List<EObject> thistargets = new ArrayList<EObject>(nodeMapping.values());
-		List<EObject> matchtargets = new ArrayList<EObject>(match
+	public boolean overlapsWith(Match<TType, TNode> match) {
+		List<TNode> thistargets = new ArrayList<TNode>(nodeMapping.values());
+		List<TNode> matchtargets = new ArrayList<TNode>(match
 				.getNodeMapping().values());
 		thistargets.retainAll(matchtargets);
 
@@ -152,47 +149,6 @@ public class Match {
 
 			if (nodeMapping.get(node) == null)
 				return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Checks whether this match is complete and typing between rule nodes and
-	 * EObjects is valid.
-	 * 
-	 * @return true, if the match is complete and properly typed.
-	 */
-	@SuppressWarnings("unchecked")
-	public boolean isValid() {
-		// completeness
-		if (!isComplete())
-			return false;
-
-		// properly typed
-		for (Node node : rule.getLhs().getNodes()) {
-			if (node.getType().isSuperTypeOf(nodeMapping.get(node).eClass()))
-				return false;
-		}
-
-		// all edges are present
-		for (Node node : rule.getLhs().getNodes()) {
-			EObject source = nodeMapping.get(node);
-
-			for (Edge edge : node.getOutgoing()) {
-				EReference edgeType = edge.getType();
-				EObject target = nodeMapping.get(edge.getTarget());
-
-				if (edgeType.isMany()) {
-					List<EObject> targetObjects = (List<EObject>) source
-							.eGet(edgeType);
-					if (!targetObjects.contains(target))
-						return false;
-				} else {
-					if (source.eGet(edgeType) != target)
-						return false;
-				}
-			}
 		}
 
 		return true;

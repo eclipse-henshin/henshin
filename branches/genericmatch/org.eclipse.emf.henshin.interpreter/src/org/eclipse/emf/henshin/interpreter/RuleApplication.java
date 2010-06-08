@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.internal.change.ModelChange;
+import org.eclipse.emf.henshin.internal.change.EmfModelChange;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.Node;
@@ -34,8 +33,8 @@ public class RuleApplication {
 
 	private Match match;
 	private Match comatch;
-	
-	private ModelChange modelChange;
+
+	private EmfModelChange modelChange;
 
 	// flags for execution status of the rule
 	private boolean isExecuted = false;
@@ -54,7 +53,7 @@ public class RuleApplication {
 		this.interpreterEngine = engine;
 
 		this.match = new Match(rule, new HashMap<Parameter, Object>(),
-				new HashMap<Node, EObject>());
+				new HashMap<Node, Object>());
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class RuleApplication {
 	 * @param value
 	 *            An EObject in the instance the rule should be applied to
 	 */
-	public void addMatch(Node node, EObject value) {
+	public void addMatch(Node node, Object value) {
 		match.getNodeMapping().put(node, value);
 	}
 
@@ -177,11 +176,11 @@ public class RuleApplication {
 		this.comatch = comatch;
 	}
 
-	public ModelChange getModelChange() {
+	public EmfModelChange getModelChange() {
 		return modelChange;
 	}
 
-	public void setModelChange(ModelChange modelChange) {
+	public void setModelChange(EmfModelChange modelChange) {
 		this.modelChange = modelChange;
 	}
 

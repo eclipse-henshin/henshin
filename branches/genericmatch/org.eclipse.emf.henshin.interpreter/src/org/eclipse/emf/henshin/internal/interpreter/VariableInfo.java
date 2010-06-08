@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.internal.constraints.TypeConstraint;
 import org.eclipse.emf.henshin.internal.matching.Variable;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -27,56 +27,72 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
-public class VariableInfo {
+public abstract class VariableInfo<TType, TNode> {
 
 	// variables which represent nodes when they are first introduced, e.g. if a
 	// mapped node occurs in the LHS and in one condition, only the variable
 	// representing the LHS node will be in this collection
-	private Collection<Variable> mainVariables;
+	protected Collection<Variable<TType, TNode>> mainVariables;
 
 	// node-variable pair
-	private Map<Node, Variable> node2variable;
+	protected Map<Node, Variable<TType, TNode>> node2variable;
 
 	// variable-node pair
-	private Map<Variable, Node> variable2node;
+	protected Map<Variable<TType, TNode>, Node> variable2node;
 
 	// map between a graph and all variables corresponding to nodes of that
 	// graph
-	private Map<Graph, List<Variable>> graph2variables;
+	protected Map<Graph, List<Variable<TType, TNode>>> graph2variables;
 
 	// map between a key variable and its main variable, e.g. there is a mapping
 	// chain from the node belonging to the main variable to the key variable
-	private Map<Variable, Variable> variable2mainVariable;
+	protected Map<Variable<TType, TNode>, Variable<TType, TNode>> variable2mainVariable;
 
-	private Rule rule;
-	private ScriptEngine scriptEngine;
+	protected Rule rule;
+	protected ScriptEngine scriptEngine;
+
+	protected VariableInfo() {
+
+	}
 
 	public VariableInfo(Rule rule, ScriptEngine scriptEngine) {
 		this.rule = rule;
 		this.scriptEngine = scriptEngine;
 
-		this.node2variable = new HashMap<Node, Variable>();
-		this.variable2node = new HashMap<Variable, Node>();
+		this.node2variable = new HashMap<Node, Variable<TType, TNode>>();
+		this.variable2node = new HashMap<Variable<TType, TNode>, Node>();
 
-		this.graph2variables = new HashMap<Graph, List<Variable>>();
-		this.variable2mainVariable = new HashMap<Variable, Variable>();
+		this.graph2variables = new HashMap<Graph, List<Variable<TType, TNode>>>();
+		this.variable2mainVariable = new HashMap<Variable<TType, TNode>, Variable<TType, TNode>>();
 
 		createVariables(rule.getLhs(), null);
-		
+
 		mainVariables = variable2mainVariable.values();
 	}
 
-	private void createVariables(Graph g, Collection<Mapping> mappings) {
-		List<Variable> variables = new ArrayList<Variable>();
+	protected abstract TypeConstraint<TType, TNode> createTypeConstraint(
+			Node node);
+
+	protected abstract ReferenceConstraint<TNode> createReferenceConstraint(
+			Variable<TType, TNode> targetVariable, Edge edge);
+
+	protected abstract AttributeConstraint<TNode> createAttributeConstraint(
+			Attribute attribute, Object value);
+
+	protected abstract ParameterConstraint<TNode> createParameterConstraint(
+			Attribute attribute);
+
+	protected void createVariables(Graph g, Collection<Mapping> mappings) {
+		List<Variable<TType, TNode>> variables = new ArrayList<Variable<TType, TNode>>();
 
 		for (Node node : g.getNodes()) {
-			EClass type = node.getType();
-			Variable var = new Variable(type);
+			Variable<TType, TNode> var = new Variable<TType, TNode>();
+			var.setTypeConstraint(createTypeConstraint(node));
 			variables.add(var);
 			node2variable.put(node, var);
 			variable2node.put(var, node);
 
-			Variable mainVariable = var;
+			Variable<TType, TNode> mainVariable = var;
 			if (mappings != null) {
 				for (Mapping mapping : mappings) {
 					if (node == mapping.getImage()) {
@@ -85,7 +101,7 @@ public class VariableInfo {
 					}
 				}
 			}
-			
+
 			variable2mainVariable.put(var, mainVariable);
 		}
 
@@ -111,20 +127,20 @@ public class VariableInfo {
 	}
 
 	private void createConstraints(Node node) {
-		Variable var = node2variable.get(node);
+		Variable<TType, TNode> var = node2variable.get(node);
 
 		for (Edge edge : node.getOutgoing()) {
-			Variable targetVariable = node2variable.get(edge.getTarget());
-			ReferenceConstraint constraint = new ReferenceConstraint(
-					targetVariable, edge.getType());
-			var.getReferenceConstraints().add(constraint);
+			Variable<TType, TNode> targetVariable = node2variable.get(edge
+					.getTarget());
+
+			var.getReferenceConstraints().add(
+					createReferenceConstraint(targetVariable, edge));
 		}
 
 		for (Attribute attribute : node.getAttributes()) {
 			if (ModelHelper.attributeIsParameter(rule, attribute)) {
-				ParameterConstraint constraint = new ParameterConstraint(
-						attribute.getValue(), attribute.getType());
-				var.getParameterConstraints().add(constraint);
+				var.getParameterConstraints().add(
+						createParameterConstraint(attribute));
 			} else {
 				Object attributeValue = null;
 
@@ -137,20 +153,20 @@ public class VariableInfo {
 					ex.printStackTrace();
 				}
 
-				AttributeConstraint constraint = new AttributeConstraint(
-						attribute.getType(), attributeValue);
-				var.getAttributeConstraints().add(constraint);
+				var.getAttributeConstraints().add(
+						createAttributeConstraint(attribute, attributeValue));
 			}
 		}
 	}
 
-	public Node getVariableForNode(Variable variable) {
+	public Node getVariableForNode(Variable<TType, TNode> variable) {
 		return variable2node.get(variable);
 	}
 
-	public Collection<Variable> getDependendVariables(Variable mainVariable) {
-		Collection<Variable> dependendVariables = new HashSet<Variable>();
-		for (Variable var : variable2mainVariable.keySet()) {
+	public Collection<Variable<TType, TNode>> getDependendVariables(
+			Variable<TType, TNode> mainVariable) {
+		Collection<Variable<TType, TNode>> dependendVariables = new HashSet<Variable<TType, TNode>>();
+		for (Variable<TType, TNode> var : variable2mainVariable.keySet()) {
 			if (variable2mainVariable.get(var) == mainVariable)
 				dependendVariables.add(var);
 		}
@@ -158,22 +174,21 @@ public class VariableInfo {
 		return dependendVariables;
 	}
 
-	public Collection<Variable> getMainVariables() {
+	public Collection<Variable<TType, TNode>> getMainVariables() {
 		return mainVariables;
 	}
 
 	/**
 	 * @return the graph2variables
 	 */
-	public Map<Graph, List<Variable>> getGraph2variables() {
+	public Map<Graph, List<Variable<TType, TNode>>> getGraph2variables() {
 		return graph2variables;
 	}
 
 	/**
 	 * @return the node2variable
 	 */
-	public Map<Node, Variable> getNode2variable() {
-		// TODO: change Solution to get rid of this method
+	public Map<Node, Variable<TType, TNode>> getNode2variable() {
 		return node2variable;
 	}
 }

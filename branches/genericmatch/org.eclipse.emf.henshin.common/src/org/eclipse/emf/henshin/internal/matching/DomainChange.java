@@ -9,15 +9,15 @@
  * Contributors:
  *     Technical University of Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.constraints;
+package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.List;
 
-public class DomainChange<T> {
-	public List<T> removedObjects;
-	public List<T> remainingObjects;
-
-	public DomainChange(List<T> remainingObjects, List<T> removedObjects) {
+public class DomainChange<TNode> {
+	public List<TNode> removedObjects;
+	public List<TNode> remainingObjects;
+	
+	public DomainChange(List<TNode> remainingObjects, List<TNode> removedObjects) {
 		this.remainingObjects = remainingObjects;
 		this.removedObjects = removedObjects;
 	}

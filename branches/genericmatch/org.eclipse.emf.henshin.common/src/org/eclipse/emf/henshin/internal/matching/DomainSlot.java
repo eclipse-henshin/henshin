@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.GraphSkeleton;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
@@ -27,10 +26,10 @@ import org.eclipse.emf.henshin.internal.constraints.DomainChange;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 
-public class DomainSlot {
+public class DomainSlot<TType, TNode> {
 	// The variable which will initialize this domain slot. All other variables
 	// which use this slot will only validate their constraints.
-	Variable owner;
+	Variable<TType, TNode> owner;
 
 	// Flag that describes whether this domain slot is initialized. After
 	// initialization the domain contains all possible values that are type
@@ -42,21 +41,23 @@ public class DomainSlot {
 	// the owner variable.
 	boolean locked;
 
+	GraphSkeleton<TType, TNode> graph;
+	
 	// The current fixed value for this domain slot. Instanciate() will pick one
 	// value from the domain.
-	EObject value;
+	TNode value;
 
 	// All possible values this domain slot might use for instanciation.
-	List<EObject> domain;
+	List<TNode> domain;
 
 	// A copy of the domain state prior to the initialisation.
 	// ReferenceConstraints can cause domain updates to slots that aren't
 	// initialized yet.
-	List<EObject> localChanges;
+	List<TNode> localChanges;
 
 	// All changes done to other domain slots by ReferenceConstraints of
 	// variables that use this domain slot.
-	Map<DomainSlot, List<EObject>> slotChanges;
+	Map<DomainSlot<TType, TNode>, List<TNode>> slotChanges;
 
 	// A collection of parameters that were initialized by contraints belonging
 	// to variables of this domain slot.
@@ -71,22 +72,23 @@ public class DomainSlot {
 
 	// A collection of variables which constraints were already validated
 	// against the current value.
-	Collection<Variable> checkedVariables;
+	Collection<Variable<TType, TNode>> checkedVariables;
 
 	// A collection of the values of all domain slots that are currently locked.
 	// Required to ensure injectivity.
-	Collection<EObject> usedObjects;
+	Collection<TNode> usedObjects;
 
 	public DomainSlot(AttributeConditionHandler conditionHandler,
-			Collection<EObject> usedObjects, TransformationOptions options) {
+			Collection<TNode> usedObjects, GraphSkeleton<TType, TNode> graph, TransformationOptions options) {
 		this.locked = false;
 		this.initialized = false;
 		this.conditionHandler = conditionHandler;
+		this.graph = graph;
 
 		this.usedObjects = usedObjects;
-		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
+		this.slotChanges = new HashMap<DomainSlot<TType, TNode>, List<TNode>>();
 		this.initializedParameters = new ArrayList<String>();
-		this.checkedVariables = new ArrayList<Variable>();
+		this.checkedVariables = new ArrayList<Variable<TType, TNode>>();
 
 		this.options = options;
 	}
@@ -99,13 +101,13 @@ public class DomainSlot {
 	 * @param graph
 	 * @return
 	 */
-	public boolean instanciate(Variable variable,
-			Map<Variable, DomainSlot> domainMap, EmfGraph graph) {
+	public boolean instanciate(Variable<TType, TNode> variable,
+			Map<Variable<TType, TNode>, DomainSlot<TType, TNode>> domainMap) {
 		if (!initialized) {
 			initialized = true;
 			owner = variable;
 
-			localChanges = (domain != null) ? new ArrayList<EObject>(domain)
+			localChanges = (domain != null) ? new ArrayList<TNode>(domain)
 					: null;
 
 			domain = variable.getTypeConstraint().reduceDomain(domain, graph);
@@ -119,7 +121,7 @@ public class DomainSlot {
 			if (domain.size() == 0)
 				return false;
 
-			for (AttributeConstraint constraint : variable
+			for (AttributeConstraint<TNode> constraint : variable
 					.getAttributeConstraints()) {
 				constraint.reduceDomain(domain);
 				if (domain.size() == 0)
@@ -140,7 +142,7 @@ public class DomainSlot {
 				locked = true;
 			}
 
-			for (ParameterConstraint constraint : variable
+			for (ParameterConstraint<TNode> constraint : variable
 					.getParameterConstraints()) {
 				if (!conditionHandler.isSet(constraint.getParameterName()))
 					initializedParameters.add(constraint.getParameterName());
@@ -148,9 +150,10 @@ public class DomainSlot {
 					return false;
 			}
 
-			for (ReferenceConstraint constraint : variable
+			for (ReferenceConstraint<TNode> constraint : variable
 					.getReferenceConstraints()) {
-				DomainSlot target = domainMap.get(constraint.getTarget());
+				DomainSlot<TType, TNode> target = domainMap
+						.get(constraint.getTarget());
 				if (!applyReferenceConstraint(constraint, target)) {
 					return false;
 				}
@@ -162,21 +165,22 @@ public class DomainSlot {
 				if (!variable.getTypeConstraint().check(value))
 					return false;
 
-				for (AttributeConstraint constraint : variable
+				for (AttributeConstraint<TNode> constraint : variable
 						.getAttributeConstraints()) {
 					if (!constraint.check(value))
 						return false;
 				}
 
-				for (ParameterConstraint constraint : variable
+				for (ParameterConstraint<TNode> constraint : variable
 						.getParameterConstraints()) {
 					if (!constraint.check(value, conditionHandler))
 						return false;
 				}
 
-				for (ReferenceConstraint constraint : variable
+				for (ReferenceConstraint<TNode> constraint : variable
 						.getReferenceConstraints()) {
-					DomainSlot target = domainMap.get(constraint.getTarget());
+					DomainSlot<TType, TNode> target = domainMap.get(constraint
+							.getTarget());
 					if (!applyReferenceConstraint(constraint, target)) {
 						return false;
 					}
@@ -199,12 +203,12 @@ public class DomainSlot {
 	 * 
 	 * @return true, if the constraint is valid.
 	 */
-	private boolean applyReferenceConstraint(ReferenceConstraint constraint,
-			DomainSlot target) {
+	private boolean applyReferenceConstraint(
+			ReferenceConstraint<TNode> constraint, DomainSlot<TType, TNode> target) {
 		if (target.locked) {
 			return constraint.check(value, target.value);
 		} else {
-			DomainChange change = constraint.reduceTargetDomain(value,
+			DomainChange<TNode> change = constraint.reduceTargetDomain(value,
 					target.domain);
 			target.domain = change.remainingObjects;
 			slotChanges.put(target, change.removedObjects);
@@ -224,7 +228,7 @@ public class DomainSlot {
 	 * 
 	 * @return true, on success and if another instanciation is possible.
 	 */
-	public boolean unlock(Variable sender) {
+	public boolean unlock(Variable<TType, TNode> sender) {
 		if (locked && sender == owner) {
 			locked = false;
 			usedObjects.remove(value);
@@ -234,8 +238,8 @@ public class DomainSlot {
 			}
 			initializedParameters.clear();
 
-			for (DomainSlot slot : slotChanges.keySet()) {
-				List<EObject> removedObjects = slotChanges.get(slot);
+			for (DomainSlot<TType, TNode> slot : slotChanges.keySet()) {
+				List<TNode> removedObjects = slotChanges.get(slot);
 
 				if (removedObjects != null) {
 					slot.domain.addAll(removedObjects);
@@ -259,7 +263,7 @@ public class DomainSlot {
 	 *            which originally initialized this domain slot is able to clear
 	 *            it.
 	 */
-	public void clear(Variable sender) {
+	public void clear(Variable<TType, TNode> sender) {
 		unlock(sender);
 
 		if (sender == owner) {
@@ -295,7 +299,7 @@ public class DomainSlot {
 	 * @param value
 	 *            The object this domain slot will be mapped to.
 	 */
-	public void fixInstanciation(EObject value) {
+	public void fixInstanciation(TNode value) {
 		this.locked = true;
 		this.value = value;
 		this.initialized = true;

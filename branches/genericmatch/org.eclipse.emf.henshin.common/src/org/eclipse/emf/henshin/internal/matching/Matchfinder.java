@@ -16,17 +16,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.GraphSkeleton;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
 
-public class Matchfinder extends ApplicationCondition {
-	private List<Solution> solutions;
+public class Matchfinder<TType, TNode> extends
+		ApplicationCondition<TType, TNode> {
+	private List<Solution<TType, TNode>> solutions;
 	private AttributeConditionHandler conditionHandler;
-	
-	public Matchfinder(EmfGraph emfGraph,
-			Map<Variable, DomainSlot> variableDomainMap, AttributeConditionHandler conditionHandler) {
-		super(emfGraph, variableDomainMap, false);
+
+	public Matchfinder(
+			GraphSkeleton<TType, TNode> graph,
+			Map<Variable<TType, TNode>, DomainSlot<TType, TNode>> variableDomainMap,
+			AttributeConditionHandler conditionHandler) {
+		super(graph, variableDomainMap, false);
 		this.conditionHandler = conditionHandler;
 	}
 
@@ -34,11 +37,11 @@ public class Matchfinder extends ApplicationCondition {
 		boolean matchIsPossible = false;
 
 		if (solutions == null) {
-			solutions = new ArrayList<Solution>();
+			solutions = new ArrayList<Solution<TType, TNode>>();
 			matchIsPossible = true;
 		} else {
 			for (int i = variables.size() - 1; i >= 0; i--) {
-				Variable var = variables.get(i);
+				Variable<TType, TNode> var = variables.get(i);
 				if (domainMap.get(var).unlock(var)) {
 					matchIsPossible = true;
 					break;
@@ -51,7 +54,7 @@ public class Matchfinder extends ApplicationCondition {
 		if (matchIsPossible) {
 			boolean success = findGraph();
 			if (success)
-				solutions.add(new Solution(variables, domainMap,
+				solutions.add(new Solution<TType, TNode>(variables, domainMap,
 						conditionHandler));
 
 			return success;
@@ -59,7 +62,7 @@ public class Matchfinder extends ApplicationCondition {
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns a random match. This is as slow as computing all matches because
 	 * it actually does compute all matches and randomly chooses one as a
@@ -67,7 +70,7 @@ public class Matchfinder extends ApplicationCondition {
 	 * 
 	 * @return A random match or null if no match exists.
 	 */
-	public Solution getRandomMatch() {
+	public Solution<TType, TNode> getRandomMatch() {
 		while (getNextMatch() != null) {
 		}
 
@@ -84,7 +87,7 @@ public class Matchfinder extends ApplicationCondition {
 	 * 
 	 * @return A match or null if no match exists.
 	 */
-	public Solution getNextMatch() {
+	public Solution<TType, TNode> getNextMatch() {
 		boolean success = findSolution();
 
 		if (success)
@@ -93,7 +96,7 @@ public class Matchfinder extends ApplicationCondition {
 		return null;
 	}
 
-	public List<Solution> getAllMatches() {
+	public List<Solution<TType, TNode>> getAllMatches() {
 		while (getNextMatch() != null) {
 		}
 		;
