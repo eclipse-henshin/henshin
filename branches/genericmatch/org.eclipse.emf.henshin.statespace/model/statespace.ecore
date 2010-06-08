@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="statespace"
+    nsURI="http://www.eclipse.org/emf/2010/Henshin/StateSpace" nsPrefix="statespace">
+  <eClassifiers xsi:type="ecore:EClass" name="StateSpace" eSuperTypes="#//Storage">
+    <eOperations name="removeState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="state" eType="#//State"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
+        eType="#//State" containment="true" eOpposite="#//State/stateSpace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialStates" upperBound="-1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="openStates" upperBound="-1"
+        eType="#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useGraphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
+    <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isTerminal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//Transition" eOpposite="#//Transition/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//Transition" containment="true" eOpposite="#//Transition/source"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stateSpace" eType="#//StateSpace"
+        eOpposite="#//StateSpace/states"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//IntegerArray"
+        volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="open" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        volatile="true" transient="true" defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//State"
+        eOpposite="#//State/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"
+        eOpposite="#//State/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Storage">
+    <eOperations name="getData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setData">
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="getData" eType="#//IntegerArray">
+      <eParameters name="beginIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="endIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="setData">
+      <eParameters name="beginIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="value" eType="#//IntegerArray"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" eType="#//IntegerArray"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
+</ecore:EPackage>
