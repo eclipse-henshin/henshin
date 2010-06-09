@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -145,7 +144,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;
 		
 		// Decide whether the current model should be kept in memory:
-		int stored = (int) Math.log10(states) - 1;
+		int stored = (int) (Math.log10(states) / 2);
 		int index = state.getIndex();
 		
 		//System.out.println(stored);
@@ -351,15 +350,4 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		return location;
 	}
 	
-	/**
-	 * Set the memory usage for this state space manager. Must be between 0 and 1, 
-	 * where 0 means that no model are kept in memory (except a cache of constant size)
-	 * and 1 means that all models are kept in memory. For full effect, the manager has to
-	 * be reloaded using {@link #reload(IProgressMonitor)}.
-	 * @param memoryUsage Percentage for the memory usage.
-	 */
-	public void setMemoryUsage(double memoryUsage) {
-		memoryUsage = Math.max(Math.min(memoryUsage,1),0);
-	}
-
 }
