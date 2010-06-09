@@ -58,19 +58,19 @@ public class LayoutStateSpaceJob extends Job {
 		
 		while (!monitor.isCanceled()) {
 			
-			// Update velocities:
-			boolean changed = layouter.updateVelocities();
+			// Calculate new positions:
+			layouter.update();
 			
-			// Update locations:
-			if (changed) display.asyncExec(new Runnable() {
+			// Update positions:
+			display.asyncExec(new Runnable() {
 				public void run() {
-					layouter.updateLocations();
+					layouter.commit();
 				}
 			});
 			
 			// Sleep:
 			try {
-				Thread.sleep(25);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {}
 			
 		}

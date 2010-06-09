@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
+import java.util.List;
+
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 
@@ -21,68 +23,75 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
  */
 public class StateSpaceSpringLayouter {
 	
-	// State space to be layouted:
-	private StateSpace stateSpace;
+	// States to be layouted:
+	private List<State> states;
+	private int numStates;
 	
-	// Velocities:
-	private double[] velocitiesX;
-	private double[] velocitiesY;
-	
+	// Positions (never null):
+	private double[] positionsX = new double[0];
+	private double[] positionsY = new double[0];
+
+	// Center of the display:
+	private double[] center;
+
 	// Layouting parameters:
 	private double repulsion = 50;
 	private double attraction = 10;
-	private double naturalLength = 50;
-	private double damping = 1;
-	
-	private int[] center;
-	
-	
+	private double naturalLength = 30;
+		
 	/**
 	 * Set the state space.
 	 * @param stateSpace State space.
 	 */
 	public void setStateSpace(StateSpace stateSpace) {
-		this.stateSpace = stateSpace;
+		this.states = stateSpace.getStates();
 	}
 	
 	/**
-	 * Update the velocities of the states.
+	 * Calculate the new locations of the states.
 	 * @return <code>true</code> if at least one state has a velocity that is not zero.
 	 */
-	public boolean updateVelocities() {
+	public void update() {
 		
-		// Total number of states:
-		int states = stateSpace.getStates().size();
-		if (states==0) return true;
+		// Update the number of states:
+		numStates = states.size();
+		if (numStates==0) return;
 		
 		// Make sure there is enough space for the velocities:
-		if (velocitiesX==null || states>velocitiesX.length) {
-			int size = velocityArraySize(states);
-			velocitiesX = new double[size];
-			velocitiesY = new double[size];			
+		if (numStates>positionsX.length) {
+			int size = arraySize(numStates);
+			positionsX = new double[size];
+			positionsY = new double[size];			
 		}
 		
-		boolean changed = false;
-		
-		for (int i=0; i<states; i++) {
+		// Update the position of all states:
+		for (int i=0; i<numStates; i++) {
 			
-			velocitiesX[i] = 0;
-			velocitiesY[i] = 0;
-			
-			State state = stateSpace.getStates().get(i);
+			State state = states.get(i);
 			int[] location = state.getLocation();
-			double[] netForce = new double[2];
+			
+			if (positionsX[i]>location[0]+1 || positionsX[i]<location[0]-1) {
+				positionsX[i] = location[0];
+			}
+			if (positionsY[i]>location[1]+1 || positionsY[i]<location[1]-1) {
+				positionsY[i] = location[1];
+			}
+
+		}
+		
+		// Compute the new positions:
+		for (int i=0; i<numStates; i++) {
+			
+			State state = states.get(i);
+			double forceX = 0;
+			double forceY = 0;
 			
 			// State repulsion:
-			for (int j=0; j<states; j++) {
-				
-				if (i==j) continue;            
-				State otherState = stateSpace.getStates().get(j);
-				
-				double[] repulsion = stateRepulsion(location, otherState.getLocation());
-				netForce[0] += repulsion[0];
-				netForce[1] += repulsion[1];
-
+			for (int j=0; j<numStates; j++) {
+				if (i==j) continue;
+				double[] repulsion = stateRepulsion(i,j);
+				forceX += repulsion[0];
+				forceY += repulsion[1];
 			}
 
 			// Transition attraction:
@@ -99,58 +108,34 @@ public class StateSpaceSpringLayouter {
 				if (otherState==state || otherState==null) continue;
 				
 				// Calculate and add transition attraction:
-				double[] attraction = transitionAttraction(location, otherState.getLocation());
-				netForce[0] += attraction[0];
-				netForce[1] += attraction[1];
-				
+				double[] attraction = transitionAttraction(i, otherState.getIndex());
+				forceX += attraction[0];
+				forceY += attraction[1];
 			}
 			
-			// Add the attraction to the center:
-			if (center!=null) {
-				double[] attraction = transitionAttraction(location, center);
-				netForce[0] += attraction[0];
-				netForce[1] += attraction[1];
-			}
-			
-			// Update the velocities:
-			velocitiesX[i] = netForce[0] * damping;
-			velocitiesY[i] = netForce[1] * damping;
-			
-			// Check if something changed:
-			changed = changed || hasVelocity(i);
+			// Update the positions:
+			positionsX[i] += forceX;
+			positionsY[i] += forceY;
 			
 		}
 		
-		return changed;
-		
-	}
-	
-	/*
-	 * Check if the state with the given index has a non-zero velocity.
-	 */
-	private boolean hasVelocity(int index) {
-		return Math.abs(velocitiesX[index])>0 || Math.abs(velocitiesY[index])>0;
 	}
 	
 	/**
-	 * Update the state locations.
+	 * Commit the new  state locations.
 	 */
-	public void updateLocations() {
-
-		// Total number of states:
-		if (velocitiesX==null) return;
-		int states = Math.min(stateSpace.getStates().size(), velocitiesX.length);
-		if (states==0) return;
+	public void commit() {
+		
+		// Update the total number of states:
+		numStates = Math.min(states.size(), positionsX.length);
 		
 		// Update all states:
-		for (int i=0; i<states; i++) {
-			if (hasVelocity(i)) {
-				State state = stateSpace.getStates().get(i);
+		for (int i=0; i<numStates; i++) {
+				State state = states.get(i);
 				int[] location = state.getLocation();
-				location[0] += velocitiesX[i];
-				location[1] += velocitiesY[i];
+				location[0] = (int) positionsX[i];
+				location[1] = (int) positionsY[i];
 				state.setLocation(location);
-			}
 		}
 		
 	}
@@ -158,16 +143,16 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the transition attraction between two states.
 	 */
-	private double[] transitionAttraction(int[] l1, int[] l2) {
-		double[] direction = direction(l2,l1);
+	private double[] transitionAttraction(int i1, int i2) {
+		double[] direction = direction(i2,i1 );
 		double distance = length(direction);
-		if (distance>naturalLength) {
+		if (distance>1) {
 			double factor = attraction * Math.log(distance / naturalLength) / distance;
 			direction[0] *= factor;
 			direction[1] *= factor;
 		} else {
 			direction[0] = 1;
-			direction[1] = 0;
+			direction[1] = 1;
 		}
 		return direction;
 	}
@@ -175,16 +160,16 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the repulsion between two states.
 	 */
-	public double[] stateRepulsion(int[] l1, int[] l2) {
-		double[] direction = direction(l1,l2);
+	public double[] stateRepulsion(int i1, int i2) {
+		double[] direction = direction(i1,i2);
 		double distance = length(direction);
-		if (distance>10) {
+		if (distance>1) {
 			double factor = (repulsion*repulsion) / (distance*distance*distance);
 			direction[0] *= factor;
 			direction[1] *= factor;
 		} else {
 			direction[0] = -1;
-			direction[1] = 0;
+			direction[1] = -1;
 		}
 		return direction;
 	}
@@ -192,8 +177,8 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the direction vector between two states.
 	 */
-	private double[] direction(int[] l1, int[] l2) {
-		return new double[] { l1[0]-l2[0], l1[1]-l2[1] } ;
+	private double[] direction(int i1, int i2) {
+		return new double[] { positionsX[i1]-positionsX[i2], positionsY[i1]-positionsY[i2] } ;
 	}
 	
 	/*
@@ -206,7 +191,7 @@ public class StateSpaceSpringLayouter {
 	/*
 	 * Compute the number of states to provide storage for.
 	 */
-	private int velocityArraySize(int states) {
+	private int arraySize(int states) {
 		return (int) (1.5 * states + 2);
 	}
 	
@@ -233,12 +218,8 @@ public class StateSpaceSpringLayouter {
 	public void setNaturalTransitionLength(int naturalLength) {
 		this.naturalLength = naturalLength;
 	}
-	
-	public void setDamping(double damping) {
-		this.damping = damping;
-	}
-	
-	public void setCenter(int[] center) {
+
+	public void setCenter(double[] center) {
 		this.center = center;
 	}
 	

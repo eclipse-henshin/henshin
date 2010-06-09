@@ -72,9 +72,9 @@ public class StateSpaceToolsMenu extends Composite {
 											.6, .65, .7, .75, .8, .85, .9, .95, 1};
 	
 	public static final double REPULSION_FACTOR = 2;
-	public static final double ATTRACTION_FACTOR = 0.025;
+	public static final double ATTRACTION_FACTOR = 0.05;
 	
-	public static final int NATURAL_LENGTH = 35;
+	public static final int NATURAL_LENGTH = 25;
 	
 	// Edit domain:
 	private EditDomain editDomain;
@@ -247,23 +247,18 @@ public class StateSpaceToolsMenu extends Composite {
 		if (jobManager==null) return;
 		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
-		int numStates = jobManager.getStateSpaceManager().getStateSpace().getStates().size();
 		
 		// Set basic properties:
 		layouter.setStateRepulsion(((double) repulsionScale.getSelection()+10) * REPULSION_FACTOR);
 		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
-		if (numStates>0) {
-			double damping = 1.0 / (Math.log10(numStates) + 1.0);
-			layouter.setDamping(damping);
-		}
 		
 		// Set the center:
 		if (canvas!=null) {
 			Viewport port = canvas.getViewport();
-			int x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
-			int y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
-			layouter.setCenter(new int[] {x,y});
+			double x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
+			double y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
+			layouter.setCenter(new double[] {x,y});
 		} else {
 			layouter.setCenter(null);
 		}
