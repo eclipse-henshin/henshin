@@ -59,12 +59,20 @@ public class LayoutStateSpaceJob extends Job {
 		while (!monitor.isCanceled()) {
 			
 			// Calculate new positions:
-			layouter.update();
+			try {
+				layouter.update();
+			} catch (Throwable t) {
+				// Catch and ignore potential exceptions.				
+			}
 			
 			// Update positions:
 			display.asyncExec(new Runnable() {
 				public void run() {
-					layouter.commit();
+					try {
+						layouter.commit();
+					} catch (Throwable t) {
+						// Catch and ignore potential exceptions.
+					}
 				}
 			});
 			

@@ -38,7 +38,8 @@ public class StateSpaceSpringLayouter {
 	private double repulsion = 50;
 	private double attraction = 10;
 	private double naturalLength = 30;
-		
+	private double shiftFactor = 0.1;
+	
 	/**
 	 * Set the state space.
 	 * @param stateSpace State space.
@@ -64,6 +65,10 @@ public class StateSpaceSpringLayouter {
 			positionsY = new double[size];			
 		}
 		
+		// Summed position:
+		double sumX = 0;
+		double sumY = 0;
+		
 		// Update the position of all states:
 		for (int i=0; i<numStates; i++) {
 			
@@ -76,7 +81,18 @@ public class StateSpaceSpringLayouter {
 			if (positionsY[i]>location[1]+1 || positionsY[i]<location[1]-1) {
 				positionsY[i] = location[1];
 			}
+			
+			sumX += positionsX[i];
+			sumY += positionsY[i];
 
+		}
+		
+		// Shift to the center:
+		double shiftX = 0;
+		double shiftY = 0;
+		if (center!=null) {
+			shiftX = (center[0] - (sumX / (double) numStates)) * shiftFactor;
+			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;			
 		}
 		
 		// Compute the new positions:
@@ -114,8 +130,8 @@ public class StateSpaceSpringLayouter {
 			}
 			
 			// Update the positions:
-			positionsX[i] += forceX;
-			positionsY[i] += forceY;
+			positionsX[i] += forceX + shiftX;
+			positionsY[i] += forceY + shiftY;
 			
 		}
 		

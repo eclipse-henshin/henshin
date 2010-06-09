@@ -256,8 +256,9 @@ public class StateSpaceToolsMenu extends Composite {
 		// Set the center:
 		if (canvas!=null) {
 			Viewport port = canvas.getViewport();
-			double x = port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2);
-			double y = port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2);
+			double zoom = zoomManager.getZoom();
+			double x = (port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2)) / zoom;
+			double y = (port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2)) / zoom;
 			layouter.setCenter(new double[] {x,y});
 		} else {
 			layouter.setCenter(null);
@@ -487,6 +488,7 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetSelected(SelectionEvent e) {
 			if (zoomManager!=null) {
 				zoomManager.setZoom(ZOOM_LEVELS[zoomScale.getSelection()]);
+				updateLayouterProperties();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
