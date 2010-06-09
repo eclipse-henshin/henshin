@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceValidatorPlatformHelper;
+import org.eclipse.emf.henshin.statespace.util.ValidatorPlatformHelper;
 
 /**
  * This is the central singleton for the StateSpace model plugin.
@@ -52,10 +52,10 @@ public final class StateSpacePlugin extends EMFPlugin {
 	private static Implementation plugin;
 
 	/**
-	 * Registry for state space validators.
+	 * Registry for state and state space validators.
 	 * @generated NOT
 	 */	
-	private Map<String,StateSpaceValidator> validators;
+	private Map<String,Validator> validators;
 	
 	/**
 	 * Create the instance.
@@ -68,16 +68,16 @@ public final class StateSpacePlugin extends EMFPlugin {
 	}
 	
 	/**
-	 * Get the map of registered state space validators.
-	 * @return State space validator registry.
+	 * Get the map of registered state and state space validators.
+	 * @return Validator registry.
 	 * @generated NOT
 	 */
-	public Map<String,StateSpaceValidator> getStateSpaceValidators() {
+	public Map<String,Validator> getValidators() {
 		if (validators==null) {
-			validators = new HashMap<String,StateSpaceValidator>();
+			validators = new HashMap<String,Validator>();
 			try {
 				// Load the validators registered via the platform's extension point mechanism.
-				StateSpaceValidatorPlatformHelper.loadValidators();
+				ValidatorPlatformHelper.loadValidators();
 			}
 			catch (Throwable t) {
 				// Not critical. Happens if the platform is not present.
@@ -93,7 +93,12 @@ public final class StateSpacePlugin extends EMFPlugin {
 	 * @generated NOT
 	 */
 	public void logError(String message, Throwable t) {
-		plugin.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, 0, message, t));
+		if (plugin!=null && plugin.getLog()!=null) {
+			plugin.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, 0, message, t));
+		} else {
+			System.err.println(message);
+			if (t!=null) t.printStackTrace();
+		}
 	}
 	
 	/**

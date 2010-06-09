@@ -15,7 +15,7 @@
    <extension
          point="org.eclipse.emf.henshin.statespace.validators">
       <validator
-            class="org.eclipse.emf.henshin.statespace.ocl.OCLInvariantValidator"
+            class="org.eclipse.emf.henshin.statespace.ocl.OCLStateValidator"
             id="org.eclipse.emf.henshin.statespace.validators.ocl">
       </validator>
    </extension>

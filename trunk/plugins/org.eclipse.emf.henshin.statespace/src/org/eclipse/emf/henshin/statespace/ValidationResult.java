@@ -16,17 +16,17 @@ package org.eclipse.emf.henshin.statespace;
  * @author Christian Krause
  * @generated NOT
  */
-public final class StateSpaceValidationResult {
+public final class ValidationResult {
 
 	/**
 	 * Static validation result for successful validations without messages.
 	 */
-	public static final StateSpaceValidationResult VALID = new StateSpaceValidationResult(true,null);
+	public static final ValidationResult VALID = new ValidationResult(true,null);
 
 	/**
 	 * Static validation result for invalid properties, without extra message or data.
 	 */
-	public static final StateSpaceValidationResult INVALID = new StateSpaceValidationResult(false,null);
+	public static final ValidationResult INVALID = new ValidationResult(false,null);
 	
 	// Valid-flag.
 	private boolean valid;
@@ -40,7 +40,7 @@ public final class StateSpaceValidationResult {
 	 * @param message Message.
 	 * @param trace Trace.
 	 */
-	public StateSpaceValidationResult(boolean valid, Trace trace) {
+	public ValidationResult(boolean valid, Trace trace) {
 		this.valid = valid;
 		this.trace = trace;
 	}
@@ -50,7 +50,7 @@ public final class StateSpaceValidationResult {
 	 * @param valid Valid-flag.
 	 * @param message Message.
 	 */
-	public StateSpaceValidationResult(boolean valid) {
+	public ValidationResult(boolean valid) {
 		this(valid,null);
 	}
 

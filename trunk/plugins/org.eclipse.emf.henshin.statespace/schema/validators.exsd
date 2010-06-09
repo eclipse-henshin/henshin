@@ -62,7 +62,7 @@
                   State space validator implementation.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.StateSpaceValidator"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.Validator"/>
                </appInfo>
             </annotation>
          </attribute>

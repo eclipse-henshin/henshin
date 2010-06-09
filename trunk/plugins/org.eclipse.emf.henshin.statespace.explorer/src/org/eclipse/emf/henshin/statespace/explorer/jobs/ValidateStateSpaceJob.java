@@ -5,8 +5,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
+import org.eclipse.emf.henshin.statespace.StateValidator;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.Validator;
+import org.eclipse.emf.henshin.statespace.impl.InvariantStateSpaceValidator;
 
 /**
  * Job for running a state space validator.
@@ -21,7 +24,7 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	private String property;
 	
 	// Validation result:
-	private StateSpaceValidationResult result;
+	private ValidationResult result;
 	
 	/**
 	 * Default constructor.
@@ -32,7 +35,7 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 		super("Validating state space", manager);
 		setUser(true);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
@@ -42,19 +45,27 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 		try {
 			validator.setStateSpaceIndex(getStateSpaceManager());
 			validator.setProperty(property);
-			result = validator.validate(monitor);
+			result = validator.validate(getStateSpaceManager().getStateSpace(), monitor);
 		} catch (Exception e) {
 			return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, 0, "Error validating property", e);
 		}
 		return Status.OK_STATUS;
 	}
 	
-	public StateSpaceValidationResult getValidationResult() {
+	public ValidationResult getValidationResult() {
 		return result;
 	}
 
-	public void setValidator(StateSpaceValidator validator) {
-		this.validator = validator;
+	public void setValidator(Validator validator) {
+		if (validator instanceof StateSpaceValidator) {
+			this.validator = (StateSpaceValidator) validator;
+		} 
+		else if (validator instanceof StateValidator) {
+			this.validator = new InvariantStateSpaceValidator((StateValidator) validator);
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public void setProperty(String property) {

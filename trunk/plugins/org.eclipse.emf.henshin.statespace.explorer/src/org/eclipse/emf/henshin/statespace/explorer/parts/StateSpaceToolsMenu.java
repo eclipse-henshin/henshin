@@ -27,8 +27,10 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidationResult;
+import org.eclipse.emf.henshin.statespace.StateValidator;
+import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.Validator;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
@@ -116,8 +118,8 @@ public class StateSpaceToolsMenu extends Composite {
 	// Combo for choosing validator:
 	private Combo validatorCombo;
 
-	// List of state space validators.
-	private List<StateSpaceValidator> validators;
+	// List of registered validators.
+	private List<Validator> validators;
 	
 	
 	/**
@@ -210,19 +212,23 @@ public class StateSpaceToolsMenu extends Composite {
 	private void initControlsData() {
 		
 		// Load the validators:
-		validators = new ArrayList<StateSpaceValidator>();
-		validators.addAll(StateSpacePlugin.INSTANCE.getStateSpaceValidators().values());
+		validators = new ArrayList<Validator>();
+		validators.addAll(StateSpacePlugin.INSTANCE.getValidators().values());
 		String validatorId = getPreferenceStore().getString(VALIDATOR_KEY);
-		StateSpaceValidator validator = (validatorId!=null) ? StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(validatorId) : null;
-		Collections.sort(validators, new Comparator<StateSpaceValidator>() {
-			public int compare(StateSpaceValidator v1, StateSpaceValidator v2) {
+		Validator validator = (validatorId!=null) ? StateSpacePlugin.INSTANCE.getValidators().get(validatorId) : null;
+		Collections.sort(validators, new Comparator<Validator>() {
+			public int compare(Validator v1, Validator v2) {
 				String n1 = v1.getName();
 				String n2 = v2.getName();
 				return (n1!=null && n2!=null) ? n1.compareTo(n2) : 0;
 			}
 		});
-		for (StateSpaceValidator current : validators) {
-			validatorCombo.add(current.getName());
+		for (Validator current : validators) {
+			String name = current.getName();
+			if (!(current instanceof StateSpaceValidator) && (current instanceof StateValidator)) {
+				name = name + " (invariant)";
+			}
+			validatorCombo.add(name);
 		}
 		validatorCombo.select((validator!=null) ? validators.indexOf(validator) : 0);
 		
@@ -365,7 +371,7 @@ public class StateSpaceToolsMenu extends Composite {
 	/*
 	 * Called when the validation job has finished.
 	 */
-	private void validationFinished(StateSpaceValidationResult result) {
+	private void validationFinished(ValidationResult result) {
 		if (result.getTrace()!=null && explorer!=null) {
 			explorer.selectTrace(result.getTrace());
 		}
@@ -377,8 +383,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validateButton.setEnabled(true);		
 	}
 
-	
-	private StateSpaceValidator getActiveValidator() {
+	private Validator getActiveValidator() {
 		int index = validatorCombo.getSelectionIndex();
 		return (index>=0) ? validators.get(index) : null;
 	}
@@ -537,11 +542,11 @@ public class StateSpaceToolsMenu extends Composite {
 			if (jobManager==null) return;
 			validateButton.setEnabled(false);
 			jobManager.getValidateJob().setProperty(validationText.getText());
-			StateSpaceValidator validator = getActiveValidator();
+			Validator validator = getActiveValidator();
 			try {
 				validator = validator.getClass().newInstance();
 			} catch (Exception t) {
-				StateSpaceExplorerPlugin.getInstance().logError("State space validator cannot be reinstantiated", t);
+				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);
 			}
 			jobManager.getValidateJob().setValidator(validator);
 			jobManager.startValidateJob();
@@ -574,9 +579,9 @@ public class StateSpaceToolsMenu extends Composite {
 	private ModifyListener validationTextListener = new ModifyListener() {
 		public void modifyText(ModifyEvent e) {
 			getPreferenceStore().setValue(VALIDATION_PROPERTY_KEY, validationText.getText());
-			StateSpaceValidator validator = getActiveValidator();
-			for (String id : StateSpacePlugin.INSTANCE.getStateSpaceValidators().keySet()) {
-				if (StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(id)==validator) {
+			Validator validator = getActiveValidator();
+			for (String id : StateSpacePlugin.INSTANCE.getValidators().keySet()) {
+				if (StateSpacePlugin.INSTANCE.getValidators().get(id)==validator) {
 					getPreferenceStore().setValue(VALIDATOR_KEY, id);
 					break;
 				}
@@ -591,9 +596,9 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
 		public void widgetSelected(SelectionEvent e) {
-			StateSpaceValidator validator = getActiveValidator();
-			for (String id : StateSpacePlugin.INSTANCE.getStateSpaceValidators().keySet()) {
-				if (StateSpacePlugin.INSTANCE.getStateSpaceValidators().get(id)==validator) {
+			Validator validator = getActiveValidator();
+			for (String id : StateSpacePlugin.INSTANCE.getValidators().keySet()) {
+				if (StateSpacePlugin.INSTANCE.getValidators().get(id)==validator) {
 					getPreferenceStore().setValue(VALIDATOR_KEY, id);
 					break;
 				}

@@ -15,14 +15,14 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.Validator;
 
 /**
- * Helper class for registering platform state space validators.
+ * Helper class for registering platform state space and state validators.
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceValidatorPlatformHelper {
+public class ValidatorPlatformHelper {
 	
 	/**
 	 * Load the state space validators registered via the platform.
@@ -40,10 +40,10 @@ public class StateSpaceValidatorPlatformHelper {
 			if ("validator".equals(element.getName())) {
 				String id = element.getAttribute("id");
 				try {
-					StateSpaceValidator validator = (StateSpaceValidator) element.createExecutableExtension("class");
-					StateSpacePlugin.INSTANCE.getStateSpaceValidators().put(id, validator);
+					Validator validator = (Validator) element.createExecutableExtension("class");
+					StateSpacePlugin.INSTANCE.getValidators().put(id, validator);
 				} catch (Throwable t) {
-					StateSpacePlugin.INSTANCE.logError("Error loading state space validator with id " + id, t);
+					StateSpacePlugin.INSTANCE.logError("Error loading state space or state validator with id " + id, t);
 				}
 			}
 		}
