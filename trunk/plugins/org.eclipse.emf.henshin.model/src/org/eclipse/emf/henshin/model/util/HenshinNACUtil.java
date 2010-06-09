@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -35,6 +36,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * that are associated to the LHS of a rule.
  * 
  * @author Christian Krause
+ * @generated NOT
  */
 public class HenshinNACUtil {
 	
@@ -150,6 +152,11 @@ public class HenshinNACUtil {
 		// Check if any of the nodes is not the image of a mapping.
 		for (Node node : graph.getNodes()) {
 			if (HenshinMappingUtil.getNodeOrigin(node, mappings)==null) return false;
+			
+			// Check the attributes of this node as well.
+			for (Attribute attribute : node.getAttributes()) {
+				if (HenshinMappingUtil.getAttributeOrigin(attribute, mappings)==null) return false;				
+			}
 		}
 
 		// Check if any of the edges is not the image of a mapping.
