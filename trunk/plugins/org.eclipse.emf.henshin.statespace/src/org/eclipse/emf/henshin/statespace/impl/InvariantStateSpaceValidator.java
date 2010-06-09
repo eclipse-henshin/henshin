@@ -129,7 +129,7 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 	 * @see org.eclipse.emf.henshin.statespace.Validator#getName()
 	 */
 	public String getName() {
-		return validator.getName();
+		return validator.getName() + " (invariant)";
 	}
 
 	/*
