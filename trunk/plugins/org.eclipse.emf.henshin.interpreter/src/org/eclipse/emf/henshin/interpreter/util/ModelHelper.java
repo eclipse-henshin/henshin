@@ -174,8 +174,14 @@ public class ModelHelper {
 		if (complexValue instanceof Double) {
 			if (type.equals("int")) {
 				return ((Double) complexValue).intValue();
+			} else if (type.equals("long")) {
+				return ((Double) complexValue).longValue();
 			} else if (type.equals("float")) {
 				return ((Double) complexValue).floatValue();
+			}  else if (type.equals("short")) {
+				return ((Double) complexValue).shortValue();
+			} else if (type.equals("byte")) {
+				return ((Double) complexValue).byteValue();
 			}
 		}
 
