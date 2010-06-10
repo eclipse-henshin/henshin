@@ -28,13 +28,16 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
 public class StateSpaceIndexImpl implements StateSpaceIndex {
 	
 	// Minimum size of the index:
-	private static final int MIN_INDEX_SIZE = 512;
+	private static final int INITIAL_INDEX_SIZE = 8192;
 	
 	// The state space index:
 	private State[][] index;
 	
 	// State space:
 	private StateSpace stateSpace;
+	
+	// Record number of collisions:
+	private int collisions;
 	
 	/**
 	 * Default constructor. This fills the state index.
@@ -125,6 +128,12 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 			}
 		}
 		
+		// Record collision:
+		if (minor>0) {
+			collisions++;
+			System.out.println(((100*collisions) / stateSpace.getStates().size()) + "% collisions");
+		}
+		
 		// Check if the array needs to be expanded:
 		if (minor>=index[position].length) {
 			index[position] = Arrays.copyOf(index[position], index[position].length*2);
@@ -161,6 +170,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	public void resetIndex() {
 		this.index = new State[optimalSize()][];
+		collisions = 0;
 	}
 	
 	/*
@@ -169,6 +179,14 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	public StateSpace getStateSpace() {
 		return stateSpace;
+	}
+	
+	/**
+	 * Get the number of collisions that occurred.
+	 * @return Number of collisions.
+	 */
+	public int getCollisions() {
+		return collisions;
 	}
 	
 	/*
@@ -202,7 +220,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	private int optimalSize() {
 		int size = getStateSpace().getStates().size() * 2;
-		return (size<MIN_INDEX_SIZE) ? MIN_INDEX_SIZE : size;
+		return (size<INITIAL_INDEX_SIZE) ? INITIAL_INDEX_SIZE : size;
 	}
 	
 	/*

@@ -102,7 +102,7 @@ public class StateSpaceEqualityUtil {
 		
 		// Add the feature hash codes:
 		for (EStructuralFeature feature : eclass.getEAllStructuralFeatures()) {
-						
+			
 			if (feature instanceof EAttribute ||
 				(feature instanceof EReference && ((EReference) feature).isContainment())) {
 				
@@ -236,7 +236,6 @@ public class StateSpaceEqualityUtil {
 			
 			// Success (both arrays are empty):
 			return true;
-
 			
 		}
 	}
