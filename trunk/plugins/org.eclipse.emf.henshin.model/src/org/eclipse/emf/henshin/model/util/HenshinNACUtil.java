@@ -155,7 +155,10 @@ public class HenshinNACUtil {
 			
 			// Check the attributes of this node as well.
 			for (Attribute attribute : node.getAttributes()) {
-				if (HenshinMappingUtil.getAttributeOrigin(attribute, mappings)==null) return false;				
+				Attribute origin = HenshinMappingUtil.getAttributeOrigin(attribute, mappings);
+				if (origin==null || !HenshinRuleAnalysisUtil.valueEquals(attribute.getValue(), origin.getValue())) {
+					return false;
+				}
 			}
 		}
 

@@ -56,7 +56,7 @@ public class StateSpaceSearch {
 	 * @param reverse Flag indicating if the traversal should be in reverse direction.
 	 */
 	public synchronized boolean depthFirst(List<State> states, boolean reverse) {
-		visited.clear();
+		reset();
 		for (State state : states) {
 			if (depthFirst(state, reverse)) return true;
 		}
@@ -159,7 +159,7 @@ public class StateSpaceSearch {
 	 * Reset this state space search. This clears the set of visited states.
 	 */
 	public void reset() {
-		getVisitedStates().clear();
+		visited.clear();
 	}
 	
 	/*
