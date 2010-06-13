@@ -40,7 +40,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl implements State
 	 * @generated NOT
 	 */
 	public int hashCode(Resource resource) {
-		return hashCode(resource.getContents());
+		return hashCode(resource.getContents(), 0);
 	}
 	
 	/*
@@ -49,13 +49,13 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl implements State
 	 * Depending on the equality type, the list is treated
 	 * as a sequence or as a set.
 	 */
-	private int hashCode(EList<EObject> objects) {
+	private int hashCode(EList<EObject> objects, int depth) {
 		int hash = 0;
 		for (EObject object : objects) {
 			if (equalityType==ECORE_EQUALITY) {
-				hash = 31 * hash;
+				hash = NodeKey.PRIMES[depth % NodeKey.PRIMES.length] * hash;
 			}
-			hash += hashCode(object);
+			hash += hashCode(object, depth);
 		}
 		return hash;
 	}
@@ -67,16 +67,16 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl implements State
 	 * the contents of the object.
 	 */
 	@SuppressWarnings("unchecked")
-	private int hashCode(EObject object) {
+	private int hashCode(EObject object, int depth) {
 		int hash = nodeKeyCache.get(object).hashCode();
 		for (EReference reference : object.eClass().getEAllContainments()) {
 			int value;
 			if (reference.isMany()) {
 				EList<EObject> list = (EList<EObject>) object.eGet(reference);
-				value = hashCode(list);
+				value = hashCode(list, depth+1);
 			} else {
 				EObject child = (EObject) object.eGet(reference);
-				value = (child==null) ? 0 : hashCode(child);
+				value = (child==null) ? 0 : hashCode(child, depth+1);
 			}
 			hash = (hash * 31) + value;
 		}

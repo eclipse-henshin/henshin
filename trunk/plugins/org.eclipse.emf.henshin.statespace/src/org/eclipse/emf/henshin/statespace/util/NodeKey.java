@@ -58,10 +58,9 @@ public class NodeKey {
 	};
 
 	/**
-	 * Prime numbers: used for computing hash codes. We need only a few. The first
-	 * one is reserved for classifier IDs and the other ten are used for feature IDs.
+	 * The ten first prime numbers: used for computing hash codes.
 	 */
-	private static int[] PRIMES = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31};
+	public static int[] PRIMES = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
 
 	// EPackage's nsURI:
 	private String nsURI;

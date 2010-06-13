@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 
@@ -64,7 +66,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		
 		// Explore the state space...
 		monitor.beginTask("Exploring state space...", IProgressMonitor.UNKNOWN);
-		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
+		
+		// State space manager and state space:
+		StateSpaceManagerImpl manager = (StateSpaceManagerImpl) getStateSpaceManager();
+		StateSpace stateSpace = manager.getStateSpace();
+		DecimalFormat percent = new DecimalFormat("0.00%");
 		
 		try {
 			
@@ -82,8 +88,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
 					
 					// Update the monitor:
-					monitor.subTask("State space has " + stateSpace.getStates().size() + " states ("
-							+ stateSpace.getOpenStates().size() + " open) and " + stateSpace.getTransitionCount() + " transitions");
+					int states = stateSpace.getStates().size();
+					monitor.subTask(states + " states ("
+							+ stateSpace.getOpenStates().size() + " open) and " 
+							+ stateSpace.getTransitionCount() + " transitions. "
+							+ percent.format((double) manager.getCollisions() / states) + " hash collisions.");
 					
 					// Execute as explore command:
 					Command command = createExploreCommand(open, index, numStatesAtOnce);

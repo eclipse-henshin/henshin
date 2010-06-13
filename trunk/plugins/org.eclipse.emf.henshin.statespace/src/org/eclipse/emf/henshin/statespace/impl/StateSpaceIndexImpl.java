@@ -35,8 +35,8 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	// State space:
 	private StateSpace stateSpace;
 	
-	// Record number of collisions:
-	private int collisions;
+	// Some statistics:
+	private int entries, collisions;
 	
 	/**
 	 * Default constructor. This fills the state index.
@@ -105,8 +105,8 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	public void addToIndex(State state) {
 		
-		// Check if the index needs to be resized:
-		if (minimalSize() > index.length) {
+		// We resize if the index 50% filled:
+		if (index.length < (2 * entries)) {
 			grow();
 		}
 		
@@ -130,7 +130,6 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		// Record collision:
 		if (minor>0) {
 			collisions++;
-			System.out.println(((100*collisions) / stateSpace.getStates().size()) + "% collisions");
 		}
 		
 		// Check if the array needs to be expanded:
@@ -140,6 +139,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		
 		// Add the state to the index:
 		index[position][minor] = state;
+		entries++;
 		
 	}
 	
@@ -158,6 +158,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		for (int i=0; i<matched.length; i++) {
 			if (matched[i]==state) {
 				matched[i] = null;
+				entries--;
 				return;
 			}
 		}
@@ -169,6 +170,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	public void resetIndex() {
 		this.index = new State[optimalSize()][];
+		entries = 0;
 		collisions = 0;
 	}
 	
@@ -187,7 +189,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	public int getCollisions() {
 		return collisions;
 	}
-	
+
 	/*
 	 * Grow the index. This method is linear in the
 	 * number of indexed states and does not compute any models.
@@ -218,15 +220,9 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Compute the optimal size of the index.
 	 */
 	private int optimalSize() {
-		int size = (getStateSpace().getStates().size() * 4) + 23;		// Roughly, times 4.
+		// We want it to be filled to 25%.
+		int size = (stateSpace.getStates().size() * 4) + 1;
 		return (size<INITIAL_INDEX_SIZE) ? INITIAL_INDEX_SIZE : size;
-	}
-	
-	/*
-	 * Compute the minimal size of the index.
-	 */
-	private int minimalSize() {
-		return (int) ((double) getStateSpace().getStates().size() * 2);	// We want nor more than 50% filled.
 	}
 	
 	/*
