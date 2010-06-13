@@ -21,14 +21,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface State extends Storage {
 	
 	/**
-	 * Returns the value of the '<em><b>Index</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Index</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Index</em>' attribute.
+	 * Get the index of this state.
+	 * @return the index of this state.
 	 * @see #setIndex(int)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_Index()
 	 * @model
@@ -37,10 +31,8 @@ public interface State extends Storage {
 	int getIndex();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getIndex <em>Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Index</em>' attribute.
+	 * Set the index of this state. Should be done only by {@link StateSpaceManager}s.
+	 * @param value the new index.
 	 * @see #getIndex()
 	 * @generated
 	 */

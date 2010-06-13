@@ -73,6 +73,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 			case StateSpacePackage.STATE_SPACE: return createStateSpace();
 			case StateSpacePackage.STATE: return createState();
 			case StateSpacePackage.TRANSITION: return createTransition();
+			case StateSpacePackage.STATE_EQUALITY_HELPER: return createStateEqualityHelper();
 			case StateSpacePackage.STORAGE: return createStorage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -137,6 +138,16 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	public Transition createTransition() {
 		TransitionImpl transition = new TransitionImpl();
 		return transition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StateEqualityHelper createStateEqualityHelper() {
+		StateEqualityHelperImpl stateEqualityHelper = new StateEqualityHelperImpl();
+		return stateEqualityHelper;
 	}
 
 	/**

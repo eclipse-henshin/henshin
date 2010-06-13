@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -51,8 +52,11 @@ public class StateSpaceDeserializer {
 		int version = readShort(); // Version number
 		if (version!=0) throw new IOException("Unsupported format version: " + version);
 		
-		int useGraphEquality = readShort(); // Use graph equality?
-		stateSpace.setUseGraphEquality(useGraphEquality!=0);
+		int equalityType = readShort(); // Equality type
+		StateEqualityHelper helper = StateSpaceFactory.eINSTANCE.createStateEqualityHelper();
+		helper.setEqualityType(equalityType & 255);
+		helper.setIgnoreAttributes((equalityType & 256)==256);
+		stateSpace.setEqualityHelper(helper);
 		
 		int ruleCount = readShort(); // Rule count
 		int stateCount = readInt(); // State count

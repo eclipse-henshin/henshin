@@ -21,13 +21,14 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
  */
 public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 
-	// Graph-equality property.
-	private boolean graphEquality;
+	private int equalityType;
+	private boolean ignoreAttributes;
 
-	public SetGraphEqualityCommand(StateSpaceManager manager, boolean graphEquality) {
+	public SetGraphEqualityCommand(StateSpaceManager manager, int equalityType, boolean ignoreAttributes) {
 		super(manager);
 		setLabel("set equality type");
-		this.graphEquality = graphEquality;
+		this.equalityType = equalityType;
+		this.ignoreAttributes = ignoreAttributes;
 	}
 	
 	/*
@@ -38,7 +39,8 @@ public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 	public void doExecute() { 
 		
 		// Set the graph-equality property:
-		getStateSpaceManager().getStateSpace().setUseGraphEquality(graphEquality);
+		getStateSpaceManager().getStateSpace().getEqualityHelper().setEqualityType(equalityType);
+		getStateSpaceManager().getStateSpace().getEqualityHelper().setIgnoreAttributes(ignoreAttributes);
 		
 		// Now do a reset:
 		super.doExecute();

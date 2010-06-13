@@ -72,18 +72,29 @@ public interface StateSpace extends Storage {
 	void setTransitionCount(int value);
 
 	/**
-	 * Check whether this state space uses graph-equality instead of Ecore-equality.
-	 * @see #setUseGraphEquality(boolean)
-	 * @model default="false"
+	 * Returns the value of the '<em><b>Equality Helper</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Equality Helper</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Equality Helper</em>' containment reference.
+	 * @see #setEqualityHelper(StateEqualityHelper)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_EqualityHelper()
+	 * @model containment="true"
 	 * @generated
 	 */
-	boolean isUseGraphEquality();
+	StateEqualityHelper getEqualityHelper();
 
 	/**
-	 * Set whether this state space uses graph-equality instead of Ecore-equality.
-	 * @see #isUseGraphEquality()
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateSpace#getEqualityHelper <em>Equality Helper</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Equality Helper</em>' containment reference.
+	 * @see #getEqualityHelper()
 	 * @generated
 	 */
-	void setUseGraphEquality(boolean value);
+	void setEqualityHelper(StateEqualityHelper value);
 	
 }

@@ -17,6 +17,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/openStates"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/transitionCount"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/useGraphEquality"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/equalityHelper"/>
       <genOperations ecoreOperation="statespace.ecore#//StateSpace/removeState">
         <genParameters ecoreParameter="statespace.ecore#//StateSpace/removeState/state"/>
       </genOperations>
@@ -38,6 +39,17 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//Transition/target"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//Transition/match"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference statespace.ecore#//Transition/rule"/>
+    </genClasses>
+    <genClasses ecoreClass="statespace.ecore#//StateEqualityHelper">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateEqualityHelper/equalityType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateEqualityHelper/ignoreAttributes"/>
+      <genOperations ecoreOperation="statespace.ecore#//StateEqualityHelper/equals">
+        <genParameters ecoreParameter="statespace.ecore#//StateEqualityHelper/equals/model1"/>
+        <genParameters ecoreParameter="statespace.ecore#//StateEqualityHelper/equals/model2"/>
+      </genOperations>
+      <genOperations ecoreOperation="statespace.ecore#//StateEqualityHelper/hashCode">
+        <genParameters ecoreParameter="statespace.ecore#//StateEqualityHelper/hashCode/model"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="statespace.ecore#//Storage">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//Storage/data"/>

@@ -83,7 +83,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStorage()
 	 * @generated
 	 */
-	int STORAGE = 3;
+	int STORAGE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Data</b></em>' attribute.
@@ -158,13 +158,13 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__TRANSITION_COUNT = STORAGE_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Use Graph Equality</b></em>' attribute.
+	 * The feature id for the '<em><b>Equality Helper</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__USE_GRAPH_EQUALITY = STORAGE_FEATURE_COUNT + 5;
+	int STATE_SPACE__EQUALITY_HELPER = STORAGE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -340,13 +340,50 @@ public interface StateSpacePackage extends EPackage {
 	int TRANSITION_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateEqualityHelper()
+	 * @generated
+	 */
+	int STATE_EQUALITY_HELPER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Equality Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_EQUALITY_HELPER__EQUALITY_TYPE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Ignore Attributes</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES = 1;
+
+	/**
+	 * The number of structural features of the '<em>State Equality Helper</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_EQUALITY_HELPER_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '<em>Integer Array</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getIntegerArray()
 	 * @generated
 	 */
-	int INTEGER_ARRAY = 4;
+	int INTEGER_ARRAY = 5;
 
 
 	/**
@@ -404,15 +441,15 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getStateSpace_TransitionCount();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isUseGraphEquality <em>Use Graph Equality</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.statespace.StateSpace#getEqualityHelper <em>Equality Helper</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isUseGraphEquality()
+	 * @return the meta object for the containment reference '<em>Equality Helper</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getEqualityHelper()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
-	EAttribute getStateSpace_UseGraphEquality();
+	EReference getStateSpace_EqualityHelper();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
@@ -567,6 +604,38 @@ public interface StateSpacePackage extends EPackage {
 	EReference getTransition_Rule();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper <em>State Equality Helper</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>State Equality Helper</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper
+	 * @generated
+	 */
+	EClass getStateEqualityHelper();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#getEqualityType <em>Equality Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Equality Type</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#getEqualityType()
+	 * @see #getStateEqualityHelper()
+	 * @generated
+	 */
+	EAttribute getStateEqualityHelper_EqualityType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreAttributes <em>Ignore Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ignore Attributes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreAttributes()
+	 * @see #getStateEqualityHelper()
+	 * @generated
+	 */
+	EAttribute getStateEqualityHelper_IgnoreAttributes();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -673,12 +742,12 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute STATE_SPACE__TRANSITION_COUNT = eINSTANCE.getStateSpace_TransitionCount();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Equality Helper</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_SPACE__USE_GRAPH_EQUALITY = eINSTANCE.getStateSpace_UseGraphEquality();
+		EReference STATE_SPACE__EQUALITY_HELPER = eINSTANCE.getStateSpace_EqualityHelper();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.
@@ -795,6 +864,32 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRANSITION__RULE = eINSTANCE.getTransition_Rule();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateEqualityHelper()
+		 * @generated
+		 */
+		EClass STATE_EQUALITY_HELPER = eINSTANCE.getStateEqualityHelper();
+
+		/**
+		 * The meta object literal for the '<em><b>Equality Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_EQUALITY_HELPER__EQUALITY_TYPE = eINSTANCE.getStateEqualityHelper_EqualityType();
+
+		/**
+		 * The meta object literal for the '<em><b>Ignore Attributes</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES = eINSTANCE.getStateEqualityHelper_IgnoreAttributes();
 
 		/**
 		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.

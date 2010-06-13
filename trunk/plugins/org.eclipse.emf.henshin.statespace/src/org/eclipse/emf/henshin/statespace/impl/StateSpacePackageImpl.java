@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
@@ -60,6 +61,13 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	private EClass transitionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stateEqualityHelperEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -193,8 +201,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStateSpace_UseGraphEquality() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(5);
+	public EReference getStateSpace_EqualityHelper() {
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(5);
 	}
 
 
@@ -336,6 +344,36 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStateEqualityHelper() {
+		return stateEqualityHelperEClass;
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateEqualityHelper_EqualityType() {
+		return (EAttribute)stateEqualityHelperEClass.getEStructuralFeatures().get(0);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateEqualityHelper_IgnoreAttributes() {
+		return (EAttribute)stateEqualityHelperEClass.getEStructuralFeatures().get(1);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getTransition_Match() {
 		return (EAttribute)transitionEClass.getEStructuralFeatures().get(2);
 	}
@@ -405,7 +443,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(stateSpaceEClass, STATE_SPACE__INITIAL_STATES);
 		createEReference(stateSpaceEClass, STATE_SPACE__OPEN_STATES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
-		createEAttribute(stateSpaceEClass, STATE_SPACE__USE_GRAPH_EQUALITY);
+		createEReference(stateSpaceEClass, STATE_SPACE__EQUALITY_HELPER);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__INDEX);
@@ -422,6 +460,10 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(transitionEClass, TRANSITION__TARGET);
 		createEAttribute(transitionEClass, TRANSITION__MATCH);
 		createEReference(transitionEClass, TRANSITION__RULE);
+
+		stateEqualityHelperEClass = createEClass(STATE_EQUALITY_HELPER);
+		createEAttribute(stateEqualityHelperEClass, STATE_EQUALITY_HELPER__EQUALITY_TYPE);
+		createEAttribute(stateEqualityHelperEClass, STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES);
 
 		storageEClass = createEClass(STORAGE);
 		createEAttribute(storageEClass, STORAGE__DATA);
@@ -472,7 +514,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getStateSpace_InitialStates(), this.getState(), null, "initialStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_OpenStates(), this.getState(), null, "openStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_UseGraphEquality(), ecorePackage.getEBoolean(), "useGraphEquality", "false", 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_EqualityHelper(), this.getStateEqualityHelper(), null, "equalityHelper", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -496,6 +538,17 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getTransition_Target(), this.getState(), this.getState_Incoming(), "target", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTransition_Match(), ecorePackage.getEInt(), "match", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Rule(), theHenshinPackage.getRule(), null, "rule", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stateEqualityHelperEClass, StateEqualityHelper.class, "StateEqualityHelper", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStateEqualityHelper_EqualityType(), ecorePackage.getEInt(), "equalityType", null, 0, 1, StateEqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateEqualityHelper_IgnoreAttributes(), ecorePackage.getEBoolean(), "ignoreAttributes", null, 0, 1, StateEqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = addEOperation(stateEqualityHelperEClass, ecorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEResource(), "model1", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEResource(), "model2", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(stateEqualityHelperEClass, ecorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEResource(), "model", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(storageEClass, Storage.class, "Storage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStorage_Data(), this.getIntegerArray(), "data", null, 0, 1, Storage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

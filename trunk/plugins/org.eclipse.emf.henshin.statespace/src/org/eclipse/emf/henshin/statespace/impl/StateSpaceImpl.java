@@ -24,7 +24,9 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
 
@@ -33,6 +35,16 @@ import org.eclipse.emf.henshin.statespace.Transition;
  * @generated
  */
 public class StateSpaceImpl extends StorageImpl implements StateSpace {
+
+	/**
+	 * Default constructor.
+	 * @generated NOT
+	 */
+	protected StateSpaceImpl() {
+		super();
+		// Create a default equality helper:
+		setEqualityHelper(StateSpaceFactory.eINSTANCE.createStateEqualityHelper());
+	}
 
 	/**
 	 * Get the list of open states in this state space.
@@ -162,32 +174,14 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected int transitionCount = TRANSITION_COUNT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * The cached value of the '{@link #getEqualityHelper() <em>Equality Helper</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseGraphEquality()
+	 * @see #getEqualityHelper()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean USE_GRAPH_EQUALITY_EDEFAULT = false;
-
-
-	/**
-	 * The cached value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isUseGraphEquality()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
-
-	/**
-	 * @generated
-	 */
-	protected StateSpaceImpl() {
-		super();
-	}
+	protected StateEqualityHelper equalityHelper;
 
 	/**
 	 * @generated
@@ -258,8 +252,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isUseGraphEquality() {
-		return useGraphEquality;
+	public StateEqualityHelper getEqualityHelper() {
+		return equalityHelper;
 	}
 
 	/**
@@ -267,11 +261,33 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUseGraphEquality(boolean newUseGraphEquality) {
-		boolean oldUseGraphEquality = useGraphEquality;
-		useGraphEquality = newUseGraphEquality;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
+	public NotificationChain basicSetEqualityHelper(StateEqualityHelper newEqualityHelper, NotificationChain msgs) {
+		StateEqualityHelper oldEqualityHelper = equalityHelper;
+		equalityHelper = newEqualityHelper;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__EQUALITY_HELPER, oldEqualityHelper, newEqualityHelper);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEqualityHelper(StateEqualityHelper newEqualityHelper) {
+		if (newEqualityHelper != equalityHelper) {
+			NotificationChain msgs = null;
+			if (equalityHelper != null)
+				msgs = ((InternalEObject)equalityHelper).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StateSpacePackage.STATE_SPACE__EQUALITY_HELPER, null, msgs);
+			if (newEqualityHelper != null)
+				msgs = ((InternalEObject)newEqualityHelper).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StateSpacePackage.STATE_SPACE__EQUALITY_HELPER, null, msgs);
+			msgs = basicSetEqualityHelper(newEqualityHelper, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__EQUALITY_HELPER, newEqualityHelper, newEqualityHelper));
 	}
 
 	/**
@@ -299,6 +315,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		switch (featureID) {
 			case StateSpacePackage.STATE_SPACE__STATES:
 				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
+				return basicSetEqualityHelper(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -321,8 +339,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getOpenStates();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return getTransitionCount();
-			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
-				return isUseGraphEquality();
+			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
+				return getEqualityHelper();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -355,8 +373,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				setTransitionCount((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
-				setUseGraphEquality((Boolean)newValue);
+			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
+				setEqualityHelper((StateEqualityHelper)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -385,8 +403,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				setTransitionCount(TRANSITION_COUNT_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
-				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
+			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
+				setEqualityHelper((StateEqualityHelper)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -410,8 +428,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return openStates != null && !openStates.isEmpty();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return transitionCount != TRANSITION_COUNT_EDEFAULT;
-			case StateSpacePackage.STATE_SPACE__USE_GRAPH_EQUALITY:
-				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
+				return equalityHelper != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -428,8 +446,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
-		result.append(", useGraphEquality: ");
-		result.append(useGraphEquality);
 		result.append(')');
 		return result.toString();
 	}

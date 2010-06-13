@@ -18,7 +18,6 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
 
 /**
  * Default implementation of {@link StateSpaceIndexImpl}. 
@@ -27,8 +26,8 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceEqualityUtil;
  */
 public class StateSpaceIndexImpl implements StateSpaceIndex {
 	
-	// Minimum size of the index:
-	private static final int INITIAL_INDEX_SIZE = 8192;
+	// Initial size of the index. We use a prime number.
+	private static final int INITIAL_INDEX_SIZE = 4093;
 	
 	// The state space index:
 	private State[][] index;
@@ -219,7 +218,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Compute the optimal size of the index.
 	 */
 	private int optimalSize() {
-		int size = getStateSpace().getStates().size() * 2;
+		int size = (getStateSpace().getStates().size() * 4) + 23;		// Roughly, times 4.
 		return (size<INITIAL_INDEX_SIZE) ? INITIAL_INDEX_SIZE : size;
 	}
 	
@@ -227,23 +226,23 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Compute the minimal size of the index.
 	 */
 	private int minimalSize() {
-		return getStateSpace().getStates().size();
+		return (int) ((double) getStateSpace().getStates().size() * 2);	// We want nor more than 50% filled.
 	}
 	
 	/*
 	 * Compute the hash code of a state model.
-	 * This delegates to HenshinEqualityUtil#hashCode
+	 * This delegates to the state equality helper.
 	 */
 	protected int hashCode(Resource model) {
-		return StateSpaceEqualityUtil.hashCode(model, stateSpace.isUseGraphEquality());
+		return stateSpace.getEqualityHelper().hashCode(model);
 	}
 	
 	/*
 	 * Check if two state models are equal.
-	 * This delegates to HenshinEqualityUtil#equals
+	 * This delegates to the equality helper.
 	 */
 	protected boolean equals(Resource model1, Resource model2) {
-		return StateSpaceEqualityUtil.equals(model1, model2, stateSpace.isUseGraphEquality());
+		return stateSpace.getEqualityHelper().equals(model1, model2);
 	}
 	
 }

@@ -24,6 +24,7 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
@@ -279,8 +280,9 @@ public class StateSpaceToolsMenu extends Composite {
 			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
-			graphButton.setSelection(stateSpace.isUseGraphEquality());
-			ecoreButton.setSelection(!stateSpace.isUseGraphEquality());
+			int type = stateSpace.getEqualityHelper().getEqualityType();
+			graphButton.setSelection(type==StateEqualityHelper.GRAPH_EQUALITY);
+			ecoreButton.setSelection(type==StateEqualityHelper.ECORE_EQUALITY);
 		}
 	}
 	
@@ -346,9 +348,10 @@ public class StateSpaceToolsMenu extends Composite {
 	/*
 	 * Change the graph-equality property.
 	 */
-	private void setGraphEquality(boolean graphEquality) {
+	private void setEqualityType(int equalityType, boolean ignoreAttributes) {
 		StateSpaceManager manager = jobManager.getStateSpaceManager();
-		if (graphEquality!=manager.getStateSpace().isUseGraphEquality()) {
+		StateEqualityHelper helper = manager.getStateSpace().getEqualityHelper();
+		if (equalityType!=helper.getEqualityType() || ignoreAttributes!=helper.isIgnoreAttributes()) {
 			
 			StateSpace stateSpace = manager.getStateSpace();
 			boolean confirmed = stateSpace.getStates().size()==stateSpace.getInitialStates().size() ||
@@ -357,7 +360,7 @@ public class StateSpaceToolsMenu extends Composite {
 			
 			if (confirmed) {
 				// Execute as command:
-				Command command = new SetGraphEqualityCommand(manager,graphEquality);
+				Command command = new SetGraphEqualityCommand(manager, equalityType, ignoreAttributes);
 				editDomain.getCommandStack().execute(command);
 			}
 			refresh();
@@ -474,7 +477,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener graphEqualityListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
-			setGraphEquality(graphButton.getSelection());
+			int type = graphButton.getSelection() ? StateEqualityHelper.GRAPH_EQUALITY : StateEqualityHelper.ECORE_EQUALITY;
+			setEqualityType(type, true);
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
