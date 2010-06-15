@@ -350,13 +350,13 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_EQUALITY_HELPER = 3;
 
 	/**
-	 * The feature id for the '<em><b>Equality Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Graph Equality</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__EQUALITY_TYPE = 0;
+	int STATE_EQUALITY_HELPER__GRAPH_EQUALITY = 0;
 
 	/**
 	 * The feature id for the '<em><b>Ignore Attributes</b></em>' attribute.
@@ -614,15 +614,15 @@ public interface StateSpacePackage extends EPackage {
 	EClass getStateEqualityHelper();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#getEqualityType <em>Equality Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isGraphEquality <em>Graph Equality</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Equality Type</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#getEqualityType()
+	 * @return the meta object for the attribute '<em>Graph Equality</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isGraphEquality()
 	 * @see #getStateEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getStateEqualityHelper_EqualityType();
+	EAttribute getStateEqualityHelper_GraphEquality();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreAttributes <em>Ignore Attributes</em>}'.
@@ -876,12 +876,12 @@ public interface StateSpacePackage extends EPackage {
 		EClass STATE_EQUALITY_HELPER = eINSTANCE.getStateEqualityHelper();
 
 		/**
-		 * The meta object literal for the '<em><b>Equality Type</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Graph Equality</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_EQUALITY_HELPER__EQUALITY_TYPE = eINSTANCE.getStateEqualityHelper_EqualityType();
+		EAttribute STATE_EQUALITY_HELPER__GRAPH_EQUALITY = eINSTANCE.getStateEqualityHelper_GraphEquality();
 
 		/**
 		 * The meta object literal for the '<em><b>Ignore Attributes</b></em>' attribute feature.

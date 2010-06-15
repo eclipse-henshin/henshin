@@ -26,34 +26,20 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface StateEqualityHelper extends EObject {
 	
 	/**
-	 * Equality type <code>ECORE</code>.
-	 * @generated NOT
-	 */
-	public static final int ECORE_EQUALITY = 0;
-	
-	/**
-	 * Equality type <code>GRAPH</code>.
-	 * @generated NOT
-	 */
-	public static final int GRAPH_EQUALITY = 1;
-	
-	/**
-	 * Get the equality type used by this helper.
-	 * @return the equality type.
-	 * @see #setEqualityType(int)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_EqualityType()
+	 * Whether to use graph equality instead of Ecore equality.
+	 * @see #setGraphEquality(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_GraphEquality()
 	 * @model
 	 * @generated
 	 */
-	int getEqualityType();
+	boolean isGraphEquality();
 
 	/**
-	 * Set the equality type used by this helper.
-	 * @param value the equality type.
-	 * @see #getEqualityType()
+	 * Set whether to use graph equality.
+	 * @see #isGraphEquality()
 	 * @generated
 	 */
-	void setEqualityType(int value);
+	void setGraphEquality(boolean value);
 
 	/**
 	 * Check whether this helper ignores node attributes.

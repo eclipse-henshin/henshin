@@ -54,8 +54,8 @@ public class StateSpaceDeserializer {
 		
 		int equalityType = readShort(); // Equality type
 		StateEqualityHelper helper = StateSpaceFactory.eINSTANCE.createStateEqualityHelper();
-		helper.setEqualityType(equalityType & 255);
-		helper.setIgnoreAttributes((equalityType & 256)==256);
+		helper.setGraphEquality((equalityType & 1)==1);
+		helper.setIgnoreAttributes((equalityType & 2)==2);
 		stateSpace.setEqualityHelper(helper);
 		
 		int ruleCount = readShort(); // Rule count

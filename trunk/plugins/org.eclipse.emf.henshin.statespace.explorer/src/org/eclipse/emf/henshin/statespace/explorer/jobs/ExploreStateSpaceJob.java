@@ -39,11 +39,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 5;
 	
-	// Save interval (default is 5 minutes):
-	private int saveInterval = 300; 
+	// Save interval (default is 10 minutes):
+	private int saveInterval = 600; 
 
-	// Clean up interval (default is 30 minutes):
-	private int cleanupInterval = 1800; 
+	// Clean up interval (default is 60 minutes):
+	private int cleanupInterval = 3600;
 
 	
 	/**
@@ -70,8 +70,10 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// State space manager and state space:
 		StateSpaceManagerImpl manager = (StateSpaceManagerImpl) getStateSpaceManager();
 		StateSpace stateSpace = manager.getStateSpace();
-		DecimalFormat percent = new DecimalFormat("0.00%");
 		
+		DecimalFormat percent = new DecimalFormat("0.00%");
+		DecimalFormat large = new DecimalFormat("#,###,###,###");
+
 		try {
 			
 			// Measure how long it takes...
@@ -89,10 +91,10 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					
 					// Update the monitor:
 					int states = stateSpace.getStates().size();
-					monitor.subTask(states + " states ("
-							+ stateSpace.getOpenStates().size() + " open) and " 
-							+ stateSpace.getTransitionCount() + " transitions. "
-							+ percent.format((double) manager.getCollisions() / states) + " hash collisions.");
+					monitor.subTask(large.format(states) + " states ("
+							+ large.format(stateSpace.getOpenStates().size()) + " open) and " 
+							+ large.format(stateSpace.getTransitionCount()) + " transitions. Hash collisions: "
+							+ percent.format((double) manager.getCollisions() / states));
 					
 					// Execute as explore command:
 					Command command = createExploreCommand(open, index, numStatesAtOnce);

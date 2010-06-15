@@ -57,14 +57,10 @@ public class StateSpaceSerializer {
 		writeShort(MARKER); // Marker
 		writeShort(0); // Version
 		
-		int equalityType = 0; // Equality type
-		StateEqualityHelper helper = stateSpace.getEqualityHelper();
-		if (helper!=null) {
-			equalityType = helper.getEqualityType();
-			if (helper.isIgnoreAttributes()) {
-				equalityType = equalityType | 256;
-			}
-		}
+		StateEqualityHelper helper = stateSpace.getEqualityHelper(); // Equality type
+		int equalityType = 0;
+		if (helper.isGraphEquality()) equalityType = equalityType | 1;
+		if (helper.isIgnoreAttributes()) equalityType = equalityType | 2;
 		writeShort(equalityType); 
 		
 		writeShort(rules.size()); // Rule count

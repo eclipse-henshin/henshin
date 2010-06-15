@@ -354,7 +354,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStateEqualityHelper_EqualityType() {
+	public EAttribute getStateEqualityHelper_GraphEquality() {
 		return (EAttribute)stateEqualityHelperEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -462,7 +462,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(transitionEClass, TRANSITION__RULE);
 
 		stateEqualityHelperEClass = createEClass(STATE_EQUALITY_HELPER);
-		createEAttribute(stateEqualityHelperEClass, STATE_EQUALITY_HELPER__EQUALITY_TYPE);
+		createEAttribute(stateEqualityHelperEClass, STATE_EQUALITY_HELPER__GRAPH_EQUALITY);
 		createEAttribute(stateEqualityHelperEClass, STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES);
 
 		storageEClass = createEClass(STORAGE);
@@ -540,7 +540,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getTransition_Rule(), theHenshinPackage.getRule(), null, "rule", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stateEqualityHelperEClass, StateEqualityHelper.class, "StateEqualityHelper", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStateEqualityHelper_EqualityType(), ecorePackage.getEInt(), "equalityType", null, 0, 1, StateEqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateEqualityHelper_GraphEquality(), ecorePackage.getEBoolean(), "graphEquality", null, 0, 1, StateEqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateEqualityHelper_IgnoreAttributes(), ecorePackage.getEBoolean(), "ignoreAttributes", null, 0, 1, StateEqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(stateEqualityHelperEClass, ecorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
