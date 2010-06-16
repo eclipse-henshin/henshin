@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +34,12 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Helper for handling attributes:
 	private EcoreEqualityHelper attributeHelper;
 	
+	// Stack of lists to compare:
+	private EObject[][] t1, t2;
+	
+	// Current position in the stack:
+	private int current;
+	
 	/**
 	 * Default constructor.
 	 * @param ignoreAttributes Whether to ignore attributes.
@@ -50,23 +55,36 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 * @return <code>true</code> if they are equal.
 	 */
 	public boolean equals(Resource r1, Resource r2) {
-		EObject[] l1 = r1.getContents().toArray(new EObject[0]);
-		EObject[] l2 = r2.getContents().toArray(new EObject[0]);
-		return equals(l1, l2);
+		t1 = new EObject[][] { r1.getContents().toArray(new EObject[0]) };
+		t2 = new EObject[][] { r2.getContents().toArray(new EObject[0]) };
+		current = 0;
+		//System.out.println("\n=== CHECKING GRAPH EQUALITY ===\n");
+		boolean equals = depthFirst();
+		//if (equals) { 
+		//	System.out.println("\n=== MATCH FOUND === ");
+		//}
+		return equals;
 	}
 	
 	/**
 	 * Check graph equality using depth-first search.
-	 * @param l1 List of nodes.
-	 * @param l2 List of nodes.
-	 * @return <code>true</code> if they can be matched.
+	 * @return <code>true</code> if a match was found.
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean equals(EObject[] l1, EObject[] l2) {
+	private boolean depthFirst() {
+		
+		// If we have a negative index, we cannot backtrack anymore:
+		if (current<0) {
+			return false;
+		}
+		
+		// Get the lists to be matched now:
+		EObject[] l1 = t1[current];
+		EObject[] l2 = t1[current];
 		
 		// The lists must have the same length:
 		if (l1.length!=l2.length) {
-			System.out.println("Cannot match lists of different lengths");
+			// System.out.println("Cannot match lists of different lengths");
 			return false;
 		}
 		
@@ -79,15 +97,22 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			}
 		}
 		
-		// If empty, we are done.
+		// If the list is empty, we are done with this branch:
 		if (index1<0) {
-			return true;
+			
+			if (current==0) {
+				return true;	// everything done
+			} else {
+				current--;		// continue with parent
+				return depthFirst();
+			}
+			
 		}
 		
-		// Get the node and check if it is matched already:
+		// Get the first node and check if it is matched already:
 		EObject node1 = l1[index1];
 		EObject node2 = get(node1);
-					
+		
 		// Already matched?
 		if (node2!=null) {
 			
@@ -101,14 +126,14 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			}
 			
 			// Match found?
-			if (index2 > 0) {
+			if (index2 >= 0) {
 				
-				// Remove the match from the lists:
+				// Remove the matched elements from the lists:
 				l1[index1] = null;
 				l2[index2] = null;
 				
-				// Try to match the rest:
-				if (equals(l1,l2)) {
+				// Try to match the rest of the current lists:
+				if (depthFirst()) {
 					return true;
 				}
 				
@@ -119,12 +144,13 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			}
 			
 			// The existing match doesn't work:
-			System.out.println("Verifying match between " + node1 + " and " + node2 + " failed");
+			// System.out.println("Failed verifying match between for " + node1);
 			return false;
 			
 		}
 		
-		// We have to find a valid match for the node now.
+		
+		/* We have to find a valid match for the node now. */
 		
 		// First, get the node type:
 		EClass eclass = node1.eClass();
@@ -141,6 +167,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			// Assume it is a valid match for now.
 			put(node1, node2);
 			boolean valid = true;
+			// System.out.println("Attempt " + index2 + " of matching " + node1);
+			// System.out.println("Current match: " + this + "\n");
 			
 			// Compare the features:
 			for (EStructuralFeature feature : eclass.getEAllStructuralFeatures()) {
@@ -150,41 +178,51 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 					// Must have the same attribute values:
 					if (!attributeHelper.haveEqualAttribute(node1, node2, (EAttribute) feature)) {
 						valid = false;
-						break;
 					}
 					
 				} else {
 					
+					EObject[] n1, n2;
+					
 					// Depth-first on the references:
 					if (feature.isMany()) {
-						
-						// Try to match the two reference lists:
-						EObject[] n1 = ((List<EObject>) node1.eGet(feature)).toArray(new EObject[0]);
-						EObject[] n2 = ((List<EObject>) node2.eGet(feature)).toArray(new EObject[0]);
-						if (!equals(n1, n2)) {
-							valid = false;
-						}
-						
+						n1 = ((List<EObject>) node1.eGet(feature)).toArray(new EObject[0]);
+						n2 = ((List<EObject>) node2.eGet(feature)).toArray(new EObject[0]);
 					} else {
-						
-						// Try to match the two singletons:
-						EObject o1 = (EObject) node1.eGet(feature);
-						EObject o2 = (EObject) node2.eGet(feature);
-						if ((o1==null && o2!=null) || 
-							(o1!=null && (o2==null || !equals(new EObject[] {o1}, new EObject[] {o2} )))) {
+						n1 = new EObject[] { (EObject) node1.eGet(feature) };
+						n2 = new EObject[] { (EObject) node2.eGet(feature) };
+						if ((n1[0]==null && n2[0]!=null) || (n1[0]!=null && n2[0]==null)) {
 							valid = false;
 						}						
 					}
 					
+					// Try depth-first traversal:
+					if (valid) {
+						
+						// We need some more space on the stack first:
+						t1 = grow(t1, current+2);
+						t2 = grow(t2, current+2);
+						
+						// Append the new branch:
+						t1[current+1] = n1;
+						t2[current+1] = n2;
+						
+						// Go depth-first:
+						current++;
+						valid = depthFirst();
+						
+					}
+
 				}
 				
-				// If not valid, stop:
+				// If the assumed match doesn't work, stop checking the features:
 				if (!valid) {
-					System.out.println("Cannot match feature '" + feature.getName() + "' in class '" + eclass.getName() + "'");
+					// System.out.println("Cannot match feature '" + feature.getName() + "' in class '" + eclass.getName() + "'");
 					break;
 				}
 				
 			}
+			
 			
 			// Was the match successful?
 			if (valid) {
@@ -193,10 +231,10 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				l1[index1] = null;
 				l2[index2] = null;
 				
-				// Try to match the rest:
-				if (equals(l1,l2)) {
+				// Try to match the current rest:
+				if (depthFirst()) {
 					return true;
-				} 
+				}
 				
 				// Was not successful:
 				l1[index1] = node1;
@@ -210,9 +248,21 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		}
 		
 		// None of the candidates could be matched.
-		System.out.println("Cannot match " + Arrays.toString(l1) + " with " + Arrays.toString(l2));
+		// System.out.println("Giving up matching " + node1);
 		return false;
 		
+	}
+	
+	/*
+	 * Grow an array.
+	 */
+	private static EObject[][] grow(EObject[][] array, int size) {
+		if (size<=array.length) return array;
+		EObject[][] result = new EObject[(size * 2) +1][];
+		for (int i=0; i<array.length; i++) {
+			result[i] = array[i];
+		}
+		return result;
 	}
 	
 }	
