@@ -55,15 +55,19 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 * @return <code>true</code> if they are equal.
 	 */
 	public boolean equals(Resource r1, Resource r2) {
+		
+		// Initialize variables:
 		t1 = new EObject[][] { r1.getContents().toArray(new EObject[0]) };
 		t2 = new EObject[][] { r2.getContents().toArray(new EObject[0]) };
 		current = 0;
+		
+		// Perform depth-first search:
 		//System.out.println("\n=== CHECKING GRAPH EQUALITY ===\n");
 		boolean equals = depthFirst();
-		//if (equals) { 
-		//	System.out.println("\n=== MATCH FOUND === ");
-		//}
+		//if (equals) System.out.println("\n=== MATCH FOUND === ");
+		
 		return equals;
+		
 	}
 	
 	/**
@@ -84,7 +88,6 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		
 		// The lists must have the same length:
 		if (l1.length!=l2.length) {
-			// System.out.println("Cannot match lists of different lengths");
 			return false;
 		}
 		
@@ -100,14 +103,16 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		// If the list is empty, we are done with this branch:
 		if (index1<0) {
 			
+			// Now check whether there is more work on the stack left:
 			if (current==0) {
-				return true;	// everything done
+				return true;	// everything done already
 			} else {
-				current--;		// continue with parent
+				current--;		// otherwise continue with parent
 				return depthFirst();
 			}
 			
 		}
+		
 		
 		// Get the first node and check if it is matched already:
 		EObject node1 = l1[index1];

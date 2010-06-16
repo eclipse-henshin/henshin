@@ -87,7 +87,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		
 		// Check if one of them is the correct one:
 		for (int i=0; i<matched.length; i++) {
-			if (matched[i]==null) continue;
+			if (matched[i]==null || matched[i].getHashCode()!=hash) continue;
 			Resource current = getModel(matched[i]);
 			if (equals(model, current)) {
 				return matched[i];
