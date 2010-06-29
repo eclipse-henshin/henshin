@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
@@ -32,7 +33,10 @@ public class MoveStateCommand extends Command {
 
 	// State to be moved:
 	private final State state;
-
+	
+	// Optional spring layouter:
+	private StateSpaceSpringLayouter layouter;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -74,6 +78,9 @@ public class MoveStateCommand extends Command {
 	 */
 	@Override
 	public void redo() {
+		if (layouter!=null) {
+			layouter.setPosition(state, newLocation.x, newLocation.y);
+		}
 		state.setLocation(newLocation.x, newLocation.y);
 	}
 
@@ -83,7 +90,19 @@ public class MoveStateCommand extends Command {
 	 */
 	@Override
 	public void undo() {
+		if (layouter!=null) {
+			layouter.setPosition(state, oldLocation.x, oldLocation.y);
+		}
 		state.setLocation(oldLocation.x, oldLocation.y);
+	}
+	
+	/**
+	 * Set the layouter currently used. If set, this layouter
+	 * will be additionally used to set the position.
+	 * @param layouter Layouter.
+	 */
+	public void setLayouter(StateSpaceSpringLayouter layouter) {
+		this.layouter = layouter;
 	}
 	
 }

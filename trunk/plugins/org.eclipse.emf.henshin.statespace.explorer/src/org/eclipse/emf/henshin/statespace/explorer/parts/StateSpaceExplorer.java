@@ -328,5 +328,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		}
 		getGraphicalViewer().setSelection(new StructuredSelection(editparts ));
 	}
+
+	public StateSpaceJobManager getJobManager() {
+		return jobManager;
+	}
 	
 }

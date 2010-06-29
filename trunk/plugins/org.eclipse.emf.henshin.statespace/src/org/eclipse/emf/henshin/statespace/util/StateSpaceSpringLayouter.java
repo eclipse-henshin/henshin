@@ -11,29 +11,38 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
  * Spring layout algorithm for state spaces.
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceSpringLayouter {
+public class StateSpaceSpringLayouter extends AdapterImpl {
 	
-	// States to be layouted:
+	// State space to be layouted:
+	private StateSpace stateSpace;
+	
+	// Cached list and number of states:
 	private List<State> states;
 	private int numStates;
 	
-	// Positions (never null):
-	private double[] positionsX = new double[0];
-	private double[] positionsY = new double[0];
-
+	// Positions:
+	private double[] posX, posY, posZ;
+	
 	// Center of the display:
 	private double[] center;
-
+	
+	// Shift to the center:
+	private double shiftX, shiftY, shiftZ;
+	
 	// Layouting parameters:
 	private double repulsion = 50;
 	private double attraction = 10;
@@ -45,62 +54,99 @@ public class StateSpaceSpringLayouter {
 	 * @param stateSpace State space.
 	 */
 	public void setStateSpace(StateSpace stateSpace) {
+		if (this.stateSpace!=null) {
+			this.stateSpace.eAdapters().remove(this);
+		}
+		this.stateSpace = stateSpace;
 		this.states = stateSpace.getStates();
+		this.numStates = states.size();
+		loadPositions();
+		this.stateSpace.eAdapters().add(this);
+	}
+	
+	/*
+	 * Load the positions from the states.
+	 */
+	private void loadPositions() {
+		int size = arraySize(numStates);
+		posX = new double[size];
+		posY = new double[size];
+		posZ = new double[size];
+		for (int i=0; i<numStates; i++) {
+			int[] location = states.get(i).getLocation();
+			posX[i] = location[0];
+			posY[i] = location[1];
+			posZ[i] = location[2];
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	@Override
+	public synchronized void notifyChanged(Notification event) {
+		
+		// States feature changed?
+		if (event.getFeatureID(StateSpace.class)==StateSpacePackage.STATE_SPACE__STATES) {
+			
+			// State has been added?
+			if (event.getEventType()==Notification.ADD) {
+								
+				// Resize arrays?
+				if (numStates>=posX.length) {
+					int size = arraySize(numStates+1);
+					posX = Arrays.copyOf(posX, size);
+					posY = Arrays.copyOf(posY, size);
+					posZ = Arrays.copyOf(posZ, size);
+				}
+				
+				int[] location = ((State) event.getNewValue()).getLocation();
+				posX[numStates] = location[0];
+				posY[numStates] = location[1];
+				posZ[numStates] = location[2];
+				
+				// Increase states counter:
+				numStates++;
+				
+			}
+
+			// State has been removed?
+			else if (event.getEventType()==Notification.REMOVE) {
+				
+				// Decrease states counter:
+				numStates--;
+				
+				// We don't know the index of the removed state, so we reload:
+				loadPositions();
+				
+			}
+		}
 	}
 	
 	/**
 	 * Calculate the new locations of the states.
-	 * @return <code>true</code> if at least one state has a velocity that is not zero.
 	 */
-	public void update() {
+	public synchronized void update() {
 		
-		// Update the number of states:
-		numStates = states.size();
-		if (numStates==0) return;
-		
-		// Make sure there is enough space for the velocities:
-		if (numStates>positionsX.length) {
-			int size = arraySize(numStates);
-			positionsX = new double[size];
-			positionsY = new double[size];			
-		}
-		
-		// Summed position:
-		double sumX = 0;
-		double sumY = 0;
-		
-		// Update the position of all states:
-		for (int i=0; i<numStates; i++) {
-			
-			State state = states.get(i);
-			int[] location = state.getLocation();
-			
-			if (positionsX[i]>location[0]+1 || positionsX[i]<location[0]-1) {
-				positionsX[i] = location[0];
-			}
-			if (positionsY[i]>location[1]+1 || positionsY[i]<location[1]-1) {
-				positionsY[i] = location[1];
-			}
-			
-			sumX += positionsX[i];
-			sumY += positionsY[i];
-
-		}
-		
-		// Shift to the center:
-		double shiftX = 0;
-		double shiftY = 0;
-		if (center!=null) {
-			shiftX = (center[0] - (sumX / (double) numStates)) * shiftFactor;
-			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;			
-		}
+		// Compute the sum of all positions:
+		double sumX = 0, sumY = 0, sumZ = 0;
 		
 		// Compute the new positions:
 		for (int i=0; i<numStates; i++) {
 			
+			// Update the sum:
+			sumX += posX[i];
+			sumY += posY[i];
+			sumZ += posZ[i];
+			
+			// The current state:
 			State state = states.get(i);
+			
+			// It's force:
 			double forceX = 0;
 			double forceY = 0;
+			double forceZ = 0;
 			
 			// State repulsion:
 			for (int j=0; j<numStates; j++) {
@@ -108,6 +154,7 @@ public class StateSpaceSpringLayouter {
 				double[] repulsion = stateRepulsion(i,j);
 				forceX += repulsion[0];
 				forceY += repulsion[1];
+				forceZ += repulsion[2];
 			}
 
 			// Transition attraction:
@@ -127,14 +174,24 @@ public class StateSpaceSpringLayouter {
 				double[] attraction = transitionAttraction(i, otherState.getIndex());
 				forceX += attraction[0];
 				forceY += attraction[1];
+				forceZ += attraction[2];
+				
 			}
 			
 			// Update the positions:
-			positionsX[i] += forceX + shiftX;
-			positionsY[i] += forceY + shiftY;
+			posX[i] += forceX + shiftX;
+			posY[i] += forceY + shiftY;
+			posZ[i] += forceZ + shiftZ;
 			
 		}
-		
+
+		// Compute the new shift to the center (used in the next round):
+		if (center!=null) {
+			shiftX = (center[0] - (sumX / (double) numStates)) * shiftFactor;
+			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;			
+			shiftZ = (center[2] - (sumZ / (double) numStates)) * shiftFactor;			
+		}
+
 	}
 	
 	/**
@@ -142,16 +199,14 @@ public class StateSpaceSpringLayouter {
 	 */
 	public void commit() {
 		
-		// Update the total number of states:
-		numStates = Math.min(states.size(), positionsX.length);
-		
 		// Update all states:
 		for (int i=0; i<numStates; i++) {
-				State state = states.get(i);
-				int[] location = state.getLocation();
-				location[0] = (int) positionsX[i];
-				location[1] = (int) positionsY[i];
-				state.setLocation(location);
+			State state = states.get(i);
+			int[] location = state.getLocation();
+			location[0] = (int) posX[i];
+			location[1] = (int) posY[i];
+			location[2] = (int) posZ[i];
+			state.setLocation(location);
 		}
 		
 	}
@@ -160,15 +215,17 @@ public class StateSpaceSpringLayouter {
 	 * Compute the transition attraction between two states.
 	 */
 	private double[] transitionAttraction(int i1, int i2) {
-		double[] direction = direction(i2,i1 );
+		double[] direction = direction(i2, i1);
 		double distance = length(direction);
 		if (distance>1) {
 			double factor = attraction * Math.log(distance / naturalLength) / distance;
 			direction[0] *= factor;
 			direction[1] *= factor;
+			direction[2] *= factor;
 		} else {
 			direction[0] = 1;
 			direction[1] = 1;
+			direction[2] = 1;
 		}
 		return direction;
 	}
@@ -183,9 +240,11 @@ public class StateSpaceSpringLayouter {
 			double factor = (repulsion*repulsion) / (distance*distance*distance);
 			direction[0] *= factor;
 			direction[1] *= factor;
+			direction[2] *= factor;
 		} else {
 			direction[0] = -1;
 			direction[1] = -1;
+			direction[2] = -1;
 		}
 		return direction;
 	}
@@ -194,7 +253,7 @@ public class StateSpaceSpringLayouter {
 	 * Compute the direction vector between two states.
 	 */
 	private double[] direction(int i1, int i2) {
-		return new double[] { positionsX[i1]-positionsX[i2], positionsY[i1]-positionsY[i2] } ;
+		return new double[] { posX[i1]-posX[i2], posY[i1]-posY[i2], posZ[i1]-posZ[i2] } ;
 	}
 	
 	/*
@@ -208,7 +267,7 @@ public class StateSpaceSpringLayouter {
 	 * Compute the number of states to provide storage for.
 	 */
 	private int arraySize(int states) {
-		return (int) (1.5 * states + 2);
+		return (int) (1.5 * states + 16);
 	}
 	
 	/**
@@ -234,9 +293,29 @@ public class StateSpaceSpringLayouter {
 	public void setNaturalTransitionLength(int naturalLength) {
 		this.naturalLength = naturalLength;
 	}
-
+	
+	/**
+	 * Set the center of the display.
+	 * @param center Center.
+	 */
 	public void setCenter(double[] center) {
+		// Make sure it is 3D.
+		if (center!=null && center.length!=3) {
+			center = Arrays.copyOf(center, 3);
+		}
 		this.center = center;
+	}
+	
+	/**
+	 * Set the position for a state.
+	 * @param state State to be moved.
+	 * @param position New position.
+	 */
+	public synchronized void setPosition(State state, int... position) {
+		int index = state.getIndex();
+		if (position.length>0) posX[index] = position[0];
+		if (position.length>1) posY[index] = position[1];
+		if (position.length>2) posZ[index] = position[2];
 	}
 	
 }

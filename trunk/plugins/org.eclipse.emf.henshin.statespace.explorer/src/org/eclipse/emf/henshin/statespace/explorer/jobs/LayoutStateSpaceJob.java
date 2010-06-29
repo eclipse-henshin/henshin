@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
  * @author Christian Krause
  */
 public class LayoutStateSpaceJob extends Job {
-	
+		
 	// Layouter:
 	private StateSpaceSpringLayouter layouter;
 	
@@ -38,7 +38,6 @@ public class LayoutStateSpaceJob extends Job {
 	 * @param display Display.
 	 */
 	public LayoutStateSpaceJob(StateSpace stateSpace, Display display) {
-		
 		super("Layouting state space");
 		setPriority(LONG);
 		this.display = display;
@@ -46,7 +45,6 @@ public class LayoutStateSpaceJob extends Job {
 		// Create layouter:
 		layouter = new StateSpaceSpringLayouter();
 		layouter.setStateSpace(stateSpace);
-		
 	}
 	
 	/*
@@ -56,6 +54,7 @@ public class LayoutStateSpaceJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		
+
 		while (!monitor.isCanceled()) {
 			
 			// Calculate new positions:
@@ -83,6 +82,10 @@ public class LayoutStateSpaceJob extends Job {
 			
 		}
 		
+		// Unset the layouter:
+		layouter = null;
+		
+		// Done.
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
 		
 	}

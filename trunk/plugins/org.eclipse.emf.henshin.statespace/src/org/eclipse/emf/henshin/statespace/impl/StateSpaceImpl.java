@@ -97,6 +97,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				transition.setTarget(null);
 			}
 			
+			// Reset the indizes of all states:
+			int index = 0;
+			for (State current : getStates()) {
+				current.setIndex(index++);
+			}
+			
 			// Done.
 			return true;
 			

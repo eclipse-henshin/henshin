@@ -76,14 +76,14 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public void setHashCode(int hashCode) {
-		setData(0,hashCode);
+		setData(0, hashCode);
 	}
 	
 	/**
 	 * @generated NOT
 	 */
 	public int[] getLocation() {
-		return getData(3, 5);
+		return getData(3, 6);
 	}
 
 	/**

@@ -19,6 +19,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.MoveStateCommand;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
+import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
@@ -27,24 +30,32 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.swt.SWT;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * State space layout edit policy.
  * @author Christian Krause
  */
 public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
-
+	
+	// Cached state space layouter:
+	private StateSpaceSpringLayouter layouter;
+	
 	/* 
 	 * (non-Javadoc)
 	 * @see ConstrainedLayoutEditPolicy#createChangeConstraintCommand(ChangeBoundsRequest, EditPart, Object)
 	 */
 	@Override
 	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
-		if (child instanceof StateEditPart && 
-			constraint instanceof Rectangle) {
+		
+		// Create a move command:
+		if (child instanceof StateEditPart && constraint instanceof Rectangle) {
 			State state = ((StateEditPart) child).getState();
 			Rectangle bounds = (Rectangle) constraint;
-			return new MoveStateCommand(state, request, bounds);
+			MoveStateCommand command = new MoveStateCommand(state, request, bounds);
+			command.setLayouter(getLayouter());
+			return command;
 		} else {
 			return super.createChangeConstraintCommand(request, child, constraint);
 		}
@@ -75,20 +86,45 @@ public class StateSpaceLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	@Override
 	protected EditPolicy createChildEditPolicy(EditPart child) {
-		return new NonResizableEditPolicy() {
-			@Override
-			protected IFigure createDragSourceFeedbackFigure() {
-				// Use a ghost ellipse for feedback:
-				Ellipse ghost = new Ellipse();
-				ghost.setAntialias(SWT.ON);				
-				FigureUtilities.makeGhostShape(ghost);
-				ghost.setLineStyle(Graphics.LINE_DOT);
-				ghost.setForegroundColor(ColorConstants.white);
-				ghost.setBounds(getInitialFeedbackBounds());
-				addFeedback(ghost);
-				return ghost;
-			}
-		};
-	}
+		
+		if (child instanceof StateEditPart) {
+			
+			return new NonResizableEditPolicy() {
+				
+				@Override
+				protected IFigure createDragSourceFeedbackFigure() {
+					// Use a ghost ellipse for feedback:
+					Ellipse ghost = new Ellipse();
+					ghost.setAntialias(SWT.ON);				
+					FigureUtilities.makeGhostShape(ghost);
+					ghost.setLineStyle(Graphics.LINE_DOT);
+					ghost.setForegroundColor(ColorConstants.white);
+					ghost.setBounds(getInitialFeedbackBounds());
+					addFeedback(ghost);
+					return ghost;
+				}
 
+			};
+		} else {
+			return super.createChildEditPolicy(child);
+		}
+		
+	}
+	
+	/*
+	 * Get the currently used springlayouter.
+	 */
+	private StateSpaceSpringLayouter getLayouter() {
+		if (layouter==null) {
+			// Try to get the spring layouter:
+			try {
+				IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+				LayoutStateSpaceJob job = ((StateSpaceExplorer) editor).getJobManager().getLayoutJob();
+				layouter = job.getLayouter();
+			} catch (Throwable t) {
+				// Don't report exception.
+			}
+		}
+		return layouter;
+	}
 }
