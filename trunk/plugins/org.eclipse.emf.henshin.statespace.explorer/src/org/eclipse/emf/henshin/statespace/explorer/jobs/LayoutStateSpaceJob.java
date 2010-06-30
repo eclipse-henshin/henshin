@@ -29,22 +29,22 @@ public class LayoutStateSpaceJob extends Job {
 	// Layouter:
 	private StateSpaceSpringLayouter layouter;
 	
-	// Display:
-	private Display display;
+	// State space to be layouted:
+	private StateSpace stateSpace;
 	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 * @param display Display.
 	 */
-	public LayoutStateSpaceJob(StateSpace stateSpace, Display display) {
+	public LayoutStateSpaceJob(StateSpace stateSpace) {
 		super("Layouting state space");
 		setPriority(LONG);
-		this.display = display;
+		this.stateSpace = stateSpace;
 		
 		// Create layouter:
 		layouter = new StateSpaceSpringLayouter();
-		layouter.setStateSpace(stateSpace);
+		
 	}
 	
 	/*
@@ -54,6 +54,8 @@ public class LayoutStateSpaceJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		
+		// Reinitialize the layouter:
+		layouter.setStateSpace(stateSpace);
 
 		while (!monitor.isCanceled()) {
 			
@@ -61,11 +63,12 @@ public class LayoutStateSpaceJob extends Job {
 			try {
 				layouter.update();
 			} catch (Throwable t) {
-				// Catch and ignore potential exceptions.				
+				t.printStackTrace();
+				return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error layouting state space", t);
 			}
 			
 			// Update positions:
-			display.asyncExec(new Runnable() {
+			Display.getDefault().asyncExec(new Runnable() {
 				public void run() {
 					try {
 						layouter.commit();
@@ -81,9 +84,6 @@ public class LayoutStateSpaceJob extends Job {
 			} catch (InterruptedException e) {}
 			
 		}
-		
-		// Unset the layouter:
-		layouter = null;
 		
 		// Done.
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);

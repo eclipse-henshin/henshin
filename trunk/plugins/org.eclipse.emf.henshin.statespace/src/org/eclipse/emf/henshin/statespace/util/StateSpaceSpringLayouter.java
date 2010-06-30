@@ -133,6 +133,7 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 		double sumX = 0, sumY = 0, sumZ = 0;
 		
 		// Compute the new positions:
+		numStates = Math.min(posX.length, states.size());
 		for (int i=0; i<numStates; i++) {
 			
 			// Update the sum:
@@ -188,8 +189,8 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 		// Compute the new shift to the center (used in the next round):
 		if (center!=null) {
 			shiftX = (center[0] - (sumX / (double) numStates)) * shiftFactor;
-			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;			
-			shiftZ = (center[2] - (sumZ / (double) numStates)) * shiftFactor;			
+			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;
+			shiftZ = (center[2] - (sumZ / (double) numStates)) * shiftFactor;
 		}
 
 	}

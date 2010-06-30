@@ -25,12 +25,19 @@ public abstract class AbstractStateSpaceAction implements IEditorActionDelegate 
 	// Currently action state space explorer:
 	private StateSpaceExplorer explorer;
 	
+	// Current selection;
+	private ISelection selection;
+	
 	protected StateSpaceExplorer getExplorer() {
 		return explorer;
 	}
 	
 	public void setExplorer(StateSpaceExplorer explorer) {
 		this.explorer = explorer;
+	}
+	
+	protected ISelection getSelection() {
+		return selection;
 	}
 	
 	/*
@@ -50,6 +57,7 @@ public abstract class AbstractStateSpaceAction implements IEditorActionDelegate 
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		this.selection = selection;
 		action.setEnabled(true);
 	}
 	

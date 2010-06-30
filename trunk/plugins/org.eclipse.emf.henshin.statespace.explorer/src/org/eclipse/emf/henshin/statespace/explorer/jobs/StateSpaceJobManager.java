@@ -50,7 +50,7 @@ public class StateSpaceJobManager {
 		this.stateSpaceManager = stateSpaceManager;
 		this.editDomain = editDomain;
 		this.reloadJob = new ReloadStateSpaceJob(stateSpaceManager);
-		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace(), Display.getCurrent());
+		this.layoutJob = new LayoutStateSpaceJob(stateSpaceManager.getStateSpace());
 		this.exploreJob = new ExploreStateSpaceJobWithDisplay(stateSpaceManager, editDomain);
 		this.validateJob = new ValidateStateSpaceJob(stateSpaceManager);
 	}

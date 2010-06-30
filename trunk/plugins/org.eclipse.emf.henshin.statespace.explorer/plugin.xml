@@ -81,6 +81,15 @@
                style="push"
                tooltip="Reset the state space">
          </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceTikZAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.tikz"
+               label="Export As TikZ"
+               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               style="push"
+               tooltip="Export the state space as TikZ diagram">
+         </action>
       </viewerContribution>
       <objectContribution
             adaptable="false"
@@ -111,6 +120,15 @@
                menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
                style="push"
                tooltip="Reset the state space">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceTikZAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.tikz.file"
+               label="Export As TikZ"
+               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
+               style="push"
+               tooltip="Export the state space as TikZ diagram">
          </action>
       </objectContribution>
    </extension>
