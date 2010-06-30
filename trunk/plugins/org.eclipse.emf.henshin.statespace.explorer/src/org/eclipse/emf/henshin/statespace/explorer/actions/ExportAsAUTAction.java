@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
-import org.eclipse.emf.henshin.statespace.explorer.parts.ExportAsAUTWizard;
+import org.eclipse.emf.henshin.statespace.explorer.parts.AbstractStateSpaceExportWizard;
 import org.eclipse.jface.action.IAction;
 
 /**
@@ -14,7 +14,7 @@ public class ExportAsAUTAction extends AbstractStateSpaceAction {
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run(IAction action) {
-		ExportAsAUTWizard wizard = new ExportAsAUTWizard();
+		//AbstractStateSpaceExportWizard wizard = new AbstractStateSpaceExportWizard();
 		// TODO
 	}
 

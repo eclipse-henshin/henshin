@@ -25,20 +25,17 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 /**
  * @author Christian Krause
  */
-public class ExportAsAUTWizard extends Wizard implements IExportWizard {
+public abstract class AbstractStateSpaceExportWizard extends Wizard implements IExportWizard {
 	
-	// File extension:
-	public static final String FILE_EXTENSION = "aut";
-	
-	// Wizard page:
-	protected ExportAsAUTWizardFileCreationPage fileCreationPage;
+	// File creation page:
+	protected FileCreationPage fileCreationPage;
 
 	// Selection:
 	protected IStructuredSelection selection;
 
 	// The workbench:
 	protected IWorkbench workbench;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
@@ -46,9 +43,21 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
 		this.selection = selection;
-		setWindowTitle("Export As AUT");
+		setWindowTitle("Export State Space");
 	}
-
+	
+	/**
+	 * Get the file extensions supported by this export wizard.
+	 * @return File extensions.
+	 */
+	protected abstract String[] getFileExtensions();
+	
+	/**
+	 * Get the description for this export wizard.
+	 * @return Description.
+	 */
+	protected abstract String getDescription();
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
@@ -56,7 +65,7 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			final IFile autFile = getAUTFile();
+			final IFile autFile = getFile();
 
 			// Do the work within an operation.
 			WorkspaceModifyOperation operation =
@@ -110,9 +119,9 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 	/**
 	 * This is the one page of the wizard.
 	 */
-	public class ExportAsAUTWizardFileCreationPage extends WizardNewFileCreationPage {
+	public class FileCreationPage extends WizardNewFileCreationPage {
 		
-		public ExportAsAUTWizardFileCreationPage(String pageId, IStructuredSelection selection) {
+		public FileCreationPage(String pageId, IStructuredSelection selection) {
 			super(pageId, selection);
 		}
 
@@ -124,16 +133,15 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 		protected boolean validatePage() {
 			if (super.validatePage()) {
 				String extension = new Path(getFileName()).getFileExtension();
-				if (extension == null || !FILE_EXTENSION.equals(extension)) {
-					setErrorMessage("File extension must be *." + FILE_EXTENSION);
-					return false;
+				for (String ext : getFileExtensions()) {
+					if (ext.equals(extension)) return true;
 				}
-				return true;
+				setErrorMessage("Invalid file extension.");
 			}
 			return false;
 		}
 
-		public IFile getAUTFile() {
+		public IFile getFile() {
 			return ResourcesPlugin.getWorkspace().getRoot().getFile(getContainerFullPath().append(getFileName()));
 		}
 	}
@@ -144,10 +152,11 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public void addPages() {
-		fileCreationPage = new ExportAsAUTWizardFileCreationPage("Whatever", selection);
-		fileCreationPage.setTitle("Export As AUT");
-		fileCreationPage.setDescription("Export the state space to the Aldebaran format (*." + FILE_EXTENSION + ")");
-		fileCreationPage.setFileName("default." + FILE_EXTENSION);
+		
+		fileCreationPage = new FileCreationPage("File creation", selection);
+		fileCreationPage.setTitle("Export State Space");
+		fileCreationPage.setDescription(getDescription());
+		fileCreationPage.setFileName("default." + getFileExtensions()[0]);
 		addPage(fileCreationPage);
 
 		if (selection!=null && !selection.isEmpty()) {
@@ -161,9 +170,9 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 				// This gives us a directory...
 				if (selectedResource instanceof IFolder || selectedResource instanceof IProject) {
 					fileCreationPage.setContainerFullPath(selectedResource.getFullPath());
-					String filename = "default." + FILE_EXTENSION;
+					String filename = "default." + getFileExtensions()[0];
 					for (int i = 1; ((IContainer)selectedResource).findMember(filename)!=null; ++i) {
-						filename = "default" + i + "." + FILE_EXTENSION;
+						filename = "default" + i + "." + getFileExtensions()[0];
 					}
 					fileCreationPage.setFileName(filename);
 				}
@@ -174,8 +183,8 @@ public class ExportAsAUTWizard extends Wizard implements IExportWizard {
 	/**
 	 * Get the file from the page.
 	 */
-	public IFile getAUTFile() {
-		return fileCreationPage.getAUTFile();
+	public IFile getFile() {
+		return fileCreationPage.getFile();
 	}
 
 }
