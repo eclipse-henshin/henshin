@@ -25,18 +25,15 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.eclipse.ui.part.ISetSelectionTarget;
+import org.eclipse.ui.ide.IDE;
 
 /**
  * @author Christian Krause
@@ -128,8 +125,9 @@ public abstract class AbstractStateSpaceExportWizard extends Wizard implements I
 	@Override
 	public boolean performFinish() {
 		try {
-			performExport();
-			selectExport();
+			IFile file = getFile();
+			performExport(file);
+			selectExport(file);
 			return true;
 		} catch (Throwable t) {
 			StateSpaceExplorerPlugin.getInstance().logError("Error exporting state space", t);
@@ -140,8 +138,7 @@ public abstract class AbstractStateSpaceExportWizard extends Wizard implements I
 	/*
 	 * Perform the export operation.
 	 */
-	protected void performExport() throws Exception {
-		final IFile file = getFile();
+	protected void performExport(final IFile file) throws Exception {
 		WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 				@Override
 				protected void execute(IProgressMonitor monitor) {
@@ -160,18 +157,14 @@ public abstract class AbstractStateSpaceExportWizard extends Wizard implements I
 	/* 
 	 * Select the new file resource in the current window.
 	 */
-	protected void selectExport() {
-		IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage page = workbenchWindow.getActivePage();
-		final IWorkbenchPart activePart = page.getActivePart();
-		if (activePart instanceof ISetSelectionTarget) {
-			final ISelection targetSelection = new StructuredSelection(getFile());
-			getShell().getDisplay().asyncExec
-				(new Runnable() {
-					 public void run() {
-						 ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-					 }
-				 });
+	protected void selectExport(IFile file) {		
+		try {
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IWorkbenchPage page = window.getActivePage();
+			IDE.openEditor(page, file, true);
+		}
+		catch (Throwable t) {
+			StateSpaceExplorerPlugin.getInstance().logError("Error opening exported file.", t);
 		}
 	}
 	

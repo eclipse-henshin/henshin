@@ -90,10 +90,19 @@
                tooltip="Reset the state space">
          </action>
          <action
-               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceTikZAction"
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
                enablesFor="*"
-               id="org.eclipse.emf.henshin.statespace.explorer.actions.tikz"
+               id="statespace.export.tikz"
                label="TikZ (LaTeX)"
+               menubarPath="statespace/export/main"
+               style="push"
+               tooltip="Export the state space as TikZ diagram">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
+               enablesFor="*"
+               id="statespace.export.cadp"
+               label="AUT (CADP)"
                menubarPath="statespace/export/main"
                style="push"
                tooltip="Export the state space as TikZ diagram">

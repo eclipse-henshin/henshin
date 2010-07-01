@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -94,7 +95,7 @@ public class CreateStateSpacePage extends WizardNewFileCreationPage {
 			try {
 				IDE.openEditor(page, newFile, true);
 			} catch (PartInitException e) {
-				e.printStackTrace();
+				StateSpaceExplorerPlugin.getInstance().logError("Error opening exported file.", e);
 				return false;
 			}
 		}

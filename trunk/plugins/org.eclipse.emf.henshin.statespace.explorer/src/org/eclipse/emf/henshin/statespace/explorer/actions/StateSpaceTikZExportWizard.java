@@ -27,6 +27,10 @@ import org.eclipse.swt.graphics.Color;
  */
 public class StateSpaceTikZExportWizard extends AbstractStateSpaceExportWizard {
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.actions.AbstractStateSpaceExportWizard#doExport(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.resources.IFile, org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	protected void doExport(StateSpace stateSpace, IFile file, IProgressMonitor monitor) throws Exception {
 		
