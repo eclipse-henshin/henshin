@@ -15,8 +15,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.IrreversibleCommand;
 import org.eclipse.gef.EditDomain;
-import org.eclipse.swt.widgets.Display;
-
 
 /**
  * Job manager for state explorers.
