@@ -38,9 +38,17 @@
             id="org.eclipse.emf.henshin.statespace.explorer.contributions.viewer"
             targetID="org.eclipse.emf.henshin.statespace.explorer">
          <menu
-               id="org.eclipse.emf.henshin.statespace.explorer.menus.statespace"
+               id="statespace"
                label="State Space"
                path="additions">
+            <separator
+                  name="main">
+            </separator>
+         </menu>
+         <menu
+               id="export"
+               label="Export As..."
+               path="statespace/main">
             <separator
                   name="main">
             </separator>
@@ -50,7 +58,7 @@
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.initial"
                label="New Initial State"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               menubarPath="statespace/main"
                style="push"
                tooltip="Create a new initial state">
          </action>
@@ -59,7 +67,7 @@
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.rules"
                label="Import Rules"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               menubarPath="statespace/main"
                style="push"
                tooltip="Import rules into the state space">
          </action>
@@ -68,7 +76,7 @@
                enablesFor="1+"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.open"
                label="Open State Model"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               menubarPath="statespace/main"
                style="push"
                tooltip="Open state model">
          </action>
@@ -77,7 +85,7 @@
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.reset"
                label="Reset State Space"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               menubarPath="statespace/main"
                style="push"
                tooltip="Reset the state space">
          </action>
@@ -85,8 +93,8 @@
                class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceTikZAction"
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.tikz"
-               label="Export As TikZ"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.statespace/main"
+               label="TikZ (LaTeX)"
+               menubarPath="statespace/export/main"
                style="push"
                tooltip="Export the state space as TikZ diagram">
          </action>
@@ -97,7 +105,7 @@
             nameFilter="*.statespace"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
-               id="org.eclipse.emf.henshin.statespace.explorer.menus.file"
+               id="statespaceFile"
                label="State Space"
                path="additions">
             <separator
@@ -109,7 +117,7 @@
                enablesFor="1"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.explore"
                label="Explore State Space"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
+               menubarPath="statespaceFile/main"
                tooltip="Explore open states">
          </action>
          <action
@@ -117,18 +125,9 @@
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.reset.file"
                label="Reset State Space"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
+               menubarPath="statespaceFile/main"
                style="push"
                tooltip="Reset the state space">
-         </action>
-         <action
-               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceTikZAction"
-               enablesFor="*"
-               id="org.eclipse.emf.henshin.statespace.explorer.actions.tikz.file"
-               label="Export As TikZ"
-               menubarPath="org.eclipse.emf.henshin.statespace.explorer.menus.file/main"
-               style="push"
-               tooltip="Export the state space as TikZ diagram">
          </action>
       </objectContribution>
    </extension>
