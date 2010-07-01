@@ -218,7 +218,33 @@ public class StateSpaceSearch {
 		return removed;
 		
 	}
-
+	
+	public static Trace findTrace(StateSpace stateSpace, final List<String> path) {
+		
+		// TODO: make findTrace() efficient
+		final int length = path.size();
+		StateSpaceSearch search = new StateSpaceSearch() {
+			@Override
+			protected boolean shouldStop(State current, Trace trace) {				
+				if (trace.size()==length) {
+					List<Transition> transitions = new ArrayList<Transition>(trace);
+					for (int i=0; i<length; i++) {
+						if (!path.get(i).equals(transitions.get(i).getRule().getName())) return false;
+					}
+					return true;
+				}
+				return false;
+			}
+		};
+		
+		if (!search.depthFirst(stateSpace, false)) {
+			return null;
+		} else {
+			return search.getTrace();
+		}
+		
+	}
+	
 	/**
 	 * Get the set of visited states during the last search.
 	 * @return Visited states.
