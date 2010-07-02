@@ -114,7 +114,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 			}
 			catch (Throwable e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);
-				MessageDialog.openError(shell, "Load State Space", "Error loading state space. See the error log for mor information.");
+				MessageDialog.openError(shell, "Load State Space", "Error loading state space. See the error log for more information.");
 			}
 		}
 		

@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreStateSpaceJob;
+import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.jface.action.IAction;
 
@@ -28,7 +30,15 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 	public void run(IAction action) {
 		
 		// Run exploration job.
-		ExploreStateSpaceJob job = new ExploreStateSpaceJob(getStateSpaceManager(), new EditDomain());
+		StateSpaceManager manager = getStateSpaceManager();
+		ExploreStateSpaceJob job = new ExploreStateSpaceJob(manager, new EditDomain());
+		
+		// Adjust the number of states to be explored at one for multi-threaded state space managers:
+		if (manager instanceof MultiThreadedStateSpaceManager) {
+			job.setNumStatesAtOnce(10 * MultiThreadedStateSpaceManager.CPU_COUNT);
+		}
+		
+		// Schedule the job:
 		job.schedule();
 		
 		// We don't need the state space anymore.
