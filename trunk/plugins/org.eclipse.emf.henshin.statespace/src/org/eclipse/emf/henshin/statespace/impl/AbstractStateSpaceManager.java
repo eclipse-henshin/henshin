@@ -58,6 +58,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 	};
 	
+	// A lock for the state space:
+	private final Object stateSpaceLock = new Object();
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -139,7 +142,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param open Open-flag.
 	 */
 	protected void setOpen(State state, boolean open) {
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			state.setOpen(open);
 			if (open) {
@@ -175,7 +178,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		if (location!=null) state.setLocation(location);
 		
 		// Add the state to the state space:
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			getStateSpace().getStates().add(state);
 			getStateSpace().getOpenStates().add(state);
@@ -208,7 +211,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 		// Otherwise create a new state:
 		State initial = createOpenState(model, hash);
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			getStateSpace().getInitialStates().add(initial);
 			change = false;
@@ -230,7 +233,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		List<State> removed = new ArrayList<State>();
 		
 		// Remove state and all unreachable states:
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			
 			// Remove the state and all reachable states:
@@ -275,7 +278,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	public final void resetStateSpace() {
 		
 		// Remove derived states and all transitions:
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			
 			getStateSpace().getStates().clear();
@@ -318,7 +321,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);
-		synchronized (this) {
+		synchronized (stateSpaceLock) {
 			change = true;
 			transition.setSource(source);
 			transition.setTarget(target);

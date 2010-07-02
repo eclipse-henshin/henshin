@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -43,10 +44,13 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private StateModelCache cache;
+	private final StateModelCache cache = new StateModelCache();
 	
-	// Transformation engine:
-	private EmfEngine engine;
+	// Transformation engines:
+	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
+	
+	// A lock used when exploring states:
+	private final Object explorerLock = new Object();
 	
 	/**
 	 * Default constructor.
@@ -54,8 +58,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	public StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
-		this.cache = new StateModelCache();
-		this.engine = new EmfEngine();
 	}
 	
 	/*
@@ -161,8 +163,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
 	private Resource deriveModel(Resource start, Trace path) throws StateSpaceException {
-		
-		// Copy the model first:
+
+		// We need a transformation engine first:
+		EmfEngine engine = acquireEngine();
+
+		// We copy the model:
 		Resource model = copyModel(start, null);
 		
 		// Derive the model for the current state:
@@ -173,7 +178,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
-			RuleApplication application = createRuleApplication(model, rule);
+			RuleApplication application = createRuleApplication(model, rule, engine);
 			List<Match> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
@@ -189,9 +194,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 		}
 		
+		// We can release the engine already:
+		releaseEngine(engine);
+		
 		// Decide whether the model in the start state should be kept:
 		storeModel(path.getSource(),start);
-
+		
 		return model;
 		
 	}
@@ -213,29 +221,34 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			int hashCode = transition.getTarget().getHashCode();
 			Resource transformed = transition.getTarget().getModel();
 			
-			// Find existing state / transition:
-			Transition existingTransition = findTransition(state, transition.getRule(), transformed);
-			State targetState = getState(transformed, hashCode);
-			
-			if (existingTransition!=null) {
+			// We need to test whether a state exists already and if not
+			// create a new one. And this atomically.
+			synchronized (explorerLock) {
 				
-				// Check if the transition points to the correct state:
-				Resource existingModel = getModel(existingTransition.getTarget());
-				if (!equals(existingModel,transformed)) {
-					markTainted();
-					throw new StateSpaceException("Illegal transition in state " + state);
+				// Find existing state / transition:
+				Transition existingTransition = findTransition(state, transition.getRule(), transformed);
+				State targetState = getState(transformed, hashCode);
+
+				if (existingTransition!=null) {
+
+					// Check if the transition points to the correct state:
+					Resource existingModel = getModel(existingTransition.getTarget());
+					if (!equals(existingModel,transformed)) {
+						markTainted();
+						throw new StateSpaceException("Illegal transition in state " + state);
+					}
+
+				} else {
+
+					// Create a new transition and state if required:
+					if (targetState==null) {
+						int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
+						targetState = createOpenState(transformed, hashCode, location);
+						storeModel(targetState, transformed);
+					}
+					Transition newTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
+					result.add(newTransition);
 				}
-				
-			} else {
-				
-				// Create a new transition and state if required:
-				if (targetState==null) {
-					int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
-					targetState = createOpenState(transformed, hashCode, location);
-					storeModel(targetState, transformed);
-				}
-				Transition newTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
-				result.add(newTransition);
 			}
 		}
 		
@@ -257,6 +270,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private List<Transition> doExplore(State state) throws StateSpaceException {
 		
+		// We need a transformation engine first:
+		EmfEngine engine = acquireEngine();
+		
 		// Get the state model:
 		Resource model = getModel(state);
 		
@@ -266,7 +282,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Apply all rules:
 		for (Rule rule : getStateSpace().getRules()) {
 			
-			RuleApplication application = createRuleApplication(model, rule);
+			RuleApplication application = createRuleApplication(model, rule, engine);
 			List<Match> matches = application.findAllMatches();
 			
 			for (int i=0; i<matches.size(); i++) {
@@ -274,7 +290,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Transform the model:
 				Match match = matches.get(i);
 				Resource transformed = copyModel(model, match);
-				application = createRuleApplication(transformed, rule);
+				application = createRuleApplication(transformed, rule, engine);
 				application.setMatch(match);
 				application.apply();
 				
@@ -293,6 +309,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			}
 		}
 		
+		// Now we can release the engine again:
+		releaseEngine(engine);
+		
+		// And we are done:
 		return transitions;
 
 	}
@@ -312,7 +332,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Create a new RuleApplication
 	 */
-	private RuleApplication createRuleApplication(Resource model, Rule rule) {
+	private static RuleApplication createRuleApplication(Resource model, Rule rule, EmfEngine engine) {
 		EmfGraph graph = new EmfGraph();
 		for (EObject root : model.getContents()) {
 			graph.addRoot(root);
@@ -322,9 +342,31 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
+	 * Acquire a transformation engine.
+	 */
+	private EmfEngine acquireEngine() {
+		synchronized (engines) {
+			if (!engines.isEmpty()) {
+				return engines.pop();
+			} else {
+				return new EmfEngine();
+			}
+		}
+	}
+
+	/*
+	 * Release a transformation engine again.
+	 */
+	private void releaseEngine(EmfEngine engine) {
+		synchronized (engines) {
+			engines.push(engine);
+		}
+	}
+
+	/*
 	 * Copy a state model.
 	 */
-	private Resource copyModel(Resource model, Match match) {
+	private static Resource copyModel(Resource model, Match match) {
 		Resource copy = new ResourceImpl();
 		Copier copier = new Copier();
 		copy.getContents().addAll(copier.copyAll(model.getContents()));
@@ -342,7 +384,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Create a shifted location.
 	 */
-	private int[] shiftedLocation(State base, int index) {
+	private static int[] shiftedLocation(State base, int index) {
 		int[] location = base.getLocation();
 		double angle = (Math.PI * index * 0.17d);
 		location[0] += 60 * Math.cos(angle);

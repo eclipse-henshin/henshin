@@ -18,8 +18,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.action.IAction;
@@ -96,11 +98,19 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 			ResourceSet resourceSet = new ResourceSetImpl();
 			URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
 			StateSpaceResource resource = null;
-
+			StateSpace stateSpace = null;
+			
 			try {
 				// Perform the loading:
 				resource = (StateSpaceResource) resourceSet.getResource(uri, true);
-				manager = new StateSpaceManagerImpl(resource.getStateSpace());
+				stateSpace = resource.getStateSpace();
+				
+				// Create the manager:
+				if (MultiThreadedStateSpaceManager.CPU_COUNT>1) {
+					manager = new MultiThreadedStateSpaceManager(stateSpace);				
+				} else {
+					manager = new StateSpaceManagerImpl(stateSpace);
+				}
 			}
 			catch (Throwable e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);

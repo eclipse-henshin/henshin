@@ -269,7 +269,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 				if (!confirmed) throw new RuntimeException("State space too large to be displayed");
 			}
 			
-			// Create a new state space manager:
+			// Create a new state space manager. We cannot use multi-treaded managers in the explorer.
 			stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
 			jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
 			

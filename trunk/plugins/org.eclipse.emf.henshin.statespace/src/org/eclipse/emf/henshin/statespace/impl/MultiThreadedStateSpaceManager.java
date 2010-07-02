@@ -14,6 +14,10 @@ package org.eclipse.emf.henshin.statespace.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -26,28 +30,37 @@ import org.eclipse.emf.henshin.statespace.Transition;
  * @generated NOT
  */
 public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
-
+	
+	/**
+	 * Cached number of available processors.
+	 */
+	public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+	
 	// Number of threads to be used:
 	private int numThreads;
+	
+	// Executor service.
+	private ExecutorService executor;
 	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 */
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace) {
-		this(stateSpace,2); // use 2 threads per default
+		this(stateSpace, CPU_COUNT);
 	}
 
 	/**
-	 * Alternative constructor.
+	 * Default constructor.
 	 * @param stateSpace State space.
 	 * @param numThreads Number of threads to be used.
 	 */
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
-		this.numThreads = numThreads;
+		this.numThreads = Math.max(numThreads, 1);
+		executor = Executors.newFixedThreadPool(this.numThreads);			
 	}
-	
+
 	/**
 	 * Explore states concurrently.
 	 * @param states States to be explored.
@@ -57,38 +70,25 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 */
 	public synchronized List<Transition> exploreStates(List<State> states, boolean generatedLocations) throws StateSpaceException {
 		
-		// Make sure the number of threads is positive.
-		if (numThreads<=0) {
-			throw new IllegalArgumentException("Number of threads to be used must be greater than 0 (is " + numThreads + ")");
-		}
-		
 		// Thread-safe lists for the states and the result:
 		final List<State> syncStates = Collections.synchronizedList(states);
 		final List<Transition> syncResult = Collections.synchronizedList(new ArrayList<Transition>());
 		
-		// Initialize and start threads immediately:
-		Worker[] workers = new Worker[numThreads];
-		Thread[] threads = new Thread[numThreads];
+		// Create the workers:
+		List<Worker> workers = new ArrayList<Worker>(numThreads);
 		for (int i=0; i<numThreads; i++) {
-			workers[i] = new Worker(syncStates, syncResult, generatedLocations);
-			threads[i] = new Thread(workers[i]);
-			threads[i].start();
+			workers.add(new Worker(syncStates, syncResult, generatedLocations));
 		}
 		
-		// Wait for them to finish:
-		for (int i=0; i<numThreads; i++) {
-			while (threads[i].isAlive()) {
-				try {
-					threads[i].join();
-				} catch (InterruptedException e) {}
+		// Execute the workers:
+		try {
+			List<Future<StateSpaceException>> futures = executor.invokeAll(workers);
+			for (Future<StateSpaceException> future : futures) {
+				StateSpaceException exception = future.get();
+				if (exception!=null) throw exception;
 			}
-		}
-		
-		// Check if there was an exception:
-		for (int i=0; i<numThreads; i++) {
-			if (workers[i].getStateSpaceException()!=null) {
-				throw workers[i].getStateSpaceException();
-			}
+		} catch (Throwable t) {
+			throw new StateSpaceException(t);
 		}
 		
 		// Done:
@@ -99,12 +99,11 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	/*
 	 * Private explorer worker class.
 	 */
-	private class Worker implements Runnable {
+	private class Worker implements Callable<StateSpaceException> {
 		
 		private List<State> states;
 		private List<Transition> result;
 		private boolean generateLocations;
-		private StateSpaceException exception;
 		
 		Worker(List<State> states, List<Transition> result, boolean generateLocations) {
 			this.states = states;
@@ -114,22 +113,19 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
+		 * @see java.util.concurrent.Callable#call()
 		 */
-		public void run() {
+		@Override
+		public StateSpaceException call() throws Exception {
 			try {
 				while (true) {
 					result.addAll(exploreState(states.remove(0),generateLocations));
 				}
 			} catch (IndexOutOfBoundsException e) {
-				return; // we are done
+				return null; // we are done
 			} catch (StateSpaceException e) {
-				this.exception = e;
+				return e;
 			}
-		}
-		
-		public StateSpaceException getStateSpaceException() {
-			return exception;
 		}
 	}
 	

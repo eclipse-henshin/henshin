@@ -44,6 +44,9 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		// We don't want automatic saves:
 		setSaveInterval(-1);
 		
+		// We explore less states at once:
+		setNumStatesAtOnce(5);
+		
 	}
 	
 	/*

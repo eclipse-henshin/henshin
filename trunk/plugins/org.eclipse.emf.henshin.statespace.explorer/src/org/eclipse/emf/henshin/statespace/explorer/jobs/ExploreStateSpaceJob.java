@@ -37,7 +37,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	protected EditDomain editDomain;
 	
 	// Number of states to be explored at once.
-	private int numStatesAtOnce = 5;
+	private int numStatesAtOnce = 20;
 	
 	// Save interval (default is 10 minutes):
 	private int saveInterval = 600; 
@@ -71,14 +71,16 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		StateSpaceManagerImpl manager = (StateSpaceManagerImpl) getStateSpaceManager();
 		StateSpace stateSpace = manager.getStateSpace();
 		
-		DecimalFormat percent = new DecimalFormat("0.00%");
-		DecimalFormat large = new DecimalFormat("#,###,###,###");
-
+		DecimalFormat large = new DecimalFormat("#,###,###,##0");
+		DecimalFormat speed = new DecimalFormat("###,##0.0");
+		
 		try {
 			
 			// Measure how long it takes...
-			long lastSave = System.currentTimeMillis();
-			long lastCleanup = System.currentTimeMillis();
+			long start = System.currentTimeMillis();
+			long lastSave = start;
+			long lastCleanup = start;
+			int explored = 0;
 			
 			// Run until canceled or no more open states...
 			while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled()) {
@@ -88,18 +90,20 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				
 				// Explore all open states:
 				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
-					
-					// Update the monitor:
-					int states = stateSpace.getStates().size();
-					monitor.subTask(large.format(states) + " states ("
-							+ large.format(stateSpace.getOpenStates().size()) + " open) and " 
-							+ large.format(stateSpace.getTransitionCount()) + " transitions. Hash collisions: "
-							+ percent.format((double) manager.getCollisions() / states));
-					
+										
 					// Execute as explore command:
 					Command command = createExploreCommand(open, index, numStatesAtOnce);
 					executeExploreCommand(command, monitor);
+					explored += numStatesAtOnce;
 					
+					// Update the monitor:
+					int states = stateSpace.getStates().size();
+					long time = System.currentTimeMillis();
+					monitor.subTask(large.format(states) + " states ("
+							+ large.format(stateSpace.getOpenStates().size()) + " open), " 
+							+ large.format(stateSpace.getTransitionCount()) + " transitions. Speed: "
+							+ speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second.");
+
 					// Should we stop?
 					if (monitor.isCanceled()) break;
 					
