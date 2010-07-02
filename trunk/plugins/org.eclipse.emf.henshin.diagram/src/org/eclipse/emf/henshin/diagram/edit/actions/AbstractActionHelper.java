@@ -10,7 +10,10 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
-
+/**
+ * @generated NOT
+ * @author Christian Krause
+ */
 public abstract class AbstractActionHelper<E extends EObject,C extends EObject> implements ActionHelper<E,C> {
 	
 	/*
