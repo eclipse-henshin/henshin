@@ -254,15 +254,6 @@
           <nodes xmi:id="_Nhj-gHlLEd--cZ9Xscsd8g">
             <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher"/>
           </nodes>
-          <nodes xmi:id="_1FZVIHlLEd--cZ9Xscsd8g">
-            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher"/>
-          </nodes>
-          <nodes xmi:id="_1thsIHlLEd--cZ9Xscsd8g">
-            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher"/>
-          </nodes>
-          <nodes xmi:id="_8-bt8HlLEd--cZ9Xscsd8g">
-            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Philosopher"/>
-          </nodes>
         </conclusion>
       </formula>
     </lhs>
