@@ -93,9 +93,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
 										
 					// Execute as explore command:
-					Command command = createExploreCommand(open, index, numStatesAtOnce);
+					ExploreStatesCommand command = createExploreCommand(open, index, numStatesAtOnce);
+					explored += command.getStatesToExplore().size();
 					executeExploreCommand(command, monitor);
-					explored += numStatesAtOnce;
 					
 					// Update the monitor:
 					int states = stateSpace.getStates().size();
@@ -133,6 +133,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error exploring state space", e);
 		}
 		
+		// Measure time again:
+		long end = System.currentTimeMillis();
+
 		// Save the state space and clean up:
 		if (saveInterval>=0) {
 			monitor.subTask("Saving state space...");
@@ -140,11 +143,10 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		}
 		
 		// Final message:
-		long time = System.currentTimeMillis();
 		boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
 		StateSpaceExplorerPlugin.getInstance().logInfo(
-			"Explored " + explored + " states " + ((time-start)/1000) + " seconds (" +
-			speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second) using " +
+			"Explored " + explored + " states " + ((end-start)/1000) + " seconds (" +
+			speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) using " +
 			(multiThreaded ? "multi" : "single") + "-threaded exploration.");
 		
 		// Now we are done:
