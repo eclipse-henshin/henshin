@@ -98,5 +98,13 @@ public class StateSpaceExplorerPlugin extends AbstractUIPlugin {
 		}
 		getLog().log(new Status(IStatus.ERROR, ID, IStatus.OK, message, t));
 	}
-	
+
+	/**
+	 * Log an info.
+	 * @param message Message.
+	 */
+	public void logInfo(String message) {
+		getLog().log(new Status(IStatus.INFO, ID, IStatus.OK, message, null));
+	}
+
 }

@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
+import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
@@ -74,14 +75,14 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		DecimalFormat large = new DecimalFormat("#,###,###,##0");
 		DecimalFormat speed = new DecimalFormat("###,##0.0");
 		
+		// Measure how long it takes...
+		long start = System.currentTimeMillis();
+		long lastSave = start;
+		long lastCleanup = start;
+		int explored = 0;
+
 		try {
-			
-			// Measure how long it takes...
-			long start = System.currentTimeMillis();
-			long lastSave = start;
-			long lastCleanup = start;
-			int explored = 0;
-			
+						
 			// Run until canceled or no more open states...
 			while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled()) {
 				
@@ -101,8 +102,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					long time = System.currentTimeMillis();
 					monitor.subTask(large.format(states) + " states ("
 							+ large.format(stateSpace.getOpenStates().size()) + " open), " 
-							+ large.format(stateSpace.getTransitionCount()) + " transitions. Speed: "
-							+ speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second.");
+							+ large.format(stateSpace.getTransitionCount()) + " transitions. Exploring "
+							+ speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second...");
 
 					// Should we stop?
 					if (monitor.isCanceled()) break;
@@ -137,6 +138,14 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 			monitor.subTask("Saving state space...");
 			saveStateSpace();
 		}
+		
+		// Final message:
+		long time = System.currentTimeMillis();
+		boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
+		StateSpaceExplorerPlugin.getInstance().logInfo(
+			"Explored " + explored + " states " + ((time-start)/1000) + " seconds (" +
+			speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second) using " +
+			(multiThreaded ? "multi" : "single") + "-threaded exploration.");
 		
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
