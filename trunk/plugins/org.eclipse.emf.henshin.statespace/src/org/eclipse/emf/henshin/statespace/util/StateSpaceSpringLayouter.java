@@ -59,25 +59,35 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 		}
 		this.stateSpace = stateSpace;
 		this.states = stateSpace.getStates();
-		this.numStates = states.size();
-		loadPositions();
+		reloadPositions();
 		this.stateSpace.eAdapters().add(this);
 	}
 	
 	/*
 	 * Load the positions from the states.
 	 */
-	private void loadPositions() {
+	private void reloadPositions() {
+		
+		// Initialize arrays:
+		numStates = states.size();
 		int size = arraySize(numStates);
 		posX = new double[size];
 		posY = new double[size];
 		posZ = new double[size];
+		
+		// Load state positions into the cache:
 		for (int i=0; i<numStates; i++) {
 			int[] location = states.get(i).getLocation();
 			posX[i] = location[0];
 			posY[i] = location[1];
 			posZ[i] = location[2];
 		}
+		
+		// Reset the shift as well:
+		shiftX = 0;
+		shiftY = 0;
+		shiftZ = 0;
+		
 	}
 	
 	/*
@@ -114,11 +124,8 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 			// State has been removed?
 			else if (event.getEventType()==Notification.REMOVE) {
 				
-				// Decrease states counter:
-				numStates--;
-				
 				// We don't know the index of the removed state, so we reload:
-				loadPositions();
+				reloadPositions();
 				
 			}
 		}
@@ -187,7 +194,7 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 		}
 
 		// Compute the new shift to the center (used in the next round):
-		if (center!=null) {
+		if (center!=null && numStates>0) {
 			shiftX = (center[0] - (sumX / (double) numStates)) * shiftFactor;
 			shiftY = (center[1] - (sumY / (double) numStates)) * shiftFactor;
 			shiftZ = (center[2] - (sumZ / (double) numStates)) * shiftFactor;
@@ -196,11 +203,9 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 	}
 	
 	/**
-	 * Commit the new  state locations.
+	 * Commit the new state locations.
 	 */
 	public void commit() {
-		
-		// Update all states:
 		for (int i=0; i<numStates; i++) {
 			State state = states.get(i);
 			int[] location = state.getLocation();
@@ -209,7 +214,6 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 			location[2] = (int) posZ[i];
 			state.setLocation(location);
 		}
-		
 	}
 	
 	/*
