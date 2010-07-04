@@ -18,6 +18,8 @@ import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -48,10 +50,15 @@ public class EdgeDeleteCommand  extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
-		// We reset the action to CREATE, then we know where the edge is:
-		EdgeActionHelper.INSTANCE.setAction(edge, new Action(ActionType.CREATE));
+		// Check for edge images:
+		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
+		if (action.getType()==ActionType.PRESERVE) {
+			Rule rule = edge.getGraph().getContainerRule();
+			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
+			image.getGraph().removeEdge(image);
+		}
 		
-		// We know the node is in the RHS now. So we simply remove it.
+		// Now we can remove it safely.
 		edge.getGraph().removeEdge(edge);
 		
 		// Done.

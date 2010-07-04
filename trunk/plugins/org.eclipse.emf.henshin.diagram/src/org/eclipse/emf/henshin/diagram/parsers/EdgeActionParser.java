@@ -17,7 +17,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -90,11 +93,40 @@ public class EdgeActionParser extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Edge edge) {
 		try {
+			// Parse the action:
 			Action action = Action.parse(value);
+			
+			// Make sure the action is compatible with the source and target actions:
+			NodeActionHelper helper = NodeActionHelper.INSTANCE;
+			Action src = helper.getAction(helper.getActionNode(edge.getSource()));
+			Action trg = helper.getAction(helper.getActionNode(edge.getTarget()));
+			
+			// Warning message:
+			CommandResult warning = CommandResult.newWarningCommandResult("Cannot set edge action because its source and target nodes have incompatible types.", null);
+			
+			// Case where source and target have the same action:
+			if (src.equals(trg)) {
+				if (src.getType()!=ActionType.PRESERVE && !action.equals(src)) {
+					return warning;
+				}
+			} else {
+				// At least one must be of type PRESERVE:
+				if (src.getType()!=ActionType.PRESERVE && trg.getType()!=ActionType.PRESERVE) {
+					return warning;
+				}
+				// Action of the none-PRESERVE node must be the same as the edge action:
+				Action nodeAction = (src.getType()!=ActionType.PRESERVE) ? src : trg;
+				if (!action.equals(nodeAction)) {
+					return warning;
+				}
+			}
+			
+			// Now we can safely set the action:
 			EdgeActionHelper.INSTANCE.setAction(edge, action);
 			return CommandResult.newOKCommandResult();
-		} catch (Throwable t) {
-			t.printStackTrace();
+		}
+		catch (Throwable t) {
+			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);
 			return CommandResult.newErrorCommandResult(t);
 		}		
 	}

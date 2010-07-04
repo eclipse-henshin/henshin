@@ -17,6 +17,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.diagram.edit.actions.Action;
+import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
+import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.maps.NodeMapEditor;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -101,6 +105,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 			return false;
 		}
 		if (source != null && target != null) {
+			// Check the type as well:
 			EReference type = (EReference) getRequest().getParameter(
 					TYPE_PARAMETER_KEY);
 			return canCreateEdge(getSource(), getTarget(), type);
@@ -114,7 +119,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 	 */
 	public static boolean canCreateEdge(Node source, Node target,
 			EReference edgeType) {
-
+		
+		// Get the source and target type.
 		EClass targetType = target.getType();
 		EClass sourceType = source.getType();
 
@@ -134,106 +140,95 @@ public class EdgeCreateCommand extends EditElementCommand {
 			return false;
 		}
 
-		/*
-		 * Check for source/target consistency i.e. an edge between [delete]node
-		 * and [create]node is forbidden
-		 */
+		// Check for source/target consistency.
 		Graph sourceGraph = source.getGraph();
 		Graph targetGraph = target.getGraph();
-		Rule rule = sourceGraph.getContainerRule();
 
-		if (rule == null) {
-			// if no rule is given, we require same graphs at least
-			if (sourceGraph != targetGraph) {
-				return false;
-			}// if
+		// Make sure the rule is found and that it is the same:
+		if (sourceGraph.getContainerRule()==null || 
+			sourceGraph.getContainerRule()!=targetGraph.getContainerRule()) {
+			return false;
+		}
+			
+		// Get the node actions:
+		Action action1 = NodeActionHelper.INSTANCE.getAction(source);
+		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
 
-		} else {
-
-			if (isCreate(rule, source) && isDelete(rule, target)) {
-				return false;
-			}// if
-
-			if (isDelete(rule, source) && isCreate(rule, target)) {
-				return false;
-			}// if
-
-			//TODO: Appropriate edge creation depending on <<create>>/<<delete>> nodes
-
-		}// if else
-
+		// Different actions are only allowed if one is a preserve action:
+		if (!action1.equals(action2) && 
+				action1.getType()!=ActionType.PRESERVE && 
+				action2.getType()!=ActionType.PRESERVE) {
+			return false;
+		}
+		
+		// Ok.
 		return true;
-	}// canCreateEdge
-
-	/**
-	 * Return true if the given element indicates a deletion by rule application
-	 * i.e. the given node occurs only at the LHS without mapping to RHS.
-	 * 
-	 * TODO: Diese Methode sollten noch in die Modellklasse Rule
-	 * 
-	 * @param rule
-	 * @param node
-	 * @return
-	 */
-	private static boolean isDelete(Rule rule, Node node) {
-
-		if ((rule.getLhs() == node.getGraph())) {
-			Node sourceImage = HenshinMappingUtil.getNodeImage(node, rule
-					.getRhs(), rule.getMappings());
-			return sourceImage == null;
-		}// if 
-		return false;
-	}// isDelete
-
-	/**
-	 * Return true if the given element indicates a creation by rule application
-	 * i.e. the given node occurs only at the RHS without being mapped by LHS.
-	 * 
-	 * TODO: Diese Methode sollten noch in die Modellklasse Rule
-	 * @param rule
-	 * @param node
-	 * @return
-	 */
-	private static boolean isCreate(Rule rule, Node node) {
-
-		if ((rule.getRhs() == node.getGraph())) {
-			Node sourceImage = HenshinMappingUtil.getNodeOrigin(node, rule
-					.getMappings());
-			return sourceImage == null;
-		}// if 
-		return false;
-	}// isCreate
+		
+	}
 
 	/**
 	 * @generated NOT
 	 */
+	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 
+		// Check again whether we can really execute this command:
 		if (!canExecute()) {
 			throw new ExecutionException(
 					"Invalid arguments in create link command"); //$NON-NLS-1$
 		}
 
-		// Get the edge type:
-		EReference type = (EReference) getRequest().getParameter(
-				TYPE_PARAMETER_KEY);
-
-		// Create the new edge:
+		// Get the type parameter and the rule:
+		EReference type = (EReference) getRequest().getParameter(TYPE_PARAMETER_KEY);
 		Rule rule = getSource().getGraph().getContainerRule();
-		Edge edge = HenshinFactory.eINSTANCE.createEdge(getSource(),
-				getTarget(), type);
 
-		// Check if we need to create a copy in the RHS:
-		Node sourceImage = HenshinMappingUtil.getNodeImage(getSource(), rule
-				.getRhs(), rule.getMappings());
-		Node targetImage = HenshinMappingUtil.getNodeImage(getTarget(), rule
-				.getRhs(), rule.getMappings());
+		// Source, target and the edge to be created:
+		Node source = getSource();
+		Node target = getTarget();
+		Edge edge = null;
 
-		if (sourceImage != null && targetImage != null) {
-			HenshinFactory.eINSTANCE.createEdge(sourceImage, targetImage, type);
+		// Get the node actions:
+		Action srcAction = NodeActionHelper.INSTANCE.getAction(source);
+		Action trgAction = NodeActionHelper.INSTANCE.getAction(target);
+		
+		// Check if the actions are the same:
+		if (srcAction.equals(trgAction)) {
+			
+			// Create the new edge (we know the nodes are in the same graph):
+			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
+			
+			// For PRESERVE actions we need to create an image in the RHS as well:
+			if (srcAction.getType()==ActionType.PRESERVE) {
+				Node srcImage = HenshinMappingUtil.getNodeImage(getSource(), rule
+						.getRhs(), rule.getMappings());
+				Node trgImage = HenshinMappingUtil.getNodeImage(getTarget(), rule
+						.getRhs(), rule.getMappings());
+				HenshinFactory.eINSTANCE.createEdge(srcImage, trgImage, type);
+			}
+
+		} else {
+			
+			/* 
+			 * We know one of the action is of type PRESERVE, the other one is not.
+			 * We look for the image of the PRESERVE node and use it to create the edge.
+			 * If the image does not exist yet (for a NAC for instance), we copy the node.
+			 */
+			if (srcAction.getType()==ActionType.PRESERVE) {
+				if (trgAction.getType()==ActionType.CREATE || trgAction.getType()==ActionType.FORBID) {
+					source = new NodeMapEditor(target.getGraph()).copy(source);
+				}
+			} else {
+				if (srcAction.getType()==ActionType.CREATE || srcAction.getType()==ActionType.FORBID) {
+					target = new NodeMapEditor(source.getGraph()).copy(target);
+				}
+			}
+			
+			// Now we can safely create the edge:
+			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
+			
 		}
-
+		
 		// Configure and return:
 		doConfigure(edge, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(edge);
