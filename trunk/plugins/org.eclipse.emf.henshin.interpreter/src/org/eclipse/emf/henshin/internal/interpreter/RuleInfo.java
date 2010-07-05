@@ -26,7 +26,7 @@ public class RuleInfo {
 		this.rule = rule;
 		
 		this.conditionInfo = new ConditionInfo(rule, scriptEngine);
-		this.variableInfo = new VariableInfo(rule, scriptEngine);
+		this.variableInfo = new VariableInfo(this, scriptEngine);
 		this.changeInfo = new ChangeInfo(rule);
 	}
 

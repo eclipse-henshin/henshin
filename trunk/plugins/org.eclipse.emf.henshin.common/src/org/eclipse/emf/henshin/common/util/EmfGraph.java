@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * This is a graph-like representation of a set of EObjects. Only objects known
@@ -194,7 +196,17 @@ public class EmfGraph {
 
 		return domain;
 	}
-
+	
+	protected Collection<EObject> getRootObjects() {
+		Collection<EObject> rootObjects = new HashSet<EObject>();
+		for (EObject eObject: geteObjects()) {
+			if (eObject.eContainer() == null)
+				rootObjects.add(eObject);
+		}
+		
+		return rootObjects;
+	}
+	
 	/**
 	 * Returns all eObjects contained in this graph.
 	 * 
@@ -202,5 +214,9 @@ public class EmfGraph {
 	 */
 	public Collection<EObject> geteObjects() {
 		return eObjects;
+	}
+	
+	public Map<EObject, Collection<EStructuralFeature.Setting>> getCrossReferenceMap() {
+		return EcoreUtil.CrossReferencer.find(geteObjects());
 	}
 }

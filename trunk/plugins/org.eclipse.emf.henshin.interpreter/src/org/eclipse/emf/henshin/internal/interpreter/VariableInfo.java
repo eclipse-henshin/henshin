@@ -51,8 +51,8 @@ public class VariableInfo {
 	private Rule rule;
 	private ScriptEngine scriptEngine;
 
-	public VariableInfo(Rule rule, ScriptEngine scriptEngine) {
-		this.rule = rule;
+	public VariableInfo(RuleInfo ruleInfo, ScriptEngine scriptEngine) {
+		this.rule = ruleInfo.getRule();
 		this.scriptEngine = scriptEngine;
 
 		this.node2variable = new HashMap<Node, Variable>();

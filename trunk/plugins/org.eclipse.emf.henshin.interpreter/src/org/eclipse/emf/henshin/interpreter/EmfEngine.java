@@ -24,6 +24,7 @@ import javax.script.ScriptEngineManager;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
@@ -118,6 +119,7 @@ public class EmfEngine implements InterpreterEngine {
 				options = new TransformationOptions();
 				options.setDeterministic(true);
 				options.setInjective(true);
+				options.setDangling(false);
 			}
 
 			DomainSlot domainSlot = new DomainSlot(conditionHandler,
@@ -215,6 +217,7 @@ public class EmfEngine implements InterpreterEngine {
 
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 
+		Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph.getCrossReferenceMap();
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
 		for (Solution solution : solutions) {
@@ -235,16 +238,21 @@ public class EmfEngine implements InterpreterEngine {
 			ruleInformation.put(rule, wrapper);
 		}
 
-		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
-		Solution solution = matchfinder.getNextMatch();
+		//if (!ruleApplication.getMatch().isComplete() || rule.getLhs().getNodes().size() > 0) {
+			Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph.getCrossReferenceMap();
+			Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
+			Solution solution = matchfinder.getNextMatch();
 
-		if (solution != null) {
-			Match match = new Match(rule, solution, wrapper.getVariableInfo()
-					.getNode2variable());
-			return match;
-		} else
-			return null;
+			if (solution != null) {
+				Match match = new Match(rule, solution, wrapper
+						.getVariableInfo().getNode2variable());
+				return match;
+			} else
+				return null;
+//		} else {
+//			return ruleApplication.getMatch();
 	}
+
 
 	public RuleApplication generateAmalgamationRule(
 			AmalgamationUnit amalgamationUnit,

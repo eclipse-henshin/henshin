@@ -18,10 +18,12 @@ package org.eclipse.emf.henshin.common.util;
 public class TransformationOptions {
 	private boolean injective;
 	private boolean deterministic;
+	private boolean dangling;
 	
 	public TransformationOptions() {
 		injective = true;
 		deterministic = true;
+		dangling = true;
 	}
 
 	public boolean isInjective() {
@@ -38,6 +40,14 @@ public class TransformationOptions {
 
 	public void setDeterministic(boolean deterministic) {
 		this.deterministic = deterministic;
+	}
+
+	public boolean isDangling() {
+		return dangling;
+	}
+
+	public void setDangling(boolean dangling) {
+		this.dangling = dangling;
 	}
 	
 	
