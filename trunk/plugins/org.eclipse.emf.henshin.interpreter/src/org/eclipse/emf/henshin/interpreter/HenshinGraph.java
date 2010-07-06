@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +39,14 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 
 	private Map<Node, EObject> node2eObjectMap;
 	private Map<EObject, Node> eObject2nodeMap;
+	private Map<EObject, List<Connection>> eObject2Connections;
+
 
 	public HenshinGraph(Graph graph) {
 		node2eObjectMap = new HashMap<Node, EObject>();
 		eObject2nodeMap = new HashMap<EObject, Node>();
+		eObject2Connections = new HashMap<EObject, List<Connection>>();
+
 
 		henshinGraph = graph;
 
@@ -116,6 +122,13 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 			else{
 				if (!henshinGraph.getNodes().contains(node)){
 					henshinGraph.getNodes().add(node);
+					for (Connection connection:eObject2Connections.get(eObject)){
+						Edge edge = HenshinFactory.eINSTANCE.createEdge();
+						edge.setType(connection.getTyp());
+						edge.setSource(eObject2nodeMap.get(connection.getSource()));
+						edge.setTarget(eObject2nodeMap.get(connection.getTarget()));
+						edge.setGraph(henshinGraph);
+					}
 				}
 			}
 		}
@@ -132,6 +145,16 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 
 			if (node != null) {
 				henshinGraph.getNodes().remove(node);
+				List<Edge> list = new ArrayList<Edge>(node.getIncoming());
+				list.addAll(node.getOutgoing());
+				List<Connection> connections = new ArrayList<Connection>();
+				for (Edge edge:list){
+					connections.add(new Connection(node2eObjectMap.get(edge.getSource()) , node2eObjectMap.get(edge.getTarget()), edge.getType()));
+					edge.setSource(null);
+					edge.setTarget(null);
+					edge.setGraph(null);
+				}
+				eObject2Connections.put(eObject,connections);
 				removeSynchronizedPair(node, eObject);
 			}
 		}
@@ -221,7 +244,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				if (value instanceof EObject) {
 					Node targetNode = eObject2nodeMap.get(value);
 					for (Edge outgoingEdge : node.getOutgoing()) {
-						if (outgoingEdge.getTarget() == targetNode) {
+						if (outgoingEdge.getTarget() == targetNode && outgoingEdge.getType()==feature) {
 							edge = outgoingEdge;
 							break;
 						}
@@ -231,6 +254,16 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 						edge.setSource(null);
 						edge.setTarget(null);
 						edge.setGraph(null);
+					}
+					else{
+						Iterator<Connection> iter=eObject2Connections.get(owner).iterator();
+						while(iter.hasNext()){
+							Connection conn=iter.next();
+							if (conn.getTarget()==value && conn.getTyp()==feature){
+								iter.remove();
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -264,7 +297,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				if (value instanceof EObject) {
 					Node targetNode = eObject2nodeMap.get(value);
 					for (Edge outgoingEdge : node.getOutgoing()) {
-						if (outgoingEdge.getTarget() == targetNode) {
+						if (outgoingEdge.getTarget() == targetNode && outgoingEdge.getType()==feature) {
 							edge = outgoingEdge;
 							break;
 						}
@@ -310,5 +343,45 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 	 */
 	public void seteObject2nodeMap(Map<EObject, Node> eObject2nodeMap) {
 		this.eObject2nodeMap = eObject2nodeMap;
+	}
+	
+	
+	private class Connection{
+		
+		private EObject source;
+		
+		private EObject target;
+		
+		private EReference typ;
+		
+		public Connection(EObject source, EObject target, EReference typ){
+			this.source = source;
+			this.target = target;
+			this.typ = typ;
+		}
+
+		/**
+		 * @return the source
+		 */
+		public synchronized EObject getSource() {
+			return source;
+		}
+
+		/**
+		 * @return the target
+		 */
+		public synchronized EObject getTarget() {
+			return target;
+		}
+
+		/**
+		 * @return the typ
+		 */
+		public synchronized EReference getTyp() {
+			return typ;
+		}
+		
+		
+		
 	}
 }

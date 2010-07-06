@@ -371,7 +371,7 @@ public class EmfEngine implements InterpreterEngine {
 		// remove deleted edges
 		for (Edge edge : changeInfo.getDeletedEdges()) {
 			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()),
-					edge.getType(), matchNodeMapping.get(edge.getTarget()));
+					edge.getType(), null);
 
 		}
 

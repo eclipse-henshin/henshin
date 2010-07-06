@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.internal.conditions.attribute;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -25,7 +26,7 @@ public class AttributeCondition {
 	public AttributeCondition(String condition,
 			Collection<String> conditionParameters, ScriptEngine engine) {
 		this.conditionText = condition;
-		this.remainingParameters = conditionParameters;
+		this.remainingParameters = new HashSet<String>(conditionParameters);
 		this.scriptEngine = engine;
 	}
 

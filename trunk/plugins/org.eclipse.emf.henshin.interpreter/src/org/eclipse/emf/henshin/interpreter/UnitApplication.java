@@ -181,6 +181,7 @@ public class UnitApplication {
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
+			System.out.println(rule.getName());
 			parameterValues = ruleApplication.getComatch().getParameterValues();
 			appliedRules.push(ruleApplication);
 			return true;
