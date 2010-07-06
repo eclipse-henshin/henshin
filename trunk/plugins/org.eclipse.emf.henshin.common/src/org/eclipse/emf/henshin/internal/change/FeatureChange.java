@@ -11,22 +11,17 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.change;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
+
 
 /**
  * Abstract class for the definition of model changes.
  */
-public abstract class FeatureChange {
-    /**
-     * The EStructuralFeature which should be changed.
-     */
-    protected EStructuralFeature target;
+public interface FeatureChange {
 
-    /**
-     * @return the target
-     */
-    public final EStructuralFeature getTarget() {
-        return target;
-    }
+	public void update(Object newValue);
+	
+	public void execute();
+	
+	public void undo();
 
 }

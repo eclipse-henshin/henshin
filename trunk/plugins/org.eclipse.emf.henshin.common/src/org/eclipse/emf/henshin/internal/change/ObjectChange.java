@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.change;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -20,68 +20,40 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 public class ObjectChange {
 	EObject owner;
 
-	List<FeatureChange> changedFeatures = new ArrayList<FeatureChange>();
+	Map<EStructuralFeature, FeatureChange> changedFeatures;
 
 	public ObjectChange(EObject eObject) {
+		changedFeatures = new HashMap<EStructuralFeature, FeatureChange>();
 		owner = eObject;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void changeFeature(EStructuralFeature feature, Object newValue) {
-		FeatureChange featureChange = null;
-		for (FeatureChange temp : changedFeatures) {
-			if (temp.getTarget() == feature) {
-				featureChange = temp;
-				break;
-			}
-		}
+	public void changeFeature(EStructuralFeature feature, Object value, boolean deletion) {
+		FeatureChange featureChange = changedFeatures.get(feature);
 
-		if (feature.isMany()) {
-			ManyFeatureChange manyFeatureChange;
-			if (featureChange == null) {
-				manyFeatureChange = new ManyFeatureChange(feature,
-						(List<Object>) owner.eGet(feature));
-				changedFeatures.add(manyFeatureChange);
+		if (featureChange == null) {
+			if (feature.isMany()) {
+				featureChange = new ManyFeatureChange(owner, feature);
+				featureChange.update(value);
 			} else {
-				manyFeatureChange = (ManyFeatureChange) featureChange;
+				featureChange = new SingleFeatureChange(owner, feature);
+				if (deletion)
+					featureChange.update(null);
+				else
+					featureChange.update(value);
 			}
-			manyFeatureChange.update(newValue);
-		} else {
-			SingleFeatureChange singleFeatureChange;
-			if (featureChange == null) {
-				singleFeatureChange = new SingleFeatureChange(feature, owner
-						.eGet(feature));
-				changedFeatures.add(singleFeatureChange);
-			} else {
-				singleFeatureChange = (SingleFeatureChange) featureChange;
-			}
-			singleFeatureChange.update(newValue);
+			changedFeatures.put(feature, featureChange);
 		}
 	}
 
 	public void execute() {
-		for (FeatureChange featureChange : changedFeatures) {
-			if (featureChange instanceof SingleFeatureChange) {
-				SingleFeatureChange singleFeatureChange = (SingleFeatureChange) featureChange;
-				owner.eSet(singleFeatureChange.getTarget(), singleFeatureChange
-						.getNewValue());
-			} else {
-				ManyFeatureChange manyFeatureChange = (ManyFeatureChange) featureChange;
-				manyFeatureChange.execute();
-			}
+		for (FeatureChange featureChange : changedFeatures.values()) {
+			featureChange.execute();
 		}
 	}
 
 	public void undo() {
-		for (FeatureChange featureChange : changedFeatures) {
-			if (featureChange instanceof SingleFeatureChange) {
-				SingleFeatureChange singleFeatureChange = (SingleFeatureChange) featureChange;
-				owner.eSet(singleFeatureChange.getTarget(), singleFeatureChange
-						.getOldValue());
-			} else {
-				ManyFeatureChange manyFeatureChange = (ManyFeatureChange) featureChange;
-				manyFeatureChange.undo();
-			}
+		for (FeatureChange featureChange : changedFeatures.values()) {
+			featureChange.undo();
 		}
 	}
 

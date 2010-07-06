@@ -217,7 +217,8 @@ public class EmfEngine implements InterpreterEngine {
 
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 
-		Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph.getCrossReferenceMap();
+		Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph
+				.getCrossReferenceMap();
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
 		for (Solution solution : solutions) {
@@ -238,21 +239,22 @@ public class EmfEngine implements InterpreterEngine {
 			ruleInformation.put(rule, wrapper);
 		}
 
-		//if (!ruleApplication.getMatch().isComplete() || rule.getLhs().getNodes().size() > 0) {
-			Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph.getCrossReferenceMap();
-			Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
-			Solution solution = matchfinder.getNextMatch();
+		// if (!ruleApplication.getMatch().isComplete() ||
+		// rule.getLhs().getNodes().size() > 0) {
+		Map<EObject, Collection<EStructuralFeature.Setting>> settings = emfGraph
+				.getCrossReferenceMap();
+		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
+		Solution solution = matchfinder.getNextMatch();
 
-			if (solution != null) {
-				Match match = new Match(rule, solution, wrapper
-						.getVariableInfo().getNode2variable());
-				return match;
-			} else
-				return null;
-//		} else {
-//			return ruleApplication.getMatch();
+		if (solution != null) {
+			Match match = new Match(rule, solution, wrapper.getVariableInfo()
+					.getNode2variable());
+			return match;
+		} else
+			return null;
+		// } else {
+		// return ruleApplication.getMatch();
 	}
-
 
 	public RuleApplication generateAmalgamationRule(
 			AmalgamationUnit amalgamationUnit,
@@ -371,15 +373,15 @@ public class EmfEngine implements InterpreterEngine {
 		// remove deleted edges
 		for (Edge edge : changeInfo.getDeletedEdges()) {
 			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()),
-					edge.getType(), null);
-
+					edge.getType(), matchNodeMapping.get(edge.getTarget()),
+					true);
 		}
 
 		// add new edges
 		for (Edge edge : changeInfo.getCreatedEdges()) {
 			modelChange.addObjectChange(comatchNodeMapping
 					.get(edge.getSource()), edge.getType(), comatchNodeMapping
-					.get(edge.getTarget()));
+					.get(edge.getTarget()), false);
 		}
 
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
@@ -400,7 +402,7 @@ public class EmfEngine implements InterpreterEngine {
 					.getEAttributeType(), valueString);
 
 			modelChange.addObjectChange(targetObject, attribute.getType(),
-					value);
+					value, false);
 		}
 
 		modelChange.applyChanges();

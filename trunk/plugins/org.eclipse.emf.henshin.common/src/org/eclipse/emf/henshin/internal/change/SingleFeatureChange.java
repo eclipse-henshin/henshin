@@ -11,18 +11,23 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.change;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class SingleFeatureChange extends FeatureChange {
+public class SingleFeatureChange implements FeatureChange {
+	private EObject owner;
+	private EStructuralFeature feature;
+	
     private Object oldValue;
     private Object newValue;
 
-    public SingleFeatureChange( EStructuralFeature target, Object oldValue ) {
-        this.target = target;
-        this.oldValue = oldValue;
+    public SingleFeatureChange(EObject owner, EStructuralFeature feature) {
+        this.oldValue = owner.eGet(feature);
+        this.owner = owner;
+        this.feature = feature;
     }
 
-    public void update( Object newValue ) {
+    public void update(Object newValue) {
         this.newValue = newValue;
     }
 
@@ -39,4 +44,14 @@ public class SingleFeatureChange extends FeatureChange {
     public Object getNewValue() {
         return newValue;
     }
+
+	@Override
+	public void execute() {
+		owner.eSet(feature, newValue);
+	}
+
+	@Override
+	public void undo() {
+		owner.eSet(feature, oldValue);
+	}
 }
