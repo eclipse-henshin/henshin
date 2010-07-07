@@ -143,19 +143,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Number of states: rounded up for more stability:
 		int states = getStateSpace().getStates().size();
-		states = states - (states % 1000) + 1000;
+		states = states - (states % 1000) + 1000;			// always greater than 1000
 		
-		// Decide whether the current model should be kept in memory:
-		int stored = (int) Math.log10(states) + 1;
-		int index = state.getIndex();
+		// Decide whether the current model should be kept in memory.
+		// The natural logarithm seems to be a good choice here.
+		int stored = (int) Math.log(states) - 3;	// always greater or equal 3
+		int index = state.getIndex() + 1;			// always greater than 1
 		
 		//System.out.println(stored);
 		
-		if (stored>0 && index>0 && (index % stored)==0) {
-			state.setModel(model);
-		} else {
-			state.setModel(null);
+		if (index % stored != 0) {
+			model = null;
 		}
+		state.setModel(model);
 
 	}
 	
