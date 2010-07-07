@@ -35,7 +35,7 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		
 		// Adjust the number of states to be explored at one for multi-threaded state space managers:
 		if (manager instanceof MultiThreadedStateSpaceManager) {
-			job.setNumStatesAtOnce(15 * MultiThreadedStateSpaceManager.CPU_COUNT);
+			job.setNumStatesAtOnce(10 * MultiThreadedStateSpaceManager.CPU_COUNT);
 		}
 		
 		// Schedule the job:
