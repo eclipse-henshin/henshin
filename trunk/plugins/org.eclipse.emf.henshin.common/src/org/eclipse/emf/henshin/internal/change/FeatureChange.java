@@ -18,7 +18,9 @@ package org.eclipse.emf.henshin.internal.change;
  */
 public interface FeatureChange {
 
-	public void update(Object newValue);
+	public void removeValue(Object value);
+	public void addValue(Object value);
+	//public void update(Object newValue);
 	
 	public void execute();
 	

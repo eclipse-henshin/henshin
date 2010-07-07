@@ -27,22 +27,33 @@ public class ObjectChange {
 		owner = eObject;
 	}
 
-	public void changeFeature(EStructuralFeature feature, Object value, boolean deletion) {
+	public void removeValue(EStructuralFeature feature, Object value) {
 		FeatureChange featureChange = changedFeatures.get(feature);
 
 		if (featureChange == null) {
 			if (feature.isMany()) {
 				featureChange = new ManyFeatureChange(owner, feature);
-				featureChange.update(value);
 			} else {
 				featureChange = new SingleFeatureChange(owner, feature);
-				if (deletion)
-					featureChange.update(null);
-				else
-					featureChange.update(value);
 			}
 			changedFeatures.put(feature, featureChange);
 		}
+		
+		featureChange.removeValue(value);
+	}
+	
+	public void addValue(EStructuralFeature feature, Object value) {
+		FeatureChange featureChange = changedFeatures.get(feature);
+
+		if (featureChange == null) {
+			if (feature.isMany()) {
+				featureChange = new ManyFeatureChange(owner, feature);
+			} else {
+				featureChange = new SingleFeatureChange(owner, feature);
+			}
+			changedFeatures.put(feature, featureChange);
+		}
+		featureChange.addValue(value);
 	}
 
 	public void execute() {

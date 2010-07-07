@@ -22,38 +22,44 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * Stores changes to a many-reference.
  */
 public class ManyFeatureChange implements FeatureChange {
-	private Collection<EObject> valueList;
+	private Collection<Object> valueList;
 	
-	private Collection<EObject> removedElements;
-	private Collection<EObject> addedElements;
+	private Collection<Object> removedElements;
+	private Collection<Object> addedElements;
 
+	@SuppressWarnings("unchecked")
 	public ManyFeatureChange(EObject owner, EStructuralFeature feature) {
-		valueList = (List<EObject>) owner.eGet(feature);
+		valueList = (List<Object>) owner.eGet(feature);
 		
-		removedElements = new HashSet<EObject>();
-		addedElements = new HashSet<EObject>();
+		removedElements = new HashSet<Object>();
+		addedElements = new HashSet<Object>();
 	}
 
-	public void update(Object newValue) {
-		if (valueList.contains(newValue))
-			removedElements.add((EObject) newValue);
-		else
-			addedElements.add((EObject) newValue);
+	@Override
+	public void addValue(Object value) {
+		addedElements.add(value);
+		
 	}
 
+	@Override
+	public void removeValue(Object value) {
+		// TODO Auto-generated method stub
+		removedElements.add(value);
+	}
+	
 	public void execute() {
-		for (EObject removedObject : removedElements)
+		for (Object removedObject : removedElements)
 			valueList.remove(removedObject);
 
-		for (EObject addedObject : addedElements)
+		for (Object addedObject : addedElements)
 			valueList.add(addedObject);
 	}
 
 	public void undo() {
-		for (EObject addedObject : addedElements)
+		for (Object addedObject : addedElements)
 			valueList.remove(addedObject);
 		
-		for (EObject removedObject : removedElements)
+		for (Object removedObject : removedElements)
 			valueList.add(removedObject);
 	}
 }

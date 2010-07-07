@@ -26,10 +26,17 @@ public class SingleFeatureChange implements FeatureChange {
         this.owner = owner;
         this.feature = feature;
     }
+    
+	@Override
+	public void addValue(Object value) {
+		newValue = value;
+	}
 
-    public void update(Object newValue) {
-        this.newValue = newValue;
-    }
+	@Override
+	public void removeValue(Object value) {
+		newValue = null;
+	}
+
 
     /**
      * @return the oldValue

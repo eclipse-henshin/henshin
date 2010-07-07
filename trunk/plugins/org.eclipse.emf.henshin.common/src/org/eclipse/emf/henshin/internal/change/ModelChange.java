@@ -47,9 +47,13 @@ public class ModelChange {
 			
 			if (objectChange == null) {
 				objectChange = new ObjectChange(eObject);
-				objectChange.changeFeature(feature, value, deletion);
 				changes.put(eObject, objectChange);
 			}
+			
+			if (deletion)
+				objectChange.removeValue(feature, value);
+			else
+				objectChange.addValue(feature, value);
 		}
 	}
 
