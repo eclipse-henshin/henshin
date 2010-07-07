@@ -43,8 +43,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	// Save interval (default is 10 minutes):
 	private int saveInterval = 600; 
 
-	// Clean up interval (default is 60 minutes):
-	private int cleanupInterval = 3600;
+	// Clean up interval (default is 30 minutes):
+	private int cleanupInterval = 1800;
 
 	
 	/**
