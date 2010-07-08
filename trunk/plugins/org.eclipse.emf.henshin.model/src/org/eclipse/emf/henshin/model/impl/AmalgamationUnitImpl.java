@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
@@ -20,8 +21,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -66,7 +69,7 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	protected EList<Rule> multiRules;
 
 	/**
-	 * The cached value of the '{@link #getLhsMappings() <em>Lhs Mappings</em>}' reference list.
+	 * The cached value of the '{@link #getLhsMappings() <em>Lhs Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getLhsMappings()
@@ -76,7 +79,7 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	protected EList<Mapping> lhsMappings;
 
 	/**
-	 * The cached value of the '{@link #getRhsMappings() <em>Rhs Mappings</em>}' reference list.
+	 * The cached value of the '{@link #getRhsMappings() <em>Rhs Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getRhsMappings()
@@ -161,7 +164,7 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	 */
 	public EList<Mapping> getLhsMappings() {
 		if (lhsMappings == null) {
-			lhsMappings = new EObjectResolvingEList<Mapping>(Mapping.class, this, HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS);
+			lhsMappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS);
 		}
 		return lhsMappings;
 	}
@@ -173,9 +176,25 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	 */
 	public EList<Mapping> getRhsMappings() {
 		if (rhsMappings == null) {
-			rhsMappings = new EObjectResolvingEList<Mapping>(Mapping.class, this, HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS);
+			rhsMappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS);
 		}
 		return rhsMappings;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS:
+				return ((InternalEList<?>)getLhsMappings()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS:
+				return ((InternalEList<?>)getRhsMappings()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

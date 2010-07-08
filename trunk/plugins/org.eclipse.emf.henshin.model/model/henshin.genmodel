@@ -4,10 +4,9 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.model/src"
     editDirectory="/org.eclipse.emf.henshin.edit/src" editorDirectory="/org.eclipse.emf.henshin.editor/src"
     modelPluginID="org.eclipse.emf.henshin.model" templateDirectory="org.eclipse.emf.henshin.model/ocltemplates"
-    dynamicTemplates="true" modelName="Henshin" testsDirectory="/org.eclipse.emf.henshin.tests/src"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
-    providerRootExtendsClass="" editPluginID="org.eclipse.emf.henshin.edit" editorPluginID="org.eclipse.emf.henshin.editor"
-    testsPluginID="org.eclipse.emf.henshin.tests">
+    modelName="Henshin" testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" providerRootExtendsClass="" editPluginID="org.eclipse.emf.henshin.edit"
+    editorPluginID="org.eclipse.emf.henshin.editor" testsPluginID="org.eclipse.emf.henshin.tests">
   <foreignModel>henshin.ecore</foreignModel>
   <modelPluginVariables>OCL_ECORE=org.eclipse.ocl.ecore</modelPluginVariables>
   <genPackages prefix="Henshin" basePackage="org.eclipse.emf" disposableProviderFactory="true"
@@ -40,6 +39,10 @@
       <genOperations ecoreOperation="henshin.ecore#//Rule/getNodeByName">
         <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/nodename"/>
         <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/isLhs"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/containsMapping">
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/sourceNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/targetNode"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//AttributeCondition">
@@ -103,9 +106,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Attribute/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Attribute/value"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Attribute/node"/>
-      <genOperations ecoreOperation="henshin.ecore#//Attribute/containsParameterByRule">
-        <genParameters ecoreParameter="henshin.ecore#//Attribute/containsParameterByRule/rule"/>
-      </genOperations>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//Edge">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Edge/source"/>

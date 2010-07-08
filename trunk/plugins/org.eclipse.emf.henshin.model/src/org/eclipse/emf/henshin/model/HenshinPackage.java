@@ -1145,7 +1145,7 @@ public interface HenshinPackage extends EPackage {
 	int AMALGAMATION_UNIT__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Lhs Mappings</b></em>' reference list.
+	 * The feature id for the '<em><b>Lhs Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1154,7 +1154,7 @@ public interface HenshinPackage extends EPackage {
 	int AMALGAMATION_UNIT__LHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Rhs Mappings</b></em>' reference list.
+	 * The feature id for the '<em><b>Rhs Mappings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2176,10 +2176,10 @@ public interface HenshinPackage extends EPackage {
 	EReference getAmalgamationUnit_MultiRules();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings <em>Lhs Mappings</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings <em>Lhs Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Lhs Mappings</em>'.
+	 * @return the meta object for the containment reference list '<em>Lhs Mappings</em>'.
 	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings()
 	 * @see #getAmalgamationUnit()
 	 * @generated
@@ -2187,10 +2187,10 @@ public interface HenshinPackage extends EPackage {
 	EReference getAmalgamationUnit_LhsMappings();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings <em>Rhs Mappings</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings <em>Rhs Mappings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Rhs Mappings</em>'.
+	 * @return the meta object for the containment reference list '<em>Rhs Mappings</em>'.
 	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings()
 	 * @see #getAmalgamationUnit()
 	 * @generated
@@ -2944,7 +2944,7 @@ public interface HenshinPackage extends EPackage {
 		EReference AMALGAMATION_UNIT__MULTI_RULES = eINSTANCE.getAmalgamationUnit_MultiRules();
 
 		/**
-		 * The meta object literal for the '<em><b>Lhs Mappings</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Lhs Mappings</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2952,7 +2952,7 @@ public interface HenshinPackage extends EPackage {
 		EReference AMALGAMATION_UNIT__LHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_LhsMappings();
 
 		/**
-		 * The meta object literal for the '<em><b>Rhs Mappings</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Rhs Mappings</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

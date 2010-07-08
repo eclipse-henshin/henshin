@@ -67,21 +67,6 @@ public class HenshinValidator extends EObjectValidator {
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
 
 
-	/**
-	 * The parsed OCL expression for the definition of the '<em>ValidName</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint namedElement_ValidNameInvOCL;
-
-	/**
-	 * The parsed OCL expression for the definition of the '<em>EqualParentGraphs</em>' invariant constraint.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint edge_EqualParentGraphsInvOCL;
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
@@ -181,9 +166,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNamedElement(NamedElement namedElement, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(namedElement, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(namedElement, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(namedElement, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(namedElement, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(namedElement, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(namedElement, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(namedElement, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(namedElement, diagnostics, context);
@@ -199,24 +186,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNamedElement_ValidName(NamedElement namedElement, DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (namedElement_ValidNameInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.NAMED_ELEMENT);
-			
-			EAnnotation ocl = HenshinPackage.Literals.NAMED_ELEMENT.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("ValidName");
-			
-			try {
-				namedElement_ValidNameInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(namedElement_ValidNameInvOCL);
-		
-		if (!query.check(namedElement)) {
+		// TODO implement the constraint
+		// -> specify the condition that violates the constraint
+		// -> verify the diagnostic details, including severity, code, and message
+		// Ensure that you remove @generated or mark it @generated NOT
+		if (false) {
 			if (diagnostics != null) {
 				diagnostics.add
 					(createDiagnostic
@@ -248,9 +222,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateTransformationSystem(TransformationSystem transformationSystem, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(transformationSystem, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(transformationSystem, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationSystem, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationSystem, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(transformationSystem, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationSystem, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(transformationSystem, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationSystem, diagnostics, context);
@@ -265,9 +241,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateRule(Rule rule, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(rule, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
@@ -282,9 +260,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateAttributeCondition(AttributeCondition attributeCondition, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(attributeCondition, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(attributeCondition, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(attributeCondition, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(attributeCondition, diagnostics, context);
@@ -299,9 +279,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateParameter(Parameter parameter, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(parameter, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(parameter, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(parameter, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(parameter, diagnostics, context);
@@ -316,9 +298,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateGraph(Graph graph, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(graph, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(graph, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(graph, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(graph, diagnostics, context);
@@ -351,9 +335,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateNode(Node node, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(node, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(node, diagnostics, context);
@@ -377,9 +363,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateEdge(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(edge, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(edge, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(edge, diagnostics, context);
@@ -395,24 +383,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateEdge_EqualParentGraphs(Edge edge, DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (edge_EqualParentGraphsInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.EDGE);
-			
-			EAnnotation ocl = HenshinPackage.Literals.EDGE.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("EqualParentGraphs");
-			
-			try {
-				edge_EqualParentGraphsInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-		}
-		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(edge_EqualParentGraphsInvOCL);
-		
-		if (!query.check(edge)) {
+		// TODO implement the constraint
+		// -> specify the condition that violates the constraint
+		// -> verify the diagnostic details, including severity, code, and message
+		// Ensure that you remove @generated or mark it @generated NOT
+		if (false) {
 			if (diagnostics != null) {
 				diagnostics.add
 					(createDiagnostic
@@ -435,9 +410,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateTransformationUnit(TransformationUnit transformationUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(transformationUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(transformationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(transformationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(transformationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationUnit, diagnostics, context);
@@ -452,9 +429,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateIndependentUnit(IndependentUnit independentUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(independentUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
@@ -469,9 +448,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateSequentialUnit(SequentialUnit sequentialUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(sequentialUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
@@ -486,9 +467,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateConditionalUnit(ConditionalUnit conditionalUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(conditionalUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
@@ -503,9 +486,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validatePriorityUnit(PriorityUnit priorityUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(priorityUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
@@ -520,9 +505,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateAmalgamationUnit(AmalgamationUnit amalgamationUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(amalgamationUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(amalgamationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(amalgamationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(amalgamationUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(amalgamationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(amalgamationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(amalgamationUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(amalgamationUnit, diagnostics, context);
@@ -537,9 +524,11 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	public boolean validateCountedUnit(CountedUnit countedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (!validate_NoCircularContainment(countedUnit, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms(countedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(countedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(countedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(countedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryProxyResolves(countedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_UniqueID(countedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(countedUnit, diagnostics, context);

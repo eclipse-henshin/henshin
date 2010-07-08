@@ -176,9 +176,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" upperBound="-1"
         eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
-        eType="#//Mapping"/>
+        eType="#//Mapping" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhsMappings" upperBound="-1"
-        eType="#//Mapping"/>
+        eType="#//Mapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"

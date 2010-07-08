@@ -71,7 +71,7 @@ public interface AmalgamationUnit extends TransformationUnit {
 	EList<Rule> getMultiRules();
 
 	/**
-	 * Returns the value of the '<em><b>Lhs Mappings</b></em>' reference list.
+	 * Returns the value of the '<em><b>Lhs Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -79,15 +79,15 @@ public interface AmalgamationUnit extends TransformationUnit {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Lhs Mappings</em>' reference list.
+	 * @return the value of the '<em>Lhs Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAmalgamationUnit_LhsMappings()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Mapping> getLhsMappings();
 
 	/**
-	 * Returns the value of the '<em><b>Rhs Mappings</b></em>' reference list.
+	 * Returns the value of the '<em><b>Rhs Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -95,9 +95,9 @@ public interface AmalgamationUnit extends TransformationUnit {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rhs Mappings</em>' reference list.
+	 * @return the value of the '<em>Rhs Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAmalgamationUnit_RhsMappings()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Mapping> getRhsMappings();
