@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * @model kind="class"
  * @generated
  */
-public class Plate extends MinimalEObjectImpl implements EObject {
+public class Plate extends MinimalEObjectImpl.Container implements EObject {
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' reference.
 	 * <!-- begin-user-doc -->

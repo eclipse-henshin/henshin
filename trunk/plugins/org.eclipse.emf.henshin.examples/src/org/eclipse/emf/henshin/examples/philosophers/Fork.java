@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * @model kind="class"
  * @generated
  */
-public class Fork extends MinimalEObjectImpl implements EObject {
+public class Fork extends MinimalEObjectImpl.Container implements EObject {
 	/**
 	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->

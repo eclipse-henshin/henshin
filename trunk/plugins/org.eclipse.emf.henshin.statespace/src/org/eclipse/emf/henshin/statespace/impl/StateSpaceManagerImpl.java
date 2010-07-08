@@ -147,8 +147,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Decide whether the current model should be kept in memory.
 		// The natural logarithm seems to be a good choice here.
-		int stored = (int) Math.log(states) - 3;	// always greater or equal 3
-		int index = state.getIndex() + 1;			// always greater than 1
+		int stored = (int) Math.log(states);		// always greater or equal 6
+		int index = state.getIndex() + 1;			// always greater or equal 1
 		
 		//System.out.println(stored);
 		

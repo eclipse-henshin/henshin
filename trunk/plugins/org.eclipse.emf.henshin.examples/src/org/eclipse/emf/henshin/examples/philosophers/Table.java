@@ -44,7 +44,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @model kind="class"
  * @generated
  */
-public class Table extends MinimalEObjectImpl implements EObject {
+public class Table extends MinimalEObjectImpl.Container implements EObject {
 	/**
 	 * The cached value of the '{@link #getPlates() <em>Plates</em>}' containment reference list.
 	 * <!-- begin-user-doc -->

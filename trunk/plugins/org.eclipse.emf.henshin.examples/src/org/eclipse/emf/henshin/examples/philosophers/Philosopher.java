@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * @model kind="class"
  * @generated
  */
-public class Philosopher extends MinimalEObjectImpl implements EObject {
+public class Philosopher extends MinimalEObjectImpl.Container implements EObject {
 	/**
 	 * The cached value of the '{@link #getPlate() <em>Plate</em>}' reference.
 	 * <!-- begin-user-doc -->

@@ -39,13 +39,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 20;
-	
+
+	// Clean up interval (default is 10 minutes):
+	private int cleanupInterval = 600;
+
 	// Save interval (default is 10 minutes):
 	private int saveInterval = 600; 
-
-	// Clean up interval (default is 30 minutes):
-	private int cleanupInterval = 1800;
-
+	
 	
 	/**
 	 * Default constructor.
@@ -107,21 +107,22 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 
 					// Should we stop?
 					if (monitor.isCanceled()) break;
-					
-					// Perform a save?
-					if (saveInterval>=0 && System.currentTimeMillis() > (lastSave + (saveInterval*1000))) {
-						monitor.subTask("Saving state space...");
-						saveStateSpace();
-						lastSave = System.currentTimeMillis();
-					}
-					
+
 					// Perform a clean up?
-					if (cleanupInterval>=0 && System.currentTimeMillis() > (lastCleanup + (cleanupInterval*1000))) {
+					long current = System.currentTimeMillis();
+					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000))) {
 						monitor.subTask("Clearing cache...");
 						clearCache();
 						lastCleanup = System.currentTimeMillis();
 					}
 
+					// Perform a save?
+					if (saveInterval>=0 && current > (lastSave + (saveInterval*1000))) {
+						monitor.subTask("Saving state space...");
+						saveStateSpace();
+						lastSave = System.currentTimeMillis();
+					}
+					
 					// Stop now?
 					if (monitor.isCanceled()) break;
 					
@@ -146,8 +147,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
 		StateSpaceExplorerPlugin.getInstance().logInfo(
 			"Explored " + explored + " states in " + ((end-start)/1000) + " seconds (" +
-			speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) using " +
-			(multiThreaded ? "multi" : "single") + "-threaded exploration.");
+			speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) in " +
+			(multiThreaded ? "multi" : "single") + "-threaded mode.");
 		
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
