@@ -52,8 +52,8 @@ public class StateModelCache extends LinkedHashMap<State,Resource> {
 	 * (non-Javadoc)
 	 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
 	 */
-	@Override @SuppressWarnings("unchecked")
-	protected boolean removeEldestEntry(Map.Entry eldest) {
+	@Override
+	protected boolean removeEldestEntry(Map.Entry<State,Resource> eldest) {
 		return size() > cacheSize;
 	}
 

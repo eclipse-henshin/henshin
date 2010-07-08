@@ -109,8 +109,7 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	protected List getModelChildren() {
+	protected List<?> getModelChildren() {
 		return getStateSpace().getStates();
 	}
 	

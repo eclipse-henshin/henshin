@@ -136,8 +136,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	protected List getModelSourceConnections() {
+	protected List<?> getModelSourceConnections() {
 		return getState().getOutgoing();
 	}
 
@@ -146,8 +145,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	protected List getModelTargetConnections() {
+	protected List<?> getModelTargetConnections() {
 		return getState().getIncoming();
 	}
 
