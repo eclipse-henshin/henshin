@@ -146,9 +146,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;			// always greater than 1000
 		
 		// Decide whether the current model should be kept in memory.
-		// The natural logarithm seems to be a good choice here.
-		int stored = (int) Math.log(states);		// always greater or equal 6
-		int index = state.getIndex() + 1;			// always greater or equal 1
+		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 10, maybe 11
+		int index = state.getIndex() + 1;					// always greater or equal 1
 		
 		//System.out.println(stored);
 		
@@ -156,7 +155,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			model = null;
 		}
 		state.setModel(model);
-
+		
 	}
 	
 	/*
@@ -390,6 +389,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		location[0] += 60 * Math.cos(angle);
 		location[1] += 60 * Math.sin(angle);
 		return location;
+	}
+	
+	/**
+	 * Clear the state model cache. Should be done every now and then.
+	 */
+	public void clearStateModelCache() {
+		for (State state : getStateSpace().getStates()) {
+			if (!state.isInitial()) {
+				state.setModel(null);
+			}
+		}
+		cache.clear();
+		System.gc();
 	}
 	
 }

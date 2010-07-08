@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.statespace.State;
 public class StateModelCache extends LinkedHashMap<State,Resource> {
 
 	// Default cache size: 128
-	public static final int DEFAULT_CACHE_SIZE = 512;
+	public static final int DEFAULT_CACHE_SIZE = 2048;
 
 	// Serial id:
 	private static final long serialVersionUID = 1L;	

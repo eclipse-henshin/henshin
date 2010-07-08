@@ -40,11 +40,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	// Number of states to be explored at once.
 	private int numStatesAtOnce = 20;
 
-	// Clean up interval (default is 10 minutes):
-	private int cleanupInterval = 600;
+	// Clean up interval (default is 5 minutes):
+	private int cleanupInterval = 300;
 
 	// Save interval (default is 10 minutes):
-	private int saveInterval = 600; 
+	private int saveInterval = 600;
 	
 	
 	/**
@@ -69,7 +69,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		monitor.beginTask("Exploring state space...", IProgressMonitor.UNKNOWN);
 		
 		// State space manager and state space:
-		StateSpaceManagerImpl manager = (StateSpaceManagerImpl) getStateSpaceManager();
+		StateSpaceManager manager = (StateSpaceManagerImpl) getStateSpaceManager();
 		StateSpace stateSpace = manager.getStateSpace();
 		
 		DecimalFormat large = new DecimalFormat("#,###,###,##0");
@@ -110,9 +110,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 
 					// Perform a clean up?
 					long current = System.currentTimeMillis();
-					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000))) {
-						monitor.subTask("Clearing cache...");
-						clearCache();
+					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000)) && (manager instanceof StateSpaceManagerImpl)) {
+						monitor.subTask("Clearing state model cache...");
+						((StateSpaceManagerImpl) manager).clearStateModelCache();
 						lastCleanup = System.currentTimeMillis();
 					}
 
@@ -153,18 +153,6 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
 		
-	}
-	
-	/*
-	 * Clear the state space cache. Resets all state models to null.
-	 */
-	private void clearCache() {
-		for (State state : getStateSpaceManager().getStateSpace().getStates()) {
-			if (!state.isInitial()) {
-				state.setModel(null);
-			}
-		}
-		System.gc();
 	}
 	
 	/*
