@@ -108,7 +108,6 @@ public class StateSpaceSwitch<T> {
 			case StateSpacePackage.TRANSITION: {
 				Transition transition = (Transition)theEObject;
 				T result = caseTransition(transition);
-				if (result == null) result = caseStorage(transition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

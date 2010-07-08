@@ -66,7 +66,7 @@ public class StateSpaceSerializer {
 		writeShort(rules.size()); // Rule count
 		writeInt(stateSpace.getStates().size()); // State count
 		writeInt(stateSpace.getTransitionCount()); // Transition count
-		writeData(stateSpace.getData()); // Metadata
+		writeData(stateSpace.getData()); // Meta-data
 		
 		// Rules:
 		for (Rule rule : stateSpace.getRules()) {

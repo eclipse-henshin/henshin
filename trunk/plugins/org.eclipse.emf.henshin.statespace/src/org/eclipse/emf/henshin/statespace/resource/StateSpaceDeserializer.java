@@ -101,7 +101,7 @@ public class StateSpaceDeserializer {
 				stateSpace.getInitialStates().add(state);
 			}
 			
-			// Read metadata:
+			// Read meta-data:
 			state.setData(readData());
 			
 			// Check if it is an open state:

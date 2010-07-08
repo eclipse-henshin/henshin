@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Rule;
 
 
@@ -18,7 +19,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * Light-weight transition model.
  * @generated
  */
-public interface Transition extends Storage {
+public interface Transition extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' container reference.

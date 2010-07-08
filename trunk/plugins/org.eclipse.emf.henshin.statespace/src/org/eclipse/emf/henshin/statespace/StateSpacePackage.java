@@ -286,22 +286,13 @@ public interface StateSpacePackage extends EPackage {
 	int TRANSITION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Data</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__DATA = STORAGE__DATA;
-
-	/**
 	 * The feature id for the '<em><b>Source</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__SOURCE = STORAGE_FEATURE_COUNT + 0;
+	int TRANSITION__SOURCE = 0;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' reference.
@@ -310,7 +301,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__TARGET = STORAGE_FEATURE_COUNT + 1;
+	int TRANSITION__TARGET = 1;
 
 	/**
 	 * The feature id for the '<em><b>Match</b></em>' attribute.
@@ -319,7 +310,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__MATCH = STORAGE_FEATURE_COUNT + 2;
+	int TRANSITION__MATCH = 2;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' reference.
@@ -328,7 +319,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__RULE = STORAGE_FEATURE_COUNT + 3;
+	int TRANSITION__RULE = 3;
 
 	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
@@ -337,7 +328,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 4;
+	int TRANSITION_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.

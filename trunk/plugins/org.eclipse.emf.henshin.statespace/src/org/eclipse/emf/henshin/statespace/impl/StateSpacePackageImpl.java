@@ -505,7 +505,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Add supertypes to classes
 		stateSpaceEClass.getESuperTypes().add(this.getStorage());
 		stateEClass.getESuperTypes().add(this.getStorage());
-		transitionEClass.getESuperTypes().add(this.getStorage());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(stateSpaceEClass, StateSpace.class, "StateSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

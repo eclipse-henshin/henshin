@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.statespace.Storage;
 /**
  * @generated
  */
-public class StorageImpl extends MinimalEObjectImpl implements Storage {
+public class StorageImpl extends MinimalEObjectImpl.Container implements Storage {
 	
 	/**
 	 * @generated NOT

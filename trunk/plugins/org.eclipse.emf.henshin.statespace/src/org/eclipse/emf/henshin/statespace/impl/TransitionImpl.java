@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -25,7 +26,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 /**
  * @generated
  */
-public class TransitionImpl extends StorageImpl implements Transition {
+public class TransitionImpl extends MinimalEObjectImpl.Container implements Transition {
 	
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -341,17 +342,15 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (match: ");
-		result.append(match);
-		result.append(')');
-		return result.toString();
+		if (getSource()!=null && target!=null && rule!=null) {
+			return "(" + getSource().getIndex() + " -> " + target.getIndex() + ", rule=" + rule.getName() + ", match=" + match + ")";
+		} else {
+			return super.toString();
+		}
 	}
 
 } //TransitionImpl

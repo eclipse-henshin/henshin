@@ -28,7 +28,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceHashCodeHelper;
  * Default implementation of {@link StateEqualityHelper}.
  * @generated
  */
-public class StateEqualityHelperImpl extends MinimalEObjectImpl implements StateEqualityHelper {
+public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implements StateEqualityHelper {
 	
 	// Helper for computing hash codes:
 	private StateSpaceHashCodeHelper hashCodeHelper = new StateSpaceHashCodeHelper(GRAPH_EQUALITY_EDEFAULT, IGNORE_ATTRIBUTES_EDEFAULT);

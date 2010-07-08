@@ -38,7 +38,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true" defaultValueLiteral="0"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
+  <eClassifiers xsi:type="ecore:EClass" name="Transition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//State"
         eOpposite="#//State/outgoing"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//State"
