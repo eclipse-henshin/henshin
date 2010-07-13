@@ -264,12 +264,15 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean containsMapping(Node sourceNode, Node targetNode) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		for (Mapping mapping: mappings) {
+			if (mapping.getOrigin() == sourceNode && mapping.getImage() == targetNode)
+				return true;
+		}
+		
+		return false;
 	}
 
 	/**
