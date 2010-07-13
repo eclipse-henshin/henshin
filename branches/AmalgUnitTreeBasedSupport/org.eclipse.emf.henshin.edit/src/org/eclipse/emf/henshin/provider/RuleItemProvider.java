@@ -28,6 +28,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
@@ -206,4 +207,28 @@ public class RuleItemProvider
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
+//	/* (non-Javadoc)
+//	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang.Object)
+//	 */
+//	@Override
+//	public Object getParent(Object object) {
+//		Object o = super.getParent(object);
+//		
+//		if (o instanceof AmalgamationUnit) {
+//			AmalgamationUnit au = (AmalgamationUnit) o;
+//			AmalgamationUnitItemProvider auIp = (AmalgamationUnitItemProvider) adapterFactory
+//					.adapt(au, IEditingDomainItemProvider.class);
+//			if (au.getKernelRule().equals(object)) {
+//				return auIp != null ? auIp.getKernelRuleItemProvider() : null;
+//			} else {
+//				return auIp != null ? auIp.getMuliRulesItemProvider() : null;
+//			}
+//		} else {
+//			return super.getParent(object);
+//		}
+//		
+//	}
+
+	
+	
 }
