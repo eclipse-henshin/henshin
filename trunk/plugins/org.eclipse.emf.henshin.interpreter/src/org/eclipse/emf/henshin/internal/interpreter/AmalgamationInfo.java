@@ -56,7 +56,7 @@ public class AmalgamationInfo {
 		Rule kernelRule = amalgamationUnit.getKernelRule();
 		Collection<Rule> multiRules = amalgamationUnit.getMultiRules();
 		
-		Map<Node, EObject> nodeMapping = ModelHelper.createPrematch(kernelRule,
+		Map<Node, EObject> nodeMapping = ModelHelper.createPrematch(amalgamationUnit,
 				parameterValues);
 
 		Match prematch = new Match(kernelRule, parameterValues, nodeMapping);
