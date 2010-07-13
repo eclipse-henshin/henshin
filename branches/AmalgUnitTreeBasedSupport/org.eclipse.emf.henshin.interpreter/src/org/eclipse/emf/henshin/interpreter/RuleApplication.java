@@ -127,12 +127,13 @@ public class RuleApplication {
 	 * @param value
 	 *            Value of the input
 	 */
-	public void addAssignment(String name, Object value) {
+	public void setParameterValue(String name, Object value) {
 		Parameter parameter = rule.getParameterByName(name);
-		match.getParameterValues().put(parameter, value);
+		if (parameter != null)
+			match.getParameterValues().put(parameter, value);
 	}
 
-	public void setAssignments(Map<Parameter, Object> assignments) {
+	public void setParameterValues(Map<Parameter, Object> assignments) {
 		match.getParameterValues().clear();
 		match.getParameterValues().putAll(assignments);
 	}
