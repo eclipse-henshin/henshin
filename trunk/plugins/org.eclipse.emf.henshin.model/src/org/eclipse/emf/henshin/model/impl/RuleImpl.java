@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -268,29 +267,18 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Checks whether the rule morphism maps the two specified nodes.
+	 * NOTE: Will check only rule mappings, not mappings in application conditions. 
 	 * 
 	 * @generated NOT
 	 */
 	public boolean containsMapping(Node sourceNode, Node targetNode) {
 
 		for (Mapping m : getMappings()) {
-			if (m.getOrigin().equals(sourceNode)
-					&& m.getImage().equals(targetNode))
+			if (m.getOrigin() == sourceNode && m.getImage() == targetNode)
 				return true;
-		}// for
+		}
 
-		if (this.getLhs().getFormula() != null) {
-			List<NestedCondition> listNc = new ArrayList<NestedCondition>();
-			collectNestedConditions(listNc, this.getLhs().getFormula());
-			for (NestedCondition nc : listNc) {
-				for (Mapping m : nc.getMappings()) {
-					if (m.getOrigin().equals(sourceNode)
-							&& m.getImage().equals(targetNode))
-						return true;
-				}// for
-			}// for
-		}// if
 		return false;
 	}// containsMapping
 
