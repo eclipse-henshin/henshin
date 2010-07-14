@@ -11,7 +11,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
+import org.eclipse.emf.henshin.internal.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.internal.matching.Variable;
@@ -62,7 +64,12 @@ public class VariableInfo {
 		this.variable2mainVariable = new HashMap<Variable, Variable>();
 
 		createVariables(rule.getLhs(), null);
-		
+
+		for (Node node : rule.getLhs().getNodes()) {
+			if (!ModelHelper.isNodeMapped(rule.getMappings(), node))
+				createDanglingConstraints(node);
+		}
+
 		mainVariables = variable2mainVariable.values();
 	}
 
@@ -85,7 +92,7 @@ public class VariableInfo {
 					}
 				}
 			}
-			
+
 			variable2mainVariable.put(var, mainVariable);
 		}
 
@@ -142,6 +149,33 @@ public class VariableInfo {
 				var.getAttributeConstraints().add(constraint);
 			}
 		}
+	}
+
+	private void createDanglingConstraints(Node node) {
+		Variable var = node2variable.get(node);
+		DanglingConstraint constraint = new DanglingConstraint(getEdgeCounts(
+				node, false), getEdgeCounts(node, true));
+		var.getDanglingConstraints().add(constraint);
+	}
+
+	private Map<EReference, Integer> getEdgeCounts(Node node, boolean incoming) {
+		List<Edge> edges = incoming ? node.getIncoming() : node.getOutgoing();
+
+		if (edges.size() == 0)
+			return null;
+
+		Map<EReference, Integer> edgeCount = new HashMap<EReference, Integer>();
+		for (Edge edge : edges) {
+			EReference type = edge.getType();
+			Integer count = edgeCount.get(type);
+			if (count == null) {
+				count = new Integer(0);
+			}
+			count++;
+			edgeCount.put(type, count);
+		}
+
+		return edgeCount;
 	}
 
 	public Node getVariableForNode(Variable variable) {
