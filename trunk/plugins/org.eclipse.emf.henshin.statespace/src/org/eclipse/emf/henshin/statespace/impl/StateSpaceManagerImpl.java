@@ -217,15 +217,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		for (int i=0; i<25; i++) {
 			List<Transition> transitions2 = doExplore(state);
 			if (transitions.size()!=transitions2.size()) {
-				markTainted(); throw new StateSpaceException("Sanity test 1 failed!");
+				markTainted(); throw new StateSpaceException("Sanity check 1 failed!");
 			}
 			for (int j=0; j<transitions.size(); j++) {
 				Transition t1 = transitions.get(j);
 				Transition t2 = transitions2.get(j);
-				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch() || 
-					t1.getTarget().getHashCode()!=t2.getTarget().getHashCode() ||
-					!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
-					markTainted(); throw new StateSpaceException("Sanity test 2 failed!");
+				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
+					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
+				}
+				if (!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
+				}
+				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {
+					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
 				}
 			}
 		}
