@@ -34,7 +34,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	/**
 	 * Cached number of available processors.
 	 */
-	public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+	public static final int CPU_COUNT = 1;//Runtime.getRuntime().availableProcessors();
 	
 	// Number of threads to be used:
 	private int numThreads;

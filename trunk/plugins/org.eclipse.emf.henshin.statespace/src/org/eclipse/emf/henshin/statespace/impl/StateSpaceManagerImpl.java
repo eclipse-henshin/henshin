@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
@@ -74,8 +75,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		for (Transition transition : transitions) {
 			
 			// Find the corresponding transition in the state space:
-			Resource transformed = transition.getTarget().getModel();
-			Transition existing = findTransition(state, transition.getRule(), transformed);
+			Transition existing = findTransition(state, transition.getRule(), transition.getMatch());
 			if (existing==null) return true;
 			matched.add(existing);
 			
@@ -204,16 +204,48 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
+	 * Perform a sanity check for the exploration. For testing only.
+	 * This check if doExplore() really yields equal results when invoked
+	 * more than once on the same state.
+	 */
+	private void performExplorationSanityCheck(State state) throws StateSpaceException {
+		
+		// Explore the state without changing the state space:
+		List<Transition> transitions = doExplore(state);
+		
+		// Do it again and compare the results.
+		for (int i=0; i<25; i++) {
+			List<Transition> transitions2 = doExplore(state);
+			if (transitions.size()!=transitions2.size()) {
+				markTainted(); throw new StateSpaceException("Sanity test 1 failed!");
+			}
+			for (int j=0; j<transitions.size(); j++) {
+				Transition t1 = transitions.get(j);
+				Transition t2 = transitions2.get(j);
+				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch() || 
+					t1.getTarget().getHashCode()!=t2.getTarget().getHashCode() ||
+					!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+					markTainted(); throw new StateSpaceException("Sanity test 2 failed!");
+				}
+			}
+		}
+		
+	}
+	
+	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
+		// For testing only:
+		performExplorationSanityCheck(state);
+		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
-		List<Transition> result = new ArrayList<Transition>(transitions.size());
 		
 		int newStates = 0;
+		List<Transition> result = new ArrayList<Transition>(transitions.size());
 		for (Transition transition : transitions) {
 			
 			// Get the hash and model of the new target state:
@@ -225,14 +257,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			synchronized (explorerLock) {
 				
 				// Find existing state / transition:
-				Transition existingTransition = findTransition(state, transition.getRule(), transformed);
+				Transition existingTransition = findTransition(state, transition.getRule(), transition.getMatch());
 				State targetState = getState(transformed, hashCode);
-
+				
 				if (existingTransition!=null) {
 
 					// Check if the transition points to the correct state:
-					Resource existingModel = getModel(existingTransition.getTarget());
-					if (!equals(existingModel,transformed)) {
+					if (targetState!=existingTransition.getTarget()) {
 						markTainted();
 						throw new StateSpaceException("Illegal transition in state " + state);
 					}
@@ -319,9 +350,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Find an outgoing transition.
 	 */
-	private Transition findTransition(State state, Rule rule, Resource targetModel) throws StateSpaceException {
+	private Transition findTransition(State state, Rule rule, int match) {
 		for (Transition transition : state.getOutgoing()) {
-			if (rule==transition.getRule() && equals(getModel(transition.getTarget()),targetModel)) {
+			if (rule==transition.getRule() && match==transition.getMatch()) {
 				return transition;
 			}
 		}
@@ -348,7 +379,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			if (!engines.isEmpty()) {
 				return engines.pop();
 			} else {
-				return new EmfEngine();
+				EmfEngine engine = new EmfEngine();
+				TransformationOptions options = new TransformationOptions();
+				options.setDeterministic(true);		// really make sure it is deterministic
+				engine.setOptions(options);
+				return engine;
 			}
 		}
 	}
@@ -371,8 +406,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		copy.getContents().addAll(copier.copyAll(model.getContents()));
 		copier.copyReferences();
 		if (match!=null) {
-			List<Node> nodes = new ArrayList<Node>(match.getNodeMapping().keySet());
-			for (Node node : nodes) {
+			for (Node node : match.getRule().getLhs().getNodes()) {
 				EObject newImage = copier.get(match.getNodeMapping().get(node));
 				match.getNodeMapping().put(node, newImage);
 			}
