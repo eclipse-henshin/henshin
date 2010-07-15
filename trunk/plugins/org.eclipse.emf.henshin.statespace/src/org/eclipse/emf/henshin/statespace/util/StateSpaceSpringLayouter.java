@@ -318,9 +318,11 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 	 */
 	public synchronized void setPosition(State state, int... position) {
 		int index = state.getIndex();
-		if (position.length>0) posX[index] = position[0];
-		if (position.length>1) posY[index] = position[1];
-		if (position.length>2) posZ[index] = position[2];
+		if (posX!=null && posX.length>index) {
+			if (position.length>0) posX[index] = position[0];
+			if (position.length>1) posY[index] = position[1];
+			if (position.length>2) posZ[index] = position[2];
+		}
 	}
 	
 }
