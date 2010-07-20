@@ -197,4 +197,27 @@ public class Match {
 
 		return true;
 	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (!(arg0 instanceof Match)) {
+			return false;
+		}
+		
+		Match match = (Match) arg0;
+		if (rule != match.getRule())
+			return false;
+		
+		for (Parameter param: getParameterValues().keySet()) {
+			if (getParameterValues().get(param) != match.getParameterValues().get(param))
+				return false;
+		}
+		
+		for (Node node: getNodeMapping().keySet()) {
+			if (getNodeMapping().get(node) != match.getNodeMapping().get(node))
+				return false;
+		}
+		
+		return true;
+	}
 }
