@@ -13,7 +13,7 @@ package org.eclipse.emf.henshin.internal.change;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -26,7 +26,7 @@ public class ModelChange {
 	private Collection<EObject> deletedObjects = new ArrayList<EObject>();
 
 	public ModelChange() {
-		changes = new HashMap<EObject, ObjectChange>();
+		changes = new LinkedHashMap<EObject, ObjectChange>();
 		
 		createdObjects = new ArrayList<EObject>();
 		deletedObjects = new ArrayList<EObject>();
