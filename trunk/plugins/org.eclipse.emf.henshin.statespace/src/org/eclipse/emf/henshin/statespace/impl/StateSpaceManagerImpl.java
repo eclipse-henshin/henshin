@@ -204,46 +204,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
-	 * Perform a sanity check for the exploration. For testing only.
-	 * This check if doExplore() really yields equal results when invoked
-	 * more than once on the same state.
-	 */
-	private void performExplorationSanityCheck(State state) throws StateSpaceException {
-		
-		// Explore the state without changing the state space:
-		List<Transition> transitions = doExplore(state);
-		
-		// Do it again and compare the results.
-		for (int i=0; i<25; i++) {
-			List<Transition> transitions2 = doExplore(state);
-			if (transitions.size()!=transitions2.size()) {
-				markTainted(); throw new StateSpaceException("Sanity check 1 failed!");
-			}
-			for (int j=0; j<transitions.size(); j++) {
-				Transition t1 = transitions.get(j);
-				Transition t2 = transitions2.get(j);
-				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
-					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
-				}
-				if (!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
-					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
-				}
-				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {
-					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
-				}
-			}
-		}
-		
-	}
-	
-	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
-		// For testing only:
-		performExplorationSanityCheck(state);
+		// FOR TESTING PURPOSES ONLY:
+		// performExplorationSanityCheck(state);
 		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
@@ -440,6 +407,39 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		cache.clear();
 		System.gc();
+	}
+
+	/*
+	 * Perform a sanity check for the exploration. For testing only.
+	 * This check if doExplore() really yields equal results when invoked
+	 * more than once on the same state.
+	 */
+	protected void performExplorationSanityCheck(State state) throws StateSpaceException {
+		
+		// Explore the state without changing the state space:
+		List<Transition> transitions = doExplore(state);
+		
+		// Do it again and compare the results.
+		for (int i=0; i<25; i++) {
+			List<Transition> transitions2 = doExplore(state);
+			if (transitions.size()!=transitions2.size()) {
+				markTainted(); throw new StateSpaceException("Sanity check 1 failed!");
+			}
+			for (int j=0; j<transitions.size(); j++) {
+				Transition t1 = transitions.get(j);
+				Transition t2 = transitions2.get(j);
+				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
+					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
+				}
+				if (!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
+				}
+				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {
+					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
+				}
+			}
+		}
+		
 	}
 	
 }
