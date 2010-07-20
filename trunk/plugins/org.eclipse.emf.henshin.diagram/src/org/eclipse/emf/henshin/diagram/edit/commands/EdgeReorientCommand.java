@@ -81,8 +81,9 @@ public class EdgeReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Graph container = (Graph) getLink().eContainer();
-		return HenshinBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistEdge_4001(container, getNewSource(), target);
+		return HenshinBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistEdge_4001(container, getLink(), getNewSource(), target);
 	}
 
 	/**
@@ -97,8 +98,9 @@ public class EdgeReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Graph container = (Graph) getLink().eContainer();
-		return HenshinBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistEdge_4001(container, source, getNewTarget());
+		return HenshinBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistEdge_4001(container, getLink(), source, getNewTarget());
 	}
 
 	/**

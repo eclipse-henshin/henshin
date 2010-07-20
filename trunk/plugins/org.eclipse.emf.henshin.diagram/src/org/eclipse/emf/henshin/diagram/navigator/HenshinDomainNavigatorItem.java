@@ -111,10 +111,9 @@ public class HenshinDomainNavigatorItem extends PlatformObject {
 		if (obj instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem) {
 			return EcoreUtil
 					.getURI(getEObject())
-					.equals(
-							EcoreUtil
-									.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem) obj)
-											.getEObject()));
+					.equals(EcoreUtil
+							.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinDomainNavigatorItem) obj)
+									.getEObject()));
 		}
 		return super.equals(obj);
 	}

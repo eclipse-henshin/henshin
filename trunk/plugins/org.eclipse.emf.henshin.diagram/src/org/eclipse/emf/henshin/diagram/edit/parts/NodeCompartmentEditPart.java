@@ -48,7 +48,7 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	protected boolean hasModelChildrenChanged(Notification evt) {
 		return true;
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -56,7 +56,7 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	protected boolean modeAutomatic() {
 		return true;
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -70,7 +70,7 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 			}
 		}
 	}
-	
+
 	/**
 	 * @generated
 	 */

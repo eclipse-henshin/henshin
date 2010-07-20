@@ -14,8 +14,10 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 import java.util.Iterator;
 
 import org.eclipse.emf.henshin.diagram.edit.helpers.HenshinBaseEditHelper;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -84,8 +86,8 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Object view = ((ReconnectRequest) request).getConnectionEditPart()
 					.getModel();
 			if (view instanceof View) {
-				Integer id = new Integer(HenshinVisualIDRegistry
-						.getVisualID((View) view));
+				Integer id = new Integer(
+						HenshinVisualIDRegistry.getVisualID((View) view));
 				request.getExtendedData().put(VISUAL_ID_KEY, id);
 			}
 		}
@@ -135,8 +137,7 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Command editPolicyCommand) {
 		if (editPolicyCommand != null) {
 			ICommand command = editPolicyCommand instanceof ICommandProxy ? ((ICommandProxy) editPolicyCommand)
-					.getICommand()
-					: new CommandProxy(editPolicyCommand);
+					.getICommand() : new CommandProxy(editPolicyCommand);
 			request.setParameter(HenshinBaseEditHelper.EDIT_POLICY_COMMAND,
 					command);
 		}
@@ -309,21 +310,41 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	/**
 	 * @generated
 	 */
+	public static LinkConstraints getLinkConstraints() {
+		LinkConstraints cached = HenshinDiagramEditorPlugin.getInstance()
+				.getLinkConstraints();
+		if (cached == null) {
+			HenshinDiagramEditorPlugin.getInstance().setLinkConstraints(
+					cached = new LinkConstraints());
+		}
+		return cached;
+	}
+
+	/**
+	 * @generated
+	 */
 	public static class LinkConstraints {
 
 		/**
 		 * @generated
 		 */
-		public static boolean canCreateEdge_4001(Graph container, Node source,
-				Node target) {
-			return canExistEdge_4001(container, source, target);
+		LinkConstraints() {
+			// use static method #getLinkConstraints() to access instance
 		}
 
 		/**
 		 * @generated
 		 */
-		public static boolean canExistEdge_4001(Graph container, Node source,
+		public boolean canCreateEdge_4001(Graph container, Node source,
 				Node target) {
+			return canExistEdge_4001(container, null, source, target);
+		}
+
+		/**
+		 * @generated
+		 */
+		public boolean canExistEdge_4001(Graph container, Edge linkInstance,
+				Node source, Node target) {
 			return true;
 		}
 	}

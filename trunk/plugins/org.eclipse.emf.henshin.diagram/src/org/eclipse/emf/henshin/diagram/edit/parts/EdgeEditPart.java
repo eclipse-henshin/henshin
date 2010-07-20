@@ -117,7 +117,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		if (addFixedChild(childEditPart)) {
 			return;
 		}
-		super.addChildVisual(childEditPart, -1);
+		super.addChildVisual(childEditPart, index);
 	}
 
 	/**
@@ -255,7 +255,6 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		 * @generated
 		 */
 		public EdgeFigure() {
-			this.setLineWidth(1);
 
 			createContents();
 		}

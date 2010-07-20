@@ -97,8 +97,8 @@ public class HenshinPropertySection extends AdvancedPropertySection implements
 			return;
 		}
 		final StructuredSelection structuredSelection = ((StructuredSelection) selection);
-		ArrayList transformedSelection = new ArrayList(structuredSelection
-				.size());
+		ArrayList transformedSelection = new ArrayList(
+				structuredSelection.size());
 		for (Iterator it = structuredSelection.iterator(); it.hasNext();) {
 			Object r = transformSelection(it.next());
 			if (r != null) {

@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
@@ -22,6 +23,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 
 /**
  * @generated
@@ -53,11 +55,10 @@ public class HenshinPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createRule1CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(HenshinElementTypes.Rule_2001);
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Rule1CreationTool_title,
-				Messages.Rule1CreationTool_desc, types);
+				Messages.Rule1CreationTool_desc,
+				Collections.singletonList(HenshinElementTypes.Rule_2001));
 		entry.setId("createRule1CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Rule_2001));
@@ -69,11 +70,10 @@ public class HenshinPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createEdge2CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(HenshinElementTypes.Edge_4001);
 		LinkToolEntry entry = new LinkToolEntry(
 				Messages.Edge2CreationTool_title,
-				Messages.Edge2CreationTool_desc, types);
+				Messages.Edge2CreationTool_desc,
+				Collections.singletonList(HenshinElementTypes.Edge_4001));
 		entry.setId("createEdge2CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Edge_4001));
@@ -85,11 +85,10 @@ public class HenshinPaletteFactory {
 	 * @generated
 	 */
 	private ToolEntry createAttribute3CreationTool() {
-		List/*<IElementType>*/types = new ArrayList/*<IElementType>*/(1);
-		types.add(HenshinElementTypes.Attribute_3002);
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Attribute3CreationTool_title,
-				Messages.Attribute3CreationTool_desc, types);
+				Messages.Attribute3CreationTool_desc,
+				Collections.singletonList(HenshinElementTypes.Attribute_3002));
 		entry.setId("createAttribute3CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Attribute_3002));
@@ -105,13 +104,13 @@ public class HenshinPaletteFactory {
 		/**
 		 * @generated
 		 */
-		private final List elementTypes;
+		private final List<IElementType> elementTypes;
 
 		/**
 		 * @generated
 		 */
 		private NodeToolEntry(String title, String description,
-				List elementTypes) {
+				List<IElementType> elementTypes) {
 			super(title, description, null, null);
 			this.elementTypes = elementTypes;
 		}
@@ -134,13 +133,13 @@ public class HenshinPaletteFactory {
 		/**
 		 * @generated
 		 */
-		private final List relationshipTypes;
+		private final List<IElementType> relationshipTypes;
 
 		/**
 		 * @generated
 		 */
 		private LinkToolEntry(String title, String description,
-				List relationshipTypes) {
+				List<IElementType> relationshipTypes) {
 			super(title, description, null, null);
 			this.relationshipTypes = relationshipTypes;
 		}

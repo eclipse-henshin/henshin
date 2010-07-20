@@ -78,7 +78,7 @@ public class RuleEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected LayoutEditPolicy createLayoutEditPolicy() {
-		LayoutEditPolicy lep = new LayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
 
 			protected EditPolicy createChildEditPolicy(EditPart child) {
 				EditPolicy result = child
@@ -104,8 +104,7 @@ public class RuleEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		RuleFigure figure = new RuleFigure();
-		return primaryShape = figure;
+		return primaryShape = new RuleFigure();
 	}
 
 	/**
@@ -272,7 +271,6 @@ public class RuleEditPart extends ShapeNodeEditPart {
 		 * @generated
 		 */
 		public RuleFigure() {
-			this.setLineWidth(1);
 			createContents();
 		}
 
@@ -288,25 +286,6 @@ public class RuleEditPart extends ShapeNodeEditPart {
 
 			this.add(fRuleNameFigure);
 
-		}
-
-		/**
-		 * @generated
-		 */
-		private boolean myUseLocalCoordinates = false;
-
-		/**
-		 * @generated
-		 */
-		protected boolean useLocalCoordinates() {
-			return myUseLocalCoordinates;
-		}
-
-		/**
-		 * @generated
-		 */
-		protected void setUseLocalCoordinates(boolean useLocalCoordinates) {
-			myUseLocalCoordinates = useLocalCoordinates;
 		}
 
 		/**

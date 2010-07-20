@@ -84,10 +84,9 @@ public class HenshinNavigatorItem extends HenshinAbstractNavigatorItem {
 		if (obj instanceof org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) {
 			return EcoreUtil
 					.getURI(getView())
-					.equals(
-							EcoreUtil
-									.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) obj)
-											.getView()));
+					.equals(EcoreUtil
+							.getURI(((org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem) obj)
+									.getView()));
 		}
 		return super.equals(obj);
 	}

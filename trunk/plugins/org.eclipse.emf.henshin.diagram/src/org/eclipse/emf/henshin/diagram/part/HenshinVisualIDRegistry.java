@@ -96,7 +96,7 @@ public class HenshinVisualIDRegistry {
 	 * @generated
 	 */
 	public static String getType(int visualID) {
-		return String.valueOf(visualID);
+		return Integer.toString(visualID);
 	}
 
 	/**
@@ -138,6 +138,12 @@ public class HenshinVisualIDRegistry {
 			}
 		}
 		switch (containerVisualID) {
+		case TransformationSystemEditPart.VISUAL_ID:
+			if (HenshinPackage.eINSTANCE.getRule().isSuperTypeOf(
+					domainElement.eClass())) {
+				return RuleEditPart.VISUAL_ID;
+			}
+			break;
 		case RuleCompartmentEditPart.VISUAL_ID:
 			if (HenshinPackage.eINSTANCE.getNode().isSuperTypeOf(
 					domainElement.eClass())) {
@@ -148,12 +154,6 @@ public class HenshinVisualIDRegistry {
 			if (HenshinPackage.eINSTANCE.getAttribute().isSuperTypeOf(
 					domainElement.eClass())) {
 				return AttributeEditPart.VISUAL_ID;
-			}
-			break;
-		case TransformationSystemEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getRule().isSuperTypeOf(
-					domainElement.eClass())) {
-				return RuleEditPart.VISUAL_ID;
 			}
 			break;
 		}
@@ -181,6 +181,11 @@ public class HenshinVisualIDRegistry {
 			}
 		}
 		switch (containerVisualID) {
+		case TransformationSystemEditPart.VISUAL_ID:
+			if (RuleEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
 		case RuleEditPart.VISUAL_ID:
 			if (RuleNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
@@ -207,11 +212,6 @@ public class HenshinVisualIDRegistry {
 			break;
 		case NodeCompartmentEditPart.VISUAL_ID:
 			if (AttributeEditPart.VISUAL_ID == nodeVisualID) {
-				return true;
-			}
-			break;
-		case TransformationSystemEditPart.VISUAL_ID:
-			if (RuleEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
