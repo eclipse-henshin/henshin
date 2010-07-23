@@ -28,7 +28,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
  * @author sjurack (Stefan Jurack)
  * 
  */
-public class TransientItemProvider extends ItemProviderAdapter implements
+public class TransientItemProvider extends ItemProviderAdapter2 implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider,
 		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 
@@ -53,8 +53,6 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 		return super.getChildren(target);
 	}// getChildren
 
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -111,9 +109,9 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 	@Override
 	protected Command createAddCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection, int index) {
-		
-		return createWrappedCommand(super.createAddCommand(domain,
-				owner, feature, collection, index), owner);
+
+		return createWrappedCommand(super.createAddCommand(domain, owner,
+				feature, collection, index), owner);
 	}// createAddCommand
 
 	/**
@@ -154,9 +152,21 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 	public Command createCommand(final Object object,
 			final EditingDomain domain, Class commandClass,
 			CommandParameter commandParameter) {
-		
-		commandParameter.setOwner(target);
-		return super.createCommand(target, domain, commandClass,
+
+		 commandParameter.setOwner(target);
+		//
+		// IEditingDomainItemProvider editingDomainItemProvider =
+		// (IEditingDomainItemProvider)
+		// adapterFactory.adapt(target, IEditingDomainItemProvider.class);
+		//
+		// return
+		// editingDomainItemProvider != null ?
+		// editingDomainItemProvider.createCommand(target, domain, commandClass,
+		// commandParameter) :
+		// super.createCommand(target, domain, commandClass,
+		// commandParameter);
+
+		return super.createCommand(object, domain, commandClass,
 				commandParameter);
 	}
 

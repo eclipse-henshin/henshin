@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class DescribedElementItemProvider
-	extends ItemProviderAdapter
+	extends ItemProviderAdapter2
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

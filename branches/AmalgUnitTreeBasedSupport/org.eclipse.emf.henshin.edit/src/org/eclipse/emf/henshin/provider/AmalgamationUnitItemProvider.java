@@ -6,17 +6,22 @@
  */
 package org.eclipse.emf.henshin.provider;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.MoveCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
@@ -26,6 +31,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.IWrapperItemProvider;
+import org.eclipse.emf.edit.provider.ItemProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
@@ -34,6 +42,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * {@link org.eclipse.emf.henshin.model.AmalgamationUnit} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
  * 
+ * @author Stefan Jurack (sjurack)
  * @generated
  */
 public class AmalgamationUnitItemProvider extends
@@ -179,6 +188,7 @@ public class AmalgamationUnitItemProvider extends
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
+	 * @author Stefan Jurack (sjurack)
 	 * @generated NOT
 	 */
 	@Override
@@ -210,12 +220,11 @@ public class AmalgamationUnitItemProvider extends
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
-	 * .Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
+	 *      .Object)
+	 * 
 	 */
 	@Override
 	public Collection<?> getChildren(Object object) {
@@ -232,7 +241,7 @@ public class AmalgamationUnitItemProvider extends
 		}// if
 		else {
 			List l = (List) super.getChildren(object);
-			//reuse item providers in the 'children' list
+			// reuse item providers in the 'children' list
 			l.add(0, children.get(0));
 			l.add(1, children.get(1));
 			l.add(2, children.get(2));
@@ -241,6 +250,29 @@ public class AmalgamationUnitItemProvider extends
 		}
 		return children;
 	}// getChildren
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#
+	 * getChildrenFeatures(java.lang.Object)
+	 */
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(
+			Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures
+					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
+			childrenFeatures
+					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
+			childrenFeatures
+					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
+			childrenFeatures
+					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
+		}
+		return childrenFeatures;
+	}
 
 	/**
 	 * Finds and returns the item provider of a child by its feature literal.
@@ -287,6 +319,79 @@ public class AmalgamationUnitItemProvider extends
 	public Object getRhsMappingsItemProvider() {
 		return children.get(3);
 	}// getRhsMappingsItemProvider
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createCommand(java.
+	 * lang.Object, org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class,
+	 * org.eclipse.emf.edit.command.CommandParameter)
+	 */
+	@Override
+	public Command createCommand(Object object, EditingDomain domain,
+			Class<? extends Command> commandClass,
+			CommandParameter commandParameter) {
+
+//		CompoundCommand command = new CompoundCommand(
+//				CompoundCommand.MERGE_COMMAND_ALL);
+//		if (commandParameter.collection!=null) {
+//			Iterator<?> iterator = commandParameter.collection.iterator();
+//			Object o;
+//			while (iterator.hasNext()) {
+//				o = iterator.next();
+//				CommandParameter cp = unwrapItemAndCreateCommandParameter(
+//						commandParameter, o);
+//				Command c = null;
+//				if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
+//						&& !((EStructuralFeature) cp.feature).isMany()) {
+//					commandClass = SetCommand.class;
+//				}
+//					c = super.createCommand(object, domain,commandClass, cp);
+//				command.append(c);
+//			}// while
+//		} else {
+			return super.createCommand(object, domain,commandClass, commandParameter);
+//		}
+//
+//		return command;
+		// TODO Auto-generated method stub
+		// return super.createCommand(object, domain, commandClass,
+		// commandParameter);
+	}
+
+	/**
+	 * 
+	 * If the given collectionItem implements {@link IWrapperItemProvider}, it
+	 * is unwrapped by obtaining a value from
+	 * {@link IWrapperItemProvider#getValue getValue}. The unwrapping continues
+	 * until a non-wrapper value is returned. This iterative unwrapping is
+	 * required because values may be repeatedly wrapped, as children of a
+	 * delegating wrapper. Furthermore, the feature contained in the wrapper is
+	 * extracted and used to create a CommandParameter.<br>
+	 * This is a workaround, see <a
+	 * href="http://www.eclipse.org/forums/index.php?t=msg&th=172187&start=0"
+	 * >this discussion</a>.
+	 * 
+	 * @param owner
+	 * @param feature
+	 * @param collectionItem
+	 * @return
+	 */
+	private CommandParameter unwrapItemAndCreateCommandParameter(
+			CommandParameter oldCP, Object collectionItem) {
+		CommandParameter cp = new CommandParameter(oldCP.owner, oldCP.feature,
+				oldCP.value, oldCP.index);
+		// iter
+		while (collectionItem instanceof IWrapperItemProvider) {
+			IWrapperItemProvider wrapper = (IWrapperItemProvider) collectionItem;
+			collectionItem = wrapper.getValue();
+			if ((cp.feature == null) && (wrapper.getFeature() != null))
+				cp.feature = wrapper.getFeature();
+		}// while
+		cp.collection = Collections.singletonList(collectionItem);
+		return cp;
+	}// unwrapItemAndCreateCommandParameter
 
 	/*
 	 * (non-Javadoc)
