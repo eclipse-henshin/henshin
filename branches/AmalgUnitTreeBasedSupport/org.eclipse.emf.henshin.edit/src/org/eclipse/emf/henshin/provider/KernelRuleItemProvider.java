@@ -12,11 +12,14 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -32,6 +35,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	public KernelRuleItemProvider(AdapterFactory adapterFactory, EObject target) {
 		super(adapterFactory, target);
 	}// constructor
+
 
 	/*
 	 * (non-Javadoc)
@@ -49,8 +53,17 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
 		}// if
 		return childrenFeatures;
-	}// getChildrenFeatures
-
+	}// getChildrenFeatures	
+	
+//	@Override
+//	protected EStructuralFeature getChildFeature(Object object, Object child) {
+//		// Check the type of the specified child object and return the proper feature to use for
+//		// adding (see {@link AddCommand}) it as a child.
+//		EStructuralFeature sf = super.getChildFeature(target, child);
+//		return sf;
+//	}
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -60,7 +73,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-
+		
 		return getString("_UI_AmalgamationUnit_kernelRule_feature");
 	}// getText
 
@@ -76,6 +89,11 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			Collection<Object> newChildDescriptors, Object object) {
 
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+//		newChildDescriptors.add(createChildParameter(
+//				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE,
+//				HenshinFactory.eINSTANCE.createRule()));
+
 	}// collectNewChildDescriptors
 
 	/*
@@ -98,7 +116,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		}
 		super.notifyChanged(notification);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -112,7 +130,8 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			Object value, int index) {
 		return super.createWrapper(object, feature, value, index);
 	}
-
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -123,8 +142,8 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
 		return Boolean.TRUE;
-	}
-
+	}	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -140,9 +159,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			Collection<?> collection) {
 
 		Object o = ((List) collection).get(0);
-		if (new SetCommand(domain, (EObject) target,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, o)
-				.canExecute()) {
+		if (new SetCommand(domain, (EObject) owner,
+				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE,
+				o).canExecute()) {		
 			return super.createDragAndDropCommand(domain, owner, location,
 					operations, operation, collection);
 		}// if
@@ -150,4 +169,10 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 
 	}// createDragAndDropCommand
 
+	
+
+
+
+	
+	
 }// class
