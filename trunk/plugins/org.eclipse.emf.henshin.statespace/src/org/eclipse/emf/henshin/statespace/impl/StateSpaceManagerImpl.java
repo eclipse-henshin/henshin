@@ -12,8 +12,10 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -45,7 +47,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private final StateModelCache cache = new StateModelCache();
+	private final Map<State,Resource> cache = Collections.synchronizedMap(new StateModelCache());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
