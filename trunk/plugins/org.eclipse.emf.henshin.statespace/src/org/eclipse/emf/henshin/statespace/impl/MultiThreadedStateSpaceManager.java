@@ -12,10 +12,7 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,7 +57,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
 		this.numThreads = Math.max(numThreads, 1);
-		initThreadPool();
+		this.executor = Executors.newFixedThreadPool(this.numThreads);			
 	}
 
 	/**
@@ -73,13 +70,8 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public synchronized List<Transition> exploreStates(List<State> states, boolean generatedLocations) throws StateSpaceException {
 		
 		// We use a new list for the states:
-		Deque<State> queue = new LinkedList<State>(states);
+		List<State> queue = new ArrayList<State>(states);
 		List<Transition> result = new ArrayList<Transition>();
-		
-		// From time to time we re-initialize the thread pool:
-		if (getStateSpace().getStates().size() % 50 == 0) {
-			initThreadPool();
-		}
 		
 		// Create the workers:
 		List<Worker> workers = new ArrayList<Worker>(numThreads);
@@ -104,22 +96,12 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	}
 	
 	/*
-	 * Re-initializes the thread pool.
-	 */
-	private void initThreadPool() {
-		if (executor!=null) {
-			executor.shutdown();
-		}
-		executor = Executors.newFixedThreadPool(this.numThreads);			
-	}
-	
-	/*
 	 * Private explorer worker class. Delegates to exploreState().
 	 */
 	private class Worker implements Callable<StateSpaceException> {
 		
 		// States to be explored:
-		private Deque<State> states;
+		private List<State> states;
 		
 		// Result list:
 		private List<Transition> result;
@@ -133,7 +115,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		 * @param result Result list.
 		 * @param generateLocations Whether to generate locations.
 		 */
-		Worker(Deque<State> states, List<Transition> result, boolean generateLocations) {
+		Worker(List<State> states, List<Transition> result, boolean generateLocations) {
 			this.states = states;
 			this.result = result;
 			this.generateLocations = generateLocations;
@@ -152,9 +134,9 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 				State next;
 				try {
 					synchronized (states) {
-						next = states.removeFirst();
+						next = states.remove(0);
 					}
-				} catch (NoSuchElementException e) {
+				} catch (IndexOutOfBoundsException e) {
 					return null; // We are done.
 				}
 
