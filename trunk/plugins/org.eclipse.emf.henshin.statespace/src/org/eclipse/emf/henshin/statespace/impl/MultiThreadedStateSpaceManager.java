@@ -12,8 +12,10 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +60,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
 		this.numThreads = Math.max(numThreads, 1);
-		executor = Executors.newFixedThreadPool(this.numThreads);			
+		initThreadPool();
 	}
 
 	/**
@@ -70,14 +72,19 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 */
 	public synchronized List<Transition> exploreStates(List<State> states, boolean generatedLocations) throws StateSpaceException {
 		
-		// Thread-safe lists for the states and the result:
-		final List<State> syncStates = Collections.synchronizedList(states);
-		final List<Transition> syncResult = Collections.synchronizedList(new ArrayList<Transition>());
+		// We use a new list for the states:
+		Deque<State> queue = new LinkedList<State>(states);
+		List<Transition> result = new ArrayList<Transition>();
+		
+		// From time to time we re-initialize the thread pool:
+		if (getStateSpace().getStates().size() % 50 == 0) {
+			initThreadPool();
+		}
 		
 		// Create the workers:
 		List<Worker> workers = new ArrayList<Worker>(numThreads);
 		for (int i=0; i<numThreads; i++) {
-			workers.add(new Worker(syncStates, syncResult, generatedLocations));
+			workers.add(new Worker(queue, result, generatedLocations));
 		}
 		
 		// Execute the workers:
@@ -92,20 +99,41 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		}
 		
 		// Done:
-		return syncResult;
+		return result;
 		
 	}
 	
 	/*
-	 * Private explorer worker class.
+	 * Re-initializes the thread pool.
+	 */
+	private void initThreadPool() {
+		if (executor!=null) {
+			executor.shutdown();
+		}
+		executor = Executors.newFixedThreadPool(this.numThreads);			
+	}
+	
+	/*
+	 * Private explorer worker class. Delegates to exploreState().
 	 */
 	private class Worker implements Callable<StateSpaceException> {
 		
-		private List<State> states;
+		// States to be explored:
+		private Deque<State> states;
+		
+		// Result list:
 		private List<Transition> result;
+		
+		// Whether to generate locations:
 		private boolean generateLocations;
 		
-		Worker(List<State> states, List<Transition> result, boolean generateLocations) {
+		/**
+		 * Default constructor.
+		 * @param states States to be explored.
+		 * @param result Result list.
+		 * @param generateLocations Whether to generate locations.
+		 */
+		Worker(Deque<State> states, List<Transition> result, boolean generateLocations) {
 			this.states = states;
 			this.result = result;
 			this.generateLocations = generateLocations;
@@ -117,15 +145,31 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		 */
 		@Override
 		public StateSpaceException call() throws Exception {
-			try {
-				while (true) {
-					result.addAll(exploreState(states.remove(0),generateLocations));
+			
+			while (true) {
+
+				// Get the next state to be explored:
+				State next;
+				try {
+					synchronized (states) {
+						next = states.removeFirst();
+					}
+				} catch (NoSuchElementException e) {
+					return null; // We are done.
 				}
-			} catch (IndexOutOfBoundsException e) {
-				return null; // we are done
-			} catch (StateSpaceException e) {
-				return e;
+
+				// Now explore it:
+				try {
+					List<Transition> transitions = exploreState(next, generateLocations);
+					synchronized (result) {
+						result.addAll(transitions);							
+					}
+				} catch (Throwable t) {
+					throw (t instanceof StateSpaceException) ? 
+							(StateSpaceException) t : new StateSpaceException(t);
+				}
 			}
+			
 		}
 	}
 	
