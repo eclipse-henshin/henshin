@@ -400,8 +400,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * Clear the state model cache. Should be done every now and then.
 	 */
 	public void clearStateModelCache() {
+		int index = 0;
 		for (State state : getStateSpace().getStates()) {
-			if (!state.isInitial()) {
+			// We leave a small rest amount of the state models.
+			if ((++index % 10 != 0) && !state.isInitial()) {
 				state.setModel(null);
 			}
 		}
