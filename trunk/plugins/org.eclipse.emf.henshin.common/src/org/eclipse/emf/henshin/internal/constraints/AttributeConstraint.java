@@ -29,7 +29,7 @@ public class AttributeConstraint {
 	}
 
 	public boolean check(EObject sourceValue) {
-		return sourceValue.eGet(attribute) == attributeValue;
+		return sourceValue.eGet(attribute).equals(attributeValue);
 	}
 
 	public void reduceDomain(List<EObject> sourceDomain) {
