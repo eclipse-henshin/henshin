@@ -11,12 +11,12 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.constraints;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.henshin.common.util.EmfGraph;
 
 /**
  * This constraint checks whether the value of an EReference contains objects
@@ -32,13 +32,45 @@ public class DanglingConstraint {
 		this.incomingEdgeCount = incomingEdgeCount;
 	}
 
-	public boolean check(EObject sourceValue,
-			Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences) {
-		
+	@SuppressWarnings("unchecked")
+	public boolean check(EObject sourceValue, EmfGraph graph) {
+		// TODO: implement incoming edges
 		// incoming references
-		Collection<EStructuralFeature.Setting> sourceCrossReferences = crossReferences
-				.get(sourceValue);
-				
+		// Collection<Setting> incomingEdges = crossReferences.get(sourceValue);
+		// if (incomingEdges != null) { for (EReference ref :
+		// sourceValue.eClass().getEReferences()) { // compare number of cross
+		// references to number of incoming // edges of the rule Map<EReference,
+		// Integer> objectIncomingEdges = createCountMap(incomingEdges); if
+		// (incomingEdgeCount == null && objectIncomingEdges.keySet().size() >
+		// 0) return false;
+		//		 
+		// for (EReference type : objectIncomingEdges.keySet()) { Integer
+		// expectedCount = incomingEdgeCount.get(type); Integer actualCount =
+		// objectIncomingEdges.get(type); if
+		// (!actualCount.equals(expectedCount)) { return false; } } } }
+
+		// outgoing references
+		for (EReference type : sourceValue.eClass().getEReferences()) {
+			if (!type.isDerived()) {
+				Integer expectedCount;
+				if (outgoingEdgeCount != null && outgoingEdgeCount.get(type) != null)
+					expectedCount = outgoingEdgeCount.get(type);
+				else
+					expectedCount = 0;
+
+				if (type.isMany()) {
+					List<Object> outgoingEdges = (List<Object>) sourceValue
+							.eGet(type);
+					if (expectedCount != null)
+						if (expectedCount != outgoingEdges.size())
+							return false;
+				} else {
+					if (sourceValue.eGet(type) != null && expectedCount != 1)
+						return false;
+				}
+			}
+		}
+
 		return true;
 	}
 }

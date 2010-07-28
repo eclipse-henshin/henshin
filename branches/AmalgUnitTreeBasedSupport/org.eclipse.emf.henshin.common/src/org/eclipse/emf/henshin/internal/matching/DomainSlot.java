@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
+import org.eclipse.emf.henshin.internal.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.internal.constraints.DomainChange;
 import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
@@ -140,6 +141,14 @@ public class DomainSlot {
 				locked = true;
 			}
 
+			if (options.isDangling()) {
+				for (DanglingConstraint constraint : variable
+						.getDanglingConstraints()) {
+					if (!constraint.check(value, graph))
+						return false;
+				}
+			}
+
 			for (ParameterConstraint constraint : variable
 					.getParameterConstraints()) {
 				if (!conditionHandler.isSet(constraint.getParameterName()))
@@ -246,6 +255,8 @@ public class DomainSlot {
 			checkedVariables.clear();
 
 			return !(domain == null || domain.size() == 0);
+		} else {
+			checkedVariables.remove(sender);
 		}
 
 		return false;

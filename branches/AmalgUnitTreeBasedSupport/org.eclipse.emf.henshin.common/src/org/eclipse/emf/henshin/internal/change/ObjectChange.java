@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.change;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -23,7 +23,7 @@ public class ObjectChange {
 	Map<EStructuralFeature, FeatureChange> changedFeatures;
 
 	public ObjectChange(EObject eObject) {
-		changedFeatures = new HashMap<EStructuralFeature, FeatureChange>();
+		changedFeatures = new LinkedHashMap<EStructuralFeature, FeatureChange>();
 		owner = eObject;
 	}
 
@@ -57,14 +57,14 @@ public class ObjectChange {
 	}
 
 	public void execute() {
-		for (FeatureChange featureChange : changedFeatures.values()) {
-			featureChange.execute();
+		for (FeatureChange change : changedFeatures.values()) {
+			change.execute();
 		}
 	}
 
 	public void undo() {
-		for (FeatureChange featureChange : changedFeatures.values()) {
-			featureChange.undo();
+		for (FeatureChange change : changedFeatures.values()) {
+			change.undo();
 		}
 	}
 

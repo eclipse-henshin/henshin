@@ -12,7 +12,7 @@
 package org.eclipse.emf.henshin.internal.change;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -31,8 +31,8 @@ public class ManyFeatureChange implements FeatureChange {
 	public ManyFeatureChange(EObject owner, EStructuralFeature feature) {
 		valueList = (List<Object>) owner.eGet(feature);
 		
-		removedElements = new HashSet<Object>();
-		addedElements = new HashSet<Object>();
+		removedElements = new LinkedHashSet<Object>();
+		addedElements = new LinkedHashSet<Object>();
 	}
 
 	@Override
