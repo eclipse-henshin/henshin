@@ -8,20 +8,15 @@ package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
-import org.eclipse.emf.edit.command.MoveCommand;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
@@ -32,8 +27,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
-import org.eclipse.emf.edit.provider.ItemProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
@@ -45,9 +38,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @author Stefan Jurack (sjurack)
  * @generated
  */
-public class AmalgamationUnitItemProvider extends
-		TransformationUnitItemProvider implements IEditingDomainItemProvider,
-		IStructuredItemContentProvider, ITreeItemContentProvider,
+public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider implements
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 
 	protected List children = null;
@@ -89,15 +81,13 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	protected void addKernelRulePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_AmalgamationUnit_kernelRule_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_kernelRule_feature",
-						"_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, true,
-				false, true, null, null, null));
+						"_UI_AmalgamationUnit_kernelRule_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, true, false, true, null,
+				null, null));
 	}
 
 	/**
@@ -108,15 +98,13 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	protected void addMultiRulesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_AmalgamationUnit_multiRules_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_multiRules_feature",
-						"_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, true,
-				false, true, null, null, null));
+						"_UI_AmalgamationUnit_multiRules_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, true, false, true, null,
+				null, null));
 	}
 
 	/**
@@ -127,15 +115,13 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	protected void addLhsMappingsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_AmalgamationUnit_lhsMappings_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_lhsMappings_feature",
-						"_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, true,
-				false, true, null, null, null));
+						"_UI_AmalgamationUnit_lhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, true, false, true, null,
+				null, null));
 	}
 
 	/**
@@ -146,15 +132,13 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	protected void addRhsMappingsPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_AmalgamationUnit_rhsMappings_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_rhsMappings_feature",
-						"_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, true,
-				false, true, null, null, null));
+						"_UI_AmalgamationUnit_rhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, true, false, true, null,
+				null, null));
 	}
 
 	/**
@@ -165,8 +149,7 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/AmalgamationUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AmalgamationUnit"));
 	}
 
 	/**
@@ -182,6 +165,7 @@ public class AmalgamationUnitItemProvider extends
 				: getString("_UI_AmalgamationUnit_type") + " " + label;
 	}
 
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
@@ -215,8 +199,7 @@ public class AmalgamationUnitItemProvider extends
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
@@ -228,9 +211,9 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	@Override
 	public Collection<?> getChildren(Object object) {
+		AmalgamationUnit au = (AmalgamationUnit) object;
 		if (children == null) {
 			children = (List) super.getChildren(object);
-			AmalgamationUnit au = (AmalgamationUnit) object;
 
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
@@ -241,6 +224,7 @@ public class AmalgamationUnitItemProvider extends
 		}// if
 		else {
 			List l = (List) super.getChildren(object);
+
 			// reuse item providers in the 'children' list
 			l.add(0, children.get(0));
 			l.add(1, children.get(1));
@@ -248,7 +232,17 @@ public class AmalgamationUnitItemProvider extends
 			l.add(3, children.get(3));
 			children = l;
 		}
+		
+		if (au.getMultiRules().size() > 0)
+			children.removeAll(au.getMultiRules());
+		if (au.getKernelRule() != null)
+			children.remove(au.getKernelRule());
+		if (au.getLhsMappings().size() > 0)
+			children.removeAll(au.getLhsMappings());
+		if (au.getRhsMappings().size() > 0)
+			children.removeAll(au.getRhsMappings());		
 		return children;
+
 	}// getChildren
 
 	/*
@@ -258,24 +252,20 @@ public class AmalgamationUnitItemProvider extends
 	 * getChildrenFeatures(java.lang.Object)
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures
-					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
-			childrenFeatures
-					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
-			childrenFeatures
-					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
-			childrenFeatures
-					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
+			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
+//			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
+//			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
 
 	/**
 	 * Finds and returns the item provider of a child by its feature literal.
+	 * (Helper method)
 	 * 
 	 * @param feature
 	 * @return
@@ -330,31 +320,30 @@ public class AmalgamationUnitItemProvider extends
 	 */
 	@Override
 	public Command createCommand(Object object, EditingDomain domain,
-			Class<? extends Command> commandClass,
-			CommandParameter commandParameter) {
+			Class<? extends Command> commandClass, CommandParameter commandParameter) {
 
-//		CompoundCommand command = new CompoundCommand(
-//				CompoundCommand.MERGE_COMMAND_ALL);
-//		if (commandParameter.collection!=null) {
-//			Iterator<?> iterator = commandParameter.collection.iterator();
-//			Object o;
-//			while (iterator.hasNext()) {
-//				o = iterator.next();
-//				CommandParameter cp = unwrapItemAndCreateCommandParameter(
-//						commandParameter, o);
-//				Command c = null;
-//				if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
-//						&& !((EStructuralFeature) cp.feature).isMany()) {
-//					commandClass = SetCommand.class;
-//				}
-//					c = super.createCommand(object, domain,commandClass, cp);
-//				command.append(c);
-//			}// while
-//		} else {
-			return super.createCommand(object, domain,commandClass, commandParameter);
-//		}
-//
-//		return command;
+		// CompoundCommand command = new CompoundCommand(
+		// CompoundCommand.MERGE_COMMAND_ALL);
+		// if (commandParameter.collection!=null) {
+		// Iterator<?> iterator = commandParameter.collection.iterator();
+		// Object o;
+		// while (iterator.hasNext()) {
+		// o = iterator.next();
+		// CommandParameter cp = unwrapItemAndCreateCommandParameter(
+		// commandParameter, o);
+		// Command c = null;
+		// if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
+		// && !((EStructuralFeature) cp.feature).isMany()) {
+		// commandClass = SetCommand.class;
+		// }
+		// c = super.createCommand(object, domain,commandClass, cp);
+		// command.append(c);
+		// }// while
+		// } else {
+		return super.createCommand(object, domain, commandClass, commandParameter);
+		// }
+		//
+		// return command;
 		// TODO Auto-generated method stub
 		// return super.createCommand(object, domain, commandClass,
 		// commandParameter);
@@ -378,10 +367,10 @@ public class AmalgamationUnitItemProvider extends
 	 * @param collectionItem
 	 * @return
 	 */
-	private CommandParameter unwrapItemAndCreateCommandParameter(
-			CommandParameter oldCP, Object collectionItem) {
-		CommandParameter cp = new CommandParameter(oldCP.owner, oldCP.feature,
-				oldCP.value, oldCP.index);
+	private CommandParameter unwrapItemAndCreateCommandParameter(CommandParameter oldCP,
+			Object collectionItem) {
+		CommandParameter cp = new CommandParameter(oldCP.owner, oldCP.feature, oldCP.value,
+				oldCP.index);
 		// iter
 		while (collectionItem instanceof IWrapperItemProvider) {
 			IWrapperItemProvider wrapper = (IWrapperItemProvider) collectionItem;
@@ -406,8 +395,7 @@ public class AmalgamationUnitItemProvider extends
 	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection) {
 
-		return createWrappedCommand(
-				super.createRemoveCommand(domain, owner, feature, collection),
+		return createWrappedCommand(super.createRemoveCommand(domain, owner, feature, collection),
 				owner, feature);
 	}// createRemoveCommand
 
@@ -422,8 +410,8 @@ public class AmalgamationUnitItemProvider extends
 	@Override
 	protected Command createAddCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection, int index) {
-		return createWrappedCommand(super.createAddCommand(domain, owner,
-				feature, collection, index), owner, feature);
+		return createWrappedCommand(
+				super.createAddCommand(domain, owner, feature, collection, index), owner, feature);
 	}// createAddCommand
 
 	/**
@@ -432,8 +420,8 @@ public class AmalgamationUnitItemProvider extends
 	 * @param feature
 	 * @return
 	 */
-	protected Command createWrappedCommand(Command command,
-			final EObject owner, final EStructuralFeature feature) {
+	protected Command createWrappedCommand(Command command, final EObject owner,
+			final EStructuralFeature feature) {
 
 		if (feature == HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE
 				|| feature == HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES
@@ -444,8 +432,7 @@ public class AmalgamationUnitItemProvider extends
 				public Collection getAffectedObjects() {
 					Collection affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
-						affected = Collections
-								.singleton(findChildProvider(feature));
+						affected = Collections.singleton(findChildProvider(feature));
 					}// if
 					return affected;
 				}// getAffectedObjects

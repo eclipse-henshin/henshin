@@ -32,6 +32,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.henshin.model.impl.TransformationSystemImpl;
 
 /**
  * @author Stefan Jurack (sjurack)
@@ -67,6 +68,8 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 
 		Command result = UnexecutableCommand.INSTANCE;
 
+		System.out.println("createCommand: "+object+ " -- "+commandClass.getCanonicalName());
+		
 		if (commandClass == SetCommand.class) {
 			result = createSetCommand(
 					domain,
@@ -106,6 +109,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 				result = factorAddCommand(domain, oldCommandParameter);
 			}
 		} else if (commandClass == MoveCommand.class) {
+			boolean b = (object instanceof TransformationSystemImpl);
 			if (commandParameter.getEStructuralFeature() != null) {
 				result = createMoveCommand(domain, commandParameter.getEOwner(),
 						commandParameter.getEStructuralFeature(), commandParameter.getValue(),
@@ -135,54 +139,6 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 		// wrappers in the result and affected objects.
 		//
 		return wrapCommand(result, object, commandClass, commandParameter, oldCommandParameter);
-
-		// if (commandParameter.feature == null) {
-		// if (commandParameter.collection != null) {
-		// CompoundCommand command = new CompoundCommand(
-		// CompoundCommand.MERGE_COMMAND_ALL);
-		// Iterator<?> iterator = commandParameter.collection.iterator();
-		// Object item;
-		//
-		// while (iterator.hasNext()) {
-		// CommandParameter cp = new CommandParameter(object);
-		// cp.value = commandParameter.value;
-		// item = iterator.next();
-		// // iterate through all wrapper until the non-wrapper object
-		// // is found
-		// while (item instanceof IWrapperItemProvider) {
-		// IWrapperItemProvider wrapper = (IWrapperItemProvider) item;
-		// if (wrapper.getFeature() != null)
-		// cp.feature = wrapper.getFeature();
-		// item = wrapper.getValue();
-		// cp.index = wrapper.getIndex();
-		// }// while
-		// cp.collection = Collections.singletonList(item);
-		// Command c = super.createCommand(object, domain,
-		// commandClass, cp);
-		// command.append(wrapCommand(c, object, commandClass, cp,
-		// commandParameter));
-		// }// while
-		// return command;
-		// } else if (commandParameter.value != null) {
-		// Object item = commandParameter.value;
-		// CommandParameter cp = new CommandParameter(object);
-		// cp.index = commandParameter.index;
-		// while (item instanceof IWrapperItemProvider) {
-		// IWrapperItemProvider wrapper = (IWrapperItemProvider) item;
-		// if (wrapper.getFeature() != null)
-		// cp.feature = wrapper.getFeature();
-		// item = wrapper.getValue();
-		// cp.index = wrapper.getIndex();
-		// }// while
-		// cp.value=item;
-		// Command c = super.createCommand(object, domain,
-		// commandClass, cp);
-		// return wrapCommand(c, object, commandClass, cp,
-		// commandParameter);
-		// }//else if
-		// }// if
-		// return super.createCommand(object, domain, commandClass,
-		// commandParameter);
 
 	}// createCommand
 

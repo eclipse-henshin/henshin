@@ -19,7 +19,6 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
  * This class represents so-called <i>non-model intermediary view objects</i>
@@ -165,7 +164,7 @@ public class TransientItemProvider extends ItemProviderAdapter2 implements
 		// commandParameter) :
 		// super.createCommand(target, domain, commandClass,
 		// commandParameter);
-
+		 
 		return super.createCommand(object, domain, commandClass,
 				commandParameter);
 	}
