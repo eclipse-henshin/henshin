@@ -246,10 +246,14 @@ public class DomainSlot {
 			for (DomainSlot slot : slotChanges.keySet()) {
 				List<EObject> removedObjects = slotChanges.get(slot);
 
+				// TODO: find better solution for localChanges
 				if (removedObjects != null) {
 					slot.domain.addAll(removedObjects);
-				} else
+					slot.localChanges = null;
+				} else {
 					slot.domain = null;
+					slot.localChanges = null;
+				}
 			}
 			slotChanges.clear();
 			checkedVariables.clear();
@@ -279,6 +283,7 @@ public class DomainSlot {
 			owner = null;
 			value = null;
 			domain = localChanges;
+			//localChanges = null;
 		}
 	}
 
