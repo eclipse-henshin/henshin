@@ -136,7 +136,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		}
 
 		// Target type must be ok:
-		if (!targetType.isSuperTypeOf(edgeType.getEReferenceType())) {
+		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType)) {
 			return false;
 		}
 
