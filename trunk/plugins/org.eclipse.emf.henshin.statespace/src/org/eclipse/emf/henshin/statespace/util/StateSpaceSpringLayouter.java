@@ -95,7 +95,7 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 	 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	@Override
-	public void notifyChanged(Notification event) {
+	public synchronized void notifyChanged(Notification event) {
 		
 		// States feature changed?
 		if (event.getFeatureID(StateSpace.class)==StateSpacePackage.STATE_SPACE__STATES) {
