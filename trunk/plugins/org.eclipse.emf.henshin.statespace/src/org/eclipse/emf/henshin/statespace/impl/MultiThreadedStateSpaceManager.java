@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +44,9 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	// Executor service.
 	private ExecutorService executor;
 	
+	// Future objects.
+	private Future<StateSpaceException>[] futures;
+	
 	// Thread that prepares the exploration.
 	private Thread preparer;
 	
@@ -56,10 +58,12 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 * @param stateSpace State space.
 	 * @param numThreads Number of threads to be used.
 	 */
+	@SuppressWarnings("unchecked")
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
-		this.numThreads = Math.max(numThreads, 1);
-		this.executor = Executors.newFixedThreadPool(this.numThreads);
+		this.numThreads = numThreads = Math.max(numThreads, 1);
+		this.executor = Executors.newFixedThreadPool(numThreads);
+		this.futures = new Future[numThreads];
 		this.preparedStates = Collections.synchronizedMap(new HashMap<State,List<Transition>>());
 	}
 
@@ -90,21 +94,19 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		List<State> queue = new Vector<State>(states);
 		List<Transition> result = new Vector<Transition>();
 		
-		// Create the workers:
-		List<ExplorationWorker> workers = new ArrayList<ExplorationWorker>(numThreads);
-		for (int i=0; i<numThreads; i++) {
-			workers.add(new ExplorationWorker(queue, result, generateLocations));
-		}
-		
-		// Execute the workers:
 		try {
-			List<Future<StateSpaceException>> futures = executor.invokeAll(workers);
-			for (Future<StateSpaceException> future : futures) {
-				StateSpaceException exception = future.get();
-				if (exception!=null) throw exception;
+			// Launch the workers:
+			for (int i=0; i<numThreads; i++) {
+				futures[i] = executor.submit(new ExplorationWorker(queue, result, generateLocations));
+			}
+			// Evaluate the results:
+			for (int i=0; i<numThreads; i++) {
+				if (futures[i].get()!=null) {
+					throw futures[i].get();
+				}
 			}
 		} catch (Throwable t) {
-			throw new StateSpaceException(t);
+			throw wrapException(t);
 		}
 		
 		// Done:
@@ -140,6 +142,13 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	}
 	
 	/*
+	 * Wrap an exception.
+	 */
+	private StateSpaceException wrapException(Throwable t) {
+		return (t instanceof StateSpaceException) ? (StateSpaceException) t : new StateSpaceException(t);
+	}
+	
+	/*
 	 * Private explorer worker class. Delegates to exploreState().
 	 */
 	private class ExplorationWorker implements Callable<StateSpaceException> {
@@ -167,7 +176,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		 * @see java.util.concurrent.Callable#call()
 		 */
 		@Override
-		public StateSpaceException call() throws Exception {
+		public StateSpaceException call() {
 			
 			while (true) {
 
@@ -186,7 +195,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 					preparedStates.remove(next);
 				}
 				catch (Throwable t) {
-					return (t instanceof StateSpaceException) ? (StateSpaceException) t : new StateSpaceException(t);
+					return wrapException(t);
 				}
 			}
 			
@@ -209,7 +218,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 				for (int i=0; i<open.size(); i++) {
 					try {
 						doExplore(open.get(i));
-						if (i % 1000==0) Thread.sleep(250);
+						if (i % 1000==0) Thread.sleep(100);
 					} catch (Throwable t) {}
 				}
 			}

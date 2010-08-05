@@ -53,7 +53,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
 	// A lock used when exploring states:
-	private final Object explorerLock = new Object();
+	private final Object stateLock = new Object();
 	
 	/**
 	 * Default constructor.
@@ -211,7 +211,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
-		// FOR TESTING PURPOSES ONLY:
+		// For testing only:
 		// performExplorationSanityCheck(state);
 		
 		// Explore the state without changing the state space:
@@ -225,34 +225,42 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			int hashCode = transition.getTarget().getHashCode();
 			Resource transformed = transition.getTarget().getModel();
 			
-			// We need to test whether a state exists already and if not
-			// create a new one. And this atomically.
-			synchronized (explorerLock) {
-				
-				// Find existing state / transition:
-				Transition existingTransition = findTransition(state, transition.getRule(), transition.getMatch());
-				State targetState = getState(transformed, hashCode);
-				
-				if (existingTransition!=null) {
-
-					// Check if the transition points to the correct state:
-					if (targetState!=existingTransition.getTarget()) {
-						markTainted();
-						throw new StateSpaceException("Illegal transition in state " + state);
-					}
-
-				} else {
-
-					// Create a new transition and state if required:
-					if (targetState==null) {
-						int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
-						targetState = createOpenState(transformed, hashCode, location);
-						storeModel(targetState, transformed);
-					}
-					Transition newTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
-					result.add(newTransition);
+			// The target state and some of its properties:
+			State targetState;
+			boolean newState = false;
+			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
+			
+			// We need to test whether a state exists already and if not create a new one. And this atomically.
+			synchronized (stateLock) {
+				targetState = getState(transformed, hashCode);
+				if (targetState==null) {
+					targetState = createOpenState(transformed, hashCode, location);
 				}
 			}
+
+			// Store the model. We don't need the lock for that.
+			if (newState) {
+				storeModel(targetState, transformed);
+			}
+			
+			// The target transition:
+			Transition targetTransition;
+			
+			// Check or add the transition:
+			synchronized (transition.getRule()) {
+				targetTransition = findTransition(state, transition.getRule(), transition.getMatch());
+				if (targetTransition==null) {
+					targetTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
+					result.add(targetTransition);
+				}
+			}
+
+			// Check if the transition points to the correct state. No lock here.
+			if (targetTransition.getTarget()!=targetState) {
+				markTainted();
+				throw new StateSpaceException("Illegal transition in state " + state);
+			}
+
 		}
 		
 		// Mark the state as closed:
