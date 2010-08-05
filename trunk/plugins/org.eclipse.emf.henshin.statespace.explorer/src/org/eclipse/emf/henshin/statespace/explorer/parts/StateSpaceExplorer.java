@@ -161,10 +161,12 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			displayContent = newDisplayContent;
 			GraphicalViewer viewer = getGraphicalViewer();
 			
+			// Set the state space manager in any case (always required).
+			((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(stateSpaceManager);
+			
 			if (displayContent) {
 				// Set the viewer content.
-				((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(stateSpaceManager);
-				getGraphicalViewer().setContents(stateSpaceManager.getStateSpace());		
+				getGraphicalViewer().setContents(stateSpaceManager.getStateSpace());
 				viewer.getControl().setBackground(ColorConstants.white);
 				jobManager.getExploreJob().setDelay(750);
 			}

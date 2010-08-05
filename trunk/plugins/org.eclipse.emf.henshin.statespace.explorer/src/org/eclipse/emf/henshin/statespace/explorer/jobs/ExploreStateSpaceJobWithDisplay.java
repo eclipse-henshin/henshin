@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
@@ -74,8 +75,13 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		executing = true;
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				editDomain.getCommandStack().execute(command);
-				executing = false;
+				try {
+					editDomain.getCommandStack().execute(command);
+				} catch (Throwable t) {
+					StateSpaceExplorerPlugin.getInstance().logError("Error exploring state", t);
+				} finally {
+					executing = false;
+				}
 			}
 		});
 
