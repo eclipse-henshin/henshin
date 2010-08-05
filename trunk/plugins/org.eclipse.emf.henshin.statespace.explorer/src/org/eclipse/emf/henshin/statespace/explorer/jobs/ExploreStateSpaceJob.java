@@ -34,11 +34,16 @@ import org.eclipse.gef.commands.Command;
  */
 public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
+	/**
+	 * Default number of states to be explored at once.
+	 */
+	public static final int DEFAULT_NUM_STATES_AT_ONCE = 20;
+	
 	// Edit domain.
 	protected EditDomain editDomain;
 	
 	// Number of states to be explored at once.
-	private int numStatesAtOnce = 20;
+	private int numStatesAtOnce = DEFAULT_NUM_STATES_AT_ONCE;
 
 	// Clean up interval (default is 10 minutes):
 	private int cleanupInterval = 600;
@@ -91,7 +96,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				
 				// Explore all open states:
 				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
-										
+					
 					// Execute as explore command:
 					ExploreStatesCommand command = createExploreCommand(open, index, numStatesAtOnce);
 					explored += command.getStatesToExplore().size();
@@ -166,7 +171,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	 * Create a new explore-command.
 	 */
 	protected ExploreStatesCommand createExploreCommand(List<State> states, int start, int count) {
-		int end = Math.min(start + count + 1, states.size());
+		int end = Math.min(start + count, states.size());
 		ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), states.subList(start, end));
 		command.setGenerateLocations(false);
 		return command;

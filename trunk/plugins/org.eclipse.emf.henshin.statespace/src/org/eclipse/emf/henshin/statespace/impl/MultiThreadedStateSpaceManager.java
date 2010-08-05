@@ -57,7 +57,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
 		this.numThreads = Math.max(numThreads, 1);
-		this.executor = Executors.newFixedThreadPool(this.numThreads);			
+		this.executor = Executors.newFixedThreadPool(this.numThreads);
 	}
 
 	/**
