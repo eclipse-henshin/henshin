@@ -5,7 +5,11 @@
          point="org.eclipse.emf.henshin.statespace.validators">
       <validator
             class="org.eclipse.emf.henshin.statespace.cadp.CADPStateSpaceValidator"
-            id="org.eclipse.emf.henshin.statespace.cadp">
+            id="org.eclipse.emf.henshin.statespace.validator.cadp">
+      </validator>
+      <validator
+            class="org.eclipse.emf.henshin.statespace.cadp.MCRL2StateSpaceValidator"
+            id="org.eclipse.emf.henshin.statespace.validator.mcrl2">
       </validator>
    </extension>
 

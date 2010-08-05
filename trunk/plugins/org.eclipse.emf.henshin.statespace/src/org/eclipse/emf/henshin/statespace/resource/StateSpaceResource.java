@@ -18,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -106,23 +107,37 @@ public class StateSpaceResource extends ResourceImpl {
 	 * @param out Output stream.
 	 * @throws IOException On I/O errors.
 	 */
-	public void exportAsAUT(OutputStream out) throws IOException {
-		OutputStreamWriter writer = new OutputStreamWriter(out);
+	public void exportAsAUT(OutputStream out, IProgressMonitor monitor) throws IOException {
+		
+		// Get the state space:
 		StateSpace stateSpace = getStateSpace();
+		int states = stateSpace.getStates().size();
+		monitor.beginTask("Exporting state space", states+1);
+
+		// Make sure that there is exactly one initial state.
 		if (stateSpace.getInitialStates().size()!=1) {
 			StateSpacePlugin.INSTANCE.logError("AUT format can encode only state spaces with exactly one initial state!", null);
 			if (stateSpace.getInitialStates().isEmpty()) throw new IOException();
 		}
 		int initial = stateSpace.getStates().indexOf(stateSpace.getInitialStates().get(0));
+		
+		// Write the header.
+		OutputStreamWriter writer = new OutputStreamWriter(out);
 		writer.write("des (" + initial + "," + stateSpace.getTransitionCount() + "," + stateSpace.getStates().size() + ")\n");
-		for (int source=0; source<stateSpace.getStates().size(); source++) {
+		monitor.worked(1);
+		
+		// Iterate over all states:
+		for (int source=0; source<states; source++) {
 			for (Transition transition : stateSpace.getStates().get(source).getOutgoing()) {
 				writer.write("(" + source + ",");
 				writer.write("\"" + transition.getRule().getName() + "\",");
 				writer.write(stateSpace.getStates().indexOf(transition.getTarget()) + ")\n");			
 			}
+			monitor.worked(1);
 		}
 		writer.close();
+		monitor.done();
+		
 	}
 	
 }

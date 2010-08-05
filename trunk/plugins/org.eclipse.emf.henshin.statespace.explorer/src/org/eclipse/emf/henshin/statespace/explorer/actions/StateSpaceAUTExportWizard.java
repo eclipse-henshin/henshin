@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 
@@ -12,7 +13,7 @@ import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
  * Export wizard that converts state spaces into the AUT format.
  * @author Christian Krause
  */
-public class StateSpaceCADPExportWizard extends AbstractStateSpaceExportWizard {
+public class StateSpaceAUTExportWizard extends AbstractStateSpaceExportWizard {
 	
 	/*
 	 * (non-Javadoc)
@@ -21,12 +22,15 @@ public class StateSpaceCADPExportWizard extends AbstractStateSpaceExportWizard {
 	@Override
 	protected void doExport(StateSpace stateSpace, IFile file, IProgressMonitor monitor) throws Exception {
 		
+		monitor.beginTask("Export as AUT", 2);
+		
 		// Paste into a buffer:
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-		((StateSpaceResource) stateSpace.eResource()).exportAsAUT(buffer);
+		((StateSpaceResource) stateSpace.eResource()).exportAsAUT(buffer, new SubProgressMonitor(monitor,1));
 		
-		// Ant write buffer contents to the file:
-		file.create(new ByteArrayInputStream(buffer.toByteArray()), true, monitor);
+		// And write buffer contents to the file:
+		file.create(new ByteArrayInputStream(buffer.toByteArray()), true, new SubProgressMonitor(monitor,1));
+		monitor.done();
 		
 	}
 	

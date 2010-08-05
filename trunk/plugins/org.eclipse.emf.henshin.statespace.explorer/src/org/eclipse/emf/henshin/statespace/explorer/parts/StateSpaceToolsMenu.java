@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -377,14 +378,16 @@ public class StateSpaceToolsMenu extends Composite {
 	/*
 	 * Called when the validation job has finished.
 	 */
-	private void validationFinished(ValidationResult result) {
-		if (result.getTrace()!=null && explorer!=null) {
-			explorer.selectTrace(result.getTrace());
-		}
-		if (result.isValid()) {
-			MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
-		} else {
-			MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+	private void validationFinished(ValidationResult result, IStatus status) {
+		if (status.isOK()) {
+			if (result.getTrace()!=null && explorer!=null) {
+				explorer.selectTrace(result.getTrace());
+			}
+			if (result.isValid()) {
+				MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
+			} else {
+				MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+			}
 		}
 		validateButton.setEnabled(true);		
 	}
@@ -424,10 +427,10 @@ public class StateSpaceToolsMenu extends Composite {
 		addButtonJobListener(validateJob, validateButton);
 		validateJob.addJobChangeListener(new JobChangeAdapter() {
 			@Override
-			public void done(IJobChangeEvent event) {
+			public void done(final IJobChangeEvent event) {
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
-						validationFinished(validateJob.getValidationResult());
+						validationFinished(validateJob.getValidationResult(), event.getResult());
 					}
 				});
 			}			

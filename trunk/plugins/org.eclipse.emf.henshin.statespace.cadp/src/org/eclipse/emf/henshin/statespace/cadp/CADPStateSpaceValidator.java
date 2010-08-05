@@ -1,35 +1,25 @@
 package org.eclipse.emf.henshin.statespace.cadp;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.ValidationResult;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
  * CADP state space validator.
  * @author Christian Krause
  */
-public class CADPStateSpaceValidator implements StateSpaceValidator {
+public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 	
-	// Property to be checked:
-	private String property;
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)
@@ -38,39 +28,30 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
 		monitor.beginTask("Validating property", 10);
+		String name = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Check the CADP path first:
 		File cadpBin = getCADPBin();
 		
 		// Export the state space to an AUT file:
-		File aut = File.createTempFile("aut",".aut");
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(aut));
-		((StateSpaceResource) stateSpace.eResource()).exportAsAUT(out);
-		monitor.worked(1);
+		File aut = File.createTempFile(name, ".aut");
+		exportAsAUT(stateSpace, aut, new SubProgressMonitor(monitor, 4));		// 40%
 		
 		// Convert the AUT file to a BCG file:
-		File bcg = File.createTempFile("cadp", ".bcg");
-		Process process = Runtime.getRuntime().exec(new String[] {
-				cadpBin.getAbsolutePath() + File.separator + "bcg_io",
-				aut.getAbsolutePath(),
-				bcg.getAbsolutePath()
-		});
-		if (process.waitFor()!=0) {
-			throw new RuntimeException("bcg_io returned exit code " + process.exitValue());
-		}
-		monitor.worked(2);
+		File bcg = File.createTempFile(name, ".bcg");
+		convertFile(aut, bcg, cadpBin.getAbsolutePath() + File.separator + "bcg_io");
+		monitor.worked(2);														// 60%
 		
 		// Write the property to a MCL file:
-		File mcl = File.createTempFile("prop", ".mcl");
-		FileWriter writer = new FileWriter(mcl);
-		writer.write(property);
-		writer.close();
+		File mcl = File.createTempFile("property", ".mcl");
+		writeToFile(mcl, property);
+		monitor.worked(1);														// 70%
 		
 		// File for diagnostics output:
-		File diag = File.createTempFile("diag", ".bcg");
+		File diag = File.createTempFile(name, ".bcg");
 		
 		// Invoke the bcg_open script to run the evaluator:
-		process = Runtime.getRuntime().exec(new String[] {
+		Process process = Runtime.getRuntime().exec(new String[] {
 				cadpBin.getParent() + File.separator + "com/bcg_open",
 				bcg.getAbsolutePath(),
 				"evaluator",
@@ -84,6 +65,7 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 		Boolean result = null;
 		boolean parseTrace = false;
 		List<String> path = new ArrayList<String>();
+		monitor.worked(1);														// 80%
 		
 		String line;
 		while ((line = reader.readLine())!=null) {
@@ -105,9 +87,9 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 				else if (line.indexOf("<initial state>")>=0) {
 					parseTrace = true;
 				}
-			}			
+			}
 		}
-		monitor.worked(7);
+		monitor.worked(1);														// 90%
 		
 		// Clean up first:
 		aut.delete();
@@ -115,7 +97,7 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 		mcl.delete();
 		diag.delete();
 		
-		monitor.worked(1);
+		monitor.worked(1);														// 100%
 		monitor.done();
 		
 		// Check the output:
@@ -132,33 +114,6 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 			throw new RuntimeException("CADP evaluator produced unexpected output.");
 		}
 		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.Validator#getName()
-	 */
-	@Override
-	public String getName() {
-		return "CADP";
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.Validator#setProperty(java.lang.String)
-	 */
-	@Override
-	public void setProperty(String property) throws ParseException {
-		this.property = property;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.Validator#setStateSpaceIndex(org.eclipse.emf.henshin.statespace.StateSpaceIndex)
-	 */
-	@Override
-	public void setStateSpaceIndex(StateSpaceIndex index) {
-		// We don't need the index.
 	}
 	
 	/**
@@ -186,4 +141,14 @@ public class CADPStateSpaceValidator implements StateSpaceValidator {
 		}
 		return bin[0];
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.Validator#getName()
+	 */
+	@Override
+	public String getName() {
+		return "CADP";
+	}
+
 }

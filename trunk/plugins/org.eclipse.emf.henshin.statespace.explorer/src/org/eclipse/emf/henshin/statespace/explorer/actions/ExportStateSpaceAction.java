@@ -39,7 +39,7 @@ public class ExportStateSpaceAction extends AbstractStateSpaceAction {
 			wizard = new StateSpaceTikZExportWizard();
 		}
 		else if (action.getId().endsWith("cadp")) {
-			wizard = new StateSpaceCADPExportWizard();			
+			wizard = new StateSpaceAUTExportWizard();			
 		}
 		else {
 			MessageDialog.openError(shell, "Export error", "Unknown export type: " + action.getId());
