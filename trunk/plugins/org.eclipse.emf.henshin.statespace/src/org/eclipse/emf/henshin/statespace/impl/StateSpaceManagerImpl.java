@@ -271,7 +271,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * @return List of outgoing transition.
 	 * @throws StateSpaceException On explore errors.
 	 */
-	private List<Transition> doExplore(State state) throws StateSpaceException {
+	protected List<Transition> doExplore(State state) throws StateSpaceException {
 		
 		// We need a transformation engine first:
 		EmfEngine engine = acquireEngine();

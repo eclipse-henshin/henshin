@@ -12,7 +12,11 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,20 +39,18 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 */
 	public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 	
-	// Number of threads to be used:
+	// Number of threads to be used.
 	private int numThreads;
 	
 	// Executor service.
 	private ExecutorService executor;
 	
-	/**
-	 * Default constructor.
-	 * @param stateSpace State space.
-	 */
-	public MultiThreadedStateSpaceManager(StateSpace stateSpace) {
-		this(stateSpace, CPU_COUNT);
-	}
-
+	// Thread that prepares the exploration.
+	private Thread preparer;
+	
+	// HashMap for prepared states.
+	private Map<State,List<Transition>> preparedStates;
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -58,6 +60,15 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		super(stateSpace);
 		this.numThreads = Math.max(numThreads, 1);
 		this.executor = Executors.newFixedThreadPool(this.numThreads);
+		this.preparedStates = Collections.synchronizedMap(new HashMap<State,List<Transition>>());
+	}
+
+	/**
+	 * Default constructor.
+	 * @param stateSpace State space.
+	 */
+	public MultiThreadedStateSpaceManager(StateSpace stateSpace) {
+		this(stateSpace, CPU_COUNT);
 	}
 
 	/**
@@ -69,14 +80,20 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 */
 	public synchronized List<Transition> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
 		
+		// If we haven't start the preparer thread, we do it now. But not earlier.
+		if (preparer==null) {
+			preparer = new Thread(new PreparationWorker());
+			preparer.start();
+		}
+		
 		// We use a new list for the states:
-		List<State> queue = new ArrayList<State>(states);
-		List<Transition> result = new ArrayList<Transition>();
+		List<State> queue = new Vector<State>(states);
+		List<Transition> result = new Vector<Transition>();
 		
 		// Create the workers:
-		List<Worker> workers = new ArrayList<Worker>(numThreads);
+		List<ExplorationWorker> workers = new ArrayList<ExplorationWorker>(numThreads);
 		for (int i=0; i<numThreads; i++) {
-			workers.add(new Worker(queue, result, generateLocations));
+			workers.add(new ExplorationWorker(queue, result, generateLocations));
 		}
 		
 		// Execute the workers:
@@ -96,9 +113,36 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	}
 	
 	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl#doExplore(org.eclipse.emf.henshin.statespace.State)
+	 */
+	@Override
+	protected List<Transition> doExplore(State state) throws StateSpaceException {
+		
+		// Get the cached result or compute it if necessary.
+		List<Transition> result = preparedStates.get(state);
+		if (result==null) {
+			result = super.doExplore(state);
+			preparedStates.put(state, result);
+		}
+		return result;	// That's all.
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl#clearStateModelCache()
+	 */
+	@Override
+	public void clearStateModelCache() {
+		super.clearStateModelCache();
+		preparedStates.clear();
+	}
+	
+	/*
 	 * Private explorer worker class. Delegates to exploreState().
 	 */
-	private class Worker implements Callable<StateSpaceException> {
+	private class ExplorationWorker implements Callable<StateSpaceException> {
 		
 		// States to be explored:
 		private List<State> states;
@@ -109,13 +153,10 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		// Whether to generate locations:
 		private boolean generateLocations;
 		
-		/**
+		/*
 		 * Default constructor.
-		 * @param states States to be explored.
-		 * @param result Result list.
-		 * @param generateLocations Whether to generate locations.
 		 */
-		Worker(List<State> states, List<Transition> result, boolean generateLocations) {
+		ExplorationWorker(List<State> states, List<Transition> result, boolean generateLocations) {
 			this.states = states;
 			this.result = result;
 			this.generateLocations = generateLocations;
@@ -133,25 +174,45 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 				// Get the next state to be explored:
 				State next;
 				try {
-					synchronized (states) {
-						next = states.remove(0);
-					}
-				} catch (IndexOutOfBoundsException e) {
+					next = states.remove(0);
+				}
+				catch (IndexOutOfBoundsException e) {
 					return null; // We are done.
 				}
 
 				// Now explore it:
 				try {
-					List<Transition> transitions = exploreState(next, generateLocations);
-					synchronized (result) {
-						result.addAll(transitions);							
-					}
-				} catch (Throwable t) {
-					return (t instanceof StateSpaceException) ? 
-							(StateSpaceException) t : new StateSpaceException(t);
+					result.addAll(exploreState(next, generateLocations));
+					preparedStates.remove(next);
+				}
+				catch (Throwable t) {
+					return (t instanceof StateSpaceException) ? (StateSpaceException) t : new StateSpaceException(t);
 				}
 			}
 			
+		}
+	}
+	
+	/*
+	 * Worker class that pre-computes exploration results.
+	 */
+	private class PreparationWorker implements Runnable {
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			while (true) {
+				List<State> open = getStateSpace().getOpenStates();
+				for (int i=0; i<open.size(); i++) {
+					try {
+						doExplore(open.get(i));
+						if (i % 1000==0) Thread.sleep(250);
+					} catch (Throwable t) {}
+				}
+			}
 		}
 	}
 	
