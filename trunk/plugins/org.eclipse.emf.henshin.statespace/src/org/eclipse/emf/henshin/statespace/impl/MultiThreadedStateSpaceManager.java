@@ -63,11 +63,11 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	/**
 	 * Explore states concurrently.
 	 * @param states States to be explored.
-	 * @param generatedLocations Whether to generate locations.
+	 * @param generateLocations Whether to generate locations.
 	 * @return Newly created transitions.
 	 * @throws StateSpaceException On state space errors.
 	 */
-	public synchronized List<Transition> exploreStates(List<State> states, boolean generatedLocations) throws StateSpaceException {
+	public synchronized List<Transition> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
 		
 		// We use a new list for the states:
 		List<State> queue = new ArrayList<State>(states);
@@ -76,7 +76,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		// Create the workers:
 		List<Worker> workers = new ArrayList<Worker>(numThreads);
 		for (int i=0; i<numThreads; i++) {
-			workers.add(new Worker(queue, result, generatedLocations));
+			workers.add(new Worker(queue, result, generateLocations));
 		}
 		
 		// Execute the workers:
