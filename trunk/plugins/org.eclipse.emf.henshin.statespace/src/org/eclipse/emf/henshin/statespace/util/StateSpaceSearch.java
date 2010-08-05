@@ -229,7 +229,7 @@ public class StateSpaceSearch {
 				if (trace.size()==length) {
 					List<Transition> transitions = new ArrayList<Transition>(trace);
 					for (int i=0; i<length; i++) {
-						if (!path.get(i).equals(transitions.get(i).getRule().getName())) return false;
+						if (!path.get(i).equals(transitions.get(i).getLabel())) return false;
 					}
 					return true;
 				}

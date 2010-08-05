@@ -199,6 +199,13 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	}
 
 	/**
+	 * @generated NOT
+	 */
+	public String getLabel() {
+		return (getRule()!=null) ? getRule().getName() : null;
+	}
+
+	/**
 	 * @generated
 	 */
 	public int getMatch() {

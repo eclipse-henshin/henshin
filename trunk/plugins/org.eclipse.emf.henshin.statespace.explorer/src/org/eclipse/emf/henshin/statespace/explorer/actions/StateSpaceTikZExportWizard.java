@@ -64,7 +64,7 @@ public class StateSpaceTikZExportWizard extends AbstractStateSpaceExportWizard {
 			int source = state.getIndex();
 			for (Transition transition : state.getOutgoing()) {
 				int target = transition.getTarget().getIndex();
-				String label = transition.getRule().getName();
+				String label = transition.getLabel();
 				result.append("\\draw (s" + source + ") edge node[auto] {" + label + "} (s" + target + ");\n");
 			}
 		}

@@ -40,20 +40,26 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		File aut = File.createTempFile(name, ".aut");
 		exportAsAUT(stateSpace, aut, new SubProgressMonitor(monitor,4));	// 40%
 		
-		// Convert the LTS to a mCRL2 specification:
+		// Create a dummy mCRL2 specification:
 		File mcrl2 = File.createTempFile(name, ".mcrl2");
-		convertFile(aut, mcrl2, "ltsconvert", "--in=aut", "--out=mcrl2", "--equivalence=bisim");
+		writeToFile(mcrl2, getDummySpecification(stateSpace));
+		
+		// Convert the dummy specification to an LPS:
+		File lps = File.createTempFile(name, ".lps");
+		convertFile(mcrl2, lps, "mcrl22lps");
 		monitor.worked(1);													// 50%
 		
-		// Generate and LPS from the mCRL2 specification:
-		File lps = File.createTempFile(name, ".lps");
-		convertFile(aut, mcrl2, "ltsconvert");
+		// Now convert the LTS to the real mCRL2 specification:
+		convertFile(aut, mcrl2, "ltsconvert", "--equivalence=bisim", "--lps="+lps.getAbsolutePath());
 		monitor.worked(1);													// 60%
+		
+		// Generate the LPS from the mCRL2 specification:
+		convertFile(mcrl2, lps, "mcrl22lps");
+		monitor.worked(1);													// 70%
 		
 		// Write the property to a MCL file:
 		File mcl = File.createTempFile("property", ".mcl");
 		writeToFile(mcl, property);
-		monitor.worked(1);													// 70%
 		
 		// Generate a PBES from the LPS and the formula:
 		File pbes = File.createTempFile(name, ".pbes");
@@ -98,6 +104,18 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 			throw new RuntimeException("pbes2bool produced unexpected output.");
 		}
 		
+	}
+	
+	/*
+	 * Create a dummy specification with no behavior.
+	 */
+	private String getDummySpecification(StateSpace stateSpace) {
+		String spec = "act ";
+		for (int i=0; i<stateSpace.getRules().size(); i++) {
+			spec = spec + stateSpace.getRules().get(i).getName();
+			if (i<stateSpace.getRules().size()-1) spec = spec + ", ";
+		}
+		return spec + ";\n\ninit delta;\n";
 	}
 	
 	/*

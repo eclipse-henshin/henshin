@@ -130,7 +130,7 @@ public class StateSpaceResource extends ResourceImpl {
 		for (int source=0; source<states; source++) {
 			for (Transition transition : stateSpace.getStates().get(source).getOutgoing()) {
 				writer.write("(" + source + ",");
-				writer.write("\"" + transition.getRule().getName() + "\",");
+				writer.write("\"" + transition.getLabel() + "\",");
 				writer.write(stateSpace.getStates().indexOf(transition.getTarget()) + ")\n");			
 			}
 			monitor.worked(1);

@@ -14,7 +14,6 @@ package org.eclipse.emf.henshin.statespace;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Rule;
 
-
 /**
  * Light-weight transition model.
  * @generated
@@ -77,6 +76,13 @@ public interface Transition extends EObject {
 	 * @generated
 	 */
 	void setRule(Rule value);
+
+	/**
+	 * Get the label of this transition.
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getLabel();
 
 	/**
 	 * Returns the value of the '<em><b>Match</b></em>' attribute.
