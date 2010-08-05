@@ -147,7 +147,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 						result.addAll(transitions);							
 					}
 				} catch (Throwable t) {
-					throw (t instanceof StateSpaceException) ? 
+					return (t instanceof StateSpaceException) ? 
 							(StateSpaceException) t : new StateSpaceException(t);
 				}
 			}
