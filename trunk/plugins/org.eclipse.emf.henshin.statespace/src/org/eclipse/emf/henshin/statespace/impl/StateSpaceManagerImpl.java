@@ -148,7 +148,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;			// always greater than 1000
 		
 		// Decide whether the current model should be kept in memory.
-		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 10, maybe 11
+		int stored = (int) (Math.log10(states) / 1.5);		// ranges between 2 and 4, maybe 5
 		int index = state.getIndex() + 1;					// always greater or equal 1
 		
 		//System.out.println(stored);
@@ -219,48 +219,45 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		int newStates = 0;
 		List<Transition> result = new ArrayList<Transition>(transitions.size());
-		for (Transition transition : transitions) {
+		for (Transition current : transitions) {
 			
 			// Get the hash and model of the new target state:
-			int hashCode = transition.getTarget().getHashCode();
-			Resource transformed = transition.getTarget().getModel();
+			int hashCode = current.getTarget().getHashCode();
+			Resource transformed = current.getTarget().getModel();
 			
 			// The target state and some of its properties:
-			State targetState;
+			State target;
 			boolean newState = false;
 			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
 			
 			// We need to test whether a state exists already and if not create a new one. And this atomically.
 			synchronized (stateLock) {
-				targetState = getState(transformed, hashCode);
-				if (targetState==null) {
-					targetState = createOpenState(transformed, hashCode, location);
+				target = getState(transformed, hashCode);
+				if (target==null) {
+					target = createOpenState(transformed, hashCode, location);
+					newState = true;
 				}
 			}
-
-			// Store the model. We don't need the lock for that.
-			if (newState) {
-				storeModel(targetState, transformed);
+					
+			// Find or create the transition. We assume that we are the only one who is currently
+			// exploring this state. Therefore we don't need a lock here.
+			Transition transition = findTransition(state, current.getRule(), current.getMatch());
+			if (transition==null) {
+				transition = createTransition(state, target, current.getRule(), current.getMatch());
+				result.add(transition);
 			}
 			
-			// The target transition:
-			Transition targetTransition;
-			
-			// Check or add the transition:
-			synchronized (transition.getRule()) {
-				targetTransition = findTransition(state, transition.getRule(), transition.getMatch());
-				if (targetTransition==null) {
-					targetTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
-					result.add(targetTransition);
-				}
-			}
-
 			// Check if the transition points to the correct state. No lock here.
-			if (targetTransition.getTarget()!=targetState) {
+			if (transition.getTarget()!=target) {
 				markTainted();
 				throw new StateSpaceException("Illegal transition in state " + state);
 			}
-
+			
+			// Now that the transition is there, we can decide whether to store the model.
+			if (newState) {
+				storeModel(target, transformed);
+			}
+			
 		}
 		
 		// Mark the state as closed:

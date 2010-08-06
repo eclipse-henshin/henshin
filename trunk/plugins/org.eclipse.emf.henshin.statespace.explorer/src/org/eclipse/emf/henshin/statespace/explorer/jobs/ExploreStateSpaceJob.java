@@ -37,7 +37,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	/**
 	 * Default number of states to be explored at once.
 	 */
-	public static final int DEFAULT_NUM_STATES_AT_ONCE = 50;
+	public static final int DEFAULT_NUM_STATES_AT_ONCE = 40;
 	
 	// Edit domain.
 	protected EditDomain editDomain;
