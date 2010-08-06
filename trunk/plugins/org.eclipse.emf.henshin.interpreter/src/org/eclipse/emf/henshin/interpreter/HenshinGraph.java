@@ -76,7 +76,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				eObject.eAdapters().remove(this);
 				EAttribute attrType = attr.getType();
 				if (attrType.isMany()) {
-					List attrValues = (List) eObject.eGet(attrType);
+					List<Object> attrValues = (List<Object>) eObject.eGet(attrType);
 					attrValues.add(attr.getValue());
 				} else {
 					eObject.eSet(attrType, EcoreUtil.createFromString(attrType
@@ -94,7 +94,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 			ownerObject.eAdapters().remove(this);
 			EObject targetObject = node2eObjectMap.get(edge.getTarget());
 			if (edgeType.isMany()) {
-				List edgeValues = (List) ownerObject.eGet(edgeType);
+				List<Object> edgeValues = (List<Object>) ownerObject.eGet(edgeType);
 				edgeValues.add(targetObject);
 			} else {
 				ownerObject.eSet(edgeType, targetObject);
