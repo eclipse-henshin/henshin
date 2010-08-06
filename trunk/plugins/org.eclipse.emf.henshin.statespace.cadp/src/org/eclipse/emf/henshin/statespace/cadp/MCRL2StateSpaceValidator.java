@@ -40,22 +40,19 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		File aut = File.createTempFile(name, ".aut");
 		exportAsAUT(stateSpace, aut, new SubProgressMonitor(monitor,4));	// 40%
 		
-		// Create a dummy mCRL2 specification:
-		File mcrl2 = File.createTempFile(name, ".mcrl2");
-		writeToFile(mcrl2, getDummySpecification(stateSpace));
-		
-		// Convert the dummy specification to an LPS:
-		File lps = File.createTempFile(name, ".lps");
-		convertFile(mcrl2, lps, "mcrl22lps");
+		// Minimize the LTS:
+		File min = File.createTempFile(name, ".aut");
+		convertFile(aut, min, "ltsconvert", "--equivalence=bisim");
 		monitor.worked(1);													// 50%
 		
-		// Now convert the LTS to the real mCRL2 specification:
-		convertFile(aut, mcrl2, "ltsconvert", "--equivalence=bisim", "--lps="+lps.getAbsolutePath());
-		monitor.worked(1);													// 60%
+		// Create a dummy mCRL2 specification with the action declarations:
+		File act = File.createTempFile(name, ".mcrl2");
+		writeToFile(act, createActions(stateSpace));
 		
-		// Generate the LPS from the mCRL2 specification:
-		convertFile(mcrl2, lps, "mcrl22lps");
-		monitor.worked(1);													// 70%
+		// Convert the LTS to a LPS:
+		File lps = File.createTempFile(name, ".lps");
+		convertFile(min, lps, "lts2lps", "--data=" + act.getAbsolutePath());
+		monitor.worked(1);													// 60%
 		
 		// Write the property to a MCL file:
 		File mcl = File.createTempFile("property", ".mcl");
@@ -64,20 +61,21 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		// Generate a PBES from the LPS and the formula:
 		File pbes = File.createTempFile(name, ".pbes");
 		convertFile(lps, pbes, "lps2pbes", "--formula=" + mcl.getAbsolutePath());
-		monitor.worked(1);													// 80%
+		monitor.worked(2);													// 80%
 		
 		// Evaluate the PBES:
 		Process process = Runtime.getRuntime().exec(new String[] { "pbes2bool", pbes.getAbsolutePath() } );
-		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		Boolean result = null;
 		
 		// Read the output:
 		String line;
 		while ((line = reader.readLine())!=null) {
+			System.out.println("pbes2bool:" + line);
 			line = line.trim();
 			if (line.startsWith("The solution for the initial variable of the pbes is")) {
 				if (line.endsWith("true")) result = Boolean.TRUE; 
-				else if (line.endsWith("false")) result = Boolean.TRUE; 
+				else if (line.endsWith("false")) result = Boolean.FALSE; 
 				else throw new RuntimeException("pbes2bool produced unexpected output: " + line);
 				break;
 			}
@@ -87,7 +85,8 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		
 		// Clean up:
 		aut.delete();
-		mcrl2.delete();
+		min.delete();
+		act.delete();
 		lps.delete();
 		mcl.delete();
 		pbes.delete();
@@ -107,15 +106,15 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 	}
 	
 	/*
-	 * Create a dummy specification with no behavior.
+	 * Create a string representations of the used actions.
 	 */
-	private String getDummySpecification(StateSpace stateSpace) {
-		String spec = "act ";
+	private String createActions(StateSpace stateSpace) {
+		String actions = "act ";
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
-			spec = spec + stateSpace.getRules().get(i).getName();
-			if (i<stateSpace.getRules().size()-1) spec = spec + ", ";
+			actions = actions + stateSpace.getRules().get(i).getName();
+			if (i<stateSpace.getRules().size()-1) actions = actions + ", ";
 		}
-		return spec + ";\n\ninit delta;\n";
+		return actions + ";";
 	}
 	
 	/*

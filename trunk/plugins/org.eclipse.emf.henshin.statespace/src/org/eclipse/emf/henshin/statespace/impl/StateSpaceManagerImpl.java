@@ -74,12 +74,21 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		List<Transition> transitions = doExplore(state);
 		Set<Transition> matched = new HashSet<Transition>();
 		
-		for (Transition transition : transitions) {
+		for (Transition current : transitions) {
 			
-			// Find the corresponding transition in the state space:
-			Transition existing = findTransition(state, transition.getRule(), transition.getMatch());
-			if (existing==null) return true;
-			matched.add(existing);
+			// Find the corresponding target state in the state space.
+			State generated = current.getTarget();
+			State target = getState(generated.getModel(), generated.getHashCode());
+			if (target==null) {
+				return true;
+			}
+			
+			// Find the corresponding outgoing transition:
+			Transition transition = findTransition(state, target, current.getRule());
+			if (transition==null) {
+				return true;
+			}
+			matched.add(transition);
 			
 		}
 		
@@ -148,7 +157,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;			// always greater than 1000
 		
 		// Decide whether the current model should be kept in memory.
-		int stored = (int) (Math.log10(states) / 1.5);		// ranges between 2 and 4, maybe 5
+		int stored = (int) Math.log10(states);				// ranges between 3 and 6-7
 		int index = state.getIndex() + 1;					// always greater or equal 1
 		
 		//System.out.println(stored);
@@ -241,16 +250,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					
 			// Find or create the transition. We assume that we are the only one who is currently
 			// exploring this state. Therefore we don't need a lock here.
-			Transition transition = findTransition(state, current.getRule(), current.getMatch());
+			Transition transition = findTransition(state, target, current.getRule());
 			if (transition==null) {
 				transition = createTransition(state, target, current.getRule(), current.getMatch());
 				result.add(transition);
-			}
-			
-			// Check if the transition points to the correct state. No lock here.
-			if (transition.getTarget()!=target) {
-				markTainted();
-				throw new StateSpaceException("Illegal transition in state " + state);
 			}
 			
 			// Now that the transition is there, we can decide whether to store the model.
@@ -328,9 +331,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Find an outgoing transition.
 	 */
-	private Transition findTransition(State state, Rule rule, int match) {
-		for (Transition transition : state.getOutgoing()) {
-			if (rule==transition.getRule() && match==transition.getMatch()) {
+	private Transition findTransition(State source, State target, Rule rule) {
+		for (Transition transition : source.getOutgoing()) {
+			if (rule==transition.getRule() && target==transition.getTarget()) {
 				return transition;
 			}
 		}

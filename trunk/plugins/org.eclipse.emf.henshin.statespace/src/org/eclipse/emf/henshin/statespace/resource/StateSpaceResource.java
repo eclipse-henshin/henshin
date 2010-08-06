@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.resource;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,6 +38,11 @@ public class StateSpaceResource extends ResourceImpl {
 	 * File extension for state space files.
 	 */
 	public static final String FILE_EXTENSION = "statespace";
+	
+	/**
+	 * Buffer capacity to be used for loading and saving.
+	 */
+	public static final int BUFFER_CAPACITY = 524288;	// 0.5 MB
 	
 	/**
 	 * Default constructor.
@@ -69,6 +76,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doSave(OutputStream out, Map<?, ?> options) throws IOException {
+		out = new BufferedOutputStream(out, BUFFER_CAPACITY);
 		StateSpaceSerializer serializer = new StateSpaceSerializer();
 		serializer.write(getStateSpace(), out);
 		out.flush();
@@ -80,6 +88,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doLoad(InputStream in, Map<?, ?> options) throws IOException {
+		in = new BufferedInputStream(in, BUFFER_CAPACITY);
 		StateSpaceDeserializer deserializer = new StateSpaceDeserializer();
 		deserializer.read(this, in);
 	}
@@ -108,6 +117,9 @@ public class StateSpaceResource extends ResourceImpl {
 	 * @throws IOException On I/O errors.
 	 */
 	public void exportAsAUT(OutputStream out, IProgressMonitor monitor) throws IOException {
+		
+		// Always buffer.
+		out = new BufferedOutputStream(out, BUFFER_CAPACITY);
 		
 		// Get the state space:
 		StateSpace stateSpace = getStateSpace();

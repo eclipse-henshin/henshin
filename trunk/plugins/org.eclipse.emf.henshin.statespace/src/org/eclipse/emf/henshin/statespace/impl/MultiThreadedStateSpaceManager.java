@@ -139,6 +139,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public void clearStateModelCache() {
 		super.clearStateModelCache();
 		preparedStates.clear();
+		System.gc();
 	}
 	
 	/*

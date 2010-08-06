@@ -115,9 +115,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 
 					// Perform a clean up?
 					long current = System.currentTimeMillis();
-					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000)) && (manager instanceof StateSpaceManagerImpl)) {
-						monitor.subTask("Clearing state model cache...");
-						((StateSpaceManagerImpl) manager).clearStateModelCache();
+					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000))) {
+						clearCache(monitor);
 						lastCleanup = System.currentTimeMillis();
 					}
 
@@ -141,8 +140,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		
 		// Measure time again:
 		long end = System.currentTimeMillis();
-
-		// Save the state space and clean up:
+		
+		// Clear some memory before we do the saving:
+		clearCache(monitor);
+		
+		// Save the state space:
 		if (saveInterval>=0) {
 			monitor.subTask("Saving state space...");
 			saveStateSpace();
@@ -158,6 +160,16 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
 		
+	}
+	
+	/*
+	 * Clear state model cache.
+	 */
+	private void clearCache(IProgressMonitor monitor) {
+		if (getStateSpaceManager() instanceof StateSpaceManagerImpl) {
+			monitor.subTask("Clearing state model cache...");
+			((StateSpaceManagerImpl) getStateSpaceManager()).clearStateModelCache();
+		}
 	}
 	
 	/*
