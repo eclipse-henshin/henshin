@@ -24,12 +24,12 @@ import org.eclipse.emf.henshin.common.util.EmfGraph;
  */
 public class DanglingConstraint {
 	private Map<EReference, Integer> outgoingEdgeCount;
-	private Map<EReference, Integer> incomingEdgeCount;
+	//private Map<EReference, Integer> incomingEdgeCount;
 
 	public DanglingConstraint(Map<EReference, Integer> outgoingEdgeCount,
 			Map<EReference, Integer> incomingEdgeCount) {
 		this.outgoingEdgeCount = outgoingEdgeCount;
-		this.incomingEdgeCount = incomingEdgeCount;
+		//this.incomingEdgeCount = incomingEdgeCount;
 	}
 
 	@SuppressWarnings("unchecked")
