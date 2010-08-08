@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.impl;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

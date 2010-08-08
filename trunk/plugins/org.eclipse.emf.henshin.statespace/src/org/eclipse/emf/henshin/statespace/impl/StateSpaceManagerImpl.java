@@ -36,6 +36,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.StateModelCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
