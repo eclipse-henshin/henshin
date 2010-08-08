@@ -38,20 +38,21 @@ public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 	@Override
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
-		monitor.beginTask("Validating property", 10);
+		monitor.beginTask("Validating property...", 10);
 		String name = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Check the CADP path first:
 		File cadpBin = getCADPBin();
 		
 		// Export the state space to an AUT file:
-		File aut = File.createTempFile(name, ".aut");
-		exportAsAUT(stateSpace, aut, new SubProgressMonitor(monitor, 4));		// 40%
+		File aut = exportAsAUT(stateSpace, new SubProgressMonitor(monitor, 4));
+		if (monitor.isCanceled()) return null;									// 40%
 		
 		// Convert the AUT file to a BCG file:
 		File bcg = File.createTempFile(name, ".bcg");
-		convertFile(aut, bcg, cadpBin.getAbsolutePath() + File.separator + "bcg_io");
-		monitor.worked(2);														// 60%
+		convertFile(aut, bcg, new SubProgressMonitor(monitor,2), 
+					cadpBin.getAbsolutePath() + File.separator + "bcg_io");		// 60%
+		if (monitor.isCanceled()) return null;
 		
 		// Write the property to a MCL file:
 		File mcl = File.createTempFile("property", ".mcl");
@@ -62,6 +63,7 @@ public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 		File diag = File.createTempFile(name, ".bcg");
 		
 		// Invoke the bcg_open script to run the evaluator:
+		monitor.subTask("Running evaluator...");
 		Process process = Runtime.getRuntime().exec(new String[] {
 				cadpBin.getParent() + File.separator + "com/bcg_open",
 				bcg.getAbsolutePath(),
@@ -99,11 +101,14 @@ public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 					parseTrace = true;
 				}
 			}
+			if (monitor.isCanceled()) {
+				process.destroy();
+				return null;
+			}
 		}
 		monitor.worked(1);														// 90%
 		
-		// Clean up first:
-		aut.delete();
+		// Clean up first. Don't delete the AUT file (cached).
 		bcg.delete();
 		mcl.delete();
 		diag.delete();

@@ -124,7 +124,11 @@ public class StateSpaceResource extends ResourceImpl {
 		// Get the state space:
 		StateSpace stateSpace = getStateSpace();
 		int states = stateSpace.getStates().size();
-		monitor.beginTask("Exporting state space", states+1);
+		
+		// Begin the task:
+		String task = "Exporting state space...";
+		monitor.beginTask(task, states+1);
+		monitor.subTask(task);
 
 		// Make sure that there is exactly one initial state.
 		if (stateSpace.getInitialStates().size()!=1) {
@@ -146,9 +150,16 @@ public class StateSpaceResource extends ResourceImpl {
 				writer.write(stateSpace.getStates().indexOf(transition.getTarget()) + ")\n");			
 			}
 			monitor.worked(1);
+			if (monitor.isCanceled()) {
+				break;
+			}
 		}
+		
+		// Finished:
 		writer.close();
-		monitor.done();
+		if (!monitor.isCanceled()) {
+			monitor.done();
+		}
 		
 	}
 	

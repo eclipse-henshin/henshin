@@ -66,13 +66,14 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 		
 		// Save and update progress monitor:
 		this.monitor = monitor;
-		monitor.beginTask("Validating", stateSpace.getStates().size());
+		monitor.beginTask("Validating invariant...", stateSpace.getStates().size());
 		
 		// Reset the search first:
 		reset();
 		
 		// Search the state space:
 		depthFirst(stateSpace, false);
+		if (monitor.isCanceled()) return null;
 		monitor.done();
 		
 		// Exception occurred?
@@ -106,6 +107,11 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 	 */
 	@Override
 	protected boolean shouldStop(State current, Trace trace) {
+		
+		// Canceled?
+		if (monitor.isCanceled()) {
+			return true;
+		}
 		
 		// Validate the property using the state validator:
 		try {

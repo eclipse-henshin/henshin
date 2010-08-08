@@ -33,17 +33,18 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 	@Override
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
-		monitor.beginTask("Validating property", 10);
+		monitor.beginTask("Validating property...", 10);
 		String name = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Export the state space to an AUT file:
-		File aut = File.createTempFile(name, ".aut");
-		exportAsAUT(stateSpace, aut, new SubProgressMonitor(monitor,4));	// 40%
+		File aut = exportAsAUT(stateSpace, new SubProgressMonitor(monitor,4));	
+		if (monitor.isCanceled()) return null;								// 40%
 		
 		// Minimize the LTS:
 		File min = File.createTempFile(name, ".aut");
-		convertFile(aut, min, "ltsconvert", "--equivalence=bisim");
-		monitor.worked(1);													// 50%
+		convertFile(aut, min, new SubProgressMonitor(monitor,1), 
+				"ltsconvert", "--equivalence=bisim");						// 50%
+		if (monitor.isCanceled()) return null;
 		
 		// Create a dummy mCRL2 specification with the action declarations:
 		File act = File.createTempFile(name, ".mcrl2");
@@ -51,8 +52,9 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		
 		// Convert the LTS to a LPS:
 		File lps = File.createTempFile(name, ".lps");
-		convertFile(min, lps, "lts2lps", "--data=" + act.getAbsolutePath());
-		monitor.worked(1);													// 60%
+		convertFile(min, lps, new SubProgressMonitor(monitor,1), 
+				"lts2lps", "--data=" + act.getAbsolutePath());				// 60%
+		if (monitor.isCanceled()) return null;
 		
 		// Write the property to a MCL file:
 		File mcl = File.createTempFile("property", ".mcl");
@@ -60,10 +62,12 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		
 		// Generate a PBES from the LPS and the formula:
 		File pbes = File.createTempFile(name, ".pbes");
-		convertFile(lps, pbes, "lps2pbes", "--formula=" + mcl.getAbsolutePath());
-		monitor.worked(2);													// 80%
+		convertFile(lps, pbes, new SubProgressMonitor(monitor,2),
+				"lps2pbes", "--formula=" + mcl.getAbsolutePath());			// 80%
+		if (monitor.isCanceled()) return null;
 		
 		// Evaluate the PBES:
+		monitor.subTask("Running pbes2bool...");
 		Process process = Runtime.getRuntime().exec(new String[] { "pbes2bool", pbes.getAbsolutePath() } );
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		Boolean result = null;
@@ -79,12 +83,15 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 				else throw new RuntimeException("pbes2bool produced unexpected output: " + line);
 				break;
 			}
+			if (monitor.isCanceled()) {
+				process.destroy();
+				return null;
+			}
 		}
 		process.waitFor();
 		monitor.worked(1);													// 90%
 		
-		// Clean up:
-		aut.delete();
+		// Clean up. Don't delete the AUT file cause it is cached.
 		min.delete();
 		act.delete();
 		lps.delete();
