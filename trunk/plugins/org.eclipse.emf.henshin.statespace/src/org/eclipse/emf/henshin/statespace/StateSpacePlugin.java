@@ -19,7 +19,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.util.ValidatorPlatformHelper;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
+import org.eclipse.emf.henshin.statespace.validation.ValidatorPlatformHelper;
 
 /**
  * This is the central singleton for the StateSpace model plugin.

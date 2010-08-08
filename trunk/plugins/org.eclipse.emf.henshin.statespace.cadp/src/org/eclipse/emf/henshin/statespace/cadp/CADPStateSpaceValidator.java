@@ -22,14 +22,15 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
+import org.eclipse.emf.henshin.statespace.validation.AbstractFileBasedValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * CADP state space validator.
  * @author Christian Krause
  */
-public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
+public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 	
 	/*
 	 * (non-Javadoc)
@@ -39,7 +40,7 @@ public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
 		monitor.beginTask("Validating property...", 10);
-		String name = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
+		String basename = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		
 		// Check the CADP path first:
 		File cadpBin = getCADPBin();
@@ -49,18 +50,17 @@ public class CADPStateSpaceValidator extends AbstractStateSpaceValidator {
 		if (monitor.isCanceled()) return null;									// 40%
 		
 		// Convert the AUT file to a BCG file:
-		File bcg = File.createTempFile(name, ".bcg");
+		File bcg = File.createTempFile(basename, ".bcg");
 		convertFile(aut, bcg, new SubProgressMonitor(monitor,2), 
 					cadpBin.getAbsolutePath() + File.separator + "bcg_io");		// 60%
 		if (monitor.isCanceled()) return null;
 		
 		// Write the property to a MCL file:
-		File mcl = File.createTempFile("property", ".mcl");
-		writeToFile(mcl, property);
+		File mcl = createTempFile("property", ".mcl", property);
 		monitor.worked(1);														// 70%
 		
 		// File for diagnostics output:
-		File diag = File.createTempFile(name, ".bcg");
+		File diag = File.createTempFile(basename, ".bcg");
 		
 		// Invoke the bcg_open script to run the evaluator:
 		monitor.subTask("Running evaluator...");

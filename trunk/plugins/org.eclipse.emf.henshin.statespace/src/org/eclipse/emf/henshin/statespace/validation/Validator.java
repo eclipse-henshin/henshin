@@ -9,9 +9,11 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace;
+package org.eclipse.emf.henshin.statespace.validation;
 
 import java.text.ParseException;
+
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
 /**
  * Interface for validators. Clients should not implement

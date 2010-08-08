@@ -18,13 +18,14 @@ import java.io.InputStreamReader;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.AbstractFileBasedValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * mCRL2 state space validator.
  * @author Christian Krause
  */
-public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
+public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	
 	/*
 	 * (non-Javadoc)
@@ -47,8 +48,7 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		if (monitor.isCanceled()) return null;
 		
 		// Create a dummy mCRL2 specification with the action declarations:
-		File act = File.createTempFile(name, ".mcrl2");
-		writeToFile(act, createActions(stateSpace));
+		File act = createTempFile(name, ".mcrl2", createActions(stateSpace));
 		
 		// Convert the LTS to a LPS:
 		File lps = File.createTempFile(name, ".lps");
@@ -57,8 +57,7 @@ public class MCRL2StateSpaceValidator extends AbstractStateSpaceValidator {
 		if (monitor.isCanceled()) return null;
 		
 		// Write the property to a MCL file:
-		File mcl = File.createTempFile("property", ".mcl");
-		writeToFile(mcl, property);
+		File mcl = createTempFile("property", ".mcl", property);
 		
 		// Generate a PBES from the LPS and the formula:
 		File pbes = File.createTempFile(name, ".pbes");

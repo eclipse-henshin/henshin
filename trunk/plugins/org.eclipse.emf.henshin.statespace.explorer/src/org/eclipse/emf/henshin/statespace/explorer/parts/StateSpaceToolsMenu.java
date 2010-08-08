@@ -29,16 +29,16 @@ import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateValidator;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.Validator;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -379,7 +379,7 @@ public class StateSpaceToolsMenu extends Composite {
 	 * Called when the validation job has finished.
 	 */
 	private void validationFinished(ValidationResult result, IStatus status) {
-		if (status.isOK()) {
+		if (status.isOK() && result!=null) {
 			if (result.getTrace()!=null && explorer!=null) {
 				explorer.selectTrace(result.getTrace());
 			}

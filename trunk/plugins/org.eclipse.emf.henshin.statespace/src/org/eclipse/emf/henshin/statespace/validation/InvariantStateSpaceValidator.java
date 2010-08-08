@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.impl;
+package org.eclipse.emf.henshin.statespace.validation;
 
 import java.text.ParseException;
 
@@ -18,10 +18,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.StateValidator;
 import org.eclipse.emf.henshin.statespace.Trace;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**

@@ -16,11 +16,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateValidator;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.Validator;
-import org.eclipse.emf.henshin.statespace.impl.InvariantStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.InvariantStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * Job for running a state space validator.

@@ -9,7 +9,9 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace;
+package org.eclipse.emf.henshin.statespace.validation;
+
+import org.eclipse.emf.henshin.statespace.Trace;
 
 /**
  * Validation result data class.
