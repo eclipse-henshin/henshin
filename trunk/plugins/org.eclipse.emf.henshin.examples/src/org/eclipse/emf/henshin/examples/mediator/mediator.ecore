@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mediator"
+    nsURI="http://www.eclipse.org/emf/henshin/examples/mediator" nsPrefix="mediator">
+  <eClassifiers xsi:type="ecore:EClass" name="Worker" eSuperTypes="#//Channel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stop" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Channel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Network">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//Channel" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FIFO" eSuperTypes="#//Channel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sink" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="full" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SyncDrain" eSuperTypes="#//Channel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source1" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source2" eType="#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sync" eSuperTypes="#//Channel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sink" eType="#//Node"/>
+  </eClassifiers>
+</ecore:EPackage>
