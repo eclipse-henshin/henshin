@@ -65,7 +65,8 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		Rule rule = edge.getGraph().getContainerRule();
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement() != null) {
+				// Really make sure that the edit part is still valid.
+				if (isActive() && getNotationView().getElement()!=null && getParent()!=null) {
 					refreshVisuals();
 				}
 			}
@@ -210,7 +211,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	}
 
 	/**
-	 * Create a new diamond decoration, used for containent edges.
+	 * Create a new diamond decoration, used for containment edges.
 	 * @generated NOT
 	 */
 	private RotatableDecoration createDiamondDecoration() {
