@@ -14,10 +14,10 @@
       <nodes xmi:id="_jdRQgKXwEd-rG_qdWp4DuQ" name="B" incoming="_03zNsKXwEd-rG_qdWp4DuQ _q9MwUKXxEd-rG_qdWp4DuQ _ZANw4KXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
-      <nodes xmi:id="_ltY5AKXwEd-rG_qdWp4DuQ" incoming="_RxofwKXxEd-rG_qdWp4DuQ _ZiE9QKXxEd-rG_qdWp4DuQ _hU_DcKXyEd-rG_qdWp4DuQ">
+      <nodes xmi:id="_ltY5AKXwEd-rG_qdWp4DuQ" name="I" incoming="_RxofwKXxEd-rG_qdWp4DuQ _ZiE9QKXxEd-rG_qdWp4DuQ _hU_DcKXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
-      <nodes xmi:id="_mC-ugKXwEd-rG_qdWp4DuQ" incoming="_cBPHUKXxEd-rG_qdWp4DuQ _i99B0KXxEd-rG_qdWp4DuQ">
+      <nodes xmi:id="_mC-ugKXwEd-rG_qdWp4DuQ" name="J" incoming="_cBPHUKXxEd-rG_qdWp4DuQ _i99B0KXxEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
       <nodes xmi:id="_Do6RkKXxEd-rG_qdWp4DuQ" outgoing="_P2zKwKXxEd-rG_qdWp4DuQ _RxofwKXxEd-rG_qdWp4DuQ">
@@ -43,9 +43,6 @@
       </nodes>
       <nodes xmi:id="_37GxMKXxEd-rG_qdWp4DuQ" name="D" incoming="_Kpyd4KXyEd-rG_qdWp4DuQ _bIx_4KXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
-        <attributes xmi:id="_D1-AsKXyEd-rG_qdWp4DuQ" value="&quot;ROUTE&quot;">
-          <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node/type"/>
-        </attributes>
       </nodes>
       <nodes xmi:id="_RyAdwKXyEd-rG_qdWp4DuQ" outgoing="_ZANw4KXyEd-rG_qdWp4DuQ _bIx_4KXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Sync"/>
@@ -109,10 +106,10 @@
       <nodes xmi:id="_jdR3kKXwEd-rG_qdWp4DuQ" name="B" incoming="_030b0KXwEd-rG_qdWp4DuQ _q9PMkKXxEd-rG_qdWp4DuQ _ZAQ0MKXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
-      <nodes xmi:id="_ltaHIKXwEd-rG_qdWp4DuQ" incoming="_RxqU8KXxEd-rG_qdWp4DuQ _ZiHZgKXxEd-rG_qdWp4DuQ _hVBfsKXyEd-rG_qdWp4DuQ">
+      <nodes xmi:id="_ltaHIKXwEd-rG_qdWp4DuQ" name="I" incoming="_RxqU8KXxEd-rG_qdWp4DuQ _ZiHZgKXxEd-rG_qdWp4DuQ _hVBfsKXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
-      <nodes xmi:id="_mC_8oKXwEd-rG_qdWp4DuQ" incoming="_cBQ8gKXxEd-rG_qdWp4DuQ _i9-3AKXxEd-rG_qdWp4DuQ">
+      <nodes xmi:id="_mC_8oKXwEd-rG_qdWp4DuQ" name="J" incoming="_cBQ8gKXxEd-rG_qdWp4DuQ _i9-3AKXxEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
       </nodes>
       <nodes xmi:id="_Do8t0KXxEd-rG_qdWp4DuQ" outgoing="_P20Y4KXxEd-rG_qdWp4DuQ _RxqU8KXxEd-rG_qdWp4DuQ">
@@ -138,9 +135,6 @@
       </nodes>
       <nodes xmi:id="_37JNcKXxEd-rG_qdWp4DuQ" name="D" incoming="_Kp06IKXyEd-rG_qdWp4DuQ _bI1DMKXyEd-rG_qdWp4DuQ _LjursKX0Ed-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
-        <attributes xmi:id="_FUChMKXyEd-rG_qdWp4DuQ">
-          <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node/type"/>
-        </attributes>
       </nodes>
       <nodes xmi:id="_RyC6AKXyEd-rG_qdWp4DuQ" outgoing="_ZAQ0MKXyEd-rG_qdWp4DuQ _bI1DMKXyEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Sync"/>
@@ -177,6 +171,9 @@
       </nodes>
       <nodes xmi:id="_xNrlAKXzEd-rG_qdWp4DuQ" outgoing="_2tXrYKX0Ed-rG_qdWp4DuQ _BOHtUKX1Ed-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Worker"/>
+        <attributes xmi:id="_3nXuIKX3Ed-ZspfM6B5LyA" value="true">
+          <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Worker/active"/>
+        </attributes>
       </nodes>
       <edges xmi:id="_pW59YKXwEd-rG_qdWp4DuQ" source="_dccWgaXwEd-rG_qdWp4DuQ" target="_iEzBsKXwEd-rG_qdWp4DuQ">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Worker/start"/>
@@ -270,6 +267,25 @@
     <mappings xmi:id="_37KbkKXxEd-rG_qdWp4DuQ" origin="_37GxMKXxEd-rG_qdWp4DuQ" image="_37JNcKXxEd-rG_qdWp4DuQ"/>
     <mappings xmi:id="_RyEvMKXyEd-rG_qdWp4DuQ" origin="_RyAdwKXyEd-rG_qdWp4DuQ" image="_RyC6AKXyEd-rG_qdWp4DuQ"/>
     <mappings xmi:id="_VAnu0KXyEd-rG_qdWp4DuQ" origin="_VAiPQKXyEd-rG_qdWp4DuQ" image="_VAlSkKXyEd-rG_qdWp4DuQ"/>
+  </rules>
+  <rules xmi:id="_dgUQQKX4Ed-ZspfM6B5LyA" name="Test">
+    <lhs xmi:id="_dgUQQaX4Ed-ZspfM6B5LyA" name="LHS">
+      <nodes xmi:id="_ohAWgKX4Ed-ZspfM6B5LyA">
+        <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Network"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_dgUQQqX4Ed-ZspfM6B5LyA" name="RHS">
+      <nodes xmi:id="_ohAWgaX4Ed-ZspfM6B5LyA" outgoing="_p-4CsKX4Ed-ZspfM6B5LyA">
+        <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Network"/>
+      </nodes>
+      <nodes xmi:id="_pMWZkKX4Ed-ZspfM6B5LyA" incoming="_p-4CsKX4Ed-ZspfM6B5LyA">
+        <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Node"/>
+      </nodes>
+      <edges xmi:id="_p-4CsKX4Ed-ZspfM6B5LyA" source="_ohAWgaX4Ed-ZspfM6B5LyA" target="_pMWZkKX4Ed-ZspfM6B5LyA">
+        <type href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#//Network/nodes"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ohAWgqX4Ed-ZspfM6B5LyA" origin="_ohAWgKX4Ed-ZspfM6B5LyA" image="_ohAWgaX4Ed-ZspfM6B5LyA"/>
   </rules>
   <imports href="../../../../../../../../../../plugin/org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#/"/>
 </henshin:TransformationSystem>
