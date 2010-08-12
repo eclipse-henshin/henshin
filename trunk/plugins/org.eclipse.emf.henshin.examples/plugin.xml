@@ -24,7 +24,7 @@
    <extension
          point="org.eclipse.emf.ecore.dynamic_package">
 		<resource uri="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator" 
-		          location="src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore#/"/> 
+		          location="src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore"/> 
    </extension>
 
 </plugin>
