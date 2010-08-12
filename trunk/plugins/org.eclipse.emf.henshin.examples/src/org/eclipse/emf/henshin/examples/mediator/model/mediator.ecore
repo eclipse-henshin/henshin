@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mediator"
-    nsURI="http://www.eclipse.org/emf/henshin/examples/mediator" nsPrefix="mediator">
+    nsURI="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator" nsPrefix="mediator">
   <eClassifiers xsi:type="ecore:EClass" name="Worker" eSuperTypes="#//Channel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Node"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stop" eType="#//Node"/>
