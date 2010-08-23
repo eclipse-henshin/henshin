@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University of Berlin - initial API and implementation
+ *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter;
 
@@ -76,7 +76,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				eObject.eAdapters().remove(this);
 				EAttribute attrType = attr.getType();
 				if (attrType.isMany()) {
-					List attrValues = (List) eObject.eGet(attrType);
+					List<Object> attrValues = (List<Object>) eObject.eGet(attrType);
 					attrValues.add(attr.getValue());
 				} else {
 					eObject.eSet(attrType, EcoreUtil.createFromString(attrType
@@ -94,7 +94,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 			ownerObject.eAdapters().remove(this);
 			EObject targetObject = node2eObjectMap.get(edge.getTarget());
 			if (edgeType.isMany()) {
-				List edgeValues = (List) ownerObject.eGet(edgeType);
+				List<Object> edgeValues = (List<Object>) ownerObject.eGet(edgeType);
 				edgeValues.add(targetObject);
 			} else {
 				ownerObject.eSet(edgeType, targetObject);
