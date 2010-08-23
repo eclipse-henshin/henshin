@@ -112,13 +112,13 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		Graph graph = (Graph) object;
 		if (graph == graph.getContainerRule().getLhs())
 			return overlayImage(object,
-					getResourceLocator().getImage("full/obj16/Graph_L"));
+					getResourceLocator().getImage("full/obj16/Graph_L.png"));
 		else if (graph == graph.getContainerRule().getRhs())
 			return overlayImage(object,
-					getResourceLocator().getImage("full/obj16/Graph_R"));
+					getResourceLocator().getImage("full/obj16/Graph_R.png"));
 
 		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Graph"));
+				getResourceLocator().getImage("full/obj16/Graph.png"));
 	}
 
 	/**

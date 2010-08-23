@@ -25,10 +25,13 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * This is the item provider adapter for a
@@ -38,8 +41,8 @@ import org.eclipse.emf.henshin.model.Node;
  * @generated
  */
 public class NodeItemProvider extends NamedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -77,14 +80,12 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Node_type_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Node_type_feature", "_UI_Node_type"),
-				HenshinPackage.Literals.NODE__TYPE, true, false, true, null,
-				null, null));
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_type_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__TYPE, true, false, true,
+				null, null, null));
 	}
 
 	/**
@@ -95,14 +96,12 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	protected void addIncomingPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Node_incoming_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Node_incoming_feature", "_UI_Node_type"),
-				HenshinPackage.Literals.NODE__INCOMING, true, false, true,
-				null, null, null));
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_incoming_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__INCOMING, true, false,
+				true, null, null, null));
 	}
 
 	/**
@@ -113,14 +112,12 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	protected void addOutgoingPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Node_outgoing_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Node_outgoing_feature", "_UI_Node_type"),
-				HenshinPackage.Literals.NODE__OUTGOING, true, false, true,
-				null, null, null));
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_outgoing_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__OUTGOING, true, false,
+				true, null, null, null));
 	}
 
 	/**
@@ -131,14 +128,12 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	protected void addAllEdgesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Node_allEdges_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_Node_allEdges_feature", "_UI_Node_type"),
-				HenshinPackage.Literals.NODE__ALL_EDGES, true, false, true,
-				null, null, null));
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_allEdges_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__ALL_EDGES, true, false,
+				true, null, null, null));
 	}
 
 	/**
@@ -152,8 +147,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.NODE__ATTRIBUTES);
@@ -176,41 +170,58 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 
 	/**
-	 * This returns Node.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <br>
+	 * This method returns different visualizations of a {@link Node} regarding
+	 * to its occurance in lhs, rhs, nestedconditions and related mappings.<br>
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
 		Node node = (Node) object;
-		if (node.getGraph().getContainerRule().getLhs() == node.getGraph()){
-			for (Mapping mapping : node.getGraph().getContainerRule()
-					.getMappings()) {
-				if (mapping.getOrigin() == node)
-					return overlayImage(object,
-							getResourceLocator()
-									.getImage("full/obj16/Node_Map"));
-			}
-			return overlayImage(object,
-					getResourceLocator()
-					.getImage("full/obj16/Node_Delete"));
-		}
-		if (node.getGraph().getContainerRule().getRhs() == node.getGraph()){
-			for (Mapping mapping : node.getGraph().getContainerRule()
-					.getMappings()) {
-				if (mapping.getImage() == node)
-					return overlayImage(object,
-							getResourceLocator()
-									.getImage("full/obj16/Node_Map"));
-			}
-			return overlayImage(object,
-					getResourceLocator()
-					.getImage("full/obj16/Node_Add"));
-		}
-			
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Node"));
-	}
+		Graph graph = node.getGraph();
+		Rule rule = node.getGraph().getContainerRule();
+
+		for (Mapping mapping : rule.getMappings()) {
+			// if this node occurs in the Mapping-List, it is a preserved node
+			// i.e.
+			// it is source or origin of a mapping from LHS to RHS
+			if ((mapping.getOrigin() == node) || (mapping.getImage() == node))
+				return overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+		}// for
+
+		if (rule.getLhs() == graph) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_Delete.png"));
+		} else if (rule.getRhs() == graph) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_Add.png"));
+		} else if (graph.eContainer() instanceof NestedCondition) {
+			NestedCondition nc = (NestedCondition) graph.eContainer();
+			// Do the following only for negative application conditions (NACs)
+			if (nc.isNegated()) {
+				for (Mapping mapping : nc.getMappings()) {
+					// if this node occurs in the Mapping-List, it is a mapped
+					// from
+					// the LHS of the rule
+					if (mapping.getImage() == node) // its the mapping 'image',
+													// not
+													// the visual one ;-)
+						return overlayImage(object,
+								getResourceLocator().getImage("full/obj16/Node.png"));
+				}// for
+				return overlayImage(object,
+						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
+				/*
+				 * Please note, NAC nodes which are mapped by LHS nodes are not
+				 * marked by a 'forbid symbol' even though they belong to the
+				 * forbidden structure as well. However, this shall indicate to
+				 * the user in a straight way, that it is a mapped node.
+				 */
+			}// if negated
+		}// if else if
+
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+	}// getImage
 
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
@@ -249,8 +260,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 
 		switch (notification.getFeatureID(Node.class)) {
 		case HenshinPackage.NODE__ATTRIBUTES:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+					true, false));
 			return;
 		}
 		super.notifyChanged(notification);
@@ -264,12 +275,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.NODE__ATTRIBUTES,
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.NODE__ATTRIBUTES,
 				HenshinFactory.eINSTANCE.createAttribute()));
 	}
 
