@@ -50,6 +50,11 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
+		// If the edge is not inside of a graph there is nothing to do.
+		if (edge.getGraph()==null) {
+			return CommandResult.newOKCommandResult();
+		}
+		
 		// Check for edge images:
 		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
 		if (action!=null && action.getType()==ActionType.PRESERVE) {
