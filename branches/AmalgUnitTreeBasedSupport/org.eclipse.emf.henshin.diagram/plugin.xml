@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?><!--
-    Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
-    University of Marburg and others. All rights reserved. 
+    Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+    Philipps-University Marburg and others. All rights reserved. 
     This program and the accompanying materials are made 
     available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -546,6 +546,29 @@
       </objectContribution>
       
    </extension>
+<extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders" id="markers-navigation">
+      <?gmfgen generated="true"?>
+      <MarkerNavigationProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinMarkerNavigationProvider">
+         <MarkerType name="org.eclipse.emf.henshin.diagram.diagnostic"/>
+         <Priority name="Lowest"/>
+      </MarkerNavigationProvider>
+   </extension>
+
+<extension id="diagnostic" name="Henshin Diagram Editor Plugin problems" point="org.eclipse.core.resources.markers">
+      <?gmfgen generated="true"?>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.gmf.runtime.common.ui.services.marker"/>
+      <persistent value="true"/>
+   </extension>
+<extension id="validationDecoratorProvider" name="ValidationDecorations" point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+      <?gmfgen generated="true"?>
+      <decoratorProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinValidationDecoratorProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.diagram.ui.editparts.IPrimaryEditPart(org.eclipse.gmf.runtime.diagram.ui)" id="PRIMARY_VIEW"/>
+         <context decoratorTargets="PRIMARY_VIEW"/>
+      </decoratorProvider>
+   </extension>
+
 
    <!-- optionally, specify keybindings -->
 </plugin>

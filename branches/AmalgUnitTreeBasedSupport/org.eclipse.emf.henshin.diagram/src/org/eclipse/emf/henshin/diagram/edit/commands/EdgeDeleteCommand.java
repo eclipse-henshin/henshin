@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  * @generated NOT
  * @author Christian Krause
  */
-public class EdgeDeleteCommand  extends AbstractTransactionalCommand {
+public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 
 	// Edge to be deleted.
 	private Edge edge;
@@ -50,9 +50,14 @@ public class EdgeDeleteCommand  extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
+		// If the edge is not inside of a graph there is nothing to do.
+		if (edge.getGraph()==null) {
+			return CommandResult.newOKCommandResult();
+		}
+		
 		// Check for edge images:
 		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
-		if (action.getType()==ActionType.PRESERVE) {
+		if (action!=null && action.getType()==ActionType.PRESERVE) {
 			Rule rule = edge.getGraph().getContainerRule();
 			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
 			image.getGraph().removeEdge(image);

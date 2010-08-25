@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -97,8 +97,8 @@ public class HenshinPropertySection extends AdvancedPropertySection implements
 			return;
 		}
 		final StructuredSelection structuredSelection = ((StructuredSelection) selection);
-		ArrayList transformedSelection = new ArrayList(structuredSelection
-				.size());
+		ArrayList transformedSelection = new ArrayList(
+				structuredSelection.size());
 		for (Iterator it = structuredSelection.iterator(); it.hasNext();) {
 			Object r = transformSelection(it.next());
 			if (r != null) {

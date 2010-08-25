@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,19 +48,19 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	public List getTypesForPopupBar(IAdaptable host) {
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
+		if (editPart instanceof TransformationSystemEditPart) {
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			types.add(HenshinElementTypes.Rule_2001);
+			return types;
+		}
 		if (editPart instanceof NodeEditPart) {
-			ArrayList types = new ArrayList(1);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 			types.add(HenshinElementTypes.Attribute_3002);
 			return types;
 		}
 		if (editPart instanceof RuleCompartmentEditPart) {
-			ArrayList types = new ArrayList(1);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 			types.add(HenshinElementTypes.Node_3001);
-			return types;
-		}
-		if (editPart instanceof TransformationSystemEditPart) {
-			ArrayList types = new ArrayList(1);
-			types.add(HenshinElementTypes.Rule_2001);
 			return types;
 		}
 		return Collections.EMPTY_LIST;
@@ -139,8 +139,8 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	 */
 	public EObject selectExistingElementForSource(IAdaptable target,
 			IElementType relationshipType) {
-		return selectExistingElement(target, getTypesForSource(target,
-				relationshipType));
+		return selectExistingElement(target,
+				getTypesForSource(target, relationshipType));
 	}
 
 	/**
@@ -148,8 +148,8 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 	 */
 	public EObject selectExistingElementForTarget(IAdaptable source,
 			IElementType relationshipType) {
-		return selectExistingElement(source, getTypesForTarget(source,
-				relationshipType));
+		return selectExistingElement(source,
+				getTypesForTarget(source, relationshipType));
 	}
 
 	/**
@@ -165,9 +165,10 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 			return null;
 		}
 		Diagram diagram = (Diagram) editPart.getRoot().getContents().getModel();
-		Collection elements = new HashSet();
-		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
-			EObject element = (EObject) it.next();
+		HashSet<EObject> elements = new HashSet<EObject>();
+		for (Iterator<EObject> it = diagram.getElement().eAllContents(); it
+				.hasNext();) {
+			EObject element = it.next();
 			if (isApplicableElement(element, types)) {
 				elements.add(element);
 			}

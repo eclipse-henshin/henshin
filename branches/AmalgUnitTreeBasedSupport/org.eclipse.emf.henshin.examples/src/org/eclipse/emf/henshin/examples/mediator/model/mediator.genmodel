@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.examples/src"
+    modelPluginID="org.eclipse.emf.henshin.examples" modelName="Mediator" suppressInterfaces="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>mediator.ecore</foreignModel>
+  <genPackages prefix="Mediator" basePackage="org.eclipse.emf.henshin.examples" disposableProviderFactory="true"
+      classPackageSuffix="" utilityPackageSuffix="" ecorePackage="mediator.ecore#/">
+    <genClasses ecoreClass="mediator.ecore#//Worker">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//Worker/start"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//Worker/stop"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mediator.ecore#//Worker/active"/>
+    </genClasses>
+    <genClasses ecoreClass="mediator.ecore#//Channel"/>
+    <genClasses ecoreClass="mediator.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mediator.ecore#//Node/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mediator.ecore#//Node/type"/>
+    </genClasses>
+    <genClasses ecoreClass="mediator.ecore#//Network">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mediator.ecore#//Network/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mediator.ecore#//Network/channels"/>
+    </genClasses>
+    <genClasses ecoreClass="mediator.ecore#//FIFO">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//FIFO/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//FIFO/sink"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mediator.ecore#//FIFO/full"/>
+    </genClasses>
+    <genClasses ecoreClass="mediator.ecore#//SyncDrain">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//SyncDrain/source1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//SyncDrain/source2"/>
+    </genClasses>
+    <genClasses ecoreClass="mediator.ecore#//Sync">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//Sync/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mediator.ecore#//Sync/sink"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

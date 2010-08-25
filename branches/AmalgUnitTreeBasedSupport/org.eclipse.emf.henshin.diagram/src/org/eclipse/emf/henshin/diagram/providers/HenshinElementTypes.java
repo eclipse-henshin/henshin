@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @generated
  */
-public class HenshinElementTypes extends ElementInitializers {
+public class HenshinElementTypes {
 
 	/**
 	 * @generated
@@ -48,7 +48,7 @@ public class HenshinElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Map elements;
+	private static Map<IElementType, ENamedElement> elements;
 
 	/**
 	 * @generated
@@ -58,7 +58,7 @@ public class HenshinElementTypes extends ElementInitializers {
 	/**
 	 * @generated
 	 */
-	private static Set KNOWN_ELEMENT_TYPES;
+	private static Set<IElementType> KNOWN_ELEMENT_TYPES;
 
 	/**
 	 * @generated
@@ -191,17 +191,17 @@ public class HenshinElementTypes extends ElementInitializers {
 	public static ENamedElement getElement(IAdaptable hint) {
 		Object type = hint.getAdapter(IElementType.class);
 		if (elements == null) {
-			elements = new IdentityHashMap();
+			elements = new IdentityHashMap<IElementType, ENamedElement>();
 
-			elements.put(TransformationSystem_1000, HenshinPackage.eINSTANCE
-					.getTransformationSystem());
+			elements.put(TransformationSystem_1000,
+					HenshinPackage.eINSTANCE.getTransformationSystem());
 
 			elements.put(Rule_2001, HenshinPackage.eINSTANCE.getRule());
 
 			elements.put(Node_3001, HenshinPackage.eINSTANCE.getNode());
 
-			elements.put(Attribute_3002, HenshinPackage.eINSTANCE
-					.getAttribute());
+			elements.put(Attribute_3002,
+					HenshinPackage.eINSTANCE.getAttribute());
 
 			elements.put(Edge_4001, HenshinPackage.eINSTANCE.getEdge());
 		}
@@ -220,7 +220,7 @@ public class HenshinElementTypes extends ElementInitializers {
 	 */
 	public static boolean isKnownElementType(IElementType elementType) {
 		if (KNOWN_ELEMENT_TYPES == null) {
-			KNOWN_ELEMENT_TYPES = new HashSet();
+			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
 			KNOWN_ELEMENT_TYPES.add(TransformationSystem_1000);
 			KNOWN_ELEMENT_TYPES.add(Rule_2001);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);

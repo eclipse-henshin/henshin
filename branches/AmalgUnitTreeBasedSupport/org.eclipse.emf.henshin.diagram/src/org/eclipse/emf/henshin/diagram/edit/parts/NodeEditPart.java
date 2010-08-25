@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
@@ -91,8 +92,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		Rule rule = node.getGraph().getContainerRule();
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement() != null
-						&& getParent() != null) {
+				// Really make sure that the edit part is still valid.
+				if (isActive() && getNotationView().getElement() instanceof Node && getParent()!=null) {
 					refreshVisuals();
 				}
 			}
@@ -192,8 +193,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		NodeFigure figure = new NodeFigure();
-		return primaryShape = figure;
+		return primaryShape = new NodeFigure();
 	}
 
 	/**
@@ -207,14 +207,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
-			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getNodeActionLabel());
-			return true;
-		}
 		if (childEditPart instanceof NodeTypeEditPart) {
 			((NodeTypeEditPart) childEditPart).setLabel(getPrimaryShape()
 					.getNodeTypeLabel());
+			return true;
+		}
+		if (childEditPart instanceof NodeActionEditPart) {
+			((NodeActionEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getNodeActionLabel());
 			return true;
 		}
 		return false;
@@ -224,10 +224,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof NodeActionEditPart) {
+		if (childEditPart instanceof NodeTypeEditPart) {
 			return true;
 		}
-		if (childEditPart instanceof NodeTypeEditPart) {
+		if (childEditPart instanceof NodeActionEditPart) {
 			return true;
 		}
 		return false;
@@ -357,8 +357,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSource() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnSource() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(HenshinElementTypes.Edge_4001);
 		return types;
 	}
@@ -366,9 +366,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnSourceAndTarget(
+	public List<IElementType> getMARelTypesOnSourceAndTarget(
 			IGraphicalEditPart targetEditPart) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (targetEditPart instanceof org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart) {
 			types.add(HenshinElementTypes.Edge_4001);
 		}
@@ -378,9 +378,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForTarget(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForTarget(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == HenshinElementTypes.Edge_4001) {
 			types.add(HenshinElementTypes.Node_3001);
 		}
@@ -390,8 +389,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMARelTypesOnTarget() {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMARelTypesOnTarget() {
+		ArrayList<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(HenshinElementTypes.Edge_4001);
 		return types;
 	}
@@ -399,9 +398,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/getMATypesForSource(
-			IElementType relationshipType) {
-		List/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/types = new ArrayList/*<org.eclipse.gmf.runtime.emf.type.core.IElementType>*/();
+	public List<IElementType> getMATypesForSource(IElementType relationshipType) {
+		LinkedList<IElementType> types = new LinkedList<IElementType>();
 		if (relationshipType == HenshinElementTypes.Edge_4001) {
 			types.add(HenshinElementTypes.Node_3001);
 		}
@@ -455,7 +453,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			this.setLayoutManager(layoutThis);
 
-			this.setLineWidth(1);
 			createContents();
 		}
 
@@ -474,25 +471,6 @@ public class NodeEditPart extends ShapeNodeEditPart {
 
 			this.add(fNodeTypeLabel);
 
-		}
-
-		/**
-		 * @generated
-		 */
-		private boolean myUseLocalCoordinates = false;
-
-		/**
-		 * @generated
-		 */
-		protected boolean useLocalCoordinates() {
-			return myUseLocalCoordinates;
-		}
-
-		/**
-		 * @generated
-		 */
-		protected void setUseLocalCoordinates(boolean useLocalCoordinates) {
-			myUseLocalCoordinates = useLocalCoordinates;
 		}
 
 		/**

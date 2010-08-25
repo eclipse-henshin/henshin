@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,8 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramActionBarContributor;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -47,5 +49,13 @@ public class HenshinDiagramActionBarContributor extends
 				IWorkbenchActionConstants.M_FILE);
 		assert fileMenu != null;
 		fileMenu.remove("pageSetupAction"); //$NON-NLS-1$
+		IMenuManager editMenu = bars.getMenuManager().findMenuUsingPath(
+				IWorkbenchActionConstants.M_EDIT);
+		assert editMenu != null;
+		if (editMenu.find("validationGroup") == null) { //$NON-NLS-1$
+			editMenu.add(new GroupMarker("validationGroup")); //$NON-NLS-1$
+		}
+		IAction validateAction = new ValidateAction(page);
+		editMenu.appendToGroup("validationGroup", validateAction); //$NON-NLS-1$
 	}
 }

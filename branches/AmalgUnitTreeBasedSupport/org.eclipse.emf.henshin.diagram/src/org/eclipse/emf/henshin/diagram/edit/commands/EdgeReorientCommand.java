@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -81,8 +81,9 @@ public class EdgeReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Graph container = (Graph) getLink().eContainer();
-		return HenshinBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistEdge_4001(container, getNewSource(), target);
+		return HenshinBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistEdge_4001(container, getLink(), getNewSource(), target);
 	}
 
 	/**
@@ -97,8 +98,9 @@ public class EdgeReorientCommand extends EditElementCommand {
 			return false;
 		}
 		Graph container = (Graph) getLink().eContainer();
-		return HenshinBaseItemSemanticEditPolicy.LinkConstraints
-				.canExistEdge_4001(container, source, getNewTarget());
+		return HenshinBaseItemSemanticEditPolicy
+				.getLinkConstraints()
+				.canExistEdge_4001(container, getLink(), source, getNewTarget());
 	}
 
 	/**

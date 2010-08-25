@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -71,20 +71,23 @@ public class AttributeCreateCommand extends EditElementCommand {
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		
+
 		// The node:
 		Node node = (Node) getElementToEdit();
 		Rule rule = node.getGraph().getContainerRule();
-		
+
 		// Find the corresponding LHS node:
 		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
+
+		// Create the attribute.
+		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();
 		
-		// Create and initialize the attribute type
-		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();		
+		// Initialize the attribute type and value (guessing):
 		if (node.getType()!=null) {
 			for (EAttribute type : node.getType().getEAllAttributes()) {
 				if (node.findAttributeByType(type)==null) {
 					attribute.setType(type);
+					attribute.setValue(String.valueOf(type.getDefaultValue()));
 					break;
 				}
 			}
@@ -94,34 +97,37 @@ public class AttributeCreateCommand extends EditElementCommand {
 		node.getAttributes().add(attribute);
 
 		// and to all mapped nodes...
-		if (lhsNode!=null) {
-			Node rhsNode = HenshinMappingUtil.getNodeImage(lhsNode, rule.getRhs(), rule.getMappings());
-			if (rhsNode!=null) {
+		if (lhsNode != null) {
+			Node rhsNode = HenshinMappingUtil.getNodeImage(lhsNode,
+					rule.getRhs(), rule.getMappings());
+			if (rhsNode != null) {
 				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
 			}
 			for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
-				Node nacNode = HenshinMappingUtil.getNodeImage(lhsNode, nac.getConclusion(), nac.getMappings());
-				if (nacNode!=null) {
+				Node nacNode = HenshinMappingUtil.getNodeImage(lhsNode,
+						nac.getConclusion(), nac.getMappings());
+				if (nacNode != null) {
 					addAttribute(nacNode, (Attribute) EcoreUtil.copy(attribute));
 				}
 			}
 		}
-		
+
 		doConfigure(attribute, monitor, info);
 
 		((CreateElementRequest) getRequest()).setNewElement(attribute);
 		return CommandResult.newOKCommandResult(attribute);
 	}
-	
+
 	private void addAttribute(Node node, Attribute attribute) {
 		Attribute old = node.findAttributeByType(attribute.getType());
-		if (old!=null) {
-			node.getAttributes().set(node.getAttributes().indexOf(old), attribute);
+		if (old != null) {
+			node.getAttributes().set(node.getAttributes().indexOf(old),
+					attribute);
 		} else {
 			node.getAttributes().add(attribute);
 		}
 	}
-	
+
 	/**
 	 * @generated
 	 */

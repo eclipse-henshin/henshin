@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mediator:Network xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mediator="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator">
+  <nodes name="A"/>
+  <nodes name="B"/>
+  <nodes name="C" type="ROUTE"/>
+  <nodes name="D" type="ROUTE"/>
+  <nodes name="I"/>
+  <nodes name="J" type=""/>
+  <channels xsi:type="mediator:Worker" start="//@nodes.0" stop="//@nodes.1"/>
+  <channels xsi:type="mediator:FIFO" source="//@nodes.4" sink="//@nodes.5"/>
+  <channels xsi:type="mediator:SyncDrain" source1="//@nodes.5" source2="//@nodes.1"/>
+  <channels xsi:type="mediator:Sync" source="//@nodes.4" sink="//@nodes.0"/>
+  <channels xsi:type="mediator:FIFO" source="//@nodes.3" sink="//@nodes.2" full="true"/>
+  <channels xsi:type="mediator:Sync" source="//@nodes.2" sink="//@nodes.4"/>
+  <channels xsi:type="mediator:Sync" source="//@nodes.1" sink="//@nodes.3"/>
+</mediator:Network>

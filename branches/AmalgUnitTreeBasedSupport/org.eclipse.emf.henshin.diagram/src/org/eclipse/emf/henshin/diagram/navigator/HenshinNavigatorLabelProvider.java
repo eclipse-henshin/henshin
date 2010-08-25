@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,13 +66,11 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		HenshinDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?UnknownElement", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 		HenshinDiagramEditorPlugin
 				.getInstance()
 				.getImageRegistry()
-				.put(
-						"Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
+				.put("Navigator?ImageNotFound", ImageDescriptor.getMissingImageDescriptor()); //$NON-NLS-1$
 	}
 
 	/**
@@ -119,12 +117,12 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case TransformationSystemEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Diagram?http://www.eclipse.org/emf/2010/Henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
 		case RuleEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
+		case TransformationSystemEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Diagram?http://www.eclipse.org/emf/2010/Henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
@@ -220,9 +218,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	private String getRule_2001Text(View view) {
 		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Rule_2001, view.getElement() != null ? view
-						.getElement() : view, HenshinVisualIDRegistry
-						.getType(RuleNameEditPart.VISUAL_ID));
+				HenshinElementTypes.Rule_2001,
+				view.getElement() != null ? view.getElement() : view,
+				HenshinVisualIDRegistry.getType(RuleNameEditPart.VISUAL_ID));
 		if (parser != null) {
 			return parser.getPrintString(new EObjectAdapter(
 					view.getElement() != null ? view.getElement() : view),
@@ -239,9 +237,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	private String getNode_3001Text(View view) {
 		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Node_3001, view.getElement() != null ? view
-						.getElement() : view, HenshinVisualIDRegistry
-						.getType(NodeTypeEditPart.VISUAL_ID));
+				HenshinElementTypes.Node_3001,
+				view.getElement() != null ? view.getElement() : view,
+				HenshinVisualIDRegistry.getType(NodeTypeEditPart.VISUAL_ID));
 		if (parser != null) {
 			return parser.getPrintString(new EObjectAdapter(
 					view.getElement() != null ? view.getElement() : view),
@@ -277,9 +275,9 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	private String getEdge_4001Text(View view) {
 		IParser parser = HenshinParserProvider.getParser(
-				HenshinElementTypes.Edge_4001, view.getElement() != null ? view
-						.getElement() : view, HenshinVisualIDRegistry
-						.getType(EdgeTypeEditPart.VISUAL_ID));
+				HenshinElementTypes.Edge_4001,
+				view.getElement() != null ? view.getElement() : view,
+				HenshinVisualIDRegistry.getType(EdgeTypeEditPart.VISUAL_ID));
 		if (parser != null) {
 			return parser.getPrintString(new EObjectAdapter(
 					view.getElement() != null ? view.getElement() : view),
@@ -347,14 +345,14 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 			if (isOwnView(item.getView())) {
 				View view = item.getView();
 				if (view.getElement() instanceof Node) {
-					Action action = NodeActionHelper.INSTANCE.getAction((Node) view
-							.getElement());
+					Action action = NodeActionHelper.INSTANCE
+							.getAction((Node) view.getElement());
 					if (action != null)
 						return action.getType().getColor();
 				}
 				if (view.getElement() instanceof Edge) {
-					Action action = EdgeActionHelper.INSTANCE.getAction((Edge) view
-							.getElement());
+					Action action = EdgeActionHelper.INSTANCE
+							.getAction((Edge) view.getElement());
 					if (action != null)
 						return action.getType().getColor();
 				}
