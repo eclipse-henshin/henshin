@@ -52,7 +52,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Check for edge images:
 		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
-		if (action.getType()==ActionType.PRESERVE) {
+		if (action!=null && action.getType()==ActionType.PRESERVE) {
 			Rule rule = edge.getGraph().getContainerRule();
 			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
 			image.getGraph().removeEdge(image);
