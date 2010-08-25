@@ -21,10 +21,14 @@
             uri="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers">
       </package>
    </extension>
+
    <extension
-         point="org.eclipse.emf.ecore.dynamic_package">
-		<resource uri="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator" 
-		          location="src/org/eclipse/emf/henshin/examples/mediator/model/mediator.ecore"/> 
+         point="org.eclipse.emf.ecore.generated_package">
+      <package
+            class="org.eclipse.emf.henshin.examples.mediator.MediatorPackage"
+            genModel="src/org/eclipse/emf/henshin/examples/mediator/model/mediator.genmodel"
+            uri="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator">
+      </package>
    </extension>
 
 </plugin>
