@@ -12,7 +12,10 @@
 package org.eclipse.emf.henshin.diagram.parsers;
 
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.model.Graph;
@@ -102,6 +105,27 @@ public class RootObjectHelper {
 			}
 		}
 		
+	}
+	
+	public static boolean isPossibleRootType(EClass type, Rule rule) {
+		if (rule.getTransformationSystem().getImports().size()!=1) {
+			return false;
+		}
+		for (EClassifier classifier : rule.getTransformationSystem().getImports().get(0).getEClassifiers()) {
+			if (classifier!=type && classifier instanceof EClass) {
+				if (getRootContainment(type, (EClass) classifier)==null) return false;
+			}
+		}
+		return true;
+	}
+	
+	public static EReference getRootContainment(EClass rootType, EClass childType) {
+		for (EReference reference : rootType.getEAllContainments()) {
+			if (reference.getEReferenceType().isSuperTypeOf(childType)) {
+				return reference;
+			}
+		}
+		return null;
 	}
 	
 	public static boolean isRuleView(View view) {

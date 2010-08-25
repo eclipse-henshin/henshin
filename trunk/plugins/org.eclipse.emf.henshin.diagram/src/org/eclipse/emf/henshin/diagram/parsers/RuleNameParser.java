@@ -139,7 +139,7 @@ public class RuleNameParser extends AbstractParser {
 			// First find the proper class and initialize the new root:
 			for (EPackage epackage : rule.getTransformationSystem().getImports()) {
 				EClassifier classifier = epackage.getEClassifier(rootType);
-				if (classifier instanceof EClass) {
+				if (classifier instanceof EClass && RootObjectHelper.isPossibleRootType((EClass) classifier, rule)) {
 					newRoot = HenshinFactory.eINSTANCE.createNode();
 					newRoot.setName("root");
 					newRoot.setType((EClass) classifier);
