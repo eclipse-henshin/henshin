@@ -50,6 +50,25 @@ public class HenshinParserProvider extends AbstractProvider implements
 	private IParser ruleName_5001Parser;
 
 	/**
+	 * @generated
+	 */
+	private IParser getRuleName_5001Parser() {
+		if (ruleName_5001Parser == null) {
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
+					.getNamedElement_Name() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
+					.getNamedElement_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features,
+					editableFeatures);
+			parser.setViewPattern("{0}"); //$NON-NLS-1$
+			parser.setEditorPattern("{0}"); //$NON-NLS-1$
+			parser.setEditPattern("{0}"); //$NON-NLS-1$
+			ruleName_5001Parser = parser;
+		}
+		return ruleName_5001Parser;
+	}
+
+	/**
 	 * @generated NOT
 	 */
 	private IParser nodeTypeParser = new NodeTypeParser();
@@ -73,25 +92,6 @@ public class HenshinParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	private IParser attributeParser = new AttributeParser();
-
-	/**
-	 * @generated
-	 */
-	private IParser getRuleName_5001Parser() {
-		if (ruleName_5001Parser == null) {
-			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
-					.getNamedElement_Name() };
-			MessageFormatParser parser = new MessageFormatParser(features,
-					editableFeatures);
-			parser.setViewPattern("{0}"); //$NON-NLS-1$
-			parser.setEditorPattern("{0}"); //$NON-NLS-1$
-			parser.setEditPattern("{0}"); //$NON-NLS-1$
-			ruleName_5001Parser = parser;
-		}
-		return ruleName_5001Parser;
-	}
 
 	/**
 	 * @generated NOT

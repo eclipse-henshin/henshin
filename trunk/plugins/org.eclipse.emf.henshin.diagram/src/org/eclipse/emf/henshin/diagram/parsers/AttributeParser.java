@@ -40,7 +40,7 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  * @generated NOT
  * @author Christian Krause
  */
-public class AttributeParser  extends AbstractParser {
+public class AttributeParser extends AbstractParser {
 	
 	/**
 	 * Default constructor.

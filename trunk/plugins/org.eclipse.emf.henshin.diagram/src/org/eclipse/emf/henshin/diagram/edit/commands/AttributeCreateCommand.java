@@ -81,18 +81,18 @@ public class AttributeCreateCommand extends EditElementCommand {
 
 		// Create the attribute.
 		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();
-		
+
 		// Initialize the attribute type and value (guessing):
-		if (node.getType()!=null) {
+		if (node.getType() != null) {
 			for (EAttribute type : node.getType().getEAllAttributes()) {
-				if (node.findAttributeByType(type)==null) {
+				if (node.findAttributeByType(type) == null) {
 					attribute.setType(type);
 					attribute.setValue(String.valueOf(type.getDefaultValue()));
 					break;
 				}
 			}
 		}
-		
+
 		// Add the attribute to the node:
 		node.getAttributes().add(attribute);
 

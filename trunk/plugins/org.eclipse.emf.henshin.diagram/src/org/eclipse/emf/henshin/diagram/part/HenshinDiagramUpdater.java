@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -33,6 +32,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.parsers.RootObjectHelper;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
@@ -66,7 +66,8 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated NOT
 	 */
-	public static List<HenshinNodeDescriptor> getRuleRuleCompartment_7001SemanticChildren(View view) {
+	public static List<HenshinNodeDescriptor> getRuleRuleCompartment_7001SemanticChildren(
+			View view) {
 
 		// Check the container:
 		if (false == view.eContainer() instanceof View) {
@@ -81,13 +82,13 @@ public class HenshinDiagramUpdater {
 		Rule rule = (Rule) containerView.getElement();
 		List<Node> actionNodes = NodeActionHelper.INSTANCE.getActionElements(
 				rule, null);
-		
+
 		// Check if we should exclude a root object:
-		Node root = RootObjectEditHelper.getRootObject(containerView);
-		if (root!=null) {
+		Node root = RootObjectHelper.getRootObject(containerView);
+		if (root != null) {
 			actionNodes.remove(root);
 		}
-		
+
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
 		for (Node node : actionNodes) {
@@ -106,7 +107,8 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated NOT
 	 */
-	public static List<HenshinNodeDescriptor> getNodeNodeCompartment_7002SemanticChildren(View view) {
+	public static List<HenshinNodeDescriptor> getNodeNodeCompartment_7002SemanticChildren(
+			View view) {
 
 		// Make sure the view is ok:
 		if (false == view.eContainer() instanceof View) {
@@ -230,10 +232,10 @@ public class HenshinDiagramUpdater {
 		Rule rule = (Rule) view.getElement();
 		List<Edge> edges = EdgeActionHelper.INSTANCE.getActionElements(rule,
 				null);
-		
+
 		// Check if we should exclude a root object:
-		Node root = RootObjectEditHelper.getRootObject(view);
-		
+		Node root = RootObjectHelper.getRootObject(view);
+
 		// Wrap them into node descriptors:
 		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
 		for (Edge edge : edges) {
@@ -243,11 +245,11 @@ public class HenshinDiagramUpdater {
 					.getSource());
 			Node target = NodeActionHelper.INSTANCE.getActionNode(edge
 					.getTarget());
-			
+
 			// Create the descriptor if the edge does not link to the root:
-			if (source!=root && target!=root) {
+			if (source != root && target != root) {
 				result.add(new HenshinLinkDescriptor(source, target, edge,
-					HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
+						HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
 			}
 		}
 

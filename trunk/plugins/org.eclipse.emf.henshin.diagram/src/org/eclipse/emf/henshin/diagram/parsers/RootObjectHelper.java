@@ -9,11 +9,12 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.diagram.edit.helpers;
+package org.eclipse.emf.henshin.diagram.parsers;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -24,7 +25,7 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated NOT
  * @author Christian Krause
  */
-public class RootObjectEditHelper {
+public class RootObjectHelper {
 	
 	/**
 	 * Key for root object eAnnotations.
@@ -39,8 +40,8 @@ public class RootObjectEditHelper {
 	 */
 	public static Node getRootObject(View view) {
 		
-		// The view must be refer to a rule:
-		if (!(view.getElement() instanceof Rule)) {
+		// Check whether it is the correct view:
+		if (!isRuleView(view)) {
 			throw new IllegalArgumentException();
 		}
 		
@@ -73,14 +74,8 @@ public class RootObjectEditHelper {
 	 */
 	public static void setRootObject(View view, Node root) {
 
-		// The view must be refer to a rule:
-		if (!(view.getElement() instanceof Rule)) {
-			throw new IllegalArgumentException();
-		}
-		
-		// The root must be contained in the LHS of the rule:
-		Graph lhs = ((Rule) view.getElement()).getLhs();
-		if (root!=null && !lhs.getNodes().contains(root)) {
+		// Check whether it is the correct view:
+		if (!isRuleView(view)) {
 			throw new IllegalArgumentException();
 		}
 		
@@ -107,6 +102,10 @@ public class RootObjectEditHelper {
 			}
 		}
 		
+	}
+	
+	public static boolean isRuleView(View view) {
+		return (view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
 	}
 	
 }

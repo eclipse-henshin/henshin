@@ -13,17 +13,14 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;

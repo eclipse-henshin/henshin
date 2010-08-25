@@ -282,7 +282,7 @@ public class RuleEditPart extends ShapeNodeEditPart {
 			fRuleNameFigure = new WrappingLabel();
 			fRuleNameFigure.setText("<...>");
 			fRuleNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
-					110), getMapMode().DPtoLP(16)));
+					1000), getMapMode().DPtoLP(16)));
 
 			this.add(fRuleNameFigure);
 
