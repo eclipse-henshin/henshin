@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -80,7 +81,13 @@ public class HenshinDiagramUpdater {
 		Rule rule = (Rule) containerView.getElement();
 		List<Node> actionNodes = NodeActionHelper.INSTANCE.getActionElements(
 				rule, null);
-
+		
+		// Check if we should exclude a root object:
+		Node root = RootObjectEditHelper.getRootObject(containerView);
+		if (root!=null) {
+			actionNodes.remove(root);
+		}
+		
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
 		for (Node node : actionNodes) {
@@ -223,7 +230,10 @@ public class HenshinDiagramUpdater {
 		Rule rule = (Rule) view.getElement();
 		List<Edge> edges = EdgeActionHelper.INSTANCE.getActionElements(rule,
 				null);
-
+		
+		// Check if we should exclude a root object:
+		Node root = RootObjectEditHelper.getRootObject(view);
+		
 		// Wrap them into node descriptors:
 		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
 		for (Edge edge : edges) {
@@ -233,10 +243,12 @@ public class HenshinDiagramUpdater {
 					.getSource());
 			Node target = NodeActionHelper.INSTANCE.getActionNode(edge
 					.getTarget());
-
-			// Create the descriptor:
-			result.add(new HenshinLinkDescriptor(source, target, edge,
+			
+			// Create the descriptor if the edge does not link to the root:
+			if (source!=root && target!=root) {
+				result.add(new HenshinLinkDescriptor(source, target, edge,
 					HenshinElementTypes.Edge_4001, EdgeEditPart.VISUAL_ID));
+			}
 		}
 
 		// Done.
