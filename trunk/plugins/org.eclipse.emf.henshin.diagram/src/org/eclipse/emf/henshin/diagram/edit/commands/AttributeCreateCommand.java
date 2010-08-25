@@ -79,17 +79,20 @@ public class AttributeCreateCommand extends EditElementCommand {
 		// Find the corresponding LHS node:
 		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
 
-		// Create and initialize the attribute type
+		// Create the attribute.
 		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();
-		if (node.getType() != null) {
+		
+		// Initialize the attribute type and value (guessing):
+		if (node.getType()!=null) {
 			for (EAttribute type : node.getType().getEAllAttributes()) {
-				if (node.findAttributeByType(type) == null) {
+				if (node.findAttributeByType(type)==null) {
 					attribute.setType(type);
+					attribute.setValue(String.valueOf(type.getDefaultValue()));
 					break;
 				}
 			}
 		}
-
+		
 		// Add the attribute to the node:
 		node.getAttributes().add(attribute);
 
