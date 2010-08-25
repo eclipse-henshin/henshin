@@ -25,6 +25,8 @@ import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -105,14 +107,20 @@ public class AttributeParser  extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Attribute attribute) {
 		
+		// Get the node:
 		Node node = attribute.getNode();
 		if (node==null || node.getType()==null) {
 			return CommandResult.newErrorCommandResult("Node and node type must be set");
 		}
-		value = value.trim();
-
+		
+		// Check the graph and the rule:
+		if (node.getGraph()==null || node.getGraph().getContainerRule()==null) {
+			return CommandResult.newErrorCommandResult("Node is not properly contained in a graph/rule");			
+		}
+		
 		// Parse the action:
 		Action action = new Action(ActionType.PRESERVE);		
+		value = value.trim();
 		if (value.startsWith("<<")) {
 			value = value.substring(2);
 			int end = value.indexOf(">>");
@@ -124,7 +132,7 @@ public class AttributeParser  extends AbstractParser {
 			value = value.substring(end+2);
 		}
 		
-		// The node action must be NONE:
+		// The node action must be PRESERVE:
 		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(node);
 		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
 		if (nodeAction.getType()!=ActionType.PRESERVE) {
@@ -137,7 +145,7 @@ public class AttributeParser  extends AbstractParser {
 			return CommandResult.newErrorCommandResult("Expected '='");
 		}
 		
-		String name = value.substring(equalSign+1).trim();
+		String val = value.substring(equalSign+1).trim();
 		String type = value.substring(0,equalSign).trim();
 		
 		// Find the EAttribute:
@@ -154,8 +162,16 @@ public class AttributeParser  extends AbstractParser {
 		}
 		
 		// Set the properties:
-		attribute.setValue(name);
+		attribute.setValue(val);
 		attribute.setType(attr);
+		
+		// Check if there is an image in the RHS that we need to updated:
+		if (nodeAction.getType()==ActionType.PRESERVE) {
+			Rule rule = node.getGraph().getContainerRule();
+			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			image.setValue(val);
+			image.setType(attr);
+		}
 		
 		// Set the action:
 		AttributeActionHelper.INSTANCE.setAction(attribute, action);
