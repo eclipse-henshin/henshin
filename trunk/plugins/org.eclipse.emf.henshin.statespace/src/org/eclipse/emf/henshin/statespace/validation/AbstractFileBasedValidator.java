@@ -12,10 +12,12 @@
 package org.eclipse.emf.henshin.statespace.validation;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -184,10 +186,18 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 		// Correct exit code?
 		if (exit!=0) {
-			throw new RuntimeException(command[0] + " returned exit code " + exit);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String out = "";
+			while (true) {
+				String line = reader.readLine();
+				if (line==null) break;
+				else out = out + "\n" + line;
+			}
+			throw new RuntimeException(command[0] + " returned exit code " + exit + ":\n" + out);
 		}
 		
-		// Done:
+		// Clean up.		
+		process.destroy();
 		monitor.worked(1);
 		monitor.done();
 		

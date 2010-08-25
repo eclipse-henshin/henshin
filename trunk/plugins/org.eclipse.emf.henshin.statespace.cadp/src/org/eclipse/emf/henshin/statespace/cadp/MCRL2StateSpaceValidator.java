@@ -106,7 +106,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		} else if (result==Boolean.FALSE) {
 			return ValidationResult.INVALID;			
 		} else {
-			throw new RuntimeException("pbes2bool produced unexpected output.");
+			throw new RuntimeException("pbes2bool produced no output.");
 		}
 		
 	}
