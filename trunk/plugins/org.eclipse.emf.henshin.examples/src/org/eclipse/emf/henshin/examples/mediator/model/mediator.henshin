@@ -96,7 +96,7 @@
     <rhs xmi:id="_WWb9IqXwEd-rG_qdWp4DuQ" name="RHS">
       <nodes xmi:id="_dccWgaXwEd-rG_qdWp4DuQ" outgoing="_pW59YKXwEd-rG_qdWp4DuQ _030b0KXwEd-rG_qdWp4DuQ">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
-        <attributes xmi:id="_fwCJwKXwEd-rG_qdWp4DuQ">
+        <attributes xmi:id="_fwCJwKXwEd-rG_qdWp4DuQ" value="false">
           <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
         </attributes>
       </nodes>
