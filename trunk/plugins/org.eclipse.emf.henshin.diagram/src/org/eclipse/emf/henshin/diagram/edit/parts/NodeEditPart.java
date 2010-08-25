@@ -92,8 +92,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		Rule rule = node.getGraph().getContainerRule();
 		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
-				if (getNotationView().getElement() != null
-						&& getParent() != null) {
+				// Really make sure that the edit part is still valid.
+				if (isActive() && getNotationView().getElement() instanceof Node && getParent()!=null) {
 					refreshVisuals();
 				}
 			}
