@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.resource;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -35,6 +38,11 @@ public class StateSpaceResource extends ResourceImpl {
 	 * File extension for state space files.
 	 */
 	public static final String FILE_EXTENSION = "statespace";
+	
+	/**
+	 * Buffer capacity to be used for loading and saving.
+	 */
+	public static final int BUFFER_CAPACITY = 524288;	// 0.5 MB
 	
 	/**
 	 * Default constructor.
@@ -68,6 +76,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doSave(OutputStream out, Map<?, ?> options) throws IOException {
+		out = new BufferedOutputStream(out, BUFFER_CAPACITY);
 		StateSpaceSerializer serializer = new StateSpaceSerializer();
 		serializer.write(getStateSpace(), out);
 		out.flush();
@@ -79,6 +88,7 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doLoad(InputStream in, Map<?, ?> options) throws IOException {
+		in = new BufferedInputStream(in, BUFFER_CAPACITY);
 		StateSpaceDeserializer deserializer = new StateSpaceDeserializer();
 		deserializer.read(this, in);
 	}
@@ -106,23 +116,51 @@ public class StateSpaceResource extends ResourceImpl {
 	 * @param out Output stream.
 	 * @throws IOException On I/O errors.
 	 */
-	public void exportAsAUT(OutputStream out) throws IOException {
-		OutputStreamWriter writer = new OutputStreamWriter(out);
+	public void exportAsAUT(OutputStream out, IProgressMonitor monitor) throws IOException {
+		
+		// Always buffer.
+		out = new BufferedOutputStream(out, BUFFER_CAPACITY);
+		
+		// Get the state space:
 		StateSpace stateSpace = getStateSpace();
+		int states = stateSpace.getStates().size();
+		
+		// Begin the task:
+		String task = "Exporting state space...";
+		monitor.beginTask(task, states+1);
+		monitor.subTask(task);
+
+		// Make sure that there is exactly one initial state.
 		if (stateSpace.getInitialStates().size()!=1) {
 			StateSpacePlugin.INSTANCE.logError("AUT format can encode only state spaces with exactly one initial state!", null);
 			if (stateSpace.getInitialStates().isEmpty()) throw new IOException();
 		}
 		int initial = stateSpace.getStates().indexOf(stateSpace.getInitialStates().get(0));
+		
+		// Write the header.
+		OutputStreamWriter writer = new OutputStreamWriter(out);
 		writer.write("des (" + initial + "," + stateSpace.getTransitionCount() + "," + stateSpace.getStates().size() + ")\n");
-		for (int source=0; source<stateSpace.getStates().size(); source++) {
+		monitor.worked(1);
+		
+		// Iterate over all states:
+		for (int source=0; source<states; source++) {
 			for (Transition transition : stateSpace.getStates().get(source).getOutgoing()) {
 				writer.write("(" + source + ",");
-				writer.write("\"" + transition.getRule().getName() + "\",");
+				writer.write("\"" + transition.getLabel() + "\",");
 				writer.write(stateSpace.getStates().indexOf(transition.getTarget()) + ")\n");			
 			}
+			monitor.worked(1);
+			if (monitor.isCanceled()) {
+				break;
+			}
 		}
+		
+		// Finished:
 		writer.close();
+		if (!monitor.isCanceled()) {
+			monitor.done();
+		}
+		
 	}
 	
 }

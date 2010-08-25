@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -318,9 +318,11 @@ public class StateSpaceSpringLayouter extends AdapterImpl {
 	 */
 	public synchronized void setPosition(State state, int... position) {
 		int index = state.getIndex();
-		if (position.length>0) posX[index] = position[0];
-		if (position.length>1) posY[index] = position[1];
-		if (position.length>2) posZ[index] = position[2];
+		if (posX!=null && posX.length>index) {
+			if (position.length>0) posX[index] = position[0];
+			if (position.length>1) posY[index] = position[1];
+			if (position.length>2) posZ[index] = position[2];
+		}
 	}
 	
 }

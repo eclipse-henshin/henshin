@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,12 +20,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -49,6 +51,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -70,6 +73,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	
 	// Tool menu:
 	private StateSpaceToolsMenu toolsMenu;
+	
+	// Whether to display the content in the graphical viewer.
+	private boolean displayContent;
 	
 	/** 
 	 * Create a new editor instance. 
@@ -138,16 +144,39 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	 */
 	@Override
 	protected void initializeGraphicalViewer() {
-		setContent();
+		updateGraphicalViewer(true);
 	}
 	
 	/*
-	 *  Set the viewer content.
+	 * Update the graphical viewer.
 	 */
-	private void setContent() {
-		GraphicalViewer viewer = getGraphicalViewer();
-		((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(stateSpaceManager);
-		viewer.setContents(stateSpaceManager.getStateSpace());		
+	private void updateGraphicalViewer(boolean force) {
+		
+		// Decide whether to display the content based on the number of states:
+		boolean newDisplayContent = stateSpaceManager.getStateSpace().getStates().size()<1000;
+		
+		// Update the graphical viewer if necessary:
+		if (newDisplayContent!=displayContent || force) {
+			
+			displayContent = newDisplayContent;
+			GraphicalViewer viewer = getGraphicalViewer();
+			
+			// Set the state space manager in any case (always required).
+			((StateSpaceEditPartFactory) viewer.getEditPartFactory()).setStateSpaceManager(stateSpaceManager);
+			
+			if (displayContent) {
+				// Set the viewer content.
+				getGraphicalViewer().setContents(stateSpaceManager.getStateSpace());
+				viewer.getControl().setBackground(ColorConstants.white);
+				jobManager.getExploreJob().setDelay(750);
+			}
+			else {
+				// Don't display anything:
+				viewer.setContents(StateSpaceFactory.eINSTANCE.createStateSpace());
+				viewer.getControl().setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+				jobManager.getExploreJob().setDelay(0);
+			}
+		}
 	}
 	
 	/* 
@@ -157,6 +186,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	@Override
 	public void commandStackChanged(EventObject event) {
 		firePropertyChange(IEditorPart.PROP_DIRTY);
+		updateGraphicalViewer(false);
 		super.commandStackChanged(event);
 	}
 	
@@ -250,24 +280,12 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		final IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
 		
-		// Prepare the loading:
-		ResourceSet resourceSet = new ResourceSetImpl();
-    	URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
-    	StateSpace stateSpace;
-
-		try {			
-			// Perform the loading:
+		try {
+			// Load the state space:
+			ResourceSet resourceSet = new ResourceSetImpl();
+	    	URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
 			StateSpaceResource resource = (StateSpaceResource) resourceSet.getResource(uri, true);
-			stateSpace = resource.getStateSpace();
-			
-			// Ask for confirmation if the state space is big:
-			int numStates = stateSpace.getStates().size();
-			if (numStates>5000) {
-				boolean confirmed = MessageDialog.openConfirm(getSite().getShell(), "Open State Space", 
-						"This state space contains " + numStates + " states. Displaying it in the graphical " + 
-						"explorer might take a while and be very slow. Really display it?");
-				if (!confirmed) throw new RuntimeException("State space too large to be displayed");
-			}
+			StateSpace stateSpace = resource.getStateSpace();
 			
 			// Create a new state space manager. We cannot use multi-treaded managers in the explorer.
 			stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
@@ -277,11 +295,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			if (toolsMenu!=null) {
 				toolsMenu.setJobManager(jobManager);
 			}
-			
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
-			
 	}
 	
 	/*

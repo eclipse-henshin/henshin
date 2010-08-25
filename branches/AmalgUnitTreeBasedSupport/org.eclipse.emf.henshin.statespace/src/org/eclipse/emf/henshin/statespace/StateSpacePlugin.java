@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,7 +19,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.util.ValidatorPlatformHelper;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
+import org.eclipse.emf.henshin.statespace.validation.ValidatorPlatformHelper;
 
 /**
  * This is the central singleton for the StateSpace model plugin.

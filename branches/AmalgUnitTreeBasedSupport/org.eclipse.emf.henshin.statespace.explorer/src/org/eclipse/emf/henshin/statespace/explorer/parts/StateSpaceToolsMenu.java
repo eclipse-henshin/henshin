@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -28,16 +29,16 @@ import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateValidator;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.Validator;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -377,14 +378,16 @@ public class StateSpaceToolsMenu extends Composite {
 	/*
 	 * Called when the validation job has finished.
 	 */
-	private void validationFinished(ValidationResult result) {
-		if (result.getTrace()!=null && explorer!=null) {
-			explorer.selectTrace(result.getTrace());
-		}
-		if (result.isValid()) {
-			MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
-		} else {
-			MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+	private void validationFinished(ValidationResult result, IStatus status) {
+		if (status.isOK() && result!=null) {
+			if (result.getTrace()!=null && explorer!=null) {
+				explorer.selectTrace(result.getTrace());
+			}
+			if (result.isValid()) {
+				MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
+			} else {
+				MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+			}
 		}
 		validateButton.setEnabled(true);		
 	}
@@ -424,10 +427,10 @@ public class StateSpaceToolsMenu extends Composite {
 		addButtonJobListener(validateJob, validateButton);
 		validateJob.addJobChangeListener(new JobChangeAdapter() {
 			@Override
-			public void done(IJobChangeEvent event) {
+			public void done(final IJobChangeEvent event) {
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
-						validationFinished(validateJob.getValidationResult());
+						validationFinished(validateJob.getValidationResult(), event.getResult());
 					}
 				});
 			}			

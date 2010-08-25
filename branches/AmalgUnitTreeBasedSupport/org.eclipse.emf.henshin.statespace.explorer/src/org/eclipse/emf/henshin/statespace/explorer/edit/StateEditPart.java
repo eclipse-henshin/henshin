@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -136,8 +136,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	protected List getModelSourceConnections() {
+	protected List<?> getModelSourceConnections() {
 		return getState().getOutgoing();
 	}
 
@@ -146,8 +145,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	protected List getModelTargetConnections() {
+	protected List<?> getModelTargetConnections() {
 		return getState().getIncoming();
 	}
 

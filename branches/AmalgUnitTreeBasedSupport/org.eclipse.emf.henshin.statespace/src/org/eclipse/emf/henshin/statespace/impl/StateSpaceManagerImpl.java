@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,10 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -22,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
@@ -33,6 +36,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.StateModelCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -44,13 +48,13 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private final StateModelCache cache = new StateModelCache();
+	private final Map<State,Resource> cache = Collections.synchronizedMap(new StateModelCache());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
 	// A lock used when exploring states:
-	private final Object explorerLock = new Object();
+	private final Object stateLock = new Object();
 	
 	/**
 	 * Default constructor.
@@ -71,13 +75,21 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		List<Transition> transitions = doExplore(state);
 		Set<Transition> matched = new HashSet<Transition>();
 		
-		for (Transition transition : transitions) {
+		for (Transition current : transitions) {
 			
-			// Find the corresponding transition in the state space:
-			Resource transformed = transition.getTarget().getModel();
-			Transition existing = findTransition(state, transition.getRule(), transformed);
-			if (existing==null) return true;
-			matched.add(existing);
+			// Find the corresponding target state in the state space.
+			State generated = current.getTarget();
+			State target = getState(generated.getModel(), generated.getHashCode());
+			if (target==null) {
+				return true;
+			}
+			
+			// Find the corresponding outgoing transition:
+			Transition transition = findTransition(state, target, current.getRule());
+			if (transition==null) {
+				return true;
+			}
+			matched.add(transition);
 			
 		}
 		
@@ -146,7 +158,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		states = states - (states % 1000) + 1000;			// always greater than 1000
 		
 		// Decide whether the current model should be kept in memory.
-		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 10, maybe 11
+		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 9-10
 		int index = state.getIndex() + 1;					// always greater or equal 1
 		
 		//System.out.println(stored);
@@ -209,46 +221,47 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
+		// For testing only:
+		// performExplorationSanityCheck(state);
+		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
-		List<Transition> result = new ArrayList<Transition>(transitions.size());
 		
 		int newStates = 0;
-		for (Transition transition : transitions) {
+		List<Transition> result = new ArrayList<Transition>(transitions.size());
+		for (Transition current : transitions) {
 			
 			// Get the hash and model of the new target state:
-			int hashCode = transition.getTarget().getHashCode();
-			Resource transformed = transition.getTarget().getModel();
+			int hashCode = current.getTarget().getHashCode();
+			Resource transformed = current.getTarget().getModel();
 			
-			// We need to test whether a state exists already and if not
-			// create a new one. And this atomically.
-			synchronized (explorerLock) {
-				
-				// Find existing state / transition:
-				Transition existingTransition = findTransition(state, transition.getRule(), transformed);
-				State targetState = getState(transformed, hashCode);
-
-				if (existingTransition!=null) {
-
-					// Check if the transition points to the correct state:
-					Resource existingModel = getModel(existingTransition.getTarget());
-					if (!equals(existingModel,transformed)) {
-						markTainted();
-						throw new StateSpaceException("Illegal transition in state " + state);
-					}
-
-				} else {
-
-					// Create a new transition and state if required:
-					if (targetState==null) {
-						int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
-						targetState = createOpenState(transformed, hashCode, location);
-						storeModel(targetState, transformed);
-					}
-					Transition newTransition = createTransition(state, targetState, transition.getRule(), transition.getMatch());
-					result.add(newTransition);
+			// The target state and some of its properties:
+			State target;
+			boolean newState = false;
+			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
+			
+			// We need to test whether a state exists already and if not create a new one. And this atomically.
+			synchronized (stateLock) {
+				target = getState(transformed, hashCode);
+				if (target==null) {
+					target = createOpenState(transformed, hashCode, location);
+					newState = true;
 				}
 			}
+					
+			// Find or create the transition. We assume that we are the only one who is currently
+			// exploring this state. Therefore we don't need a lock here.
+			Transition transition = findTransition(state, target, current.getRule());
+			if (transition==null) {
+				transition = createTransition(state, target, current.getRule(), current.getMatch());
+				result.add(transition);
+			}
+			
+			// Now that the transition is there, we can decide whether to store the model.
+			if (newState) {
+				storeModel(target, transformed);
+			}
+			
 		}
 		
 		// Mark the state as closed:
@@ -267,7 +280,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * @return List of outgoing transition.
 	 * @throws StateSpaceException On explore errors.
 	 */
-	private List<Transition> doExplore(State state) throws StateSpaceException {
+	protected List<Transition> doExplore(State state) throws StateSpaceException {
 		
 		// We need a transformation engine first:
 		EmfEngine engine = acquireEngine();
@@ -319,9 +332,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Find an outgoing transition.
 	 */
-	private Transition findTransition(State state, Rule rule, Resource targetModel) throws StateSpaceException {
-		for (Transition transition : state.getOutgoing()) {
-			if (rule==transition.getRule() && equals(getModel(transition.getTarget()),targetModel)) {
+	private Transition findTransition(State source, State target, Rule rule) {
+		for (Transition transition : source.getOutgoing()) {
+			if (rule==transition.getRule() && target==transition.getTarget()) {
 				return transition;
 			}
 		}
@@ -348,7 +361,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			if (!engines.isEmpty()) {
 				return engines.pop();
 			} else {
-				return new EmfEngine();
+				EmfEngine engine = new EmfEngine();
+				TransformationOptions options = new TransformationOptions();
+				options.setDeterministic(true);		// really make sure it is deterministic
+				engine.setOptions(options);
+				return engine;
 			}
 		}
 	}
@@ -371,8 +388,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		copy.getContents().addAll(copier.copyAll(model.getContents()));
 		copier.copyReferences();
 		if (match!=null) {
-			List<Node> nodes = new ArrayList<Node>(match.getNodeMapping().keySet());
-			for (Node node : nodes) {
+			for (Node node : match.getRule().getLhs().getNodes()) {
 				EObject newImage = copier.get(match.getNodeMapping().get(node));
 				match.getNodeMapping().put(node, newImage);
 			}
@@ -395,13 +411,48 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * Clear the state model cache. Should be done every now and then.
 	 */
 	public void clearStateModelCache() {
+		int index = 0;
 		for (State state : getStateSpace().getStates()) {
-			if (!state.isInitial()) {
+			// We leave a small rest amount of the state models.
+			if ((++index % 10 != 0) && !state.isInitial()) {
 				state.setModel(null);
 			}
 		}
 		cache.clear();
 		System.gc();
+	}
+
+	/*
+	 * Perform a sanity check for the exploration. For testing only.
+	 * This check if doExplore() really yields equal results when invoked
+	 * more than once on the same state.
+	 */
+	protected void performExplorationSanityCheck(State state) throws StateSpaceException {
+		
+		// Explore the state without changing the state space:
+		List<Transition> transitions = doExplore(state);
+		
+		// Do it again and compare the results.
+		for (int i=0; i<25; i++) {
+			List<Transition> transitions2 = doExplore(state);
+			if (transitions.size()!=transitions2.size()) {
+				markTainted(); throw new StateSpaceException("Sanity check 1 failed!");
+			}
+			for (int j=0; j<transitions.size(); j++) {
+				Transition t1 = transitions.get(j);
+				Transition t2 = transitions2.get(j);
+				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
+					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
+				}
+				if (!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
+				}
+				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {
+					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
+				}
+			}
+		}
+		
 	}
 	
 }

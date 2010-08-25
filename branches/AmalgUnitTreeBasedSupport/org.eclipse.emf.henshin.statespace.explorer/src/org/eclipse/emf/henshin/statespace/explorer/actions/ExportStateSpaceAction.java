@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -39,7 +39,7 @@ public class ExportStateSpaceAction extends AbstractStateSpaceAction {
 			wizard = new StateSpaceTikZExportWizard();
 		}
 		else if (action.getId().endsWith("cadp")) {
-			wizard = new StateSpaceCADPExportWizard();			
+			wizard = new StateSpaceAUTExportWizard();			
 		}
 		else {
 			MessageDialog.openError(shell, "Export error", "Unknown export type: " + action.getId());

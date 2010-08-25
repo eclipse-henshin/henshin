@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,17 +34,22 @@ import org.eclipse.gef.commands.Command;
  */
 public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
+	/**
+	 * Default number of states to be explored at once.
+	 */
+	public static final int DEFAULT_NUM_STATES_AT_ONCE = 40;
+	
 	// Edit domain.
 	protected EditDomain editDomain;
 	
 	// Number of states to be explored at once.
-	private int numStatesAtOnce = 20;
+	private int numStatesAtOnce = DEFAULT_NUM_STATES_AT_ONCE;
 
-	// Clean up interval (default is 5 minutes):
-	private int cleanupInterval = 300;
+	// Clean up interval (default is 10 minutes):
+	private int cleanupInterval = 600;
 
-	// Save interval (default is 10 minutes):
-	private int saveInterval = 600;
+	// Save interval (default is 30 minutes):
+	private int saveInterval = 1800;
 	
 	
 	/**
@@ -91,7 +96,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				
 				// Explore all open states:
 				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
-										
+					
 					// Execute as explore command:
 					ExploreStatesCommand command = createExploreCommand(open, index, numStatesAtOnce);
 					explored += command.getStatesToExplore().size();
@@ -110,9 +115,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 
 					// Perform a clean up?
 					long current = System.currentTimeMillis();
-					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000)) && (manager instanceof StateSpaceManagerImpl)) {
-						monitor.subTask("Clearing state model cache...");
-						((StateSpaceManagerImpl) manager).clearStateModelCache();
+					if (cleanupInterval>=0 && current > (lastCleanup + (cleanupInterval*1000))) {
+						clearCache(monitor);
 						lastCleanup = System.currentTimeMillis();
 					}
 
@@ -136,8 +140,11 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		
 		// Measure time again:
 		long end = System.currentTimeMillis();
-
-		// Save the state space and clean up:
+		
+		// Clear some memory before we do the saving:
+		clearCache(monitor);
+		
+		// Save the state space:
 		if (saveInterval>=0) {
 			monitor.subTask("Saving state space...");
 			saveStateSpace();
@@ -156,6 +163,16 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	}
 	
 	/*
+	 * Clear state model cache.
+	 */
+	private void clearCache(IProgressMonitor monitor) {
+		if (getStateSpaceManager() instanceof StateSpaceManagerImpl) {
+			monitor.subTask("Clearing state model cache...");
+			((StateSpaceManagerImpl) getStateSpaceManager()).clearStateModelCache();
+		}
+	}
+	
+	/*
 	 * Execute an explore command. Subclasses can override this.
 	 */
 	protected void executeExploreCommand(final Command command, IProgressMonitor monitor) {
@@ -166,7 +183,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	 * Create a new explore-command.
 	 */
 	protected ExploreStatesCommand createExploreCommand(List<State> states, int start, int count) {
-		int end = Math.min(start + count + 1, states.size());
+		int end = Math.min(start + count, states.size());
 		ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), states.subList(start, end));
 		command.setGenerateLocations(false);
 		return command;

@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -83,13 +83,14 @@ public class StateSpaceSerializer {
 			writeShort(state.getOutgoing().size());
 			
 			for (Transition transition : state.getOutgoing()) {
-				if (transition.getTarget()==null) 
+				State target = transition.getTarget();
+				if (target==null) 
 					throw new IOException("Dangling transition");
-				if (transition.getTarget().getStateSpace()!=stateSpace) 
+				if (target.getStateSpace()!=stateSpace) 
 					throw new IOException("Transition target not contained in state space");
 				writeShort(rules.indexOf(transition.getRule()));
 				writeShort(transition.getMatch());
-				writeInt(transition.getTarget().getIndex());
+				writeInt(target.getIndex());
 			}
 		}		
 		

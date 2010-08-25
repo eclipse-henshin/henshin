@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved.
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     CWI Amsterdam - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -5,11 +16,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.StateValidator;
-import org.eclipse.emf.henshin.statespace.ValidationResult;
-import org.eclipse.emf.henshin.statespace.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.Validator;
-import org.eclipse.emf.henshin.statespace.impl.InvariantStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.InvariantStateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * Job for running a state space validator.
