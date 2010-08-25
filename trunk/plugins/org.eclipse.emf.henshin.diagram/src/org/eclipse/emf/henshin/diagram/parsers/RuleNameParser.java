@@ -14,17 +14,11 @@ package org.eclipse.emf.henshin.diagram.parsers;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -102,7 +96,7 @@ public class RuleNameParser extends AbstractParser {
 		// Create parse command:
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(domain, "Parse Rule Name", null) {
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-				return doParsing(value, domain);
+				return doParsing(value);
 			}
 		};
 		return command;
@@ -112,7 +106,7 @@ public class RuleNameParser extends AbstractParser {
 	/*
 	 * Parse a rule name and the optional root node.
 	 */
-	private CommandResult doParsing(String value, TransactionalEditingDomain domain) throws ExecutionException {
+	private CommandResult doParsing(String value) throws ExecutionException {
 		
 		// We need the rule:
 		Rule rule = (Rule) ruleView.getElement();
@@ -131,51 +125,29 @@ public class RuleNameParser extends AbstractParser {
 		
 		// Handle the root objects:
 		Node oldRoot = RootObjectHelper.getRootObject(ruleView);
-		Node newRoot = null;
 		
 		// Do we need to set a new root object?
 		if (rootType!=null && (oldRoot==null || !rootType.equals(oldRoot.getType().getName()))) {
 			
 			// First find the proper class and initialize the new root:
+			EClass rootClass = null;
 			for (EPackage epackage : rule.getTransformationSystem().getImports()) {
 				EClassifier classifier = epackage.getEClassifier(rootType);
 				if (classifier instanceof EClass && RootObjectHelper.isPossibleRootType((EClass) classifier, rule)) {
-					newRoot = HenshinFactory.eINSTANCE.createNode();
-					newRoot.setName("root");
-					newRoot.setType((EClass) classifier);
+					rootClass = (EClass) classifier;
 					break;
 				}
 			}
 			
-			// We change only if the new root could be created:
-			if (newRoot!=null) {
-				
-				// Remove the old root if necessary:
-				if (oldRoot!=null) {
-					NodeDeleteCommand delete = new NodeDeleteCommand(domain, oldRoot);
-					delete.execute(new NullProgressMonitor(), null);
-				}
-
-				// First set the annotation:
-				RootObjectHelper.setRootObject(ruleView, newRoot);
-
-				// Now add the new root node to the LHS and RHS:
-				rule.getLhs().getNodes().add(0,newRoot);
-				NodeActionHelper.INSTANCE.setAction(newRoot, new Action(ActionType.PRESERVE));
-				
-			}			
+			// We change only if the new root type was found:
+			if (rootClass!=null) {
+				RootObjectHelper.setRootObjectType(ruleView, rootClass);
+			}
 		}
 		
 		// Do we have to erase the current root object?
 		if (rootType==null && oldRoot!=null) {
-
-			// Delete the old root:
-			NodeDeleteCommand delete = new NodeDeleteCommand(domain, oldRoot);
-			delete.execute(new NullProgressMonitor(), null);
-			
-			// Remove the annotation:
 			RootObjectHelper.setRootObject(ruleView, null);
-
 		}
 
 		// Set the rule name:
