@@ -651,6 +651,10 @@
         <children xmi:type="notation:DecorationNode" xmi:id="_UPlVMrA_Ed-6Qd_WaeWgKA" type="5002"/>
         <children xmi:type="notation:DecorationNode" xmi:id="_UPlVM7A_Ed-6Qd_WaeWgKA" type="5003"/>
         <children xmi:type="notation:DecorationNode" xmi:id="_UPlVNLA_Ed-6Qd_WaeWgKA" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_1x1KkLBEEd-EZscaa8ZpNg" type="3002">
+            <element xmi:type="henshin:Attribute" href="mediator.henshin#_1xxgMLBEEd-EZscaa8ZpNg"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_1x1KkbBEEd-EZscaa8ZpNg"/>
+          </children>
           <styles xmi:type="notation:SortingStyle" xmi:id="_UPlVNbA_Ed-6Qd_WaeWgKA"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_UPlVNrA_Ed-6Qd_WaeWgKA"/>
         </children>
@@ -810,6 +814,10 @@
         <children xmi:type="notation:DecorationNode" xmi:id="_mWezzLBAEd-EZscaa8ZpNg" type="5002"/>
         <children xmi:type="notation:DecorationNode" xmi:id="_mWezzbBAEd-EZscaa8ZpNg" type="5003"/>
         <children xmi:type="notation:DecorationNode" xmi:id="_mWezzrBAEd-EZscaa8ZpNg" type="7002">
+          <children xmi:type="notation:Node" xmi:id="_OuxwULBFEd-EZscaa8ZpNg" type="3002">
+            <element xmi:type="henshin:Attribute" href="mediator.henshin#_Oute4LBFEd-EZscaa8ZpNg"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_OuxwUbBFEd-EZscaa8ZpNg"/>
+          </children>
           <styles xmi:type="notation:SortingStyle" xmi:id="_mWezz7BAEd-EZscaa8ZpNg"/>
           <styles xmi:type="notation:FilteringStyle" xmi:id="_mWez0LBAEd-EZscaa8ZpNg"/>
         </children>
