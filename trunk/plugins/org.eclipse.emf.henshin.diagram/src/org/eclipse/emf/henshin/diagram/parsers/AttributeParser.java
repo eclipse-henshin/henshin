@@ -64,8 +64,19 @@ public class AttributeParser extends AbstractParser {
 		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(attribute.getNode());
 		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
 		
-		String actionName = (action==null || action.equals(nodeAction)) ? "" : "<<" + action + ">> ";
-		return actionName + type + "=" + attribute.getValue();
+		String result = (action==null || action.equals(nodeAction)) ? "" : "<<" + action + ">> ";
+		result = result + type + "=" + attribute.getValue();
+		
+		// Changing attribute?
+		if (nodeAction.getType()==ActionType.PRESERVE) {
+			Rule rule = attribute.getNode().getGraph().getContainerRule();
+			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			if (image!=null && !String.valueOf(attribute.getValue()).equals(String.valueOf(image.getValue()))) {
+				result = result + "->" + image.getValue();
+			}
+		}
+		
+		return result;
 		
 	}
 
@@ -145,8 +156,14 @@ public class AttributeParser extends AbstractParser {
 			return CommandResult.newErrorCommandResult("Expected '='");
 		}
 		
-		String val = value.substring(equalSign+1).trim();
 		String type = value.substring(0,equalSign).trim();
+		String val = value.substring(equalSign+1).trim();
+		String newVal = null;
+		int arrow = val.indexOf("->");
+		if (arrow>=0) {
+			newVal = val.substring(arrow+2).trim();
+			val = val.substring(0, arrow).trim();
+		}
 		
 		// Find the EAttribute:
 		EAttribute attr = null;
@@ -161,17 +178,18 @@ public class AttributeParser extends AbstractParser {
 			return CommandResult.newErrorCommandResult("Unknown attribute: " + type);
 		}
 		
-		// Set the properties:
-		attribute.setValue(val);
-		attribute.setType(attr);
-		
 		// Check if there is an image in the RHS that we need to updated:
 		if (nodeAction.getType()==ActionType.PRESERVE) {
 			Rule rule = node.getGraph().getContainerRule();
 			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
-			image.setValue(val);
+			image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
 			image.setType(attr);
 		}
+
+		// Update the properties:
+		attribute.setValue("?");	// we need a dummy change to make sure we get a notification
+		attribute.setValue(val);
+		attribute.setType(attr);
 		
 		// Set the action:
 		AttributeActionHelper.INSTANCE.setAction(attribute, action);
