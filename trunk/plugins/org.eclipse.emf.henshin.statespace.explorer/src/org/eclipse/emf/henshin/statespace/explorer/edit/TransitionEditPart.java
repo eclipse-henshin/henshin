@@ -50,7 +50,14 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	protected IFigure createFigure() {
 		
 		// Create the connection:
-		PolylineConnection connection = (PolylineConnection) super.createFigure();
+		PolylineConnection connection;
+		//try {
+		//	Class<?> clazz = Class.forName("org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx");
+		//	connection = (PolylineConnection) clazz.newInstance();
+		//	clazz.getMethod("setSmoothness", int.class).invoke(connection,32);
+		//} catch (Throwable t) {
+			connection = new PolylineConnection();
+		//}
 		connection.setTargetDecoration(new PolygonDecoration());
 		connection.setConnectionRouter(new BendpointConnectionRouter());
 		
