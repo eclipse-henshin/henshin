@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -32,7 +33,6 @@ import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
-import org.eclipse.emf.henshin.diagram.parsers.RootObjectHelper;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
@@ -84,7 +84,7 @@ public class HenshinDiagramUpdater {
 				rule, null);
 
 		// Check if we should exclude a root object:
-		Node root = RootObjectHelper.getRootObject(containerView);
+		Node root = RootObjectEditHelper.getRootObject(containerView);
 		if (root != null) {
 			actionNodes.remove(root);
 		}
@@ -234,7 +234,7 @@ public class HenshinDiagramUpdater {
 				null);
 
 		// Check if we should exclude a root object:
-		Node root = RootObjectHelper.getRootObject(view);
+		Node root = RootObjectEditHelper.getRootObject(view);
 
 		// Wrap them into node descriptors:
 		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();

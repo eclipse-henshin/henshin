@@ -108,7 +108,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			lhsNode.setType(type);
 			rhsNode.setType(type);
 		}
-
+		
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);
 

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -48,7 +49,7 @@ public class RuleNameParser extends AbstractParser {
 	 */
 	public RuleNameParser(View view) {
 		super(new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() });
-		if (!RootObjectHelper.isRuleView(view)) {
+		if (!RootObjectEditHelper.isRuleView(view)) {
 			throw new IllegalArgumentException();
 		}
 		this.ruleView = view;
@@ -61,7 +62,7 @@ public class RuleNameParser extends AbstractParser {
 	public String getPrintString(IAdaptable element, int flags) {
 		Rule rule = (Rule) ruleView.getElement();
 		String name = rule.getName()!=null ? rule.getName() : "";
-		Node root = RootObjectHelper.getRootObject(ruleView);
+		Node root = RootObjectEditHelper.getRootObject(ruleView);
 		if (root!=null) {
 			String type = root.getType().getName();
 			return name + ":" + type;
@@ -124,7 +125,7 @@ public class RuleNameParser extends AbstractParser {
 		}
 		
 		// Handle the root objects:
-		Node oldRoot = RootObjectHelper.getRootObject(ruleView);
+		Node oldRoot = RootObjectEditHelper.getRootObject(ruleView);
 		
 		// Do we need to set a new root object?
 		if (rootType!=null && (oldRoot==null || !rootType.equals(oldRoot.getType().getName()))) {
@@ -133,7 +134,7 @@ public class RuleNameParser extends AbstractParser {
 			EClass rootClass = null;
 			for (EPackage epackage : rule.getTransformationSystem().getImports()) {
 				EClassifier classifier = epackage.getEClassifier(rootType);
-				if (classifier instanceof EClass && RootObjectHelper.isPossibleRootType((EClass) classifier, rule)) {
+				if (classifier instanceof EClass && RootObjectEditHelper.isPossibleRootType((EClass) classifier, rule)) {
 					rootClass = (EClass) classifier;
 					break;
 				}
@@ -141,13 +142,13 @@ public class RuleNameParser extends AbstractParser {
 			
 			// We change only if the new root type was found:
 			if (rootClass!=null) {
-				RootObjectHelper.setRootObjectType(ruleView, rootClass);
+				RootObjectEditHelper.setRootObjectType(ruleView, rootClass);
 			}
 		}
 		
 		// Do we have to erase the current root object?
 		if (rootType==null && oldRoot!=null) {
-			RootObjectHelper.setRootObject(ruleView, null);
+			RootObjectEditHelper.setRootObject(ruleView, null);
 		}
 
 		// Set the rule name:
