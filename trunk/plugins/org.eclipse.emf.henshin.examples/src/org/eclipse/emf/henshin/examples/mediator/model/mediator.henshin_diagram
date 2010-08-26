@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_PLbH8KXwEd-rG_qdWp4DuQ" type="Henshin" name="mediator.henshin_diagram" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_PLbH8KXwEd-rG_qdWp4DuQ" type="Henshin" name="mediator.henshin_diagram" measurementUnit="Pixel">
   <children xmi:type="notation:Shape" xmi:id="_WWu4EKXwEd-rG_qdWp4DuQ" type="2001" fontName="Sans">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Anl5gLEREd-2W6ZY1btywQ" source="rootObject">
+      <references xmi:type="henshin:Node" href="mediator.henshin#_AnnHoLEREd-2W6ZY1btywQ"/>
+    </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_WWwtQKXwEd-rG_qdWp4DuQ" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="_WWwtQaXwEd-rG_qdWp4DuQ" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_dcfZ0KXwEd-rG_qdWp4DuQ" type="3001" fontName="Sans">
@@ -254,6 +257,9 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WWu4EaXwEd-rG_qdWp4DuQ" x="85" y="66" width="960" height="594"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_kpTdALA8Ed-6Qd_WaeWgKA" type="2001" fontName="Sans">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_KS6vULEREd-2W6ZY1btywQ" source="rootObject">
+      <references xmi:type="henshin:Node" href="mediator.henshin#_KS79cLEREd-2W6ZY1btywQ"/>
+    </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_kpTdAbA8Ed-6Qd_WaeWgKA" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="_kpTdArA8Ed-6Qd_WaeWgKA" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_kpTdA7A8Ed-6Qd_WaeWgKA" type="3001" fontName="Sans">
@@ -503,6 +509,9 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_kpV5XbA8Ed-6Qd_WaeWgKA" x="85" y="703" width="960" height="594"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_M-25kLA_Ed-6Qd_WaeWgKA" type="2001" fontName="Sans">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_LvbJkLEREd-2W6ZY1btywQ" source="rootObject">
+      <references xmi:type="henshin:Node" href="mediator.henshin#_LvcXsLEREd-2W6ZY1btywQ"/>
+    </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_M-25kbA_Ed-6Qd_WaeWgKA" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="_M-25krA_Ed-6Qd_WaeWgKA" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_M-25k7A_Ed-6Qd_WaeWgKA" type="3001" fontName="Sans">
@@ -666,6 +675,9 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_M-4HzbA_Ed-6Qd_WaeWgKA" x="85" y="1358" width="960" height="423"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_mWdlkLBAEd-EZscaa8ZpNg" type="2001" fontName="Sans">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_MviiwLEREd-2W6ZY1btywQ" source="rootObject">
+      <references xmi:type="henshin:Node" href="mediator.henshin#_MviiwbEREd-2W6ZY1btywQ"/>
+    </eAnnotations>
     <children xmi:type="notation:DecorationNode" xmi:id="_mWdlkbBAEd-EZscaa8ZpNg" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="_mWdlkrBAEd-EZscaa8ZpNg" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_mWdlk7BAEd-EZscaa8ZpNg" type="3001" fontName="Sans">
