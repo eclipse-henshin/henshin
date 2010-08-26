@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.maps.NodeMapEditor;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
@@ -35,6 +36,7 @@ import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
+import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * @generated
@@ -233,6 +235,13 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		}
 
+		// Update the root containment is the edge is containment / container:
+		if (type.isContainment() || type.isContainer()) {
+			View ruleView = RootObjectEditHelper.findRuleView(rule);
+			RootObjectEditHelper.updateRootContainment(ruleView, source);
+			RootObjectEditHelper.updateRootContainment(ruleView, target);
+		}
+		
 		// Configure and return:
 		doConfigure(edge, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(edge);

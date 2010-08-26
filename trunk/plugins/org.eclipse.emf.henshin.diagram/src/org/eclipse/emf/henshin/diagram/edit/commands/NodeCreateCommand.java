@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -74,7 +75,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 
-		// The node is created in the context of a rule (NONE-action):
+		// The node is created in the context of a rule (PRESERVE-action):
 		Rule rule = (Rule) getElementToEdit();
 		if (rule.getLhs() == null) {
 			Graph lhs = HenshinFactory.eINSTANCE.createGraph();
@@ -108,6 +109,10 @@ public class NodeCreateCommand extends EditElementCommand {
 			lhsNode.setType(type);
 			rhsNode.setType(type);
 		}
+		
+		// Update the root containment for the new node:
+		View ruleView = RootObjectEditHelper.findRuleView(rule);
+		RootObjectEditHelper.updateRootContainment(ruleView, lhsNode);
 		
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);

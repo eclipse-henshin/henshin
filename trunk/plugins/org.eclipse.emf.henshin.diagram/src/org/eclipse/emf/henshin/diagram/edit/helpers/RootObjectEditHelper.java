@@ -11,14 +11,17 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.edit.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
@@ -34,7 +37,9 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.gmf.runtime.emf.core.resources.GMFResource;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -84,7 +89,7 @@ public class RootObjectEditHelper {
 	}
 
 	/**
-	 * Set the root object for a node. 
+	 * Set the root object for a node. Rather use {@link #setRootObjectType(View, EClass)}.
 	 * @param ruleView The rule view.
 	 * @param newRoot The root node or <code>null</code>.
 	 */
@@ -96,13 +101,8 @@ public class RootObjectEditHelper {
 			throw new RuntimeException();
 		}
 		
-		// Check whether it is the correct view:
-		Rule rule = (Rule) ruleView.getElement();
-		if (!isRuleView(ruleView) || (newRoot!=null && !isPossibleRootType(newRoot.getType(), rule))) {
-			throw new IllegalArgumentException();
-		}
-		
 		// Get the root object annotation:
+		Rule rule = (Rule) ruleView.getElement();
 		EAnnotation annotation = ruleView.getEAnnotation(ROOT_OBJECT_EANNOTATION_KEY);
 		
 		// Take care of the old root
@@ -150,15 +150,19 @@ public class RootObjectEditHelper {
 		}
 		
 	}
-		
+	
+	/**
+	 * Set the root object type for a rule. Before doing this you should make sure that
+	 * the root object type is ok using {@link #isPossibleRootType(EClass, Rule)}.
+	 * @param ruleView The rule view.
+	 * @param type Root object type.
+	 * @throws ExecutionException On errors.
+	 */
 	public static void setRootObjectType(View ruleView, EClass type) throws ExecutionException {
 		if (type==null) {
 			setRootObject(ruleView, null);
 		} else {
 			Rule rule = (Rule) ruleView.getElement();
-			if (!RootObjectEditHelper.isPossibleRootType(type, rule)) {
-				throw new IllegalArgumentException();
-			}
 			Node oldRoot = getRootObject(ruleView);
 			if (oldRoot==null || !type.equals(oldRoot.getType().getName())) {
 				Node newRoot = HenshinFactory.eINSTANCE.createNode();
@@ -169,33 +173,36 @@ public class RootObjectEditHelper {
 		}
 	}
 	
-	public static boolean isPossibleRootType(EClass type, Rule rule) {
-		if (rule.getTransformationSystem().getImports().size()!=1) {
-			return false;
-		}
-		for (EClassifier classifier : rule.getTransformationSystem().getImports().get(0).getEClassifiers()) {
-			if (classifier!=type && classifier instanceof EClass) {
-				if (getRootContainment(type, (EClass) classifier)==null) return false;
-			}
-		}
-		return true;
-	}
-	
+	/**
+	 * Get the canonical containment reference for a root object containment.
+	 * Returns <code>null</code> if no containment reference was found.
+	 * @param rootType The type of the root object.
+	 * @param childType The type of the child.
+	 * @return The containment reference.
+	 */
 	public static EReference getRootContainment(EClass rootType, EClass childType) {
 		for (EReference reference : rootType.getEAllContainments()) {
-			if (reference.getEReferenceType().isSuperTypeOf(childType)) {
+			// Upper bound must be -1 and the type must be ok.
+			if (reference.getUpperBound()<0 && reference.getEReferenceType().isSuperTypeOf(childType)) {
 				return reference;
 			}
 		}
 		return null;
 	}
 	
-	public static boolean isRuleView(View view) {
-		return (view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
-	}
-	
+	/**
+	 * Update the root containment for a given action node.
+	 * If the node is not an action node, nothing happens. 
+	 * @param ruleView Rule view.
+	 * @param node The node.
+	 * @throws ExecutionException On errors.
+	 */
 	public static void updateRootContainment(View ruleView, Node node) throws ExecutionException {
-
+		
+		// First make sure we have an action node:
+		node = NodeActionHelper.INSTANCE.getActionNode(node);
+		if (node==null) return;
+		
 		// Get the root node first, must be not null:
 		Node root = getRootObject(ruleView);
 		if (root==null) return;
@@ -216,37 +223,53 @@ public class RootObjectEditHelper {
 		} else {
 			
 			// Check if there is a incoming containment edge:
-			boolean isNormalContained = false;
+			List<Edge> normalContainments = new ArrayList<Edge>();
+			List<Edge> rootContainments = new ArrayList<Edge>();
 			for (Edge edge : node.getAllEdges()) {
 				Node opposite = (node==edge.getSource()) ? edge.getTarget() : edge.getSource();
-				if (opposite!=root && isContainmentEdge(opposite, edge)) {
-					isNormalContained = true; break;
-				}
-			}
-
-			if (isNormalContained) {
-				
-				// Check if it is also root-contained:
-				for (Edge edge : node.getAllEdges()) {
-					Node opposite = (node==edge.getSource()) ? edge.getTarget() : edge.getSource();
-					if (opposite==root && isContainmentEdge(opposite, edge)) {
-						// Delete the root containment:
-						new EdgeDeleteCommand(domain, edge).execute(new NullProgressMonitor(), null);
+				if (isContainmentEdge(opposite, edge)) {
+					if (opposite==root) {
+						rootContainments.add(edge);
+					} else {
+						normalContainments.add(edge);						
 					}
 				}
+			}
+			
+			if (!normalContainments.isEmpty()) {
 				
-			} else {
+				// Remove all root containments then:
+				for (Edge edge : rootContainments) {
+					new EdgeDeleteCommand(domain, edge).execute(new NullProgressMonitor(), null);
+				}
+			
+			} else if (rootContainments.isEmpty()) {
 				
 				// The node is not contained yet, so we have to add it to the root:
 				EReference containment = getRootContainment(root.getType(), node.getType());
+				if (containment==null) {
+					throw new ExecutionException("No containment reference for " + node.getType().getName() + " found in root object type " + root.getType().getName());
+				}
 				CreateRelationshipRequest request = new CreateRelationshipRequest(root, node, HenshinElementTypes.Edge_4001);
 				request.setParameter(EdgeCreateCommand.TYPE_PARAMETER_KEY, containment);
 				new EdgeCreateCommand(request, root, node).execute(new NullProgressMonitor(), null);
 				
 			}
-		}		
+			
+			// If there is more than one root containment, delete the extra ones (invalid).
+			for (int i=1; i<rootContainments.size(); i++) {
+				new EdgeDeleteCommand(domain, rootContainments.get(i)).execute(new NullProgressMonitor(), null);				
+			}
+			
+		}
 	}
 	
+	/**
+	 * Check whether an edge is containment.
+	 * @param container Container node.
+	 * @param edge Outgoing or incoming edge.
+	 * @return <code>true</code> if the edge is containment.
+	 */
 	private static boolean isContainmentEdge(Node container, Edge edge) {
 		if (edge.getSource()==container) {
 			if (edge.getSource().getType().getEAllReferences().contains(edge.getType())) {
@@ -262,6 +285,38 @@ public class RootObjectEditHelper {
 			}			
 		}
 		return false;
+	}
+
+	/**
+	 * Check whether a given view is a rule view.
+	 * @param view The view.
+	 * @return <code>true</code> if it is a rule view.
+	 */
+	public static boolean isRuleView(View view) {
+		// We allow only the root view for rules.
+		return (view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
+	}
+	
+	/**
+	 * Find the corresponding view for a rule.
+	 * @param rule Rule.
+	 * @return The rule view if found.
+	 */
+	public static View findRuleView(Rule rule) {
+		for (Resource resource : rule.eResource().getResourceSet().getResources()) {
+			if (resource instanceof GMFResource) {
+				for (EObject object : resource.getContents()) {
+					if (object instanceof Diagram && (((Diagram) object).getElement()==rule.getTransformationSystem())) {
+						Diagram diagram = (Diagram) object;
+						for (int i=0; i<diagram.getChildren().size(); i++) {
+							View view = (View) diagram.getChildren().get(i);
+							if (isRuleView(view) && view.getElement()==rule) return view;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 }

@@ -134,7 +134,7 @@ public class RuleNameParser extends AbstractParser {
 			EClass rootClass = null;
 			for (EPackage epackage : rule.getTransformationSystem().getImports()) {
 				EClassifier classifier = epackage.getEClassifier(rootType);
-				if (classifier instanceof EClass && RootObjectEditHelper.isPossibleRootType((EClass) classifier, rule)) {
+				if (classifier instanceof EClass) {
 					rootClass = (EClass) classifier;
 					break;
 				}
