@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateEditPart;
+import org.eclipse.emf.henshin.statespace.explorer.edit.TransitionBendpointHelper;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -36,24 +37,25 @@ public class StateSpaceTikZExportWizard extends AbstractStateSpaceExportWizard {
 		
 		// The header:
 		StringBuffer result = new StringBuffer();
-		result.append("\\begin{tikzpicture}[scale=0.5,->,>=stealth',bend angle=15,font=\\small]\n");
+		result.append("\\begin{tikzpicture}[scale=0.5]\n");
 		result.append("\\definecolor{normfill}{rgb}{" + color2String(StateEditPart.COLOR_DEFAULT) + "}\n");
 		result.append("\\definecolor{initfill}{rgb}{" + color2String(StateEditPart.COLOR_INITIAL) + "}\n");
 		result.append("\\definecolor{openfill}{rgb}{" + color2String(StateEditPart.COLOR_OPEN) + "}\n");
 		result.append("\\definecolor{termfill}{rgb}{" + color2String(StateEditPart.COLOR_TERMINAL) + "}\n");
-		result.append("\\tikzstyle{state}=[circle,draw,fill=normfill,inner sep=1pt,minimum size=4mm]\n");
-		result.append("\\tikzstyle{init}=[fill=initfill]\n");
-		result.append("\\tikzstyle{open}=[fill=openfill]\n");
-		result.append("\\tikzstyle{term}=[fill=termfill]\n\n");
+		result.append("\\tikzstyle{henstate}=[circle,draw,fill=normfill,inner sep=1pt,minimum size=4mm,font=\\small]\n");
+		result.append("\\tikzstyle{heninit}=[fill=initfill]\n");
+		result.append("\\tikzstyle{henopen}=[fill=openfill]\n");
+		result.append("\\tikzstyle{henterm}=[fill=termfill]\n");
+		result.append("\\tikzstyle{hentrans}=[->,>=stealth',bend angle=15,font=\\small]\n\n");
 		
 		// Print the states:
 		for (State state : stateSpace.getStates()) {
 			int[] location = state.getLocation();
 			int index = state.getIndex();
-			result.append("\\node at(" + location[0] + "pt," + (-location[1]) + "pt) [state");
-			if (state.isInitial()) result.append(",init");
-			else if (state.isOpen()) result.append(",open");
-			else if (state.isTerminal()) result.append(",term");
+			result.append("\\node at(" + location[0] + "pt," + (-location[1]) + "pt) [henstate");
+			if (state.isInitial()) result.append(",heninit");
+			else if (state.isOpen()) result.append(",henopen");
+			else if (state.isTerminal()) result.append(",henterm");
 			result.append("] (s" + index + ") {" + index + "};\n");
 		}
 		
@@ -65,7 +67,9 @@ public class StateSpaceTikZExportWizard extends AbstractStateSpaceExportWizard {
 			for (Transition transition : state.getOutgoing()) {
 				int target = transition.getTarget().getIndex();
 				String label = transition.getLabel();
-				result.append("\\draw (s" + source + ") edge node[auto] {" + label + "} (s" + target + ");\n");
+				int distance = TransitionBendpointHelper.getBendpointDistance(transition);
+				String bend = (distance!=0) ? ",bend left=" + ((int) Math.abs(distance)) : "";
+				result.append("\\draw (s" + source + ") edge[hentrans" + bend + "] node[auto] {" + label + "} (s" + target + ");\n");
 			}
 		}
 		

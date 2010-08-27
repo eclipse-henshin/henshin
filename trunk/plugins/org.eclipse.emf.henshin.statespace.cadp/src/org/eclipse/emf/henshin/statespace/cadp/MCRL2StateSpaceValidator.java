@@ -67,7 +67,11 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Evaluate the PBES:
 		monitor.subTask("Running pbes2bool...");
-		Process process = Runtime.getRuntime().exec(new String[] { "pbes2bool", pbes.getAbsolutePath() } );
+		String[] pbes2bool = new String[] { "pbes2bool", pbes.getAbsolutePath() };
+		if (System.getProperty("os.name").startsWith("Linux")) {					// increase stack size
+			pbes2bool = new String[] { "bash", "-c", "ulimit -s unlimited; pbes2bool " + pbes.getAbsolutePath() };
+		}
+		Process process = Runtime.getRuntime().exec(pbes2bool);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		Boolean result = null;
 		

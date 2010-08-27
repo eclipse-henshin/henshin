@@ -218,11 +218,23 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void initControlsData() {
 		
-		// Load the validators:
+		// Load the validators. We make new instances.
 		validators = new ArrayList<Validator>();
-		validators.addAll(StateSpacePlugin.INSTANCE.getValidators().values());
-		String validatorId = getPreferenceStore().getString(VALIDATOR_KEY);
-		Validator validator = (validatorId!=null) ? StateSpacePlugin.INSTANCE.getValidators().get(validatorId) : null;
+		String lastId = getPreferenceStore().getString(VALIDATOR_KEY);
+		Validator lastValidator = null;
+		for (Validator validator : StateSpacePlugin.INSTANCE.getValidators().values()) {
+			if (lastId!=null && StateSpacePlugin.INSTANCE.getValidators().get(lastId)==validator) {
+				lastValidator = validator;
+			}
+			try {
+				Validator old = validator;
+				validator = validator.getClass().newInstance();
+				if (lastValidator==old) lastValidator = validator;
+			} catch (Throwable t) {
+				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);
+			}
+			validators.add(validator);
+		}
 		Collections.sort(validators, new Comparator<Validator>() {
 			public int compare(Validator v1, Validator v2) {
 				String n1 = v1.getName();
@@ -237,7 +249,7 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 			validatorCombo.add(name);
 		}
-		validatorCombo.select((validator!=null) ? validators.indexOf(validator) : 0);
+		validatorCombo.select((lastValidator!=null) ? validators.indexOf(lastValidator) : 0);
 		
 		// Validation property:
 		String property = getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
@@ -554,13 +566,7 @@ public class StateSpaceToolsMenu extends Composite {
 			if (jobManager==null) return;
 			validateButton.setEnabled(false);
 			jobManager.getValidateJob().setProperty(validationText.getText());
-			Validator validator = getActiveValidator();
-			try {
-				validator = validator.getClass().newInstance();
-			} catch (Exception t) {
-				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);
-			}
-			jobManager.getValidateJob().setValidator(validator);
+			jobManager.getValidateJob().setValidator(getActiveValidator());
 			jobManager.startValidateJob();
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
