@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, &#xA;Philipps-University Marburg and others. All rights reserved. &#xA;This program and the accompanying materials are made &#xA;available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    CWI Amsterdam - initial API and implementation"
     modelDirectory="/org.eclipse.emf.henshin.statespace/src" modelPluginID="org.eclipse.emf.henshin.statespace"
     modelName="StateSpace" modelPluginClass="StateSpacePlugin" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
     usedGenPackages="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin">
   <foreignModel>statespace.ecore</foreignModel>
   <genPackages prefix="StateSpace" basePackage="org.eclipse.emf.henshin" disposableProviderFactory="true"
@@ -17,6 +17,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/openStates"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/transitionCount"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference statespace.ecore#//StateSpace/equalityHelper"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/zoomLevel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/stateRepulsion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateSpace/transitionAttraction"/>
       <genOperations ecoreOperation="statespace.ecore#//StateSpace/removeState">
         <genParameters ecoreParameter="statespace.ecore#//StateSpace/removeState/state"/>
       </genOperations>
@@ -38,6 +41,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference statespace.ecore#//Transition/target"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//Transition/match"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference statespace.ecore#//Transition/rule"/>
+      <genOperations ecoreOperation="statespace.ecore#//Transition/getLabel"/>
     </genClasses>
     <genClasses ecoreClass="statespace.ecore#//StateEqualityHelper">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute statespace.ecore#//StateEqualityHelper/graphEquality"/>

@@ -167,13 +167,40 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__EQUALITY_HELPER = STORAGE_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Zoom Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__ZOOM_LEVEL = STORAGE_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>State Repulsion</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__STATE_REPULSION = STORAGE_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Transition Attraction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__TRANSITION_ATTRACTION = STORAGE_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 6;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -441,6 +468,39 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStateSpace_EqualityHelper();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getZoomLevel <em>Zoom Level</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Zoom Level</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getZoomLevel()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_ZoomLevel();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStateRepulsion <em>State Repulsion</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>State Repulsion</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStateRepulsion()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_StateRepulsion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionAttraction <em>Transition Attraction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Transition Attraction</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getTransitionAttraction()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_TransitionAttraction();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
@@ -739,6 +799,30 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE_SPACE__EQUALITY_HELPER = eINSTANCE.getStateSpace_EqualityHelper();
+
+		/**
+		 * The meta object literal for the '<em><b>Zoom Level</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__ZOOM_LEVEL = eINSTANCE.getStateSpace_ZoomLevel();
+
+		/**
+		 * The meta object literal for the '<em><b>State Repulsion</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__STATE_REPULSION = eINSTANCE.getStateSpace_StateRepulsion();
+
+		/**
+		 * The meta object literal for the '<em><b>Transition Attraction</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__TRANSITION_ATTRACTION = eINSTANCE.getStateSpace_TransitionAttraction();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

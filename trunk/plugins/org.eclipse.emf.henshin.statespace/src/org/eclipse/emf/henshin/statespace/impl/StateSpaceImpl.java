@@ -112,6 +112,68 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	private int getPercent(int index, int def) {
+		int p = getData(index);
+		return (p==0) ? def : Math.min(100,Math.max(p,1));
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	private void setPercent(int index, int p) {
+		p = Math.min(100,Math.max(p,1));
+		if (getData(index)!=p) {
+			setData(index, p);
+		}
+	}
+
+	
+	/**
+	 * @generated NOT
+	 */
+	public int getZoomLevel() {
+		return getPercent(0, 100);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setZoomLevel(int zoomLevel) {
+		setPercent(0, zoomLevel);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int getStateRepulsion() {
+		return getPercent(1, 50);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setStateRepulsion(int repulsion) {
+		setPercent(1, repulsion);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int getTransitionAttraction() {
+		return getPercent(2, 50);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setTransitionAttraction(int attraction) {
+		setPercent(2, attraction);
+	}
+
+	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *
@@ -188,6 +250,38 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected StateEqualityHelper equalityHelper;
+
+	/**
+	 * The default value of the '{@link #getZoomLevel() <em>Zoom Level</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getZoomLevel()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ZOOM_LEVEL_EDEFAULT = 0;
+
+
+	/**
+	 * The default value of the '{@link #getStateRepulsion() <em>State Repulsion</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStateRepulsion()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int STATE_REPULSION_EDEFAULT = 0;
+
+
+	/**
+	 * The default value of the '{@link #getTransitionAttraction() <em>Transition Attraction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTransitionAttraction()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int TRANSITION_ATTRACTION_EDEFAULT = 0;
 
 	/**
 	 * @generated
@@ -347,6 +441,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getTransitionCount();
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				return getEqualityHelper();
+			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
+				return getZoomLevel();
+			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
+				return getStateRepulsion();
+			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
+				return getTransitionAttraction();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -382,6 +482,15 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				setEqualityHelper((StateEqualityHelper)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
+				setZoomLevel((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
+				setStateRepulsion((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
+				setTransitionAttraction((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -412,6 +521,15 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				setEqualityHelper((StateEqualityHelper)null);
 				return;
+			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
+				setZoomLevel(ZOOM_LEVEL_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
+				setStateRepulsion(STATE_REPULSION_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
+				setTransitionAttraction(TRANSITION_ATTRACTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -436,6 +554,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return transitionCount != TRANSITION_COUNT_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				return equalityHelper != null;
+			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
+				return getZoomLevel() != ZOOM_LEVEL_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
+				return getStateRepulsion() != STATE_REPULSION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
+				return getTransitionAttraction() != TRANSITION_ATTRACTION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

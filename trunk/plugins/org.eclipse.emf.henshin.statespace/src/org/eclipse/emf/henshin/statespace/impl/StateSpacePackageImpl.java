@@ -211,6 +211,36 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStateSpace_ZoomLevel() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(6);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateSpace_StateRepulsion() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(7);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStateSpace_TransitionAttraction() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(8);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getStateSpace_Rules() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
@@ -444,6 +474,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(stateSpaceEClass, STATE_SPACE__OPEN_STATES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_COUNT);
 		createEReference(stateSpaceEClass, STATE_SPACE__EQUALITY_HELPER);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__ZOOM_LEVEL);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__STATE_REPULSION);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_ATTRACTION);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__INDEX);
@@ -514,6 +547,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getStateSpace_OpenStates(), this.getState(), null, "openStates", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_TransitionCount(), ecorePackage.getEInt(), "transitionCount", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_EqualityHelper(), this.getStateEqualityHelper(), null, "equalityHelper", null, 0, 1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_ZoomLevel(), ecorePackage.getEInt(), "zoomLevel", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_StateRepulsion(), ecorePackage.getEInt(), "stateRepulsion", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_TransitionAttraction(), ecorePackage.getEInt(), "transitionAttraction", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);

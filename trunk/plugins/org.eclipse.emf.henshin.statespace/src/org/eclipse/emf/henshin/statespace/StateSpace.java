@@ -72,29 +72,73 @@ public interface StateSpace extends Storage {
 	void setTransitionCount(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Equality Helper</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Equality Helper</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Equality Helper</em>' containment reference.
+	 * Get the equality helper for this state space.
 	 * @see #setEqualityHelper(StateEqualityHelper)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_EqualityHelper()
 	 * @model containment="true"
 	 * @generated
 	 */
 	StateEqualityHelper getEqualityHelper();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateSpace#getEqualityHelper <em>Equality Helper</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Equality Helper</em>' containment reference.
+	 * Set the equality helper for this state space.
+	 * @param value the new equality helper.
 	 * @see #getEqualityHelper()
 	 * @generated
 	 */
 	void setEqualityHelper(StateEqualityHelper value);
+
+	/**
+	 * Get the zoom level to be used when this state space is displayed.
+	 * @return the value of the '<em>Zoom Level</em>' attribute.
+	 * @see #setZoomLevel(int)
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	int getZoomLevel();
+
+	/**
+	 * Set the zoom level for this state space.
+	 * @param value the new value of the '<em>Zoom Level</em>' attribute.
+	 * @see #getZoomLevel()
+	 * @generated
+	 */
+	void setZoomLevel(int value);
+
+	/**
+	 * Get the state repulsion to be used when layouting this state space.
+	 * The value is between 0..100.
+	 * @return the value of the '<em>State Repulsion</em>' attribute.
+	 * @see #setStateRepulsion(int)
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	int getStateRepulsion();
+
+	/**
+	 * Set the state repulsion to be used when layouting this state space.
+	 * @param value the new value of the '<em>State Repulsion</em>' attribute.
+	 * @see #getStateRepulsion()
+	 * @generated
+	 */
+	void setStateRepulsion(int value);
+
+	/**
+	 * Get the transition attraction to be used when layouting this state space.
+	 * The value is between 0..100.
+	 * @return the value of the '<em>Transition Attraction</em>' attribute.
+	 * @see #setTransitionAttraction(int)
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	int getTransitionAttraction();
+
+	/**
+	 * Set the transition attraction to be used when layouting this state space.
+	 * The value is between 0..100.
+	 * @param value the new value of the '<em>Transition Attraction</em>' attribute.
+	 * @see #getTransitionAttraction()
+	 * @generated
+	 */
+	void setTransitionAttraction(int value);
 	
 }
