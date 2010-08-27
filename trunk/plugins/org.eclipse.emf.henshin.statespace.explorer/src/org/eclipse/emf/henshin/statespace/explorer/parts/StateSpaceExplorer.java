@@ -22,6 +22,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -76,6 +79,17 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	
 	// Whether to display the content in the graphical viewer.
 	private boolean displayContent;
+	
+	// Dirty flag:
+	private boolean dirty;
+	
+	// Model listener:
+	private Adapter dirtyUpdater = new AdapterImpl() {
+		public void notifyChanged(Notification msg) {
+			dirty = true;
+			firePropertyChange(IEditorPart.PROP_DIRTY);
+		}
+	};
 	
 	/** 
 	 * Create a new editor instance. 
@@ -190,6 +204,15 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		super.commandStackChanged(event);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isDirty()
+	 */
+	@Override
+	public boolean isDirty() {
+		return dirty || super.isDirty();
+	}
+	
 	/* 
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
@@ -203,6 +226,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		try {
 			Resource resource = stateSpaceManager.getStateSpace().eResource();
 			resource.save(null);
+			dirty = false;
 			getCommandStack().markSaveLocation();
 		} catch (Exception e) { 
 			MessageDialog.openError(getSite().getShell(), "Error", "Error saving file. See the error log for more info.");
@@ -240,6 +264,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 				
 				// Set the new file as editor input:
 				setInput(new FileEditorInput(file));
+				dirty = false;
 				getCommandStack().markSaveLocation();				
 			
 			} catch (Exception e) {
@@ -279,6 +304,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		// Set the editor name:
 		final IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
+		dirty = false;
 		
 		try {
 			// Load the state space:
@@ -295,6 +321,10 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			if (toolsMenu!=null) {
 				toolsMenu.setJobManager(jobManager);
 			}
+			
+			// Add a listener:
+			stateSpace.eAdapters().add(dirtyUpdater);
+			
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}

@@ -192,8 +192,8 @@ public class StateSpaceToolsMenu extends Composite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 0, 100, 5, 10, true, null);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 0, 100, 5, 10, true, null);
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 1, 100, 5, 10, true, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 1, 100, 5, 10, true, null);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, actions, "Actions", 2);
 		
 		// The validation group:
@@ -266,23 +266,35 @@ public class StateSpaceToolsMenu extends Composite {
 		if (jobManager==null) return;
 		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
+		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
 		
 		// Set basic properties:
-		layouter.setStateRepulsion(((double) repulsionScale.getSelection()+10) * REPULSION_FACTOR);
-		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
+		layouter.setStateRepulsion(((double) stateSpace.getStateRepulsion()+10) * REPULSION_FACTOR);
+		layouter.setTransitionAttraction(((double) stateSpace.getTransitionAttraction()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
-		
+
+		double zoom = ZOOM_LEVELS[stateSpace.getZoomLevel() * (ZOOM_LEVELS.length-1) / 100];
+		if (zoomManager!=null) {
+			zoomManager.setZoom(zoom);
+		}
+
 		// Set the center:
 		if (canvas!=null) {
 			Viewport port = canvas.getViewport();
-			double zoom = zoomManager.getZoom();
 			double x = (port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2)) / zoom;
 			double y = (port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2)) / zoom;
 			layouter.setCenter(new double[] {x,y});
 		} else {
 			layouter.setCenter(null);
-		}
+		}		
 		
+	}
+	
+	private void commitMetadata() {
+		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
+		stateSpace.setZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
+		stateSpace.setStateRepulsion(repulsionScale.getSelection());
+		stateSpace.setTransitionAttraction(attractionScale.getSelection());
 	}
 
 	/**
@@ -305,6 +317,13 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	}
 	
+	private void updateScales() {
+		StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
+		zoomScale.setSelection(stateSpace.getZoomLevel() * ZOOM_LEVELS.length / 100);
+		repulsionScale.setSelection(stateSpace.getStateRepulsion());
+		attractionScale.setSelection(stateSpace.getTransitionAttraction());		
+	}
+	
 	/**
 	 * Set the job manager to be used.
 	 * @param manager Job manager.
@@ -314,6 +333,7 @@ public class StateSpaceToolsMenu extends Composite {
 		this.jobManager = jobManager;
 		setEnabled(jobManager!=null);
 		refresh();
+		updateScales();
 		if (jobManager!=null) addListeners();
 	}	
 	
@@ -480,9 +500,11 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener layouterScaleListener = new SelectionListener() {
 		public void widgetDefaultSelected(SelectionEvent e) {
+			commitMetadata();
 			updateLayouterProperties();
 		}
 		public void widgetSelected(SelectionEvent e) {
+			commitMetadata();
 			updateLayouterProperties();
 		}
 	};
@@ -513,10 +535,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener zoomListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
-			if (zoomManager!=null) {
-				zoomManager.setZoom(ZOOM_LEVELS[zoomScale.getSelection()]);
-				updateLayouterProperties();
-			}
+			commitMetadata();
+			updateLayouterProperties();
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
