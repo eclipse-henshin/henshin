@@ -46,10 +46,10 @@ public class OCLStateValidator implements StateValidator {
 	private OCLHelper<EClassifier, ?, ?, Constraint> helper;
 	
 	// Parsed constraint:
-	private Constraint constraint = null;
+	private Constraint constraint;
 	
 	// Context classifier:
-	private EClassifier classifier = null;
+	private EClassifier classifier;
 
 	/**
 	 * Default constructor.
@@ -72,7 +72,7 @@ public class OCLStateValidator implements StateValidator {
 		for (EObject root : model.getContents()) {
 			
 			// Update the context and the constraint:
-			if (classifier!=root.eClass()) {
+			if (constraint==null || classifier!=root.eClass()) {
 				classifier = root.eClass();
 			  	helper.setContext(classifier);
 				constraint = helper.createInvariant(property);
@@ -98,6 +98,7 @@ public class OCLStateValidator implements StateValidator {
 	 */
 	public void setProperty(String property) throws ParseException {
 		this.property = property;
+		this.constraint = null;
 	}
 	
 	/*
