@@ -17,9 +17,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -27,7 +25,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
@@ -90,7 +87,7 @@ public class RuleItemProvider
 		}
 		return childrenFeatures;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -206,4 +203,28 @@ public class RuleItemProvider
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
+//	/* (non-Javadoc)
+//	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang.Object)
+//	 */
+//	@Override
+//	public Object getParent(Object object) {
+//		Object o = super.getParent(object);
+//		
+//		if (o instanceof AmalgamationUnit) {
+//			AmalgamationUnit au = (AmalgamationUnit) o;
+//			AmalgamationUnitItemProvider auIp = (AmalgamationUnitItemProvider) adapterFactory
+//					.adapt(au, IEditingDomainItemProvider.class);
+//			if (au.getKernelRule().equals(object)) {
+//				return auIp != null ? auIp.getKernelRuleItemProvider() : null;
+//			} else {
+//				return auIp != null ? auIp.getMuliRulesItemProvider() : null;
+//			}
+//		} else {
+//			return super.getParent(object);
+//		}
+//		
+//	}
+
+	
+	
 }
