@@ -44,5 +44,18 @@ public class OrImpl extends BinaryFormulaImpl implements Or {
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.OR;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String stringRepresentation(boolean recursive) {
+		if (left != null && right != null)
+			return "(" + left.stringRepresentation(recursive) + " or " + right.stringRepresentation(recursive) + ")";
+		
+		return "";
+	}
 
 } //OrImpl

@@ -24,4 +24,12 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Formula extends EObject {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	String stringRepresentation(boolean recursive);
 } // Formula

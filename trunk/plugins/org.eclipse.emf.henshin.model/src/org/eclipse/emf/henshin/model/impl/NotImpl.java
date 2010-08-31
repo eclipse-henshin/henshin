@@ -44,5 +44,18 @@ public class NotImpl extends UnaryFormulaImpl implements Not {
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.NOT;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String stringRepresentation(boolean recursive) {
+		if (child != null)
+			return "!" + child.stringRepresentation(recursive);
+		
+		return "";
+	}
 
 } //NotImpl

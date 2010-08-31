@@ -128,8 +128,8 @@ public class UnitApplication {
 			Parameter targetParameter = mapping.getTarget();
 
 			if (targetParameter.getUnit() == child) {
-				childParameterValues.put(targetParameter, parameterValues
-						.get(sourceParameter));
+				childParameterValues.put(targetParameter,
+						parameterValues.get(sourceParameter));
 			}
 		}
 		return childParameterValues;
@@ -142,14 +142,15 @@ public class UnitApplication {
 			Parameter targetParameter = mapping.getTarget();
 
 			if (sourceParameter.getUnit() == childUnit.getTransformationUnit()) {
-				parameterValues.put(targetParameter, childUnit.parameterValues
-						.get(sourceParameter));
+				parameterValues.put(targetParameter,
+						childUnit.parameterValues.get(sourceParameter));
 			}
 		}
 	}
 
 	private boolean executeIndependentUnit() {
 		IndependentUnit independentUnit = (IndependentUnit) transformationUnit;
+
 		List<TransformationUnit> possibleUnits = new ArrayList<TransformationUnit>(
 				independentUnit.getSubUnits());
 
@@ -163,20 +164,19 @@ public class UnitApplication {
 				updatePortValues(unitApplication);
 				if (unitApplication.appliedRules.size() > 0) {
 					appliedRules.addAll(unitApplication.appliedRules);
-					possibleUnits = new ArrayList<TransformationUnit>(
-							independentUnit.getSubUnits());
 				}
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private boolean executeRule() {
 		Rule rule = (Rule) transformationUnit;
 
-		Match match = new Match(rule, parameterValues, ModelHelper
-				.createPrematch(rule, parameterValues));
+		Match match = new Match(rule, parameterValues,
+				ModelHelper.createPrematch(rule, parameterValues));
 
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
@@ -269,26 +269,31 @@ public class UnitApplication {
 				updatePortValues(genericUnit);
 				if (genericUnit.appliedRules.size() > 0) {
 					appliedRules.addAll(genericUnit.appliedRules);
-					possibleUnits = new ArrayList<TransformationUnit>(
-							priorityUnit.getSubUnits());
 				}
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private boolean executeCountedUnit() {
 		CountedUnit countedUnit = (CountedUnit) transformationUnit;
-		for (int i = 0; i < countedUnit.getCount(); i++) {
+		int count = countedUnit.getCount();
+
+		for (int i = 0; i < count || count == -1; i++) {
 			UnitApplication genericUnit = createApplicationFor(countedUnit
 					.getSubUnit());
+
 			if (genericUnit.execute()) {
 				updatePortValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
-				undo();
-				return false;
+				if (count != -1) {
+					undo();
+					return false;
+				} else
+					break;
 			}
 		}
 

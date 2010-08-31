@@ -48,6 +48,17 @@ public abstract class FormulaImpl extends EObjectImpl implements Formula {
 	}
 	
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String stringRepresentation(boolean recursive) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Renames all occurrences of a variable's name in this formula (i.e. in
 	 * attribute values of related graphs) from the old name to the new name.
 	 * This is performed for contained formulas as well.

@@ -73,7 +73,7 @@ public class ModelHelper {
 	 *            the mappings.
 	 * @return true, if the node is mapped
 	 */
-	public static boolean isNodeMapped(List<Mapping> mappings, Node node) {
+	public static boolean isNodeMapped(Collection<Mapping> mappings, Node node) {
 		return getRemoteNode(mappings, node) != null;
 	}
 
@@ -112,7 +112,7 @@ public class ModelHelper {
 	 * @param node
 	 * @return
 	 */
-	public static Node getRemoteNode(List<Mapping> mappings, Node node) {
+	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
 		for (Mapping mapping : mappings) {
 			if (mapping.getOrigin() == node)
 				return mapping.getImage();

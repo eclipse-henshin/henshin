@@ -44,5 +44,18 @@ public class AndImpl extends BinaryFormulaImpl implements And {
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.AND;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String stringRepresentation(boolean recursive) {
+		if (left != null && right != null)
+			return "(" + left.stringRepresentation(recursive) + " and " + right.stringRepresentation(recursive) + ")";
+		
+		return "";
+	}
 
 } //AndImpl

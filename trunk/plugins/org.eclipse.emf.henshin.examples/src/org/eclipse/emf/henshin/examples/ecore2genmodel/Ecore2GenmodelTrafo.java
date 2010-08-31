@@ -81,7 +81,7 @@ public class Ecore2GenmodelTrafo {
 		EmfEngine engineM = new EmfEngine(graphM);
 
 		// Generate genmodel from ecore model (without annotations).
-		TransformationUnit unit1 = ts.findUnitByName("generateGenModel");
+		TransformationUnit unit1 = ts.findUnitByName("translateGenModel");
 		UnitApplication unitApp1 = new UnitApplication(engineM, unit1);
 		// file name and plugin name cannot be reliably deduced by the model
 		// elements thus need to be set.
