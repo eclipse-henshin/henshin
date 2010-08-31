@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Technical University Berlin - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
 import java.util.ArrayList;
@@ -31,9 +39,21 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.impl.TransformationSystemImpl;
 
 /**
+ * This class is a attempt to fix a problem of the ItemProviderAdapter
+ * concerning the handling of non-containment references of a node heading
+ * another node, e.g. non-containment references <code>kernelRule</code> and
+ * <code>multiRules</code> run from class {@link AmalgamationUnit} to class
+ * {@link Rule}.<br>
+ * <br>
+ * Remark: This implementation contains bugs yet but will hopefully be fixed
+ * soon.
+ * 
+ * 
  * @author Stefan Jurack (sjurack)
  * 
  */
@@ -67,8 +87,8 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 
 		Command result = UnexecutableCommand.INSTANCE;
 
-		System.out.println("createCommand: "+object+ " -- "+commandClass.getCanonicalName());
-		
+		System.out.println("createCommand: " + object + " -- " + commandClass.getCanonicalName());
+
 		if (commandClass == SetCommand.class) {
 			result = createSetCommand(
 					domain,
@@ -77,19 +97,19 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 							.getEStructuralFeature() : getSetFeature(commandParameter.getEOwner(),
 							commandParameter.getValue()), commandParameter.getValue(),
 					commandParameter.getIndex());
-			
+
 		} else if (commandClass == CopyCommand.class) {
 			result = createCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-			
+
 		} else if (commandClass == CreateCopyCommand.class) {
 			result = createCreateCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-			
+
 		} else if (commandClass == InitializeCopyCommand.class) {
 			result = createInitializeCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-			
+
 		} else if (commandClass == RemoveCommand.class) {
 			if (commandParameter.getEStructuralFeature() != null) {
 				result = createRemoveCommand(domain, commandParameter.getEOwner(),
@@ -120,13 +140,13 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 			result = createReplaceCommand(domain, commandParameter.getEOwner(),
 					commandParameter.getEStructuralFeature(),
 					(EObject) commandParameter.getValue(), commandParameter.getCollection());
-			
+
 		} else if (commandClass == DragAndDropCommand.class) {
 			DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail) commandParameter
 					.getFeature();
 			result = createDragAndDropCommand(domain, commandParameter.getOwner(), detail.location,
 					detail.operations, detail.operation, commandParameter.getCollection());
-			
+
 		} else if (commandClass == CreateChildCommand.class) {
 			CommandParameter newChildParameter = (CommandParameter) commandParameter.getValue();
 			result = createCreateChildCommand(domain, commandParameter.getEOwner(),
@@ -370,58 +390,59 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 
 		CompoundCommand addCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
 
-//		Iterator<Object> listIt = list.iterator();
-//		while (listIt.hasNext()) {
-//			Object item = listIt.next();
-//			EStructuralFeature feature = null;
-//
-//			if ((commandParameter.feature == null) && (item instanceof IWrapperItemProvider)) {
-//				IWrapperItemProvider wrapper = (IWrapperItemProvider) item;
-//				feature = wrapper.getFeature();
-//				item = unwrap(item);
-//				if (feature.isMany()) {
-//					removeCommand.append(createRemoveCommand(domain, eObject, feature,
-//							Collections.singleton(item)));
-//				} else {
-//					final Object value = item;
-//					Command setCommand = createSetCommand(domain, eObject, feature,
-//							SetCommand.UNSET_VALUE);
-//					removeCommand.append(new CommandWrapper(setCommand) {
-//						protected Collection<?> affected;
-//
-//						@Override
-//						public void execute() {
-//							super.execute();
-//							affected = Collections.singleton(eObject);
-//						}
-//
-//						@Override
-//						public void undo() {
-//							super.undo();
-//							affected = Collections.singleton(value);
-//						}
-//
-//						@Override
-//						public void redo() {
-//							super.redo();
-//							affected = Collections.singleton(eObject);
-//						}
-//
-//						@Override
-//						public Collection<?> getResult() {
-//							return Collections.singleton(value);
-//						}
-//
-//						@Override
-//						public Collection<?> getAffectedObjects() {
-//							return affected;
-//						}
-//					});
-//				}// if else
-//				listIt.remove();
-//			}// if
-//
-//		}// while
+		// Iterator<Object> listIt = list.iterator();
+		// while (listIt.hasNext()) {
+		// Object item = listIt.next();
+		// EStructuralFeature feature = null;
+		//
+		// if ((commandParameter.feature == null) && (item instanceof
+		// IWrapperItemProvider)) {
+		// IWrapperItemProvider wrapper = (IWrapperItemProvider) item;
+		// feature = wrapper.getFeature();
+		// item = unwrap(item);
+		// if (feature.isMany()) {
+		// removeCommand.append(createRemoveCommand(domain, eObject, feature,
+		// Collections.singleton(item)));
+		// } else {
+		// final Object value = item;
+		// Command setCommand = createSetCommand(domain, eObject, feature,
+		// SetCommand.UNSET_VALUE);
+		// removeCommand.append(new CommandWrapper(setCommand) {
+		// protected Collection<?> affected;
+		//
+		// @Override
+		// public void execute() {
+		// super.execute();
+		// affected = Collections.singleton(eObject);
+		// }
+		//
+		// @Override
+		// public void undo() {
+		// super.undo();
+		// affected = Collections.singleton(value);
+		// }
+		//
+		// @Override
+		// public void redo() {
+		// super.redo();
+		// affected = Collections.singleton(eObject);
+		// }
+		//
+		// @Override
+		// public Collection<?> getResult() {
+		// return Collections.singleton(value);
+		// }
+		//
+		// @Override
+		// public Collection<?> getAffectedObjects() {
+		// return affected;
+		// }
+		// });
+		// }// if else
+		// listIt.remove();
+		// }// if
+		//
+		// }// while
 
 		while (!list.isEmpty()) {
 			Iterator<Object> children = list.listIterator();
