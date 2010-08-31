@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,24 +20,21 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
+import org.eclipse.emf.henshin.diagram.parsers.RuleNameParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
-import org.eclipse.gef.handles.MoveHandle;
-import org.eclipse.gef.handles.NonResizableHandleKit;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
+import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
@@ -305,16 +301,13 @@ public class RuleNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public IParser getParser() {
 		if (parser == null) {
-			parser = HenshinParserProvider
-					.getParser(
-							HenshinElementTypes.Rule_2001,
-							getParserElement(),
-							HenshinVisualIDRegistry
-									.getType(org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart.VISUAL_ID));
+			// We need to initialize the parser properly:
+			parser = new RuleNameParser(
+					ViewUtil.getContainerView(getNotationView()));
 		}
 		return parser;
 	}

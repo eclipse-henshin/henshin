@@ -16,8 +16,15 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -55,12 +62,13 @@ public class RuleEditPart extends ShapeNodeEditPart {
 	 */
 	protected IFigure primaryShape;
 
+
 	/**
 	 * @generated
 	 */
 	public RuleEditPart(View view) {
 		super(view);
-	}
+	}	
 
 	/**
 	 * @generated
@@ -282,7 +290,7 @@ public class RuleEditPart extends ShapeNodeEditPart {
 			fRuleNameFigure = new WrappingLabel();
 			fRuleNameFigure.setText("<...>");
 			fRuleNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
-					110), getMapMode().DPtoLP(16)));
+					1000), getMapMode().DPtoLP(16)));
 
 			this.add(fRuleNameFigure);
 

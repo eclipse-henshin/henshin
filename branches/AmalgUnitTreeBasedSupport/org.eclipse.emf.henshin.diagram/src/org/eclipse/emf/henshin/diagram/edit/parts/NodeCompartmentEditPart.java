@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeCompartmentItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.Messages;
-import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;

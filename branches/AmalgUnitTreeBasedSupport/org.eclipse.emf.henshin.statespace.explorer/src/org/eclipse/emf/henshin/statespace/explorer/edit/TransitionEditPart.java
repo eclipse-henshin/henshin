@@ -11,12 +11,16 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.edit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.MidpointLocator;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.RelativeBendpoint;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -27,30 +31,6 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  * @author Christian Krause
  */
 public class TransitionEditPart extends AbstractConnectionEditPart {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
-	 */
-	@Override
-	public void activate() {
-		if (!isActive()) {
-			super.activate();
-//			getTransition().eAdapters().add(this);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
-	 */
-	@Override
-	public void deactivate() {
-		if (isActive()) {
-//			getTransition().eAdapters().remove(this);
-			super.deactivate();
-		}
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -68,23 +48,49 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 	 */
 	@Override
 	protected IFigure createFigure() {
-		PolylineConnection connection = (PolylineConnection) super.createFigure();
+		
+		// Create the connection:
+		PolylineConnection connection;
+		//try {
+		//	Class<?> clazz = Class.forName("org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx");
+		//	connection = (PolylineConnection) clazz.newInstance();
+		//	clazz.getMethod("setSmoothness", int.class).invoke(connection,32);
+		//} catch (Throwable t) {
+			connection = new PolylineConnection();
+		//}
 		connection.setTargetDecoration(new PolygonDecoration());
+		connection.setConnectionRouter(new BendpointConnectionRouter());
+		
+		// Add the label:
 		Label label = new Label(getTransition().getLabel());
 		connection.add(label);
-		connection.getLayoutManager().setConstraint(label, new MidpointLocator(connection, 0) {
-			
-			@Override
-			protected Point getReferencePoint() {
-				Point p = super.getReferencePoint();
-				p.y -= 10;
-				return p;
-			}
-
-		});
+		connection.getLayoutManager().setConstraint(label, new TransitionLabelLocator(getTransition(), connection));
 		return connection;
+		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 */
+	@Override
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		
+		// Update bend points:
+		int[][] bendpoints = TransitionBendpointHelper.getBendPoints(getTransition());
+		List<RelativeBendpoint> relative = new ArrayList<RelativeBendpoint>();
+		for (int i=0; i<bendpoints.length; i++) {
+			RelativeBendpoint bendpoint = new RelativeBendpoint(getConnectionFigure());
+			Dimension d1 = new Dimension(bendpoints[i][0], bendpoints[i][1]);
+			Dimension d2 = new Dimension(bendpoints[i][2], bendpoints[i][3]);
+			bendpoint.setRelativeDimensions(d1, d2);
+			relative.add(bendpoint);
+		}
+		getConnectionFigure().setRoutingConstraint(relative);
+		
+	}
+	
 	public Transition getTransition() {
 		return (Transition) getModel();
 	}

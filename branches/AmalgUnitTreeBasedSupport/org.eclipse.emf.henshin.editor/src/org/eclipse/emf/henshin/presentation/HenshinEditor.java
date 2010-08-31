@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1299,8 +1299,8 @@ public class HenshinEditor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class key) {
 		if (key.equals(IContentOutlinePage.class)) {
 			return showOutlineView() ? getContentOutlinePage() : null;

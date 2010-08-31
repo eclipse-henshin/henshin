@@ -192,8 +192,8 @@ public class StateSpaceToolsMenu extends Composite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 0, 100, 5, 10, true, null);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 0, 100, 5, 10, true, null);
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 1, 100, 5, 10, true, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 1, 100, 5, 10, true, null);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, actions, "Actions", 2);
 		
 		// The validation group:
@@ -218,11 +218,23 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void initControlsData() {
 		
-		// Load the validators:
+		// Load the validators. We make new instances.
 		validators = new ArrayList<Validator>();
-		validators.addAll(StateSpacePlugin.INSTANCE.getValidators().values());
-		String validatorId = getPreferenceStore().getString(VALIDATOR_KEY);
-		Validator validator = (validatorId!=null) ? StateSpacePlugin.INSTANCE.getValidators().get(validatorId) : null;
+		String lastId = getPreferenceStore().getString(VALIDATOR_KEY);
+		Validator lastValidator = null;
+		for (Validator validator : StateSpacePlugin.INSTANCE.getValidators().values()) {
+			if (lastId!=null && StateSpacePlugin.INSTANCE.getValidators().get(lastId)==validator) {
+				lastValidator = validator;
+			}
+			try {
+				Validator old = validator;
+				validator = validator.getClass().newInstance();
+				if (lastValidator==old) lastValidator = validator;
+			} catch (Throwable t) {
+				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);
+			}
+			validators.add(validator);
+		}
 		Collections.sort(validators, new Comparator<Validator>() {
 			public int compare(Validator v1, Validator v2) {
 				String n1 = v1.getName();
@@ -237,7 +249,7 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 			validatorCombo.add(name);
 		}
-		validatorCombo.select((validator!=null) ? validators.indexOf(validator) : 0);
+		validatorCombo.select((lastValidator!=null) ? validators.indexOf(lastValidator) : 0);
 		
 		// Validation property:
 		String property = getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
@@ -254,23 +266,35 @@ public class StateSpaceToolsMenu extends Composite {
 		if (jobManager==null) return;
 		LayoutStateSpaceJob layoutJob = jobManager.getLayoutJob();
 		StateSpaceSpringLayouter layouter = layoutJob.getLayouter();
+		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
 		
 		// Set basic properties:
-		layouter.setStateRepulsion(((double) repulsionScale.getSelection()+10) * REPULSION_FACTOR);
-		layouter.setTransitionAttraction(((double) attractionScale.getSelection()+40) * ATTRACTION_FACTOR);
+		layouter.setStateRepulsion(((double) stateSpace.getStateRepulsion()+10) * REPULSION_FACTOR);
+		layouter.setTransitionAttraction(((double) stateSpace.getTransitionAttraction()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
-		
+
+		double zoom = ZOOM_LEVELS[stateSpace.getZoomLevel() * (ZOOM_LEVELS.length-1) / 100];
+		if (zoomManager!=null) {
+			zoomManager.setZoom(zoom);
+		}
+
 		// Set the center:
 		if (canvas!=null) {
 			Viewport port = canvas.getViewport();
-			double zoom = zoomManager.getZoom();
 			double x = (port.getHorizontalRangeModel().getValue() + (port.getHorizontalRangeModel().getExtent() / 2)) / zoom;
 			double y = (port.getVerticalRangeModel().getValue() + (port.getVerticalRangeModel().getExtent() / 2)) / zoom;
 			layouter.setCenter(new double[] {x,y});
 		} else {
 			layouter.setCenter(null);
-		}
+		}		
 		
+	}
+	
+	private void commitMetadata() {
+		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
+		stateSpace.setZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
+		stateSpace.setStateRepulsion(repulsionScale.getSelection());
+		stateSpace.setTransitionAttraction(attractionScale.getSelection());
 	}
 
 	/**
@@ -293,6 +317,13 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	}
 	
+	private void updateScales() {
+		StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
+		zoomScale.setSelection(stateSpace.getZoomLevel() * ZOOM_LEVELS.length / 100);
+		repulsionScale.setSelection(stateSpace.getStateRepulsion());
+		attractionScale.setSelection(stateSpace.getTransitionAttraction());		
+	}
+	
 	/**
 	 * Set the job manager to be used.
 	 * @param manager Job manager.
@@ -302,6 +333,7 @@ public class StateSpaceToolsMenu extends Composite {
 		this.jobManager = jobManager;
 		setEnabled(jobManager!=null);
 		refresh();
+		updateScales();
 		if (jobManager!=null) addListeners();
 	}	
 	
@@ -468,9 +500,11 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener layouterScaleListener = new SelectionListener() {
 		public void widgetDefaultSelected(SelectionEvent e) {
+			commitMetadata();
 			updateLayouterProperties();
 		}
 		public void widgetSelected(SelectionEvent e) {
+			commitMetadata();
 			updateLayouterProperties();
 		}
 	};
@@ -501,10 +535,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private SelectionListener zoomListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
-			if (zoomManager!=null) {
-				zoomManager.setZoom(ZOOM_LEVELS[zoomScale.getSelection()]);
-				updateLayouterProperties();
-			}
+			commitMetadata();
+			updateLayouterProperties();
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);
@@ -554,13 +586,7 @@ public class StateSpaceToolsMenu extends Composite {
 			if (jobManager==null) return;
 			validateButton.setEnabled(false);
 			jobManager.getValidateJob().setProperty(validationText.getText());
-			Validator validator = getActiveValidator();
-			try {
-				validator = validator.getClass().newInstance();
-			} catch (Exception t) {
-				StateSpaceExplorerPlugin.getInstance().logError("Validator cannot be reinstantiated", t);
-			}
-			jobManager.getValidateJob().setValidator(validator);
+			jobManager.getValidateJob().setValidator(getActiveValidator());
 			jobManager.startValidateJob();
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
