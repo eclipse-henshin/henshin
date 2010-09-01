@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University of Berlin - initial API and implementation
+ *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
@@ -34,9 +34,8 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Nested Condition</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Nested Condition</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -51,8 +50,7 @@ import org.eclipse.emf.henshin.model.Node;
 public class NestedConditionImpl extends FormulaImpl implements NestedCondition {
 	/**
 	 * The default value of the '{@link #isNegated() <em>Negated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isNegated()
 	 * @generated
 	 * @ordered
@@ -61,8 +59,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 
 	/**
 	 * The cached value of the '{@link #isNegated() <em>Negated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isNegated()
 	 * @generated
 	 * @ordered
@@ -71,8 +68,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 
 	/**
 	 * The cached value of the '{@link #getConclusion() <em>Conclusion</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getConclusion()
 	 * @generated
 	 * @ordered
@@ -81,8 +77,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 
 	/**
 	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMappings()
 	 * @generated
 	 * @ordered
@@ -90,8 +85,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	protected EList<Mapping> mappings;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected NestedConditionImpl() {
@@ -99,8 +93,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,8 +102,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isNegated() {
@@ -118,8 +110,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setNegated(boolean newNegated) {
@@ -130,8 +121,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Graph getConclusion() {
@@ -139,11 +129,11 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetConclusion(Graph newConclusion, NotificationChain msgs) {
+	public NotificationChain basicSetConclusion(Graph newConclusion,
+			NotificationChain msgs) {
 		Graph oldConclusion = conclusion;
 		conclusion = newConclusion;
 		if (eNotificationRequired()) {
@@ -154,8 +144,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setConclusion(Graph newConclusion) {
@@ -173,8 +162,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Mapping> getMappings() {
@@ -185,12 +173,12 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
 				return basicSetConclusion(null, msgs);
@@ -201,8 +189,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -219,8 +206,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -242,8 +228,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -263,8 +248,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -281,8 +265,7 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -303,14 +286,31 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
 	 * , java.lang.String)
 	 */
-	public void updateVariableName(String oldVariableName, String newVariableName) {
+	public void updateVariableName(String oldVariableName,
+			String newVariableName) {
 
 		for (Node node : this.getConclusion().getNodes()) {
 			for (Attribute attribute : node.getAttributes()) {
-				((AttributeImpl) attribute).updateVariableName(
-						oldVariableName, newVariableName);
+				((AttributeImpl) attribute).updateVariableName(oldVariableName,
+						newVariableName);
 			}// for
 		}// for
 	}// updateVariableName
 
-} //NestedConditionImpl
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public String stringRepresentation(boolean recursive) {
+		if (!recursive || conclusion.getFormula() == null) {
+			return negated ? "!" + conclusion.getName() : conclusion.getName();
+		} else {
+			return negated ? "!"
+					+ conclusion.getFormula().stringRepresentation(recursive)
+					: conclusion.getFormula().stringRepresentation(recursive);
+		}
+	}
+
+} // NestedConditionImpl

@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University of Berlin, 
- * University of Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University of Berlin - initial API and implementation
+ *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
@@ -47,6 +47,17 @@ public abstract class FormulaImpl extends EObjectImpl implements Formula {
 		return HenshinPackage.Literals.FORMULA;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String stringRepresentation(boolean recursive) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Renames all occurrences of a variable's name in this formula (i.e. in
 	 * attribute values of related graphs) from the old name to the new name.
