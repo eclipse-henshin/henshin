@@ -88,11 +88,15 @@ public class AmalgamationInfo {
 
 		// find one match for kernel rule
 		Match kernelMatch = emfEngine.findMatch(kernelRuleApplication);
+		
+		if (kernelMatch == null)
+			return null;
 
 		Rule parallelRule = factory.createRule();
 		parallelRule.setLhs(factory.createGraph());
 		parallelRule.setRhs(factory.createGraph());
 		Map<Node, Node> copyMap = new HashMap<Node, Node>();
+
 		parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch,
 				copyMap));
 
@@ -112,12 +116,13 @@ public class AmalgamationInfo {
 			}
 		}
 
-		Match parallelMatch = new Match(parallelRule,
-				kernelMatch.getParameterValues(), parallelNodeMapping);
 		RuleApplication parallelRuleApplication = new RuleApplication(
 				emfEngine, parallelRule);
 
+		Match parallelMatch = new Match(parallelRule,
+				kernelMatch.getParameterValues(), parallelNodeMapping);
 		parallelRuleApplication.setMatch(parallelMatch);
+
 		for (Node node : parallelNodeMapping.keySet()) {
 			parallelRuleApplication.addMatch(node,
 					parallelNodeMapping.get(node));
@@ -232,7 +237,7 @@ public class AmalgamationInfo {
 
 			Node parallelSource = copyMap.get(sourceNode);
 			Node parallelTarget = copyMap.get(targetNode);
-			
+
 			if (parallelSource == null)
 				parallelSource = copyMap.get(multiNode2kernelNode
 						.get(sourceNode));

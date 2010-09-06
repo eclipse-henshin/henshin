@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -40,6 +41,10 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 public class ModelHelper {
+
+	public static String getUniqueNodeName(EClassifier type) {
+		return type.getEPackage().getNsURI() + "#" + type.getName();
+	}
 
 	/**
 	 * Checks whether the value of the given attribute corresponds to a
@@ -123,7 +128,8 @@ public class ModelHelper {
 		return null;
 	}
 
-	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings, Node node) {
+	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings,
+			Node node) {
 		Collection<Node> result = new ArrayList<Node>();
 
 		for (Mapping mapping : mappings) {
@@ -134,7 +140,8 @@ public class ModelHelper {
 		return result;
 	}
 
-	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings, Node node) {
+	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings,
+			Node node) {
 		Collection<Node> result = new ArrayList<Node>();
 
 		for (Mapping mapping : mappings) {
@@ -178,7 +185,7 @@ public class ModelHelper {
 				return ((Double) complexValue).longValue();
 			} else if (type.equals("float")) {
 				return ((Double) complexValue).floatValue();
-			}  else if (type.equals("short")) {
+			} else if (type.equals("short")) {
 				return ((Double) complexValue).shortValue();
 			} else if (type.equals("byte")) {
 				return ((Double) complexValue).byteValue();
