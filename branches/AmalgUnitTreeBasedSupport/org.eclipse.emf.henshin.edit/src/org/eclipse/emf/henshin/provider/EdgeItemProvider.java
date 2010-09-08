@@ -181,7 +181,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
