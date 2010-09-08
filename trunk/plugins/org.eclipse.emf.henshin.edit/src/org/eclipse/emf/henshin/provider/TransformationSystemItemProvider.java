@@ -207,7 +207,7 @@ public class TransformationSystemItemProvider
 	 * that can be created under this object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -223,10 +223,10 @@ public class TransformationSystemItemProvider
 				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES,
 				 HenshinFactory.eINSTANCE.createGraph()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
-				 HenshinFactory.eINSTANCE.createRule()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
+//				 HenshinFactory.eINSTANCE.createRule()));
 
 		newChildDescriptors.add
 			(createChildParameter

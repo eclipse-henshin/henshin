@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +25,9 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -263,7 +266,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -274,9 +277,22 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
 					true, false));
 			return;
-		}
+		case HenshinPackage.NAMED_ELEMENT__NAME:
+			Node node = (Node) this.target;
+			List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
+			edgeList.addAll(node.getOutgoing());
+			if (!edgeList.isEmpty()) {
+				ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+						edgeList.get(0), null);
+				for (Edge edge : edgeList) {
+					Notification notif = new ViewerNotification(notification, edge, false, true);
+					adapter.fireNotifyChanged(notif);
+				}// for
+			}// if
+			break;
+		}// switch
 		super.notifyChanged(notification);
-	}
+	}// notifyChanged
 
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s

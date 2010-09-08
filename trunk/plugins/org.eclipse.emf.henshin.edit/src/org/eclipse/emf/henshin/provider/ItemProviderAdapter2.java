@@ -87,7 +87,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 
 		Command result = UnexecutableCommand.INSTANCE;
 
-		//System.out.println("createCommand: " + object + " -- " + commandClass.getCanonicalName());
+		// System.out.println("createCommand: " + object + " -- " + commandClass.getCanonicalName());
 
 		if (commandClass == SetCommand.class) {
 			result = createSetCommand(

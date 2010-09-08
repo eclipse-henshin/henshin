@@ -17,9 +17,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -27,8 +25,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 
@@ -156,40 +152,40 @@ public class PriorityUnitItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createRule()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createIndependentUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createSequentialUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createConditionalUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createRule()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createIndependentUnit()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createSequentialUnit()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createConditionalUnit()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createPriorityUnit()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
+//
+//		newChildDescriptors.add
+//			(createChildParameter
+//				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
+//				 HenshinFactory.eINSTANCE.createCountedUnit()));
 	}
 
 }

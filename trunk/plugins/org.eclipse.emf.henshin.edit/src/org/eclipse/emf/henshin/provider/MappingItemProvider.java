@@ -53,7 +53,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public MappingItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
@@ -199,7 +199,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
