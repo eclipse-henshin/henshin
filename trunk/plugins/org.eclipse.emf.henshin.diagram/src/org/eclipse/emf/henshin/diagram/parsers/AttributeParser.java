@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.maps.AttributeMapEditor;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
@@ -192,10 +193,11 @@ public class AttributeParser extends AbstractParser {
 			return CommandResult.newErrorCommandResult("Unknown attribute: " + type);
 		}
 		
-		// Check if there is an image in the RHS that we need to updated:
+		// Check if there is are image in the RHS that we need to updated:
 		if (action.getType()==ActionType.PRESERVE) {
 			Rule rule = node.getGraph().getContainerRule();
-			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			AttributeMapEditor editor = new AttributeMapEditor(rule.getRhs());
+			Attribute image = editor.copy(attribute);
 			image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
 			image.setType(attr);
 		}
