@@ -372,8 +372,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	public void setCanvas(FigureCanvas canvas) {
 		this.canvas = canvas;
-		canvas.getHorizontalBar().addSelectionListener(layouterScaleListener);
-		canvas.getVerticalBar().addSelectionListener(layouterScaleListener);
+		canvas.getHorizontalBar().addSelectionListener(scrollBarListener);
+		canvas.getVerticalBar().addSelectionListener(scrollBarListener);
 		canvas.addListener(SWT.Resize, canvasListener);
 	}
 	
@@ -508,6 +508,20 @@ public class StateSpaceToolsMenu extends Composite {
 			updateLayouterProperties();
 		}
 	};
+
+	
+	/*
+	 * Selection listeners for the scroll bars.
+	 */
+	private SelectionListener scrollBarListener = new SelectionListener() {
+		public void widgetDefaultSelected(SelectionEvent e) {
+			updateLayouterProperties();
+		}
+		public void widgetSelected(SelectionEvent e) {
+			updateLayouterProperties();
+		}
+	};
+
 	
 	/*
 	 * Canvas listener.
