@@ -11,21 +11,15 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.RuleItemSemanticEditPolicy;
-import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -36,6 +30,7 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.diagram.ui.figures.DiagramColorConstants;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
@@ -268,7 +263,7 @@ public class RuleEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public class RuleFigure extends RectangleFigure {
+	public class RuleFigure extends RoundedRectangle {
 
 		/**
 		 * @generated
@@ -279,6 +274,8 @@ public class RuleEditPart extends ShapeNodeEditPart {
 		 * @generated
 		 */
 		public RuleFigure() {
+			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
+					getMapMode().DPtoLP(8)));
 			createContents();
 		}
 
@@ -290,10 +287,10 @@ public class RuleEditPart extends ShapeNodeEditPart {
 			fRuleNameFigure = new WrappingLabel();
 			fRuleNameFigure.setText("Rule");
 			fRuleNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
-					1000), getMapMode().DPtoLP(16)));
+					1000), getMapMode().DPtoLP(20)));
 
 			fRuleNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2),
-					getMapMode().DPtoLP(2), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
 					getMapMode().DPtoLP(2)));
 
 			this.add(fRuleNameFigure);
@@ -305,6 +302,15 @@ public class RuleEditPart extends ShapeNodeEditPart {
 		 */
 		public WrappingLabel getRuleNameFigure() {
 			return fRuleNameFigure;
+		}
+
+		@Override
+		protected void fillShape(Graphics graphics) {
+			graphics.pushState();
+			graphics.setBackgroundColor(DiagramColorConstants.white);
+			graphics.setForegroundColor(getBackgroundColor());
+			graphics.fillGradient(getBounds(), true);
+			graphics.popState();
 		}
 
 	}

@@ -8,7 +8,7 @@
     <descriptors
         name="RuleFigure">
       <actualFigure
-          xsi:type="gmfgraph:Rectangle"
+          xsi:type="gmfgraph:RoundedRectangle"
           name="RuleFigure">
         <children
             xsi:type="gmfgraph:Label"
@@ -16,11 +16,10 @@
             text="Rule">
           <maximumSize
               dx="1000"
-              dy="16"/>
+              dy="20"/>
           <insets
               top="2"
               left="2"
-              bottom="2"
               right="2"/>
         </children>
       </actualFigure>

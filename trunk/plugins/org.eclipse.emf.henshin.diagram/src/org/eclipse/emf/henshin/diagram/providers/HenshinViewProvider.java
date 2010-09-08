@@ -1,19 +1,19 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
  * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.ArrayList;
-
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -22,8 +22,8 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
@@ -65,6 +65,7 @@ import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 
 /**
@@ -268,7 +269,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public Node createRule_2001(EObject domainElement, View containerView,
+	public Node createRule_2001Gen(EObject domainElement, View containerView,
 			int index, boolean persisted, PreferencesHint preferencesHint) {
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
@@ -280,11 +281,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
 				.getPreferenceStore();
 
-		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
-				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
-				FigureUtilities.RGBToInteger(lineRGB));
+				FigureUtilities.colorToInteger(ColorConstants.black));
 		FontStyle nodeFontStyle = (FontStyle) node
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (nodeFontStyle != null) {
@@ -299,17 +298,30 @@ public class HenshinViewProvider extends AbstractProvider implements
 			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
 					.intValue());
 		}
-		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
-				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.RGBToInteger(fillRGB));
+				FigureUtilities.colorToInteger(ColorConstants.white));
 		Node label5001 = createLabel(node,
 				HenshinVisualIDRegistry.getType(RuleNameEditPart.VISUAL_ID));
 		createCompartment(node,
 				HenshinVisualIDRegistry
 						.getType(RuleCompartmentEditPart.VISUAL_ID), false,
 				false, false, false);
+		return node;
+	}
+
+	private static final Color RULE_BACKGROUND = new Color(null, 215, 225, 245);
+
+	/**
+	 * @generated NOT
+	 */
+	public Node createRule_2001(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
+		Node node = createRule_2001Gen(domainElement, containerView, index,
+				persisted, preferencesHint);
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.colorToInteger(RULE_BACKGROUND));
 		return node;
 	}
 

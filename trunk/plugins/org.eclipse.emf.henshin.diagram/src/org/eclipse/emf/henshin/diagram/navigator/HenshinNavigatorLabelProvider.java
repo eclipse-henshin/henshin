@@ -117,18 +117,18 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case RuleEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
-		case AttributeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
 		case TransformationSystemEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Diagram?http://www.eclipse.org/emf/2010/Henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
+		case RuleEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
 		case EdgeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Link?http://www.eclipse.org/emf/2010/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
+		case AttributeEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
