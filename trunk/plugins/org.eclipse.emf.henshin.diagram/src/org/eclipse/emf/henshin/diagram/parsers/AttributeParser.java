@@ -55,17 +55,28 @@ public class AttributeParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		
+		// Check if the argument is ok.
+		if (!(element.getAdapter(EObject.class) instanceof Attribute)) {
+			return "?";
+		}
+		
 		// The attribute and its type:
 		Attribute attribute = (Attribute) element.getAdapter(EObject.class);
 		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
+		
+		String result = type + "=" + attribute.getValue();
+		if (attribute.getNode()==null || attribute.getNode().getGraph()==null || attribute.getNode().getGraph().getContainerRule()==null) {
+			return result;
+		}
 		
 		// Get the action for the attribute and the node:
 		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
 		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(attribute.getNode());
 		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
 		
-		String result = (action==null || action.equals(nodeAction)) ? "" : "<<" + action + ">> ";
-		result = result + type + "=" + attribute.getValue();
+		if (action!=null && !action.equals(nodeAction)) {
+			result = "<<" + action + ">> " + result;
+		}
 		
 		// Changing attribute?
 		if (nodeAction.getType()==ActionType.PRESERVE) {
@@ -143,10 +154,13 @@ public class AttributeParser extends AbstractParser {
 			value = value.substring(end+2);
 		}
 		
-		// The node action must be PRESERVE:
+		// The node action must be compatible:
 		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(node);
 		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
-		if (nodeAction.getType()!=ActionType.PRESERVE) {
+		ActionType nodeActionType = nodeAction.getType();
+		boolean compatible = (nodeActionType==ActionType.PRESERVE) || 
+							 (nodeActionType==ActionType.DELETE && action.getType()==ActionType.FORBID);
+		if (!compatible) {
 			action = nodeAction;
 		}
 		
@@ -179,7 +193,7 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Check if there is an image in the RHS that we need to updated:
-		if (nodeAction.getType()==ActionType.PRESERVE) {
+		if (action.getType()==ActionType.PRESERVE) {
 			Rule rule = node.getGraph().getContainerRule();
 			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
 			image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);

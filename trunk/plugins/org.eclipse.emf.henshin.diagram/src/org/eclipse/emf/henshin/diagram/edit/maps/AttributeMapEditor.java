@@ -38,6 +38,23 @@ public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
 	}
 	
 	/*
+	 * Set the opposite attribute.
+	 */
+	private void setOppositeAttribute(Attribute attribute, Attribute opposite) {
+		Node node = nodeMapEditor.getOpposite(attribute.getNode());
+		if (node==null) {
+			node = nodeMapEditor.copy(attribute.getNode());
+		}
+		Attribute old = node.findAttributeByType(attribute.getType());
+		if (old!=null) {
+			node.getAttributes().remove(old);	// remove the old one
+		}
+		if (opposite!=null) {
+			node.getAttributes().add(opposite);	// add the new one
+		}
+	}
+	
+	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.AbstractMapEditor#doCopy(java.lang.Object)
 	 */
@@ -46,8 +63,9 @@ public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
 		Attribute opposite = getOpposite(attribute);
 		if (opposite==null) {
 			opposite = HenshinFactory.eINSTANCE.createAttribute();
-			opposite.setType( attribute.getType() );
-			opposite.setNode( nodeMapEditor.getOpposite(attribute.getNode()) );
+			opposite.setType(attribute.getType());
+			opposite.setValue(attribute.getValue());
+			setOppositeAttribute(attribute, opposite);
 		}
 		return opposite;
 	}
@@ -58,8 +76,7 @@ public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
 	 */
 	@Override
 	protected void doMove(Attribute attribute) {
-		Node newNode = nodeMapEditor.getOpposite(attribute.getNode());
-		attribute.setNode(newNode);
+		setOppositeAttribute(attribute, attribute);
 	}
 	
 	/*
