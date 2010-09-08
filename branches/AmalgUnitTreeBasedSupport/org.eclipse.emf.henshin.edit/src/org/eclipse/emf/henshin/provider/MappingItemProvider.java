@@ -16,21 +16,23 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.ResourceLocator;
-
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.provider.descriptors.MappingImagePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescriptor;
 
@@ -41,9 +43,12 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescrip
  * 
  * @generated
  */
-public class MappingItemProvider extends ItemProviderAdapter implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class MappingItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
+		IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
+		IItemPropertySource {
+
+	NodeMappingListener rmListener;
+
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -52,6 +57,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	 */
 	public MappingItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
+		
+		rmListener = new NodeMappingListener();
 	}
 
 	/**
@@ -80,12 +87,10 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	protected void addOriginPropertyDescriptor(Object object) {
 
 		itemPropertyDescriptors.add(new MappingOriginPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(), getResourceLocator(),
-				getString("_UI_Mapping_origin_feature"), getString(
-						"_UI_PropertyDescriptor_description",
-						"_UI_Mapping_origin_feature", "_UI_Mapping_type"),
-				HenshinPackage.Literals.MAPPING__ORIGIN));
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_Mapping_origin_feature"), getString(
+						"_UI_PropertyDescriptor_description", "_UI_Mapping_origin_feature",
+						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__ORIGIN));
 
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
@@ -112,12 +117,10 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	protected void addImagePropertyDescriptor(Object object) {
 
 		itemPropertyDescriptors.add(new MappingImagePropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(), getResourceLocator(),
-				getString("_UI_Mapping_image_feature"), getString(
-						"_UI_PropertyDescriptor_description",
-						"_UI_Mapping_image_feature", "_UI_Mapping_type"),
-				HenshinPackage.Literals.MAPPING__IMAGE));
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(), getString("_UI_Mapping_image_feature"), getString(
+						"_UI_PropertyDescriptor_description", "_UI_Mapping_image_feature",
+						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__IMAGE));
 
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
@@ -142,8 +145,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Mapping"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Mapping"));
 	}
 
 	/**
@@ -157,10 +159,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 		Mapping mapping = (Mapping) object;
 		String result = getString("_UI_Mapping_type");
 		if (mapping.getOrigin() != null && mapping.getImage() != null) {
-			String origin = (mapping.getOrigin() != null) ? mapping.getOrigin()
-					.getName() : "null";
-			String image = (mapping.getImage() != null) ? mapping.getImage()
-					.getName() : "null";
+			String origin = (mapping.getOrigin() != null) ? mapping.getOrigin().getName() : "null";
+			String image = (mapping.getImage() != null) ? mapping.getImage().getName() : "null";
 			if (origin != null && image != null) {
 				result = result + " " + origin + " -> " + image;
 			}
@@ -203,6 +203,20 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
+
+		/*
+		 * Refresh the corresponding Nodes if the Mapping changes
+		 */
+		if (notification.getEventType() == Notification.SET) {
+
+			Node n1 = (Node) notification.getNewValue();
+			Node n2 = (Node) notification.getOldValue();
+
+			notifyNodeForRefresh(notification, n1);
+			notifyNodeForRefresh(notification, n2);
+
+		}// if
+
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
@@ -215,8 +229,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
@@ -231,4 +244,91 @@ public class MappingItemProvider extends ItemProviderAdapter implements
 		return HenshinEditPlugin.INSTANCE;
 	}
 
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse
+	 * .emf.common.notify.Notifier)
+	 */
+	@Override
+	public void unsetTarget(Notifier target) {
+		super.unsetTarget(target);
+
+		// Get the container of the mapping and unregister the
+		// NodeMappingListener
+		EObject eobject = ((Mapping) target).eContainer();
+		if (eobject != null) {
+			ItemProviderAdapter eobjectAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					eobject, null);
+			eobjectAdapter.removeListener(rmListener);
+		}// if
+
+	}// unsetTarget
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse
+	 * .emf.common.notify.Notifier)
+	 */
+	@Override
+	public void setTarget(Notifier target) {
+		super.setTarget(target);
+
+		// Get the container of the mapping and register the NodeMappingListener
+		EObject eobject = ((Mapping) target).eContainer();
+		if (eobject != null) {
+			ItemProviderAdapter eobjectAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					eobject, null);
+			eobjectAdapter.addListener(rmListener);
+		}// if
+	}// setTarget
+
+	/**
+	 * Notifies the given node to refresh its label (only). The given
+	 * notification is its base notification.
+	 * 
+	 * @param notification
+	 * @param node
+	 */
+	private void notifyNodeForRefresh(Notification notification, Node node) {
+		if (node != null) {
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
+					Node.class);
+			Notification notif = new ViewerNotification(notification, node, false, true);
+			adapter.fireNotifyChanged(notif);
+		}// if
+	}// notifyNodeForRefresh
+
+	/**
+	 * This Listener listens for added or removed Mapping object in order to
+	 * synchronize the visualisation (delete, create, preserve) of Nodes.
+	 * 
+	 * @author sjtuner
+	 * 
+	 */
+	private class NodeMappingListener implements INotifyChangedListener {
+
+		@Override
+		public void notifyChanged(Notification notification) {
+			if (notification.getEventType() == Notification.ADD) {
+				if (notification.getNewValue() instanceof Mapping) {
+					Mapping map = (Mapping) notification.getNewValue();
+					MappingItemProvider.this.notifyNodeForRefresh(notification, map.getOrigin());
+					MappingItemProvider.this.notifyNodeForRefresh(notification, map.getImage());
+				}// if
+			} else if (notification.getEventType() == Notification.REMOVE) {
+				if (notification.getOldValue() instanceof Mapping) {
+					Mapping map = (Mapping) notification.getOldValue();
+					MappingItemProvider.this.notifyNodeForRefresh(notification, map.getOrigin());
+					MappingItemProvider.this.notifyNodeForRefresh(notification, map.getImage());
+				}// if
+			}// if else
+
+		}// notifyChanged
+
+	}// inner class
+
+}// class
