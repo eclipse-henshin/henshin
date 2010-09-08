@@ -172,23 +172,35 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	/**
 	 * <!-- begin-user-doc --> <br>
 	 * This method returns different visualizations of a {@link Node} regarding
-	 * to its occurance in lhs, rhs, nestedconditions and related mappings.<br>
+	 * to its occurrence in lhs, rhs, nestedconditions and related mappings.<br>
 	 * <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
+		
 		Node node = (Node) object;
+		Object defaultImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+		
+		// get the container graph
 		Graph graph = node.getGraph();
+		if (graph==null) {
+			return defaultImage;
+		}
+		
+		// get the container rule
 		Rule rule = node.getGraph().getContainerRule();
-
+		if (rule==null) {
+			return defaultImage;
+		}
+		
 		for (Mapping mapping : rule.getMappings()) {
 			// if this node occurs in the Mapping-List, it is a preserved node
 			// i.e.
 			// it is source or origin of a mapping from LHS to RHS
 			if ((mapping.getOrigin() == node) || (mapping.getImage() == node))
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+				return defaultImage;
 		}// for
 
 		if (rule.getLhs() == graph) {
@@ -206,8 +218,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 					if (mapping.getImage() == node) // its the mapping 'image',
 													// not
 													// the visual one ;-)
-						return overlayImage(object,
-								getResourceLocator().getImage("full/obj16/Node.png"));
+						return defaultImage;
 				}// for
 				return overlayImage(object,
 						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
@@ -220,7 +231,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			}// if negated
 		}// if else if
 
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+		return defaultImage;
 	}// getImage
 
 	/**
