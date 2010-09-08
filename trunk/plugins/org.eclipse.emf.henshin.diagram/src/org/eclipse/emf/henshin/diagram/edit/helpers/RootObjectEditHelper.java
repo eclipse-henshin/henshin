@@ -162,7 +162,6 @@ public class RootObjectEditHelper {
 		if (type==null) {
 			setRootObject(ruleView, null);
 		} else {
-			Rule rule = (Rule) ruleView.getElement();
 			Node oldRoot = getRootObject(ruleView);
 			if (oldRoot==null || !type.equals(oldRoot.getType().getName())) {
 				Node newRoot = HenshinFactory.eINSTANCE.createNode();
@@ -279,9 +278,9 @@ public class RootObjectEditHelper {
 			}
 		} else if (edge.getTarget()==container) {
 			if (edge.getSource().getType().getEAllReferences().contains(edge.getType())) {
-				return edge.getType().isContainment();
+				return edge.getType().isContainer();
 			} else {
-				return edge.getType().isContainer();				
+				return edge.getType().isContainment();				
 			}			
 		}
 		return false;
