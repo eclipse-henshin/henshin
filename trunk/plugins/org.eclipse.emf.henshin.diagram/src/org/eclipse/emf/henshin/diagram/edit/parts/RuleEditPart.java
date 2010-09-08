@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
@@ -62,13 +63,12 @@ public class RuleEditPart extends ShapeNodeEditPart {
 	 */
 	protected IFigure primaryShape;
 
-
 	/**
 	 * @generated
 	 */
 	public RuleEditPart(View view) {
 		super(view);
-	}	
+	}
 
 	/**
 	 * @generated
@@ -288,9 +288,13 @@ public class RuleEditPart extends ShapeNodeEditPart {
 		private void createContents() {
 
 			fRuleNameFigure = new WrappingLabel();
-			fRuleNameFigure.setText("<...>");
+			fRuleNameFigure.setText("Rule");
 			fRuleNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
 					1000), getMapMode().DPtoLP(16)));
+
+			fRuleNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(2), getMapMode().DPtoLP(2),
+					getMapMode().DPtoLP(2)));
 
 			this.add(fRuleNameFigure);
 

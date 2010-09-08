@@ -241,7 +241,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 			RootObjectEditHelper.updateRootContainment(ruleView, source);
 			RootObjectEditHelper.updateRootContainment(ruleView, target);
 		}
-		
+
 		// Configure and return:
 		doConfigure(edge, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(edge);

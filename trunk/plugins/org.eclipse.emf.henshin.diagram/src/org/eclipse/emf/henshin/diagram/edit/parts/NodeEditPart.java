@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
@@ -466,10 +467,18 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			fNodeActionLabel = new WrappingLabel();
 			fNodeActionLabel.setText("none");
 
+			fNodeActionLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0),
+					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
+					getMapMode().DPtoLP(2)));
+
 			this.add(fNodeActionLabel);
 
 			fNodeTypeLabel = new WrappingLabel();
 			fNodeTypeLabel.setText("Node");
+
+			fNodeTypeLabel.setBorder(new MarginBorder(getMapMode().DPtoLP(0),
+					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
+					getMapMode().DPtoLP(2)));
 
 			this.add(fNodeTypeLabel);
 

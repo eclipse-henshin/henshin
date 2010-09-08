@@ -38,7 +38,7 @@ public class RuleCompartmentEditPart extends ShapeCompartmentEditPart {
 	 */
 	public RuleCompartmentEditPart(View view) {
 		super(view);
-	}	
+	}
 
 	/**
 	 * @generated NOT

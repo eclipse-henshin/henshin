@@ -13,10 +13,15 @@
         <children
             xsi:type="gmfgraph:Label"
             name="RuleNameFigure"
-            text="&lt;...>">
+            text="Rule">
           <maximumSize
               dx="1000"
               dy="16"/>
+          <insets
+              top="2"
+              left="2"
+              bottom="2"
+              right="2"/>
         </children>
       </actualFigure>
       <accessors
@@ -39,11 +44,19 @@
         <children
             xsi:type="gmfgraph:Label"
             name="NodeActionLabel"
-            text="none"/>
+            text="none">
+          <insets
+              left="2"
+              right="2"/>
+        </children>
         <children
             xsi:type="gmfgraph:Label"
             name="NodeTypeLabel"
-            text="Node"/>
+            text="Node">
+          <insets
+              left="2"
+              right="2"/>
+        </children>
       </actualFigure>
       <accessors
           accessor="getNodeActionLabel"

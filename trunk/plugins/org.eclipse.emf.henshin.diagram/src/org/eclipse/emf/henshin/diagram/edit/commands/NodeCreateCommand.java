@@ -109,11 +109,11 @@ public class NodeCreateCommand extends EditElementCommand {
 			lhsNode.setType(type);
 			rhsNode.setType(type);
 		}
-		
+
 		// Update the root containment for the new node:
 		View ruleView = RootObjectEditHelper.findRuleView(rule);
 		RootObjectEditHelper.updateRootContainment(ruleView, lhsNode);
-		
+
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);
 
