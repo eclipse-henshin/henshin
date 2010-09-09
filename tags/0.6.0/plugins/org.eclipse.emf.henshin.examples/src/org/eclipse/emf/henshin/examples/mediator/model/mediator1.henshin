@@ -1,0 +1,1975 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_PJwUAaXwEd-rG_qdWp4DuQ">
+  <rules xmi:id="_WWb9IKXwEd-rG_qdWp4DuQ" name="AddWorker">
+    <lhs xmi:id="_WWb9IaXwEd-rG_qdWp4DuQ" name="LHS">
+      <nodes xmi:id="_AnnHoLEREd-2W6ZY1btywQ" name="root" outgoing="_Anyt0LEREd-2W6ZY1btywQ _An7QsLEREd-2W6ZY1btywQ _AoJ6MLEREd-2W6ZY1btywQ _AoQn4LEREd-2W6ZY1btywQ _AoX8oLEREd-2W6ZY1btywQ _AoeqULEREd-2W6ZY1btywQ _AoobULEREd-2W6ZY1btywQ _AovJALEREd-2W6ZY1btywQ _Ao1PoLEREd-2W6ZY1btywQ _Ao79ULEREd-2W6ZY1btywQ _ApCrALEREd-2W6ZY1btywQ _ApIxoLEREd-2W6ZY1btywQ _ApPfULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_dccWgKXwEd-rG_qdWp4DuQ" incoming="_Anyt0LEREd-2W6ZY1btywQ" outgoing="_pW5WUKXwEd-rG_qdWp4DuQ _03zNsKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_iExMgKXwEd-rG_qdWp4DuQ" name="A" incoming="_pW5WUKXwEd-rG_qdWp4DuQ _P2zKwKXxEd-rG_qdWp4DuQ _An7QsLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_jdRQgKXwEd-rG_qdWp4DuQ" name="B" incoming="_03zNsKXwEd-rG_qdWp4DuQ _q9MwUKXxEd-rG_qdWp4DuQ _ZANw4KXyEd-rG_qdWp4DuQ _AoJ6MLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ltY5AKXwEd-rG_qdWp4DuQ" name="I" incoming="_RxofwKXxEd-rG_qdWp4DuQ _ZiE9QKXxEd-rG_qdWp4DuQ _hU_DcKXyEd-rG_qdWp4DuQ _AoQn4LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mC-ugKXwEd-rG_qdWp4DuQ" name="J" incoming="_cBPHUKXxEd-rG_qdWp4DuQ _i99B0KXxEd-rG_qdWp4DuQ _AoX8oLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Do6RkKXxEd-rG_qdWp4DuQ" incoming="_AoeqULEREd-2W6ZY1btywQ" outgoing="_P2zKwKXxEd-rG_qdWp4DuQ _RxofwKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_J4TzEKXxEd-rG_qdWp4DuQ" incoming="_AoobULEREd-2W6ZY1btywQ" outgoing="_ZiE9QKXxEd-rG_qdWp4DuQ _cBPHUKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_hICpgLGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KsgQIKXxEd-rG_qdWp4DuQ" incoming="_AovJALEREd-2W6ZY1btywQ" outgoing="_i99B0KXxEd-rG_qdWp4DuQ _q9MwUKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_2Cj7MKXxEd-rG_qdWp4DuQ" incoming="_Ao1PoLEREd-2W6ZY1btywQ" outgoing="_Kpyd4KXyEd-rG_qdWp4DuQ _NFH34KXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_f0_GMLGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_263cMKXxEd-rG_qdWp4DuQ" name="C" incoming="_NFH34KXyEd-rG_qdWp4DuQ _kzACcKXyEd-rG_qdWp4DuQ _Ao79ULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_37GxMKXxEd-rG_qdWp4DuQ" name="D" incoming="_Kpyd4KXyEd-rG_qdWp4DuQ _bIx_4KXyEd-rG_qdWp4DuQ _ApCrALEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_RyAdwKXyEd-rG_qdWp4DuQ" incoming="_ApIxoLEREd-2W6ZY1btywQ" outgoing="_ZANw4KXyEd-rG_qdWp4DuQ _bIx_4KXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_VAiPQKXyEd-rG_qdWp4DuQ" incoming="_ApPfULEREd-2W6ZY1btywQ" outgoing="_hU_DcKXyEd-rG_qdWp4DuQ _kzACcKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <edges xmi:id="_pW5WUKXwEd-rG_qdWp4DuQ" source="_dccWgKXwEd-rG_qdWp4DuQ" target="_iExMgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_03zNsKXwEd-rG_qdWp4DuQ" source="_dccWgKXwEd-rG_qdWp4DuQ" target="_jdRQgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_P2zKwKXxEd-rG_qdWp4DuQ" source="_Do6RkKXxEd-rG_qdWp4DuQ" target="_iExMgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_RxofwKXxEd-rG_qdWp4DuQ" source="_Do6RkKXxEd-rG_qdWp4DuQ" target="_ltY5AKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_ZiE9QKXxEd-rG_qdWp4DuQ" source="_J4TzEKXxEd-rG_qdWp4DuQ" target="_ltY5AKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_cBPHUKXxEd-rG_qdWp4DuQ" source="_J4TzEKXxEd-rG_qdWp4DuQ" target="_mC-ugKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_i99B0KXxEd-rG_qdWp4DuQ" source="_KsgQIKXxEd-rG_qdWp4DuQ" target="_mC-ugKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_q9MwUKXxEd-rG_qdWp4DuQ" source="_KsgQIKXxEd-rG_qdWp4DuQ" target="_jdRQgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_Kpyd4KXyEd-rG_qdWp4DuQ" source="_2Cj7MKXxEd-rG_qdWp4DuQ" target="_37GxMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_NFH34KXyEd-rG_qdWp4DuQ" source="_2Cj7MKXxEd-rG_qdWp4DuQ" target="_263cMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_ZANw4KXyEd-rG_qdWp4DuQ" source="_RyAdwKXyEd-rG_qdWp4DuQ" target="_jdRQgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bIx_4KXyEd-rG_qdWp4DuQ" source="_RyAdwKXyEd-rG_qdWp4DuQ" target="_37GxMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_hU_DcKXyEd-rG_qdWp4DuQ" source="_VAiPQKXyEd-rG_qdWp4DuQ" target="_ltY5AKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kzACcKXyEd-rG_qdWp4DuQ" source="_VAiPQKXyEd-rG_qdWp4DuQ" target="_263cMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_Anyt0LEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_dccWgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_An7QsLEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_iExMgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoJ6MLEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_jdRQgKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoQn4LEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_ltY5AKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoX8oLEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_mC-ugKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoeqULEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_Do6RkKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AoobULEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_J4TzEKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AovJALEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_KsgQIKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Ao1PoLEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_2Cj7MKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Ao79ULEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_263cMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApCrALEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_37GxMKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApIxoLEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_RyAdwKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApPfULEREd-2W6ZY1btywQ" source="_AnnHoLEREd-2W6ZY1btywQ" target="_VAiPQKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_5yv0QLGiEd-RI4L5i7X_Og" negated="true">
+        <conclusion xmi:id="_5yv0QbGiEd-RI4L5i7X_Og" name="default">
+          <nodes xmi:id="_5y0swLGiEd-RI4L5i7X_Og" name="root" outgoing="_0rdxYbGiEd-RI4L5i7X_Og _1EGT0LGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+          </nodes>
+          <nodes xmi:id="_5y8BgLGiEd-RI4L5i7X_Og" name="C" incoming="_3BBTgLGiEd-RI4L5i7X_Og _3yw5gLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+          </nodes>
+          <nodes xmi:id="_0rRkILGiEd-RI4L5i7X_Og" incoming="_0rdxYbGiEd-RI4L5i7X_Og" outgoing="_3BBTgLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+          </nodes>
+          <nodes xmi:id="_1D7UsLGiEd-RI4L5i7X_Og" incoming="_1EGT0LGiEd-RI4L5i7X_Og" outgoing="_3yw5gLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+          </nodes>
+          <edges xmi:id="_0rdxYbGiEd-RI4L5i7X_Og" source="_5y0swLGiEd-RI4L5i7X_Og" target="_0rRkILGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+          </edges>
+          <edges xmi:id="_3BBTgLGiEd-RI4L5i7X_Og" source="_0rRkILGiEd-RI4L5i7X_Og" target="_5y8BgLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+          </edges>
+          <edges xmi:id="_1EGT0LGiEd-RI4L5i7X_Og" source="_5y0swLGiEd-RI4L5i7X_Og" target="_1D7UsLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+          </edges>
+          <edges xmi:id="_3yw5gLGiEd-RI4L5i7X_Og" source="_1D7UsLGiEd-RI4L5i7X_Og" target="_5y8BgLGiEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_5y1T0LGiEd-RI4L5i7X_Og" origin="_AnnHoLEREd-2W6ZY1btywQ" image="_5y0swLGiEd-RI4L5i7X_Og"/>
+        <mappings xmi:id="_5y8BgbGiEd-RI4L5i7X_Og" origin="_263cMKXxEd-rG_qdWp4DuQ" image="_5y8BgLGiEd-RI4L5i7X_Og"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_WWb9IqXwEd-rG_qdWp4DuQ" name="RHS">
+      <nodes xmi:id="_dccWgaXwEd-rG_qdWp4DuQ" incoming="_An3mULEREd-2W6ZY1btywQ" outgoing="_pW59YKXwEd-rG_qdWp4DuQ _030b0KXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_iEzBsKXwEd-rG_qdWp4DuQ" name="A" incoming="_pW59YKXwEd-rG_qdWp4DuQ _P20Y4KXxEd-rG_qdWp4DuQ _AoGP0LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_jdR3kKXwEd-rG_qdWp4DuQ" name="B" incoming="_030b0KXwEd-rG_qdWp4DuQ _q9PMkKXxEd-rG_qdWp4DuQ _ZAQ0MKXyEd-rG_qdWp4DuQ _AoM9gLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ltaHIKXwEd-rG_qdWp4DuQ" name="I" incoming="_RxqU8KXxEd-rG_qdWp4DuQ _ZiHZgKXxEd-rG_qdWp4DuQ _hVBfsKXyEd-rG_qdWp4DuQ _AoTrMLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mC_8oKXwEd-rG_qdWp4DuQ" name="J" incoming="_cBQ8gKXxEd-rG_qdWp4DuQ _i9-3AKXxEd-rG_qdWp4DuQ _Aoa_8LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_Do8t0KXxEd-rG_qdWp4DuQ" incoming="_AohtoLEREd-2W6ZY1btywQ" outgoing="_P20Y4KXxEd-rG_qdWp4DuQ _RxqU8KXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_J4VoQKXxEd-rG_qdWp4DuQ" incoming="_AoreoLEREd-2W6ZY1btywQ" outgoing="_ZiHZgKXxEd-rG_qdWp4DuQ _cBQ8gKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_hIDQkLGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_KsheQKXxEd-rG_qdWp4DuQ" incoming="_AoyMULEREd-2W6ZY1btywQ" outgoing="_i9-3AKXxEd-rG_qdWp4DuQ _q9PMkKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_2CmXcKXxEd-rG_qdWp4DuQ" incoming="_Ao4S8LEREd-2W6ZY1btywQ" outgoing="_Kp06IKXyEd-rG_qdWp4DuQ _NFK7MKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_f1AUULGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_2654cKXxEd-rG_qdWp4DuQ" name="C" incoming="_NFK7MKXyEd-rG_qdWp4DuQ _kzDFwKXyEd-rG_qdWp4DuQ _EpOXsKX0Ed-rG_qdWp4DuQ _Ao_AoLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_37JNcKXxEd-rG_qdWp4DuQ" name="D" incoming="_Kp06IKXyEd-rG_qdWp4DuQ _bI1DMKXyEd-rG_qdWp4DuQ _LjursKX0Ed-rG_qdWp4DuQ _ApFuULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_RyC6AKXyEd-rG_qdWp4DuQ" incoming="_ApL08LEREd-2W6ZY1btywQ" outgoing="_ZAQ0MKXyEd-rG_qdWp4DuQ _bI1DMKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_VAlSkKXyEd-rG_qdWp4DuQ" incoming="_ApSioLEREd-2W6ZY1btywQ" outgoing="_hVBfsKXyEd-rG_qdWp4DuQ _kzDFwKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_o5ux0KXzEd-rG_qdWp4DuQ" incoming="_2tXrYKX0Ed-rG_qdWp4DuQ _YvUjQKX0Ed-rG_qdWp4DuQ _ApVl8LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_pswxQKXzEd-rG_qdWp4DuQ" incoming="_kOqUYKX0Ed-rG_qdWp4DuQ _Qn03sKX0Ed-rG_qdWp4DuQ _c5bzQKX0Ed-rG_qdWp4DuQ _ApZQULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_qSc4QKXzEd-rG_qdWp4DuQ" incoming="_xBgUwKX0Ed-rG_qdWp4DuQ _rzILYKX0Ed-rG_qdWp4DuQ _ApcToLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_qxlrUKXzEd-rG_qdWp4DuQ" incoming="_BOHtUKX1Ed-rG_qdWp4DuQ _T8OnsKX0Ed-rG_qdWp4DuQ _zd6FwKX0Ed-rG_qdWp4DuQ _Apf-ALEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_r41nQKXzEd-rG_qdWp4DuQ" incoming="_ApjoYLEREd-2W6ZY1btywQ" outgoing="_EpOXsKX0Ed-rG_qdWp4DuQ _Qn03sKX0Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_saQSQKXzEd-rG_qdWp4DuQ" incoming="_ApmrsLEREd-2W6ZY1btywQ" outgoing="_LjursKX0Ed-rG_qdWp4DuQ _T8OnsKX0Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_tapYQKXzEd-rG_qdWp4DuQ" incoming="_ApqWELEREd-2W6ZY1btywQ" outgoing="_YvUjQKX0Ed-rG_qdWp4DuQ _c5bzQKX0Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_vWyU0KXzEd-rG_qdWp4DuQ" incoming="_AptZYLEREd-2W6ZY1btywQ" outgoing="_rzILYKX0Ed-rG_qdWp4DuQ _kOqUYKX0Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="__4MdoLGkEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_v9r8wKXzEd-rG_qdWp4DuQ" incoming="_ApwcsLEREd-2W6ZY1btywQ" outgoing="_zd6FwKX0Ed-rG_qdWp4DuQ _xBgUwKX0Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_xNrlAKXzEd-rG_qdWp4DuQ" incoming="_Ap0HELEREd-2W6ZY1btywQ" outgoing="_2tXrYKX0Ed-rG_qdWp4DuQ _BOHtUKX1Ed-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+        <attributes xmi:id="_3nXuIKX3Ed-ZspfM6B5LyA" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_AnsAILEREd-2W6ZY1btywQ" name="root" outgoing="_An3mULEREd-2W6ZY1btywQ _AoGP0LEREd-2W6ZY1btywQ _AoM9gLEREd-2W6ZY1btywQ _AoTrMLEREd-2W6ZY1btywQ _Aoa_8LEREd-2W6ZY1btywQ _AohtoLEREd-2W6ZY1btywQ _AoreoLEREd-2W6ZY1btywQ _AoyMULEREd-2W6ZY1btywQ _Ao4S8LEREd-2W6ZY1btywQ _Ao_AoLEREd-2W6ZY1btywQ _ApFuULEREd-2W6ZY1btywQ _ApL08LEREd-2W6ZY1btywQ _ApSioLEREd-2W6ZY1btywQ _ApVl8LEREd-2W6ZY1btywQ _ApZQULEREd-2W6ZY1btywQ _ApcToLEREd-2W6ZY1btywQ _Apf-ALEREd-2W6ZY1btywQ _ApjoYLEREd-2W6ZY1btywQ _ApmrsLEREd-2W6ZY1btywQ _ApqWELEREd-2W6ZY1btywQ _AptZYLEREd-2W6ZY1btywQ _ApwcsLEREd-2W6ZY1btywQ _Ap0HELEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_pW59YKXwEd-rG_qdWp4DuQ" source="_dccWgaXwEd-rG_qdWp4DuQ" target="_iEzBsKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_030b0KXwEd-rG_qdWp4DuQ" source="_dccWgaXwEd-rG_qdWp4DuQ" target="_jdR3kKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_P20Y4KXxEd-rG_qdWp4DuQ" source="_Do8t0KXxEd-rG_qdWp4DuQ" target="_iEzBsKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_RxqU8KXxEd-rG_qdWp4DuQ" source="_Do8t0KXxEd-rG_qdWp4DuQ" target="_ltaHIKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_ZiHZgKXxEd-rG_qdWp4DuQ" source="_J4VoQKXxEd-rG_qdWp4DuQ" target="_ltaHIKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_cBQ8gKXxEd-rG_qdWp4DuQ" source="_J4VoQKXxEd-rG_qdWp4DuQ" target="_mC_8oKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_i9-3AKXxEd-rG_qdWp4DuQ" source="_KsheQKXxEd-rG_qdWp4DuQ" target="_mC_8oKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_q9PMkKXxEd-rG_qdWp4DuQ" source="_KsheQKXxEd-rG_qdWp4DuQ" target="_jdR3kKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_Kp06IKXyEd-rG_qdWp4DuQ" source="_2CmXcKXxEd-rG_qdWp4DuQ" target="_37JNcKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_NFK7MKXyEd-rG_qdWp4DuQ" source="_2CmXcKXxEd-rG_qdWp4DuQ" target="_2654cKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_ZAQ0MKXyEd-rG_qdWp4DuQ" source="_RyC6AKXyEd-rG_qdWp4DuQ" target="_jdR3kKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bI1DMKXyEd-rG_qdWp4DuQ" source="_RyC6AKXyEd-rG_qdWp4DuQ" target="_37JNcKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_hVBfsKXyEd-rG_qdWp4DuQ" source="_VAlSkKXyEd-rG_qdWp4DuQ" target="_ltaHIKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kzDFwKXyEd-rG_qdWp4DuQ" source="_VAlSkKXyEd-rG_qdWp4DuQ" target="_2654cKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_EpOXsKX0Ed-rG_qdWp4DuQ" source="_r41nQKXzEd-rG_qdWp4DuQ" target="_2654cKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_Qn03sKX0Ed-rG_qdWp4DuQ" source="_r41nQKXzEd-rG_qdWp4DuQ" target="_pswxQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_LjursKX0Ed-rG_qdWp4DuQ" source="_saQSQKXzEd-rG_qdWp4DuQ" target="_37JNcKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_T8OnsKX0Ed-rG_qdWp4DuQ" source="_saQSQKXzEd-rG_qdWp4DuQ" target="_qxlrUKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_YvUjQKX0Ed-rG_qdWp4DuQ" source="_tapYQKXzEd-rG_qdWp4DuQ" target="_o5ux0KXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_c5bzQKX0Ed-rG_qdWp4DuQ" source="_tapYQKXzEd-rG_qdWp4DuQ" target="_pswxQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_2tXrYKX0Ed-rG_qdWp4DuQ" source="_xNrlAKXzEd-rG_qdWp4DuQ" target="_o5ux0KXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_kOqUYKX0Ed-rG_qdWp4DuQ" source="_vWyU0KXzEd-rG_qdWp4DuQ" target="_pswxQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_rzILYKX0Ed-rG_qdWp4DuQ" source="_vWyU0KXzEd-rG_qdWp4DuQ" target="_qSc4QKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_xBgUwKX0Ed-rG_qdWp4DuQ" source="_v9r8wKXzEd-rG_qdWp4DuQ" target="_qSc4QKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_zd6FwKX0Ed-rG_qdWp4DuQ" source="_v9r8wKXzEd-rG_qdWp4DuQ" target="_qxlrUKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_BOHtUKX1Ed-rG_qdWp4DuQ" source="_xNrlAKXzEd-rG_qdWp4DuQ" target="_qxlrUKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_An3mULEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_dccWgaXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AoGP0LEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_iEzBsKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoM9gLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_jdR3kKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AoTrMLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_ltaHIKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Aoa_8LEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_mC_8oKXwEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_AohtoLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_Do8t0KXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AoreoLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_J4VoQKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AoyMULEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_KsheQKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Ao4S8LEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_2CmXcKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Ao_AoLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_2654cKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApFuULEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_37JNcKXxEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApL08LEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_RyC6AKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApSioLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_VAlSkKXyEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApVl8LEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_o5ux0KXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApZQULEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_pswxQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApcToLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_qSc4QKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Apf-ALEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_qxlrUKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_ApjoYLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_r41nQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApmrsLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_saQSQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApqWELEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_tapYQKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_AptZYLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_vWyU0KXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_ApwcsLEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_v9r8wKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Ap0HELEREd-2W6ZY1btywQ" source="_AnsAILEREd-2W6ZY1btywQ" target="_xNrlAKXzEd-rG_qdWp4DuQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_dcdkoKXwEd-rG_qdWp4DuQ" origin="_dccWgKXwEd-rG_qdWp4DuQ" image="_dccWgaXwEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_iEzBsaXwEd-rG_qdWp4DuQ" origin="_iExMgKXwEd-rG_qdWp4DuQ" image="_iEzBsKXwEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_jdSeoKXwEd-rG_qdWp4DuQ" origin="_jdRQgKXwEd-rG_qdWp4DuQ" image="_jdR3kKXwEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_ltauMKXwEd-rG_qdWp4DuQ" origin="_ltY5AKXwEd-rG_qdWp4DuQ" image="_ltaHIKXwEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_mDAjsKXwEd-rG_qdWp4DuQ" origin="_mC-ugKXwEd-rG_qdWp4DuQ" image="_mC_8oKXwEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_Do978KXxEd-rG_qdWp4DuQ" origin="_Do6RkKXxEd-rG_qdWp4DuQ" image="_Do8t0KXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_J4W2YKXxEd-rG_qdWp4DuQ" origin="_J4TzEKXxEd-rG_qdWp4DuQ" image="_J4VoQKXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_KsisYKXxEd-rG_qdWp4DuQ" origin="_KsgQIKXxEd-rG_qdWp4DuQ" image="_KsheQKXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_2CnlkKXxEd-rG_qdWp4DuQ" origin="_2Cj7MKXxEd-rG_qdWp4DuQ" image="_2CmXcKXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_267toKXxEd-rG_qdWp4DuQ" origin="_263cMKXxEd-rG_qdWp4DuQ" image="_2654cKXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_37KbkKXxEd-rG_qdWp4DuQ" origin="_37GxMKXxEd-rG_qdWp4DuQ" image="_37JNcKXxEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_RyEvMKXyEd-rG_qdWp4DuQ" origin="_RyAdwKXyEd-rG_qdWp4DuQ" image="_RyC6AKXyEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_VAnu0KXyEd-rG_qdWp4DuQ" origin="_VAiPQKXyEd-rG_qdWp4DuQ" image="_VAlSkKXyEd-rG_qdWp4DuQ"/>
+    <mappings xmi:id="_AnyGwLEREd-2W6ZY1btywQ" origin="_AnnHoLEREd-2W6ZY1btywQ" image="_AnsAILEREd-2W6ZY1btywQ"/>
+  </rules>
+  <rules xmi:id="_kpHPwLA8Ed-6Qd_WaeWgKA" name="DelWorker">
+    <lhs xmi:id="_kpHPwbA8Ed-6Qd_WaeWgKA" name="LHS">
+      <nodes xmi:id="_KS79cLEREd-2W6ZY1btywQ" name="root" outgoing="_KTD5QLEREd-2W6ZY1btywQ _KTKm8LEREd-2W6ZY1btywQ _KTQtkLEREd-2W6ZY1btywQ _KTWNILEREd-2W6ZY1btywQ _KTc60LEREd-2W6ZY1btywQ _KTmEwLEREd-2W6ZY1btywQ _KTuAkLEREd-2W6ZY1btywQ _KTzgILEREd-2W6ZY1btywQ _KT4_sLEREd-2W6ZY1btywQ _KT_GULEREd-2W6ZY1btywQ _KUEl4LEREd-2W6ZY1btywQ _KUKFcLEREd-2W6ZY1btywQ _KUPlALEREd-2W6ZY1btywQ _KUVroLEREd-2W6ZY1btywQ _KUYH4LEREd-2W6ZY1btywQ _KUbLMLEREd-2W6ZY1btywQ _KUe1kLEREd-2W6ZY1btywQ _KUhR0LEREd-2W6ZY1btywQ _KUkVILEREd-2W6ZY1btywQ _KUnYcLEREd-2W6ZY1btywQ _KUqbwLEREd-2W6ZY1btywQ _KUtfELEREd-2W6ZY1btywQ _KUwiYLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_kpHPwrA8Ed-6Qd_WaeWgKA" incoming="_KTD5QLEREd-2W6ZY1btywQ" outgoing="_kpHP0rA8Ed-6Qd_WaeWgKA _kpHP07A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_kpHPxLA8Ed-6Qd_WaeWgKA" name="A" incoming="_kpHP0rA8Ed-6Qd_WaeWgKA _kpHP1LA8Ed-6Qd_WaeWgKA _KTKm8LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHPxbA8Ed-6Qd_WaeWgKA" name="B" incoming="_kpHP07A8Ed-6Qd_WaeWgKA _kpHP2bA8Ed-6Qd_WaeWgKA _kpHP3LA8Ed-6Qd_WaeWgKA _KTQtkLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHPxrA8Ed-6Qd_WaeWgKA" name="I" incoming="_kpHP1bA8Ed-6Qd_WaeWgKA _kpHP1rA8Ed-6Qd_WaeWgKA _kpH20LA8Ed-6Qd_WaeWgKA _KTWNILEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHPx7A8Ed-6Qd_WaeWgKA" name="J" incoming="_kpHP17A8Ed-6Qd_WaeWgKA _kpHP2LA8Ed-6Qd_WaeWgKA _KTc60LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHPyLA8Ed-6Qd_WaeWgKA" incoming="_KTmEwLEREd-2W6ZY1btywQ" outgoing="_kpHP1LA8Ed-6Qd_WaeWgKA _kpHP1bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_kpHPybA8Ed-6Qd_WaeWgKA" incoming="_KTuAkLEREd-2W6ZY1btywQ" outgoing="_kpHP1rA8Ed-6Qd_WaeWgKA _kpHP17A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_lmEUALGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpHPy7A8Ed-6Qd_WaeWgKA" incoming="_KTzgILEREd-2W6ZY1btywQ" outgoing="_kpHP2LA8Ed-6Qd_WaeWgKA _kpHP2bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_kpHPzLA8Ed-6Qd_WaeWgKA" incoming="_KT4_sLEREd-2W6ZY1btywQ" outgoing="_kpHP2rA8Ed-6Qd_WaeWgKA _kpHP27A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_khpCkLGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpHPzrA8Ed-6Qd_WaeWgKA" name="C" incoming="_kpHP27A8Ed-6Qd_WaeWgKA _kpH20bA8Ed-6Qd_WaeWgKA _kpH2_LA8Ed-6Qd_WaeWgKA _KT_GULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHPz7A8Ed-6Qd_WaeWgKA" name="D" incoming="_kpHP2rA8Ed-6Qd_WaeWgKA _kpHP3bA8Ed-6Qd_WaeWgKA _kpH2_rA8Ed-6Qd_WaeWgKA _KUEl4LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpHP0LA8Ed-6Qd_WaeWgKA" incoming="_KUKFcLEREd-2W6ZY1btywQ" outgoing="_kpHP3LA8Ed-6Qd_WaeWgKA _kpHP3bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_kpHP0bA8Ed-6Qd_WaeWgKA" incoming="_KUPlALEREd-2W6ZY1btywQ" outgoing="_kpH20LA8Ed-6Qd_WaeWgKA _kpH20bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_SYCPoLA9Ed-6Qd_WaeWgKA" incoming="_kpH2_bA8Ed-6Qd_WaeWgKA _kpH3AbA8Ed-6Qd_WaeWgKA _kpH3A7A8Ed-6Qd_WaeWgKA _KUVroLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH257A8Ed-6Qd_WaeWgKA" incoming="_KUYH4LEREd-2W6ZY1btywQ" outgoing="_kpH2_LA8Ed-6Qd_WaeWgKA _kpH2_bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_TeEDkLA9Ed-6Qd_WaeWgKA" incoming="_kpH3ALA8Ed-6Qd_WaeWgKA _kpH3ArA8Ed-6Qd_WaeWgKA _KUbLMLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH26bA8Ed-6Qd_WaeWgKA" incoming="_KUe1kLEREd-2W6ZY1btywQ" outgoing="_kpH3ALA8Ed-6Qd_WaeWgKA _kpH3AbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_UlEu8LA9Ed-6Qd_WaeWgKA" incoming="_kpH3BLA8Ed-6Qd_WaeWgKA _kpH3BbA8Ed-6Qd_WaeWgKA _KUhR0LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH26rA8Ed-6Qd_WaeWgKA" incoming="_KUkVILEREd-2W6ZY1btywQ" outgoing="_kpH3BLA8Ed-6Qd_WaeWgKA _kpH3A7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_oAGtgLGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Vcwk4LA9Ed-6Qd_WaeWgKA" incoming="_kpH3BrA8Ed-6Qd_WaeWgKA _kpH2_7A8Ed-6Qd_WaeWgKA _kpH3B7A8Ed-6Qd_WaeWgKA _KUnYcLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH267A8Ed-6Qd_WaeWgKA" incoming="_KUqbwLEREd-2W6ZY1btywQ" outgoing="_kpH3BrA8Ed-6Qd_WaeWgKA _kpH3BbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_kpH26LA8Ed-6Qd_WaeWgKA" incoming="_KUtfELEREd-2W6ZY1btywQ" outgoing="_kpH2_rA8Ed-6Qd_WaeWgKA _kpH2_7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_kpH27LA8Ed-6Qd_WaeWgKA" incoming="_KUwiYLEREd-2W6ZY1btywQ" outgoing="_kpH3ArA8Ed-6Qd_WaeWgKA _kpH3B7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <edges xmi:id="_kpHP0rA8Ed-6Qd_WaeWgKA" source="_kpHPwrA8Ed-6Qd_WaeWgKA" target="_kpHPxLA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_kpHP07A8Ed-6Qd_WaeWgKA" source="_kpHPwrA8Ed-6Qd_WaeWgKA" target="_kpHPxbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_kpHP1LA8Ed-6Qd_WaeWgKA" source="_kpHPyLA8Ed-6Qd_WaeWgKA" target="_kpHPxLA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpHP1bA8Ed-6Qd_WaeWgKA" source="_kpHPyLA8Ed-6Qd_WaeWgKA" target="_kpHPxrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpHP1rA8Ed-6Qd_WaeWgKA" source="_kpHPybA8Ed-6Qd_WaeWgKA" target="_kpHPxrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_kpHP17A8Ed-6Qd_WaeWgKA" source="_kpHPybA8Ed-6Qd_WaeWgKA" target="_kpHPx7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_kpHP2LA8Ed-6Qd_WaeWgKA" source="_kpHPy7A8Ed-6Qd_WaeWgKA" target="_kpHPx7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_kpHP2bA8Ed-6Qd_WaeWgKA" source="_kpHPy7A8Ed-6Qd_WaeWgKA" target="_kpHPxbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_kpHP2rA8Ed-6Qd_WaeWgKA" source="_kpHPzLA8Ed-6Qd_WaeWgKA" target="_kpHPz7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_kpHP27A8Ed-6Qd_WaeWgKA" source="_kpHPzLA8Ed-6Qd_WaeWgKA" target="_kpHPzrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_kpHP3LA8Ed-6Qd_WaeWgKA" source="_kpHP0LA8Ed-6Qd_WaeWgKA" target="_kpHPxbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpHP3bA8Ed-6Qd_WaeWgKA" source="_kpHP0LA8Ed-6Qd_WaeWgKA" target="_kpHPz7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH20LA8Ed-6Qd_WaeWgKA" source="_kpHP0bA8Ed-6Qd_WaeWgKA" target="_kpHPxrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH20bA8Ed-6Qd_WaeWgKA" source="_kpHP0bA8Ed-6Qd_WaeWgKA" target="_kpHPzrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH2_LA8Ed-6Qd_WaeWgKA" source="_kpH257A8Ed-6Qd_WaeWgKA" target="_kpHPzrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH2_bA8Ed-6Qd_WaeWgKA" source="_kpH257A8Ed-6Qd_WaeWgKA" target="_SYCPoLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH3ALA8Ed-6Qd_WaeWgKA" source="_kpH26bA8Ed-6Qd_WaeWgKA" target="_TeEDkLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH3AbA8Ed-6Qd_WaeWgKA" source="_kpH26bA8Ed-6Qd_WaeWgKA" target="_SYCPoLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH3BLA8Ed-6Qd_WaeWgKA" source="_kpH26rA8Ed-6Qd_WaeWgKA" target="_UlEu8LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_kpH3A7A8Ed-6Qd_WaeWgKA" source="_kpH26rA8Ed-6Qd_WaeWgKA" target="_SYCPoLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_kpH3BrA8Ed-6Qd_WaeWgKA" source="_kpH267A8Ed-6Qd_WaeWgKA" target="_Vcwk4LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_kpH3BbA8Ed-6Qd_WaeWgKA" source="_kpH267A8Ed-6Qd_WaeWgKA" target="_UlEu8LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_kpH2_rA8Ed-6Qd_WaeWgKA" source="_kpH26LA8Ed-6Qd_WaeWgKA" target="_kpHPz7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH2_7A8Ed-6Qd_WaeWgKA" source="_kpH26LA8Ed-6Qd_WaeWgKA" target="_Vcwk4LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH3ArA8Ed-6Qd_WaeWgKA" source="_kpH27LA8Ed-6Qd_WaeWgKA" target="_TeEDkLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_kpH3B7A8Ed-6Qd_WaeWgKA" source="_kpH27LA8Ed-6Qd_WaeWgKA" target="_Vcwk4LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_KTD5QLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPwrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KTKm8LEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPxLA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTQtkLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPxbA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTWNILEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPxrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTc60LEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPx7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTmEwLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPyLA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KTuAkLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPybA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KTzgILEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPy7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KT4_sLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPzLA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KT_GULEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPzrA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUEl4LEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHPz7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUKFcLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHP0LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUPlALEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpHP0bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUVroLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_SYCPoLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUYH4LEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH257A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUbLMLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_TeEDkLA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUe1kLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH26bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUhR0LEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_UlEu8LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUkVILEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH26rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUnYcLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_Vcwk4LA9Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUqbwLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH267A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUtfELEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH26LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUwiYLEREd-2W6ZY1btywQ" source="_KS79cLEREd-2W6ZY1btywQ" target="_kpH27LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_kpH20rA8Ed-6Qd_WaeWgKA" name="RHS">
+      <nodes xmi:id="_kpH207A8Ed-6Qd_WaeWgKA" incoming="_KTG8kLEREd-2W6ZY1btywQ" outgoing="_kpH27rA8Ed-6Qd_WaeWgKA _kpH277A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_kpH21bA8Ed-6Qd_WaeWgKA" name="A" incoming="_kpH27rA8Ed-6Qd_WaeWgKA _kpH28LA8Ed-6Qd_WaeWgKA _KTNqQLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH21rA8Ed-6Qd_WaeWgKA" name="B" incoming="_kpH277A8Ed-6Qd_WaeWgKA _kpH29bA8Ed-6Qd_WaeWgKA _kpH2-LA8Ed-6Qd_WaeWgKA _KTTJ0LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH217A8Ed-6Qd_WaeWgKA" name="I" incoming="_kpH28bA8Ed-6Qd_WaeWgKA _kpH28rA8Ed-6Qd_WaeWgKA _kpH2-rA8Ed-6Qd_WaeWgKA _KTZQcLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH22LA8Ed-6Qd_WaeWgKA" name="J" incoming="_kpH287A8Ed-6Qd_WaeWgKA _kpH29LA8Ed-6Qd_WaeWgKA _KTjBcLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH22bA8Ed-6Qd_WaeWgKA" incoming="_KTqWMLEREd-2W6ZY1btywQ" outgoing="_kpH28LA8Ed-6Qd_WaeWgKA _kpH28bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_kpH22rA8Ed-6Qd_WaeWgKA" incoming="_KTwc0LEREd-2W6ZY1btywQ" outgoing="_kpH28rA8Ed-6Qd_WaeWgKA _kpH287A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_lmEUAbGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpH23LA8Ed-6Qd_WaeWgKA" incoming="_KT18YLEREd-2W6ZY1btywQ" outgoing="_kpH29LA8Ed-6Qd_WaeWgKA _kpH29bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_kpH23bA8Ed-6Qd_WaeWgKA" incoming="_KT8DALEREd-2W6ZY1btywQ" outgoing="_kpH29rA8Ed-6Qd_WaeWgKA _kpH297A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_khpCkbGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_kpH237A8Ed-6Qd_WaeWgKA" name="C" incoming="_kpH297A8Ed-6Qd_WaeWgKA _kpH2-7A8Ed-6Qd_WaeWgKA _KUBikLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH24LA8Ed-6Qd_WaeWgKA" name="D" incoming="_kpH29rA8Ed-6Qd_WaeWgKA _kpH2-bA8Ed-6Qd_WaeWgKA _KUHCILEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_kpH24bA8Ed-6Qd_WaeWgKA" incoming="_KUMhsLEREd-2W6ZY1btywQ" outgoing="_kpH2-LA8Ed-6Qd_WaeWgKA _kpH2-bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_kpH24rA8Ed-6Qd_WaeWgKA" incoming="_KUSoULEREd-2W6ZY1btywQ" outgoing="_kpH2-rA8Ed-6Qd_WaeWgKA _kpH2-7A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_KTAO4LEREd-2W6ZY1btywQ" name="root" outgoing="_KTG8kLEREd-2W6ZY1btywQ _KTNqQLEREd-2W6ZY1btywQ _KTTJ0LEREd-2W6ZY1btywQ _KTZQcLEREd-2W6ZY1btywQ _KTjBcLEREd-2W6ZY1btywQ _KTqWMLEREd-2W6ZY1btywQ _KTwc0LEREd-2W6ZY1btywQ _KT18YLEREd-2W6ZY1btywQ _KT8DALEREd-2W6ZY1btywQ _KUBikLEREd-2W6ZY1btywQ _KUHCILEREd-2W6ZY1btywQ _KUMhsLEREd-2W6ZY1btywQ _KUSoULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_kpH27rA8Ed-6Qd_WaeWgKA" source="_kpH207A8Ed-6Qd_WaeWgKA" target="_kpH21bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_kpH277A8Ed-6Qd_WaeWgKA" source="_kpH207A8Ed-6Qd_WaeWgKA" target="_kpH21rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_kpH28LA8Ed-6Qd_WaeWgKA" source="_kpH22bA8Ed-6Qd_WaeWgKA" target="_kpH21bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH28bA8Ed-6Qd_WaeWgKA" source="_kpH22bA8Ed-6Qd_WaeWgKA" target="_kpH217A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH28rA8Ed-6Qd_WaeWgKA" source="_kpH22rA8Ed-6Qd_WaeWgKA" target="_kpH217A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_kpH287A8Ed-6Qd_WaeWgKA" source="_kpH22rA8Ed-6Qd_WaeWgKA" target="_kpH22LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_kpH29LA8Ed-6Qd_WaeWgKA" source="_kpH23LA8Ed-6Qd_WaeWgKA" target="_kpH22LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_kpH29bA8Ed-6Qd_WaeWgKA" source="_kpH23LA8Ed-6Qd_WaeWgKA" target="_kpH21rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_kpH29rA8Ed-6Qd_WaeWgKA" source="_kpH23bA8Ed-6Qd_WaeWgKA" target="_kpH24LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_kpH297A8Ed-6Qd_WaeWgKA" source="_kpH23bA8Ed-6Qd_WaeWgKA" target="_kpH237A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_kpH2-LA8Ed-6Qd_WaeWgKA" source="_kpH24bA8Ed-6Qd_WaeWgKA" target="_kpH21rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_kpH2-bA8Ed-6Qd_WaeWgKA" source="_kpH24bA8Ed-6Qd_WaeWgKA" target="_kpH24LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH2-rA8Ed-6Qd_WaeWgKA" source="_kpH24rA8Ed-6Qd_WaeWgKA" target="_kpH217A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_kpH2-7A8Ed-6Qd_WaeWgKA" source="_kpH24rA8Ed-6Qd_WaeWgKA" target="_kpH237A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_KTG8kLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH207A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KTNqQLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH21bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTTJ0LEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH21rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTZQcLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH217A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTjBcLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH22LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KTqWMLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH22bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KTwc0LEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH22rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KT18YLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH23LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KT8DALEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH23bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUBikLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH237A8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUHCILEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH24LA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_KUMhsLEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH24bA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_KUSoULEREd-2W6ZY1btywQ" source="_KTAO4LEREd-2W6ZY1btywQ" target="_kpH24rA8Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_kpH3CLA8Ed-6Qd_WaeWgKA" origin="_kpHPwrA8Ed-6Qd_WaeWgKA" image="_kpH207A8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3CbA8Ed-6Qd_WaeWgKA" origin="_kpHPxLA8Ed-6Qd_WaeWgKA" image="_kpH21bA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3CrA8Ed-6Qd_WaeWgKA" origin="_kpHPxbA8Ed-6Qd_WaeWgKA" image="_kpH21rA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3C7A8Ed-6Qd_WaeWgKA" origin="_kpHPxrA8Ed-6Qd_WaeWgKA" image="_kpH217A8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3DLA8Ed-6Qd_WaeWgKA" origin="_kpHPx7A8Ed-6Qd_WaeWgKA" image="_kpH22LA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3DbA8Ed-6Qd_WaeWgKA" origin="_kpHPyLA8Ed-6Qd_WaeWgKA" image="_kpH22bA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3DrA8Ed-6Qd_WaeWgKA" origin="_kpHPybA8Ed-6Qd_WaeWgKA" image="_kpH22rA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3D7A8Ed-6Qd_WaeWgKA" origin="_kpHPy7A8Ed-6Qd_WaeWgKA" image="_kpH23LA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3ELA8Ed-6Qd_WaeWgKA" origin="_kpHPzLA8Ed-6Qd_WaeWgKA" image="_kpH23bA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3EbA8Ed-6Qd_WaeWgKA" origin="_kpHPzrA8Ed-6Qd_WaeWgKA" image="_kpH237A8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3ErA8Ed-6Qd_WaeWgKA" origin="_kpHPz7A8Ed-6Qd_WaeWgKA" image="_kpH24LA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3E7A8Ed-6Qd_WaeWgKA" origin="_kpHP0LA8Ed-6Qd_WaeWgKA" image="_kpH24bA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_kpH3FLA8Ed-6Qd_WaeWgKA" origin="_kpHP0bA8Ed-6Qd_WaeWgKA" image="_kpH24rA8Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_KTDSMLEREd-2W6ZY1btywQ" origin="_KS79cLEREd-2W6ZY1btywQ" image="_KTAO4LEREd-2W6ZY1btywQ"/>
+  </rules>
+  <rules xmi:id="_M-u9wLA_Ed-6Qd_WaeWgKA" name="AddResource">
+    <lhs xmi:id="_M-u9wbA_Ed-6Qd_WaeWgKA" name="LHS">
+      <nodes xmi:id="_LvcXsLEREd-2W6ZY1btywQ" name="root" outgoing="_LvgCELEREd-2W6ZY1btywQ _LvjscLEREd-2W6ZY1btywQ _LvnW0LEREd-2W6ZY1btywQ _LvsPULEREd-2W6ZY1btywQ _Lv1ZQLEREd-2W6ZY1btywQ _Lv6RwLEREd-2W6ZY1btywQ _Lv_xULEREd-2W6ZY1btywQ _LwDbsLEREd-2W6ZY1btywQ _LwHGELEREd-2W6ZY1btywQ _LwKJYLEREd-2W6ZY1btywQ _LwNzwLEREd-2W6ZY1btywQ _LwReILEREd-2W6ZY1btywQ _LwVIgLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_M-u9wrA_Ed-6Qd_WaeWgKA" incoming="_LvgCELEREd-2W6ZY1btywQ" outgoing="_M-u90rA_Ed-6Qd_WaeWgKA _M-u907A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_M-u9xLA_Ed-6Qd_WaeWgKA" name="A" incoming="_M-u90rA_Ed-6Qd_WaeWgKA _M-u91LA_Ed-6Qd_WaeWgKA _LvjscLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u9xbA_Ed-6Qd_WaeWgKA" name="B" incoming="_M-u907A_Ed-6Qd_WaeWgKA _M-u92bA_Ed-6Qd_WaeWgKA _M-u93LA_Ed-6Qd_WaeWgKA _LvnW0LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u9xrA_Ed-6Qd_WaeWgKA" name="I" incoming="_M-u91bA_Ed-6Qd_WaeWgKA _M-u91rA_Ed-6Qd_WaeWgKA _M-u93rA_Ed-6Qd_WaeWgKA _LvsPULEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u9x7A_Ed-6Qd_WaeWgKA" name="J" incoming="_M-u917A_Ed-6Qd_WaeWgKA _M-u92LA_Ed-6Qd_WaeWgKA _Lv1ZQLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u9yLA_Ed-6Qd_WaeWgKA" incoming="_Lv6RwLEREd-2W6ZY1btywQ" outgoing="_M-u91LA_Ed-6Qd_WaeWgKA _M-u91bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_M-u9ybA_Ed-6Qd_WaeWgKA" incoming="_Lv_xULEREd-2W6ZY1btywQ" outgoing="_M-u91rA_Ed-6Qd_WaeWgKA _M-u917A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_sYVSALGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_M-u9y7A_Ed-6Qd_WaeWgKA" incoming="_LwDbsLEREd-2W6ZY1btywQ" outgoing="_M-u92LA_Ed-6Qd_WaeWgKA _M-u92bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_M-u9zLA_Ed-6Qd_WaeWgKA" incoming="_LwHGELEREd-2W6ZY1btywQ" outgoing="_M-u92rA_Ed-6Qd_WaeWgKA _M-u927A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_qxX7QLGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_M-u9zrA_Ed-6Qd_WaeWgKA" name="C" incoming="_M-u927A_Ed-6Qd_WaeWgKA _M-u937A_Ed-6Qd_WaeWgKA _LwKJYLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u9z7A_Ed-6Qd_WaeWgKA" name="D" incoming="_M-u92rA_Ed-6Qd_WaeWgKA _M-u93bA_Ed-6Qd_WaeWgKA _LwNzwLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u90LA_Ed-6Qd_WaeWgKA" incoming="_LwReILEREd-2W6ZY1btywQ" outgoing="_M-u93LA_Ed-6Qd_WaeWgKA _M-u93bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_M-u90bA_Ed-6Qd_WaeWgKA" incoming="_LwVIgLEREd-2W6ZY1btywQ" outgoing="_M-u93rA_Ed-6Qd_WaeWgKA _M-u937A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <edges xmi:id="_M-u90rA_Ed-6Qd_WaeWgKA" source="_M-u9wrA_Ed-6Qd_WaeWgKA" target="_M-u9xLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_M-u907A_Ed-6Qd_WaeWgKA" source="_M-u9wrA_Ed-6Qd_WaeWgKA" target="_M-u9xbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_M-u91LA_Ed-6Qd_WaeWgKA" source="_M-u9yLA_Ed-6Qd_WaeWgKA" target="_M-u9xLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u91bA_Ed-6Qd_WaeWgKA" source="_M-u9yLA_Ed-6Qd_WaeWgKA" target="_M-u9xrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_M-u91rA_Ed-6Qd_WaeWgKA" source="_M-u9ybA_Ed-6Qd_WaeWgKA" target="_M-u9xrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_M-u917A_Ed-6Qd_WaeWgKA" source="_M-u9ybA_Ed-6Qd_WaeWgKA" target="_M-u9x7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_M-u92LA_Ed-6Qd_WaeWgKA" source="_M-u9y7A_Ed-6Qd_WaeWgKA" target="_M-u9x7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_M-u92bA_Ed-6Qd_WaeWgKA" source="_M-u9y7A_Ed-6Qd_WaeWgKA" target="_M-u9xbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_M-u92rA_Ed-6Qd_WaeWgKA" source="_M-u9zLA_Ed-6Qd_WaeWgKA" target="_M-u9z7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_M-u927A_Ed-6Qd_WaeWgKA" source="_M-u9zLA_Ed-6Qd_WaeWgKA" target="_M-u9zrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_M-u93LA_Ed-6Qd_WaeWgKA" source="_M-u90LA_Ed-6Qd_WaeWgKA" target="_M-u9xbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_M-u93bA_Ed-6Qd_WaeWgKA" source="_M-u90LA_Ed-6Qd_WaeWgKA" target="_M-u9z7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u93rA_Ed-6Qd_WaeWgKA" source="_M-u90bA_Ed-6Qd_WaeWgKA" target="_M-u9xrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u937A_Ed-6Qd_WaeWgKA" source="_M-u90bA_Ed-6Qd_WaeWgKA" target="_M-u9zrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_LvgCELEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9wrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LvjscLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9xLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LvnW0LEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9xbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LvsPULEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9xrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Lv1ZQLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9x7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Lv6RwLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9yLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Lv_xULEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9ybA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwDbsLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9y7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwHGELEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9zLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwKJYLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9zrA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LwNzwLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u9z7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LwReILEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u90LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwVIgLEREd-2W6ZY1btywQ" source="_LvcXsLEREd-2W6ZY1btywQ" target="_M-u90bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_LZwHMLGjEd-RI4L5i7X_Og" negated="true">
+        <conclusion xmi:id="_LZwHMbGjEd-RI4L5i7X_Og" name="default">
+          <nodes xmi:id="_LZyjcLGjEd-RI4L5i7X_Og" name="root" outgoing="_F2Vh8LGjEd-RI4L5i7X_Og _Fe6gcLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+          </nodes>
+          <nodes xmi:id="_LZ1mwLGjEd-RI4L5i7X_Og" name="C" incoming="_J9yfgLGjEd-RI4L5i7X_Og _KjU1gLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+          </nodes>
+          <nodes xmi:id="_F2O0QLGjEd-RI4L5i7X_Og" incoming="_F2Vh8LGjEd-RI4L5i7X_Og" outgoing="_J9yfgLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+          </nodes>
+          <nodes xmi:id="_FezywLGjEd-RI4L5i7X_Og" incoming="_Fe6gcLGjEd-RI4L5i7X_Og" outgoing="_KjU1gLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+          </nodes>
+          <edges xmi:id="_F2Vh8LGjEd-RI4L5i7X_Og" source="_LZyjcLGjEd-RI4L5i7X_Og" target="_F2O0QLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+          </edges>
+          <edges xmi:id="_J9yfgLGjEd-RI4L5i7X_Og" source="_F2O0QLGjEd-RI4L5i7X_Og" target="_LZ1mwLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+          </edges>
+          <edges xmi:id="_Fe6gcLGjEd-RI4L5i7X_Og" source="_LZyjcLGjEd-RI4L5i7X_Og" target="_FezywLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+          </edges>
+          <edges xmi:id="_KjU1gLGjEd-RI4L5i7X_Og" source="_FezywLGjEd-RI4L5i7X_Og" target="_LZ1mwLGjEd-RI4L5i7X_Og">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_LZyjcbGjEd-RI4L5i7X_Og" origin="_LvcXsLEREd-2W6ZY1btywQ" image="_LZyjcLGjEd-RI4L5i7X_Og"/>
+        <mappings xmi:id="_LZ1mwbGjEd-RI4L5i7X_Og" origin="_M-u9zrA_Ed-6Qd_WaeWgKA" image="_LZ1mwLGjEd-RI4L5i7X_Og"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_M-u94LA_Ed-6Qd_WaeWgKA" name="RHS">
+      <nodes xmi:id="_M-u94bA_Ed-6Qd_WaeWgKA" incoming="_Lvh3QLEREd-2W6ZY1btywQ" outgoing="_M-u9_LA_Ed-6Qd_WaeWgKA _M-u9_bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_M-u947A_Ed-6Qd_WaeWgKA" name="A" incoming="_M-u9_LA_Ed-6Qd_WaeWgKA _M-u9_rA_Ed-6Qd_WaeWgKA _LvlhoLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u95LA_Ed-6Qd_WaeWgKA" name="B" incoming="_M-u9_bA_Ed-6Qd_WaeWgKA _M-u-A7A_Ed-6Qd_WaeWgKA _M-u-BrA_Ed-6Qd_WaeWgKA _LvpzELEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u95bA_Ed-6Qd_WaeWgKA" name="I" incoming="_M-u9_7A_Ed-6Qd_WaeWgKA _M-u-ALA_Ed-6Qd_WaeWgKA _M-u-CLA_Ed-6Qd_WaeWgKA _LvwgwLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u95rA_Ed-6Qd_WaeWgKA" name="J" incoming="_M-u-AbA_Ed-6Qd_WaeWgKA _M-u-ArA_Ed-6Qd_WaeWgKA _Lv3OcLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u957A_Ed-6Qd_WaeWgKA" incoming="_Lv8uALEREd-2W6ZY1btywQ" outgoing="_M-u9_rA_Ed-6Qd_WaeWgKA _M-u9_7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_M-u96LA_Ed-6Qd_WaeWgKA" incoming="_LwBmgLEREd-2W6ZY1btywQ" outgoing="_M-u-ALA_Ed-6Qd_WaeWgKA _M-u-AbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_sYV5ELGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_M-u96rA_Ed-6Qd_WaeWgKA" incoming="_LwFQ4LEREd-2W6ZY1btywQ" outgoing="_M-u-ArA_Ed-6Qd_WaeWgKA _M-u-A7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_M-u967A_Ed-6Qd_WaeWgKA" incoming="_LwIUMLEREd-2W6ZY1btywQ" outgoing="_M-u-BLA_Ed-6Qd_WaeWgKA _M-u-BbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_qxX7QbGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_M-u97bA_Ed-6Qd_WaeWgKA" name="C" incoming="_M-u-BbA_Ed-6Qd_WaeWgKA _M-u-CbA_Ed-6Qd_WaeWgKA _W7TUkLA_Ed-6Qd_WaeWgKA _LwL-kLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u97rA_Ed-6Qd_WaeWgKA" name="D" incoming="_M-u-BLA_Ed-6Qd_WaeWgKA _M-u-B7A_Ed-6Qd_WaeWgKA _XpAIELA_Ed-6Qd_WaeWgKA _LwPo8LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_M-u977A_Ed-6Qd_WaeWgKA" incoming="_LwTTULEREd-2W6ZY1btywQ" outgoing="_M-u-BrA_Ed-6Qd_WaeWgKA _M-u-B7A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_M-u98LA_Ed-6Qd_WaeWgKA" incoming="_LwW9sLEREd-2W6ZY1btywQ" outgoing="_M-u-CLA_Ed-6Qd_WaeWgKA _M-u-CbA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_UPdZYLA_Ed-6Qd_WaeWgKA" incoming="_LwYy4LEREd-2W6ZY1btywQ" outgoing="_W7TUkLA_Ed-6Qd_WaeWgKA _XpAIELA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_1xxgMLBEEd-EZscaa8ZpNg" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_LveM4LEREd-2W6ZY1btywQ" name="root" outgoing="_Lvh3QLEREd-2W6ZY1btywQ _LvlhoLEREd-2W6ZY1btywQ _LvpzELEREd-2W6ZY1btywQ _LvwgwLEREd-2W6ZY1btywQ _Lv3OcLEREd-2W6ZY1btywQ _Lv8uALEREd-2W6ZY1btywQ _LwBmgLEREd-2W6ZY1btywQ _LwFQ4LEREd-2W6ZY1btywQ _LwIUMLEREd-2W6ZY1btywQ _LwL-kLEREd-2W6ZY1btywQ _LwPo8LEREd-2W6ZY1btywQ _LwTTULEREd-2W6ZY1btywQ _LwW9sLEREd-2W6ZY1btywQ _LwYy4LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_M-u9_LA_Ed-6Qd_WaeWgKA" source="_M-u94bA_Ed-6Qd_WaeWgKA" target="_M-u947A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_M-u9_bA_Ed-6Qd_WaeWgKA" source="_M-u94bA_Ed-6Qd_WaeWgKA" target="_M-u95LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_M-u9_rA_Ed-6Qd_WaeWgKA" source="_M-u957A_Ed-6Qd_WaeWgKA" target="_M-u947A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u9_7A_Ed-6Qd_WaeWgKA" source="_M-u957A_Ed-6Qd_WaeWgKA" target="_M-u95bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_M-u-ALA_Ed-6Qd_WaeWgKA" source="_M-u96LA_Ed-6Qd_WaeWgKA" target="_M-u95bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_M-u-AbA_Ed-6Qd_WaeWgKA" source="_M-u96LA_Ed-6Qd_WaeWgKA" target="_M-u95rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_M-u-ArA_Ed-6Qd_WaeWgKA" source="_M-u96rA_Ed-6Qd_WaeWgKA" target="_M-u95rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_M-u-A7A_Ed-6Qd_WaeWgKA" source="_M-u96rA_Ed-6Qd_WaeWgKA" target="_M-u95LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_M-u-BLA_Ed-6Qd_WaeWgKA" source="_M-u967A_Ed-6Qd_WaeWgKA" target="_M-u97rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_M-u-BbA_Ed-6Qd_WaeWgKA" source="_M-u967A_Ed-6Qd_WaeWgKA" target="_M-u97bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_M-u-BrA_Ed-6Qd_WaeWgKA" source="_M-u977A_Ed-6Qd_WaeWgKA" target="_M-u95LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_M-u-B7A_Ed-6Qd_WaeWgKA" source="_M-u977A_Ed-6Qd_WaeWgKA" target="_M-u97rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u-CLA_Ed-6Qd_WaeWgKA" source="_M-u98LA_Ed-6Qd_WaeWgKA" target="_M-u95bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_M-u-CbA_Ed-6Qd_WaeWgKA" source="_M-u98LA_Ed-6Qd_WaeWgKA" target="_M-u97bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_W7TUkLA_Ed-6Qd_WaeWgKA" source="_UPdZYLA_Ed-6Qd_WaeWgKA" target="_M-u97bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_XpAIELA_Ed-6Qd_WaeWgKA" source="_UPdZYLA_Ed-6Qd_WaeWgKA" target="_M-u97rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_Lvh3QLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u94bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LvlhoLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u947A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LvpzELEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u95LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LvwgwLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u95bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Lv3OcLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u95rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Lv8uALEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u957A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwBmgLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u96LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwFQ4LEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u96rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwIUMLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u967A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwL-kLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u97bA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LwPo8LEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u97rA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_LwTTULEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u977A_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwW9sLEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_M-u98LA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_LwYy4LEREd-2W6ZY1btywQ" source="_LveM4LEREd-2W6ZY1btywQ" target="_UPdZYLA_Ed-6Qd_WaeWgKA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_M-u-FrA_Ed-6Qd_WaeWgKA" origin="_M-u9wrA_Ed-6Qd_WaeWgKA" image="_M-u94bA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk0LA_Ed-6Qd_WaeWgKA" origin="_M-u9xLA_Ed-6Qd_WaeWgKA" image="_M-u947A_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk0bA_Ed-6Qd_WaeWgKA" origin="_M-u9xbA_Ed-6Qd_WaeWgKA" image="_M-u95LA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk0rA_Ed-6Qd_WaeWgKA" origin="_M-u9xrA_Ed-6Qd_WaeWgKA" image="_M-u95bA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk07A_Ed-6Qd_WaeWgKA" origin="_M-u9x7A_Ed-6Qd_WaeWgKA" image="_M-u95rA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk1LA_Ed-6Qd_WaeWgKA" origin="_M-u9yLA_Ed-6Qd_WaeWgKA" image="_M-u957A_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk1bA_Ed-6Qd_WaeWgKA" origin="_M-u9ybA_Ed-6Qd_WaeWgKA" image="_M-u96LA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk1rA_Ed-6Qd_WaeWgKA" origin="_M-u9y7A_Ed-6Qd_WaeWgKA" image="_M-u96rA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk17A_Ed-6Qd_WaeWgKA" origin="_M-u9zLA_Ed-6Qd_WaeWgKA" image="_M-u967A_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk2LA_Ed-6Qd_WaeWgKA" origin="_M-u9zrA_Ed-6Qd_WaeWgKA" image="_M-u97bA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk2bA_Ed-6Qd_WaeWgKA" origin="_M-u9z7A_Ed-6Qd_WaeWgKA" image="_M-u97rA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk2rA_Ed-6Qd_WaeWgKA" origin="_M-u90LA_Ed-6Qd_WaeWgKA" image="_M-u977A_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_M-vk27A_Ed-6Qd_WaeWgKA" origin="_M-u90bA_Ed-6Qd_WaeWgKA" image="_M-u98LA_Ed-6Qd_WaeWgKA"/>
+    <mappings xmi:id="_LvfbALEREd-2W6ZY1btywQ" origin="_LvcXsLEREd-2W6ZY1btywQ" image="_LveM4LEREd-2W6ZY1btywQ"/>
+  </rules>
+  <rules xmi:id="_mQoqYLBAEd-EZscaa8ZpNg" name="DelResource">
+    <lhs xmi:id="_mQoqYbBAEd-EZscaa8ZpNg" name="LHS">
+      <nodes xmi:id="_MviiwbEREd-2W6ZY1btywQ" name="root" outgoing="_MvnbQbEREd-2W6ZY1btywQ _MvrFoLEREd-2W6ZY1btywQ _MvuwALEREd-2W6ZY1btywQ _MvyaYLEREd-2W6ZY1btywQ _Mv2EwLEREd-2W6ZY1btywQ _Mv69QLEREd-2W6ZY1btywQ _Mv-noLEREd-2W6ZY1btywQ _MwCSALEREd-2W6ZY1btywQ _MwF8YLEREd-2W6ZY1btywQ _MwI_sLEREd-2W6ZY1btywQ _MwMqELEREd-2W6ZY1btywQ _MwQUcLEREd-2W6ZY1btywQ _MwUl4LEREd-2W6ZY1btywQ _MwYQQLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_mQoqYrBAEd-EZscaa8ZpNg" incoming="_MvnbQbEREd-2W6ZY1btywQ" outgoing="_mQoqcrBAEd-EZscaa8ZpNg _mQoqc7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_mQoqZLBAEd-EZscaa8ZpNg" name="A" incoming="_mQoqcrBAEd-EZscaa8ZpNg _mQoqdLBAEd-EZscaa8ZpNg _MvrFoLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqZbBAEd-EZscaa8ZpNg" name="B" incoming="_mQoqc7BAEd-EZscaa8ZpNg _mQoqebBAEd-EZscaa8ZpNg _mQoqfLBAEd-EZscaa8ZpNg _MvuwALEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqZrBAEd-EZscaa8ZpNg" name="I" incoming="_mQoqdbBAEd-EZscaa8ZpNg _mQoqdrBAEd-EZscaa8ZpNg _mQoqfrBAEd-EZscaa8ZpNg _MvyaYLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqZ7BAEd-EZscaa8ZpNg" name="J" incoming="_mQoqd7BAEd-EZscaa8ZpNg _mQoqeLBAEd-EZscaa8ZpNg _Mv2EwLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqaLBAEd-EZscaa8ZpNg" incoming="_Mv69QLEREd-2W6ZY1btywQ" outgoing="_mQoqdLBAEd-EZscaa8ZpNg _mQoqdbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_mQoqabBAEd-EZscaa8ZpNg" incoming="_Mv-noLEREd-2W6ZY1btywQ" outgoing="_mQoqdrBAEd-EZscaa8ZpNg _mQoqd7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_xKvRELGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mQoqa7BAEd-EZscaa8ZpNg" incoming="_MwCSALEREd-2W6ZY1btywQ" outgoing="_mQoqeLBAEd-EZscaa8ZpNg _mQoqebBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_mQoqbLBAEd-EZscaa8ZpNg" incoming="_MwF8YLEREd-2W6ZY1btywQ" outgoing="_mQoqerBAEd-EZscaa8ZpNg _mQoqe7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_t759kLGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mQoqbrBAEd-EZscaa8ZpNg" name="C" incoming="_mQoqe7BAEd-EZscaa8ZpNg _mQoqf7BAEd-EZscaa8ZpNg _mQpRcrBAEd-EZscaa8ZpNg _MwI_sLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqb7BAEd-EZscaa8ZpNg" name="D" incoming="_mQoqerBAEd-EZscaa8ZpNg _mQoqfbBAEd-EZscaa8ZpNg _mQpRc7BAEd-EZscaa8ZpNg _MwMqELEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqcLBAEd-EZscaa8ZpNg" incoming="_MwQUcLEREd-2W6ZY1btywQ" outgoing="_mQoqfLBAEd-EZscaa8ZpNg _mQoqfbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_mQoqcbBAEd-EZscaa8ZpNg" incoming="_MwUl4LEREd-2W6ZY1btywQ" outgoing="_mQoqfrBAEd-EZscaa8ZpNg _mQoqf7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_mQoqkbBAEd-EZscaa8ZpNg" incoming="_MwYQQLEREd-2W6ZY1btywQ" outgoing="_mQpRcrBAEd-EZscaa8ZpNg _mQpRc7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_wPOrELGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_mQoqcrBAEd-EZscaa8ZpNg" source="_mQoqYrBAEd-EZscaa8ZpNg" target="_mQoqZLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_mQoqc7BAEd-EZscaa8ZpNg" source="_mQoqYrBAEd-EZscaa8ZpNg" target="_mQoqZbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_mQoqdLBAEd-EZscaa8ZpNg" source="_mQoqaLBAEd-EZscaa8ZpNg" target="_mQoqZLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqdbBAEd-EZscaa8ZpNg" source="_mQoqaLBAEd-EZscaa8ZpNg" target="_mQoqZrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_mQoqdrBAEd-EZscaa8ZpNg" source="_mQoqabBAEd-EZscaa8ZpNg" target="_mQoqZrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_mQoqd7BAEd-EZscaa8ZpNg" source="_mQoqabBAEd-EZscaa8ZpNg" target="_mQoqZ7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqeLBAEd-EZscaa8ZpNg" source="_mQoqa7BAEd-EZscaa8ZpNg" target="_mQoqZ7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_mQoqebBAEd-EZscaa8ZpNg" source="_mQoqa7BAEd-EZscaa8ZpNg" target="_mQoqZbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_mQoqerBAEd-EZscaa8ZpNg" source="_mQoqbLBAEd-EZscaa8ZpNg" target="_mQoqb7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_mQoqe7BAEd-EZscaa8ZpNg" source="_mQoqbLBAEd-EZscaa8ZpNg" target="_mQoqbrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqfLBAEd-EZscaa8ZpNg" source="_mQoqcLBAEd-EZscaa8ZpNg" target="_mQoqZbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_mQoqfbBAEd-EZscaa8ZpNg" source="_mQoqcLBAEd-EZscaa8ZpNg" target="_mQoqb7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqfrBAEd-EZscaa8ZpNg" source="_mQoqcbBAEd-EZscaa8ZpNg" target="_mQoqZrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqf7BAEd-EZscaa8ZpNg" source="_mQoqcbBAEd-EZscaa8ZpNg" target="_mQoqbrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_mQpRcrBAEd-EZscaa8ZpNg" source="_mQoqkbBAEd-EZscaa8ZpNg" target="_mQoqbrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_mQpRc7BAEd-EZscaa8ZpNg" source="_mQoqkbBAEd-EZscaa8ZpNg" target="_mQoqb7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_MvnbQbEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqYrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MvrFoLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqZLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MvuwALEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqZbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MvyaYLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqZrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mv2EwLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqZ7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mv69QLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqaLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Mv-noLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqabBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwCSALEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqa7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwF8YLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqbLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwI_sLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqbrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MwMqELEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqb7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MwQUcLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqcLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwUl4LEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqcbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwYQQLEREd-2W6ZY1btywQ" source="_MviiwbEREd-2W6ZY1btywQ" target="_mQoqkbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_mQoqgLBAEd-EZscaa8ZpNg" name="RHS">
+      <nodes xmi:id="_mQoqgbBAEd-EZscaa8ZpNg" incoming="_MvpQcLEREd-2W6ZY1btywQ" outgoing="_mQoqkrBAEd-EZscaa8ZpNg _mQoqk7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+      </nodes>
+      <nodes xmi:id="_mQoqg7BAEd-EZscaa8ZpNg" name="A" incoming="_mQoqkrBAEd-EZscaa8ZpNg _mQoqlLBAEd-EZscaa8ZpNg _Mvs60LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqhLBAEd-EZscaa8ZpNg" name="B" incoming="_mQoqk7BAEd-EZscaa8ZpNg _mQoqmbBAEd-EZscaa8ZpNg _mQoqnLBAEd-EZscaa8ZpNg _Mvv-ILEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqhbBAEd-EZscaa8ZpNg" name="I" incoming="_mQoqlbBAEd-EZscaa8ZpNg _mQoqlrBAEd-EZscaa8ZpNg _mQpRcLBAEd-EZscaa8ZpNg _Mv0PkLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqhrBAEd-EZscaa8ZpNg" name="J" incoming="_mQoql7BAEd-EZscaa8ZpNg _mQoqmLBAEd-EZscaa8ZpNg _Mv5IELEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqh7BAEd-EZscaa8ZpNg" incoming="_Mv8ycLEREd-2W6ZY1btywQ" outgoing="_mQoqlLBAEd-EZscaa8ZpNg _mQoqlbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_mQoqiLBAEd-EZscaa8ZpNg" incoming="_MwAc0LEREd-2W6ZY1btywQ" outgoing="_mQoqlrBAEd-EZscaa8ZpNg _mQoql7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_xKvREbGsEd-RI4L5i7X_Og" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mQoqirBAEd-EZscaa8ZpNg" incoming="_MwEHMLEREd-2W6ZY1btywQ" outgoing="_mQoqmLBAEd-EZscaa8ZpNg _mQoqmbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_mQoqi7BAEd-EZscaa8ZpNg" incoming="_MwHKgLEREd-2W6ZY1btywQ" outgoing="_mQoqmrBAEd-EZscaa8ZpNg _mQoqm7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_t759kbGsEd-RI4L5i7X_Og" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_mQoqjbBAEd-EZscaa8ZpNg" name="C" incoming="_mQoqm7BAEd-EZscaa8ZpNg _mQpRcbBAEd-EZscaa8ZpNg _MwK04LEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqjrBAEd-EZscaa8ZpNg" name="D" incoming="_mQoqmrBAEd-EZscaa8ZpNg _mQoqnbBAEd-EZscaa8ZpNg _MwOfQLEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_mQoqj7BAEd-EZscaa8ZpNg" incoming="_MwSJoLEREd-2W6ZY1btywQ" outgoing="_mQoqnLBAEd-EZscaa8ZpNg _mQoqnbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_mQoqkLBAEd-EZscaa8ZpNg" incoming="_MwWbELEREd-2W6ZY1btywQ" outgoing="_mQpRcLBAEd-EZscaa8ZpNg _mQpRcbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_Mvk_ALEREd-2W6ZY1btywQ" name="root" outgoing="_MvpQcLEREd-2W6ZY1btywQ _Mvs60LEREd-2W6ZY1btywQ _Mvv-ILEREd-2W6ZY1btywQ _Mv0PkLEREd-2W6ZY1btywQ _Mv5IELEREd-2W6ZY1btywQ _Mv8ycLEREd-2W6ZY1btywQ _MwAc0LEREd-2W6ZY1btywQ _MwEHMLEREd-2W6ZY1btywQ _MwHKgLEREd-2W6ZY1btywQ _MwK04LEREd-2W6ZY1btywQ _MwOfQLEREd-2W6ZY1btywQ _MwSJoLEREd-2W6ZY1btywQ _MwWbELEREd-2W6ZY1btywQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_mQoqkrBAEd-EZscaa8ZpNg" source="_mQoqgbBAEd-EZscaa8ZpNg" target="_mQoqg7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_mQoqk7BAEd-EZscaa8ZpNg" source="_mQoqgbBAEd-EZscaa8ZpNg" target="_mQoqhLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_mQoqlLBAEd-EZscaa8ZpNg" source="_mQoqh7BAEd-EZscaa8ZpNg" target="_mQoqg7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqlbBAEd-EZscaa8ZpNg" source="_mQoqh7BAEd-EZscaa8ZpNg" target="_mQoqhbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_mQoqlrBAEd-EZscaa8ZpNg" source="_mQoqiLBAEd-EZscaa8ZpNg" target="_mQoqhbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_mQoql7BAEd-EZscaa8ZpNg" source="_mQoqiLBAEd-EZscaa8ZpNg" target="_mQoqhrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqmLBAEd-EZscaa8ZpNg" source="_mQoqirBAEd-EZscaa8ZpNg" target="_mQoqhrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_mQoqmbBAEd-EZscaa8ZpNg" source="_mQoqirBAEd-EZscaa8ZpNg" target="_mQoqhLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_mQoqmrBAEd-EZscaa8ZpNg" source="_mQoqi7BAEd-EZscaa8ZpNg" target="_mQoqjrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_mQoqm7BAEd-EZscaa8ZpNg" source="_mQoqi7BAEd-EZscaa8ZpNg" target="_mQoqjbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_mQoqnLBAEd-EZscaa8ZpNg" source="_mQoqj7BAEd-EZscaa8ZpNg" target="_mQoqhLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_mQoqnbBAEd-EZscaa8ZpNg" source="_mQoqj7BAEd-EZscaa8ZpNg" target="_mQoqjrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQpRcLBAEd-EZscaa8ZpNg" source="_mQoqkLBAEd-EZscaa8ZpNg" target="_mQoqhbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_mQpRcbBAEd-EZscaa8ZpNg" source="_mQoqkLBAEd-EZscaa8ZpNg" target="_mQoqjbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_MvpQcLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqgbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_Mvs60LEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqg7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mvv-ILEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqhLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mv0PkLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqhbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mv5IELEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqhrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_Mv8ycLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqh7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwAc0LEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqiLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwEHMLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqirBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwHKgLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqi7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwK04LEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqjbBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MwOfQLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqjrBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_MwSJoLEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqj7BAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_MwWbELEREd-2W6ZY1btywQ" source="_Mvk_ALEREd-2W6ZY1btywQ" target="_mQoqkLBAEd-EZscaa8ZpNg">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_mQpRdLBAEd-EZscaa8ZpNg" origin="_mQoqYrBAEd-EZscaa8ZpNg" image="_mQoqgbBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRdbBAEd-EZscaa8ZpNg" origin="_mQoqZLBAEd-EZscaa8ZpNg" image="_mQoqg7BAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRdrBAEd-EZscaa8ZpNg" origin="_mQoqZbBAEd-EZscaa8ZpNg" image="_mQoqhLBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRd7BAEd-EZscaa8ZpNg" origin="_mQoqZrBAEd-EZscaa8ZpNg" image="_mQoqhbBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpReLBAEd-EZscaa8ZpNg" origin="_mQoqZ7BAEd-EZscaa8ZpNg" image="_mQoqhrBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRebBAEd-EZscaa8ZpNg" origin="_mQoqaLBAEd-EZscaa8ZpNg" image="_mQoqh7BAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRerBAEd-EZscaa8ZpNg" origin="_mQoqabBAEd-EZscaa8ZpNg" image="_mQoqiLBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRe7BAEd-EZscaa8ZpNg" origin="_mQoqa7BAEd-EZscaa8ZpNg" image="_mQoqirBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRfLBAEd-EZscaa8ZpNg" origin="_mQoqbLBAEd-EZscaa8ZpNg" image="_mQoqi7BAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRfbBAEd-EZscaa8ZpNg" origin="_mQoqbrBAEd-EZscaa8ZpNg" image="_mQoqjbBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRfrBAEd-EZscaa8ZpNg" origin="_mQoqb7BAEd-EZscaa8ZpNg" image="_mQoqjrBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRf7BAEd-EZscaa8ZpNg" origin="_mQoqcLBAEd-EZscaa8ZpNg" image="_mQoqj7BAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_mQpRgLBAEd-EZscaa8ZpNg" origin="_mQoqcbBAEd-EZscaa8ZpNg" image="_mQoqkLBAEd-EZscaa8ZpNg"/>
+    <mappings xmi:id="_MvnbQLEREd-2W6ZY1btywQ" origin="_MviiwbEREd-2W6ZY1btywQ" image="_Mvk_ALEREd-2W6ZY1btywQ"/>
+  </rules>
+  <rules xmi:id="_bNgmMLEnEd-hwNESgkumhw" name="StartWorker">
+    <lhs xmi:id="_bNgmMbEnEd-hwNESgkumhw" name="LHS">
+      <nodes xmi:id="_6iGOALEoEd-hwNESgkumhw" name="root" outgoing="_6ilWMLEoEd-hwNESgkumhw _6iq1wLEoEd-hwNESgkumhw _6ivuQLEoEd-hwNESgkumhw _6i0mwLEoEd-hwNESgkumhw _6i44MLEoEd-hwNESgkumhw _6jJW4LEoEd-hwNESgkumhw _6jNoULEoEd-hwNESgkumhw _6jSg0LEoEd-hwNESgkumhw _6jWyQLEoEd-hwNESgkumhw _6jbDsLEoEd-hwNESgkumhw _6jf8MLEoEd-hwNESgkumhw _6jkNoLEoEd-hwNESgkumhw _6jofELEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_bNgmM7EnEd-hwNESgkumhw" incoming="_6ilWMLEoEd-hwNESgkumhw" outgoing="_bNgmRbEnEd-hwNESgkumhw _bNgmRrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+        <attributes xmi:id="_bNgmNLEnEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNgmNbEnEd-hwNESgkumhw" name="A" incoming="_bNgmRbEnEd-hwNESgkumhw _bNgmR7EnEd-hwNESgkumhw _6iq1wLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmNrEnEd-hwNESgkumhw" name="B" incoming="_bNgmRrEnEd-hwNESgkumhw _bNgmTLEnEd-hwNESgkumhw _bNgmT7EnEd-hwNESgkumhw _6ivuQLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmN7EnEd-hwNESgkumhw" name="I" incoming="_bNgmSLEnEd-hwNESgkumhw _bNgmSbEnEd-hwNESgkumhw _bNgmUbEnEd-hwNESgkumhw _6i0mwLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmOLEnEd-hwNESgkumhw" name="J" incoming="_bNgmSrEnEd-hwNESgkumhw _bNgmS7EnEd-hwNESgkumhw _6i44MLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmObEnEd-hwNESgkumhw" incoming="_6jJW4LEoEd-hwNESgkumhw" outgoing="_bNgmR7EnEd-hwNESgkumhw _bNgmSLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_bNgmOrEnEd-hwNESgkumhw" incoming="_6jNoULEoEd-hwNESgkumhw" outgoing="_bNgmSbEnEd-hwNESgkumhw _bNgmSrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_bNgmO7EnEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNgmPLEnEd-hwNESgkumhw" incoming="_6jSg0LEoEd-hwNESgkumhw" outgoing="_bNgmS7EnEd-hwNESgkumhw _bNgmTLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_bNgmPbEnEd-hwNESgkumhw" incoming="_6jWyQLEoEd-hwNESgkumhw" outgoing="_bNgmTbEnEd-hwNESgkumhw _bNgmTrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_bNgmPrEnEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNgmP7EnEd-hwNESgkumhw" name="C" incoming="_bNgmTrEnEd-hwNESgkumhw _bNgmUrEnEd-hwNESgkumhw _6jbDsLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmQLEnEd-hwNESgkumhw" name="D" incoming="_bNgmTbEnEd-hwNESgkumhw _bNgmULEnEd-hwNESgkumhw _6jf8MLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNgmQbEnEd-hwNESgkumhw" incoming="_6jkNoLEoEd-hwNESgkumhw" outgoing="_bNgmT7EnEd-hwNESgkumhw _bNgmULEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_bNgmQrEnEd-hwNESgkumhw" incoming="_6jofELEoEd-hwNESgkumhw" outgoing="_bNgmUbEnEd-hwNESgkumhw _bNgmUrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <edges xmi:id="_bNgmRbEnEd-hwNESgkumhw" source="_bNgmM7EnEd-hwNESgkumhw" target="_bNgmNbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_bNgmRrEnEd-hwNESgkumhw" source="_bNgmM7EnEd-hwNESgkumhw" target="_bNgmNrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_bNgmR7EnEd-hwNESgkumhw" source="_bNgmObEnEd-hwNESgkumhw" target="_bNgmNbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNgmSLEnEd-hwNESgkumhw" source="_bNgmObEnEd-hwNESgkumhw" target="_bNgmN7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bNgmSbEnEd-hwNESgkumhw" source="_bNgmOrEnEd-hwNESgkumhw" target="_bNgmN7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_bNgmSrEnEd-hwNESgkumhw" source="_bNgmOrEnEd-hwNESgkumhw" target="_bNgmOLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_bNgmS7EnEd-hwNESgkumhw" source="_bNgmPLEnEd-hwNESgkumhw" target="_bNgmOLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_bNgmTLEnEd-hwNESgkumhw" source="_bNgmPLEnEd-hwNESgkumhw" target="_bNgmNrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_bNgmTbEnEd-hwNESgkumhw" source="_bNgmPbEnEd-hwNESgkumhw" target="_bNgmQLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_bNgmTrEnEd-hwNESgkumhw" source="_bNgmPbEnEd-hwNESgkumhw" target="_bNgmP7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_bNgmT7EnEd-hwNESgkumhw" source="_bNgmQbEnEd-hwNESgkumhw" target="_bNgmNrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bNgmULEnEd-hwNESgkumhw" source="_bNgmQbEnEd-hwNESgkumhw" target="_bNgmQLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNgmUbEnEd-hwNESgkumhw" source="_bNgmQrEnEd-hwNESgkumhw" target="_bNgmN7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNgmUrEnEd-hwNESgkumhw" source="_bNgmQrEnEd-hwNESgkumhw" target="_bNgmP7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_6ilWMLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmM7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6iq1wLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmNbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6ivuQLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmNrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6i0mwLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmN7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6i44MLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmOLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jJW4LEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmObEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jNoULEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmOrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jSg0LEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmPLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jWyQLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmPbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jbDsLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmP7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jf8MLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmQLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jkNoLEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmQbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jofELEoEd-hwNESgkumhw" source="_6iGOALEoEd-hwNESgkumhw" target="_bNgmQrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_bNhNRLEnEd-hwNESgkumhw" name="RHS">
+      <nodes xmi:id="_bNhNRbEnEd-hwNESgkumhw" incoming="_6inycLEoEd-hwNESgkumhw" outgoing="_bNhNVrEnEd-hwNESgkumhw _bNhNV7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+        <attributes xmi:id="_bNhNRrEnEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNhNR7EnEd-hwNESgkumhw" name="A" incoming="_bNhNVrEnEd-hwNESgkumhw _bNhNWLEnEd-hwNESgkumhw _6itSALEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNSLEnEd-hwNESgkumhw" name="B" incoming="_bNhNV7EnEd-hwNESgkumhw _bNhNXbEnEd-hwNESgkumhw _bNhNYLEnEd-hwNESgkumhw _6iyKgLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNSbEnEd-hwNESgkumhw" name="I" incoming="_bNhNWbEnEd-hwNESgkumhw _bNhNWrEnEd-hwNESgkumhw _bNhNYrEnEd-hwNESgkumhw _6i3DALEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNSrEnEd-hwNESgkumhw" name="J" incoming="_bNhNW7EnEd-hwNESgkumhw _bNhNXLEnEd-hwNESgkumhw _6jGTkLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNS7EnEd-hwNESgkumhw" incoming="_6jLMELEoEd-hwNESgkumhw" outgoing="_bNhNWLEnEd-hwNESgkumhw _bNhNWbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_bNhNTLEnEd-hwNESgkumhw" incoming="_6jQEkLEoEd-hwNESgkumhw" outgoing="_bNhNWrEnEd-hwNESgkumhw _bNhNW7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_bNhNTbEnEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNhNTrEnEd-hwNESgkumhw" incoming="_6jUWALEoEd-hwNESgkumhw" outgoing="_bNhNXLEnEd-hwNESgkumhw _bNhNXbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_bNhNT7EnEd-hwNESgkumhw" incoming="_6jYncLEoEd-hwNESgkumhw" outgoing="_bNhNXrEnEd-hwNESgkumhw _bNhNX7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_bNhNULEnEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_bNhNUbEnEd-hwNESgkumhw" name="C" incoming="_bNhNX7EnEd-hwNESgkumhw _bNhNY7EnEd-hwNESgkumhw _6jc44LEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNUrEnEd-hwNESgkumhw" name="D" incoming="_bNhNXrEnEd-hwNESgkumhw _bNhNYbEnEd-hwNESgkumhw _6jhxYLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_bNhNU7EnEd-hwNESgkumhw" incoming="_6jmC0LEoEd-hwNESgkumhw" outgoing="_bNhNYLEnEd-hwNESgkumhw _bNhNYbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_bNhNVLEnEd-hwNESgkumhw" incoming="_6jqUQLEoEd-hwNESgkumhw" outgoing="_bNhNYrEnEd-hwNESgkumhw _bNhNY7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_6iVekLEoEd-hwNESgkumhw" name="root" outgoing="_6inycLEoEd-hwNESgkumhw _6itSALEoEd-hwNESgkumhw _6iyKgLEoEd-hwNESgkumhw _6i3DALEoEd-hwNESgkumhw _6jGTkLEoEd-hwNESgkumhw _6jLMELEoEd-hwNESgkumhw _6jQEkLEoEd-hwNESgkumhw _6jUWALEoEd-hwNESgkumhw _6jYncLEoEd-hwNESgkumhw _6jc44LEoEd-hwNESgkumhw _6jhxYLEoEd-hwNESgkumhw _6jmC0LEoEd-hwNESgkumhw _6jqUQLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_bNhNVrEnEd-hwNESgkumhw" source="_bNhNRbEnEd-hwNESgkumhw" target="_bNhNR7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_bNhNV7EnEd-hwNESgkumhw" source="_bNhNRbEnEd-hwNESgkumhw" target="_bNhNSLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_bNhNWLEnEd-hwNESgkumhw" source="_bNhNS7EnEd-hwNESgkumhw" target="_bNhNR7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNhNWbEnEd-hwNESgkumhw" source="_bNhNS7EnEd-hwNESgkumhw" target="_bNhNSbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bNhNWrEnEd-hwNESgkumhw" source="_bNhNTLEnEd-hwNESgkumhw" target="_bNhNSbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_bNhNW7EnEd-hwNESgkumhw" source="_bNhNTLEnEd-hwNESgkumhw" target="_bNhNSrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_bNhNXLEnEd-hwNESgkumhw" source="_bNhNTrEnEd-hwNESgkumhw" target="_bNhNSrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_bNhNXbEnEd-hwNESgkumhw" source="_bNhNTrEnEd-hwNESgkumhw" target="_bNhNSLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_bNhNXrEnEd-hwNESgkumhw" source="_bNhNT7EnEd-hwNESgkumhw" target="_bNhNUrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_bNhNX7EnEd-hwNESgkumhw" source="_bNhNT7EnEd-hwNESgkumhw" target="_bNhNUbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_bNhNYLEnEd-hwNESgkumhw" source="_bNhNU7EnEd-hwNESgkumhw" target="_bNhNSLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_bNhNYbEnEd-hwNESgkumhw" source="_bNhNU7EnEd-hwNESgkumhw" target="_bNhNUrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNhNYrEnEd-hwNESgkumhw" source="_bNhNVLEnEd-hwNESgkumhw" target="_bNhNSbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_bNhNY7EnEd-hwNESgkumhw" source="_bNhNVLEnEd-hwNESgkumhw" target="_bNhNUbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_6inycLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNRbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6itSALEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNR7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6iyKgLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNSLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6i3DALEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNSbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jGTkLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNSrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jLMELEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNS7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jQEkLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNTLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jUWALEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNTrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jYncLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNT7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jc44LEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNUbEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jhxYLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNUrEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_6jmC0LEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNU7EnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_6jqUQLEoEd-hwNESgkumhw" source="_6iVekLEoEd-hwNESgkumhw" target="_bNhNVLEnEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_bNhNcbEnEd-hwNESgkumhw" origin="_bNgmM7EnEd-hwNESgkumhw" image="_bNhNRbEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNcrEnEd-hwNESgkumhw" origin="_bNgmNbEnEd-hwNESgkumhw" image="_bNhNR7EnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNc7EnEd-hwNESgkumhw" origin="_bNgmNrEnEd-hwNESgkumhw" image="_bNhNSLEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNdLEnEd-hwNESgkumhw" origin="_bNgmN7EnEd-hwNESgkumhw" image="_bNhNSbEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNdbEnEd-hwNESgkumhw" origin="_bNgmOLEnEd-hwNESgkumhw" image="_bNhNSrEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNdrEnEd-hwNESgkumhw" origin="_bNgmObEnEd-hwNESgkumhw" image="_bNhNS7EnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNd7EnEd-hwNESgkumhw" origin="_bNgmOrEnEd-hwNESgkumhw" image="_bNhNTLEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNeLEnEd-hwNESgkumhw" origin="_bNgmPLEnEd-hwNESgkumhw" image="_bNhNTrEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNebEnEd-hwNESgkumhw" origin="_bNgmPbEnEd-hwNESgkumhw" image="_bNhNT7EnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNerEnEd-hwNESgkumhw" origin="_bNgmP7EnEd-hwNESgkumhw" image="_bNhNUbEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNe7EnEd-hwNESgkumhw" origin="_bNgmQLEnEd-hwNESgkumhw" image="_bNhNUrEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNfLEnEd-hwNESgkumhw" origin="_bNgmQbEnEd-hwNESgkumhw" image="_bNhNU7EnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_bNhNfbEnEd-hwNESgkumhw" origin="_bNgmQrEnEd-hwNESgkumhw" image="_bNhNVLEnEd-hwNESgkumhw"/>
+    <mappings xmi:id="_6iXTwLEoEd-hwNESgkumhw" origin="_6iGOALEoEd-hwNESgkumhw" image="_6iVekLEoEd-hwNESgkumhw"/>
+  </rules>
+  <rules xmi:id="_9xJj8LEoEd-hwNESgkumhw" name="StopWorker">
+    <lhs xmi:id="_9xJj8bEoEd-hwNESgkumhw" name="LHS">
+      <nodes xmi:id="_A1amMLEpEd-hwNESgkumhw" name="root" outgoing="_A1gs0LEpEd-hwNESgkumhw _A1k-QLEpEd-hwNESgkumhw _A1pPsLEpEd-hwNESgkumhw _A1s6ELEpEd-hwNESgkumhw _A1xLgLEpEd-hwNESgkumhw _A11c8LEpEd-hwNESgkumhw _A15HULEpEd-hwNESgkumhw _A19YwLEpEd-hwNESgkumhw _A2BqMLEpEd-hwNESgkumhw _A2F7oLEpEd-hwNESgkumhw _A2JmALEpEd-hwNESgkumhw _A2NQYLEpEd-hwNESgkumhw _A2Rh0LEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <nodes xmi:id="_9xJj87EoEd-hwNESgkumhw" incoming="_A1gs0LEpEd-hwNESgkumhw" outgoing="_9xJkA7EoEd-hwNESgkumhw _9xJkBLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+        <attributes xmi:id="_9xJj9LEoEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJj9bEoEd-hwNESgkumhw" name="A" incoming="_9xJkA7EoEd-hwNESgkumhw _9xJkBbEoEd-hwNESgkumhw _A1k-QLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJj9rEoEd-hwNESgkumhw" name="B" incoming="_9xJkBLEoEd-hwNESgkumhw _9xJkCrEoEd-hwNESgkumhw _9xJkDbEoEd-hwNESgkumhw _A1pPsLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJj97EoEd-hwNESgkumhw" name="I" incoming="_9xJkBrEoEd-hwNESgkumhw _9xJkB7EoEd-hwNESgkumhw _9xJkD7EoEd-hwNESgkumhw _A1s6ELEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJj-LEoEd-hwNESgkumhw" name="J" incoming="_9xJkCLEoEd-hwNESgkumhw _9xJkCbEoEd-hwNESgkumhw _A1xLgLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJj-bEoEd-hwNESgkumhw" incoming="_A11c8LEpEd-hwNESgkumhw" outgoing="_9xJkBbEoEd-hwNESgkumhw _9xJkBrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_9xJj-rEoEd-hwNESgkumhw" incoming="_A15HULEpEd-hwNESgkumhw" outgoing="_9xJkB7EoEd-hwNESgkumhw _9xJkCLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_9xJj-7EoEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJj_LEoEd-hwNESgkumhw" incoming="_A19YwLEpEd-hwNESgkumhw" outgoing="_9xJkCbEoEd-hwNESgkumhw _9xJkCrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_9xJj_bEoEd-hwNESgkumhw" incoming="_A2BqMLEpEd-hwNESgkumhw" outgoing="_9xJkC7EoEd-hwNESgkumhw _9xJkDLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_9xJj_rEoEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJj_7EoEd-hwNESgkumhw" name="C" incoming="_9xJkDLEoEd-hwNESgkumhw _9xJkELEoEd-hwNESgkumhw _A2F7oLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkALEoEd-hwNESgkumhw" name="D" incoming="_9xJkC7EoEd-hwNESgkumhw _9xJkDrEoEd-hwNESgkumhw _A2JmALEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkAbEoEd-hwNESgkumhw" incoming="_A2NQYLEpEd-hwNESgkumhw" outgoing="_9xJkDbEoEd-hwNESgkumhw _9xJkDrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_9xJkArEoEd-hwNESgkumhw" incoming="_A2Rh0LEpEd-hwNESgkumhw" outgoing="_9xJkD7EoEd-hwNESgkumhw _9xJkELEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <edges xmi:id="_9xJkA7EoEd-hwNESgkumhw" source="_9xJj87EoEd-hwNESgkumhw" target="_9xJj9bEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_9xJkBLEoEd-hwNESgkumhw" source="_9xJj87EoEd-hwNESgkumhw" target="_9xJj9rEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_9xJkBbEoEd-hwNESgkumhw" source="_9xJj-bEoEd-hwNESgkumhw" target="_9xJj9bEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xJkBrEoEd-hwNESgkumhw" source="_9xJj-bEoEd-hwNESgkumhw" target="_9xJj97EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_9xJkB7EoEd-hwNESgkumhw" source="_9xJj-rEoEd-hwNESgkumhw" target="_9xJj97EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_9xJkCLEoEd-hwNESgkumhw" source="_9xJj-rEoEd-hwNESgkumhw" target="_9xJj-LEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_9xJkCbEoEd-hwNESgkumhw" source="_9xJj_LEoEd-hwNESgkumhw" target="_9xJj-LEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_9xJkCrEoEd-hwNESgkumhw" source="_9xJj_LEoEd-hwNESgkumhw" target="_9xJj9rEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_9xJkC7EoEd-hwNESgkumhw" source="_9xJj_bEoEd-hwNESgkumhw" target="_9xJkALEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_9xJkDLEoEd-hwNESgkumhw" source="_9xJj_bEoEd-hwNESgkumhw" target="_9xJj_7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_9xJkDbEoEd-hwNESgkumhw" source="_9xJkAbEoEd-hwNESgkumhw" target="_9xJj9rEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_9xJkDrEoEd-hwNESgkumhw" source="_9xJkAbEoEd-hwNESgkumhw" target="_9xJkALEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xJkD7EoEd-hwNESgkumhw" source="_9xJkArEoEd-hwNESgkumhw" target="_9xJj97EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xJkELEoEd-hwNESgkumhw" source="_9xJkArEoEd-hwNESgkumhw" target="_9xJj_7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_A1gs0LEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj87EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A1k-QLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj9bEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1pPsLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj9rEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1s6ELEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj97EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1xLgLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj-LEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A11c8LEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj-bEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A15HULEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj-rEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A19YwLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj_LEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2BqMLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj_bEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2F7oLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJj_7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A2JmALEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJkALEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A2NQYLEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJkAbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2Rh0LEpEd-hwNESgkumhw" source="_A1amMLEpEd-hwNESgkumhw" target="_9xJkArEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_9xJkHrEoEd-hwNESgkumhw" name="RHS">
+      <nodes xmi:id="_9xJkH7EoEd-hwNESgkumhw" incoming="_A1iiALEpEd-hwNESgkumhw" outgoing="_9xKLAbEoEd-hwNESgkumhw _9xKLArEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker"/>
+        <attributes xmi:id="_9xJkILEoEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/active"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJkIbEoEd-hwNESgkumhw" name="A" incoming="_9xKLAbEoEd-hwNESgkumhw _9xKLA7EoEd-hwNESgkumhw _A1mzcLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkIrEoEd-hwNESgkumhw" name="B" incoming="_9xKLArEoEd-hwNESgkumhw _9xKLCLEoEd-hwNESgkumhw _9xKLC7EoEd-hwNESgkumhw _A1rE4LEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkI7EoEd-hwNESgkumhw" name="I" incoming="_9xKLBLEoEd-hwNESgkumhw _9xKLBbEoEd-hwNESgkumhw _9xKLDbEoEd-hwNESgkumhw _A1vWULEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkJLEoEd-hwNESgkumhw" name="J" incoming="_9xKLBrEoEd-hwNESgkumhw _9xKLB7EoEd-hwNESgkumhw _A1zAsLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkJbEoEd-hwNESgkumhw" incoming="_A13SILEpEd-hwNESgkumhw" outgoing="_9xKLA7EoEd-hwNESgkumhw _9xKLBLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_9xJkJrEoEd-hwNESgkumhw" incoming="_A17jkLEpEd-hwNESgkumhw" outgoing="_9xKLBbEoEd-hwNESgkumhw _9xKLBrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_9xJkJ7EoEd-hwNESgkumhw" value="false">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJkKLEoEd-hwNESgkumhw" incoming="_A1_1ALEpEd-hwNESgkumhw" outgoing="_9xKLB7EoEd-hwNESgkumhw _9xKLCLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain"/>
+      </nodes>
+      <nodes xmi:id="_9xJkKbEoEd-hwNESgkumhw" incoming="_A2DfYLEpEd-hwNESgkumhw" outgoing="_9xKLCbEoEd-hwNESgkumhw _9xKLCrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO"/>
+        <attributes xmi:id="_9xJkKrEoEd-hwNESgkumhw" value="true">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/full"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_9xJkK7EoEd-hwNESgkumhw" name="C" incoming="_9xKLCrEoEd-hwNESgkumhw _9xKLDrEoEd-hwNESgkumhw _A2Hw0LEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkLLEoEd-hwNESgkumhw" name="D" incoming="_9xKLCbEoEd-hwNESgkumhw _9xKLDLEoEd-hwNESgkumhw _A2LbMLEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Node"/>
+      </nodes>
+      <nodes xmi:id="_9xJkLbEoEd-hwNESgkumhw" incoming="_A2PFkLEpEd-hwNESgkumhw" outgoing="_9xKLC7EoEd-hwNESgkumhw _9xKLDLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_9xJkLrEoEd-hwNESgkumhw" incoming="_A2TXALEpEd-hwNESgkumhw" outgoing="_9xKLDbEoEd-hwNESgkumhw _9xKLDrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync"/>
+      </nodes>
+      <nodes xmi:id="_A1dCcLEpEd-hwNESgkumhw" name="root" outgoing="_A1iiALEpEd-hwNESgkumhw _A1mzcLEpEd-hwNESgkumhw _A1rE4LEpEd-hwNESgkumhw _A1vWULEpEd-hwNESgkumhw _A1zAsLEpEd-hwNESgkumhw _A13SILEpEd-hwNESgkumhw _A17jkLEpEd-hwNESgkumhw _A1_1ALEpEd-hwNESgkumhw _A2DfYLEpEd-hwNESgkumhw _A2Hw0LEpEd-hwNESgkumhw _A2LbMLEpEd-hwNESgkumhw _A2PFkLEpEd-hwNESgkumhw _A2TXALEpEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network"/>
+      </nodes>
+      <edges xmi:id="_9xKLAbEoEd-hwNESgkumhw" source="_9xJkH7EoEd-hwNESgkumhw" target="_9xJkIbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/start"/>
+      </edges>
+      <edges xmi:id="_9xKLArEoEd-hwNESgkumhw" source="_9xJkH7EoEd-hwNESgkumhw" target="_9xJkIrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Worker/stop"/>
+      </edges>
+      <edges xmi:id="_9xKLA7EoEd-hwNESgkumhw" source="_9xJkJbEoEd-hwNESgkumhw" target="_9xJkIbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xKLBLEoEd-hwNESgkumhw" source="_9xJkJbEoEd-hwNESgkumhw" target="_9xJkI7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_9xKLBbEoEd-hwNESgkumhw" source="_9xJkJrEoEd-hwNESgkumhw" target="_9xJkI7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_9xKLBrEoEd-hwNESgkumhw" source="_9xJkJrEoEd-hwNESgkumhw" target="_9xJkJLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_9xKLB7EoEd-hwNESgkumhw" source="_9xJkKLEoEd-hwNESgkumhw" target="_9xJkJLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source1"/>
+      </edges>
+      <edges xmi:id="_9xKLCLEoEd-hwNESgkumhw" source="_9xJkKLEoEd-hwNESgkumhw" target="_9xJkIrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//SyncDrain/source2"/>
+      </edges>
+      <edges xmi:id="_9xKLCbEoEd-hwNESgkumhw" source="_9xJkKbEoEd-hwNESgkumhw" target="_9xJkLLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/source"/>
+      </edges>
+      <edges xmi:id="_9xKLCrEoEd-hwNESgkumhw" source="_9xJkKbEoEd-hwNESgkumhw" target="_9xJkK7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//FIFO/sink"/>
+      </edges>
+      <edges xmi:id="_9xKLC7EoEd-hwNESgkumhw" source="_9xJkLbEoEd-hwNESgkumhw" target="_9xJkIrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_9xKLDLEoEd-hwNESgkumhw" source="_9xJkLbEoEd-hwNESgkumhw" target="_9xJkLLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xKLDbEoEd-hwNESgkumhw" source="_9xJkLrEoEd-hwNESgkumhw" target="_9xJkI7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/sink"/>
+      </edges>
+      <edges xmi:id="_9xKLDrEoEd-hwNESgkumhw" source="_9xJkLrEoEd-hwNESgkumhw" target="_9xJkK7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Sync/source"/>
+      </edges>
+      <edges xmi:id="_A1iiALEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkH7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A1mzcLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkIbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1rE4LEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkIrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1vWULEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkI7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A1zAsLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkJLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A13SILEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkJbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A17jkLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkJrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A1_1ALEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkKLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2DfYLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkKbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2Hw0LEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkK7EoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A2LbMLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkLLEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/nodes"/>
+      </edges>
+      <edges xmi:id="_A2PFkLEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkLbEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+      <edges xmi:id="_A2TXALEpEd-hwNESgkumhw" source="_A1dCcLEpEd-hwNESgkumhw" target="_9xJkLrEoEd-hwNESgkumhw">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#//Network/channels"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_9xKLHLEoEd-hwNESgkumhw" origin="_9xJj87EoEd-hwNESgkumhw" image="_9xJkH7EoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLHbEoEd-hwNESgkumhw" origin="_9xJj9bEoEd-hwNESgkumhw" image="_9xJkIbEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLHrEoEd-hwNESgkumhw" origin="_9xJj9rEoEd-hwNESgkumhw" image="_9xJkIrEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLH7EoEd-hwNESgkumhw" origin="_9xJj97EoEd-hwNESgkumhw" image="_9xJkI7EoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLILEoEd-hwNESgkumhw" origin="_9xJj-LEoEd-hwNESgkumhw" image="_9xJkJLEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLIbEoEd-hwNESgkumhw" origin="_9xJj-bEoEd-hwNESgkumhw" image="_9xJkJbEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLIrEoEd-hwNESgkumhw" origin="_9xJj-rEoEd-hwNESgkumhw" image="_9xJkJrEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLI7EoEd-hwNESgkumhw" origin="_9xJj_LEoEd-hwNESgkumhw" image="_9xJkKLEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLJLEoEd-hwNESgkumhw" origin="_9xJj_bEoEd-hwNESgkumhw" image="_9xJkKbEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLJbEoEd-hwNESgkumhw" origin="_9xJj_7EoEd-hwNESgkumhw" image="_9xJkK7EoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLJrEoEd-hwNESgkumhw" origin="_9xJkALEoEd-hwNESgkumhw" image="_9xJkLLEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLJ7EoEd-hwNESgkumhw" origin="_9xJkAbEoEd-hwNESgkumhw" image="_9xJkLbEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_9xKLKLEoEd-hwNESgkumhw" origin="_9xJkArEoEd-hwNESgkumhw" image="_9xJkLrEoEd-hwNESgkumhw"/>
+    <mappings xmi:id="_A1gFwLEpEd-hwNESgkumhw" origin="_A1amMLEpEd-hwNESgkumhw" image="_A1dCcLEpEd-hwNESgkumhw"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Examples/Mediator#/"/>
+</henshin:TransformationSystem>
