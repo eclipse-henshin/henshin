@@ -19,7 +19,9 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
 /**
  * @generated NOT
@@ -50,6 +52,9 @@ public class RuleGraphsListener {
 		}
 		if (rule.getRhs()!=null) {
 			rule.getRhs().eAdapters().add(proxy);
+		}
+		for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
+			if (nac!=null) nac.eAdapters().add(proxy);
 		}
 		
 	}
