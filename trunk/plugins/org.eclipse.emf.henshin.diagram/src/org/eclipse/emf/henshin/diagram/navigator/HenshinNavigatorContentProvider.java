@@ -254,6 +254,41 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
+		case NodeEditPart.VISUAL_ID: {
+			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
+			Node sv = (Node) view;
+			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_Node_3001_incominglinks,
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_Node_3001_outgoinglinks,
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry
+							.getType(NodeCompartmentEditPart.VISUAL_ID));
+			connectedViews = getChildrenByType(connectedViews,
+					HenshinVisualIDRegistry
+							.getType(AttributeEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			incominglinks.addChildren(createNavigatorItems(connectedViews,
+					incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
+					outgoinglinks, true));
+			if (!incominglinks.isEmpty()) {
+				result.add(incominglinks);
+			}
+			if (!outgoinglinks.isEmpty()) {
+				result.add(outgoinglinks);
+			}
+			return result.toArray();
+		}
+
 		case RuleEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
 			Node sv = (Node) view;
@@ -291,41 +326,6 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			}
 			if (!source.isEmpty()) {
 				result.add(source);
-			}
-			return result.toArray();
-		}
-
-		case NodeEditPart.VISUAL_ID: {
-			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
-			Node sv = (Node) view;
-			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3001_incominglinks,
-					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3001_outgoinglinks,
-					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry
-							.getType(NodeCompartmentEditPart.VISUAL_ID));
-			connectedViews = getChildrenByType(connectedViews,
-					HenshinVisualIDRegistry
-							.getType(AttributeEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			incominglinks.addChildren(createNavigatorItems(connectedViews,
-					incominglinks, true));
-			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
-					outgoinglinks, true));
-			if (!incominglinks.isEmpty()) {
-				result.add(incominglinks);
-			}
-			if (!outgoinglinks.isEmpty()) {
-				result.add(outgoinglinks);
 			}
 			return result.toArray();
 		}

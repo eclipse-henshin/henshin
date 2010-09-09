@@ -151,7 +151,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/conclusion"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/mappings"/>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//Formula"/>
+    <genClasses ecoreClass="henshin.ecore#//Formula">
+      <genOperations ecoreOperation="henshin.ecore#//Formula/stringRepresentation">
+        <genParameters ecoreParameter="henshin.ecore#//Formula/stringRepresentation/recursive"/>
+      </genOperations>
+    </genClasses>
     <genClasses ecoreClass="henshin.ecore#//UnaryFormula">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//UnaryFormula/child"/>
     </genClasses>
