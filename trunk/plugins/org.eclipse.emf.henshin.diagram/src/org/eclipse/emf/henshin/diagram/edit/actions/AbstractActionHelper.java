@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
@@ -28,6 +31,20 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		Rule rule = graph.getContainerRule();
 		if (rule==null) return null;
 		
+		// Get the amalgamation properties, if existing:
+		AmalgamationUnit amalgamation = 
+			AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+		boolean isAmalgamated = 
+			isAmalgamated(element, amalgamation);
+		String[] amalgamationParams = 
+			getAmalgamationParameters(element, rule, amalgamation);
+		
+		// If the rule is a multi-rule, but the action is not
+		// amalgamated, the element is not an action element.
+		if (amalgamation!=null && !isAmalgamated) {
+			return null;
+		}
+		
 		// Map editor.
 		MapEditor<E> editor;
 		
@@ -40,9 +57,11 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			
 			// Check if it is mapped to the RHS:
 			if (image!=null) {
-				return new Action(ActionType.PRESERVE);
+				return new Action(ActionType.PRESERVE, 
+						isAmalgamated, amalgamationParams);
 			} else {
-				return new Action(ActionType.DELETE);
+				return new Action(ActionType.DELETE,
+						isAmalgamated, amalgamationParams);
 			}
 			
 		}
@@ -56,7 +75,8 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			
 			// If it has an origin in the LHS, it is a CREATE-action:
 			if (origin==null) {
-				return new Action(ActionType.CREATE);	
+				return new Action(ActionType.CREATE,
+						isAmalgamated, amalgamationParams);
 			}
 			
 		}
@@ -83,7 +103,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		return null;
 		
 	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.ActionHelper#setAction(java.lang.Object, org.eclipse.emf.henshin.diagram.edit.actions.Action)
@@ -140,8 +160,10 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			// We know that the element is contained in the RHS and that it is not an image of a mapping.
 			editor = getMapEditor(rule.getRhs());
 			
-			// We move the element to the LHS in any case:
-			editor.move(element);
+			// We move the element to the LHS if the action type has changed:
+			if (action.getType()!=ActionType.CREATE) {
+				editor.move(element);
+			}
 			
 			// For NONE actions, create a copy of the element in the RHS and map to it:
 			if (action.getType()==ActionType.PRESERVE) {
@@ -163,7 +185,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			// We know that the element is contained in the LHS and that it has no image in the RHS.
 			editor = getMapEditor(rule.getRhs());
 			
-			// For NONE actions, create a copy of the element in the RHS and map to it:
+			// For PRESERVE actions, create a copy of the element in the RHS and map to it:
 			if (action.getType()==ActionType.PRESERVE) {
 				editor.copy(element);
 			}
@@ -189,10 +211,12 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			NestedCondition nac = (NestedCondition) graph.eContainer();
 			editor = getMapEditor(nac.getConclusion());
 			
-			// We move the element to the LHS in any case:
-			editor.move(element);
+			// We move the element to the LHS is the action type has changed:
+			if (action.getType()!=ActionType.FORBID) {
+				editor.move(element);
+			}
 			
-			// For NONE actions, create a copy in the RHS as well:
+			// For PRESERVE actions, create a copy in the RHS as well:
 			if (action.getType()==ActionType.PRESERVE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
@@ -211,6 +235,18 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			}
 			
 		}
+		
+		// The action type is correct now.
+		
+		// We check now whether the amalgamation parameters are different.
+		if (current.isAmalgamated()!=action.isAmalgamated()) {
+			if (action.isAmalgamated()) {
+				
+			} else {
+				
+			}
+		}
+		
 	}
 	
 	/*
@@ -258,5 +294,37 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		return result;
 		
 	}
-
+	
+	/*
+	 * Helper method for checking whether the action of an element
+	 * should be amalgamated.
+	 */
+	private boolean isAmalgamated(E element, AmalgamationUnit amalgamation) {
+		if (amalgamation!=null &&
+			element instanceof GraphElement) {
+			try {
+				return AmalgamationEditHelper.hasPreimageInKernelRule(
+							(GraphElement) element, amalgamation);
+			} catch (IllegalArgumentException e) {}
+		}
+		return false;
+	}
+	
+	/*
+	 * If an element has an amalgamated action, this method
+	 * returns the proper parameters for the amalgamated action.
+	 */
+	private String[] getAmalgamationParameters(E element, 
+			Rule multiRule, AmalgamationUnit amalgamation) {
+		if (!isAmalgamated(element, amalgamation)) {
+			return new String[] {};
+		}
+		String name = AmalgamationEditHelper.getMultiRuleName(multiRule, amalgamation);
+		if (name==null || name.length()==0) {
+			return new String[] {};
+		} else {
+			return new String[] { name };
+		}
+	}
+	
 }

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
@@ -150,9 +151,9 @@ public class RuleNameParser extends AbstractParser {
 		if (rootType==null && oldRoot!=null) {
 			RootObjectEditHelper.setRootObject(ruleView, null);
 		}
-
-		// Set the rule name:
-		rule.setName(name);
+		
+		// Now we can update the rule name, but not directly:
+		AmalgamationEditHelper.renameKernelRule(rule,name);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

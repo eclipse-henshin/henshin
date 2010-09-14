@@ -43,8 +43,8 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
- * Helper class for root objects.
- * @generated NOT
+ * Helper class for handling root objects in the 
+ * graphical editor.
  * @author Christian Krause
  */
 public class RootObjectEditHelper {

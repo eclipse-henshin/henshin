@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -139,25 +140,39 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public static List<HenshinNodeDescriptor> getTransformationSystem_1000SemanticChildren(
 			View view) {
+		
+		// Make sure the view is ok:
 		if (!view.isSetElement()) {
 			return Collections.emptyList();
 		}
-		TransformationSystem modelElement = (TransformationSystem) view
-				.getElement();
+		
+		// Get the transformation system:
+		TransformationSystem system = (TransformationSystem) view.getElement();
 		LinkedList<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
-		for (Iterator<?> it = modelElement.getRules().iterator(); it.hasNext();) {
-			Rule childElement = (Rule) it.next();
-			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,
-					childElement);
-			if (visualID == RuleEditPart.VISUAL_ID) {
-				result.add(new HenshinNodeDescriptor(childElement, visualID));
+		
+		// Iterate over all rules:
+		for (Rule rule : system.getRules()) {
+			
+			// We have to check whether the rule is a multi-rule of one
+			// of the default amalgamation unit. In that case we don't
+			// want to display it.
+			if (AmalgamationEditHelper.isMultiRule(rule)) {
 				continue;
 			}
+			
+			// Now make sure the visual ID is correct.
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,rule);
+			if (visualID == RuleEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(rule, visualID));
+			}
+			
 		}
+		
+		// Done.
 		return result;
 	}
 
