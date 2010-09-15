@@ -14,11 +14,14 @@ package org.eclipse.emf.henshin.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -110,16 +113,16 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	@Override
 	public Object getImage(Object object) {
 		Graph graph = (Graph) object;
-		if (graph == graph.getContainerRule().getLhs())
-			return overlayImage(object,
-					getResourceLocator().getImage("full/obj16/Graph_L.png"));
-		else if (graph == graph.getContainerRule().getRhs())
-			return overlayImage(object,
-					getResourceLocator().getImage("full/obj16/Graph_R.png"));
+		if (graph.getContainerRule() != null) {
+			if (graph == graph.getContainerRule().getLhs())
+				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_L.png"));
+			else if (graph == graph.getContainerRule().getRhs())
+				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_R.png"));
 
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Graph.png"));
-	}
+		}// if
+
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph.png"));
+	}// getImage
 
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
