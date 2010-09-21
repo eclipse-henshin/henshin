@@ -6,15 +6,14 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
+import org.eclipse.emf.henshin.diagram.edit.maps.MappingMapEditor;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
 /**
@@ -248,36 +247,31 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		
 		// We check now whether the amalgamation parameters are different.
 		if (current.isAmalgamated()!=action.isAmalgamated()) {
+			
+			AmalgamationUnit amalgamation;
+			Rule multi;
 			if (action.isAmalgamated()) {
-				
-				// Get or create the multi rule.
-				Rule multiRule = getOrCreateMultiRule(rule, action);
-				AmalgamationUnit amalgamation = 
-					AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
-				
-				// Move the element(s) to the Multi-rule.
-				if (action.getType()==ActionType.CREATE) {
-					getMapEditor(rule.getRhs(), multiRule.getRhs(), amalgamation.getRhsMappings()).move(element);
-				}
-				else if (action.getType()==ActionType.DELETE) {
-					getMapEditor(rule.getLhs(), multiRule.getLhs(), amalgamation.getLhsMappings()).move(element);
-				}
-				else if (action.getType()==ActionType.PRESERVE) {
-					editor = getMapEditor(rule.getRhs());
-					//E image = editor.getOpposite(element);
-					//Mapping mapping = (element instanceof Node) ? 
-					//		HenshinMappingUtil.getMapping((Node) element, (Node) image, rule.getMappings()) : null;
-							
-					getMapEditor(rule.getLhs(), multiRule.getLhs(), amalgamation.getLhsMappings()).move(element);
-					getMapEditor(rule.getRhs(), multiRule.getRhs(), amalgamation.getRhsMappings()).move(element);
-					
-					// MOVE MAPPINGS NOW...
-					
-				}
-				
+				amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
+				multi = getOrCreateMultiRule(rule, action);				
 			} else {
-				
+				amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+				multi = rule;
 			}
+			Rule kernel = amalgamation.getKernelRule();
+			
+			// Move the element(s).
+			if (action.getType()==ActionType.CREATE) {
+				getMapEditor(kernel.getRhs(), multi.getRhs(), amalgamation.getRhsMappings()).move(element);
+			}
+			else if (action.getType()==ActionType.DELETE) {
+				getMapEditor(kernel.getLhs(), multi.getLhs(), amalgamation.getLhsMappings()).move(element);
+			}
+			else if (action.getType()==ActionType.PRESERVE) {
+				MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, 
+						amalgamation.getLhsMappings(), amalgamation.getRhsMappings());
+				mappingEditor.moveMappedElement(element);
+			}
+
 		}
 		
 	}
