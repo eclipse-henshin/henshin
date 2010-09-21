@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
@@ -163,8 +164,24 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @return Whether to draw a shadow or not.
 	 */
 	public boolean shouldDrawShadow() {
-		Action action = getNodeAction();
-		return (action!=null) && (action.isAmalgamated());
+		//Action action = getNodeAction();
+		//return (action!=null) && (action.isAmalgamated());
+		// TEMPORARY
+		return drawShadow;
+	}
+	
+	// TEMPORARY
+	private boolean drawShadow = false;
+	
+	// TEMPORARY
+	@Override
+	public void performRequest(Request request) {
+		if (request.getType()==RequestConstants.REQ_OPEN) {
+			drawShadow = !drawShadow;
+			refresh();
+		} else {
+			super.performRequest(request);
+		}
 	}
 	
 	/**

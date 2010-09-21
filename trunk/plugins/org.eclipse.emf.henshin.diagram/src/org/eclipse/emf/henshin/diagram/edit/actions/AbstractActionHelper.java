@@ -31,11 +31,15 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		Rule rule = graph.getContainerRule();
 		if (rule==null) return null;
 		
-		// Get the amalgamation properties, if existing:
+		// Get the amalgamation unit, if existing:
 		AmalgamationUnit amalgamation = 
 			AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+		
+		// Check if the element is amalgamated:
 		boolean isAmalgamated = 
 			isAmalgamated(element, amalgamation);
+		
+		// Get the amalgamation parameters:
 		String[] amalgamationParams = 
 			getAmalgamationParameters(element, rule, amalgamation);
 		

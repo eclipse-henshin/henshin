@@ -82,6 +82,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		
 		String line;
 		while ((line = reader.readLine())!=null) {
+			System.out.println(line);
 			line = line.trim();
 			if (line.length()==0) continue;
 			if (parseTrace) {
