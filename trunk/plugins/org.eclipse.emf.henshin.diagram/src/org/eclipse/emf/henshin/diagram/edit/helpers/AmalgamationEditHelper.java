@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -220,6 +221,18 @@ public class AmalgamationEditHelper {
 		return name;
 	}
 	
+	public static Rule createMultiRule(Rule kernel, AmalgamationUnit amalgamation, String name) {
+		Rule multiRule = HenshinFactory.eINSTANCE.createRule();
+		multiRule.setName(MULTI_RULE_NAME_PREFIX + name);
+		amalgamation.getMultiRules().add(multiRule);
+		kernel.getTransformationSystem().getRules().add(multiRule);
+		return multiRule;
+	}
+
+	public static Rule createDefaultMultiRule(Rule kernel, AmalgamationUnit amalgamation) {
+		return createMultiRule(kernel, amalgamation, amalgamation.getName());
+	}
+
 	/**
 	 * Get the default multi-rule for a given kernel rule.
 	 * The default multi-rule has the same name as the kernel

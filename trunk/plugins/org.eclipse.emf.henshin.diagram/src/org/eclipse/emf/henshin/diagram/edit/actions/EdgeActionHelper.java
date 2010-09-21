@@ -7,6 +7,7 @@ import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -36,7 +37,16 @@ public class EdgeActionHelper extends AbstractActionHelper<Edge,Rule> {
 	protected MapEditor<Edge> getMapEditor(Graph target) {
 		return new EdgeMapEditor(target);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.henshin.model.Graph, java.util.List)
+	 */
+	@Override
+	protected MapEditor<Edge> getMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+		return new EdgeMapEditor(source, target, mappings);
+	}
+
 	/**
 	 * For an arbitrary edge in a rule graph, find the corresponding action edge.
 	 * @param edge Some edge.

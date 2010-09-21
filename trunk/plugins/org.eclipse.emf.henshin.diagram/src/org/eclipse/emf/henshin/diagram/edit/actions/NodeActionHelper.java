@@ -6,6 +6,7 @@ import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
 import org.eclipse.emf.henshin.diagram.edit.maps.NodeMapEditor;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -36,7 +37,16 @@ public class NodeActionHelper extends AbstractActionHelper<Node,Rule> {
 	protected MapEditor<Node> getMapEditor(Graph target) {
 		return new NodeMapEditor(target);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.henshin.model.Graph, java.util.List)
+	 */
+	@Override
+	protected MapEditor<Node> getMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+		return new NodeMapEditor(source, target, mappings);
+	}
+
 	/**
 	 * For an arbitrary node in a rule graph, find the corresponding action node.
 	 * @param node Some node.

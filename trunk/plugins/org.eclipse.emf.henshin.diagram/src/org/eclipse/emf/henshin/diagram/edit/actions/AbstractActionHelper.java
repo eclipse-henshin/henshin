@@ -9,8 +9,12 @@ import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 
 /**
@@ -246,6 +250,31 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		if (current.isAmalgamated()!=action.isAmalgamated()) {
 			if (action.isAmalgamated()) {
 				
+				// Get or create the multi rule.
+				Rule multiRule = getOrCreateMultiRule(rule, action);
+				AmalgamationUnit amalgamation = 
+					AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
+				
+				// Move the element(s) to the Multi-rule.
+				if (action.getType()==ActionType.CREATE) {
+					getMapEditor(rule.getRhs(), multiRule.getRhs(), amalgamation.getRhsMappings()).move(element);
+				}
+				else if (action.getType()==ActionType.DELETE) {
+					getMapEditor(rule.getLhs(), multiRule.getLhs(), amalgamation.getLhsMappings()).move(element);
+				}
+				else if (action.getType()==ActionType.PRESERVE) {
+					editor = getMapEditor(rule.getRhs());
+					//E image = editor.getOpposite(element);
+					//Mapping mapping = (element instanceof Node) ? 
+					//		HenshinMappingUtil.getMapping((Node) element, (Node) image, rule.getMappings()) : null;
+							
+					getMapEditor(rule.getLhs(), multiRule.getLhs(), amalgamation.getLhsMappings()).move(element);
+					getMapEditor(rule.getRhs(), multiRule.getRhs(), amalgamation.getRhsMappings()).move(element);
+					
+					// MOVE MAPPINGS NOW...
+					
+				}
+				
 			} else {
 				
 			}
@@ -276,7 +305,12 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 	 * Create a new map editor for a given target graph.
 	 */
 	protected abstract MapEditor<E> getMapEditor(Graph target);
-	
+
+	/*
+	 * Create a new map editor for a given source, target graph and mappings.
+	 */
+	protected abstract MapEditor<E> getMapEditor(Graph source, Graph target, List<Mapping> mappings);
+
 	/*
 	 * Returns a list of all elements of <code>elements</code>, which are
 	 * associated with the given <code>action</code>. If <code>action</code> is
@@ -328,6 +362,39 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			return new String[] {};
 		} else {
 			return new String[] { name };
+		}
+	}
+	
+	
+	private Rule getOrCreateMultiRule(Rule kernel, Action action) {
+		if (action.isAmalgamated()) {
+			
+			// Find or create the amalgamation unit:
+			AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
+			if (amalgamation==null) {
+				amalgamation = HenshinFactory.eINSTANCE.createAmalgamationUnit();
+				amalgamation.setName(kernel.getName());
+				amalgamation.setKernelRule(kernel);
+				kernel.getTransformationSystem().getTransformationUnits().add(amalgamation);
+			}
+			
+			Rule multiRule;
+			if (action.getArguments().length==0) {
+				multiRule = AmalgamationEditHelper.getDefaultMultiRule(kernel);
+				if (multiRule==null) {
+					multiRule = AmalgamationEditHelper.createDefaultMultiRule(kernel, amalgamation);
+				}
+			} else {
+				String name = action.getArguments()[0].trim();
+				multiRule = AmalgamationEditHelper.getMultiRule(kernel, name);
+				if (multiRule==null) {
+					multiRule = AmalgamationEditHelper.createMultiRule(kernel, amalgamation, name);
+				}
+			}
+			return multiRule;
+			
+		} else {
+			return null;
 		}
 	}
 	
