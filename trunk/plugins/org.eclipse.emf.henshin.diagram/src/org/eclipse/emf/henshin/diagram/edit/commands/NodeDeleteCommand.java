@@ -76,7 +76,7 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 						.getNodeImage(node, multi.getLhs(), amalgamation.getLhsMappings());
 				if (image!=null) {
 					image.getGraph().removeNode(image);
-					HenshinMappingUtil.deleteMapping(node, image, amalgamation.getLhsMappings());
+					HenshinMappingUtil.removeMapping(node, image, amalgamation.getLhsMappings());
 				}
 			}
 		}

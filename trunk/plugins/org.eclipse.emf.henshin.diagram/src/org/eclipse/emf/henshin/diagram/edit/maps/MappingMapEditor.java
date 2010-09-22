@@ -67,6 +67,9 @@ public class MappingMapEditor {
 			lhsNodeMapEditor.move(opposite);
 		}
 		
+		// It could be that we left an old mapping instance in the multi-rule.
+		HenshinMappingUtil.removeInvalidMappings(target.getMappings(), target.getLhs(), target.getRhs());
+		
 	}
 
 	/**

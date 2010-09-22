@@ -277,11 +277,14 @@ public class HenshinMappingUtil {
 		}
 	}
 
-	public static void deleteMapping(Node origin, Node image, List<Mapping> mappings) {
-		Mapping mapping = getMapping(origin, image, mappings);
-		if (mapping!=null) {
-			mappings.remove(mapping);
+	public static void removeInvalidMappings(List<Mapping> mappings, Graph source, Graph target) {
+		for (int i=0; i<mappings.size(); i++) {
+			Mapping mapping = mappings.get(i);
+			if (mapping.getOrigin().getGraph()!=source ||
+				mapping.getImage().getGraph()!=target) {
+				mappings.remove(i--);
+			}
 		}
 	}
-
+	
 }

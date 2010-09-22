@@ -405,7 +405,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 	
 	
 	private Rule getOrCreateMultiRule(Rule kernel, String[] actionArguments) {
-			
+		
 		// Find or create the amalgamation unit:
 		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
 		if (amalgamation==null) {
