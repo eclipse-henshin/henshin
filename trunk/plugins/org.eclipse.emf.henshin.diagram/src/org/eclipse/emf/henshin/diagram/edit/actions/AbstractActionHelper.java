@@ -243,21 +243,25 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			
 		}
 		
-		// The action type is correct now.
+		// THE ACTION TYPE IS CORRECT NOW.
 		
 		// We check now whether the amalgamation parameters are different.
 		if (current.isAmalgamated()!=action.isAmalgamated()) {
 			
+			// Find the amalgamation and the kernel / multi rule.
 			AmalgamationUnit amalgamation;
 			Rule multi;
 			if (action.isAmalgamated()) {
+				multi = getOrCreateMultiRule(rule, action.getArguments());
 				amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
-				multi = getOrCreateMultiRule(rule, action);				
 			} else {
-				amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
 				multi = rule;
+				amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
 			}
 			Rule kernel = amalgamation.getKernelRule();
+			
+			// First make sure the multi-rule is complete.
+			sanitizeMultiRule(multi, amalgamation);
 			
 			// Move the element(s).
 			if (action.getType()==ActionType.CREATE) {
@@ -271,9 +275,49 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 						amalgamation.getLhsMappings(), amalgamation.getRhsMappings());
 				mappingEditor.moveMappedElement(element);
 			}
-
+			
+			// Remove trivial multi-rules from the amalgamation:
+			AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);
+			
 		}
 		
+		// THE ACTION TYPE AND THE AMALGAMATED FLAG ARE CORRECT NOW.
+		
+		// The only thing that can be different now is the name of the multi-rule:
+		if (current.isAmalgamated() && action.isAmalgamated()) {
+			
+			AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+			Rule newMulti = getOrCreateMultiRule(amalgamation.getKernelRule(), action.getArguments());
+			
+			if (newMulti!=rule) {
+				
+				sanitizeMultiRule(newMulti, amalgamation);
+				
+				// Move the element(s).
+				if (action.getType()==ActionType.CREATE) {
+					getMapEditor(rule.getRhs(), newMulti.getRhs(), null).move(element);
+				}
+				else if (action.getType()==ActionType.DELETE) {
+					getMapEditor(rule.getLhs(), newMulti.getLhs(), null).move(element);
+				}
+				else if (action.getType()==ActionType.PRESERVE) {
+					MappingMapEditor mappingEditor = new MappingMapEditor(rule, newMulti, null, null);
+					mappingEditor.moveMappedElement(element);
+				}
+				
+				// Remove trivial multi-rules from the amalgamation:
+				AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);
+			}
+		}
+			
+	}
+	
+	
+	private void sanitizeMultiRule(Rule multi, AmalgamationUnit amalgamation) {
+		MappingMapEditor mappingEditor = new MappingMapEditor(
+				amalgamation.getKernelRule(), multi, 
+				amalgamation.getLhsMappings(), amalgamation.getRhsMappings());
+		mappingEditor.ensureCompleteness();
 	}
 	
 	/*
@@ -335,8 +379,8 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 		if (amalgamation!=null &&
 			element instanceof GraphElement) {
 			try {
-				return AmalgamationEditHelper.hasPreimageInKernelRule(
-							(GraphElement) element, amalgamation);
+				return AmalgamationEditHelper.getPreimageInKernelRule(
+							(GraphElement) element, amalgamation)==null;
 			} catch (IllegalArgumentException e) {}
 		}
 		return false;
@@ -360,36 +404,32 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 	}
 	
 	
-	private Rule getOrCreateMultiRule(Rule kernel, Action action) {
-		if (action.isAmalgamated()) {
+	private Rule getOrCreateMultiRule(Rule kernel, String[] actionArguments) {
 			
-			// Find or create the amalgamation unit:
-			AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
-			if (amalgamation==null) {
-				amalgamation = HenshinFactory.eINSTANCE.createAmalgamationUnit();
-				amalgamation.setName(kernel.getName());
-				amalgamation.setKernelRule(kernel);
-				kernel.getTransformationSystem().getTransformationUnits().add(amalgamation);
-			}
-			
-			Rule multiRule;
-			if (action.getArguments().length==0) {
-				multiRule = AmalgamationEditHelper.getDefaultMultiRule(kernel);
-				if (multiRule==null) {
-					multiRule = AmalgamationEditHelper.createDefaultMultiRule(kernel, amalgamation);
-				}
-			} else {
-				String name = action.getArguments()[0].trim();
-				multiRule = AmalgamationEditHelper.getMultiRule(kernel, name);
-				if (multiRule==null) {
-					multiRule = AmalgamationEditHelper.createMultiRule(kernel, amalgamation, name);
-				}
-			}
-			return multiRule;
-			
-		} else {
-			return null;
+		// Find or create the amalgamation unit:
+		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
+		if (amalgamation==null) {
+			amalgamation = HenshinFactory.eINSTANCE.createAmalgamationUnit();
+			amalgamation.setName(kernel.getName());
+			amalgamation.setKernelRule(kernel);
+			kernel.getTransformationSystem().getTransformationUnits().add(amalgamation);
 		}
+
+		Rule multiRule;
+		if (actionArguments.length==0) {
+			multiRule = AmalgamationEditHelper.getDefaultMultiRule(kernel);
+			if (multiRule==null) {
+				multiRule = AmalgamationEditHelper.createDefaultMultiRule(amalgamation);
+			}
+		} else {
+			String name = actionArguments[0].trim();
+			multiRule = AmalgamationEditHelper.getMultiRule(kernel, name);
+			if (multiRule==null) {
+				multiRule = AmalgamationEditHelper.createMultiRule(amalgamation, name);
+			}
+		}
+		return multiRule;
+			
 	}
 	
 }

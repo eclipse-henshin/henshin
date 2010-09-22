@@ -159,8 +159,10 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		Mapping mapping = (Mapping) object;
 		String result = getString("_UI_Mapping_type");
 		if (mapping.getOrigin() != null && mapping.getImage() != null) {
-			String origin = (mapping.getOrigin() != null) ? mapping.getOrigin().getName() : "null";
-			String image = (mapping.getImage() != null) ? mapping.getImage().getName() : "null";
+			String origin = (mapping.getOrigin() != null) ? 
+					NodeItemProvider.getNodeLabel(mapping.getOrigin()) : "null";
+			String image = (mapping.getImage() != null) ? 
+					NodeItemProvider.getNodeLabel(mapping.getImage()) : "null";
 			if (origin != null && image != null) {
 				result = result + " " + origin + " -> " + image;
 			}

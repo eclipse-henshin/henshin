@@ -24,21 +24,15 @@ import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Common utility methods for Henshin {@link Mapping}s.
- * 
- * @generated NOT
  * @author Christian Krause
  */
 public class HenshinMappingUtil {
 	
 	/**
 	 * Find a mapping for a given node origin and image.
-	 * 
-	 * @param origin
-	 *            Node origin.
-	 * @param image
-	 *            Node image.
-	 * @param mappings
-	 *            Mappings.
+	 * @param origin Node origin.
+	 * @param image Node image.
+	 * @param mappings Mappings.
 	 * @return The mapping if found, otherwise <code>null</code>.
 	 */
 	public static Mapping getMapping(Node origin, Node image,
@@ -50,7 +44,20 @@ public class HenshinMappingUtil {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Create a new mapping between the origin and image node.
+	 * @param origin Origin node.
+	 * @param image Image node.
+	 * @return The newly created mapping.
+	 */
+	public static Mapping createMapping(Node origin, Node image) {
+		Mapping	mapping = HenshinFactory.eINSTANCE.createMapping();
+		mapping.setOrigin(origin);
+		mapping.setImage(image);
+		return mapping;
+	}
+
 	/**
 	 * Create a new mapping between the origin and image node.
 	 * If there exists already a mapping between the two nodes,
@@ -64,9 +71,7 @@ public class HenshinMappingUtil {
 			List<Mapping> mappings) {
 		Mapping mapping = getMapping(origin, image, mappings);
 		if (mapping==null) {
-			mapping = HenshinFactory.eINSTANCE.createMapping();
-			mapping.setOrigin(origin);
-			mapping.setImage(image);
+			mapping = createMapping(origin, image);
 			mappings.add(mapping);
 		}
 		return mapping;
@@ -112,13 +117,9 @@ public class HenshinMappingUtil {
 	/**
 	 * Find the image of a node with respect to a target graph and a list of
 	 * mappings.
-	 * 
-	 * @param origin
-	 *            Origin node.
-	 * @param targetGraph
-	 *            Target graph.
-	 * @param mappings
-	 *            Mappings.
+	 * @param origin Origin node.
+	 * @param targetGraph Target graph.
+	 * @param mappings Mappings.
 	 * @return The image of the node.
 	 */
 	public static Node getNodeImage(Node origin, Graph targetGraph,
@@ -129,13 +130,9 @@ public class HenshinMappingUtil {
 
 	/**
 	 * Find the origin of a node with respect to a list of mappings.
-	 * 
-	 * @param image
-	 *            Image node.
-	 * @param target
-	 *            Target graph.
-	 * @param mappings
-	 *            Mappings.
+	 * @param image Image node.
+	 * @param target Target graph.
+	 * @param mappings Mappings.
 	 * @return The image of the node.
 	 */
 	public static Node getNodeOrigin(Node image, List<Mapping> mappings) {
@@ -145,13 +142,9 @@ public class HenshinMappingUtil {
 
 	/**
 	 * Find a corresponding mapping for a given origin nodes and target graph.
-	 * 
-	 * @param origin
-	 *            Origin node.
-	 * @param targetGraph
-	 *            Target graph.
-	 * @param mappings
-	 *            Mappings.
+	 * @param origin Origin node.
+	 * @param targetGraph Target graph.
+	 * @param mappings Mappings.
 	 * @return Mapping if found, <code>null</code> otherwise.
 	 */
 	public static Mapping getNodeImageMapping(Node origin, Graph targetGraph,
@@ -166,11 +159,8 @@ public class HenshinMappingUtil {
 
 	/**
 	 * Find the corresponding mapping for a given image node.
-	 * 
-	 * @param image
-	 *            Image node.
-	 * @param mappings
-	 *            Mappings.
+	 * @param image Image node.
+	 * @param mappings Mappings.
 	 * @return Mapping if found, <code>null</code> otherwise.
 	 */
 	public static Mapping getNodeOriginMapping(Node image,
@@ -184,13 +174,9 @@ public class HenshinMappingUtil {
 
 	/**
 	 * Find the image of an edge.
-	 * 
-	 * @param edge
-	 *            Origin edge.
-	 * @param targetGraph
-	 *            Graph the sought image is contained in
-	 * @param mappings
-	 *            Mappings.
+	 * @param edge Origin edge.
+	 * @param targetGraph Graph the sought image is contained in
+	 * @param mappings Mappings.
 	 * @return Edge image.
 	 */
 	public static Edge getEdgeImage(Edge edge, Graph targetGraph,
@@ -206,11 +192,8 @@ public class HenshinMappingUtil {
 
 	/**
 	 * Find the origin of an edge.
-	 * 
-	 * @param edge
-	 *            Image edge.
-	 * @param mappings
-	 *            Mappings.
+	 * @param edge Image edge.
+	 * @param mappings Mappings.
 	 * @return Edge image.
 	 */
 	public static Edge getEdgeOrigin(Edge edge, List<Mapping> mappings) {
@@ -252,15 +235,10 @@ public class HenshinMappingUtil {
 	 * Find the image of a node or an edge. This is a wrapper for
 	 * {@link #getNodeImage(Node, Graph, List)} and
 	 * {@link #getEdgeImage(Edge, Graph, List)}.
-	 * 
-	 * @param <T>
-	 *            Either {@link Node} or {@link Edge} class.
-	 * @param element
-	 *            A node or edge instance.
-	 * @param target
-	 *            Target graph.
-	 * @param mappings
-	 *            Mappings.
+	 * @param <T> Either {@link Node} or {@link Edge} class.
+	 * @param element A node or edge instance.
+	 * @param target Target graph.
+	 * @param mappings Mappings.
 	 * @return Image element.
 	 */
 	@SuppressWarnings("unchecked")
@@ -281,13 +259,9 @@ public class HenshinMappingUtil {
 	 * Find the image of a node or an edge. This is a wrapper for
 	 * {@link #getNodeOrigin(Node, List)} and
 	 * {@link #getEdgeOrigin(Edge, List)}.
-	 * 
-	 * @param <T>
-	 *            Either {@link Node} or {@link Edge} class.
-	 * @param element
-	 *            A node or edge instance.
-	 * @param mappings
-	 *            Mappings.
+	 * @param <T> Either {@link Node} or {@link Edge} class.
+	 * @param element A node or edge instance.
+	 * @param mappings Mappings.
 	 * @return Origin element.
 	 */
 	@SuppressWarnings("unchecked")
@@ -300,6 +274,13 @@ public class HenshinMappingUtil {
 			return (T) getAttributeOrigin((Attribute) element, mappings);
 		} else {
 			throw new IllegalArgumentException();
+		}
+	}
+
+	public static void deleteMapping(Node origin, Node image, List<Mapping> mappings) {
+		Mapping mapping = getMapping(origin, image, mappings);
+		if (mapping!=null) {
+			mappings.remove(mapping);
 		}
 	}
 

@@ -35,10 +35,10 @@ import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
@@ -78,7 +78,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated NOT
 	 */
-	private RuleGraphsListener ruleListener;
+	private TransformationSystemListener transformationListener;
 
 	/**
 	 * @generated
@@ -95,7 +95,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		super.addSemanticListeners();
 		Node node = (Node) (getNotationView().getElement());
 		Rule rule = node.getGraph().getContainerRule();
-		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+		TransformationSystem system = rule.getTransformationSystem();
+		transformationListener = new TransformationSystemListener(system, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
 				// Really make sure that the edit part is still valid.
 				if (isActive()
@@ -113,9 +114,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (ruleListener != null) {
-			ruleListener.dispose();
-			ruleListener = null;
+		if (transformationListener != null) {
+			transformationListener.dispose();
+			transformationListener = null;
 		}
 	}
 
@@ -164,24 +165,8 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @return Whether to draw a shadow or not.
 	 */
 	public boolean shouldDrawShadow() {
-		//Action action = getNodeAction();
-		//return (action!=null) && (action.isAmalgamated());
-		// TEMPORARY
-		return drawShadow;
-	}
-	
-	// TEMPORARY
-	private boolean drawShadow = false;
-	
-	// TEMPORARY
-	@Override
-	public void performRequest(Request request) {
-		if (request.getType()==RequestConstants.REQ_OPEN) {
-			drawShadow = !drawShadow;
-			refresh();
-		} else {
-			super.performRequest(request);
-		}
+		Action action = getNodeAction();
+		return (action!=null) && (action.isAmalgamated());
 	}
 	
 	/**

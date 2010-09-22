@@ -6,6 +6,8 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -23,24 +25,42 @@ class ActionElementFinder {
 	 */
 	@SuppressWarnings("unchecked")
 	static <E extends GraphElement> List<E> getRuleElementCandidates(
-			Rule rule, Action action, EReference containment) {
+			Rule kernel, Action action, EReference containment) {
 		
 		// Get a list of elements to be checked:
 		List<E> candidates = new ArrayList<E>();
 		
+		// Check if the rule is a multi-rule of some amalgamation:
+		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
+		
+		// Determine the rules top be checked:
+		List<Rule> rules = new ArrayList<Rule>();
+		if (action==null || !action.isAmalgamated()) {
+			rules.add(kernel);
+		}
+		if (action==null || action.isAmalgamated()) {
+			if (amalgamation!=null) {
+				rules.addAll(amalgamation.getMultiRules());
+			}
+		}
+		
 		// Add LHS elements:
-		if (action==null || action.getType()==ActionType.DELETE) {
-			candidates.addAll((List<E>) rule.getLhs().eGet(containment));
+		if (action==null || action.getType()==ActionType.DELETE || action.getType()==ActionType.PRESERVE) {
+			for (Rule rule : rules) {
+				candidates.addAll((List<E>) rule.getLhs().eGet(containment));
+			}
 		}
 		
 		// Add RHS elements:
 		if (action==null || action.getType()==ActionType.CREATE) {
-			candidates.addAll((List<E>) rule.getRhs().eGet(containment));
+			for (Rule rule : rules) {
+				candidates.addAll((List<E>) rule.getRhs().eGet(containment));				
+			}
 		}
 		
 		// Add NAC elements:
 		if (action==null || action.getType()==ActionType.FORBID) {
-			for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
+			for (NestedCondition nac : HenshinNACUtil.getAllNACs(kernel)) {
 				candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
 			}
 		}
@@ -62,20 +82,33 @@ class ActionElementFinder {
 			
 			// Get the mappings:
 			EObject container = element.getGraph().eContainer();
-			EList<Mapping> mappings = null;
 			
 			if (container instanceof Rule) {
-				mappings = ((Rule) container).getMappings();
+				
+				Rule rule = (Rule) container;
+				E origin = HenshinMappingUtil.getOrigin(element, rule.getMappings());
+				if (origin==null) origin = element;
+				
+				// Multi-rule of an amalgamation?
+				AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+				if (amalgamation!=null) {
+					@SuppressWarnings("unchecked")
+					E originInKernel = (E) AmalgamationEditHelper.getPreimageInKernelRule(origin, amalgamation);
+					if (originInKernel!=null) {
+						return originInKernel;
+					}
+				}
+				return origin;
 			}
 			else if (container instanceof NestedCondition) {
-				mappings = ((NestedCondition) container).getMappings();
+				// Find the origin in the LHS:
+				EList<Mapping> mappings = ((NestedCondition) container).getMappings();
+				return HenshinMappingUtil.getOrigin(element, mappings);
 			}
 			else {
 				throw new RuntimeException("Graph neither contained in a Rule nor in a NestedCondition");
 			}
 			
-			// Find the origin in the LHS:
-			return HenshinMappingUtil.getOrigin(element, mappings);
 			
 		}
 	}

@@ -18,11 +18,14 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
+import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -59,27 +62,46 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 			return CommandResult.newOKCommandResult();
 		}
 		
+		// Check if there is an action associated:
+		if (EdgeActionHelper.INSTANCE.getAction(edge)==null) {
+			edge.getGraph().removeEdge(edge);
+			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
+		}
+		
+		// We set the edge type to DELETE
+		EdgeActionHelper.INSTANCE.setAction(edge, new Action(ActionType.DELETE));
+		
+		// Get the edge properties:
 		Node source = edge.getSource();
 		Node target = edge.getTarget();
 		EReference type = edge.getType();
 		Rule rule = edge.getGraph().getContainerRule();
 		
-		// Check for edge images:
-		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
-		if (action!=null && action.getType()==ActionType.PRESERVE) {
-			Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
-			image.getGraph().removeEdge(image);
+		// Check if there are images in multi-rules.
+		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
+		if (amalgamation!=null) {
+			for (Rule multi : amalgamation.getMultiRules()) {
+				Edge image = HenshinMappingUtil
+						.getEdgeImage(edge, multi.getLhs(), amalgamation.getLhsMappings());
+				if (image!=null) {
+					image.getGraph().removeEdge(image);
+				}
+			}
 		}
 		
-		// Now we can remove it safely.
+		// Remove the edge.
 		edge.getGraph().removeEdge(edge);
 		
-		// Update the root containment is the edge is containment / container:
+		// Update the root containment if the edge is containment / container:
 		if (type!=null && (type.isContainment() || type.isContainer())) {
 			View ruleView = RootObjectEditHelper.findRuleView(rule);
 			RootObjectEditHelper.updateRootContainment(ruleView, source);
 			RootObjectEditHelper.updateRootContainment(ruleView, target);
 		}
+		
+		// Clean up trivial NAC and multi-rules:
+		HenshinNACUtil.removeTrivialNACs(rule);
+		AmalgamationEditHelper.cleanUpAmalagamation(rule);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

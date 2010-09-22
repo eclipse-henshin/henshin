@@ -24,6 +24,7 @@ import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
@@ -46,7 +47,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	/**
 	 * @generated NOT
 	 */
-	private RuleGraphsListener ruleListener;
+	private TransformationSystemListener transformationListener;
 
 	/**
 	 * @generated
@@ -63,7 +64,8 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		super.addSemanticListeners();
 		Edge edge = (Edge) (getNotationView().getElement());
 		Rule rule = edge.getGraph().getContainerRule();
-		ruleListener = new RuleGraphsListener(rule, new AdapterImpl() {
+		TransformationSystem system = rule.getTransformationSystem();
+		transformationListener = new TransformationSystemListener(system, new AdapterImpl() {
 			public void notifyChanged(Notification event) {
 				// Really make sure that the edit part is still valid.
 				if (isActive()
@@ -81,9 +83,9 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (ruleListener != null) {
-			ruleListener.dispose();
-			ruleListener = null;
+		if (transformationListener != null) {
+			transformationListener.dispose();
+			transformationListener = null;
 		}
 	}
 

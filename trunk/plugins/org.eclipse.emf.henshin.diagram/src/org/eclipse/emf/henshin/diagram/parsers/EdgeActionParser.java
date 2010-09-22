@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -98,32 +99,26 @@ public class EdgeActionParser extends AbstractParser {
 			
 			// Make sure the action is compatible with the source and target actions:
 			NodeActionHelper helper = NodeActionHelper.INSTANCE;
-			Action src = helper.getAction(helper.getActionNode(edge.getSource()));
-			Action trg = helper.getAction(helper.getActionNode(edge.getTarget()));
+			Node src = helper.getActionNode(edge.getSource());
+			Node trg = helper.getActionNode(edge.getTarget());
+			Action srcAction = helper.getAction(src);
+			Action trgAction = helper.getAction(trg);
 			
-			// Warning message:
-			CommandResult warning = CommandResult.newWarningCommandResult("Cannot set edge action because its source and target nodes have incompatible types.", null);
-			
-			// Case where source and target have the same action:
-			if (src.equals(trg)) {
-				if (src.getType()!=ActionType.PRESERVE && !action.equals(src)) {
-					return warning;
-				}
-			} else {
-				// At least one must be of type PRESERVE:
-				if (src.getType()!=ActionType.PRESERVE && trg.getType()!=ActionType.PRESERVE) {
-					return warning;
-				}
-				// Action of the none-PRESERVE node must be the same as the edge action:
-				Action nodeAction = (src.getType()!=ActionType.PRESERVE) ? src : trg;
-				if (!action.equals(nodeAction)) {
-					return warning;
-				}
+			// The source and the target node must have either the same
+			// action as the edge, or PRESERVE.			
+			if (!srcAction.equals(action) && 
+				!(srcAction.getType()==ActionType.PRESERVE && !srcAction.isAmalgamated())) {
+				NodeActionHelper.INSTANCE.setAction(src, action);
+			}
+			if (!trgAction.equals(action) && 
+				!(trgAction.getType()==ActionType.PRESERVE && !trgAction.isAmalgamated())) {
+				NodeActionHelper.INSTANCE.setAction(trg, action);
 			}
 			
 			// Now we can safely set the action:
 			EdgeActionHelper.INSTANCE.setAction(edge, action);
 			return CommandResult.newOKCommandResult();
+			
 		}
 		catch (Throwable t) {
 			HenshinDiagramEditorPlugin.getInstance().logError("Error occurred when trying to set an edge action", t);

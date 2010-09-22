@@ -34,7 +34,23 @@ public class AmalgamationEditHelper {
 	 * Prefix for multi-rule names. This is to distinguish multi-rules
 	 * from kernel rules easily.
 	 */
-	public static final String MULTI_RULE_NAME_PREFIX = "_";
+	public static final String MULTI_RULE_NAME_PREFIX = "multi_";
+
+	
+	/**
+	 * Get the associated default amalgamation unit for a given
+	 * kernel or multi rule. This delegates to {@link #getAmalgamationFromKernelRule(Rule)}
+	 * and {@link #getAmalgamationFromMultiRule(Rule)}.
+	 * @param rule Rule.
+	 * @return The amalgamation or <code>null</code>.
+	 */
+	public static AmalgamationUnit getAmalgamation(Rule rule) {
+		AmalgamationUnit amalgamation = getAmalgamationFromKernelRule(rule);
+		if (amalgamation==null) {
+			amalgamation = getAmalgamationFromMultiRule(rule);
+		}
+		return amalgamation;
+	}
 	
 	/**
 	 * Find the default amalgamation unit for a given kernel rule.
@@ -112,65 +128,24 @@ public class AmalgamationEditHelper {
 	}
 	
 	/**
-	 * Check whether a rule is a trivial multi-rule. A multi-rule
-	 * is trivial if all elements in its LHS/RHS have a pre-image
-	 * in the kernel rule's LHS/RHS.
-	 * @param rule Rule to be checked.
-	 * @return <code>true</code> if it is trivial.
-	 */
-	public static boolean isTrivialMultiRule(Rule rule) {
-		
-		// Get the amalgamation unit. Must be not null.
-		AmalgamationUnit amalgamation = getAmalgamationFromMultiRule(rule);
-		if (amalgamation==null) {
-			return false;
-		}
-		
-		// Create a list of all elements in the multi-rule:
-		List<GraphElement> elements = new ArrayList<GraphElement>();
-		elements.addAll(rule.getLhs().getNodes());
-		elements.addAll(rule.getLhs().getEdges());
-		elements.addAll(rule.getRhs().getNodes());
-		elements.addAll(rule.getRhs().getEdges());
-		
-		// Check if there have preimages.
-		for (GraphElement element : elements) {
-			if (hasPreimageInKernelRule(element, amalgamation))
-				return false;
-		}
-		
-		// No reason why it shouldn't be trivial.
-		return true;
-		
-	}
-	
-	/**
 	 * Check if a graph element in a multi-rule has a preimage in the
-	 * kernel rule. This throws exceptions if something is wrong.
+	 * kernel rule. 
 	 * @param element Graph element.
-	 * @return <code>true</code> if it has a preimage.
 	 */
-	public static boolean hasPreimageInKernelRule(GraphElement element, AmalgamationUnit amalgamation) {
-		
-		// Check the element first:
-		if (element==null || 
-			amalgamation==null ||
-			element.getGraph()==null || 
-			element.getGraph().getContainerRule()==null ||
-			amalgamation.getMultiRules().contains(element.getGraph().getContainerRule())) {
-			throw new IllegalArgumentException();
-		}
+	public static GraphElement getPreimageInKernelRule(GraphElement element, AmalgamationUnit amalgamation) {
 		
 		Graph graph = element.getGraph();
+		if (graph==null) return null;
 		Rule rule = graph.getContainerRule();
+		if (rule==null) return null;
 		
 		if (graph==rule.getLhs()) {
-			return (HenshinMappingUtil.getOrigin(element,
-					amalgamation.getLhsMappings()) == null);
+			return HenshinMappingUtil.getOrigin(element,
+					amalgamation.getLhsMappings());
 		}
 		else if (graph==rule.getRhs()) {
-			return (HenshinMappingUtil.getOrigin(element,
-					amalgamation.getRhsMappings()) == null);
+			return HenshinMappingUtil.getOrigin(element,
+					amalgamation.getRhsMappings());
 		}
 		else {
 			throw new IllegalArgumentException("Element is neither part of the LHS nor the RHS");
@@ -221,16 +196,26 @@ public class AmalgamationEditHelper {
 		return name;
 	}
 	
-	public static Rule createMultiRule(Rule kernel, AmalgamationUnit amalgamation, String name) {
+	/**
+	 * Create a new multi-rule.
+	 * @param kernel Kernel rule.
+	 * @param amalgamation Amalgamation.
+	 * @param name Name.
+	 * @return The new multi-rule.
+	 */
+	public static Rule createMultiRule(AmalgamationUnit amalgamation, String name) {
 		Rule multiRule = HenshinFactory.eINSTANCE.createRule();
 		multiRule.setName(MULTI_RULE_NAME_PREFIX + name);
 		amalgamation.getMultiRules().add(multiRule);
-		kernel.getTransformationSystem().getRules().add(multiRule);
+		amalgamation.getKernelRule().getTransformationSystem().getRules().add(multiRule);
 		return multiRule;
 	}
 
-	public static Rule createDefaultMultiRule(Rule kernel, AmalgamationUnit amalgamation) {
-		return createMultiRule(kernel, amalgamation, amalgamation.getName());
+	/**
+	 * Create a new default multi-rule.
+	 */
+	public static Rule createDefaultMultiRule(AmalgamationUnit amalgamation) {
+		return createMultiRule(amalgamation, amalgamation.getName());
 	}
 
 	/**
@@ -269,5 +254,64 @@ public class AmalgamationEditHelper {
 		kernel.setName(newName);
 		
 	}
+
+	/**
+	 * Check whether a rule is a trivial multi-rule. A multi-rule
+	 * is trivial if all elements in its LHS/RHS have a pre-image
+	 * in the kernel rule's LHS/RHS.
+	 * @param multi Rule to be checked.
+	 * @return <code>true</code> if it is trivial.
+	 */
+	public static boolean isTrivialMultiRule(Rule multi, AmalgamationUnit amalgamation) {
+		
+		// Create a list of all elements in the multi-rule:
+		List<GraphElement> elements = new ArrayList<GraphElement>();
+		elements.addAll(multi.getLhs().getNodes());
+		elements.addAll(multi.getLhs().getEdges());
+		elements.addAll(multi.getRhs().getNodes());
+		elements.addAll(multi.getRhs().getEdges());
+		
+		// Check if there have preimages.
+		for (GraphElement element : elements) {
+			if (getPreimageInKernelRule(element, amalgamation)==null)
+				return false;
+		}
+		
+		// No reason why it shouldn't be trivial.
+		return true;
+	}
+
 	
+	public static void cleanUpAmalagamation(AmalgamationUnit amalgamation) {
+
+		// Get the transformation system:
+		if (amalgamation==null || amalgamation.getKernelRule()==null) return;
+		TransformationSystem system = amalgamation.getKernelRule().getTransformationSystem();
+		if (system==null) return;
+		
+		// Delete trivial multi-rules:
+		for (int i=0; i<amalgamation.getMultiRules().size(); i++) {
+			Rule multi = amalgamation.getMultiRules().get(i);
+			if (isTrivialMultiRule(multi, amalgamation)) {
+				amalgamation.getMultiRules().remove(i--);
+				system.getRules().remove(multi);
+			}
+		}
+		
+		// Check if there are no multi-rules left:
+		if (amalgamation.getMultiRules().isEmpty() && 
+				system.getTransformationUnits().contains(amalgamation)) {
+			amalgamation.setKernelRule(null);
+			system.getTransformationUnits().remove(amalgamation);
+		}
+		
+	}
+
+	public static void cleanUpAmalagamation(Rule rule) {
+		AmalgamationUnit amalgamation = getAmalgamation(rule);
+		if (amalgamation!=null) {
+			cleanUpAmalagamation(amalgamation);
+		}
+	}
+
 }

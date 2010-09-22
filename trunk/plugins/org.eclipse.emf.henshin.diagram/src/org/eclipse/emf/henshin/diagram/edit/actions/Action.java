@@ -66,7 +66,7 @@ public class Action {
 		String trimmedType = typeAndArgs[0].trim();
 		if (trimmedType.endsWith(MARKER_AMALGAMATION)) {
 			amalgamated = true;
-			trimmedType = trimmedType.substring(0, trimmedType.length());
+			trimmedType = trimmedType.substring(0, trimmedType.length()-1);
 		}
 		ActionType type = ActionType.parse(trimmedType);
 

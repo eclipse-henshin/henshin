@@ -172,4 +172,16 @@ public class HenshinNACUtil {
 		
 	}
 	
+	/**
+	 * Remove all trivial NACs from a rule.
+	 * @param rule Rule.
+	 */
+	public static void removeTrivialNACs(Rule rule) {
+		for (NestedCondition nac : getAllNACs(rule)) {
+			if (isTrivialNAC(nac)) {
+				removeNAC(rule, nac);
+			}
+		}
+	}
+	
 }

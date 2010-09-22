@@ -48,6 +48,16 @@ public enum ActionType {
 		for (ActionType type : values()) {
 			if (type.name().equalsIgnoreCase(value)) return type;
 		}
+		// Some convenience...
+		if ("remove".equalsIgnoreCase(value)) {
+			return DELETE;
+		}
+		if ("new".equalsIgnoreCase(value)) {
+			return CREATE;
+		}
+		if ("none".equalsIgnoreCase(value)) {
+			return PRESERVE;
+		}
 		throw new ParseException("Unknown action type: " + value, 0);
 	}
 	

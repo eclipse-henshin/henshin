@@ -106,6 +106,9 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#getOpposite(java.lang.Object)
 	 */
 	public final E getOpposite(E e) {
+		if (mappings==null) {
+			return null;
+		}
 		Graph graph = getContainer(e);
 		if (graph==null || (graph!=source && graph!=target)) {
 			throw new IllegalArgumentException("Illegal element container: " + graph);
@@ -143,8 +146,9 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#move(java.lang.Object)
 	 */
 	public final void move(E e) {
-		if (getOpposite(e)!=null) {
-			replace(e);     // Replace if opposite exists already
+		E opposite = getOpposite(e);
+		if (opposite!=null) {
+			replace(opposite);     // Rather replace the opposite if it exists already
 		} else {
 			doMove(e);		// Otherwise move
 		}
@@ -211,6 +215,9 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * Remove a mapping between two elements.
 	 */
 	protected final void removeMapping(E e1, E e2) {
+		if (mappings==null) {
+			return;
+		}
 		Graph g1 = getContainer(e1);
 		Graph g2 = getContainer(e2);
 		if (g1==source && g2==target) {
@@ -235,6 +242,9 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * Create a mapping.
 	 */
 	protected final void createMapping(E e1, E e2) {
+		if (mappings==null) {
+			return;
+		}
 		Graph g1 = getContainer(e1);
 		Graph g2 = getContainer(e2);
 		if (g1==source && g2==target) {

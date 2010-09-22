@@ -77,13 +77,17 @@ public class ActionLabelDirectEditPolicy extends LabelDirectEditPolicy {
 			// Refresh all edit parts:
 			EditPart editpart = getHost();
 			while (editpart!=null) {
+				
+				// Refresh the edit part itself:
+				editpart.refresh();
+				
+				// Canonical edit policy found?
 				EditPolicy policy = editpart.getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);				
 				if (policy instanceof CanonicalEditPolicy) {
 					((CanonicalEditPolicy) policy).refresh();
 				}
-				if (editpart instanceof LabelEditPart) {
-					((LabelEditPart) editpart).refresh();
-				}
+				
+				// Refresh connections?
 				if (editpart instanceof NodeEditPart) {
 					for (Object con : ((NodeEditPart) editpart).getSourceConnections()) {
 						updateConnection((ConnectionEditPart) con);
@@ -92,6 +96,13 @@ public class ActionLabelDirectEditPolicy extends LabelDirectEditPolicy {
 						updateConnection((ConnectionEditPart) con);
 					}
 				}
+
+				// Refresh connected nodes?
+				if (editpart instanceof ConnectionEditPart) {
+					updateConnection((ConnectionEditPart) editpart);
+				}
+				
+				// Continue with the parent:
 				editpart = editpart.getParent();
 			}
 			
@@ -104,6 +115,12 @@ public class ActionLabelDirectEditPolicy extends LabelDirectEditPolicy {
 		 * Refresh the labels of a connection edit part.
 		 */
 		private void updateConnection(ConnectionEditPart connection) {
+			if (connection.getSource()!=null) {
+				connection.getSource().refresh();
+			}
+			if (connection.getTarget()!=null) {
+				connection.getTarget().refresh();
+			}
 			for (Object child : connection.getChildren()) {
 				if (child instanceof LabelEditPart) {
 					((LabelEditPart) child).refresh();

@@ -245,21 +245,24 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	@Override
 	public String getText(Object object) {
-
 		Node node = (Node) object;
-		String label = getString("_UI_Node_type");
-
-		String name = "";
-		if (node.getName() != null)
-			name = name + node.getName();
-		if (node.getType() != null)
-			name = name + ":" + node.getType().getName();
-		name = name.trim();
-
-		return name.length() != 0 ? label + " " + name : label;
-
+		String prefix = getString("_UI_Node_type");
+		String label = getNodeLabel(node);
+		return label.length() != 0 ? prefix + " " + label : prefix;
 	}
 
+	/**
+	 * Compute a nice label for a node.
+	 */
+	public static String getNodeLabel(Node node) {
+		String label = "";
+		if (node.getName() != null)
+			label = label + node.getName();
+		if (node.getType() != null)
+			label = label + ":" + node.getType().getName();
+		return label.trim();
+	}
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which

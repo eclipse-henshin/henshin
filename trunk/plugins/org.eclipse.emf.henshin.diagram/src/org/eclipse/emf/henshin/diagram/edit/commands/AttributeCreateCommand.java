@@ -59,11 +59,15 @@ public class AttributeCreateCommand extends EditElementCommand {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean canExecute() {
+		Node node = (Node) getElementToEdit();
+		// The type must be set and there must be at least one attribute type.
+		if (node.getType()==null || node.getType().getEAllAttributes().isEmpty()) {
+			return false;
+		}
 		return true;
-
 	}
 
 	/**
