@@ -78,8 +78,8 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		// Read the output:
 		String line;
 		while ((line = reader.readLine())!=null) {
-			System.out.println("pbes2bool:" + line);
 			line = line.trim();
+			System.out.println("pbes2bool:" + line);
 			if (line.startsWith("The solution for the initial variable of the pbes is")) {
 				if (line.endsWith("true")) result = Boolean.TRUE; 
 				else if (line.endsWith("false")) result = Boolean.FALSE; 
