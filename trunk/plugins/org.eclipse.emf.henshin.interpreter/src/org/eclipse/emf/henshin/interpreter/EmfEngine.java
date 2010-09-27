@@ -241,8 +241,7 @@ public class EmfEngine implements InterpreterEngine {
 			ruleInformation.put(rule, wrapper);
 		}
 
-		if (!ruleApplication.getMatch().isComplete()
-				|| rule.getLhs().getNodes().size() == 0) {
+//		if (!ruleApplication.getMatch().isComplete() || rule.getLhs().getNodes().size() == 0) {
 			Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 			Solution solution = matchfinder.getNextMatch();
 
@@ -252,9 +251,9 @@ public class EmfEngine implements InterpreterEngine {
 				return match;
 			} else
 				return null;
-		} else {
-			return ruleApplication.getMatch();
-		}
+//		} else {
+//			return ruleApplication.getMatch();
+//		}
 	}
 
 	public RuleApplication generateAmalgamationRule(

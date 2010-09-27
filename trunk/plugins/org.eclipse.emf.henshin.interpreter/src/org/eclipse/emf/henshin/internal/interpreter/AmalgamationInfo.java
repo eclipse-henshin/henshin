@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -88,7 +89,7 @@ public class AmalgamationInfo {
 
 		// find one match for kernel rule
 		Match kernelMatch = emfEngine.findMatch(kernelRuleApplication);
-		
+
 		if (kernelMatch == null)
 			return null;
 
@@ -156,12 +157,40 @@ public class AmalgamationInfo {
 	private Map<Node, EObject> addMatchContent(Rule parallelRule,
 			Match simpleMatch, Map<Node, Node> copyMap) {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
-
+		Map<String, String> oldParameterNames = new HashMap<String, String>();
 		Map<Node, EObject> partialMatch = new HashMap<Node, EObject>();
 
 		// this map stores the correspondence between the original and the
 		// copied nodes
 		Rule rule = simpleMatch.getRule();
+
+		// add parameter of the macthing rule to the parallel rule and rename it
+		// if necessary
+		if (simpleMatch.getRule() == amalgamationUnit.getKernelRule()) {
+			for (Parameter parameter : rule.getParameters()) {
+				Parameter parallelParameter = (Parameter) EcoreUtil
+						.copy(parameter);
+				parallelParameter.setUnit(parallelRule);
+			}
+		} else {
+			for (Parameter parameter : rule.getParameters()) {
+				String parameterName = parameter.getName();
+
+				// this parameter is exclusivly used by a multi rule and its
+				// name must be changed to avoid conflicts with multiple copies
+				// of that rules
+				if (amalgamationUnit.getKernelRule().getParameterByName(
+						parameterName) == null) {
+					Parameter parallelParameter = (Parameter) EcoreUtil
+							.copy(parameter);
+					parallelParameter.setUnit(parallelRule);
+					String newName = parameter.getName()
+							+ Math.abs(new Random().nextInt());
+					parallelParameter.setName(newName);
+					oldParameterNames.put(newName, parameterName);
+				}
+			}
+		}
 
 		// add the current lhs to the lhs of the parallel rule
 		for (Node node : rule.getLhs().getNodes()) {
@@ -174,6 +203,16 @@ public class AmalgamationInfo {
 				copyMap.put(node, newParallelNode);
 				partialMatch.put(newParallelNode, simpleMatch.getNodeMapping()
 						.get(node));
+
+				for (Attribute attribute : newParallelNode.getAttributes()) {
+					for (Parameter parameter : parallelRule.getParameters()) {
+						String newName = parameter.getName();
+						if (oldParameterNames.get(newName) != null) {
+							ModelHelper.renameParameterInAttribute(attribute,
+									oldParameterNames.get(newName), newName);
+						}
+					}
+				}
 			}
 		}
 
@@ -185,8 +224,16 @@ public class AmalgamationInfo {
 				newParallelNode.getIncoming().clear();
 				newParallelNode.setGraph(parallelRule.getRhs());
 				copyMap.put(node, newParallelNode);
-			} else {
-
+				
+				for (Attribute attribute : newParallelNode.getAttributes()) {
+					for (Parameter parameter : parallelRule.getParameters()) {
+						String newName = parameter.getName();
+						if (oldParameterNames.get(newName) != null) {
+							ModelHelper.renameParameterInAttribute(attribute,
+									oldParameterNames.get(newName), newName);
+						}
+					}
+				}
 			}
 		}
 
@@ -251,16 +298,6 @@ public class AmalgamationInfo {
 				parallelEdge.setTarget(parallelTarget);
 				parallelEdge.setType(edge.getType());
 				parallelEdge.setGraph(parallelRule.getRhs());
-			}
-		}
-
-		for (Parameter parameter : rule.getParameters()) {
-			Parameter parallelParameter = (Parameter) EcoreUtil.copy(parameter);
-			parallelParameter.setUnit(parallelRule);
-			if (simpleMatch.getRule() != amalgamationUnit.getKernelRule()) {
-				String newName = parameter.getName()
-						+ Math.abs(new Random().nextInt());
-				parameter.setName(newName);
 			}
 		}
 

@@ -244,4 +244,16 @@ public class ModelHelper {
 		}
 		return prematch;
 	}
+	
+	/**
+	 * Renames the given attribute value to the new 
+	 * @param attribute
+	 * @param oldName
+	 * @param newName
+	 */
+	public static void renameParameterInAttribute(Attribute attribute, String oldName, String newName) {
+		//TODO: do a real parse on the value
+		if (attribute.getValue().equals(oldName))
+			attribute.setValue(newName);
+	}
 }
