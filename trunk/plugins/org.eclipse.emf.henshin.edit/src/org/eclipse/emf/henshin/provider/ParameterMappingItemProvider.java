@@ -12,9 +12,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -23,8 +21,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingSourcePropertyDescriptor;
+import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingTargetPropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.ParameterMapping} object.
@@ -75,18 +74,13 @@ public class ParameterMappingItemProvider
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+			(new ParameterMappingSourcePropertyDescriptor(
+				((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_ParameterMapping_source_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ParameterMapping_source_feature", "_UI_ParameterMapping_type"),
-				 HenshinPackage.Literals.PARAMETER_MAPPING__SOURCE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+				 HenshinPackage.Literals.PARAMETER_MAPPING__SOURCE
+				 ));
 	}
 
 	/**
@@ -97,18 +91,13 @@ public class ParameterMappingItemProvider
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+			(new ParameterMappingTargetPropertyDescriptor(
+				((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
 				 getString("_UI_ParameterMapping_target_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ParameterMapping_target_feature", "_UI_ParameterMapping_type"),
-				 HenshinPackage.Literals.PARAMETER_MAPPING__TARGET,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+				 HenshinPackage.Literals.PARAMETER_MAPPING__TARGET
+				 ));
 	}
 
 	/**
