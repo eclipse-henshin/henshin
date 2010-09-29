@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
@@ -224,7 +223,7 @@ public class AmalgamationInfo {
 				newParallelNode.getIncoming().clear();
 				newParallelNode.setGraph(parallelRule.getRhs());
 				copyMap.put(node, newParallelNode);
-				
+
 				for (Attribute attribute : newParallelNode.getAttributes()) {
 					for (Parameter parameter : parallelRule.getParameters()) {
 						String newName = parameter.getName();
@@ -269,7 +268,8 @@ public class AmalgamationInfo {
 				parallelTarget = copyMap.get(multiNode2kernelNode
 						.get(targetNode));
 
-			if (!hasEdge(edge.getType(), parallelSource, parallelTarget)) {
+			if (parallelSource.findOutgoingEdgeByType(parallelTarget,
+					edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
 				parallelEdge.setTarget(parallelTarget);
@@ -292,7 +292,8 @@ public class AmalgamationInfo {
 				parallelTarget = copyMap.get(multiNode2kernelNode
 						.get(targetNode));
 
-			if (!hasEdge(edge.getType(), parallelSource, parallelTarget)) {
+			if (parallelSource.findOutgoingEdgeByType(parallelTarget,
+					edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
 				parallelEdge.setTarget(parallelTarget);
@@ -303,17 +304,4 @@ public class AmalgamationInfo {
 
 		return partialMatch;
 	}
-
-	/**
-	 * Checks if there is an {@link Edge} of type <code>type</code> with
-	 * {@link Node}s <code>source</code> and <code>target</code>.
-	 * 
-	 * @param type
-	 * @param source
-	 * @param target
-	 * @return
-	 */
-	private boolean hasEdge(EReference type, Node source, Node target) {
-		return source.findOutgoingEdgeByType(target, type) != null;
-	}// hasEdge
 }
