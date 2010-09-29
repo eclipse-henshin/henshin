@@ -268,7 +268,7 @@ public class AmalgamationInfo {
 				parallelTarget = copyMap.get(multiNode2kernelNode
 						.get(targetNode));
 
-			if (parallelSource.findOutgoingEdgeByType(parallelTarget,
+			if (sourceNode.findOutgoingEdgeByType(targetNode,
 					edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
@@ -292,7 +292,7 @@ public class AmalgamationInfo {
 				parallelTarget = copyMap.get(multiNode2kernelNode
 						.get(targetNode));
 
-			if (parallelSource.findOutgoingEdgeByType(parallelTarget,
+			if (sourceNode.findOutgoingEdgeByType(targetNode,
 					edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
