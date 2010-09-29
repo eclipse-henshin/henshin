@@ -161,7 +161,7 @@ public class VariableInfo {
 	private Map<EReference, Integer> getEdgeCounts(Node node, boolean incoming) {
 		Collection<Edge> edges = incoming ? node.getIncoming() : node.getOutgoing();
 		Collection<Edge> oppositeEdges = incoming ? node.getOutgoing() : node
-				.getOutgoing();
+				.getIncoming();
 		
 		if (edges.size() == 0)
 			return null;
@@ -197,8 +197,8 @@ public class VariableInfo {
 				}
 			} else {
 				// opposite edges are incoming from the PoV of the node
-				Node remoteNode = edge.getTarget();
-				if (remoteNode.findIncomingEdgeByType(node, oppType) == null) {
+				Node remoteNode = edge.getSource();
+				if (node.findOutgoingEdgeByType(remoteNode, oppType) == null) {
 					Integer count = edgeCount.get(oppType);
 					if (count == null) {
 						count = new Integer(0);
