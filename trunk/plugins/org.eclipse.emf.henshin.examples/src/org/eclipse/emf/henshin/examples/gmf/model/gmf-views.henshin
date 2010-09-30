@@ -40,12 +40,6 @@
       </formula>
     </lhs>
     <rhs xmi:id="_qLQ6ssV6Ed-Z2t7vpSnrvA" name="RHS">
-      <nodes xmi:id="_wFJfMcV6Ed-Z2t7vpSnrvA" outgoing="_kzOpkMV7Ed-Z2t7vpSnrvA">
-        <type href="descriptors.ecore#//NodeDescriptor"/>
-        <attributes xmi:id="_nXc50cV7Ed-Z2t7vpSnrvA" value="id">
-          <type href="descriptors.ecore#//NodeDescriptor/visualID"/>
-        </attributes>
-      </nodes>
       <nodes xmi:id="_QFz_UMV7Ed-Z2t7vpSnrvA" name="" outgoing="_AGqlkMV8Ed-Z2t7vpSnrvA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
       </nodes>
@@ -55,15 +49,12 @@
           <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/type"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_eS7lUcV7Ed-Z2t7vpSnrvA" incoming="_kzOpkMV7Ed-Z2t7vpSnrvA _ev2x4MV7Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_eS7lUcV7Ed-Z2t7vpSnrvA" incoming="_ev2x4MV7Ed-Z2t7vpSnrvA">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
       </nodes>
       <nodes xmi:id="_DvLkYMV8Ed-Z2t7vpSnrvA" incoming="_EOxqcMV8Ed-Z2t7vpSnrvA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Bounds"/>
       </nodes>
-      <edges xmi:id="_kzOpkMV7Ed-Z2t7vpSnrvA" source="_wFJfMcV6Ed-Z2t7vpSnrvA" target="_eS7lUcV7Ed-Z2t7vpSnrvA">
-        <type href="descriptors.ecore#//NodeDescriptor/modelElement"/>
-      </edges>
       <edges xmi:id="_AGqlkMV8Ed-Z2t7vpSnrvA" source="_QFz_UMV7Ed-Z2t7vpSnrvA" target="_UJ9xQMV7Ed-Z2t7vpSnrvA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/persistedChildren"/>
       </edges>
@@ -74,7 +65,6 @@
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node/layoutConstraint"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_wFJfMsV6Ed-Z2t7vpSnrvA" origin="_wFJfMMV6Ed-Z2t7vpSnrvA" image="_wFJfMcV6Ed-Z2t7vpSnrvA"/>
     <mappings xmi:id="_QF0mYMV7Ed-Z2t7vpSnrvA" origin="_QFzYQMV7Ed-Z2t7vpSnrvA" image="_QFz_UMV7Ed-Z2t7vpSnrvA"/>
     <mappings xmi:id="_eS8MYMV7Ed-Z2t7vpSnrvA" origin="_eS7lUMV7Ed-Z2t7vpSnrvA" image="_eS7lUcV7Ed-Z2t7vpSnrvA"/>
   </rules>
