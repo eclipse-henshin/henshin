@@ -64,13 +64,21 @@ import org.eclipse.emf.henshin.model.Rule;
  * The default implementation of an interpreter engine.
  */
 public class EmfEngine implements InterpreterEngine {
+	// the graph the engine will operate on
 	EmfGraph emfGraph;
+
+	// a script engine used to compute java expressions in attributes
 	ScriptEngine scriptEngine;
 
+	// information lookup for each rule
 	Map<Rule, RuleInfo> ruleInformation;
-	Map<AmalgamationUnit, AmalgamationInfo> amalgamationInformation;
+
+	// options that alter the matching strategy of the engine
 	TransformationOptions options;
 
+	/**
+	 * Creates a new EmfEngine instance.
+	 */
 	public EmfEngine() {
 		ruleInformation = new HashMap<Rule, RuleInfo>();
 
@@ -80,6 +88,12 @@ public class EmfEngine implements InterpreterEngine {
 		options = new TransformationOptions();
 	}
 
+	/**
+	 * Creates a new EmfEngine instance.
+	 * 
+	 * @param emfGraph
+	 *            The graph this engine will operate on.
+	 */
 	public EmfEngine(EmfGraph emfGraph) {
 		this();
 
@@ -88,17 +102,19 @@ public class EmfEngine implements InterpreterEngine {
 
 	private Matchfinder prepareMatchfinder(RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
-		RuleInfo ruleInfo = ruleInformation.get(rule);
+		RuleInfo ruleInfo = getRuleInformation(rule);
 		ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
 		VariableInfo variableInfo = ruleInfo.getVariableInfo();
 
 		Map<Parameter, Object> parameterValues = ruleApplication.getMatch()
 				.getParameterValues();
 
-		Map<Node, EObject> prematch = ModelHelper.createPrematch(rule, parameterValues);
-		Map<Node, EObject> rulePrematch = ruleApplication.getMatch().getNodeMapping();
-		
-		for (Node node: rulePrematch.keySet()) {
+		Map<Node, EObject> prematch = ModelHelper.createPrematch(rule,
+				parameterValues);
+		Map<Node, EObject> rulePrematch = ruleApplication.getMatch()
+				.getNodeMapping();
+
+		for (Node node : rulePrematch.keySet()) {
 			prematch.put(node, rulePrematch.get(node));
 		}
 
@@ -207,24 +223,31 @@ public class EmfEngine implements InterpreterEngine {
 
 		return ac;
 	}
+	
+	private RuleInfo getRuleInformation(Rule rule) {
+		RuleInfo ruleInfo = ruleInformation.get(rule);
+		if (ruleInfo == null) {
+			ruleInfo = new RuleInfo(rule, scriptEngine);
+			ruleInformation.put(rule, ruleInfo);
+		}
+		
+		return ruleInfo;
+	}
 
 	@Override
 	public List<Match> findAllMatches(RuleApplication ruleApplication) {
+		if (emfGraph == null)
+			throw new NullPointerException("no target graph was specified for the engine");
+		
 		Rule rule = ruleApplication.getRule();
-
-		RuleInfo wrapper = ruleInformation.get(rule);
-
-		if (wrapper == null) {
-			wrapper = new RuleInfo(rule, scriptEngine);
-			ruleInformation.put(rule, wrapper);
-		}
-
+		RuleInfo ruleInfo = getRuleInformation(rule);
+		
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
 		for (Solution solution : solutions) {
-			Match match = new Match(rule, solution, wrapper.getVariableInfo()
+			Match match = new Match(rule, solution, ruleInfo.getVariableInfo()
 					.getNode2variable());
 			matches.add(match);
 		}
@@ -233,27 +256,22 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	public Match findMatch(RuleApplication ruleApplication) {
+		if (emfGraph == null)
+			throw new NullPointerException("no target graph was specified for the engine");
+		
 		Rule rule = ruleApplication.getRule();
-		RuleInfo wrapper = ruleInformation.get(rule);
+		
+		RuleInfo ruleInfo = getRuleInformation(rule);
 
-		if (wrapper == null) {
-			wrapper = new RuleInfo(rule, scriptEngine);
-			ruleInformation.put(rule, wrapper);
-		}
+		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
+		Solution solution = matchfinder.getNextMatch();
 
-//		if (!ruleApplication.getMatch().isComplete() || rule.getLhs().getNodes().size() == 0) {
-			Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
-			Solution solution = matchfinder.getNextMatch();
-
-			if (solution != null) {
-				Match match = new Match(rule, solution, wrapper
-						.getVariableInfo().getNode2variable());
-				return match;
-			} else
-				return null;
-//		} else {
-//			return ruleApplication.getMatch();
-//		}
+		if (solution != null) {
+			Match match = new Match(rule, solution, ruleInfo.getVariableInfo()
+					.getNode2variable());
+			return match;
+		} else
+			return null;
 	}
 
 	public RuleApplication generateAmalgamationRule(
@@ -267,42 +285,21 @@ public class EmfEngine implements InterpreterEngine {
 	}
 
 	@Override
-	public boolean applyRule(RuleApplication ruleApplication) {
+	public Match applyRule(RuleApplication ruleApplication) {
 		Match match = findMatch(ruleApplication);
 		if (match != null) {
 			ruleApplication.setMatch(match);
 			Match comatch = executeModelChanges(ruleApplication);
 			ruleApplication.setComatch(comatch);
 
-			return true;
+			return comatch;
 		}
 
-		return false;
+		return null;
 	}
 
 	public void purgeCache() {
 		ruleInformation.clear();
-		amalgamationInformation.clear();
-	}
-
-	/**
-	 * @return the emfGraph
-	 */
-	public EmfGraph getEmfGraph() {
-		return emfGraph;
-	}
-
-	public void setEmfGraph(EmfGraph emfGraph) {
-		this.emfGraph = emfGraph;
-	}
-
-	@Override
-	public void setOptions(TransformationOptions options) {
-		this.options = options;
-	}
-
-	public TransformationOptions getOptions() {
-		return options;
 	}
 
 	/**
@@ -311,9 +308,10 @@ public class EmfEngine implements InterpreterEngine {
 	 * 
 	 * @return the comatch from the RHS into the instance
 	 */
-	private Match executeModelChanges(RuleApplication ruleApplication) {
+	private Match executeModelChanges(RuleApplication ruleApplication) {		
 		Rule rule = ruleApplication.getRule();
-		RuleInfo ruleInfo = ruleInformation.get(rule);
+		RuleInfo ruleInfo = getRuleInformation(rule);
+		
 		ChangeInfo changeInfo = ruleInfo.getChangeInfo();
 
 		Match match = ruleApplication.getMatch();
@@ -330,10 +328,8 @@ public class EmfEngine implements InterpreterEngine {
 
 		// create new EObjects with their attributes
 		for (Node node : changeInfo.getCreatedNodes()) {
-
 			EClass type = node.getType();
 			EPackage ePackage = type.getEPackage();
-
 			EObject newObject = ePackage.getEFactoryInstance().create(type);
 			modelChange.addCreatedObject(newObject);
 			emfGraph.addEObject(newObject);
@@ -379,15 +375,15 @@ public class EmfEngine implements InterpreterEngine {
 
 		// add new edges
 		for (Edge edge : changeInfo.getCreatedEdges()) {
-			modelChange.addObjectChange(comatchNodeMapping
-					.get(edge.getSource()), edge.getType(), comatchNodeMapping
-					.get(edge.getTarget()), false);
+			modelChange.addObjectChange(
+					comatchNodeMapping.get(edge.getSource()), edge.getType(),
+					comatchNodeMapping.get(edge.getTarget()), false);
 		}
 
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
 			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
-			Object value = evalExpression(match.getParameterValues(), attribute
-					.getValue());
+			Object value = evalExpression(match.getParameterValues(),
+					attribute.getValue());
 
 			String valueString = null;
 			// workaround for Double conversion
@@ -422,8 +418,8 @@ public class EmfEngine implements InterpreterEngine {
 			String expr) {
 		try {
 			for (Parameter parameter : parameterMapping.keySet()) {
-				scriptEngine.put(parameter.getName(), parameterMapping
-						.get(parameter));
+				scriptEngine.put(parameter.getName(),
+						parameterMapping.get(parameter));
 			}
 
 			return scriptEngine.eval(expr);
@@ -461,5 +457,35 @@ public class EmfEngine implements InterpreterEngine {
 		for (EObject createdObject : modelChange.getCreatedObjects()) {
 			emfGraph.removeEObject(createdObject);
 		}
+	}
+
+	/**
+	 * @return the emfGraph
+	 */
+	public EmfGraph getEmfGraph() {
+		return emfGraph;
+	}
+
+	/**
+	 * @param emfGraph
+	 *            the emfGraph to set
+	 */
+	public void setEmfGraph(EmfGraph emfGraph) {
+		this.emfGraph = emfGraph;
+	}
+
+	/**
+	 * @return the options
+	 */
+	public TransformationOptions getOptions() {
+		return options;
+	}
+
+	/**
+	 * @param options
+	 *            the options to set
+	 */
+	public void setOptions(TransformationOptions options) {
+		this.options = options;
 	}
 }

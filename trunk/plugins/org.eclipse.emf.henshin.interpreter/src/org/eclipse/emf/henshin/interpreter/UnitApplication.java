@@ -52,6 +52,12 @@ public class UnitApplication {
 	 */
 	public UnitApplication(InterpreterEngine engine,
 			TransformationUnit transformationUnit) {
+		if (engine == null)
+			throw new NullPointerException("engine can not be null");
+
+		if (transformationUnit == null)
+			throw new NullPointerException("transformationUnit can not be null");
+		
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.parameterValues = new HashMap<Parameter, Object>();

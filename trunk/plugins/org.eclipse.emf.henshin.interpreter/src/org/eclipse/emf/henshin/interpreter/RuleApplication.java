@@ -29,12 +29,11 @@ import org.eclipse.emf.henshin.model.Rule;
  */
 public class RuleApplication {
 	private InterpreterEngine interpreterEngine;
-
 	private Rule rule;
 
 	private Match match;
 	private Match comatch;
-	
+
 	private ModelChange modelChange;
 
 	// flags for execution status of the rule
@@ -45,11 +44,18 @@ public class RuleApplication {
 	 * Creates a new RuleApplication.
 	 * 
 	 * @param engine
-	 *            The InterpreterEngine used for matchfinding
+	 *            The InterpreterEngine used for matchfinding. Must not be
+	 *            <code>null</code>
 	 * @param rule
-	 *            A Henshin rule
+	 *            A Henshin rule. Must not be <code>null</code>
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
+		if (engine == null)
+			throw new NullPointerException("engine can not be null");
+		
+		if (rule == null)
+			throw new NullPointerException("rule can not be null");
+
 		this.rule = rule;
 		this.interpreterEngine = engine;
 
@@ -81,10 +87,10 @@ public class RuleApplication {
 	 */
 	public boolean apply() {
 		if (!isExecuted) {
-			boolean result = interpreterEngine.applyRule(this);
+			comatch = interpreterEngine.applyRule(this);
 
-			isExecuted = result;
-			return result;
+			isExecuted = (comatch != null);
+			return isExecuted;
 		}
 
 		return false;

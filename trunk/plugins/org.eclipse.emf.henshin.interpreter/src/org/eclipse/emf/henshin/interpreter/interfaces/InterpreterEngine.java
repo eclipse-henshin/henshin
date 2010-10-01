@@ -70,9 +70,9 @@ public interface InterpreterEngine {
 	 * Executes the given <code>RuleApplication</code>.
 	 * 
 	 * @param ruleApplication The RuleApplication that will be executed.
-	 * @return true, if successful
+	 * @return the comatch if the rule was applied successfully
 	 */
-	public boolean applyRule(RuleApplication ruleApplication);
+	public Match applyRule(RuleApplication ruleApplication);
 
 	/**
 	 * Undoes the given <code>RuleApplication</code>.
