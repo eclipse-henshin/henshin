@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: CADP and mCRL2 State Space Validators
-Bundle-SymbolicName: org.eclipse.emf.henshin.statespace.cadp;singleton:=true
+Bundle-Name: External State Space Validators
+Bundle-SymbolicName: org.eclipse.emf.henshin.statespace.external;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse Modeling Project
