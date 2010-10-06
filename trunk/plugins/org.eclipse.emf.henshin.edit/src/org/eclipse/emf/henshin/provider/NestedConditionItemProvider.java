@@ -146,9 +146,17 @@ public class NestedConditionItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		NestedCondition nestedCondition = (NestedCondition)object;
-		return getString("_UI_NestedCondition_type") + " " + nestedCondition.isNegated();
-	}
+		NestedCondition nestedCondition = (NestedCondition) object;
+		String result;
+		if (nestedCondition.isNegated()) {
+			result = getString("_UI_NestedCondition_negative");
+		} else {
+			result = getString("_UI_NestedCondition_positive");
+		}// if else
+		return result;
+		// OLD: return getString("_UI_NestedCondition_type") + " " +
+		// nestedCondition.isNegated();
+	}// getText
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
