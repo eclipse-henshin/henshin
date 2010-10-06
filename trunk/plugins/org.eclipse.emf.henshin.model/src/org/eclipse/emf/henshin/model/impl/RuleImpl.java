@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -26,17 +25,13 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AttributeCondition;
-import org.eclipse.emf.henshin.model.BinaryFormula;
-import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -281,28 +276,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 
 		return false;
 	}// containsMapping
-
-	/**
-	 * Collects all NestedConditions contained in <code>f</code>. If
-	 * <code>f</code> is of such type as well, it is contained in the returned
-	 * list.<br>
-	 * Remark: This method may be outsourced to FormulaImpl. (TODO)
-	 * 
-	 * @param list
-	 * @param f
-	 */
-	private void collectNestedConditions(List<NestedCondition> list, Formula f) {
-		if (f instanceof NestedCondition) {
-			list.add((NestedCondition) f);
-		} else {
-			if (f instanceof UnaryFormula) {
-				collectNestedConditions(list, ((UnaryFormula) f).getChild());
-			} else if (f instanceof BinaryFormula) {
-				collectNestedConditions(list, ((BinaryFormula) f).getLeft());
-				collectNestedConditions(list, ((BinaryFormula) f).getRight());
-			}// if elseif
-		}// if else
-	}// collectNestedConditions
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
