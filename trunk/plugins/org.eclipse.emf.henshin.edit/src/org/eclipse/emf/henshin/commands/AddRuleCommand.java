@@ -89,6 +89,10 @@ public class AddRuleCommand extends AddCommand implements Command {
 			// Set the name:
 			if (rule.getName() == null) {
 				rule.setName("rule" + (rules++));
+				/*
+				 * TODO: potential BUG: delete a rule and creating a new
+				 * afterwards lead to double rule names (rule++ by size)
+				 */				
 			}			
 		}
 		super.doExecute();
