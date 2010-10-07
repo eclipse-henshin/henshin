@@ -16,7 +16,6 @@ package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -72,21 +71,20 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 			Edge edge = (Edge) object;
 			Graph graph = edge.getGraph();
 			EObject edgeType = edge.getType();
-			Collection<Node> nodeList = null;
+			Collection<Node> nodeList = new ArrayList<Node>();
 
 			if (edgeType != null) {
 				EClass srcNodeType = (EClass) edgeType.eContainer();
-				nodeList = new ArrayList<Node>();
 				for (Node node : graph.getNodes()) {
 					if ((node.getType().equals(srcNodeType)) || (srcNodeType.isSuperTypeOf(node.getType())))
 						nodeList.add(node);
 				}// for
-
 			} else {
-				nodeList = graph.getNodes();
+				nodeList.addAll(graph.getNodes());
 			}// if else
-
-			return Collections.unmodifiableCollection(nodeList);
+			
+			nodeList.add(null);
+			return nodeList;
 		}// if
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects

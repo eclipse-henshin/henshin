@@ -30,6 +30,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
+import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a
@@ -63,8 +64,8 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 			super.getPropertyDescriptors(object);
 
 			addSourcePropertyDescriptor(object);
-			addTargetPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			addTargetPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -136,13 +137,12 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 * @generated
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+		itemPropertyDescriptors.add(new EdgeTypePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Edge_type_feature"),
 				getString("_UI_PropertyDescriptor_description", "_UI_Edge_type_feature",
-						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TYPE, true, false, true,
-				null, null, null));
+						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TYPE));
 	}
 
 	/**
