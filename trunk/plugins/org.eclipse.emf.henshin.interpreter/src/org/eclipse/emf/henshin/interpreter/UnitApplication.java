@@ -57,7 +57,7 @@ public class UnitApplication {
 
 		if (transformationUnit == null)
 			throw new NullPointerException("transformationUnit can not be null");
-		
+
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
 		this.parameterValues = new HashMap<Parameter, Object>();
@@ -214,7 +214,9 @@ public class UnitApplication {
 
 	private boolean executeSequentialUnit() {
 		SequentialUnit sequentialUnit = (SequentialUnit) transformationUnit;
-		for (TransformationUnit subUnit : sequentialUnit.getSubUnits()) {
+
+		for (int i = 0; i < sequentialUnit.getSubUnits().size(); i++) {
+			TransformationUnit subUnit = sequentialUnit.getSubUnits().get(i);
 			UnitApplication genericUnit = createApplicationFor(subUnit);
 			if (genericUnit.execute()) {
 				updatePortValues(genericUnit);
