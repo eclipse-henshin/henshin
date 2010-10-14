@@ -41,6 +41,7 @@ public class UnitApplication {
 	Map<Parameter, Object> oldParameterValues;
 
 	Stack<RuleApplication> appliedRules;
+	Stack<RuleApplication> undoneRules;
 
 	/**
 	 * Constructor<br>
@@ -114,10 +115,25 @@ public class UnitApplication {
 	 * the state before the unit was executed.
 	 */
 	public void undo() {
-		while (!appliedRules.isEmpty())
-			appliedRules.pop().undo();
+		while (!appliedRules.isEmpty()) {
+			RuleApplication ruleApplication = appliedRules.pop();
+			ruleApplication.undo();
+			undoneRules.push(ruleApplication);
+		}
 
 		parameterValues = oldParameterValues;
+	}
+	
+	/**
+	 * Redoes the application of that unit and resets all parameter values to
+	 * the state before the unit was executed.
+	 */
+	public void redo() {
+		while (!undoneRules.isEmpty()) {
+			RuleApplication ruleApplication = undoneRules.pop();
+			ruleApplication.undo();
+			appliedRules.push(ruleApplication);
+		}
 	}
 
 	private UnitApplication createApplicationFor(TransformationUnit unit) {
@@ -363,5 +379,4 @@ public class UnitApplication {
 	public Stack<RuleApplication> getAppliedRules() {
 		return appliedRules;
 	}
-
 }
