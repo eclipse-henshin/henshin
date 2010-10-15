@@ -1456,13 +1456,16 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (namedElementEClass, 
 		   source, 
 		   new String[] {
-			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'"
+			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'",
+			 "Valid.Msg", "If a name for an entity is set, the name must not be an empty string. \r\nInstead, you may want to use \"Restore default value\" in the properties view.",
+			 "ValidName.Severity", "Warning"
 		   });			
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "EqualParentGraphs", "source.graph=target.graph"
+			 "EqualParentGraphs", "source.graph=target.graph",
+			 "EqualParentGraphs.Msg", "Source node and target node of an edge and the edge itself have to be in the same graph."
 		   });
 	}
 

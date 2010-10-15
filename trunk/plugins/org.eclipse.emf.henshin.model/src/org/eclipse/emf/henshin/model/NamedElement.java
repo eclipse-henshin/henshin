@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNamedElement()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidName'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ValidName='not self.name.oclIsUndefined() implies self.name<>\'\''"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ValidName='not self.name.oclIsUndefined() implies self.name<>\'\'' Valid.Msg='If a name for an entity is set, the name must not be an empty string. \r\nInstead, you may want to use \"Restore default value\" in the properties view.' ValidName.Severity='Warning'"
  * @generated
  */
 public interface NamedElement extends EObject {

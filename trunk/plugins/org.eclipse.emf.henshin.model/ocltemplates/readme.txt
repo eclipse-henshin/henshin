@@ -7,7 +7,7 @@ However, "ValidatorClass.javajet" and "Class.javajet" were modified, on the one 
 to modify the OCL namespace to be more Henshin related  and on the other hand to lift 
 the template version from EMF2.3 to EMF2.5.
 
-I seems to work :-)
+It seems to work :-)
 
 Make sure that after reloading the GenModel, the following properties are still set:
 (Hint: In the tree-based editor, click on the topmost element above the package and
