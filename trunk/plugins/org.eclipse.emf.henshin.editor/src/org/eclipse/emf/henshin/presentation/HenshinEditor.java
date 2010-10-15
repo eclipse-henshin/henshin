@@ -8,6 +8,7 @@
  *
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
+ *     Philipps-University Marburg - implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.presentation;
 
@@ -21,6 +22,7 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +94,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -1638,9 +1642,12 @@ public class HenshinEditor
 	 * Calling this result will notify the listeners.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setSelection(ISelection selection) {
+		
+		selection = remainSelectionOrder(selection);
+		
 		editorSelection = selection;
 
 		for (ISelectionChangedListener listener : selectionChangedListeners) {
@@ -1648,6 +1655,51 @@ public class HenshinEditor
 		}
 		setStatusLineManager(selection);
 	}
+
+	/**
+	 * Calculates the order the selected items are selected in. To do so,
+	 * variable {@link #editorSelection}, i.e. the last selection, is taken into
+	 * account.<br>
+	 * This procedure may be useful to present (e.g.) a context menu with
+	 * entries according to the selection order. An example scenario here would
+	 * be the selection of two nodes of which a validly typed directed edge
+	 * could be created instantly.
+	 * 
+	 * @param selection
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private ISelection remainSelectionOrder(ISelection selection) {
+		/*
+		 * A calculation is only meaningful if both the given selection and the
+		 * previous selection are of type TreeSelection, i.e. selections within
+		 * (our) tree viewer, and if both are non-empty.
+		 */
+		if ((selection instanceof TreeSelection) && (editorSelection instanceof TreeSelection)
+				&& (!editorSelection.isEmpty())) {
+
+			TreeSelection currSelection = (TreeSelection) selection;
+			if (currSelection.size() > 1) {
+
+				TreeSelection prevSelection = (TreeSelection) editorSelection;
+
+				// Filter and sort selected items
+				@SuppressWarnings("rawtypes")
+				LinkedHashSet sList1 = new LinkedHashSet(prevSelection.toList());
+				sList1.retainAll(currSelection.toList());
+				sList1.addAll(currSelection.toList());
+
+				// create new selection container
+				Object[] objects = sList1.toArray();
+				TreePath[] treePaths = new TreePath[sList1.size()];
+				for (int i = 0; i < sList1.size(); i++)
+					treePaths[i] = currSelection.getPathsFor(objects[i])[0];
+				selection = new TreeSelection(treePaths);
+			}// if
+
+		}// if
+		return selection;
+	}// remainSelectionOrder
 
 	/**
 	 * <!-- begin-user-doc -->
