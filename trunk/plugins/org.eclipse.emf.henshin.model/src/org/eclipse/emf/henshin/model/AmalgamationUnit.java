@@ -65,7 +65,7 @@ public interface AmalgamationUnit extends TransformationUnit {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Multi Rules</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAmalgamationUnit_MultiRules()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	EList<Rule> getMultiRules();

@@ -88,8 +88,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.AMALGAMATION_UNIT: return createAmalgamationUnit();
 			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
-			case HenshinPackage.UNARY_FORMULA: return createUnaryFormula();
-			case HenshinPackage.BINARY_FORMULA: return createBinaryFormula();
 			case HenshinPackage.AND: return createAnd();
 			case HenshinPackage.OR: return createOr();
 			case HenshinPackage.NOT: return createNot();
@@ -312,26 +310,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public NestedCondition createNestedCondition() {
 		NestedConditionImpl nestedCondition = new NestedConditionImpl();
 		return nestedCondition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UnaryFormula createUnaryFormula() {
-		UnaryFormulaImpl unaryFormula = new UnaryFormulaImpl();
-		return unaryFormula;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public BinaryFormula createBinaryFormula() {
-		BinaryFormulaImpl binaryFormula = new BinaryFormulaImpl();
-		return binaryFormula;
 	}
 
 	/**

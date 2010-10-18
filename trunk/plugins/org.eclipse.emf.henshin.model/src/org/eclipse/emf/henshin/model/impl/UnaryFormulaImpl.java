@@ -36,7 +36,7 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  *
  * @generated
  */
-public class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
+public abstract class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
 	/**
 	 * The cached value of the '{@link #getChild() <em>Child</em>}' containment reference.
 	 * <!-- begin-user-doc -->

@@ -176,8 +176,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" lowerBound="1"
         eType="#//Rule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" upperBound="-1"
-        eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" lowerBound="1"
+        upperBound="-1" eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhsMappings" upperBound="-1"
@@ -200,11 +200,11 @@
       <eParameters name="recursive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" eSuperTypes="#//Formula">
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" abstract="true" eSuperTypes="#//Formula">
     <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//Formula"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BinaryFormula" eSuperTypes="#//Formula">
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryFormula" abstract="true" eSuperTypes="#//Formula">
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Formula"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Formula"

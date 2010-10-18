@@ -37,7 +37,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  *
  * @generated
  */
-public class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
+public abstract class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
 	 * <!-- begin-user-doc -->

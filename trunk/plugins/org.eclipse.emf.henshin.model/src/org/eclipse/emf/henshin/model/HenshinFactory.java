@@ -216,24 +216,6 @@ public interface HenshinFactory extends EFactory {
 	NestedCondition createNestedCondition();
 
 	/**
-	 * Returns a new object of class '<em>Unary Formula</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Unary Formula</em>'.
-	 * @generated
-	 */
-	UnaryFormula createUnaryFormula();
-
-	/**
-	 * Returns a new object of class '<em>Binary Formula</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Binary Formula</em>'.
-	 * @generated
-	 */
-	BinaryFormula createBinaryFormula();
-
-	/**
 	 * Returns a new object of class '<em>And</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

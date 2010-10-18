@@ -26,7 +26,7 @@ package org.eclipse.emf.henshin.model;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getBinaryFormula()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface BinaryFormula extends Formula {
