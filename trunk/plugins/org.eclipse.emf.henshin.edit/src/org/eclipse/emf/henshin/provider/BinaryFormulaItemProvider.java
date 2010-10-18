@@ -163,16 +163,6 @@ public class BinaryFormulaItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
-				 HenshinFactory.eINSTANCE.createUnaryFormula()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
-				 HenshinFactory.eINSTANCE.createBinaryFormula()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
 				 HenshinFactory.eINSTANCE.createAnd()));
 
 		newChildDescriptors.add
@@ -189,16 +179,6 @@ public class BinaryFormulaItemProvider
 			(createChildParameter
 				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
 				 HenshinFactory.eINSTANCE.createNestedCondition()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
-				 HenshinFactory.eINSTANCE.createUnaryFormula()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
-				 HenshinFactory.eINSTANCE.createBinaryFormula()));
 
 		newChildDescriptors.add
 			(createChildParameter
