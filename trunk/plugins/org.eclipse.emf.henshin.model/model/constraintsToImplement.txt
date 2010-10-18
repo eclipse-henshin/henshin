@@ -1,0 +1,7 @@
+The following constraints shall be implemented either in OCL or via code. The former is preferred. 
+Feel free to add new constraints or to implement one of them! 
+Note: If a constraints below is implemented, please remove it from this list.
+
+- <<create>> nodes (in the RHS) must not be abstract
+- <<create>> edges (in the RHS) must not be derived
+- <<delete>> edges (in the LHS) must not be derived 

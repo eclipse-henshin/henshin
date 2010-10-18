@@ -6,8 +6,10 @@
  */
 package org.eclipse.emf.henshin.model.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -16,11 +18,17 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
+
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
+import org.eclipse.emf.henshin.HenshinModelPlugin;
+
 import org.eclipse.emf.henshin.model.*;
+
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.Query;
+
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.OCL;
 
@@ -74,7 +82,6 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	private static Constraint namedElement_ValidNameInvOCL;
-
 	/**
 	 * The parsed OCL expression for the definition of the '<em>EqualParentGraphs</em>' invariant constraint.
 	 * <!-- begin-user-doc -->
@@ -82,10 +89,21 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated
 	 */
 	private static Constraint edge_EqualParentGraphsInvOCL;
-
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
+	
+	/**
+	 * Maps to translate OCL severity additions ("info", "warning" and "error")
+	 * to corresponding enumeration values of Diagnostic, i.e. Diagnostic.INFO,
+	 * Diagnostic.WARNING and Diagnostic.ERROR.
+	 */
+	private static final Map<String, String> HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP = new HashMap<String, String>();
+	static {
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("info", Integer.toString(Diagnostic.INFO));
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("warning", Integer.toString(Diagnostic.WARNING));
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("error", Integer.toString(Diagnostic.ERROR));
+	}
 
 	/**
 	 * Creates an instance of the switch.
@@ -208,6 +226,8 @@ public class HenshinValidator extends EObjectValidator {
 			
 			EAnnotation ocl = HenshinPackage.Literals.NAMED_ELEMENT.getEAnnotation(OCL_ANNOTATION_SOURCE);
 			String expr = ocl.getDetails().get("ValidName");
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
 			
 			try {
 				namedElement_ValidNameInvOCL = helper.createInvariant(expr);
@@ -215,21 +235,47 @@ public class HenshinValidator extends EObjectValidator {
 			catch (ParserException e) {
 				throw new UnsupportedOperationException(e.getLocalizedMessage());
 			}
+			
+			namedElement_ValidNameInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("ValidName.Msg");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("Msg", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("ValidName.Severity");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("Severity",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
 		}
 		
 		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(namedElement_ValidNameInvOCL);
 		
 		if (!query.check(namedElement)) {
 			if (diagnostics != null) {
+			
+				EAnnotation henshinAnnotation = namedElement_ValidNameInvOCL
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("Severity"))
+						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
+
+				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
+						.getDetails().get("Msg") : null;			
+			
 				diagnostics.add
 					(createDiagnostic
-						(Diagnostic.ERROR,
+						(severity,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 "_UI_GenericConstraint_diagnostic",
 						 new Object[] { "ValidName", getObjectLabel(namedElement, context) },
 						 new Object[] { namedElement },
-						 context));
+						 context, addMsg));
 			}
 			return false;
 		}
@@ -418,6 +464,8 @@ public class HenshinValidator extends EObjectValidator {
 			
 			EAnnotation ocl = HenshinPackage.Literals.EDGE.getEAnnotation(OCL_ANNOTATION_SOURCE);
 			String expr = ocl.getDetails().get("EqualParentGraphs");
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
 			
 			try {
 				edge_EqualParentGraphsInvOCL = helper.createInvariant(expr);
@@ -425,21 +473,47 @@ public class HenshinValidator extends EObjectValidator {
 			catch (ParserException e) {
 				throw new UnsupportedOperationException(e.getLocalizedMessage());
 			}
+			
+			edge_EqualParentGraphsInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("EqualParentGraphs.Msg");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("Msg", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("EqualParentGraphs.Severity");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("Severity",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
 		}
 		
 		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(edge_EqualParentGraphsInvOCL);
 		
 		if (!query.check(edge)) {
 			if (diagnostics != null) {
+			
+				EAnnotation henshinAnnotation = edge_EqualParentGraphsInvOCL
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("Severity"))
+						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
+
+				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
+						.getDetails().get("Msg") : null;			
+			
 				diagnostics.add
 					(createDiagnostic
-						(Diagnostic.ERROR,
+						(severity,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 "_UI_GenericConstraint_diagnostic",
 						 new Object[] { "EqualParentGraphs", getObjectLabel(edge, context) },
 						 new Object[] { edge },
-						 context));
+						 context, addMsg));
 			}
 			return false;
 		}
@@ -659,10 +733,47 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		// TODO
-		// Specialize this to return a resource locator for messages specific to this validator.
-		// Ensure that you remove @generated or mark it @generated NOT
-		return super.getResourceLocator();
+		return HenshinModelPlugin.INSTANCE;
 	}
+
+
+	/**
+	 * Extended version of
+	 * {@link #createDiagnostic(int, String, int, String, Object[], Object[], Map)}
+	 * which essentially does the same except that is provides the possibility
+	 * to append additional information to the diagnostic text. This can be done
+	 * differently:<br>
+	 * 1) if additionalMessage starts with an "_", it is considered of being a
+	 * key pointing to a string in the plugin.properties,<br>
+	 * 2) otherwise the contained string is passed as is
+	 * 
+	 * @param severity
+	 * @param source
+	 * @param code
+	 * @param messageKey
+	 * @param messageSubstitutions
+	 * @param data
+	 * @param context
+	 * @param additionalMessage
+	 * @return
+	 * 
+	 * @author sjurack
+	 *
+	 * @generated
+	 */
+	protected BasicDiagnostic createDiagnostic(int severity, String source, int code,
+			String messageKey, Object[] messageSubstitutions, Object[] data,
+			Map<Object, Object> context, String additionalMessage) {
+
+		String henshinMessage = "";
+
+		if ((additionalMessage != null) && (additionalMessage.length() > 0))
+			henshinMessage = " -- " + (additionalMessage.startsWith("_") ? getString(additionalMessage,
+					messageSubstitutions) : additionalMessage);
+
+		String message = getString(messageKey, messageSubstitutions);
+		return new BasicDiagnostic(severity, source, code, message + henshinMessage, data);
+	}// createDiagnostic
+
 
 } //HenshinValidator

@@ -1457,7 +1457,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		   source, 
 		   new String[] {
 			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'",
-			 "ValidName.Msg", "If a name for an entity is set, the name must not be an empty string. \r\nInstead, you may want to use \"Restore default value\" in the properties view.",
+			 "ValidName.Msg", "_Ocl_Msg_NamedElement_ValidName",
 			 "ValidName.Severity", "Warning"
 		   });			
 		addAnnotation

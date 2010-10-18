@@ -17,6 +17,8 @@
 %>
 <% /* OCL part start */ %>
 <%final String oclNsURI = "http://www.eclipse.org/emf/2010/Henshin/OCL"; %>
+<%final String oclMsgIdentifier = "Msg"; %>
+<%final String oclSeverityIdentifier = "Severity"; %>
 <% /* OCL part end */ %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
 <%final String singleWildcard = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<?>" : "";%>
@@ -24,10 +26,14 @@
 package <%=genPackage.getUtilitiesPackageName()%>;
 
 <%genModel.addImport("java.util.Map");%>
+<%genModel.addImport("java.util.HashMap");%>
 <%final String _Map = genModel.useGenerics() ? "Map<" + genModel.getImportedName("java.lang.Object") + ", " + genModel.getImportedName("java.lang.Object") + ">" : "Map";%>
 <%final String objectArgument = genModel.useGenerics() ? "<" + genModel.getImportedName("java.lang.Object") + ">" : "";%>
 <%genModel.addImport("org.eclipse.emf.common.util.DiagnosticChain");%>
+<%genModel.addImport("org.eclipse.emf.common.util.BasicDiagnostic");%>
+<%genModel.addImport("org.eclipse.emf.common.util.Diagnostic");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
+<%genModel.addImport("org.eclipse.emf.ecore.impl.EcoreFactoryImpl");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
 <%genModel.markImportLocation(stringBuffer);%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.Descriptor");%>
@@ -135,6 +141,18 @@ if (hasOCL) {%>
 	private static final String OCL_ANNOTATION_SOURCE = "<%=oclNsURI%>";<%=genModel.getNonNLS()%>
 	
 	private static final <%=genModel.getImportedName("org.eclipse.ocl.ecore.OCL")%> OCL_ENV = <%=genModel.getImportedName("org.eclipse.ocl.ecore.OCL")%>.newInstance();
+	
+	/**
+	 * Maps to translate OCL severity additions ("info", "warning" and "error")
+	 * to corresponding enumeration values of Diagnostic, i.e. Diagnostic.INFO,
+	 * Diagnostic.WARNING and Diagnostic.ERROR.
+	 */
+	private static final Map<String, String> HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP = new HashMap<String, String>();
+	static {
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("info", Integer.toString(Diagnostic.INFO));
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("warning", Integer.toString(Diagnostic.WARNING));
+		HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.put("error", Integer.toString(Diagnostic.ERROR));
+	}
 <%}%>
 <% /* OCL part end */ %>
 
@@ -590,6 +608,8 @@ if (hasOCL) {%>
 			
 			<%=genModel.getImportedName("org.eclipse.emf.ecore.EAnnotation")%> ocl = <%=genClassifier.getQualifiedClassifierAccessor()%>.getEAnnotation(OCL_ANNOTATION_SOURCE);
 			String expr = ocl.getDetails().get("<%=constraint%>");<%=genModel.getNonNLS()%>
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
 			
 			try
 			{
@@ -599,6 +619,22 @@ if (hasOCL) {%>
 			{
 				throw new UnsupportedOperationException(e.getLocalizedMessage());
 			}
+			
+			<%=invOCL%>.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("<%=constraint%>.<%=oclMsgIdentifier%>");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("<%=oclMsgIdentifier%>", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("<%=constraint%>.<%=oclSeverityIdentifier%>");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("<%=oclSeverityIdentifier%>",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
 		}
 		
 		<%=genModel.getImportedName("org.eclipse.ocl.Query")%><<%=genModel.getImportedName("org.eclipse.emf.ecore.EClassifier")%>, ?, ?> query = OCL_ENV.createQuery(<%=invOCL%>);
@@ -608,16 +644,26 @@ if (hasOCL) {%>
 		{
 			if (<%=diagnostics%> != null)
 			{
+			
+				EAnnotation henshinAnnotation = <%=invOCL%>
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("<%=oclSeverityIdentifier%>") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("<%=oclSeverityIdentifier%>"))
+						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
+
+				String addMsg = henshinAnnotation.getDetails().containsKey("<%=oclMsgIdentifier%>") ? henshinAnnotation
+						.getDetails().get("<%=oclMsgIdentifier%>") : null;			
+			
 				<%=diagnostics%>.add
 <%if (genModel.getRuntimeVersion().getValue() >= GenRuntimeVersion.EMF24_VALUE) {%>
 					(createDiagnostic
-						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						(severity,
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 "_UI_GenericConstraint_diagnostic",<%=genModel.getNonNLS()%>
 						 new Object[] { "<%=constraint%>", getObjectLabel(<%=genClassifier.getSafeUncapName()%>, <%=context%>) },<%=genModel.getNonNLS()%>
 						 new Object[] { <%=genClassifier.getSafeUncapName()%> },
-						 context));
+						 context, addMsg));
 <%} else {%>
 					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
 						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
@@ -658,5 +704,45 @@ if (hasOCL) {%>
 	}
 
 <%}%>
+
+	/**
+	 * Extended version of
+	 * {@link #createDiagnostic(int, String, int, String, Object[], Object[], Map)}
+	 * which essentially does the same except that is provides the possibility
+	 * to append additional information to the diagnostic text. This can be done
+	 * differently:<br>
+	 * 1) if additionalMessage starts with an "_", it is considered of being a
+	 * key pointing to a string in the plugin.properties,<br>
+	 * 2) otherwise the contained string is passed as is
+	 * 
+	 * @param severity
+	 * @param source
+	 * @param code
+	 * @param messageKey
+	 * @param messageSubstitutions
+	 * @param data
+	 * @param context
+	 * @param additionalMessage
+	 * @return
+	 * 
+	 * @author sjurack
+	 *
+	 * @generated
+	 */
+	protected BasicDiagnostic createDiagnostic(int severity, String source, int code,
+			String messageKey, Object[] messageSubstitutions, Object[] data,
+			Map<Object, Object> context, String additionalMessage) {
+
+		String henshinMessage = "";
+
+		if ((additionalMessage != null) && (additionalMessage.length() > 0))
+			henshinMessage = " -- " + (additionalMessage.startsWith("_") ? getString(additionalMessage,
+					messageSubstitutions) : additionalMessage);
+
+		String message = getString(messageKey, messageSubstitutions);
+		return new BasicDiagnostic(severity, source, code, message + henshinMessage, data);
+	}// createDiagnostic
+
+
 } //<%=genPackage.getValidatorClassName()%>
 <%genModel.emitSortedImports();%>
