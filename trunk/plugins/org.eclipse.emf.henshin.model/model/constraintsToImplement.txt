@@ -2,6 +2,44 @@ The following constraints shall be implemented either in OCL or via code. The fo
 Feel free to add new constraints or to implement one of them! 
 Note: If a constraints below is implemented, please remove it from this list.
 
-- <<create>> nodes (in the RHS) must not be abstract
-- <<create>> edges (in the RHS) must not be derived
-- <<delete>> edges (in the LHS) must not be derived 
+* Rule
+[error] <<create>> nodes (in the RHS) must not be abstract
+[error] <<create>> edges (in the RHS) must not be derived
+[error] <<delete>> edges (in the LHS) must not be derived 
+[error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph or in a directly contained nested graph (incl. respecting combinations with and/or/not)
+
+* TransformationSystem
+[warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
+[error] cyclic transformation units are forbidden
+
+* AttributeCondition
+[warn] unique names within a attribute condition, if a name is given at all
+
+* Parameter
+[error] name is required
+
+* Graph
+[error] unique names of nodes within a graph, if node name is given
+
+* Edge
+[error] source *and* target of an edge belong to the same graph as the edge itself
+
+* Node
+[error] there are no two attributes within a node with equal types
+
+* TransformationUnit
+[error] unique names of parameters
+[error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
+[error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
+
+* AmalgamationUnit
+[error] each element in the lhs of "kernel rule" has a lhsMappings:mapping to one element in each's "multi rule" lhs
+[error] each element in the rhs of "kernel rule" has a rhsMappings:mapping to one element in each's "multi rule" rhs
+[error] lhsMappings must contain mappings between the lhs of the kernel rule (origin) and a multirule lhs only
+[error] rhsMappings must contain mappings between the rhs of the kernel rule (origin) and a multirule rhs only
+[error] in multirules, mappings between elements mapped by the kernel rule must correspond to mappings of the kernel rule itself
+
+* Nested Condition
+[error] the origin node of a mapping is contained in *this* nested condition
+[error] the image node of a mapping is contained in a direct sub-nested condition (child, left or right)
+ 
