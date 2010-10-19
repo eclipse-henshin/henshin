@@ -186,14 +186,6 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 
 		newChildDescriptors.add(createChildParameter(
 				HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createUnaryFormula()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createBinaryFormula()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createAnd()));
 
 		newChildDescriptors.add(createChildParameter(
