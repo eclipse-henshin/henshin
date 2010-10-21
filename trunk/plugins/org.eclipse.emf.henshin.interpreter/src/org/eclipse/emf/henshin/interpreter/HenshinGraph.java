@@ -91,7 +91,7 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 			}
 		}
 
-		for (Edge edge : henshinGraph.getEdges()) {
+		for (Edge edge : new ArrayList<Edge>(henshinGraph.getEdges())) {
 			EReference edgeType = edge.getType();
 			EObject ownerObject = node2eObjectMap.get(edge.getSource());
 
