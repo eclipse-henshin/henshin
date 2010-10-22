@@ -7,10 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider.descriptors;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -53,30 +54,28 @@ public class EdgeTypePropertyDescriptor extends ItemPropertyDescriptor {
 	 * with a source and/or target, only corresponding types are returned.
 	 * Otherwise any type is returned.
 	 * 
-	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
-	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
 		
 		if (object instanceof Edge) {
 			Edge edge = (Edge) object;
 			
-			@SuppressWarnings("unchecked")
-			Collection<EReference> edgeTypeList = (Collection<EReference>) super
-					.getComboBoxObjects(object);
+			Collection<EReference> edgeTypeList;
 			
 			if (edge.getSource() != null && edge.getSource().getType() != null) {
+				// retrieve only references according to the given source...
 				EClass sourceType = edge.getSource().getType();
-				Collection<EReference> c = sourceType.getEAllReferences();
-				Iterator<EReference> it = edgeTypeList.iterator();
-				while (it.hasNext()) {
-					if (!c.contains(it.next())) it.remove();
-				}// while
-			}// if
+				edgeTypeList = new ArrayList<EReference>(sourceType.getEAllReferences());
+			} else {
+				// ..or retrieve all possible references
+				edgeTypeList = (Collection<EReference>) super.getComboBoxObjects(object);
+			}// if else
 			
 			if (edge.getTarget() != null && edge.getTarget().getType() != null) {
+				// filter those references whose type fits the target's type
 				EClass targetType = edge.getTarget().getType();
 				Iterator<EReference> it = edgeTypeList.iterator();
 				while (it.hasNext()) {

@@ -7,13 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -21,11 +21,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.BinaryFormula;
+import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
  * Property descriptor for the <code>image</code> feature of model class
@@ -39,8 +42,6 @@ import org.eclipse.emf.henshin.model.Rule;
 public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	
 	/**
-	 * 
-	 * 
 	 * @param adapterFactory
 	 * @param resourceLocator
 	 * @param displayName
@@ -61,49 +62,62 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	 * property sheet.
 	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
-	 * 
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
 		
-		Collection<Node> result = null;
+		Collection<Node> result = new ArrayList<Node>();
 		
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
 			if (eobject instanceof Rule) {
 				/*
-				 * Image in a rule may be any node in the RHS.
+				 * The image of a mapping contained in a rule may be any node in
+				 * the RHS or in a directly contained nested condition.
 				 */
 				Rule rule = (Rule) eobject;
-				result = rule.getRhs().getNodes();
-				// Collection<EObject> result = getReachableObjectsOfType(
-				// (EObject) object, feature.getEType());
-				// result.removeAll(rule.getLhs().getNodes());
+				result.addAll(rule.getRhs().getNodes());
+				
+				Formula f = rule.getLhs().getFormula();
+				if (f != null) {
+					List<NestedCondition> ncList = new ArrayList<NestedCondition>();
+					collectNestedConditions(f, ncList);
+					
+					for (NestedCondition nc : ncList) {
+						result.addAll(nc.getConclusion().getNodes());
+					}// for
+				}// if
+				
 			} else if (eobject instanceof NestedCondition) {
 				/*
-				 * Image in a nested condition may be any node in the
-				 * conclusion, which is the graph directly contained by the
-				 * nested condition.
+				 * The image of a mapping contained in a nested condition may be
+				 * any node in a directly contained nested condition.
 				 */
-				NestedCondition nc = (NestedCondition) eobject;
-				result = nc.getConclusion().getNodes();
+				NestedCondition ncond = (NestedCondition) eobject;
+				Formula f = ncond.getConclusion().getFormula();
+				if (f != null) {
+					List<NestedCondition> ncList = new ArrayList<NestedCondition>();
+					collectNestedConditions(f, ncList);
+					
+					for (NestedCondition nc : ncList) {
+						result.addAll(nc.getConclusion().getNodes());
+					}// for
+				}// if
+				
 			} else if (eobject instanceof AmalgamationUnit) {
 				/*
-				 * The image in an amalgamation unit depends on the reference
-				 * the mapping is contained in. Either the all multi rule's LHS
-				 * nodes or RHS nodes may be an image.
+				 * The image of a mapping contained in a an amalgamation unit
+				 * may be any node in a LHS/RHS of a multi rule.
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
 				
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
-					result = new ArrayList<Node>();
 					for (Rule rule : au.getMultiRules()) {
 						result.addAll(rule.getLhs().getNodes());
 					}// for
 				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
-					result = new ArrayList<Node>();
 					for (Rule rule : au.getMultiRules()) {
 						result.addAll(rule.getRhs().getNodes());
 					}// for
@@ -111,10 +125,33 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 			}// if else if
 		}// if
 		
-		if (result != null) {
-			return Collections.unmodifiableCollection(result);
-		} else {
-			return super.getComboBoxObjects(object);
-		}// if else
+		return result;
 	}// getComboBoxObjects
+	
+	/**
+	 * Collects recursively all {@link NestedCondition}s the given
+	 * <code>formula</code> is associated with, i.e. the hierarchy of the given
+	 * <code>formula</code>. If the formula is a {@link NestedCondition} itself,
+	 * it is added to the <code>resultList</code>.<br>
+	 * Remark: Initially the resultList shall be not null.
+	 * 
+	 * @param formula
+	 * @param resultList
+	 */
+	private void collectNestedConditions(Formula formula, List<NestedCondition> resultList) {
+		
+		if (formula == null) return;
+		
+		if (formula instanceof BinaryFormula) {
+			BinaryFormula bf = (BinaryFormula) formula;
+			collectNestedConditions(bf.getLeft(), resultList);
+			collectNestedConditions(bf.getRight(), resultList);
+		} else if (formula instanceof UnaryFormula) {
+			UnaryFormula uf = (UnaryFormula) formula;
+			collectNestedConditions(uf.getChild(), resultList);
+		} else {
+			resultList.add((NestedCondition) formula);
+		}
+	}// collectNestedCondition
+	
 }// class

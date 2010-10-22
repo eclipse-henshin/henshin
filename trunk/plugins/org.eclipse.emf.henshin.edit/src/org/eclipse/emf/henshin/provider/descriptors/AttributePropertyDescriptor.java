@@ -23,6 +23,10 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Node;
 
 /**
+ * Property descriptor for the <code>type</code> feature of model class
+ * {@link Attribute}. This descriptor collects/provides only types according to
+ * the type of this attributes owner {@link Node}.
+ * 
  * @author Stefan Jurack
  * 
  */
@@ -61,4 +65,4 @@ public class AttributePropertyDescriptor extends ItemPropertyDescriptor {
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects
 	
-}
+}// class

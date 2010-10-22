@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider.descriptors;
 
@@ -28,10 +28,9 @@ import org.eclipse.emf.henshin.model.Node;
  * Property descriptor for the <code>source</code> feature of model class
  * {@link Edge}. This descriptor collects nodes which are provided as a combo
  * box. In particular, only those nodes shall be provided, which are suitable as
- * target.
+ * source.
  * 
  * @author Stefan Jurack
- * 
  */
 public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 	
@@ -53,13 +52,11 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.<br>
 	 * If the given <code>object</code>, which is an Edge instance, is equipped
-	 * with a type, only those nodes are collected, which are in the same graph
+	 * with a type, only those nodes are collected which are in the same graph
 	 * and of the required source type. If no type is given, all nodes in the
 	 * same graph are provided.
 	 * 
-	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
-	 * 
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {

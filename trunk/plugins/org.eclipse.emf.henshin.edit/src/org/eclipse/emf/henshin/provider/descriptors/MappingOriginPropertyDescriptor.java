@@ -7,14 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 /**
  * 
  */
 package org.eclipse.emf.henshin.provider.descriptors;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -24,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -79,21 +77,11 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				result = rule.getLhs().getNodes();
 			} else if (eobject instanceof NestedCondition) {
 				/*
-				 * Origin in a nested condition may be any node in the premise,
-				 * which is the enclosing graph.
+				 * Origin in a nested condition may be any node in the
+				 * conclusion graph
 				 */
 				NestedCondition nc = (NestedCondition) eobject;
-				Graph graph = null;
-				EObject container = nc.eContainer();
-				while (graph == null && container != null) {
-					if (container instanceof Graph)
-						graph = (Graph) container;
-					else
-						container = container.eContainer();
-				}// while
-				if (graph != null) {
-					result = graph.getNodes();
-				}// if
+				result = nc.getConclusion().getNodes();
 			} else if (eobject instanceof AmalgamationUnit) {
 				/*
 				 * Origin in an amalgamation unit depends on the reference the
@@ -104,10 +92,8 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				EStructuralFeature sf = mapping.eContainingFeature();
 				
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
-					result = new ArrayList<Node>();
 					result = au.getKernelRule().getLhs().getNodes();
 				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
-					result = new ArrayList<Node>();
 					result = au.getKernelRule().getRhs().getNodes();
 				}// if else if
 			}// if else if

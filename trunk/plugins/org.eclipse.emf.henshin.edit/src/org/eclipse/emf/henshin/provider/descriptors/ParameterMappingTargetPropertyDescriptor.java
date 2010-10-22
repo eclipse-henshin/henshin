@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *    Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 /**
  * 
