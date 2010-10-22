@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 /**
  * Resource factory for Henshin resources.
- * @generated NOT
  * @author Christian Krause
  */
 public class HenshinResourceFactory extends XMIResourceFactoryImpl {

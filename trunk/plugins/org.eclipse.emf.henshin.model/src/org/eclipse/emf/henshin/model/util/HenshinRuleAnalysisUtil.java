@@ -19,7 +19,6 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * Utility methods for analysing Henshin transformation rules.
  * @author Christian Krause
- * @generated NOT
  */
 public class HenshinRuleAnalysisUtil {
 	

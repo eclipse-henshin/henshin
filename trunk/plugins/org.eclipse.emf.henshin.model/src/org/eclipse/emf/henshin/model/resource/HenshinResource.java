@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 /**
  * Resource implementation for Henshin resources.
- * @generated NOT
  * @author Christian Krause
  */
 public class HenshinResource extends XMIResourceImpl {
@@ -36,9 +35,11 @@ public class HenshinResource extends XMIResourceImpl {
 		super(uri);
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl#useUUIDs()
 	 */
+	@Override
 	protected boolean useUUIDs() {
 		return true;
 	}

@@ -36,7 +36,6 @@ import org.eclipse.emf.henshin.model.Rule;
  * that are associated to the LHS of a rule.
  * 
  * @author Christian Krause
- * @generated NOT
  */
 public class HenshinNACUtil {
 	
