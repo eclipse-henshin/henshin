@@ -80,9 +80,10 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 		
 		// Otherwise create the result:
 		if (valid) {
-			return ValidationResult.VALID;			
+			return new ValidationResult(true, "Invariant satisfied.");
 		} else {
-			return new ValidationResult(false, getTrace());	// Trace leads to the error state.
+			// Trace leads to the error state.
+			return new ValidationResult(false, "Invariant not satisfied.", getTrace());	
 		}
 		
 	}

@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.validation;
 
-import org.eclipse.emf.henshin.statespace.Trace;
-
 /**
  * Validation result data class.
  * @author Christian Krause
@@ -33,27 +31,42 @@ public final class ValidationResult {
 	// Valid-flag.
 	private boolean valid;
 	
-	// Trace.
-	private Trace trace;
+	// Message.
+	private String message;
+	
+	// Result.
+	private Object result;
 	
 	/**
 	 * Default constructor.
 	 * @param valid Valid-flag.
 	 * @param message Message.
-	 * @param trace Trace.
+	 * @param result Result.
 	 */
-	public ValidationResult(boolean valid, Trace trace) {
+	public ValidationResult(boolean valid, String message, Object result) {
+		if (message==null) {
+			message = valid ? "Property satified." : "Property not satisfied.";
+		}
 		this.valid = valid;
-		this.trace = trace;
+		this.message = message;
+		this.result = result;
 	}
 
 	/**
-	 * Default constructor.
+	 * Constructor.
 	 * @param valid Valid-flag.
 	 * @param message Message.
 	 */
+	public ValidationResult(boolean valid, String message) {
+		this(valid, message, null);
+	}
+
+	/**
+	 * Constructor.
+	 * @param valid Valid-flag.
+	 */
 	public ValidationResult(boolean valid) {
-		this(valid,null);
+		this(valid, null);
 	}
 
 	/**
@@ -63,13 +76,21 @@ public final class ValidationResult {
 	public boolean isValid() {
 		return valid;
 	}
-
+	
 	/**
-	 * Get the optional trace associated with this result.
-	 * @return Trace trace.
+	 * Get the message associated with this validation result.
+	 * @return Message.
 	 */
-	public Trace getTrace() {
-		return trace;
+	public String getMessage() {
+		return message;
+	}
+	
+	/**
+	 * Get the optional result associated with this result.
+	 * @return Validation result.
+	 */
+	public Object getResult() {
+		return result;
 	}
 
 }

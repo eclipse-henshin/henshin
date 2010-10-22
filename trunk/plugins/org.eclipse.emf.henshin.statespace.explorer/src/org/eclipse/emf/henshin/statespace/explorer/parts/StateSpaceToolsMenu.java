@@ -29,6 +29,7 @@ import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
@@ -412,13 +413,13 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void validationFinished(ValidationResult result, IStatus status) {
 		if (status.isOK() && result!=null) {
-			if (result.getTrace()!=null && explorer!=null) {
-				explorer.selectTrace(result.getTrace());
+			if (result.getResult() instanceof Trace && explorer!=null) {
+				explorer.selectTrace((Trace) result.getResult());
 			}
 			if (result.isValid()) {
-				MessageDialog.openInformation(getShell(), "Validation", "Property satified.");
+				MessageDialog.openInformation(getShell(), "Validation", result.getMessage());
 			} else {
-				MessageDialog.openError(getShell(), "Validation", "Property not satified.");					
+				MessageDialog.openError(getShell(), "Validation", result.getMessage());					
 			}
 		}
 		validateButton.setEnabled(true);		

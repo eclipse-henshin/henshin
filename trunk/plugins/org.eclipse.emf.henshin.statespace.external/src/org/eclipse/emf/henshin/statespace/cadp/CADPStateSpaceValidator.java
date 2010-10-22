@@ -123,7 +123,9 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		}
 		else if (result==Boolean.FALSE) {
 			if (!path.isEmpty()) {
-				return new ValidationResult(false, StateSpaceSearch.findTrace(stateSpace, path));
+				return new ValidationResult(false,
+						"Property not satisfied. See the explorer for a counterexample.",
+						StateSpaceSearch.findTrace(stateSpace, path));
 			}
 			return ValidationResult.INVALID;			
 		}
