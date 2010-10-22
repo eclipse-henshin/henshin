@@ -36,8 +36,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class GraphItemProvider extends NamedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -47,7 +47,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	public GraphItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
+	
 	/**
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -58,11 +58,11 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
 	 * This specifies how to implement {@link #getChildren} and is used to
 	 * deduce an appropriate feature for an
@@ -74,8 +74,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.GRAPH__NODES);
@@ -84,7 +83,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		}
 		return childrenFeatures;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -95,10 +94,10 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		// Check the type of the specified child object and return the proper
 		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
 	}
-
+	
 	/**
 	 * This returns Graph.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -112,12 +111,12 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_L.png"));
 			else if (graph == graph.getContainerRule().getRhs())
 				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_R.png"));
-
+			
 		}// if
-
+		
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph.png"));
 	}// getImage
-
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -130,7 +129,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		return label == null || label.length() == 0 ? getString("_UI_Graph_type")
 				: getString("_UI_Graph_type") + " " + label;
 	}
-
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
@@ -142,18 +141,18 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(Graph.class)) {
-		case HenshinPackage.GRAPH__NODES:
-		case HenshinPackage.GRAPH__EDGES:
-		case HenshinPackage.GRAPH__FORMULA:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
+			case HenshinPackage.GRAPH__NODES:
+			case HenshinPackage.GRAPH__EDGES:
+			case HenshinPackage.GRAPH__FORMULA:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -162,33 +161,26 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__NODES,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__NODES,
 				HenshinFactory.eINSTANCE.createNode()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__EDGES,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__EDGES,
 				HenshinFactory.eINSTANCE.createEdge()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createNestedCondition()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createAnd()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createOr()));
-
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.GRAPH__FORMULA,
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createNot()));
 	}
-
+	
 }

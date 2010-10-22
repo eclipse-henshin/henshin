@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * 
  */
 public class MultiRuleItemProvider extends TransientItemProvider {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param target
@@ -32,10 +32,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	public MultiRuleItemProvider(AdapterFactory adapterFactory, EObject target) {
 		super(adapterFactory, target);
 	}// constructor
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildrenFeatures
 	 * (java.lang.Object)
@@ -48,10 +47,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		}// if
 		return childrenFeatures;
 	}// getChildrenFeatures
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getText(java.lang.Object
 	 * )
@@ -60,7 +58,7 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	public String getText(Object object) {
 		return getString("_UI_AmalgamationUnit_multiRules_feature");
 	}// getText
-
+	
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
 		// Check the type of the specified child object and return the proper
@@ -73,10 +71,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		// EStructuralFeature sf = super.getChildFeature(target, child);
 		// return sf;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse
 	 * .emf.common.notify.Notification)
@@ -84,18 +81,17 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-		case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
-			fireNotifyChanged(new NotificationWrapper(this, notification));
-			return;
+			case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
+				fireNotifyChanged(new NotificationWrapper(this, notification));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
 	 * .lang.Object)
@@ -104,12 +100,10 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	protected boolean isWrappingNeeded(Object object) {
 		return Boolean.TRUE;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
-	 * 
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createDragAndDropCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
 	 * int, java.util.Collection)
@@ -117,19 +111,18 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
-
+		
 		if (new AddCommand(domain, (EObject) owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection).canExecute()) {
-			return super.createDragAndDropCommand(domain, owner, location, DragAndDropFeedback.DROP_LINK, operation,
-					collection);
+			return super.createDragAndDropCommand(domain, owner, location,
+					DragAndDropFeedback.DROP_LINK, operation, collection);
 		}// if
 		return UnexecutableCommand.INSTANCE;
-
+		
 	}// createDragAndDropCommand
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -143,10 +136,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createRemoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createAddCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -160,10 +152,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createAddCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection, index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -177,10 +168,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createRemoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -194,10 +184,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createReplaceCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -211,10 +200,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createReplaceCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createAddCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -227,10 +215,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createAddCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection, index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createMoveCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -243,10 +230,9 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createMoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createMoveCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -259,39 +245,52 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 		return super.createMoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
 	}
-
-//	/* (non-Javadoc)
-//	 * @see org.eclipse.emf.henshin.provider.TransientItemProvider#createCommand(java.lang.Object, org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class, org.eclipse.emf.edit.command.CommandParameter)
-//	 */
-//	@Override
-//	public Command createCommand(Object object, EditingDomain domain, Class commandClass,
-//			CommandParameter commandParameter) {
-//		
-//		if (commandParameter.getFeature()==null)
-//			commandParameter.feature=HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES;
-//		return super.createCommand(object, domain, commandClass, commandParameter);
-//	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
+	
+	// /* (non-Javadoc)
+	// * @see
+	// org.eclipse.emf.henshin.provider.TransientItemProvider#createCommand(java.lang.Object,
+	// org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class,
+	// org.eclipse.emf.edit.command.CommandParameter)
+	// */
+	// @Override
+	// public Command createCommand(Object object, EditingDomain domain, Class
+	// commandClass,
+	// CommandParameter commandParameter) {
+	//
+	// if (commandParameter.getFeature()==null)
+	// commandParameter.feature=HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES;
+	// return super.createCommand(object, domain, commandClass,
+	// commandParameter);
+	// }
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
+	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
+	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
 	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Object value, int index) {
 		// TODO Auto-generated method stub
-		return super.createSetCommand(domain, owner, HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
+		return super.createSetCommand(domain, owner,
+				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
+	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
+	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Object value) {
 		// TODO Auto-generated method stub
-		return super.createSetCommand(domain, owner, HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value);
+		return super.createSetCommand(domain, owner,
+				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value);
 	}
-
-	
 	
 }// class

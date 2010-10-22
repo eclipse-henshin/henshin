@@ -9,9 +9,6 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ import org.eclipse.emf.henshin.model.Node;
  * 
  */
 public class EdgeTargetPropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -46,47 +43,47 @@ public class EdgeTargetPropertyDescriptor extends ItemPropertyDescriptor {
 	 * @param feature
 	 */
 	public EdgeTargetPropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, true, false, true, null, null, null);
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
+				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.<br>
 	 * If the given <code>object</code>, which is an Edge instance, is equipped
-	 * with a type, only those nodes are collected, which are in the same graph and
-	 * of the required target type. If no type is given, all nodes in the same graph
-	 * are provided.
+	 * with a type, only those nodes are collected, which are in the same graph
+	 * and of the required target type. If no type is given, all nodes in the
+	 * same graph are provided.
 	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemPropertyDescriptor#getComboBoxObjects(Object)
 	 * 
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		if (object instanceof Edge) {
 			Edge edge = (Edge) object;
 			Graph graph = edge.getGraph();
 			EReference edgeType = edge.getType();
 			Collection<Node> nodeList = new ArrayList<Node>();
-
+			
 			if (edgeType != null) {
 				EClass trgNodeType = (EClass) edgeType.getEType();
 				for (Node node : graph.getNodes()) {
-					if ((node.getType().equals(trgNodeType)) || (trgNodeType.isSuperTypeOf(node.getType())))
-						nodeList.add(node);
+					if ((node.getType().equals(trgNodeType))
+							|| (trgNodeType.isSuperTypeOf(node.getType()))) nodeList.add(node);
 				}// for
-
+				
 			} else {
 				nodeList.addAll(graph.getNodes());
 			}// if else
-
+			
 			nodeList.add(null);
 			return nodeList;
 		}// if
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects
-
+	
 }// class

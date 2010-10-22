@@ -46,9 +46,9 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescrip
 public class MappingItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
 		IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
 		IItemPropertySource {
-
+	
 	NodeMappingListener rmListener;
-
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -60,7 +60,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		
 		rmListener = new NodeMappingListener();
 	}
-
+	
 	/**
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -71,13 +71,13 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addOriginPropertyDescriptor(object);
 			addImagePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Origin feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -85,13 +85,13 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * @generated NOT
 	 */
 	protected void addOriginPropertyDescriptor(Object object) {
-
+		
 		itemPropertyDescriptors.add(new MappingOriginPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_Mapping_origin_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Mapping_origin_feature",
 						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__ORIGIN));
-
+		
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
 		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
@@ -107,7 +107,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		// null,
 		// null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Image feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -115,13 +115,13 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * @generated NOT
 	 */
 	protected void addImagePropertyDescriptor(Object object) {
-
+		
 		itemPropertyDescriptors.add(new MappingImagePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_Mapping_image_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Mapping_image_feature",
 						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__IMAGE));
-
+		
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
 		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
@@ -137,7 +137,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		// null,
 		// null));
 	}
-
+	
 	/**
 	 * This returns Mapping.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -147,7 +147,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	public Object getImage(Object object) {
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Mapping"));
 	}
-
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -159,27 +159,26 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		Mapping mapping = (Mapping) object;
 		String result = getString("_UI_Mapping_type");
 		if (mapping.getOrigin() != null && mapping.getImage() != null) {
-			String origin = (mapping.getOrigin() != null) ? 
-					NodeItemProvider.getNodeLabel(mapping.getOrigin()) : "null";
-			String image = (mapping.getImage() != null) ? 
-					NodeItemProvider.getNodeLabel(mapping.getImage()) : "null";
+			String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping
+					.getOrigin()) : "null";
+			String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping
+					.getImage()) : "null";
 			if (origin != null && image != null) {
 				result = result + " " + origin + " -> " + image;
 			}
 		}
 		return result;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang
 	 * .Object)
 	 */
 	@Override
 	public Object getParent(Object object) {
-
+		
 		Object o = super.getParent(object);
 		if (o instanceof AmalgamationUnit) {
 			AmalgamationUnit au = (AmalgamationUnit) o;
@@ -194,7 +193,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			return super.getParent(object);
 		}
 	}// getParent
-
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
@@ -205,24 +204,24 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-
+		
 		/*
 		 * Refresh the corresponding Nodes if the Mapping changes
 		 */
 		if (notification.getEventType() == Notification.SET) {
-
+			
 			Node n1 = (Node) notification.getNewValue();
 			Node n2 = (Node) notification.getOldValue();
-
+			
 			notifyNodeForRefresh(notification, n1);
 			notifyNodeForRefresh(notification, n2);
-
+			
 		}// if
-
+		
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -234,7 +233,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
-
+	
 	/**
 	 * Return the resource locator for this item provider's resources. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -245,10 +244,9 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	public ResourceLocator getResourceLocator() {
 		return HenshinEditPlugin.INSTANCE;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse
 	 * .emf.common.notify.Notifier)
@@ -256,7 +254,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	@Override
 	public void unsetTarget(Notifier target) {
 		super.unsetTarget(target);
-
+		
 		// Get the container of the mapping and unregister the
 		// NodeMappingListener
 		EObject eobject = ((Mapping) target).eContainer();
@@ -265,12 +263,11 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 					eobject, null);
 			eobjectAdapter.removeListener(rmListener);
 		}// if
-
+		
 	}// unsetTarget
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse
 	 * .emf.common.notify.Notifier)
@@ -278,7 +275,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	@Override
 	public void setTarget(Notifier target) {
 		super.setTarget(target);
-
+		
 		// Get the container of the mapping and register the NodeMappingListener
 		EObject eobject = ((Mapping) target).eContainer();
 		if (eobject != null) {
@@ -287,7 +284,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			eobjectAdapter.addListener(rmListener);
 		}// if
 	}// setTarget
-
+	
 	/**
 	 * Notifies the given node to refresh its label (only). The given
 	 * notification is its base notification.
@@ -303,7 +300,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			adapter.fireNotifyChanged(notif);
 		}// if
 	}// notifyNodeForRefresh
-
+	
 	/**
 	 * This Listener listens for added or removed Mapping object in order to
 	 * synchronize the visualisation (delete, create, preserve) of Nodes.
@@ -312,7 +309,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * 
 	 */
 	private class NodeMappingListener implements INotifyChangedListener {
-
+		
 		@Override
 		public void notifyChanged(Notification notification) {
 			if (notification.getEventType() == Notification.ADD) {
@@ -328,9 +325,9 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 					MappingItemProvider.this.notifyNodeForRefresh(notification, map.getImage());
 				}// if
 			}// if else
-
+			
 		}// notifyChanged
-
+		
 	}// inner class
-
+	
 }// class

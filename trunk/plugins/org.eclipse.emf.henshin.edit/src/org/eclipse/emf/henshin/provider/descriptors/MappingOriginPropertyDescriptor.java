@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -50,12 +50,12 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 * @param feature
 	 */
 	public MappingOriginPropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, true, false, true, null, null, null);
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
+				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.
@@ -65,9 +65,9 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		Collection<Node> result = null;
-
+		
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
@@ -102,7 +102,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
-
+				
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					result = new ArrayList<Node>();
 					result = au.getKernelRule().getLhs().getNodes();
@@ -112,12 +112,12 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				}// if else if
 			}// if else if
 		}// if
-
+		
 		if (result != null) {
 			return Collections.unmodifiableCollection(result);
 		} else {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
-
+	
 }// class

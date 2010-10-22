@@ -9,9 +9,6 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ import org.eclipse.emf.henshin.model.Node;
  * 
  */
 public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -46,12 +43,12 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 	 * @param feature
 	 */
 	public EdgeSourcePropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, true, false, true, null, null, null);
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
+				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.<br>
@@ -66,18 +63,18 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		if (object instanceof Edge) {
 			Edge edge = (Edge) object;
 			Graph graph = edge.getGraph();
 			EObject edgeType = edge.getType();
 			Collection<Node> nodeList = new ArrayList<Node>();
-
+			
 			if (edgeType != null) {
 				EClass srcNodeType = (EClass) edgeType.eContainer();
 				for (Node node : graph.getNodes()) {
-					if ((node.getType().equals(srcNodeType)) || (srcNodeType.isSuperTypeOf(node.getType())))
-						nodeList.add(node);
+					if ((node.getType().equals(srcNodeType))
+							|| (srcNodeType.isSuperTypeOf(node.getType()))) nodeList.add(node);
 				}// for
 			} else {
 				nodeList.addAll(graph.getNodes());
@@ -88,5 +85,5 @@ public class EdgeSourcePropertyDescriptor extends ItemPropertyDescriptor {
 		}// if
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects
-
+	
 }// class

@@ -51,7 +51,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public EdgeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
+	
 	/**
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -62,14 +62,14 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addSourcePropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Source feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -77,13 +77,13 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 * @generated NOT
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
-
+		
 		itemPropertyDescriptors.add(new EdgeSourcePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_Edge_source_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Edge_source_feature",
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__SOURCE));
-
+		
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
 		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
@@ -99,7 +99,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 		// null,
 		// null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Target feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -107,13 +107,13 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 * @generated NOT
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
-
+		
 		itemPropertyDescriptors.add(new EdgeTargetPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_Edge_target_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Edge_target_feature",
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TARGET));
-
+		
 		// itemPropertyDescriptors.add
 		// (createItemPropertyDescriptor
 		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
@@ -129,7 +129,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 		// null,
 		// null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -139,12 +139,11 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(new EdgeTypePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Edge_type_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_Edge_type_feature",
+				getResourceLocator(), getString("_UI_Edge_type_feature"), getString(
+						"_UI_PropertyDescriptor_description", "_UI_Edge_type_feature",
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TYPE));
 	}
-
+	
 	/**
 	 * This returns Edge.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -154,7 +153,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public Object getImage(Object object) {
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/Edge"));
 	}
-
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -174,7 +173,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 		}
 		return result;
 	}
-
+	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
@@ -185,20 +184,20 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-
+		
 		if (notification.getEventType() == Notification.SET) {
-
+			
 			Edge edge = (Edge) notification.getNotifier();
 			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(edge,
 					Edge.class);
 			Notification notif = new ViewerNotification(notification, edge, false, true);
 			adapter.fireNotifyChanged(notif);
 		}// if
-
+		
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}// notifyChanged
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -210,7 +209,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
-
+	
 	/**
 	 * Return the resource locator for this item provider's resources. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -221,5 +220,5 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public ResourceLocator getResourceLocator() {
 		return HenshinEditPlugin.INSTANCE;
 	}
-
+	
 }

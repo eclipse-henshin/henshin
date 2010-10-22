@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * 
  */
 public class KernelRuleItemProvider extends TransientItemProvider {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param target
@@ -32,10 +32,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	public KernelRuleItemProvider(AdapterFactory adapterFactory, EObject target) {
 		super(adapterFactory, target);
 	}// constructor
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildFeature(java
 	 * .lang.Object, java.lang.Object)
@@ -47,10 +46,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		}
 		return super.getChildFeature(target, child);
 	}// getChildFeature
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildrenFeatures
 	 * (java.lang.Object)
@@ -63,7 +61,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		}// if
 		return childrenFeatures;
 	}// getChildrenFeatures
-
+	
 	// @Override
 	// protected EStructuralFeature getChildFeature(Object object, Object child)
 	// {
@@ -73,23 +71,21 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	// EStructuralFeature sf = super.getChildFeature(target, child);
 	// return sf;
 	// }
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getText(java.lang.Object
 	 * )
 	 */
 	@Override
 	public String getText(Object object) {
-
+		
 		return getString("_UI_AmalgamationUnit_kernelRule_feature");
 	}// getText
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse
 	 * .emf.common.notify.Notification)
@@ -97,20 +93,19 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-		case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
-			fireNotifyChanged(new NotificationWrapper(this, notification));
-			// fireNotifyChanged(new ViewerNotification(notification,
-			// notification.getNotifier(), true, true));
-			return;
+			case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
+				fireNotifyChanged(new NotificationWrapper(this, notification));
+				// fireNotifyChanged(new ViewerNotification(notification,
+				// notification.getNotifier(), true, true));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
 	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
@@ -121,10 +116,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			int index) {
 		return super.createWrapper(object, feature, value, index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
 	 * .lang.Object)
@@ -133,12 +127,10 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	protected boolean isWrappingNeeded(Object object) {
 		return Boolean.TRUE;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
-	 * 
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createDragAndDropCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
 	 * int, java.util.Collection)
@@ -146,7 +138,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
-
+		
 		Object o = ((List) collection).get(0);
 		if (new SetCommand(domain, (EObject) owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, o).canExecute()) {
@@ -154,12 +146,11 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 					collection);
 		}// if
 		return UnexecutableCommand.INSTANCE;
-
+		
 	}// createDragAndDropCommand
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -171,10 +162,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createSetCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, value, index);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -186,10 +176,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createSetCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, value);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -202,10 +191,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createRemoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -218,10 +206,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createRemoveCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -234,10 +221,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createReplaceCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, value, collection);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -250,5 +236,5 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 		return super.createReplaceCommand(domain, owner,
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, value, collection);
 	}
-
+	
 }// class

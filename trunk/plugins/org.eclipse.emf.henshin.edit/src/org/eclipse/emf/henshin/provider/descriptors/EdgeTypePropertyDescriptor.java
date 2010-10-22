@@ -9,9 +9,6 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.Collection;
@@ -34,7 +31,7 @@ import org.eclipse.emf.henshin.model.Edge;
  * 
  */
 public class EdgeTypePropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -48,7 +45,7 @@ public class EdgeTypePropertyDescriptor extends ItemPropertyDescriptor {
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
 				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all types, being provided by the combo box in a related property
 	 * sheet.<br>
@@ -62,40 +59,37 @@ public class EdgeTypePropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		if (object instanceof Edge) {
 			Edge edge = (Edge) object;
-
+			
 			@SuppressWarnings("unchecked")
 			Collection<EReference> edgeTypeList = (Collection<EReference>) super
 					.getComboBoxObjects(object);
-
+			
 			if (edge.getSource() != null && edge.getSource().getType() != null) {
 				EClass sourceType = edge.getSource().getType();
 				Collection<EReference> c = sourceType.getEAllReferences();
 				Iterator<EReference> it = edgeTypeList.iterator();
 				while (it.hasNext()) {
-					if (!c.contains(it.next()))
-						it.remove();
+					if (!c.contains(it.next())) it.remove();
 				}// while
 			}// if
-
+			
 			if (edge.getTarget() != null && edge.getTarget().getType() != null) {
 				EClass targetType = edge.getTarget().getType();
 				Iterator<EReference> it = edgeTypeList.iterator();
 				while (it.hasNext()) {
 					EClass ec = (EClass) it.next().getEType();
-					if (!ec.isSuperTypeOf(targetType))
-						it.remove();
+					if (!ec.isSuperTypeOf(targetType)) it.remove();
 				}// while
 			}// if
-
-			if (!edgeTypeList.contains(null))
-				edgeTypeList.add(null);
+			
+			if (!edgeTypeList.contains(null)) edgeTypeList.add(null);
 			return edgeTypeList;
 		}// if
-
+		
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects
-
+	
 }// class

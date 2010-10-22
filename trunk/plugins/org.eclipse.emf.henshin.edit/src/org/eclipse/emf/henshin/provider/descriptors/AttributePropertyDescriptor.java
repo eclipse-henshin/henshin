@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.Collection;
@@ -16,17 +27,15 @@ import org.eclipse.emf.henshin.model.Node;
  * 
  */
 public class AttributePropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	public AttributePropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature, boolean isSettable,
-			boolean multiLine, boolean sortChoices, Object staticImage,
-			String category, String[] filterFlags) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, isSettable, multiLine, sortChoices, staticImage,
-				category, filterFlags);
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature, boolean isSettable, boolean multiLine, boolean sortChoices,
+			Object staticImage, String category, String[] filterFlags) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, isSettable,
+				multiLine, sortChoices, staticImage, category, filterFlags);
 	}// constructor
-
+	
 	/**
 	 * Collects all entries, which are then provided by the combo box in a
 	 * related property sheet.<br>
@@ -39,18 +48,17 @@ public class AttributePropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		if (object instanceof Attribute) {
 			Attribute attr = (Attribute) object;
 			Node ownerNode = attr.getNode();
 			if (ownerNode.getType() != null) {
 				EClass owner = ownerNode.getType();
-				return Collections.unmodifiableCollection(owner
-						.getEAllAttributes());
+				return Collections.unmodifiableCollection(owner.getEAllAttributes());
 			}// if
 		}// if
-
+		
 		return super.getComboBoxObjects(object);
 	}// getComboBoxObjects
-
+	
 }

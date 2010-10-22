@@ -42,7 +42,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * 
  */
 public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -56,7 +56,7 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
 				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all parameters, which are provided by the combo box in a related
 	 * property sheet.
@@ -66,30 +66,30 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		Collection<Parameter> result = null;
-
+		
 		if (object instanceof ParameterMapping) {
-
+			
 			ParameterMapping pmapping = (ParameterMapping) object;
 			TransformationUnit owningUnit = (TransformationUnit) pmapping.eContainer();
-
+			
 			result = new ArrayList<Parameter>();
-
+			
 			Collection<TransformationUnit> relevantUnits;
 			relevantUnits = getSubUnits(owningUnit);
 			relevantUnits.addAll(getParentUnits(owningUnit));
-
+			
 			for (TransformationUnit subunit : relevantUnits) {
 				result.addAll(subunit.getParameters());
 			}// for
-
+			
 			return result;
 		} else {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
-
+	
 	/**
 	 * Collects and returns the subunit of the given {@link TransformationUnit},
 	 * respecting the exact kind the given unit.
@@ -99,7 +99,7 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	 */
 	private Collection<TransformationUnit> getSubUnits(TransformationUnit unit) {
 		Collection<TransformationUnit> unitList = new ArrayList<TransformationUnit>();
-
+		
 		if (unit instanceof AmalgamationUnit) {
 			AmalgamationUnit au = (AmalgamationUnit) unit;
 			unitList.add(au.getKernelRule());
@@ -120,7 +120,7 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 		}
 		return unitList;
 	}// getSubUnits
-
+	
 	/**
 	 * Collects the list of unit, which refer (not contain!) to the given unit.
 	 * 
@@ -129,12 +129,12 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	 */
 	private Collection<TransformationUnit> getParentUnits(TransformationUnit unit) {
 		Collection<TransformationUnit> unitList = new ArrayList<TransformationUnit>();
-
+		
 		if ((unit.eContainer() != null) && (unit.eContainer() instanceof TransformationSystem)) {
 			TransformationSystem ts = (TransformationSystem) unit.eContainer();
-
+			
 			for (TransformationUnit tu : ts.getTransformationUnits()) {
-
+				
 				/**
 				 * Since all TransformationUnits are contained in
 				 * TransformationSystem, we only need to iterate over the list
@@ -146,8 +146,8 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 				}// if
 			}// for
 		}// if
-
+		
 		return unitList;
 	}// getSubUnits
-
+	
 }// class

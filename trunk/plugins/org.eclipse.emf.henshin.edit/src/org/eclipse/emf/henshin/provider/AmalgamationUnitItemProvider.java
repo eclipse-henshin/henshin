@@ -46,9 +46,9 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
-
+	
 	protected List children = null;
-
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -58,7 +58,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public AmalgamationUnitItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
+	
 	/**
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -69,7 +69,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addKernelRulePropertyDescriptor(object);
 			addMultiRulesPropertyDescriptor(object);
 			addLhsMappingsPropertyDescriptor(object);
@@ -77,7 +77,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Kernel Rule feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -94,7 +94,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, true, false, true, null,
 				null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Multi Rules feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -111,7 +111,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, true, false, true, null,
 				null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Lhs Mappings feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -128,7 +128,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, true, false, true, null,
 				null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Rhs Mappings feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -145,7 +145,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, true, false, true, null,
 				null, null));
 	}
-
+	
 	/**
 	 * This returns AmalgamationUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -156,7 +156,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public Object getImage(Object object) {
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/AmalgamationUnit"));
 	}
-
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -169,7 +169,6 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		return label == null || label.length() == 0 ? getString("_UI_AmalgamationUnit_type")
 				: getString("_UI_AmalgamationUnit_type") + " " + label;
 	}
-
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
@@ -183,7 +182,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		// switch (notification.getFeatureID(TransformationUnit.class)) {
 		// case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
 		// case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
@@ -195,7 +194,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		// }
 		super.notifyChanged(notification);
 	}
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -207,7 +206,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
-
+	
 	/**
 	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
@@ -219,7 +218,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		AmalgamationUnit au = (AmalgamationUnit) object;
 		if (children == null) {
 			children = (List) super.getChildren(object);
-
+			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
 			children.add(0, new KernelRuleItemProvider(adapterFactory, au));
@@ -229,7 +228,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		}// if
 		else {
 			List l = (List) super.getChildren(object);
-
+			
 			// reuse item providers in the 'children' list
 			l.add(0, children.get(0));
 			l.add(1, children.get(1));
@@ -238,21 +237,16 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			children = l;
 		}
 		
-		if (au.getMultiRules().size() > 0)
-			children.removeAll(au.getMultiRules());
-		if (au.getKernelRule() != null)
-			children.remove(au.getKernelRule());
-		if (au.getLhsMappings().size() > 0)
-			children.removeAll(au.getLhsMappings());
-		if (au.getRhsMappings().size() > 0)
-			children.removeAll(au.getRhsMappings());		
+		if (au.getMultiRules().size() > 0) children.removeAll(au.getMultiRules());
+		if (au.getKernelRule() != null) children.remove(au.getKernelRule());
+		if (au.getLhsMappings().size() > 0) children.removeAll(au.getLhsMappings());
+		if (au.getRhsMappings().size() > 0) children.removeAll(au.getRhsMappings());
 		return children;
-
+		
 	}// getChildren
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#
 	 * getChildrenFeatures(java.lang.Object)
 	 */
@@ -262,12 +256,12 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
 			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
-//			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
-//			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
+			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
+			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
-
+	
 	/**
 	 * Finds and returns the item provider of a child by its feature literal.
 	 * (Helper method)
@@ -286,38 +280,37 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			return getRhsMappingsItemProvider();
 		return null;
 	}// resolveChildProvider
-
+	
 	/**
 	 * @return
 	 */
 	public Object getKernelRuleItemProvider() {
 		return children.get(0);
 	}// getKernelRuleItemProvider
-
+	
 	/**
 	 * @return
 	 */
 	public Object getMuliRulesItemProvider() {
 		return children.get(1);
 	}// getMuliRulesItemProvider
-
+	
 	/**
 	 * @return
 	 */
 	public Object getLhsMappingsItemProvider() {
 		return children.get(2);
 	}// getLhsMappingsItemProvider
-
+	
 	/**
 	 * @return
 	 */
 	public Object getRhsMappingsItemProvider() {
 		return children.get(3);
 	}// getRhsMappingsItemProvider
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createCommand(java.
 	 * lang.Object, org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class,
@@ -326,7 +319,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	@Override
 	public Command createCommand(Object object, EditingDomain domain,
 			Class<? extends Command> commandClass, CommandParameter commandParameter) {
-
+		
 		// CompoundCommand command = new CompoundCommand(
 		// CompoundCommand.MERGE_COMMAND_ALL);
 		// if (commandParameter.collection!=null) {
@@ -353,7 +346,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		// return super.createCommand(object, domain, commandClass,
 		// commandParameter);
 	}
-
+	
 	/**
 	 * 
 	 * If the given collectionItem implements {@link IWrapperItemProvider}, it
@@ -386,10 +379,9 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		cp.collection = Collections.singletonList(collectionItem);
 		return cp;
 	}// unwrapItemAndCreateCommandParameter
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -399,14 +391,13 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	@Override
 	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection) {
-
+		
 		return createWrappedCommand(super.createRemoveCommand(domain, owner, feature, collection),
 				owner, feature);
 	}// createRemoveCommand
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createAddCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
@@ -418,7 +409,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		return createWrappedCommand(
 				super.createAddCommand(domain, owner, feature, collection, index), owner, feature);
 	}// createAddCommand
-
+	
 	/**
 	 * @param command
 	 * @param owner
@@ -427,13 +418,13 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 */
 	protected Command createWrappedCommand(Command command, final EObject owner,
 			final EStructuralFeature feature) {
-
+		
 		if (feature == HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE
 				|| feature == HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES
 				|| feature == HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS
 				|| feature == HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS) {
 			return new CommandWrapper(command) {
-
+				
 				public Collection getAffectedObjects() {
 					Collection affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
@@ -445,10 +436,9 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		}// if
 		return command;
 	}// createWrappedCommand
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#dispose()
 	 */
 	@Override
@@ -461,7 +451,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			((IDisposable) children.get(3)).dispose();
 		}// if
 	}// dispose
-
+	
 	// /**
 	// * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	// * describing the children that can be created under this object. <!--
@@ -478,5 +468,5 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	// HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS,
 	// HenshinFactory.eINSTANCE.createMapping()));
 	// }
-
+	
 }

@@ -58,17 +58,16 @@ import org.eclipse.emf.henshin.model.impl.TransformationSystemImpl;
  * 
  */
 public class ItemProviderAdapter2 extends ItemProviderAdapter {
-
+	
 	/**
 	 * @param adapterFactory
 	 */
 	public ItemProviderAdapter2(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}// constructor
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createCommand(java.
 	 * lang.Object, org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class,
@@ -77,18 +76,19 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 	@Override
 	public Command createCommand(Object object, EditingDomain domain,
 			Class<? extends Command> commandClass, CommandParameter commandParameter) {
-
+		
 		// Commands should operate on the values, not their wrappers. If the
 		// command's values needed to be unwrapped,
 		// we'll back get a new CommandParameter.
 		//
 		CommandParameter oldCommandParameter = commandParameter;
 		commandParameter = unwrapCommandValues(commandParameter, commandClass);
-
+		
 		Command result = UnexecutableCommand.INSTANCE;
-
-		// System.out.println("createCommand: " + object + " -- " + commandClass.getCanonicalName());
-
+		
+		// System.out.println("createCommand: " + object + " -- " +
+		// commandClass.getCanonicalName());
+		
 		if (commandClass == SetCommand.class) {
 			result = createSetCommand(
 					domain,
@@ -97,19 +97,19 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 							.getEStructuralFeature() : getSetFeature(commandParameter.getEOwner(),
 							commandParameter.getValue()), commandParameter.getValue(),
 					commandParameter.getIndex());
-
+			
 		} else if (commandClass == CopyCommand.class) {
 			result = createCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-
+			
 		} else if (commandClass == CreateCopyCommand.class) {
 			result = createCreateCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-
+			
 		} else if (commandClass == InitializeCopyCommand.class) {
 			result = createInitializeCopyCommand(domain, commandParameter.getEOwner(),
 					(CopyCommand.Helper) commandParameter.getValue());
-
+			
 		} else if (commandClass == RemoveCommand.class) {
 			if (commandParameter.getEStructuralFeature() != null) {
 				result = createRemoveCommand(domain, commandParameter.getEOwner(),
@@ -140,27 +140,27 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 			result = createReplaceCommand(domain, commandParameter.getEOwner(),
 					commandParameter.getEStructuralFeature(),
 					(EObject) commandParameter.getValue(), commandParameter.getCollection());
-
+			
 		} else if (commandClass == DragAndDropCommand.class) {
 			DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail) commandParameter
 					.getFeature();
 			result = createDragAndDropCommand(domain, commandParameter.getOwner(), detail.location,
 					detail.operations, detail.operation, commandParameter.getCollection());
-
+			
 		} else if (commandClass == CreateChildCommand.class) {
 			CommandParameter newChildParameter = (CommandParameter) commandParameter.getValue();
 			result = createCreateChildCommand(domain, commandParameter.getEOwner(),
 					newChildParameter.getEStructuralFeature(), newChildParameter.getValue(),
 					newChildParameter.getIndex(), commandParameter.getCollection());
 		}
-
+		
 		// If necessary, get a command that replaces unwrapped values by their
 		// wrappers in the result and affected objects.
 		//
 		return wrapCommand(result, object, commandClass, commandParameter, oldCommandParameter);
-
+		
 	}// createCommand
-
+	
 	/**
 	 * 
 	 * If the given collectionItem implements {@link IWrapperItemProvider}, it
@@ -193,10 +193,9 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 		cp.collection = Collections.singletonList(collectionItem);
 		return cp;
 	}// unwrapItemAndCreateCommandParameter
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#factorRemoveCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain,
@@ -204,20 +203,20 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 	 */
 	@Override
 	protected Command factorRemoveCommand(EditingDomain domain, CommandParameter commandParameter) {
-
+		
 		if (commandParameter.getCollection() == null || commandParameter.getCollection().isEmpty()) {
 			return UnexecutableCommand.INSTANCE;
 		}
-
+		
 		final EObject eObject = commandParameter.getEOwner();
 		List<Object> list = new ArrayList<Object>(commandParameter.getCollection());
 		CompoundCommand removeCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
-
+		
 		Iterator<Object> listIt = list.iterator();
 		while (listIt.hasNext()) {
 			Object item = listIt.next();
 			EStructuralFeature feature = null;
-
+			
 			if ((commandParameter.feature == null) && (item instanceof IWrapperItemProvider)) {
 				IWrapperItemProvider wrapper = (IWrapperItemProvider) item;
 				feature = wrapper.getFeature();
@@ -231,30 +230,30 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 							SetCommand.UNSET_VALUE);
 					removeCommand.append(new CommandWrapper(setCommand) {
 						protected Collection<?> affected;
-
+						
 						@Override
 						public void execute() {
 							super.execute();
 							affected = Collections.singleton(eObject);
 						}
-
+						
 						@Override
 						public void undo() {
 							super.undo();
 							affected = Collections.singleton(value);
 						}
-
+						
 						@Override
 						public void redo() {
 							super.redo();
 							affected = Collections.singleton(eObject);
 						}
-
+						
 						@Override
 						public Collection<?> getResult() {
 							return Collections.singleton(value);
 						}
-
+						
 						@Override
 						public Collection<?> getAffectedObjects() {
 							return affected;
@@ -263,11 +262,11 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 				}// if else
 				listIt.remove();
 			}// if
-
+			
 		}// while
-
+		
 		if (!list.isEmpty()) {
-
+			
 			// Iterator over all the child references to factor each child to
 			// the
 			// right reference.
@@ -277,13 +276,13 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 				//
 				if (feature.isMany()) {
 					List<?> value = (List<?>) getFeatureValue(eObject, feature);
-
+					
 					// These will be the children belonging to this feature.
 					//
 					Collection<Object> childrenOfThisFeature = new ArrayList<Object>();
 					for (ListIterator<Object> objects = list.listIterator(); objects.hasNext();) {
 						Object o = objects.next();
-
+						
 						// Is this object in this feature...
 						//
 						if (value.contains(o)) {
@@ -294,7 +293,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 							objects.remove();
 						}
 					}
-
+					
 					// If we have children to remove for this feature, create a
 					// command for it.
 					//
@@ -308,7 +307,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 					final Object value = getFeatureValue(eObject, feature);
 					for (ListIterator<Object> objects = list.listIterator(); objects.hasNext();) {
 						Object o = objects.next();
-
+						
 						// Is this object in this feature...
 						//
 						if (o == value) {
@@ -320,30 +319,30 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 									SetCommand.UNSET_VALUE);
 							removeCommand.append(new CommandWrapper(setCommand) {
 								protected Collection<?> affected;
-
+								
 								@Override
 								public void execute() {
 									super.execute();
 									affected = Collections.singleton(eObject);
 								}
-
+								
 								@Override
 								public void undo() {
 									super.undo();
 									affected = Collections.singleton(value);
 								}
-
+								
 								@Override
 								public void redo() {
 									super.redo();
 									affected = Collections.singleton(eObject);
 								}
-
+								
 								@Override
 								public Collection<?> getResult() {
 									return Collections.singleton(value);
 								}
-
+								
 								@Override
 								public Collection<?> getAffectedObjects() {
 									return affected;
@@ -355,9 +354,9 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 					}
 				}// if (many) else
 			}// for (EStructuralFeature feature
-
+			
 		}// if (!list.isEmpty())
-
+		
 		// If all the objects are used up by the above, then we can't do the
 		// command.
 		//
@@ -368,10 +367,9 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 			return UnexecutableCommand.INSTANCE;
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#factorAddCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain,
@@ -379,17 +377,17 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 	 */
 	@Override
 	protected Command factorAddCommand(EditingDomain domain, CommandParameter commandParameter) {
-
+		
 		if (commandParameter.getCollection() == null || commandParameter.getCollection().isEmpty()) {
 			return UnexecutableCommand.INSTANCE;
 		}// if
-
+		
 		final EObject eObject = commandParameter.getEOwner();
 		final List<Object> list = new ArrayList<Object>(commandParameter.getCollection());
 		int index = commandParameter.getIndex();
-
+		
 		CompoundCommand addCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
-
+		
 		// Iterator<Object> listIt = list.iterator();
 		// while (listIt.hasNext()) {
 		// Object item = listIt.next();
@@ -443,12 +441,12 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 		// }// if
 		//
 		// }// while
-
+		
 		while (!list.isEmpty()) {
 			Iterator<Object> children = list.listIterator();
 			final Object firstChild = children.next();
 			EStructuralFeature childFeature = getChildFeature(eObject, firstChild);
-
+			
 			if (childFeature == null) {
 				break;
 			}
@@ -462,7 +460,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 						if (feature == childFeature) {
 							break;
 						}
-
+						
 						if (feature.isMany()) {
 							index -= ((List<?>) (eObject).eGet(feature)).size();
 						} else if (eObject.eGet(feature) != null) {
@@ -473,18 +471,18 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 						break;
 					}
 				}
-
+				
 				// These will be the children belonging to this feature.
 				//
 				Collection<Object> childrenOfThisFeature = new ArrayList<Object>();
 				childrenOfThisFeature.add(firstChild);
 				children.remove();
-
+				
 				// Consume the rest of the appropriate children.
 				//
 				while (children.hasNext()) {
 					Object child = children.next();
-
+					
 					// Is this child in this feature...
 					//
 					if (getChildFeature(eObject, child) == childFeature) {
@@ -494,12 +492,12 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 						children.remove();
 					}
 				}
-
+				
 				// Create a command for this feature,
 				//
 				addCommand.append(createAddCommand(domain, eObject, childFeature,
 						childrenOfThisFeature, index));
-
+				
 				if (index >= childrenOfThisFeature.size()) {
 					index -= childrenOfThisFeature.size();
 				} else {
@@ -509,30 +507,30 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 				Command setCommand = createSetCommand(domain, eObject, childFeature, firstChild);
 				addCommand.append(new CommandWrapper(setCommand) {
 					protected Collection<?> affected;
-
+					
 					@Override
 					public void execute() {
 						super.execute();
 						affected = Collections.singleton(firstChild);
 					}
-
+					
 					@Override
 					public void undo() {
 						super.undo();
 						affected = Collections.singleton(eObject);
 					}
-
+					
 					@Override
 					public void redo() {
 						super.redo();
 						affected = Collections.singleton(firstChild);
 					}
-
+					
 					@Override
 					public Collection<?> getResult() {
 						return Collections.singleton(firstChild);
 					}
-
+					
 					@Override
 					public Collection<?> getAffectedObjects() {
 						return affected;
@@ -543,7 +541,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 				break;
 			}
 		}
-
+		
 		// If all the objects aren't used up by the above, then we can't do the
 		// command.
 		//
@@ -554,10 +552,9 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 			return UnexecutableCommand.INSTANCE;
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#factorMoveCommand(org
 	 * .eclipse.emf.edit.domain.EditingDomain,
@@ -568,7 +565,7 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 		// TODO Auto-generated method stub
 		return super.factorMoveCommand(domain, commandParameter);
 	}
-
+	
 	/**
 	 * Copied from ItemProviderAdapter.getAnyChildrenFeatures.
 	 * 
@@ -579,5 +576,5 @@ public class ItemProviderAdapter2 extends ItemProviderAdapter {
 		Collection<? extends EStructuralFeature> result = getChildrenFeatures(object);
 		return result.isEmpty() ? getChildrenReferences(object) : result;
 	}
-
+	
 }// class

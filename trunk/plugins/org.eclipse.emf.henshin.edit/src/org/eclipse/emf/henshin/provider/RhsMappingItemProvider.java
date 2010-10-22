@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * 
  */
 public class RhsMappingItemProvider extends TransientItemProvider {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param target
@@ -31,28 +31,24 @@ public class RhsMappingItemProvider extends TransientItemProvider {
 	public RhsMappingItemProvider(AdapterFactory adapterFactory, EObject target) {
 		super(adapterFactory, target);
 	}// constructor
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildrenFeatures
 	 * (java.lang.Object)
 	 */
 	@Override
-	protected Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	protected Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures
-					.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
 		}// if
 		return childrenFeatures;
-	}// getChildrenFeatures	
+	}// getChildrenFeatures
 	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getText(java.lang.Object
 	 * )
@@ -61,66 +57,59 @@ public class RhsMappingItemProvider extends TransientItemProvider {
 	public String getText(Object object) {
 		return getString("_UI_AmalgamationUnit_rhsMappings_feature");
 	}// getText
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#collectNewChildDescriptors
 	 * (java.util.Collection, java.lang.Object)
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
-
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
+		
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
+		
 		newChildDescriptors.add(createChildParameter(
 				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS,
 				HenshinFactory.eINSTANCE.createMapping()));
-
+		
 	}// collectNewChildDescriptors
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse
 	 * .emf.common.notify.Notification)
 	 */
 	@Override
 	public void notifyChanged(Notification msg) {
-
+		
 		switch (msg.getFeatureID(AmalgamationUnit.class)) {
-		case HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS:
-	          fireNotifyChanged(new NotificationWrapper(this, msg)); 
-			return;
+			case HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS:
+				fireNotifyChanged(new NotificationWrapper(this, msg));
+				return;
 		}
 		super.notifyChanged(msg);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
-	 * 
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createDragAndDropCommand
 	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
 	 * int, java.util.Collection)
 	 */
 	@Override
-	protected Command createDragAndDropCommand(EditingDomain domain,
-			Object owner, float location, int operations, int operation,
-			Collection<?> collection) {
-
+	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
+			int operations, int operation, Collection<?> collection) {
+		
 		if (new AddCommand(domain, (EObject) owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS,
-				collection).canExecute()) {
-			return super.createDragAndDropCommand(domain, owner, location,
-					operations, operation, collection);
+				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, collection).canExecute()) {
+			return super.createDragAndDropCommand(domain, owner, location, operations, operation,
+					collection);
 		}// if
 		return UnexecutableCommand.INSTANCE;
-
+		
 	}// createDragAndDropCommand
 	
 }// class

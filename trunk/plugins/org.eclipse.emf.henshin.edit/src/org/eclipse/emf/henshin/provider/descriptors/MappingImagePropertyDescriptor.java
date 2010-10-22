@@ -9,9 +9,6 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-/**
- * 
- */
 package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
@@ -40,7 +37,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * 
 	 * 
@@ -53,12 +50,12 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	 * @see ItemPropertyDescriptor
 	 */
 	public MappingImagePropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, true, false, true, null, null, null);
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
+				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.
@@ -68,9 +65,9 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		Collection<Node> result = null;
-
+		
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
@@ -99,7 +96,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
-
+				
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					result = new ArrayList<Node>();
 					for (Rule rule : au.getMultiRules()) {
@@ -113,7 +110,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				}// if else if
 			}// if else if
 		}// if
-
+		
 		if (result != null) {
 			return Collections.unmodifiableCollection(result);
 		} else {

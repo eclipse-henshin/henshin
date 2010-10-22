@@ -34,7 +34,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * 
  */
 public class ParameterMappingSourcePropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -48,7 +48,7 @@ public class ParameterMappingSourcePropertyDescriptor extends ItemPropertyDescri
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
 				true, null, null, null);
 	}// constructor
-
+	
 	/**
 	 * Collects all parameters, which are provided by the combo box in a related
 	 * property sheet.
@@ -58,16 +58,16 @@ public class ParameterMappingSourcePropertyDescriptor extends ItemPropertyDescri
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
+		
 		if (object instanceof ParameterMapping) {
-
+			
 			ParameterMapping pmapping = (ParameterMapping) object;
 			TransformationUnit owningUnit = (TransformationUnit) pmapping.eContainer();
-
+			
 			return Collections.unmodifiableCollection(owningUnit.getParameters());
 		} else {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
-
+	
 }// class

@@ -55,7 +55,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	public NodeItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
-
+	
 	/**
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -66,7 +66,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addTypePropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
@@ -74,7 +74,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		}
 		return itemPropertyDescriptors;
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -90,7 +90,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						"_UI_Node_type"), HenshinPackage.Literals.NODE__TYPE, true, false, true,
 				null, null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Incoming feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -106,7 +106,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						"_UI_Node_type"), HenshinPackage.Literals.NODE__INCOMING, true, false,
 				true, null, null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the Outgoing feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -122,7 +122,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						"_UI_Node_type"), HenshinPackage.Literals.NODE__OUTGOING, true, false,
 				true, null, null, null));
 	}
-
+	
 	/**
 	 * This adds a property descriptor for the All Edges feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -138,7 +138,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						"_UI_Node_type"), HenshinPackage.Literals.NODE__ALL_EDGES, true, false,
 				true, null, null, null));
 	}
-
+	
 	/**
 	 * This specifies how to implement {@link #getChildren} and is used to
 	 * deduce an appropriate feature for an
@@ -157,7 +157,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		}
 		return childrenFeatures;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -168,10 +168,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		// Check the type of the specified child object and return the proper
 		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc --> <br>
 	 * This method returns different visualizations of a {@link Node} regarding
@@ -184,17 +184,18 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	public Object getImage(Object object) {
 		
 		Node node = (Node) object;
-		Object defaultImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Node.png"));
+		Object defaultImage = overlayImage(object,
+				getResourceLocator().getImage("full/obj16/Node.png"));
 		
 		// get the container graph
 		Graph graph = node.getGraph();
-		if (graph==null) {
+		if (graph == null) {
 			return defaultImage;
 		}
 		
 		// get the container rule
 		Rule rule = node.getGraph().getContainerRule();
-		if (rule==null) {
+		if (rule == null) {
 			return defaultImage;
 		}
 		
@@ -202,10 +203,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			// if this node occurs in the Mapping-List, it is a preserved node
 			// i.e.
 			// it is source or origin of a mapping from LHS to RHS
-			if ((mapping.getOrigin() == node) || (mapping.getImage() == node))
-				return defaultImage;
+			if ((mapping.getOrigin() == node) || (mapping.getImage() == node)) return defaultImage;
 		}// for
-
+		
 		if (rule.getLhs() == graph) {
 			return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_Delete.png"));
 		} else if (rule.getRhs() == graph) {
@@ -233,10 +233,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				 */
 			}// if negated
 		}// if else if
-
+		
 		return defaultImage;
 	}// getImage
-
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -250,16 +250,14 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		String label = getNodeLabel(node);
 		return label.length() != 0 ? prefix + " " + label : prefix;
 	}
-
+	
 	/**
 	 * Compute a nice label for a node.
 	 */
 	public static String getNodeLabel(Node node) {
 		String label = "";
-		if (node.getName() != null)
-			label = label + node.getName();
-		if (node.getType() != null)
-			label = label + ":" + node.getType().getName();
+		if (node.getName() != null) label = label + node.getName();
+		if (node.getType() != null) label = label + ":" + node.getType().getName();
 		return label.trim();
 	}
 	
@@ -274,29 +272,29 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(Node.class)) {
-		case HenshinPackage.NODE__ATTRIBUTES:
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-					true, false));
-			return;
-		case HenshinPackage.NAMED_ELEMENT__NAME:
-			Node node = (Node) this.target;
-			List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
-			edgeList.addAll(node.getOutgoing());
-			if (!edgeList.isEmpty()) {
-				ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
-						edgeList.get(0), null);
-				for (Edge edge : edgeList) {
-					Notification notif = new ViewerNotification(notification, edge, false, true);
-					adapter.fireNotifyChanged(notif);
-				}// for
-			}// if
-			break;
+			case HenshinPackage.NODE__ATTRIBUTES:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						true, false));
+				return;
+			case HenshinPackage.NAMED_ELEMENT__NAME:
+				Node node = (Node) this.target;
+				List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
+				edgeList.addAll(node.getOutgoing());
+				if (!edgeList.isEmpty()) {
+					ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+							edgeList.get(0), null);
+					for (Edge edge : edgeList) {
+						Notification notif = new ViewerNotification(notification, edge, false, true);
+						adapter.fireNotifyChanged(notif);
+					}// for
+				}// if
+				break;
 		}// switch
 		super.notifyChanged(notification);
 	}// notifyChanged
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -307,9 +305,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
+		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.NODE__ATTRIBUTES,
 				HenshinFactory.eINSTANCE.createAttribute()));
 	}
-
+	
 }
