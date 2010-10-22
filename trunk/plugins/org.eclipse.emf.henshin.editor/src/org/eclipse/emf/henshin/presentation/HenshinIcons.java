@@ -17,7 +17,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Henshin and Ecore icons.
- * @generated NOT
  * @author Christian Krause
  */
 public class HenshinIcons {

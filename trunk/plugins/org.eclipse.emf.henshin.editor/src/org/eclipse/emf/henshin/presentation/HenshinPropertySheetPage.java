@@ -7,7 +7,7 @@ import org.eclipse.ui.views.properties.IPropertySheetEntry;
 import org.eclipse.ui.views.properties.PropertySheetSorter;
 
 /**
- * This property sheet page provide a speicialized sorting according to property
+ * This property sheet page provide a specialised sorting according to property
  * sheet entries given by Henshin related item providers.
  * 
  * @author sjtuner

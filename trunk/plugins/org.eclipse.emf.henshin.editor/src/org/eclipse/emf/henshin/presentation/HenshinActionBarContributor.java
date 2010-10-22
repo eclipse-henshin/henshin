@@ -14,53 +14,35 @@ package org.eclipse.emf.henshin.presentation;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-
 import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
-import org.eclipse.emf.edit.ui.action.StaticSelectionCommandAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
 import org.eclipse.emf.henshin.editor.commands.HenshinAdvancedActionFactory;
-import org.eclipse.emf.henshin.editor.commands.rule.AddMappedNodeCommand;
-import org.eclipse.emf.henshin.model.Rule;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.SubContributionItem;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
-import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.internal.operations.AdvancedValidationUserApprover;
 
 /**
  * This is the action bar contributor for the Henshin model editor. <!--
