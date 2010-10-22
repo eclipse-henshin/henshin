@@ -29,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @generated NOT
  * @author Christian Krause
  */
-public class ImportPackageAction  implements IObjectActionDelegate {
+public class ImportPackageAction implements IObjectActionDelegate {
 	
 	// Action IDs:
 	public static final String FROM_WORKSPACE_ACTION_ID = "importFromWorkspace";
@@ -58,7 +58,7 @@ public class ImportPackageAction  implements IObjectActionDelegate {
 		}
 		
 		// Check if the package is set:
-		if (newPackage!=null && newPackage.getNsURI()!=null) {
+		if (newPackage != null && newPackage.getNsURI() != null) {
 			runImportCommand(newPackage);
 		}
 		
@@ -114,7 +114,6 @@ public class ImportPackageAction  implements IObjectActionDelegate {
 		
 	}
 	
-	
 	/*
 	 * Perform the import.
 	 */
@@ -122,13 +121,13 @@ public class ImportPackageAction  implements IObjectActionDelegate {
 		
 		// Check if a package with the same nsURI exists already:
 		String nsURI = epackage.getNsURI();
-		for (int i=0; i<transformationSystem.getImports().size(); i++) {
+		for (int i = 0; i < transformationSystem.getImports().size(); i++) {
 			EPackage current = transformationSystem.getImports().get(i);
 			
 			// Replace the current package if it has the same nsURI:
 			if (nsURI.equals(current.getNsURI())) {
-				if (epackage!=current) {
-					transformationSystem.getImports().set(i,epackage);
+				if (epackage != current) {
+					transformationSystem.getImports().set(i, epackage);
 					return;
 				}
 			}
@@ -141,16 +140,20 @@ public class ImportPackageAction  implements IObjectActionDelegate {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.
+	 * action.IAction, org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void setActivePart(IAction action, IWorkbenchPart part) {
 		workbenchPart = (part instanceof HenshinEditor) ? part : null;
-		action.setEnabled(workbenchPart!=null);
+		action.setEnabled(workbenchPart != null);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		transformationSystem = null;
@@ -160,7 +163,7 @@ public class ImportPackageAction  implements IObjectActionDelegate {
 				transformationSystem = (TransformationSystem) first;
 			}
 		}
-		action.setEnabled(transformationSystem!=null);
+		action.setEnabled(transformationSystem != null);
 	}
-
+	
 }

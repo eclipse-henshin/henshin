@@ -17,16 +17,17 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Henshin and Ecore icons.
+ * 
  * @author Christian Krause
  */
 public class HenshinIcons {
-
+	
 	// Ecore edit plugin id:
 	private static final String ECORE_EDIT = "org.eclipse.emf.ecore.edit";
-
+	
 	// Henshin edit plugin id:
 	private static final String HENSHIN_EDIT = "org.eclipse.emf.henshin.edit";
-
+	
 	// Ecore icons:
 	public static final Image EPACKAGE = load(ECORE_EDIT, "icons/full/obj16/EPackage.gif");
 	public static final Image ECLASS = load(ECORE_EDIT, "icons/full/obj16/EClass.gif");
@@ -42,7 +43,7 @@ public class HenshinIcons {
 	 */
 	private static Image load(String pluginId, String path) {
 		ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(pluginId, path);
-		return (descriptor!=null) ? descriptor.createImage() : null;
+		return (descriptor != null) ? descriptor.createImage() : null;
 	}
 	
 }

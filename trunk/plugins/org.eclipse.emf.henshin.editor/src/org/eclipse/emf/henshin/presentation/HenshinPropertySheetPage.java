@@ -14,17 +14,16 @@ import org.eclipse.ui.views.properties.PropertySheetSorter;
  * 
  */
 public class HenshinPropertySheetPage extends ExtendedPropertySheetPage {
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.views.properties.PropertySheetPage#createControl
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	public HenshinPropertySheetPage(AdapterFactoryEditingDomain editingDomain) {
 		super(editingDomain);
 	}
-
+	
 	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
@@ -33,10 +32,9 @@ public class HenshinPropertySheetPage extends ExtendedPropertySheetPage {
 		 * ItemProviders
 		 */
 		setSorter(new PropertySheetSorter() {
-
+			
 			/*
 			 * (non-Javadoc)
-			 * 
 			 * @see org.eclipse.ui.views.properties.PropertySheetSorter #compare
 			 * (org.eclipse.ui.views.properties.IPropertySheetEntry,
 			 * org.eclipse.ui.views.properties.IPropertySheetEntry)
@@ -45,10 +43,9 @@ public class HenshinPropertySheetPage extends ExtendedPropertySheetPage {
 			public int compare(IPropertySheetEntry entryA, IPropertySheetEntry entryB) {
 				return 0;
 			}// compare
-
+			
 			/*
 			 * (non-Javadoc)
-			 * 
 			 * @see org.eclipse.ui.views.properties.PropertySheetSorter
 			 * #compareCategories(java.lang.String, java.lang.String)
 			 */
@@ -57,7 +54,7 @@ public class HenshinPropertySheetPage extends ExtendedPropertySheetPage {
 				return 0;
 			}// compareCategories
 		});
-
+		
 	}
-
+	
 }

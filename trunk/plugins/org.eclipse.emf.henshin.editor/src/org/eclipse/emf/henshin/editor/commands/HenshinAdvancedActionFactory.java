@@ -18,38 +18,40 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 
 public class HenshinAdvancedActionFactory {
-
+	
 	protected EditingDomain editingDomain;
 	protected IEditorPart activeEditorPart;
-
+	
 	public HenshinAdvancedActionFactory(IEditorPart part) {
 		activeEditorPart = part;
 		editingDomain = ((IEditingDomainProvider) part).getEditingDomain();
 		
 	}
-
-	public Collection<IAction> generateAdvancedCreateActions(EditingDomain editingDomain, ISelection selection) {
+	
+	public Collection<IAction> generateAdvancedCreateActions(EditingDomain editingDomain,
+			ISelection selection) {
 		Collection<IAction> actions = new ArrayList<IAction>();
-
-		if (!(selection instanceof IStructuredSelection && ((IStructuredSelection) selection).size() == 1))
-			return actions;
-
+		
+		if (!(selection instanceof IStructuredSelection && ((IStructuredSelection) selection)
+				.size() == 1)) return actions;
+		
 		IStructuredSelection sselection = (IStructuredSelection) selection;
-
+		
 		Object selObject = sselection.getFirstElement();
-
+		
 		if (selObject instanceof Rule) {
 			addAdvancedRuleActions(actions, sselection, (Rule) selObject);
 		}
 		if (selObject instanceof Node) {
 			addAdvancedNodeActions(actions, sselection, (Node) selObject);
 		}
-
+		
 		return actions;
 	}
-
-	protected void addAdvancedRuleActions(Collection<IAction> actions, IStructuredSelection selection, Rule rule) {
-
+	
+	protected void addAdvancedRuleActions(Collection<IAction> actions,
+			IStructuredSelection selection, Rule rule) {
+		
 		AddMappedNodeCommand cmd = new AddMappedNodeCommand();
 		cmd.setRule(rule);
 		StaticSelectionCommandAction action = wrapCommand("Create Mapped Node", cmd);
@@ -57,9 +59,9 @@ public class HenshinAdvancedActionFactory {
 		actions.add(action);
 	}
 	
-
-	protected void addAdvancedNodeActions(Collection<IAction> actions, IStructuredSelection selection, Node node) {
-
+	protected void addAdvancedNodeActions(Collection<IAction> actions,
+			IStructuredSelection selection, Node node) {
+		
 		RemoveImageNodeCommand removeImageCmd = new RemoveImageNodeCommand();
 		removeImageCmd.setNode(node);
 		StaticSelectionCommandAction action = wrapCommand("Remove Image Node", removeImageCmd);
@@ -70,29 +72,30 @@ public class HenshinAdvancedActionFactory {
 		removeOriginCmd.setNode(node);
 		action = wrapCommand("Remove Origin Node", removeOriginCmd);
 		action.configureAction(selection);
-		actions.add(action);		
+		actions.add(action);
 		
 	}
-
+	
 	protected StaticSelectionCommandAction wrapCommand(final String label, final Command cmd) {
 		StaticSelectionCommandAction action = new StaticSelectionCommandAction(editingDomain) {
-
+			
 			@Override
 			public String getText() {
 				return label;
 			}
-
+			
 			@Override
 			public void run() {
 				super.run();
 			}
-
+			
 			@Override
-			protected Command createActionCommand(EditingDomain editingDomain, final Collection<?> collection) {
+			protected Command createActionCommand(EditingDomain editingDomain,
+					final Collection<?> collection) {
 				return cmd;
 			}
 		};
 		return action;
 	}
-
+	
 }

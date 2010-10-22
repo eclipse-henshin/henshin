@@ -51,28 +51,32 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  * @generated NOT
  * @author Christian Krause
  */
-public class EcoreSelectionDialogUtil  {
-
+public class EcoreSelectionDialogUtil {
+	
 	/**
 	 * Open a dialog for loading a package from an Ecore file.
-	 * @param shell Shell to be used.
-	 * @param resourceSet Resource set.
+	 * 
+	 * @param shell
+	 *            Shell to be used.
+	 * @param resourceSet
+	 *            Resource set.
 	 * @return The loaded package or <code>null</code>.
 	 */
 	public static EPackage selectEcoreFilePackage(Shell shell, ResourceSet resourceSet) {
 		
 		// Create the dialog:
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new EcoreLabelProvider(), new EcoreContentProvider(resourceSet));
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell,
+				new EcoreLabelProvider(), new EcoreContentProvider(resourceSet));
 		dialog.setTitle("Select EPackage");
 		dialog.setMessage("Please select the EPackage to import:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.addFilter(new EcoreViewFilter());		
+		dialog.addFilter(new EcoreViewFilter());
 		dialog.setValidator(new EcoreSelectionValidator());
 		dialog.setAllowMultiple(false);
 		dialog.open();
 		
 		final Object[] result = dialog.getResult();
-		if (result!=null && result.length>0) {
+		if (result != null && result.length > 0) {
 			if (result[0] instanceof EPackage) {
 				return (EPackage) result[0];
 			}
@@ -83,8 +87,11 @@ public class EcoreSelectionDialogUtil  {
 	
 	/**
 	 * Open a dialog that lets the user choose a registered package.
-	 * @param shell Shell to be used.
-	 * @param resourceSet Resource set.
+	 * 
+	 * @param shell
+	 *            Shell to be used.
+	 * @param resourceSet
+	 *            Resource set.
 	 * @return The selected package.
 	 */
 	public static EPackage selectRegisteredPackage(Shell shell, ResourceSet resourceSet) {
@@ -99,8 +106,9 @@ public class EcoreSelectionDialogUtil  {
 			List<?> nsURIs = Arrays.asList(result);
 			
 			if (dialog.isDevelopmentTimeVersion()) {
-				resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-				Map<String,URI> locationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+				resourceSet.getURIConverter().getURIMap()
+						.putAll(EcorePlugin.computePlatformURIMap());
+				Map<String, URI> locationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
 				if (result.length > 0) {
 					URI location = locationMap.get(result[0]);
 					Resource resource = resourceSet.getResource(location, true);
@@ -116,7 +124,7 @@ public class EcoreSelectionDialogUtil  {
 				}
 			} else {
 				if (result.length > 0) {
-					String uri = result[0].toString();		
+					String uri = result[0].toString();
 					return EPackage.Registry.INSTANCE.getEPackage(uri);
 				}
 			}
@@ -125,7 +133,7 @@ public class EcoreSelectionDialogUtil  {
 		return epackage;
 		
 	}
-
+	
 	/*
 	 * Find all packages in a resource.
 	 */
@@ -137,12 +145,13 @@ public class EcoreSelectionDialogUtil  {
 		// Create a tree editor for packages:
 		TreeIterator<?> iterator = new EcoreUtil.ContentTreeIterator<Object>(resource.getContents()) {
 			private static final long serialVersionUID = 1L;
+			
 			@Override
 			protected Iterator<? extends EObject> getEObjectChildren(EObject eObject) {
 				if (eObject instanceof EPackage) {
 					return ((EPackage) eObject).getESubpackages().iterator();
 				} else {
-					return Collections.<EObject> emptyList().iterator();					
+					return Collections.<EObject> emptyList().iterator();
 				}
 			}
 		};
@@ -170,7 +179,7 @@ public class EcoreSelectionDialogUtil  {
 				Object adaptedResource = adapter.getAdapter(IResource.class);
 				if (adaptedResource != null) {
 					IResource res = (IResource) adaptedResource;
-					if ("ecore".equals(res.getFileExtension()) || IResource.FILE!=res.getType()) {
+					if ("ecore".equals(res.getFileExtension()) || IResource.FILE != res.getType()) {
 						return true;
 					}
 				}
@@ -185,9 +194,10 @@ public class EcoreSelectionDialogUtil  {
 	 */
 	static class EcoreLabelProvider extends LabelProvider implements ILabelProvider {
 		
-		/* 
+		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
+		 * @see
+		 * org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object element) {
@@ -204,9 +214,11 @@ public class EcoreSelectionDialogUtil  {
 			}
 			return null;
 		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+		
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {
@@ -219,7 +231,7 @@ public class EcoreSelectionDialogUtil  {
 				}
 			}
 			if (element instanceof ENamedElement) {
-				final ENamedElement namedElem = (ENamedElement)element;
+				final ENamedElement namedElem = (ENamedElement) element;
 				return namedElem.getName();
 			}
 			return element.toString();
@@ -241,10 +253,12 @@ public class EcoreSelectionDialogUtil  {
 		public EcoreContentProvider(ResourceSet resourceSet) {
 			this.resourceSet = resourceSet;
 		}
-
-		/* 
+		
+		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.ui.model.BaseWorkbenchContentProvider#getChildren(java.lang.Object)
+		 * @see
+		 * org.eclipse.ui.model.BaseWorkbenchContentProvider#getChildren(java
+		 * .lang.Object)
 		 */
 		@Override
 		public Object[] getChildren(Object element) {
@@ -254,7 +268,10 @@ public class EcoreSelectionDialogUtil  {
 				if (adaptedResource != null) {
 					final IResource res = (IResource) adaptedResource;
 					if ("ecore".equals(res.getFileExtension())) {
-						return resourceSet.getResource(URI.createPlatformResourceURI(res.getFullPath().toString(), true), true).getContents().toArray();
+						return resourceSet
+								.getResource(
+										URI.createPlatformResourceURI(res.getFullPath().toString(),
+												true), true).getContents().toArray();
 					}
 				}
 			}
@@ -273,7 +290,9 @@ public class EcoreSelectionDialogUtil  {
 		
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang.Object[])
+		 * @see
+		 * org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang
+		 * .Object[])
 		 */
 		public IStatus validate(Object[] selection) {
 			if (selection.length > 0) {
