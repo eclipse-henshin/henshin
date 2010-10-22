@@ -21,12 +21,12 @@ public final class ValidationResult {
 	/**
 	 * Static validation result for successful validations without messages.
 	 */
-	public static final ValidationResult VALID = new ValidationResult(true,null);
+	public static final ValidationResult VALID = new ValidationResult(true);
 
 	/**
 	 * Static validation result for invalid properties, without extra message or data.
 	 */
-	public static final ValidationResult INVALID = new ValidationResult(false,null);
+	public static final ValidationResult INVALID = new ValidationResult(false);
 	
 	// Valid-flag.
 	private boolean valid;

@@ -202,7 +202,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validationText = StateSpaceToolsMenuFactory.newMultiText(validation, 2, 80);
 		validatorCombo = new Combo(validation, SWT.BORDER);
 		validatorCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		validateButton = StateSpaceToolsMenuFactory.newButton(validation, "Validate");
+		validateButton = StateSpaceToolsMenuFactory.newButton(validation, "Run");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, validation, "Validation", 3);
 
 		initControlsData();

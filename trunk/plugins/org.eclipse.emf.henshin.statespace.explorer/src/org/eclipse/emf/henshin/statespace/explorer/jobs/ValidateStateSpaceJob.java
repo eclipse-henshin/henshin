@@ -58,7 +58,8 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 			validator.setProperty(property);
 			result = validator.validate(getStateSpaceManager().getStateSpace(), monitor);
 		} catch (Exception e) {
-			return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, 0, "Error validating property", e);
+			String message = e.getMessage()!=null ? e.getMessage() : "Error validating property";
+			return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, 0, message, e);
 		}
 		return Status.OK_STATUS;
 	}

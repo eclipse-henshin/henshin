@@ -26,6 +26,10 @@
             class="org.eclipse.emf.henshin.statespace.prism.PRISMStateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.prism">
       </validator>
+      <validator
+            class="org.eclipse.emf.henshin.statespace.prism.PRISMSteadyStateTool"
+            id="org.eclipse.emf.henshin.statespace.validator.prism.steadystate">
+      </validator>
    </extension>
 
 </plugin>
