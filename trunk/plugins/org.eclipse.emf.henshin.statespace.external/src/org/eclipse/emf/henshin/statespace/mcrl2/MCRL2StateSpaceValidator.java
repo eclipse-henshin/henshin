@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.cadp;
+package org.eclipse.emf.henshin.statespace.mcrl2;
 
 import java.io.BufferedReader;
 import java.io.File;

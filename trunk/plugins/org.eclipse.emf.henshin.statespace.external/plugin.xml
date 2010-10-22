@@ -19,8 +19,12 @@
             id="org.eclipse.emf.henshin.statespace.validator.cadp">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.cadp.MCRL2StateSpaceValidator"
+            class="org.eclipse.emf.henshin.statespace.mcrl2.MCRL2StateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.mcrl2">
+      </validator>
+      <validator
+            class="org.eclipse.emf.henshin.statespace.prism.PRISMStateSpaceValidator"
+            id="org.eclipse.emf.henshin.statespace.validator.prism">
       </validator>
    </extension>
 
