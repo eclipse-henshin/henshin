@@ -44,7 +44,8 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Process process = Runtime.getRuntime().exec(
-				new String[] { "prism", "-steadystate", "-fixdl", smFile.getAbsolutePath()});
+				new String[] { "prism", smFile.getAbsolutePath(),
+							   "-steadystate", "-gaussseidel", "-fixdl"});
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

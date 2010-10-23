@@ -44,7 +44,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		Process process = Runtime.getRuntime().exec(
 				new String[] { "prism",
 						smFile.getAbsolutePath(),
-						cslFile.getAbsolutePath(), "-fixdl" });
+						cslFile.getAbsolutePath(), "-fixdl", "-gaussseidel" });
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
