@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace.external;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
+import org.eclipse.emf.henshin.statespace.validation.AbstractStateSpaceValidator;
 
 /**
  * Abstract state space validator implementation that is based

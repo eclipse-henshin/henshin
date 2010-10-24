@@ -9,24 +9,21 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.prism;
+package org.eclipse.emf.henshin.statespace.external.prism;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
- * PRISM steady-state tool.
+ * PRISM state space validator.
  * @author Christian Krause
  */
-public class PRISMSteadyStateTool extends AbstractPRISMTool {
+public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 	
 	/*
 	 * (non-Javadoc)
@@ -35,44 +32,31 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 	@Override
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
-		monitor.beginTask("Computing steady-state probabilities...", 2);
+		monitor.beginTask("Validating CSL property...", 2);
 		
-		// Generate the SM file.
+		// Generate the SM file and the CSL file.
 		File smFile = generatePRISMFile(stateSpace);
+		File cslFile = createTempFile("property", ".csl", property);
 		monitor.worked(1);
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Process process = Runtime.getRuntime().exec(
-				new String[] { "prism", smFile.getAbsolutePath(),
-							   "-steadystate", "-gaussseidel", "-fixdl"});
+				new String[] { "prism",
+						smFile.getAbsolutePath(),
+						cslFile.getAbsolutePath(), "-fixdl", "-gaussseidel" });
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		List<Integer> states = new ArrayList<Integer>();
-		List<Double> probabilities = new ArrayList<Double>();
 		
-		String line, time = null;
-		boolean parseProbabilities = false;
-		MessageFormat format = new MessageFormat("{0,number,integer}:({1,number,integer})={2,number}");
+		String line;
+		StringBuffer result = new StringBuffer();
 		while ((line = reader.readLine())!=null) {
 			line = line.trim();
 			System.out.println(line);
+			result.append(line+"\n");
 			if (line.length()==0) {
-				parseProbabilities = false;
 				continue;
-			}
-			if (parseProbabilities) {
-				Object[] parsed = format.parse(line);
-				states.add(((Long)parsed[0]).intValue()); 
-				probabilities.add(((Double)parsed[2]).doubleValue()); 
-			} else {
-				if (line.startsWith("Probabilities:")) {
-					parseProbabilities = true;
-				} else
-				if (line.startsWith("Time")) {
-					time = line;
-				}
 			}
 			if (monitor.isCanceled()) {
 				process.destroy();
@@ -80,13 +64,6 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 			}
 		}
 		monitor.worked(1);
-		
-		// Pretty-print the results.
-		StringBuffer result = new StringBuffer("Computed steady-state probabilities:\n\n");
-		for (int i=0; i<states.size(); i++) {
-			result.append("   State " + states.get(i) + ":\t" + probabilities.get(i) + "\n");
-		}
-		if (time!=null) result.append("\n" + time);
 		return new ValidationResult(true, result.toString());
 		
 	}	
@@ -97,7 +74,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM (steady-states)";
+		return "PRISM";
 	}
-		
+	
 }

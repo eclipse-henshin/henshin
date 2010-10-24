@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.prism;
+package org.eclipse.emf.henshin.statespace.external.prism;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.validation.AbstractFileBasedValidator;
+import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 
 /**
  * Abstract PRISM tool wrapper.

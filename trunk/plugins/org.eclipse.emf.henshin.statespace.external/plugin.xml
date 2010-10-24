@@ -15,19 +15,19 @@
    <extension
          point="org.eclipse.emf.henshin.statespace.validators">
       <validator
-            class="org.eclipse.emf.henshin.statespace.cadp.CADPStateSpaceValidator"
+            class="org.eclipse.emf.henshin.statespace.external.cadp.CADPStateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.cadp">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.mcrl2.MCRL2StateSpaceValidator"
+            class="org.eclipse.emf.henshin.statespace.external.mcrl2.MCRL2StateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.mcrl2">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.prism.PRISMStateSpaceValidator"
+            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMStateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.prism">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.prism.PRISMSteadyStateTool"
+            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMSteadyStateTool"
             id="org.eclipse.emf.henshin.statespace.validator.prism.steadystate">
       </validator>
    </extension>

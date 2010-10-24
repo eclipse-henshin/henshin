@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.cadp;
+package org.eclipse.emf.henshin.statespace.external.cadp;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,8 +22,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
-import org.eclipse.emf.henshin.statespace.validation.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
