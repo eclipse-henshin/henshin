@@ -331,6 +331,18 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		return transition;
 	}
 	
+	/**
+	 * Find an outgoing transition.
+	 */
+	protected static Transition findTransition(State source, State target, Rule rule) {
+		for (Transition transition : source.getOutgoing()) {
+			if (rule==transition.getRule() && target==transition.getTarget()) {
+				return transition;
+			}
+		}
+		return null;
+	}
+	
 	/*
 	 * Check if the state space is tainted.
 	 */

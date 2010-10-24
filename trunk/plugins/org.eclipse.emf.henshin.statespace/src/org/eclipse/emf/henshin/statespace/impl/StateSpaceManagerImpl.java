@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateModelCache;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -240,23 +241,49 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			boolean newState = false;
 			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
 			
-			// We need to test whether a state exists already and if not create a new one. And this atomically.
+			// We need to test whether a state exists already 
+			// and if not create a new one. And this atomically.
+			
+			// For performance we use a monitor to detect concurrently made changes.
+			StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
+			monitor.setActive(true);
+			
+			// Now we need to lock the state space!
 			synchronized (stateLock) {
-				target = getState(transformed, hashCode);
+
+				// Try to find the state. This can take some time.
+				target = getState(transformed, hashCode);	// THIS SHOULD BE BEFORE THE LOCK
+				
+				// Deactivate the monitor.
+				monitor.setActive(false);
+				
+				if (target!=null) {
+					// Check if the found state has been removed in the meantime.
+					if (monitor.getRemovedStates().contains(target)) {
+						target = null;
+					}
+				} else {
+					// Check if an equivalent state has been added in the meantime.
+					State found = findState(transformed, hashCode, monitor.getAddedStates());
+					if (found!=null) System.out.println("found");
+					target = found;
+				}
+				
+				// Ok, now we can create a new state if necessary.
 				if (target==null) {
 					target = createOpenState(transformed, hashCode, location);
 					newState = true;
 				}
+				
+				// Find or create the transition.
+				Transition transition = findTransition(state, target, current.getRule());
+				if (transition==null) {
+					transition = createTransition(state, target, current.getRule(), current.getMatch());
+					result.add(transition);
+				}
+				
 			}
 					
-			// Find or create the transition. We assume that we are the only one who is currently
-			// exploring this state. Therefore we don't need a lock here.
-			Transition transition = findTransition(state, target, current.getRule());
-			if (transition==null) {
-				transition = createTransition(state, target, current.getRule(), current.getMatch());
-				result.add(transition);
-			}
-			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
 				storeModel(target, transformed);
@@ -330,12 +357,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
-	 * Find an outgoing transition.
+	 * Helper method for finding a state in a list.
 	 */
-	private Transition findTransition(State source, State target, Rule rule) {
-		for (Transition transition : source.getOutgoing()) {
-			if (rule==transition.getRule() && target==transition.getTarget()) {
-				return transition;
+	private State findState(Resource model, int hashCode, List<State> states) throws StateSpaceException {
+		for (State state : states) {
+			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
+				return state;
 			}
 		}
 		return null;
