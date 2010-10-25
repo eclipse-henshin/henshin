@@ -180,6 +180,20 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		super.notifyChanged(notification);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
+	 * .lang.Object)
+	 */
+	@Override
+	protected boolean isWrappingNeeded(Object object) {
+		if (object instanceof TransformationUnit)
+			return Boolean.TRUE;
+		else
+			return Boolean.FALSE;
+	}	
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
