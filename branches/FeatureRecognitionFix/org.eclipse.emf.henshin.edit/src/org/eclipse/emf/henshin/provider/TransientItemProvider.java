@@ -19,6 +19,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
  * This class represents so-called <i>non-model intermediary view objects</i>
@@ -27,7 +28,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
  * @author sjurack (Stefan Jurack)
  * 
  */
-public class TransientItemProvider extends ItemProviderAdapter2 implements
+public class TransientItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	
