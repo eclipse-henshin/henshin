@@ -55,7 +55,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
 	// A lock used when exploring states:
-	private final Object stateLock = new Object();
+	private final Object explorerLock = new Object();
 	
 	/**
 	 * Default constructor.
@@ -249,7 +249,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			monitor.setActive(true);
 			
 			// Now we need to lock the state space!
-			synchronized (stateLock) {
+			synchronized (explorerLock) {
 
 				// Try to find the state. This can take some time.
 				target = getState(transformed, hashCode);	// THIS SHOULD BE BEFORE THE LOCK
@@ -264,9 +264,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					}
 				} else {
 					// Check if an equivalent state has been added in the meantime.
-					State found = findState(transformed, hashCode, monitor.getAddedStates());
-					if (found!=null) System.out.println("found");
-					target = found;
+					target = findState(transformed, hashCode, monitor.getAddedStates());
 				}
 				
 				// Ok, now we can create a new state if necessary.
@@ -282,8 +280,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					result.add(transition);
 				}
 				
-			}
-					
+			} // END OF EXPLORER LOCK
+			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
 				storeModel(target, transformed);
@@ -361,6 +359,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private State findState(Resource model, int hashCode, List<State> states) throws StateSpaceException {
 		for (State state : states) {
+			//if (state.getHashCode()==0 || getModel(state)==null) {	// SANITY CHECK
+			//	throw new StateSpaceException("Ilegal state");
+			//}
 			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
 				return state;
 			}
