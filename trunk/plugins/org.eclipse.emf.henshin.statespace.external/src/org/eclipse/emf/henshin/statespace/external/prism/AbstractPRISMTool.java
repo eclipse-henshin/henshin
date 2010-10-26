@@ -71,7 +71,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		
 		// Create the command.
 		List<String> command = new ArrayList<String>();
-		command.add(prism);
+		command.add(path!=null ? new File(path+File.separator+prism).getAbsolutePath() : prism);
 		command.add(smFile.getAbsolutePath());
 		if (formulaFile!=null) {
 			command.add(formulaFile.getAbsolutePath());
@@ -88,6 +88,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		}
 		
 		// Now we can invoke the PRISM tool:
+		System.out.println(command);
 		return Runtime.getRuntime().exec(
 				command.toArray(new String[] {}), 
 				null, 
@@ -163,7 +164,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		}
 		
 		// PRISM path and arguments
-		if (Platform.getOS()==Platform.OS_WIN32) {
+		if (isWindows()) {
 			properties.setProperty(PRISM_PATH_KEY, "C:\\prism");
 		}
 		properties.setProperty(PRISM_ARGS_KEY, "-fixdl -gaussseidel");
@@ -214,8 +215,15 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	/*
 	 * Get the name of the PRISM executable.
 	 */
-	protected String getPRISMExecutable() {
-		return Platform.getOS()==Platform.OS_WIN32 ? "prism.bat" : "prism";
+	protected static String getPRISMExecutable() {
+		return isWindows() ? "prism.bat" : "prism";
+	}
+	
+	/*
+	 * Check whether the OS is Windows.
+	 */
+	private static boolean isWindows() {
+		return Platform.getOS()==Platform.OS_WIN32 || "win64".equalsIgnoreCase(Platform.getOS());
 	}
 	
 	/*
