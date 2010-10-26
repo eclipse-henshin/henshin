@@ -12,17 +12,15 @@
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.henshin.commands.DragAndDropWithFeatureCommand;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -147,14 +145,9 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		
-		Object o = ((List) collection).get(0);
-		if (new SetCommand(domain, (EObject) owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, o).canExecute()) {
-			return super.createDragAndDropCommand(domain, owner, location, operations, operation,
-					collection);
-		}// if
-		return UnexecutableCommand.INSTANCE;
-		
+		return new DragAndDropWithFeatureCommand(domain, owner,
+				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, location, operations,
+				operation, collection);
 	}// createDragAndDropCommand
 	
 	/*

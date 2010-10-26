@@ -4,12 +4,18 @@
 package org.eclipse.emf.henshin.provider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider;
+import org.eclipse.emf.henshin.commands.DragAndDropWithFeatureCommand;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
  * This class wraps TransformationUnits representing tree-editor items which are
@@ -48,5 +54,41 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		image = new ComposedImage(images);
 		return image;
 	}// getImage
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.WrapperItemProvider#createDragAndDropCommand
+	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
+	 * int, java.util.Collection)
+	 */
+	@Override
+	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
+			int operations, int operation, Collection<?> collection) {
+		
+		System.out.println("owner : " + owner);
+		System.out.println("collection: " + collection);
+		System.out.println("location/ops/op: " + location + "/" + operations + "/" + operation);
+		
+		return new DragAndDropWithFeatureCommand(domain, owner, (EReference) this.feature, location,
+				operations, operation, collection);
+		
+//		return super.createDragAndDropCommand(domain, owner, location, operations, operation,
+//				collection);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append(" (Value:" + this.value + ")");
+		sb.append(" (Owner:" + this.owner + ")");
+		sb.append(" (Feature:" + this.feature + ")");
+		sb.append(" (Index:" + this.index + ")");
+		return sb.toString();
+	}// toString
 	
 }// class
