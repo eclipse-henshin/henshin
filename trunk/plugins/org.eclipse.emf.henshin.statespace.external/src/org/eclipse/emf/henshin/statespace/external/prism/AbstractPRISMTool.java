@@ -223,7 +223,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	 * Check whether the OS is Windows.
 	 */
 	private static boolean isWindows() {
-		return Platform.getOS()==Platform.OS_WIN32 || "win64".equalsIgnoreCase(Platform.getOS());
+		return Platform.OS_WIN32.equals(Platform.getOS());
 	}
 	
 	/*
