@@ -107,6 +107,17 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	/*
 	 * (non-Javadoc)
 	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
+	 * .lang.Object)
+	 */
+	@Override
+	protected boolean isWrappingNeeded(Object object) {
+		return Boolean.TRUE;
+	}// isWrappingNeeded
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
 	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
 	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
 	 * java.lang.Object, int)
@@ -114,19 +125,10 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
-		return super.createWrapper(object, feature, value, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
-	 * .lang.Object)
-	 */
-	@Override
-	protected boolean isWrappingNeeded(Object object) {
-		return Boolean.TRUE;
-	}
+		
+		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+				adapterFactory);
+	}// createWrapper
 	
 	/*
 	 * (non-Javadoc)

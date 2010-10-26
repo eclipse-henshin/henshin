@@ -16,9 +16,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -28,9 +28,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -188,11 +188,33 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
-		if (object instanceof TransformationUnit)
+		if (object instanceof TransformationUnit && !(object instanceof Rule))
 			return Boolean.TRUE;
 		else
 			return Boolean.FALSE;
-	}	
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
+	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
+	 * java.lang.Object, int)
+	 */
+	@Override
+	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
+			int index) {
+		
+		if (!isWrappingNeeded(object)) return value;
+		
+		if (!((EReference) feature).isContainment()) {
+			value = new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+					adapterFactory);
+		} else
+			value = super.createWrapper(object, feature, value, index);
+		
+		return value;
+	}// createWrapper
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s

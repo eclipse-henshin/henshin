@@ -237,12 +237,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			children = l;
 		}
 		
-		if (au.getMultiRules().size() > 0) children.removeAll(au.getMultiRules());
-		if (au.getKernelRule() != null) children.remove(au.getKernelRule());
-		if (au.getLhsMappings().size() > 0) children.removeAll(au.getLhsMappings());
-		if (au.getRhsMappings().size() > 0) children.removeAll(au.getRhsMappings());
 		return children;
-		
 	}// getChildren
 	
 	/*
@@ -254,8 +249,8 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
-			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
+			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
+			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES);
 			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS);
 			// childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS);
 		}

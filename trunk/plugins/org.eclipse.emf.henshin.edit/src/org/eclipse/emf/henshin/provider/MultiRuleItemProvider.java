@@ -99,7 +99,22 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
 		return Boolean.TRUE;
-	}
+	}// isWrappingNeeded
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
+	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
+	 * java.lang.Object, int)
+	 */
+	@Override
+	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
+			int index) {
+		
+		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+				adapterFactory);
+	}// createWrapper
 	
 	/*
 	 * (non-Javadoc)
