@@ -30,16 +30,16 @@ import org.eclipse.emf.henshin.model.Rule;
 public class RuleApplication {
 	private InterpreterEngine interpreterEngine;
 	private Rule rule;
-
+	
 	private Match match;
 	private Match comatch;
-
+	
 	private ModelChange modelChange;
-
+	
 	// flags for execution status of the rule
 	private boolean isExecuted = false;
 	private boolean isUndone = false;
-
+	
 	/**
 	 * Creates a new RuleApplication.
 	 * 
@@ -50,19 +50,16 @@ public class RuleApplication {
 	 *            A Henshin rule. Must not be <code>null</code>
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
-		if (engine == null)
-			throw new NullPointerException("engine can not be null");
+		if (engine == null) throw new NullPointerException("engine can not be null");
 		
-		if (rule == null)
-			throw new NullPointerException("rule can not be null");
-
+		if (rule == null) throw new NullPointerException("rule can not be null");
+		
 		this.rule = rule;
 		this.interpreterEngine = engine;
-
-		this.match = new Match(rule, new HashMap<Parameter, Object>(),
-				new HashMap<Node, EObject>());
+		
+		this.match = new Match(rule, new HashMap<Parameter, Object>(), new HashMap<Node, EObject>());
 	}
-
+	
 	/**
 	 * Returns a single match for this rule.
 	 * 
@@ -71,7 +68,7 @@ public class RuleApplication {
 	public Match findMatch() {
 		return interpreterEngine.findMatch(this);
 	}
-
+	
 	/**
 	 * Returns all possible matches for this rule.
 	 * 
@@ -80,7 +77,7 @@ public class RuleApplication {
 	public List<Match> findAllMatches() {
 		return interpreterEngine.findAllMatches(this);
 	}
-
+	
 	/**
 	 * Executes this rule. First a match must be found and checked if the rule
 	 * can applied to it.
@@ -88,25 +85,25 @@ public class RuleApplication {
 	public boolean apply() {
 		if (!isExecuted) {
 			comatch = interpreterEngine.applyRule(this);
-
+			
 			isExecuted = (comatch != null);
 			return isExecuted;
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Restores instance before rule application.
 	 */
 	public void undo() {
 		if (isExecuted && !isUndone) {
 			interpreterEngine.undoChanges(this);
-
+			
 			isUndone = true;
 		}
 	}
-
+	
 	/**
 	 * Reapplies rule after its application was undone.
 	 */
@@ -115,7 +112,7 @@ public class RuleApplication {
 			interpreterEngine.redoChanges(this);
 		}
 	}
-
+	
 	/**
 	 * Gives the rule descriuption read from the model rule.
 	 * 
@@ -124,7 +121,7 @@ public class RuleApplication {
 	public String getDescription() {
 		return rule.getDescription();
 	}
-
+	
 	/**
 	 * Adds a value for an input parameter or input object to the current rule.
 	 * 
@@ -135,15 +132,14 @@ public class RuleApplication {
 	 */
 	public void setParameterValue(String name, Object value) {
 		Parameter parameter = rule.getParameterByName(name);
-		if (parameter != null)
-			match.getParameterValues().put(parameter, value);
+		if (parameter != null) match.getParameterValues().put(parameter, value);
 	}
-
+	
 	public void setParameterValues(Map<Parameter, Object> assignments) {
 		match.getParameterValues().clear();
 		match.getParameterValues().putAll(assignments);
 	}
-
+	
 	/**
 	 * Sets a partial or complete match for the current rule. This match will be
 	 * part of all completions.
@@ -153,7 +149,7 @@ public class RuleApplication {
 	public void setMatch(Match match) {
 		this.match = match;
 	}
-
+	
 	/**
 	 * Adds a single object mapping the rule.
 	 * 
@@ -165,42 +161,55 @@ public class RuleApplication {
 	public void addMatch(Node node, EObject value) {
 		match.getNodeMapping().put(node, value);
 	}
-
+	
 	/**
 	 * @return the match
 	 */
 	public Match getMatch() {
 		return match;
 	}
-
+	
 	/**
 	 * @return the comatch
 	 */
 	public Match getComatch() {
 		return comatch;
 	}
-
+	
 	public void setComatch(Match comatch) {
 		this.comatch = comatch;
 	}
-
+	
 	public ModelChange getModelChange() {
 		return modelChange;
 	}
-
+	
 	public void setModelChange(ModelChange modelChange) {
 		this.modelChange = modelChange;
 	}
-
+	
 	@Override
 	public String toString() {
 		return rule.getName();
 	}
-
+	
 	/**
 	 * @return the rule
 	 */
 	public Rule getRule() {
 		return rule;
 	}
+	
+	/**
+	 * Returns the {@link InterpreterEngine} of this {@link RuleApplication}.<br>
+	 * <br>
+	 * <strong>Remark</strong>: Note, that any modification on the engine may
+	 * lead to unpredictable side effects.
+	 * 
+	 * @return the interpreterEngine
+	 */
+	public InterpreterEngine getInterpreterEngine() {
+		return interpreterEngine;
+	}// getInterpreterEngine
+	
 }

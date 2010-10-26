@@ -379,4 +379,17 @@ public class UnitApplication {
 	public Stack<RuleApplication> getAppliedRules() {
 		return appliedRules;
 	}
+
+	/**
+	 * Returns the {@link InterpreterEngine} of this {@link RuleApplication}.<br>
+	 * <br>
+	 * <strong>Remark</strong>: Note, that any modification on the engine may
+	 * lead to unpredictable side effects.
+	 * 
+	 * @return the interpreterEngine
+	 */
+	public InterpreterEngine getInterpreterEngine() {
+		return engine;
+	}// getInterpreterEngine
+	
 }
