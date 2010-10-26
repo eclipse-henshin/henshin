@@ -225,11 +225,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// For testing only:
 		// performExplorationSanityCheck(state);
 		
-		// Explore the state without changing the state space:
+		// Explore the state without changing the state space.
+		// This can take some time. So no lock here.
 		List<Transition> transitions = doExplore(state);
 		
+		// Initialize the result.
 		int newStates = 0;
 		List<Transition> result = new ArrayList<Transition>(transitions.size());
+				
+		// No check which states / transitions need to be added.
 		for (Transition current : transitions) {
 			
 			// Get the hash and model of the new target state:
@@ -241,27 +245,24 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			boolean newState = false;
 			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
 			
-			// We need to test whether a state exists already 
-			// and if not create a new one. And this atomically.
-			
 			// For performance we use a monitor to detect concurrently made changes.
 			StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
 			
 			// START OF EXPLORER LOCK
 			synchronized (explorerLock) {
-				monitor.setActive(true);
+				monitor.setActive(true);	// Activate the monitor.
 			}
 			// END OF EXPLORER LOCK
 
-			// Try to find the state. This can take some time. Hence no lock here.
+			// Try to find an equivalent state. This can take some time. Hence no lock here.
 			target = getState(transformed, hashCode);
 			
 			// START OF EXPLORER LOCK
 			synchronized (explorerLock) {
-
-				// Deactivate the monitor again.
-				monitor.setActive(false);
 				
+				// Deactivate the monitor so that it can be garbage collected.
+				monitor.setActive(false);
+
 				if (target!=null) {
 					// Check if the found state has been removed in the meantime.
 					if (monitor.getRemovedStates().contains(target)) {
@@ -278,15 +279,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					newState = true;
 				}
 				
-				// Find or create the transition.
-				Transition transition = findTransition(state, target, current.getRule());
-				if (transition==null) {
-					transition = createTransition(state, target, current.getRule(), current.getMatch());
-					result.add(transition);
-				}
-				
 			}
 			// END OF EXPLORER LOCK
+
+			// Find or create the transition.
+			Transition transition = findTransition(state, target, current.getRule());
+			if (transition==null) {
+				transition = createTransition(state, target, current.getRule(), current.getMatch());
+				result.add(transition);
+			}
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
@@ -297,7 +298,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Mark the state as closed:
 		setOpen(state, false);
-		
+				
 		// Done: return the new transitions.
 		return result;
 		

@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -33,10 +33,10 @@ public class StateSpaceMonitor {
 	private final StateSpace stateSpace;
 	
 	// List of states that have been added since the activation.
-	private List<State> addedStates = new Vector<State>();	// synchronized list!
+	private List<State> addedStates = new ArrayList<State>();
 
 	// List of states that have been removed since the activation.
-	private List<State> removedStates = new Vector<State>(); // synchronized list!
+	private List<State> removedStates = new ArrayList<State>();
 	
 	/**
 	 * Default constructor. This does not activate the monitor.
@@ -51,12 +51,10 @@ public class StateSpaceMonitor {
 	 * @param active Active flag.
 	 */
 	public void setActive(boolean active) {
-		synchronized (stateSpace) {
-			if (active && !stateSpace.eAdapters().contains(adapter)) {
-				stateSpace.eAdapters().add(adapter);
-			} else if (!active) {
-				stateSpace.eAdapters().remove(adapter);
-			}
+		if (active && !stateSpace.eAdapters().contains(adapter)) {
+			stateSpace.eAdapters().add(adapter);
+		} else if (!active) {
+			stateSpace.eAdapters().remove(adapter);
 		}
 	}
 	
