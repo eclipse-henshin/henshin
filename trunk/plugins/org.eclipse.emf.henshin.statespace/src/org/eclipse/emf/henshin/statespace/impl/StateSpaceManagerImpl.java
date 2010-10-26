@@ -246,15 +246,20 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// For performance we use a monitor to detect concurrently made changes.
 			StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
-			monitor.setActive(true);
 			
-			// Now we need to lock the state space!
+			// START OF EXPLORER LOCK
+			synchronized (explorerLock) {
+				monitor.setActive(true);
+			}
+			// END OF EXPLORER LOCK
+
+			// Try to find the state. This can take some time. Hence no lock here.
+			target = getState(transformed, hashCode);
+			
+			// START OF EXPLORER LOCK
 			synchronized (explorerLock) {
 
-				// Try to find the state. This can take some time.
-				target = getState(transformed, hashCode);	// THIS SHOULD BE BEFORE THE LOCK
-				
-				// Deactivate the monitor.
+				// Deactivate the monitor again.
 				monitor.setActive(false);
 				
 				if (target!=null) {
@@ -280,7 +285,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					result.add(transition);
 				}
 				
-			} // END OF EXPLORER LOCK
+			}
+			// END OF EXPLORER LOCK
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
@@ -359,9 +365,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private State findState(Resource model, int hashCode, List<State> states) throws StateSpaceException {
 		for (State state : states) {
-			//if (state.getHashCode()==0 || getModel(state)==null) {	// SANITY CHECK
-			//	throw new StateSpaceException("Ilegal state");
-			//}
 			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
 				return state;
 			}
