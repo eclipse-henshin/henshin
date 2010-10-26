@@ -320,7 +320,14 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	@Override
 	public Command createCommand(Object object, EditingDomain domain,
 			Class<? extends Command> commandClass, CommandParameter commandParameter) {
-		
+		/*
+		 * In case of wrappers and transient items, by default the commands are
+		 * not always created adequately, i.e. the feature information of the
+		 * transient items contained in the wrappers are often thrown away. This
+		 * is fixed by the following code: The commands and especially command
+		 * parameters are build up from scratch taking given information about
+		 * owner, value and features into account.
+		 */
 		CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
 		if (commandParameter.collection != null) {
 			Iterator<?> iterator = commandParameter.collection.iterator();
@@ -345,8 +352,8 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	
 	/**
 	 * 
-	 * If the given collectionItem implements {@link IWrapperItemProvider}, it
-	 * is unwrapped by obtaining a value from
+	 * If the given <code>collectionItem</code> implements
+	 * {@link IWrapperItemProvider}, it is unwrapped by obtaining a value from
 	 * {@link IWrapperItemProvider#getValue getValue}. The unwrapping continues
 	 * until a non-wrapper value is returned. This iterative unwrapping is
 	 * required because values may be repeatedly wrapped, as children of a
