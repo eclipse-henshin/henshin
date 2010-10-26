@@ -32,38 +32,47 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 	@Override
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
-		monitor.beginTask("Validating CSL property...", 2);
+		monitor.beginTask("Validating CSL property...", -1);
 		
-		// Generate the SM file and the CSL file.
-		File smFile = generatePRISMFile(stateSpace);
+		// Generate the CSL file.
 		File cslFile = createTempFile("property", ".csl", property);
-		monitor.worked(1);
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
-		Process process = Runtime.getRuntime().exec(
-				new String[] { getPRISMExecutable(),
-						smFile.getAbsolutePath(),
-						cslFile.getAbsolutePath(), "-fixdl", "-gaussseidel" });
+		Process process = invokePRISM(stateSpace, cslFile, null );
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		
-		String line;
+		String line, error = null;
+		boolean parseError = false;
 		StringBuffer result = new StringBuffer();
+		
 		while ((line = reader.readLine())!=null) {
+			
 			line = line.trim();
 			System.out.println(line);
-			result.append(line+"\n");
 			if (line.length()==0) {
+				parseError = false;
 				continue;
 			}
+			
+			// Parse error?
+			if (parseError) {
+				error = error + "\n" + line;
+			} else if (line.startsWith("Error")) {
+				error = line;
+				parseError = true;
+			} else {
+				result.append(line+"\n");				
+			}
+			
 			if (monitor.isCanceled()) {
 				process.destroy();
 				return null;
 			}
 		}
-		monitor.worked(1);
+		monitor.done();
 		return new ValidationResult(true, result.toString());
 		
 	}	

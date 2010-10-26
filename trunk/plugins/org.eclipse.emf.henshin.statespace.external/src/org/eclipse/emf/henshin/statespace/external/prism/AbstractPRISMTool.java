@@ -16,8 +16,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -40,6 +42,60 @@ import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
  */
 public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	
+	// Properties key for PRISM path.
+	public static final String PRISM_PATH_KEY = "prismPath";
+	
+	// Properties key for PRISM arguments.
+	public static final String PRISM_ARGS_KEY = "prismArgs";
+	
+	// Currently used properties.
+	private Properties properties;
+	
+	/**
+	 * Invoke PRISM.
+	 * @param stateSpace State space.
+	 * @param args Arguments.
+	 * @param monitor Monitor.
+	 * @return Created process.
+	 * @throws Exception On errors.
+	 */
+	protected Process invokePRISM(StateSpace stateSpace, File formulaFile, String[] args) throws Exception {
+		
+		// Generate the SM file.
+		File smFile = generatePRISMFile(stateSpace);
+		
+		// Get the executable, path and arguments.
+		String prism = getPRISMExecutable();
+		String baseArgs = properties.getProperty(PRISM_ARGS_KEY);
+		String path = properties.getProperty(PRISM_PATH_KEY);
+		
+		// Create the command.
+		List<String> command = new ArrayList<String>();
+		command.add(prism);
+		command.add(smFile.getAbsolutePath());
+		if (formulaFile!=null) {
+			command.add(formulaFile.getAbsolutePath());
+		}
+		if (baseArgs!=null) {
+			for (String arg : baseArgs.split(" ")) {
+				command.add(arg.trim());
+			}
+		}
+		if (args!=null) {
+			for (String arg : args) {
+				command.add(arg.trim());
+			}
+		}
+		
+		// Now we can invoke the PRISM tool:
+		return Runtime.getRuntime().exec(
+				command.toArray(new String[] {}), 
+				null, 
+				path!=null ? new File(path) : null);
+		
+	}
+
+	
 	/**
 	 * Generate a PRISM file from a state space.
 	 * @param stateSpace State space.
@@ -51,19 +107,12 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		// Check if the properties file exist.
 		IFile propertiesFile = getPropertiesFile(stateSpace);
 		if (!propertiesFile.exists()) {
-			Properties properties = new Properties();
-			for (Rule rule : stateSpace.getRules()) {
-				properties.setProperty(getRateName(rule),"0");
-			}
-			OutputStream out = new FileOutputStream(propertiesFile.getLocation().toFile());
-			properties.store(out, "State space properties file");
-			propertiesFile.getParent().refreshLocal(2, new NullProgressMonitor());
+			initializeProperties(stateSpace, propertiesFile);
 			throw new Exception("Error loading rates. Please edit file '" + propertiesFile.getName() + "'.");
 		}
 		
 		// Load properties.
-		Properties properties = new Properties();
-		properties.load(propertiesFile.getContents());
+		loadProperties(propertiesFile);
 		Map<Rule,Double> rates = new HashMap<Rule,Double>();
 		
 		// Load the rates.
@@ -104,6 +153,38 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 
 	}
 	
+	/* 
+	 * Initialize properties.
+	 */
+	protected void initializeProperties(StateSpace stateSpace, IFile file) throws Exception {
+		properties = new Properties();
+		for (Rule rule : stateSpace.getRules()) {
+			properties.setProperty(getRateName(rule),"1");
+		}
+		
+		// PRISM path and arguments
+		if (Platform.getOS()==Platform.OS_WIN32) {
+			properties.setProperty(PRISM_PATH_KEY, "C:\\prism");
+		}
+		properties.setProperty(PRISM_ARGS_KEY, "-fixdl -gaussseidel");
+		
+		// Save them.
+		OutputStream out = new FileOutputStream(file.getLocation().toFile());
+		properties.store(out, "State space properties file");
+		file.getParent().refreshLocal(2, new NullProgressMonitor());
+	}
+	
+	/*
+	 * Load the properties from a file.
+	 */
+	protected void loadProperties(IFile file) throws Exception{
+		properties = new Properties();
+		properties.load(file.getContents());
+	}
+	
+	/*
+	 * Get the canonical properties file.
+	 */
 	protected static IFile getPropertiesFile(StateSpace stateSpace) {
 		URI uri = stateSpace.eResource().getURI()
 					.trimFileExtension().appendFileExtension("properties");
@@ -115,19 +196,31 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		}
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 	}
-
+	
+	/*
+	 * Canonical name for rules.
+	 */
 	protected static String getRuleName(Rule rule) {
 		return rule.getName().trim();
 	}
-
+	
+	/*
+	 * Canonical rate names.
+	 */
 	protected static String getRateName(Rule rule) {
 		return "rate" + capitalize(getRuleName(rule));
 	}
 	
+	/*
+	 * Get the name of the PRISM executable.
+	 */
 	protected String getPRISMExecutable() {
 		return Platform.getOS()==Platform.OS_WIN32 ? "prism.bat" : "prism";
 	}
 	
+	/*
+	 * Capitalize a string.
+	 */
 	protected static String capitalize(String string) {
 		if (string==null || string.length()==0) return string;
 		String first = string.substring(0,1).toUpperCase();
