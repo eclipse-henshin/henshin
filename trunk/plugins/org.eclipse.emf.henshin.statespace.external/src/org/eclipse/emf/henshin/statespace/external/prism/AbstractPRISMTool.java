@@ -26,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -122,7 +123,11 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	protected static String getRateName(Rule rule) {
 		return "rate" + capitalize(getRuleName(rule));
 	}
-
+	
+	protected String getPRISMExecutable() {
+		return Platform.getOS()==Platform.OS_WIN32 ? "prism.bat" : "prism";
+	}
+	
 	protected static String capitalize(String string) {
 		if (string==null || string.length()==0) return string;
 		String first = string.substring(0,1).toUpperCase();

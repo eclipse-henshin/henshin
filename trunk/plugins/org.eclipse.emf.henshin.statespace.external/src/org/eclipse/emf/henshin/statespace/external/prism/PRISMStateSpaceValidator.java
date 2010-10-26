@@ -42,7 +42,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Process process = Runtime.getRuntime().exec(
-				new String[] { "prism",
+				new String[] { getPRISMExecutable(),
 						smFile.getAbsolutePath(),
 						cslFile.getAbsolutePath(), "-fixdl", "-gaussseidel" });
 		

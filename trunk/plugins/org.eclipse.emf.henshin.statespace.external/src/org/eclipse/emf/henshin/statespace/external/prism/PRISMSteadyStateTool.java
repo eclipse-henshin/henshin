@@ -44,7 +44,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
 		Process process = Runtime.getRuntime().exec(
-				new String[] { "prism", smFile.getAbsolutePath(),
+				new String[] { getPRISMExecutable(), smFile.getAbsolutePath(),
 							   "-steadystate", "-gaussseidel", "-fixdl"});
 		
 		// Parse the output
@@ -64,8 +64,8 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 			}
 			if (parseProbabilities) {
 				Object[] parsed = format.parse(line);
-				states.add(((Long)parsed[0]).intValue()); 
-				probabilities.add(((Double)parsed[2]).doubleValue()); 
+				states.add(((Number) parsed[0]).intValue()); 
+				probabilities.add(((Number) parsed[2]).doubleValue()); 
 			} else {
 				if (line.startsWith("Probabilities:")) {
 					parseProbabilities = true;
