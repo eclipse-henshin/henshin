@@ -13,15 +13,18 @@ package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
@@ -32,8 +35,10 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * This is the item provider adapter for a
@@ -183,15 +188,16 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 		
-		// switch (notification.getFeatureID(TransformationUnit.class)) {
-		// case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
-		// case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
-		// case HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS:
-		// case HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS:
-		// fireNotifyChanged(new ViewerNotification(notification,
-		// notification.getNotifier(), true, false));
-		// return;
-		// }
+		switch (notification.getFeatureID(TransformationUnit.class)) {
+			// case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
+			// case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
+			// case HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS:
+			// case HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS:
+			default:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						true, false));
+				// return;
+		}
 		super.notifyChanged(notification);
 	}
 	
@@ -314,38 +320,40 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	@Override
 	public Command createCommand(Object object, EditingDomain domain,
 			Class<? extends Command> commandClass, CommandParameter commandParameter) {
+		/*
+		 * In case of wrappers and transient items, by default the commands are
+		 * not always created adequately, i.e. the feature information of the
+		 * transient items contained in the wrappers are often thrown away. This
+		 * is fixed by the following code: The commands and especially command
+		 * parameters are build up from scratch taking given information about
+		 * owner, value and features into account.
+		 */
+		CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
+		if (commandParameter.collection != null) {
+			Iterator<?> iterator = commandParameter.collection.iterator();
+			Object o;
+			while (iterator.hasNext()) {
+				o = iterator.next();
+				CommandParameter cp = unwrapItemAndCreateCommandParameter(commandParameter, o);
+				Command c = null;
+				if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
+						&& !((EStructuralFeature) cp.feature).isMany()) {
+					commandClass = SetCommand.class;
+				}
+				c = super.createCommand(object, domain, commandClass, cp);
+				command.append(c);
+			}// while
+		} else {
+			return super.createCommand(object, domain, commandClass, commandParameter);
+		}
 		
-		// CompoundCommand command = new CompoundCommand(
-		// CompoundCommand.MERGE_COMMAND_ALL);
-		// if (commandParameter.collection!=null) {
-		// Iterator<?> iterator = commandParameter.collection.iterator();
-		// Object o;
-		// while (iterator.hasNext()) {
-		// o = iterator.next();
-		// CommandParameter cp = unwrapItemAndCreateCommandParameter(
-		// commandParameter, o);
-		// Command c = null;
-		// if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
-		// && !((EStructuralFeature) cp.feature).isMany()) {
-		// commandClass = SetCommand.class;
-		// }
-		// c = super.createCommand(object, domain,commandClass, cp);
-		// command.append(c);
-		// }// while
-		// } else {
-		return super.createCommand(object, domain, commandClass, commandParameter);
-		// }
-		//
-		// return command;
-		// TODO Auto-generated method stub
-		// return super.createCommand(object, domain, commandClass,
-		// commandParameter);
-	}
+		return command;
+	}// createCommand
 	
 	/**
 	 * 
-	 * If the given collectionItem implements {@link IWrapperItemProvider}, it
-	 * is unwrapped by obtaining a value from
+	 * If the given <code>collectionItem</code> implements
+	 * {@link IWrapperItemProvider}, it is unwrapped by obtaining a value from
 	 * {@link IWrapperItemProvider#getValue getValue}. The unwrapping continues
 	 * until a non-wrapper value is returned. This iterative unwrapping is
 	 * required because values may be repeatedly wrapped, as children of a

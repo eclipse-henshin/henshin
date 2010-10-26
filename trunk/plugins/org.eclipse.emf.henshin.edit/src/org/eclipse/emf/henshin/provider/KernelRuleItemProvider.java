@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -10,17 +18,15 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
- * @author sjtuner
+ * @author Stefan Jurack (sjurack)
  * 
  */
 public class KernelRuleItemProvider extends TransientItemProvider {
@@ -93,14 +99,6 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
-		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-			case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
-				fireNotifyChanged(new NotificationWrapper(this, notification));
-				// fireNotifyChanged(new ViewerNotification(notification,
-				// notification.getNotifier(), true, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 	
@@ -112,6 +110,11 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
+		
+		/*
+		 * The one child, the kernel rule, if this item provider shall be
+		 * wrapped, as it represent no containment but a reference to a rule.
+		 */
 		return Boolean.TRUE;
 	}// isWrappingNeeded
 	
@@ -125,7 +128,10 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
-		
+		/*
+		 * The child of this transient item provider represents a referee of an
+		 * AmalgamationUnit thus shall be replaced by a wrapper
+		 */
 		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
 				adapterFactory);
 	}// createWrapper

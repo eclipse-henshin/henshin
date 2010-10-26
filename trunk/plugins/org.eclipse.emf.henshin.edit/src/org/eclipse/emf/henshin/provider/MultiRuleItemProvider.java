@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -9,18 +17,16 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
- * @author sjtuner
+ * @author Stefan Jurack (sjurack)
  * 
  */
 public class MultiRuleItemProvider extends TransientItemProvider {
@@ -81,12 +87,6 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
-		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-			case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
-				fireNotifyChanged(new NotificationWrapper(this, notification));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 	
@@ -98,6 +98,11 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
+		
+		/*
+		 * All children, the multi rules, if this item provider shall be
+		 * wrapped, as they represent no containments but references to rules.
+		 */
 		return Boolean.TRUE;
 	}// isWrappingNeeded
 	
@@ -112,6 +117,11 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
 		
+		/*
+		 * All children of this transient item provider represent referees of an
+		 * AmalgamationUnit thus shall be replaced by a wrapper
+		 */
+
 		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
 				adapterFactory);
 	}// createWrapper

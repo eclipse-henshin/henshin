@@ -1,6 +1,14 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -19,15 +27,16 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
  * This class represents so-called <i>non-model intermediary view objects</i>
  * for better structuring the tree-based editor.
  * 
- * @author sjurack (Stefan Jurack)
+ * @author Stefan Jurack (sjurack)
  * 
  */
-public class TransientItemProvider extends ItemProviderAdapter2 implements
+public class TransientItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	

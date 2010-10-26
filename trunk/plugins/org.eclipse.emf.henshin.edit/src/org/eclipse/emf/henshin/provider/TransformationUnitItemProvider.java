@@ -188,11 +188,17 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
+		
+		/*
+		 * In contrast to transformation units, whose children units are
+		 * referred to and thus need to be wrapped up, rule have no such referee
+		 * and do not need to wrap their children.
+		 */
 		if (object instanceof TransformationUnit && !(object instanceof Rule))
 			return Boolean.TRUE;
 		else
 			return Boolean.FALSE;
-	}
+	}// isWrappingNeeded
 	
 	/*
 	 * (non-Javadoc)
@@ -207,6 +213,10 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		
 		if (!isWrappingNeeded(object)) return value;
 		
+		/*
+		 * Only those, who are not contained but referred to, shall be replaced
+		 * by a wrapper
+		 */
 		if (!((EReference) feature).isContainment()) {
 			value = new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
 					adapterFactory);
