@@ -10,13 +10,11 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -93,16 +91,24 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
-		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-			case HenshinPackage.AMALGAMATION_UNIT__KERNEL_RULE:
-				fireNotifyChanged(new NotificationWrapper(this, notification));
-				// fireNotifyChanged(new ViewerNotification(notification,
-				// notification.getNotifier(), true, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
+	 * .lang.Object)
+	 */
+	@Override
+	protected boolean isWrappingNeeded(Object object) {
+		
+		/*
+		 * The one child, the kernel rule, if this item provider shall be
+		 * wrapped, as it represent no containment but a reference to a rule.
+		 */
+		return Boolean.TRUE;
+	}// isWrappingNeeded
 	
 	/*
 	 * (non-Javadoc)
@@ -114,19 +120,13 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
-		return super.createWrapper(object, feature, value, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
-	 * .lang.Object)
-	 */
-	@Override
-	protected boolean isWrappingNeeded(Object object) {
-		return Boolean.TRUE;
-	}
+		/*
+		 * The child of this transient item provider represents a referee of an
+		 * AmalgamationUnit thus shall be replaced by a wrapper
+		 */
+		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+				adapterFactory);
+	}// createWrapper
 	
 	/*
 	 * (non-Javadoc)

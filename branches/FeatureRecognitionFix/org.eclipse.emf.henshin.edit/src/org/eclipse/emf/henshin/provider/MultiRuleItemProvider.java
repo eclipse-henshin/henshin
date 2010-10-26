@@ -9,14 +9,12 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationWrapper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -81,12 +79,6 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
-		switch (notification.getFeatureID(AmalgamationUnit.class)) {
-			case HenshinPackage.AMALGAMATION_UNIT__MULTI_RULES:
-				fireNotifyChanged(new NotificationWrapper(this, notification));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 	
@@ -98,8 +90,33 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
+		
+		/*
+		 * All children, the multi rules, if this item provider shall be
+		 * wrapped, as they represent no containments but references to rules.
+		 */
 		return Boolean.TRUE;
-	}
+	}// isWrappingNeeded
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
+	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
+	 * java.lang.Object, int)
+	 */
+	@Override
+	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
+			int index) {
+		
+		/*
+		 * All children of this transient item provider represent referees of an
+		 * AmalgamationUnit thus shall be replaced by a wrapper
+		 */
+
+		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+				adapterFactory);
+	}// createWrapper
 	
 	/*
 	 * (non-Javadoc)
