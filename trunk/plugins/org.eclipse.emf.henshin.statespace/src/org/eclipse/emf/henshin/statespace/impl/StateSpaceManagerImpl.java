@@ -232,7 +232,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Initialize the result.
 		int newStates = 0;
 		List<Transition> result = new ArrayList<Transition>(transitions.size());
-				
+
+		// For performance we use a monitor to detect concurrently made changes.
+		StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
+		
+		// START OF EXPLORER LOCK
+		synchronized (explorerLock) {
+			monitor.setActive(true);	// Activate the monitor.
+		}
+		// END OF EXPLORER LOCK
+		
 		// No check which states / transitions need to be added.
 		for (Transition current : transitions) {
 			
@@ -245,32 +254,20 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			boolean newState = false;
 			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
 			
-			// For performance we use a monitor to detect concurrently made changes.
-			StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
-			
-			// START OF EXPLORER LOCK
-			synchronized (explorerLock) {
-				monitor.setActive(true);	// Activate the monitor.
-			}
-			// END OF EXPLORER LOCK
-
 			// Try to find an equivalent state. This can take some time. Hence no lock here.
 			target = getState(transformed, hashCode);
 			
 			// START OF EXPLORER LOCK
 			synchronized (explorerLock) {
 				
-				// Deactivate the monitor so that it can be garbage collected.
-				monitor.setActive(false);
-
-				if (target!=null) {
+				if (target==null) {
+					// Check if an equivalent state has been added in the meantime.
+					target = findState(transformed, hashCode, monitor.getAddedStates());
+				} else {
 					// Check if the found state has been removed in the meantime.
 					if (monitor.getRemovedStates().contains(target)) {
 						target = null;
 					}
-				} else {
-					// Check if an equivalent state has been added in the meantime.
-					target = findState(transformed, hashCode, monitor.getAddedStates());
 				}
 				
 				// Ok, now we can create a new state if necessary.
@@ -296,6 +293,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 		}
 		
+		// START OF EXPLORER LOCK
+		synchronized (explorerLock) {
+			// Deactivate the monitor so that it can be garbage collected.
+			monitor.setActive(false);
+		}
+		// END OF EXPLORER LOCK
+
+			
 		// Mark the state as closed:
 		setOpen(state, false);
 				
