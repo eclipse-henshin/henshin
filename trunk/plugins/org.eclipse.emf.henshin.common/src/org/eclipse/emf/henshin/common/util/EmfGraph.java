@@ -197,11 +197,16 @@ public class EmfGraph {
 		return domain;
 	}
 	
-	protected Collection<EObject> getRootObjects() {
+	/**
+	 * Returns all eobject contained in this graph (@see {@link #geteObjects()})
+	 * which are container, i.e. which are not contained by other eobjects.
+	 * 
+	 * @return
+	 */
+	public Collection<EObject> getRootObjects() {
 		Collection<EObject> rootObjects = new HashSet<EObject>();
-		for (EObject eObject: geteObjects()) {
-			if (eObject.eContainer() == null)
-				rootObjects.add(eObject);
+		for (EObject eObject : geteObjects()) {
+			if (eObject.eContainer() == null) rootObjects.add(eObject);
 		}
 		
 		return rootObjects;
