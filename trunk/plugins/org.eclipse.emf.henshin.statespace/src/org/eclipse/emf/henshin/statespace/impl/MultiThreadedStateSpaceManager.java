@@ -219,7 +219,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 				for (int i=0; i<open.size(); i++) {
 					try {
 						doExplore(open.get(i));
-						if (i % 1000==0) Thread.sleep(100);
+						if (i % 100==0) Thread.sleep(100);
 					} catch (Throwable t) {}
 				}
 			}
