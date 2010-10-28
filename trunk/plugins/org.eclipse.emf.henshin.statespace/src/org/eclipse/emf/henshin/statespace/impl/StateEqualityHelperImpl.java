@@ -82,7 +82,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean GRAPH_EQUALITY_EDEFAULT = false;
+	protected static final boolean GRAPH_EQUALITY_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isGraphEquality() <em>Graph Equality</em>}' attribute.
