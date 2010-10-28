@@ -20,7 +20,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.commands.DragAndDropWithFeatureCommand;
+import org.eclipse.emf.henshin.commands.dnd.KernelRuleDragAndDropCommand;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -145,9 +146,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		
-		return new DragAndDropWithFeatureCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, location, operations,
-				operation, collection);
+		return new KernelRuleDragAndDropCommand(domain, (AmalgamationUnit) target, collection);
 	}// createDragAndDropCommand
 	
 	/*

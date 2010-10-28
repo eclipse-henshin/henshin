@@ -9,13 +9,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider;
-import org.eclipse.emf.henshin.commands.DragAndDropWithFeatureCommand;
-import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
  * This class wraps TransformationUnits representing tree-editor items which are
@@ -26,6 +23,11 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * 
  */
 public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperItemProvider {
+	
+	private static final Object LINK_OVR;
+	static {
+		LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
+	}
 	
 	/**
 	 * @param value
@@ -50,7 +52,7 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		Object image = super.getImage(object);
 		List<Object> images = new ArrayList<Object>(2);
 		images.add(image);
-		images.add(HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr"));
+		images.add(LINK_OVR);
 		image = new ComposedImage(images);
 		return image;
 	}// getImage
@@ -70,11 +72,12 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		System.out.println("collection: " + collection);
 		System.out.println("location/ops/op: " + location + "/" + operations + "/" + operation);
 		
-		return new DragAndDropWithFeatureCommand(domain, owner, (EReference) this.feature, location,
-				operations, operation, collection);
+		// return new DragAndDropWithFeatureCommand(domain, owner, (EReference)
+		// this.feature, location,
+		// operations, operation, collection);
 		
-//		return super.createDragAndDropCommand(domain, owner, location, operations, operation,
-//				collection);
+		return super.createDragAndDropCommand(domain, owner, location, operations, operation,
+				collection);
 	}
 	
 	/*
