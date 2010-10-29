@@ -136,7 +136,6 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		
-		//TODO Hier gehts weiter! Entsprechendes Command implementieren und diese Zeile ersetzen
 		return new MultiRuleDragAndDropCommand(domain, (AmalgamationUnit) target, collection);
 	}// createDragAndDropCommand
 	

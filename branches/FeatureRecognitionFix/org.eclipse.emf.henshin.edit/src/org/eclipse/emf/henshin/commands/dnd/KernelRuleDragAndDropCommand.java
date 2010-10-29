@@ -15,11 +15,14 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
@@ -34,6 +37,7 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	protected EditingDomain domain;
 	protected AmalgamationUnit amalgUnit;
 	protected EReference reference;
+	protected Command dragCommand;
 	protected Command dropCommand;
 	protected Collection<?> collection;
 	
@@ -50,6 +54,7 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 		this.domain = domain;
 		this.amalgUnit = amalgUnit;
 		this.collection = collection;
+		this.dragCommand = UnexecutableCommand.INSTANCE;
 		this.dropCommand = UnexecutableCommand.INSTANCE;
 		this.reference = HenshinPackage.eINSTANCE.getAmalgamationUnit_KernelRule();
 	}
@@ -61,17 +66,23 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	@Override
 	protected boolean prepare() {
 		
+		dragCommand = IdentityCommand.INSTANCE;
 		dropCommand = UnexecutableCommand.INSTANCE;
 		
 		if ((domain != null) && (amalgUnit != null) && (collection != null)
 				&& (collection.size() == 1)) {
 			
 			Object o = collection.toArray()[0];
+			if (o instanceof IWrapperItemProvider) {
+				IWrapperItemProvider wrapper = (IWrapperItemProvider) o;
+				dragCommand = RemoveCommand.create(domain, wrapper.getOwner(),
+						wrapper.getFeature(), wrapper.getValue());
+			}// if
 			
 			dropCommand = SetCommand.create(domain, amalgUnit, reference, o);
 		}// if
 		
-		return dropCommand.canExecute();
+		return dragCommand.canExecute() && dropCommand.canExecute();
 	}// prepare
 	
 	/*
@@ -80,6 +91,7 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	 */
 	@Override
 	public void execute() {
+		dragCommand.execute();
 		dropCommand.execute();
 	}// execute
 	
@@ -90,6 +102,7 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	@Override
 	public void undo() {
 		dropCommand.undo();
+		dragCommand.undo();
 	}// undo
 	
 	/*
@@ -98,7 +111,7 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	 */
 	@Override
 	public void redo() {
-		dropCommand.redo();
+		execute();
 	}// redo
 	
 	/*
@@ -159,6 +172,9 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	 */
 	@Override
 	public void dispose() {
+		if (dragCommand != null) {
+			dragCommand.dispose();
+		}// if
 		if (dropCommand != null) {
 			dropCommand.dispose();
 		}// if
