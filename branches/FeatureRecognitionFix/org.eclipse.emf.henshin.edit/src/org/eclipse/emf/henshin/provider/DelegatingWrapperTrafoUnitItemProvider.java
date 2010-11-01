@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider;
+import org.eclipse.emf.henshin.commands.dnd.DelegatingWrapperFeatureDragAndDropCommand;
 
 /**
  * This class wraps TransformationUnits representing tree-editor items which are
@@ -68,16 +69,8 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		
-		System.out.println("owner : " + owner);
-		System.out.println("collection: " + collection);
-		System.out.println("location/ops/op: " + location + "/" + operations + "/" + operation);
+		return new DelegatingWrapperFeatureDragAndDropCommand(domain, owner, location, collection);
 		
-		// return new DragAndDropWithFeatureCommand(domain, owner, (EReference)
-		// this.feature, location,
-		// operations, operation, collection);
-		
-		return super.createDragAndDropCommand(domain, owner, location, operations, operation,
-				collection);
 	}
 	
 	/*
