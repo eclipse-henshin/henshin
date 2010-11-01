@@ -69,9 +69,14 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 		dragCommand = IdentityCommand.INSTANCE;
 		dropCommand = UnexecutableCommand.INSTANCE;
 		
-		if ((domain != null) && (amalgUnit != null) && (collection != null)
-				&& (collection.size() == 1)) {
+		if (checkValidInstanceVariables()) {
 			
+			/*
+			 * create remove commands if the one element in the collection is an
+			 * IWrapper since this is considered to be a move of a link.
+			 * Otherwise (if o is an EObject) this is considered to be a linking
+			 * which requires no remove.
+			 */
 			Object o = collection.toArray()[0];
 			if (o instanceof IWrapperItemProvider) {
 				IWrapperItemProvider wrapper = (IWrapperItemProvider) o;
@@ -84,6 +89,19 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 		
 		return dragCommand.canExecute() && dropCommand.canExecute();
 	}// prepare
+	
+	/**
+	 * Checks that all variables are set appropriately, e.g. not null and of a
+	 * specific type.
+	 * 
+	 * @return
+	 */
+	private boolean checkValidInstanceVariables() {
+		// check for not being null and appropriate types
+		return (domain != null) //
+				&& (amalgUnit != null) //
+				&& (collection != null) && (collection.size() == 1);
+	}// validInstanceVariables
 	
 	/*
 	 * (non-Javadoc)

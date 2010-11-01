@@ -69,9 +69,13 @@ public class MultiRuleDragAndDropCommand extends AbstractCommand implements Drag
 		dragCommand = IdentityCommand.INSTANCE;
 		dropCommand = UnexecutableCommand.INSTANCE;
 		
-		if ((domain != null) && (amalgUnit != null) && (collection != null)
-				&& (!collection.isEmpty())) {
+		if (checkValidInstanceVariables()) {
 			
+			/*
+			 * create remove commands for all IWrapper since this is considered
+			 * as a move of links, while other objects (in fact EObjects) are
+			 * considered to be linked thus require no remove.
+			 */
 			for (Object o : collection) {
 				if (o instanceof IWrapperItemProvider) {
 					IWrapperItemProvider wrapper = (IWrapperItemProvider) o;
@@ -86,6 +90,19 @@ public class MultiRuleDragAndDropCommand extends AbstractCommand implements Drag
 		
 		return dragCommand.canExecute() && dropCommand.canExecute();
 	}// prepare
+	
+	/**
+	 * Checks that all variables are set appropriately, e.g. not null and of a
+	 * specific type.
+	 * 
+	 * @return
+	 */
+	private boolean checkValidInstanceVariables() {
+		// check for not being null and appropriate types
+		return (domain != null) //
+				&& (amalgUnit != null) //
+				&& (collection != null) && (!collection.isEmpty());
+	}// validInstanceVariables
 	
 	/*
 	 * (non-Javadoc)
