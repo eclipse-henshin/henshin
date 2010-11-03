@@ -33,7 +33,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="transformationUnits" upperBound="-1"
         eType="#//TransformationUnit" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit #//DescribedElement #//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit">
     <eOperations name="getNodeByName" eType="#//Node">
       <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
