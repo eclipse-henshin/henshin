@@ -221,8 +221,8 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 */
 	@Override
 	public Collection<?> getChildren(Object object) {
-		AmalgamationUnit au = (AmalgamationUnit) object;
 		if (children == null) {
+			AmalgamationUnit au = (AmalgamationUnit) object;
 			children = (List) super.getChildren(object);
 			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
@@ -428,8 +428,8 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 				|| feature == HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS) {
 			return new CommandWrapper(command) {
 				
-				public Collection getAffectedObjects() {
-					Collection affected = super.getAffectedObjects();
+				public Collection<?> getAffectedObjects() {
+					Collection<?> affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
 						affected = Collections.singleton(findChildProvider(feature));
 					}// if

@@ -18,24 +18,28 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.IdentityCommand;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
-import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.provider.TransientItemProvider;
 
 /**
  * 
+ * Drag'n'Drop command for {@link TransientItemProvider} representing a
+ * non-containment feature.
  * 
  * @author Stefan Jurack (sjurack)
  * 
  */
-public class KernelRuleDragAndDropCommand extends AbstractCommand implements DragAndDropFeedback {
+public class NonContainmentTransientIPDragAndDropCommand extends AbstractCommand implements
+		DragAndDropFeedback {
 	
 	protected EditingDomain domain;
-	protected AmalgamationUnit amalgUnit;
+	protected TransformationUnit trafoUnit;
 	protected EReference reference;
 	protected Command dragCommand;
 	protected Command dropCommand;
@@ -43,20 +47,18 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	
 	/**
 	 * @param domain
-	 * @param owner
-	 * @param location
-	 * @param operations
-	 * @param operation
+	 * @param trafoUnit
+	 * @param reference
 	 * @param collection
 	 */
-	public KernelRuleDragAndDropCommand(EditingDomain domain, AmalgamationUnit amalgUnit,
-			Collection<?> collection) {
+	public NonContainmentTransientIPDragAndDropCommand(EditingDomain domain,
+			TransformationUnit trafoUnit, EReference reference, Collection<?> collection) {
 		this.domain = domain;
-		this.amalgUnit = amalgUnit;
+		this.trafoUnit = trafoUnit;
 		this.collection = collection;
 		this.dragCommand = UnexecutableCommand.INSTANCE;
 		this.dropCommand = UnexecutableCommand.INSTANCE;
-		this.reference = HenshinPackage.eINSTANCE.getAmalgamationUnit_KernelRule();
+		this.reference = reference;
 	}
 	
 	/*
@@ -72,19 +74,27 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 		if (checkValidInstanceVariables()) {
 			
 			/*
-			 * create remove commands if the one element in the collection is an
-			 * IWrapper since this is considered to be a move of a link.
-			 * Otherwise (if o is an EObject) this is considered to be a linking
-			 * which requires no remove.
+			 * create remove commands for all IWrapper since this is considered
+			 * as a move of links, while other objects (in fact EObjects) are
+			 * considered to be linked thus require no remove.
 			 */
-			Object o = collection.toArray()[0];
-			if (o instanceof IWrapperItemProvider) {
-				IWrapperItemProvider wrapper = (IWrapperItemProvider) o;
-				dragCommand = RemoveCommand.create(domain, wrapper.getOwner(),
-						wrapper.getFeature(), wrapper.getValue());
-			}// if
+			for (Object o : collection) {
+				if (o instanceof IWrapperItemProvider) {
+					IWrapperItemProvider wrapper = (IWrapperItemProvider) o;
+					
+					dragCommand = dragCommand.chain(RemoveCommand.create(domain,
+							wrapper.getOwner(), wrapper.getFeature(), wrapper.getValue()));
+				}// if
+			}// for
 			
-			dropCommand = SetCommand.create(domain, amalgUnit, reference, o);
+			if (reference.isMany()) {
+				dropCommand = AddCommand.create(domain, trafoUnit, reference, collection);
+				
+			} else {
+				Object o = collection.toArray()[0];
+				dropCommand = SetCommand.create(domain, trafoUnit, reference, o);
+			}// if else
+			
 		}// if
 		
 		return dragCommand.canExecute() && dropCommand.canExecute();
@@ -98,9 +108,18 @@ public class KernelRuleDragAndDropCommand extends AbstractCommand implements Dra
 	 */
 	private boolean checkValidInstanceVariables() {
 		// check for not being null and appropriate types
-		return (domain != null) //
-				&& (amalgUnit != null) //
-				&& (collection != null) && (collection.size() == 1);
+		boolean result = (domain != null) //
+				&& (trafoUnit != null) //
+				&& (collection != null);
+		
+		/*
+		 * If the reference is a many reference, the collection has to be
+		 * non-empty. Otherwise, if the reference is a non-many reference, the
+		 * collection has to contain one element exactly.
+		 */
+		result = result
+				&& (this.reference.isMany() ? !collection.isEmpty() : collection.size() == 1);
+		return result;
 	}// validInstanceVariables
 	
 	/*
