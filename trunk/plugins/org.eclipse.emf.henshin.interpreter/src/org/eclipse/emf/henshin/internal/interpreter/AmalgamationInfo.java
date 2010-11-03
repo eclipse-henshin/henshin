@@ -93,6 +93,7 @@ public class AmalgamationInfo {
 			return null;
 
 		Rule parallelRule = factory.createRule();
+		parallelRule.setName(amalgamationUnit.getName());
 		parallelRule.setLhs(factory.createGraph());
 		parallelRule.setRhs(factory.createGraph());
 		Map<Node, Node> copyMap = new HashMap<Node, Node>();
