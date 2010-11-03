@@ -1222,8 +1222,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		transformationSystemEClass.getESuperTypes().add(this.getDescribedElement());
 		transformationSystemEClass.getESuperTypes().add(this.getNamedElement());
 		ruleEClass.getESuperTypes().add(this.getTransformationUnit());
-		ruleEClass.getESuperTypes().add(this.getDescribedElement());
-		ruleEClass.getESuperTypes().add(this.getNamedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getDescribedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
 		parameterEClass.getESuperTypes().add(this.getDescribedElement());
