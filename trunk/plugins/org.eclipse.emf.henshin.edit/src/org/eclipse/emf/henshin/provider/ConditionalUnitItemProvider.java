@@ -50,6 +50,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	
+	@SuppressWarnings("rawtypes")
 	protected List children = null;
 	
 	/**
@@ -200,6 +201,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	 *      .Object)
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<?> getChildren(Object object) {
 		if (children == null) {
@@ -213,7 +215,8 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 			children.add(2, new ElseItemProvider(adapterFactory, cu));
 		}// if
 		else {
-			List l = (List) super.getChildren(object);
+			@SuppressWarnings("rawtypes")
+			List l = (List<?>) super.getChildren(object);
 			
 			// reuse item providers in the 'children' list
 			l.add(0, children.get(0));

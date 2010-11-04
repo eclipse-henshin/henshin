@@ -124,8 +124,8 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 	 */
 	protected Command createWrappedCommand(Command command, final EObject owner) {
 		return new CommandWrapper(command) {
-			public Collection getAffectedObjects() {
-				Collection affected = super.getAffectedObjects();
+			public Collection<?> getAffectedObjects() {
+				Collection<?> affected = super.getAffectedObjects();
 				if (affected.contains(owner))
 					affected = Collections.singleton(TransientItemProvider.this);
 				return affected;
@@ -140,7 +140,7 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return HenshinEditPlugin.INSTANCE;
-	}
+	}// getResourceLocator
 	
 	/*
 	 * (non-Javadoc)
@@ -149,23 +149,12 @@ public class TransientItemProvider extends ItemProviderAdapter implements
 	 * (java.lang.Object, org.eclipse.emf.edit.domain.EditingDomain,
 	 * java.lang.Class, org.eclipse.emf.edit.command.CommandParameter)
 	 */
-	public Command createCommand(final Object object, final EditingDomain domain,
-			Class commandClass, CommandParameter commandParameter) {
+	public Command createCommand(Object object, EditingDomain domain,
+			Class<? extends Command> commandClass, CommandParameter commandParameter) {
 		
 		commandParameter.setOwner(target);
-		//
-		// IEditingDomainItemProvider editingDomainItemProvider =
-		// (IEditingDomainItemProvider)
-		// adapterFactory.adapt(target, IEditingDomainItemProvider.class);
-		//
-		// return
-		// editingDomainItemProvider != null ?
-		// editingDomainItemProvider.createCommand(target, domain, commandClass,
-		// commandParameter) :
-		// super.createCommand(target, domain, commandClass,
-		// commandParameter);
 		
 		return super.createCommand(object, domain, commandClass, commandParameter);
-	}
+	}// createCommand
 	
 }// class

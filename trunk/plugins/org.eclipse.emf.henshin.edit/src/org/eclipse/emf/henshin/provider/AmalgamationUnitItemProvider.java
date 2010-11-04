@@ -52,6 +52,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	
+	@SuppressWarnings("rawtypes")
 	protected List children = null;
 	
 	/**
@@ -219,11 +220,12 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 *      .Object)
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<?> getChildren(Object object) {
 		if (children == null) {
 			AmalgamationUnit au = (AmalgamationUnit) object;
-			children = (List) super.getChildren(object);
+			children = (List<?>) super.getChildren(object);
 			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
@@ -233,7 +235,8 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			children.add(3, new RhsMappingItemProvider(adapterFactory, au));
 		}// if
 		else {
-			List l = (List) super.getChildren(object);
+			@SuppressWarnings("rawtypes")
+			List l = (List<?>) super.getChildren(object);
 			
 			// reuse item providers in the 'children' list
 			l.add(0, children.get(0));

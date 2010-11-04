@@ -20,10 +20,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.commands.dnd.NonContainmentTransientIPDragAndDropCommand;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
+ * This is the item provider for a {@link TransformationUnit} object being
+ * referred to by an {@link AmalgamationUnit}, in fact by its feature
+ * {@link HenshinPackage#AMALGAMATION_UNIT__KERNEL_RULE}. <br>
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @author Stefan Jurack (sjurack)
  * 
  */

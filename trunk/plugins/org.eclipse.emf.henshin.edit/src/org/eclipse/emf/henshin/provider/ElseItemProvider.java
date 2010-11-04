@@ -20,10 +20,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.commands.dnd.NonContainmentTransientIPDragAndDropCommand;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
+ * This is the item provider for a {@link TransformationUnit} object being
+ * referred to by a {@link ConditionalUnit}, in fact by its feature
+ * {@link HenshinPackage#CONDITIONAL_UNIT__ELSE}. <br>
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @author Stefan Jurack (sjurack)
  * 
  */
