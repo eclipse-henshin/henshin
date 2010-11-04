@@ -394,15 +394,16 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 * {@link org.eclipse.emf.henshin.model.ConditionalUnit}. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Adapter createConditionalUnitAdapter() {
-		if (conditionalUnitItemProvider == null) {
-			conditionalUnitItemProvider = new ConditionalUnitItemProvider(this);
-		}
-		
-		return conditionalUnitItemProvider;
+		return new ConditionalUnitItemProvider(this);
+		// if (conditionalUnitItemProvider == null) {
+		// conditionalUnitItemProvider = new ConditionalUnitItemProvider(this);
+		// }
+		//
+		// return conditionalUnitItemProvider;
 	}
 	
 	/**

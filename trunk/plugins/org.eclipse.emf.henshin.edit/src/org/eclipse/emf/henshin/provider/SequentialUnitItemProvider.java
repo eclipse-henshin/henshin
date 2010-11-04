@@ -95,6 +95,7 @@ public class SequentialUnitItemProvider extends TransformationUnitItemProvider i
 		return super.getChildFeature(object, child);
 	}
 	
+	
 	/**
 	 * This returns SequentialUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->

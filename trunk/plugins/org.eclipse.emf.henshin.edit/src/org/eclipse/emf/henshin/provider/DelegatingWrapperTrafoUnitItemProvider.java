@@ -4,12 +4,16 @@
 package org.eclipse.emf.henshin.provider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider;
+import org.eclipse.emf.henshin.commands.dnd.DelegatingWrapperFeatureDragAndDropCommand;
 
 /**
  * This class wraps TransformationUnits representing tree-editor items which are
@@ -20,6 +24,11 @@ import org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider;
  * 
  */
 public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperItemProvider {
+	
+	private static final Object LINK_OVR;
+	static {
+		LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
+	}
 	
 	/**
 	 * @param value
@@ -44,9 +53,38 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		Object image = super.getImage(object);
 		List<Object> images = new ArrayList<Object>(2);
 		images.add(image);
-		images.add(HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr"));
+		images.add(LINK_OVR);
 		image = new ComposedImage(images);
 		return image;
 	}// getImage
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.WrapperItemProvider#createDragAndDropCommand
+	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
+	 * int, java.util.Collection)
+	 */
+	@Override
+	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
+			int operations, int operation, Collection<?> collection) {
+		
+		return new DelegatingWrapperFeatureDragAndDropCommand(domain, owner, location, collection);
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append(" (Value:" + this.value + ")");
+		sb.append(" (Owner:" + this.owner + ")");
+		sb.append(" (Feature:" + this.feature + ")");
+		sb.append(" (Index:" + this.index + ")");
+		return sb.toString();
+	}// toString
 	
 }// class

@@ -14,16 +14,14 @@ package org.eclipse.emf.henshin.provider;
 import java.util.Collection;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.henshin.commands.dnd.NonContainmentTransientIPDragAndDropCommand;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * @author Stefan Jurack (sjurack)
@@ -137,185 +135,8 @@ public class MultiRuleItemProvider extends TransientItemProvider {
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		
-		if (new AddCommand(domain, (EObject) owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection).canExecute()) {
-			return super.createDragAndDropCommand(domain, owner, location,
-					DragAndDropFeedback.DROP_LINK, operation, collection);
-		}// if
-		return UnexecutableCommand.INSTANCE;
-		
+		return new NonContainmentTransientIPDragAndDropCommand(domain, (TransformationUnit) target,
+				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection);
 	}// createDragAndDropCommand
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createRemoveCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
-	 * java.util.Collection)
-	 */
-	@Override
-	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Collection<?> collection) {
-		// TODO Auto-generated method stub
-		return super.createRemoveCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createAddCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
-	 * java.util.Collection, int)
-	 */
-	@Override
-	protected Command createAddCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Collection<?> collection, int index) {
-		// TODO Auto-generated method stub
-		return super.createAddCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EReference,
-	 * java.util.Collection)
-	 */
-	@Override
-	protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature,
-			Collection<?> collection) {
-		// TODO Auto-generated method stub
-		return super.createRemoveCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
-	 * org.eclipse.emf.ecore.EObject, java.util.Collection)
-	 */
-	@Override
-	protected Command createReplaceCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, EObject value, Collection<?> collection) {
-		// TODO Auto-generated method stub
-		return super.createReplaceCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, collection);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createReplaceCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EReference,
-	 * org.eclipse.emf.ecore.EObject, java.util.Collection)
-	 */
-	@Override
-	protected Command createReplaceCommand(EditingDomain domain, EObject owner, EReference feature,
-			EObject value, Collection<?> collection) {
-		// TODO Auto-generated method stub
-		return super.createReplaceCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, collection);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createAddCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EReference, java.util.Collection, int)
-	 */
-	@Override
-	protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature,
-			Collection<?> collection, int index) {
-		// TODO Auto-generated method stub
-		return super.createAddCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, collection, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createMoveCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
-	 */
-	@Override
-	protected Command createMoveCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Object value, int index) {
-		// TODO Auto-generated method stub
-		return super.createMoveCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createMoveCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EReference, org.eclipse.emf.ecore.EObject, int)
-	 */
-	@Override
-	protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature,
-			EObject value, int index) {
-		// TODO Auto-generated method stub
-		return super.createMoveCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
-	}
-	
-	// /* (non-Javadoc)
-	// * @see
-	// org.eclipse.emf.henshin.provider.TransientItemProvider#createCommand(java.lang.Object,
-	// org.eclipse.emf.edit.domain.EditingDomain, java.lang.Class,
-	// org.eclipse.emf.edit.command.CommandParameter)
-	// */
-	// @Override
-	// public Command createCommand(Object object, EditingDomain domain, Class
-	// commandClass,
-	// CommandParameter commandParameter) {
-	//
-	// if (commandParameter.getFeature()==null)
-	// commandParameter.feature=HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES;
-	// return super.createCommand(object, domain, commandClass,
-	// commandParameter);
-	// }
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
-	 */
-	@Override
-	protected Command createSetCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Object value, int index) {
-		// TODO Auto-generated method stub
-		return super.createSetCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value, index);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	@Override
-	protected Command createSetCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Object value) {
-		// TODO Auto-generated method stub
-		return super.createSetCommand(domain, owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, value);
-	}
 	
 }// class

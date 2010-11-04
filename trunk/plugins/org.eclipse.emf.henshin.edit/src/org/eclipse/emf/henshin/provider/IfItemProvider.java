@@ -27,13 +27,13 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @author Stefan Jurack (sjurack)
  * 
  */
-public class KernelRuleItemProvider extends TransientItemProvider {
+public class IfItemProvider extends TransientItemProvider {
 	
 	/**
 	 * @param adapterFactory
 	 * @param target
 	 */
-	public KernelRuleItemProvider(AdapterFactory adapterFactory, EObject target) {
+	public IfItemProvider(AdapterFactory adapterFactory, EObject target) {
 		super(adapterFactory, target);
 	}// constructor
 	
@@ -45,8 +45,8 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		if (isValidValue(target, child, HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE)) {
-			return HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE;
+		if (isValidValue(target, child, HenshinPackage.Literals.CONDITIONAL_UNIT__IF)) {
+			return HenshinPackage.Literals.CONDITIONAL_UNIT__IF;
 		}
 		return super.getChildFeature(target, child);
 	}// getChildFeature
@@ -61,20 +61,10 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	protected Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE);
+			childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__IF);
 		}// if
 		return childrenFeatures;
 	}// getChildrenFeatures
-	
-	// @Override
-	// protected EStructuralFeature getChildFeature(Object object, Object child)
-	// {
-	// // Check the type of the specified child object and return the proper
-	// feature to use for
-	// // adding (see {@link AddCommand}) it as a child.
-	// EStructuralFeature sf = super.getChildFeature(target, child);
-	// return sf;
-	// }
 	
 	/*
 	 * (non-Javadoc)
@@ -85,7 +75,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	@Override
 	public String getText(Object object) {
 		
-		return getString("_UI_AmalgamationUnit_kernelRule_feature");
+		return getString("_UI_ConditionalUnit_if_feature");
 	}// getText
 	
 	/*
@@ -110,8 +100,8 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 	protected boolean isWrappingNeeded(Object object) {
 		
 		/*
-		 * The one child, the kernel rule, if this item provider shall be
-		 * wrapped, as it represent no containment but a reference to a rule.
+		 * The one child, the If transformation unit, shall be wrapped, as it
+		 * represent no containment but a reference to a rule.
 		 */
 		return Boolean.TRUE;
 	}// isWrappingNeeded
@@ -128,7 +118,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			int index) {
 		/*
 		 * The child of this transient item provider represents a referee of an
-		 * AmalgamationUnit thus shall be replaced by a wrapper
+		 * ConditionalUnit thus shall be replaced by a wrapper
 		 */
 		return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
 				adapterFactory);
@@ -146,7 +136,7 @@ public class KernelRuleItemProvider extends TransientItemProvider {
 			int operations, int operation, Collection<?> collection) {
 		
 		return new NonContainmentTransientIPDragAndDropCommand(domain, (TransformationUnit) target,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, collection);
+				HenshinPackage.Literals.CONDITIONAL_UNIT__IF, collection);
 	}// createDragAndDropCommand
 	
 }// class
