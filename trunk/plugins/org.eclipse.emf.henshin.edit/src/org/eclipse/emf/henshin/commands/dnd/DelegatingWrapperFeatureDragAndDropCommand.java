@@ -108,7 +108,7 @@ public class DelegatingWrapperFeatureDragAndDropCommand extends AbstractCommand 
 				feedback = FEEDBACK_INSERT_BEFORE;
 			} else {
 				feedback = FEEDBACK_INSERT_AFTER;
-				// index++;
+				targetIndex++;
 			}
 			
 			CompoundCommand dragCompoundCommand = new CompoundCommand();
@@ -129,6 +129,7 @@ public class DelegatingWrapperFeatureDragAndDropCommand extends AbstractCommand 
 				} else {
 					dropCompoundCommand.append(AddCommand.create(domain, owner_, feature_, o,
 							targetIndex));
+					
 				}// if else
 			}// for
 			
@@ -170,8 +171,8 @@ public class DelegatingWrapperFeatureDragAndDropCommand extends AbstractCommand 
 		while (result && it.hasNext()) {
 			result = !(it.next().equals(this.owner));
 		}// while
-			// location checks shall prevent most unintended drag'n'drops
-		result = result && (location > 0.8 || location < 0.2);
+			// location checks shall prevent unintended drag'n'drops
+		result = result && (location > 0.7 || location < 0.3);
 		
 		return result;
 	}// checkNoSelfInsertion
