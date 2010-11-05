@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.commands.dnd;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
@@ -103,30 +104,69 @@ public class DelegatingWrapperFeatureDragAndDropCommand extends AbstractCommand 
 			// EObject value_ = (EObject) wrapper.getValue();
 			int index = wrapper.getIndex();
 			
+			// calculate the visual feedback and concurrently the index new
+			// element shall be moved to
 			int targetIndex = index;
 			if (location < 0.5) {
 				feedback = FEEDBACK_INSERT_BEFORE;
 			} else {
 				feedback = FEEDBACK_INSERT_AFTER;
 				targetIndex++;
-			}
+			}// if else
 			
 			CompoundCommand dragCompoundCommand = new CompoundCommand();
 			CompoundCommand dropCompoundCommand = new CompoundCommand();
 			
+			/*
+			 * Iterate through all elements in the collection a create all
+			 * appropriate commands.
+			 */
 			for (Object o : collection) {
 				if (o instanceof IWrapperItemProvider) {
 					IWrapperItemProvider w = (IWrapperItemProvider) o;
+					/*
+					 * If o is a wrapped element, let's look if it is referred
+					 * to by the same owner and the targeted feature already.
+					 * Then we have to perform a "move". Otherwise we have to
+					 * delete the old reference as DragCommand and perform the
+					 * Add as DropCommand.
+					 */
 					if (w.getOwner().equals(owner_) && w.getFeature().equals(feature_)) {
-						dropCompoundCommand.append(MoveCommand.create(domain, owner_,
-								w.getFeature(), w.getValue(), targetIndex));
+						// Dragee is already referred to.
+						
+						/*
+						 * If the targeted feature is a list, we have to adjust
+						 * the index to move the dragee to depending on whether
+						 * the moved element is before or after the targeted
+						 * index. TODO: This algorithm may be improved
+						 */
+						if (feature_.isMany()) {
+							// fetch the current index of the dragee...
+							int drageeIndex = ((List<?>) owner_.eGet(feature_)).indexOf(w
+									.getValue());
+							// ..and adjust it if it is located before the
+							// target index
+							drageeIndex = (drageeIndex < index) ? targetIndex - 1 : targetIndex;
+							dropCompoundCommand.append(MoveCommand.create(domain, owner_,
+									w.getFeature(), w.getValue(), drageeIndex));
+						} else {
+							// ..otherwise the target index does not matter
+							dropCompoundCommand.append(MoveCommand.create(domain, owner_,
+									w.getFeature(), w.getValue(), 0));
+						}// if else
+						
 					} else {
 						dragCompoundCommand.append(RemoveCommand.create(domain, w.getOwner(),
 								w.getFeature(), w.getValue()));
 						dropCompoundCommand.append(AddCommand.create(domain, owner_, feature_,
 								w.getValue(), targetIndex));
-					}
+					}// if else
 				} else {
+					/*
+					 * If o is not wrapped, o is no "referred" element since
+					 * they are all wrapped. So we can create the Add command
+					 * instantly.
+					 */
 					dropCompoundCommand.append(AddCommand.create(domain, owner_, feature_, o,
 							targetIndex));
 					
