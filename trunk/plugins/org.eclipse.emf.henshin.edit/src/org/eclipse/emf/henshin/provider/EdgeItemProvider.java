@@ -188,10 +188,8 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 		if (notification.getEventType() == Notification.SET) {
 			
 			Edge edge = (Edge) notification.getNotifier();
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(edge,
-					Edge.class);
 			Notification notif = new ViewerNotification(notification, edge, false, true);
-			adapter.fireNotifyChanged(notif);
+			this.fireNotifyChanged(notif);
 		}// if
 		
 		updateChildren(notification);

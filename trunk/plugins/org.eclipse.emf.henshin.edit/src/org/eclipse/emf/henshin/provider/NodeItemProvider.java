@@ -279,7 +279,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						true, false));
 				return;
 			case HenshinPackage.NAMED_ELEMENT__NAME:
-				Node node = (Node) this.target;
+				Node node = (Node) notification.getNotifier();
 				List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
 				edgeList.addAll(node.getOutgoing());
 				if (!edgeList.isEmpty()) {
