@@ -23,7 +23,6 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-import org.eclipse.emf.henshin.editor.commands.HenshinAdvancedActionFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -59,8 +58,6 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 	 * @generated
 	 */
 	protected IEditorPart activeEditorPart;
-	
-	protected HenshinAdvancedActionFactory advancedActionFactory;
 	
 	/**
 	 * This keeps track of the current selection provider. <!-- begin-user-doc
@@ -131,11 +128,6 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 	 * @generated
 	 */
 	protected IMenuManager createChildMenuManager;
-	
-	/**
-	 * @generated NOT
-	 */
-	protected Collection<IAction> createAdvancedActions;
 	
 	/**
 	 * @generated NOT
@@ -218,13 +210,10 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 				HenshinEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
 		submenuManager.insertBefore("additions", createSiblingMenuManager);
 		
-		createAdvancedMenuManager = new MenuManager(
-				HenshinEditorPlugin.INSTANCE.getString("_UI_CreateAdvanced_menu_item"));
-		submenuManager.insertBefore("additions", createAdvancedMenuManager);
-		
 		// Force an update because Eclipse hides empty menus now.
 		//
 		submenuManager.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager menuManager) {
 				menuManager.updateAll(true);
 			}
@@ -244,7 +233,6 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 	public void setActiveEditor(IEditorPart part) {
 		super.setActiveEditor(part);
 		activeEditorPart = part;
-		advancedActionFactory = new HenshinAdvancedActionFactory(part);
 		
 		// Switch to the new selection provider.
 		//
@@ -276,6 +264,7 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 	 * 
 	 * @generated NOT
 	 */
+	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		// Remove any menu items for old selection.
 		//
@@ -286,10 +275,6 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 			depopulateManager(createSiblingMenuManager, createSiblingActions);
 		}
 		
-		if (createAdvancedMenuManager != null) {
-			depopulateManager(createAdvancedMenuManager, createAdvancedActions);
-		}
-		
 		// Query the new selection for appropriate new child/sibling descriptors
 		//
 		Collection<?> newChildDescriptors = null;
@@ -298,8 +283,8 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 		EditingDomain domain = ((IEditingDomainProvider) activeEditorPart).getEditingDomain();
 		
 		ISelection selection = event.getSelection();
-		if (selection instanceof IStructuredSelection
-				&& ((IStructuredSelection) selection).size() == 1) {
+		if ((selection instanceof IStructuredSelection)
+				&& (((IStructuredSelection) selection).size() == 1)) {
 			Object object = ((IStructuredSelection) selection).getFirstElement();
 			
 			newChildDescriptors = domain.getNewChildDescriptors(object, null);
@@ -311,19 +296,12 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 		//
 		createChildActions = generateCreateChildActions(newChildDescriptors, selection);
 		createSiblingActions = generateCreateSiblingActions(newSiblingDescriptors, selection);
-		// createAdvancedActions = generateAdvancedCreateActions(selection);
-		
-		createAdvancedActions = advancedActionFactory.generateAdvancedCreateActions(domain,
-				selection);
 		
 		if (createChildMenuManager != null) {
 			populateManager(createChildMenuManager, createChildActions, null);
 			createChildMenuManager.update(true);
 		}
-		if (createAdvancedMenuManager != null) {
-			populateManager(createAdvancedMenuManager, createAdvancedActions, null);
-			createAdvancedMenuManager.update(true);
-		}
+		
 		if (createSiblingMenuManager != null) {
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
@@ -406,10 +384,10 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 			Collection<? extends IAction> actions) {
 		if (actions != null) {
 			IContributionItem[] items = manager.getItems();
-			for (int i = 0; i < items.length; i++) {
+			for (IContributionItem item : items) {
 				// Look into SubContributionItems
 				//
-				IContributionItem contributionItem = items[i];
+				IContributionItem contributionItem = item;
 				while (contributionItem instanceof SubContributionItem) {
 					contributionItem = ((SubContributionItem) contributionItem).getInnerItem();
 				}
@@ -440,11 +418,6 @@ public class HenshinActionBarContributor extends EditingDomainActionBarContribut
 		submenuManager = new MenuManager(
 				HenshinEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
 		populateManager(submenuManager, createChildActions, null);
-		menuManager.insertBefore("edit", submenuManager);
-		
-		submenuManager = new MenuManager(
-				HenshinEditorPlugin.INSTANCE.getString("_UI_CreateAdvanced_menu_item"));
-		populateManager(submenuManager, createAdvancedActions, null);
 		menuManager.insertBefore("edit", submenuManager);
 		
 		submenuManager = new MenuManager(

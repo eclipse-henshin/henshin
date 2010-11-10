@@ -14,9 +14,13 @@ package org.eclipse.emf.henshin.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -24,9 +28,11 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.commands.NodeRemoveCommand;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Node;
 
 /**
  * This is the item provider adapter for a
@@ -126,7 +132,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	@Override
 	public String getText(Object object) {
 		String label = ((Graph) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_Graph_type")
+		return (label == null) || (label.length() == 0) ? getString("_UI_Graph_type")
 				: getString("_UI_Graph_type") + " " + label;
 	}
 	
@@ -181,6 +187,37 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 				HenshinFactory.eINSTANCE.createNot()));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
+	 * (org.eclipse.emf.edit.domain.EditingDomain,
+	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
+	 * java.util.Collection)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Collection<?> collection) {
+		
+		HenshinPackage pack = HenshinPackage.eINSTANCE;
+		
+		if (feature == pack.getGraph_Nodes()) {
+			for (Object c : collection) {
+				if (!(c instanceof Node)) return UnexecutableCommand.INSTANCE;
+			}// for
+			return new NodeRemoveCommand(domain, owner, (Collection<Node>) collection);
+		}
+		
+		// Objects might have been removed as side effect of other remove
+		// commands
+		// if (feature == pack.getGraph_Edges())
+		// return new NegligentRemoveCommand(domain, owner, feature,
+		// collection);
+		
+		return super.createRemoveCommand(domain, owner, feature, collection);
 	}
 	
 }

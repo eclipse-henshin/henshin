@@ -1,6 +1,3 @@
-/**
- * 
- */
 /*******************************************************************************
  * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
  * Philipps-University Marburg and others. All rights reserved. 
@@ -25,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.henshin.commands.NegligentRemoveCommand;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -121,12 +119,31 @@ public class LhsMappingItemProvider extends TransientItemProvider {
 			int operations, int operation, Collection<?> collection) {
 		
 		if (new AddCommand(domain, (EObject) owner,
-				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, collection).canExecute()) {
+				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, collection).canExecute())
 			return super.createDragAndDropCommand(domain, owner, location, operations, operation,
 					collection);
-		}// if
 		return UnexecutableCommand.INSTANCE;
 		
 	}// createDragAndDropCommand
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.provider.TransientItemProvider#createRemoveCommand
+	 * (org.eclipse.emf.edit.domain.EditingDomain,
+	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
+	 * java.util.Collection)
+	 */
+	@Override
+	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Collection<?> collection) {
+		
+		// Objects might have been removed as side effect of other remove
+		// commands
+		if (feature == HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS)
+			return new NegligentRemoveCommand(domain, owner, feature, collection);
+		
+		return super.createRemoveCommand(domain, owner, feature, collection);
+	}
 	
 }// class

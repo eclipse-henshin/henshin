@@ -14,9 +14,12 @@ package org.eclipse.emf.henshin.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -24,6 +27,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.commands.NegligentRemoveCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
@@ -118,7 +122,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	@Override
 	public String getText(Object object) {
 		String label = ((Rule) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_Rule_type")
+		return (label == null) || (label.length() == 0) ? getString("_UI_Rule_type")
 				: getString("_UI_Rule_type") + " " + label;
 	}
 	
@@ -184,38 +188,23 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		Object childFeature = feature;
 		Object childObject = child;
 		
-		boolean qualify = childFeature == HenshinPackage.Literals.RULE__LHS
-				|| childFeature == HenshinPackage.Literals.RULE__RHS;
+		boolean qualify = (childFeature == HenshinPackage.Literals.RULE__LHS)
+				|| (childFeature == HenshinPackage.Literals.RULE__RHS);
 		
-		if (qualify) {
+		if (qualify)
 			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
 					getFeatureText(childFeature), getTypeText(owner) });
-		}
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
 	
-	// /* (non-Javadoc)
-	// * @see
-	// org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang.Object)
-	// */
-	// @Override
-	// public Object getParent(Object object) {
-	// Object o = super.getParent(object);
-	//
-	// if (o instanceof AmalgamationUnit) {
-	// AmalgamationUnit au = (AmalgamationUnit) o;
-	// AmalgamationUnitItemProvider auIp = (AmalgamationUnitItemProvider)
-	// adapterFactory
-	// .adapt(au, IEditingDomainItemProvider.class);
-	// if (au.getKernelRule().equals(object)) {
-	// return auIp != null ? auIp.getKernelRuleItemProvider() : null;
-	// } else {
-	// return auIp != null ? auIp.getMuliRulesItemProvider() : null;
-	// }
-	// } else {
-	// return super.getParent(object);
-	// }
-	//
-	// }
+	@Override
+	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Collection<?> collection) {
+		
+		if (feature == HenshinPackage.Literals.RULE__MAPPINGS)
+			return new NegligentRemoveCommand(domain, owner, feature, collection);
+		
+		return super.createRemoveCommand(domain, owner, feature, collection);
+	}
 	
 }

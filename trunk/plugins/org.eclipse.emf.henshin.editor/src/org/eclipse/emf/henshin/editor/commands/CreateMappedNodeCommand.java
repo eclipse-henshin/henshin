@@ -1,0 +1,94 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.emf.henshin.editor.commands;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.henshin.commands.HenshinModelUtils;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+
+/**
+ * Creates one {@link Node} in each {@link Graph} of a given {@link Rule} and a
+ * {@link Mapping} between them.
+ * 
+ * @author Gregor Bonifer
+ * @author Stefan Jurack (sjurack)
+ */
+public class CreateMappedNodeCommand extends AbstractCommand {
+	
+	protected Rule rule;
+	protected Node origNode, imgNode;
+	protected Mapping mapping;
+	
+	public CreateMappedNodeCommand(Rule rule) {
+		this.rule = rule;
+	}
+	
+	@Override
+	protected boolean prepare() {
+		return this.rule != null;
+	}
+	
+	@Override
+	public void execute() {
+		origNode = HenshinFactory.eINSTANCE.createNode();
+		origNode.setName(HenshinModelUtils.generateNewNodeName(rule.getLhs()));
+		
+		imgNode = HenshinFactory.eINSTANCE.createNode();
+		imgNode.setName(HenshinModelUtils.generateNewNodeName(rule.getRhs()));
+		
+		mapping = HenshinFactory.eINSTANCE.createMapping();
+		mapping.setOrigin(origNode);
+		mapping.setImage(imgNode);
+		redo();
+	}
+	
+	@Override
+	public Collection<?> getAffectedObjects() {
+		Collection<Object> affectedObjects = new ArrayList<Object>();
+		affectedObjects.add(origNode);
+		affectedObjects.add(imgNode);
+		affectedObjects.add(mapping);
+		return affectedObjects;
+	}
+	
+	@Override
+	public Collection<?> getResult() {
+		return this.getAffectedObjects();
+	}
+	
+	@Override
+	public boolean canUndo() {
+		return true;
+	}
+	
+	@Override
+	public void undo() {
+		rule.getLhs().getNodes().remove(origNode);
+		rule.getRhs().getNodes().remove(imgNode);
+		rule.getMappings().remove(mapping);
+	}
+	
+	@Override
+	public void redo() {
+		rule.getLhs().getNodes().add(origNode);
+		rule.getRhs().getNodes().add(imgNode);
+		rule.getMappings().add(mapping);
+	}
+	
+}

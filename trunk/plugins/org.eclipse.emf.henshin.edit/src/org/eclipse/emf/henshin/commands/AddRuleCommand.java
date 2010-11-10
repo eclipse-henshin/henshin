@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * @generated NOT
  */
 public class AddRuleCommand extends AddCommand implements Command {
-
+	
 	/**
 	 * Constructor.
 	 * 
@@ -44,11 +44,10 @@ public class AddRuleCommand extends AddCommand implements Command {
 	 * @param index
 	 *            Index.
 	 */
-	public AddRuleCommand(EditingDomain domain, TransformationSystem system,
-			Rule rule, int index) {
+	public AddRuleCommand(EditingDomain domain, TransformationSystem system, Rule rule, int index) {
 		this(domain, system, Collections.singleton(rule), index);
 	}
-
+	
 	/**
 	 * Constructor.
 	 * 
@@ -63,17 +62,17 @@ public class AddRuleCommand extends AddCommand implements Command {
 	 */
 	public AddRuleCommand(EditingDomain domain, TransformationSystem system,
 			Collection<Rule> rules, int index) {
-		super(domain, system, HenshinPackage.eINSTANCE
-				.getTransformationSystem_Rules(), rules, index);
+		super(domain, system, HenshinPackage.eINSTANCE.getTransformationSystem_Rules(), rules,
+				index);
 	}
-
+	
 	@Override
 	public void doExecute() {
-		int rules = ((TransformationSystem) owner).getRules().size();
-
+		// int rules = ((TransformationSystem) owner).getRules().size();
+		
 		for (Object object : getCollection()) {
 			Rule rule = (Rule) object;
-
+			
 			// Initialize LHS and RHS:
 			if (rule.getLhs() == null) {
 				Graph lhs = HenshinFactory.eINSTANCE.createGraph();
@@ -85,17 +84,13 @@ public class AddRuleCommand extends AddCommand implements Command {
 				rhs.setName("RHS");
 				rule.setRhs(rhs);
 			}
-
+			
 			// Set the name:
 			if (rule.getName() == null) {
-				rule.setName("rule" + (rules++));
-				/*
-				 * TODO: potential BUG: delete a rule and creating a new
-				 * afterwards lead to double rule names (rule++ by size)
-				 */				
-			}			
+				rule.setName(HenshinModelUtils.generateNewRuleName((TransformationSystem) owner));
+			}
 		}
 		super.doExecute();
 	}
-
+	
 }

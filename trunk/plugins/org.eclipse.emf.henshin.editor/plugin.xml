@@ -35,7 +35,7 @@
             icon="icons/full/obj16/HenshinModelFile.gif"
             extensions="henshin"
             class="org.eclipse.emf.henshin.presentation.HenshinEditor"
-            contributorClass="org.eclipse.emf.henshin.presentation.HenshinActionBarContributor">
+            contributorClass="org.eclipse.emf.henshin.presentation.CustomizedHenshinActionBarContributor">
       </editor>
    </extension>
 
