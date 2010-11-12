@@ -36,12 +36,13 @@ public class NegligentRemoveCommand extends RemoveCommand {
 		super(domain, owner, feature, collection);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.edit.command.RemoveCommand#doExecute()
 	 */
 	@Override
 	public void doExecute() {
-		// collection.retainAll(ownerList);
+		collection.retainAll(ownerList);
 		super.doExecute();
 	}
 	
