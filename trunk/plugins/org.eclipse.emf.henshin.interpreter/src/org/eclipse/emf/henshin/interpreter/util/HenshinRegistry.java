@@ -20,4 +20,14 @@ public class HenshinRegistry {
 	public Set<TransformationSystem> getTransformationSystems() {
 		return transformationSystems;
 	}
+	
+	public TransformationSystem getTransformationSystemByName(String name) {
+		for (TransformationSystem trafoSystem : transformationSystems) {
+			if (trafoSystem.getName().equals(name)) {
+				return trafoSystem;
+			}
+		}
+		
+		return null;
+	}
 }

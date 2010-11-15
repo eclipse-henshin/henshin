@@ -1,45 +1,52 @@
 package org.eclipse.emf.henshin.interpreter.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.emf.henshin.interpreter.util.HenshinRegistry;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.jface.action.ContributionItem;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.CompoundContributionItem;
+import org.eclipse.ui.menus.CommandContributionItem;
+import org.eclipse.ui.menus.CommandContributionItemParameter;
+import org.eclipse.ui.services.IServiceLocator;
 
-
-public class HenshinMenu extends ContributionItem {
+public class HenshinMenu extends CompoundContributionItem {
 	public HenshinMenu() {
 	}
-
+	
 	public HenshinMenu(String id) {
 		super(id);
 	}
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void fill(Menu menu, int index) {
-		// Here you could get selection and decide what to do
-		// You can also simply return if you do not want to show a menu
-
-		// create the menu item
-		MenuItem applyItem = new MenuItem(menu, SWT.CASCADE);
-		applyItem.setText("Apply");
+	protected IContributionItem[] getContributionItems() {
+		IServiceLocator serviceLocator = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		List<IContributionItem> items = new ArrayList<IContributionItem>();
 		
-		Menu subMenu = new Menu(menu);
-		applyItem.setMenu(subMenu);
-		
-		for (TransformationSystem trafoSystem: HenshinRegistry.instance.getTransformationSystems()) {
-			MenuItem trafoSystemItem = new MenuItem(subMenu, SWT.CASCADE);
-			trafoSystemItem.setText(trafoSystem.getName());
-			
-			Menu subMenu2 = new Menu(menu);
-			trafoSystemItem.setMenu(subMenu2);
-		
-			for (TransformationUnit unit: trafoSystem.getTransformationUnits()) {
-				MenuItem trafoItem = new MenuItem(subMenu2, SWT.PUSH);
-				trafoItem.setText(unit.getName());
+		for (TransformationSystem trafoSystem : HenshinRegistry.instance.getTransformationSystems()) {
+			for (TransformationUnit unit : trafoSystem.getTransformationUnits()) {
+				Map commandParams = new HashMap<String, Object>();
+				commandParams.put("org.eclipse.emf.henshin.UnitParameter",
+						unit.getName());
+				commandParams.put("org.eclipse.emf.henshin.TrafoSystemParameter",
+						trafoSystem.getName());
+				
+				CommandContributionItemParameter param = new CommandContributionItemParameter(
+						serviceLocator, trafoSystem.getName() + ":" + unit.getName(),
+						"org.eclipse.emf.henshin.interpreter.ui.ApplyTrafoUnit", commandParams,
+						null, null, null, trafoSystem.getName() + ":" + unit.getName(), null, null,
+						CommandContributionItem.STYLE_PUSH, null, false);
+				
+				items.add(new CommandContributionItem(param));
 			}
 		}
+		
+		return items.toArray(new IContributionItem[items.size()]);
 	}
 }
