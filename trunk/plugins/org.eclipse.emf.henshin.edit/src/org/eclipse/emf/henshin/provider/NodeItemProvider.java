@@ -277,7 +277,11 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			case HenshinPackage.NODE__ATTRIBUTES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
 						true, false));
-				return;
+				break;
+			case HenshinPackage.NODE__TYPE:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						false, true));
+				break;				
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				Node node = (Node) notification.getNotifier();
 				List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
