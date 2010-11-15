@@ -213,8 +213,12 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			Node n1 = (Node) notification.getNewValue();
 			Node n2 = (Node) notification.getOldValue();
 			
+			// refresh node labels
 			notifyNodeForRefresh(notification, n1);
 			notifyNodeForRefresh(notification, n2);
+			// refresh the mapping label itself
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+					false, true));
 			
 		}// if
 		
