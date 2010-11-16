@@ -133,7 +133,7 @@ public class UnitApplication extends Observable {
 	public void redo() {
 		while (!undoneRules.isEmpty()) {
 			RuleApplication ruleApplication = undoneRules.pop();
-			ruleApplication.undo();
+			ruleApplication.redo();
 			appliedRules.push(ruleApplication);
 		}
 	}
