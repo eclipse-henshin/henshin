@@ -38,6 +38,7 @@ import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -326,31 +327,36 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		/*
 		 * In case of wrappers and transient items, by default the commands are
 		 * not always created adequately, i.e. the feature information of the
-		 * transient items contained in the wrappers are often thrown away. This
-		 * is fixed by the following code: The commands and especially command
-		 * parameters are build up from scratch taking given information about
-		 * owner, value and features into account.
+		 * transient items contained in the wrappers are often thrown away
+		 * instead of taken into account. This is (not generically) fixed by the
+		 * following code: The commands and especially command parameters are
+		 * build up from scratch taking given information about owner, value and
+		 * features into account.
 		 */
-		CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
-		if (commandParameter.collection != null) {
-			Iterator<?> iterator = commandParameter.collection.iterator();
-			Object o;
-			while (iterator.hasNext()) {
-				o = iterator.next();
-				CommandParameter cp = unwrapItemAndCreateCommandParameter(commandParameter, o);
-				Command c = null;
-				if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
-						&& !((EStructuralFeature) cp.feature).isMany()) {
-					commandClass = SetCommand.class;
-				}
-				c = super.createCommand(object, domain, commandClass, cp);
-				command.append(c);
-			}// while
-		} else {
-			return super.createCommand(object, domain, commandClass, commandParameter);
-		}
-		
-		return command;
+
+		//The behavior has to be fixed only if collection contains a Rule
+		if (commandParameter.collection != null && !commandParameter.collection.isEmpty()) {
+			Object realObject = unwrap(commandParameter.collection.iterator().next());
+			if (realObject instanceof Rule) {
+				CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
+				Iterator<?> iterator = commandParameter.collection.iterator();
+				Object o;
+				while (iterator.hasNext()) {
+					o = iterator.next();
+					CommandParameter cp = unwrapItemAndCreateCommandParameter(commandParameter, o);
+					Command c = null;
+					if (cp.feature != null && (cp.feature instanceof EStructuralFeature)
+							&& !((EStructuralFeature) cp.feature).isMany()) {
+						commandClass = SetCommand.class;
+					}
+					c = super.createCommand(object, domain, commandClass, cp);
+					command.append(c);
+					command.setLabel(c.getLabel());
+				}// while
+				return command;
+			} // if
+		}// if
+		return super.createCommand(object, domain, commandClass, commandParameter);
 	}// createCommand
 	
 	/**
