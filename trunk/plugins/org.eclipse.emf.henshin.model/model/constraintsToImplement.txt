@@ -6,7 +6,7 @@ Note: If a constraints below is implemented, please remove it from this list.
 [error] <<create>> nodes (in the RHS) must not be abstract
 [error] <<create>> edges (in the RHS) must not be derived
 [error] <<delete>> edges (in the LHS) must not be derived 
-[error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph or in a directly contained nested graph (incl. respecting combinations with and/or/not)
+[error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph
 
 * TransformationSystem
 [warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
@@ -40,6 +40,6 @@ Note: If a constraints below is implemented, please remove it from this list.
 [error] in multirules, mappings between elements mapped by the kernel rule must correspond to mappings of the kernel rule itself
 
 * Nested Condition
-[error] the origin node of a mapping is contained in *this* nested condition
-[error] the image node of a mapping is contained in a direct sub-nested condition (child, left or right)
+[error] the origin node of a mapping is contained in a direct parent nested condition 
+[error] the image node of a mapping is contained in *this* nested condition
  
