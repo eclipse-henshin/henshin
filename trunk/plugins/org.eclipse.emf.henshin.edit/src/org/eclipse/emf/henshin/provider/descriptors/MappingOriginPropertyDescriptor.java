@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.model.Formula;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -78,10 +80,18 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 			} else if (eobject instanceof NestedCondition) {
 				/*
 				 * Origin in a nested condition may be any node in the
-				 * conclusion graph
+				 * containing graph of this nested condition
 				 */
-				NestedCondition nc = (NestedCondition) eobject;
-				result = nc.getConclusion().getNodes();
+				Formula f = (Formula) eobject;
+				/*
+				 * nested conditions may be 'nested' ;-) so we have to find the
+				 * container graph beyond (possibly) several formula nestings
+				 */
+				while (f.eContainer() instanceof Formula)
+					f = (Formula) f.eContainer();
+				
+				Graph graph = (Graph) f.eContainer();
+				result = graph.getNodes();
 			} else if (eobject instanceof AmalgamationUnit) {
 				/*
 				 * Origin in an amalgamation unit depends on the reference the
