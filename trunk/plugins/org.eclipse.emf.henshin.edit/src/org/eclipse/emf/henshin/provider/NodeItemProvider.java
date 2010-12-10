@@ -193,31 +193,34 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			return defaultImage;
 		}
 		
-		// get the container rule
-		Rule rule = node.getGraph().getContainerRule();
-		if (rule == null) {
-			return defaultImage;
-		}
+		// get the container
+		Object container = node.getGraph().eContainer();
 		
-		for (Mapping mapping : rule.getMappings()) {
-			// if this node occurs in the Mapping-List, it is a preserved node
-			// i.e.
-			// it is source or origin of a mapping from LHS to RHS
-			if ((mapping.getOrigin() == node) || (mapping.getImage() == node)) return defaultImage;
-		}// for
-		
-		if (rule.getLhs() == graph) {
-			return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_Delete.png"));
-		} else if (rule.getRhs() == graph) {
-			return overlayImage(object, getResourceLocator().getImage("full/obj16/Node_Add.png"));
-		} else if (graph.eContainer() instanceof NestedCondition) {
-			NestedCondition nc = (NestedCondition) graph.eContainer();
+		if (container instanceof Rule) {
+			Rule rule = (Rule) container;
+			for (Mapping mapping : rule.getMappings()) {
+				// if this node occurs in the Mapping-List, it is a preserved
+				// node
+				// i.e.
+				// it is source or origin of a mapping from LHS to RHS
+				if ((mapping.getOrigin() == node) || (mapping.getImage() == node))
+					return defaultImage;
+			}// for
+			
+			if (rule.getLhs() == graph) {
+				return overlayImage(object,
+						getResourceLocator().getImage("full/obj16/Node_Delete.png"));
+			} else { // rule.getRhs() == graph
+				return overlayImage(object, getResourceLocator()
+						.getImage("full/obj16/Node_Add.png"));
+			}// if else
+			
+		} else { // container instance of NestedCondition
+			NestedCondition nc = (NestedCondition) container;
 			// Do the following only for negative application conditions (NACs)
 			if (nc.isNegated()) {
 				for (Mapping mapping : nc.getMappings()) {
 					// if this node occurs in the Mapping-List, it is a mapped
-					// from
-					// the LHS of the rule
 					if (mapping.getImage() == node) // its the mapping 'image',
 													// not
 													// the visual one ;-)
@@ -226,13 +229,13 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				return overlayImage(object,
 						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
 				/*
-				 * Please note, NAC nodes which are mapped by LHS nodes are not
-				 * marked by a 'forbid symbol' even though they belong to the
-				 * forbidden structure as well. However, this shall indicate to
-				 * the user in a straight way, that it is a mapped node.
+				 * Please note, mapped NAC-nodes are not marked by a 'forbid
+				 * symbol' even though they belong to the forbidden structure as
+				 * well. However, this shall indicate to the user in a straight
+				 * way, that it is a mapped node.
 				 */
 			}// if negated
-		}// if else if
+		}// if else
 		
 		return defaultImage;
 	}// getImage
@@ -281,7 +284,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			case HenshinPackage.NODE__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
 						false, true));
-				break;				
+				break;
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				Node node = (Node) notification.getNotifier();
 				List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
