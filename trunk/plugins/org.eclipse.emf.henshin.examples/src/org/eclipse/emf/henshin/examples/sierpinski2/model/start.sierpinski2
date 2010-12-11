@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Sierpinski2:VertexContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:Sierpinski2="sierpinski2" xsi:schemaLocation="sierpinski2 sierpinski2.ecore">
-  <vertices left="//@vertices.2" right="//@vertices.1" depth="1"/>
-  <vertices depth="1"/>
-  <vertices conn="//@vertices.1" depth="1"/>
+  <vertices next="//@vertices.1" depth="1"/>
+  <vertices next="//@vertices.2" depth="1"/>
+  <vertices next="//@vertices.0" depth="1"/>
 </Sierpinski2:VertexContainer>
