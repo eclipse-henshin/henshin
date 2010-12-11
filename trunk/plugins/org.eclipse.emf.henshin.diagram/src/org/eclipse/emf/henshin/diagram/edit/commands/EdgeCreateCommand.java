@@ -157,6 +157,11 @@ public class EdgeCreateCommand extends EditElementCommand {
 		Action action1 = NodeActionHelper.INSTANCE.getAction(source);
 		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
 
+		// Sanity check:
+		if (action1==null || action2==null) {
+			return false;
+		}
+		
 		// Different actions are only allowed if one is a preserve action:
 		if (!action1.equals(action2)
 				&& action1.getType() != ActionType.PRESERVE
