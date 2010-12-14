@@ -211,27 +211,25 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	@Override
 	public void notifyChanged(Notification notification) {
 		
-		if (notification.getNotifier() == this.getTarget()) {
-			/*
-			 * Refresh the corresponding Nodes if the Mapping changes
-			 */
-			if (notification.getEventType() == Notification.SET) {
-				
-				Node n1 = (Node) notification.getNewValue();
-				Node n2 = (Node) notification.getOldValue();
-				
-				// refresh node labels
-				notifyNodeForRefresh(notification, n1);
-				notifyNodeForRefresh(notification, n2);
-				// refresh the mapping label itself
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
-				
-				removeNodeListener(n2);
-				addNodeListener(n1);
-				
-			}// if
-		}
+		/*
+		 * Refresh the corresponding Nodes if the Mapping changes
+		 */
+		if (notification.getEventType() == Notification.SET) {
+			
+			Node n1 = (Node) notification.getNewValue();
+			Node n2 = (Node) notification.getOldValue();
+			
+			// refresh node labels
+			notifyNodeForRefresh(notification, n1);
+			notifyNodeForRefresh(notification, n2);
+			// refresh the mapping label itself
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+					false, true));
+			
+			removeNodeListener(n2);
+			addNodeListener(n1);
+			
+		}// if
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
@@ -342,7 +340,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			/*
 			 * Listen for Node renaming events.
 			 */
-			if (notification.getFeatureID(Node.class) == HenshinPackage.NODE__NAME) {
+			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME) {
 				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
 				
 				AdapterFactory fac = MappingItemProvider.this.adapterFactory;
