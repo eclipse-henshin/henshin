@@ -74,8 +74,11 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		if (HenshinRuleAnalysisUtil.isLHS(node.getGraph())
 				|| HenshinRuleAnalysisUtil.isRHS(node.getGraph())) {
 			mappings = node.getGraph().getContainerRule().getMappings();
-		} else {
+		} else if (node.getGraph().eContainer() instanceof NestedCondition) {
 			mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
+		} else {
+			// direct subgraph of TransformationSystem
+			return;
 		}
 		
 		Collection<Mapping> ruleMappings = new ArrayList<Mapping>();
