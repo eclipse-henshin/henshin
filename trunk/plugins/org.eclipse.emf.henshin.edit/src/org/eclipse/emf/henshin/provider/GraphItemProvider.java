@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +27,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.emf.henshin.commands.NodeRemoveCommand;
+import org.eclipse.emf.henshin.commands.NegligentRemoveCommand;
+import org.eclipse.emf.henshin.commands.NodeComplexRemoveCommand;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -205,17 +205,14 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		HenshinPackage pack = HenshinPackage.eINSTANCE;
 		
 		if (feature == pack.getGraph_Nodes()) {
-			for (Object c : collection) {
-				if (!(c instanceof Node)) return UnexecutableCommand.INSTANCE;
-			}// for
-			return new NodeRemoveCommand(domain, owner, (Collection<Node>) collection);
+			return new NodeComplexRemoveCommand(domain, (Graph) owner,
+					(Collection<Node>) collection);
 		}
 		
 		// Objects might have been removed as side effect of other remove
 		// commands
-		// if (feature == pack.getGraph_Edges())
-		// return new NegligentRemoveCommand(domain, owner, feature,
-		// collection);
+		if (feature == pack.getGraph_Edges())
+			return new NegligentRemoveCommand(domain, owner, feature, collection);
 		
 		return super.createRemoveCommand(domain, owner, feature, collection);
 	}

@@ -14,11 +14,13 @@ package org.eclipse.emf.henshin.provider;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -28,7 +30,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
+import org.eclipse.emf.henshin.commands.GraphComplexUnsetCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -197,4 +199,22 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 				HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
-}
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
+	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
+	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	@Override
+	protected Command createSetCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Object value) {
+		
+		if (feature == HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION)
+			if (value == SetCommand.UNSET_VALUE)
+				return new GraphComplexUnsetCommand(domain, owner, feature);
+		
+		return super.createSetCommand(domain, owner, feature, value);
+	}
+	
+}// class
