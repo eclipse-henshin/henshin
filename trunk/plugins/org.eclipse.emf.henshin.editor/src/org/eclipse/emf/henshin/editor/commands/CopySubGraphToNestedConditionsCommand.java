@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -30,7 +31,6 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Creates a copy of the sub{@link Graph} defined by the given {@link Node}s and
@@ -44,15 +44,18 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 	protected EditingDomain domain;
 	protected Collection<Node> nodes;
 	protected Collection<Edge> edges = new ArrayList<Edge>();
-	Collection<Mapping> mappings = new ArrayList<Mapping>();
-	protected Rule rule;
-	protected Graph graph;
 	protected NestedCondition condition;
 	protected Graph conclusionGraph;
 	protected EObject previousFormula;
 	protected EObject owner;
 	protected EStructuralFeature feature;
 	
+	/**
+	 * @param domain
+	 * @param nodes
+	 * @param owner
+	 * @param feature
+	 */
 	public CopySubGraphToNestedConditionsCommand(EditingDomain domain, Collection<Node> nodes,
 			EObject owner, EStructuralFeature feature) {
 		this.domain = domain;
@@ -61,10 +64,13 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		this.feature = feature;
 	}
 	
+	/**
+	 * @param domain
+	 * @param nodes
+	 */
 	public CopySubGraphToNestedConditionsCommand(EditingDomain domain, Collection<Node> nodes) {
 		this.domain = domain;
 		this.nodes = nodes;
-		
 	}
 	
 	/**
@@ -90,7 +96,7 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		if (nodes.isEmpty()) return false;
 		
 		// nodes must be contained in the same Graph
-		graph = null;
+		Graph graph = null;
 		for (Node node : nodes) {
 			if (graph == null) {
 				graph = node.getGraph();
@@ -100,7 +106,7 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		
 		if (this.owner == null) {
 			this.owner = graph;
-			this.feature = graph.eClass().getEStructuralFeature(HenshinPackage.GRAPH__FORMULA);
+			this.feature = HenshinPackage.Literals.GRAPH__FORMULA;
 		}
 		
 		// // graph must be a LHS
@@ -115,10 +121,15 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		}
 		
 		return true;
-	}
+	}// prepare
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.CompoundCommand#execute()
+	 */
 	@Override
 	public void execute() {
+		
+		HenshinFactory factory = HenshinFactory.eINSTANCE;
 		
 		// create copy of nodes and edges
 		Collection<Object> subGraphElements = new ArrayList<Object>();
@@ -127,8 +138,8 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		Command copyCmd = CopyCommand.create(domain, subGraphElements);
 		appendAndExecute(copyCmd);
 		
-		condition = HenshinFactory.eINSTANCE.createNestedCondition();
-		conclusionGraph = HenshinFactory.eINSTANCE.createGraph();
+		condition = factory.createNestedCondition();
+		conclusionGraph = factory.createGraph();
 		condition.setConclusion(conclusionGraph);
 		
 		Iterator<?> originalElementsIterator = subGraphElements.iterator();
@@ -136,16 +147,19 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		
 		// create mappings between original nodes and copies
 		
+		List<Node> conclusionNodeList = conclusionGraph.getNodes();
+		List<Edge> conclusionEdgeList = conclusionGraph.getEdges();
+		List<Mapping> conditionMappingList = condition.getMappings();
 		while (originalElementsIterator.hasNext() && copiedElementsIterator.hasNext()) {
 			Object originalObject = originalElementsIterator.next();
 			Object copiedObject = copiedElementsIterator.next();
 			if (copiedObject instanceof Node) {
-				conclusionGraph.getNodes().add((Node) copiedObject);
-				mappings.add(HenshinFactory.eINSTANCE.createMapping((Node) originalObject,
+				conclusionNodeList.add((Node) copiedObject);
+				conditionMappingList.add(factory.createMapping((Node) originalObject,
 						(Node) copiedObject));
 			}
 			if (copiedObject instanceof Edge) {
-				conclusionGraph.getEdges().add((Edge) copiedObject);
+				conclusionEdgeList.add((Edge) copiedObject);
 			}
 		}
 		redo();
@@ -156,21 +170,11 @@ public class CopySubGraphToNestedConditionsCommand extends CompoundCommand {
 		previousFormula = (Formula) owner.eGet(feature);
 		owner.eSet(feature, condition);
 		
-		if (graph.eContainer() instanceof Rule) {
-			graph.getContainerRule().getMappings().addAll(this.mappings);
-		} else {
-			((NestedCondition) graph.eContainer()).getMappings().addAll(this.mappings);
-		}
 	}
 	
 	@Override
 	public void undo() {
 		owner.eSet(feature, previousFormula);
-		if (graph.eContainer() instanceof Rule) {
-			graph.getContainerRule().getMappings().removeAll(this.mappings);
-		} else {
-			((NestedCondition) graph.eContainer()).getMappings().removeAll(this.mappings);
-		}
 	}
 	
 	@Override

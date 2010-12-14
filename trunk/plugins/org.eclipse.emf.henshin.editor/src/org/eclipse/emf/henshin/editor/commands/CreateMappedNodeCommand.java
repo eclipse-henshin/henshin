@@ -35,29 +35,45 @@ public class CreateMappedNodeCommand extends AbstractCommand {
 	protected Node origNode, imgNode;
 	protected Mapping mapping;
 	
+	/**
+	 * @param rule
+	 */
 	public CreateMappedNodeCommand(Rule rule) {
 		this.rule = rule;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+	 */
 	@Override
 	protected boolean prepare() {
 		return this.rule != null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.Command#execute()
+	 */
 	@Override
 	public void execute() {
-		origNode = HenshinFactory.eINSTANCE.createNode();
+		HenshinFactory factory = HenshinFactory.eINSTANCE;
+		origNode = factory.createNode();
 		origNode.setName(HenshinModelUtils.generateNewNodeName(rule.getLhs()));
 		
-		imgNode = HenshinFactory.eINSTANCE.createNode();
+		imgNode = factory.createNode();
 		imgNode.setName(HenshinModelUtils.generateNewNodeName(rule.getRhs()));
 		
-		mapping = HenshinFactory.eINSTANCE.createMapping();
+		mapping = factory.createMapping();
 		mapping.setOrigin(origNode);
 		mapping.setImage(imgNode);
 		redo();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#getAffectedObjects()
+	 */
 	@Override
 	public Collection<?> getAffectedObjects() {
 		Collection<Object> affectedObjects = new ArrayList<Object>();
@@ -67,16 +83,28 @@ public class CreateMappedNodeCommand extends AbstractCommand {
 		return affectedObjects;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#getResult()
+	 */
 	@Override
 	public Collection<?> getResult() {
 		return this.getAffectedObjects();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#canUndo()
+	 */
 	@Override
 	public boolean canUndo() {
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
+	 */
 	@Override
 	public void undo() {
 		rule.getLhs().getNodes().remove(origNode);
@@ -84,6 +112,10 @@ public class CreateMappedNodeCommand extends AbstractCommand {
 		rule.getMappings().remove(mapping);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.Command#redo()
+	 */
 	@Override
 	public void redo() {
 		rule.getLhs().getNodes().add(origNode);
@@ -91,4 +123,4 @@ public class CreateMappedNodeCommand extends AbstractCommand {
 		rule.getMappings().add(mapping);
 	}
 	
-}
+}// class

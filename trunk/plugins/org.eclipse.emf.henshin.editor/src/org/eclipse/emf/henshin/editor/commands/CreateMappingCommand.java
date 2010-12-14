@@ -15,44 +15,59 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
  * Creates a {@link Mapping} between two given {@link Node}s.
  * 
- * Uses a strategy/factorymethod pattern to separate cases with different
- * {@link EStructuralFeature}s containing the {@link Mapping}s.
  * 
  * @author Gregor Bonifer
+ * @author Stefan Jurack (sjurack)
  */
 public class CreateMappingCommand extends AbstractCommand {
 	
 	protected Node origin;
 	protected Node image;
 	protected Mapping mapping;
-	protected ModelConnectionStrategy strategy;
 	protected Collection<?> affectedObjects;
+	private boolean lhsRhsMapping = false;
 	
-	protected CreateMappingCommand(Node source, Node target) {
+	public CreateMappingCommand(Node source, Node target) {
 		this.origin = source;
 		this.image = target;
 	}
 	
-	protected void setStrategy(ModelConnectionStrategy strategy) {
-		this.strategy = strategy;
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+	 */
 	@Override
 	protected boolean prepare() {
-		return QuantUtil.noneNull(origin, image);
-	}
+		lhsRhsMapping = false;
+		/*
+		 * 1) Check at first if any reference is null which shall not be null.
+		 * 2) Check if the graphs of origin and image are not the same.
+		 */
+		if (QuantUtil.anyNull(origin, image, origin.getGraph(), image.getGraph(), origin.getGraph()
+				.eContainer(), image.getGraph().eContainer())
+				|| QuantUtil.allIdentical(origin.getGraph(), image.getGraph())) return false;
+		
+		if (isUnmappedLhsRhsPairFromSameRule(origin, image)) {
+			lhsRhsMapping = true;
+			return true;
+		}
+		if (isMappableSourceAndNestedTargetNode(origin, image)) return true;
+		
+		return false;
+	}// prepare
 	
 	@Override
 	public void execute() {
+		
 		mapping = HenshinFactory.eINSTANCE.createMapping();
 		mapping.setOrigin(origin);
 		mapping.setImage(image);
@@ -61,7 +76,12 @@ public class CreateMappingCommand extends AbstractCommand {
 	
 	@Override
 	public void redo() {
-		strategy.makeContained();
+		if (lhsRhsMapping) {
+			origin.getGraph().getContainerRule().getMappings().add(mapping);
+		} else {
+			NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
+			nc.getMappings().add(mapping);
+		}
 		affectedObjects = Collections.singleton(mapping);
 	}
 	
@@ -72,7 +92,14 @@ public class CreateMappingCommand extends AbstractCommand {
 	
 	@Override
 	public void undo() {
-		affectedObjects = strategy.makeUncontained();
+		if (lhsRhsMapping) {
+			origin.getGraph().getContainerRule().getMappings().remove(mapping);
+			affectedObjects = Collections.singleton(origin.getGraph().getContainerRule());
+		} else {
+			NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
+			nc.getMappings().remove(mapping);
+			affectedObjects = Collections.singleton(nc);
+		}
 	}
 	
 	@Override
@@ -94,49 +121,51 @@ public class CreateMappingCommand extends AbstractCommand {
 		Collection<?> makeUncontained();
 	}
 	
-	protected class OriginInRuleConnectionStrategy implements ModelConnectionStrategy {
-		@Override
-		public void makeContained() {
-			origin.getGraph().getContainerRule().getMappings().add(mapping);
-		}
+	/**
+	 * Returns true is source and target are contained in the LHS and RHS of the
+	 * same rule.
+	 * 
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	protected boolean isUnmappedLhsRhsPairFromSameRule(Node source, Node target) {
+		return HenshinRuleAnalysisUtil.isLHS(source.getGraph())
+				&& HenshinRuleAnalysisUtil.isRHS(target.getGraph())
+				&& (source.getGraph().getContainerRule() == target.getGraph().getContainerRule())
+				&& isUnmapped(source, target, source.getGraph().getContainerRule().getMappings());
+	}// isLhsRhsPairFromSameRule
+	
+	/**
+	 * Checks if <code>sourceNode</code> or <code>targetNode</code> are involved
+	 * in a mapping already, being origin or image respectively, contained in
+	 * <code>mappings</code>.
+	 * 
+	 * @param sourceNode
+	 * @param targetNode
+	 * @param mappings
+	 * @return
+	 */
+	protected boolean isUnmapped(Node sourceNode, Node targetNode, Collection<Mapping> mappings) {
 		
-		@Override
-		public Collection<?> makeUncontained() {
-			origin.getGraph().getContainerRule().getMappings().remove(mapping);
-			return Collections.singleton(origin.getGraph().getContainerRule());
-		}
-	}
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin() == sourceNode || mapping.getImage() == targetNode)
+				return false;
+		}// for
+		return true;
+	}// isUnmapped
 	
-	protected class OriginInNestedConditionConnectionStrategy implements ModelConnectionStrategy {
-		@Override
-		public void makeContained() {
-			NestedCondition nc = (NestedCondition) origin.getGraph().eContainer();
-			nc.getMappings().add(mapping);
-		}
-		
-		@Override
-		public Collection<?> makeUncontained() {
-			NestedCondition nc = (NestedCondition) origin.getGraph().eContainer();
-			nc.getMappings().remove(mapping);
-			return Collections.singleton(nc);
-		}
-	}
+	/**
+	 * @param sourceNode
+	 * @param targetNode
+	 * @return
+	 */
+	private boolean isMappableSourceAndNestedTargetNode(Node sourceNode, Node targetNode) {
+		if (targetNode.getGraph().eContainer() instanceof NestedCondition) {
+			NestedCondition nc = (NestedCondition) targetNode.getGraph().eContainer();
+			return isUnmapped(sourceNode, targetNode, nc.getMappings());
+		}// if
+		return false;
+	}// isMappableSourceAndTargetNode
 	
-	//
-	// Factory methods to hide strategy pattern
-	//
-	
-	public static CreateMappingCommand createCreateMappingInRuleCommand(Node source, Node target) {
-		CreateMappingCommand cmd = new CreateMappingCommand(source, target);
-		cmd.setStrategy(cmd.new OriginInRuleConnectionStrategy());
-		return cmd;
-	}
-	
-	public static CreateMappingCommand createCreateMappingInNestedConditionCommand(Node source,
-			Node target) {
-		CreateMappingCommand cmd = new CreateMappingCommand(source, target);
-		cmd.setStrategy(cmd.new OriginInNestedConditionConnectionStrategy());
-		return cmd;
-	}
-	
-}
+}// class
