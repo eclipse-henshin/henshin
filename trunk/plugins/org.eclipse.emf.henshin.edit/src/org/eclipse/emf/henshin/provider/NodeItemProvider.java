@@ -215,7 +215,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						.getImage("full/obj16/Node_Add.png"));
 			}// if else
 			
-		} else { // container instance of NestedCondition
+		} else if (container instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) container;
 			// Do the following only for negative application conditions (NACs)
 			if (nc.isNegated()) {
@@ -235,7 +235,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				 * way, that it is a mapped node.
 				 */
 			}// if negated
-		}// if else
+		}// if elseif
 		
 		return defaultImage;
 	}// getImage
