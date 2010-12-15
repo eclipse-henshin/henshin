@@ -50,17 +50,31 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 
 		henshin2emfGraph();
 	}
-
+	
+	/**
+	 * Translates the Henshin {@link Graph} in {@link #henshinGraph} into an
+	 * ordinary EMF graph with {@link EObject}s, {@link EReference}s and so on.
+	 * Afterwards, corresponding {@link EObject}s can be found in
+	 * <code>eObjects</code> and correspondences in <code>eObject2nodeMap</code>
+	 * and <code>node2eObjectMap</code>.
+	 * <p>
+	 * <strong>Remark:</strong> Currently, edges typed over <i>derived</i>
+	 * {@link EReference}s (see {@link EReference#isDerived()}) are omitted
+	 * during translation. Furthermore, if a typing {@link EReference}s is
+	 * non-changeable (see {@link EReference#isChangeable()}) but its opposite
+	 * (see {@link EReference#getEOpposite()}) is changeable, the reference is
+	 * translated into its opposite.
+	 */
 	@SuppressWarnings("unchecked")
 	private void henshin2emfGraph() {
 		eObjects.clear();
 		// henshinGraph.eAdapters().clear();
 		eObject2nodeMap.clear();
 		node2eObjectMap.clear();
-
+		
 		for (Node node : henshinGraph.getNodes()) {
 			EObject eObject = node2eObjectMap.get(node);
-
+			
 			if (eObject == null) {
 				EClass nodeType = node.getType();
 				EFactory factory = nodeType.getEPackage().getEFactoryInstance();
@@ -68,44 +82,67 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				addEObjectToGraph(eObject);
 				addSynchronizedPair(node, eObject);
 			}
-
+			
 			for (Attribute attr : node.getAttributes()) {
 				// don't notify me about changes that I made
 				eObject.eAdapters().remove(this);
 				EAttribute attrType = attr.getType();
 				String attrValue = attr.getValue();
 				attrValue = attrValue.replaceAll("\"", "");
-
+				
 				if (attrType.isMany()) {
-					List<Object> attrValues = (List<Object>) eObject
-							.eGet(attrType);
+					List<Object> attrValues = (List<Object>) eObject.eGet(attrType);
 					attrValues.add(attrValue);
 				} else {
-					eObject.eSet(
-							attrType,
-							EcoreUtil.createFromString(
-									attrType.getEAttributeType(), attrValue));
+					eObject.eSet(attrType,
+							EcoreUtil.createFromString(attrType.getEAttributeType(), attrValue));
 				}
-
+				
 				eObject.eAdapters().add(this);
 			}
 		}
-
+		
 		for (Edge edge : new ArrayList<Edge>(henshinGraph.getEdges())) {
 			EReference edgeType = edge.getType();
+			/*
+			 * If reference <code>edgeType</code> is derived it is available
+			 * implicitly and does not need to be set. Furthermore, if a
+			 * reference is not changeable it is omitted as well.
+			 */
+			if (edgeType.isDerived()) continue;
+			
 			EObject ownerObject = node2eObjectMap.get(edge.getSource());
-
+			EObject targetObject = node2eObjectMap.get(edge.getTarget());
+			
+			/*
+			 * If the edgeType is not changeable but its opposite is, then we
+			 * switch to the opposite.
+			 */
+			if (!edgeType.isChangeable()) {
+				if (edgeType.getEOpposite() != null && edgeType.getEOpposite().isChangeable()) {
+					edgeType = edgeType.getEOpposite();
+					// switch source and target
+					EObject temp = ownerObject;
+					ownerObject = targetObject;
+					targetObject = temp;
+				} else
+					/*
+					 * Otherwise we cannot handle the edge and omit it (or
+					 * better: shall throw an exception)
+					 */
+					continue;
+			}// if
+			
 			// don't notify me about changes that I made
 			ownerObject.eAdapters().remove(this);
-			EObject targetObject = node2eObjectMap.get(edge.getTarget());
+			
 			if (edgeType.isMany()) {
-				List<Object> edgeValues = (List<Object>) ownerObject
-						.eGet(edgeType);
+				List<Object> edgeValues = (List<Object>) ownerObject.eGet(edgeType);
 				edgeValues.add(targetObject);
 			} else {
 				ownerObject.eSet(edgeType, targetObject);
 			}
-
+			
 			ownerObject.eAdapters().add(this);
 		}
 	}
