@@ -20,7 +20,9 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingTargetPropertyDescriptor;
 
@@ -105,13 +107,33 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
-	 * @generated
+	 * 	
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ParameterMapping_type");
-	}
+		ParameterMapping pmapping = (ParameterMapping) object;
+		
+		String result = getString("_UI_ParameterMapping_type");
+		String src = null, trg = null;
+		if (pmapping.getSource() != null) {
+			src = pmapping.getSource().getName();
+		}
+		if (pmapping.getTarget() != null) {
+			trg = pmapping.getTarget().getName();
+		}
+		
+		return result + " " + convertString(src) + " -> " + convertString(trg);
+	}// getText
+	
+	/**
+	 * @param s
+	 * @return
+	 */
+	private String convertString(String s) {
+		final String EMPTY_STRING = "?";
+		return ((s == null) ? EMPTY_STRING : s);
+	}// convertString
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
@@ -123,10 +145,17 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
+		if (notification.getEventType() == Notification.SET) {
+			ParameterMapping parmap = (ParameterMapping) notification.getNotifier();
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(parmap,
+					null);
+			Notification notif = new ViewerNotification(notification, parmap, false, true);
+			adapter.fireNotifyChanged(notif);
+		}// if
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
-	
+
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
