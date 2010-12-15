@@ -164,15 +164,17 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public String getText(Object object) {
 		Edge edge = (Edge) object;
 		String result = getString("_UI_Edge_type");
-		if (edge.getSource() != null && edge.getTarget() != null) {
-			String source = (edge.getSource() != null) ? edge.getSource().getName() : "null";
-			String target = (edge.getTarget() != null) ? edge.getTarget().getName() : "null";
-			if (source != null && target != null) {
-				result = result + " " + source + " -> " + target;
-			}
-		}
+		
+		String srcName = (edge.getSource() != null) ? ((edge.getSource().getName() != null) ? edge
+				.getSource().getName() : "_") : "?";
+		String trgName = (edge.getTarget() != null) ? ((edge.getTarget().getName() != null) ? edge
+				.getTarget().getName() : "_") : "?";
+		String edgeType = ("(" + ((edge.getType() != null) ? edge.getType().getName() : "?") + ")");
+		
+		result = result + " " + edgeType + " " + srcName + " -> " + trgName;
+		
 		return result;
-	}
+	}// getText
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
