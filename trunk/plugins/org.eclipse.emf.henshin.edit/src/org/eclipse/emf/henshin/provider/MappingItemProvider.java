@@ -330,7 +330,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	/**
 	 * This Listener listens for events on nodes.
 	 * 
-	 * @author sjtuner
+	 * @author Stefan Jurack (sjurack)
 	 * 
 	 */
 	private class NodeListener implements INotifyChangedListener {
@@ -340,7 +340,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			/*
 			 * Listen for Node renaming events.
 			 */
-			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME) {
+			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME
+					|| notification.getFeature() == HenshinPackage.Literals.NODE__TYPE) {
 				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
 				
 				AdapterFactory fac = MappingItemProvider.this.adapterFactory;
