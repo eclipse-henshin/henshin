@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
  * This is the item provider adapter for a
@@ -160,11 +161,22 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
+	 * Checks if the target graph (see {@link #getTarget()}) is a host graph,
+	 * i.e. is directly contained in {@link TransformationSystem}.
+	 * 
+	 * @return true if host graph, otherwise false
+	 */
+	private boolean isHostGraph(Object g) {
+		return (g != null) && (g instanceof EObject) & (((EObject) g).eContainer() != null)
+				&& (((EObject) g).eContainer() instanceof TransformationSystem);
+	}// isHostGraph
+	
+	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
@@ -176,18 +188,25 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__EDGES,
 				HenshinFactory.eINSTANCE.createEdge()));
 		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createNestedCondition()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createAnd()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createOr()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
-				HenshinFactory.eINSTANCE.createNot()));
-	}
+		/*
+		 * If this graph is contained in TransformationSystem directly, it
+		 * represents a host graph which has no Formulas
+		 */
+		if (!isHostGraph(object)) {
+			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
+					HenshinFactory.eINSTANCE.createNestedCondition()));
+			
+			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
+					HenshinFactory.eINSTANCE.createAnd()));
+			
+			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
+					HenshinFactory.eINSTANCE.createOr()));
+			
+			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
+					HenshinFactory.eINSTANCE.createNot()));
+			
+		}// if
+	}// collectNewChildDescriptors
 	
 	/*
 	 * (non-Javadoc)
