@@ -367,7 +367,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			if (graph.eContainer() instanceof Rule) {
 				Rule rule = (Rule) graph.eContainer();
 				collectMappingHelper(node, rule.getMappings(), resultList);
-			} else { // graph.eContainer() instance of NestedCondition
+			} else if (graph.eContainer() instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) graph.eContainer();
 				List<NestedCondition> allNestedConditions = new ArrayList<NestedCondition>();
 				collectNestedConditions(nc, allNestedConditions);
