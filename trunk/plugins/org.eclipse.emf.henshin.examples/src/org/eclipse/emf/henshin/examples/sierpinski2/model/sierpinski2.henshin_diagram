@@ -457,7 +457,7 @@
       <layoutConstraint xmi:type="notation:Location" xmi:id="_B3JXoAnLEeCIPvEPPVUF5A" x="10" y="-30"/>
     </children>
     <children xmi:type="notation:DecorationNode" xmi:id="_B3JXoQnLEeCIPvEPPVUF5A" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_B3JXognLEeCIPvEPPVUF5A" x="-10" y="-51"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_B3JXognLEeCIPvEPPVUF5A" x="27" y="-43"/>
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_B3IJgQnLEeCIPvEPPVUF5A" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="sierpinski2.henshin#_B2tSwAnLEeCIPvEPPVUF5A"/>
