@@ -244,7 +244,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	public void performRequest(Request request) {
-		if (request.getType()==RequestConstants.REQ_OPEN) {
+		if (request.getType()==RequestConstants.REQ_OPEN && getState().isOpen()) {
 			// Explore the current state:
 			ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), getState());
 			command.setGenerateLocations(true);
