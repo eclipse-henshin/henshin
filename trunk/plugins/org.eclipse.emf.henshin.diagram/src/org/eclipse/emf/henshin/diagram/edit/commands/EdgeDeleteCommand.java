@@ -16,12 +16,12 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
@@ -58,46 +58,37 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
 		// If the edge is not inside of a graph there is nothing to do.
-		if (edge.getGraph()==null) {
-			return CommandResult.newOKCommandResult();
+		if (edge.getGraph()==null || edge.getGraph().getContainerRule()==null) {
+			return CommandResult.newErrorCommandResult("Edge not contained in graph / rule");
 		}
+		Rule rule = edge.getGraph().getContainerRule();
 		
 		// Check if there is an action associated:
-		if (EdgeActionHelper.INSTANCE.getAction(edge)==null) {
+		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
+		if (action==null) {
 			edge.getGraph().removeEdge(edge);
 			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
 		}
 		
-		// We set the edge type to DELETE
-		EdgeActionHelper.INSTANCE.setAction(edge, new Action(ActionType.DELETE));
+		// Remove the image in the RHS, if existing:
+		doRemove(HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()));
 		
-		// Get the edge properties:
-		Node source = edge.getSource();
-		Node target = edge.getTarget();
-		EReference type = edge.getType();
-		Rule rule = edge.getGraph().getContainerRule();
+		// Remove images in the NACs:
+		for (NestedCondition nac : HenshinNACUtil.getAllNACs(rule)) {
+			doRemove(HenshinMappingUtil.getEdgeImage(edge, nac.getConclusion(), nac.getMappings()));
+		}
 		
-		// Check if there are images in multi-rules.
+		// Check if there are images in multi-rules:
 		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
 		if (amalgamation!=null) {
 			for (Rule multi : amalgamation.getMultiRules()) {
-				Edge image = HenshinMappingUtil
-						.getEdgeImage(edge, multi.getLhs(), amalgamation.getLhsMappings());
-				if (image!=null) {
-					image.getGraph().removeEdge(image);
-				}
+				doRemove(HenshinMappingUtil
+						.getEdgeImage(edge, multi.getLhs(), amalgamation.getLhsMappings()));
 			}
 		}
 		
-		// Remove the edge.
-		edge.getGraph().removeEdge(edge);
-		
-		// Update the root containment if the edge is containment / container:
-		if (type!=null && (type.isContainment() || type.isContainer())) {
-			View ruleView = RootObjectEditHelper.findRuleView(rule);
-			RootObjectEditHelper.updateRootContainment(ruleView, source);
-			RootObjectEditHelper.updateRootContainment(ruleView, target);
-		}
+		// Now remove the edge.
+		doRemove(edge);
 		
 		// Clean up trivial NAC and multi-rules:
 		HenshinNACUtil.removeTrivialNACs(rule);
@@ -106,6 +97,28 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		// Done.
 		return CommandResult.newOKCommandResult();
 		
+	}
+	
+	private void doRemove(Edge edge) throws ExecutionException {
+
+		// Can be null.
+		if (edge==null) return;
+		
+		// Get the edge properties:
+		Node source = edge.getSource();
+		Node target = edge.getTarget();
+		EReference type = edge.getType();
+		Rule rule = edge.getGraph().getContainerRule();
+
+		edge.getGraph().removeEdge(edge);
+
+		// Update the root containment if the edge is containment / container:
+		if (type!=null && (type.isContainment() || type.isContainer())) {
+			View ruleView = RootObjectEditHelper.findRuleView(rule);
+			RootObjectEditHelper.updateRootContainment(ruleView, source);
+			RootObjectEditHelper.updateRootContainment(ruleView, target);
+		}
+
 	}
 	
 }
