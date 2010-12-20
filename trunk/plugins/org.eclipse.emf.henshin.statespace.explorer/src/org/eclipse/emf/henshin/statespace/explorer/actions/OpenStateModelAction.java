@@ -14,12 +14,20 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateEditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -43,18 +51,60 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 	public void run(IAction action) {
 		
 		for (State state : states) {
-		
-			// Build the absolute platform URI:
-			URI base = state.eResource().getURI();
-			URI unresolved = state.getModel().getURI();
-			URI resolved = unresolved.resolve(base);
-
-			IPath path = new Path(resolved.toPlatformString(true));
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			IWorkbenchPage page = getExplorer().getSite().getPage();
-
+			
+			// Get the state model:
+			Resource model = null;
 			try {
-				IDE.openEditor(page, file, true);
+				model = getExplorer().getStateSpaceManager().getModel(state);
+			} catch (StateSpaceException e) {
+				StateSpaceExplorerPlugin.getInstance().logError("Error retrieving state model", e);
+				continue;
+			}
+			URI base = state.eResource().getURI();
+			IFile file = null;
+			
+			// For initial states, the file exists already. 
+			// Otherwise we have to create it first.
+			if (state.isInitial()) {
+				
+				// Build the absolute platform URI:
+				URI resolved = model.getURI().resolve(base);
+
+				IPath path = new Path(resolved.toPlatformString(true));
+				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				
+			} else {
+				
+				// Save the model to a new file.
+				String name = base.trimFileExtension().lastSegment();
+				URI target = base.trimSegments(1)
+								.appendSegment(name+"_state"+state.getIndex()+".xmi");
+				try {
+					
+					// Do the saving:
+					ResourceSet resourceSet = new ResourceSetImpl();
+					Resource resource = resourceSet.createResource(target);
+					resource.getContents().addAll(EcoreUtil.copyAll(model.getContents()));
+					resource.save(null);
+					
+					// Don't forget to refresh the folder contents:
+					IPath path = new Path(target.toPlatformString(true));
+					IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getFile(path).getParent();
+					folder.refreshLocal(1, new NullProgressMonitor());
+					file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+					
+				} catch (Throwable t) {
+					StateSpaceExplorerPlugin.getInstance().logError("Error saving state resource", t);
+				}
+								
+			}
+			
+			// Open the file.
+			try {
+				if (file!=null) {
+					IWorkbenchPage page = getExplorer().getSite().getPage();
+					IDE.openEditor(page, file, true);					
+				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
@@ -72,7 +122,7 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 			for (Object selected : structured.toArray()) {
 				if (selected instanceof StateEditPart) {
 					State state = ((StateEditPart) selected).getState();
-					if (state.isInitial()) states.add(state);
+					states.add(state);
 				}
 			}
 		}
