@@ -419,17 +419,6 @@
     <element xmi:type="henshin:Edge" href="sierpinski2.henshin#_sN7zgAnKEeCIPvEPPVUF5A"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_sOjekgnKEeCIPvEPPVUF5A" points="[-50, -14, 126, 34]$[-225, -64, -49, -16]"/>
   </edges>
-  <edges xmi:type="notation:Connector" xmi:id="_stdoIAnKEeCIPvEPPVUF5A" type="4001" source="_oZrwsAnIEeCIPvEPPVUF5A" target="_UcgbIAnJEeCIPvEPPVUF5A">
-    <children xmi:type="notation:DecorationNode" xmi:id="_stfdUAnKEeCIPvEPPVUF5A" type="6001">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_stfdUQnKEeCIPvEPPVUF5A" x="10" y="11"/>
-    </children>
-    <children xmi:type="notation:DecorationNode" xmi:id="_sttfwAnKEeCIPvEPPVUF5A" type="6002">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_sttfwQnKEeCIPvEPPVUF5A" x="2" y="-4"/>
-    </children>
-    <styles xmi:type="notation:FontStyle" xmi:id="_stePMAnKEeCIPvEPPVUF5A" fontName="Sans"/>
-    <element xmi:type="henshin:Edge" href="sierpinski2.henshin#_sseJoAnKEeCIPvEPPVUF5A"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_stePMQnKEeCIPvEPPVUF5A" points="[50, -11, -147, 37]$[148, -47, -49, 1]"/>
-  </edges>
   <edges xmi:type="notation:Connector" xmi:id="_4U5lUAnKEeCIPvEPPVUF5A" type="4001" source="_oy7XIAnIEeCIPvEPPVUF5A" target="_oZrwsAnIEeCIPvEPPVUF5A">
     <children xmi:type="notation:DecorationNode" xmi:id="_4U6zcAnKEeCIPvEPPVUF5A" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_4U6zcQnKEeCIPvEPPVUF5A" x="-27" y="-31"/>
@@ -461,7 +450,19 @@
     </children>
     <styles xmi:type="notation:FontStyle" xmi:id="_B3IJgQnLEeCIPvEPPVUF5A" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="sierpinski2.henshin#_B2tSwAnLEeCIPvEPPVUF5A"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_B3IJggnLEeCIPvEPPVUF5A" points="[16, 0, -145, -219]$[161, 0, 0, -219]$[161, 195, 0, -24]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_B3IJggnLEeCIPvEPPVUF5A" points="[14, 0, -155, -219]$[169, 0, 0, -219]$[169, 195, 0, -24]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_B3UWwAnLEeCIPvEPPVUF5A" id="(0.8431372549019608,0.42857142857142855)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_7BBY4AwxEeCunrg710fwRw" type="4001" source="_UcgbIAnJEeCIPvEPPVUF5A" target="_oZrwsAnIEeCIPvEPPVUF5A">
+    <children xmi:type="notation:DecorationNode" xmi:id="_7BD1IAwxEeCunrg710fwRw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_7BEcMAwxEeCunrg710fwRw" x="-11" y="-14"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_7BFDQAwxEeCunrg710fwRw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_7BFDQQwxEeCunrg710fwRw" x="-5" y="8"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_7BBY4QwxEeCunrg710fwRw" fontName="Segoe UI"/>
+    <element xmi:type="henshin:Edge" href="sierpinski2.henshin#_7Aje0AwxEeCunrg710fwRw"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_7BBY4gwxEeCunrg710fwRw" points="[-4, 1, 143, -41]$[-145, 18, 2, -24]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_7BXXIAwxEeCunrg710fwRw" id="(0.0547945205479452,0.6122448979591837)"/>
   </edges>
 </notation:Diagram>

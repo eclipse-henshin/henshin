@@ -52,7 +52,7 @@
           <type href="sierpinski2.ecore#//Vertex/depth"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_oZduQAnIEeCIPvEPPVUF5A" incoming="_a0jiUAnJEeCIPvEPPVUF5A" outgoing="_obSoUAnKEeCIPvEPPVUF5A _sseJoAnKEeCIPvEPPVUF5A">
+      <nodes xmi:id="_oZduQAnIEeCIPvEPPVUF5A" incoming="_a0jiUAnJEeCIPvEPPVUF5A _7Aje0AwxEeCunrg710fwRw" outgoing="_obSoUAnKEeCIPvEPPVUF5A">
         <type href="sierpinski2.ecore#//Vertex"/>
         <attributes xmi:id="_q1VTwAnIEeCIPvEPPVUF5A" value="y">
           <type href="sierpinski2.ecore#//Vertex/depth"/>
@@ -76,7 +76,7 @@
           <type href="sierpinski2.ecore#//Vertex/depth"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_UcP8cAnJEeCIPvEPPVUF5A" incoming="_a1SiIAnJEeCIPvEPPVUF5A _sN7zgAnKEeCIPvEPPVUF5A _sseJoAnKEeCIPvEPPVUF5A _hO7vUAnKEeCIPvEPPVUF5A" outgoing="_gPUFYAnKEeCIPvEPPVUF5A">
+      <nodes xmi:id="_UcP8cAnJEeCIPvEPPVUF5A" incoming="_a1SiIAnJEeCIPvEPPVUF5A _sN7zgAnKEeCIPvEPPVUF5A _hO7vUAnKEeCIPvEPPVUF5A" outgoing="_gPUFYAnKEeCIPvEPPVUF5A _7Aje0AwxEeCunrg710fwRw">
         <type href="sierpinski2.ecore#//Vertex"/>
         <attributes xmi:id="_b3bfIAnKEeCIPvEPPVUF5A" value="y">
           <type href="sierpinski2.ecore#//Vertex/depth"/>
@@ -127,7 +127,7 @@
       <edges xmi:id="_sN7zgAnKEeCIPvEPPVUF5A" source="_oyvw8AnIEeCIPvEPPVUF5A" target="_UcP8cAnJEeCIPvEPPVUF5A">
         <type href="sierpinski2.ecore#//Vertex/next"/>
       </edges>
-      <edges xmi:id="_sseJoAnKEeCIPvEPPVUF5A" source="_oZduQAnIEeCIPvEPPVUF5A" target="_UcP8cAnJEeCIPvEPPVUF5A">
+      <edges xmi:id="_7Aje0AwxEeCunrg710fwRw" source="_UcP8cAnJEeCIPvEPPVUF5A" target="_oZduQAnIEeCIPvEPPVUF5A">
         <type href="sierpinski2.ecore#//Vertex/next"/>
       </edges>
     </rhs>
