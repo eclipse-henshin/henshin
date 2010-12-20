@@ -50,13 +50,21 @@ public class TransformationSystemEditPart extends DiagramEditPart {
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies() {
+	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new TransformationSystemItemSemanticEditPolicy());
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
 				new TransformationSystemCanonicalEditPolicy());
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	protected void createDefaultEditPolicies() {
+		createDefaultEditPoliciesGen();
+		removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 
 	/**
