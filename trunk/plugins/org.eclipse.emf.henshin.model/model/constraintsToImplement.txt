@@ -31,6 +31,7 @@ Note: If a constraints below is implemented, please remove it from this list.
 [error] unique names of parameters
 [error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
 [error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
+[error] no parameter name shall be equal to the name of an EClassifier in the underlying ecore models
 
 * AmalgamationUnit
 [error] each element in the lhs of "kernel rule" has a lhsMappings:mapping to one element in each's "multi rule" lhs
