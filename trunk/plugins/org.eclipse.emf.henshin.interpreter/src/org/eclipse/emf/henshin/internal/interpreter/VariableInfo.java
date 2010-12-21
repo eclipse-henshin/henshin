@@ -11,6 +11,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.internal.constraints.DanglingConstraint;
@@ -134,15 +136,28 @@ public class VariableInfo {
 				var.getParameterConstraints().add(constraint);
 			} else {
 				Object attributeValue = null;
-
-				try {
-					attributeValue = scriptEngine.eval(attribute.getValue());
+				
+				/*
+				 * If the attribute's type is an Enumeration, its value shall be
+				 * rather checked against the ecore model than agains the
+				 * javascript machine.
+				 */
+				if ((attribute.getType() != null) && (attribute.getType().getEType() instanceof EEnum)) {
+					EEnum eenum = (EEnum) attribute.getType().getEType();
+					EEnumLiteral eelit = eenum.getEEnumLiteral(attribute.getValue());
+					attributeValue = (eelit == null) ? null : eelit;
+				}// if
+				
+				if (attributeValue==null) {
+					try {
+						attributeValue = scriptEngine.eval(attribute.getValue());
+					} catch (ScriptException ex) {
+						ex.printStackTrace();
+					}
 					attributeValue = ModelHelper.castDown(attributeValue,
 							attribute.getType().getEType()
 									.getInstanceClassName());
-				} catch (ScriptException ex) {
-					ex.printStackTrace();
-				}
+				}//if
 
 				AttributeConstraint constraint = new AttributeConstraint(
 						attribute.getType(), attributeValue);

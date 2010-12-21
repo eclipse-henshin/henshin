@@ -22,6 +22,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -382,8 +384,8 @@ public class EmfEngine implements InterpreterEngine {
 
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
 			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
-			Object value = evalExpression(match.getParameterValues(),
-					attribute.getValue());
+			Object value = evalAttributeExpression(match.getParameterValues(),
+					attribute);
 
 			String valueString = null;
 			// workaround for Double conversion
@@ -414,15 +416,25 @@ public class EmfEngine implements InterpreterEngine {
 	 *            An expression string.
 	 * @return The result of the computation.
 	 */
-	private Object evalExpression(Map<Parameter, Object> parameterMapping,
-			String expr) {
+	private Object evalAttributeExpression(Map<Parameter, Object> parameterMapping,
+			Attribute attribute) {
+		
+		/*
+		 * If the attribute's type is an Enumeration, its value shall be rather
+		 * checked against the ecore model than against the javascript machine.
+		 */
+		if ((attribute.getType() != null) && (attribute.getType().getEType() instanceof EEnum)) {
+			EEnum eenum = (EEnum) attribute.getType().getEType();
+			EEnumLiteral eelit = eenum.getEEnumLiteral(attribute.getValue());
+			if (eelit != null) return eelit;
+		}// if
+		
 		try {
 			for (Parameter parameter : parameterMapping.keySet()) {
 				scriptEngine.put(parameter.getName(),
 						parameterMapping.get(parameter));
 			}
-
-			return scriptEngine.eval(expr);
+			return scriptEngine.eval(attribute.getValue());
 		} catch (Exception e) {
 			System.out.println(e);
 		}
