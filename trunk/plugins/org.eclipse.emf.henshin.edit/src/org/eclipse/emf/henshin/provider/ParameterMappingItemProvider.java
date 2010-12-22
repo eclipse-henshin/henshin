@@ -23,8 +23,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingSourcePropertyDescriptor;
-import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingTargetPropertyDescriptor;
+import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDescriptor;
 
 /**
  * This is the item provider adapter for a
@@ -70,7 +69,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(new ParameterMappingSourcePropertyDescriptor(
+		itemPropertyDescriptors.add(new ParameterMappingPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_ParameterMapping_source_feature"), getString(
 						"_UI_PropertyDescriptor_description",
@@ -85,7 +84,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(new ParameterMappingTargetPropertyDescriptor(
+		itemPropertyDescriptors.add(new ParameterMappingPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_ParameterMapping_target_feature"), getString(
 						"_UI_PropertyDescriptor_description",

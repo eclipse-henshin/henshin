@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Philipps-University Marburg - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
 /**
  * 
@@ -16,6 +16,7 @@ package org.eclipse.emf.henshin.provider.descriptors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -29,19 +30,18 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
- * Property descriptor for the <code>target</code> feature of model class
- * {@link ParameterMapping}. This descriptor collects {@link Parameter} objects
- * of direct subunits of the containing {@link TransformationUnit} and of its
- * parent unit.<br>
+ * Property descriptor for the <code>source</code> and the <code>target</code>
+ * feature of model class {@link ParameterMapping}. This descriptor collects
+ * {@link Parameter} objects from within the current (containing)
+ * {@link TransformationUnit} and its direct subunits.<br>
  * 
- * @author Stefan Jurack
+ * @author Stefan Jurack (sjurack)
  * 
  */
-public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescriptor {
+public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 	
 	/**
 	 * @param adapterFactory
@@ -50,7 +50,7 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	 * @param description
 	 * @param feature
 	 */
-	public ParameterMappingTargetPropertyDescriptor(AdapterFactory adapterFactory,
+	public ParameterMappingPropertyDescriptor(AdapterFactory adapterFactory,
 			ResourceLocator resourceLocator, String displayName, String description,
 			EStructuralFeature feature) {
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
@@ -67,21 +67,17 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
 		
-		Collection<Parameter> result = null;
-		
 		if (object instanceof ParameterMapping) {
 			
 			ParameterMapping pmapping = (ParameterMapping) object;
 			TransformationUnit owningUnit = (TransformationUnit) pmapping.eContainer();
 			
-			result = new ArrayList<Parameter>();
+			Collection<Parameter> result = new HashSet<Parameter>();
 			
-			Collection<TransformationUnit> relevantUnits;
-			relevantUnits = getSubUnits(owningUnit);
-			relevantUnits.addAll(getParentUnits(owningUnit));
+			result.addAll(owningUnit.getParameters());
 			
-			for (TransformationUnit subunit : relevantUnits) {
-				result.addAll(subunit.getParameters());
+			for (TransformationUnit tu : getSubUnits(owningUnit)) {
+				result.addAll(tu.getParameters());
 			}// for
 			
 			return result;
@@ -91,8 +87,9 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 	}// getComboBoxObjects
 	
 	/**
-	 * Collects and returns the subunit of the given {@link TransformationUnit},
-	 * respecting the exact kind the given unit.
+	 * Collects and returns the direct subunits of the given
+	 * {@link TransformationUnit}, taking the concrete kind of the given
+	 * <code>unit</code> into account.
 	 * 
 	 * @param unit
 	 * @return
@@ -118,35 +115,6 @@ public class ParameterMappingTargetPropertyDescriptor extends ItemPropertyDescri
 		} else if (unit instanceof SequentialUnit) {
 			unitList.addAll(((SequentialUnit) unit).getSubUnits());
 		}
-		return unitList;
-	}// getSubUnits
-	
-	/**
-	 * Collects the list of unit, which refer (not contain!) to the given unit.
-	 * 
-	 * @param unit
-	 * @return
-	 */
-	private Collection<TransformationUnit> getParentUnits(TransformationUnit unit) {
-		Collection<TransformationUnit> unitList = new ArrayList<TransformationUnit>();
-		
-		if ((unit.eContainer() != null) && (unit.eContainer() instanceof TransformationSystem)) {
-			TransformationSystem ts = (TransformationSystem) unit.eContainer();
-			
-			for (TransformationUnit tu : ts.getTransformationUnits()) {
-				
-				/**
-				 * Since all TransformationUnits are contained in
-				 * TransformationSystem, we only need to iterate over the list
-				 * and check the directly contained subunits.
-				 */
-				Collection<TransformationUnit> c = getSubUnits(tu);
-				if (c.contains(unit)) {
-					unitList.add(tu);
-				}// if
-			}// for
-		}// if
-		
 		return unitList;
 	}// getSubUnits
 	
