@@ -86,31 +86,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	
 	/**
 	 * This keeps track of the one adapter used for all
-	 * {@link org.eclipse.emf.henshin.model.NamedElement} instances. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected NamedElementItemProvider namedElementItemProvider;
-	
-	/**
-	 * This creates an adapter for a
-	 * {@link org.eclipse.emf.henshin.model.NamedElement}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public Adapter createNamedElementAdapter() {
-		if (namedElementItemProvider == null) {
-			namedElementItemProvider = new NamedElementItemProvider(this);
-		}
-		
-		return namedElementItemProvider;
-	}
-	
-	/**
-	 * This keeps track of the one adapter used for all
 	 * {@link org.eclipse.emf.henshin.model.TransformationSystem} instances.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -706,7 +681,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
-		if (namedElementItemProvider != null) namedElementItemProvider.dispose();
 		if (transformationSystemItemProvider != null) transformationSystemItemProvider.dispose();
 		if (ruleItemProvider != null) ruleItemProvider.dispose();
 		if (attributeConditionItemProvider != null) attributeConditionItemProvider.dispose();

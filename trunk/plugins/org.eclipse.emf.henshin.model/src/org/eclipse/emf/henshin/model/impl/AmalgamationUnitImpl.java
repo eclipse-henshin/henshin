@@ -295,13 +295,13 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<TransformationUnit> getAllSubUnits() {
+	public EList<TransformationUnit> getSubUnits(boolean deep) {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 
 		allunits.add(kernelRule);
 		allunits.addAll(multiRules);
 		
 		return new BasicEList<TransformationUnit>(allunits);
-	}// getAllSubUnits
+	}// getSubUnits
 
 } //AmalgamationUnitImpl

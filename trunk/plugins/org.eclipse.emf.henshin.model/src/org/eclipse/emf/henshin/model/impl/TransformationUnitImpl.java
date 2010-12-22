@@ -190,12 +190,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 		return parameterMappings;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public abstract EList<TransformationUnit> getAllSubUnits();
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -33,15 +33,6 @@ public interface HenshinFactory extends EFactory {
 	HenshinFactory eINSTANCE = org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Named Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Named Element</em>'.
-	 * @generated
-	 */
-	NamedElement createNamedElement();
-
-	/**
 	 * Returns a new object of class '<em>Transformation System</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -6,23 +6,29 @@
  */
 package org.eclipse.emf.henshin.provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDescriptor;
 
 /**
@@ -35,14 +41,19 @@ import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDesc
 public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
+	
+	ParameterListener parameterListener;
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	public ParameterMappingItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
+		
+		parameterListener = new ParameterListener();
 	}
 	
 	/**
@@ -106,7 +117,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 	
+	 * 
 	 * @generated NOT
 	 */
 	@Override
@@ -140,7 +151,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -150,11 +161,16 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 					null);
 			Notification notif = new ViewerNotification(notification, parmap, false, true);
 			adapter.fireNotifyChanged(notif);
+			
+			Parameter p_new = (Parameter) notification.getNewValue();
+			Parameter p_old = (Parameter) notification.getOldValue();
+			removeParameterListener(p_old);
+			addParameterListener(p_new);
 		}// if
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
-
+	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
@@ -178,4 +194,138 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		return HenshinEditPlugin.INSTANCE;
 	}
 	
-}
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse
+	 * .emf.common.notify.Notifier)
+	 */
+	@Override
+	public void setTarget(Notifier target) {
+		super.setTarget(target);
+		
+		// add parameter listeners to fetch parameter renamings in order to
+		// update the parameter mapping visualization
+		ParameterMapping mapping = (ParameterMapping) target;
+		addParameterListener(mapping.getSource());
+		addParameterListener(mapping.getTarget());
+	}// setTarget
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse
+	 * .emf.common.notify.Notifier)
+	 */
+	@Override
+	public void unsetTarget(Notifier target) {
+		super.unsetTarget(target);
+		
+		// remove parameter listeners, if parameter mappings are no longer
+		// visible
+		ParameterMapping mapping = (ParameterMapping) target;
+		removeParameterListener(mapping.getSource());
+		removeParameterListener(mapping.getTarget());
+	}// unsetTarget
+	
+	/**
+	 * @param parameter
+	 */
+	private void addParameterListener(Parameter parameter) {
+		if (parameter != null) {
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					parameter, Parameter.class);
+			adapter.addListener(parameterListener);
+		}// if
+	}// addParameterListener
+	
+	/**
+	 * @param parameter
+	 */
+	private void removeParameterListener(Parameter parameter) {
+		if (parameter != null) {
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					parameter, Parameter.class);
+			adapter.removeListener(parameterListener);
+		}// if
+	}// removeParameterListener
+	
+	/**
+	 * This Listener listens for events on parameters.
+	 * 
+	 * @author Stefan Jurack (sjurack)
+	 * 
+	 */
+	private class ParameterListener implements INotifyChangedListener {
+		
+		@Override
+		public void notifyChanged(Notification notification) {
+			
+			/*
+			 * Listen for Parameter renaming events.
+			 */
+			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME) {
+				
+				List<ParameterMapping> pms = findParameterMappings((Parameter) notification
+						.getNotifier());
+				
+				AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
+				for (ParameterMapping pm : pms) {
+					// update the mapping visualization in the editor
+					Notification notif = new ViewerNotification(notification, pm, false, true);
+					ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
+							ParameterMapping.class);
+					adapter.fireNotifyChanged(notif);
+				}// for
+				
+			}// if
+			
+		}// notifyChanged
+		
+		/**
+		 * Finds all {@link ParameterMapping}s related to the given
+		 * {@link Parameter}.
+		 * 
+		 * @param para
+		 * @return
+		 */
+		private List<ParameterMapping> findParameterMappings(Parameter para) {
+			/*
+			 * According to the semantics of our Henshin model, Parameters can
+			 * only be mapped by a ParameterMapping contained in the same
+			 * container as the Parameter or in a parent unit of that container.
+			 */
+			List<ParameterMapping> result = new ArrayList<ParameterMapping>();
+			TransformationUnit tu = (TransformationUnit) para.eContainer();
+			
+			collectRelatedParameterMappings(tu, para, result);
+			
+			// check the parent unit
+			TransformationSystem ts = (TransformationSystem) tu.eContainer();
+			for (TransformationUnit parent : ts.getTransformationUnits()) {
+				if (parent.getSubUnits(false).contains(tu)) {
+					collectRelatedParameterMappings(parent, para, result);
+				}// if
+			}// for
+			return result;
+		}// findParameterMappings
+		
+		/**
+		 * Return those {@link ParameterMapping}s contained in <code>tu</code>,
+		 * which refer to <code>para</code>.
+		 * 
+		 * @param para
+		 * @param result
+		 * @param tu
+		 */
+		private void collectRelatedParameterMappings(TransformationUnit tu, Parameter para,
+				List<ParameterMapping> result) {
+			
+			for (ParameterMapping pm : tu.getParameterMappings()) {
+				if (pm.getSource() == para || pm.getTarget() == para) result.add(pm);
+			}// for
+		}// collectRelatedParameterMappings
+		
+	}// inner class
+	
+}// class

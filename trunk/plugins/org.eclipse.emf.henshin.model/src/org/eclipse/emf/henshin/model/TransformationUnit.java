@@ -94,19 +94,28 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 	 * @generated
 	 */
 	EList<ParameterMapping> getParameterMappings();
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Collects all transitively contained units and returns that list. If not
-	 * unit is encapsulated at all, an empty list is returned. All units have to
-	 * implement this method.
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @model kind="operation" ordered="false"
+	 * <!-- begin-user-doc --> <br>
+	 * Finds all direct or transitive subunits of this unit and return them in a
+	 * unique list.<br>
+	 * Remark: In some units <code>getSubUnits(false)</code> has a result
+	 * equivalent to method getSubUnits(), if available. However, the list
+	 * return by this latter corresponds to the feature while the list return by
+	 * the former method is created new with every call.<br>
+	 * Note furthermore, that rules are {@link TransformationUnit}s and are
+	 * therefore collected as well.
+	 * 
+	 * @param deep
+	 *            If <code>true</code> all subunits are accumulated
+	 *            transitively/recursively, otherwise only direct subunits are
+	 *            collected.
+	 * @return A list of subunits<br>
+	 *         <!-- end-user-doc -->
+	 * @model ordered="false"
 	 * @generated
 	 */
-	EList<TransformationUnit> getAllSubUnits();
+	EList<TransformationUnit> getSubUnits(boolean deep);
 
 	/**
 	 * <!-- begin-user-doc -->

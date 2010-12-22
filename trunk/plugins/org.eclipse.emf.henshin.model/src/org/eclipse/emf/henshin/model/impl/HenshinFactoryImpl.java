@@ -71,7 +71,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case HenshinPackage.NAMED_ELEMENT: return createNamedElement();
 			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
 			case HenshinPackage.RULE: return createRule();
 			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
@@ -95,16 +94,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NamedElement createNamedElement() {
-		NamedElementImpl namedElement = new NamedElementImpl();
-		return namedElement;
 	}
 
 	/**

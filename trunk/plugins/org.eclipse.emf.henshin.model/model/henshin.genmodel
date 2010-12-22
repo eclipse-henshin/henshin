@@ -118,7 +118,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//TransformationUnit/activated"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameterMappings"/>
-      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getAllSubUnits"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getSubUnits">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getSubUnits/deep"/>
+      </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getParameterByName">
         <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getParameterByName/parametername"/>
       </genOperations>

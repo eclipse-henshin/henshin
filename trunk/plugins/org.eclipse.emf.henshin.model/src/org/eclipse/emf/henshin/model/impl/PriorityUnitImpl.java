@@ -84,15 +84,14 @@ public class PriorityUnitImpl extends TransformationUnitImpl implements Priority
 	 * 
 	 * @generated NOT
 	 */
-	public EList<TransformationUnit> getAllSubUnits() {
+	public EList<TransformationUnit> getSubUnits(boolean deep) {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-
-		for (TransformationUnit unit : this.subUnits) {
+		for (TransformationUnit unit : this.getSubUnits()) {
 			allunits.add(unit);
-			allunits.addAll(unit.getAllSubUnits());
+			if (deep) allunits.addAll(unit.getSubUnits(deep));
 		}// for
 		return new BasicEList<TransformationUnit>(allunits);
-	}// getAllSubUnits
+	}// getSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->

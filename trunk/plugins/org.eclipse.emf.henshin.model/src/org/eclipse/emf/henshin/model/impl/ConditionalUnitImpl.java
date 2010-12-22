@@ -208,18 +208,20 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<TransformationUnit> getAllSubUnits() {
+	public EList<TransformationUnit> getSubUnits(boolean deep) {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 		
 		allunits.add(if_);
-		allunits.addAll(if_.getAllSubUnits());
 		allunits.add(then);
-		allunits.addAll(then.getAllSubUnits());
 		allunits.add(else_);
-		allunits.addAll(else_.getAllSubUnits());
-
+		if (deep) {
+			allunits.addAll(if_.getSubUnits(deep));
+			allunits.addAll(then.getSubUnits(deep));
+			allunits.addAll(else_.getSubUnits(deep));
+		}// if
+		
 		return new BasicEList<TransformationUnit>(allunits);
-	}// getAllSubUnits
+	}// getSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->
