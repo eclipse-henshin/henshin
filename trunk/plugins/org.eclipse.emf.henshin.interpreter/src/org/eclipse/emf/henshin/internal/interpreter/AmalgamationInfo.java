@@ -36,115 +36,106 @@ import org.eclipse.emf.henshin.model.Rule;
 public class AmalgamationInfo {
 	private AmalgamationUnit amalgamationUnit;
 	private Map<Parameter, Object> parameterValues;
-
+	
 	private Map<Node, Node> multiNode2kernelNode;
 	private EmfEngine emfEngine;
-
-	public AmalgamationInfo(EmfEngine emfEngine,
-			AmalgamationUnit amalgamationUnit,
+	
+	public AmalgamationInfo(EmfEngine emfEngine, AmalgamationUnit amalgamationUnit,
 			Map<Parameter, Object> parameterValues) {
 		this.emfEngine = emfEngine;
 		this.amalgamationUnit = amalgamationUnit;
 		this.parameterValues = parameterValues;
-
-		this.multiNode2kernelNode = extractMappings(
-				amalgamationUnit.getLhsMappings(),
+		
+		this.multiNode2kernelNode = extractMappings(amalgamationUnit.getLhsMappings(),
 				amalgamationUnit.getRhsMappings());
 	}
-
-	private Map<Node, Node> extractMappings(List<Mapping> lhsMappings,
-			List<Mapping> rhsMappings) {
+	
+	private Map<Node, Node> extractMappings(List<Mapping> lhsMappings, List<Mapping> rhsMappings) {
 		HashMap<Node, Node> multiNodeMap = new HashMap<Node, Node>();
-
-		Collection<Mapping> unsortedMappings = new ArrayList<Mapping>(
-				lhsMappings);
+		
+		Collection<Mapping> unsortedMappings = new ArrayList<Mapping>(lhsMappings);
 		unsortedMappings.addAll(rhsMappings);
-
+		
 		for (Mapping mapping : unsortedMappings) {
 			Node kernelNode = mapping.getOrigin();
 			Node multiNode = mapping.getImage();
-
+			
 			multiNodeMap.put(multiNode, kernelNode);
 		}
-
+		
 		return multiNodeMap;
 	}
-
+	
 	public RuleApplication getAmalgamationRule() {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
-
+		
 		Rule kernelRule = amalgamationUnit.getKernelRule();
 		Collection<Rule> multiRules = amalgamationUnit.getMultiRules();
-
-		Map<Node, EObject> kernelNodeMapping = ModelHelper.createPrematch(
-				amalgamationUnit, parameterValues);
+		
+		Map<Node, EObject> kernelNodeMapping = ModelHelper.createPrematch(amalgamationUnit,
+				parameterValues);
 		Map<Node, EObject> parallelNodeMapping = new HashMap<Node, EObject>();
-
-		Match prematch = new Match(kernelRule, parameterValues,
-				kernelNodeMapping);
-		RuleApplication kernelRuleApplication = new RuleApplication(emfEngine,
-				kernelRule);
+		
+		Match prematch = new Match(kernelRule, parameterValues, kernelNodeMapping);
+		RuleApplication kernelRuleApplication = new RuleApplication(emfEngine, kernelRule);
 		kernelRuleApplication.setMatch(prematch);
-
+		
 		// find one match for kernel rule
 		Match kernelMatch = emfEngine.findMatch(kernelRuleApplication);
-
+		
 		if (kernelMatch == null)
 			return null;
-
+		
 		Rule parallelRule = factory.createRule();
 		parallelRule.setName(amalgamationUnit.getName());
 		parallelRule.setLhs(factory.createGraph());
 		parallelRule.setRhs(factory.createGraph());
 		Map<Node, Node> copyMap = new HashMap<Node, Node>();
-
-		parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch,
-				copyMap));
-
+		
+		parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch, copyMap));
+		
+		boolean multiMatchFound = false;
 		for (Rule multiRule : multiRules) {
-			Map<Node, EObject> multiRuleMappings = translateMapping(multiRule,
-					kernelMatch);
-
+			Map<Node, EObject> multiRuleMappings = translateMapping(multiRule, kernelMatch);
+			
 			prematch = new Match(multiRule, parameterValues, multiRuleMappings);
-			RuleApplication multiRuleApplication = new RuleApplication(
-					emfEngine, multiRule);
+			RuleApplication multiRuleApplication = new RuleApplication(emfEngine, multiRule);
 			multiRuleApplication.setMatch(prematch);
 			List<Match> matches = multiRuleApplication.findAllMatches();
-
+			multiMatchFound |= matches.size() > 0;
+			
 			for (Match match : matches) {
-				parallelNodeMapping.putAll(addMatchContent(parallelRule, match,
-						copyMap));
+				parallelNodeMapping.putAll(addMatchContent(parallelRule, match, copyMap));
 			}
 		}
-
-		RuleApplication parallelRuleApplication = new RuleApplication(
-				emfEngine, parallelRule);
-
-		Match parallelMatch = new Match(parallelRule,
-				kernelMatch.getParameterValues(), parallelNodeMapping);
+		if (!multiMatchFound)
+			return null;
+		
+		RuleApplication parallelRuleApplication = new RuleApplication(emfEngine, parallelRule);
+		
+		Match parallelMatch = new Match(parallelRule, kernelMatch.getParameterValues(),
+				parallelNodeMapping);
 		parallelRuleApplication.setMatch(parallelMatch);
-
+		
 		for (Node node : parallelNodeMapping.keySet()) {
-			parallelRuleApplication.addMatch(node,
-					parallelNodeMapping.get(node));
+			parallelRuleApplication.addMatch(node, parallelNodeMapping.get(node));
 		}
-
+		
 		return parallelRuleApplication;
 	}
-
-	private Map<Node, EObject> translateMapping(Rule multiRule,
-			Match kernelMatch) {
+	
+	private Map<Node, EObject> translateMapping(Rule multiRule, Match kernelMatch) {
 		Map<Node, EObject> kernelNodeMapping = kernelMatch.getNodeMapping();
 		Map<Node, EObject> multiNodeMapping = new HashMap<Node, EObject>();
-
+		
 		for (Node node : multiRule.getLhs().getNodes()) {
 			Node kernelNode = multiNode2kernelNode.get(node);
 			multiNodeMapping.put(node, kernelNodeMapping.get(kernelNode));
 		}
-
+		
 		return multiNodeMapping;
 	}
-
+	
 	/**
 	 * This method will add a match to a parallel rule while respecting those
 	 * objects already added by the kernel rule.
@@ -154,44 +145,40 @@ public class AmalgamationInfo {
 	 * @return a partial match for the parallel rule with all new nodes from
 	 *         this match
 	 */
-	private Map<Node, EObject> addMatchContent(Rule parallelRule,
-			Match simpleMatch, Map<Node, Node> copyMap) {
+	private Map<Node, EObject> addMatchContent(Rule parallelRule, Match simpleMatch,
+			Map<Node, Node> copyMap) {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 		Map<String, String> oldParameterNames = new HashMap<String, String>();
 		Map<Node, EObject> partialMatch = new HashMap<Node, EObject>();
-
+		
 		// this map stores the correspondence between the original and the
 		// copied nodes
 		Rule rule = simpleMatch.getRule();
-
+		
 		// add parameter of the macthing rule to the parallel rule and rename it
 		// if necessary
 		if (simpleMatch.getRule() == amalgamationUnit.getKernelRule()) {
 			for (Parameter parameter : rule.getParameters()) {
-				Parameter parallelParameter = (Parameter) EcoreUtil
-						.copy(parameter);
+				Parameter parallelParameter = (Parameter) EcoreUtil.copy(parameter);
 				parallelParameter.setUnit(parallelRule);
 			}
 		} else {
 			for (Parameter parameter : rule.getParameters()) {
 				String parameterName = parameter.getName();
-
+				
 				// this parameter is exclusivly used by a multi rule and its
 				// name must be changed to avoid conflicts with multiple copies
 				// of that rules
-				if (amalgamationUnit.getKernelRule().getParameterByName(
-						parameterName) == null) {
-					Parameter parallelParameter = (Parameter) EcoreUtil
-							.copy(parameter);
+				if (amalgamationUnit.getKernelRule().getParameterByName(parameterName) == null) {
+					Parameter parallelParameter = (Parameter) EcoreUtil.copy(parameter);
 					parallelParameter.setUnit(parallelRule);
-					String newName = parameter.getName()
-							+ Math.abs(new Random().nextInt());
+					String newName = parameter.getName() + Math.abs(new Random().nextInt());
 					parallelParameter.setName(newName);
 					oldParameterNames.put(newName, parameterName);
 				}
 			}
 		}
-
+		
 		// add the current lhs to the lhs of the parallel rule
 		for (Node node : rule.getLhs().getNodes()) {
 			// only add a node if it wasn't already part of the kernel
@@ -201,9 +188,8 @@ public class AmalgamationInfo {
 				newParallelNode.getIncoming().clear();
 				newParallelNode.setGraph(parallelRule.getLhs());
 				copyMap.put(node, newParallelNode);
-				partialMatch.put(newParallelNode, simpleMatch.getNodeMapping()
-						.get(node));
-
+				partialMatch.put(newParallelNode, simpleMatch.getNodeMapping().get(node));
+				
 				for (Attribute attribute : newParallelNode.getAttributes()) {
 					for (Parameter parameter : parallelRule.getParameters()) {
 						String newName = parameter.getName();
@@ -215,7 +201,7 @@ public class AmalgamationInfo {
 				}
 			}
 		}
-
+		
 		// add the current rhs to the rhs of the parallel rule
 		for (Node node : rule.getRhs().getNodes()) {
 			if (multiNode2kernelNode.get(node) == null) {
@@ -224,7 +210,7 @@ public class AmalgamationInfo {
 				newParallelNode.getIncoming().clear();
 				newParallelNode.setGraph(parallelRule.getRhs());
 				copyMap.put(node, newParallelNode);
-
+				
 				for (Attribute attribute : newParallelNode.getAttributes()) {
 					for (Parameter parameter : parallelRule.getParameters()) {
 						String newName = parameter.getName();
@@ -236,17 +222,17 @@ public class AmalgamationInfo {
 				}
 			}
 		}
-
+		
 		for (Mapping mapping : rule.getMappings()) {
 			Node sourceNode = mapping.getOrigin();
 			Node targetNode = mapping.getImage();
-
+			
 			if (targetNode.getGraph() != rule.getRhs())
 				continue;
-
+			
 			Node parallelSource = copyMap.get(sourceNode);
 			Node parallelTarget = copyMap.get(targetNode);
-
+			
 			if (!parallelRule.containsMapping(parallelSource, parallelTarget)) {
 				Mapping parallelMapping = factory.createMapping();
 				parallelMapping.setOrigin(parallelSource);
@@ -254,23 +240,20 @@ public class AmalgamationInfo {
 				parallelRule.getMappings().add(parallelMapping);
 			}
 		}
-
+		
 		for (Edge edge : rule.getLhs().getEdges()) {
 			Node sourceNode = edge.getSource();
 			Node targetNode = edge.getTarget();
-
+			
 			Node parallelSource = copyMap.get(sourceNode);
 			Node parallelTarget = copyMap.get(targetNode);
-
+			
 			if (parallelSource == null)
-				parallelSource = copyMap.get(multiNode2kernelNode
-						.get(sourceNode));
+				parallelSource = copyMap.get(multiNode2kernelNode.get(sourceNode));
 			if (parallelTarget == null)
-				parallelTarget = copyMap.get(multiNode2kernelNode
-						.get(targetNode));
-
-			if (sourceNode.findOutgoingEdgeByType(targetNode,
-					edge.getType()) != null) {
+				parallelTarget = copyMap.get(multiNode2kernelNode.get(targetNode));
+			
+			if (sourceNode.findOutgoingEdgeByType(targetNode, edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
 				parallelEdge.setTarget(parallelTarget);
@@ -278,23 +261,20 @@ public class AmalgamationInfo {
 				parallelEdge.setGraph(parallelRule.getLhs());
 			}
 		}
-
+		
 		for (Edge edge : rule.getRhs().getEdges()) {
 			Node sourceNode = edge.getSource();
 			Node targetNode = edge.getTarget();
-
+			
 			Node parallelSource = copyMap.get(sourceNode);
 			Node parallelTarget = copyMap.get(targetNode);
-
+			
 			if (parallelSource == null)
-				parallelSource = copyMap.get(multiNode2kernelNode
-						.get(sourceNode));
+				parallelSource = copyMap.get(multiNode2kernelNode.get(sourceNode));
 			if (parallelTarget == null)
-				parallelTarget = copyMap.get(multiNode2kernelNode
-						.get(targetNode));
-
-			if (sourceNode.findOutgoingEdgeByType(targetNode,
-					edge.getType()) != null) {
+				parallelTarget = copyMap.get(multiNode2kernelNode.get(targetNode));
+			
+			if (sourceNode.findOutgoingEdgeByType(targetNode, edge.getType()) != null) {
 				Edge parallelEdge = factory.createEdge();
 				parallelEdge.setSource(parallelSource);
 				parallelEdge.setTarget(parallelTarget);
@@ -302,7 +282,7 @@ public class AmalgamationInfo {
 				parallelEdge.setGraph(parallelRule.getRhs());
 			}
 		}
-
+		
 		return partialMatch;
 	}
 }
