@@ -80,40 +80,49 @@ public class AmalgamationInfo {
 		RuleApplication kernelRuleApplication = new RuleApplication(emfEngine, kernelRule);
 		kernelRuleApplication.setMatch(prematch);
 		
-		// find one match for kernel rule
-		Match kernelMatch = emfEngine.findMatch(kernelRuleApplication);
+		// find all matches for the kernel rule in case one of them doesn't work
+		// fro the multi rules
+		Collection<Match> kernelMatches = emfEngine.findAllMatches(kernelRuleApplication);
 		
-		if (kernelMatch == null)
+		if (kernelMatches.size() == 0)
 			return null;
 		
 		Rule parallelRule = factory.createRule();
 		parallelRule.setName(amalgamationUnit.getName());
 		parallelRule.setLhs(factory.createGraph());
 		parallelRule.setRhs(factory.createGraph());
-		Map<Node, Node> copyMap = new HashMap<Node, Node>();
+		Match match = null;
 		
-		parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch, copyMap));
-		
-		boolean multiMatchFound = false;
-		for (Rule multiRule : multiRules) {
-			Map<Node, EObject> multiRuleMappings = translateMapping(multiRule, kernelMatch);
+		for (Match kernelMatch : kernelMatches) {
+			Map<Node, Node> copyMap = new HashMap<Node, Node>();
+			parallelNodeMapping.clear();
+			parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch, copyMap));
 			
-			prematch = new Match(multiRule, parameterValues, multiRuleMappings);
-			RuleApplication multiRuleApplication = new RuleApplication(emfEngine, multiRule);
-			multiRuleApplication.setMatch(prematch);
-			List<Match> matches = multiRuleApplication.findAllMatches();
-			multiMatchFound |= matches.size() > 0;
+			int matchTotal = 0;
+			for (Rule multiRule : multiRules) {
+				Map<Node, EObject> multiRuleMappings = translateMapping(multiRule, kernelMatch);
+				
+				prematch = new Match(multiRule, parameterValues, multiRuleMappings);
+				RuleApplication multiRuleApplication = new RuleApplication(emfEngine, multiRule);
+				multiRuleApplication.setMatch(prematch);
+				List<Match> matches = multiRuleApplication.findAllMatches();
+				
+				matchTotal += matches.size();
+				
+				for (Match multiMatch : matches) {
+					parallelNodeMapping.putAll(addMatchContent(parallelRule, multiMatch, copyMap));
+				}
+			}
 			
-			for (Match match : matches) {
-				parallelNodeMapping.putAll(addMatchContent(parallelRule, match, copyMap));
+			if (matchTotal != 0) {
+				match = kernelMatch;
+				break;
 			}
 		}
-		if (!multiMatchFound)
-			return null;
 		
 		RuleApplication parallelRuleApplication = new RuleApplication(emfEngine, parallelRule);
 		
-		Match parallelMatch = new Match(parallelRule, kernelMatch.getParameterValues(),
+		Match parallelMatch = new Match(parallelRule, match.getParameterValues(),
 				parallelNodeMapping);
 		parallelRuleApplication.setMatch(parallelMatch);
 		
