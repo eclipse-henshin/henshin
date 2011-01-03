@@ -70,7 +70,6 @@ public class AmalgamationInfo {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 		
 		Rule kernelRule = amalgamationUnit.getKernelRule();
-		Collection<Rule> multiRules = amalgamationUnit.getMultiRules();
 		
 		Map<Node, EObject> kernelNodeMapping = ModelHelper.createPrematch(amalgamationUnit,
 				parameterValues);
@@ -87,42 +86,35 @@ public class AmalgamationInfo {
 		if (kernelMatches.size() == 0)
 			return null;
 		
-		Rule parallelRule = factory.createRule();
-		parallelRule.setName(amalgamationUnit.getName());
-		parallelRule.setLhs(factory.createGraph());
-		parallelRule.setRhs(factory.createGraph());
-		Match match = null;
-		
-		for (Match kernelMatch : kernelMatches) {
-			Map<Node, Node> copyMap = new HashMap<Node, Node>();
-			parallelNodeMapping.clear();
-			parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch, copyMap));
-			
-			int matchTotal = 0;
-			for (Rule multiRule : multiRules) {
-				Map<Node, EObject> multiRuleMappings = translateMapping(multiRule, kernelMatch);
-				
-				prematch = new Match(multiRule, parameterValues, multiRuleMappings);
-				RuleApplication multiRuleApplication = new RuleApplication(emfEngine, multiRule);
-				multiRuleApplication.setMatch(prematch);
-				List<Match> matches = multiRuleApplication.findAllMatches();
-				
-				matchTotal += matches.size();
-				
-				for (Match multiMatch : matches) {
-					parallelNodeMapping.putAll(addMatchContent(parallelRule, multiMatch, copyMap));
-				}
-			}
-			
-			if (matchTotal != 0) {
-				match = kernelMatch;
+		Match kernelMatch = null;
+		Collection<Match> multiMatches = null;
+		for (Match match : kernelMatches) {
+			multiMatches = getMultiRuleMatches(match);
+			if (multiMatches != null) {
+				kernelMatch = match;
 				break;
 			}
 		}
 		
+		// there is no multi rule match for any kernel match
+		if (multiMatches == null)
+			return null;
+		
+		// create the parallel rule from the kernel match and its multi matches
+		Rule parallelRule = factory.createRule();
+		parallelRule.setName(amalgamationUnit.getName());
+		parallelRule.setLhs(factory.createGraph());
+		parallelRule.setRhs(factory.createGraph());
+		
+		Map<Node, Node> copyMap = new HashMap<Node, Node>();
+		parallelNodeMapping.putAll(addMatchContent(parallelRule, kernelMatch, copyMap));
+		for (Match multiMatch : multiMatches) {
+			parallelNodeMapping.putAll(addMatchContent(parallelRule, multiMatch, copyMap));
+		}
+		
 		RuleApplication parallelRuleApplication = new RuleApplication(emfEngine, parallelRule);
 		
-		Match parallelMatch = new Match(parallelRule, match.getParameterValues(),
+		Match parallelMatch = new Match(parallelRule, kernelMatch.getParameterValues(),
 				parallelNodeMapping);
 		parallelRuleApplication.setMatch(parallelMatch);
 		
@@ -131,6 +123,23 @@ public class AmalgamationInfo {
 		}
 		
 		return parallelRuleApplication;
+	}
+	
+	private Collection<Match> getMultiRuleMatches(Match kernelMatch) {
+		Collection<Match> multiMatches = new ArrayList<Match>();
+		for (Rule multiRule : amalgamationUnit.getMultiRules()) {
+			Map<Node, EObject> multiRuleMappings = translateMapping(multiRule, kernelMatch);
+			
+			Match prematch = new Match(multiRule, parameterValues, multiRuleMappings);
+			RuleApplication multiRuleApplication = new RuleApplication(emfEngine, multiRule);
+			multiRuleApplication.setMatch(prematch);
+			multiMatches.addAll(multiRuleApplication.findAllMatches());
+		}
+		
+		if (multiMatches.size() > 0)
+			return multiMatches;
+		
+		return null;
 	}
 	
 	private Map<Node, EObject> translateMapping(Rule multiRule, Match kernelMatch) {
