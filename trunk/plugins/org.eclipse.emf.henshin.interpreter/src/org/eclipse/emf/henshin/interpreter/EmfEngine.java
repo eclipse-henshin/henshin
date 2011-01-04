@@ -239,7 +239,7 @@ public class EmfEngine implements InterpreterEngine {
 	@Override
 	public List<Match> findAllMatches(RuleApplication ruleApplication) {
 		if (emfGraph == null)
-			throw new NullPointerException("no target graph was specified for the engine");
+			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
 		Rule rule = ruleApplication.getRule();
 		RuleInfo ruleInfo = getRuleInformation(rule);
@@ -259,7 +259,7 @@ public class EmfEngine implements InterpreterEngine {
 
 	public Match findMatch(RuleApplication ruleApplication) {
 		if (emfGraph == null)
-			throw new NullPointerException("no target graph was specified for the engine");
+			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
 		Rule rule = ruleApplication.getRule();
 		

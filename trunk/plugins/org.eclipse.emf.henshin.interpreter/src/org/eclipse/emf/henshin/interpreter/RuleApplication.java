@@ -50,9 +50,11 @@ public class RuleApplication {
 	 *            A Henshin rule. Must not be <code>null</code>
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
-		if (engine == null) throw new NullPointerException("engine can not be null");
+		if (engine == null)
+			throw new IllegalArgumentException("engine can not be null");
 		
-		if (rule == null) throw new NullPointerException("rule can not be null");
+		if (rule == null)
+			throw new IllegalArgumentException("rule can not be null");
 		
 		this.rule = rule;
 		this.interpreterEngine = engine;
@@ -132,7 +134,8 @@ public class RuleApplication {
 	 */
 	public void setParameterValue(String name, Object value) {
 		Parameter parameter = rule.getParameterByName(name);
-		if (parameter != null) match.getParameterValues().put(parameter, value);
+		if (parameter != null)
+			match.getParameterValues().put(parameter, value);
 	}
 	
 	public void setParameterValues(Map<Parameter, Object> assignments) {
