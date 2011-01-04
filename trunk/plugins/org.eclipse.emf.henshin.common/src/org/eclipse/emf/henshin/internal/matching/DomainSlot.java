@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -22,76 +23,71 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
-import org.eclipse.emf.henshin.internal.constraints.DanglingConstraint;
-import org.eclipse.emf.henshin.internal.constraints.DomainChange;
-import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
-import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.internal.constraints.BinaryConstraint;
 
 public class DomainSlot {
 	// The variable which will initialize this domain slot. All other variables
 	// which use this slot will only validate their constraints.
 	Variable owner;
-
+	
 	// Flag that describes whether this domain slot is initialized. After
 	// initialization the domain contains all possible values that are type
 	// compatible with the type constraint of the owner variable.
 	boolean initialized;
-
+	
 	// Flag that describes whether this domain slot is locked. A slot is locked
 	// if a value from the domain is selected that fulfills the constraints of
 	// the owner variable.
 	boolean locked;
-
+	
 	// The current fixed value for this domain slot. Instanciate() will pick one
 	// value from the domain.
 	EObject value;
-
+	
 	// All possible values this domain slot might use for instanciation.
 	List<EObject> domain;
-
-	// A copy of the domain state prior to the initialisation.
-	// ReferenceConstraints can cause domain updates to slots that aren't
-	// initialized yet.
-	List<EObject> localChanges;
-
+	
+	// A list of required values created by binary constraints from external
+	// variables.
+	Collection<EObject> temporaryDomain;
+	
 	// All changes done to other domain slots by ReferenceConstraints of
 	// variables that use this domain slot.
-	Map<DomainSlot, List<EObject>> slotChanges;
-
+	Map<BinaryConstraint, DomainChange> remoteChangeMap;
+	
 	// A collection of parameters that were initialized by contraints belonging
 	// to variables of this domain slot.
 	Collection<String> initializedParameters;
-
+	
 	// The handler for all attribute conditions. If a parameter constraints
 	// fixes the value of a parameter, the handler checks all conditions.
 	AttributeConditionHandler conditionHandler;
-
+	
 	// The options which shall be used by this domain slot.
 	TransformationOptions options;
-
+	
 	// A collection of variables which constraints were already validated
 	// against the current value.
 	Collection<Variable> checkedVariables;
-
+	
 	// A collection of the values of all domain slots that are currently locked.
 	// Required to ensure injectivity.
 	Collection<EObject> usedObjects;
-
-	public DomainSlot(AttributeConditionHandler conditionHandler,
-			Collection<EObject> usedObjects, TransformationOptions options) {
+	
+	public DomainSlot(AttributeConditionHandler conditionHandler, Collection<EObject> usedObjects,
+			TransformationOptions options) {
 		this.locked = false;
 		this.initialized = false;
 		this.conditionHandler = conditionHandler;
-
+		
 		this.usedObjects = usedObjects;
-		this.slotChanges = new HashMap<DomainSlot, List<EObject>>();
+		this.remoteChangeMap = new HashMap<BinaryConstraint, DomainChange>();
 		this.initializedParameters = new ArrayList<String>();
-		this.checkedVariables = new ArrayList<Variable>();
-
+		this.checkedVariables = new HashSet<Variable>();
+		
 		this.options = options;
 	}
-
+	
 	/**
 	 * Sets the value of the domain slot. The domain will
 	 * 
@@ -100,128 +96,76 @@ public class DomainSlot {
 	 * @param graph
 	 * @return
 	 */
-	public boolean instanciate(Variable variable,
-			Map<Variable, DomainSlot> domainMap, EmfGraph graph) {
+	public boolean instanciate(Variable variable, Map<Variable, DomainSlot> domainMap,
+			EmfGraph graph) {
 		if (!initialized) {
 			initialized = true;
 			owner = variable;
-
-			localChanges = (domain != null) ? new ArrayList<EObject>(domain)
-					: null;
-
-			domain = variable.getTypeConstraint().reduceDomain(domain, graph);
-
+			
+			// If temporaryDomain is not null, there exists ReferenceConstraints
+			// pointing to this slot.
+			if (temporaryDomain != null) {
+				domain = new ArrayList<EObject>(temporaryDomain);
+			}
+			
+			variable.getTypeConstraint().initDomain(this, graph);
+			if (domain.isEmpty())
+				return false;
+			
 			if (!options.isDeterministic())
 				Collections.shuffle(domain);
-
+			
 			if (options.isInjective())
 				domain.removeAll(usedObjects);
-
-			if (domain.size() == 0)
+			}
+		
+		if (!locked) {
+			if (domain.isEmpty())
 				return false;
-
-			for (AttributeConstraint constraint : variable
-					.getAttributeConstraints()) {
-				constraint.reduceDomain(domain);
-				if (domain.size() == 0)
+			
+			value = domain.get(domain.size() - 1);
+			domain.remove(domain.size() - 1);
+			usedObjects.add(value);
+			locked = true;
+		}
+		
+		if (!checkedVariables.contains(variable)) {
+			if (!variable.getTypeConstraint().check(this))
+				return false;
+			
+			for (AttributeConstraint constraint : variable.getAttributeConstraints()) {
+				if (!constraint.check(this))
 					return false;
 			}
-		}
-
-		if (!locked) {
-			checkedVariables.add(variable);
-
-			if (domain.size() == 0) {
-				return false;
-			} else {
-				value = domain.get(domain.size() - 1);
-				domain.remove(domain.size() - 1);
-				usedObjects.add(value);
-
-				locked = true;
-			}
-
+			
 			if (options.isDangling()) {
-				for (DanglingConstraint constraint : variable
-						.getDanglingConstraints()) {
+				for (DanglingConstraint constraint : variable.getDanglingConstraints()) {
 					if (!constraint.check(value, graph))
 						return false;
 				}
 			}
-
-			for (ParameterConstraint constraint : variable
-					.getParameterConstraints()) {
-				if (!conditionHandler.isSet(constraint.getParameterName()))
-					initializedParameters.add(constraint.getParameterName());
-				if (!constraint.check(value, conditionHandler))
+			
+			for (ParameterConstraint constraint : variable.getParameterConstraints()) {
+				if (!conditionHandler.isSet(constraint.parameterName))
+					initializedParameters.add(constraint.parameterName);
+				if (!constraint.check(this))
 					return false;
 			}
-
-			for (ReferenceConstraint constraint : variable
-					.getReferenceConstraints()) {
+			
+			for (ReferenceConstraint constraint : variable.getReferenceConstraints()) {
 				DomainSlot target = domainMap.get(constraint.getTarget());
-				if (!applyReferenceConstraint(constraint, target)) {
+				
+				if (!constraint.check(this, target)) {
 					return false;
 				}
 			}
-		} else {
-			if (!checkedVariables.contains(variable)) {
-				checkedVariables.add(variable);
-
-				if (!variable.getTypeConstraint().check(value))
-					return false;
-
-				for (AttributeConstraint constraint : variable
-						.getAttributeConstraints()) {
-					if (!constraint.check(value))
-						return false;
-				}
-
-				for (ParameterConstraint constraint : variable
-						.getParameterConstraints()) {
-					if (!constraint.check(value, conditionHandler))
-						return false;
-				}
-
-				for (ReferenceConstraint constraint : variable
-						.getReferenceConstraints()) {
-					DomainSlot target = domainMap.get(constraint.getTarget());
-					if (!applyReferenceConstraint(constraint, target)) {
-						return false;
-					}
-				}
-			}
+			
+			checkedVariables.add(variable);
 		}
-
+		
 		return true;
 	}
-
-	/**
-	 * Checks whether a reference constraint of a variable is fulfilled by the
-	 * currently used value.
-	 * 
-	 * @param constraint
-	 *            The reference constraint that should be checked.
-	 * @param target
-	 *            The domain slot which is used by the target variable of the
-	 *            refrence constraint.
-	 * 
-	 * @return true, if the constraint is valid.
-	 */
-	private boolean applyReferenceConstraint(ReferenceConstraint constraint,
-			DomainSlot target) {
-		if (target.locked) {
-			return constraint.check(value, target.value);
-		} else {
-			DomainChange change = constraint.reduceTargetDomain(value,
-					target.domain);
-			target.domain = change.remainingObjects;
-			slotChanges.put(target, change.removedObjects);
-
-			return target.domain != null && target.domain.size() > 0;
-		}
-	}
-
+	
 	/**
 	 * Removes the lock on this domain slot. If the domain contains additional
 	 * objects instanciate may be called again.
@@ -231,41 +175,37 @@ public class DomainSlot {
 	 *            which originally initialized this domain slot is able to
 	 *            unlock it.
 	 * 
-	 * @return true, on success and if another instanciation is possible.
+	 * @return true, if another instanciation is possible.
 	 */
 	public boolean unlock(Variable sender) {
+		// TODO: use ReferenceConstraints in inverse order in case two different
+		// edges are between the same two nodes
+		for (ReferenceConstraint constraint : sender.getReferenceConstraints()) {
+			DomainChange change = remoteChangeMap.get(constraint);
+			if (change != null) {
+				change.slot.temporaryDomain = change.originalValues;
+				remoteChangeMap.remove(constraint);
+			}
+		}
+		
 		if (locked && sender == owner) {
 			locked = false;
 			usedObjects.remove(value);
-
+			
 			for (String parameterName : initializedParameters) {
 				conditionHandler.unsetParameter(parameterName);
 			}
 			initializedParameters.clear();
-
-			for (DomainSlot slot : slotChanges.keySet()) {
-				List<EObject> removedObjects = slotChanges.get(slot);
-
-				// TODO: find better solution for localChanges
-				if (removedObjects != null) {
-					slot.domain.addAll(removedObjects);
-					slot.localChanges = null;
-				} else {
-					slot.domain = null;
-					slot.localChanges = null;
-				}
-			}
-			slotChanges.clear();
 			checkedVariables.clear();
-
-			return !(domain == null || domain.size() == 0);
+			
+			return !(domain == null || domain.isEmpty());
 		} else {
 			checkedVariables.remove(sender);
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Resets this domain slot to the state before it was initialized.
 	 * 
@@ -276,17 +216,17 @@ public class DomainSlot {
 	 */
 	public void clear(Variable sender) {
 		unlock(sender);
-
+		
 		if (sender == owner) {
 			initialized = false;
-
+			
 			owner = null;
 			value = null;
-			domain = localChanges;
-			//localChanges = null;
+			domain = null;
+			remoteChangeMap = new HashMap<BinaryConstraint, DomainChange>();
 		}
 	}
-
+	
 	/**
 	 * Checks whether the domain contains additional possible objects that may
 	 * be valid for a match.
@@ -296,17 +236,17 @@ public class DomainSlot {
 	public boolean instanciationPossible() {
 		if (domain == null)
 			return false;
-
+		
 		if (!locked)
 			return domain.size() > 0;
-
+		
 		return false;
 	}
-
+	
 	/**
-	 * Fixes the value for this slot. The slot will also be locked and marked as
-	 * initialized and the value can only be changed by calling this method
-	 * again.
+	 * Locks a specific value for this slot. The slot will also be locked and
+	 * marked as initialized and the value can only be changed by calling this
+	 * method again.
 	 * 
 	 * @param value
 	 *            The object this domain slot will be mapped to.

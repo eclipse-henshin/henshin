@@ -24,15 +24,15 @@ public class Matchfinder extends ApplicationCondition {
 	private List<Solution> solutions;
 	private AttributeConditionHandler conditionHandler;
 	
-	public Matchfinder(EmfGraph emfGraph,
-			Map<Variable, DomainSlot> variableDomainMap, AttributeConditionHandler conditionHandler) {
+	public Matchfinder(EmfGraph emfGraph, Map<Variable, DomainSlot> variableDomainMap,
+			AttributeConditionHandler conditionHandler) {
 		super(emfGraph, variableDomainMap, false);
 		this.conditionHandler = conditionHandler;
 	}
-
+	
 	public boolean findSolution() {
 		boolean matchIsPossible = false;
-
+		
 		if (solutions == null) {
 			solutions = new ArrayList<Solution>();
 			matchIsPossible = true;
@@ -47,16 +47,15 @@ public class Matchfinder extends ApplicationCondition {
 				}
 			}
 		}
-
+		
 		if (matchIsPossible) {
 			boolean success = findGraph();
 			if (success)
-				solutions.add(new Solution(variables, domainMap,
-						conditionHandler));
-
+				solutions.add(new Solution(variables, domainMap, conditionHandler));
+			
 			return success;
 		}
-
+		
 		return false;
 	}
 	
@@ -70,15 +69,15 @@ public class Matchfinder extends ApplicationCondition {
 	public Solution getRandomMatch() {
 		while (getNextMatch() != null) {
 		}
-
+		
 		if (solutions.size() > 0) {
 			int x = new Random().nextInt(solutions.size());
 			return solutions.get(x);
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Returns a match. On consecutive calls other matches will be returned.
 	 * 
@@ -86,18 +85,18 @@ public class Matchfinder extends ApplicationCondition {
 	 */
 	public Solution getNextMatch() {
 		boolean success = findSolution();
-
+		
 		if (success)
 			return solutions.get(solutions.size() - 1);
-
+		
 		return null;
 	}
-
+	
 	public List<Solution> getAllMatches() {
 		while (getNextMatch() != null) {
 		}
 		;
-
+		
 		return solutions;
 	}
 }

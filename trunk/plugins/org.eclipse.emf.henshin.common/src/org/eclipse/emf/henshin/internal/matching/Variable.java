@@ -11,50 +11,71 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.internal.matching;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.henshin.internal.constraints.AttributeConstraint;
-import org.eclipse.emf.henshin.internal.constraints.DanglingConstraint;
-import org.eclipse.emf.henshin.internal.constraints.ParameterConstraint;
-import org.eclipse.emf.henshin.internal.constraints.ReferenceConstraint;
-import org.eclipse.emf.henshin.internal.constraints.TypeConstraint;
+import org.eclipse.emf.henshin.internal.constraints.Constraint;
 
-public class Variable {// implements Comparable<Variable> {
+public class Variable {
 	private TypeConstraint typeConstraint;
-	private List<AttributeConstraint> attributeConstraints;
-	private List<ParameterConstraint> parameterConstraints;
-	private List<ReferenceConstraint> referenceConstraints;
+	private Collection<AttributeConstraint> attributeConstraints;
 	private Collection<DanglingConstraint> danglingConstraints;
+	private Collection<ReferenceConstraint> referenceConstraints;
+	private Collection<ParameterConstraint> parameterConstraints;
 
 	public Variable(EClass type) {
 		typeConstraint = new TypeConstraint(type);
 		
-		attributeConstraints = new ArrayList<AttributeConstraint>();
-		parameterConstraints = new ArrayList<ParameterConstraint>();
-		referenceConstraints = new ArrayList<ReferenceConstraint>();
-		danglingConstraints = new ArrayList<DanglingConstraint>();
+		attributeConstraints = new HashSet<AttributeConstraint>();
+		danglingConstraints = new HashSet<DanglingConstraint>();
+		referenceConstraints = new HashSet<ReferenceConstraint>();
+		parameterConstraints = new HashSet<ParameterConstraint>();
 	}
-
+	
+	public void addConstraint(Constraint constraint) {
+		if (constraint instanceof AttributeConstraint) {
+			attributeConstraints.add((AttributeConstraint) constraint);
+		} else if (constraint instanceof DanglingConstraint) {
+			danglingConstraints.add((DanglingConstraint) constraint);
+		} else if (constraint instanceof ReferenceConstraint) {
+			referenceConstraints.add((ReferenceConstraint) constraint);
+		} else if (constraint instanceof ParameterConstraint) {
+			parameterConstraints.add((ParameterConstraint) constraint);
+		} else {
+			throw new IllegalArgumentException("Unknown constraint");
+		}
+	}
+	
 	public TypeConstraint getTypeConstraint() {
 		return typeConstraint;
 	}
 
-	public List<AttributeConstraint> getAttributeConstraints() {
+	/**
+	 * @return the attributeConstraints
+	 */
+	public Collection<AttributeConstraint> getAttributeConstraints() {
 		return attributeConstraints;
 	}
 
-	public List<ParameterConstraint> getParameterConstraints() {
-		return parameterConstraints;
+	/**
+	 * @return the danglingConstraints
+	 */
+	public Collection<DanglingConstraint> getDanglingConstraints() {
+		return danglingConstraints;
 	}
 
-	public List<ReferenceConstraint> getReferenceConstraints() {
+	/**
+	 * @return the referenceConstraints
+	 */
+	public Collection<ReferenceConstraint> getReferenceConstraints() {
 		return referenceConstraints;
 	}
 
-	public Collection<DanglingConstraint> getDanglingConstraints() {
-		return danglingConstraints;
+	/**
+	 * @return the parameterConstraints
+	 */
+	public Collection<ParameterConstraint> getParameterConstraints() {
+		return parameterConstraints;
 	}
 }

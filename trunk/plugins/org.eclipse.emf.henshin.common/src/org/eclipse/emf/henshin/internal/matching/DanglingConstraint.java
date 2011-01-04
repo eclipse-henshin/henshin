@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.constraints;
+package org.eclipse.emf.henshin.internal.matching;
 
 import java.util.List;
 import java.util.Map;
@@ -17,12 +17,13 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.internal.constraints.Constraint;
 
 /**
  * This constraint checks whether the value of an EReference contains objects
  * from the target domain.
  */
-public class DanglingConstraint {
+public class DanglingConstraint implements Constraint {
 	private Map<EReference, Integer> outgoingEdgeCount;
 	//private Map<EReference, Integer> incomingEdgeCount;
 
