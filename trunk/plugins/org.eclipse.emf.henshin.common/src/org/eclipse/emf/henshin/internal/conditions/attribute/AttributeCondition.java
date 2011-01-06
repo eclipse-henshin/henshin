@@ -20,28 +20,29 @@ import javax.script.ScriptException;
 public class AttributeCondition {
 	String conditionText;
 	Collection<String> remainingParameters;
-
+	
 	ScriptEngine scriptEngine;
-
-	public AttributeCondition(String condition,
-			Collection<String> conditionParameters, ScriptEngine engine) {
+	
+	public AttributeCondition(String condition, Collection<String> conditionParameters,
+			ScriptEngine engine) {
 		this.conditionText = condition;
 		this.remainingParameters = new HashSet<String>(conditionParameters);
 		this.scriptEngine = engine;
 	}
-
+	
 	public boolean eval() {
 		if (remainingParameters.isEmpty()) {
 			try {
 				return (Boolean) scriptEngine.eval(conditionText);
 			} catch (ScriptException ex) {
-				ex.printStackTrace();
+				throw new RuntimeException(ex.getMessage());
+				// ex.printStackTrace();
 			} catch (ClassCastException ex) {
-				System.err
-						.println("Warning: Attribute condition did not return a boolean value");
+				throw new RuntimeException(
+						"Warning: Attribute condition did not return a boolean value");
 			}
 		}
-
+		
 		return true;
 	}
 	

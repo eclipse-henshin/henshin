@@ -152,7 +152,7 @@ public class VariableInfo {
 					try {
 						attributeValue = scriptEngine.eval(attribute.getValue());
 					} catch (ScriptException ex) {
-						ex.printStackTrace();
+						throw new RuntimeException(ex.getMessage());
 					}
 					attributeValue = ModelHelper.castDown(attributeValue, attribute.getType()
 							.getEType().getInstanceClassName());
