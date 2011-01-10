@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
@@ -215,6 +216,14 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		writer.write(content);
 		writer.close();
 		return temp;
+	}
+	
+	/**
+	 * Check whether the current platform is Windows.
+	 * @return <code>true</code> if it is Windows.
+	 */
+	protected boolean isWindows() {
+		return Platform.OS_WIN32.equals(Platform.getOS());
 	}
 	
 }

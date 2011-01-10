@@ -28,7 +28,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -215,17 +214,10 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	/*
 	 * Get the name of the PRISM executable.
 	 */
-	protected static String getPRISMExecutable() {
+	protected String getPRISMExecutable() {
 		return isWindows() ? "prism.bat" : "prism";
 	}
-	
-	/*
-	 * Check whether the OS is Windows.
-	 */
-	private static boolean isWindows() {
-		return Platform.OS_WIN32.equals(Platform.getOS());
-	}
-	
+		
 	/*
 	 * Capitalize a string.
 	 */

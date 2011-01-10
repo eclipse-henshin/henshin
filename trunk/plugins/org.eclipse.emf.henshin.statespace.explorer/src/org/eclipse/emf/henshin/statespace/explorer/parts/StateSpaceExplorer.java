@@ -109,7 +109,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		// Create a sash form:
 		parent.setLayout(new FillLayout());
 		SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
-		sashForm.SASH_WIDTH = 5;
+		sashForm.SASH_WIDTH = 2;
 		sashForm.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY));
 		
 		// Create the graphical viewer:

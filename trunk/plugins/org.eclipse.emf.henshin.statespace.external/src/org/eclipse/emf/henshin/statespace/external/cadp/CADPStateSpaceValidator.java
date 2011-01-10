@@ -44,6 +44,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Check the CADP path first:
 		File cadpBin = getCADPBin();
+		String suffix = isWindows() ? ".exe" : "";
 		
 		// Export the state space to an AUT file:
 		File aut = exportAsAUT(stateSpace, new SubProgressMonitor(monitor, 4));
@@ -52,7 +53,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		// Convert the AUT file to a BCG file:
 		File bcg = File.createTempFile(basename, ".bcg");
 		convertFile(aut, bcg, new SubProgressMonitor(monitor,2), 
-					cadpBin.getAbsolutePath() + File.separator + "bcg_io");		// 60%
+					cadpBin.getAbsolutePath() + File.separator + "bcg_io" + suffix);	// 60%
 		if (monitor.isCanceled()) return null;
 		
 		// Write the property to a MCL file:
@@ -61,17 +62,37 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// File for diagnostics output:
 		File diag = File.createTempFile(basename, ".bcg");
+				
+		// Construct the command for running the evaluator:
+		String[] command;
+		String mclAbs = mcl.getAbsolutePath();
+		String bcgAbs = bcg.getAbsolutePath();
+		if (isWindows()) {
+			if (mclAbs.charAt(1)==':') mclAbs = mclAbs.substring(2);
+			if (bcgAbs.charAt(1)==':') bcgAbs = bcgAbs.substring(2);
+			mclAbs = mclAbs.replace('\\', '/');
+			bcgAbs = bcgAbs.replace('\\', '/');
+			command = new String[] { 
+					cadpBin.getAbsolutePath() + File.separator + "evaluator" + suffix, 
+					"-diag",
+					diag.getAbsolutePath(),
+					mclAbs, 
+					bcgAbs 
+			};
+		} else {
+			command = new String[] { 
+					cadpBin.getParent() + File.separator + "com" + File.separator + "bcg_open" + suffix, 
+					bcgAbs, 
+					"evaluator", 
+					"-diag",
+					diag.getAbsolutePath(),
+					mclAbs 
+			};
+		}
 		
 		// Invoke the bcg_open script to run the evaluator:
 		monitor.subTask("Running evaluator...");
-		Process process = Runtime.getRuntime().exec(new String[] {
-				cadpBin.getParent() + File.separator + "com/bcg_open",
-				bcg.getAbsolutePath(),
-				"evaluator",
-				"-diag",
-				diag.getAbsolutePath(),
-				mcl.getAbsolutePath(),
-		});
+		Process process = Runtime.getRuntime().exec(command);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
