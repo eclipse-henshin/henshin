@@ -128,7 +128,7 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 		 */
 		if (graphContainer == null) return;
 		
-		// Otherwise distinguish between Rule and NestedCondition
+		// Otherwise distinguish between Rule, NestedCondition and direct subgraphs
 		if (graphContainer instanceof Rule) {
 			Rule rule = (Rule) graphContainer;
 			filterMappings(rule.getMappings(), mappingSet);
@@ -137,10 +137,13 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 				collectAmalgamationUnitRelatedMappings(mappingSet, rule);
 			}// if
 			
-		} else {
+		} else if (graphContainer instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) graphContainer;
 			filterMappings(nc.getMappings(), mappingSet);
-		}// if else
+		} else {
+			// direct subgraph of TransformationSystem
+			return; // nothing to remove here, as direct subgraphs don't have mappings.
+		}
 		
 		/*
 		 * Search in (directly) contained NestedConditions if there is a mapping
