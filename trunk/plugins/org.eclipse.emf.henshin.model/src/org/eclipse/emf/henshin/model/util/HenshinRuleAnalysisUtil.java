@@ -87,6 +87,45 @@ public class HenshinRuleAnalysisUtil {
 		return false;
 	}
 	
+	
+	/**
+	 * Checks if the given edge represents a 'deletion' edge. This is the case,
+	 * if it is contained in a LHS and if there is no corresponding image edge
+	 * in the RHS.<br>
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'deletion' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isDeletionEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getContainerRule() != null) {
+			Rule rule = edge.getGraph().getContainerRule();
+			return isLHS(edge.getGraph())
+					&& (HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()) == null);
+		} else
+			return false;
+	}// isDeletionEdge
+	
+	/**
+	 * Checks if the given edge represents a 'creation' edge. This is the case,
+	 * if it is contained in a RHS and if there is no corresponding origin edge
+	 * in the LHS.
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'creation' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isCreationEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getContainerRule() != null) {
+			Rule rule = edge.getGraph().getContainerRule();
+			return isRHS(edge.getGraph())
+					&& (HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings()) == null);
+		} else
+			return false;
+	}// isCreationEdge
+	
 	/**
 	 * Check whether a rule is changing any attributes.
 	 * 
