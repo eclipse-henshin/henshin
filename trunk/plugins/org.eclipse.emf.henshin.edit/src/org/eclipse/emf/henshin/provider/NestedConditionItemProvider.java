@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.commands.GraphComplexUnsetCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
  * This is the item provider adapter for a
@@ -126,12 +127,21 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	 * This returns NestedCondition.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/NestedCondition"));
-	}
+		Object defaultImage = getResourceLocator().getImage("full/obj16/NestedCondition");
+		
+		if (((NestedCondition) object).isNegated()) {
+			return defaultImage = IconUtil.getCompositeImage(defaultImage, getResourceLocator()
+					.getImage("full/ovr16/Del_ovr.png"));
+			// } else {
+			// return overlayImage(object, defaultImage);
+		}
+		
+		return defaultImage;
+	}// getImage
 	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
