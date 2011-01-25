@@ -339,20 +339,30 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Transform the model:
 				Match match = matches.get(i);
 				Resource transformed = copyModel(model, match);
-				application = createRuleApplication(transformed, rule, engine);
+				EmfGraph graph = createEmfGraph(transformed);
+				application = createRuleApplication(graph, rule, engine);
 				application.setMatch(match);
 				application.apply();
 				
-				// Create a new transition and state:								
+				// Collect newly created root objects:
+				for (EObject root : graph.getRootObjects()) {
+					if (!transformed.getContents().contains(root)) {
+						transformed.getContents().add(root);
+					}
+				}
+				
+				// Create a new state:
 				State newState = StateSpaceFactory.eINSTANCE.createState();
 				newState.setHashCode(hashCode(transformed));
 				newState.setModel(transformed);
 				
+				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
 				newTransition.setRule(rule);
 				newTransition.setMatch(i);
 				newTransition.setTarget(newState);
 				
+				// Remember the transition:
 				transitions.add(newTransition);
 				
 			}
@@ -377,19 +387,34 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		return null;
 	}
-	
+
 	/*
-	 * Create a new RuleApplication
+	 * Create a new EmfGraph.
 	 */
-	private static RuleApplication createRuleApplication(Resource model, Rule rule, EmfEngine engine) {
+	private static EmfGraph createEmfGraph(Resource model) {
 		EmfGraph graph = new EmfGraph();
 		for (EObject root : model.getContents()) {
 			graph.addRoot(root);
 		}
-		engine.setEmfGraph(graph);
-		return new RuleApplication(engine,rule);
+		return graph;
 	}
-	
+
+	/*
+	 * Create a new RuleApplication.
+	 */
+	private static RuleApplication createRuleApplication(EmfGraph graph, Rule rule, EmfEngine engine) {
+		engine.setEmfGraph(graph);
+		return new RuleApplication(engine, rule);
+	}
+
+	/*
+	 * Create a new RuleApplication.
+	 */
+	private static RuleApplication createRuleApplication(Resource model, Rule rule, EmfEngine engine) {
+		EmfGraph graph = createEmfGraph(model);
+		return createRuleApplication(graph, rule, engine);
+	}
+
 	/*
 	 * Acquire a transformation engine.
 	 */
