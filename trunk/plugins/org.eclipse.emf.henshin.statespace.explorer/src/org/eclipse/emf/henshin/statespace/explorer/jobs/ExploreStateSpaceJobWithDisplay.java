@@ -45,6 +45,9 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		// Always run in background:
 		setUser(false);
 		
+		// No Log message in the end:
+		logInfo = false;
+		
 		// We don't want automatic saves:
 		setSaveInterval(-1);
 		

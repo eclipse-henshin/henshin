@@ -59,7 +59,7 @@ public class StateSpaceJobManager {
 	public LayoutStateSpaceJob startLayoutJob() {
 		if (isTerminated(layoutJob)) {
 			editDomain.getCommandStack().execute(new IrreversibleCommand("start layouter"));
-			layoutJob.schedule();			
+			layoutJob.schedule();
 		}
 		return layoutJob;
 	}
@@ -120,10 +120,13 @@ public class StateSpaceJobManager {
 	 * Stop a given job.
 	 */
 	private void stop(Job job) {
-		while (!isTerminated(job)) {
+		int waited = 0;
+		while (!isTerminated(job) && waited<1000) {
 			try {
 				job.cancel();
-				job.join();
+				// We don't want to join, cause we may run into a deadlock then..
+				waited += 100;
+				Thread.sleep(100);
 			} catch (InterruptedException e) {}
 		}
 	}
@@ -140,6 +143,9 @@ public class StateSpaceJobManager {
 	 */
 	public void stopAllJobs() {
 		stopLayoutJob();
+		stopExploreJob();
+		stopReloadJob();
+		stopValidateJob();
 	}
 	
 	/**

@@ -24,11 +24,11 @@
       </editor>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
-      <wizard name="State Space"
+      <wizard name="Henshin State Space"
               icon="icons/HenshinDiagramFile.gif"
               category="org.eclipse.emf.henshin.wizards"
               class="org.eclipse.emf.henshin.statespace.explorer.actions.CreateStateSpaceWizard"
-              id="org.eclipse.emf.henshin.ltl.diagram.LTLCreationWizard">
+              id="org.eclipse.emf.henshin.statespace.wizards.CreateStateSpace">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>

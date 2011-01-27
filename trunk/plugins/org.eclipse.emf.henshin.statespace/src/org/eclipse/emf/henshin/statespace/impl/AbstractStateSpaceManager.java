@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -201,6 +202,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		if (model.getURI()==null) {
 			throw new IllegalArgumentException("Model is not persisted");
 		}
+		
+		// Resolve all objects in the model:
+		EcoreUtil.resolveAll(model);
 		
 		// Compute the hash code of the model:
 		int hash = hashCode(model);

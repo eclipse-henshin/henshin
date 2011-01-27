@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,26 @@ public class StateSpaceHashCodeHelper {
 
 	// The ten first prime numbers.
 	private static int[] PRIMES = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
-
+	
+	/** 
+	 * Map for storing local hash codes of objects.
+	 * This map computes local hash codes on demand.
+	 */
+	private class LocalHashCodes extends HashMap<EObject,Integer> {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public Integer get(Object object) {
+			Integer hash = super.get(object);
+			if (hash==null) {
+				hash = localHashCode((EObject) object);
+				put((EObject) object, hash);
+			}
+			return hash;
+		}
+		
+	};
+	
 	// Whether to use graph equality.
 	private boolean graphEquality;
 	
@@ -61,18 +79,7 @@ public class StateSpaceHashCodeHelper {
 	 * @generated NOT
 	 */
 	public int hashCode(Resource resource) {
-		
-		// First compute the local hash codes for all nodes:
-		Map<EObject,Integer> localHashCodes = new HashMap<EObject,Integer>();
-		Iterator<EObject> allNodes = resource.getAllContents();
-		while (allNodes.hasNext()) {
-			EObject node = allNodes.next();
-			localHashCodes.put(node, localHashCode(node));
-		}
-		
-		// Now we can compute the total hash code:
-		return totalHashCode(resource.getContents(), localHashCodes, 0);
-		
+		return totalHashCode(resource.getContents(), new LocalHashCodes(), 0);
 	}
 
 	/*

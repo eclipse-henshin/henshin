@@ -31,6 +31,9 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction;
+import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
+import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
@@ -60,6 +63,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
@@ -105,10 +109,15 @@ public class StateSpaceToolsMenu extends Composite {
 	private Scale attractionScale;
 	
 	// Check boxes:
-	private Button layouterCheckbox;
-	private Button explorerCheckbox;
 	private Button ignoreAttributesCheckbox;
 
+	// Links:
+	private Link layouterLink;
+	private Link explorerLink;
+	private Link initialStateLink;
+	private Link importLink;
+	private Link resetLink;
+	
 	// Radio-buttons:
 	private Button ecoreButton;
 	private Button graphButton;
@@ -167,6 +176,27 @@ public class StateSpaceToolsMenu extends Composite {
 		ignoreAttributesCheckbox.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);		
 		
+		// The tasks group:
+		Composite tasks = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalSpan = 3;
+		initialStateLink = new Link(tasks, SWT.NONE);
+		initialStateLink.setText("<a>New initial state</a>");
+		initialStateLink.setLayoutData(data);
+		importLink = new Link(tasks, SWT.NONE);
+		importLink.setText("<a>Import transformation rules</a>");
+		importLink.setLayoutData(data);
+		explorerLink = new Link(tasks, SWT.NONE);
+		explorerLink.setText("<a>Start state space explorer</a>");
+		explorerLink.setLayoutData(data);
+		layouterLink = new Link(tasks, SWT.NONE);
+		layouterLink.setText("<a>Start spring layouter</a>");
+		layouterLink.setLayoutData(data);
+		resetLink = new Link(tasks, SWT.NONE);
+		resetLink.setText("<a>Reset state space</a>");
+		resetLink.setLayoutData(data);
+		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
+
 		// The display group:
 		Composite display = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
 		StateSpaceToolsMenuFactory.newLabel(display, "Zoom: " + (int) (ZOOM_LEVELS[0]*100) + "%", GridData.HORIZONTAL_ALIGN_END);
@@ -179,24 +209,10 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.setMaximum(ZOOM_LEVELS.length-1);
 		zoomScale.setSelection(ZOOM_LEVELS.length-1);
 		StateSpaceToolsMenuFactory.newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
-		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 1);
-		
-		// The actions group:
-		Composite actions = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
-		explorerCheckbox = new Button(actions, SWT.CHECK);
-		explorerCheckbox.setText("Run state space explorer");
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 3;
-		explorerCheckbox.setLayoutData(data);
-		layouterCheckbox = new Button(actions, SWT.CHECK);
-		layouterCheckbox.setText("Run spring layouter");
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 3;
-		layouterCheckbox.setLayoutData(data);
-		repulsionScale = StateSpaceToolsMenuFactory.newScale(actions, "State repulsion:", 1, 100, 5, 10, true, null);
-		attractionScale = StateSpaceToolsMenuFactory.newScale(actions, "Transition attraction:", 1, 100, 5, 10, true, null);
-		StateSpaceToolsMenuFactory.newExpandItem(bar, actions, "Actions", 2);
-		
+		repulsionScale = StateSpaceToolsMenuFactory.newScale(display, "Repulsion:", 1, 100, 5, 10, false, null);
+		attractionScale = StateSpaceToolsMenuFactory.newScale(display, "Attraction:", 1, 100, 5, 10, false, null);
+		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 2);
+
 		// The validation group:
 		Composite validation = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,2);
 		validationText = StateSpaceToolsMenuFactory.newMultiText(validation, 2, 80);
@@ -302,6 +318,7 @@ public class StateSpaceToolsMenu extends Composite {
 	 * Refresh the tools menu content.
 	 */
 	public void refresh() {
+		if (isDisposed()) return;
 		if (jobManager==null) {
 			statesLabel.setText("0");
 			transitionsLabel.setText("0");
@@ -342,8 +359,11 @@ public class StateSpaceToolsMenu extends Composite {
 	 * Enable or disable this menu.
 	 */
 	public void setEnabled(boolean enabled) {
-		layouterCheckbox.setEnabled(enabled);
-		explorerCheckbox.setEnabled(enabled);
+		initialStateLink.setEnabled(enabled);
+		importLink.setEnabled(enabled);
+		resetLink.setEnabled(enabled);
+		layouterLink.setEnabled(enabled);
+		explorerLink.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
 		attractionScale.setEnabled(enabled);
 		graphButton.setEnabled(enabled);
@@ -446,16 +466,19 @@ public class StateSpaceToolsMenu extends Composite {
 		repulsionScale.addSelectionListener(layouterScaleListener);
 		attractionScale.addSelectionListener(layouterScaleListener);
 		zoomScale.addSelectionListener(zoomListener);
-		explorerCheckbox.addSelectionListener(explorerListener);
-		layouterCheckbox.addSelectionListener(layouterListener);
+		explorerLink.addSelectionListener(explorerListener);
+		layouterLink.addSelectionListener(layouterListener);
+		initialStateLink.addSelectionListener(initialStateListener);
+		importLink.addSelectionListener(importListener);
+		resetLink.addSelectionListener(resetListener);
 		graphButton.addSelectionListener(equalityTypeListener);
 		ignoreAttributesCheckbox.addSelectionListener(equalityTypeListener);
 		validateButton.addSelectionListener(validateListener);
 		validationText.addModifyListener(validationTextListener);
 		validatorCombo.addSelectionListener(validatorComboListener);
 		
-		addButtonJobListener(jobManager.getLayoutJob(), layouterCheckbox);
-		addButtonJobListener(jobManager.getExploreJob(), explorerCheckbox);
+		addLinkJobListener(jobManager.getLayoutJob(), layouterLink);
+		addLinkJobListener(jobManager.getExploreJob(), explorerLink);
 		final ValidateStateSpaceJob validateJob = jobManager.getValidateJob();
 		addButtonJobListener(validateJob, validateButton);
 		validateJob.addJobChangeListener(new JobChangeAdapter() {
@@ -480,8 +503,11 @@ public class StateSpaceToolsMenu extends Composite {
 		zoomScale.removeSelectionListener(zoomListener);
 		graphButton.removeSelectionListener(equalityTypeListener);
 		ignoreAttributesCheckbox.removeSelectionListener(equalityTypeListener);
-		explorerCheckbox.removeSelectionListener(explorerListener);
-		layouterCheckbox.removeSelectionListener(layouterListener);
+		initialStateLink.removeSelectionListener(initialStateListener);
+		importLink.removeSelectionListener(importListener);
+		resetLink.removeSelectionListener(resetListener);
+		explorerLink.removeSelectionListener(explorerListener);
+		layouterLink.removeSelectionListener(layouterListener);
 		validateButton.removeSelectionListener(validateListener);
 		validationText.removeModifyListener(validationTextListener);
 		validatorCombo.removeSelectionListener(validatorComboListener);
@@ -557,15 +583,64 @@ public class StateSpaceToolsMenu extends Composite {
 			widgetSelected(e);
 		}
 	};
-	
+
 	/*
-	 * Explorer checkbox  listener.
+	 * New initial state link listener.
+	 */
+	private SelectionListener initialStateListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				CreateInitialStateAction action = new CreateInitialStateAction();
+				action.setExplorer(explorer);
+				action.run(null);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Import rules link listener.
+	 */
+	private SelectionListener importListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				ImportRulesAction action = new ImportRulesAction();
+				action.setExplorer(explorer);
+				action.run(null);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Reset link listener.
+	 */
+	private SelectionListener resetListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				ResetStateSpaceAction action = new ResetStateSpaceAction();
+				action.setExplorer(explorer);
+				action.run(null);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Explorer link listener.
 	 */
 	private SelectionListener explorerListener = new SelectionListener() {			
 		public void widgetSelected(SelectionEvent e) {
-			if (jobManager==null) return;
-			if (explorerCheckbox.getSelection()) {
+			if (jobManager==null) return;			
+			if (explorerLink.getText().indexOf("Start")>=0) {
 				jobManager.startExploreJob();
+				explorerLink.setText(explorerLink.getText().replaceFirst("Start","Stop"));
 			} else {
 				jobManager.getExploreJob().cancel();
 			}
@@ -576,14 +651,15 @@ public class StateSpaceToolsMenu extends Composite {
 	};
 
 	/*
-	 * Layouter checkbox listener.
+	 * Layouter link listener.
 	 */
 	private SelectionListener layouterListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
 			if (jobManager==null) return;
-			if (layouterCheckbox.getSelection()) {
+			if (layouterLink.getText().indexOf("Start")>=0) {
 				updateLayouterProperties();
 				jobManager.startLayoutJob();
+				layouterLink.setText(layouterLink.getText().replaceFirst("Start","Stop"));
 			} else {
 				jobManager.stopLayoutJob();
 			}
@@ -623,9 +699,24 @@ public class StateSpaceToolsMenu extends Composite {
 					}
 				});
 			}
+		});
+	}
+
+	/*
+	 * Add a job listener for a link.
+	 */
+	private void addLinkJobListener(Job job, final Link link) {
+		job.addJobChangeListener(new JobChangeAdapter() {
+			public void done(IJobChangeEvent event) {
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						link.setText(link.getText().replaceFirst("Stop","Start"));
+					}
+				});
+			}
 		});		
 	}
-	
+
 	/*
 	 * Modify listener for the validation property.
 	 */

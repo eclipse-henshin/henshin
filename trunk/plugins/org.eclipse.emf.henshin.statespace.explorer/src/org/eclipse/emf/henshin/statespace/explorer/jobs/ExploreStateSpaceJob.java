@@ -50,7 +50,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 
 	// Save interval (default is 30 minutes):
 	private int saveInterval = 1800;
-	
+
+	// Whether to log some info after the exploration is finished.
+	protected boolean logInfo = true;
 	
 	/**
 	 * Default constructor.
@@ -151,11 +153,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		}
 		
 		// Final message:
-		boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
-		StateSpaceExplorerPlugin.getInstance().logInfo(
-			"Explored " + explored + " states in " + ((end-start)/1000) + " seconds (" +
-			speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) in " +
-			(multiThreaded ? "multi" : "single") + "-threaded mode.");
+		if (logInfo) {
+			boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
+			StateSpaceExplorerPlugin.getInstance().logInfo(
+					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds (" +
+					speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) in " +
+					(multiThreaded ? "multi" : "single") + "-threaded mode.");
+		}
 		
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
