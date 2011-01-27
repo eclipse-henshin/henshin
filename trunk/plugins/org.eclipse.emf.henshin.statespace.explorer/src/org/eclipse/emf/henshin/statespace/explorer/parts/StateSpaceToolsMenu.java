@@ -32,6 +32,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction;
+import org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
@@ -117,6 +118,7 @@ public class StateSpaceToolsMenu extends Composite {
 	private Link initialStateLink;
 	private Link importLink;
 	private Link resetLink;
+	private Link propertiesLink;
 	
 	// Radio-buttons:
 	private Button ecoreButton;
@@ -181,19 +183,22 @@ public class StateSpaceToolsMenu extends Composite {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 3;
 		initialStateLink = new Link(tasks, SWT.NONE);
-		initialStateLink.setText("<a>New initial state</a>");
+		initialStateLink.setText("* <a>New initial state</a>");
 		initialStateLink.setLayoutData(data);
 		importLink = new Link(tasks, SWT.NONE);
-		importLink.setText("<a>Import transformation rules</a>");
+		importLink.setText("* <a>Import rules</a>");
 		importLink.setLayoutData(data);
 		explorerLink = new Link(tasks, SWT.NONE);
-		explorerLink.setText("<a>Start state space explorer</a>");
+		explorerLink.setText("* <a>Start explorer</a>");
 		explorerLink.setLayoutData(data);
 		layouterLink = new Link(tasks, SWT.NONE);
-		layouterLink.setText("<a>Start spring layouter</a>");
+		layouterLink.setText("* <a>Start layouter</a>");
 		layouterLink.setLayoutData(data);
+		propertiesLink = new Link(tasks, SWT.NONE);
+		propertiesLink.setText("* <a>Edit properties</a>");
+		propertiesLink.setLayoutData(data);
 		resetLink = new Link(tasks, SWT.NONE);
-		resetLink.setText("<a>Reset state space</a>");
+		resetLink.setText("* <a>Reset state space</a>");
 		resetLink.setLayoutData(data);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
 
@@ -362,6 +367,7 @@ public class StateSpaceToolsMenu extends Composite {
 		initialStateLink.setEnabled(enabled);
 		importLink.setEnabled(enabled);
 		resetLink.setEnabled(enabled);
+		propertiesLink.setEnabled(enabled);
 		layouterLink.setEnabled(enabled);
 		explorerLink.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
@@ -471,6 +477,7 @@ public class StateSpaceToolsMenu extends Composite {
 		initialStateLink.addSelectionListener(initialStateListener);
 		importLink.addSelectionListener(importListener);
 		resetLink.addSelectionListener(resetListener);
+		propertiesLink.addSelectionListener(propertiesListener);
 		graphButton.addSelectionListener(equalityTypeListener);
 		ignoreAttributesCheckbox.addSelectionListener(equalityTypeListener);
 		validateButton.addSelectionListener(validateListener);
@@ -505,6 +512,7 @@ public class StateSpaceToolsMenu extends Composite {
 		ignoreAttributesCheckbox.removeSelectionListener(equalityTypeListener);
 		initialStateLink.removeSelectionListener(initialStateListener);
 		importLink.removeSelectionListener(importListener);
+		propertiesLink.removeSelectionListener(propertiesListener);
 		resetLink.removeSelectionListener(resetListener);
 		explorerLink.removeSelectionListener(explorerListener);
 		layouterLink.removeSelectionListener(layouterListener);
@@ -623,6 +631,22 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetSelected(SelectionEvent e) {
 			if (explorer!=null) {
 				ResetStateSpaceAction action = new ResetStateSpaceAction();
+				action.setExplorer(explorer);
+				action.run(null);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Properties link listener.
+	 */
+	private SelectionListener propertiesListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				EditPropertiesAction action = new EditPropertiesAction();
 				action.setExplorer(explorer);
 				action.run(null);
 			}

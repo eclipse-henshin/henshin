@@ -90,6 +90,15 @@
                tooltip="Reset the state space">
          </action>
          <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.properties"
+               label="Edit Properties"
+               menubarPath="statespace/main"
+               style="push"
+               tooltip="Edit the state space properties">
+         </action>
+         <action
                class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
                enablesFor="*"
                id="statespace.export.tikz"
