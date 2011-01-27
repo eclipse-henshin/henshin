@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -140,5 +141,14 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	void setTransitionAttraction(int value);
+
+	/**
+	 * Get the properties for this state space.
+	 * @return the value of the '<em>Properties</em>' map.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_Properties()
+	 * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @generated
+	 */
+	EMap<String, String> getProperties();
 	
 }

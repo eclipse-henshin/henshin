@@ -18,7 +18,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -39,10 +43,17 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	public static final String FILE_EXTENSION = "statespace";
 	
-	/**
-	 * Buffer capacity to be used for loading and saving.
-	 */
+	// Buffer capacity to be used for loading and saving.
 	public static final int BUFFER_CAPACITY = 524288;	// 0.5 MB
+	
+	// File name for the binary state space data inside the Zip archive.
+	private static final String STATESPACE_BIN = "statespace.bin";
+
+	// File name for the textual properties file inside the Zip archive.
+	private static final String PROPERTIES_TXT = "properties.txt";
+	
+	// Current entry in the Zip file.
+	private String currentEntry = null;
 	
 	/**
 	 * Default constructor.
@@ -76,10 +87,24 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doSave(OutputStream out, Map<?, ?> options) throws IOException {
-		out = new BufferedOutputStream(out, BUFFER_CAPACITY);
+		
+		// We need the Zip stream:
+		ZipOutputStream zip = (ZipOutputStream) out;
+		
+		// Binary state space data:
+		BufferedOutputStream buffered = new BufferedOutputStream(zip, BUFFER_CAPACITY);
 		StateSpaceSerializer serializer = new StateSpaceSerializer();
-		serializer.write(getStateSpace(), out);
-		out.flush();
+		serializer.write(getStateSpace(), buffered);
+		buffered.flush();
+		
+		// Properties file:
+		zip.putNextEntry(new ZipEntry(PROPERTIES_TXT));
+		Properties properties = new Properties();
+		for (Entry<String,String> entry : getStateSpace().getProperties().entrySet()) {
+			properties.put(entry.getKey(),entry.getValue());
+		}
+		properties.store(zip, "State space properties");
+		
 	}
 	
 	/*
@@ -88,9 +113,40 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected void doLoad(InputStream in, Map<?, ?> options) throws IOException {
-		in = new BufferedInputStream(in, BUFFER_CAPACITY);
-		StateSpaceDeserializer deserializer = new StateSpaceDeserializer();
-		deserializer.read(this, in);
+		
+		// We need the underlying Zip stream:
+		ZipInputStream zip = (ZipInputStream) in;
+		BufferedInputStream buffered = new BufferedInputStream(zip, BUFFER_CAPACITY);
+		
+		// Properties:
+		Properties properties = new Properties();
+
+		// Load state space data and properties:
+		ZipEntry entry = null;
+		do {
+			if (STATESPACE_BIN.equals(currentEntry)) {
+				StateSpaceDeserializer deserializer = new StateSpaceDeserializer();
+				deserializer.read(this, buffered);
+			}
+			if (PROPERTIES_TXT.equals(currentEntry)) {
+				properties.load(buffered);
+			}
+			entry = zip.getNextEntry();
+			while (entry!=null && !isContentZipEntry(entry)) {
+				entry = zip.getNextEntry();				
+			}
+		}
+		while (entry!=null);
+		
+		// Trasfer the properties into the state space model.
+		if (getStateSpace()==null) {
+			throw new IOException("Zip entry '" + STATESPACE_BIN + "' not found");
+		} else {
+			for (String key : properties.stringPropertyNames()) {
+				getStateSpace().getProperties().put(key, properties.getProperty(key));
+			}
+		}
+
 	}
 	
 	/*
@@ -108,8 +164,24 @@ public class StateSpaceResource extends ResourceImpl {
 	 */
 	@Override
 	protected ZipEntry newContentZipEntry() {
-		return new ZipEntry("statespace.bin");
+		// This is the entry in the ZIP file that stores the binary state space data.
+		return new ZipEntry(STATESPACE_BIN);
 	}
+	
+	@Override
+	protected boolean isContentZipEntry(ZipEntry entry) {
+		if (STATESPACE_BIN.equals(entry.getName())) {
+			currentEntry = STATESPACE_BIN;
+		}
+		else if (PROPERTIES_TXT.equals(entry.getName())) {
+			currentEntry = PROPERTIES_TXT;
+		}
+		else {
+			currentEntry = null;
+		}
+		return currentEntry!=null;
+	}
+
 	
 	/**
 	 * Export the state space in this resource into the Aldebaran format.

@@ -16,11 +16,16 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -174,6 +179,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	
+
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *
@@ -284,6 +290,16 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected static final int TRANSITION_ATTRACTION_EDEFAULT = 0;
 
 	/**
+	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProperties()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<String, String> properties;
+
+	/**
 	 * @generated
 	 */
 	@Override
@@ -361,6 +377,18 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<String, String> getProperties() {
+		if (properties == null) {
+			properties = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, StateSpacePackage.STATE_SPACE__PROPERTIES);
+		}
+		return properties;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain basicSetEqualityHelper(StateEqualityHelper newEqualityHelper, NotificationChain msgs) {
 		StateEqualityHelper oldEqualityHelper = equalityHelper;
 		equalityHelper = newEqualityHelper;
@@ -417,6 +445,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				return basicSetEqualityHelper(null, msgs);
+			case StateSpacePackage.STATE_SPACE__PROPERTIES:
+				return ((InternalEList<?>)getProperties()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -447,6 +477,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getStateRepulsion();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				return getTransitionAttraction();
+			case StateSpacePackage.STATE_SPACE__PROPERTIES:
+				if (coreType) return getProperties();
+				else return getProperties().map();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -491,6 +524,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				setTransitionAttraction((Integer)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__PROPERTIES:
+				((EStructuralFeature.Setting)getProperties()).set(newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -530,6 +566,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				setTransitionAttraction(TRANSITION_ATTRACTION_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE_SPACE__PROPERTIES:
+				getProperties().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -560,6 +599,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getStateRepulsion() != STATE_REPULSION_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				return getTransitionAttraction() != TRANSITION_ATTRACTION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__PROPERTIES:
+				return properties != null && !properties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

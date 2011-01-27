@@ -241,6 +241,16 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getStateSpace_Properties() {
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(9);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getStateSpace_Rules() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
@@ -477,6 +487,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(stateSpaceEClass, STATE_SPACE__ZOOM_LEVEL);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__STATE_REPULSION);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__TRANSITION_ATTRACTION);
+		createEReference(stateSpaceEClass, STATE_SPACE__PROPERTIES);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__INDEX);
@@ -550,6 +561,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEAttribute(getStateSpace_ZoomLevel(), ecorePackage.getEInt(), "zoomLevel", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_StateRepulsion(), ecorePackage.getEInt(), "stateRepulsion", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_TransitionAttraction(), ecorePackage.getEInt(), "transitionAttraction", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStateSpace_Properties(), ecorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
