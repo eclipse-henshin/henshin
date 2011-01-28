@@ -71,11 +71,11 @@ public class StateSpaceProperties {
 	 */
 	public static int getRate(StateSpace stateSpace, Rule rule) {
 		String value = stateSpace.getProperties().get(getRateKey(rule));
-		if (value==null) return 1;
+		if (value==null) return -1;
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException e) {
-			return 1;
+			return -1;
 		}
 	}
 
