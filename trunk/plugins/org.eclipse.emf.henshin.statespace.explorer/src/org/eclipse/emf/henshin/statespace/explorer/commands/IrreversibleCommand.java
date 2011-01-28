@@ -14,7 +14,7 @@ package org.eclipse.emf.henshin.statespace.explorer.commands;
 import org.eclipse.gef.commands.Command;
 
 /**
- * A command that cannot be undone.
+ * A dummy command that cannot be undone.
  * @author Christian Krause.
  */
 public class IrreversibleCommand extends Command {

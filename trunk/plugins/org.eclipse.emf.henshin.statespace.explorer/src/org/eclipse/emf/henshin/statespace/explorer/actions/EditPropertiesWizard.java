@@ -1,11 +1,12 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ResetStateSpaceCommand;
+import org.eclipse.emf.henshin.statespace.explorer.commands.SetPropertiesCommand;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -44,10 +45,7 @@ public class EditPropertiesWizard extends Wizard {
 		EMap<String,String> properties = stateSpace.getProperties();
 		
 		// Create the rule page:
-		propertiesPage = new EditPropertiesPage();
-		for (Entry<String,String> entry : properties.entrySet()) {
-			propertiesPage.getProperties().put(entry.getKey(),entry.getValue());
-		}
+		propertiesPage = new EditPropertiesPage(properties);
 		addPage(propertiesPage);
 		
     }
@@ -59,19 +57,24 @@ public class EditPropertiesWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		
-		StateSpaceManager manager = explorer.getStateSpaceManager();
-		
-		boolean changed = true;
-		
-		if (changed) {
-			if (MessageDialog.openConfirm(getShell(), "Reset", 
-				"Changing the properties may affect the state space generation. " +
-				"Therefore we recommend to reset the state space. Should the state space be reset?")) {
+		// Only do something if it is dirty:
+		if (propertiesPage.isDirty()) {
+			
+			// Commit the changes to the model:
+			StateSpaceManager manager = explorer.getStateSpaceManager();
+			Map<String,String> props = propertiesPage.getResult();
+			explorer.executeCommand(new SetPropertiesCommand(manager,props));
+			
+			// Ask whether we should do a reset:
+			if (manager.getStateSpace().getTransitionCount()>0 && 
+				MessageDialog.openConfirm(getShell(), "Reset", 
+					"Changing the properties may affect the state space generation. " +
+					"Therefore we recommend to reset the state space now. Should the state space be reset?")) {
 				explorer.executeCommand(new ResetStateSpaceCommand(manager));
 			}
 		}
-		
 		return true;
+		
 	}
 	
 }
