@@ -1,4 +1,4 @@
-#Tue Jan 25 13:21:56 CET 2011
+#Mon Jan 31 21:59:58 CET 2011
 eclipse.preferences.version=1
 encoding//src/org/eclipse/emf/henshin/examples/e4/model/workbench.henshin=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/e4/model/workbench.henshin_diagram=UTF-8
@@ -6,4 +6,3 @@ encoding//src/org/eclipse/emf/henshin/examples/ecore2genmodel/model/Ecore2Genmod
 encoding//src/org/eclipse/emf/henshin/examples/gmf/model/gmf-views.henshin=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/gmf/model/gmf-views.henshin_diagram=UTF-8
 encoding//src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.henshin_diagram=UTF-8
-encoding//src/org/eclipse/emf/henshin/examples/sierpinski2/model/sierpinski2.henshin_diagram=UTF-8
