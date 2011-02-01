@@ -147,6 +147,24 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 		return defaultImage;
 	}// getImage
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
+	 * .Object)
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Collection<?> getChildren(Object object) {
+		Collection childrenList = super.getChildren(object);
+		NestedCondition nc = (NestedCondition) object;
+		if (nc.getMappings().size() > 5) {
+			childrenList.removeAll(nc.getMappings());
+			childrenList.add(new NestedConditionMappingItemProvider(adapterFactory, nc));
+		}
+		return childrenList;
+	}
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->

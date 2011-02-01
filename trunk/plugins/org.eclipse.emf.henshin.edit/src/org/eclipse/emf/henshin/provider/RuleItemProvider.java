@@ -95,6 +95,24 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		return childrenFeatures;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
+	 * .Object)
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Collection<?> getChildren(Object object) {
+		Collection childrenList = super.getChildren(object);
+		Rule rule = (Rule) object;
+		if (rule.getMappings().size() > 5) {
+			childrenList.removeAll(rule.getMappings());
+			childrenList.add(new RuleMappingItemProvider(adapterFactory, rule));
+		}
+		return childrenList;
+	}// getChildren
+	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
