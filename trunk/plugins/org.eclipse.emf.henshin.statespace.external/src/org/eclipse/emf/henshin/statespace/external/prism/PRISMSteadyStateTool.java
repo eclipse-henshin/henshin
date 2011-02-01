@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -48,7 +49,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		String line, time = null, error = null;
 		boolean parseProbabilities = false;
 		boolean parseError = false;
-		MessageFormat format = new MessageFormat("{0,number,integer}:({1,number,integer})={2,number}");
+		MessageFormat format = new MessageFormat("{0,number,integer}:({1,number,integer})={2,number}", Locale.ENGLISH);
 		
 		while ((line = reader.readLine())!=null) {
 			line = line.trim();
@@ -67,7 +68,8 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 				error = error + "\n" + line;
 			}
 			else {
-				if (line.startsWith("Probabilities:")) {
+				if (line.startsWith("Probabilities:") ||
+					line.startsWith("Printing steady-state probabilities in plain text format below:")) {
 					parseProbabilities = true;
 				} 
 				else if (line.startsWith("Error")) {
