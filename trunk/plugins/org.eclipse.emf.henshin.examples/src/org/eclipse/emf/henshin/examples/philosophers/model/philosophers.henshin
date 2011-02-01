@@ -321,7 +321,7 @@
       <nodes xmi:id="_dPllUHlFEd--cZ9Xscsd8g" incoming="_J4DokHlIEd--cZ9Xscsd8g _4nwPgLtgEd-6F6HrA5096Q" outgoing="_fChwUHlKEd--cZ9Xscsd8g">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Plate"/>
       </nodes>
-      <nodes xmi:id="_vy2S4HlKEd--cZ9Xscsd8g" incoming="_fChwUHlKEd--cZ9Xscsd8g _c9UUIHlGEd--cZ9Xscsd8g _4n1IALtgEd-6F6HrA5096Q">
+      <nodes xmi:id="_vy2S4HlKEd--cZ9Xscsd8g" name="fork" incoming="_fChwUHlKEd--cZ9Xscsd8g _c9UUIHlGEd--cZ9Xscsd8g _4n1IALtgEd-6F6HrA5096Q">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Fork"/>
       </nodes>
       <nodes xmi:id="_dnzewHlKEd--cZ9Xscsd8g" incoming="_lnEiwHlHEd--cZ9Xscsd8g _4n29MLtgEd-6F6HrA5096Q" outgoing="_c9UUIHlGEd--cZ9Xscsd8g _6eXaYHlKEd--cZ9Xscsd8g">

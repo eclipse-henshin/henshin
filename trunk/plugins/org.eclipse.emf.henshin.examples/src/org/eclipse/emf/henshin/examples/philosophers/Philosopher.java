@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getPlate <em>Plate</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getLeft <em>Left</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getRight <em>Right</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,26 +67,6 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 	 * @ordered
 	 */
 	protected Fork right;
-
-	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int ID_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getId()
-	 * @generated
-	 * @ordered
-	 */
-	protected int id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -269,39 +248,6 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 	}
 
 	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(int)
-	 * @see org.eclipse.emf.henshin.examples.philosophers.PhilosophersPackage#getPhilosopher_Id()
-	 * @model
-	 * @generated
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.examples.philosophers.Philosopher#getId <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
-	 * @generated
-	 */
-	public void setId(int newId) {
-		int oldId = id;
-		id = newId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PhilosophersPackage.PHILOSOPHER__ID, oldId, id));
-	}
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -332,8 +278,6 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 				return getLeft();
 			case PhilosophersPackage.PHILOSOPHER__RIGHT:
 				return getRight();
-			case PhilosophersPackage.PHILOSOPHER__ID:
-				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -354,9 +298,6 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 				return;
 			case PhilosophersPackage.PHILOSOPHER__RIGHT:
 				setRight((Fork)newValue);
-				return;
-			case PhilosophersPackage.PHILOSOPHER__ID:
-				setId((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -379,9 +320,6 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 			case PhilosophersPackage.PHILOSOPHER__RIGHT:
 				setRight((Fork)null);
 				return;
-			case PhilosophersPackage.PHILOSOPHER__ID:
-				setId(ID_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -400,26 +338,8 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 				return left != null;
 			case PhilosophersPackage.PHILOSOPHER__RIGHT:
 				return right != null;
-			case PhilosophersPackage.PHILOSOPHER__ID:
-				return id != ID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (id: ");
-		result.append(id);
-		result.append(')');
-		return result.toString();
 	}
 
 } // Philosopher
