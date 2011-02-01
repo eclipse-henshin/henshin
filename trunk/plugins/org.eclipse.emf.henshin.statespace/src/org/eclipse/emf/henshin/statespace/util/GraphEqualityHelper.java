@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 
 /**
  * Helper class for deciding whether two models are graph equal.
@@ -40,25 +40,35 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Current position in the stack:
 	private int current;
 	
+	// Cached models:
+	private Model m1, m2;
+
+	// Whether node IDs should be ignored:
+	private boolean ignoreNodeIDs;
+	
+	
 	/**
 	 * Default constructor.
 	 * @param ignoreAttributes Whether to ignore attributes.
 	 */
-	public GraphEqualityHelper(boolean ignoreAttributes) {
-		this.attributeHelper = new EcoreEqualityHelper(ignoreAttributes);
+	public GraphEqualityHelper(boolean ignoreNodeIDs, boolean ignoreAttributes) {
+		this.ignoreNodeIDs = ignoreNodeIDs;
+		this.attributeHelper = new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes);
 	}
 	
 	/**
-	 * Check graph equality for two resources.
-	 * @param r1 Resource 1.
-	 * @param r2 Resource 2.
+	 * Check graph equality for two models.
+	 * @param model1 Model 1.
+	 * @param model2 Model 2.
 	 * @return <code>true</code> if they are equal.
 	 */
-	public boolean equals(Resource r1, Resource r2) {
+	public boolean equals(Model model1, Model model2) {
 		
 		// Initialize variables:
-		t1 = new EObject[][] { r1.getContents().toArray(new EObject[0]) };
-		t2 = new EObject[][] { r2.getContents().toArray(new EObject[0]) };
+		m1 = model1;
+		m2 = model2;
+		t1 = new EObject[][] { m1.getResource().getContents().toArray(new EObject[0]) };
+		t2 = new EObject[][] { m2.getResource().getContents().toArray(new EObject[0]) };
 		current = 0;
 		
 		// Perform depth-first search:
@@ -66,6 +76,13 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		boolean equals = depthFirst();
 		//if (equals) System.out.println("\n=== MATCH FOUND === ");
 		
+		// Release variables:
+		m1 = null;
+		m2 = null;
+		t1 = null;
+		t2 = null;
+		
+		// Done.
 		return equals;
 		
 	}
@@ -169,12 +186,17 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				continue;
 			}
 			
+			// Compare the IDs if necessary:
+			if (!ignoreNodeIDs) {
+				if (getNodeID(node1)!=getNodeID(node2)) continue;
+			}
+
 			// Assume it is a valid match for now.
 			put(node1, node2);
 			boolean valid = true;
 			// System.out.println("Attempt " + index2 + " of matching " + node1);
 			// System.out.println("Current match: " + this + "\n");
-			
+						
 			// Compare the features:
 			for (EStructuralFeature feature : eclass.getEAllStructuralFeatures()) {
 				
@@ -256,6 +278,20 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		// System.out.println("Giving up matching " + node1);
 		return false;
 		
+	}
+	
+	/*
+	 * Get the ID of a node.
+	 */
+	private int getNodeID(EObject object) {
+		Integer result = m1.getNodeIDsMap().get(object);
+		if (result==null) {
+			result = m2.getNodeIDsMap().get(object);			
+		}
+		if (result==null) {
+			throw new RuntimeException("No node ID found for " + object);			
+		}
+		return result;
 	}
 	
 	/*

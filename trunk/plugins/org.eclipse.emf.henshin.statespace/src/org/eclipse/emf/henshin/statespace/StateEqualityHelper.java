@@ -15,8 +15,6 @@ package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EObject;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 /**
  * Helper class for deciding whether two state models are
  * equal and for calculating their hash codes.
@@ -42,6 +40,23 @@ public interface StateEqualityHelper extends EObject {
 	void setGraphEquality(boolean value);
 
 	/**
+	 * Check whether node IDs should be ignored.
+	 * @see #setIgnoreNodeIDs(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_IgnoreNodeIDs()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isIgnoreNodeIDs();
+
+	/**
+	 * Set whether node IDs should be ignored.
+	 * @param value the new value of the '<em>Ignore Node IDs</em>' attribute.
+	 * @see #isIgnoreNodeIDs()
+	 * @generated
+	 */
+	void setIgnoreNodeIDs(boolean value);
+
+	/**
 	 * Check whether this helper ignores node attributes.
 	 * @return <code>true</code> if it ignores attributes.
 	 * @see #setIgnoreAttributes(boolean)
@@ -64,13 +79,13 @@ public interface StateEqualityHelper extends EObject {
 	 * @model
 	 * @generated
 	 */
-	boolean equals(Resource model1, Resource model2);
+	boolean equals(Model model1, Model model2);
 
 	/**
-	 * Compute the hash code for a given state model.
+	 * Generate a hash code of a state model.
 	 * @model
 	 * @generated
 	 */
-	int hashCode(Resource model);
+	int hashCode(Model model);
 
 }

@@ -24,6 +24,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
@@ -213,7 +214,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		
 		// Update tool tip:
 		if (getState().isInitial()) {
-			String tooltip = getState().getModel().getURI().deresolve(getState().eResource().getURI()).toString();
+			URI modelURI = getState().getModel().getResource().getURI();
+			String tooltip = modelURI.deresolve(getState().eResource().getURI()).toString();
 			getFigure().setToolTip(new Label(tooltip));
 		}
 		

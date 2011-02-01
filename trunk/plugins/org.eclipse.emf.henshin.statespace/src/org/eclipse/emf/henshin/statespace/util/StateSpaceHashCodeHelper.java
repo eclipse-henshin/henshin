@@ -13,7 +13,6 @@ package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -22,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 
 /**
  * @generated NOT
@@ -54,7 +53,10 @@ public class StateSpaceHashCodeHelper {
 	
 	// Whether to use graph equality.
 	private boolean graphEquality;
-	
+
+	// Whether to ignore node IDs.
+	private boolean ignoreNodeIDs;
+
 	// Whether to ignore attributes.
 	private boolean ignoreAttributes;
 	
@@ -64,13 +66,18 @@ public class StateSpaceHashCodeHelper {
 	// Hash code of EPackage's nsURI.
 	private int nsURIHashCode;
 	
+	// Current model.
+	private Model model;
+	
+	
 	/**
 	 * Default constructor.
 	 * @param graphEquality Graph equality?
 	 * @param ignoreAttributes Ignore attributes?
 	 */
-	public StateSpaceHashCodeHelper(boolean graphEquality, boolean ignoreAttributes) {
+	public StateSpaceHashCodeHelper(boolean graphEquality, boolean ignoreNodeIDs, boolean ignoreAttributes) {
 		this.graphEquality = graphEquality;
+		this.ignoreNodeIDs = ignoreNodeIDs;
 		this.ignoreAttributes = ignoreAttributes;
 	}
 	
@@ -78,15 +85,18 @@ public class StateSpaceHashCodeHelper {
 	 * Compute the hash code for a given model.
 	 * @generated NOT
 	 */
-	public int hashCode(Resource resource) {
-		return totalHashCode(resource.getContents(), new LocalHashCodes(), 0);
+	public int hashCode(Model model) {
+		this.model = model;
+		int result = totalHashCode(model.getResource().getContents(), new LocalHashCodes(), 0);
+		this.model = null;
+		return result;
 	}
 
 	/*
 	 * Compute the total hash code of a list of EObjects.
 	 * This delegates to #totalhashCode() for a single EObject.
 	 */
-	private int totalHashCode(EList<EObject> nodes, Map<EObject,Integer> localHashCodes, int depth) {
+	private int totalHashCode(EList<EObject> nodes, LocalHashCodes localHashCodes, int depth) {
 		
 		// First compute the total hash codes of all nodes:
 		int[] total = new int[nodes.size()];
@@ -106,7 +116,7 @@ public class StateSpaceHashCodeHelper {
 	 * the method walks down the containment tree of the node.
 	 */
 	@SuppressWarnings("unchecked")
-	private int totalHashCode(EObject object, Map<EObject,Integer> localHashCodes, int depth) {
+	private int totalHashCode(EObject object, LocalHashCodes localHashCodes, int depth) {
 		
 		// Context-aware hash code of the current object:
 		int hash = contextHashCode(object, localHashCodes);
@@ -134,37 +144,43 @@ public class StateSpaceHashCodeHelper {
 	 * based on the type of the node, its attribute values 
 	 * and the number of references to other objects.
 	 */
-	private int localHashCode(EObject node) {
+	private int localHashCode(EObject object) {
 		
 		// Class and its features:
-		EClass eclass = node.eClass();
+		EClass eclass = object.eClass();
 		EList<EStructuralFeature> features = eclass.getEAllStructuralFeatures();
 		
 		// Use classifier ID:
-		int hashCode = eclass.getClassifierID();
-
+		int hashCode = eclass.getClassifierID() + 1;
+		
+		// Use node IDs:
+		if (!ignoreNodeIDs) {
+			int id = model.getNodeIDsMap().get(object);
+			hashCode = (hashCode * PRIMES[0]) + id;
+		}
+		
 		// Use features:
-		for (int i=0; i<features.size(); i++) {				
+		for (int i=0; i<features.size(); i++) {
 			EStructuralFeature feature = features.get(i);
 			int value = 0;
 			if (feature.isMany()) {
-				List<?> list = (List<?>) node.eGet(feature);
+				List<?> list = (List<?>) object.eGet(feature);
 				if (feature instanceof EReference) {
 					value = list.size();
 				} else if (feature instanceof EAttribute) {
 					value = ignoreAttributes ? 0 : list.hashCode();
 				}
 			} else {
-				Object object = node.eGet(feature);
-				if (object==null) {
+				Object single = object.eGet(feature);
+				if (single==null) {
 					value = 0;
 				} else if (feature instanceof EReference) {
 					value = 1;
 				} else if (feature instanceof EAttribute) {
-					value = ignoreAttributes ? 0 : object.hashCode();
+					value = ignoreAttributes ? 0 : single.hashCode();
 				}
 			}
-			hashCode = (hashCode * PRIMES[i % PRIMES.length]) + value;
+			hashCode = (hashCode * PRIMES[(i+1) % PRIMES.length]) + value;
 		}
 		
 		// Update cached ePackage:
@@ -180,10 +196,10 @@ public class StateSpaceHashCodeHelper {
 	
 	/*
 	 * Compute the context-aware hash code for a node. This combines 
-	 * the local hash code of the node and its neighbours into a single hash code.
+	 * the local hash code of the node and its neighbors into a single hash code.
 	 */
 	@SuppressWarnings("unchecked")
-	private int contextHashCode(EObject node, Map<EObject,Integer> localHashCodes) {
+	private int contextHashCode(EObject node, LocalHashCodes localHashCodes) {
 		
 		// Start with the local hash code of the node itself:
 		int hashCode = localHashCodes.get(node);

@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.List;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.statespace.*;
@@ -105,9 +106,16 @@ public class StateSpaceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case StateSpacePackage.MODEL: {
+				Model model = (Model)theEObject;
+				T result = caseModel(model);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case StateSpacePackage.TRANSITION: {
 				Transition transition = (Transition)theEObject;
 				T result = caseTransition(transition);
+				if (result == null) result = caseStorage(transition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -120,6 +128,12 @@ public class StateSpaceSwitch<T> {
 			case StateSpacePackage.STORAGE: {
 				Storage storage = (Storage)theEObject;
 				T result = caseStorage(storage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case StateSpacePackage.NODE_ID: {
+				@SuppressWarnings("unchecked") Map.Entry<EObject, Integer> nodeID = (Map.Entry<EObject, Integer>)theEObject;
+				T result = caseNodeID(nodeID);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -154,6 +168,21 @@ public class StateSpaceSwitch<T> {
 	 * @generated
 	 */
 	public T caseState(State object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModel(Model object) {
 		return null;
 	}
 
@@ -199,6 +228,21 @@ public class StateSpaceSwitch<T> {
 	 * @generated
 	 */
 	public T caseStorage(Storage object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Node ID</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Node ID</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNodeID(Map.Entry<EObject, Integer> object) {
 		return null;
 	}
 

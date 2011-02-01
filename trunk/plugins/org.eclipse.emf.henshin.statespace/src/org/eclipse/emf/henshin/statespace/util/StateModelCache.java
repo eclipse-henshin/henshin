@@ -14,7 +14,7 @@ package org.eclipse.emf.henshin.statespace.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 
 /**
@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.statespace.State;
  * @generated NOT
  * @author Christian Krause
  */
-public class StateModelCache extends LinkedHashMap<State,Resource> {
+public class StateModelCache extends LinkedHashMap<State,Model> {
 
 	// Default cache size: 128
 	public static final int DEFAULT_CACHE_SIZE = 2048;
@@ -53,7 +53,7 @@ public class StateModelCache extends LinkedHashMap<State,Resource> {
 	 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
 	 */
 	@Override
-	protected boolean removeEldestEntry(Map.Entry<State,Resource> eldest) {
+	protected boolean removeEldestEntry(Map.Entry<State,Model> eldest) {
 		return size() > cacheSize;
 	}
 

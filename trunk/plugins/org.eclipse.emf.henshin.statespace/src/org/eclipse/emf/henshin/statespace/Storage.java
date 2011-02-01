@@ -60,4 +60,12 @@ public interface Storage extends EObject {
 	 */
 	void setData(int beginIndex, int[] value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model valueDataType="org.eclipse.emf.henshin.statespace.IntegerArray"
+	 * @generated
+	 */
+	void setData(int beginIndex, int endIndex, int[] value);
+
 }

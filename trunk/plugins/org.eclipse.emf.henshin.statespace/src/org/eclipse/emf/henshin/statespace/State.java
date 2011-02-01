@@ -63,15 +63,17 @@ public interface State extends Storage {
 	 * @model transient="true"
 	 * @generated
 	 */
-	Resource getModel();
+	Model getModel();
 
 	/**
-	 * Set the associated model of this state.
-	 * @param model the associated model.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getModel <em>Model</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model</em>' containment reference.
 	 * @see #getModel()
 	 * @generated
 	 */
-	void setModel(Resource value);
+	void setModel(Model value);
 
 	/**
 	 * Get the state space that contains this state. 
@@ -141,6 +143,43 @@ public interface State extends Storage {
 	 * @generated
 	 */
 	void setHashCode(int value);
+
+	/**
+	 * Get the number of nodes in this state's model.
+	 * @return the value of the '<em>Node Count</em>' attribute.
+	 * @see #setNodeCount(int)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_NodeCount()
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	int getNodeCount();
+
+	/**
+	 * Set the number of nodes in this state's model.
+	 * @param value the new value of the '<em>Node Count</em>' attribute.
+	 * @see #getNodeCount()
+	 * @generated
+	 */
+	void setNodeCount(int value);
+
+	/**
+	 * Get the node IDs for the current state model.
+	 * This associates a unique integer ID to every node in the model.
+	 * @return the value of the '<em>Node IDs</em>' attribute.
+	 * @see #setNodeIDs(int[])
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_NodeIDs()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
+	 * @generated
+	 */
+	int[] getNodeIDs();
+
+	/**
+	 * Set the node IDs for the current state model.
+	 * @param value the new value of the '<em>Node IDs</em>' attribute.
+	 * @see #getNodeIDs()
+	 * @generated
+	 */
+	void setNodeIDs(int[] value);
 
 	/**
 	 * Check whether this state is an initial one. A state is initial

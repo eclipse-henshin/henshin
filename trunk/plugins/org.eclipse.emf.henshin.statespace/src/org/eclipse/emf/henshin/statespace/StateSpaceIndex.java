@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 /**
  * An interface for state space indexes.
  * @author Christian Krause
@@ -32,7 +30,7 @@ public interface StateSpaceIndex {
 	 * @return The corresponding state or <code>null</code> if none was found.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	State getState(Resource model) throws StateSpaceException;
+	State getState(Model model) throws StateSpaceException;
 	
 	/**
 	 * Get the model that corresponds to a state. The model is either cached
@@ -41,6 +39,6 @@ public interface StateSpaceIndex {
 	 * @return The corresponding model.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	Resource getModel(State state) throws StateSpaceException;
+	Model getModel(State state) throws StateSpaceException;
 
 }

@@ -11,10 +11,10 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
  * Command for creating an initial state.
@@ -26,7 +26,7 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	private State state;
 	
 	// State model:
-	private Resource model;
+	private Model model;
 		
 	// State coordinates:
 	private int[] location;
@@ -36,7 +36,7 @@ public class CreateInitialStateCommand extends AbstractStateSpaceCommand {
 	 * @param state State to be added.
 	 * @param stateSpace State space.
 	 */
-	public CreateInitialStateCommand(Resource model, StateSpaceManager manager) {
+	public CreateInitialStateCommand(Model model, StateSpaceManager manager) {
 		super("create initial state", manager);
 		this.model = model;
 	}

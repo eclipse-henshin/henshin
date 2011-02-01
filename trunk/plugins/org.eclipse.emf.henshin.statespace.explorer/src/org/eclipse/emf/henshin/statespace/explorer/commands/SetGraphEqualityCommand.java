@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
@@ -22,12 +23,18 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 
 	private boolean graphEquality;
+	private boolean ignoreNodeIDs;
 	private boolean ignoreAttributes;
 
-	public SetGraphEqualityCommand(StateSpaceManager manager, boolean graphEquality, boolean ignoreAttributes) {
+	public SetGraphEqualityCommand(StateSpaceManager manager, 
+			boolean graphEquality, 
+			boolean ignoreNodeIDs,
+			boolean ignoreAttributes) {
+		
 		super(manager);
 		setLabel("set equality type");
 		this.graphEquality = graphEquality;
+		this.ignoreNodeIDs = ignoreNodeIDs;
 		this.ignoreAttributes = ignoreAttributes;
 	}
 	
@@ -38,9 +45,12 @@ public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 	@Override
 	public void doExecute() { 
 		
+		StateEqualityHelper helper = getStateSpaceManager().getStateSpace().getEqualityHelper();
+		
 		// Set the graph-equality property:
-		getStateSpaceManager().getStateSpace().getEqualityHelper().setGraphEquality(graphEquality);
-		getStateSpaceManager().getStateSpace().getEqualityHelper().setIgnoreAttributes(ignoreAttributes);
+		helper.setGraphEquality(graphEquality);
+		helper.setIgnoreNodeIDs(ignoreNodeIDs);
+		helper.setIgnoreAttributes(ignoreAttributes);
 		
 		// Now do a reset:
 		super.doExecute();

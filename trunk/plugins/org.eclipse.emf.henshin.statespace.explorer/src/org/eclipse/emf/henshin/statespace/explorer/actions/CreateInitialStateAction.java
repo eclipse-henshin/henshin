@@ -18,9 +18,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.CreateInitialStateCommand;
+import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -82,8 +84,9 @@ public class CreateInitialStateAction extends AbstractStateSpaceAction {
 		try {
 			
 			// Load the model and assign the relative path to it:
-			Resource model = resourceSet.getResource(absolute, true);
-			model.setURI(relative);
+			Resource resource = resourceSet.getResource(absolute, true);
+			resource.setURI(relative);
+			Model model = new ModelImpl(resource);
 			
 			CreateInitialStateCommand command = new CreateInitialStateCommand(model, manager);
 			command.setLocation(location);

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.statespace.*;
 
 /**
@@ -72,9 +74,11 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		switch (eClass.getClassifierID()) {
 			case StateSpacePackage.STATE_SPACE: return createStateSpace();
 			case StateSpacePackage.STATE: return createState();
+			case StateSpacePackage.MODEL: return createModel();
 			case StateSpacePackage.TRANSITION: return createTransition();
 			case StateSpacePackage.STATE_EQUALITY_HELPER: return createStateEqualityHelper();
 			case StateSpacePackage.STORAGE: return createStorage();
+			case StateSpacePackage.NODE_ID: return (EObject)createNodeID();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -90,6 +94,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		switch (eDataType.getClassifierID()) {
 			case StateSpacePackage.INTEGER_ARRAY:
 				return createIntegerArrayFromString(eDataType, initialValue);
+			case StateSpacePackage.MATCH:
+				return createMatchFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -105,6 +111,8 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		switch (eDataType.getClassifierID()) {
 			case StateSpacePackage.INTEGER_ARRAY:
 				return convertIntegerArrayToString(eDataType, instanceValue);
+			case StateSpacePackage.MATCH:
+				return convertMatchToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -128,6 +136,16 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	public State createState() {
 		StateImpl state = new StateImpl();
 		return state;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Model createModel() {
+		ModelImpl model = new ModelImpl();
+		return model;
 	}
 
 	/**
@@ -163,6 +181,16 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<EObject, Integer> createNodeID() {
+		NodeIDImpl nodeID = new NodeIDImpl();
+		return nodeID;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public int[] createIntegerArrayFromString(EDataType eDataType, String initialValue) {		
@@ -185,6 +213,24 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		return convertIntegerArrayToString(eDataType, (int[]) location);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Match createMatchFromString(EDataType eDataType, String initialValue) {
+		return (Match)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertMatchToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

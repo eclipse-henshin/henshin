@@ -21,8 +21,6 @@ import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
@@ -30,6 +28,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -38,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateModelCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private final Map<State,Resource> cache = Collections.synchronizedMap(new StateModelCache());
+	private final Map<State,Model> cache = Collections.synchronizedMap(new StateModelCache());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
@@ -86,7 +86,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			}
 			
 			// Find the corresponding outgoing transition:
-			Transition transition = findTransition(state, target, current.getRule());
+			Transition transition = findTransition(state, target, current.getRule(), current.getParameterIDs());
 			if (transition==null) {
 				return true;
 			}
@@ -108,7 +108,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public Resource getModel(State state) throws StateSpaceException {
+	public Model getModel(State state) throws StateSpaceException {
 		
 		// Model already set?
 		if (state.getModel()!=null) {
@@ -116,7 +116,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Cached?
-		Resource cached = cache.get(state);
+		Model cached = cache.get(state);
 		if (cached!=null) {
 			return cached;
 		}
@@ -134,9 +134,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Derive the current model:
-		Resource start = search.getCurrentState().getModel();
+		Model start = search.getCurrentState().getModel();
 		if (start==null) start = cache.get(search.getCurrentState());
-		Resource model = deriveModel(start, search.getTrace());
+		Model model = deriveModel(start, search.getTrace());
 		
 		// Always add it to the cache (is maintained automatically):
 		cache.put(state, model);
@@ -149,7 +149,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Store a model in a state.
 	 */
-	private void storeModel(State state, Resource model) {
+	private void storeModel(State state, Model model) {
 		
 		// Do not override initial state models!!!
 		if (state.isInitial()) return;
@@ -174,13 +174,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
-	private Resource deriveModel(Resource start, Trace path) throws StateSpaceException {
+	private Model deriveModel(Model start, Trace path) throws StateSpaceException {
 
 		// We need a transformation engine first:
 		EmfEngine engine = acquireEngine();
 
 		// We copy the model:
-		Resource model = copyModel(start, null);
+		Model model = start.getCopy(null);
 		
 		// Derive the model for the current state:
 		for (Transition transition : path) {
@@ -202,7 +202,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			application.apply();
 			
 			// Store model:
-			storeModel(transition.getTarget(),copyModel(model,null));
+			storeModel(transition.getTarget(), model.getCopy(null));
 			
 		}
 		
@@ -245,9 +245,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// No check which states / transitions need to be added.
 		for (Transition current : transitions) {
 			
+			// Transition label details:
+			Rule rule = current.getRule();
+			int match = current.getMatch();
+			int[] parameters = current.getParameterIDs();
+			
 			// Get the hash and model of the new target state:
 			int hashCode = current.getTarget().getHashCode();
-			Resource transformed = current.getTarget().getModel();
+			Model transformed = current.getTarget().getModel();
 			
 			// The target state and some of its properties:
 			State target;
@@ -280,9 +285,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			// END OF EXPLORER LOCK
 
 			// Find or create the transition.
-			Transition transition = findTransition(state, target, current.getRule());
+			Transition transition = findTransition(state, target, rule, parameters);
 			if (transition==null) {
-				transition = createTransition(state, target, current.getRule(), current.getMatch());
+				transition = createTransition(state, target, rule, match, parameters);
 				result.add(transition);
 			}
 			
@@ -323,7 +328,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		EmfEngine engine = acquireEngine();
 		
 		// Get the state model:
-		Resource model = getModel(state);
+		Model model = getModel(state);
+		
+		// Check whether we can ignore node IDs:
+		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -331,36 +339,66 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Apply all rules:
 		for (Rule rule : getStateSpace().getRules()) {
 			
+			// Compute matches:
 			RuleApplication application = createRuleApplication(model, rule, engine);
 			List<Match> matches = application.findAllMatches();
 			
+			// Get the parameters of the rule:
+			List<Node> parameters = ignoreNodeIDs ? 
+					null : StateSpaceProperties.getParameters(getStateSpace(), rule);
+			
+			// Iterate over all matches:
 			for (int i=0; i<matches.size(); i++) {
 				
 				// Transform the model:
 				Match match = matches.get(i);
-				Resource transformed = copyModel(model, match);
+				Model transformed = model.getCopy(match);
 				EmfGraph graph = createEmfGraph(transformed);
 				application = createRuleApplication(graph, rule, engine);
 				application.setMatch(match);
 				application.apply();
 				
 				// Collect newly created root objects:
+				Resource resource = transformed.getResource();
 				for (EObject root : graph.getRootObjects()) {
-					if (!transformed.getContents().contains(root)) {
-						transformed.getContents().add(root);
+					if (!resource.getContents().contains(root)) {
+						resource.getContents().add(root);
 					}
 				}
 				
 				// Create a new state:
 				State newState = StateSpaceFactory.eINSTANCE.createState();
-				newState.setHashCode(hashCode(transformed));
 				newState.setModel(transformed);
+				
+				// Update node IDs if necessary:
+				if (!ignoreNodeIDs) {
+					transformed.updateNodeIDs();
+					int[] nodeIDs = transformed.getNodeIDs();
+					newState.setNodeIDs(nodeIDs);
+					newState.setNodeCount(nodeIDs.length);
+				}
+				
+				// Now compute and set the hash code (after the node IDs have been updated!).
+				newState.setHashCode(hashCode(transformed));
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
 				newTransition.setRule(rule);
 				newTransition.setMatch(i);
 				newTransition.setTarget(newState);
+				if (!ignoreNodeIDs) {
+					int[] paramIDs = new int[parameters.size()];
+					for (int p=0; p<paramIDs.length; p++) {
+						Node node = parameters.get(p);
+						EObject matched = match.getNodeMapping().get(node);
+						if (matched==null) {
+							matched = application.getComatch().getNodeMapping().get(node);
+						}
+						paramIDs[p] = transformed.getNodeIDsMap().get(matched);
+					}
+					newTransition.setParameterIDs(paramIDs);
+					newTransition.setParameterCount(paramIDs.length);
+				}
 				
 				// Remember the transition:
 				transitions.add(newTransition);
@@ -379,7 +417,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Helper method for finding a state in a list.
 	 */
-	private State findState(Resource model, int hashCode, List<State> states) throws StateSpaceException {
+	private State findState(Model model, int hashCode, List<State> states) throws StateSpaceException {
 		for (State state : states) {
 			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
 				return state;
@@ -391,9 +429,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Create a new EmfGraph.
 	 */
-	private static EmfGraph createEmfGraph(Resource model) {
+	private static EmfGraph createEmfGraph(Model model) {
 		EmfGraph graph = new EmfGraph();
-		for (EObject root : model.getContents()) {
+		for (EObject root : model.getResource().getContents()) {
 			graph.addRoot(root);
 		}
 		return graph;
@@ -410,7 +448,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Create a new RuleApplication.
 	 */
-	private static RuleApplication createRuleApplication(Resource model, Rule rule, EmfEngine engine) {
+	private static RuleApplication createRuleApplication(Model model, Rule rule, EmfEngine engine) {
 		EmfGraph graph = createEmfGraph(model);
 		return createRuleApplication(graph, rule, engine);
 	}
@@ -439,23 +477,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		synchronized (engines) {
 			engines.push(engine);
 		}
-	}
-
-	/*
-	 * Copy a state model.
-	 */
-	private static Resource copyModel(Resource model, Match match) {
-		Resource copy = new ResourceImpl();
-		Copier copier = new Copier();
-		copy.getContents().addAll(copier.copyAll(model.getContents()));
-		copier.copyReferences();
-		if (match!=null) {
-			for (Node node : match.getRule().getLhs().getNodes()) {
-				EObject newImage = copier.get(match.getNodeMapping().get(node));
-				match.getNodeMapping().put(node, newImage);
-			}
-		}
-		return copy;
 	}
 	
 	/*

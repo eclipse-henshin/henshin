@@ -55,12 +55,13 @@ public class StateSpaceSerializer {
 		
 		// Header:
 		writeShort(MARKER); // Marker
-		writeShort(0); // Version
+		writeShort(1); // Version
 		
 		StateEqualityHelper helper = stateSpace.getEqualityHelper(); // Equality type
 		int equalityType = 0;
 		if (helper.isGraphEquality()) equalityType = equalityType | 1;
 		if (helper.isIgnoreAttributes()) equalityType = equalityType | 2;
+		if (helper.isIgnoreNodeIDs()) equalityType = equalityType | 4;
 		writeShort(equalityType); 
 		
 		writeShort(rules.size()); // Rule count
@@ -76,7 +77,8 @@ public class StateSpaceSerializer {
 		// States:
 		for (State state : stateSpace.getStates()) {
 			
-			writeString(state.isInitial() ? state.getModel().getURI().toString() : null);
+			writeString(state.isInitial() ? 
+					state.getModel().getResource().getURI().toString() : null);
 			writeData(state.getData());
 			
 			// Transitions:
@@ -89,7 +91,7 @@ public class StateSpaceSerializer {
 				if (target.getStateSpace()!=stateSpace) 
 					throw new IOException("Transition target not contained in state space");
 				writeShort(rules.indexOf(transition.getRule()));
-				writeShort(transition.getMatch());
+				writeData(transition.getData());
 				writeInt(target.getIndex());
 			}
 		}		

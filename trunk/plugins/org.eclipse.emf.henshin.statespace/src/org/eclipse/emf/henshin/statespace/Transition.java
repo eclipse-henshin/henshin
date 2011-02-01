@@ -11,14 +11,13 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Light-weight transition model.
  * @generated
  */
-public interface Transition extends EObject {
+public interface Transition extends Storage {
 
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' container reference.
@@ -100,5 +99,41 @@ public interface Transition extends EObject {
 	 * @generated
 	 */
 	void setMatch(int value);
-		
+
+	/**
+	 * Get the number of parameters for this transition.
+	 * @return the value of the '<em>Parameter Count</em>' attribute.
+	 * @see #setParameterCount(int)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getTransition_ParameterCount()
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	int getParameterCount();
+
+	/**
+	 * Set the number of parameters for this transition.
+	 * @param value the new value of the '<em>Parameter Count</em>' attribute.
+	 * @see #getParameterCount()
+	 * @generated
+	 */
+	void setParameterCount(int value);
+
+	/**
+	 * Get the parameter IDs for this transition.
+	 * @return the value of the '<em>Parameter IDs</em>' attribute.
+	 * @see #setParameterIDs(int[])
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getTransition_ParameterIDs()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
+	 * @generated
+	 */
+	int[] getParameterIDs();
+
+	/**
+	 * Set the parameter IDs for this transition.
+	 * @param value the new value of the '<em>Parameter IDs</em>' attribute.
+	 * @see #getParameterIDs()
+	 * @generated
+	 */
+	void setParameterIDs(int[] value);
+
 }

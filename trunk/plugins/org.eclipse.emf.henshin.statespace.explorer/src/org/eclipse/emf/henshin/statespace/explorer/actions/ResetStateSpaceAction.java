@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ResetStateSpaceCommand;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -37,8 +38,13 @@ public class ResetStateSpaceAction extends AbstractStateSpaceAction {
 			// Create and execute Reset command:
 			StateSpaceManager manager = getExplorer().getStateSpaceManager();
 			ResetStateSpaceCommand command = new ResetStateSpaceCommand(manager);
-			getExplorer().executeCommand(command);
 			
+			try {
+				getExplorer().executeCommand(command);
+			} catch (Throwable t) {
+				StateSpaceExplorerPlugin.getInstance().logError("Error reseting state space", t);
+				MessageDialog.openError(shell, "Error", "Error reseting state space. See the error log for more information.");
+			}
 		}
 		
 	}

@@ -11,22 +11,126 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
 
 /**
  * @generated
  */
-public class TransitionImpl extends MinimalEObjectImpl.Container implements Transition {
+public class TransitionImpl extends StorageImpl implements Transition {
+	
+	/**
+	 * Labels are not cached by the transition!
+	 * Should be cached externally, if needed.
+	 * @generated NOT
+	 */
+	public String getLabel() {
+		if (rule==null) return null;
+		String label = rule.getName();
+		if (getParameterCount()>0) {
+			label = label + "(";
+			char[] prefixes = getParamPrefixes();
+			int[] params = getParameterIDs();
+			int count = Math.min(prefixes.length, params.length);
+			for (int i=0; i<count; i++) {
+				label = label + prefixes[i] + params[i];
+				if (i<count-1) label = label + ",";
+			}
+			label = label + ")";
+		}
+		return label;
+	}
+	
+	/*
+	 * Private helper for computing the prefixes of parameters.
+	 */
+	private char[] getParamPrefixes() {
+		if (getSource()==null || getSource().getStateSpace()==null) return new char[0];
+		List<Node> nodes = StateSpaceProperties.getParameters(getSource().getStateSpace(), rule);
+		char[] prefixes = new char[nodes.size()];
+		for (int i=0; i<prefixes.length; i++) {
+			EClass type = nodes.get(i).getType();
+			if (type!=null && type.getName()!=null) {
+				prefixes[i] = type.getName().charAt(0);
+			} else {
+				prefixes[i] = 'x';				
+			}
+		}
+		return prefixes;
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	public int getMatch() {
+		return getData(0);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setMatch(int match) {
+		setData(0, match);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int getParameterCount() {
+		return getData(1);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setParameterCount(int paramCount) {
+		setData(1, paramCount);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int[] getParameterIDs() {
+		return getData(2, 2+getParameterCount());
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setParameterIDs(int[] paramIDs) {
+		setData(2, paramIDs);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		if (getSource()!=null && target!=null && rule!=null) {
+			return getSource().getIndex() + " -- " + getLabel() + " -> " + target.getIndex();
+		} else {
+			return super.toString();
+		}
+	}
+
+
+	/* ---------------------------------------------------------------- *
+	 * GENERATED CODE.                                                  *
+	 * Do not edit below this line. If you need to edit, move it above  *
+	 * this line and change the '@generated'-tag to '@generated NOT'.   *
+	 * ---------------------------------------------------------------- */
 	
 	/**
 	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -37,6 +141,14 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	protected State target;
 
 	/**
+	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
+	 * @see #getRule()
+	 * @generated
+	 * @ordered
+	 */
+	protected Rule rule;
+
+	/**
 	 * The default value of the '{@link #getMatch() <em>Match</em>}' attribute.
 	 * @see #getMatch()
 	 * @generated
@@ -45,20 +157,24 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	protected static final int MATCH_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getMatch() <em>Match</em>}' attribute.
-	 * @see #getMatch()
+	 * The default value of the '{@link #getParameterCount() <em>Parameter Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParameterCount()
 	 * @generated
 	 * @ordered
 	 */
-	protected int match = MATCH_EDEFAULT;
+	protected static final int PARAMETER_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getRule() <em>Rule</em>}' attribute.
-	 * @see #getRule()
+	 * The default value of the '{@link #getParameterIDs() <em>Parameter IDs</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParameterIDs()
 	 * @generated
 	 * @ordered
 	 */
-	protected Rule rule;
+	protected static final int[] PARAMETER_IDS_EDEFAULT = null;
 
 	/**
 	 * @generated
@@ -199,30 +315,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	}
 
 	/**
-	 * @generated NOT
-	 */
-	public String getLabel() {
-		return (getRule()!=null) ? getRule().getName() : null;
-	}
-
-	/**
-	 * @generated
-	 */
-	public int getMatch() {
-		return match;
-	}
-
-	/**
-	 * @generated
-	 */
-	public void setMatch(int newMatch) {
-		int oldMatch = match;
-		match = newMatch;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.TRANSITION__MATCH, oldMatch, match));
-	}
-
-	/**
 	 * @generated
 	 */
 	@Override
@@ -277,11 +369,15 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case StateSpacePackage.TRANSITION__TARGET:
 				if (resolve) return getTarget();
 				return basicGetTarget();
-			case StateSpacePackage.TRANSITION__MATCH:
-				return getMatch();
 			case StateSpacePackage.TRANSITION__RULE:
 				if (resolve) return getRule();
 				return basicGetRule();
+			case StateSpacePackage.TRANSITION__MATCH:
+				return getMatch();
+			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
+				return getParameterCount();
+			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
+				return getParameterIDs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -298,11 +394,17 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case StateSpacePackage.TRANSITION__TARGET:
 				setTarget((State)newValue);
 				return;
+			case StateSpacePackage.TRANSITION__RULE:
+				setRule((Rule)newValue);
+				return;
 			case StateSpacePackage.TRANSITION__MATCH:
 				setMatch((Integer)newValue);
 				return;
-			case StateSpacePackage.TRANSITION__RULE:
-				setRule((Rule)newValue);
+			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
+				setParameterCount((Integer)newValue);
+				return;
+			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
+				setParameterIDs((int[])newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -320,11 +422,17 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case StateSpacePackage.TRANSITION__TARGET:
 				setTarget((State)null);
 				return;
+			case StateSpacePackage.TRANSITION__RULE:
+				setRule((Rule)null);
+				return;
 			case StateSpacePackage.TRANSITION__MATCH:
 				setMatch(MATCH_EDEFAULT);
 				return;
-			case StateSpacePackage.TRANSITION__RULE:
-				setRule((Rule)null);
+			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
+				setParameterCount(PARAMETER_COUNT_EDEFAULT);
+				return;
+			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
+				setParameterIDs(PARAMETER_IDS_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -340,24 +448,16 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				return getSource() != null;
 			case StateSpacePackage.TRANSITION__TARGET:
 				return target != null;
-			case StateSpacePackage.TRANSITION__MATCH:
-				return match != MATCH_EDEFAULT;
 			case StateSpacePackage.TRANSITION__RULE:
 				return rule != null;
+			case StateSpacePackage.TRANSITION__MATCH:
+				return getMatch() != MATCH_EDEFAULT;
+			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
+				return getParameterCount() != PARAMETER_COUNT_EDEFAULT;
+			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
+				return PARAMETER_IDS_EDEFAULT == null ? getParameterIDs() != null : !PARAMETER_IDS_EDEFAULT.equals(getParameterIDs());
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	@Override
-	public String toString() {
-		if (getSource()!=null && target!=null && rule!=null) {
-			return "(" + getSource().getIndex() + " -> " + target.getIndex() + ", rule=" + rule.getName() + ", match=" + match + ")";
-		} else {
-			return super.toString();
-		}
 	}
 
 } //TransitionImpl

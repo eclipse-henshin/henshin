@@ -13,11 +13,11 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Arrays;
 
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
 /**
  * Default implementation of {@link StateSpaceIndexImpl}. 
@@ -59,16 +59,16 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public Resource getModel(State state) throws StateSpaceException {
+	public Model getModel(State state) throws StateSpaceException {
 		if (state.getModel()==null) throw new StateSpaceException("State without model");
 		return state.getModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.ecore.resource.Resource)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.henshin.statespace.Model)
 	 */
-	public final State getState(Resource model) throws StateSpaceException {
+	public final State getState(Model model) throws StateSpaceException {
 		return getState(model, hashCode(model));
 	}
 
@@ -78,7 +78,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * @param hash Its hash code.
 	 * @return The corresponding state if it exists.
 	 */
-	protected State getState(Resource model, int hash) throws StateSpaceException {
+	protected State getState(Model model, int hash) throws StateSpaceException {
 		
 		// Find all possibly matching states:
 		int position = hash2position(hash);
@@ -88,7 +88,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		// Check if one of them is the correct one:
 		for (int i=0; i<matched.length; i++) {
 			if (matched[i]==null || matched[i].getHashCode()!=hash) continue;
-			Resource current = getModel(matched[i]);
+			Model current = getModel(matched[i]);
 			if (equals(model, current)) {
 				return matched[i];
 			}
@@ -229,7 +229,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Compute the hash code of a state model.
 	 * This delegates to the state equality helper.
 	 */
-	protected int hashCode(Resource model) {
+	protected int hashCode(Model model) {
 		return stateSpace.getEqualityHelper().hashCode(model);
 	}
 	
@@ -237,7 +237,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Check if two state models are equal.
 	 * This delegates to the equality helper.
 	 */
-	protected boolean equals(Resource model1, Resource model2) {
+	protected boolean equals(Model model1, Model model2) {
 		return stateSpace.getEqualityHelper().equals(model1, model2);
 	}
 	

@@ -21,9 +21,10 @@ public class StateSpaceProperties {
 	 * @return List of nodes.
 	 */
 	public static List<Node> getParameters(StateSpace stateSpace, Rule rule) {
-		String value = stateSpace.getProperties().get(getParametersKey(rule));
-		String[] names = value.split(",");
 		List<Node> nodes = new ArrayList<Node>();
+		String value = stateSpace.getProperties().get(getParametersKey(rule));
+		if (value==null) return nodes;
+		String[] names = value.split(",");
 		for (int i=0; i<names.length; i++) {
 			String name = names[i].trim();
 			if (name.length()==0) continue;

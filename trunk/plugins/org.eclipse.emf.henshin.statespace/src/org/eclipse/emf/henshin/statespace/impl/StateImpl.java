@@ -19,11 +19,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
@@ -40,7 +40,9 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public boolean isInitial() {
-		return model!=null && model.getURI()!=null;
+		return model!=null && 
+			model.getResource()!=null && 
+			model.getResource().getURI()!=null;
 	}
 	
 	/**
@@ -49,20 +51,6 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	public boolean isTerminal() {
 		return !isOpen() && getOutgoing().isEmpty();
-	}
-	
-	/**
-	 * @generated NOT
-	 */
-	public boolean isOpen() {
-		return (getData(1)!=0);
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	public void setOpen(boolean open) {
-		setData(1, open ? 1 : 0);
 	}
 	
 	/**
@@ -82,6 +70,34 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
+	public boolean isOpen() {
+		return (getData(1)!=0);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setOpen(boolean open) {
+		setData(1, open ? 1 : 0);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int getNodeCount() {
+		return getData(2);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setNodeCount(int nodeCount) {
+		setData(2, nodeCount);
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public int[] getLocation() {
 		return getData(3, 6);
 	}
@@ -90,8 +106,23 @@ public class StateImpl extends StorageImpl implements State {
 	 * @generated NOT
 	 */
 	public void setLocation(int... newLocation) {
-		setData(3, newLocation);
+		setData(3, 6, newLocation);
 	}
+
+	/**
+	 * @generated NOT
+	 */
+	public int[] getNodeIDs() {
+		return getData(6, 6+getNodeCount());
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setNodeIDs(int[] nodeIDs) {
+		setData(6, nodeIDs);
+	}
+
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -111,8 +142,6 @@ public class StateImpl extends StorageImpl implements State {
 
 	/**
 	 * The cached value of the '{@link #getIndex() <em>Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getIndex()
 	 * @generated
 	 * @ordered
@@ -134,22 +163,6 @@ public class StateImpl extends StorageImpl implements State {
 	 * @ordered
 	 */
 	protected EList<Transition> outgoing;
-
-	/**
-	 * The default value of the '{@link #getModel() <em>Model</em>}' attribute.
-	 * @see #getModel()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Resource MODEL_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
-	 * @see #getModel()
-	 * @generated
-	 * @ordered
-	 */
-	protected Resource model = MODEL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
@@ -174,6 +187,32 @@ public class StateImpl extends StorageImpl implements State {
 	 * @ordered
 	 */
 	protected static final int HASH_CODE_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getNodeCount() <em>Node Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNodeCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int NODE_COUNT_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getNodeIDs() <em>Node IDs</em>}' attribute.
+	 * @see #getNodeIDs()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int[] NODE_IDS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
+	 * @see #getModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected Model model;
 
 	/**
 	 * @generated
@@ -236,18 +275,38 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated
 	 */
-	public Resource getModel() {
+	public Model getModel() {
 		return model;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setModel(Resource newModel) {
-		Resource oldModel = model;
+	public NotificationChain basicSetModel(Model newModel, NotificationChain msgs) {
+		Model oldModel = model;
 		model = newModel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__MODEL, oldModel, model));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__MODEL, oldModel, newModel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setModel(Model newModel) {
+		if (newModel != model) {
+			NotificationChain msgs = null;
+			if (model != null)
+				msgs = ((InternalEObject)model).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - StateSpacePackage.STATE__MODEL, null, msgs);
+			if (newModel != null)
+				msgs = ((InternalEObject)newModel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - StateSpacePackage.STATE__MODEL, null, msgs);
+			msgs = basicSetModel(newModel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE__MODEL, newModel, newModel));
 	}
 
 	/**
@@ -316,6 +375,8 @@ public class StateImpl extends StorageImpl implements State {
 				return ((InternalEList<?>)getOutgoing()).basicRemove(otherEnd, msgs);
 			case StateSpacePackage.STATE__STATE_SPACE:
 				return basicSetStateSpace(null, msgs);
+			case StateSpacePackage.STATE__MODEL:
+				return basicSetModel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -344,8 +405,6 @@ public class StateImpl extends StorageImpl implements State {
 				return getIncoming();
 			case StateSpacePackage.STATE__OUTGOING:
 				return getOutgoing();
-			case StateSpacePackage.STATE__MODEL:
-				return getModel();
 			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace();
 			case StateSpacePackage.STATE__LOCATION:
@@ -354,6 +413,12 @@ public class StateImpl extends StorageImpl implements State {
 				return isOpen();
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode();
+			case StateSpacePackage.STATE__NODE_COUNT:
+				return getNodeCount();
+			case StateSpacePackage.STATE__NODE_IDS:
+				return getNodeIDs();
+			case StateSpacePackage.STATE__MODEL:
+				return getModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -376,9 +441,6 @@ public class StateImpl extends StorageImpl implements State {
 				getOutgoing().clear();
 				getOutgoing().addAll((Collection<? extends Transition>)newValue);
 				return;
-			case StateSpacePackage.STATE__MODEL:
-				setModel((Resource)newValue);
-				return;
 			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)newValue);
 				return;
@@ -390,6 +452,15 @@ public class StateImpl extends StorageImpl implements State {
 				return;
 			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE__NODE_COUNT:
+				setNodeCount((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE__NODE_IDS:
+				setNodeIDs((int[])newValue);
+				return;
+			case StateSpacePackage.STATE__MODEL:
+				setModel((Model)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -410,9 +481,6 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OUTGOING:
 				getOutgoing().clear();
 				return;
-			case StateSpacePackage.STATE__MODEL:
-				setModel(MODEL_EDEFAULT);
-				return;
 			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)null);
 				return;
@@ -424,6 +492,15 @@ public class StateImpl extends StorageImpl implements State {
 				return;
 			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode(HASH_CODE_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE__NODE_COUNT:
+				setNodeCount(NODE_COUNT_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE__NODE_IDS:
+				setNodeIDs(NODE_IDS_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE__MODEL:
+				setModel((Model)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -441,8 +518,6 @@ public class StateImpl extends StorageImpl implements State {
 				return incoming != null && !incoming.isEmpty();
 			case StateSpacePackage.STATE__OUTGOING:
 				return outgoing != null && !outgoing.isEmpty();
-			case StateSpacePackage.STATE__MODEL:
-				return MODEL_EDEFAULT == null ? model != null : !MODEL_EDEFAULT.equals(model);
 			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace() != null;
 			case StateSpacePackage.STATE__LOCATION:
@@ -451,13 +526,17 @@ public class StateImpl extends StorageImpl implements State {
 				return isOpen() != OPEN_EDEFAULT;
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode() != HASH_CODE_EDEFAULT;
+			case StateSpacePackage.STATE__NODE_COUNT:
+				return getNodeCount() != NODE_COUNT_EDEFAULT;
+			case StateSpacePackage.STATE__NODE_IDS:
+				return NODE_IDS_EDEFAULT == null ? getNodeIDs() != null : !NODE_IDS_EDEFAULT.equals(getNodeIDs());
+			case StateSpacePackage.STATE__MODEL:
+				return model != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -467,8 +546,6 @@ public class StateImpl extends StorageImpl implements State {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (index: ");
 		result.append(index);
-		result.append(", model: ");
-		result.append(model);
 		result.append(')');
 		return result.toString();
 	}

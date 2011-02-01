@@ -28,7 +28,7 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 	/**
 	 * @generated NOT
 	 */
-	private static int[] EMPTY_DATA = new int[0];
+	public static int[] EMPTY_DATA = new int[0];
 	
 	/**
 	 * @generated NOT
@@ -71,11 +71,19 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 		if (size==0) {
 			setData(null);
 		} else {
-			int[] newData = resized(size);
+			int[] newData = resized(data,size);
 			if (index<size) newData[index] = value;
 			setData(newData);
 		}
 		
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setData(int beginIndex, int endIndex, int[] value) {
+		value = resized(value, endIndex - beginIndex);
+		setData(beginIndex, value);
 	}
 
 	/**
@@ -92,7 +100,7 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 		if (size==0) {
 			setData(null);
 		} else {
-			int[] newData = resized(size);
+			int[] newData = resized(data,size);
 			for (int i=0; i<valueSize; i++) {
 				newData[beginIndex+i] = value[i];
 			}
@@ -102,12 +110,11 @@ public class StorageImpl extends MinimalEObjectImpl.Container implements Storage
 	}
 	
 	/*
-	 * Private helper for generating resized copies
-	 * of the data storage array.
+	 * Private helper for generating resized copies of a storage array.
 	 */
-	private int[] resized(int size) {
-		if (data==null) return new int[size];
-		else return Arrays.copyOf(data, size);
+	private int[] resized(int[] array, int size) {
+		if (array==null) return new int[size];
+		else return Arrays.copyOf(array, size);
 	}
 	
 	/*

@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
@@ -53,7 +54,7 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 		for (State state : states) {
 			
 			// Get the state model:
-			Resource model = null;
+			Model model = null;
 			try {
 				model = getExplorer().getStateSpaceManager().getModel(state);
 			} catch (StateSpaceException e) {
@@ -68,7 +69,7 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 			if (state.isInitial()) {
 				
 				// Build the absolute platform URI:
-				URI resolved = model.getURI().resolve(base);
+				URI resolved = model.getResource().getURI().resolve(base);
 
 				IPath path = new Path(resolved.toPlatformString(true));
 				file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
@@ -84,7 +85,7 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 					// Do the saving:
 					ResourceSet resourceSet = new ResourceSetImpl();
 					Resource resource = resourceSet.createResource(target);
-					resource.getContents().addAll(EcoreUtil.copyAll(model.getContents()));
+					resource.getContents().addAll(EcoreUtil.copyAll(model.getResource().getContents()));
 					resource.save(null);
 					
 					// Don't forget to refresh the folder contents:

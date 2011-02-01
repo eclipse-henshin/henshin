@@ -13,8 +13,6 @@ package org.eclipse.emf.henshin.statespace;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 /**
  * State space manager interface. State managers are used to
  * modify and explore state spaces.
@@ -31,7 +29,7 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 * @return The newly created state.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
-	State createInitialState(Resource model) throws StateSpaceException;
+	State createInitialState(Model model) throws StateSpaceException;
 	
 	/**
 	 * Remove a state from the state space. Unreachable states are automatically

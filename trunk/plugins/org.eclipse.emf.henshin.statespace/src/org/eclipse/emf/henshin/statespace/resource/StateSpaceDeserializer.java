@@ -17,11 +17,13 @@ import java.io.InputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
 
 /**
  * State space deserialization class.
@@ -50,12 +52,13 @@ public class StateSpaceDeserializer {
 		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("State space file marker not found"); // Marker
 		
 		int version = readShort(); // Version number
-		if (version!=0) throw new IOException("Unsupported format version: " + version);
+		if (version<0 || version>1) throw new IOException("Unsupported format version: " + version);
 		
 		int equalityType = readShort(); // Equality type
 		StateEqualityHelper helper = StateSpaceFactory.eINSTANCE.createStateEqualityHelper();
 		helper.setGraphEquality((equalityType & 1)==1);
 		helper.setIgnoreAttributes((equalityType & 2)==2);
+		helper.setIgnoreNodeIDs((equalityType & 4)==4);
 		stateSpace.setEqualityHelper(helper);
 		
 		int ruleCount = readShort(); // Rule count
@@ -93,8 +96,9 @@ public class StateSpaceDeserializer {
 				// Load the model:
 				URI uri = URI.createURI(modelUri);
 				URI resolved = uri.resolve(resource.getURI());
-				Resource model = resource.getResourceSet().getResource(resolved,true);
-				model.setURI(uri);
+				Resource contents = resource.getResourceSet().getResource(resolved,true);
+				contents.setURI(uri);
+				Model model = new ModelImpl(contents);
 				state.setModel(model);
 				
 				// Add it to the list of initial states:
@@ -114,7 +118,11 @@ public class StateSpaceDeserializer {
 			for (int i=0; i<transitions; i++) {
 				Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 				transition.setRule(stateSpace.getRules().get(readShort()));
-				transition.setMatch(readShort());
+				if (version==0) {
+					transition.setMatch(readShort());	// In version 0, the match is stored here.
+				} else if (version==1) {
+					transition.setData(readData());		// Since version 1, transitions implement Storage.
+				}
 				transition.setTarget(stateSpace.getStates().get(readInt()));
 				state.getOutgoing().add(transition);
 			}

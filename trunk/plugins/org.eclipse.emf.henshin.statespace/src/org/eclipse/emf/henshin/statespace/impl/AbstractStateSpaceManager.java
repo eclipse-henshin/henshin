@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -80,6 +82,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
 		
 		monitor.beginTask("Reload models", getStateSpace().getStates().size());
+		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
 		
 		try {			
 			// Reset state index:
@@ -92,21 +95,32 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				}
 			}
 			monitor.worked(1);
-						
+			
 			// Compute state models, update the hash code and the index:
 			for (State state : getStateSpace().getStates()) {
 				
-				// Compute the model and its hash:
-				Resource model = getModel(state);
+				// Get the model first:
+				Model model = getModel(state);
+				
+				// Update the node IDs:
+				int[] nodeIDs = StorageImpl.EMPTY_DATA;
+				if (!ignoreNodeIDs) {
+					model.updateNodeIDs();
+					nodeIDs = model.getNodeIDs();
+				}
+				state.setNodeIDs(nodeIDs);
+				state.setNodeCount(nodeIDs.length);
+				
+				// Now compute the hash code:
 				int hash = hashCode(model);
 				
 				// Check if it exists already: 
-				if (getState(model, hash)!=null) {
+				if (getState(model,hash)!=null) {
 					markTainted();
 					throw new StateSpaceException("Duplicate state: " + state.getIndex());
 				}
 				
-				// Set the hash code. Model is set by subclasses in getModel().
+				// Update the hash code. Model is set by subclasses in getModel().
 				state.setHashCode(hash);
 				
 				// Set the open-flag.
@@ -157,7 +171,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 	}
 	
-	protected State createOpenState(Resource model, int hash) {
+	protected State createOpenState(Model model, int hash) {
 		return createOpenState(model, hash, null);
 	}
 
@@ -168,7 +182,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param hash The model's hash code.
 	 * @return The newly created state.
 	 */
-	protected State createOpenState(Resource model, int hash, int[] location) {
+	protected State createOpenState(Model model, int hash, int[] location) {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
@@ -176,7 +190,18 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		state.setHashCode(hash);
 		state.setModel(model);
 		state.setOpen(true);
-		if (location!=null) state.setLocation(location);
+		
+		// Set the location, if set:
+		if (location!=null) {
+			state.setLocation(location);
+		}
+		
+		// Set the node IDs, if required:
+		if (!getStateSpace().getEqualityHelper().isIgnoreNodeIDs()) {
+			int[] nodeIDs = model.getNodeIDs();
+			state.setNodeIDs(nodeIDs);
+			state.setNodeCount(nodeIDs.length);
+		}
 		
 		// Add the state to the state space:
 		synchronized (stateSpaceLock) {
@@ -196,10 +221,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#createInitialState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State createInitialState(Resource model) throws StateSpaceException {
+	public final State createInitialState(Model model) throws StateSpaceException {
 		
 		// Check if the resource is persisted:
-		if (model.getURI()==null) {
+		Resource resource = model.getResource();
+		if (resource==null || resource.getURI()==null) {
 			throw new IllegalArgumentException("Model is not persisted");
 		}
 		
@@ -313,7 +339,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	
 	/**
 	 * Create a new outgoing transition. Note that the this does not check
-	 * if the same transition exists already (use {@link #getTransition(State, String, int)}
+	 * if the same transition exists already (use {@link #getTransition(State, String, int, int[])}
 	 * for that). Moreover the created transition is dangling (the target is not set).
 	 * @param source Source state.
 	 * @param target Target state.
@@ -321,10 +347,12 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param match Match to be used.
 	 * @return The newly created transition.
 	 */
-	protected Transition createTransition(State source, State target, Rule rule, int match) {
+	protected Transition createTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);
+		transition.setParameterIDs(paramIDs);
+		transition.setParameterCount(paramIDs.length);
 		synchronized (stateSpaceLock) {
 			change = true;
 			transition.setSource(source);
@@ -338,9 +366,10 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	/**
 	 * Find an outgoing transition.
 	 */
-	protected static Transition findTransition(State source, State target, Rule rule) {
+	protected static Transition findTransition(State source, State target, Rule rule, int[] paramIDs) {
 		for (Transition transition : source.getOutgoing()) {
-			if (rule==transition.getRule() && target==transition.getTarget()) {
+			if (rule==transition.getRule() && target==transition.getTarget() &&
+				Arrays.equals(paramIDs, transition.getParameterIDs())) {
 				return transition;
 			}
 		}

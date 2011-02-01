@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
@@ -66,10 +66,10 @@ public class OCLStateValidator implements StateValidator {
 	public ValidationResult validate(State state, IProgressMonitor monitor) throws Exception {
 		
 		// Get the model for the current state:
-		Resource model = index.getModel(state);
-				
+		Model model = index.getModel(state);
+		
 		// Check the constraint for all root elements:
-		for (EObject root : model.getContents()) {
+		for (EObject root : model.getResource().getContents()) {
 			
 			// Update the context and the constraint:
 			if (constraint==null || classifier!=root.eClass()) {
