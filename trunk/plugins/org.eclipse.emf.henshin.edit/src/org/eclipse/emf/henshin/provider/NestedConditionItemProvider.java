@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,11 +30,14 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.GraphComplexUnsetCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
@@ -169,7 +173,7 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
@@ -184,10 +188,63 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
 						true, false));
+				notifyMappedNodes(notification);
 				return;
 		}
 		super.notifyChanged(notification);
 	}
+	
+	/**
+	 * If a mapping is added or removed this directly affect the visualization
+	 * of associated nodes in terms of preserve and forbid icons. Consequently,
+	 * related nodes are notified to be refreshed visually.
+	 * 
+	 * @param notification
+	 */
+	@SuppressWarnings("unchecked")
+	private void notifyMappedNodes(Notification notification) {
+		List<Mapping> mappings = new ArrayList<Mapping>();
+		switch (notification.getEventType()) {
+			case Notification.REMOVE:
+				mappings.add((Mapping) notification.getOldValue());
+				break;
+			case Notification.ADD:
+				mappings.add((Mapping) notification.getNewValue());
+				break;
+			case Notification.ADD_MANY:
+				mappings.addAll((Collection<Mapping>) notification.getNewValue());
+				break;
+			case Notification.REMOVE_MANY:
+				mappings.addAll((Collection<Mapping>) notification.getOldValue());
+				break;
+		}// switch
+		
+		if (!mappings.isEmpty()) {
+			for (Mapping mapping : mappings) {
+				if (mapping.getImage() != null)
+					notifyNodeForRefresh(notification, mapping.getImage());
+				if (mapping.getOrigin() != null)
+					notifyNodeForRefresh(notification, mapping.getOrigin());
+			}// for
+		}// if
+	}// notifyMappedNodes
+	
+	/**
+	 * Notifies the given node to refresh its label (only). This affects the
+	 * icon in particular, which shows if the node is created, deleted or
+	 * preserve.
+	 * 
+	 * @param notification
+	 * @param node
+	 */
+	private void notifyNodeForRefresh(Notification notification, Node node) {
+		if (node != null) {
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
+					Node.class);
+			Notification notif = new ViewerNotification(notification, node, false, true);
+			adapter.fireNotifyChanged(notif);
+		}// if
+	}// notifyNodeForRefresh
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
