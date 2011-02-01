@@ -163,16 +163,19 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	@Override
 	public String getText(Object object) {
 		Mapping mapping = (Mapping) object;
+		
 		String result = getString("_UI_Mapping_type");
-		if (mapping.getOrigin() != null && mapping.getImage() != null) {
-			String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping
-					.getOrigin()) : "null";
-			String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping
-					.getImage()) : "null";
-			if (origin != null && image != null) {
-				result = result + " " + origin + " -> " + image;
-			}
-		}
+		
+		String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping
+				.getOrigin()) : "?";
+		String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping
+				.getImage()) : "?";
+		
+		origin = (origin.isEmpty()) ? "_" : origin;
+		image = (image.isEmpty()) ? "_" : image;
+		
+		result = result + " " + origin + " -> " + image;
+		
 		return result;
 	}
 	
