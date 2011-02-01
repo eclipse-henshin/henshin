@@ -43,6 +43,12 @@ public class CreateNestedConditionMenuContributor extends MenuContributor {
 	private static final String COMMAND_LABEL_SUBMENU = "CopySubGraphToNestedConditions_Submenu";
 	private static final String COMMAND_LABEL_REPLACE = "CopySubGraphToNestedConditions_ReplaceCurrent";
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.editor.commands.MenuContributor#contributeActions
+	 * (org.eclipse.jface.action.IMenuManager, java.util.List)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void contributeActions(IMenuManager menuManager, List<?> selection) {
@@ -92,24 +98,17 @@ public class CreateNestedConditionMenuContributor extends MenuContributor {
 						@Override
 						public void execute() {
 							appendAndExecute(wrapCmd);
-							// System.out.println("1");
 							Object[] aObj = wrapCmd.getAffectedObjects().toArray();
-							// System.out.println("2");
 							if ((aObj.length < 1) || !(aObj[0] instanceof BinaryFormula)) {
-								// System.out.println("CANCEL");
 								this.appendAndExecute(UnexecutableCommand.INSTANCE);
-								
 								return;
 							}
-							// System.out.println("3");
+							
 							BinaryFormula wrapFormula = (BinaryFormula) aObj[0];
 							copycmd.setOwner(wrapFormula);
-							// System.out.println("4");
 							copycmd.setFeature(wrapFormula.eClass().getEStructuralFeature(
 									HenshinPackage.BINARY_FORMULA__RIGHT));
-							// System.out.println("5");
 							appendAndExecute(copycmd);
-							// System.out.println("6");
 						}
 					};
 					

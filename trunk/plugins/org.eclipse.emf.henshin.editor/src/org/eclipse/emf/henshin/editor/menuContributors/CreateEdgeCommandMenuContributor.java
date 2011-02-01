@@ -31,14 +31,21 @@ import org.eclipse.jface.action.MenuManager;
  * @author Stefan Jurack (sjurack)
  * 
  */
-public class EdgeCommandMenuContributor extends MenuContributor {
+public class CreateEdgeCommandMenuContributor extends MenuContributor {
 	
-	public static MenuContributor INSTANCE = new EdgeCommandMenuContributor();
+	public static MenuContributor INSTANCE = new CreateEdgeCommandMenuContributor();
 	
 	private static final String COMMAND_LABEL = "CreateEdge";
 	private static final String COMMAND_LABEL_UR = "CreateEdge_UnnamedReference";
 	private static final String COMMAND_LABEL_EM = "CreateEdge_ExceededMultiplicity";
+	private static final String COMMAND_LABEL_AE = "CreateEdge_AlreadyExists";
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.editor.commands.MenuContributor#contributeActions
+	 * (org.eclipse.jface.action.IMenuManager, java.util.List)
+	 */
 	@Override
 	public void contributeActions(IMenuManager menuManager, List<?> selection) {
 		
@@ -56,6 +63,7 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 		
 		Collection<EReference> references = new ArrayList<EReference>();
 		Collection<EReference> referencesWithExceededMultiplicity = new ArrayList<EReference>();
+		Collection<EReference> existingReferences = new ArrayList<EReference>();
 		
 		// lookup references between the given types for which their are no
 		// edges yet.
@@ -77,6 +85,7 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 					// reference between the given nodes
 					//
 					if ((edge.getTarget() == targetNode) && reference.equals(edge.getType())) {
+						existingReferences.add(edge.getType());
 						continue eRefLoop;
 					}
 				}
@@ -94,6 +103,7 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 		
 		Collection<EReference> inverseReferences = new ArrayList<EReference>();
 		Collection<EReference> inverseReferencesWithExceededMultiplicity = new ArrayList<EReference>();
+		Collection<EReference> inverseExistingReferences = new ArrayList<EReference>();
 		
 		// lookup references between the given types for which their are no
 		// edges yet.
@@ -115,6 +125,7 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 					// reference between the given nodes
 					//
 					if ((edge.getTarget() == sourceNode) && reference.equals(edge.getType())) {
+						inverseExistingReferences.add(edge.getType());
 						continue eRefLoop;
 					}
 				}
@@ -130,7 +141,8 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 			}
 		}
 		
-		if (references.size() + referencesWithExceededMultiplicity.size() > 0) {
+		if (references.size() + referencesWithExceededMultiplicity.size()
+				+ existingReferences.size() > 0) {
 			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " " + sourceNode.getName()
 					+ " -> " + targetNode.getName());
 			for (EReference ref : references) {
@@ -144,10 +156,15 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_EM)
 						+ " *"));
 			}
+			for (EReference ref : existingReferences) {
+				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_AE)
+						+ " *"));
+			}
 			menuManager.add(mm);
 		}
 		
-		if (inverseReferences.size() + inverseReferencesWithExceededMultiplicity.size() > 0) {
+		if (inverseReferences.size() + inverseReferencesWithExceededMultiplicity.size()
+				+ inverseExistingReferences.size() > 0) {
 			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " " + targetNode.getName()
 					+ " -> " + sourceNode.getName());
 			for (EReference ref : inverseReferences) {
@@ -156,6 +173,10 @@ public class EdgeCommandMenuContributor extends MenuContributor {
 			}
 			for (EReference ref : inverseReferencesWithExceededMultiplicity) {
 				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_EM)
+						+ " *"));
+			}
+			for (EReference ref : inverseExistingReferences) {
+				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_AE)
 						+ " *"));
 			}
 			menuManager.add(mm);

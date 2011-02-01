@@ -32,6 +32,12 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 	
 	private static final String COMMAND_LABEL = "CreateMapping";
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.editor.commands.MenuContributor#contributeActions
+	 * (org.eclipse.jface.action.IMenuManager, java.util.List)
+	 */
 	@Override
 	public void contributeActions(IMenuManager menuManager, List<?> selection) {
 		

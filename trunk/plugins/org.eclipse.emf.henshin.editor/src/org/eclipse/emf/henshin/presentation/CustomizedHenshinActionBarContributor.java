@@ -20,9 +20,10 @@ import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.CreateEdgeCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateMappingCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateNestedConditionMenuContributor;
-import org.eclipse.emf.henshin.editor.menuContributors.EdgeCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.FormulaCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.RemoveMappedNodesMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.SimpleCommandMenuContributor;
@@ -129,7 +130,7 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 	protected void buildContributions(IMenuManager menuManager) {
 		SimpleCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);
-		EdgeCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
+		CreateEdgeCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);
 		RemoveMappedNodesMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);
@@ -139,6 +140,10 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 				domain);
 		CreateNestedConditionMenuContributor.INSTANCE.buildContributions(menuManager,
 				currentSelection, domain);
+		
+		CopySubgraphMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
+				domain);
+		
 		menuManager.update(true);
 	}
 	

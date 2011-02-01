@@ -14,6 +14,8 @@ package org.eclipse.emf.henshin.editor.commands;
 /**
  * Utility class for quantifying common conditions.
  * 
+ * TODO: Move to a more appropriate location.
+ * 
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
  */
@@ -49,6 +51,18 @@ public class QuantUtil {
 	
 	public static boolean anyNull(Object... args) {
 		return !noneNull(args);
+	}
+	
+	public static boolean instanceOfAll(Object o, Class<?>... clazzes) {
+		for (Class<?> clazz : clazzes)
+			if (!clazz.isInstance(o)) return false;
+		return true;
+	}
+	
+	public static boolean instanceOfAny(Object o, Class<?>... clazzes) {
+		for (Class<?> clazz : clazzes)
+			if (clazz.isInstance(o)) return true;
+		return false;
 	}
 	
 }
