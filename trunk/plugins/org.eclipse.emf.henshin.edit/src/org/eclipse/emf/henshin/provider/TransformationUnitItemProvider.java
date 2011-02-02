@@ -140,6 +140,25 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		return super.getChildFeature(object, child);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
+	 * .Object)
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Collection<?> getChildren(Object object) {
+		TransformationUnit tu = (TransformationUnit) object;
+		Collection childrenList = super.getChildren(object);
+		
+		if (tu.getParameters().size() > 5) {
+			childrenList.removeAll(tu.getParameters());
+			childrenList.add(new TrafoUnitParameterItemProvider(adapterFactory, tu));
+		}
+		return childrenList;
+	}
+	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
