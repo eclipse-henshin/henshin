@@ -48,13 +48,13 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		IItemLabelProvider, IItemPropertySource {
 	
 	/**
-	 * Number of parameters wich are shown in an unfold way. Any number above
+	 * Number of parameters which are shown in an unfold way. Any number above
 	 * the given leads to a folding of them.
 	 */
 	public static final int MAX_UNFOLD_PARAMETERS = 5;
 
 	/**
-	 * Number of parameter mappings wich are shown in an unfold way. Any number above
+	 * Number of parameter mappings which are shown in an unfold way. Any number above
 	 * the given leads to a folding of them.
 	 */
 	public static final int MAX_UNFOLD_PARAMETERMAPPINGS = 5;

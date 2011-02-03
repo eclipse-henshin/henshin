@@ -51,6 +51,13 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
 public class NestedConditionItemProvider extends FormulaItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
+	
+	/**
+	 * Number of mappings which are shown in an unfold way. Any number above the
+	 * given leads to a folding of them.
+	 */
+	public static final int MAX_UNFOLD_MAPPINGS = 5;
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -159,7 +166,7 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	public Collection<?> getChildren(Object object) {
 		Collection childrenList = super.getChildren(object);
 		NestedCondition nc = (NestedCondition) object;
-		if (nc.getMappings().size() > 5) {
+		if (nc.getMappings().size() > MAX_UNFOLD_MAPPINGS) {
 			childrenList.removeAll(nc.getMappings());
 			childrenList.add(new NestedConditionMappingItemProvider(adapterFactory, nc));
 		}
