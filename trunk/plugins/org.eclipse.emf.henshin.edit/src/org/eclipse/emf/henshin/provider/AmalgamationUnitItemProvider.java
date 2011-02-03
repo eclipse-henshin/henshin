@@ -230,20 +230,21 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
-			children.add(0, new KernelRuleItemProvider(adapterFactory, au));
-			children.add(1, new MultiRuleItemProvider(adapterFactory, au));
-			children.add(2, new LhsMappingItemProvider(adapterFactory, au));
-			children.add(3, new RhsMappingItemProvider(adapterFactory, au));
+			children.add(new KernelRuleItemProvider(adapterFactory, au));
+			children.add(new MultiRuleItemProvider(adapterFactory, au));
+			children.add(new LhsMappingItemProvider(adapterFactory, au));
+			children.add(new RhsMappingItemProvider(adapterFactory, au));
 		}// if
 		else {
 			@SuppressWarnings("rawtypes")
 			List l = (List<?>) super.getChildren(object);
 			
 			// reuse item providers in the 'children' list
-			l.add(0, children.get(0));
-			l.add(1, children.get(1));
-			l.add(2, children.get(2));
-			l.add(3, children.get(3));
+			int size = children.size();
+			l.add(children.get(size-4));
+			l.add(children.get(size-3));
+			l.add(children.get(size-2));
+			l.add(children.get(size-1));
 			children = l;
 		}
 		
