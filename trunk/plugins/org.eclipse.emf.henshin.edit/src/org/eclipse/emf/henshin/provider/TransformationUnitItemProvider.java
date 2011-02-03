@@ -30,6 +30,7 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -43,6 +44,19 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
+	
+	/**
+	 * Number of parameters wich are shown in an unfold way. Any number above
+	 * the given leads to a folding of them.
+	 */
+	public static final int MAX_UNFOLD_PARAMETERS = 5;
+
+	/**
+	 * Number of parameter mappings wich are shown in an unfold way. Any number above
+	 * the given leads to a folding of them.
+	 */
+	public static final int MAX_UNFOLD_PARAMETERMAPPINGS = 5;
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -150,12 +164,23 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	@Override
 	public Collection<?> getChildren(Object object) {
 		TransformationUnit tu = (TransformationUnit) object;
-		Collection childrenList = super.getChildren(object);
+		List childrenList = (List) super.getChildren(object);
 		
-		if (tu.getParameters().size() > 5) {
+		if (tu.getParameterMappings().size() > MAX_UNFOLD_PARAMETERS) {
+			childrenList.removeAll(tu.getParameterMappings());
+			int offset;
+			for (offset = 0; offset < childrenList.size(); offset++) {
+				Object currentItem = childrenList.get(offset);
+				if (!(currentItem instanceof Parameter)) break;
+			}// for
+			childrenList.add(offset, new TrafoUnitParameterMappingItemProvider(adapterFactory, tu));
+		}// if
+		
+		if (tu.getParameters().size() > MAX_UNFOLD_PARAMETERMAPPINGS) {
 			childrenList.removeAll(tu.getParameters());
-			childrenList.add(new TrafoUnitParameterItemProvider(adapterFactory, tu));
-		}
+			childrenList.add(0, new TrafoUnitParameterItemProvider(adapterFactory, tu));
+		}// if
+		
 		return childrenList;
 	}
 	
