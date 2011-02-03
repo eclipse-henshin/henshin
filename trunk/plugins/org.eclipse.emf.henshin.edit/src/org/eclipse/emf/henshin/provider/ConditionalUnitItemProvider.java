@@ -39,6 +39,9 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
+import org.eclipse.emf.henshin.provider.trans.IfItemProvider;
+import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
 
 /**
  * This is the item provider adapter for a

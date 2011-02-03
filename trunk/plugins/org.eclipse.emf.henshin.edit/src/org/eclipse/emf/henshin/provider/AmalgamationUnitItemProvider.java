@@ -40,6 +40,10 @@ import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.provider.trans.KernelRuleItemProvider;
+import org.eclipse.emf.henshin.provider.trans.LhsMappingItemProvider;
+import org.eclipse.emf.henshin.provider.trans.MultiRuleItemProvider;
+import org.eclipse.emf.henshin.provider.trans.RhsMappingItemProvider;
 
 /**
  * This is the item provider adapter for a

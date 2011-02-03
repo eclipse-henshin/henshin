@@ -33,6 +33,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterItemProvider;
+import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvider;
 
 /**
  * This is the item provider adapter for a

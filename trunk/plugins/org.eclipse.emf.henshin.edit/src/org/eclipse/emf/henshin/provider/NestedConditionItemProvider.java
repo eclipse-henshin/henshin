@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
