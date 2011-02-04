@@ -1,7 +1,10 @@
 package org.eclipse.emf.henshin.statespace.util;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
@@ -70,12 +73,14 @@ public class StateSpaceProperties {
 	 * @param rule Rule.
 	 * @return Its rate.
 	 */
-	public static int getRate(StateSpace stateSpace, Rule rule) {
+	public static double getRate(StateSpace stateSpace, Rule rule) {
 		String value = stateSpace.getProperties().get(getRateKey(rule));
 		if (value==null) return -1;
 		try {
-			return Integer.parseInt(value);
-		} catch (NumberFormatException e) {
+			NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+			Number number = format.parse(value);
+			return number.doubleValue();
+		} catch (ParseException e) {
 			return -1;
 		}
 	}
@@ -86,8 +91,9 @@ public class StateSpaceProperties {
 	 * @param rule Rule.
 	 * @param rate Its rate.
 	 */
-	public static void setRate(StateSpace stateSpace, Rule rule, int rate) {
-		stateSpace.getProperties().put(getRateKey(rule), String.valueOf(rate));
+	public static void setRate(StateSpace stateSpace, Rule rule, double rate) {
+		NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);		
+		stateSpace.getProperties().put(getRateKey(rule),format.format(rate));
 	}
 	
 	/**

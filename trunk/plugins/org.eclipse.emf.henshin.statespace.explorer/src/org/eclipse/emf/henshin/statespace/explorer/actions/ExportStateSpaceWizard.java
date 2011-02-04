@@ -81,6 +81,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	// Image for the wizard:
 	private ImageDescriptor wizban;//, icon;
 	
+	
 	/**
 	 * Default constructor.
 	 */
@@ -316,6 +317,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					widgetSelected(e);
+					getContainer().showPage(fileCreationPage);
 				}
 			});
 			list.select(current);
