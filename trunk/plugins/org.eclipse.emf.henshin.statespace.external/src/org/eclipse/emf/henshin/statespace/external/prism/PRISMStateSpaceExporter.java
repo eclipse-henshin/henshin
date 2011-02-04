@@ -14,7 +14,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.export.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
@@ -47,19 +46,11 @@ public class PRISMStateSpaceExporter implements StateSpaceExporter {
 			writer.write("const double " + getRateName(rule) + (rate>0 ? " = "+rate+";\n" : ";\n"));
 		}
 		
-		// Make sure that there is exactly one initial state.
-		if (stateSpace.getInitialStates().size()!=1) {
-			StateSpacePlugin.INSTANCE.logError("PRISM format requires exactly one initial state!", null);
-			if (stateSpace.getInitialStates().isEmpty()) throw new IOException();
-		}
-		
-		// The states:
-		int states = stateSpace.getStates().size();
-		int initial = stateSpace.getInitialStates().get(0).getIndex();
-		
 		// Generate module specification:
 		writer.write("\nmodule Transformation\n\n");
-		writer.write("\ts : [0.." + states + "] init " + initial + ";\n\n");
+		writer.write("\ts : [0.." + stateSpace.getStates().size() + "];\n\n");
+		
+		// Output the transitions:
 		for (State s : stateSpace.getStates()) {
 			for (Transition t : s.getOutgoing()) {
 				
@@ -75,7 +66,16 @@ public class PRISMStateSpaceExporter implements StateSpaceExporter {
 				}
 			}
 		}
-		writer.write("\nendmodule\n");
+		writer.write("\nendmodule\n\n");
+		
+		// Initial states
+		writer.write("init\n\t");
+		for (int i=0; i<stateSpace.getInitialStates().size(); i++) {
+			writer.write("s=" + stateSpace.getInitialStates().get(i).getIndex());
+			if (i<stateSpace.getInitialStates().size()-1) writer.write(" | ");
+		}
+		writer.write("\nendinit\n");
+
 		
 		// Finished:
 		writer.close();
