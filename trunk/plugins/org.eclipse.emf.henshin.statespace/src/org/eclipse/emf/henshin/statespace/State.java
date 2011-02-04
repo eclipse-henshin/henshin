@@ -21,6 +21,26 @@ import org.eclipse.emf.ecore.resource.Resource;
 public interface State extends Storage {
 	
 	/**
+	 * Color for normal states (RGB).
+	 */
+	public final static int[] COLOR_DEFAULT = new int[] { 220,220,220 };
+	
+	/**
+	 * Color for initial states (RGB).
+	 */
+	public final static int[] COLOR_INITIAL = new int[] { 40,220,40 };
+	
+	/**
+	 * Color for terminal states (RGB).
+	 */
+	public final static int[] COLOR_TERMINAL = new int[] { 250,60,60 };
+		
+	/**
+	 * Color for open states (RGB).
+	 */
+	public final static int[] COLOR_OPEN = new int[] { 100,100,250 };
+	
+	/**
 	 * Get the index of this state.
 	 * @return the index of this state.
 	 * @see #setIndex(int)
@@ -66,9 +86,7 @@ public interface State extends Storage {
 	Model getModel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getModel <em>Model</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Set the model for this state.
 	 * @param value the new value of the '<em>Model</em>' containment reference.
 	 * @see #getModel()
 	 * @generated

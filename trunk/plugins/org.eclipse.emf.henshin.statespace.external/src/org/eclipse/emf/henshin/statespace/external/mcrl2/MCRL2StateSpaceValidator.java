@@ -136,4 +136,13 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		return "mCRL2";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return true;
+	}
+
 }

@@ -11,14 +11,11 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.external;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +25,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
+import org.eclipse.emf.henshin.statespace.export.AUTStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.validation.AbstractStateSpaceValidator;
 
 /**
@@ -132,15 +130,18 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		// Get the base name of the state space file:
 		String basename = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
 		File aut = File.createTempFile(basename, ".aut");
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(aut));
-		((StateSpaceResource) stateSpace.eResource()).exportAsAUT(out, monitor);
+		URI uri = URI.createFileURI(aut.getAbsolutePath());
+		
+		// Do the export:
+		AUTStateSpaceExporter exporter = new AUTStateSpaceExporter();
+		exporter.export(stateSpace, uri, monitor);
 		
 		// We cache the file so that we don't have to generate it again:
 		addCachedFile(stateSpace, AUT_FILE_EXPORT_KEY, aut);
 		return aut;
 		
 	}
-	
+
 	/**
 	 * Convert a file using a given command.
 	 * @param input Input file.

@@ -39,7 +39,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
-		Process process = invokePRISM(stateSpace, cslFile, null );
+		Process process = invokePRISM(stateSpace, cslFile, null, monitor);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -84,6 +84,15 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 	@Override
 	public String getName() {
 		return "PRISM";
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return true;
 	}
 	
 }

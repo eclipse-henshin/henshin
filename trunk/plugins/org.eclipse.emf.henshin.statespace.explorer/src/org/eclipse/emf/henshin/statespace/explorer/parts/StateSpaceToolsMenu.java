@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction;
+import org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
@@ -119,6 +120,7 @@ public class StateSpaceToolsMenu extends Composite {
 	private Link initialStateLink;
 	private Link importLink;
 	private Link resetLink;
+	private Link exportLink;
 	private Link propertiesLink;
 	
 	// Radio-buttons:
@@ -184,27 +186,14 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);
 		
 		// The tasks group:
-		Composite tasks = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,3);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 3;
-		initialStateLink = new Link(tasks, SWT.NONE);
-		initialStateLink.setText("* <a>New initial state</a>");
-		initialStateLink.setLayoutData(data);
-		importLink = new Link(tasks, SWT.NONE);
-		importLink.setText("* <a>Import rules</a>");
-		importLink.setLayoutData(data);
-		explorerLink = new Link(tasks, SWT.NONE);
-		explorerLink.setText("* <a>Start explorer</a>");
-		explorerLink.setLayoutData(data);
-		layouterLink = new Link(tasks, SWT.NONE);
-		layouterLink.setText("* <a>Start layouter</a>");
-		layouterLink.setLayoutData(data);
-		propertiesLink = new Link(tasks, SWT.NONE);
-		propertiesLink.setText("* <a>Edit properties</a>");
-		propertiesLink.setLayoutData(data);
-		resetLink = new Link(tasks, SWT.NONE);
-		resetLink.setText("* <a>Reset state space</a>");
-		resetLink.setLayoutData(data);
+		Composite tasks = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,2);
+		initialStateLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>New initial state</a>");
+		layouterLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start layouter</a>");
+		importLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Import rules</a>");
+		explorerLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start explorer</a>");
+		exportLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Export state space</a>");		
+		propertiesLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Edit properties</a>");
+		resetLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Reset state space</a>");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
 
 		// The display group:
@@ -281,6 +270,7 @@ public class StateSpaceToolsMenu extends Composite {
 		// Validation property:
 		String property = getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
 		validationText.setText(property!=null ? property : "");
+		validationText.setEnabled(getActiveValidator().usesProperty());
 		
 	}	
 	
@@ -376,6 +366,7 @@ public class StateSpaceToolsMenu extends Composite {
 		propertiesLink.setEnabled(enabled);
 		layouterLink.setEnabled(enabled);
 		explorerLink.setEnabled(enabled);
+		exportLink.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
 		attractionScale.setEnabled(enabled);
 		graphButton.setEnabled(enabled);
@@ -489,6 +480,7 @@ public class StateSpaceToolsMenu extends Composite {
 		layouterLink.addSelectionListener(layouterListener);
 		initialStateLink.addSelectionListener(initialStateListener);
 		importLink.addSelectionListener(importListener);
+		exportLink.addSelectionListener(exportListener);
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
 		graphButton.addSelectionListener(equalityTypeListener);
@@ -527,6 +519,7 @@ public class StateSpaceToolsMenu extends Composite {
 		useAttributesCheckbox.removeSelectionListener(equalityTypeListener);
 		initialStateLink.removeSelectionListener(initialStateListener);
 		importLink.removeSelectionListener(importListener);
+		exportLink.removeSelectionListener(exportListener);
 		propertiesLink.removeSelectionListener(propertiesListener);
 		resetLink.removeSelectionListener(resetListener);
 		explorerLink.removeSelectionListener(explorerListener);
@@ -632,6 +625,22 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetSelected(SelectionEvent e) {
 			if (explorer!=null) {
 				ImportRulesAction action = new ImportRulesAction();
+				action.setExplorer(explorer);
+				action.run(null);
+			}
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Export state space link listener.
+	 */
+	private SelectionListener exportListener = new SelectionListener() {			
+		public void widgetSelected(SelectionEvent e) {
+			if (explorer!=null) {
+				ExportStateSpaceAction action = new ExportStateSpaceAction();
 				action.setExplorer(explorer);
 				action.run(null);
 			}
@@ -782,6 +791,7 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 		public void widgetSelected(SelectionEvent e) {
 			Validator validator = getActiveValidator();
+			validationText.setEnabled(validator.usesProperty());
 			for (String id : StateSpacePlugin.INSTANCE.getValidators().keySet()) {
 				if (StateSpacePlugin.INSTANCE.getValidators().get(id)==validator) {
 					getPreferenceStore().setValue(VALIDATOR_KEY, id);

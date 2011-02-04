@@ -19,13 +19,32 @@
             class="org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl"
             genModel="model/statespace.genmodel"/>
    </extension>
-   <extension-point id="validators" name="Validators" schema="schema/validators.exsd"/>
+   <extension-point id="validators" name="State Space Validators" schema="schema/validators.exsd"/>
+   <extension-point id="exporters" name="State Space Exporters" schema="schema/exporters.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceFactory"
             type="statespace">
       </parser>
+   </extension>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.exporters">
+      <exporter
+            class="org.eclipse.emf.henshin.statespace.export.AUTStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.export.aut">
+      </exporter>
+      <exporter
+            class="org.eclipse.emf.henshin.statespace.export.TikZStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.export.tikz">
+      </exporter>
+   </extension>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.validators">
+      <validator
+            class="org.eclipse.emf.henshin.statespace.validation.SingleRootStateValidator"
+            id="org.eclipse.emf.henshin.statespace.validators.singleRoot">
+      </validator>
    </extension>
 
 </plugin>

@@ -31,5 +31,12 @@
             id="org.eclipse.emf.henshin.statespace.validator.prism.steadystate">
       </validator>
    </extension>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.exporters">
+      <exporter
+            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.external.export.prism">
+      </exporter>
+   </extension>
 
 </plugin>

@@ -39,7 +39,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
-		Process process = invokePRISM(stateSpace, null, new String[] { "-steadystate" } );
+		Process process = invokePRISM(stateSpace, null, new String[] { "-steadystate" }, monitor);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -113,5 +113,14 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 	public String getName() {
 		return "PRISM (steady-states)";
 	}
-		
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return false;
+	}
+
 }

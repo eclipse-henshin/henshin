@@ -45,14 +45,6 @@
                   name="main">
             </separator>
          </menu>
-         <menu
-               id="export"
-               label="Export As..."
-               path="statespace/main">
-            <separator
-                  name="main">
-            </separator>
-         </menu>
          <action
                class="org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction"
                enablesFor="*"
@@ -90,6 +82,15 @@
                tooltip="Reset the state space">
          </action>
          <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
+               enablesFor="*"
+               id="statespace.export"
+               label="Export State Space"
+               menubarPath="statespace/main"
+               style="push"
+               tooltip="Export the current state space">
+         </action>
+         <action
                class="org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction"
                enablesFor="*"
                id="org.eclipse.emf.henshin.statespace.explorer.actions.properties"
@@ -97,24 +98,6 @@
                menubarPath="statespace/main"
                style="push"
                tooltip="Edit the state space properties">
-         </action>
-         <action
-               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
-               enablesFor="*"
-               id="statespace.export.tikz"
-               label="TikZ (LaTeX)"
-               menubarPath="statespace/export/main"
-               style="push"
-               tooltip="Export the state space as TikZ diagram">
-         </action>
-         <action
-               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction"
-               enablesFor="*"
-               id="statespace.export.cadp"
-               label="AUT (CADP)"
-               menubarPath="statespace/export/main"
-               style="push"
-               tooltip="Export the state space as TikZ diagram">
          </action>
       </viewerContribution>
       <objectContribution
@@ -146,6 +129,15 @@
                menubarPath="statespaceFile/main"
                style="push"
                tooltip="Reset the state space">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceFileAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.statespace.explorer.actions.export.file"
+               label="Export State Space"
+               menubarPath="statespaceFile/main"
+               style="push"
+               tooltip="Export the state space">
          </action>
       </objectContribution>
    </extension>

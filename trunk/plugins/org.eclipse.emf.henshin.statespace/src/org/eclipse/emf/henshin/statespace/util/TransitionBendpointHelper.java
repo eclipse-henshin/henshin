@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.explorer.edit;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,10 @@ import java.util.List;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.Transition;
 
+/**
+ * Helper class for computing bend points for transitions.
+ * @author Christian Krause
+ */
 public class TransitionBendpointHelper {
 	
 	private static final int[][] EMPTY = new int[0][];

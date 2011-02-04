@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -33,22 +32,9 @@ public class ExportStateSpaceAction extends AbstractStateSpaceAction {
 		Shell shell = getExplorer().getSite().getShell();
 
 		// Create the wizard:
-		AbstractStateSpaceExportWizard wizard;
-		
-		if (action.getId().endsWith("tikz")) {
-			wizard = new StateSpaceTikZExportWizard();
-		}
-		else if (action.getId().endsWith("cadp")) {
-			wizard = new StateSpaceAUTExportWizard();			
-		}
-		else {
-			MessageDialog.openError(shell, "Export error", "Unknown export type: " + action.getId());
-			return;
-		}
-		
-		// Init and run the wizard:
-		wizard.init(getExplorer().getEditorSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) getSelection());
+		ExportStateSpaceWizard wizard = new ExportStateSpaceWizard();
 		wizard.setStateSpace(getExplorer().getStateSpaceManager().getStateSpace());
+		wizard.init(getExplorer().getEditorSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) getSelection());
 		
 		// Wizard dialog:
 		WizardDialog dialog = new WizardDialog(shell, wizard);

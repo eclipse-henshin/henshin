@@ -9,19 +9,21 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.validation;
+package org.eclipse.emf.henshin.statespace.util;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.export.StateSpaceExporter;
+import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
- * Helper class for registering platform state space and state validators.
+ * Helper class for registering platform validators and exporters.
  * @author Christian Krause
  * @generated NOT
  */
-public class ValidatorPlatformHelper {
+public class StateSpacePlatformHelper {
 	
 	/**
 	 * Load the state space validators registered via the platform.
@@ -48,5 +50,31 @@ public class ValidatorPlatformHelper {
 		}
 		
 	}
-	
+
+	/**
+	 * Load the state space exporters registered via the platform.
+	 * If the platform is not present, loading this class will throw an
+	 * exception.
+	 * @generated NOT
+	 */
+	public static void loadExporters() throws Throwable {
+		
+		// Get the extension point:
+		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(StateSpacePlugin.PLUGIN_ID + ".exporters");
+		
+		// Load the exporters:
+		for (IConfigurationElement element : point.getConfigurationElements()) {
+			if ("exporter".equals(element.getName())) {
+				String id = element.getAttribute("id");
+				try {
+					StateSpaceExporter exporter = (StateSpaceExporter) element.createExecutableExtension("class");
+					StateSpacePlugin.INSTANCE.getExporters().put(id, exporter);
+				} catch (Throwable t) {
+					StateSpacePlugin.INSTANCE.logError("Error loading state space exporter with id " + id, t);
+				}
+			}
+		}
+		
+	}
+
 }

@@ -19,13 +19,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.henshin.statespace.export.StateSpaceExporter;
+import org.eclipse.emf.henshin.statespace.util.StateSpacePlatformHelper;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
-import org.eclipse.emf.henshin.statespace.validation.ValidatorPlatformHelper;
 
 /**
  * This is the central singleton for the StateSpace model plugin.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
  * @generated
  */
 public final class StateSpacePlugin extends EMFPlugin {
@@ -38,16 +37,12 @@ public final class StateSpacePlugin extends EMFPlugin {
 	
 	/**
 	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final StateSpacePlugin INSTANCE = new StateSpacePlugin();
 
 	/**
 	 * Keep track of the singleton.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static Implementation plugin;
@@ -57,11 +52,15 @@ public final class StateSpacePlugin extends EMFPlugin {
 	 * @generated NOT
 	 */	
 	private Map<String,Validator> validators;
-	
+
+	/**
+	 * Registry for state space exporters.
+	 * @generated NOT
+	 */	
+	private Map<String,StateSpaceExporter> exporters;
+
 	/**
 	 * Create the instance.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public StateSpacePlugin() {
@@ -78,7 +77,7 @@ public final class StateSpacePlugin extends EMFPlugin {
 			validators = new HashMap<String,Validator>();
 			try {
 				// Load the validators registered via the platform's extension point mechanism.
-				ValidatorPlatformHelper.loadValidators();
+				StateSpacePlatformHelper.loadValidators();
 			}
 			catch (Throwable t) {
 				// Not critical. Happens if the platform is not present.
@@ -86,7 +85,26 @@ public final class StateSpacePlugin extends EMFPlugin {
 		}
 		return validators;
 	}
-	
+
+	/**
+	 * Get the map of registered state space exporters.
+	 * @return Exporter registry.
+	 * @generated NOT
+	 */
+	public Map<String,StateSpaceExporter> getExporters() {
+		if (exporters==null) {
+			exporters = new HashMap<String,StateSpaceExporter>();
+			try {
+				// Load the exporters registered via the platform's extension point mechanism.
+				StateSpacePlatformHelper.loadExporters();
+			}
+			catch (Throwable t) {
+				// Not critical. Happens if the platform is not present.
+			}
+		}
+		return exporters;
+	}
+
 	/**
 	 * Log an error.
 	 * @param message Error message.
@@ -104,8 +122,6 @@ public final class StateSpacePlugin extends EMFPlugin {
 	
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
 	 * @generated
 	 */
@@ -116,8 +132,6 @@ public final class StateSpacePlugin extends EMFPlugin {
 
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
 	 * @generated
 	 */
@@ -127,15 +141,12 @@ public final class StateSpacePlugin extends EMFPlugin {
 	
 	/**
 	 * The actual implementation of the Eclipse <b>Plugin</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static class Implementation extends EclipsePlugin {
+		
 		/**
 		 * Creates an instance.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		public Implementation() {

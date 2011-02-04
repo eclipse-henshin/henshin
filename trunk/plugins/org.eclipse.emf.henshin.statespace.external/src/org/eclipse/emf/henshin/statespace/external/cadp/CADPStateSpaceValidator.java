@@ -191,4 +191,13 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		return "CADP";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return true;
+	}
+
 }

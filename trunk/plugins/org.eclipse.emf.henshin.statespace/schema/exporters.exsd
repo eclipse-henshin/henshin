@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.emf.henshin.statespace" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.henshin.statespace" id="validators" name="State Space Validators"/>
+         <meta.schema plugin="org.eclipse.emf.henshin.statespace" id="exporters" name="State Space Exporters"/>
       </appInfo>
       <documentation>
-         This extension point is used for providing validator extensions for the Henshin state space utilities.
+         This extension point is used for providing exporter extensions for the Henshin state space utilities.
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="validator" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="exporter" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,22 +47,22 @@
       </complexType>
    </element>
 
-   <element name="validator">
+   <element name="exporter">
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  Id of this validator.
+                  Id of this exporter.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  State space validator implementation.
+                  State space exporter implementation.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.validation.Validator"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.export.StateSpaceExporter"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -74,7 +74,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         0.5.0
+         0.7.0
       </documentation>
    </annotation>
 

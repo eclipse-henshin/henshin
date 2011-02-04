@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Text;
 
@@ -132,6 +133,12 @@ public class StateSpaceToolsMenuFactory {
 		button.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		button.setText(text);
 		return button;
+	}
+
+	public static Link newLink(Composite parent, String text) {
+		Link link = new Link(parent, SWT.NONE);
+		link.setText(text);
+		return link;
 	}
 
 }

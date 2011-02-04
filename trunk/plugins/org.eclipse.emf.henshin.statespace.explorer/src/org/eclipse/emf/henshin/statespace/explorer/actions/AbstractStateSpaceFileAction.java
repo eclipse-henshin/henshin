@@ -44,8 +44,11 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	// State space manager:
 	private StateSpaceManager manager;
 	
-	// Shell:
-	private Shell shell;
+	// Part:
+	private IWorkbenchPart part;
+	
+	// Selection:
+	private ISelection selection;
 	
 	/*
 	 * (non-Javadoc)
@@ -54,6 +57,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	public void selectionChanged(IAction action, ISelection selection) {
 		file = null;
 		manager = null;
+		this.selection = selection;
 		if (selection instanceof IStructuredSelection) {
 			Object first = ((IStructuredSelection) selection).getFirstElement();
 			if (first instanceof IFile && StateSpaceResource.FILE_EXTENSION.equals(((IFile) first).getFileExtension())) {
@@ -68,7 +72,11 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void setActivePart(IAction action, IWorkbenchPart part) {
-		shell = part.getSite().getShell();
+		this.part = part;
+	}
+	
+	protected IWorkbenchPart getWorkbenchPart() {
+		return part;
 	}
 	
 	/**
@@ -76,7 +84,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	 * @return Shell.
 	 */
 	protected Shell getShell() {
-		return shell;
+		return part.getSite().getShell();
 	}
 	
 	/**
@@ -85,6 +93,10 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	 */
 	protected IFile getStateSpaceFile() {
 		return file;
+	}
+	
+	protected ISelection getSelection() {
+		return selection;
 	}
 	
 	/**
@@ -114,7 +126,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 			}
 			catch (Throwable e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);
-				MessageDialog.openError(shell, "Load State Space", "Error loading state space. See the error log for more information.");
+				MessageDialog.openError(getShell(), "Load State Space", "Error loading state space. See the error log for more information.");
 			}
 		}
 		
@@ -141,7 +153,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 				resource.save(null);
 			} catch (IOException e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error saving state space", e);
-				MessageDialog.openError(shell, "Load State Space", "Error saving state space. See the error log for mor information.");				
+				MessageDialog.openError(getShell(), "Load State Space", "Error saving state space. See the error log for mor information.");				
 			}	
 		}
 	}

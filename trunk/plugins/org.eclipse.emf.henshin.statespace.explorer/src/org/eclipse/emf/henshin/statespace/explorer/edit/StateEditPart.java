@@ -50,16 +50,16 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public final static Dimension SIZE = new Dimension(-1,22);
 	
 	// Default color to be used.
-	public final static Color COLOR_DEFAULT = new Color(null, 220,220,220);
+	public final static Color COLOR_DEFAULT = RGB2Color(State.COLOR_DEFAULT);
 
 	// Color to be used for initial states.
-	public final static Color COLOR_INITIAL = new Color(null, 40,220,40);
+	public final static Color COLOR_INITIAL = RGB2Color(State.COLOR_INITIAL);
 
 	// Color to be used for terminal states.
-	public final static Color COLOR_TERMINAL = new Color(null, 250,60,60);
+	public final static Color COLOR_TERMINAL = RGB2Color(State.COLOR_TERMINAL);
 	
 	// Color to be used for open states.
-	public final static Color COLOR_OPEN = new Color(null, 100,100,250);
+	public final static Color COLOR_OPEN = RGB2Color(State.COLOR_OPEN);
 
 	// Connection anchor:
 	private ConnectionAnchor anchor;
@@ -238,6 +238,13 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		else {
 			getFigure().setBackgroundColor(COLOR_DEFAULT);			
 		}		
+	}
+	
+	/*
+	 * Convert an RGB value to a color.
+	 */
+	private static Color RGB2Color(int[] rgb) {
+		return new Color(null, rgb[0], rgb[1], rgb[2]);
 	}
 	
 	/*

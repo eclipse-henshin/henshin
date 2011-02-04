@@ -15,6 +15,7 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.TransitionBendpointHelper;
 
 public class TransitionLabelLocator extends ConnectionLocator {
 	

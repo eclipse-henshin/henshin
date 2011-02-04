@@ -83,7 +83,9 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 			return new ValidationResult(true, "Invariant satisfied.");
 		} else {
 			// Trace leads to the error state.
-			return new ValidationResult(false, "Invariant not satisfied.", getTrace());	
+			Trace trace = getTrace();
+			int error = trace.getTarget().getIndex();
+			return new ValidationResult(false, "Invariant not satisfied in state " + error + ".", getTrace());	
 		}
 		
 	}
@@ -150,6 +152,15 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 	 */
 	public void setStateSpaceIndex(StateSpaceIndex index) {
 		validator.setStateSpaceIndex(index);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return true;
 	}
 
 }

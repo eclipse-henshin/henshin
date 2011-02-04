@@ -28,6 +28,13 @@ import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 public interface Validator {
 	
 	/**
+	 * Determines whether this validator uses a property or not.
+	 * The property is set using {@link #setProperty(String)}.
+	 * @return <code>true</code> if it can use a property.
+	 */
+	boolean usesProperty();
+	
+	/**
 	 * Set the property to be validated. It can be assumed
 	 * that the state space has been set already before this 
 	 * method is called.
