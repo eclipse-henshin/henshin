@@ -63,9 +63,9 @@ public class TransitionImpl extends StorageImpl implements Transition {
 		for (int i=0; i<prefixes.length; i++) {
 			EClass type = nodes.get(i).getType();
 			if (type!=null && type.getName()!=null) {
-				prefixes[i] = type.getName().charAt(0);
+				prefixes[i] = type.getName().toLowerCase().charAt(0);
 			} else {
-				prefixes[i] = 'x';				
+				prefixes[i] = 'x';
 			}
 		}
 		return prefixes;
