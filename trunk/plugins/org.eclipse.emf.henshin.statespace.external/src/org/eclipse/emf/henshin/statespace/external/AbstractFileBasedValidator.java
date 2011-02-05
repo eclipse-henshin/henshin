@@ -189,7 +189,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 		// Correct exit code?
 		if (exit!=0) {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String out = "";
 			while (true) {
 				String line = reader.readLine();

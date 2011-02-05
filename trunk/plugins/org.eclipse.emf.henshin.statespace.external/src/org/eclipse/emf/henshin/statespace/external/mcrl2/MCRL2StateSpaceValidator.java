@@ -14,11 +14,21 @@ package org.eclipse.emf.henshin.statespace.external.mcrl2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
@@ -48,7 +58,9 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		if (monitor.isCanceled()) return null;
 		
 		// Create a dummy mCRL2 specification with the action declarations:
-		File act = createTempFile(name, ".mcrl2", createActions(stateSpace));
+		String actions = createActions(stateSpace);
+		System.out.println(actions + "\n");
+		File act = createTempFile(name, ".mcrl2", actions);
 		
 		// Convert the LTS to a LPS:
 		File lps = File.createTempFile(name, ".lps");
@@ -108,7 +120,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		if (result==Boolean.TRUE) {
 			return ValidationResult.VALID;
 		} else if (result==Boolean.FALSE) {
-			return ValidationResult.INVALID;			
+			return ValidationResult.INVALID;
 		} else {
 			throw new RuntimeException("pbes2bool produced no output.");
 		}
@@ -119,12 +131,68 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	 * Create a string representations of the used actions.
 	 */
 	private String createActions(StateSpace stateSpace) {
-		String actions = "act ";
-		for (int i=0; i<stateSpace.getRules().size(); i++) {
-			actions = actions + stateSpace.getRules().get(i).getName();
-			if (i<stateSpace.getRules().size()-1) actions = actions + ", ";
+		StringBuffer actions = new StringBuffer();
+		if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
+			Map<EClass,Integer> maxIDs = getMaxIDs(stateSpace);
+			for (EClass type : maxIDs.keySet()) {
+				actions.append("sort " + type.getName() + " = struct ");
+				char prefix = type.getName().toLowerCase().charAt(0);
+				int max = maxIDs.get(type);
+				if (max<0) max = 0;
+				for (int i=0; i<=max; i++) {
+					actions.append(String.valueOf(prefix) + i + ((i<max) ? " | " : ";\n"));
+				}
+			}
 		}
-		return actions + ";";
+		actions.append("act ");
+		for (int i=0; i<stateSpace.getRules().size(); i++) {
+			Rule rule = stateSpace.getRules().get(i);
+			actions.append(rule.getName());
+			if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
+				actions.append(" : ");
+				List<Node> params = StateSpaceProperties.getParameters(stateSpace,rule);
+				for (int j=0; j<params.size(); j++) {
+					actions.append(params.get(j).getType().getName());
+					if (j<params.size()-1) actions.append(" # ");
+				}
+			}
+			actions.append("; ");
+		}
+		return actions.toString() + "\n";
+	}
+
+	
+	private Map<EClass,Integer> getMaxIDs(StateSpace stateSpace) {
+		
+		// Get the parameter types for all rules:
+		Map<Rule,List<EClass>> paramTypes = new HashMap<Rule,List<EClass>>();
+		for (Rule rule : stateSpace.getRules()) {
+			List<Node> nodes = StateSpaceProperties.getParameters(stateSpace, rule);
+			List<EClass> types = new ArrayList<EClass>();
+			for (Node node : nodes) types.add(node.getType());
+			paramTypes.put(rule,types);
+		}
+		
+		// Now compute the max IDs:
+		Map<EClass,Integer> max = new HashMap<EClass,Integer>();
+		for (State state : stateSpace.getStates()) {
+			for (Transition transition : state.getOutgoing()) {
+				List<EClass> params = paramTypes.get(transition.getRule());
+				int[] ids = transition.getParameterIDs();
+				int count = Math.min(ids.length, params.size());
+				for (int i=0; i<count; i++) {
+					EClass type = params.get(i);
+					if (!max.containsKey(type)) {
+						max.put(type, 0);
+					}
+					if (max.get(type)<ids[i]) {
+						max.put(type, ids[i]);
+					}
+				}
+			}
+		}
+		return max;
+		
 	}
 	
 	/*
