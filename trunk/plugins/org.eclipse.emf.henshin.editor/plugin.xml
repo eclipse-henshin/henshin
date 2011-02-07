@@ -14,9 +14,6 @@
 <plugin>
 
    <extension point="org.eclipse.ui.newWizards">
-      <category
-            id="org.eclipse.emf.henshin.wizards"
-            name="%_UI_Wizard_category"/>
       <wizard
             id="org.eclipse.emf.henshin.presentation.HenshinModelWizardID"
             name="%_UI_HenshinModelWizard_label"
