@@ -154,15 +154,18 @@ public class UnitApplication extends Observable {
 		return childParameterValues;
 	}
 	
-	private void updatePortValues(UnitApplication childUnit) {
+	private void updateParameterValues(UnitApplication childUnit) {
 		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
 			Parameter sourceParameter = mapping.getSource();
 			Parameter targetParameter = mapping.getTarget();
 			
-			if (sourceParameter.getUnit() == childUnit.getTransformationUnit()
-					&& childUnit.parameterValues.containsKey(sourceParameter)) {
-				parameterValues
-						.put(targetParameter, childUnit.parameterValues.get(sourceParameter));
+			if (sourceParameter.getUnit() == childUnit.getTransformationUnit()) {
+				for (Parameter p : childUnit.parameterValues.keySet()) {
+					if (p.getName().equals(sourceParameter.getName())) {
+						parameterValues.put(targetParameter, childUnit.parameterValues.get(p));
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -179,7 +182,7 @@ public class UnitApplication extends Observable {
 			if (!unitApplication.execute()) {
 				possibleUnits.remove(index);
 			} else {
-				updatePortValues(unitApplication);
+				updateParameterValues(unitApplication);
 				if (unitApplication.appliedRules.size() > 0) {
 					appliedRules.addAll(unitApplication.appliedRules);
 				}
@@ -230,7 +233,7 @@ public class UnitApplication extends Observable {
 			TransformationUnit subUnit = sequentialUnit.getSubUnits().get(i);
 			UnitApplication genericUnit = createApplicationFor(subUnit);
 			if (genericUnit.execute()) {
-				updatePortValues(genericUnit);
+				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
 				undo();
@@ -248,14 +251,14 @@ public class UnitApplication extends Observable {
 		TransformationUnit ifUnit = conditionalUnit.getIf();
 		UnitApplication genericIfUnit = createApplicationFor(ifUnit);
 		if (genericIfUnit.execute()) {
-			updatePortValues(genericIfUnit);
+			updateParameterValues(genericIfUnit);
 			appliedRules.addAll(genericIfUnit.appliedRules);
 			
 			TransformationUnit thenUnit = conditionalUnit.getThen();
 			UnitApplication genericThenUnit = createApplicationFor(thenUnit);
 			success = genericThenUnit.execute();
 			if (success)
-				updatePortValues(genericThenUnit);
+				updateParameterValues(genericThenUnit);
 			appliedRules.addAll(genericThenUnit.appliedRules);
 		} else {
 			if (conditionalUnit.getElse() != null) {
@@ -263,7 +266,7 @@ public class UnitApplication extends Observable {
 				UnitApplication genericElseUnit = createApplicationFor(elseUnit);
 				success = genericElseUnit.execute();
 				if (success)
-					updatePortValues(genericElseUnit);
+					updateParameterValues(genericElseUnit);
 				appliedRules.addAll(genericElseUnit.appliedRules);
 			}
 		}
@@ -284,7 +287,7 @@ public class UnitApplication extends Observable {
 			if (!genericUnit.execute()) {
 				possibleUnits.remove(0);
 			} else {
-				updatePortValues(genericUnit);
+				updateParameterValues(genericUnit);
 				if (genericUnit.appliedRules.size() > 0) {
 					appliedRules.addAll(genericUnit.appliedRules);
 				}
@@ -303,7 +306,7 @@ public class UnitApplication extends Observable {
 			UnitApplication genericUnit = createApplicationFor(countedUnit.getSubUnit());
 			
 			if (genericUnit.execute()) {
-				updatePortValues(genericUnit);
+				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
 				if (count != -1) {
