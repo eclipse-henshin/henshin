@@ -6,8 +6,7 @@
 <project default="run">
 	<target name="run">
 		<ant antfile="bootstrap.xml" target="init">
-			<property name="basebuilderTag" value="_R36_M4" />
-			<property name="basebuilderTagXXX" value="r35x_v20090811" />
+			<property name="basebuilderTag" value="r35x_v20090811" />
 			<property name="commonrelengTag" value="HEAD" />
 			<property name="ANTCONTRIB_VERSION" value="1.0b2" />
 			<property name="ANT4ECLIPSE_VERSION" value="1.0.0.M3" />
@@ -124,8 +123,7 @@
 					</not>
 					<then>
 						<!-- if required: use a different tag/branch -->
-						<property name="basebuilderTagXXX" value="r35x_v20090811" />
-						<property name="basebuilderTag" value="R36_M4" />
+						<property name="basebuilderTag" value="r35x_v20090811" />
 						<property name="commonrelengTag" value="HEAD" />
 
 						<echo>Create ${basedir}/psfs/athena.psf file</echo>
