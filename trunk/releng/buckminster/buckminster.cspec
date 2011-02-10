@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="org.eclipse.emft.henshin.releng.buckminster" componentType="buckminster" version="1.0.0">
+    <cs:dependencies>
+        <cs:dependency name="org.eclipse.sdk" componentType="eclipse.feature" versionDesignator="[3.7.0,3.8.0)"/>
+        <cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature" versionDesignator="[3.7.0,3.8.0)"/>
+        <cs:dependency name="org.eclipse.platform" componentType="eclipse.feature" versionDesignator="[3.7.0,3.8.0)"/>
+        <cs:dependency name="org.eclipse.jdt" componentType="eclipse.feature" versionDesignator="[3.7.0,3.8.0)"/>
+        <cs:dependency name="org.eclipse.pde" componentType="eclipse.feature" versionDesignator="[3.7.0,3.8.0)"/>
+        <cs:dependency name="org.eclipse.pde.junit.runtime" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.equinox.executable" componentType="eclipse.feature" versionDesignator="[3.5.0,3.6.0)"/>
+        
+        <cs:dependency name="org.eclipse.emft.henshin.all" componentType="eclipse.feature"/>
+        
+        <cs:dependency name="org.eclipse.acceleo.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.emf.sdk" componentType="eclipse.feature" versionDesignator="[2.7.0,2.8.0)"/>
+        <cs:dependency name="org.eclipse.emf.compare" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.cdo.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.net4j.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.emf.query.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.emf.validation.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.m2m.atl.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.m2m.atl.dsls" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.jet.core" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.uml2.sdk" componentType="eclipse.feature" versionDesignator="[3.2.0,3.3.0)"/>
+        <cs:dependency name="org.eclipse.m2m.qvt.oml.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.ocl.all.sdk" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.birt.chart" componentType="eclipse.feature"/>
+    
+        <cs:dependency name="org.eclipse.mylyn.wikitext_feature" componentType="eclipse.feature"/>
+        <cs:dependency name="org.apache.ant" componentType="osgi.bundle"/>
+        <cs:dependency name="org.antlr.runtime" componentType="osgi.bundle"/>
+        <cs:dependency name="org.apache.derby" componentType="osgi.bundle"/>
+    </cs:dependencies>
+    <cs:actions>
+        <cs:public name="clear.site.eclipse" actor="ant" always="true">
+            <cs:actorProperties>
+                <cs:property key="buildFile" value="buckminster.ant"/>
+                <cs:property key="targets" value="clear.directory"/>
+            </cs:actorProperties>
+            <cs:properties>
+                <cs:property key="directory" value="${henshin.download.area}/updates/${site.type}/"/>
+            </cs:properties>
+        </cs:public>
+        <cs:public name="promote.site.eclipse" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+                <cs:property key="targets" value="copy.group"/>
+            </cs:actorProperties>
+            <cs:prerequisites alias="action.requirements">
+                <cs:attribute name="clear.site.eclipse" contributor="false"/>
+                <cs:attribute name="site.p2" component="org.eclipse.emft.henshin.sdk"/>
+            </cs:prerequisites>
+            <cs:products alias="action.output" base="${henshin.download.area}/updates/${site.type}/"/>
+        </cs:public>
+        <cs:public name="promote.sites.to.archive" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFileId" value="buckminster.pdetasks"/>
+                <cs:property key="targets" value="copy.group"/>
+            </cs:actorProperties>
+            <cs:prerequisites alias="action.requirements">
+                <cs:attribute name="site.zips"/>
+            </cs:prerequisites>
+            <cs:products alias="action.output" base="${henshin.download.area}/downloads/drops/archivedsites/"/>
+        </cs:public>
+    </cs:actions>
+    <cs:groups>
+        <cs:public name="promote">
+            <cs:attribute name="promote.site.eclipse"/>
+            <cs:attribute name="promote.sites.to.archive"/>
+        </cs:public>
+        <cs:public name="site.zips">
+            <cs:attribute name="site.p2.zip" component="org.eclipse.emft.henshin.sdk"/>
+        </cs:public>
+    </cs:groups>
+</cs:cspec>

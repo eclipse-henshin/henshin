@@ -1,0 +1,30 @@
+<project default="none" name="JUnit HTML report" basedir="..">
+	<!-- basedir=".." because it is started from the releng project which is a subdir of the workspace -->
+	
+	<target name="checktestexists" unless="test.exists">
+	    <available property="test.exists" type="dir" file="buildroot/test.results/xml"/>
+	</target>
+	
+	<target name="report" depends="checktestexists" if="${test.exists}" description="create a set of HTML pages describing the test results">
+		<!--
+		<mkdir dir="buildroot/test.results/xml" />
+		<move todir="buildroot/test.results/xml">
+			<fileset dir="buildroot/test.results">
+				<include name="*.xml" />
+			</fileset>
+		</move>
+		-->
+		
+		<echo>Generating HTML report for Junit tests</echo>
+		<junitreport todir="buildroot/test.results">
+			<fileset dir="buildroot/test.results/xml">
+				<include name="*.xml" />
+			</fileset>
+			<report format="frames" todir="buildroot/test.results/html" />
+		</junitreport>
+	</target>
+
+	<target name="none">
+		<echo>You didn't specify a task to run!</echo>
+	</target>
+</project>

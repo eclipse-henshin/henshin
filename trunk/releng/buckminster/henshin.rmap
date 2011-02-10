@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+	<rm:property key="eclipse.svn.prefix" value="file:///svnroot" />
+	<rm:property key="build.type" mutable="true" value="N" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin\.releng.*" searchPathRef="henshin.releng" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin\..*?(test|tests|tests\.feature)" searchPathRef="henshin.tests" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin(\..+)?\.doc" searchPathRef="henshin.doc" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin\..*?(examples|usecase).*" searchPathRef="henshin.examples" failOnError="false" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin\..+" searchPathRef="henshin.plugins" failOnError="false" />
+	<rm:locator pattern="^org\.eclipse\.(gmt\.)?henshin\..+" searchPathRef="henshin.features" failOnError="true" />
+
+	<rm:locator pattern="^org\.eclipse\.birt(\..*)?|org\.mozilla\.rhino" searchPathRef="birt" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.datatools(\..*)?" searchPathRef="datatools" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.(emf\.cdo|net4j)(\..*)?" searchPathRef="cdo" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.emf\.compare(\..*)?" searchPathRef="emf.compare" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.emf\.(query|validation)(\..*)?" searchPathRef="emf.milestones" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.emf\.facet(\..*)?" searchPathRef="org.eclipse.emf.facet" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.emf(\..*)?" searchPathRef="emf" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.m2m\.atl(\..*)?" searchPathRef="m2m" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.m2m\.qvt.oml(\..*)?" searchPathRef="qvtoml" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.(acceleo|jet)(\..*)?" searchPathRef="m2t" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.ocl(\..*)?" searchPathRef="ocl" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.uml2(\..*)?" searchPathRef="mdt" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.mylyn(\..*)?" searchPathRef="mylyn" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.test(\..+)?" searchPathRef="eclipse.test.platform" failOnError="true" />
+	<rm:locator pattern="^org\.eclipse\.ant\.optional\.junit(\..+)?" searchPathRef="eclipse.test.platform" failOnError="true" />
+	<rm:locator searchPathRef="eclipse" failOnError="false" />
+	<rm:locator searchPathRef="orbit" failOnError="true" />
+
+	<rm:searchPath name="henshin.releng">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/releng/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	<rm:searchPath name="henshin.plugins">
+		<rm:provider componentTypes="osgi.bundle" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/plugins/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	<rm:searchPath name="henshin.features">
+		<rm:provider componentTypes="eclipse.feature" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/features/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/features/trunk/{1}.feature?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	<rm:searchPath name="henshin.doc">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/doc/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	<rm:searchPath name="henshin.examples">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/examples/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+	<rm:searchPath name="henshin.tests">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="svn">
+			<rm:uri format="{0}/modeling/org.eclipse.mdt.henshin/tests/trunk/{1}?moduleAfterTag&amp;moduleAfterBranch">
+				<bc:propertyRef key="eclipse.svn.prefix" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Birt -->
+	<rm:searchPath name="birt">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/birt/update-site/4.0-interim/" />
+		</rm:provider>
+	</rm:searchPath>
+	
+	<!-- CDO -->
+	<rm:searchPath name="cdo">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/emf/cdo/updates/4.0-milestones" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Datatools (DTP) -->
+	<rm:searchPath name="datatools">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/datatools/downloads/drops/M_updates_1.9" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- EMF Compare -->
+	<rm:searchPath name="emf.compare">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/emf/compare/updates/interim/1.1/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- EMF -->
+	<rm:searchPath name="emf">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/emf/emf/updates/2.7milestones" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- EMF Query, EMF Validation -->
+	<rm:searchPath name="emf.milestones">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/emf/updates/milestones/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- M2M ATL -->
+	<rm:searchPath name="m2m">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/m2m/atl/updates/milestones/3.2/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- M2M QVT OML -->
+	<rm:searchPath name="qvtoml">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/m2m/qvtoml/updates/3.1.0/milestones/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- M2T Acceleo, Jet -->
+	<rm:searchPath name="m2t">
+		<!-- Acceleo -->
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/m2t/acceleo/updates/milestones/3.1" />
+		</rm:provider>
+		<!-- Jet -->
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/m2t/updates/milestones/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- MDT OCL -->
+	<rm:searchPath name="ocl">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/mdt/ocl/updates/milestones/3.1.0" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- MDT UML2 Tools -->
+	<rm:searchPath name="mdt">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/modeling/mdt/updates/milestones/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Mylyn (WikiText) -->
+	<rm:searchPath name="mylyn">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/tools/mylyn/update/indigo/staging" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Orbit -->
+	<rm:searchPath name="orbit">
+		<rm:provider componentTypes="osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/tools/orbit/committers/drops/S20110124210048/repository/" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Eclipse (EP) -->
+	<rm:searchPath name="eclipse">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/eclipse/updates/3.7milestones/S-3.7M5-201101272034" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- Eclipse test platform -->
+	<rm:searchPath name="eclipse.test.platform">
+		<rm:provider componentTypes="osgi.bundle" readerType="cvs" mutable="false">
+			<rm:uri format=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse,{0}">
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+	</rm:searchPath>
+
+	<!-- EMF Facet -->
+	<rm:searchPath name="org.eclipse.emf.facet">
+		<rm:provider componentTypes="eclipse.feature,osgi.bundle" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/facet/updates/milestones/0.1" />
+		</rm:provider>
+	</rm:searchPath>
+</rm:rmap>
