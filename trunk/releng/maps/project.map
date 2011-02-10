@@ -1,6 +1,5 @@
 
 ##### features
-#feature@org.eclipse.emf.henshin.runtime=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/features,,org.eclipse.emf.henshin.runtime
 feature@org.eclipse.emf.henshin.sdk=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/features,,org.eclipse.emf.henshin.sdk
 
 ##### plugins
