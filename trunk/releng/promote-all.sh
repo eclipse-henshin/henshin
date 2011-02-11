@@ -32,7 +32,7 @@ function fix_incubation {
 	if [ -d "$file" ]; then
 	    fix_incubation $file
 	else
-	    ( echo $file | grep 'SDK-.[0-9]' ) && mv $file $(echo $file | sed s/SDK-/SDK-Incubation-/)
+	    ( echo $file | grep 'SDK-[RN0-9]' ) && mv $file $(echo $file | sed s/SDK-/SDK-Incubation-/)
 	fi
     done
 }
