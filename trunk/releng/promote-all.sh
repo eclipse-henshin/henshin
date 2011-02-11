@@ -11,4 +11,4 @@ RELENG=$WORKSPACE/build/org.eclipse.henshin.releng
 
 # Run ant...
 $ANT -f $RELENG/promote.xml -Dpromote.properties=$RELENG/promote-N.properties
-
+#$ANT -f $RELENG/promote.xml -Dpromote.properties=$RELENG/promote-R.properties
