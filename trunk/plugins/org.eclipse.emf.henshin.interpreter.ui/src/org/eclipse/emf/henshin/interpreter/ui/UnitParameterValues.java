@@ -11,7 +11,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 public class UnitParameterValues implements IParameterValues {
 	
 	@Override
-	public Map getParameterValues() {
+	public Map<String, TransformationUnit> getParameterValues() {
 		Map<String, TransformationUnit> trafoUnits = new HashMap<String, TransformationUnit>();
 		
 		for (TransformationSystem trafoSystem : HenshinRegistry.instance.getTransformationSystems()) {
