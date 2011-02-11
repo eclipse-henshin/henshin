@@ -13,8 +13,8 @@ NIGHTLY=/shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.rel
 RELEASE=/shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
 
 # Run the promote script:
-#$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
-#$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
+$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
+$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
 
 # Clean up:
 rm $DROPS/*/*/Henshin-examples* 2> /dev/null
