@@ -10,5 +10,5 @@ NIGHTLY=/shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.rel
 RELEASE=/shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
 
 # Run ant...
-$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote-N.properties
-#$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote-R.properties
+$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
+#$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties

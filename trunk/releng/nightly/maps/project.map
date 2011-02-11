@@ -1,0 +1,16 @@
+
+##### features
+feature@org.eclipse.emf.henshin.sdk=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/features,,org.eclipse.emf.henshin.sdk
+
+##### plugins
+plugin@org.eclipse.emf.henshin.model=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.model
+plugin@org.eclipse.emf.henshin.edit=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.edit
+plugin@org.eclipse.emf.henshin.editor=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.editor
+plugin@org.eclipse.emf.henshin.diagram=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.diagram
+plugin@org.eclipse.emf.henshin.common=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.common
+plugin@org.eclipse.emf.henshin.interpreter=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.interpreter
+plugin@org.eclipse.emf.henshin.examples=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.examples
+plugin@org.eclipse.emf.henshin.statespace=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace
+plugin@org.eclipse.emf.henshin.statespace.explorer=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.explorer
+plugin@org.eclipse.emf.henshin.statespace.external=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.external
+plugin@org.eclipse.emf.henshin.statespace.ocl=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.ocl
