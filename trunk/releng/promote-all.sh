@@ -12,16 +12,30 @@ DROPS=/home/data/httpd/download.eclipse.org/modeling/emft/henshin/downloads/drop
 NIGHTLY=/shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.releng
 RELEASE=/shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
 
-
 # Run the promote script:
-$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
-$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
+#$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
+#$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
 
 # Clean up:
 rm $DROPS/*/*/Henshin-examples* 2> /dev/null
 rm $DROPS/*/*/Henshin-Update* 2> /dev/null
 rm $DROPS/*/*/build.cfg 2> /dev/null
+rm $DROPS/*/*/*.md5 2> /dev/null
 rm $DROPS/*/*/echoproperties* 2> /dev/null
 rm $DROPS/*/*/directory.txt 2> /dev/null
 rm -R $DROPS/*/*/compilelogs 2> /dev/null
+
+# Fix incubation suffix:
+function fix_incubation {
+    for file in $1/* 
+    do
+	if [ -d "$file" ]; then
+	    fix_incubation $file
+	else
+	    ( echo $file | grep 'SDK-.[0-9]' ) && mv $file $(echo $file | sed s/SDK-/SDK-Incubation-/)
+	fi
+    done
+}
+
+fix_incubation $DROPS
 
