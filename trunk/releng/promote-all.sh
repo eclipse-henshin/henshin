@@ -22,4 +22,4 @@ function promote {
 }
 
 promote /shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.releng
-#promote /shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
+promote /shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
