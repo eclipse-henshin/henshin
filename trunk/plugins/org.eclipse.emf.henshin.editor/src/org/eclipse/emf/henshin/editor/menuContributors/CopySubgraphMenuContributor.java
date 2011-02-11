@@ -82,8 +82,8 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			
 			menuManager.add(createAction("Copy to LHS", cmd));
 		} else if (HenshinRuleAnalysisUtil.isConclusion(sourceGraph)) {
+			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 		}
-		
 	}
 	
 	/**
