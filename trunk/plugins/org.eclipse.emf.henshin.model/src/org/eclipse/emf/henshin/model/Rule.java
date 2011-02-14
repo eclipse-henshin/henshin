@@ -133,7 +133,7 @@ public interface Rule extends TransformationUnit {
 	 * @see #setTransformationSystem(TransformationSystem)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_TransformationSystem()
 	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getRules
-	 * @model opposite="rules" required="true" transient="false"
+	 * @model opposite="rules" transient="false"
 	 * @generated
 	 */
 	TransformationSystem getTransformationSystem();

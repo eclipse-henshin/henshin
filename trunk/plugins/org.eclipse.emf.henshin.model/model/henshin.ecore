@@ -50,8 +50,8 @@
         eType="#//AttributeCondition" containment="true" eOpposite="#//AttributeCondition/rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" lowerBound="1"
-        eType="#//TransformationSystem" eOpposite="#//TransformationSystem/rules"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" eType="#//TransformationSystem"
+        eOpposite="#//TransformationSystem/rules"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//DescribedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
