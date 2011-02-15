@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="org.eclipse.emf.henshin.menu"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <menu
+               id="org.eclipse.emf.henshin.menu"
+               label="Henshin">
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.emf.henshin.menu">
+         <command
+               commandId="org.eclipse.emf.henshin.contextmenu.menu.RegisterTrafoSystem"
+               label="Register model"
+               style="push">
+         </command>
+         <menu
+               id="org.eclipse.emf.henshin.menu.apply"
+               label="Apply">
+         </menu>
+      </menuContribution>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.eclipse.emf.henshin.interpreter.ui.RegisterTrafoSystem"
+            id="org.eclipse.emf.henshin.contextmenu.menu.RegisterTrafoSystem"
+            name="RegisterTrafo">
+      </command>
+      <command
+            defaultHandler="org.eclipse.emf.henshin.interpreter.ui.ApplyTrafoUnit"
+            id="org.eclipse.emf.henshin.interpreter.ui.ApplyTrafoUnit"
+            name="ApplyTrafoUnit">
+         <commandParameter
+               id="org.eclipse.emf.henshin.UnitParameter"
+               name="Transformation Unit"
+               optional="false">
+         </commandParameter>
+         <commandParameter
+               id="org.eclipse.emf.henshin.TrafoSystemParameter"
+               name="Transformation System"
+               optional="true">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         id="org.eclipse.emf.henshin.trafoSystems"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.emf.henshin.menu.apply">
+         <dynamic
+               class="org.eclipse.emf.henshin.interpreter.ui.HenshinMenu"
+               id="org.eclipse.emf.henshin.contextmenu.trafoUnits">
+         </dynamic>
+      </menuContribution>
+   </extension>
+
+</plugin>
