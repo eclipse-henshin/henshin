@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_jI1RoLslEd-plsjbaONJvQ">
+  <rules xmi:id="_mUr8ELtFEd-Hg41nSDmeOQ" name="ReplaceBook">
+    <lhs xmi:id="_mUr8EbtFEd-Hg41nSDmeOQ" name="LHS">
+      <nodes xmi:id="_n_IrsLtFEd-Hg41nSDmeOQ" name="root" outgoing="_pjxHMLtFEd-Hg41nSDmeOQ _22P0cLtGEd-DbqYr1KVjBQ">
+        <type href="extlibrary.ecore#//Library"/>
+      </nodes>
+      <nodes xmi:id="_pjuq8LtFEd-Hg41nSDmeOQ" name="w" incoming="_pjxHMLtFEd-Hg41nSDmeOQ _fT2kULtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//Writer"/>
+        <attributes xmi:id="_qyVMELtFEd-Hg41nSDmeOQ" value="n">
+          <type href="extlibrary.ecore#//Writer/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_22GDcLtGEd-DbqYr1KVjBQ" incoming="_22P0cLtGEd-DbqYr1KVjBQ" outgoing="_fT2kULtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//Book"/>
+        <attributes xmi:id="_SfF4YLtKEd-vmMURjqRILw" value="t">
+          <type href="extlibrary.ecore#//Book/title"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_pjxHMLtFEd-Hg41nSDmeOQ" source="_n_IrsLtFEd-Hg41nSDmeOQ" target="_pjuq8LtFEd-Hg41nSDmeOQ">
+        <type href="extlibrary.ecore#//Library/writers"/>
+      </edges>
+      <edges xmi:id="_22P0cLtGEd-DbqYr1KVjBQ" source="_n_IrsLtFEd-Hg41nSDmeOQ" target="_22GDcLtGEd-DbqYr1KVjBQ">
+        <type href="extlibrary.ecore#//Library/stock"/>
+      </edges>
+      <edges xmi:id="_fT2kULtKEd-vmMURjqRILw" source="_22GDcLtGEd-DbqYr1KVjBQ" target="_pjuq8LtFEd-Hg41nSDmeOQ">
+        <type href="extlibrary.ecore#//Book/author"/>
+      </edges>
+      <formula xsi:type="henshin:And" xmi:id="_PwCRILtKEd-vmMURjqRILw">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_IpWiUbtKEd-vmMURjqRILw" negated="true">
+          <conclusion xmi:id="_IpWiUrtKEd-vmMURjqRILw" name="0">
+            <nodes xmi:id="_IpWiU7tKEd-vmMURjqRILw" incoming="_IpXJZLtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Book"/>
+              <attributes xmi:id="_E8f9cLtHEd-DbqYr1KVjBQ" value="Mystery">
+                <type href="extlibrary.ecore#//Book/category"/>
+              </attributes>
+            </nodes>
+            <nodes xmi:id="_IpXJYrtKEd-vmMURjqRILw" name="root" outgoing="_IpXJZLtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Library"/>
+            </nodes>
+            <edges xmi:id="_IpXJZLtKEd-vmMURjqRILw" source="_IpXJYrtKEd-vmMURjqRILw" target="_IpWiU7tKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Library/stock"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_IpXJYbtKEd-vmMURjqRILw" origin="_22GDcLtGEd-DbqYr1KVjBQ" image="_IpWiU7tKEd-vmMURjqRILw"/>
+          <mappings xmi:id="_IpXJY7tKEd-vmMURjqRILw" origin="_n_IrsLtFEd-Hg41nSDmeOQ" image="_IpXJYrtKEd-vmMURjqRILw"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition" xmi:id="_PwCRIbtKEd-vmMURjqRILw" negated="true">
+          <conclusion xmi:id="_PwCRIrtKEd-vmMURjqRILw" name="1">
+            <nodes xmi:id="_PwC4MLtKEd-vmMURjqRILw" name="root" outgoing="_MTZLILtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Library"/>
+            </nodes>
+            <nodes xmi:id="_PwDfQLtKEd-vmMURjqRILw" outgoing="_N0P54LtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Book"/>
+            </nodes>
+            <nodes xmi:id="_MTRPULtKEd-vmMURjqRILw" incoming="_MTZLILtKEd-vmMURjqRILw _N0P54LtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Borrower"/>
+            </nodes>
+            <edges xmi:id="_MTZLILtKEd-vmMURjqRILw" source="_PwC4MLtKEd-vmMURjqRILw" target="_MTRPULtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Library/borrowers"/>
+            </edges>
+            <edges xmi:id="_N0P54LtKEd-vmMURjqRILw" source="_PwDfQLtKEd-vmMURjqRILw" target="_MTRPULtKEd-vmMURjqRILw">
+              <type href="extlibrary.ecore#//Lendable/borrowers"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_PwC4MbtKEd-vmMURjqRILw" origin="_n_IrsLtFEd-Hg41nSDmeOQ" image="_PwC4MLtKEd-vmMURjqRILw"/>
+          <mappings xmi:id="_PwEGULtKEd-vmMURjqRILw" origin="_22GDcLtGEd-DbqYr1KVjBQ" image="_PwDfQLtKEd-vmMURjqRILw"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_mUr8ErtFEd-Hg41nSDmeOQ" name="RHS">
+      <nodes xmi:id="_n_IrsbtFEd-Hg41nSDmeOQ" name="root" outgoing="_pjxHMbtFEd-Hg41nSDmeOQ _Q-PwsLtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//Library"/>
+      </nodes>
+      <nodes xmi:id="_pjv5ELtFEd-Hg41nSDmeOQ" name="w" incoming="_pjxHMbtFEd-Hg41nSDmeOQ _eQzL4LtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//Writer"/>
+        <attributes xmi:id="_qyVzILtFEd-Hg41nSDmeOQ" value="n.toUpperCase()">
+          <type href="extlibrary.ecore#//Writer/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_Q-MGULtKEd-vmMURjqRILw" incoming="_Q-PwsLtKEd-vmMURjqRILw" outgoing="_eQzL4LtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//BookOnTape"/>
+        <attributes xmi:id="_VAlkwLtKEd-vmMURjqRILw" value="t">
+          <type href="extlibrary.ecore#//AudioVisualItem/title"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_pjxHMbtFEd-Hg41nSDmeOQ" source="_n_IrsbtFEd-Hg41nSDmeOQ" target="_pjv5ELtFEd-Hg41nSDmeOQ">
+        <type href="extlibrary.ecore#//Library/writers"/>
+      </edges>
+      <edges xmi:id="_Q-PwsLtKEd-vmMURjqRILw" source="_n_IrsbtFEd-Hg41nSDmeOQ" target="_Q-MGULtKEd-vmMURjqRILw">
+        <type href="extlibrary.ecore#//Library/stock"/>
+      </edges>
+      <edges xmi:id="_eQzL4LtKEd-vmMURjqRILw" source="_Q-MGULtKEd-vmMURjqRILw" target="_pjv5ELtFEd-Hg41nSDmeOQ">
+        <type href="extlibrary.ecore#//BookOnTape/author"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_n_IrsrtFEd-Hg41nSDmeOQ" origin="_n_IrsLtFEd-Hg41nSDmeOQ" image="_n_IrsbtFEd-Hg41nSDmeOQ"/>
+    <mappings xmi:id="_pjv5EbtFEd-Hg41nSDmeOQ" origin="_pjuq8LtFEd-Hg41nSDmeOQ" image="_pjv5ELtFEd-Hg41nSDmeOQ"/>
+  </rules>
+  <imports href="extlibrary.ecore#/"/>
+</henshin:TransformationSystem>
