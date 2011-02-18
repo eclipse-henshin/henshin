@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package trace;
+package org.eclipse.emf.henshin.trace;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see trace.TraceFactory
+ * @see org.eclipse.emf.henshin.trace.TraceFactory
  * @model kind="package"
  * @generated
  */
@@ -57,14 +57,14 @@ public interface TracePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TracePackage eINSTANCE = trace.impl.TracePackageImpl.init();
+	TracePackage eINSTANCE = org.eclipse.emf.henshin.trace.impl.TracePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link trace.impl.TraceImpl <em>Trace</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.trace.impl.TraceImpl <em>Trace</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see trace.impl.TraceImpl
-	 * @see trace.impl.TracePackageImpl#getTrace()
+	 * @see org.eclipse.emf.henshin.trace.impl.TraceImpl
+	 * @see org.eclipse.emf.henshin.trace.impl.TracePackageImpl#getTrace()
 	 * @generated
 	 */
 	int TRACE = 0;
@@ -116,54 +116,54 @@ public interface TracePackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link trace.Trace <em>Trace</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.trace.Trace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Trace</em>'.
-	 * @see trace.Trace
+	 * @see org.eclipse.emf.henshin.trace.Trace
 	 * @generated
 	 */
 	EClass getTrace();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link trace.Trace#getSubTraces <em>Sub Traces</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.trace.Trace#getSubTraces <em>Sub Traces</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Sub Traces</em>'.
-	 * @see trace.Trace#getSubTraces()
+	 * @see org.eclipse.emf.henshin.trace.Trace#getSubTraces()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_SubTraces();
 
 	/**
-	 * Returns the meta object for the reference list '{@link trace.Trace#getSource <em>Source</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.trace.Trace#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Source</em>'.
-	 * @see trace.Trace#getSource()
+	 * @see org.eclipse.emf.henshin.trace.Trace#getSource()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_Source();
 
 	/**
-	 * Returns the meta object for the reference list '{@link trace.Trace#getTarget <em>Target</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.trace.Trace#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Target</em>'.
-	 * @see trace.Trace#getTarget()
+	 * @see org.eclipse.emf.henshin.trace.Trace#getTarget()
 	 * @see #getTrace()
 	 * @generated
 	 */
 	EReference getTrace_Target();
 
 	/**
-	 * Returns the meta object for the attribute '{@link trace.Trace#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.trace.Trace#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see trace.Trace#getName()
+	 * @see org.eclipse.emf.henshin.trace.Trace#getName()
 	 * @see #getTrace()
 	 * @generated
 	 */
@@ -192,11 +192,11 @@ public interface TracePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link trace.impl.TraceImpl <em>Trace</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.trace.impl.TraceImpl <em>Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see trace.impl.TraceImpl
-		 * @see trace.impl.TracePackageImpl#getTrace()
+		 * @see org.eclipse.emf.henshin.trace.impl.TraceImpl
+		 * @see org.eclipse.emf.henshin.trace.impl.TracePackageImpl#getTrace()
 		 * @generated
 		 */
 		EClass TRACE = eINSTANCE.getTrace();

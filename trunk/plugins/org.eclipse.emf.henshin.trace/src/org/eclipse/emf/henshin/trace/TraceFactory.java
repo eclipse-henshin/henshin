@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package trace;
+package org.eclipse.emf.henshin.trace;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see trace.TracePackage
+ * @see org.eclipse.emf.henshin.trace.TracePackage
  * @generated
  */
 public interface TraceFactory extends EFactory {
@@ -23,7 +23,7 @@ public interface TraceFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TraceFactory eINSTANCE = trace.impl.TraceFactoryImpl.init();
+	TraceFactory eINSTANCE = org.eclipse.emf.henshin.trace.impl.TraceFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Trace</em>'.

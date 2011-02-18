@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package trace.util;
+package org.eclipse.emf.henshin.trace.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -13,14 +13,14 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import trace.*;
+import org.eclipse.emf.henshin.trace.*;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see trace.TracePackage
+ * @see org.eclipse.emf.henshin.trace.TracePackage
  * @generated
  */
 public class TraceAdapterFactory extends AdapterFactoryImpl {
@@ -96,13 +96,13 @@ public class TraceAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link trace.Trace <em>Trace</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.trace.Trace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see trace.Trace
+	 * @see org.eclipse.emf.henshin.trace.Trace
 	 * @generated
 	 */
 	public Adapter createTraceAdapter() {

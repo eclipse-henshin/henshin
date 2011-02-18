@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package trace.impl;
+package org.eclipse.emf.henshin.trace.impl;
 
 import java.util.Collection;
 
@@ -24,8 +24,8 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import trace.Trace;
-import trace.TracePackage;
+import org.eclipse.emf.henshin.trace.Trace;
+import org.eclipse.emf.henshin.trace.TracePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,10 +34,10 @@ import trace.TracePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link trace.impl.TraceImpl#getSubTraces <em>Sub Traces</em>}</li>
- *   <li>{@link trace.impl.TraceImpl#getSource <em>Source</em>}</li>
- *   <li>{@link trace.impl.TraceImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link trace.impl.TraceImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getSubTraces <em>Sub Traces</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.trace.impl.TraceImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *

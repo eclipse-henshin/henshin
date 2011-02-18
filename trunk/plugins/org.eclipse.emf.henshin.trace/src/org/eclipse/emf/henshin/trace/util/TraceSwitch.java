@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package trace.util;
+package org.eclipse.emf.henshin.trace.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import trace.*;
+import org.eclipse.emf.henshin.trace.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import trace.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see trace.TracePackage
+ * @see org.eclipse.emf.henshin.trace.TracePackage
  * @generated
  */
 public class TraceSwitch<T> {

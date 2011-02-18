@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package trace.impl;
+package org.eclipse.emf.henshin.trace.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -13,9 +13,9 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import trace.Trace;
-import trace.TraceFactory;
-import trace.TracePackage;
+import org.eclipse.emf.henshin.trace.Trace;
+import org.eclipse.emf.henshin.trace.TraceFactory;
+import org.eclipse.emf.henshin.trace.TracePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,7 +42,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see trace.TracePackage#eNS_URI
+	 * @see org.eclipse.emf.henshin.trace.TracePackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */
