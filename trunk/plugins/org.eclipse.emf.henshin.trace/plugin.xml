@@ -17,7 +17,7 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://www.eclipse.org/emf/2010/Henshin/Trace"
+            uri="http://www.eclipse.org/emf/2011/Henshin/Trace"
             class="org.eclipse.emf.henshin.trace.TracePackage"
             genModel="model/trace.genmodel"/>
    </extension>
