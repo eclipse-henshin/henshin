@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
@@ -137,8 +138,9 @@ public class EdgeCreateCommand extends EditElementCommand {
 			return false;
 		}
 
-		// Target type must be ok:
-		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType)) {
+		// Target type must be ok. Extra check for EObjects!!!
+		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
+			 edgeType.getEReferenceType()!=EcorePackage.eINSTANCE.getEObject()) {
 			return false;
 		}
 
