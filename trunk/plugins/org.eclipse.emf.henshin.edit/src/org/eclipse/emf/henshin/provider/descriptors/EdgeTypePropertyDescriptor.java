@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.Edge;
 
@@ -80,7 +81,13 @@ public class EdgeTypePropertyDescriptor extends ItemPropertyDescriptor {
 				Iterator<EReference> it = edgeTypeList.iterator();
 				while (it.hasNext()) {
 					EClass ec = (EClass) it.next().getEType();
-					if (!ec.isSuperTypeOf(targetType)) it.remove();
+					/*
+					 * Remove reference target types which do not fit. <br>
+					 * Remark: Since EMF 2.6, EObject is no contained in the
+					 * supertype-list and needs special treatment
+					 */
+					if ((ec != EcorePackage.Literals.EOBJECT) && (!ec.isSuperTypeOf(targetType)))
+						it.remove();
 				}// while
 			}// if
 			

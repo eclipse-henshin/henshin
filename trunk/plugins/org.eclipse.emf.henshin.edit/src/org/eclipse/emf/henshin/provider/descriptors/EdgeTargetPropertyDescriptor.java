@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -69,7 +70,7 @@ public class EdgeTargetPropertyDescriptor extends ItemPropertyDescriptor {
 			EReference edgeType = edge.getType();
 			Collection<Node> nodeList = new ArrayList<Node>();
 			
-			if (edgeType != null) {
+			if ((edgeType != null) && (edgeType.getEType() != EcorePackage.Literals.EOBJECT)) {
 				EClass trgNodeType = (EClass) edgeType.getEType();
 				for (Node node : graph.getNodes()) {
 					if ((node.getType().equals(trgNodeType))
