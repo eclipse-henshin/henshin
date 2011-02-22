@@ -1436,10 +1436,22 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "ValidName"
 		   });			
 		addAnnotation
+		  (ruleEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "lhsAndRhsNotNull"
+		   });			
+		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "EqualParentGraphs"
+		   });			
+		addAnnotation
+		  (amalgamationUnitEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "kernelLhsNodesMapped \r\nkernelRhsNodesMapped \r\nkernelLhsEdgesMapped \r\nkernelRhsEdgesMapped"
 		   });	
 	}
 
@@ -1460,11 +1472,26 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "ValidName.Severity", "Warning"
 		   });			
 		addAnnotation
+		  (ruleEClass, 
+		   source, 
+		   new String[] {
+			 "lhsAndRhsNotNull", "not lhs->isEmpty() and not rhs->isEmpty()"
+		   });			
+		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
 			 "EqualParentGraphs", "source.graph=target.graph",
 			 "EqualParentGraphs.Msg", "Source node and target node of an edge and the edge itself have to be in the same graph."
+		   });			
+		addAnnotation
+		  (amalgamationUnitEClass, 
+		   source, 
+		   new String[] {
+			 "kernelLhsNodesMapped", "kernelRule.lhs.nodes->forAll(\r\n\tnodeKL : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule \r\n\t\t| lhsMappings->one(\r\n\t\t\tlhsMapping: Mapping \r\n\t\t\t| lhsMapping.origin = nodeKL \r\n\t\t\tand ruleM.lhs.nodes->includes(lhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelRhsNodesMapped", "kernelRule.rhs.nodes->forAll(\r\n\tnodeKR : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule  \r\n\t\t| rhsMappings->one(\r\n\t\t\trhsMapping: Mapping \r\n\t\t\t| rhsMapping.origin = nodeKR \r\n\t\t\tand ruleM.rhs.nodes->includes(rhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelLhsEdgesMapped", "kernelRule.lhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.lhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelRhsEdgesMapped", "kernelRule.rhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.rhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)"
 		   });
 	}
 

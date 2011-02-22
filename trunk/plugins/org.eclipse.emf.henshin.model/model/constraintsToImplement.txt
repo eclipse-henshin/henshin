@@ -1,12 +1,14 @@
 The following constraints shall be implemented either in OCL or via code. The former is preferred. 
 Feel free to add new constraints or to implement one of them! 
-Note: If a constraints below is implemented, please remove it from this list.
+Note: If a constraint below has been implemented, please mark it with a leading <done>.
 
 * Rule
 [error] <<create>> nodes (in the RHS) must not be abstract
 [error] <<create>> edges (in the RHS) must not be derived
 [error] <<delete>> edges (in the LHS) must not be derived 
 [error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph
+<done> [error] Lhs graph has to exist
+<done> [error] Rhs graph has to exist
 
 * TransformationSystem
 [warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all

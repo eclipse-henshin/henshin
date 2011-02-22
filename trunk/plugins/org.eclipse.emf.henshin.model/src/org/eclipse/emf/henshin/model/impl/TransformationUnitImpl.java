@@ -29,221 +29,245 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Transformation Unit</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Transformation Unit</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
+ * <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getName
+ * <em>Name</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated
+ * <em>Activated</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters
+ * <em>Parameters</em>}</li>
+ * <li>
+ * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings
+ * <em>Parameter Mappings</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
-public abstract class TransformationUnitImpl extends DescribedElementImpl implements TransformationUnit {
+public abstract class TransformationUnitImpl extends DescribedElementImpl implements
+		TransformationUnit {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
-
+	
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
+	
 	/**
-	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isActivated() <em>Activated</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final boolean ACTIVATED_EDEFAULT = false;
-
+	
 	/**
-	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isActivated() <em>Activated</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean activated = ACTIVATED_EDEFAULT;
-
+	
 	/**
-	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getParameters()
 	 * @generated
 	 * @ordered
 	 */
 	protected EList<Parameter> parameters;
-
+	
 	/**
-	 * The cached value of the '{@link #getParameterMappings() <em>Parameter Mappings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getParameterMappings()
+	 * <em>Parameter Mappings</em>}' containment reference list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getParameterMappings()
 	 * @generated
 	 * @ordered
 	 */
 	protected EList<ParameterMapping> parameterMappings;
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TransformationUnitImpl() {
 		super();
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.TRANSFORMATION_UNIT;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getName() {
 		return name;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					HenshinPackage.TRANSFORMATION_UNIT__NAME, oldName, name));
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isActivated() {
 		return activated;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setActivated(boolean newActivated) {
 		boolean oldActivated = activated;
 		activated = newActivated;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
+			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this,
+					HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
 		}
 		return parameters;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList<ParameterMapping> getParameterMappings() {
 		if (parameterMappings == null) {
-			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
+			parameterMappings = new EObjectContainmentEList<ParameterMapping>(
+					ParameterMapping.class, this,
+					HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
 		}
 		return parameterMappings;
 	}
-
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EList<TransformationUnit> getSubUnits(boolean deep) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public Parameter getParameterByName(String parametername) {
 		if (this.parameters != null) {
-
+			
 			for (Parameter parameter : this.parameters) {
-				if (parameter.getName().equals(parametername))
-					return parameter;
+				if (parameter.getName().equals(parametername)) return parameter;
 			}// for
-
+			
 		}// if
-
+		
 		return null;
 	}
-
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID,
+			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>) (InternalEList<?>) getParameters())
+						.basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID,
+			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
-				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getParameters()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
-				return ((InternalEList<?>)getParameterMappings()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getParameterMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -260,10 +284,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -271,26 +295,26 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				setActivated((Boolean)newValue);
+				setActivated((Boolean) newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				getParameters().clear();
-				getParameters().addAll((Collection<? extends Parameter>)newValue);
+				getParameters().addAll((Collection<? extends Parameter>) newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
-				getParameterMappings().addAll((Collection<? extends ParameterMapping>)newValue);
+				getParameterMappings().addAll((Collection<? extends ParameterMapping>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -311,10 +335,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 		}
 		super.eUnset(featureID);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -331,48 +355,52 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 		}
 		return super.eIsSet(featureID);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-				case HenshinPackage.TRANSFORMATION_UNIT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-				default: return -1;
+				case HenshinPackage.TRANSFORMATION_UNIT__NAME:
+					return HenshinPackage.NAMED_ELEMENT__NAME;
+				default:
+					return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.TRANSFORMATION_UNIT__NAME;
-				default: return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME:
+					return HenshinPackage.TRANSFORMATION_UNIT__NAME;
+				default:
+					return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
-
+		
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
@@ -381,5 +409,5 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 		result.append(')');
 		return result.toString();
 	}
-
-} //TransformationUnitImpl
+	
+} // TransformationUnitImpl

@@ -30,7 +30,8 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='lhsAndRhsNotNull'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL lhsAndRhsNotNull='not lhs->isEmpty() and not rhs->isEmpty()'"
  * @generated
  */
 public interface Rule extends TransformationUnit {

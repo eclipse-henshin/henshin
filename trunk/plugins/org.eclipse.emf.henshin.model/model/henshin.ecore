@@ -34,6 +34,12 @@
         eType="#//TransformationUnit" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="lhsAndRhsNotNull"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="lhsAndRhsNotNull" value="not lhs->isEmpty() and not rhs->isEmpty()"/>
+    </eAnnotations>
     <eOperations name="getNodeByName" eType="#//Node">
       <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -176,6 +182,15 @@
         eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="kernelLhsNodesMapped &#xD;&#xA;kernelRhsNodesMapped &#xD;&#xA;kernelLhsEdgesMapped &#xD;&#xA;kernelRhsEdgesMapped"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="kernelLhsNodesMapped" value="kernelRule.lhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKL : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule &#xD;&#xA;&#x9;&#x9;| lhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;lhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| lhsMapping.origin = nodeKL &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.lhs.nodes->includes(lhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelRhsNodesMapped" value="kernelRule.rhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKR : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule  &#xD;&#xA;&#x9;&#x9;| rhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;rhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| rhsMapping.origin = nodeKR &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.rhs.nodes->includes(rhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelLhsEdgesMapped" value="kernelRule.lhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.lhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelRhsEdgesMapped" value="kernelRule.rhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.rhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" lowerBound="1"
         eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" lowerBound="1"
