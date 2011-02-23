@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateEdgeCommandMenuContributor;
@@ -142,9 +143,13 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 				currentSelection, domain);
 		
 		CopySubgraphMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
-				domain);
+				domain);			
 		
 		menuManager.update(true);
+	}
+	
+	protected DeleteAction createDeleteAction() {
+		return new org.eclipse.emf.henshin.editor.actions.DeleteAction(removeAllReferencesOnDelete());
 	}
 	
 }
