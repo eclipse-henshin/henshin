@@ -39,6 +39,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
 import org.eclipse.emf.henshin.provider.trans.IfItemProvider;
 import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
@@ -315,10 +316,10 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		 * features into account.
 		 */
 
-		// The behavior has to be fixed only if collection contains a Rule
+		// The behavior has to be fixed only if the features refer elements
 		if (commandParameter.collection != null && !commandParameter.collection.isEmpty()) {
 			Object realObject = unwrap(commandParameter.collection.iterator().next());
-			if (realObject instanceof Rule) {
+			if (realObject instanceof TransformationUnit) {
 				CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
 				Iterator<?> iterator = commandParameter.collection.iterator();
 				Object o;
