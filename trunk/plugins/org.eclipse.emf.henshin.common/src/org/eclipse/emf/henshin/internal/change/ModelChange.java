@@ -54,6 +54,11 @@ public class ModelChange {
 		}
 		EList<FeatureChange> featureChanges = change.getObjectChanges().get(eObject);
 		
+		for (FeatureChange existingChange: featureChanges) {
+			if (existingChange.getFeature() == feature)
+				return existingChange;
+		}
+			
 		FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
 		featureChange.setFeature(feature);
 		featureChanges.add(featureChange);
@@ -61,21 +66,44 @@ public class ModelChange {
 		return featureChange;
 	}
 	
+	/**
+	 * This method ensures, that only one list change per ChangeKind ADD, REMOVE, MOVE is created
+	 */
+	private ListChange getListChangeByKind(FeatureChange featureChange, ChangeKind kind) {
+		for (ListChange existingChange: featureChange.getListChanges()) {
+			if (existingChange.getKind() == kind)
+				return existingChange;
+		}
+		
+		ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+		listChange.setKind(kind);
+		
+		featureChange.getListChanges().add(listChange);
+		return listChange;
+	}
+	
+	private boolean deletingChangeExists(FeatureChange featureChange, EObject value) {
+		for (ListChange existingChange: featureChange.getListChanges()) {
+			if (existingChange.getKind() == ChangeKind.REMOVE_LITERAL)
+				return existingChange.getReferenceValues().contains(value);
+						
+		}
+		return false;
+	}
+	
 	public void addReferenceChange(EObject eObject, EReference reference, EObject value,
 			boolean deletion) {
 		FeatureChange featureChange = getFeatureChange(eObject, reference);
 		
 		if (reference.isMany()) {
-			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
-			listChange.setFeature(reference);
-			if (deletion) {
-				listChange.setKind(ChangeKind.REMOVE_LITERAL);
-				listChange.setIndex(((List<?>) eObject.eGet(reference)).indexOf(value));
-			} else {
-				listChange.setKind(ChangeKind.ADD_LITERAL);
-				listChange.getReferenceValues().add(value);
-			}
+			if (deletingChangeExists(featureChange, value))
+				return;
 			
+			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
+			listChange.getReferenceValues().add(value);
+			if (deletion)
+				listChange.setIndex(((List<Object>)eObject.eGet(reference)).indexOf(value));
 			featureChange.getListChanges().add(listChange);
 		} else {
 			featureChange.setReferenceValue(value);
