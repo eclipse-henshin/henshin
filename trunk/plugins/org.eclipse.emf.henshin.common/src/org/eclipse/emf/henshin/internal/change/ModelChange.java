@@ -13,20 +13,28 @@ package org.eclipse.emf.henshin.internal.change;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeFactory;
+import org.eclipse.emf.ecore.change.ChangeKind;
+import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.ListChange;
 
 public class ModelChange {
-	private Map<EObject, ObjectChange> changes;
+	private ChangeDescription change;
 	
 	private Collection<EObject> createdObjects = new ArrayList<EObject>();
 	private Collection<EObject> deletedObjects = new ArrayList<EObject>();
-
+	
 	public ModelChange() {
-		changes = new LinkedHashMap<EObject, ObjectChange>();
+		change = ChangeFactory.eINSTANCE.createChangeDescription();
 		
 		createdObjects = new ArrayList<EObject>();
 		deletedObjects = new ArrayList<EObject>();
@@ -35,53 +43,88 @@ public class ModelChange {
 	public void addCreatedObject(EObject eObject) {
 		createdObjects.add(eObject);
 	}
-
+	
 	public void addDeletedObject(EObject eObject) {
 		deletedObjects.add(eObject);
 	}
-
-	public void addObjectChange(EObject eObject, EStructuralFeature feature,
-			Object value, boolean deletion) {
-		if (eObject != null && feature != null) {
-			ObjectChange objectChange = changes.get(eObject);
-			
-			if (objectChange == null) {
-				objectChange = new ObjectChange(eObject);
-				changes.put(eObject, objectChange);
+	
+	private FeatureChange getFeatureChange(EObject eObject, EStructuralFeature feature) {
+		if (change.getObjectChanges().get(eObject) == null) {
+			change.getObjectChanges().put(eObject, new BasicEList<FeatureChange>());
+		}
+		EList<FeatureChange> featureChanges = change.getObjectChanges().get(eObject);
+		
+		FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
+		featureChange.setFeature(feature);
+		featureChanges.add(featureChange);
+		
+		return featureChange;
+	}
+	
+	public void addReferenceChange(EObject eObject, EReference reference, EObject value,
+			boolean deletion) {
+		FeatureChange featureChange = getFeatureChange(eObject, reference);
+		
+		if (reference.isMany()) {
+			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+			listChange.setFeature(reference);
+			if (deletion) {
+				listChange.setKind(ChangeKind.REMOVE_LITERAL);
+				listChange.setIndex(((List<?>) eObject.eGet(reference)).indexOf(value));
+			} else {
+				listChange.setKind(ChangeKind.ADD_LITERAL);
+				listChange.getReferenceValues().add(value);
 			}
 			
-			if (deletion)
-				objectChange.removeValue(feature, value);
-			else
-				objectChange.addValue(feature, value);
+			featureChange.getListChanges().add(listChange);
+		} else {
+			featureChange.setReferenceValue(value);
 		}
 	}
-
+	
+	public void addAttributeChange(EObject eObject, EAttribute attribute, String value,
+			boolean deletion) {
+		FeatureChange featureChange = getFeatureChange(eObject, attribute);
+		
+		if (attribute.isMany()) {
+			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+			listChange.setFeature(attribute);
+			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
+			listChange.setIndex(((List<?>) eObject.eGet(attribute)).indexOf(value));
+			featureChange.getListChanges().add(listChange);
+		} else {
+			featureChange.setDataValue(value);
+		}
+	}
+	
 	public void applyChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.execute();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.execute();
+//		}
 	}
-
+	
 	public void undoChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.undo();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.undo();
+//		}
 	}
-
+	
 	public void redoChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.execute();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.execute();
+//		}
 	}
-
+	
 	/**
 	 * @return the createdObjects
 	 */
 	public Collection<EObject> getCreatedObjects() {
 		return createdObjects;
 	}
-
+	
 	/**
 	 * @return the deletedObjects
 	 */
