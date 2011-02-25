@@ -45,8 +45,8 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		
 		String line, error = null;
-		boolean parseError = false;
-		StringBuffer result = new StringBuffer();
+		boolean parseError = false;		
+		String result = null, time = null;
 		
 		while ((line = reader.readLine())!=null) {
 			
@@ -63,8 +63,10 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 			} else if (line.startsWith("Error")) {
 				error = line;
 				parseError = true;
-			} else {
-				result.append(line+"\n");				
+			} else if (line.startsWith("Time")) {
+				time = line;
+			} else if (line.startsWith("Result")) {
+				result = line;
 			}
 			
 			if (monitor.isCanceled()) {
@@ -73,7 +75,22 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 			}
 		}
 		monitor.done();
-		return new ValidationResult(true, result.toString());
+		
+		// Error?
+		if (error!=null) {
+			throw new RuntimeException(error);
+		}
+		if (result==null) {
+			throw new RuntimeException("Unexpected PRISM output");
+		}
+		
+		// Time?
+		if (time!=null) {
+			result = result + "\n" + time;
+		}
+		
+		// Done.
+		return new ValidationResult(true,result);
 		
 	}	
 	
@@ -83,7 +100,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM";
+		return "PRISM (CSL)";
 	}
 	
 	/*
