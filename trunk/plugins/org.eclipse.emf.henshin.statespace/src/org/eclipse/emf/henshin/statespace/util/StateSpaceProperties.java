@@ -74,15 +74,7 @@ public class StateSpaceProperties {
 	 * @return Its rate.
 	 */
 	public static double getRate(StateSpace stateSpace, Rule rule) {
-		String value = stateSpace.getProperties().get(getRateKey(rule));
-		if (value==null) return -1;
-		try {
-			NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
-			Number number = format.parse(value);
-			return number.doubleValue();
-		} catch (ParseException e) {
-			return -1;
-		}
+		return getDouble(stateSpace, getRateKey(rule), -1.0);
 	}
 
 	/**
@@ -92,9 +84,53 @@ public class StateSpaceProperties {
 	 * @param rate Its rate.
 	 */
 	public static void setRate(StateSpace stateSpace, Rule rule, double rate) {
-		NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);		
-		stateSpace.getProperties().put(getRateKey(rule),format.format(rate));
+		setDouble(stateSpace, getRateKey(rule), rate);
 	}
+
+	/**
+	 * Get the reward of a rule, as specified in the state space properties.
+	 * @param stateSpace State space.
+	 * @param rule Rule.
+	 * @return Its reward.
+	 */
+	public static double getReward(StateSpace stateSpace, Rule rule) {
+		return getDouble(stateSpace, getRewardKey(rule), 0.0);
+	}
+
+	/**
+	 * Set the reward of a rule, stored in the state space properties.
+	 * @param stateSpace State space.
+	 * @param rule Rule.
+	 * @param rate Its reward.
+	 */
+	public static void setReward(StateSpace stateSpace, Rule rule, double reward) {
+		setDouble(stateSpace, getRewardKey(rule), reward);
+	}
+
+
+	/*
+	 * Get a double properties
+	 */
+	private static double getDouble(StateSpace stateSpace, String name, Double defaultValue) {
+		String value = stateSpace.getProperties().get(name);
+		if (value==null) return defaultValue;
+		try {
+			NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+			Number number = format.parse(value);
+			return number.doubleValue();
+		} catch (ParseException e) {
+			return defaultValue;
+		}
+	}
+	
+	/*
+	 * Set a double value.
+	 */
+	private static void setDouble(StateSpace stateSpace, String name, double value) {
+		NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+		stateSpace.getProperties().put(name,format.format(value));
+	}
+
 	
 	/**
 	 * Initialize the default properties of a rule.
@@ -104,6 +140,9 @@ public class StateSpaceProperties {
 	public static void initializeDefaultProperties(StateSpace stateSpace, Rule rule) {
 		if (!stateSpace.getProperties().containsKey(getRateKey(rule))) {
 			setRate(stateSpace,rule,1);
+		}
+		if (!stateSpace.getProperties().containsKey(getRewardKey(rule))) {
+			setReward(stateSpace,rule,0);
 		}
 		if (!stateSpace.getProperties().containsKey(getParametersKey(rule))) {
 			setParameters(stateSpace, rule, new ArrayList<Node>());
@@ -116,7 +155,14 @@ public class StateSpaceProperties {
 	private static String getRateKey(Rule rule) {
 		return "rate" + capitalize(removeWhiteSpace(rule.getName()));
 	}
-	
+
+	/*
+	 * Get the properties key for rule rewards.
+	 */
+	private static String getRewardKey(Rule rule) {
+		return "reward" + capitalize(removeWhiteSpace(rule.getName()));
+	}
+
 	/*
 	 * Get the properties key for rule parameters.
 	 */
