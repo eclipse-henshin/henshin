@@ -366,11 +366,22 @@ public class UnitApplication extends Observable {
 	public Map<Parameter, Object> getParameterValues() {
 		return parameterValues;
 	}
-	
-	public void setParameterValues(Map<Parameter, Object> parameterValues) {
-		this.parameterValues = parameterValues;
+
+	/**
+	 * Sets the UnitApplication's values for Parameters 
+	 * @param assignments Map between Parameter names and their values
+	 */
+	public void setParameterValues(Map<String, Object> assignments) {
+		parameterValues.clear();
+		for (String s : assignments.keySet()) {
+			setParameterValue(s, assignments.get(s));
+		}
 	}
 	
+	/**
+	 * Returns the applied RuleApplications
+	 * @return the applied RuleApplications
+	 */
 	public Stack<RuleApplication> getAppliedRules() {
 		return appliedRules;
 	}

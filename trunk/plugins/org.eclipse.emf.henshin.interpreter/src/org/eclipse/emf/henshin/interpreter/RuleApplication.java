@@ -138,9 +138,18 @@ public class RuleApplication {
 			match.getParameterValues().put(parameter, value);
 	}
 	
-	public void setParameterValues(Map<Parameter, Object> assignments) {
-		match.getParameterValues().clear();
-		match.getParameterValues().putAll(assignments);
+	
+	/**
+	 * Sets the current rule's values for input parameters or input objects.
+	 * (Existing values will be cleared)
+	 * 
+	 * @param assignments
+	 * 					Map between Parameter Names and their values
+	 */
+	public void setParameterValues(Map<String, Object> assignments) {
+		for (String s : assignments.keySet()) {
+			setParameterValue(s, assignments.get(s));
+		}
 	}
 	
 	/**
@@ -179,14 +188,26 @@ public class RuleApplication {
 		return comatch;
 	}
 	
+	/**
+	 * set the comatch
+	 * @param comatch
+	 */
 	public void setComatch(Match comatch) {
 		this.comatch = comatch;
 	}
 	
+	/**
+	 * 
+	 * @return the model change
+	 */
 	public ModelChange getModelChange() {
 		return modelChange;
 	}
 	
+	/**
+	 * Sets the model change
+	 * @param modelChange
+	 */
 	public void setModelChange(ModelChange modelChange) {
 		this.modelChange = modelChange;
 	}
