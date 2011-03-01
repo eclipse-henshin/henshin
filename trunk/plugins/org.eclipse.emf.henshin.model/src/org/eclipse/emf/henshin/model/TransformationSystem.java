@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EPackage;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueUnitNames noCyclicUnits'"
  * @generated
  */
 public interface TransformationSystem extends DescribedElement, NamedElement {

@@ -34,20 +34,13 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getName
- * <em>Name</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated
- * <em>Activated</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters
- * <em>Parameters</em>}</li>
- * <li>
- * {@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings
- * <em>Parameter Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public abstract class TransformationUnitImpl extends DescribedElementImpl implements
@@ -55,7 +48,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -65,7 +57,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -73,9 +64,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	protected String name = NAME_EDEFAULT;
 	
 	/**
-	 * The default value of the '{@link #isActivated() <em>Activated</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
@@ -83,9 +73,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	protected static final boolean ACTIVATED_EDEFAULT = false;
 	
 	/**
-	 * The cached value of the '{@link #isActivated() <em>Activated</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
@@ -93,9 +82,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	protected boolean activated = ACTIVATED_EDEFAULT;
 	
 	/**
-	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getParameters()
 	 * @generated
 	 * @ordered
@@ -115,7 +103,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TransformationUnitImpl() {
@@ -124,7 +111,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -134,7 +120,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getName() {
@@ -143,20 +128,17 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.TRANSFORMATION_UNIT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__NAME, oldName, name));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isActivated() {
@@ -165,47 +147,39 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setActivated(boolean newActivated) {
 		boolean oldActivated = activated;
 		activated = newActivated;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this,
-					HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
+			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
 		}
 		return parameters;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<ParameterMapping> getParameterMappings() {
 		if (parameterMappings == null) {
-			parameterMappings = new EObjectContainmentEList<ParameterMapping>(
-					ParameterMapping.class, this,
-					HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
+			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
 		}
 		return parameterMappings;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<TransformationUnit> getSubUnits(boolean deep) {
@@ -233,7 +207,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -242,15 +215,13 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getParameters())
-						.basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -258,16 +229,15 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
-				return ((InternalEList<?>) getParameters()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
-				return ((InternalEList<?>) getParameterMappings()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getParameterMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -287,7 +257,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -295,18 +264,18 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_UNIT__NAME:
-				setName((String) newValue);
+				setName((String)newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				setActivated((Boolean) newValue);
+				setActivated((Boolean)newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				getParameters().clear();
-				getParameters().addAll((Collection<? extends Parameter>) newValue);
+				getParameters().addAll((Collection<? extends Parameter>)newValue);
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
-				getParameterMappings().addAll((Collection<? extends ParameterMapping>) newValue);
+				getParameterMappings().addAll((Collection<? extends ParameterMapping>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -314,7 +283,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -338,7 +306,6 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -358,17 +325,14 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-				case HenshinPackage.TRANSFORMATION_UNIT__NAME:
-					return HenshinPackage.NAMED_ELEMENT__NAME;
-				default:
-					return -1;
+				case HenshinPackage.TRANSFORMATION_UNIT__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -376,17 +340,14 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
-				case HenshinPackage.NAMED_ELEMENT__NAME:
-					return HenshinPackage.TRANSFORMATION_UNIT__NAME;
-				default:
-					return -1;
+				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.TRANSFORMATION_UNIT__NAME;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
@@ -394,13 +355,12 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
-		
+
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);

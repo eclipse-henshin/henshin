@@ -1436,11 +1436,41 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "ValidName"
 		   });			
 		addAnnotation
+		  (transformationSystemEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "uniqueUnitNames noCyclicUnits"
+		   });		
+		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "lhsAndRhsNotNull"
 		   });			
+		addAnnotation
+		  (parameterEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "nameRequired"
+		   });		
+		addAnnotation
+		  (graphEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "uniqueNodeNames"
+		   });		
+		addAnnotation
+		  (mappingEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "ruleMapping_TypeEquality ruleMapping_left2right"
+		   });			
+		addAnnotation
+		  (nodeEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "uniqueAttributeTypes"
+		   });		
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
@@ -1470,13 +1500,19 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'",
 			 "ValidName.Msg", "_Ocl_Msg_NamedElement_ValidName",
 			 "ValidName.Severity", "Warning"
-		   });			
+		   });				
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
 			 "lhsAndRhsNotNull", "not lhs->isEmpty() and not rhs->isEmpty()"
-		   });			
+		   });					
+		addAnnotation
+		  (mappingEClass, 
+		   source, 
+		   new String[] {
+			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"
+		   });				
 		addAnnotation
 		  (edgeEClass, 
 		   source, 

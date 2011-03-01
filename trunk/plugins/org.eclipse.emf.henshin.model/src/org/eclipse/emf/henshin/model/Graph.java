@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueNodeNames'"
  * @generated
  */
 public interface Graph extends NamedElement {

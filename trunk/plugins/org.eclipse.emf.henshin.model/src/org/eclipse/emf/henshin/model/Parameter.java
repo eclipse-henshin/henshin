@@ -20,7 +20,7 @@ package org.eclipse.emf.henshin.model;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameRequired'"
  * @generated
  */
 public interface Parameter extends DescribedElement, NamedElement {
