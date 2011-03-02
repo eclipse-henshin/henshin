@@ -13,20 +13,28 @@ package org.eclipse.emf.henshin.internal.change;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeFactory;
+import org.eclipse.emf.ecore.change.ChangeKind;
+import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.ListChange;
 
 public class ModelChange {
-	private Map<EObject, ObjectChange> changes;
+	private ChangeDescription change;
 	
 	private Collection<EObject> createdObjects = new ArrayList<EObject>();
 	private Collection<EObject> deletedObjects = new ArrayList<EObject>();
-
+	
 	public ModelChange() {
-		changes = new LinkedHashMap<EObject, ObjectChange>();
+		change = ChangeFactory.eINSTANCE.createChangeDescription();
 		
 		createdObjects = new ArrayList<EObject>();
 		deletedObjects = new ArrayList<EObject>();
@@ -35,53 +43,119 @@ public class ModelChange {
 	public void addCreatedObject(EObject eObject) {
 		createdObjects.add(eObject);
 	}
-
+	
 	public void addDeletedObject(EObject eObject) {
 		deletedObjects.add(eObject);
 	}
-
-	public void addObjectChange(EObject eObject, EStructuralFeature feature,
-			Object value, boolean deletion) {
-		if (eObject != null && feature != null) {
-			ObjectChange objectChange = changes.get(eObject);
+	
+	private FeatureChange getFeatureChange(EObject eObject, EStructuralFeature feature) {
+		if (change.getObjectChanges().get(eObject) == null) {
+			change.getObjectChanges().put(eObject, new BasicEList<FeatureChange>());
+		}
+		EList<FeatureChange> featureChanges = change.getObjectChanges().get(eObject);
+		
+		for (FeatureChange existingChange: featureChanges) {
+			if (existingChange.getFeature() == feature)
+				return existingChange;
+		}
 			
-			if (objectChange == null) {
-				objectChange = new ObjectChange(eObject);
-				changes.put(eObject, objectChange);
-			}
+		FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
+		featureChange.setFeature(feature);
+		featureChanges.add(featureChange);
+		
+		return featureChange;
+	}
+	
+	/**
+	 * This method ensures, that only one list change per ChangeKind ADD, REMOVE, MOVE is created
+	 */
+	private ListChange getListChangeByKind(FeatureChange featureChange, ChangeKind kind) {
+		for (ListChange existingChange: featureChange.getListChanges()) {
+			if (existingChange.getKind() == kind)
+				return existingChange;
+		}
+		
+		ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+		listChange.setKind(kind);
+		
+		featureChange.getListChanges().add(listChange);
+		return listChange;
+	}
+	
+	private boolean deletingChangeExists(FeatureChange featureChange, EObject value) {
+		for (ListChange existingChange: featureChange.getListChanges()) {
+			if (existingChange.getKind() == ChangeKind.REMOVE_LITERAL)
+				return existingChange.getReferenceValues().contains(value);
+						
+		}
+		return false;
+	}
+	
+	public void addReferenceChange(EObject eObject, EReference reference, EObject value,
+			boolean deletion) {
+		FeatureChange featureChange = getFeatureChange(eObject, reference);
+		
+		if (reference.isMany()) {
+			if (deletingChangeExists(featureChange, value))
+				return;
 			
+			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
+			listChange.getReferenceValues().add(value);
 			if (deletion)
-				objectChange.removeValue(feature, value);
+				listChange.setIndex(((List<Object>)eObject.eGet(reference)).indexOf(value));
+			featureChange.getListChanges().add(listChange);
+		} else {
+			if (deletion)
+				featureChange.setReferenceValue(null);
 			else
-				objectChange.addValue(feature, value);
+				featureChange.setReferenceValue(value);
 		}
 	}
-
+	
+	public void addAttributeChange(EObject eObject, EAttribute attribute, String value,
+			boolean deletion) {
+		FeatureChange featureChange = getFeatureChange(eObject, attribute);
+		
+		if (attribute.isMany()) {
+			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
+			listChange.setFeature(attribute);
+			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
+			listChange.setIndex(((List<?>) eObject.eGet(attribute)).indexOf(value));
+			featureChange.getListChanges().add(listChange);
+		} else {
+			featureChange.setDataValue(value);
+		}
+	}
+	
 	public void applyChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.execute();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.execute();
+//		}
 	}
-
+	
 	public void undoChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.undo();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.undo();
+//		}
 	}
-
+	
 	public void redoChanges() {
-		for (ObjectChange change : changes.values()) {
-			change.execute();
-		}
+		change.applyAndReverse();
+//		for (ObjectChange change : changes.values()) {
+//			change.execute();
+//		}
 	}
-
+	
 	/**
 	 * @return the createdObjects
 	 */
 	public Collection<EObject> getCreatedObjects() {
 		return createdObjects;
 	}
-
+	
 	/**
 	 * @return the deletedObjects
 	 */

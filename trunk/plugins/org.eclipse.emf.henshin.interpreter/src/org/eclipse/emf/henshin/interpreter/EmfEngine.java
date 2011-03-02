@@ -351,14 +351,16 @@ public class EmfEngine implements InterpreterEngine {
 		
 		// remove deleted edges
 		for (Edge edge : changeInfo.getDeletedEdges()) {
-			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
-					matchNodeMapping.get(edge.getTarget()), true);
+			modelChange.addReferenceChange(matchNodeMapping.get(edge.getSource()), edge.getType(), matchNodeMapping.get(edge.getTarget()), true);
+//			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
+//					matchNodeMapping.get(edge.getTarget()), true);
 		}
 		
 		// add new edges
 		for (Edge edge : changeInfo.getCreatedEdges()) {
-			modelChange.addObjectChange(comatchNodeMapping.get(edge.getSource()), edge.getType(),
-					comatchNodeMapping.get(edge.getTarget()), false);
+			modelChange.addReferenceChange(comatchNodeMapping.get(edge.getSource()), edge.getType(), comatchNodeMapping.get(edge.getTarget()), false);
+//			modelChange.addObjectChange(comatchNodeMapping.get(edge.getSource()), edge.getType(),
+//					comatchNodeMapping.get(edge.getTarget()), false);
 		}
 		
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
@@ -373,10 +375,12 @@ public class EmfEngine implements InterpreterEngine {
 					valueString = valueString.substring(0, valueString.length() - 2);
 			}
 			
+			modelChange.addAttributeChange(targetObject, attribute.getType(), valueString, false);
+			
 			value = EcoreUtil
 					.createFromString(attribute.getType().getEAttributeType(), valueString);
 			
-			modelChange.addObjectChange(targetObject, attribute.getType(), value, false);
+			//modelChange.addObjectChange(targetObject, attribute.getType(), value, false);
 		}
 		
 		modelChange.applyChanges();
