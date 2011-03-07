@@ -22,9 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
+import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 
 /**
  * @generated
@@ -57,8 +58,15 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	 * Private helper for computing the prefixes of parameters.
 	 */
 	private char[] getParamPrefixes() {
-		if (getSource()==null || getSource().getStateSpace()==null) return new char[0];
-		List<Node> nodes = StateSpaceProperties.getParameters(getSource().getStateSpace(), rule);
+		if (getSource()==null || getSource().getStateSpace()==null) {
+			return new char[0];
+		}
+		List<Node> nodes;
+		try {
+			nodes = ParametersPropertiesManager.getParameters(getSource().getStateSpace(), rule);
+		} catch (StateSpaceException e) {
+			throw new RuntimeException(e);
+		}
 		char[] prefixes = new char[nodes.size()];
 		for (int i=0; i<prefixes.length; i++) {
 			EClass type = nodes.get(i).getType();

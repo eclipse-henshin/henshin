@@ -38,8 +38,8 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		monitor.beginTask("Computing steady-state probabilities...", -1);
 		
 		// Invoke the PRISM tool:
-		monitor.subTask("Running PRISM...");
-		Process process = invokePRISM(stateSpace, null, new String[] { "-steadystate" }, monitor);
+		monitor.subTask("Invoking PRISM...");
+		Process process = invokePRISM(stateSpace, null, new String[] { "-steadystate" }, false, monitor);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -54,6 +54,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		while ((line = reader.readLine())!=null) {
 			line = line.trim();
 			System.out.println(line);
+			monitor.subTask(line);
 			if (line.length()==0) {
 				parseProbabilities = false;
 				parseError = false;

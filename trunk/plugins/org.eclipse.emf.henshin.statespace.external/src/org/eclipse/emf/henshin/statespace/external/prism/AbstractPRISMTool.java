@@ -17,8 +17,11 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
+import org.eclipse.emf.henshin.statespace.external.prism.RatesPropertiesManager.Rate;
 
 /**
  * Abstract PRISM tool wrapper.
@@ -26,14 +29,8 @@ import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
  */
 public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	
-	// Properties key for PRISM path.
-	public static final String PRISM_PATH_KEY = "prismPath";
-	
-	// Properties key for PRISM arguments.
-	public static final String PRISM_ARGS_KEY = "prismArgs";
-	
 	/**
-	 * Invoke PRISM.
+	 * Invoke PRISM on a state space.
 	 * @param stateSpace State space.
 	 * @param args Arguments.
 	 * @param monitor Monitor.
@@ -41,16 +38,15 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 	 * @throws Exception On errors.
 	 */
 	protected Process invokePRISM(StateSpace stateSpace, File formulaFile, 
-			String[] args, IProgressMonitor monitor) throws Exception {
+			String[] args, boolean allowExperiments, IProgressMonitor monitor) throws Exception {
 		
 		// Generate the SM file.
 		File smFile = generatePRISMFile(stateSpace, monitor);
 		
 		// Get the executable, path and arguments.
 		String prism = getPRISMExecutable();
-		String baseArgs = stateSpace.getProperties().get(PRISM_ARGS_KEY);
-		if (baseArgs==null) baseArgs = "-fixdl -gaussseidel";
-		String path = stateSpace.getProperties().get(PRISM_PATH_KEY);
+		String path = RatesPropertiesManager.getPRISMPath(stateSpace);
+		String baseArgs = RatesPropertiesManager.getPRISMArgs(stateSpace);
 		
 		// Create the command.
 		List<String> command = new ArrayList<String>();
@@ -68,6 +64,28 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 			for (String arg : args) {
 				command.add(arg.trim());
 			}
+		}
+		
+		// Now add the constants arguments:
+		String constants = "";
+		for (Rule rule : stateSpace.getRules()) {
+			Rate rate = RatesPropertiesManager.getRate(stateSpace,rule);
+			if (rate==null) {
+				throw new StateSpaceException("Rate for rule \"" + rule.getName() +
+						"\" not defined (set property \"" + RatesPropertiesManager.getRateKey(rule) + "\")");
+			}
+			if (!allowExperiments && !rate.isConstant()) {
+				throw new StateSpaceException("Rate for rule \"" + rule.getName() + "\" must be a constant");
+			}
+			if (constants.length()>0) {
+				constants = constants + ",";
+			}
+			constants = constants + RatesPropertiesManager.getRateKey(rule) + "=" + rate;
+			
+		}
+		if (constants.length()>0) {
+			command.add("-const");
+			command.add(constants);
 		}
 		
 		// Now we can invoke the PRISM tool:

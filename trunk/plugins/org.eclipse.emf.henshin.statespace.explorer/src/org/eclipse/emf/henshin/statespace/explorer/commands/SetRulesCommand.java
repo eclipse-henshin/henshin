@@ -11,14 +11,13 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * @author Christian Krause
@@ -45,15 +44,11 @@ public class SetRulesCommand extends AbstractStateSpaceCommand {
 	public void doExecute() throws StateSpaceException {
 		
 		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
-		List<Rule> oldRules = new ArrayList<Rule>(stateSpace.getRules());
 		stateSpace.getRules().clear();
 		stateSpace.getRules().addAll(rules);
 		
 		// Initialize properties for the new rules.
-		rules.removeAll(oldRules);
-		for (Rule rule : rules) {
-			StateSpaceProperties.initializeDefaultProperties(stateSpace, rule);
-		}
+		StateSpacePlugin.INSTANCE.getPropertiesManager().initialize(stateSpace);	
 		
 	}
 	

@@ -7,7 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EMap;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -41,19 +44,43 @@ public class EditPropertiesPage extends WizardPage {
 	// Table.
 	private Table table;
 	
+	// Dummy state space:
+	private StateSpace dummyStateSpace;
+	
 	/**
 	 * Default constructor.
 	 */
-	protected EditPropertiesPage(EMap<String,String> properties) {
+	protected EditPropertiesPage(StateSpace stateSpace) {
 		super("Edit State Space Properties");
 		setDescription("Edit the properties of this state space.");
-		dirty = false;
-		keys = new ArrayList<String>(properties.keySet());
+		dirty = false;	
+		dummyStateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
+		dummyStateSpace.getRules().addAll(stateSpace.getRules());
+		dummyStateSpace.getProperties().putAll(stateSpace.getProperties());
+	}
+	
+	/*
+	 * Update the table.
+	 */
+	private void updateTable() {
+		
+		// Get and sort the properties.
+		keys = new ArrayList<String>(dummyStateSpace.getProperties().keySet());
 		Collections.sort(keys);
 		values = new ArrayList<String>();
 		for (String key : keys) {
-			values.add(properties.get(key));
+			values.add(dummyStateSpace.getProperties().get(key));
 		}
+		
+		// Reset table contents:
+		table.removeAll();
+		
+		// Fill the table:
+		for (int i=0; i<keys.size(); i++) {
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(new String[] { keys.get(i), values.get(i) });
+		}		
+
 	}
 	
 	/*
@@ -67,6 +94,7 @@ public class EditPropertiesPage extends WizardPage {
 		
 		table = createTable(container);
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+		updateTable();
 		
 		Composite buttons = new Composite(container, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.BEGINNING));
@@ -74,6 +102,8 @@ public class EditPropertiesPage extends WizardPage {
 		
 		createButton(buttons, "Add");
 		createButton(buttons, "Remove");
+		createButton(buttons, "Initialize");
+		createButton(buttons, "Validate");
 		
 		setControl(container);
 		
@@ -94,12 +124,6 @@ public class EditPropertiesPage extends WizardPage {
 		TableColumn valueColumn = new TableColumn(table, SWT.NONE);
 		valueColumn.setText("Value");
 		valueColumn.setWidth(200);
-		
-		// Fill the table:
-		for (int i=0; i<keys.size(); i++) {
-			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(new String[] { keys.get(i), values.get(i) });
-		}
 		
 		// Create the editors:
 		final TableEditor editor = new TableEditor(table);
@@ -204,6 +228,43 @@ public class EditPropertiesPage extends WizardPage {
 		dirty = true;
 	}
 
+	/*
+	 * Initialize properties.
+	 */
+	public void initialize() {
+		
+		// Sync the properties to the dummy state space:
+		dummyStateSpace.getProperties().clear();
+		dummyStateSpace.getProperties().putAll(getResult());
+		
+		// Initialize properties:
+		StateSpacePlugin.INSTANCE.getPropertiesManager().initialize(dummyStateSpace);
+		
+		// Update the table with the new values:
+		updateTable();
+		
+	}
+
+	/*
+	 * Validate properties.
+	 */
+	public void validate() {
+		
+		// Sync the properties to the dummy state space:
+		dummyStateSpace.getProperties().clear();
+		dummyStateSpace.getProperties().putAll(getResult());
+		
+		// Validate the properties:
+		IStatus result = StateSpacePlugin.INSTANCE.getPropertiesManager().validate(dummyStateSpace);
+		if (result.getSeverity()==IStatus.OK) {
+			setMessage(null);
+		} else {
+			setMessage(result.getMessage(), result.getSeverity());
+		}
+		
+	}
+
+	
 	/**
 	 * Get the properties.
 	 * @return The properties.

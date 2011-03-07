@@ -26,9 +26,10 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceProperties;
+import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
@@ -130,7 +131,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	/*
 	 * Create a string representations of the used actions.
 	 */
-	private String createActions(StateSpace stateSpace) {
+	private String createActions(StateSpace stateSpace) throws StateSpaceException {
 		StringBuffer actions = new StringBuffer();
 		if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
 			Map<EClass,Integer> maxIDs = getMaxIDs(stateSpace);
@@ -150,7 +151,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 			actions.append(rule.getName());
 			if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
 				actions.append(" : ");
-				List<Node> params = StateSpaceProperties.getParameters(stateSpace,rule);
+				List<Node> params = ParametersPropertiesManager.getParameters(stateSpace,rule);
 				for (int j=0; j<params.size(); j++) {
 					actions.append(params.get(j).getType().getName());
 					if (j<params.size()-1) actions.append(" # ");
@@ -162,12 +163,12 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	}
 
 	
-	private Map<EClass,Integer> getMaxIDs(StateSpace stateSpace) {
+	private Map<EClass,Integer> getMaxIDs(StateSpace stateSpace) throws StateSpaceException {
 		
 		// Get the parameter types for all rules:
 		Map<Rule,List<EClass>> paramTypes = new HashMap<Rule,List<EClass>>();
 		for (Rule rule : stateSpace.getRules()) {
-			List<Node> nodes = StateSpaceProperties.getParameters(stateSpace, rule);
+			List<Node> nodes = ParametersPropertiesManager.getParameters(stateSpace, rule);
 			List<EClass> types = new ArrayList<EClass>();
 			for (Node node : nodes) types.add(node.getType());
 			paramTypes.put(rule,types);

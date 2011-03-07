@@ -39,7 +39,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
-		Process process = invokePRISM(stateSpace, cslFile, null, monitor);
+		Process process = invokePRISM(stateSpace, cslFile, null, true, monitor);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

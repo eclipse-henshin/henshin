@@ -2,7 +2,6 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ResetStateSpaceCommand;
@@ -42,10 +41,9 @@ public class EditPropertiesWizard extends Wizard {
 		
 		// The state space:
 		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
-		EMap<String,String> properties = stateSpace.getProperties();
 		
 		// Create the rule page:
-		propertiesPage = new EditPropertiesPage(properties);
+		propertiesPage = new EditPropertiesPage(stateSpace);
 		addPage(propertiesPage);
 		
     }

@@ -42,6 +42,7 @@ import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
+import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
@@ -447,7 +448,11 @@ public class StateSpaceToolsMenu extends Composite {
 				explorer.selectTrace((Trace) result.getResult());
 			}
 			if (result.isValid()) {
-				MessageDialog.openInformation(getShell(), "Validation", result.getMessage());
+				if (result.getResult() instanceof StateSpaceXYPlot) {
+					new StateSpaceXYPlotDialog(getShell(),(StateSpaceXYPlot) result.getResult()).open();					
+				} else {
+					MessageDialog.openInformation(getShell(), "Validation", result.getMessage());
+				}
 			} else {
 				MessageDialog.openError(getShell(), "Validation", result.getMessage());					
 			}
