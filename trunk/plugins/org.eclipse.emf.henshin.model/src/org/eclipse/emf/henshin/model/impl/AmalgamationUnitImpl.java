@@ -298,8 +298,10 @@ public class AmalgamationUnitImpl extends TransformationUnitImpl implements Amal
 	public EList<TransformationUnit> getSubUnits(boolean deep) {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 
-		allunits.add(kernelRule);
-		allunits.addAll(multiRules);
+		// use getters for lazy initialization and to resolve proxies.
+		//
+		allunits.add(getKernelRule());
+		allunits.addAll(getMultiRules());
 		
 		return new BasicEList<TransformationUnit>(allunits);
 	}// getSubUnits

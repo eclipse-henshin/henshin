@@ -8,6 +8,7 @@
  *
  * Contributors:
  *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg 
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
@@ -1439,50 +1440,62 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (transformationSystemEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "uniqueUnitNames noCyclicUnits"
-		   });		
+			 "constraints", "uniqueUnitNames noCyclicUnits parameterNamesNotTypeName"
+		   });			
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "lhsAndRhsNotNull"
+			 "constraints", "lhsAndRhsNotNull mappingsFromLeft2Right"
 		   });			
 		addAnnotation
 		  (parameterEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "nameRequired"
-		   });		
+		   });			
 		addAnnotation
 		  (graphEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueNodeNames"
-		   });		
+		   });			
 		addAnnotation
 		  (mappingEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "ruleMapping_TypeEquality ruleMapping_left2right"
+			 "constraints", "ruleMapping_TypeEquality"
 		   });			
 		addAnnotation
 		  (nodeEClass, 
 		   source, 
 		   new String[] {
 			 "constraints", "uniqueAttributeTypes"
-		   });		
+		   });			
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "EqualParentGraphs"
+			 "constraints", "equalParentGraphs"
+		   });			
+		addAnnotation
+		  (transformationUnitEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "uniqueParameterNames parameterMappingsPointToDirectSubUnit"
 		   });			
 		addAnnotation
 		  (amalgamationUnitEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "kernelLhsNodesMapped \r\nkernelRhsNodesMapped \r\nkernelLhsEdgesMapped \r\nkernelRhsEdgesMapped"
-		   });	
+			 "constraints", "kernelLhsNodesMapped \r\nkernelRhsNodesMapped \r\nkernelLhsEdgesMapped \r\nkernelRhsEdgesMapped\r\nlhsMappingsFromKernelToMulti\r\nrhsMappingsFromKernelToMulti\r\nnoAdditionalMappingsFromMappedKernel"
+		   });			
+		addAnnotation
+		  (nestedConditionEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "mappingOriginContainedInParentCondition mappingImageContainedInCurrent"
+		   });
 	}
 
 	/**
@@ -1500,35 +1513,84 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "ValidName", "not self.name.oclIsUndefined() implies self.name<>\'\'",
 			 "ValidName.Msg", "_Ocl_Msg_NamedElement_ValidName",
 			 "ValidName.Severity", "Warning"
-		   });				
+		   });			
+		addAnnotation
+		  (transformationSystemEClass, 
+		   source, 
+		   new String[] {
+			 "uniqueUnitNames", "transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)",
+			 "uniqueUnitNames.Msg", "_Ocl_Msg_TransformationSystem_uniqueUnitNames"
+		   });			
 		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "lhsAndRhsNotNull", "not lhs->isEmpty() and not rhs->isEmpty()"
-		   });					
+			 "lhsAndRhsNotNull", "not lhs->isEmpty() and not rhs->isEmpty()",
+			 "lhsAndRhsNotNull.Msg", "_Ocl_Msg_Rule_lhsAndRhsNotNull",
+			 "mappingsFromLeft2Right", "mappings->forAll(mapping : Mapping | \r\n\tlhs.nodes->includes(mapping.origin)\r\n\tand\r\n\trhs.nodes->includes(mapping.image)\r\n)",
+			 "mappingsFromLeft2Right.Msg", "_Ocl_Msg_Rule_mappingsFromLeft2Right"
+		   });			
+		addAnnotation
+		  (parameterEClass, 
+		   source, 
+		   new String[] {
+			 "nameRequired", "not name.oclIsUndefined() and name.size() > 0",
+			 "nameRequired.Msg", "_Ocl_Msg_Parameter_nameRequired"
+		   });			
+		addAnnotation
+		  (graphEClass, 
+		   source, 
+		   new String[] {
+			 "uniqueNodeNames", "nodes->forAll( node1, node2 : Node | (node1 <> node2 and not node1.name.oclIsUndefined() ) implies node1.name <> node2.name)",
+			 "uniqueNodeNames.Msg", "_Ocl_Msg_Rule_uniqueNodeNames"
+		   });			
 		addAnnotation
 		  (mappingEClass, 
 		   source, 
 		   new String[] {
-			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"
-		   });				
+			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type",
+			 "ruleMapping_TypeEquality.Msg", "_Ocl_Msg_Mappeing_ruleMapping_TypeEquality"
+		   });			
+		addAnnotation
+		  (nodeEClass, 
+		   source, 
+		   new String[] {
+			 "uniqueAttributeTypes", "attributes->forAll(attr1,attr2 : Attribute| attr1<>attr2 implies attr1.type <> attr2.type)",
+			 "uniqueAttributeTypes.Msg", "_Ocl_Msg_Node_uniqueAttributeTypes"
+		   });			
 		addAnnotation
 		  (edgeEClass, 
 		   source, 
 		   new String[] {
-			 "EqualParentGraphs", "source.graph=target.graph",
-			 "EqualParentGraphs.Msg", "Source node and target node of an edge and the edge itself have to be in the same graph."
+			 "equalParentGraphs", "source.graph=target.graph",
+			 "equalParentGraphs.Msg", "_Ocl_Msg_Edge_equalParentGraphs"
+		   });			
+		addAnnotation
+		  (transformationUnitEClass, 
+		   source, 
+		   new String[] {
+			 "uniqueParameterNames", "parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)",
+			 "uniqueParameterNames.Msg", "_Ocl_Msg_TransformationUnit_uniqueParameterNames"
 		   });			
 		addAnnotation
 		  (amalgamationUnitEClass, 
 		   source, 
 		   new String[] {
 			 "kernelLhsNodesMapped", "kernelRule.lhs.nodes->forAll(\r\n\tnodeKL : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule \r\n\t\t| lhsMappings->one(\r\n\t\t\tlhsMapping: Mapping \r\n\t\t\t| lhsMapping.origin = nodeKL \r\n\t\t\tand ruleM.lhs.nodes->includes(lhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelLhsNodesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelLhsNodesMapped",
 			 "kernelRhsNodesMapped", "kernelRule.rhs.nodes->forAll(\r\n\tnodeKR : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule  \r\n\t\t| rhsMappings->one(\r\n\t\t\trhsMapping: Mapping \r\n\t\t\t| rhsMapping.origin = nodeKR \r\n\t\t\tand ruleM.rhs.nodes->includes(rhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelRhsNodesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelRhsNodesMapped",
 			 "kernelLhsEdgesMapped", "kernelRule.lhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.lhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)",
-			 "kernelRhsEdgesMapped", "kernelRule.rhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.rhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)"
-		   });
+			 "kernelLhsEdgesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelLhsEdgesMapped",
+			 "kernelRhsEdgesMapped", "kernelRule.rhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.rhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)",
+			 "kernelRhsEdgesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelRhsEdgesMapped",
+			 "lhsMappingsFromKernelToMulti", "lhsMappings->forAll(mapping : Mapping | \r\n\tkernelRule.lhs.nodes->includes(mapping.origin)\r\n\tand\r\n\tmultiRules->exists(mRule : Rule |\r\n\t\tmRule.lhs.nodes->includes(mapping.image)\r\n\t )\r\n\t\r\n)",
+			 "lhsMappingsFromKernelToMulti.Msg", "_Ocl_Msg_AmalgamationUnit_lhsMappingsFromKernelToMulti",
+			 "rhsMappingsFromKernelToMulti", "rhsMappings->forAll(mapping : Mapping | \r\n\tkernelRule.rhs.nodes->includes(mapping.origin)\r\n\tand\r\n\tmultiRules->exists(mRule : Rule |\r\n\t\tmRule.rhs.nodes->includes(mapping.image)\r\n\t )\r\n\t\r\n)",
+			 "rhsMappingsFromKernelToMulti.Msg", "_Ocl_Msg_AmalgamationUnit_rhsMappingsFromKernelToMulti",
+			 "noAdditionalMappingsFromMappedKernel", "multiRules->forAll( mRule : Rule | \r\n\tmRule.mappings->forAll(mMapping : Mapping | \r\n\t\tlhsMappings->forAll(lMapping : Mapping| \r\n\t\t\tmMapping.origin = lMapping.image \r\n\t\t\timplies\t\r\n\t\t\trhsMappings->exists(rMapping :Mapping |\r\n\t\t\t\trMapping.image = mMapping.image\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\tand\r\n\t\trhsMappings->forAll(rMapping : Mapping | \r\n\t\t\tmMapping.image = rMapping.image \r\n\t\t\timplies\t\r\n\t\t\tlhsMappings->exists(lMapping :Mapping |\r\n\t\t\t\tlMapping.image = mMapping.origin\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t)\r\n)",
+			 "noAdditionalMappingsFromMappedKernel.Msg", "_Ocl_Msg_AmalgamationUnit_noAdditionalMappingsFromMappedKernel"
+		   });	
 	}
 
 } //HenshinPackageImpl

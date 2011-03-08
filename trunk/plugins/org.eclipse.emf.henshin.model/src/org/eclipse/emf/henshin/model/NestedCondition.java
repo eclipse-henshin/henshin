@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='mappingOriginContainedInParentCondition mappingImageContainedInCurrent'"
  * @generated
  */
 public interface NestedCondition extends Formula {

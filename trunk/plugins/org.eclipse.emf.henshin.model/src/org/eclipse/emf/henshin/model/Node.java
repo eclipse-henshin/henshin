@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueAttributeTypes'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueAttributeTypes='attributes->forAll(attr1,attr2 : Attribute| attr1<>attr2 implies attr1.type <> attr2.type)' uniqueAttributeTypes.Msg='_Ocl_Msg_Node_uniqueAttributeTypes'"
  * @generated
  */
 public interface Node extends NamedElement, GraphElement {

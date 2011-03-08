@@ -30,8 +30,8 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='lhsAndRhsNotNull'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL lhsAndRhsNotNull='not lhs->isEmpty() and not rhs->isEmpty()'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='lhsAndRhsNotNull mappingsFromLeft2Right'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL lhsAndRhsNotNull='not lhs->isEmpty() and not rhs->isEmpty()' lhsAndRhsNotNull.Msg='_Ocl_Msg_Rule_lhsAndRhsNotNull' mappingsFromLeft2Right='mappings->forAll(mapping : Mapping | \r\n\tlhs.nodes->includes(mapping.origin)\r\n\tand\r\n\trhs.nodes->includes(mapping.image)\r\n)' mappingsFromLeft2Right.Msg='_Ocl_Msg_Rule_mappingsFromLeft2Right'"
  * @generated
  */
 public interface Rule extends TransformationUnit {

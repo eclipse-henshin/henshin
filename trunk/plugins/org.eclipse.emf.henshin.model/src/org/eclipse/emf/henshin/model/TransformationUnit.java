@@ -28,6 +28,8 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit()
  * @model abstract="true"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueParameterNames parameterMappingsPointToDirectSubUnit'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueParameterNames='parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)' uniqueParameterNames.Msg='_Ocl_Msg_TransformationUnit_uniqueParameterNames'"
  * @generated
  */
 public interface TransformationUnit extends DescribedElement, NamedElement {

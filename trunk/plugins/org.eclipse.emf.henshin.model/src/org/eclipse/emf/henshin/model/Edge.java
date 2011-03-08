@@ -29,8 +29,8 @@ import org.eclipse.emf.ecore.EReference;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='EqualParentGraphs'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL EqualParentGraphs='source.graph=target.graph' EqualParentGraphs.Msg='Source node and target node of an edge and the edge itself have to be in the same graph.'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='equalParentGraphs'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL equalParentGraphs='source.graph=target.graph' equalParentGraphs.Msg='_Ocl_Msg_Edge_equalParentGraphs'"
  * @generated
  */
 public interface Edge extends GraphElement {

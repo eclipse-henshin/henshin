@@ -6,43 +6,45 @@ Note: If a constraint below has been implemented, please mark it with a leading 
 [error] <<create>> nodes (in the RHS) must not be abstract
 [error] <<create>> edges (in the RHS) must not be derived
 [error] <<delete>> edges (in the LHS) must not be derived 
-[error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph
+<done> [error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph
 <done> [error] Lhs graph has to exist
 <done> [error] Rhs graph has to exist
 
 * TransformationSystem
-[warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
-[error] cyclic transformation units are forbidden
+<done> [warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
+<done> [error] cyclic transformation units are forbidden
+<done> [error] no parameter name shall be equal to the name of an EClassifier in the underlying ecore models
 
 * AttributeCondition
-[warn] unique names within a attribute condition, if a name is given at all
+[warn] unique names within an attribute condition, if a name is given at all
 
 * Parameter
-[error] name is required
+<done> [error] name is required
 
 * Graph
-[error] unique names of nodes within a graph, if node name is given
+<done> [error] unique names of nodes within a graph, if node name is given
 
 * Edge
-[error] source *and* target of an edge belong to the same graph as the edge itself
+<done> [error] source *and* target of an edge belong to the same graph as the edge itself
 
 * Node
-[error] there are no two attributes within a node with equal types
+<done> [error] there are no two attributes within a node with equal types
 
 * TransformationUnit
-[error] unique names of parameters
-[error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
-[error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
-[error] no parameter name shall be equal to the name of an EClassifier in the underlying ecore models
+<done> [error] unique names of parameters
+<done> [error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
+<done> [error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
 
 * AmalgamationUnit
-[error] each element in the lhs of "kernel rule" has a lhsMappings:mapping to one element in each's "multi rule" lhs
-[error] each element in the rhs of "kernel rule" has a rhsMappings:mapping to one element in each's "multi rule" rhs
-[error] lhsMappings must contain mappings between the lhs of the kernel rule (origin) and a multirule lhs only
-[error] rhsMappings must contain mappings between the rhs of the kernel rule (origin) and a multirule rhs only
-[error] in multirules, mappings between elements mapped by the kernel rule must correspond to mappings of the kernel rule itself
+<done> [error] each node in the lhs of "kernel rule" has a lhsMappings:mapping to one node in each's "multi rule" lhs
+<done> [error] each node in the rhs of "kernel rule" has a rhsMappings:mapping to one node in each's "multi rule" rhs
+<done> [error] each edge in the lhs of "kernel rule" there is an edge between the edge's source image and the edge's target image in each multiRule's lhs
+<done> [error] each edge in the rhs of "kernel rule" there is an edge between the edge's source image and the edge's target image in each multiRule's rhs         
+<done> [error] lhsMappings must contain mappings between the lhs of the kernel rule (origin) and a multirule lhs only
+<done> [error] rhsMappings must contain mappings between the rhs of the kernel rule (origin) and a multirule rhs only
+<done> [error] in multirules, mappings between elements mapped by the kernel rule must correspond to mappings of the kernel rule itself
 
 * Nested Condition
-[error] the origin node of a mapping is contained in a direct parent nested condition 
-[error] the image node of a mapping is contained in *this* nested condition
+<done> [error] the origin node of a mapping is contained in a direct parent nested condition 
+<done> [error] the image node of a mapping is contained in *this* nested condition
  

@@ -21,6 +21,7 @@ package org.eclipse.emf.henshin.model;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='nameRequired'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL nameRequired='not name.oclIsUndefined() and name.size() > 0' nameRequired.Msg='_Ocl_Msg_Parameter_nameRequired'"
  * @generated
  */
 public interface Parameter extends DescribedElement, NamedElement {

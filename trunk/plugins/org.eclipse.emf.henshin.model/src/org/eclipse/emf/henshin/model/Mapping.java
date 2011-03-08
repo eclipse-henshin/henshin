@@ -27,8 +27,8 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getMapping()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ruleMapping_TypeEquality ruleMapping_left2right'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ruleMapping_TypeEquality='Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type'"
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ruleMapping_TypeEquality'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ruleMapping_TypeEquality='Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type' ruleMapping_TypeEquality.Msg='_Ocl_Msg_Mappeing_ruleMapping_TypeEquality'"
  * @generated
  */
 public interface Mapping extends EObject {
