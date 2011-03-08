@@ -54,7 +54,6 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 		while ((line = reader.readLine())!=null) {
 			line = line.trim();
 			System.out.println(line);
-			monitor.subTask(line);
 			if (line.length()==0) {
 				parseProbabilities = false;
 				parseError = false;

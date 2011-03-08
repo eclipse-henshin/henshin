@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.statespace.external.prism;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -53,12 +54,12 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 				max = format.parse(fields[1]).doubleValue();				
 			}
 			else if (fields.length==3) {
-				min = format.parse(fields[0]).doubleValue();				
-				step = format.parse(fields[1]).doubleValue();				
-				max = format.parse(fields[2]).doubleValue();				
+				min = format.parse(fields[0]).doubleValue();
+				step = format.parse(fields[1]).doubleValue();
+				max = format.parse(fields[2]).doubleValue();
 			}
 			else {
-				throw new NumberFormatException();
+				throw new ParseException("Error parsing rate",0);
 			}
 		}
 		
@@ -77,7 +78,6 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 		}
 		
 	}
-	
 	
 	/**
 	 * Get the rate of a rule, as specified in the state space properties.
@@ -107,8 +107,12 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	 * @param stateSpace State space.
 	 * @return PRISM path property (can be <code>null</code>)
 	 */
-	public static String getPRISMPath(StateSpace stateSpace) {
-		return stateSpace.getProperties().get(PRISM_PATH_KEY);
+	public static File getPRISMPath(StateSpace stateSpace) {
+		String path = stateSpace.getProperties().get(PRISM_PATH_KEY);
+		if (path!=null && path.trim().length()>0) {
+			return new File(path.trim());
+		}
+		return null;
 	}
 
 	/**
@@ -126,6 +130,7 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	 */
 	@Override
 	public void initialize(StateSpace stateSpace) {
+		
 		// Initialize rates:
 		for (Rule rule : stateSpace.getRules()) {
 			try {
@@ -134,11 +139,13 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 				}
 			} catch (ParseException e) {}
 		}
+		
 		// Initialize default arguments:
 		if (getPRISMArgs(stateSpace)==null) {
 			stateSpace.getProperties().put(PRISM_ARGS_KEY, "-fixdl -gaussseidel");
 		}
 	}
+	
 	
 	/*
 	 * (non-Javadoc)
@@ -146,6 +153,8 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	 */
 	@Override
 	public IStatus validate(StateSpace stateSpace) {
+		
+		// Try to parse all rates:
 		for (Rule rule : stateSpace.getRules()) {
 			try {
 				getRate(stateSpace, rule);
@@ -153,6 +162,13 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 				return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, "Format error for property \"" + getRateKey(rule) + "\"");
 			}
 		}
+		
+		// Check the PRISM path:
+		File path = getPRISMPath(stateSpace);
+		if (path!=null && !path.isDirectory()) {
+			return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, "PRISM path not found");
+		}
+		
 		return Status.OK_STATUS;
 	}
 

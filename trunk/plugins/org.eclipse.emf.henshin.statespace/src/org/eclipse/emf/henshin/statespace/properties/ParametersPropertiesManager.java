@@ -82,7 +82,7 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		
 		List<Node> nodes = new ArrayList<Node>();
 		String value = stateSpace.getProperties().get(ParametersPropertiesManager.getParametersKey(rule));
-		if (value==null) {
+		if (value==null || value.trim().length()==0) {
 			return nodes;
 		}
 		
@@ -90,14 +90,14 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		for (int i=0; i<names.length; i++) {
 			String name = names[i].trim();
 			if (name.length()==0) {
-				throw new StateSpaceException("Illegal rule parameters");
+				throw new StateSpaceException("Illegal rule parameters for rule \"" + rule.getName() + "\"");
 			}
 			Node node = findNodeByName(name,rule.getLhs());
 			if (node==null) {
 				node = findNodeByName(name,rule.getRhs());
 			}
 			if (node==null) {
-				throw new StateSpaceException("Unknown rule node '" + name + "'");
+				throw new StateSpaceException("Unknown node \"" + name + "\" for rule \"" + rule.getName() + "\"");
 			}
 			nodes.add(node);
 		}

@@ -45,12 +45,12 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		
 		// Get the executable, path and arguments.
 		String prism = getPRISMExecutable();
-		String path = RatesPropertiesManager.getPRISMPath(stateSpace);
+		File path = RatesPropertiesManager.getPRISMPath(stateSpace);
 		String baseArgs = RatesPropertiesManager.getPRISMArgs(stateSpace);
 		
 		// Create the command.
 		List<String> command = new ArrayList<String>();
-		command.add(path!=null ? new File(path+File.separator+prism).getAbsolutePath() : prism);
+		command.add(path!=null ? new File(path.getAbsolutePath()+File.separator+prism).getAbsolutePath() : prism);
 		command.add(smFile.getAbsolutePath());
 		if (formulaFile!=null) {
 			command.add(formulaFile.getAbsolutePath());
@@ -90,10 +90,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		
 		// Now we can invoke the PRISM tool:
 		System.out.println(command);
-		return Runtime.getRuntime().exec(
-				command.toArray(new String[] {}), 
-				null, 
-				path!=null ? new File(path) : null);
+		return Runtime.getRuntime().exec(command.toArray(new String[] {}), null, path);
 		
 	}
 

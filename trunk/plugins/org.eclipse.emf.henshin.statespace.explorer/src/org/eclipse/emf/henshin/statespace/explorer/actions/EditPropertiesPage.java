@@ -52,8 +52,8 @@ public class EditPropertiesPage extends WizardPage {
 	 */
 	protected EditPropertiesPage(StateSpace stateSpace) {
 		super("Edit State Space Properties");
-		setDescription("Edit the properties of this state space.");
-		dirty = false;	
+		setDescription("Edit the state space properties");
+		dirty = false;
 		dummyStateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 		dummyStateSpace.getRules().addAll(stateSpace.getRules());
 		dummyStateSpace.getProperties().putAll(stateSpace.getProperties());
@@ -95,6 +95,7 @@ public class EditPropertiesPage extends WizardPage {
 		table = createTable(container);
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		updateTable();
+		validate();
 		
 		Composite buttons = new Composite(container, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.BEGINNING));
@@ -103,7 +104,7 @@ public class EditPropertiesPage extends WizardPage {
 		createButton(buttons, "Add");
 		createButton(buttons, "Remove");
 		createButton(buttons, "Initialize");
-		createButton(buttons, "Validate");
+		//createButton(buttons, "Validate");
 		
 		setControl(container);
 		
@@ -197,6 +198,7 @@ public class EditPropertiesPage extends WizardPage {
 			values.set(row, text);
 		}
 		dirty = true;
+		validate();
 	}
 	
 	/*
@@ -242,6 +244,7 @@ public class EditPropertiesPage extends WizardPage {
 		
 		// Update the table with the new values:
 		updateTable();
+		dirty = true;
 		
 	}
 
@@ -258,8 +261,16 @@ public class EditPropertiesPage extends WizardPage {
 		IStatus result = StateSpacePlugin.INSTANCE.getPropertiesManager().validate(dummyStateSpace);
 		if (result.getSeverity()==IStatus.OK) {
 			setMessage(null);
+			setErrorMessage(null);
+			setPageComplete(true);
+		} else if (result.getSeverity()==IStatus.ERROR) {
+			setMessage(null);
+			setErrorMessage(result.getMessage());
+			setPageComplete(false);			
 		} else {
-			setMessage(result.getMessage(), result.getSeverity());
+			setMessage(result.getMessage(), result.getSeverity());			
+			setErrorMessage(null);
+			setPageComplete(true);
 		}
 		
 	}

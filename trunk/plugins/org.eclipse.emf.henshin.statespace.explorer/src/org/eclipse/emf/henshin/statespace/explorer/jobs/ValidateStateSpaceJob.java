@@ -43,7 +43,7 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 	 * @param manager State space manager.
 	 */
 	public ValidateStateSpaceJob(StateSpaceManager manager) {
-		super("Validating state space", manager);
+		super("Validating state space...", manager);
 		setUser(true);
 	}
 
@@ -78,6 +78,7 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 		else {
 			throw new IllegalArgumentException();
 		}
+		setName("Running " + validator.getName() + "...");
 	}
 
 	public void setProperty(String property) {

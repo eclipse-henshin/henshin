@@ -38,5 +38,12 @@
             id="org.eclipse.emf.henshin.statespace.external.export.prism">
       </exporter>
    </extension>
+   <extension
+         point="org.eclipse.emf.henshin.statespace.properties">
+      <manager
+            class="org.eclipse.emf.henshin.statespace.external.prism.RatesPropertiesManager"
+            id="org.eclipse.emf.henshin.statespace.external.properties.rates">
+      </manager>
+   </extension>
 
 </plugin>

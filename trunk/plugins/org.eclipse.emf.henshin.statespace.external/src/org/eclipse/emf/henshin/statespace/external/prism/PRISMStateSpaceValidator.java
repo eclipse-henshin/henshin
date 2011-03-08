@@ -100,7 +100,7 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM (CSL)";
+		return "PRISM";
 	}
 	
 	/*
