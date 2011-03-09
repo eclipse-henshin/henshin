@@ -228,6 +228,7 @@ public class EditPropertiesPage extends WizardPage {
 		keys.removeAll(keysToRemove);
 		values.removeAll(valuesToRemove);
 		dirty = true;
+		validate();
 	}
 
 	/*

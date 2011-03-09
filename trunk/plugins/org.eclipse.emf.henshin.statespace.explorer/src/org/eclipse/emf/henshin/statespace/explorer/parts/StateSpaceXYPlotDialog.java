@@ -347,11 +347,16 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 				}
 				g.drawPolyline(marker);
 				
-				// The label:
+				// Compute the label:
 				NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
 				format.setMinimumFractionDigits(2);
 				format.setMaximumFractionDigits(2);
 				String text = format.format(value);
+				if (text.indexOf('.')>=0 && text.length()>4) {
+					text = text.substring(0,text.indexOf('.'));
+				}
+				
+				// Draw the label:
 				int h = g.getFontMetrics().getHeight();
 				int w = text.length() * g.getFontMetrics().getAverageCharWidth();
 				if (vertical) {

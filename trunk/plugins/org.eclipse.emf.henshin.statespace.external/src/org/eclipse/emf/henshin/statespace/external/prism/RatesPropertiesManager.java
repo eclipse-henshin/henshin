@@ -24,6 +24,8 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	// Properties key for PRISM arguments.
 	public static final String PRISM_ARGS_KEY = "prismArgs";
 	
+	// Properties key for PRISM experiment parameter.
+	public static final String PRISM_EXPERIMENT_KEY = "prismExperiment";
 	
 	/**
 	 * Data class for rates.
@@ -122,6 +124,15 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	 */
 	public static String getPRISMArgs(StateSpace stateSpace) {
 		return stateSpace.getProperties().get(PRISM_ARGS_KEY);
+	}
+
+	/**
+	 * Get the PRISM experiment parameter.
+	 * @param stateSpace State space.
+	 * @return PRISM experiment parameter (can be <code>null</code>)
+	 */
+	public static String getPRISMExperiment(StateSpace stateSpace) {
+		return stateSpace.getProperties().get(PRISM_EXPERIMENT_KEY);
 	}
 
 	/*
