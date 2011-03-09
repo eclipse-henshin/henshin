@@ -9,9 +9,11 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Panel;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -46,7 +48,10 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 
 	// The lines between the dots:
 	private Line[][] lines;
-
+	
+	// The legend:
+	private Legend[] legend;
+	
 	// Bars:
 	private Bar xBar,yBar;
 	
@@ -55,15 +60,19 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 	
 	// Figure canvas:
 	private FigureCanvas canvas;
-		
+	
+	// Title:
+	private String title;
+	
 	/**
 	 * Default constructor.
 	 * @param shell The shell.
 	 * @param plot The plot.
 	 */
-	public StateSpaceXYPlotDialog(Shell shell, StateSpaceXYPlot plot){
+	public StateSpaceXYPlotDialog(Shell shell, StateSpaceXYPlot plot, String title){
 		super(shell);
 		this.plot = plot;
+		this.title = (title!=null) ? title : "Plot";
 	}
 
 	/*
@@ -74,17 +83,15 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
     protected void configureShell(Shell shell) {
 		
         super.configureShell(shell);
-        shell.setText("Plot");
-        shell.setSize(400, 300);
+        shell.setText(title);
         
         // Center the dialog on the screen:
     	Monitor primary = shell.getDisplay().getPrimaryMonitor ();
-    	org.eclipse.swt.graphics.Rectangle bounds = primary.getBounds();
-    	org.eclipse.swt.graphics.Rectangle rect = shell.getBounds();
-    	int x = bounds.x + (bounds.width - rect.width) / 2;
-    	int y = bounds.y + (bounds.height - rect.height) / 2;
-    	shell.setLocation(x,y);
-    	
+    	org.eclipse.swt.graphics.Rectangle b = primary.getBounds();
+    	int w = b.width/2;
+    	int h = b.height/2;
+        shell.setBounds(w/2,h/2,w,h);
+        
     }
 
 	/*
@@ -126,15 +133,17 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 		// Create the bars...
 		int xSegs = Math.max(2,Math.min(plot.getXMaxSegments(),10));
 		int ySegs = Math.max(2,Math.min(plot.getYMaxSegments(),10));		
-		xBar = new Bar(parent, plot.getXMax(), xSegs, false);
-		yBar = new Bar(parent, plot.getYMax(), ySegs, true);
+		xBar = new Bar(parent, plot.getXName(), plot.getXMax(), xSegs, false);
+		yBar = new Bar(parent, plot.getYName(), plot.getYMax(), ySegs, true);
 		
 		// Create the dots...
 		dots = new Dot[plot.getSeriesCount()][];
 		for (int i=0; i<dots.length; i++) {
 			dots[i] = new Dot[plot.getSeriesLength(i)];
 			for(int j=0; j<dots[i].length; j++) {
-				dots[i][j] = new Dot(parent,getPlotColor(i));
+				String label = plot.getXName() + "=" + plot.getX(i,j) + "," +
+								plot.getYName() + "=" + plot.getY(i, j);
+				dots[i][j] = new Dot(parent,getPlotColor(i), label);
 			}
 		}
 		
@@ -149,6 +158,15 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 			}
 		}
 		
+		// Create the legend:
+		legend = new Legend[plot.getSeriesCount()];
+		for (int i=0; i<legend.length; i++){
+			String label = plot.getLegend(i);
+			if (label!=null) {
+				legend[i] = new Legend(parent,label,getPlotColor(i));
+			}
+		}
+		
 	}
 	
 	
@@ -156,9 +174,9 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 				
 		// Offsets:
 		int top = 35;
-		int left = 45;
+		int left = 50;
 		int right = 40;
-		int bottom = 30;
+		int bottom = 40;
 		
 		// Get the new size:
 		Viewport port = canvas.getViewport();
@@ -180,6 +198,15 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 			}
 		}
 		
+		// Update the legend positions:
+		for (int i=0; i<legend.length; i++) {
+			if (legend[i]!=null) {
+				Dimension size = legend[i].getMinimumSize();
+				int more = (int) (Bar.ARROW*1.25);
+				legend[i].setPosition(left+width+more-size.width, top-more+(i*size.height));
+			}
+		}
+		
 	}
 
 	/*
@@ -195,11 +222,16 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 	 * Get a color for a plot.
 	 */
     private static Color getPlotColor(int index) {
-        switch (index % 4){
+        switch (index % 9){
 	        case 0:  return ColorConstants.red;
-	        case 1:  return ColorConstants.cyan;
+	        case 1:  return ColorConstants.blue;
 	        case 2:  return ColorConstants.green;
-	        case 3:  return ColorConstants.blue;
+	        case 3:  return ColorConstants.cyan;
+	        case 4:  return ColorConstants.darkBlue;
+	        case 5:  return ColorConstants.darkGreen;
+	        case 6:  return ColorConstants.yellow;
+	        case 7:  return ColorConstants.darkGray;
+	        case 8:  return ColorConstants.gray;
 	        default: return ColorConstants.gray;
         }
     }
@@ -238,12 +270,15 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 	 */
 	class Dot extends Ellipse {
 		
-		Dot(IFigure parent, Color color) {
+		Dot(IFigure parent, Color color, String tooltip) {
 			setSize(new Dimension(5,5));
 			setForegroundColor(ColorConstants.gray);
 			setBackgroundColor(color);
 			setOpaque(true);
 			parent.add(this);
+			if (tooltip!=null) {
+				setToolTip(new Label(tooltip));
+			}
 		}
 		
 		void setPosition(int x, int y) {
@@ -292,11 +327,13 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 		final static int WIDTH = 3;
 		final static int ARROW = 20;
 		
+		String name;
 		double maximum;
 		int segments;
 		boolean vertical;
 		
-		Bar(IFigure parent, double maximum, int segments, boolean vertical) {
+		Bar(IFigure parent, String name, double maximum, int segments, boolean vertical) {
+			this.name = name;
 			this.vertical = vertical;
 			this.maximum = maximum;
 			this.segments = segments;
@@ -320,7 +357,7 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 				if (vertical) {
 					bounds = getPoints().getBounds().getExpanded(40+WIDTH,10);
 				} else {
-					bounds = getPoints().getBounds().getExpanded(10,WIDTH+20);	
+					bounds = getPoints().getBounds().getExpanded(10,WIDTH+40);
 				}
 			}
 			return bounds;
@@ -380,8 +417,44 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 			}
 			g.drawPolyline(arrow);
 			
+			// Draw the name label:
+			if (name!=null) {
+				int h = g.getFontMetrics().getHeight();
+				int w = name.length() * g.getFontMetrics().getAverageCharWidth();
+				if (vertical) {
+					g.drawString(name, getEnd().x - w - WIDTH - h/4, getEnd().y - h/4);
+				} else {
+					g.drawString(name, getEnd().x - w + h/4, getEnd().y + h + h/4 + WIDTH);					
+				}
+			}
+			
 		}
 
 	}
 
+	class Legend extends RectangleFigure {
+		
+		Dot dot1, dot2;
+		Line line;
+		Label label;
+		
+		Legend(IFigure parent, String name, Color color) {
+			setLayoutManager(new XYLayout());
+			add(dot1 = new Dot(this, color, null));
+			add(dot2 = new Dot(this, color, null));
+			add(line = new Line(this, dot1, dot2, color));
+			add(label = new Label(name));
+			setConstraint(dot1, new Rectangle(0,4,-1,-1));
+			setConstraint(dot2, new Rectangle(10,4,-1,-1));
+			setConstraint(label, new Rectangle(18,0,-1,-1));
+			setOutline(false);
+			parent.add(this);
+		}
+
+		void setPosition(int x, int y) {
+			getParent().setConstraint(this, new Rectangle(x,y,-1,-1));
+		}
+
+	}
+	
 }

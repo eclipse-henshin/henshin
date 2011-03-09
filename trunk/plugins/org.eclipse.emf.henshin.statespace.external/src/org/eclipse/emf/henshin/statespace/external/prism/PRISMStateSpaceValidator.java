@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -82,10 +83,11 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 		if (experiments.size()==1) {
 			return new ValidationResult(true, "Result: " + NUMBER_FORMAT.format(experiments.get(0).result));
 		} else {
-						
+			
 			// Find out which parameters are changing:
+			Set<String> parameters = experiments.get(0).constants.keySet();
 			List<String> changing = new ArrayList<String>();
-			for (String param : experiments.get(0).constants.keySet()) {
+			for (String param : parameters) {
 				for (int i=1; i<experiments.size(); i++) {
 					double val1 = experiments.get(i-1).constants.get(param);
 					double val2 = experiments.get(i).constants.get(param);
@@ -97,44 +99,80 @@ public class PRISMStateSpaceValidator extends AbstractPRISMTool {
 			}
 			
 			// Find out which parameter to use for the X-axis:
-			String experimentWith = changing.get(0);
+			String variable = changing.get(0);
 			String userPreference = RatesPropertiesManager.getPRISMExperiment(stateSpace);
 			if (userPreference!=null && changing.contains(userPreference)) {
-				experimentWith = userPreference;
+				variable = userPreference;
 			}
 			
-			// X-values for all plots:
-			List<Double> theXValues = new ArrayList<Double>();
-			for (Experiment experiment : experiments) {
-				Double value = experiment.constants.get(experimentWith);
-				if (!theXValues.contains(value)) theXValues.add(value);
+			// Now partition the experiments into plots:
+			List<List<Experiment>> plots = new ArrayList<List<Experiment>>();
+			for (Experiment experiment1 : experiments) {
+				boolean found = false;
+				for (List<Experiment> plot : plots) {
+					Experiment experiment2 = plot.get(0);
+					boolean compatible = true;
+					for (String param : parameters) {
+						Double val1 = experiment1.constants.get(param);
+						Double val2 = experiment2.constants.get(param);
+						if (!param.equals(variable) && !val1.equals(val2)) {
+							compatible = false; 
+							break;
+						}
+					}
+					if (compatible) {
+						plot.add(experiment1);
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					plots.add(new ArrayList<Experiment>());
+					plots.get(plots.size()-1).add(experiment1);
+				}
 			}
-
+			
 			// Create the plots:
-			int count = experiments.size() / theXValues.size();
-			double[][] xValues = new double[count][];
-			double[][] yValues = new double[count][];
+			double[][] xValues = new double[plots.size()][];
+			double[][] yValues = new double[plots.size()][];
 			
 			// Now create the plots:
-			for (int i=0; i<count; i++) {
+			for (int i=0; i<plots.size(); i++) {
 				
-				// X-values for this plot:
-				xValues[i] = new double[theXValues.size()];
-				for (int j=0; j<xValues[i].length; j++) {
-					xValues[i][j] = theXValues.get(j);
+				// The current plot:
+				List<Experiment> plot = plots.get(i);
+				int length = plot.size();
+				
+				// X- and Y-values for this plot:
+				xValues[i] = new double[length];
+				yValues[i] = new double[length];
+				for (int j=0; j<length; j++) {
+					xValues[i][j] = plot.get(j).constants.get(variable);
+					yValues[i][j] = plot.get(j).result;
 				}
-				
-				// Y-values for this plot:
-				yValues[i] = new double[xValues[i].length];
-				for (int j=0; j<yValues[i].length; j++) {
-					yValues[i][j] = experiments.get(i*xValues[i].length+j).result;
+								
+			}
+			
+			// Create the legend:
+			String[] legend = null;
+			if (plots.size()>1) {
+				legend = new String[plots.size()];
+				for (int i=0; i<legend.length; i++) {
+					legend[i] = "";
+					for (String param : changing) {
+						if (param.equals(variable)) continue;
+						if (legend[i].length()>0) {
+							legend[i] = legend[i] + ",";
+						}
+						String value = NUMBER_FORMAT.format(experiments.get(i).constants.get(param));
+						legend[i] = legend[i] + param + "=" + value;
+					}
 					
 				}
-				
 			}
 			
 			// Almost done...
-			StateSpaceXYPlot plot = new StateSpaceXYPlot(experimentWith, "Result", xValues, yValues);
+			StateSpaceXYPlot plot = new StateSpaceXYPlot(variable, "Result", xValues, yValues, legend);
 			return new ValidationResult(true, null, plot);
 			
 		}

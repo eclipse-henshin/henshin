@@ -449,7 +449,8 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 			if (result.isValid()) {
 				if (result.getResult() instanceof StateSpaceXYPlot) {
-					new StateSpaceXYPlotDialog(getShell(),(StateSpaceXYPlot) result.getResult()).open();					
+					String title = getActiveValidator().getName() + " Plot";
+					new StateSpaceXYPlotDialog(getShell(), (StateSpaceXYPlot) result.getResult(), title).open();
 				} else {
 					MessageDialog.openInformation(getShell(), "Validation", result.getMessage());
 				}

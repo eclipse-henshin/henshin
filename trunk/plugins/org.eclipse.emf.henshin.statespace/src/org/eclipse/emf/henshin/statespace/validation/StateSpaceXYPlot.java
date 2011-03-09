@@ -18,6 +18,9 @@ public class StateSpaceXYPlot {
 	// Maximum number of segments.
 	private int xMaxSegments = 0, yMaxSegments = 0;
 	
+	// The legend.
+	private String[] legend;
+	
 	/**
 	 * Default constructor.
 	 * @param xName Name of the X-axis.
@@ -25,12 +28,13 @@ public class StateSpaceXYPlot {
 	 * @param xValues X-values.
 	 * @param yValues Y-values.
 	 */
-	public StateSpaceXYPlot(String xName, String yName, double[][] xValues, double[][] yValues) {
+	public StateSpaceXYPlot(String xName, String yName, double[][] xValues, double[][] yValues, String[] legend) {
 		
 		this.xName = xName;
 		this.yName = yName;
 		this.xValues = xValues;
 		this.yValues = yValues;
+		this.legend = legend;
 		
 		// Compute minimum and maximum values.
 		for (int series=0; series<getSeriesCount(); series++) {
@@ -104,6 +108,14 @@ public class StateSpaceXYPlot {
 	
 	public String getYName() {
 		return yName;
+	}
+
+	public String getLegend(int series) {
+		if (legend!=null && series<legend.length) {
+			return legend[series];			
+		} else {
+			return null;
+		}
 	}
 
 }
