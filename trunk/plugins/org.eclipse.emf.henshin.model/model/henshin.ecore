@@ -42,7 +42,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="lhsAndRhsNotNull mappingsFromLeft2Right"/>
+      <details key="constraints" value="lhsAndRhsNotNull mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"/>
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
       <details key="lhsAndRhsNotNull" value="not lhs->isEmpty() and not rhs->isEmpty()"/>
@@ -122,7 +122,7 @@
     </eAnnotations>
     <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
       <details key="ruleMapping_TypeEquality" value="Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"/>
-      <details key="ruleMapping_TypeEquality.Msg" value="_Ocl_Msg_Mappeing_ruleMapping_TypeEquality"/>
+      <details key="ruleMapping_TypeEquality.Msg" value="_Ocl_Msg_Mapping_ruleMapping_TypeEquality"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
         eType="#//Node"/>

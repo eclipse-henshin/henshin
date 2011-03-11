@@ -645,8 +645,8 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * Recursive Helper for validateTransformationSystem_noCyclicUnits.
-	 * '. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Recursive Helper for validateTransformationSystem_noCyclicUnits. '. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @author Gregor Bonifer
 	 * @author Stefan Jurack (sjurack)
@@ -698,6 +698,12 @@ public class HenshinValidator extends EObjectValidator {
 			result &= validateRule_lhsAndRhsNotNull(rule, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
+		if (result || diagnostics != null)
+			result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
+		if (result || diagnostics != null)
+			result &= validateRule_createdEdgesNotDerived(rule, diagnostics, context);
+		if (result || diagnostics != null)
+			result &= validateRule_deletedEdgesNotDerived(rule, diagnostics, context);
 		return result;
 	}
 	
@@ -829,6 +835,174 @@ public class HenshinValidator extends EObjectValidator {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Validates the createdNodesNotAbstract constraint of '<em>Rule</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 * @author Gregor Bonifer
+	 * @author Stefan Jurack (sjurack)
+	 */
+	public boolean validateRule_createdNodesNotAbstract(Rule rule, DiagnosticChain diagnostics,
+			Map<Object, Object> context) {
+		nodeLoop: for (Node node : rule.getRhs().getNodes()) {
+			if (node.getType() != null && node.getType().isAbstract()) {
+				for (Mapping mapping : rule.getMappings()) {
+					// node is not <<create>>, if there is a mapping onto it.
+					//
+					if (mapping.getImage() == node)
+						continue nodeLoop;
+				}
+				// no mapping onto current node found. So node is <<create>>
+				//
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
+						"_UI_GenericConstraint_diagnostic", new Object[] {
+								"rule_createdNodesNotAbstract", getObjectLabel(node, context) },
+						new Object[] { node }, context,
+						"_EcoreConstraint_Msg_Rule_createdNodesNotAbstract"));
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the createdEdgesNotDerived constraint of '<em>Rule</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 * @author Gregor Bonifer
+	 * @author Stefan Jurack (sjurack)
+	 */
+	public boolean validateRule_createdEdgesNotDerived(Rule rule, DiagnosticChain diagnostics,
+			Map<Object, Object> context) {
+		edgeLoop: for (Edge edge : rule.getRhs().getEdges()) {
+			if (edge.getType() != null && edge.getType().isDerived()) {
+				// check whether the edge is <<create>>
+				//
+				Node sourceOrigin = null, targetOrigin = null;
+				boolean originsFound = false;
+				mappingLoop: for (Mapping mapping : rule.getMappings()) {
+					
+					if (mapping.getImage() != null && mapping.getImage() == edge.getSource()) {
+						sourceOrigin = mapping.getOrigin();
+						// cannot perform check for current edge if involved
+						// mappings incomplete.
+						//
+						if (sourceOrigin == null)
+							continue edgeLoop;
+					}
+					
+					if (mapping.getImage() != null && mapping.getImage() == edge.getTarget()) {
+						targetOrigin = mapping.getOrigin();
+						// cannot perform check for current edge if involved
+						// mappings incomplete.
+						//
+						if (targetOrigin == null)
+							continue edgeLoop;
+					}
+					
+					// involved origins found.
+					if (sourceOrigin != null && targetOrigin != null) {
+						originsFound = true;
+						break mappingLoop;
+					}
+					
+				}
+				if (!originsFound)
+					continue edgeLoop;
+				
+				for (Edge oEdge : sourceOrigin.getOutgoing()) {
+					// if lhs edge of same type is found between origins, the
+					// edge is not <<create>>
+					if (oEdge.getTarget() == targetOrigin && oEdge.getType() == edge.getType()) {
+						continue edgeLoop;
+					}
+				}
+				// no lhs edge of same type is found between origin. So the edge
+				// is <<create>>.
+				//
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
+						"_UI_GenericConstraint_diagnostic", new Object[] {
+								"rule_createdNodesNotAbstract", getObjectLabel(edge, context) },
+						new Object[] { edge }, context,
+						"_EcoreConstraint_Msg_Rule_createdEdgesNotDerived"));
+				return false;
+				
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Validates the deletedEdgesNotDerived constraint of '<em>Rule</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 * @author Gregor Bonifer
+	 * @author Stefan Jurack (sjurack)
+	 */
+	public boolean validateRule_deletedEdgesNotDerived(Rule rule, DiagnosticChain diagnostics,
+			Map<Object, Object> context) {
+		edgeLoop: for (Edge edge : rule.getLhs().getEdges()) {
+			if (edge.getType() != null && edge.getType().isDerived()) {
+				// check whether the edge is <<delete>>
+				//
+				Node sourceImage = null, targetImage = null;
+				boolean imagesFound = false;
+				mappingLoop: for (Mapping mapping : rule.getMappings()) {
+					
+					if (mapping.getOrigin() != null && mapping.getOrigin() == edge.getSource()) {
+						sourceImage = mapping.getImage();
+						// cannot perform check for current edge if involved
+						// mappings incomplete.
+						//
+						if (sourceImage == null)
+							continue edgeLoop;
+					}
+					
+					if (mapping.getOrigin() != null && mapping.getOrigin() == edge.getTarget()) {
+						targetImage = mapping.getImage();
+						// cannot perform check for current edge if involved
+						// mappings incomplete.
+						//
+						if (targetImage == null)
+							continue edgeLoop;
+					}
+					
+					// involved images found.
+					if (sourceImage != null && targetImage != null) {
+						imagesFound = true;
+						break mappingLoop;
+					}
+					
+				}
+				if (!imagesFound)
+					continue edgeLoop;
+				
+				for (Edge iEdge : sourceImage.getOutgoing()) {
+					// if rhs edge of same type is found between origins, the
+					// edge is not <<delete>>
+					if (iEdge.getTarget() == targetImage && iEdge.getType() == edge.getType()) {
+						continue edgeLoop;
+					}
+				}
+				// no rhs edge of same type is found between images. So the edge
+				// is <<delete>>.
+				//
+				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
+						"_UI_GenericConstraint_diagnostic", new Object[] {
+								"rule_createdNodesNotAbstract", getObjectLabel(edge, context) },
+						new Object[] { edge }, context,
+						"_EcoreConstraint_Msg_Rule_deletedEdgesNotDerived"));
+				return false;
+				
+			}
+		}
+		return true;
+		
 	}
 	
 	/**
@@ -1482,11 +1656,17 @@ public class HenshinValidator extends EObjectValidator {
 				if (pm.getTarget() != null
 						&& !transformationUnit.getSubUnits(false)
 								.contains(pm.getTarget().getUnit())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-							"_UI_GenericConstraint_diagnostic", new Object[] {
-									"transformationUnit_parameterMappingsPointToDirectSubUnit",
-									getObjectLabel(transformationUnit, context) },
-							new Object[] { transformationUnit }, context,"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+					diagnostics
+							.add(createDiagnostic(
+									Diagnostic.ERROR,
+									DIAGNOSTIC_SOURCE,
+									0,
+									"_UI_GenericConstraint_diagnostic",
+									new Object[] {
+											"transformationUnit_parameterMappingsPointToDirectSubUnit",
+											getObjectLabel(transformationUnit, context) },
+									new Object[] { transformationUnit }, context,
+									"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
 					return false;
 				}
 			}
@@ -1495,11 +1675,17 @@ public class HenshinValidator extends EObjectValidator {
 				if (pm.getSource() != null
 						&& !transformationUnit.getSubUnits(false)
 								.contains(pm.getSource().getUnit())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-							"_UI_GenericConstraint_diagnostic", new Object[] {
-									"transformationUnit_parameterMappingsPointToDirectSubUnit",
-									getObjectLabel(transformationUnit, context) },
-							new Object[] { transformationUnit }, context,"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+					diagnostics
+							.add(createDiagnostic(
+									Diagnostic.ERROR,
+									DIAGNOSTIC_SOURCE,
+									0,
+									"_UI_GenericConstraint_diagnostic",
+									new Object[] {
+											"transformationUnit_parameterMappingsPointToDirectSubUnit",
+											getObjectLabel(transformationUnit, context) },
+									new Object[] { transformationUnit }, context,
+									"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
 					return false;
 				}
 			}
@@ -2307,12 +2493,14 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * Helper for {@link HenshinValidator#validateNestedCondition_mappingOriginContainedInParentCondition(NestedCondition, DiagnosticChain, Map)}
+	 * Helper for
+	 * {@link HenshinValidator#validateNestedCondition_mappingOriginContainedInParentCondition(NestedCondition, DiagnosticChain, Map)}
 	 * Returns the nearest graph containing the given {@link NestedCondition}.
+	 * 
 	 * @param nestedCondition
 	 * @return
 	 * @generated NOT
-	 * @author Gregor Bonifer 
+	 * @author Gregor Bonifer
 	 * @author Stefan Jurack (sjurack)
 	 */
 	protected Graph findContainingGraph(NestedCondition nestedCondition) {

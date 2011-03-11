@@ -1446,7 +1446,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
-			 "constraints", "lhsAndRhsNotNull mappingsFromLeft2Right"
+			 "constraints", "lhsAndRhsNotNull mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"
 		   });			
 		addAnnotation
 		  (parameterEClass, 
@@ -1542,14 +1542,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		   source, 
 		   new String[] {
 			 "uniqueNodeNames", "nodes->forAll( node1, node2 : Node | (node1 <> node2 and not node1.name.oclIsUndefined() ) implies node1.name <> node2.name)",
-			 "uniqueNodeNames.Msg", "_Ocl_Msg_Rule_uniqueNodeNames"
+			 "uniqueNodeNames.Msg", "_Ocl_Msg_Graph_uniqueNodeNames"
 		   });			
 		addAnnotation
 		  (mappingEClass, 
 		   source, 
 		   new String[] {
 			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type",
-			 "ruleMapping_TypeEquality.Msg", "_Ocl_Msg_Mappeing_ruleMapping_TypeEquality"
+			 "ruleMapping_TypeEquality.Msg", "_Ocl_Msg_Mapping_ruleMapping_TypeEquality"
 		   });			
 		addAnnotation
 		  (nodeEClass, 

@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EReference;
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph()
  * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueNodeNames'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueNodeNames='nodes->forAll( node1, node2 : Node | (node1 <> node2 and not node1.name.oclIsUndefined() ) implies node1.name <> node2.name)' uniqueNodeNames.Msg='_Ocl_Msg_Rule_uniqueNodeNames'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueNodeNames='nodes->forAll( node1, node2 : Node | (node1 <> node2 and not node1.name.oclIsUndefined() ) implies node1.name <> node2.name)' uniqueNodeNames.Msg='_Ocl_Msg_Graph_uniqueNodeNames'"
  * @generated
  */
 public interface Graph extends NamedElement {
