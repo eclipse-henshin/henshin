@@ -62,6 +62,10 @@ public class DanglingConstraint implements Constraint {
 				if (type.isMany()) {
 					List<Object> outgoingEdges = (List<Object>) sourceValue
 							.eGet(type);
+					
+					//TODO: test how slow this is
+					outgoingEdges.retainAll(graph.geteObjects());
+					
 					if (expectedCount != null)
 						if (expectedCount != outgoingEdges.size())
 							return false;
