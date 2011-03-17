@@ -25,14 +25,15 @@ import org.eclipse.emf.henshin.internal.constraints.Constraint;
  */
 public class DanglingConstraint implements Constraint {
 	private Map<EReference, Integer> outgoingEdgeCount;
-	//private Map<EReference, Integer> incomingEdgeCount;
-
+	
+	// private Map<EReference, Integer> incomingEdgeCount;
+	
 	public DanglingConstraint(Map<EReference, Integer> outgoingEdgeCount,
 			Map<EReference, Integer> incomingEdgeCount) {
 		this.outgoingEdgeCount = outgoingEdgeCount;
-		//this.incomingEdgeCount = incomingEdgeCount;
+		// this.incomingEdgeCount = incomingEdgeCount;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public boolean check(EObject sourceValue, EmfGraph graph) {
 		// TODO: implement incoming edges
@@ -44,12 +45,12 @@ public class DanglingConstraint implements Constraint {
 		// Integer> objectIncomingEdges = createCountMap(incomingEdges); if
 		// (incomingEdgeCount == null && objectIncomingEdges.keySet().size() >
 		// 0) return false;
-		//		 
+		//
 		// for (EReference type : objectIncomingEdges.keySet()) { Integer
 		// expectedCount = incomingEdgeCount.get(type); Integer actualCount =
 		// objectIncomingEdges.get(type); if
 		// (!actualCount.equals(expectedCount)) { return false; } } } }
-
+		
 		// outgoing references
 		for (EReference type : sourceValue.eClass().getEReferences()) {
 			if (!type.isDerived()) {
@@ -58,24 +59,24 @@ public class DanglingConstraint implements Constraint {
 					expectedCount = outgoingEdgeCount.get(type);
 				else
 					expectedCount = 0;
-
+				
 				if (type.isMany()) {
-					List<Object> outgoingEdges = (List<Object>) sourceValue
-							.eGet(type);
+					List<Object> outgoingEdges = (List<Object>) sourceValue.eGet(type);
 					
-					//TODO: test how slow this is
+					// TODO: test how slow this is
 					outgoingEdges.retainAll(graph.geteObjects());
 					
 					if (expectedCount != null)
 						if (expectedCount != outgoingEdges.size())
 							return false;
 				} else {
-					if (sourceValue.eGet(type) != null && expectedCount != 1)
+					if (sourceValue.eGet(type) != null && expectedCount != 1
+							&& graph.geteObjects().contains(sourceValue.eGet(type)))
 						return false;
 				}
 			}
 		}
-
+		
 		return true;
 	}
 }
