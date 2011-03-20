@@ -1,0 +1,10 @@
+
+«IMPORT codegen»
+
+«DEFINE main FOR GenTransformation»
+«FILE transformationClass + ".java"»
+public class «transformationClass» {
+	// Hello world
+}
+«ENDFILE»
+«ENDDEFINE»

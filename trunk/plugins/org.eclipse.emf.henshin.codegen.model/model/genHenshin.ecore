@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="codegen"
+    nsURI="http://www.eclipse.org/emf/2011/Henshin/codegen" nsPrefix="codegen">
+  <eClassifiers xsi:type="ecore:EClass" name="GenHenshin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="copyrightText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="directory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfacePackage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPackage"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genTransformations" upperBound="-1"
+        eType="#//GenTransformation" containment="true" eOpposite="#//GenTransformation/genHenshin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genModels" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenTransformation">
+    <eOperations name="getGenPackage" eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage">
+      <eParameters name="ePackage" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transformationClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genUnits" upperBound="-1"
+        eType="#//GenUnit" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genHenshin" eType="#//GenHenshin"
+        eOpposite="#//GenHenshin/genTransformations"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="public" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenRule" eSuperTypes="#//GenUnit">
+    <eOperations name="getRule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkDangling" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkInverseDangling" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+</ecore:EPackage>
