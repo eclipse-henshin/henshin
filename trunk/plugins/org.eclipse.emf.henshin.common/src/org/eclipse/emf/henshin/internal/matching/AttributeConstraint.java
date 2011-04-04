@@ -24,23 +24,31 @@ public class AttributeConstraint implements UnaryConstraint {
 	EAttribute attribute;
 	Object attributeValue;
 	
-	public AttributeConstraint(EAttribute attribute, Object value) {
+	public AttributeConstraint(final EAttribute attribute, final Object value) {
 		this.attribute = attribute;
-		this.attributeValue = value;
+		attributeValue = value;
 	}
 	
-	public boolean check(DomainSlot slot) {
-		if (slot.locked) {
-			return slot.value.eGet(attribute).equals(attributeValue);
-		} else {
-			List<EObject> domain = slot.domain;
-			for (int i = domain.size() - 1; i >= 0; i--) {
-				EObject domainObject = domain.get(i);
-				
-				if (!attributeValue.equals(domainObject.eGet(attribute)))
+	@Override
+	public boolean check(final DomainSlot slot) {
+		if (slot.locked)
+			return attributeValue == null ? slot.value.eGet(attribute) == null : slot.value.eGet(
+					attribute).equals(attributeValue);
+		
+		List<EObject> domain = slot.domain;
+		for (int i = domain.size() - 1; i >= 0; i--) {
+			EObject domainObject = domain.get(i);
+			
+			if (attributeValue == null) {
+				if (domainObject.eGet(attribute) != null) {
 					domain.remove(i);
+				}
+			} else {
+				if (!attributeValue.equals(domainObject.eGet(attribute))) {
+					domain.remove(i);
+				}
 			}
-			return !domain.isEmpty();
 		}
+		return !domain.isEmpty();
 	}
 }
