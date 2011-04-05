@@ -122,6 +122,9 @@ public class ModelChange {
 			listChange.setFeature(attribute);
 			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
 			listChange.setIndex(((List<?>) eObject.eGet(attribute)).indexOf(value));
+			if (!deletion) {
+				listChange.getValues().add(value);
+			}
 			featureChange.getListChanges().add(listChange);
 		} else {
 			featureChange.setDataValue(value);
