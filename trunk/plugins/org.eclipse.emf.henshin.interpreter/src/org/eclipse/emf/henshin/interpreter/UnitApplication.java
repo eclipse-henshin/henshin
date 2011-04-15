@@ -54,7 +54,8 @@ public class UnitApplication extends Observable {
 	 * @param engine
 	 * @param transformationUnit
 	 */
-	public UnitApplication(InterpreterEngine engine, TransformationUnit transformationUnit) {
+	public UnitApplication(final InterpreterEngine engine,
+			final TransformationUnit transformationUnit) {
 		if (engine == null)
 			throw new IllegalArgumentException("engine can not be null");
 		
@@ -63,11 +64,11 @@ public class UnitApplication extends Observable {
 		
 		this.engine = engine;
 		this.transformationUnit = transformationUnit;
-		this.parameterValues = new HashMap<Parameter, Object>();
-		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
+		parameterValues = new HashMap<Parameter, Object>();
+		oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
 		
-		this.appliedRules = new Stack<RuleApplication>();
-		this.undoneRules = new Stack<RuleApplication>();
+		appliedRules = new Stack<RuleApplication>();
+		undoneRules = new Stack<RuleApplication>();
 	}
 	
 	/**
@@ -79,14 +80,11 @@ public class UnitApplication extends Observable {
 	 * @param transformationUnit
 	 * @param parameterValues
 	 */
-	public UnitApplication(InterpreterEngine engine, TransformationUnit transformationUnit,
-			Map<Parameter, Object> parameterValues) {
-		this.engine = engine;
-		this.transformationUnit = transformationUnit;
+	public UnitApplication(final InterpreterEngine engine,
+			final TransformationUnit transformationUnit,
+			final Map<Parameter, Object> parameterValues) {
+		this(engine, transformationUnit);
 		this.parameterValues = parameterValues;
-		this.oldParameterValues = new HashMap<Parameter, Object>(parameterValues);
-		
-		this.appliedRules = new Stack<RuleApplication>();
 	}
 	
 	public boolean execute() {
@@ -136,12 +134,12 @@ public class UnitApplication extends Observable {
 		}
 	}
 	
-	private UnitApplication createApplicationFor(TransformationUnit unit) {
+	private UnitApplication createApplicationFor(final TransformationUnit unit) {
 		Map<Parameter, Object> childPortValues = createChildParameterValues(unit);
 		return new UnitApplication(engine, unit, childPortValues);
 	}
 	
-	private Map<Parameter, Object> createChildParameterValues(TransformationUnit child) {
+	private Map<Parameter, Object> createChildParameterValues(final TransformationUnit child) {
 		Map<Parameter, Object> childParameterValues = new HashMap<Parameter, Object>();
 		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
 			Parameter sourceParameter = mapping.getSource();
@@ -154,7 +152,7 @@ public class UnitApplication extends Observable {
 		return childParameterValues;
 	}
 	
-	private void updateParameterValues(UnitApplication childUnit) {
+	private void updateParameterValues(final UnitApplication childUnit) {
 		for (ParameterMapping mapping : transformationUnit.getParameterMappings()) {
 			Parameter sourceParameter = mapping.getSource();
 			Parameter targetParameter = mapping.getTarget();
@@ -206,9 +204,8 @@ public class UnitApplication extends Observable {
 			parameterValues = ruleApplication.getComatch().getParameterValues();
 			appliedRules.push(ruleApplication);
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 	
 	private boolean executeAmalgamatedUnit() {
@@ -221,9 +218,8 @@ public class UnitApplication extends Observable {
 			parameterValues = amalgamationRule.getComatch().getParameterValues();
 			appliedRules.push(amalgamationRule);
 			return true;
-		} else {
+		} else
 			return false;
-		}
 	}
 	
 	private boolean executeSequentialUnit() {
@@ -257,22 +253,25 @@ public class UnitApplication extends Observable {
 			TransformationUnit thenUnit = conditionalUnit.getThen();
 			UnitApplication genericThenUnit = createApplicationFor(thenUnit);
 			success = genericThenUnit.execute();
-			if (success)
+			if (success) {
 				updateParameterValues(genericThenUnit);
+			}
 			appliedRules.addAll(genericThenUnit.appliedRules);
 		} else {
 			if (conditionalUnit.getElse() != null) {
 				TransformationUnit elseUnit = conditionalUnit.getElse();
 				UnitApplication genericElseUnit = createApplicationFor(elseUnit);
 				success = genericElseUnit.execute();
-				if (success)
+				if (success) {
 					updateParameterValues(genericElseUnit);
+				}
 				appliedRules.addAll(genericElseUnit.appliedRules);
 			}
 		}
 		
-		if (!success)
+		if (!success) {
 			undo();
+		}
 		
 		return success;
 	}
@@ -312,8 +311,9 @@ public class UnitApplication extends Observable {
 				if (count != -1) {
 					undo();
 					return false;
-				} else
+				} else {
 					break;
+				}
 			}
 		}
 		
@@ -337,11 +337,12 @@ public class UnitApplication extends Observable {
 	 * @param value
 	 *            (new) value of the Parameter
 	 */
-	public void setParameterValue(String name, Object value) {
+	public void setParameterValue(final String name, final Object value) {
 		
-		Parameter parameter = this.transformationUnit.getParameterByName(name);
-		if (parameter != null)
-			this.parameterValues.put(parameter, value);
+		Parameter parameter = transformationUnit.getParameterByName(name);
+		if (parameter != null) {
+			parameterValues.put(parameter, value);
+		}
 	}// setParameterValue
 	
 	/**
@@ -353,12 +354,12 @@ public class UnitApplication extends Observable {
 	 *            name of the Parameter
 	 * @return
 	 */
-	public Object getParameterValue(String name) {
+	public Object getParameterValue(final String name) {
 		
-		if (this.parameterValues != null) {
-			Parameter parameter = this.transformationUnit.getParameterByName(name);
+		if (parameterValues != null) {
+			Parameter parameter = transformationUnit.getParameterByName(name);
 			if (parameter != null)
-				return this.parameterValues.get(parameter);
+				return parameterValues.get(parameter);
 		}// if
 		return null;
 	}// getPortValue
@@ -366,12 +367,14 @@ public class UnitApplication extends Observable {
 	public Map<Parameter, Object> getParameterValues() {
 		return parameterValues;
 	}
-
+	
 	/**
-	 * Sets the UnitApplication's values for Parameters 
-	 * @param assignments Map between Parameter names and their values
+	 * Sets the UnitApplication's values for Parameters
+	 * 
+	 * @param assignments
+	 *            Map between Parameter names and their values
 	 */
-	public void setParameterValues(Map<String, Object> assignments) {
+	public void setParameterValues(final Map<String, Object> assignments) {
 		parameterValues.clear();
 		for (String s : assignments.keySet()) {
 			setParameterValue(s, assignments.get(s));
@@ -380,6 +383,7 @@ public class UnitApplication extends Observable {
 	
 	/**
 	 * Returns the applied RuleApplications
+	 * 
 	 * @return the applied RuleApplications
 	 */
 	public Stack<RuleApplication> getAppliedRules() {
