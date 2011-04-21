@@ -97,13 +97,13 @@ public class EmfEngine implements InterpreterEngine {
 	 * @param emfGraph
 	 *            The graph this engine will operate on.
 	 */
-	public EmfEngine(EmfGraph emfGraph) {
+	public EmfEngine(final EmfGraph emfGraph) {
 		this();
 		
 		this.emfGraph = emfGraph;
 	}
 	
-	private Matchfinder prepareMatchfinder(RuleApplication ruleApplication) {
+	private Matchfinder prepareMatchfinder(final RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
@@ -144,19 +144,25 @@ public class EmfEngine implements InterpreterEngine {
 			
 			DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, options);
 			
-			if (prematch.get(node) != null)
+			if (prematch.get(node) != null) {
 				domainSlot.fixInstanciation(prematch.get(node));
+			}
 			
 			for (Variable dependendVariable : variableInfo.getDependendVariables(mainVariable)) {
 				domainMap.put(dependendVariable, domainSlot);
 			}
 		}
 		
+		boolean conditionFailed = false;
 		if (parameterValues != null) {
 			for (Parameter parameter : parameterValues.keySet()) {
-				conditionHandler.setParameter(parameter.getName(), parameterValues.get(parameter));
+				conditionFailed |= !conditionHandler.setParameter(parameter.getName(),
+						parameterValues.get(parameter));
 			}
 		}
+		
+		if (conditionFailed)
+			return null;
 		
 		Map<Graph, List<Variable>> graphMap = variableInfo.getGraph2variables();
 		Matchfinder matchfinder = new Matchfinder(emfGraph, domainMap, conditionHandler);
@@ -167,8 +173,9 @@ public class EmfEngine implements InterpreterEngine {
 		return matchfinder;
 	}
 	
-	private IFormula initFormula(Formula formula, Map<Variable, DomainSlot> domainMap,
-			Map<Graph, List<Variable>> graphMap, AttributeConditionHandler conditionHandler) {
+	private IFormula initFormula(final Formula formula, final Map<Variable, DomainSlot> domainMap,
+			final Map<Graph, List<Variable>> graphMap,
+			final AttributeConditionHandler conditionHandler) {
 		if (formula instanceof And) {
 			And and = (And) formula;
 			IFormula left = initFormula(and.getLeft(), domainMap, graphMap, conditionHandler);
@@ -199,9 +206,9 @@ public class EmfEngine implements InterpreterEngine {
 		return new TrueFormula();
 	}
 	
-	private ApplicationCondition initApplicationCondition(NestedCondition nc,
-			Map<Variable, DomainSlot> domainMap, Map<Graph, List<Variable>> graphMap,
-			AttributeConditionHandler conditionHandler) {
+	private ApplicationCondition initApplicationCondition(final NestedCondition nc,
+			final Map<Variable, DomainSlot> domainMap, final Map<Graph, List<Variable>> graphMap,
+			final AttributeConditionHandler conditionHandler) {
 		ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, nc.isNegated());
 		ac.setVariables(graphMap.get(nc.getConclusion()));
 		ac.setFormula(initFormula(nc.getConclusion().getFormula(), domainMap, graphMap,
@@ -210,7 +217,7 @@ public class EmfEngine implements InterpreterEngine {
 		return ac;
 	}
 	
-	private RuleInfo getRuleInformation(Rule rule) {
+	private RuleInfo getRuleInformation(final Rule rule) {
 		RuleInfo ruleInfo = ruleInformation.get(rule);
 		if (ruleInfo == null) {
 			ruleInfo = new RuleInfo(rule, scriptEngine);
@@ -221,7 +228,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 	
 	@Override
-	public List<Match> findAllMatches(RuleApplication ruleApplication) {
+	public List<Match> findAllMatches(final RuleApplication ruleApplication) {
 		if (emfGraph == null)
 			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
@@ -229,6 +236,9 @@ public class EmfEngine implements InterpreterEngine {
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
+		// workaround for empty rules with attribute conditions
+		if (matchfinder == null)
+			return new ArrayList<Match>();
 		
 		List<Solution> solutions = matchfinder.getAllMatches();
 		List<Match> matches = new ArrayList<Match>();
@@ -240,7 +250,8 @@ public class EmfEngine implements InterpreterEngine {
 		return matches;
 	}
 	
-	public Match findMatch(RuleApplication ruleApplication) {
+	@Override
+	public Match findMatch(final RuleApplication ruleApplication) {
 		if (emfGraph == null)
 			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
@@ -249,8 +260,11 @@ public class EmfEngine implements InterpreterEngine {
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		
 		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
-		Solution solution = matchfinder.getNextMatch();
+		// workaround for empty rules with attribute conditions
+		if (matchfinder == null)
+			return null;
 		
+		Solution solution = matchfinder.getNextMatch();
 		if (solution != null) {
 			Match match = new Match(rule, solution, ruleInfo.getVariableInfo().getNode2variable());
 			return match;
@@ -258,8 +272,9 @@ public class EmfEngine implements InterpreterEngine {
 			return null;
 	}
 	
-	public RuleApplication generateAmalgamationRule(AmalgamationUnit amalgamationUnit,
-			Map<Parameter, Object> parameterValues) {
+	@Override
+	public RuleApplication generateAmalgamationRule(final AmalgamationUnit amalgamationUnit,
+			final Map<Parameter, Object> parameterValues) {
 		
 		AmalgamationInfo amalgamationWrapper = new AmalgamationInfo(this, amalgamationUnit,
 				parameterValues);
@@ -268,7 +283,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 	
 	@Override
-	public Match applyRule(RuleApplication ruleApplication) {
+	public Match applyRule(final RuleApplication ruleApplication) {
 		Match match = findMatch(ruleApplication);
 		if (match != null) {
 			ruleApplication.setMatch(match);
@@ -291,7 +306,7 @@ public class EmfEngine implements InterpreterEngine {
 	 * 
 	 * @return the comatch from the RHS into the instance
 	 */
-	private Match executeModelChanges(RuleApplication ruleApplication) {
+	private Match executeModelChanges(final RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		
@@ -351,14 +366,16 @@ public class EmfEngine implements InterpreterEngine {
 		
 		// remove deleted edges
 		for (Edge edge : changeInfo.getDeletedEdges()) {
-			modelChange.addReferenceChange(matchNodeMapping.get(edge.getSource()), edge.getType(), matchNodeMapping.get(edge.getTarget()), true);
+			modelChange.addReferenceChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
+					matchNodeMapping.get(edge.getTarget()), true);
 //			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
 //					matchNodeMapping.get(edge.getTarget()), true);
 		}
 		
 		// add new edges
 		for (Edge edge : changeInfo.getCreatedEdges()) {
-			modelChange.addReferenceChange(comatchNodeMapping.get(edge.getSource()), edge.getType(), comatchNodeMapping.get(edge.getTarget()), false);
+			modelChange.addReferenceChange(comatchNodeMapping.get(edge.getSource()),
+					edge.getType(), comatchNodeMapping.get(edge.getTarget()), false);
 //			modelChange.addObjectChange(comatchNodeMapping.get(edge.getSource()), edge.getType(),
 //					comatchNodeMapping.get(edge.getTarget()), false);
 		}
@@ -371,8 +388,9 @@ public class EmfEngine implements InterpreterEngine {
 			// workaround for Double conversion
 			if (value != null) {
 				valueString = value.toString();
-				if (valueString.endsWith(".0"))
+				if (valueString.endsWith(".0")) {
 					valueString = valueString.substring(0, valueString.length() - 2);
+				}
 			}
 			
 			modelChange.addAttributeChange(targetObject, attribute.getType(), valueString, false);
@@ -380,7 +398,8 @@ public class EmfEngine implements InterpreterEngine {
 			value = EcoreUtil
 					.createFromString(attribute.getType().getEAttributeType(), valueString);
 			
-			//modelChange.addObjectChange(targetObject, attribute.getType(), value, false);
+			// modelChange.addObjectChange(targetObject, attribute.getType(),
+			// value, false);
 		}
 		
 		modelChange.applyChanges();
@@ -396,8 +415,8 @@ public class EmfEngine implements InterpreterEngine {
 	 *            An expression string.
 	 * @return The result of the computation.
 	 */
-	private Object evalAttributeExpression(Map<Parameter, Object> parameterMapping,
-			Attribute attribute) {
+	private Object evalAttributeExpression(final Map<Parameter, Object> parameterMapping,
+			final Attribute attribute) {
 		
 		/*
 		 * If the attribute's type is an Enumeration, its value shall be rather
@@ -421,7 +440,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 	
 	@Override
-	public void redoChanges(RuleApplication ruleApplication) {
+	public void redoChanges(final RuleApplication ruleApplication) {
 		ModelChange modelChange = ruleApplication.getModelChange();
 		
 		for (EObject createdObject : modelChange.getCreatedObjects()) {
@@ -436,7 +455,7 @@ public class EmfEngine implements InterpreterEngine {
 	}
 	
 	@Override
-	public void undoChanges(RuleApplication ruleApplication) {
+	public void undoChanges(final RuleApplication ruleApplication) {
 		ModelChange modelChange = ruleApplication.getModelChange();
 		
 		modelChange.undoChanges();
@@ -461,7 +480,7 @@ public class EmfEngine implements InterpreterEngine {
 	 * @param emfGraph
 	 *            the emfGraph to set
 	 */
-	public void setEmfGraph(EmfGraph emfGraph) {
+	public void setEmfGraph(final EmfGraph emfGraph) {
 		this.emfGraph = emfGraph;
 	}
 	
@@ -476,7 +495,8 @@ public class EmfEngine implements InterpreterEngine {
 	 * @param options
 	 *            the options to set
 	 */
-	public void setOptions(TransformationOptions options) {
+	@Override
+	public void setOptions(final TransformationOptions options) {
 		this.options = options;
 	}
 }
