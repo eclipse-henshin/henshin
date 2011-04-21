@@ -88,24 +88,26 @@ public class UnitApplication extends Observable {
 	}
 	
 	public boolean execute() {
-		switch (transformationUnit.eClass().getClassifierID()) {
-			case HenshinPackage.RULE:
-				return executeRule();
-			case HenshinPackage.AMALGAMATION_UNIT:
-				return executeAmalgamatedUnit();
-			case HenshinPackage.INDEPENDENT_UNIT:
-				return executeIndependentUnit();
-			case HenshinPackage.SEQUENTIAL_UNIT:
-				return executeSequentialUnit();
-			case HenshinPackage.CONDITIONAL_UNIT:
-				return executeConditionalUnit();
-			case HenshinPackage.PRIORITY_UNIT:
-				return executePriorityUnit();
-			case HenshinPackage.COUNTED_UNIT:
-				return executeCountedUnit();
+		if (transformationUnit.isActivated()) {
+			switch (transformationUnit.eClass().getClassifierID()) {
+				case HenshinPackage.RULE:
+					return executeRule();
+				case HenshinPackage.AMALGAMATION_UNIT:
+					return executeAmalgamatedUnit();
+				case HenshinPackage.INDEPENDENT_UNIT:
+					return executeIndependentUnit();
+				case HenshinPackage.SEQUENTIAL_UNIT:
+					return executeSequentialUnit();
+				case HenshinPackage.CONDITIONAL_UNIT:
+					return executeConditionalUnit();
+				case HenshinPackage.PRIORITY_UNIT:
+					return executePriorityUnit();
+				case HenshinPackage.COUNTED_UNIT:
+					return executeCountedUnit();
+			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	/**
