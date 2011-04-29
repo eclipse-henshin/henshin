@@ -104,7 +104,7 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * @generated
 	 */
 	EList<TransformationUnit> getTransformationUnits();
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -113,11 +113,11 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * searched within all directly contained units of the transformation system
 	 * only. Otherwise, all subunits are also considered. If no appropriate unit
 	 * is found <code>null</code> is returned.<br>
-	 * Please note, rules are transformations units as well thus are also
-	 * considered if they are part of the unit hierarchy (see
-	 * {@link #getTransformationUnits()}).
+	 * Please note, while rules are transformations units as well, please use
+	 * {@link #findRuleByName(String)} for such cases.
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @model
 	 * @generated
 	 */
