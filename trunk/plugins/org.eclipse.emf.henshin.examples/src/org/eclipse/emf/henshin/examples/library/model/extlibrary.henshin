@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_jI1RoLslEd-plsjbaONJvQ">
-  <rules xmi:id="_mUr8ELtFEd-Hg41nSDmeOQ" name="ReplaceBook">
+  <rules xmi:id="_mUr8ELtFEd-Hg41nSDmeOQ" name="ReplaceBook" activated="true">
     <lhs xmi:id="_mUr8EbtFEd-Hg41nSDmeOQ" name="LHS">
       <nodes xmi:id="_n_IrsLtFEd-Hg41nSDmeOQ" name="root" outgoing="_pjxHMLtFEd-Hg41nSDmeOQ _22P0cLtGEd-DbqYr1KVjBQ">
         <type href="extlibrary.ecore#//Library"/>

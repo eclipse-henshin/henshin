@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_pTn3IcVxEd-Z2t7vpSnrvA" name="">
-  <rules xmi:id="_Yzn9oMVzEd-Z2t7vpSnrvA" name="AddToToolBar">
+  <rules xmi:id="_Yzn9oMVzEd-Z2t7vpSnrvA" name="AddToToolBar" activated="true">
     <lhs xmi:id="_Yzn9ocVzEd-Z2t7vpSnrvA" name="LHS">
       <nodes xmi:id="_liy-8MVzEd-Z2t7vpSnrvA" name="" incoming="_gTDm0MV3Ed-Z2t7vpSnrvA" outgoing="_Myre0MV0Ed-Z2t7vpSnrvA _RsY_wMV0Ed-Z2t7vpSnrvA">
         <type href="UIElements.ecore#//ui/basic/Window"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_co7DYAaFEd-zI5a8dcgd6w">
-  <rules xmi:id="_co7DYQaFEd-zI5a8dcgd6w" description="" name="AddTriangle">
+  <rules xmi:id="_co7DYQaFEd-zI5a8dcgd6w" description="" name="AddTriangle" activated="true">
     <lhs xmi:id="_co7DYgaFEd-zI5a8dcgd6w">
       <nodes xmi:id="_co7DZAaFEd-zI5a8dcgd6w" outgoing="_co7DZwaFEd-zI5a8dcgd6w _co7DaAaFEd-zI5a8dcgd6w">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>

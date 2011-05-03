@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_QZMDwMV6Ed-Z2t7vpSnrvA">
-  <rules xmi:id="_qLQ6sMV6Ed-Z2t7vpSnrvA" name="CreateView">
+  <rules xmi:id="_qLQ6sMV6Ed-Z2t7vpSnrvA" name="CreateView" activated="true">
     <lhs xmi:id="_qLQ6scV6Ed-Z2t7vpSnrvA" name="LHS">
       <nodes xmi:id="_wFJfMMV6Ed-Z2t7vpSnrvA" outgoing="_kzOCgMV7Ed-Z2t7vpSnrvA">
         <type href="descriptors.ecore#//NodeDescriptor"/>
