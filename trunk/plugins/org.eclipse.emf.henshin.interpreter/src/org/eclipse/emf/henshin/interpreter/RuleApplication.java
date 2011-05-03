@@ -50,11 +50,9 @@ public class RuleApplication {
 	 *            A Henshin rule. Must not be <code>null</code>
 	 */
 	public RuleApplication(InterpreterEngine engine, Rule rule) {
-		if (engine == null)
-			throw new IllegalArgumentException("engine can not be null");
+		if (engine == null) throw new IllegalArgumentException("engine can not be null");
 		
-		if (rule == null)
-			throw new IllegalArgumentException("rule can not be null");
+		if (rule == null) throw new IllegalArgumentException("rule can not be null");
 		
 		this.rule = rule;
 		this.interpreterEngine = engine;
@@ -125,6 +123,28 @@ public class RuleApplication {
 	}
 	
 	/**
+	 * Return the current value of the rule's parameter with the given name.
+	 * Note, if this RuleApplication has been applied, a parameter's value might
+	 * have changed due to the transformation. Correspondingly, the changed (and
+	 * therefore current) value is returned in this case.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Object getParameterValue(String name) {
+		Object result = null;
+		Parameter parameter = rule.getParameterByName(name);
+		if (parameter != null) {
+			if (isExecuted && !isUndone) {
+				result = comatch.getParameterValues().get(name);
+			} else {
+				result = match.getParameterValues().get(name);
+			}// if else
+		}// if
+		return result;
+	}// getParameterValue
+	
+	/**
 	 * Adds a value for an input parameter or input object to the current rule.
 	 * 
 	 * @param name
@@ -134,17 +154,15 @@ public class RuleApplication {
 	 */
 	public void setParameterValue(String name, Object value) {
 		Parameter parameter = rule.getParameterByName(name);
-		if (parameter != null)
-			match.getParameterValues().put(parameter, value);
+		if (parameter != null) match.getParameterValues().put(parameter, value);
 	}
-	
 	
 	/**
 	 * Sets the current rule's values for input parameters or input objects.
 	 * (Existing values will be cleared)
 	 * 
 	 * @param assignments
-	 * 					Map between Parameter Names and their values
+	 *            Map between Parameter Names and their values
 	 */
 	public void setParameterValues(Map<String, Object> assignments) {
 		for (String s : assignments.keySet()) {
@@ -190,6 +208,7 @@ public class RuleApplication {
 	
 	/**
 	 * set the comatch
+	 * 
 	 * @param comatch
 	 */
 	public void setComatch(Match comatch) {
@@ -206,6 +225,7 @@ public class RuleApplication {
 	
 	/**
 	 * Sets the model change
+	 * 
 	 * @param modelChange
 	 */
 	public void setModelChange(ModelChange modelChange) {
