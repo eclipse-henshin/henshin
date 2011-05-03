@@ -136,7 +136,7 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(new EdgeTypePropertyDescriptor(
