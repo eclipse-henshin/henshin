@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_LfmmMElyEeCcjfHWa4_VbQ">
+  <rules xmi:id="_xZFb0EkaEeCcjfHWa4_VbQ" name="non-injectiveMatching" activated="true">
+    <parameters xmi:id="_zunV4El0EeCcjfHWa4_VbQ" name="p_nd"/>
+    <lhs xmi:id="_xZFb0UkaEeCcjfHWa4_VbQ" name="LHS">
+      <nodes xmi:id="_y9spMEkaEeCcjfHWa4_VbQ" name="p_nd" incoming="_ocm2IEl0EeCcjfHWa4_VbQ _pzfJgEl0EeCcjfHWa4_VbQ" outgoing="_zl4tIElzEeCcjfHWa4_VbQ _0jEHEElzEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_ykgtIEkaEeCcjfHWa4_VbQ" name="ch_nd_1" incoming="_zl4tIElzEeCcjfHWa4_VbQ" outgoing="_ocm2IEl0EeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_zcIRoEkaEeCcjfHWa4_VbQ" name="ch_nd_2" incoming="_0jEHEElzEeCcjfHWa4_VbQ" outgoing="_pzfJgEl0EeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges xmi:id="_zl4tIElzEeCcjfHWa4_VbQ" source="_y9spMEkaEeCcjfHWa4_VbQ" target="_ykgtIEkaEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges xmi:id="_0jEHEElzEeCcjfHWa4_VbQ" source="_y9spMEkaEeCcjfHWa4_VbQ" target="_zcIRoEkaEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges xmi:id="_ocm2IEl0EeCcjfHWa4_VbQ" source="_ykgtIEkaEeCcjfHWa4_VbQ" target="_y9spMEkaEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+      <edges xmi:id="_pzfJgEl0EeCcjfHWa4_VbQ" source="_zcIRoEkaEeCcjfHWa4_VbQ" target="_y9spMEkaEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_xZFb0kkaEeCcjfHWa4_VbQ" name="RHS">
+      <nodes xmi:id="_AhQ74UkbEeCcjfHWa4_VbQ" name="p_nd" incoming="_q29_wEl0EeCcjfHWa4_VbQ _r4yCEEl0EeCcjfHWa4_VbQ" outgoing="_4YT6UElzEeCcjfHWa4_VbQ _5T9DMElzEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_AhQ74EkbEeCcjfHWa4_VbQ" name="ch_nd_1" incoming="_4YT6UElzEeCcjfHWa4_VbQ" outgoing="_q29_wEl0EeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_AhQ74kkbEeCcjfHWa4_VbQ" name="ch_nd_2" incoming="_5T9DMElzEeCcjfHWa4_VbQ" outgoing="_r4yCEEl0EeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges xmi:id="_4YT6UElzEeCcjfHWa4_VbQ" source="_AhQ74UkbEeCcjfHWa4_VbQ" target="_AhQ74EkbEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges xmi:id="_5T9DMElzEeCcjfHWa4_VbQ" source="_AhQ74UkbEeCcjfHWa4_VbQ" target="_AhQ74kkbEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges xmi:id="_q29_wEl0EeCcjfHWa4_VbQ" source="_AhQ74EkbEeCcjfHWa4_VbQ" target="_AhQ74UkbEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+      <edges xmi:id="_r4yCEEl0EeCcjfHWa4_VbQ" source="_AhQ74kkbEeCcjfHWa4_VbQ" target="_AhQ74UkbEeCcjfHWa4_VbQ">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_BUyqkEkbEeCcjfHWa4_VbQ" origin="_ykgtIEkaEeCcjfHWa4_VbQ" image="_AhQ74EkbEeCcjfHWa4_VbQ"/>
+    <mappings xmi:id="_CE5R0EkbEeCcjfHWa4_VbQ" origin="_y9spMEkaEeCcjfHWa4_VbQ" image="_AhQ74UkbEeCcjfHWa4_VbQ"/>
+    <mappings xmi:id="_DTa6cEkbEeCcjfHWa4_VbQ" origin="_zcIRoEkaEeCcjfHWa4_VbQ" image="_AhQ74kkbEeCcjfHWa4_VbQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+</henshin:TransformationSystem>

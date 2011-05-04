@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_DhbTwCPYEeC7QrNpQH_8hA" name="basicMatchingTests">
+  <rules xmi:id="_KJt2YCPYEeC7QrNpQH_8hA" name="matchAllNodes" activated="true">
+    <lhs xmi:id="_KJt2YSPYEeC7QrNpQH_8hA" name="LHS">
+      <nodes xmi:id="_NQ-iQCPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_KJt2YiPYEeC7QrNpQH_8hA" name="RHS">
+      <nodes xmi:id="_OQuIACPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_Os6UwCPYEeC7QrNpQH_8hA" origin="_NQ-iQCPYEeC7QrNpQH_8hA" image="_OQuIACPYEeC7QrNpQH_8hA"/>
+  </rules>
+  <rules xmi:id="_TVoMUCPYEeC7QrNpQH_8hA" name="acMatchAllNodes" activated="true">
+    <lhs xmi:id="_TVoMUSPYEeC7QrNpQH_8hA" name="LHS">
+      <nodes xmi:id="_VEGgUCPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_Yeh_0CPYEeC7QrNpQH_8hA">
+        <conclusion xmi:id="_Y-kKwCPYEeC7QrNpQH_8hA">
+          <nodes xmi:id="_ZTkKYCPYEeC7QrNpQH_8hA" name="nd_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+        <mappings xmi:id="_ZuGxUCPYEeC7QrNpQH_8hA" origin="_VEGgUCPYEeC7QrNpQH_8hA" image="_ZTkKYCPYEeC7QrNpQH_8hA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_TVoMUiPYEeC7QrNpQH_8hA" name="RHS">
+      <nodes xmi:id="_VdaYMCPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_WBumMCPYEeC7QrNpQH_8hA" origin="_VEGgUCPYEeC7QrNpQH_8hA" image="_VdaYMCPYEeC7QrNpQH_8hA"/>
+  </rules>
+  <rules xmi:id="_b7NiECPYEeC7QrNpQH_8hA" name="acMatchNoNode" activated="true">
+    <lhs xmi:id="_b7NiESPYEeC7QrNpQH_8hA" name="LHS">
+      <nodes xmi:id="_b7NiEiPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_b7NiEyPYEeC7QrNpQH_8hA" negated="true">
+        <conclusion xmi:id="_b7NiFCPYEeC7QrNpQH_8hA">
+          <nodes xmi:id="_b7NiFSPYEeC7QrNpQH_8hA" name="nd_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+        <mappings xmi:id="_b7NiFiPYEeC7QrNpQH_8hA" origin="_b7NiEiPYEeC7QrNpQH_8hA" image="_b7NiFSPYEeC7QrNpQH_8hA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_b7NiFyPYEeC7QrNpQH_8hA" name="RHS">
+      <nodes xmi:id="_b7NiGCPYEeC7QrNpQH_8hA" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_b7NiGSPYEeC7QrNpQH_8hA" origin="_b7NiEiPYEeC7QrNpQH_8hA" image="_b7NiGCPYEeC7QrNpQH_8hA"/>
+  </rules>
+  <rules xmi:id="_hZwiEClBEeCO5tQhMTHSzA" name="matchNodesAndVals" activated="true">
+    <lhs xmi:id="_hZwiESlBEeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_ioMrIClBEeCO5tQhMTHSzA" name="nd" outgoing="_lcq94ClBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_i7YF0ClBEeCO5tQhMTHSzA" name="vl" incoming="_lcq94ClBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <edges xmi:id="_lcq94ClBEeCO5tQhMTHSzA" source="_ioMrIClBEeCO5tQhMTHSzA" target="_i7YF0ClBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_hZwiEilBEeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_m7wLAClBEeCO5tQhMTHSzA" name="nd" outgoing="_m7wLAilBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes xmi:id="_m7wLASlBEeCO5tQhMTHSzA" name="vl" incoming="_m7wLAilBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <edges xmi:id="_m7wLAilBEeCO5tQhMTHSzA" source="_m7wLAClBEeCO5tQhMTHSzA" target="_m7wLASlBEeCO5tQhMTHSzA">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_nYWncClBEeCO5tQhMTHSzA" origin="_ioMrIClBEeCO5tQhMTHSzA" image="_m7wLAClBEeCO5tQhMTHSzA"/>
+    <mappings xmi:id="_n397oClBEeCO5tQhMTHSzA" origin="_i7YF0ClBEeCO5tQhMTHSzA" image="_m7wLASlBEeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="_IYrg4ClaEeCO5tQhMTHSzA" name="onlyPAC" activated="true">
+    <lhs xmi:id="_IYrg4SlaEeCO5tQhMTHSzA" name="LHS">
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_JUFZMClaEeCO5tQhMTHSzA">
+        <conclusion xmi:id="_KEHvAClaEeCO5tQhMTHSzA" name="pac_graph">
+          <nodes xmi:id="_KfCJYClaEeCO5tQhMTHSzA" name="nd">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_IYrg4ilaEeCO5tQhMTHSzA" name="RHS"/>
+  </rules>
+  <rules xmi:id="_OmqtIClaEeCO5tQhMTHSzA" name="onlyNAC" activated="true">
+    <lhs xmi:id="_OmqtISlaEeCO5tQhMTHSzA" name="LHS">
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_OmqtIilaEeCO5tQhMTHSzA" negated="true">
+        <conclusion xmi:id="_OmqtIylaEeCO5tQhMTHSzA" name="nac_graph">
+          <nodes xmi:id="_OmqtJClaEeCO5tQhMTHSzA" name="nd">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_OmqtJSlaEeCO5tQhMTHSzA" name="RHS"/>
+  </rules>
+  <rules xmi:id="_rAg3kClaEeCO5tQhMTHSzA" name="emptyRule" activated="true">
+    <lhs xmi:id="_rAg3kSlaEeCO5tQhMTHSzA" name="LHS"/>
+    <rhs xmi:id="_rAg3kilaEeCO5tQhMTHSzA" name="RHS"/>
+  </rules>
+  <rules xmi:id="_32EMkCrtEeCO5tQhMTHSzA" name="nestedAC_pac-pac" activated="true">
+    <lhs xmi:id="_32EMkSrtEeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_DmAlgCruEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_5cNrACrtEeCO5tQhMTHSzA">
+        <conclusion xmi:id="_54uA0CrtEeCO5tQhMTHSzA">
+          <nodes xmi:id="_7LSb8CrtEeCO5tQhMTHSzA" name="nd" incoming="_lxsWQCrvEeCO5tQhMTHSzA" outgoing="_meoUwCrvEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes xmi:id="_8GVu8CrtEeCO5tQhMTHSzA" name="nd2" incoming="_meoUwCrvEeCO5tQhMTHSzA" outgoing="_lxsWQCrvEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges xmi:id="_lxsWQCrvEeCO5tQhMTHSzA" source="_8GVu8CrtEeCO5tQhMTHSzA" target="_7LSb8CrtEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges xmi:id="_meoUwCrvEeCO5tQhMTHSzA" source="_7LSb8CrtEeCO5tQhMTHSzA" target="_8GVu8CrtEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:NestedCondition" xmi:id="_6Q5QQCrtEeCO5tQhMTHSzA">
+            <conclusion xmi:id="_6nOsoCrtEeCO5tQhMTHSzA">
+              <nodes xmi:id="_Ikc1cCruEeCO5tQhMTHSzA" name="nd2_" outgoing="_LUKkACruEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              </nodes>
+              <nodes xmi:id="_J5gj4CruEeCO5tQhMTHSzA" name="vl" incoming="_LUKkACruEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+              </nodes>
+              <edges xmi:id="_LUKkACruEeCO5tQhMTHSzA" source="_Ikc1cCruEeCO5tQhMTHSzA" target="_J5gj4CruEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_NUTPwCruEeCO5tQhMTHSzA" origin="_8GVu8CrtEeCO5tQhMTHSzA" image="_Ikc1cCruEeCO5tQhMTHSzA"/>
+          </formula>
+        </conclusion>
+        <mappings xmi:id="_OmYisCruEeCO5tQhMTHSzA" origin="_DmAlgCruEeCO5tQhMTHSzA" image="_7LSb8CrtEeCO5tQhMTHSzA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_32EMkirtEeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_EdCUICruEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_E35EICruEeCO5tQhMTHSzA" origin="_DmAlgCruEeCO5tQhMTHSzA" image="_EdCUICruEeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="_NmYMUCrwEeCO5tQhMTHSzA" name="nestedAC_pac-nac" activated="true">
+    <lhs xmi:id="_NmYMUSrwEeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_NmYMUirwEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_NmYMUyrwEeCO5tQhMTHSzA">
+        <conclusion xmi:id="_NmYMVCrwEeCO5tQhMTHSzA">
+          <nodes xmi:id="_NmYMVSrwEeCO5tQhMTHSzA" name="nd" incoming="_NmYMVyrwEeCO5tQhMTHSzA" outgoing="_NmYMWCrwEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes xmi:id="_NmYMVirwEeCO5tQhMTHSzA" name="nd2" incoming="_NmYMWCrwEeCO5tQhMTHSzA" outgoing="_NmYMVyrwEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges xmi:id="_NmYMVyrwEeCO5tQhMTHSzA" source="_NmYMVirwEeCO5tQhMTHSzA" target="_NmYMVSrwEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges xmi:id="_NmYMWCrwEeCO5tQhMTHSzA" source="_NmYMVSrwEeCO5tQhMTHSzA" target="_NmYMVirwEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:NestedCondition" xmi:id="_NmYMWSrwEeCO5tQhMTHSzA" negated="true">
+            <conclusion xmi:id="_NmYMWirwEeCO5tQhMTHSzA">
+              <nodes xmi:id="_NmYMWyrwEeCO5tQhMTHSzA" name="nd2_" outgoing="_NmYMXSrwEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              </nodes>
+              <nodes xmi:id="_NmYMXCrwEeCO5tQhMTHSzA" name="vl" incoming="_NmYMXSrwEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+              </nodes>
+              <edges xmi:id="_NmYMXSrwEeCO5tQhMTHSzA" source="_NmYMWyrwEeCO5tQhMTHSzA" target="_NmYMXCrwEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_NmYMXirwEeCO5tQhMTHSzA" origin="_NmYMVirwEeCO5tQhMTHSzA" image="_NmYMWyrwEeCO5tQhMTHSzA"/>
+          </formula>
+        </conclusion>
+        <mappings xmi:id="_NmYMXyrwEeCO5tQhMTHSzA" origin="_NmYMUirwEeCO5tQhMTHSzA" image="_NmYMVSrwEeCO5tQhMTHSzA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_NmaBgCrwEeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_NmaBgSrwEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_NmaBgirwEeCO5tQhMTHSzA" origin="_NmYMUirwEeCO5tQhMTHSzA" image="_NmaBgSrwEeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="_N9EjICryEeCO5tQhMTHSzA" name="nestedAC_nac-pac" activated="true">
+    <lhs xmi:id="_N9EjISryEeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_N9EjIiryEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_N9EjIyryEeCO5tQhMTHSzA" negated="true">
+        <conclusion xmi:id="_N9EjJCryEeCO5tQhMTHSzA">
+          <nodes xmi:id="_N9EjJSryEeCO5tQhMTHSzA" name="nd" incoming="_N9EjJyryEeCO5tQhMTHSzA" outgoing="_N9EjKCryEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes xmi:id="_N9EjJiryEeCO5tQhMTHSzA" name="nd2" incoming="_N9EjKCryEeCO5tQhMTHSzA" outgoing="_N9EjJyryEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges xmi:id="_N9EjJyryEeCO5tQhMTHSzA" source="_N9EjJiryEeCO5tQhMTHSzA" target="_N9EjJSryEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges xmi:id="_N9EjKCryEeCO5tQhMTHSzA" source="_N9EjJSryEeCO5tQhMTHSzA" target="_N9EjJiryEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:NestedCondition" xmi:id="_N9EjKSryEeCO5tQhMTHSzA">
+            <conclusion xmi:id="_N9EjKiryEeCO5tQhMTHSzA">
+              <nodes xmi:id="_N9FKMCryEeCO5tQhMTHSzA" name="nd2_" outgoing="_N9FKMiryEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              </nodes>
+              <nodes xmi:id="_N9FKMSryEeCO5tQhMTHSzA" name="vl" incoming="_N9FKMiryEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+              </nodes>
+              <edges xmi:id="_N9FKMiryEeCO5tQhMTHSzA" source="_N9FKMCryEeCO5tQhMTHSzA" target="_N9FKMSryEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_N9FKMyryEeCO5tQhMTHSzA" origin="_N9EjJiryEeCO5tQhMTHSzA" image="_N9FKMCryEeCO5tQhMTHSzA"/>
+          </formula>
+        </conclusion>
+        <mappings xmi:id="_N9FKNCryEeCO5tQhMTHSzA" origin="_N9EjIiryEeCO5tQhMTHSzA" image="_N9EjJSryEeCO5tQhMTHSzA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_N9FKNSryEeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_N9FKNiryEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_N9FKNyryEeCO5tQhMTHSzA" origin="_N9EjIiryEeCO5tQhMTHSzA" image="_N9FKNiryEeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="_BPYTECrzEeCO5tQhMTHSzA" name="nestedAC_nac-nac" activated="true">
+    <lhs xmi:id="_BPYTESrzEeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_BPYTEirzEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_BPYTEyrzEeCO5tQhMTHSzA" negated="true">
+        <conclusion xmi:id="_BPYTFCrzEeCO5tQhMTHSzA">
+          <nodes xmi:id="_BPYTFSrzEeCO5tQhMTHSzA" name="nd" incoming="_BPYTFyrzEeCO5tQhMTHSzA" outgoing="_BPYTGCrzEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes xmi:id="_BPYTFirzEeCO5tQhMTHSzA" name="nd2" incoming="_BPYTGCrzEeCO5tQhMTHSzA" outgoing="_BPYTFyrzEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges xmi:id="_BPYTFyrzEeCO5tQhMTHSzA" source="_BPYTFirzEeCO5tQhMTHSzA" target="_BPYTFSrzEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges xmi:id="_BPYTGCrzEeCO5tQhMTHSzA" source="_BPYTFSrzEeCO5tQhMTHSzA" target="_BPYTFirzEeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:NestedCondition" xmi:id="_BPYTGSrzEeCO5tQhMTHSzA" negated="true">
+            <conclusion xmi:id="_BPYTGirzEeCO5tQhMTHSzA">
+              <nodes xmi:id="_BPYTGyrzEeCO5tQhMTHSzA" name="nd2_" outgoing="_BPYTHSrzEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              </nodes>
+              <nodes xmi:id="_BPYTHCrzEeCO5tQhMTHSzA" name="vl" incoming="_BPYTHSrzEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+              </nodes>
+              <edges xmi:id="_BPYTHSrzEeCO5tQhMTHSzA" source="_BPYTGyrzEeCO5tQhMTHSzA" target="_BPYTHCrzEeCO5tQhMTHSzA">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_BPYTHirzEeCO5tQhMTHSzA" origin="_BPYTFirzEeCO5tQhMTHSzA" image="_BPYTGyrzEeCO5tQhMTHSzA"/>
+          </formula>
+        </conclusion>
+        <mappings xmi:id="_BPYTHyrzEeCO5tQhMTHSzA" origin="_BPYTEirzEeCO5tQhMTHSzA" image="_BPYTFSrzEeCO5tQhMTHSzA"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_BPYTICrzEeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_BPYTISrzEeCO5tQhMTHSzA" name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_BPYTIirzEeCO5tQhMTHSzA" origin="_BPYTEirzEeCO5tQhMTHSzA" image="_BPYTISrzEeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="__nQXUCr1EeCO5tQhMTHSzA" name="rule2" activated="true">
+    <lhs xmi:id="__nQXUSr1EeCO5tQhMTHSzA" name="LHS">
+      <nodes xmi:id="_CMbp0Cr2EeCO5tQhMTHSzA" name="nl">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="__nQXUir1EeCO5tQhMTHSzA" name="RHS">
+      <nodes xmi:id="_D3yYYCr2EeCO5tQhMTHSzA" name="nr">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_A4brUCr2EeCO5tQhMTHSzA">
+        <conclusion xmi:id="_C9QCwCr2EeCO5tQhMTHSzA">
+          <nodes xmi:id="_EqCUsCr2EeCO5tQhMTHSzA" name="nr_" outgoing="_Sva7ACr2EeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes xmi:id="_OiMFkCr2EeCO5tQhMTHSzA" name="vl" incoming="_Sva7ACr2EeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+            <attributes xmi:id="_QUmeYCr2EeCO5tQhMTHSzA" value="test">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/valname"/>
+            </attributes>
+          </nodes>
+          <edges xmi:id="_Sva7ACr2EeCO5tQhMTHSzA" source="_EqCUsCr2EeCO5tQhMTHSzA" target="_OiMFkCr2EeCO5tQhMTHSzA">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+          </edges>
+        </conclusion>
+        <mappings xmi:id="_JDRl0Cr2EeCO5tQhMTHSzA" origin="_D3yYYCr2EeCO5tQhMTHSzA" image="_EqCUsCr2EeCO5tQhMTHSzA"/>
+      </formula>
+    </rhs>
+    <mappings xmi:id="_Jkp0kCr2EeCO5tQhMTHSzA" origin="_CMbp0Cr2EeCO5tQhMTHSzA" image="_D3yYYCr2EeCO5tQhMTHSzA"/>
+  </rules>
+  <rules xmi:id="_Q8JzQD9SEeCRQosnbD0arg" description="match nodes having parent and child nodes" name="andNestedCondition" activated="true">
+    <lhs xmi:id="_Q8JzQT9SEeCRQosnbD0arg" name="LHS">
+      <nodes xmi:id="_7YLQQD9YEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:And" xmi:id="_TPvmgD9SEeCRQosnbD0arg">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_H-8Y8D9YEeCibIU8vWjMJQ">
+          <conclusion xmi:id="_89JqAD9YEeCibIU8vWjMJQ" name="matchNodesWithParentNode">
+            <nodes xmi:id="_-fniUD9YEeCibIU8vWjMJQ" name="nd" outgoing="_CRlYED9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes xmi:id="_-yieUD9YEeCibIU8vWjMJQ" name="parent" incoming="_CRlYED9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges xmi:id="_CRlYED9ZEeCibIU8vWjMJQ" source="_-fniUD9YEeCibIU8vWjMJQ" target="_-yieUD9YEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_H_HioD9ZEeCibIU8vWjMJQ" origin="_7YLQQD9YEeCibIU8vWjMJQ" image="_-fniUD9YEeCibIU8vWjMJQ"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition" xmi:id="_IuQWAD9YEeCibIU8vWjMJQ">
+          <conclusion xmi:id="_Ddg_sD9ZEeCibIU8vWjMJQ" name="matchNodesWithChildNode">
+            <nodes xmi:id="_Ddg_sT9ZEeCibIU8vWjMJQ" name="nd" outgoing="_Ddg_sz9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes xmi:id="_Ddg_sj9ZEeCibIU8vWjMJQ" name="child" incoming="_Ddg_sz9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges xmi:id="_Ddg_sz9ZEeCibIU8vWjMJQ" source="_Ddg_sT9ZEeCibIU8vWjMJQ" target="_Ddg_sj9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_JOsUID9ZEeCibIU8vWjMJQ" origin="_7YLQQD9YEeCibIU8vWjMJQ" image="_Ddg_sT9ZEeCibIU8vWjMJQ"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_Q8JzQj9SEeCRQosnbD0arg" name="RHS">
+      <nodes xmi:id="_LEyTED9ZEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_LfwX0D9ZEeCibIU8vWjMJQ" origin="_7YLQQD9YEeCibIU8vWjMJQ" image="_LEyTED9ZEeCibIU8vWjMJQ"/>
+  </rules>
+  <rules xmi:id="_MgDXMD9ZEeCibIU8vWjMJQ" description="match nodes having parent or child nodes" name="orNestedCondition" activated="true">
+    <lhs xmi:id="_MgDXMT9ZEeCibIU8vWjMJQ" name="LHS">
+      <nodes xmi:id="_MgDXMj9ZEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Or" xmi:id="_Ppl7AD9ZEeCibIU8vWjMJQ">
+        <left xsi:type="henshin:NestedCondition" xmi:id="_MgD-QD9ZEeCibIU8vWjMJQ">
+          <conclusion xmi:id="_MgD-QT9ZEeCibIU8vWjMJQ" name="matchNodesWithParentNode">
+            <nodes xmi:id="_MgD-Qj9ZEeCibIU8vWjMJQ" name="nd" outgoing="_MgD-RD9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes xmi:id="_MgD-Qz9ZEeCibIU8vWjMJQ" name="parent" incoming="_MgD-RD9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges xmi:id="_MgD-RD9ZEeCibIU8vWjMJQ" source="_MgD-Qj9ZEeCibIU8vWjMJQ" target="_MgD-Qz9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_MgD-RT9ZEeCibIU8vWjMJQ" origin="_MgDXMj9ZEeCibIU8vWjMJQ" image="_MgD-Qj9ZEeCibIU8vWjMJQ"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition" xmi:id="_MgD-Rj9ZEeCibIU8vWjMJQ">
+          <conclusion xmi:id="_MgD-Rz9ZEeCibIU8vWjMJQ" name="matchNodesWithChildNode">
+            <nodes xmi:id="_MgD-SD9ZEeCibIU8vWjMJQ" name="nd" outgoing="_MgD-Sj9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes xmi:id="_MgD-ST9ZEeCibIU8vWjMJQ" name="child" incoming="_MgD-Sj9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges xmi:id="_MgD-Sj9ZEeCibIU8vWjMJQ" source="_MgD-SD9ZEeCibIU8vWjMJQ" target="_MgD-ST9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_MgD-Sz9ZEeCibIU8vWjMJQ" origin="_MgDXMj9ZEeCibIU8vWjMJQ" image="_MgD-SD9ZEeCibIU8vWjMJQ"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_MgD-TD9ZEeCibIU8vWjMJQ" name="RHS">
+      <nodes xmi:id="_MgD-TT9ZEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_MgD-Tj9ZEeCibIU8vWjMJQ" origin="_MgDXMj9ZEeCibIU8vWjMJQ" image="_MgD-TT9ZEeCibIU8vWjMJQ"/>
+  </rules>
+  <rules xmi:id="_SjVIQD9ZEeCibIU8vWjMJQ" description="match nodes without a parent node" name="notNestedCondition" activated="true">
+    <lhs xmi:id="_SjVIQT9ZEeCibIU8vWjMJQ" name="LHS">
+      <nodes xmi:id="_Vo_RoD9ZEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not" xmi:id="_bjgvUD9ZEeCibIU8vWjMJQ">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_cDFnQD9ZEeCibIU8vWjMJQ">
+          <conclusion xmi:id="_g5160D9ZEeCibIU8vWjMJQ" name="matchNodesWithParentNode">
+            <nodes xmi:id="_g5160T9ZEeCibIU8vWjMJQ" name="nd" outgoing="_g5160z9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes xmi:id="_g5160j9ZEeCibIU8vWjMJQ" name="parent" incoming="_g5160z9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges xmi:id="_g5160z9ZEeCibIU8vWjMJQ" source="_g5160T9ZEeCibIU8vWjMJQ" target="_g5160j9ZEeCibIU8vWjMJQ">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_iEUJ4D9ZEeCibIU8vWjMJQ" origin="_Vo_RoD9ZEeCibIU8vWjMJQ" image="_g5160T9ZEeCibIU8vWjMJQ"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_SjVIQj9ZEeCibIU8vWjMJQ" name="RHS">
+      <nodes xmi:id="_jrpUED9ZEeCibIU8vWjMJQ" name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_k2Z3AD9ZEeCibIU8vWjMJQ" origin="_Vo_RoD9ZEeCibIU8vWjMJQ" image="_jrpUED9ZEeCibIU8vWjMJQ"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+</henshin:TransformationSystem>
