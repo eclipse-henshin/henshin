@@ -70,7 +70,7 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean ACTIVATED_EDEFAULT = false;
+	protected static final boolean ACTIVATED_EDEFAULT = true;
 	
 	/**
 	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.

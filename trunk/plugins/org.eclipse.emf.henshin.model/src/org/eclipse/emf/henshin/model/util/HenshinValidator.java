@@ -638,8 +638,7 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	protected boolean containsImportedEClassifier(TransformationSystem tSys, String name) {
 		for (EPackage pack : tSys.getImports()) {
-			if (pack.getEClassifier(name) != null)
-				return true;
+			if (pack.getEClassifier(name) != null) return true;
 		}
 		return false;
 	}
@@ -653,12 +652,10 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	protected boolean isCyclic(Stack<TransformationUnit> path, TransformationUnit unit) {
-		if (path.contains(unit))
-			return true;
+		if (path.contains(unit)) return true;
 		path.push(unit);
 		for (TransformationUnit subUnit : unit.getSubUnits(false)) {
-			if (subUnit != null && isCyclic(path, subUnit))
-				return true;
+			if (subUnit != null && isCyclic(path, subUnit)) return true;
 		}
 		path.pop();
 		return false;
@@ -681,8 +678,7 @@ public class HenshinValidator extends EObjectValidator {
 			result &= validate_EveryBidirectionalReferenceIsPaired(rule, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryProxyResolves(rule, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(rule, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryKeyUnique(rule, diagnostics, context);
 		if (result || diagnostics != null)
@@ -852,8 +848,7 @@ public class HenshinValidator extends EObjectValidator {
 				for (Mapping mapping : rule.getMappings()) {
 					// node is not <<create>>, if there is a mapping onto it.
 					//
-					if (mapping.getImage() == node)
-						continue nodeLoop;
+					if (mapping.getImage() == node) continue nodeLoop;
 				}
 				// no mapping onto current node found. So node is <<create>>
 				//
@@ -891,8 +886,7 @@ public class HenshinValidator extends EObjectValidator {
 						// cannot perform check for current edge if involved
 						// mappings incomplete.
 						//
-						if (sourceOrigin == null)
-							continue edgeLoop;
+						if (sourceOrigin == null) continue edgeLoop;
 					}
 					
 					if (mapping.getImage() != null && mapping.getImage() == edge.getTarget()) {
@@ -900,8 +894,7 @@ public class HenshinValidator extends EObjectValidator {
 						// cannot perform check for current edge if involved
 						// mappings incomplete.
 						//
-						if (targetOrigin == null)
-							continue edgeLoop;
+						if (targetOrigin == null) continue edgeLoop;
 					}
 					
 					// involved origins found.
@@ -911,8 +904,7 @@ public class HenshinValidator extends EObjectValidator {
 					}
 					
 				}
-				if (!originsFound)
-					continue edgeLoop;
+				if (!originsFound) continue edgeLoop;
 				
 				for (Edge oEdge : sourceOrigin.getOutgoing()) {
 					// if lhs edge of same type is found between origins, the
@@ -959,8 +951,7 @@ public class HenshinValidator extends EObjectValidator {
 						// cannot perform check for current edge if involved
 						// mappings incomplete.
 						//
-						if (sourceImage == null)
-							continue edgeLoop;
+						if (sourceImage == null) continue edgeLoop;
 					}
 					
 					if (mapping.getOrigin() != null && mapping.getOrigin() == edge.getTarget()) {
@@ -968,8 +959,7 @@ public class HenshinValidator extends EObjectValidator {
 						// cannot perform check for current edge if involved
 						// mappings incomplete.
 						//
-						if (targetImage == null)
-							continue edgeLoop;
+						if (targetImage == null) continue edgeLoop;
 					}
 					
 					// involved images found.
@@ -979,8 +969,7 @@ public class HenshinValidator extends EObjectValidator {
 					}
 					
 				}
-				if (!imagesFound)
-					continue edgeLoop;
+				if (!imagesFound) continue edgeLoop;
 				
 				for (Edge iEdge : sourceImage.getOutgoing()) {
 					// if rhs edge of same type is found between origins, the
@@ -1350,8 +1339,7 @@ public class HenshinValidator extends EObjectValidator {
 			result &= validate_EveryBidirectionalReferenceIsPaired(node, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryProxyResolves(node, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(node, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(node, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryKeyUnique(node, diagnostics, context);
 		if (result || diagnostics != null)
@@ -1455,8 +1443,7 @@ public class HenshinValidator extends EObjectValidator {
 			result &= validate_EveryBidirectionalReferenceIsPaired(edge, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryProxyResolves(edge, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID(edge, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(edge, diagnostics, context);
 		if (result || diagnostics != null)
 			result &= validate_EveryKeyUnique(edge, diagnostics, context);
 		if (result || diagnostics != null)
@@ -2506,8 +2493,7 @@ public class HenshinValidator extends EObjectValidator {
 	protected Graph findContainingGraph(NestedCondition nestedCondition) {
 		EObject container = nestedCondition.eContainer();
 		while (container != null) {
-			if (container instanceof Graph)
-				return (Graph) container;
+			if (container instanceof Graph) return (Graph) container;
 			container = container.eContainer();
 		}
 		return null;
