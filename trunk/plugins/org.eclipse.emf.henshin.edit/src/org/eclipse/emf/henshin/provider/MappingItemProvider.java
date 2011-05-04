@@ -346,6 +346,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME
 					|| notification.getFeature() == HenshinPackage.Literals.NODE__TYPE) {
 				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
+				if (mappings == null) return;
 				
 				AdapterFactory fac = MappingItemProvider.this.adapterFactory;
 				for (Mapping m : mappings) {
@@ -367,11 +368,23 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			List<Mapping> resultList = new ArrayList<Mapping>();
 			Graph graph = node.getGraph();
 			
+			/*
+			 * In the following some null-checks are included. While these shall
+			 * never occur in normal cases, they might occur in very special
+			 * cases, when other applications modify the model, e.g. delete/move
+			 * model elements, in a inappropriate order while this editor is
+			 * open.
+			 */
+			if (node.getGraph() == null) return null;
+			
 			if (graph.eContainer() instanceof Rule) {
 				Rule rule = (Rule) graph.eContainer();
+				if (rule == null) return null;
+				
 				collectMappingHelper(node, rule.getMappings(), resultList);
 			} else if (graph.eContainer() instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) graph.eContainer();
+				if (nc == null) return null;
 				List<NestedCondition> allNestedConditions = new ArrayList<NestedCondition>();
 				collectNestedConditions(nc, allNestedConditions);
 				
