@@ -96,7 +96,7 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 			Rule rule = (Rule) owner;
 			filterMappings(rule.getMappings(), mappingSet, nodes);
 			
-			if (rule.eContainer() != null) {
+			if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem) {
 				/*
 				 * If the TransformationSystem is accessible, iterate over all
 				 * AmalgamationUnits and watch out if our graph is part of one.
