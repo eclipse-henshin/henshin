@@ -173,7 +173,7 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 	 * @param rule
 	 */
 	private void collectAmalgamationUnitRelatedMappings(final Set<Mapping> mappingSet, Rule rule) {
-		if (rule.eContainer() != null) {
+		if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem){
 			TransformationSystem trafoSys = (TransformationSystem) rule.eContainer();
 			for (TransformationUnit unit : trafoSys.getTransformationUnits()) {
 				if (unit instanceof AmalgamationUnit) {
