@@ -8,7 +8,7 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
- org.eclipse.emf.ecore.change;bundle-version="2.5.1"
+ org.eclipse.emf.ecore.change;bundle-version="2.5.0"
 Export-Package: org.eclipse.emf.henshin.common.util,
  org.eclipse.emf.henshin.internal.change,
  org.eclipse.emf.henshin.internal.conditions.attribute,
