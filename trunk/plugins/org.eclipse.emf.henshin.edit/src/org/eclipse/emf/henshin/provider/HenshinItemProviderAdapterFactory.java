@@ -17,7 +17,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.edit.provider.ChangeNotifier;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -29,8 +28,8 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.emf.henshin.model.util.HenshinAdapterFactory;
+import org.eclipse.emf.henshin.provider.filter.FilterProvider;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support
@@ -70,6 +69,16 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 */
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
 	
+	protected FilterProvider filterProvider = null;
+	
+	public FilterProvider getFeatureFilterProvider() {
+		return filterProvider;
+	}
+	
+	public boolean filteringEnabled() {
+		return filterProvider != null;
+	}
+	
 	/**
 	 * This constructs an instance. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
@@ -82,6 +91,11 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		supportedTypes.add(ITreeItemContentProvider.class);
 		supportedTypes.add(IItemLabelProvider.class);
 		supportedTypes.add(IItemPropertySource.class);
+	}
+	
+	public HenshinItemProviderAdapterFactory(FilterProvider filterProvider) {
+		this();
+		this.filterProvider = filterProvider;
 	}
 	
 	/**
@@ -681,26 +695,46 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
-		if (transformationSystemItemProvider != null) transformationSystemItemProvider.dispose();
-		if (ruleItemProvider != null) ruleItemProvider.dispose();
-		if (attributeConditionItemProvider != null) attributeConditionItemProvider.dispose();
-		if (parameterItemProvider != null) parameterItemProvider.dispose();
-		if (graphItemProvider != null) graphItemProvider.dispose();
-		if (mappingItemProvider != null) mappingItemProvider.dispose();
-		if (nodeItemProvider != null) nodeItemProvider.dispose();
-		if (attributeItemProvider != null) attributeItemProvider.dispose();
-		if (edgeItemProvider != null) edgeItemProvider.dispose();
-		if (independentUnitItemProvider != null) independentUnitItemProvider.dispose();
-		if (sequentialUnitItemProvider != null) sequentialUnitItemProvider.dispose();
-		if (conditionalUnitItemProvider != null) conditionalUnitItemProvider.dispose();
-		if (priorityUnitItemProvider != null) priorityUnitItemProvider.dispose();
-		if (amalgamationUnitItemProvider != null) amalgamationUnitItemProvider.dispose();
-		if (countedUnitItemProvider != null) countedUnitItemProvider.dispose();
-		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
-		if (andItemProvider != null) andItemProvider.dispose();
-		if (orItemProvider != null) orItemProvider.dispose();
-		if (notItemProvider != null) notItemProvider.dispose();
-		if (parameterMappingItemProvider != null) parameterMappingItemProvider.dispose();
+		if (transformationSystemItemProvider != null)
+			transformationSystemItemProvider.dispose();
+		if (ruleItemProvider != null)
+			ruleItemProvider.dispose();
+		if (attributeConditionItemProvider != null)
+			attributeConditionItemProvider.dispose();
+		if (parameterItemProvider != null)
+			parameterItemProvider.dispose();
+		if (graphItemProvider != null)
+			graphItemProvider.dispose();
+		if (mappingItemProvider != null)
+			mappingItemProvider.dispose();
+		if (nodeItemProvider != null)
+			nodeItemProvider.dispose();
+		if (attributeItemProvider != null)
+			attributeItemProvider.dispose();
+		if (edgeItemProvider != null)
+			edgeItemProvider.dispose();
+		if (independentUnitItemProvider != null)
+			independentUnitItemProvider.dispose();
+		if (sequentialUnitItemProvider != null)
+			sequentialUnitItemProvider.dispose();
+		if (conditionalUnitItemProvider != null)
+			conditionalUnitItemProvider.dispose();
+		if (priorityUnitItemProvider != null)
+			priorityUnitItemProvider.dispose();
+		if (amalgamationUnitItemProvider != null)
+			amalgamationUnitItemProvider.dispose();
+		if (countedUnitItemProvider != null)
+			countedUnitItemProvider.dispose();
+		if (nestedConditionItemProvider != null)
+			nestedConditionItemProvider.dispose();
+		if (andItemProvider != null)
+			andItemProvider.dispose();
+		if (orItemProvider != null)
+			orItemProvider.dispose();
+		if (notItemProvider != null)
+			notItemProvider.dispose();
+		if (parameterMappingItemProvider != null)
+			parameterMappingItemProvider.dispose();
 	}
 	
 }

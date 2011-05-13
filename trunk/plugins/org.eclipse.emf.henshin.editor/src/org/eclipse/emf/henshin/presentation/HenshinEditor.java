@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,6 +51,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -73,7 +75,15 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
+import org.eclipse.emf.henshin.editor.HighlightingTreeViewer;
+import org.eclipse.emf.henshin.editor.filter.FilterControlsViewer;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
+import org.eclipse.emf.henshin.provider.filter.FilterProvider;
+import org.eclipse.emf.henshin.provider.filter.IFilterChangeListener;
+import org.eclipse.emf.henshin.provider.filter.IFilterStore;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -82,7 +92,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -91,7 +102,6 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -103,14 +113,14 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -192,7 +202,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * 
 	 * @generated
 	 */
-	protected TreeViewer selectionViewer;
+	protected HighlightingTreeViewer selectionViewer;
 	
 	/**
 	 * This inverts the roll of parent and child in the content provider and
@@ -631,6 +641,31 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 		initializeEditingDomain();
 	}
 	
+	protected FilterProvider filterProvider = new FilterProvider(new IFilterStore() {
+		
+		private String prefPrefix = "filterEClassifier_";
+		private IPreferenceStore store = HenshinEditorPlugin.getPlugin().getPreferenceStore();
+		
+		@Override
+		public void filterChanged(EClassifier classifier, boolean filtered) {
+			store.setValue(getKey(classifier), filtered);
+		}
+		
+		private String getKey(EClassifier cl) {
+			return prefPrefix + cl.getName();
+		}
+		
+		@Override
+		public Map<EClassifier, Boolean> getFilterPreferences() {
+			Map<EClassifier, Boolean> result = new HashMap<EClassifier, Boolean>();
+			for (EClassifier cl : HenshinPackage.eINSTANCE.getEClassifiers()) {
+				if (store.contains(getKey(cl)))
+					result.put(cl, store.getBoolean(getKey(cl)));
+			}
+			return result;
+		}
+	});
+	
 	/**
 	 * This sets up the editing domain for the model editor. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -638,13 +673,16 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	protected void initializeEditingDomain() {
+		
 		// Create an adapter factory that yields item providers.
 		//
 		adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new HenshinItemProviderAdapterFactory());
+		
+		adapterFactory.addAdapterFactory(new HenshinItemProviderAdapterFactory(filterProvider));
+		
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 		
 		// Create the command stack that will notify this editor as commands are
@@ -941,11 +979,67 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 		}
 	}
 	
+	protected void createHighlightingMenu(IMenuManager menuManager,
+			final HighlightingTreeViewer treeViewer) {
+		final IPreferenceStore store = HenshinEditorPlugin.getPlugin().getPreferenceStore();
+		
+		final String expandPrefKey = "Highlighting_ExpandToAssociated";
+		final boolean initExpand = store.getBoolean(expandPrefKey);
+		final IAction expandAction = new Action() {
+			{
+				setImageDescriptor(HenshinEditor.this
+						.getImageDescriptor("full/obj16/CollapseTransformationSystemChildren.png"));
+				setText(HenshinEditorPlugin.getPlugin().getString(
+						"_UI_Highlighting_ExpandAssociatedNodes"));
+				setChecked(initExpand);
+				treeViewer.setExpandAssociated(initExpand);
+			}
+			
+			@Override
+			public void run() {
+				treeViewer.setExpandAssociated(isChecked());
+				store.setValue(expandPrefKey, isChecked());
+			}
+		};
+		
+		final String colorPrefKey = "Highlighting_ColorAssociated";
+		final boolean initColor = store.getBoolean(colorPrefKey);
+		IAction colorAction = new Action() {
+			{
+				setImageDescriptor(HenshinEditor.this
+						.getImageDescriptor("full/obj16/CollapseTransformationSystemChildren.png"));
+				setText(HenshinEditorPlugin.getPlugin().getString(
+						"_UI_Highlighting_ColorAssociatedNodes"));
+				setChecked(initColor);
+				setColorAssociated(initColor);
+			}
+			
+			protected void setColorAssociated(boolean colorAssociated) {
+				treeViewer.setColorAssociated(colorAssociated);
+				expandAction.setEnabled(colorAssociated);
+			}
+			
+			@Override
+			public void run() {
+				setColorAssociated(isChecked());
+				store.setValue(colorPrefKey, isChecked());
+			}
+		};
+		// menuManager.update(force)
+		menuManager.add(colorAction);
+		menuManager.add(expandAction);
+	}
+	
+	protected ImageDescriptor getImageDescriptor(String path) {
+		URL imgUrl = (URL) HenshinEditorPlugin.INSTANCE.getImage(path);
+		return ImageDescriptor.createFromURL(imgUrl);
+	}
+	
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void createPages() {
@@ -959,11 +1053,14 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 			// Create a page for the selection tree view.
 			//
 			{
+				
+				final FilterControlsViewer filterViewer = new FilterControlsViewer(filterProvider);
+				
 				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
 					@Override
 					public Viewer createViewer(Composite composite) {
-						Tree tree = new Tree(composite, SWT.MULTI);
-						TreeViewer newTreeViewer = new TreeViewer(tree);
+						Tree tree = new Tree(composite, SWT.MULTI | SWT.VIRTUAL);
+						TreeViewer newTreeViewer = new HighlightingTreeViewer(tree);
 						return newTreeViewer;
 					}
 					
@@ -972,13 +1069,47 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 						super.requestActivation();
 						setCurrentViewerPane(this);
 					}
+					
+					protected void createTitleBar() {
+						super.createTitleBar();
+						
+						ToolItem exp = new ToolItem(actionBar, SWT.PUSH);
+						exp.setToolTipText("Collapse to TransformationSystem");
+						exp.setImage(getImageDescriptor(
+								"full/obj16/CollapseTransformationSystemChildren.png")
+								.createImage());
+						exp.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								TreeViewer tv = (TreeViewer) getViewer();
+								tv.collapseAll();
+								tv.expandToLevel(3);
+							}
+						});
+						
+						new ToolItem(actionBar, SWT.SEPARATOR);
+						
+						filterViewer.buildControls(actionBar);
+						control.changed(new Control[] { actionBar });
+					}
 				};
+				
 				viewerPane.createControl(getContainer());
 				
-				selectionViewer = (TreeViewer) viewerPane.getViewer();
+				selectionViewer = (HighlightingTreeViewer) viewerPane.getViewer();
 				selectionViewer
 						.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 				
+				createHighlightingMenu(viewerPane.getMenuManager(), selectionViewer);
+				
+				filterProvider.addFilterListener(new IFilterChangeListener() {
+					@Override
+					public void filterChanged(EClassifier classifier, boolean filtered) {
+						selectionViewer.refresh();
+					}
+				});
+				
+				selectionViewer.refresh();
 				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet()
@@ -986,7 +1117,6 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 				viewerPane.setTitle(editingDomain.getResourceSet());
 				
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
-				
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_SelectionPage_label"));
@@ -994,173 +1124,191 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 			
 			// Create a page for the parent tree view.
 			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						Tree tree = new Tree(composite, SWT.MULTI);
-						TreeViewer newTreeViewer = new TreeViewer(tree);
-						return newTreeViewer;
-					}
-					
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				viewerPane.createControl(getContainer());
-				
-				parentViewer = (TreeViewer) viewerPane.getViewer();
-				parentViewer.setAutoExpandLevel(30);
-				parentViewer.setContentProvider(new ReverseAdapterFactoryContentProvider(
-						adapterFactory));
-				parentViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				
-				createContextMenuFor(parentViewer);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_ParentPage_label"));
-			}
-			
-			// This is the page for the list viewer
+			// {
+			// ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
+			// HenshinEditor.this) {
+			// @Override
+			// public Viewer createViewer(Composite composite) {
+			// Tree tree = new Tree(composite, SWT.MULTI);
+			// TreeViewer newTreeViewer = new TreeViewer(tree);
+			// return newTreeViewer;
+			// }
 			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						return new ListViewer(composite);
-					}
-					
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				viewerPane.createControl(getContainer());
-				listViewer = (ListViewer) viewerPane.getViewer();
-				listViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				listViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				
-				createContextMenuFor(listViewer);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_ListPage_label"));
-			}
-			
-			// This is the page for the tree viewer
+			// @Override
+			// public void requestActivation() {
+			// super.requestActivation();
+			// setCurrentViewerPane(this);
+			// }
+			// };
+			// viewerPane.createControl(getContainer());
 			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						return new TreeViewer(composite);
-					}
-					
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				viewerPane.createControl(getContainer());
-				treeViewer = (TreeViewer) viewerPane.getViewer();
-				treeViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				treeViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				
-				new AdapterFactoryTreeEditor(treeViewer.getTree(), adapterFactory);
-				
-				createContextMenuFor(treeViewer);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_TreePage_label"));
-			}
-			
-			// This is the page for the table viewer.
+			// parentViewer = (TreeViewer) viewerPane.getViewer();
+			// parentViewer.setAutoExpandLevel(30);
+			// parentViewer.setContentProvider(new
+			// ReverseAdapterFactoryContentProvider(
+			// adapterFactory));
+			// parentViewer.setLabelProvider(new
+			// AdapterFactoryLabelProvider(adapterFactory));
 			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						return new TableViewer(composite);
-					}
-					
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				viewerPane.createControl(getContainer());
-				tableViewer = (TableViewer) viewerPane.getViewer();
-				
-				Table table = tableViewer.getTable();
-				TableLayout layout = new TableLayout();
-				table.setLayout(layout);
-				table.setHeaderVisible(true);
-				table.setLinesVisible(true);
-				
-				TableColumn objectColumn = new TableColumn(table, SWT.NONE);
-				layout.addColumnData(new ColumnWeightData(3, 100, true));
-				objectColumn.setText(getString("_UI_ObjectColumn_label"));
-				objectColumn.setResizable(true);
-				
-				TableColumn selfColumn = new TableColumn(table, SWT.NONE);
-				layout.addColumnData(new ColumnWeightData(2, 100, true));
-				selfColumn.setText(getString("_UI_SelfColumn_label"));
-				selfColumn.setResizable(true);
-				
-				tableViewer.setColumnProperties(new String[] { "a", "b" });
-				tableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-				tableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				
-				createContextMenuFor(tableViewer);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_TablePage_label"));
-			}
-			
-			// This is the page for the table tree viewer.
+			// createContextMenuFor(parentViewer);
+			// int pageIndex = addPage(viewerPane.getControl());
+			// setPageText(pageIndex, getString("_UI_ParentPage_label"));
+			// }
 			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), HenshinEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						return new TreeViewer(composite);
-					}
-					
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				viewerPane.createControl(getContainer());
-				
-				treeViewerWithColumns = (TreeViewer) viewerPane.getViewer();
-				
-				Tree tree = treeViewerWithColumns.getTree();
-				tree.setLayoutData(new FillLayout());
-				tree.setHeaderVisible(true);
-				tree.setLinesVisible(true);
-				
-				TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
-				objectColumn.setText(getString("_UI_ObjectColumn_label"));
-				objectColumn.setResizable(true);
-				objectColumn.setWidth(250);
-				
-				TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
-				selfColumn.setText(getString("_UI_SelfColumn_label"));
-				selfColumn.setResizable(true);
-				selfColumn.setWidth(200);
-				
-				treeViewerWithColumns.setColumnProperties(new String[] { "a", "b" });
-				treeViewerWithColumns.setContentProvider(new AdapterFactoryContentProvider(
-						adapterFactory));
-				treeViewerWithColumns.setLabelProvider(new AdapterFactoryLabelProvider(
-						adapterFactory));
-				
-				createContextMenuFor(treeViewerWithColumns);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_TreeWithColumnsPage_label"));
-			}
+			// // This is the page for the list viewer
+			// //
+			// {
+			// ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
+			// HenshinEditor.this) {
+			// @Override
+			// public Viewer createViewer(Composite composite) {
+			// return new ListViewer(composite);
+			// }
+			//
+			// @Override
+			// public void requestActivation() {
+			// super.requestActivation();
+			// setCurrentViewerPane(this);
+			// }
+			// };
+			// viewerPane.createControl(getContainer());
+			// listViewer = (ListViewer) viewerPane.getViewer();
+			// listViewer.setContentProvider(new
+			// AdapterFactoryContentProvider(adapterFactory));
+			// listViewer.setLabelProvider(new
+			// AdapterFactoryLabelProvider(adapterFactory));
+			//
+			// createContextMenuFor(listViewer);
+			// int pageIndex = addPage(viewerPane.getControl());
+			// setPageText(pageIndex, getString("_UI_ListPage_label"));
+			// }
+			//
+			// // This is the page for the tree viewer
+			// //
+			// {
+			// ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
+			// HenshinEditor.this) {
+			// @Override
+			// public Viewer createViewer(Composite composite) {
+			// return new TreeViewer(composite);
+			// }
+			//
+			// @Override
+			// public void requestActivation() {
+			// super.requestActivation();
+			// setCurrentViewerPane(this);
+			// }
+			// };
+			// viewerPane.createControl(getContainer());
+			// treeViewer = (TreeViewer) viewerPane.getViewer();
+			// treeViewer.setContentProvider(new
+			// AdapterFactoryContentProvider(adapterFactory));
+			// treeViewer.setLabelProvider(new
+			// AdapterFactoryLabelProvider(adapterFactory));
+			//
+			// new AdapterFactoryTreeEditor(treeViewer.getTree(),
+			// adapterFactory);
+			//
+			// createContextMenuFor(treeViewer);
+			// int pageIndex = addPage(viewerPane.getControl());
+			// setPageText(pageIndex, getString("_UI_TreePage_label"));
+			// }
+			//
+			// // This is the page for the table viewer.
+			// //
+			// {
+			// ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
+			// HenshinEditor.this) {
+			// @Override
+			// public Viewer createViewer(Composite composite) {
+			// return new TableViewer(composite);
+			// }
+			//
+			// @Override
+			// public void requestActivation() {
+			// super.requestActivation();
+			// setCurrentViewerPane(this);
+			// }
+			// };
+			// viewerPane.createControl(getContainer());
+			// tableViewer = (TableViewer) viewerPane.getViewer();
+			//
+			// Table table = tableViewer.getTable();
+			// TableLayout layout = new TableLayout();
+			// table.setLayout(layout);
+			// table.setHeaderVisible(true);
+			// table.setLinesVisible(true);
+			//
+			// TableColumn objectColumn = new TableColumn(table, SWT.NONE);
+			// layout.addColumnData(new ColumnWeightData(3, 100, true));
+			// objectColumn.setText(getString("_UI_ObjectColumn_label"));
+			// objectColumn.setResizable(true);
+			//
+			// TableColumn selfColumn = new TableColumn(table, SWT.NONE);
+			// layout.addColumnData(new ColumnWeightData(2, 100, true));
+			// selfColumn.setText(getString("_UI_SelfColumn_label"));
+			// selfColumn.setResizable(true);
+			//
+			// tableViewer.setColumnProperties(new String[] { "a", "b" });
+			// tableViewer.setContentProvider(new
+			// AdapterFactoryContentProvider(adapterFactory));
+			// tableViewer.setLabelProvider(new
+			// AdapterFactoryLabelProvider(adapterFactory));
+			//
+			// createContextMenuFor(tableViewer);
+			// int pageIndex = addPage(viewerPane.getControl());
+			// setPageText(pageIndex, getString("_UI_TablePage_label"));
+			// }
+			//
+			// // This is the page for the table tree viewer.
+			// //
+			// {
+			// ViewerPane viewerPane = new ViewerPane(getSite().getPage(),
+			// HenshinEditor.this) {
+			// @Override
+			// public Viewer createViewer(Composite composite) {
+			// return new TreeViewer(composite);
+			// }
+			//
+			// @Override
+			// public void requestActivation() {
+			// super.requestActivation();
+			// setCurrentViewerPane(this);
+			// }
+			// };
+			// viewerPane.createControl(getContainer());
+			//
+			// treeViewerWithColumns = (TreeViewer) viewerPane.getViewer();
+			//
+			// Tree tree = treeViewerWithColumns.getTree();
+			// tree.setLayoutData(new FillLayout());
+			// tree.setHeaderVisible(true);
+			// tree.setLinesVisible(true);
+			//
+			// TreeColumn objectColumn = new TreeColumn(tree, SWT.NONE);
+			// objectColumn.setText(getString("_UI_ObjectColumn_label"));
+			// objectColumn.setResizable(true);
+			// objectColumn.setWidth(250);
+			//
+			// TreeColumn selfColumn = new TreeColumn(tree, SWT.NONE);
+			// selfColumn.setText(getString("_UI_SelfColumn_label"));
+			// selfColumn.setResizable(true);
+			// selfColumn.setWidth(200);
+			//
+			// treeViewerWithColumns.setColumnProperties(new String[] { "a", "b"
+			// });
+			// treeViewerWithColumns.setContentProvider(new
+			// AdapterFactoryContentProvider(
+			// adapterFactory));
+			// treeViewerWithColumns.setLabelProvider(new
+			// AdapterFactoryLabelProvider(
+			// adapterFactory));
+			//
+			// createContextMenuFor(treeViewerWithColumns);
+			// int pageIndex = addPage(viewerPane.getControl());
+			// setPageText(pageIndex,
+			// getString("_UI_TreeWithColumnsPage_label"));
+			// }
 			
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {

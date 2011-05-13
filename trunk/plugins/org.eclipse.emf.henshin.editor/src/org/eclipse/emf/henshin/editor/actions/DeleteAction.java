@@ -59,6 +59,7 @@ public class DeleteAction extends org.eclipse.emf.edit.ui.action.DeleteAction {
 	 */
 	protected boolean selectionContainsMappedKernel(IStructuredSelection selection) {
 		Object object;
+		@SuppressWarnings("unchecked")
 		Iterator<Object> i = selection.iterator();
 		//
 		//
@@ -72,18 +73,15 @@ public class DeleteAction extends org.eclipse.emf.edit.ui.action.DeleteAction {
 				
 				// current object is not part of multiRules
 				//
-				if (aUnit == null)
-					continue selLoop;
+				if (aUnit == null) continue selLoop;
 				
 				Object value = wrapper.getValue();
 				
 				if (value instanceof Node) {
-					if (isMappedNodeFromKernel(aUnit, (Node) value))
-						return true;
+					if (isMappedNodeFromKernel(aUnit, (Node) value)) return true;
 				} else if (value instanceof Edge) {
 					Edge edge = (Edge) value;
-					if (edge.getType() == null)
-						continue selLoop;
+					if (edge.getType() == null) continue selLoop;
 					// both ends of edge must be mapped from kernel
 					// and there has to be an edge of same type between those
 					// nodes in kernelRule
@@ -156,8 +154,7 @@ public class DeleteAction extends org.eclipse.emf.edit.ui.action.DeleteAction {
 	 */
 	protected boolean isMappedIn(Node origin, Node image, Collection<Mapping> mappings) {
 		for (Mapping m : mappings)
-			if (m.getOrigin() == origin && m.getImage() == image)
-				return true;
+			if (m.getOrigin() == origin && m.getImage() == image) return true;
 		return false;
 	}
 	
@@ -183,8 +180,8 @@ public class DeleteAction extends org.eclipse.emf.edit.ui.action.DeleteAction {
 	 */
 	protected Mapping getMappingFromKernel(AmalgamationUnit aUnit, Node node) {
 		Collection<Mapping> mappings;
-		if (node.getGraph() == null)
-			return null;
+		
+		if (node == null || node.getGraph() == null) return null;
 		if (HenshinRuleAnalysisUtil.isLHS(node.getGraph()))
 			mappings = aUnit.getLhsMappings();
 		else if (HenshinRuleAnalysisUtil.isRHS(node.getGraph()))
@@ -192,8 +189,7 @@ public class DeleteAction extends org.eclipse.emf.edit.ui.action.DeleteAction {
 		else
 			return null;
 		for (Mapping m : mappings)
-			if (m.getImage() == node)
-				return m;
+			if (m.getImage() == node) return m;
 		return null;
 	}
 	

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.editor.commands.CreateEdgeCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
@@ -71,7 +72,10 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 		eRefLoop: for (EReference reference : sourceNode.getType().getEReferences()) {
 			// reference has matching type
 			//
-			if (reference.getEType().equals(targetNode.getType())) {
+			if(!(reference.getEType() instanceof EClass))
+				continue;
+			EClass refType = (EClass) reference.getEType();  
+			if (refType.isSuperTypeOf(targetNode.getType())) {
 				
 				// count given
 				int multiplicityCounter = 0;
@@ -109,9 +113,12 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 		// edges yet.
 		//
 		eRefLoop: for (EReference reference : targetNode.getType().getEReferences()) {
+			if(!(reference.getEType() instanceof EClass))
+				continue;
+			EClass refType = (EClass) reference.getEType();
 			// reference has matching type
 			//
-			if (reference.getEType().equals(sourceNode.getType())) {
+			if (refType.isSuperTypeOf(sourceNode.getType())) {
 				
 				// count given
 				int multiplicityCounter = 0;

@@ -148,6 +148,10 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 		menuManager.update(true);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor#createDeleteAction()
+	 */
+	@Override	
 	protected DeleteAction createDeleteAction() {
 		return new org.eclipse.emf.henshin.editor.actions.DeleteAction(removeAllReferencesOnDelete());
 	}

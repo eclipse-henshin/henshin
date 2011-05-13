@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -45,7 +46,7 @@ import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvi
  */
 public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IItemLabelProvider, IItemPropertySource,IItemColorProvider  {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above
@@ -197,6 +198,18 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		String label = ((TransformationUnit) object).getName();
 		return label == null || label.length() == 0 ? getString("_UI_TransformationUnit_type")
 				: getString("_UI_TransformationUnit_type") + " " + label;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getForeground(java.lang.Object)
+	 */
+	@Override
+	public Object getForeground(Object object) {
+		System.out.println("getForeground()");
+		TransformationUnit tUnit = (TransformationUnit) object;
+		if(!tUnit.isActivated())
+			return "color://hsb///0.5";
+		return super.getForeground(object);
 	}
 	
 	/**
