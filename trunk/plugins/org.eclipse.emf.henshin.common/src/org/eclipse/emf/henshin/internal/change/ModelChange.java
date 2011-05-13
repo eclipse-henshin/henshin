@@ -54,11 +54,10 @@ public class ModelChange {
 		}
 		EList<FeatureChange> featureChanges = change.getObjectChanges().get(eObject);
 		
-		for (FeatureChange existingChange: featureChanges) {
-			if (existingChange.getFeature() == feature)
-				return existingChange;
+		for (FeatureChange existingChange : featureChanges) {
+			if (existingChange.getFeature() == feature) return existingChange;
 		}
-			
+		
 		FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
 		featureChange.setFeature(feature);
 		featureChanges.add(featureChange);
@@ -67,12 +66,12 @@ public class ModelChange {
 	}
 	
 	/**
-	 * This method ensures, that only one list change per ChangeKind ADD, REMOVE, MOVE is created
+	 * This method ensures, that only one list change per ChangeKind ADD,
+	 * REMOVE, MOVE is created
 	 */
 	private ListChange getListChangeByKind(FeatureChange featureChange, ChangeKind kind) {
-		for (ListChange existingChange: featureChange.getListChanges()) {
-			if (existingChange.getKind() == kind)
-				return existingChange;
+		for (ListChange existingChange : featureChange.getListChanges()) {
+			if (existingChange.getKind() == kind) return existingChange;
 		}
 		
 		ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
@@ -83,10 +82,10 @@ public class ModelChange {
 	}
 	
 	private boolean deletingChangeExists(FeatureChange featureChange, EObject value) {
-		for (ListChange existingChange: featureChange.getListChanges()) {
+		for (ListChange existingChange : featureChange.getListChanges()) {
 			if (existingChange.getKind() == ChangeKind.REMOVE_LITERAL)
 				return existingChange.getReferenceValues().contains(value);
-						
+			
 		}
 		return false;
 	}
@@ -96,14 +95,30 @@ public class ModelChange {
 		FeatureChange featureChange = getFeatureChange(eObject, reference);
 		
 		if (reference.isMany()) {
-			if (deletingChangeExists(featureChange, value))
-				return;
+			if (deletingChangeExists(featureChange, value)) return;
 			
 			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
 			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
 			listChange.getReferenceValues().add(value);
-			if (deletion)
-				listChange.setIndex(((List<Object>)eObject.eGet(reference)).indexOf(value));
+			
+			// TODO: This is a bugfix and should be considered as workaround.
+			if (deletion) {
+				@SuppressWarnings("unchecked")
+				int idx = ((List<Object>) eObject.eGet(reference)).indexOf(value);
+				for (ListChange lChange : featureChange.getListChanges()) {
+					if (lChange.getKind() == ChangeKind.ADD_LITERAL) {
+						if (lChange.getIndex() < idx) idx++;
+					} else if (lChange.getKind() == ChangeKind.REMOVE_LITERAL) {
+						if (lChange.getIndex() < idx) idx--;
+					} else if (lChange.getKind() == ChangeKind.MOVE_LITERAL) {
+						if (lChange.getIndex() < idx && lChange.getMoveToIndex() > idx) idx--;
+						if (lChange.getIndex() > idx && lChange.getMoveToIndex() < idx) idx++;
+					}
+				}
+				listChange.setIndex(idx);
+			}
+			// Bugfix end
+			
 			featureChange.getListChanges().add(listChange);
 		} else {
 			if (deletion)
@@ -133,23 +148,23 @@ public class ModelChange {
 	
 	public void applyChanges() {
 		change.applyAndReverse();
-//		for (ObjectChange change : changes.values()) {
-//			change.execute();
-//		}
+		// for (ObjectChange change : changes.values()) {
+		// change.execute();
+		// }
 	}
 	
 	public void undoChanges() {
 		change.applyAndReverse();
-//		for (ObjectChange change : changes.values()) {
-//			change.undo();
-//		}
+		// for (ObjectChange change : changes.values()) {
+		// change.undo();
+		// }
 	}
 	
 	public void redoChanges() {
 		change.applyAndReverse();
-//		for (ObjectChange change : changes.values()) {
-//			change.execute();
-//		}
+		// for (ObjectChange change : changes.values()) {
+		// change.execute();
+		// }
 	}
 	
 	/**
