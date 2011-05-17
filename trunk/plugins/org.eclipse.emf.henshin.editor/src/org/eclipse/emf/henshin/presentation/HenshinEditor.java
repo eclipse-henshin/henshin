@@ -988,7 +988,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 		final IAction expandAction = new Action() {
 			{
 				setImageDescriptor(HenshinEditor.this
-						.getImageDescriptor("full/obj16/CollapseTransformationSystemChildren.png"));
+						.getImageDescriptor("full/obj16/ExpandAssociated.png"));
 				setText(HenshinEditorPlugin.getPlugin().getString(
 						"_UI_Highlighting_ExpandAssociatedNodes"));
 				setChecked(initExpand);
@@ -1007,7 +1007,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 		IAction colorAction = new Action() {
 			{
 				setImageDescriptor(HenshinEditor.this
-						.getImageDescriptor("full/obj16/CollapseTransformationSystemChildren.png"));
+						.getImageDescriptor("full/obj16/Rainbow.png"));
 				setText(HenshinEditorPlugin.getPlugin().getString(
 						"_UI_Highlighting_ColorAssociatedNodes"));
 				setChecked(initColor);

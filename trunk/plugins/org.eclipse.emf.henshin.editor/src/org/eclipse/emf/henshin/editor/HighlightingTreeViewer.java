@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
@@ -89,6 +90,11 @@ public class HighlightingTreeViewer extends TreeViewer {
 			Mapping m = (Mapping) o;
 			mark(m.getOrigin(), getBLUE());
 			mark(m.getImage(), getYELLOW());
+			
+		} else if (o instanceof ParameterMapping) {
+			ParameterMapping pm = (ParameterMapping) o;
+			mark(pm.getSource(), getRED());
+			mark(pm.getTarget(), getGREEN());
 			
 		} else if (o instanceof Edge) {
 			Edge e = (Edge) o;
