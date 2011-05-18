@@ -51,7 +51,7 @@ public class BaseFilterProvider {
 			l.filterChanged(c, filtered);
 	}
 
-	protected boolean isFiltered(EClassifier c) {
+	public boolean isFiltered(EClassifier c) {
 		Boolean value = filterMap.get(c);
 		return value != null && value.booleanValue();
 	}

@@ -61,9 +61,19 @@ public class FilteringItemProviderAdapter extends ItemProviderAdapter {
 	
 	protected Collection<? extends EStructuralFeature> getAnyChildrenFeatures(Object object) {
 		Collection<? extends EStructuralFeature> result = getChildrenFeatures(object);
-		if(filteringEnabled)
-			result =filterProvider.filterChildFeatures(result);
+		if (filteringEnabled && !isWrappingNeeded(object))
+			result = filterProvider.filterChildFeatures(result);
+		else {
+			System.out.println("Filtering disabled");
+		}
 		return result.isEmpty() ? getChildrenReferences(object) : result;
+	}
+	
+	@Override
+	protected ChildrenStore getChildrenStore(Object object) {
+		ChildrenStore store = super.getChildrenStore(object);
+		// store.
+		return store;
 	}
 	
 	public Collection<?> getChildren(Object object) {
@@ -514,10 +524,62 @@ public class FilteringItemProviderAdapter extends ItemProviderAdapter {
 			if (childrenStoreMap == null) {
 				childrenStoreMap = new HashMap<Object, ChildrenStore>();
 			}
-			store = new ChildrenStore(getAnyChildrenFeatures(object));
+			store = new FilteringChildrenStore(getAnyChildrenFeatures(object), filterProvider);
 			childrenStoreMap.put(object, store);
 		}
 		return store;
+	}
+	
+	protected static class FilteringChildrenStore extends ChildrenStore {
+		
+		protected BaseFilterProvider filterProvider;
+		
+		public FilteringChildrenStore(Collection<? extends EStructuralFeature> childrenFeatures,
+				BaseFilterProvider filterProvider) {
+			super(childrenFeatures);
+			this.filterProvider = filterProvider;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.emf.edit.provider.ItemProviderAdapter.ChildrenStore#get
+		 * (org.eclipse.emf.ecore.EStructuralFeature, int)
+		 */
+		@Override
+		public Object get(EStructuralFeature feature, int index) {
+			System.out.println("simple get");
+			return super.get(feature, index);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter.ChildrenStore#
+		 * getChildren()
+		 */
+		@Override
+		public List<Object> getChildren() {
+			int size = 0;
+			for (int i = 0; i < entries.length; i++) {
+				if (entries[i].list != null
+						&& !filterProvider.isFiltered(entries[i].feature.getEType())) {
+					size += entries[i].feature.isMany() ? entries[i].list.size() : entries[i].list
+							.get(0) != null ? 1 : 0;
+				}
+			}
+			List<Object> result = new ArrayList<Object>(size);
+			for (int i = 0; i < entries.length; i++) {
+				if (entries[i].list != null
+						&& !filterProvider.isFiltered(entries[i].feature.getEType())) {
+					if (entries[i].feature.isMany()) {
+						result.addAll(entries[i].list);
+					} else if (entries[i].list.get(0) != null) {
+						result.add(entries[i].list.get(0));
+					}
+				}
+			}
+			return result;
+		}
 	}
 	
 }
