@@ -44,7 +44,7 @@ import org.eclipse.emf.henshin.provider.filter.BaseFilterProvider;
 public class FilteringItemProviderAdapter extends ItemProviderAdapter {
 	
 	protected boolean filteringEnabled = false;
-	BaseFilterProvider filterProvider = null;
+	protected BaseFilterProvider filterProvider = null;
 	
 	/**
 	 * @param adapterFactory
@@ -64,7 +64,7 @@ public class FilteringItemProviderAdapter extends ItemProviderAdapter {
 		if (filteringEnabled && !isWrappingNeeded(object))
 			result = filterProvider.filterChildFeatures(result);
 		else {
-			System.out.println("Filtering disabled");
+			//System.out.println("Filtering disabled");
 		}
 		return result.isEmpty() ? getChildrenReferences(object) : result;
 	}

@@ -116,7 +116,10 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		Rule rule = (Rule) object;
 		if (rule.getMappings().size() > MAX_UNFOLD_MAPPINGS) {
 			childrenList.removeAll(rule.getMappings());
-			childrenList.add(new RuleMappingItemProvider(adapterFactory, rule));
+			if (!filteringEnabled
+					|| !filterProvider.isFiltered(HenshinPackage.eINSTANCE.getMapping()))
+				childrenList.add(new RuleMappingItemProvider(adapterFactory, rule));			
+			
 		}
 		return childrenList;
 	}// getChildren

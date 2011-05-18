@@ -46,17 +46,17 @@ import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvi
  */
 public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource,IItemColorProvider  {
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above
 	 * the given leads to a folding of them.
 	 */
 	public static final int MAX_UNFOLD_PARAMETERS = 5;
-
+	
 	/**
-	 * Number of parameter mappings which are shown in an unfold way. Any number above
-	 * the given leads to a folding of them.
+	 * Number of parameter mappings which are shown in an unfold way. Any number
+	 * above the given leads to a folding of them.
 	 */
 	public static final int MAX_UNFOLD_PARAMETERMAPPINGS = 5;
 	
@@ -174,14 +174,24 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 			int offset;
 			for (offset = 0; offset < childrenList.size(); offset++) {
 				Object currentItem = childrenList.get(offset);
-				if (!(currentItem instanceof Parameter)) break;
+				if (!(currentItem instanceof Parameter))
+					break;
 			}// for
-			childrenList.add(offset, new TrafoUnitParameterMappingItemProvider(adapterFactory, tu));
+			
+			// filteringEnabled implies feature not filtered
+			//
+			if (!filteringEnabled
+					|| !filterProvider.isFiltered(HenshinPackage.eINSTANCE.getParameterMapping()))
+				childrenList.add(offset, new TrafoUnitParameterMappingItemProvider(adapterFactory,
+						tu));
+			
 		}// if
 		
 		if (tu.getParameters().size() > MAX_UNFOLD_PARAMETERMAPPINGS) {
 			childrenList.removeAll(tu.getParameters());
-			childrenList.add(0, new TrafoUnitParameterItemProvider(adapterFactory, tu));
+			if (!filteringEnabled
+					|| !filterProvider.isFiltered(HenshinPackage.eINSTANCE.getParameter()))
+				childrenList.add(0, new TrafoUnitParameterItemProvider(adapterFactory, tu));
 		}// if
 		
 		return childrenList;
@@ -200,14 +210,17 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 				: getString("_UI_TransformationUnit_type") + " " + label;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getForeground(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getForeground(java.
+	 * lang.Object)
 	 */
 	@Override
 	public Object getForeground(Object object) {
 		System.out.println("getForeground()");
 		TransformationUnit tUnit = (TransformationUnit) object;
-		if(!tUnit.isActivated())
+		if (!tUnit.isActivated())
 			return "color://hsb///0.5";
 		return super.getForeground(object);
 	}
@@ -270,7 +283,8 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
 		
-		if (!isWrappingNeeded(object)) return value;
+		if (!isWrappingNeeded(object))
+			return value;
 		
 		/*
 		 * Only those, who are not contained but referred to, shall be replaced
