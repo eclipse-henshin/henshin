@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.Widget;
 public class HighlightingTreeViewer extends TreeViewer {
 	
 	protected boolean colorAssociated = true;
-	protected boolean expandAssociated = true;
+	protected boolean expandAssociated = false;
 	protected List<TreeItem> associated = new ArrayList<TreeItem>();
 	protected Color defaultColor;
 	protected Color defaultMarkColor;
