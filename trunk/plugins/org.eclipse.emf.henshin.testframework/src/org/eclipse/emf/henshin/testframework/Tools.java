@@ -173,8 +173,8 @@ public class Tools {
 	 * @param path
 	 * @throws IOException
 	 */
-	public static void persist(EObject rootObject, String path) throws IOException {
-		ModelUtils.save(rootObject, path);
+	public static void persist(EObject rootObject, String filename) throws IOException {
+		ModelUtils.save(rootObject, filename);
 	}
 	
 	public static void persistAllEmbeddedGraphs(TransformationSystem ts, String path, String fileExt)
@@ -191,13 +191,13 @@ public class Tools {
 	 * 
 	 * @param rule
 	 *            Rule to be stored
-	 * @param path
+	 * @param filename
 	 *            Path to store URI
 	 * @throws IOException
 	 */
-	public static void persist(Rule rule, String path) throws IOException {
+	public static void persist(Rule rule, String filename) throws IOException {
 		ResourceSet rSet = new ResourceSetImpl();
-		URI myURI = URI.createFileURI(path);
+		URI myURI = URI.createFileURI(filename);
 		Resource res = rSet.createResource(myURI, "henshin");
 		res.getContents().add(rule);
 		res.save(null);

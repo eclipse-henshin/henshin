@@ -226,7 +226,7 @@ public class OclQueries {
 	 *            {@link EmfGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
-	public static void assertNoElementGromGroupInQueryResult(Collection<? extends EObject> group,
+	public static void assertNoElementFromGroupInQueryResult(Collection<? extends EObject> group,
 			String contextFreeOclQuery, EmfGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
