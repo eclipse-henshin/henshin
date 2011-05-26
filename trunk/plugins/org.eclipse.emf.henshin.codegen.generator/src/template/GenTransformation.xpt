@@ -1,6 +1,8 @@
 
 «IMPORT codegen»
 
+«EXTENSION template:GeneratorExtensions»
+
 «DEFINE main FOR GenTransformation»
 «FILE transformationClass + ".java"»
 public class «transformationClass» {
