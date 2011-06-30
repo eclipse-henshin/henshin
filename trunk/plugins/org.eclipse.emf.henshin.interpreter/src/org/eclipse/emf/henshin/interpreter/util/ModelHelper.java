@@ -21,6 +21,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -41,11 +42,11 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 public class ModelHelper {
-
+	
 	public static String getUniqueNodeName(EClassifier type) {
 		return type.getEPackage().getNsURI() + "#" + type.getName();
 	}
-
+	
 	/**
 	 * Checks whether the value of the given attribute corresponds to a
 	 * parameter of the rule.
@@ -61,13 +62,12 @@ public class ModelHelper {
 		boolean found = false;
 		for (Parameter parameter : rule.getParameters()) {
 			found = parameter.getName().equals(potentialParameter);
-			if (found)
-				break;
+			if (found) break;
 		}// for
-
+		
 		return found;
 	}
-
+	
 	/**
 	 * Checks whether the specified node is part of the mappings.
 	 * 
@@ -81,7 +81,7 @@ public class ModelHelper {
 	public static boolean isNodeMapped(Collection<Mapping> mappings, Node node) {
 		return getRemoteNode(mappings, node) != null;
 	}
-
+	
 	/**
 	 * Checks whether the specified edge is part of the mappings.
 	 * 
@@ -94,21 +94,20 @@ public class ModelHelper {
 	public static boolean isEdgeMapped(List<Mapping> mappings, Edge edge) {
 		Node sourceNode = edge.getSource();
 		Node targetNode = edge.getTarget();
-
+		
 		Node remoteSourceNode = getRemoteNode(mappings, sourceNode);
 		Node remoteTargetNode = getRemoteNode(mappings, targetNode);
-
+		
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
 				if (remoteEdge.getTarget() == remoteTargetNode
-						&& remoteEdge.getType() == edge.getType())
-					return true;
+						&& remoteEdge.getType() == edge.getType()) return true;
 			}
 		}
-
+		
 		return false;
 	}
-
+	
 	/**
 	 * Returns the image or origin of the specified node. If the node is not
 	 * part of a mapping, null will be returned. If the node is part of multiple
@@ -120,39 +119,33 @@ public class ModelHelper {
 	 */
 	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
 		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == node)
-				return mapping.getImage();
-			if (mapping.getImage() == node)
-				return mapping.getOrigin();
+			if (mapping.getOrigin() == node) return mapping.getImage();
+			if (mapping.getImage() == node) return mapping.getOrigin();
 		}
-
+		
 		return null;
 	}
-
-	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings,
-			Node node) {
+	
+	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings, Node node) {
 		Collection<Node> result = new ArrayList<Node>();
-
+		
 		for (Mapping mapping : mappings) {
-			if (mapping.getImage() == node)
-				result.add(mapping.getOrigin());
+			if (mapping.getImage() == node) result.add(mapping.getOrigin());
 		}
-
+		
 		return result;
 	}
-
-	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings,
-			Node node) {
+	
+	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings, Node node) {
 		Collection<Node> result = new ArrayList<Node>();
-
+		
 		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == node)
-				result.add(mapping.getImage());
+			if (mapping.getOrigin() == node) result.add(mapping.getImage());
 		}
-
+		
 		return result;
 	}
-
+	
 	/**
 	 * Returns the nested application condition the conclusion graph belongs to.
 	 * 
@@ -162,22 +155,20 @@ public class ModelHelper {
 	 *            The conclusion graph.
 	 * @return The direct nested application condition this graph belongs to.
 	 */
-	public static NestedCondition getParentCondition(Formula formula,
-			Graph graph) {
+	public static NestedCondition getParentCondition(Formula formula, Graph graph) {
 		if (formula instanceof NestedCondition) {
 			NestedCondition nestedCondition = (NestedCondition) formula;
-			if (nestedCondition.getConclusion() == graph)
-				return nestedCondition;
+			if (nestedCondition.getConclusion() == graph) return nestedCondition;
 		} else if (formula instanceof BinaryFormula) {
 			getParentCondition(((BinaryFormula) formula).getLeft(), graph);
 			getParentCondition(((BinaryFormula) formula).getRight(), graph);
 		} else if (formula instanceof UnaryFormula) {
 			getParentCondition(((UnaryFormula) formula).getChild(), graph);
 		}
-
+		
 		return null;
 	}
-
+	
 	public static Object castDown(Object complexValue, String type) {
 		if (complexValue instanceof Double) {
 			if (type.equals("int")) {
@@ -192,10 +183,10 @@ public class ModelHelper {
 				return ((Double) complexValue).byteValue();
 			}
 		}
-
+		
 		return complexValue;
 	}
-
+	
 	// public static Rule findRuleByName(TransformationSystem ts, String name) {
 	// for (Rule rule : ts.getRules()) {
 	// if (name.equals(rule.getName()))
@@ -203,12 +194,52 @@ public class ModelHelper {
 	// }
 	// return null;
 	// }
-
+	
 	public static void registerFileExtension(String extension) {
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				extension, new XMIResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
+				new XMIResourceFactoryImpl());
 	}
-
+	
+	/**
+	 * Tries to open the Ecore file at the given URI location. If successful,
+	 * the newly loaded EPackage is registered in the global EPackage registry
+	 * and returned.
+	 * 
+	 * @param ecoreFileUri
+	 * @return
+	 */
+	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri) {
+		EPackage p = registerEPackageByEcoreFile(ecoreFileUri, null);
+		EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
+		return p;
+	}// registerEPackageByEcoreFile
+	
+	/**
+	 * Tries to open the Ecore file at the given URI location in the context of
+	 * the given ResourceSet. If successful, the newly loaded EPackage is
+	 * registered in the local EPackage registry of the ResourceSet and
+	 * returned.
+	 * 
+	 * @param ecoreFileUri
+	 * @param rs
+	 * @return
+	 */
+	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri, ResourceSet rs) {
+		EPackage result = null;
+		if (rs == null) rs = new ResourceSetImpl();
+		Resource packageResource = rs.createResource(ecoreFileUri);
+		if (packageResource.getContents() != null) {
+			EObject tmp = packageResource.getContents().get(0);
+			if (tmp != null && tmp instanceof EPackage) {
+				result = (EPackage) tmp;
+				rs.getPackageRegistry().put(result.getNsURI(), result);
+				// EPackage.Registry.INSTANCE.put(result.getNsURI(), result);
+			}// if
+		}// if
+		
+		return result;
+	}// registerEPackageByEcoreFile
+	
 	public static void saveFile(String filename, EObject root) {
 		Resource resource = new XMLResourceImpl(URI.createFileURI(filename));
 		resource.getContents().add(root);
@@ -217,34 +248,32 @@ public class ModelHelper {
 		} catch (IOException e) {
 		}
 	}
-
+	
 	public static EObject loadFile(String filename) {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.getResource(
-				URI.createFileURI(filename), true);
+		Resource resource = resourceSet.getResource(URI.createFileURI(filename), true);
 		return resource.getContents().get(0);
 	}
-
+	
 	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
 			Map<Parameter, Object> parameterValues) {
 		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
-
+		
 		for (Parameter parameter : unit.getParameters()) {
 			Rule rule = null;
 			if (unit instanceof Rule)
 				rule = (Rule) unit;
 			else if (unit instanceof AmalgamationUnit)
 				rule = ((AmalgamationUnit) unit).getKernelRule();
-
+			
 			if (rule != null) {
 				Node node = rule.getNodeByName(parameter.getName(), true);
-				if (node != null)
-					prematch.put(node, (EObject) parameterValues.get(parameter));
+				if (node != null) prematch.put(node, (EObject) parameterValues.get(parameter));
 			}
 		}
 		return prematch;
 	}
-
+	
 	/**
 	 * Renames the given attribute value to the new
 	 * 
@@ -252,10 +281,9 @@ public class ModelHelper {
 	 * @param oldName
 	 * @param newName
 	 */
-	public static void renameParameterInAttribute(Attribute attribute,
-			String oldName, String newName) {
+	public static void renameParameterInAttribute(Attribute attribute, String oldName,
+			String newName) {
 		// TODO: do a real parse on the value
-		if (attribute.getValue().equals(oldName))
-			attribute.setValue(newName);
+		if (attribute.getValue().equals(oldName)) attribute.setValue(newName);
 	}
 }
