@@ -15,3 +15,4 @@ plugin@org.eclipse.emf.henshin.statespace=SVN,,svn://dev.eclipse.org/svnroot/mod
 plugin@org.eclipse.emf.henshin.statespace.explorer=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.explorer
 plugin@org.eclipse.emf.henshin.statespace.external=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.external
 plugin@org.eclipse.emf.henshin.statespace.ocl=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.statespace.ocl
+plugin@org.eclipse.emf.henshin.trace=SVN,,svn://dev.eclipse.org/svnroot/modeling/org.eclipse.emft.henshin/trunk/plugins,,org.eclipse.emf.henshin.trace
