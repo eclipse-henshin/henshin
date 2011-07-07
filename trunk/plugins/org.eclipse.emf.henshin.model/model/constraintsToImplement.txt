@@ -35,6 +35,9 @@ Note: If a constraint below has been implemented, please mark it with a leading 
 <done> [error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
 <done> [error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
 
+* CountedUnit
+<done> [error] count =-1 or count>0
+
 * AmalgamationUnit
 <done> [error] each node in the lhs of "kernel rule" has a lhsMappings:mapping to one node in each's "multi rule" lhs
 <done> [error] each node in the rhs of "kernel rule" has a rhsMappings:mapping to one node in each's "multi rule" rhs

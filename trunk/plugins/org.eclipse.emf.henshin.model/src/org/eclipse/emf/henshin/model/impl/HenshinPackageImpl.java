@@ -1491,6 +1491,12 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "kernelLhsNodesMapped \r\nkernelRhsNodesMapped \r\nkernelLhsEdgesMapped \r\nkernelRhsEdgesMapped\r\nlhsMappingsFromKernelToMulti\r\nrhsMappingsFromKernelToMulti\r\nnoAdditionalMappingsFromMappedKernel"
 		   });			
 		addAnnotation
+		  (countedUnitEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "ValidCountRange"
+		   });			
+		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 
 		   new String[] {
@@ -1590,6 +1596,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "rhsMappingsFromKernelToMulti.Msg", "_Ocl_Msg_AmalgamationUnit_rhsMappingsFromKernelToMulti",
 			 "noAdditionalMappingsFromMappedKernel", "multiRules->forAll( mRule : Rule | \r\n\tmRule.mappings->forAll(mMapping : Mapping | \r\n\t\tlhsMappings->forAll(lMapping : Mapping| \r\n\t\t\tmMapping.origin = lMapping.image \r\n\t\t\timplies\t\r\n\t\t\trhsMappings->exists(rMapping :Mapping |\r\n\t\t\t\trMapping.image = mMapping.image\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\tand\r\n\t\trhsMappings->forAll(rMapping : Mapping | \r\n\t\t\tmMapping.image = rMapping.image \r\n\t\t\timplies\t\r\n\t\t\tlhsMappings->exists(lMapping :Mapping |\r\n\t\t\t\tlMapping.image = mMapping.origin\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t)\r\n)",
 			 "noAdditionalMappingsFromMappedKernel.Msg", "_Ocl_Msg_AmalgamationUnit_noAdditionalMappingsFromMappedKernel"
+		   });			
+		addAnnotation
+		  (countedUnitEClass, 
+		   source, 
+		   new String[] {
+			 "ValidCountRange", "count=-1 or count>0",
+			 "ValidCountRange.Msg", "_Ocl_Msg_CountedUnit_ValidCountRange",
+			 "ValidCountRange.Severity", "Error"
 		   });	
 	}
 

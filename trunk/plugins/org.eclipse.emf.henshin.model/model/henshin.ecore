@@ -257,6 +257,14 @@
         eType="#//Mapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidCountRange"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ValidCountRange" value="count=-1 or count>0"/>
+      <details key="ValidCountRange.Msg" value="_Ocl_Msg_CountedUnit_ValidCountRange"/>
+      <details key="ValidCountRange.Severity" value="Error"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
         eType="#//TransformationUnit"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

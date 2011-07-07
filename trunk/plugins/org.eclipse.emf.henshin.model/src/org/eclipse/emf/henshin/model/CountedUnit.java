@@ -26,7 +26,8 @@ package org.eclipse.emf.henshin.model;
  * </p>
  *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getCountedUnit()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidCountRange'"
+ *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL ValidCountRange='count=-1 or count>0' ValidCountRange.Msg='_Ocl_Msg_CountedUnit_ValidCountRange' ValidCountRange.Severity='Error'"
  * @generated
  */
 public interface CountedUnit extends TransformationUnit {

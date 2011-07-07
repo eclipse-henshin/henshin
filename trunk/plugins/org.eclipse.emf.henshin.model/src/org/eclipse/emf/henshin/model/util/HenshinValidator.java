@@ -250,6 +250,15 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	private static Constraint amalgamationUnit_noAdditionalMappingsFromMappedKernelInvOCL;
 	
+	/**
+	 * The parsed OCL expression for the definition of the '
+	 * <em>ValidCountRange</em>' invariant constraint. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private static Constraint countedUnit_ValidCountRangeInvOCL;
+	
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
@@ -2409,7 +2418,75 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null)
 			result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(countedUnit,
 					diagnostics, context);
+		if (result || diagnostics != null)
+			result &= validateCountedUnit_ValidCountRange(countedUnit, diagnostics, context);
 		return result;
+	}
+	
+	/**
+	 * Validates the ValidCountRange constraint of '<em>Counted Unit</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean validateCountedUnit_ValidCountRange(CountedUnit countedUnit,
+			DiagnosticChain diagnostics, Map<Object, Object> context) {
+		if (countedUnit_ValidCountRangeInvOCL == null) {
+			OCL.Helper helper = OCL_ENV.createOCLHelper();
+			helper.setContext(HenshinPackage.Literals.COUNTED_UNIT);
+			
+			EAnnotation ocl = HenshinPackage.Literals.COUNTED_UNIT
+					.getEAnnotation(OCL_ANNOTATION_SOURCE);
+			String expr = ocl.getDetails().get("ValidCountRange");
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
+			
+			try {
+				countedUnit_ValidCountRangeInvOCL = helper.createInvariant(expr);
+			} catch (ParserException e) {
+				throw new UnsupportedOperationException(e.getLocalizedMessage());
+			}
+			
+			countedUnit_ValidCountRangeInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("ValidCountRange.Msg");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("Msg", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("ValidCountRange.Severity");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("Severity",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
+		}
+		
+		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(countedUnit_ValidCountRangeInvOCL);
+		
+		if (!query.check(countedUnit)) {
+			if (diagnostics != null) {
+				
+				EAnnotation henshinAnnotation = countedUnit_ValidCountRangeInvOCL
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("Severity"))
+						: Diagnostic.ERROR; // default severity is
+											// Diagnostic.ERROR
+				
+				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
+						.getDetails().get("Msg") : null;
+				
+				diagnostics.add(createDiagnostic(severity, DIAGNOSTIC_SOURCE, 0,
+						"_UI_GenericConstraint_diagnostic", new Object[] { "ValidCountRange",
+								getObjectLabel(countedUnit, context) },
+						new Object[] { countedUnit }, context, addMsg));
+			}
+			return false;
+		}
+		return true;
 	}
 	
 	/**
