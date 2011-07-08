@@ -69,6 +69,7 @@ public class ModelChange {
 	 * This method ensures, that only one list change per ChangeKind ADD,
 	 * REMOVE, MOVE is created
 	 */
+	@SuppressWarnings("unused")
 	private ListChange getListChangeByKind(FeatureChange featureChange, ChangeKind kind) {
 		for (ListChange existingChange : featureChange.getListChanges()) {
 			if (existingChange.getKind() == kind) return existingChange;

@@ -38,7 +38,6 @@ import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
 import org.eclipse.emf.henshin.provider.trans.IfItemProvider;
