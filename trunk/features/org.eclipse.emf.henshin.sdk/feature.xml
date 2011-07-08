@@ -78,6 +78,13 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.emf.henshin.common"
+         download-size="0"
+         install-size="0"
+         version="0.7.1.qualifier"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
@@ -99,14 +106,21 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.henshin.common"
+         id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
          version="0.7.1.qualifier"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.henshin.interpreter"
+         id="org.eclipse.emf.henshin.interpreter.ui"
+         download-size="0"
+         install-size="0"
+         version="0.7.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
          version="0.7.1.qualifier"
@@ -127,13 +141,6 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.emf.henshin.examples"
-         download-size="0"
-         install-size="0"
-         version="0.7.1.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.emf.henshin.statespace.external"
          download-size="0"
          install-size="0"
@@ -142,13 +149,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.ocl"
-         download-size="0"
-         install-size="0"
-         version="0.7.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.emf.henshin.interpreter.ui"
          download-size="0"
          install-size="0"
          version="0.7.1.qualifier"
