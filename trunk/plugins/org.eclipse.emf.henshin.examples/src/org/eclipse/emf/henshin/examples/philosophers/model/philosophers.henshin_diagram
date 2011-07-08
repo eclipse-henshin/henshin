@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="__C534AyyEd-sevZvIGAaZw" type="Henshin" measurementUnit="Pixel">
-  <children xmi:type="notation:Shape" xmi:id="__6bVwAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" fillColor="16114135" lineColor="0">
+  <children xmi:type="notation:Shape" xmi:id="__6bVwAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="__6lt0AyyEd-sevZvIGAaZw" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="__6mU4AyyEd-sevZvIGAaZw" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_AyEIYAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
@@ -47,7 +47,7 @@
     <element xmi:type="henshin:Rule" href="philosophers.henshin#_ltExIAdZEd-l9fE4S3UNLA"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6bVwQyyEd-sevZvIGAaZw" x="45" y="36" width="381" height="304"/>
   </children>
-  <children xmi:type="notation:Shape" xmi:id="__6m78AyyEd-sevZvIGAaZw" type="2001" fontName="Sans" fillColor="16114135" lineColor="0">
+  <children xmi:type="notation:Shape" xmi:id="__6m78AyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="__6njAAyyEd-sevZvIGAaZw" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="__6oKEAyyEd-sevZvIGAaZw" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_Az1qAAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
@@ -94,7 +94,7 @@
     <element xmi:type="henshin:Rule" href="philosophers.henshin#_Nu_b0AxFEd-NSqR1D2XGHA"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6m78QyyEd-sevZvIGAaZw" x="468" y="36" width="381" height="304"/>
   </children>
-  <children xmi:type="notation:Shape" xmi:id="__6oxIAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" fillColor="16114135" lineColor="0">
+  <children xmi:type="notation:Shape" xmi:id="__6oxIAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="__6pYMAyyEd-sevZvIGAaZw" type="5001"/>
     <children xmi:type="notation:DecorationNode" xmi:id="__6pYMQyyEd-sevZvIGAaZw" type="7001">
       <children xmi:type="notation:Shape" xmi:id="_A05Z8AyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
@@ -151,7 +151,7 @@
     <element xmi:type="henshin:Rule" href="philosophers.henshin#_LrKnEAdcEd-0LKv0uxhTyQ"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6oxIQyyEd-sevZvIGAaZw" x="178" y="388" width="506" height="344"/>
   </children>
-  <children xmi:type="notation:Shape" xmi:id="_iJAAwHlEEd--cZ9Xscsd8g" type="2001" fontName="Sans" fillColor="16114135" lineColor="0">
+  <children xmi:type="notation:Shape" xmi:id="_iJAAwHlEEd--cZ9Xscsd8g" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4mnAALtgEd-6F6HrA5096Q" source="rootObject">
       <references xmi:type="henshin:Node" href="philosophers.henshin#_4mnnELtgEd-6F6HrA5096Q"/>
     </eAnnotations>

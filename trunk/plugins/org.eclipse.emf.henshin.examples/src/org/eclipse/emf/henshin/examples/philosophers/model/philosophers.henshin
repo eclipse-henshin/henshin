@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_bcD0UQdZEd-l9fE4S3UNLA">
-  <rules xmi:id="_ltExIAdZEd-l9fE4S3UNLA" name="left" activated="true">
+  <rules xmi:id="_ltExIAdZEd-l9fE4S3UNLA" name="left">
     <lhs xmi:id="_ltExIQdZEd-l9fE4S3UNLA" name="LHS">
       <nodes xmi:id="_ogeF0AdZEd-l9fE4S3UNLA" name="table" outgoing="_3_9jkAxEEd-NSqR1D2XGHA _5MqAMAxEEd-NSqR1D2XGHA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Table"/>
@@ -58,7 +58,7 @@
     <mappings xmi:id="_aynZQAdaEd-aOuJFyPztjA" origin="_aylkEAdaEd-aOuJFyPztjA" image="_aymyMAdaEd-aOuJFyPztjA"/>
     <mappings xmi:id="_niiogAdaEd-aOuJFyPztjA" origin="_ogeF0AdZEd-l9fE4S3UNLA" image="_niiogQdaEd-aOuJFyPztjA"/>
   </rules>
-  <rules xmi:id="_Nu_b0AxFEd-NSqR1D2XGHA" name="right" activated="true">
+  <rules xmi:id="_Nu_b0AxFEd-NSqR1D2XGHA" name="right">
     <lhs xmi:id="_NvAC4AxFEd-NSqR1D2XGHA" name="LHS">
       <nodes xmi:id="_NvAC4QxFEd-NSqR1D2XGHA" name="table" outgoing="_NvAC5wxFEd-NSqR1D2XGHA _NvAC6AxFEd-NSqR1D2XGHA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Table"/>
@@ -116,7 +116,7 @@
     <mappings xmi:id="_NvAC9AxFEd-NSqR1D2XGHA" origin="_NvAC5AxFEd-NSqR1D2XGHA" image="_NvAC7AxFEd-NSqR1D2XGHA"/>
     <mappings xmi:id="_NvAC9QxFEd-NSqR1D2XGHA" origin="_NvAC4QxFEd-NSqR1D2XGHA" image="_NvAC7QxFEd-NSqR1D2XGHA"/>
   </rules>
-  <rules xmi:id="_LrKnEAdcEd-0LKv0uxhTyQ" name="release" activated="true">
+  <rules xmi:id="_LrKnEAdcEd-0LKv0uxhTyQ" name="release">
     <lhs xmi:id="_LrKnEQdcEd-0LKv0uxhTyQ" name="LHS">
       <nodes xmi:id="_LrKnEgdcEd-0LKv0uxhTyQ" name="table" outgoing="_sKlbkAxFEd-NSqR1D2XGHA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Table"/>
@@ -193,7 +193,7 @@
     <mappings xmi:id="_LrKnJAdcEd-0LKv0uxhTyQ" origin="_LrKnEgdcEd-0LKv0uxhTyQ" image="_LrKnHQdcEd-0LKv0uxhTyQ"/>
     <mappings xmi:id="_jqML0AmoEd-BTP3GZpEOVA" origin="_jqCa0AmoEd-BTP3GZpEOVA" image="_jqHTUAmoEd-BTP3GZpEOVA"/>
   </rules>
-  <rules xmi:id="_iHzG4HlEEd--cZ9Xscsd8g" name="create" activated="true">
+  <rules xmi:id="_iHzG4HlEEd--cZ9Xscsd8g" name="create">
     <lhs xmi:id="_iHzG4XlEEd--cZ9Xscsd8g" name="LHS">
       <nodes xmi:id="_4mnnELtgEd-6F6HrA5096Q" name="root" outgoing="_4nZDILtgEd-6F6HrA5096Q _4ng-8LtgEd-6F6HrA5096Q _4nlQYLtgEd-6F6HrA5096Q _4nph0LtgEd-6F6HrA5096Q _4ntzQLtgEd-6F6HrA5096Q">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Philosophers#//Table"/>
