@@ -61,7 +61,7 @@ public class EdgeActionParser extends AbstractParser {
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
-		return "<<" + getEditString(element, flags) + ">>";
+		return NodeActionParser.addActionQuotes(getEditString(element, flags));
 	}
 
 	/*

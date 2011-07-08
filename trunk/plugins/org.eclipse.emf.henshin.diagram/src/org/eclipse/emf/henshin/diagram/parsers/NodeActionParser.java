@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.parsers;
 
+import java.nio.charset.Charset;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -56,7 +58,14 @@ public class NodeActionParser extends AbstractParser {
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
-		return "<<" + getEditString(element, flags) + ">>";
+		return addActionQuotes(getEditString(element, flags));
+	}
+
+	/*
+	 * Add quotes around an action.
+	 */
+	public static String addActionQuotes(String string) {
+		return ((char) 171) + string + ((char) 187);
 	}
 
 	/*

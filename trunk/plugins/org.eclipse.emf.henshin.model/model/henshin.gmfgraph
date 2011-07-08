@@ -13,7 +13,7 @@
         <children
             xsi:type="gmfgraph:Label"
             name="RuleNameFigure"
-            text="Rule">
+            text="unnamed">
           <maximumSize
               dx="1000"
               dy="20"/>

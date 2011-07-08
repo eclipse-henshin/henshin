@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -62,14 +63,41 @@ public class RuleNameParser extends AbstractParser {
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
 		Rule rule = (Rule) ruleView.getElement();
-		String name = rule.getName()!=null ? rule.getName() : "";
-		Node root = RootObjectEditHelper.getRootObject(ruleView);
-		if (root!=null) {
-			String type = root.getType().getName();
-			return name + ":" + type;
-		} else {
-			return name;
+		
+		// Compute the display name:
+		String name = rule.getName();
+		if (name==null) {
+			name = "";
 		}
+		if ((name.trim().length()==0) && 
+			(!rule.getLhs().getNodes().isEmpty() || 
+			 !rule.getRhs().getNodes().isEmpty() ||
+			 !rule.getParameters().isEmpty())) {
+			name = "unnamed";
+		}
+		
+		// Compute the parameters:
+		String params = "";
+		int paramCount = rule.getParameters().size();
+		if (paramCount>0) {
+			for (int i=0; i<paramCount; i++) {
+				params = params + rule.getParameters().get(i).getName();
+				if (i<paramCount-1) {
+					params = params + ",";
+				}
+			}
+			params = "(" + params + ")";
+		}
+		
+		// Compute the root object:
+		String root = "";
+		Node rootObject = RootObjectEditHelper.getRootObject(ruleView);
+		if (rootObject!=null) {
+			root = " @" + rootObject.getType().getName();
+		}
+		
+		// Compile the title:
+		return (name + params + root);
 	}
 	
 	/*
@@ -112,20 +140,50 @@ public class RuleNameParser extends AbstractParser {
 		
 		// We need the rule:
 		Rule rule = (Rule) ruleView.getElement();
-
-		// Separate name and type:
+		
+		// Parse the input:
 		String name, rootType;
-		int colon = value.indexOf(':');
-		if (colon<0) {
+		String[] params = new String[0];
+
+		// Separate the root type:
+		int at = value.indexOf('@');
+		if (at<0) {
 			name = value;
 			rootType = null;
 		} else {
-			name = value.substring(0,colon).trim();
-			rootType = value.substring(colon+1).trim();
+			name = value.substring(0,at).trim();
+			rootType = value.substring(at+1).trim();
 			if (rootType.length()==0) rootType = null;
 		}
 		
-		// Handle the root objects:
+		// Separate the parameters:
+		int open_bracket = name.indexOf('(');
+		int close_bracket = name.indexOf(')');
+		if (open_bracket>=0) {
+			if (close_bracket<open_bracket) {
+				return CommandResult.newErrorCommandResult("Error parsing rule parameters");
+			}
+			params = name.substring(open_bracket+1, close_bracket).split(",");
+			name = name.substring(0, open_bracket).trim();
+		}
+		
+		// Update the parameters:
+		rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());	// dummy change to enforce notification
+		while (rule.getParameters().size()>params.length) {
+			rule.getParameters().remove(rule.getParameters().size()-1);
+		}
+		while (rule.getParameters().size()<params.length) {
+			rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());
+		}
+		for (int i=0; i<params.length; i++) {
+			String p = params[i];
+			if (p==null || p.trim().length()==0) {
+				p = "p"+i;
+			}
+			rule.getParameters().get(i).setName(p.trim());
+		}
+		
+		// Update the root object:
 		Node oldRoot = RootObjectEditHelper.getRootObject(ruleView);
 		
 		// Do we need to set a new root object?
@@ -167,6 +225,7 @@ public class RuleNameParser extends AbstractParser {
 	@Override
 	protected boolean isAffectingFeature(Object feature) {
 		if (feature==HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
+		if (feature==HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()) return true;
 		if (feature==EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
 		if (feature==EcorePackage.eINSTANCE.getEAnnotation_References()) return true;
 		return false;
