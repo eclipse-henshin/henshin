@@ -145,7 +145,7 @@ public class EmfEngine implements InterpreterEngine {
 			DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, options);
 			
 			if (prematch.get(node) != null) {
-				domainSlot.fixInstanciation(prematch.get(node));
+				domainSlot.fixInstantiation(prematch.get(node));
 			}
 			
 			for (Variable dependendVariable : variableInfo.getDependendVariables(mainVariable)) {

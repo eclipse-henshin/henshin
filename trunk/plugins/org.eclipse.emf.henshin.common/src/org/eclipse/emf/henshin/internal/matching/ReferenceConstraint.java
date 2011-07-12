@@ -34,26 +34,25 @@ public class ReferenceConstraint implements BinaryConstraint {
 	
 	@SuppressWarnings("unchecked")
 	public boolean check(DomainSlot source, DomainSlot target) {
-		if (!source.locked || source.value.eGet(reference) == null)
-			return false;
+		if (!source.locked || source.value.eGet(reference) == null) return false;
 		
-		Collection<EObject> referedObjects;
+		Collection<EObject> referredObjects;
 		if (reference.isMany()) {
-			referedObjects = (List<EObject>) source.value.eGet(reference);
+			referredObjects = (List<EObject>) source.value.eGet(reference);
+			if (referredObjects.isEmpty()) return false;
 		} else {
-			referedObjects = new ArrayList<EObject>();
-			referedObjects.add((EObject) source.value.eGet(reference));
+			EObject v = (EObject) source.value.eGet(reference);
+			if (v == null) return false;
+			referredObjects = new ArrayList<EObject>(1);
+			referredObjects.add(v);
 		}
 		
-		if (referedObjects.isEmpty())
-			return false;
-		
 		if (target.locked) {
-			return referedObjects.contains(target.value);
+			return referredObjects.contains(target.value);
 		} else {
 			DomainChange change = new DomainChange(target, target.temporaryDomain);
 			source.remoteChangeMap.put(this, change);
-			target.temporaryDomain = new ArrayList<EObject>(referedObjects);
+			target.temporaryDomain = new ArrayList<EObject>(referredObjects);
 			
 			if (change.originalValues != null)
 				target.temporaryDomain.retainAll(change.originalValues);

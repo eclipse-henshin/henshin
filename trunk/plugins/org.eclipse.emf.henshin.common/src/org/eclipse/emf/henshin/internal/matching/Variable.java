@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.henshin.internal.constraints.Constraint;
 
 public class Variable {
 	private TypeConstraint typeConstraint;
@@ -23,7 +22,13 @@ public class Variable {
 	private Collection<DanglingConstraint> danglingConstraints;
 	private Collection<ReferenceConstraint> referenceConstraints;
 	private Collection<ParameterConstraint> parameterConstraints;
-
+	
+	/**
+	 * Constructor<br>
+	 * Creates the related {@link TypeConstraint} already.
+	 * 
+	 * @param type
+	 */
 	public Variable(EClass type) {
 		typeConstraint = new TypeConstraint(type);
 		
@@ -33,45 +38,62 @@ public class Variable {
 		parameterConstraints = new HashSet<ParameterConstraint>();
 	}
 	
-	public void addConstraint(Constraint constraint) {
-		if (constraint instanceof AttributeConstraint) {
-			attributeConstraints.add((AttributeConstraint) constraint);
-		} else if (constraint instanceof DanglingConstraint) {
-			danglingConstraints.add((DanglingConstraint) constraint);
-		} else if (constraint instanceof ReferenceConstraint) {
-			referenceConstraints.add((ReferenceConstraint) constraint);
-		} else if (constraint instanceof ParameterConstraint) {
-			parameterConstraints.add((ParameterConstraint) constraint);
-		} else {
-			throw new IllegalArgumentException("Unknown constraint");
-		}
+	/**
+	 * @param constraint
+	 */
+	public void addConstraint(AttributeConstraint constraint) {
+		attributeConstraints.add((AttributeConstraint) constraint);
 	}
 	
+	/**
+	 * @param constraint
+	 */
+	public void addConstraint(DanglingConstraint constraint) {
+		danglingConstraints.add((DanglingConstraint) constraint);
+	}
+	
+	/**
+	 * @param constraint
+	 */
+	public void addConstraint(ReferenceConstraint constraint) {
+		referenceConstraints.add((ReferenceConstraint) constraint);
+	}
+	
+	/**
+	 * @param constraint
+	 */
+	public void addConstraint(ParameterConstraint constraint) {
+		parameterConstraints.add((ParameterConstraint) constraint);
+	}
+	
+	/**
+	 * @return
+	 */
 	public TypeConstraint getTypeConstraint() {
 		return typeConstraint;
 	}
-
+	
 	/**
 	 * @return the attributeConstraints
 	 */
 	public Collection<AttributeConstraint> getAttributeConstraints() {
 		return attributeConstraints;
 	}
-
+	
 	/**
 	 * @return the danglingConstraints
 	 */
 	public Collection<DanglingConstraint> getDanglingConstraints() {
 		return danglingConstraints;
 	}
-
+	
 	/**
 	 * @return the referenceConstraints
 	 */
 	public Collection<ReferenceConstraint> getReferenceConstraints() {
 		return referenceConstraints;
 	}
-
+	
 	/**
 	 * @return the parameterConstraints
 	 */

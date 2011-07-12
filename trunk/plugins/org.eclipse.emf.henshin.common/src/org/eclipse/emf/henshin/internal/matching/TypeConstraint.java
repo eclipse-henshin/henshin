@@ -19,7 +19,7 @@ import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.internal.constraints.UnaryConstraint;
 
 /**
- * This constraint checks whether an attribute has a specific value.
+ * This constraint checks whether an node has a specific value.
  */
 public class TypeConstraint implements UnaryConstraint {
 	EClass type;
@@ -28,24 +28,33 @@ public class TypeConstraint implements UnaryConstraint {
 		this.type = type;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.internal.constraints.UnaryConstraint#check(org
+	 * .eclipse.emf.henshin.internal.matching.DomainSlot)
+	 */
+	@Override
 	public boolean check(DomainSlot slot) {
-		if (slot.locked)
-			return type.isSuperTypeOf(slot.value.eClass());
+		if (slot.locked) return type.isSuperTypeOf(slot.value.eClass());
 		
 		return true;
 	}
 	
+	/**
+	 * @param slot
+	 * @param graph
+	 * @return
+	 */
 	public boolean initDomain(DomainSlot slot, EmfGraph graph) {
 		if (slot.domain == null) {
 			slot.domain = new ArrayList<EObject>(graph.getDomainForType(type));
-		} else {
-			if (slot.domain != null && !slot.domain.isEmpty()) {
-				for (int i = slot.domain.size() - 1; i >= 0; i--) {
-					EObject eObject = slot.domain.get(i);
-					
-					if (eObject != null && !type.isSuperTypeOf(eObject.eClass()))
-						slot.domain.remove(i);
-				}
+		} else if (!slot.domain.isEmpty()) {
+			for (int i = slot.domain.size() - 1; i >= 0; i--) {
+				EObject eObject = slot.domain.get(i);
+				
+				if (eObject != null && !type.isSuperTypeOf(eObject.eClass()))
+					slot.domain.remove(i);
 			}
 		}
 		

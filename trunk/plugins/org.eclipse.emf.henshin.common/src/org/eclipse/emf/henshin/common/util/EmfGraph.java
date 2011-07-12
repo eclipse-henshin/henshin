@@ -31,18 +31,33 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * to this class will be used for matching.
  */
 public class EmfGraph {
+	/**
+	 * All objects (instances) in this graph.
+	 */
 	protected Collection<EObject> eObjects;
+	/**
+	 * All EPackages involved.
+	 */
 	protected Collection<EPackage> ePackages;
+	/**
+	 * Mappings from each type to all its instances.
+	 */
 	Map<EClass, Collection<EObject>> domainMap;
+	/**
+	 * Mappings from each type to all its extending subtypes.
+	 */
 	Map<EClass, Collection<EClass>> inheritanceMap;
-
+	
+	/**
+	 * Constructor
+	 */
 	public EmfGraph() {
 		eObjects = new LinkedHashSet<EObject>();
 		ePackages = new HashSet<EPackage>();
 		domainMap = new HashMap<EClass, Collection<EObject>>();
 		inheritanceMap = new HashMap<EClass, Collection<EClass>>();
 	}
-
+	
 	/**
 	 * Adds a new eObject to this graph.
 	 * 
@@ -55,7 +70,7 @@ public class EmfGraph {
 	public boolean addEObject(EObject eObject) {
 		return addEObjectToGraph(eObject);
 	}
-
+	
 	/**
 	 * Removes an eObject to this graph.
 	 * 
@@ -68,7 +83,7 @@ public class EmfGraph {
 	public boolean removeEObject(EObject eObject) {
 		return removeEObjectFromGraph(eObject);
 	}
-
+	
 	/**
 	 * Adds a new containment tree to this graph.
 	 * 
@@ -78,16 +93,16 @@ public class EmfGraph {
 	 * @return true, if any eObject was added.
 	 */
 	public boolean addRoot(EObject root) {
-		boolean collectionChanged = false;
-
-		collectionChanged |= addEObjectToGraph(root);
+		boolean collectionChanged;
+		
+		collectionChanged = addEObjectToGraph(root);
 		for (Iterator<EObject> it = root.eAllContents(); it.hasNext();) {
 			collectionChanged |= addEObjectToGraph(it.next());
 		}
-
+		
 		return collectionChanged;
 	}
-
+	
 	/**
 	 * Removes a containment tree from this graph.
 	 * 
@@ -97,16 +112,16 @@ public class EmfGraph {
 	 * @return true, if any eObject was removed.
 	 */
 	public boolean removeRoot(EObject root) {
-		boolean collectionChanged = false;
-
-		collectionChanged |= removeEObjectFromGraph(root);
+		boolean collectionChanged;
+		
+		collectionChanged = removeEObjectFromGraph(root);
 		for (Iterator<EObject> it = root.eAllContents(); it.hasNext();) {
 			collectionChanged |= removeEObjectFromGraph(it.next());
 		}
-
+		
 		return collectionChanged;
 	}
-
+	
 	/**
 	 * Returns all possible EObjects of this graph which are compatible with the
 	 * given type.
@@ -118,51 +133,65 @@ public class EmfGraph {
 	 */
 	public Collection<EObject> getDomainForType(EClass type) {
 		Collection<EObject> domain = new ArrayList<EObject>();
-
-		if (inheritanceMap.get(type) != null)
-			for (EClass child : inheritanceMap.get(type)) {
+		
+		Collection<EClass> inhMap = inheritanceMap.get(type);
+		if (inhMap != null) {
+			for (EClass child : inhMap) {
 				domain.addAll(getDomain(child));
 			}
-
+		}
+		
 		return domain;
 	}
-
+	
+	/**
+	 * @param eObject
+	 * @return
+	 */
 	protected boolean addEObjectToGraph(EObject eObject) {
 		boolean isNew = eObjects.add(eObject);
-
+		
 		if (isNew) {
 			EClass type = eObject.eClass();
 			EPackage ePackage = type.getEPackage();
-
+			
 			Collection<EObject> domain = domainMap.get(type);
 			if (domain == null) {
 				domain = new ArrayList<EObject>();
 				domainMap.put(type, domain);
 			}
 			domain.add(eObject);
-
+			
 			addEPackage(ePackage);
 		}
-
+		
 		return isNew;
 	}
-
+	
+	/**
+	 * @param eObject
+	 * @return
+	 */
 	protected boolean removeEObjectFromGraph(EObject eObject) {
 		boolean wasRemoved = eObjects.remove(eObject);
-
+		
 		if (wasRemoved) {
 			EClass type = eObject.eClass();
-
+			
 			Collection<EObject> domain = domainMap.get(type);
 			domain.remove(eObject);
 		}
-
+		
 		return wasRemoved;
 	}
-
+	
+	/**
+	 * @param ePackage
+	 * @return
+	 */
 	protected boolean addEPackage(EPackage ePackage) {
 		boolean isNew = ePackages.add(ePackage);
-
+		
 		if (isNew) {
 			for (EClassifier classifier : ePackage.getEClassifiers()) {
 				if (classifier instanceof EClass) {
@@ -176,7 +205,11 @@ public class EmfGraph {
 		}
 		return isNew;
 	}
-
+	
+	/**
+	 * @param child
+	 * @param parent
+	 */
 	protected void addChildParentRelation(EClass child, EClass parent) {
 		Collection<EClass> children = inheritanceMap.get(parent);
 		if (children == null) {
@@ -185,15 +218,19 @@ public class EmfGraph {
 		}
 		children.add(child);
 	}
-
+	
+	/**
+	 * @param type
+	 * @return
+	 */
 	protected Collection<EObject> getDomain(EClass type) {
 		Collection<EObject> domain = domainMap.get(type);
-
+		
 		if (domain == null) {
 			domain = new ArrayList<EObject>();
 			domainMap.put(type, domain);
 		}
-
+		
 		return domain;
 	}
 	
