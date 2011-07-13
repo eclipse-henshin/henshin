@@ -318,21 +318,20 @@ public class HenshinViewProvider extends AbstractProvider implements
 	 */
 	public Node createRule_2001(EObject domainElement, View containerView,
 			int index, boolean persisted, PreferencesHint preferencesHint) {
-		
+
 		// Create the node:
 		Node node = createRule_2001Gen(domainElement, containerView, index,
 				persisted, preferencesHint);
-		
+
 		// Set the default background color:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
 				FigureUtilities.colorToInteger(RULE_BACKGROUND));
-		
+
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
-				NotationPackage.eINSTANCE.getFontStyle_Italic(),
-				true);
-		
+				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
+
 		return node;
 	}
 

@@ -96,16 +96,17 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		Node node = (Node) (getNotationView().getElement());
 		Rule rule = node.getGraph().getContainerRule();
 		TransformationSystem system = rule.getTransformationSystem();
-		transformationListener = new TransformationSystemListener(system, new AdapterImpl() {
-			public void notifyChanged(Notification event) {
-				// Really make sure that the edit part is still valid.
-				if (isActive()
-						&& getNotationView().getElement() instanceof Node
-						&& getParent() != null) {
-					refreshVisuals();
-				}
-			}
-		});
+		transformationListener = new TransformationSystemListener(system,
+				new AdapterImpl() {
+					public void notifyChanged(Notification event) {
+						// Really make sure that the edit part is still valid.
+						if (isActive()
+								&& getNotationView().getElement() instanceof Node
+								&& getParent() != null) {
+							refreshVisuals();
+						}
+					}
+				});
 	}
 
 	/**
@@ -143,17 +144,17 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		if (action != null) {
 			setForegroundColor(action.getType().getColor());
 		} else {
-			super.refreshForegroundColor();			
+			super.refreshForegroundColor();
 		}
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	@Override
 	protected void createDefaultEditPolicies() {
 		createDefaultEditPoliciesGen();
-		
+
 		// Install a custom graphical node edit policy:
 		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
@@ -166,9 +167,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	public boolean shouldDrawShadow() {
 		Action action = getNodeAction();
-		return (action!=null) && (action.isAmalgamated());
+		return (action != null) && (action.isAmalgamated());
 	}
-	
+
 	/**
 	 * Get the action associated to this node.
 	 * @return Action.
@@ -181,7 +182,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -520,10 +521,10 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		public WrappingLabel getNodeTypeLabel() {
 			return fNodeTypeLabel;
 		}
-		
+
 		// Shadow width.
 		public static final int SHADOW_WIDTH = 5;
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
@@ -546,13 +547,15 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		protected void fillShape(Graphics graphics) {
 			if (shouldDrawShadow()) {
 				Rectangle r = Rectangle.SINGLETON.setBounds(getBounds());
-				graphics.fillRectangle(r.x,r.y,r.width-SHADOW_WIDTH,r.height-SHADOW_WIDTH);
-				graphics.fillRectangle(r.x+SHADOW_WIDTH,r.y+SHADOW_WIDTH,r.width,r.height);			
+				graphics.fillRectangle(r.x, r.y, r.width - SHADOW_WIDTH,
+						r.height - SHADOW_WIDTH);
+				graphics.fillRectangle(r.x + SHADOW_WIDTH, r.y + SHADOW_WIDTH,
+						r.width, r.height);
 			} else {
 				super.fillShape(graphics);
 			}
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.draw2d.RectangleFigure#outlineShape(org.eclipse.draw2d.Graphics)
@@ -568,30 +571,35 @@ public class NodeEditPart extends ShapeNodeEditPart {
 				r.y += inset1;
 				r.width -= inset1 + inset2;
 				r.height -= inset1 + inset2;
-				graphics.drawRectangle(r.x, r.y, r.width-SHADOW_WIDTH, r.height-SHADOW_WIDTH);
-				
+				graphics.drawRectangle(r.x, r.y, r.width - SHADOW_WIDTH,
+						r.height - SHADOW_WIDTH);
+
 				// Now draw the shadow:
-				graphics.setForegroundColor(getShadowColor());				
-				graphics.drawLine(r.x+SHADOW_WIDTH, r.y+r.height-SHADOW_WIDTH, r.x+SHADOW_WIDTH, r.y+r.height);
-				graphics.drawLine(r.x+r.width-SHADOW_WIDTH, r.y+SHADOW_WIDTH, r.x+r.width, r.y+SHADOW_WIDTH);
-				graphics.drawLine(r.x+SHADOW_WIDTH, r.y+r.height, r.x+r.width, r.y+r.height);
-				graphics.drawLine(r.x+r.width, r.y+SHADOW_WIDTH, r.x+r.width, r.y+r.height);
+				graphics.setForegroundColor(getShadowColor());
+				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height
+						- SHADOW_WIDTH, r.x + SHADOW_WIDTH, r.y + r.height);
+				graphics.drawLine(r.x + r.width - SHADOW_WIDTH, r.y
+						+ SHADOW_WIDTH, r.x + r.width, r.y + SHADOW_WIDTH);
+				graphics.drawLine(r.x + SHADOW_WIDTH, r.y + r.height, r.x
+						+ r.width, r.y + r.height);
+				graphics.drawLine(r.x + r.width, r.y + SHADOW_WIDTH, r.x
+						+ r.width, r.y + r.height);
 				graphics.setForegroundColor(getForegroundColor());
 			} else {
 				super.outlineShape(graphics);
 			}
 		}
-		
+
 		/**
 		 * Get the foreground color for the shadow.
 		 * @return shadow color.
 		 */
 		public Color getShadowColor() {
 			Color c = getForegroundColor();
-			return new Color(c.getDevice(),
-					Math.min(255, c.getRed() + ((255-c.getRed())/2)),
-					Math.min(255, c.getGreen() + ((255-c.getGreen())/2)),
-					Math.min(255, c.getBlue() + ((255-c.getBlue())/2)));
+			return new Color(c.getDevice(), Math.min(255, c.getRed()
+					+ ((255 - c.getRed()) / 2)), Math.min(255, c.getGreen()
+					+ ((255 - c.getGreen()) / 2)), Math.min(255, c.getBlue()
+					+ ((255 - c.getBlue()) / 2)));
 		}
 
 	}

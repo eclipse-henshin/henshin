@@ -58,6 +58,18 @@ public class TransformationSystemCanonicalEditPolicy extends
 	/**
 	 * @generated
 	 */
+	protected void refreshOnActivate() {
+		// Need to activate editpart children before invoking the canonical refresh for EditParts to add event listeners
+		List<?> c = getHost().getChildren();
+		for (int i = 0; i < c.size(); i++) {
+			((EditPart) c.get(i)).activate();
+		}
+		super.refreshOnActivate();
+	}
+
+	/**
+	 * @generated
+	 */
 	protected EStructuralFeature getFeatureToSynchronize() {
 		return HenshinPackage.eINSTANCE.getTransformationSystem_Rules();
 	}

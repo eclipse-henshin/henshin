@@ -139,8 +139,9 @@ public class EdgeCreateCommand extends EditElementCommand {
 		}
 
 		// Target type must be ok. Extra check for EObjects!!!
-		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
-			 edgeType.getEReferenceType()!=EcorePackage.eINSTANCE.getEObject()) {
+		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType)
+				&& edgeType.getEReferenceType() != EcorePackage.eINSTANCE
+						.getEObject()) {
 			return false;
 		}
 
@@ -160,10 +161,10 @@ public class EdgeCreateCommand extends EditElementCommand {
 		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
 
 		// Sanity check:
-		if (action1==null || action2==null) {
+		if (action1 == null || action2 == null) {
 			return false;
 		}
-		
+
 		// Different actions are only allowed if one is a preserve action:
 		if (!action1.equals(action2)
 				&& action1.getType() != ActionType.PRESERVE

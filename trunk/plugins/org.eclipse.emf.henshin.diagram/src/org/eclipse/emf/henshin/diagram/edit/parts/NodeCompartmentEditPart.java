@@ -90,26 +90,28 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 	public boolean isSelectable() {
 		return false;
 	}
-	
+
 	/*
 	 * Helper method for determining whether a shadow should be drawn.
 	 */
 	private boolean shouldDrawShadow() {
 		return ((NodeEditPart) getParent()).shouldDrawShadow();
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	public IFigure createFigure() {
 		ResizableCompartmentFigure figure = (ResizableCompartmentFigure) createFigureGen();
-		figure.setBorder(new OneLineBorder(getMapMode().DPtoLP(1), PositionConstants.TOP) {
+		figure.setBorder(new OneLineBorder(getMapMode().DPtoLP(1),
+				PositionConstants.TOP) {
 			@Override
 			public void paint(IFigure figure, Graphics graphics, Insets insets) {
-				tempRect.setBounds(getPaintRectangle(figure, insets));				
+				tempRect.setBounds(getPaintRectangle(figure, insets));
 				int one = MapModeUtil.getMapMode(figure).DPtoLP(1);
 				int widthInDP = getWidth() / one;
-				int halfWidthInLP = MapModeUtil.getMapMode(figure).DPtoLP(widthInDP / 2);				
+				int halfWidthInLP = MapModeUtil.getMapMode(figure).DPtoLP(
+						widthInDP / 2);
 				graphics.setLineWidth(getWidth());
 				graphics.setLineStyle(getStyle());
 				if (getColor() != null) {
@@ -117,8 +119,9 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 				}
 				tempRect.y += halfWidthInLP;
 				tempRect.height -= getWidth();
-				if (shouldDrawShadow()) {		// check if there should be a shadow
-					tempRect.width = tempRect.width - NodeFigure.SHADOW_WIDTH - 1;					
+				if (shouldDrawShadow()) { // check if there should be a shadow
+					tempRect.width = tempRect.width - NodeFigure.SHADOW_WIDTH
+							- 1;
 				}
 				graphics.drawLine(tempRect.getTopLeft(), tempRect.getTopRight());
 			}

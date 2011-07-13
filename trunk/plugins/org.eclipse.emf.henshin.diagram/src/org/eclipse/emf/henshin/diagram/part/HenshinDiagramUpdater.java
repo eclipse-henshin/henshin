@@ -144,34 +144,34 @@ public class HenshinDiagramUpdater {
 	 */
 	public static List<HenshinNodeDescriptor> getTransformationSystem_1000SemanticChildren(
 			View view) {
-		
+
 		// Make sure the view is ok:
 		if (!view.isSetElement()) {
 			return Collections.emptyList();
 		}
-		
+
 		// Get the transformation system:
 		TransformationSystem system = (TransformationSystem) view.getElement();
 		LinkedList<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
-		
+
 		// Iterate over all rules:
 		for (Rule rule : system.getRules()) {
-			
+
 			// We have to check whether the rule is a multi-rule of one
 			// of the default amalgamation unit. In that case we don't
 			// want to display it.
 			if (AmalgamationEditHelper.isMultiRule(rule)) {
 				continue;
 			}
-			
+
 			// Now make sure the visual ID is correct.
-			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,rule);
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, rule);
 			if (visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(rule, visualID));
 			}
-			
+
 		}
-		
+
 		// Done.
 		return result;
 	}

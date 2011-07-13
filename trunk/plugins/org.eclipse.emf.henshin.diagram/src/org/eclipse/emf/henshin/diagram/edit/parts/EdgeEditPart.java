@@ -65,16 +65,17 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		Edge edge = (Edge) (getNotationView().getElement());
 		Rule rule = edge.getGraph().getContainerRule();
 		TransformationSystem system = rule.getTransformationSystem();
-		transformationListener = new TransformationSystemListener(system, new AdapterImpl() {
-			public void notifyChanged(Notification event) {
-				// Really make sure that the edit part is still valid.
-				if (isActive()
-						&& getNotationView().getElement() instanceof Edge
-						&& getParent() != null) {
-					refreshVisuals();
-				}
-			}
-		});
+		transformationListener = new TransformationSystemListener(system,
+				new AdapterImpl() {
+					public void notifyChanged(Notification event) {
+						// Really make sure that the edit part is still valid.
+						if (isActive()
+								&& getNotationView().getElement() instanceof Edge
+								&& getParent() != null) {
+							refreshVisuals();
+						}
+					}
+				});
 	}
 
 	/**
