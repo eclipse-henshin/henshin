@@ -228,7 +228,7 @@
       <viewProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Henshin"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002,3003"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
@@ -241,7 +241,7 @@
             <method name="getType()" value="Henshin"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,3001,3002"/>
+            <method name="getType()" value="2001,2002,3001,3002,3003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001"/>
@@ -333,6 +333,13 @@
             <param name="semanticHint" value="3002"/>
          </metamodelType>
       </metamodel>
+      <specializationType
+            id="org.eclipse.emf.henshin.diagram.Node_3003"
+            name="%metatype.name.Node_3003"
+            kind="org.eclipse.gmf.runtime.diagram.ui.util.INotationType">
+         <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+         <param name="semanticHint" value="3003"/>
+      </specializationType>
       <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
          <metamodelType
                id="org.eclipse.emf.henshin.diagram.Edge_4001"
@@ -360,6 +367,7 @@
          <elementType ref="org.eclipse.emf.henshin.diagram.TransformationUnit_2002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3001"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Attribute_3002"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.Node_3003"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Edge_4001"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>

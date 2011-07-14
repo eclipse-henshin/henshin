@@ -12,6 +12,8 @@
 package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 
 /**
  * @generated
@@ -24,6 +26,13 @@ public class UnitCompartmentItemSemanticEditPolicy extends
 	 */
 	public UnitCompartmentItemSemanticEditPolicy() {
 		super(HenshinElementTypes.TransformationUnit_2002);
+	}
+
+	/**
+	 * @generated
+	 */
+	protected Command getCreateCommand(CreateElementRequest req) {
+		return super.getCreateCommand(req);
 	}
 
 }

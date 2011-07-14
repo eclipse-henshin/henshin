@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -62,6 +63,8 @@ public class HenshinDiagramUpdater {
 			return getRuleRuleCompartment_7001SemanticChildren(view);
 		case NodeCompartmentEditPart.VISUAL_ID:
 			return getNodeNodeCompartment_7002SemanticChildren(view);
+		case UnitCompartmentEditPart.VISUAL_ID:
+			return getTransformationUnitUnitCompartment_7003SemanticChildren(view);
 		}
 		return Collections.emptyList();
 	}
@@ -139,6 +142,14 @@ public class HenshinDiagramUpdater {
 		}
 
 		return result;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<HenshinNodeDescriptor> getTransformationUnitUnitCompartment_7003SemanticChildren(
+			View view) {
+		return Collections.emptyList();
 	}
 
 	/**

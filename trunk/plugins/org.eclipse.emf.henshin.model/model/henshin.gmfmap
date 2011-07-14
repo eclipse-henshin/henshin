@@ -106,7 +106,16 @@
           href="henshin.gmftool#//@palette/@tools.0/@tools.4"/>
       <diagramNode
           href="henshin.gmfgraph#Unit"/>
-      <compartments>
+      <children
+          compartment="//@nodes.1/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.1/@ownedChild/@children.0/@ownedChild">
+        <ownedChild>
+          <diagramNode
+              href="henshin.gmfgraph#Symbol"/>
+        </ownedChild>
+      </children>
+      <compartments
+          children="//@nodes.1/@ownedChild/@children.0">
         <compartment
             href="henshin.gmfgraph#UnitCompartment"/>
       </compartments>

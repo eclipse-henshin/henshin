@@ -114,6 +114,18 @@
           accessor="getUnitNameFigure"
           figure="//@figures.0/@descriptors.4/@actualFigure/@children.0"/>
     </descriptors>
+    <descriptors
+        name="SymbolCircleFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Ellipse"
+          name="SymbolCircleFigure">
+        <foregroundColor
+            xsi:type="gmfgraph:ConstantColor"
+            value="black"/>
+        <backgroundColor
+            xsi:type="gmfgraph:ConstantColor"/>
+      </actualFigure>
+    </descriptors>
   </figures>
   <nodes
       name="Rule"
@@ -138,6 +150,16 @@
   <nodes
       name="Node"
       figure="NodeFigure"/>
+  <nodes
+      name="Symbol"
+      figure="SymbolCircleFigure">
+    <facets
+        xsi:type="gmfgraph:DefaultSizeFacet">
+      <defaultSize
+          dx="20"
+          dy="20"/>
+    </facets>
+  </nodes>
   <connections
       name="Edge"
       figure="EdgeFigure"/>

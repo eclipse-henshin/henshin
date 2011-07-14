@@ -66,6 +66,9 @@ public class HenshinEditPartFactory implements EditPartFactory {
 			case AttributeEditPart.VISUAL_ID:
 				return new AttributeEditPart(view);
 
+			case SymbolEditPart.VISUAL_ID:
+				return new SymbolEditPart(view);
+
 			case RuleCompartmentEditPart.VISUAL_ID:
 				return new RuleCompartmentEditPart(view);
 

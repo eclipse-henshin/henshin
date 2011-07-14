@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Copyright (c) 2010 HPI Potsdam, Technical University Berlin, 
  * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
@@ -7,37 +7,28 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     CWI Amsterdam - initial API and implementation
+ *     HPI Potsdam - initial API and implementation
  */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.RoundedRectangle;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.henshin.diagram.edit.policies.UnitItemSemanticEditPolicy;
-import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.diagram.ui.figures.DiagramColorConstants;
-import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
-import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
@@ -46,12 +37,12 @@ import org.eclipse.swt.graphics.Color;
 /**
  * @generated
  */
-public class UnitEditPart extends ShapeNodeEditPart {
+public class SymbolEditPart extends ShapeNodeEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 2002;
+	public static final int VISUAL_ID = 3003;
 
 	/**
 	 * @generated
@@ -66,7 +57,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public UnitEditPart(View view) {
+	public SymbolEditPart(View view) {
 		super(view);
 	}
 
@@ -75,8 +66,7 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new UnitItemSemanticEditPolicy());
+		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -109,73 +99,57 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	}
 
 	/**
-	 * @generated
+	 * Create the node shape for this symbol.
+	 * The shape depends on the symbol type.
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape() {
-		return primaryShape = new UnitFigure();
-	}
+		switch (SymbolType.get(getNotationView())) {
+		case SEQUENTIAL_BEGIN:
+			primaryShape = new SymbolCircleFigure(true);
+			break;
+		case SEQUENTIAL_END:
+			primaryShape = new SymbolCircleFigure(false);
+			break;
 
-	/**
-	 * @generated
-	 */
-	public UnitFigure getPrimaryShape() {
-		return (UnitFigure) primaryShape;
-	}
-
-	/**
-	 * @generated
-	 */
-	protected boolean addFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof UnitNameEditPart) {
-			((UnitNameEditPart) childEditPart).setLabel(getPrimaryShape()
-					.getUnitNameFigure());
-			return true;
+		default:
+			primaryShape = new InvalidSymbolFigure();
+			break;
 		}
-		return false;
+		return primaryShape;
 	}
 
-	/**
-	 * @generated
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#getCommand(org.eclipse.gef.Request)
 	 */
-	protected boolean removeFixedChild(EditPart childEditPart) {
-		if (childEditPart instanceof UnitNameEditPart) {
-			return true;
+	@Override
+	public Command getCommand(Request request) {
+		
+		// We usually forbid deletion of symbols:
+		if (RequestConstants.REQ_DELETE.equals(request.getType()) &&
+			SymbolType.get(getNotationView())!=null) {
+			return UnexecutableCommand.INSTANCE;
 		}
-		return false;
+		
+		// Everything else is ok:
+		return super.getCommand(request);
+		
 	}
 
 	/**
-	 * @generated
+	 * Get the primary shape of this edit part.
+	 * @generated NOT
 	 */
-	protected void addChildVisual(EditPart childEditPart, int index) {
-		if (addFixedChild(childEditPart)) {
-			return;
-		}
-		super.addChildVisual(childEditPart, -1);
-	}
-
-	/**
-	 * @generated
-	 */
-	protected void removeChildVisual(EditPart childEditPart) {
-		if (removeFixedChild(childEditPart)) {
-			return;
-		}
-		super.removeChildVisual(childEditPart);
-	}
-
-	/**
-	 * @generated
-	 */
-	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
-		return getContentPane();
+	public IFigure getPrimaryShape() {
+		return primaryShape;
 	}
 
 	/**
 	 * @generated
 	 */
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(250, 200);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(20, 20);
 		return result;
 	}
 
@@ -203,11 +177,6 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure setupContentPane(IFigure nodeShape) {
-		if (nodeShape.getLayoutManager() == null) {
-			ConstrainedToolbarLayout layout = new ConstrainedToolbarLayout();
-			layout.setSpacing(5);
-			nodeShape.setLayoutManager(layout);
-		}
 		return nodeShape; // use nodeShape itself as contentPane
 	}
 
@@ -258,64 +227,45 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	public EditPart getPrimaryChildEditPart() {
-		return getChildBySemanticHint(HenshinVisualIDRegistry
-				.getType(UnitNameEditPart.VISUAL_ID));
+	public class SymbolCircleFigure extends Ellipse {
+
+		private Ellipse inner;
+		
+		public SymbolCircleFigure(boolean begin) {
+			setLayoutManager(new StackLayout());
+			if (begin) {
+				setForegroundColor(ColorConstants.darkGray);
+				setBackgroundColor(ColorConstants.black);
+			} else {
+				setForegroundColor(ColorConstants.black);
+				setBackgroundColor(ColorConstants.white);
+				final Ellipse main = this;
+				inner = new Ellipse() {
+					@Override
+					public Rectangle getBounds() {
+						Rectangle b = main.getBounds();
+						return new Rectangle(b.x+b.width/4, b.y+b.height/4, b.width/2, b.height/2);
+					}
+				};
+				inner.setForegroundColor(ColorConstants.black);
+				inner.setBackgroundColor(ColorConstants.black);
+				add(inner);
+			}
+		}
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	public class UnitFigure extends RoundedRectangle {
+	public class InvalidSymbolFigure extends Ellipse {
 
-		/**
-		 * @generated
-		 */
-		private WrappingLabel fUnitNameFigure;
-
-		/**
-		 * @generated
-		 */
-		public UnitFigure() {
-			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
-					getMapMode().DPtoLP(8)));
-			createContents();
-		}
-
-		/**
-		 * @generated
-		 */
-		private void createContents() {
-
-			fUnitNameFigure = new WrappingLabel();
-			fUnitNameFigure.setText("unnamed");
-			fUnitNameFigure.setMaximumSize(new Dimension(getMapMode().DPtoLP(
-					1000), getMapMode().DPtoLP(20)));
-
-			fUnitNameFigure.setBorder(new MarginBorder(getMapMode().DPtoLP(2),
-					getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
-					getMapMode().DPtoLP(2)));
-
-			this.add(fUnitNameFigure);
-
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getUnitNameFigure() {
-			return fUnitNameFigure;
-		}
-
-		@Override
-		protected void fillShape(Graphics graphics) {
-			graphics.pushState();
-			graphics.setBackgroundColor(DiagramColorConstants.white);
-			graphics.setForegroundColor(getBackgroundColor());
-			graphics.fillGradient(getBounds(), true);
-			graphics.popState();
+		public InvalidSymbolFigure() {
+			setForegroundColor(ColorConstants.black);
+			setBackgroundColor(ColorConstants.red);
+			setLayoutManager(new StackLayout());
+			add(new Label("?"));
 		}
 
 	}

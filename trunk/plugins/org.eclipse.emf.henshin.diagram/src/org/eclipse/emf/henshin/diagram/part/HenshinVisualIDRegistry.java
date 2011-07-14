@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
@@ -230,6 +231,11 @@ public class HenshinVisualIDRegistry {
 			break;
 		case NodeCompartmentEditPart.VISUAL_ID:
 			if (AttributeEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case UnitCompartmentEditPart.VISUAL_ID:
+			if (SymbolEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;

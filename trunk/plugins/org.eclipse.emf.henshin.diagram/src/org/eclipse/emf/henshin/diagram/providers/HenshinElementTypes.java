@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
@@ -86,6 +87,11 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
+	public static final IElementType Node_3003 = getElementType("org.eclipse.emf.henshin.diagram.Node_3003"); //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
 	public static final IElementType Edge_4001 = getElementType("org.eclipse.emf.henshin.diagram.Edge_4001"); //$NON-NLS-1$
 
 	/**
@@ -95,7 +101,7 @@ public class HenshinElementTypes {
 	private static ImageRegistry getImageRegistry() {
 		if (imageRegistry == null) {
 			imageRegistry = new ImageRegistry();
-			
+
 			// Initialize the icon of for the abstract class TransformationUnit manually:
 			String key = getImageRegistryKey(HenshinPackage.eINSTANCE
 					.getTransformationUnit());
@@ -245,6 +251,7 @@ public class HenshinElementTypes {
 			KNOWN_ELEMENT_TYPES.add(TransformationUnit_2002);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);
 			KNOWN_ELEMENT_TYPES.add(Attribute_3002);
+			KNOWN_ELEMENT_TYPES.add(Node_3003);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
@@ -265,6 +272,8 @@ public class HenshinElementTypes {
 			return Node_3001;
 		case AttributeEditPart.VISUAL_ID:
 			return Attribute_3002;
+		case SymbolEditPart.VISUAL_ID:
+			return Node_3003;
 		case EdgeEditPart.VISUAL_ID:
 			return Edge_4001;
 		}
