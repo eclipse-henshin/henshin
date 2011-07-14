@@ -125,16 +125,13 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		
 		// We usually forbid deletion of symbols:
-		if (RequestConstants.REQ_DELETE.equals(request.getType()) &&
-			SymbolType.get(getNotationView())!=null) {
+		if (RequestConstants.REQ_DELETE.equals(request.getType())
+				&& SymbolType.get(getNotationView()) != null) {
 			return UnexecutableCommand.INSTANCE;
 		}
-		
 		// Everything else is ok:
 		return super.getCommand(request);
-		
 	}
 
 	/**
@@ -231,8 +228,16 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	public class SymbolCircleFigure extends Ellipse {
 
+		/**
+		 * @generated
+		 */
+		public SymbolCircleFigure() {
+			this.setForegroundColor(ColorConstants.black);
+			this.setBackgroundColor(ColorConstants.white);
+		}
+
 		private Ellipse inner;
-		
+
 		public SymbolCircleFigure(boolean begin) {
 			setLayoutManager(new StackLayout());
 			if (begin) {
@@ -246,7 +251,8 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 					@Override
 					public Rectangle getBounds() {
 						Rectangle b = main.getBounds();
-						return new Rectangle(b.x+b.width/4, b.y+b.height/4, b.width/2, b.height/2);
+						return new Rectangle(b.x + b.width / 4, b.y + b.height
+								/ 4, b.width / 2, b.height / 2);
 					}
 				};
 				inner.setForegroundColor(ColorConstants.black);

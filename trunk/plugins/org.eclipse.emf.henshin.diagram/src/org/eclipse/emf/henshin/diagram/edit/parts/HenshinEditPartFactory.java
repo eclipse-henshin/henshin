@@ -87,6 +87,9 @@ public class HenshinEditPartFactory implements EditPartFactory {
 			case EdgeActionEditPart.VISUAL_ID:
 				return new EdgeActionEditPart(view);
 
+			case LinkEditPart.VISUAL_ID:
+				return new LinkEditPart(view);
+
 			}
 		}
 		return createUnrecognizedEditPart(context, model);

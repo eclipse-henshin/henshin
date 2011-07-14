@@ -5,6 +5,17 @@
     xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition" name="henshin">
   <figures
       name="Default">
+    <figures
+        xsi:type="gmfgraph:PolygonDecoration"
+        name="LinkArrow">
+      <template
+          x="-1"
+          y="1"/>
+      <template/>
+      <template
+          x="-1"
+          y="-1"/>
+    </figures>
     <descriptors
         name="RuleFigure">
       <actualFigure
@@ -126,6 +137,17 @@
             xsi:type="gmfgraph:ConstantColor"/>
       </actualFigure>
     </descriptors>
+    <descriptors
+        name="LinkFigure">
+      <actualFigure
+          xsi:type="gmfgraph:PolylineConnection"
+          name="LinkFigure"
+          targetDecoration="//@figures.0/@figures.0">
+        <foregroundColor
+            xsi:type="gmfgraph:ConstantColor"
+            value="black"/>
+      </actualFigure>
+    </descriptors>
   </figures>
   <nodes
       name="Rule"
@@ -163,6 +185,9 @@
   <connections
       name="Edge"
       figure="EdgeFigure"/>
+  <connections
+      name="Link"
+      figure="LinkFigure"/>
   <compartments
       name="RuleCompartment"
       figure="RuleFigure"/>

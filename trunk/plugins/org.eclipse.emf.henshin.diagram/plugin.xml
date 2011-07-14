@@ -229,7 +229,7 @@
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Henshin"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002,3003"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001,4002"/>
       </viewProvider>
    </extension>
 
@@ -244,7 +244,7 @@
             <method name="getType()" value="2001,2002,3001,3002,3003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
-            <method name="getType()" value="4001"/>
+            <method name="getType()" value="4001,4002"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
             <method name="getType()" value="5001,5004,5002,5003"/>
@@ -350,6 +350,13 @@
             <param name="semanticHint" value="4001"/>
          </metamodelType>
       </metamodel>
+      <specializationType
+            id="org.eclipse.emf.henshin.diagram.Link_4002"
+            name="%metatype.name.Link_4002"
+            kind="org.eclipse.gmf.runtime.diagram.ui.util.INotationType">
+         <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+         <param name="semanticHint" value="4002"/>
+      </specializationType>
    </extension>
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
@@ -369,6 +376,7 @@
          <elementType ref="org.eclipse.emf.henshin.diagram.Attribute_3002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3003"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Edge_4001"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.Link_4002"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>

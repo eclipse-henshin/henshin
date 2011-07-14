@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
@@ -93,6 +94,11 @@ public class HenshinElementTypes {
 	 * @generated
 	 */
 	public static final IElementType Edge_4001 = getElementType("org.eclipse.emf.henshin.diagram.Edge_4001"); //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
+	public static final IElementType Link_4002 = getElementType("org.eclipse.emf.henshin.diagram.Link_4002"); //$NON-NLS-1$
 
 	/**
 	 * Get the image registry.
@@ -253,6 +259,7 @@ public class HenshinElementTypes {
 			KNOWN_ELEMENT_TYPES.add(Attribute_3002);
 			KNOWN_ELEMENT_TYPES.add(Node_3003);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
+			KNOWN_ELEMENT_TYPES.add(Link_4002);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
 	}
@@ -276,6 +283,8 @@ public class HenshinElementTypes {
 			return Node_3003;
 		case EdgeEditPart.VISUAL_ID:
 			return Edge_4001;
+		case LinkEditPart.VISUAL_ID:
+			return Link_4002;
 		}
 		return null;
 	}

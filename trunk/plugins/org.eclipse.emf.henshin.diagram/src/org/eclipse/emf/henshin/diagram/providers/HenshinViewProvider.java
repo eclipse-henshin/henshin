@@ -22,6 +22,8 @@ import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.LinkUpdater;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -30,13 +32,12 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolUpdater;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
@@ -285,6 +286,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 		case EdgeEditPart.VISUAL_ID:
 			return createEdge_4001(getSemanticElement(semanticAdapter),
 					containerView, index, persisted, preferencesHint);
+		case LinkEditPart.VISUAL_ID:
+			return createLink_4002(containerView, index, persisted,
+					preferencesHint);
 		}
 		// can never happen, provided #provides(CreateEdgeViewOperation) is correct
 		return null;
@@ -425,44 +429,12 @@ public class HenshinViewProvider extends AbstractProvider implements
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
 
-		// Add required symbols depending on the unit type:
-		if (domainElement instanceof SequentialUnit) {
-			createSymbol(node, 0, persisted, preferencesHint,
-					SymbolType.SEQUENTIAL_BEGIN, 15, 15);
-			createSymbol(node, -1, persisted, preferencesHint,
-					SymbolType.SEQUENTIAL_END, 75, 15);
-		}
+		// Update the symbols and links:
+		SymbolUpdater.update(node);
+		LinkUpdater.update(node);
 
 		// Done.
 		return node;
-	}
-
-	/**
-	 * Private helper method which creates a symbol view in a unit view.
-	 * @param unitView The unit view (note the compartment)
-	 * @param type Symbol type.
-	 * @param x X coordinate.
-	 * @param y Y coordinate.
-	 */
-	private Node createSymbol(Node unitView, int index, boolean persisted,
-			PreferencesHint preferencesHint, SymbolType type, int x, int y) {
-		
-		// Get the compartment:
-		View compartment = ViewUtil.getChildBySemanticHint(unitView,
-				HenshinVisualIDRegistry
-						.getType(UnitCompartmentEditPart.VISUAL_ID));
-
-		// Create a location object:
-		Location location = NotationFactory.eINSTANCE.createLocation();
-		location.setX(x);
-		location.setY(y);
-
-		// Create the symbol:
-		Node symbol = createNode_3003(unitView.getElement(), compartment, -1, persisted,
-				preferencesHint);
-		type.set(symbol);
-		symbol.setLayoutConstraint(location);
-		return symbol;
 	}
 
 	/**
@@ -623,6 +595,52 @@ public class HenshinViewProvider extends AbstractProvider implements
 		Location location6002 = (Location) label6002.getLayoutConstraint();
 		location6002.setX(0);
 		location6002.setY(60);
+		return edge;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Edge createLink_4002(View containerView, int index,
+			boolean persisted, PreferencesHint preferencesHint) {
+		Edge edge = NotationFactory.eINSTANCE.createEdge();
+		edge.getStyles().add(NotationFactory.eINSTANCE.createRoutingStyle());
+		edge.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		RelativeBendpoints bendpoints = NotationFactory.eINSTANCE
+				.createRelativeBendpoints();
+		ArrayList<RelativeBendpoint> points = new ArrayList<RelativeBendpoint>(
+				2);
+		points.add(new RelativeBendpoint());
+		points.add(new RelativeBendpoint());
+		bendpoints.setPoints(points);
+		edge.setBendpoints(bendpoints);
+		ViewUtil.insertChildView(containerView, edge, index, persisted);
+		edge.setType(HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
+		edge.setElement(null);
+		// initializePreferences
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+		FontStyle edgeFontStyle = (FontStyle) edge
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (edgeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			edgeFontStyle.setFontName(fontData.getName());
+			edgeFontStyle.setFontHeight(fontData.getHeight());
+			edgeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			edgeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			edgeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		Routing routing = Routing.get(prefStore
+				.getInt(IPreferenceConstants.PREF_LINE_STYLE));
+		if (routing != null) {
+			ViewUtil.setStructuralFeatureValue(edge,
+					NotationPackage.eINSTANCE.getRoutingStyle_Routing(),
+					routing);
+		}
 		return edge;
 	}
 

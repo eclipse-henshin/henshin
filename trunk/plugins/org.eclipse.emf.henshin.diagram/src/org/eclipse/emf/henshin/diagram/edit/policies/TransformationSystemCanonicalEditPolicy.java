@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
@@ -234,7 +235,8 @@ public class TransformationSystemCanonicalEditPolicy extends
 			Edge nextDiagramLink = (Edge) linksIterator.next();
 			int diagramLinkVisualID = HenshinVisualIDRegistry
 					.getVisualID(nextDiagramLink);
-			if (diagramLinkVisualID == -1) {
+			if (diagramLinkVisualID == -1
+					|| diagramLinkVisualID == LinkEditPart.VISUAL_ID) {
 				if (nextDiagramLink.getSource() != null
 						&& nextDiagramLink.getTarget() != null) {
 					linksIterator.remove();

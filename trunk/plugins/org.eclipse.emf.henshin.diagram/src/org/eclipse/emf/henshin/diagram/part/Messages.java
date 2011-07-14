@@ -324,12 +324,62 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
+	public static String NavigatorGroupName_Link_4002_target;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Link_4002_source;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Node_3003_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Node_3003_outgoinglinks;
+
+	/**
+	 * @generated
+	 */
 	public static String NavigatorGroupName_Node_3001_incominglinks;
 
 	/**
 	 * @generated
 	 */
 	public static String NavigatorGroupName_Node_3001_outgoinglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Attribute_3002_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Attribute_3002_outgoinglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_TransformationUnit_2002_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_TransformationUnit_2002_outgoinglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Rule_2001_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Rule_2001_outgoinglinks;
 
 	/**
 	 * @generated

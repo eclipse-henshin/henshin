@@ -343,8 +343,22 @@ public class HenshinBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		/**
 		 * @generated
 		 */
+		public boolean canCreateLink_4002() {
+			return canExistLink_4002();
+		}
+
+		/**
+		 * @generated
+		 */
 		public boolean canExistEdge_4001(Graph container, Edge linkInstance,
 				Node source, Node target) {
+			return true;
+		}
+
+		/**
+		 * @generated
+		 */
+		public boolean canExistLink_4002() {
 			return true;
 		}
 	}

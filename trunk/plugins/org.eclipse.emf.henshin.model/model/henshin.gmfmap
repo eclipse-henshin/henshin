@@ -146,6 +146,10 @@
         xsi:type="ecore:EReference"
         href="henshin.ecore#//Edge/target"/>
   </links>
+  <links>
+    <diagramLink
+        href="henshin.gmfgraph#Link"/>
+  </links>
   <diagram>
     <diagramCanvas
         href="henshin.gmfgraph#henshin"/>
