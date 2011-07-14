@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import org.eclipse.emf.henshin.diagram.edit.commands.RuleCreateCommand;
+import org.eclipse.emf.henshin.diagram.edit.commands.UnitCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.commands.Command;
@@ -19,6 +20,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @generated
@@ -36,11 +38,32 @@ public class TransformationSystemItemSemanticEditPolicy extends
 	/**
 	 * @generated
 	 */
-	protected Command getCreateCommand(CreateElementRequest req) {
+	protected Command getCreateCommandGen(CreateElementRequest req) {
 		if (HenshinElementTypes.Rule_2001 == req.getElementType()) {
 			return getGEFWrapper(new RuleCreateCommand(req));
 		}
+		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {
+			return getGEFWrapper(new UnitCreateCommand(req));
+		}
 		return super.getCreateCommand(req);
+	}
+
+	/**
+	 * Generate a new create-command for a create-request.
+	 * This method overrides the generated implementation.
+	 * @generated NOT
+	 */
+	protected Command getCreateCommand(CreateElementRequest req) {
+
+		// For transformation units, we need the shell, because we want to show a menu:
+		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {
+			Shell shell = getHost().getViewer().getControl().getShell();
+			return getGEFWrapper(new UnitCreateCommand(req, shell));
+		}
+
+		// Otherwise use the default commands:
+		return getCreateCommandGen(req);
+
 	}
 
 	/**

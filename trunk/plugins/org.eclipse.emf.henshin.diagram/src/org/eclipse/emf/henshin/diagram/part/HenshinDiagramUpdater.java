@@ -29,11 +29,12 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
@@ -42,6 +43,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -164,10 +166,21 @@ public class HenshinDiagramUpdater {
 				continue;
 			}
 
-			// Now make sure the visual ID is correct.
+			// Make sure the visual ID is correct.
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, rule);
 			if (visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(rule, visualID));
+			}
+
+		}
+
+		// Iterate over all transformation units:
+		for (TransformationUnit unit : system.getTransformationUnits()) {
+
+			// Make sure the visual ID is correct.
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
+			if (visualID == UnitEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(unit, visualID));
 			}
 
 		}
@@ -185,6 +198,8 @@ public class HenshinDiagramUpdater {
 			return getTransformationSystem_1000ContainedLinks(view);
 		case RuleEditPart.VISUAL_ID:
 			return getRule_2001ContainedLinks(view);
+		case UnitEditPart.VISUAL_ID:
+			return getTransformationUnit_2002ContainedLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001ContainedLinks(view);
 		case AttributeEditPart.VISUAL_ID:
@@ -202,6 +217,8 @@ public class HenshinDiagramUpdater {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
 		case RuleEditPart.VISUAL_ID:
 			return getRule_2001IncomingLinks(view);
+		case UnitEditPart.VISUAL_ID:
+			return getTransformationUnit_2002IncomingLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001IncomingLinks(view);
 		case AttributeEditPart.VISUAL_ID:
@@ -219,6 +236,8 @@ public class HenshinDiagramUpdater {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
 		case RuleEditPart.VISUAL_ID:
 			return getRule_2001OutgoingLinks(view);
+		case UnitEditPart.VISUAL_ID:
+			return getTransformationUnit_2002OutgoingLinks(view);
 		case NodeEditPart.VISUAL_ID:
 			return getNode_3001OutgoingLinks(view);
 		case AttributeEditPart.VISUAL_ID:
@@ -276,6 +295,14 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
+	public static List<HenshinLinkDescriptor> getTransformationUnit_2002ContainedLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
 	public static List<HenshinLinkDescriptor> getNode_3001ContainedLinks(
 			View view) {
 		return Collections.emptyList();
@@ -301,6 +328,14 @@ public class HenshinDiagramUpdater {
 	 * @generated
 	 */
 	public static List<HenshinLinkDescriptor> getRule_2001IncomingLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<HenshinLinkDescriptor> getTransformationUnit_2002IncomingLinks(
 			View view) {
 		return Collections.emptyList();
 	}
@@ -358,6 +393,14 @@ public class HenshinDiagramUpdater {
 	 * @generated
 	 */
 	public static List<HenshinLinkDescriptor> getRule_2001OutgoingLinks(
+			View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	 * @generated
+	 */
+	public static List<HenshinLinkDescriptor> getTransformationUnit_2002OutgoingLinks(
 			View view) {
 		return Collections.emptyList();
 	}

@@ -2,7 +2,7 @@
 <gmfgen:GenEditorGenerator xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel" copyrightText="Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, &#xA;Philipps-University Marburg and others. All rights reserved. &#xA;This program and the accompanying materials are made &#xA;available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    CWI Amsterdam - initial API and implementation">
+    xmlns:gmfgen="http://www.eclipse.org/gmf/2009/GenModel" copyrightText="Copyright (c) 2010 HPI Potsdam, Technical University Berlin, &#xA;Philipps-University Marburg and others. All rights reserved. &#xA;This program and the accompanying materials are made &#xA;available under the terms of the Eclipse Public License v1.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;    HPI Potsdam - initial API and implementation">
   <diagram
       visualID="1000"
       editPartClassName="TransformationSystemEditPart"
@@ -176,6 +176,63 @@
         </modelFacet>
       </labels>
     </topLevelNodes>
+    <topLevelNodes
+        visualID="2002"
+        editPartClassName="UnitEditPart"
+        itemSemanticEditPolicyClassName="UnitItemSemanticEditPolicy"
+        notationViewFactoryClassName="TransformationUnitViewFactory"
+        canonicalEditPolicyClassName="UnitCanonicalEditPolicy"
+        compartments="//@diagram/@compartments.2"
+        graphicalNodeEditPolicyClassName="UnitGraphicalNodeEditPolicy"
+        createCommandClassName="UnitCreateCommand">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:MetamodelType"
+          displayName="Unit"
+          editHelperClassName="UnitEditHelper"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="UnitFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class UnitFigure extends org.eclipse.draw2d.RoundedRectangle {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fUnitNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public UnitFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;this.setCornerDimensions(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(8)&#xA;, getMapMode().DPtoLP(8)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fUnitNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fUnitNameFigure.setText(&quot;unnamed&quot;);&#xA;fUnitNameFigure.setMaximumSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(1000)&#xA;, getMapMode().DPtoLP(20)&#xA;));&#xA;&#xA;fUnitNameFigure.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;));&#xA;&#xA;this.add(fUnitNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getUnitNameFigure() {&#xA;&#x9;&#x9;return fUnitNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;">
+        <attributes
+            xsi:type="gmfgen:DefaultSizeAttributes"
+            width="250"
+            height="200"/>
+      </viewmap>
+      <modelFacet>
+        <metaClass
+            href="henshin.genmodel#//henshin/TransformationUnit"/>
+        <containmentMetaFeature
+            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+        <childMetaFeature
+            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+      </modelFacet>
+      <labels
+          visualID="5004"
+          editPartClassName="UnitNameEditPart"
+          itemSemanticEditPolicyClassName="UnitNameItemSemanticEditPolicy"
+          notationViewFactoryClassName="TransformationUnitNameViewFactory"
+          elementIcon="true">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:ParentAssignedViewmap"
+            getterName="getUnitNameFigure"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet
+            xsi:type="gmfgen:FeatureLabelModelFacet"
+            parser="//@labelParsers/@implementations.1"
+            viewPattern="{0}"
+            editorPattern="{0}"
+            editPattern="{0}">
+          <metaFeatures
+              href="henshin.genmodel#//henshin/NamedElement/name"/>
+          <editableMetaFeatures
+              href="henshin.genmodel#//henshin/NamedElement/name"/>
+        </modelFacet>
+      </labels>
+    </topLevelNodes>
     <links
         visualID="4001"
         editPartClassName="EdgeEditPart"
@@ -283,6 +340,23 @@
           className="NodeFigure"
           classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class NodeFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fNodeActionLabel; &#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fNodeTypeLabel; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public NodeFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.ToolbarLayout layoutThis = new org.eclipse.draw2d.ToolbarLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(true);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.ToolbarLayout.ALIGN_CENTER&#xA;);&#xA;&#xA;&#x9;layoutThis.setSpacing(0);&#xA;&#x9;layoutThis.setVertical(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fNodeActionLabel = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fNodeActionLabel.setText(&quot;none&quot;);&#xA;&#xA;fNodeActionLabel.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;));&#xA;&#xA;this.add(fNodeActionLabel);&#xA;&#xA;&#xA;&#xA;fNodeTypeLabel = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fNodeTypeLabel.setText(&quot;Node&quot;);&#xA;&#xA;fNodeTypeLabel.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;));&#xA;&#xA;this.add(fNodeTypeLabel);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getNodeActionLabel() {&#xA;&#x9;&#x9;return fNodeActionLabel;&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getNodeTypeLabel() {&#xA;&#x9;&#x9;return fNodeTypeLabel;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
     </compartments>
+    <compartments
+        visualID="7003"
+        editPartClassName="UnitCompartmentEditPart"
+        itemSemanticEditPolicyClassName="UnitCompartmentItemSemanticEditPolicy"
+        notationViewFactoryClassName="TransformationUnitUnitViewFactory"
+        canonicalEditPolicyClassName="UnitCompartmentCanonicalEditPolicy"
+        title="UnitCompartment"
+        canCollapse="false"
+        needsTitle="false"
+        node="//@diagram/@topLevelNodes.1">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="UnitFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class UnitFigure extends org.eclipse.draw2d.RoundedRectangle {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fUnitNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public UnitFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;this.setCornerDimensions(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(8)&#xA;, getMapMode().DPtoLP(8)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fUnitNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fUnitNameFigure.setText(&quot;unnamed&quot;);&#xA;fUnitNameFigure.setMaximumSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(1000)&#xA;, getMapMode().DPtoLP(20)&#xA;));&#xA;&#xA;fUnitNameFigure.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;));&#xA;&#xA;this.add(fUnitNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getUnitNameFigure() {&#xA;&#x9;&#x9;return fUnitNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+    </compartments>
     <palette>
       <groups
           title="Henshin">
@@ -301,6 +375,13 @@
             title="Attribute"
             description="Create new Attribute"
             genNodes="//@diagram/@childNodes.1"/>
+        <entries
+            xsi:type="gmfgen:Separator"/>
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="Unit"
+            description="Create new Transformation Unit"
+            genNodes="//@diagram/@topLevelNodes.1"/>
       </groups>
     </palette>
     <preferencePages
@@ -349,6 +430,9 @@
     <childReferences
         parent="//@diagram"
         child="//@diagram/@topLevelNodes.0"/>
+    <childReferences
+        parent="//@diagram"
+        child="//@diagram/@topLevelNodes.1"/>
     <childReferences
         parent="//@diagram"
         child="//@diagram/@links.0"
@@ -408,7 +492,7 @@
         uses="//@diagram/@childNodes.1/@labelModelFacet //@diagram/@childNodes.0/@labels.0/@modelFacet //@diagram/@childNodes.0/@labels.1/@modelFacet //@diagram/@links.0/@labels.0/@modelFacet //@diagram/@links.0/@labels.1/@modelFacet"/>
     <implementations
         xsi:type="gmfgen:PredefinedParser"
-        uses="//@diagram/@topLevelNodes.0/@labels.0/@modelFacet"/>
+        uses="//@diagram/@topLevelNodes.0/@labels.0/@modelFacet //@diagram/@topLevelNodes.1/@labels.0/@modelFacet"/>
   </labelParsers>
   <contextMenus
       context="//@diagram">

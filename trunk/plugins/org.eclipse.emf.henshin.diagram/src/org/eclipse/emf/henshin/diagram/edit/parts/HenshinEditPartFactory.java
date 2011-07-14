@@ -48,6 +48,12 @@ public class HenshinEditPartFactory implements EditPartFactory {
 			case RuleNameEditPart.VISUAL_ID:
 				return new RuleNameEditPart(view);
 
+			case UnitEditPart.VISUAL_ID:
+				return new UnitEditPart(view);
+
+			case UnitNameEditPart.VISUAL_ID:
+				return new UnitNameEditPart(view);
+
 			case NodeEditPart.VISUAL_ID:
 				return new NodeEditPart(view);
 
@@ -65,6 +71,9 @@ public class HenshinEditPartFactory implements EditPartFactory {
 
 			case NodeCompartmentEditPart.VISUAL_ID:
 				return new NodeCompartmentEditPart(view);
+
+			case UnitCompartmentEditPart.VISUAL_ID:
+				return new UnitCompartmentEditPart(view);
 
 			case EdgeEditPart.VISUAL_ID:
 				return new EdgeEditPart(view);

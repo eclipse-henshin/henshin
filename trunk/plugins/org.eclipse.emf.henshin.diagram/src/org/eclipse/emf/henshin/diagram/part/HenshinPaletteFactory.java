@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.part;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
@@ -48,6 +48,8 @@ public class HenshinPaletteFactory {
 		paletteContainer.add(createRule1CreationTool());
 		paletteContainer.add(createEdge2CreationTool());
 		paletteContainer.add(createAttribute3CreationTool());
+		paletteContainer.add(new PaletteSeparator());
+		paletteContainer.add(createUnit5CreationTool());
 		return paletteContainer;
 	}
 
@@ -92,6 +94,22 @@ public class HenshinPaletteFactory {
 		entry.setId("createAttribute3CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.Attribute_3002));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+
+	/**
+	 * @generated
+	 */
+	private ToolEntry createUnit5CreationTool() {
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.Unit5CreationTool_title,
+				Messages.Unit5CreationTool_desc,
+				Collections
+						.singletonList(HenshinElementTypes.TransformationUnit_2002));
+		entry.setId("createUnit5CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinElementTypes
+				.getImageDescriptor(HenshinElementTypes.TransformationUnit_2002));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}

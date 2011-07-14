@@ -228,7 +228,7 @@
       <viewProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Henshin"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,3001,3002"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,3001,3002"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4001"/>
       </viewProvider>
    </extension>
@@ -241,16 +241,16 @@
             <method name="getType()" value="Henshin"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,3001,3002"/>
+            <method name="getType()" value="2001,2002,3001,3002"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value="4001"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5001,5002,5003"/>
+            <method name="getType()" value="5001,5004,5002,5003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
-            <method name="getType()" value="7001,7002"/>
+            <method name="getType()" value="7001,7002,7003"/>
          </object>
          <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
@@ -262,7 +262,8 @@
          <Priority name="Lowest"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart" id="TransformationSystem_1000"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart" id="Rule_2001"/>
-         <context elements="TransformationSystem_1000,Rule_2001"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart" id="TransformationUnit_2002"/>
+         <context elements="TransformationSystem_1000,Rule_2001,TransformationUnit_2002"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -300,6 +301,16 @@
                eclass="Rule"
                edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper">
             <param name="semanticHint" value="2001"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
+         <metamodelType
+               id="org.eclipse.emf.henshin.diagram.TransformationUnit_2002"
+               name="%metatype.name.TransformationUnit_2002"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TransformationUnit"
+               edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper">
+            <param name="semanticHint" value="2002"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://www.eclipse.org/emf/2010/Henshin">
@@ -346,6 +357,7 @@
       <binding context="org.eclipse.emf.henshin.diagram.TypeContext">
          <elementType ref="org.eclipse.emf.henshin.diagram.TransformationSystem_1000"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Rule_2001"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.TransformationUnit_2002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3001"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Attribute_3002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Edge_4001"/>

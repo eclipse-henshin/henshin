@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
@@ -71,6 +72,11 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
+	public static final IElementType TransformationUnit_2002 = getElementType("org.eclipse.emf.henshin.diagram.TransformationUnit_2002"); //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
 	public static final IElementType Node_3001 = getElementType("org.eclipse.emf.henshin.diagram.Node_3001"); //$NON-NLS-1$
 	/**
 	 * @generated
@@ -83,11 +89,21 @@ public class HenshinElementTypes {
 	public static final IElementType Edge_4001 = getElementType("org.eclipse.emf.henshin.diagram.Edge_4001"); //$NON-NLS-1$
 
 	/**
-	 * @generated
+	 * Get the image registry.
+	 * @generated NOT
 	 */
 	private static ImageRegistry getImageRegistry() {
 		if (imageRegistry == null) {
 			imageRegistry = new ImageRegistry();
+			
+			// Initialize the icon of for the abstract class TransformationUnit manually:
+			String key = getImageRegistryKey(HenshinPackage.eINSTANCE
+					.getTransformationUnit());
+			ImageDescriptor imageDesc = HenshinDiagramEditorPlugin
+					.findImageDescriptor("/org.eclipse.emf.henshin.edit/icons/full/obj16/TransformationUnit.gif");
+			if (imageDesc != null) {
+				imageRegistry.put(key, imageDesc);
+			}
 		}
 		return imageRegistry;
 	}
@@ -198,6 +214,9 @@ public class HenshinElementTypes {
 
 			elements.put(Rule_2001, HenshinPackage.eINSTANCE.getRule());
 
+			elements.put(TransformationUnit_2002,
+					HenshinPackage.eINSTANCE.getTransformationUnit());
+
 			elements.put(Node_3001, HenshinPackage.eINSTANCE.getNode());
 
 			elements.put(Attribute_3002,
@@ -223,6 +242,7 @@ public class HenshinElementTypes {
 			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
 			KNOWN_ELEMENT_TYPES.add(TransformationSystem_1000);
 			KNOWN_ELEMENT_TYPES.add(Rule_2001);
+			KNOWN_ELEMENT_TYPES.add(TransformationUnit_2002);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);
 			KNOWN_ELEMENT_TYPES.add(Attribute_3002);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
@@ -239,6 +259,8 @@ public class HenshinElementTypes {
 			return TransformationSystem_1000;
 		case RuleEditPart.VISUAL_ID:
 			return Rule_2001;
+		case UnitEditPart.VISUAL_ID:
+			return TransformationUnit_2002;
 		case NodeEditPart.VISUAL_ID:
 			return Node_3001;
 		case AttributeEditPart.VISUAL_ID:

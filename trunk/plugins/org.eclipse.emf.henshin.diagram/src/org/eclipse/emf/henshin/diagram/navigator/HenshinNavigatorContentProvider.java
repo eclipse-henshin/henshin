@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-
 import java.util.LinkedList;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -25,11 +24,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -258,23 +258,17 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case TransformationSystemEditPart.VISUAL_ID: {
+		case RuleEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
-			Diagram sv = (Diagram) view;
-			HenshinNavigatorGroup links = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_TransformationSystem_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Node sv = (Node) view;
 			Collection<View> connectedViews;
 			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(RuleEditPart.VISUAL_ID));
+					HenshinVisualIDRegistry
+							.getType(RuleCompartmentEditPart.VISUAL_ID));
+			connectedViews = getChildrenByType(connectedViews,
+					HenshinVisualIDRegistry.getType(NodeEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			if (!links.isEmpty()) {
-				result.add(links);
-			}
 			return result.toArray();
 		}
 
@@ -313,17 +307,27 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case RuleEditPart.VISUAL_ID: {
+		case TransformationSystemEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
-			Node sv = (Node) view;
+			Diagram sv = (Diagram) view;
+			HenshinNavigatorGroup links = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_TransformationSystem_1000_links,
+					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
 			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry
-							.getType(RuleCompartmentEditPart.VISUAL_ID));
-			connectedViews = getChildrenByType(connectedViews,
-					HenshinVisualIDRegistry.getType(NodeEditPart.VISUAL_ID));
+					HenshinVisualIDRegistry.getType(RuleEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(UnitEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			if (!links.isEmpty()) {
+				result.add(links);
+			}
 			return result.toArray();
 		}
 		}

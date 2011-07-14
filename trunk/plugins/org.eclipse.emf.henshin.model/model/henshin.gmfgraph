@@ -92,10 +92,42 @@
           name="AttributeLabel"
           text="none"/>
     </descriptors>
+    <descriptors
+        name="UnitFigure">
+      <actualFigure
+          xsi:type="gmfgraph:RoundedRectangle"
+          name="UnitFigure">
+        <children
+            xsi:type="gmfgraph:Label"
+            name="UnitNameFigure"
+            text="unnamed">
+          <maximumSize
+              dx="1000"
+              dy="20"/>
+          <insets
+              top="2"
+              left="2"
+              right="2"/>
+        </children>
+      </actualFigure>
+      <accessors
+          accessor="getUnitNameFigure"
+          figure="//@figures.0/@descriptors.4/@actualFigure/@children.0"/>
+    </descriptors>
   </figures>
   <nodes
       name="Rule"
       figure="RuleFigure">
+    <facets
+        xsi:type="gmfgraph:DefaultSizeFacet">
+      <defaultSize
+          dx="250"
+          dy="200"/>
+    </facets>
+  </nodes>
+  <nodes
+      name="Unit"
+      figure="UnitFigure">
     <facets
         xsi:type="gmfgraph:DefaultSizeFacet">
       <defaultSize
@@ -113,12 +145,19 @@
       name="RuleCompartment"
       figure="RuleFigure"/>
   <compartments
+      name="UnitCompartment"
+      figure="UnitFigure"/>
+  <compartments
       name="NodeCompartment"
       figure="NodeFigure"/>
   <labels
       name="RuleName"
       figure="RuleFigure"
       accessor="//@figures.0/@descriptors.0/@accessors.0"/>
+  <labels
+      name="UnitName"
+      figure="UnitFigure"
+      accessor="//@figures.0/@descriptors.4/@accessors.0"/>
   <labels
       name="NodeAction"
       figure="NodeFigure"

@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.parsers.AttributeParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeActionParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeTypeParser;
@@ -69,6 +70,30 @@ public class HenshinParserProvider extends AbstractProvider implements
 	}
 
 	/**
+	 * @generated
+	 */
+	private IParser transformationUnitName_5004Parser;
+
+	/**
+	 * @generated
+	 */
+	private IParser getTransformationUnitName_5004Parser() {
+		if (transformationUnitName_5004Parser == null) {
+			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
+					.getNamedElement_Name() };
+			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
+					.getNamedElement_Name() };
+			MessageFormatParser parser = new MessageFormatParser(features,
+					editableFeatures);
+			parser.setViewPattern("{0}"); //$NON-NLS-1$
+			parser.setEditorPattern("{0}"); //$NON-NLS-1$
+			parser.setEditPattern("{0}"); //$NON-NLS-1$
+			transformationUnitName_5004Parser = parser;
+		}
+		return transformationUnitName_5004Parser;
+	}
+
+	/**
 	 * @generated NOT
 	 */
 	private IParser nodeTypeParser = new NodeTypeParser();
@@ -100,6 +125,8 @@ public class HenshinParserProvider extends AbstractProvider implements
 		switch (visualID) {
 		case RuleNameEditPart.VISUAL_ID:
 			return getRuleName_5001Parser();
+		case UnitNameEditPart.VISUAL_ID:
+			return getTransformationUnitName_5004Parser();
 		case NodeTypeEditPart.VISUAL_ID:
 			return nodeTypeParser;
 		case NodeActionEditPart.VISUAL_ID:

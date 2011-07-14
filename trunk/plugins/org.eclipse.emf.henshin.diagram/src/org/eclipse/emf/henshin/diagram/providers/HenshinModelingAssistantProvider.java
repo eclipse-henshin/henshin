@@ -49,8 +49,9 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart instanceof TransformationSystemEditPart) {
-			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
 			types.add(HenshinElementTypes.Rule_2001);
+			types.add(HenshinElementTypes.TransformationUnit_2002);
 			return types;
 		}
 		if (editPart instanceof NodeEditPart) {

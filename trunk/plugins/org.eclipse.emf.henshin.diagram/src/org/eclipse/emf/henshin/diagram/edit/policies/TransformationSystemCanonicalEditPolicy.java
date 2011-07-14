@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
@@ -27,6 +29,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
@@ -58,6 +61,11 @@ public class TransformationSystemCanonicalEditPolicy extends
 	/**
 	 * @generated
 	 */
+	private Set<EStructuralFeature> myFeaturesToSynchronize;
+
+	/**
+	 * @generated
+	 */
 	protected void refreshOnActivate() {
 		// Need to activate editpart children before invoking the canonical refresh for EditParts to add event listeners
 		List<?> c = getHost().getChildren();
@@ -70,8 +78,15 @@ public class TransformationSystemCanonicalEditPolicy extends
 	/**
 	 * @generated
 	 */
-	protected EStructuralFeature getFeatureToSynchronize() {
-		return HenshinPackage.eINSTANCE.getTransformationSystem_Rules();
+	protected Set getFeaturesToSynchronize() {
+		if (myFeaturesToSynchronize == null) {
+			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
+			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
+					.getTransformationSystem_Rules());
+			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
+					.getTransformationSystem_TransformationUnits());
+		}
+		return myFeaturesToSynchronize;
 	}
 
 	/**
@@ -102,8 +117,9 @@ public class TransformationSystemCanonicalEditPolicy extends
 	 * @generated
 	 */
 	private boolean isMyDiagramElement(View view) {
-		return RuleEditPart.VISUAL_ID == HenshinVisualIDRegistry
-				.getVisualID(view);
+		int visualID = HenshinVisualIDRegistry.getVisualID(view);
+		return visualID == RuleEditPart.VISUAL_ID
+				|| visualID == UnitEditPart.VISUAL_ID;
 	}
 
 	/**
@@ -274,6 +290,17 @@ public class TransformationSystemCanonicalEditPolicy extends
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(HenshinDiagramUpdater
 						.getRule_2001ContainedLinks(view));
+			}
+			if (!domain2NotationMap.containsKey(view.getElement())
+					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
+				domain2NotationMap.put(view.getElement(), view);
+			}
+			break;
+		}
+		case UnitEditPart.VISUAL_ID: {
+			if (!domain2NotationMap.containsKey(view.getElement())) {
+				result.addAll(HenshinDiagramUpdater
+						.getTransformationUnit_2002ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$

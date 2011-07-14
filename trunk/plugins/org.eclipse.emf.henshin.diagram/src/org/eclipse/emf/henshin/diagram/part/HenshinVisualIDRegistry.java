@@ -19,13 +19,16 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gmf.runtime.notation.Diagram;
@@ -143,6 +146,10 @@ public class HenshinVisualIDRegistry {
 					domainElement.eClass())) {
 				return RuleEditPart.VISUAL_ID;
 			}
+			if (HenshinPackage.eINSTANCE.getTransformationUnit().isSuperTypeOf(
+					domainElement.eClass())) {
+				return UnitEditPart.VISUAL_ID;
+			}
 			break;
 		case RuleCompartmentEditPart.VISUAL_ID:
 			if (HenshinPackage.eINSTANCE.getNode().isSuperTypeOf(
@@ -185,12 +192,23 @@ public class HenshinVisualIDRegistry {
 			if (RuleEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
+			if (UnitEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
 			break;
 		case RuleEditPart.VISUAL_ID:
 			if (RuleNameEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			if (RuleCompartmentEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case UnitEditPart.VISUAL_ID:
+			if (UnitNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (UnitCompartmentEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;

@@ -289,12 +289,27 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
+	public static String Unit5CreationTool_title;
+
+	/**
+	 * @generated
+	 */
+	public static String Unit5CreationTool_desc;
+
+	/**
+	 * @generated
+	 */
 	public static String RuleCompartmentEditPart_title;
 
 	/**
 	 * @generated
 	 */
 	public static String NodeCompartmentEditPart_title;
+
+	/**
+	 * @generated
+	 */
+	public static String UnitCompartmentEditPart_title;
 
 	/**
 	 * @generated

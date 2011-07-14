@@ -83,6 +83,35 @@
       </compartments>
     </ownedChild>
   </nodes>
+  <nodes>
+    <containmentFeature
+        href="henshin.ecore#//TransformationSystem/transformationUnits"/>
+    <ownedChild>
+      <domainMetaElement
+          href="henshin.ecore#//TransformationUnit"/>
+      <labelMappings
+          xsi:type="gmfmap:FeatureLabelMapping"
+          viewPattern="{0}"
+          editorPattern="{0}"
+          editPattern="{0}">
+        <diagramLabel
+            href="henshin.gmfgraph#UnitName"/>
+        <features
+            href="henshin.ecore#//NamedElement/name"/>
+        <editableFeatures
+            href="henshin.ecore#//NamedElement/name"/>
+      </labelMappings>
+      <tool
+          xsi:type="gmftool:CreationTool"
+          href="henshin.gmftool#//@palette/@tools.0/@tools.4"/>
+      <diagramNode
+          href="henshin.gmfgraph#Unit"/>
+      <compartments>
+        <compartment
+            href="henshin.gmfgraph#UnitCompartment"/>
+      </compartments>
+    </ownedChild>
+  </nodes>
   <links>
     <domainMetaElement
         href="henshin.ecore#//Edge"/>
