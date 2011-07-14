@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Henshin Generator Update Plug-In
-Bundle-SymbolicName: org.eclipse.emf.henshin.codegen.update
-Bundle-Version: 0.7.1.qualifier
-Bundle-Vendor: Eclipse Modeling Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
