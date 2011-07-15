@@ -73,7 +73,14 @@ public class IndependentUnitImpl extends TransformationUnitImpl implements Indep
 	 */
 	public EList<TransformationUnit> getSubUnits() {
 		if (subUnits == null) {
-			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.INDEPENDENT_UNIT__SUB_UNITS);
+			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.INDEPENDENT_UNIT__SUB_UNITS) {
+				private static final long serialVersionUID = 1L;
+				@Override
+				public boolean isUnique() {
+					// We don't want uniqueness. See also bug #89325.
+					return false;
+				}
+			};
 		}
 		return subUnits;
 	}

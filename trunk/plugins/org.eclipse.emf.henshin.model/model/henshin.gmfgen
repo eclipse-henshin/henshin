@@ -115,7 +115,7 @@
           parser="//@labelParsers/@implementations.0"/>
     </childNodes>
     <childNodes
-        visualID="3003"
+        visualID="3004"
         editPartClassName="SymbolEditPart"
         itemSemanticEditPolicyClassName="SymbolItemSemanticEditPolicy"
         notationViewFactoryClassName="NodeViewFactory"
@@ -140,6 +140,59 @@
             width="20"
             height="20"/>
       </viewmap>
+    </childNodes>
+    <childNodes
+        visualID="3003"
+        editPartClassName="InvocationEditPart"
+        itemSemanticEditPolicyClassName="InvocationItemSemanticEditPolicy"
+        notationViewFactoryClassName="TransformationUnitViewFactory"
+        canonicalEditPolicyClassName="InvocationCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="InvocationGraphicalNodeEditPolicy"
+        createCommandClassName="InvocationCreateCommand"
+        containers="//@diagram/@compartments.2">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:SpecializationType"
+          displayName="Invocation"
+          metamodelType="//@diagram/@topLevelNodes.1/@elementType"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="InvocationFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class InvocationFigure extends org.eclipse.draw2d.RoundedRectangle {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fInvocationNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public InvocationFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.GridLayout layoutThis = new org.eclipse.draw2d.GridLayout();&#xA;&#x9;layoutThis.numColumns = 1;&#xA;&#x9;layoutThis.makeColumnsEqualWidth = true;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;this.setCornerDimensions(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(8)&#xA;, getMapMode().DPtoLP(8)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fInvocationNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fInvocationNameFigure.setText(&quot;null&quot;);&#xA;&#xA;fInvocationNameFigure.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(2)&#xA;, getMapMode().DPtoLP(0)&#xA;, getMapMode().DPtoLP(2)&#xA;));&#xA;&#xA;&#xA;org.eclipse.draw2d.GridData constraintFInvocationNameFigure = new org.eclipse.draw2d.GridData();&#xA;constraintFInvocationNameFigure.verticalAlignment = org.eclipse.draw2d.GridData.CENTER;&#xA;constraintFInvocationNameFigure.horizontalAlignment = org.eclipse.draw2d.GridData.CENTER;&#xA;constraintFInvocationNameFigure.horizontalIndent = 0;&#xA;constraintFInvocationNameFigure.horizontalSpan = 1;&#xA;constraintFInvocationNameFigure.verticalSpan = 1;&#xA;constraintFInvocationNameFigure.grabExcessHorizontalSpace = true;&#xA;constraintFInvocationNameFigure.grabExcessVerticalSpace = true;&#xA;this.add(fInvocationNameFigure, constraintFInvocationNameFigure);&#xA;&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getInvocationNameFigure() {&#xA;&#x9;&#x9;return fInvocationNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;">
+        <attributes
+            xsi:type="gmfgen:DefaultSizeAttributes"
+            width="50"
+            height="25"/>
+        <attributes
+            xsi:type="gmfgen:StyleAttributes"/>
+        <attributes
+            xsi:type="gmfgen:ColorAttributes"
+            foregroundColor="black"
+            backgroundColor="white"/>
+      </viewmap>
+      <modelFacet>
+        <metaClass
+            href="henshin.genmodel#//henshin/TransformationUnit"/>
+        <containmentMetaFeature
+            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+        <childMetaFeature
+            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+      </modelFacet>
+      <labels
+          visualID="5005"
+          editPartClassName="InvocationNameEditPart"
+          itemSemanticEditPolicyClassName="InvocationNameItemSemanticEditPolicy"
+          notationViewFactoryClassName="TransformationUnitLabelViewFactory">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:ParentAssignedViewmap"
+            getterName="getInvocationNameFigure"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet
+            parser="//@labelParsers/@implementations.0"/>
+      </labels>
     </childNodes>
     <topLevelNodes
         visualID="2001"
@@ -168,7 +221,7 @@
         <attributes
             xsi:type="gmfgen:ColorAttributes"
             foregroundColor="black"
-            backgroundColor="white"/>
+            backgroundColor="gray"/>
       </viewmap>
       <modelFacet>
         <metaClass
@@ -226,6 +279,12 @@
             xsi:type="gmfgen:DefaultSizeAttributes"
             width="250"
             height="200"/>
+        <attributes
+            xsi:type="gmfgen:StyleAttributes"/>
+        <attributes
+            xsi:type="gmfgen:ColorAttributes"
+            foregroundColor="black"
+            backgroundColor="gray"/>
       </viewmap>
       <modelFacet>
         <metaClass
@@ -393,7 +452,7 @@
         itemSemanticEditPolicyClassName="UnitCompartmentItemSemanticEditPolicy"
         notationViewFactoryClassName="TransformationUnitUnitViewFactory"
         canonicalEditPolicyClassName="UnitCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.2"
+        childNodes="//@diagram/@childNodes.2 //@diagram/@childNodes.3"
         title="UnitCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -435,6 +494,11 @@
             title="Unit"
             description="Create new Transformation Unit"
             genNodes="//@diagram/@topLevelNodes.1"/>
+        <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="Invocation"
+            description="Create new Unit or Rule Invocation"
+            genNodes="//@diagram/@childNodes.3"/>
       </groups>
     </palette>
     <preferencePages
@@ -486,6 +550,9 @@
     <childReferences
         parent="//@diagram/@topLevelNodes.1"
         child="//@diagram/@childNodes.2"/>
+    <childReferences
+        parent="//@diagram/@topLevelNodes.1"
+        child="//@diagram/@childNodes.3"/>
     <childReferences
         parent="//@diagram"
         child="//@diagram/@topLevelNodes.1"/>
@@ -585,6 +652,18 @@
         groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
     <childReferences
         parent="//@diagram/@links.1"
+        child="//@diagram/@childNodes.3"
+        referenceType="out_target"
+        groupName="target"
+        groupIcon="icons/linkTargetNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@childNodes.3"
+        child="//@diagram/@links.1"
+        referenceType="in_source"
+        groupName="incoming links"
+        groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.1"
         child="//@diagram/@topLevelNodes.0"
         referenceType="in_source"
         groupName="source"
@@ -643,6 +722,18 @@
         referenceType="out_target"
         groupName="outgoing links"
         groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@links.1"
+        child="//@diagram/@childNodes.3"
+        referenceType="in_source"
+        groupName="source"
+        groupIcon="icons/linkSourceNavigatorGroup.gif"/>
+    <childReferences
+        parent="//@diagram/@childNodes.3"
+        child="//@diagram/@links.1"
+        referenceType="out_target"
+        groupName="outgoing links"
+        groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
   </navigator>
   <diagramUpdater/>
   <propertySheet>
@@ -670,7 +761,7 @@
       extensibleViaService="true">
     <implementations
         xsi:type="gmfgen:ExternalParser"
-        uses="//@diagram/@childNodes.1/@labelModelFacet //@diagram/@childNodes.0/@labels.0/@modelFacet //@diagram/@childNodes.0/@labels.1/@modelFacet //@diagram/@links.0/@labels.0/@modelFacet //@diagram/@links.0/@labels.1/@modelFacet"/>
+        uses="//@diagram/@childNodes.1/@labelModelFacet //@diagram/@childNodes.0/@labels.0/@modelFacet //@diagram/@childNodes.0/@labels.1/@modelFacet //@diagram/@childNodes.3/@labels.0/@modelFacet //@diagram/@links.0/@labels.0/@modelFacet //@diagram/@links.0/@labels.1/@modelFacet"/>
     <implementations
         xsi:type="gmfgen:PredefinedParser"
         uses="//@diagram/@topLevelNodes.0/@labels.0/@modelFacet //@diagram/@topLevelNodes.1/@labels.0/@modelFacet"/>

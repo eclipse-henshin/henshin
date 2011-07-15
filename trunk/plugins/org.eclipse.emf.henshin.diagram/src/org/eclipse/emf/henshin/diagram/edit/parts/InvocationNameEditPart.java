@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Copyright (c) 2010 HPI Potsdam, Technical University Berlin, 
  * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     CWI Amsterdam - initial API and implementation
+ *     HPI Potsdam - initial API and implementation
  */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
@@ -20,7 +20,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
-import org.eclipse.emf.henshin.diagram.parsers.UnitNameParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
@@ -34,7 +33,6 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
-import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.CompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
@@ -59,13 +57,13 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @generated
  */
-public class UnitNameEditPart extends CompartmentEditPart implements
+public class InvocationNameEditPart extends CompartmentEditPart implements
 		ITextAwareEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 5004;
+	public static final int VISUAL_ID = 5005;
 
 	/**
 	 * @generated
@@ -90,7 +88,7 @@ public class UnitNameEditPart extends CompartmentEditPart implements
 	/**
 	 * @generated
 	 */
-	public UnitNameEditPart(View view) {
+	public InvocationNameEditPart(View view) {
 		super(view);
 	}
 
@@ -188,11 +186,7 @@ public class UnitNameEditPart extends CompartmentEditPart implements
 	 * @generated
 	 */
 	protected Image getLabelIcon() {
-		EObject parserElement = getParserElement();
-		if (parserElement == null) {
-			return null;
-		}
-		return HenshinElementTypes.getImage(parserElement.eClass());
+		return null;
 	}
 
 	/**
@@ -301,13 +295,16 @@ public class UnitNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	public IParser getParser() {
 		if (parser == null) {
-			// We need to initialize the parser properly:
-			parser = new UnitNameParser(
-					ViewUtil.getContainerView(getNotationView()));
+			parser = HenshinParserProvider
+					.getParser(
+							HenshinElementTypes.TransformationUnit_3003,
+							getParserElement(),
+							HenshinVisualIDRegistry
+									.getType(org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart.VISUAL_ID));
 		}
 		return parser;
 	}

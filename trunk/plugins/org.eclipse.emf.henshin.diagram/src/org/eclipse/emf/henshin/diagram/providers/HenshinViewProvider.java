@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Copyright (c) 2010 HPI Potsdam, Technical University Berlin, 
  * Philipps-University Marburg and others. All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
@@ -7,12 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     CWI Amsterdam - initial API and implementation
+ *     HPI Potsdam - initial API and implementation
  */
 package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.ArrayList;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -22,8 +21,9 @@ import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.LinkUpdater;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -32,12 +32,13 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.SymbolUpdater;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
@@ -81,12 +82,6 @@ import org.eclipse.swt.graphics.FontData;
  */
 public class HenshinViewProvider extends AbstractProvider implements
 		IViewProvider {
-
-	// Default background color for rules:
-	private static final Color RULE_BACKGROUND = new Color(null, 215, 225, 245);
-
-	// Default background color for units:
-	private static final Color UNIT_BACKGROUND = new Color(null, 215, 245, 225);
 
 	/**
 	 * @generated
@@ -181,6 +176,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 				case UnitEditPart.VISUAL_ID:
 				case NodeEditPart.VISUAL_ID:
 				case AttributeEditPart.VISUAL_ID:
+				case InvocationEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != HenshinVisualIDRegistry
 									.getNodeVisualID(op.getContainerView(),
@@ -197,7 +193,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 				|| UnitEditPart.VISUAL_ID == visualID
 				|| NodeEditPart.VISUAL_ID == visualID
 				|| AttributeEditPart.VISUAL_ID == visualID
-				|| SymbolEditPart.VISUAL_ID == visualID;
+				|| SymbolEditPart.VISUAL_ID == visualID
+				|| InvocationEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
@@ -267,8 +264,11 @@ public class HenshinViewProvider extends AbstractProvider implements
 			return createAttribute_3002(domainElement, containerView, index,
 					persisted, preferencesHint);
 		case SymbolEditPart.VISUAL_ID:
-			return createNode_3003(domainElement, containerView, index,
+			return createNode_3004(domainElement, containerView, index,
 					persisted, preferencesHint);
+		case InvocationEditPart.VISUAL_ID:
+			return createTransformationUnit_3003(domainElement, containerView,
+					index, persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
@@ -328,7 +328,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 		}
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.colorToInteger(ColorConstants.white));
+				FigureUtilities.colorToInteger(ColorConstants.gray));
 		Node label5001 = createLabel(node,
 				HenshinVisualIDRegistry.getType(RuleNameEditPart.VISUAL_ID));
 		createCompartment(node,
@@ -351,7 +351,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 		// Set the default background color:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.colorToInteger(RULE_BACKGROUND));
+				FigureUtilities.colorToInteger(new Color(null, 215, 225, 245)));
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
@@ -376,11 +376,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
 				.getPreferenceStore();
 
-		org.eclipse.swt.graphics.RGB lineRGB = PreferenceConverter.getColor(
-				prefStore, IPreferenceConstants.PREF_LINE_COLOR);
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
-				FigureUtilities.RGBToInteger(lineRGB));
+				FigureUtilities.colorToInteger(ColorConstants.black));
 		FontStyle nodeFontStyle = (FontStyle) node
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (nodeFontStyle != null) {
@@ -395,11 +393,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
 					.intValue());
 		}
-		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(
-				prefStore, IPreferenceConstants.PREF_FILL_COLOR);
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.RGBToInteger(fillRGB));
+				FigureUtilities.colorToInteger(ColorConstants.gray));
 		Node label5004 = createLabel(node,
 				HenshinVisualIDRegistry.getType(UnitNameEditPart.VISUAL_ID));
 		createCompartment(node,
@@ -423,15 +419,19 @@ public class HenshinViewProvider extends AbstractProvider implements
 		// Set the default background color:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.colorToInteger(UNIT_BACKGROUND));
+				FigureUtilities.colorToInteger(new Color(null, 215, 245, 225)));
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
 
-		// Update the symbols and links:
-		SymbolUpdater.update(node);
-		LinkUpdater.update(node);
+		// Create the begin and end symbols:
+		if (domainElement instanceof SequentialUnit) {
+			createSymbol(domainElement, node, -1, persisted, preferencesHint,
+					SymbolType.SEQUENTIAL_BEGIN, 15, 15);
+			createSymbol(domainElement, node, -1, persisted, preferencesHint,
+					SymbolType.SEQUENTIAL_END, 75, 15);
+		}
 
 		// Done.
 		return node;
@@ -487,6 +487,32 @@ public class HenshinViewProvider extends AbstractProvider implements
 	}
 
 	/**
+	 * Private helper method which creates a symbol view in a unit compartment.
+	 * @param compartment The compartment.
+	 * @param type Symbol type.
+	 * @param x X coordinate.
+	 * @param y Y coordinate.
+	 */
+	public Node createSymbol(EObject unit, View unitView, int index,
+			boolean persisted, PreferencesHint preferencesHint,
+			SymbolType type, int x, int y) {
+
+		// Create a location object:
+		Location location = NotationFactory.eINSTANCE.createLocation();
+		location.setX(x);
+		location.setY(y);
+
+		// Create the symbol:
+		Node symbol = createNode_3004(unit,
+				UnitCompartmentEditPart.getUnitCompartment(unitView), index,
+				persisted, preferencesHint);
+		type.set(symbol);
+		symbol.setLayoutConstraint(location);
+		return symbol;
+
+	}
+
+	/**
 	 * @generated
 	 */
 	public Node createAttribute_3002(EObject domainElement, View containerView,
@@ -503,7 +529,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public Node createNode_3003(EObject domainElement, View containerView,
+	public Node createNode_3004(EObject domainElement, View containerView,
 			int index, boolean persisted, PreferencesHint preferencesHint) {
 		Node node = NotationFactory.eINSTANCE.createNode();
 		node.getStyles()
@@ -530,6 +556,67 @@ public class HenshinViewProvider extends AbstractProvider implements
 			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
 					.intValue());
 		}
+		return node;
+	}
+
+	/**
+	 * @generated
+	 */
+	public Node createTransformationUnit_3003Gen(EObject domainElement,
+			View containerView, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(HenshinVisualIDRegistry
+				.getType(InvocationEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint
+				.getPreferenceStore();
+
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getLineStyle_LineColor(),
+				FigureUtilities.colorToInteger(ColorConstants.black));
+		FontStyle nodeFontStyle = (FontStyle) node
+				.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore,
+					IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter
+					.getColor(prefStore, IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB)
+					.intValue());
+		}
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.colorToInteger(ColorConstants.white));
+		Node label5005 = createLabel(node,
+				HenshinVisualIDRegistry
+						.getType(InvocationNameEditPart.VISUAL_ID));
+		return node;
+	}
+
+	/**
+	 * Create an invocation view.
+	 * @generated NOT
+	 */
+	public Node createTransformationUnit_3003(EObject domainElement,
+			View containerView, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		
+		// Create the view:
+		Node node = createTransformationUnit_3003Gen(domainElement, containerView, index, persisted, preferencesHint);
+		
+		// Change the font to italic:
+		ViewUtil.setStructuralFeatureValue(node,
+				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
+		
+		// Done.
 		return node;
 	}
 

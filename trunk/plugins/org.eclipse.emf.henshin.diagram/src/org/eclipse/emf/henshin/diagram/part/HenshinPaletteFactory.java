@@ -11,10 +11,14 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.part;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteUpdater.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -29,6 +33,13 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
  * @generated
  */
 public class HenshinPaletteFactory {
+	
+	// Element types: Transformation unit node
+	private static final List<IElementType> UNIT_NODE_TYPES;
+	static {
+		UNIT_NODE_TYPES = new ArrayList<IElementType>(1);
+		UNIT_NODE_TYPES.add(HenshinElementTypes.TransformationUnit_2002);
+	}
 
 	/**
 	 * @generated
@@ -39,17 +50,29 @@ public class HenshinPaletteFactory {
 
 	/**
 	 * Creates "Henshin" palette tool group
-	 * @generated
+	 * @generated NOT
 	 */
 	private PaletteContainer createHenshin1Group() {
+		
+		// Main palette group:
 		PaletteGroup paletteContainer = new PaletteGroup(
 				Messages.Henshin1Group_title);
 		paletteContainer.setId("createHenshin1Group"); //$NON-NLS-1$
+		
+		// Rules:
 		paletteContainer.add(createRule1CreationTool());
 		paletteContainer.add(createEdge2CreationTool());
 		paletteContainer.add(createAttribute3CreationTool());
+		
+		// Transformation units:
 		paletteContainer.add(new PaletteSeparator());
-		paletteContainer.add(createUnit5CreationTool());
+		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getConditionalUnit()));
+		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getCountedUnit()));
+		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getIndependentUnit()));
+		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getPriorityUnit()));
+		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getSequentialUnit()));
+		paletteContainer.add(createInvocation6CreationTool());
+		
 		return paletteContainer;
 	}
 
@@ -115,6 +138,33 @@ public class HenshinPaletteFactory {
 	}
 
 	/**
+	 * New creation tool for a transformation unit:
+	 */
+	private ToolEntry createUnitCreationTool(EClass type) {		
+		UnitNodeToolEntry entry = new UnitNodeToolEntry(type);
+		entry.setId("create" + type.getName() + "CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(type));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+
+	/**
+	 * @generated
+	 */
+	private ToolEntry createInvocation6CreationTool() {
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.Invocation6CreationTool_title,
+				Messages.Invocation6CreationTool_desc,
+				Collections
+						.singletonList(HenshinElementTypes.TransformationUnit_3003));
+		entry.setId("createInvocation6CreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinElementTypes
+				.getImageDescriptor(HenshinElementTypes.TransformationUnit_3003));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+
+	/**
 	 * @generated
 	 */
 	private static class NodeToolEntry extends ToolEntry {
@@ -171,4 +221,31 @@ public class HenshinPaletteFactory {
 			return tool;
 		}
 	}
+	
+	private static String unitTypeName(EClass type) {
+		return type.getName().replaceFirst("Unit", " Unit");
+	}
+	
+	/**
+	 * Creation palette tool entry for transformation units.
+	 */
+	static class UnitNodeToolEntry extends ToolEntry {
+		
+		// Unit type:
+		private EClass type;
+
+		public UnitNodeToolEntry(EClass type) {
+			super(type.getName(), "Create a " + unitTypeName(type), 
+					HenshinElementTypes.getImageDescriptor(type), null);
+			this.type = type;
+		}
+		
+		@Override
+		public Tool createTool() {
+			Tool tool = new EClassNodeTool(type, UNIT_NODE_TYPES);
+			tool.setProperties(getToolProperties());
+			return tool;
+		}
+	}
+
 }

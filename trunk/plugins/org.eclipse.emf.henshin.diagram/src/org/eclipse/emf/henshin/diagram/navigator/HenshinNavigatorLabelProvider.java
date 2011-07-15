@@ -20,10 +20,13 @@ import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
@@ -34,6 +37,7 @@ import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
@@ -118,21 +122,27 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 	 */
 	public Image getImage(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case EdgeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Link?http://www.eclipse.org/emf/2010/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
-		case AttributeEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
-		case RuleEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
-		case UnitEditPart.VISUAL_ID:
-			return getImage(
-					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?TransformationUnit", HenshinElementTypes.TransformationUnit_2002); //$NON-NLS-1$
 		case NodeEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Node", HenshinElementTypes.Node_3001); //$NON-NLS-1$
+		case LinkEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Link?LinkFigure", HenshinElementTypes.Link_4002); //$NON-NLS-1$
+		case SymbolEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?TransformationUnit", HenshinElementTypes.TransformationUnit_3003); //$NON-NLS-1$
+		case RuleEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?Rule", HenshinElementTypes.Rule_2001); //$NON-NLS-1$
+		case AttributeEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://www.eclipse.org/emf/2010/Henshin?Attribute", HenshinElementTypes.Attribute_3002); //$NON-NLS-1$
+		case UnitEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?TopLevelNode?http://www.eclipse.org/emf/2010/Henshin?TransformationUnit", HenshinElementTypes.TransformationUnit_2002); //$NON-NLS-1$
+		case EdgeEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Link?http://www.eclipse.org/emf/2010/Henshin?Edge", HenshinElementTypes.Edge_4001); //$NON-NLS-1$
 		case TransformationSystemEditPart.VISUAL_ID:
 			return getImage(
 					"Navigator?Diagram?http://www.eclipse.org/emf/2010/Henshin?TransformationSystem", HenshinElementTypes.TransformationSystem_1000); //$NON-NLS-1$
@@ -270,6 +280,43 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		} else {
 			HenshinDiagramEditorPlugin.getInstance().logError(
 					"Parser was not found for label " + 5002); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getLink_4002Text(View view) {
+		return ""; //$NON-NLS-1$
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getTransformationUnit_3003Text(View view) {
+		TransformationUnit domainModelElement = (TransformationUnit) view
+				.getElement();
+		if (domainModelElement != null) {
+			return domainModelElement.getName();
+		} else {
+			HenshinDiagramEditorPlugin.getInstance().logError(
+					"No domain element for view with visualID = " + 3003); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * @generated
+	 */
+	private String getTransformationUnit_3004Text(View view) {
+		TransformationUnit domainModelElement = (TransformationUnit) view
+				.getElement();
+		if (domainModelElement != null) {
+			return domainModelElement.getName();
+		} else {
+			HenshinDiagramEditorPlugin.getInstance().logError(
+					"No domain element for view with visualID = " + 3004); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}

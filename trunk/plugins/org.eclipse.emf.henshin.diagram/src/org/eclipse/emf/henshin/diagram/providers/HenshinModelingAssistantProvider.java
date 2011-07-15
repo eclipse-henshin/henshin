@@ -67,8 +67,9 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 			return types;
 		}
 		if (editPart instanceof UnitCompartmentEditPart) {
-			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
-			types.add(HenshinElementTypes.Node_3003);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
+			types.add(HenshinElementTypes.Node_3004);
+			types.add(HenshinElementTypes.TransformationUnit_3003);
 			return types;
 		}
 		return Collections.EMPTY_LIST;

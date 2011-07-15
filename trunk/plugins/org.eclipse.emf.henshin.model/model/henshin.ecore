@@ -211,12 +211,12 @@
         eType="#//ParameterMapping" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SequentialUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConditionalUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="if" lowerBound="1" eType="#//TransformationUnit"/>
@@ -224,8 +224,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//TransformationUnit">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" upperBound="-1"
-        eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">

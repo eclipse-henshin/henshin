@@ -26,9 +26,11 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
@@ -314,6 +316,17 @@ public class TransformationSystemCanonicalEditPolicy extends
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(HenshinDiagramUpdater
 						.getNode_3001ContainedLinks(view));
+			}
+			if (!domain2NotationMap.containsKey(view.getElement())
+					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
+				domain2NotationMap.put(view.getElement(), view);
+			}
+			break;
+		}
+		case InvocationEditPart.VISUAL_ID: {
+			if (!domain2NotationMap.containsKey(view.getElement())) {
+				result.addAll(HenshinDiagramUpdater
+						.getTransformationUnit_3003ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$

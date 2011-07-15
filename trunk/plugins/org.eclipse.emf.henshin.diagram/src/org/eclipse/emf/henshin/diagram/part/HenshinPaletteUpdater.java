@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.henshin.diagram.edit.commands.NodeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -52,6 +51,13 @@ public class HenshinPaletteUpdater {
 	// EClass icon:
 	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(HenshinIcons.ECLASS);
 	
+	// Element types: Henshin node
+	private static final List<IElementType> HENSHIN_NODE_TYPES;
+	static {
+		HENSHIN_NODE_TYPES = new ArrayList<IElementType>(1);
+		HENSHIN_NODE_TYPES.add(HenshinElementTypes.Node_3001);
+	}
+
 	// Palette root to be updated.
 	private PaletteRoot palette;
 	
@@ -129,7 +135,7 @@ public class HenshinPaletteUpdater {
 		}
 	};
 	
-	/*
+	/**
 	 * Creation palette tool entry for nodes.
 	 */
 	static class EClassNodeToolEntry extends ToolEntry {
@@ -144,30 +150,28 @@ public class HenshinPaletteUpdater {
 		
 		@Override
 		public Tool createTool() {
-			Tool tool = new EClassNodeTool(eclass);
+			Tool tool = new EClassNodeTool(eclass, HENSHIN_NODE_TYPES);
 			tool.setProperties(getToolProperties());
 			return tool;
 		}
 	}
 	
-	/*
+	/**
 	 * Creation tool for nodes.
 	 */
-	static class EClassNodeTool extends UnspecifiedTypeCreationTool {
-
-		// Element types: Henshin node
-		private static final List<IElementType> types;
-		static {
-			types = new ArrayList<IElementType>(1);
-			types.add(HenshinElementTypes.Node_3001);
-		}
+	public static class EClassNodeTool extends UnspecifiedTypeCreationTool {
 		
+		/**
+		 * Key for the node type parameter in creation requests.
+		 */
+		public static final String TYPE_PARAMETER_KEY = "eclass_node_type";
+	
 		// Request parameters.
 		private Map<Object,Object> parameters = new HashMap<Object,Object>();
 		
-		public EClassNodeTool(EClass eclass) {
+		public EClassNodeTool(EClass eclass, List<IElementType> types) {
 			super(types);
-			parameters.put(NodeCreateCommand.TYPE_PARAMETER_KEY, eclass);
+			parameters.put(TYPE_PARAMETER_KEY, eclass);
 		}
 		
 		@Override

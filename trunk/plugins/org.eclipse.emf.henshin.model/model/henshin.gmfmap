@@ -33,8 +33,6 @@
           referencedChild="//@nodes.0/@ownedChild/@children.0/@ownedChild">
         <containmentFeature
             href="henshin.ecore#//Graph/nodes"/>
-        <childrenFeature
-            href="henshin.ecore#//Graph/nodes"/>
         <ownedChild>
           <domainMetaElement
               href="henshin.ecore#//Node"/>
@@ -114,8 +112,27 @@
               href="henshin.gmfgraph#Symbol"/>
         </ownedChild>
       </children>
+      <children
+          compartment="//@nodes.1/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.1/@ownedChild/@children.1/@ownedChild">
+        <containmentFeature
+            href="henshin.ecore#//TransformationSystem/transformationUnits"/>
+        <ownedChild>
+          <domainMetaElement
+              href="henshin.ecore#//TransformationUnit"/>
+          <labelMappings>
+            <diagramLabel
+                href="henshin.gmfgraph#InvocationName"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="henshin.gmftool#//@palette/@tools.0/@tools.5"/>
+          <diagramNode
+              href="henshin.gmfgraph#Invocation"/>
+        </ownedChild>
+      </children>
       <compartments
-          children="//@nodes.1/@ownedChild/@children.0">
+          children="//@nodes.1/@ownedChild/@children.0 //@nodes.1/@ownedChild/@children.1">
         <compartment
             href="henshin.gmfgraph#UnitCompartment"/>
       </compartments>

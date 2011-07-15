@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteUpdater.EClassNodeTool;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -34,12 +35,6 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated
  */
 public class NodeCreateCommand extends EditElementCommand {
-
-	/**
-	 * Key for the node type parameter in creation requests.
-	 * @generated NOT
-	 */
-	public static final String TYPE_PARAMETER_KEY = "henshin_node_type";
 
 	/**
 	 * @generated
@@ -104,8 +99,8 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// Set the type of the nodes:
 		CreateElementRequest request = (CreateElementRequest) getRequest();
-		if (request.getParameter(TYPE_PARAMETER_KEY) instanceof EClass) {
-			EClass type = (EClass) request.getParameter(TYPE_PARAMETER_KEY);
+		if (request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY) instanceof EClass) {
+			EClass type = (EClass) request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
 			lhsNode.setType(type);
 			rhsNode.setType(type);
 		}

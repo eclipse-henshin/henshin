@@ -11,24 +11,28 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.henshin.diagram.edit.policies.InvocationItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
@@ -37,12 +41,12 @@ import org.eclipse.swt.graphics.Color;
 /**
  * @generated
  */
-public class SymbolEditPart extends ShapeNodeEditPart {
+public class InvocationEditPart extends ShapeNodeEditPart {
 
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 3004;
+	public static final int VISUAL_ID = 3003;
 
 	/**
 	 * @generated
@@ -57,7 +61,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	public SymbolEditPart(View view) {
+	public InvocationEditPart(View view) {
 		super(view);
 	}
 
@@ -66,7 +70,8 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
+				new InvocationItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
@@ -99,54 +104,73 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	}
 
 	/**
-	 * Create the node shape for this symbol.
-	 * The shape depends on the symbol type.
-	 * @generated NOT
+	 * @generated
 	 */
 	protected IFigure createNodeShape() {
-		switch (SymbolType.get(getNotationView())) {
-		case SEQUENTIAL_BEGIN:
-			primaryShape = new SymbolCircleFigure(true);
-			break;
-		case SEQUENTIAL_END:
-			primaryShape = new SymbolCircleFigure(false);
-			break;
-
-		default:
-			primaryShape = new InvalidSymbolFigure();
-			break;
-		}
-		return primaryShape;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#getCommand(org.eclipse.gef.Request)
-	 */
-	@Override
-	public Command getCommand(Request request) {
-		// We usually forbid deletion of symbols:
-		if (RequestConstants.REQ_DELETE.equals(request.getType())
-				&& SymbolType.get(getNotationView()) != null) {
-			return UnexecutableCommand.INSTANCE;
-		}
-		// Everything else is ok:
-		return super.getCommand(request);
+		return primaryShape = new InvocationFigure();
 	}
 
 	/**
-	 * Get the primary shape of this edit part.
-	 * @generated NOT
+	 * @generated
 	 */
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	public InvocationFigure getPrimaryShape() {
+		return (InvocationFigure) primaryShape;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean addFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof InvocationNameEditPart) {
+			((InvocationNameEditPart) childEditPart).setLabel(getPrimaryShape()
+					.getInvocationNameFigure());
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected boolean removeFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof InvocationNameEditPart) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (addFixedChild(childEditPart)) {
+			return;
+		}
+		super.addChildVisual(childEditPart, -1);
+	}
+
+	/**
+	 * @generated
+	 */
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (removeFixedChild(childEditPart)) {
+			return;
+		}
+		super.removeChildVisual(childEditPart);
+	}
+
+	/**
+	 * @generated
+	 */
+	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
+		return getContentPane();
 	}
 
 	/**
 	 * @generated
 	 */
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(20, 20);
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(50, 25);
 		return result;
 	}
 
@@ -174,6 +198,11 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 * @generated
 	 */
 	protected IFigure setupContentPane(IFigure nodeShape) {
+		if (nodeShape.getLayoutManager() == null) {
+			ConstrainedToolbarLayout layout = new ConstrainedToolbarLayout();
+			layout.setSpacing(5);
+			nodeShape.setLayoutManager(layout);
+		}
 		return nodeShape; // use nodeShape itself as contentPane
 	}
 
@@ -224,54 +253,67 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
-	public class SymbolCircleFigure extends Ellipse {
+	public EditPart getPrimaryChildEditPart() {
+		return getChildBySemanticHint(HenshinVisualIDRegistry
+				.getType(InvocationNameEditPart.VISUAL_ID));
+	}
+
+	/**
+	 * @generated
+	 */
+	public class InvocationFigure extends RoundedRectangle {
 
 		/**
 		 * @generated
 		 */
-		public SymbolCircleFigure() {
-			this.setForegroundColor(ColorConstants.black);
-			this.setBackgroundColor(ColorConstants.white);
+		private WrappingLabel fInvocationNameFigure;
+
+		/**
+		 * @generated
+		 */
+		public InvocationFigure() {
+
+			GridLayout layoutThis = new GridLayout();
+			layoutThis.numColumns = 1;
+			layoutThis.makeColumnsEqualWidth = true;
+			this.setLayoutManager(layoutThis);
+
+			this.setCornerDimensions(new Dimension(getMapMode().DPtoLP(8),
+					getMapMode().DPtoLP(8)));
+			createContents();
 		}
 
-		private Ellipse inner;
+		/**
+		 * @generated
+		 */
+		private void createContents() {
 
-		public SymbolCircleFigure(boolean begin) {
-			setLayoutManager(new StackLayout());
-			if (begin) {
-				setForegroundColor(ColorConstants.darkGray);
-				setBackgroundColor(ColorConstants.black);
-			} else {
-				setForegroundColor(ColorConstants.black);
-				setBackgroundColor(ColorConstants.white);
-				final Ellipse main = this;
-				inner = new Ellipse() {
-					@Override
-					public Rectangle getBounds() {
-						Rectangle b = main.getBounds();
-						return new Rectangle(b.x + b.width / 4, b.y + b.height
-								/ 4, b.width / 2, b.height / 2);
-					}
-				};
-				inner.setForegroundColor(ColorConstants.black);
-				inner.setBackgroundColor(ColorConstants.black);
-				add(inner);
-			}
+			fInvocationNameFigure = new WrappingLabel();
+			fInvocationNameFigure.setText("null");
+
+			fInvocationNameFigure.setBorder(new MarginBorder(getMapMode()
+					.DPtoLP(2), getMapMode().DPtoLP(2), getMapMode().DPtoLP(0),
+					getMapMode().DPtoLP(2)));
+
+			GridData constraintFInvocationNameFigure = new GridData();
+			constraintFInvocationNameFigure.verticalAlignment = GridData.CENTER;
+			constraintFInvocationNameFigure.horizontalAlignment = GridData.CENTER;
+			constraintFInvocationNameFigure.horizontalIndent = 0;
+			constraintFInvocationNameFigure.horizontalSpan = 1;
+			constraintFInvocationNameFigure.verticalSpan = 1;
+			constraintFInvocationNameFigure.grabExcessHorizontalSpace = true;
+			constraintFInvocationNameFigure.grabExcessVerticalSpace = true;
+			this.add(fInvocationNameFigure, constraintFInvocationNameFigure);
+
 		}
-	}
 
-	/**
-	 * @generated NOT
-	 */
-	public class InvalidSymbolFigure extends Ellipse {
-
-		public InvalidSymbolFigure() {
-			setForegroundColor(ColorConstants.black);
-			setBackgroundColor(ColorConstants.red);
-			setLayoutManager(new StackLayout());
-			add(new Label("?"));
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getInvocationNameFigure() {
+			return fInvocationNameFigure;
 		}
 
 	}

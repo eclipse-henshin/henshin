@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -261,33 +262,6 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case TransformationSystemEditPart.VISUAL_ID: {
-			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
-			Diagram sv = (Diagram) view;
-			HenshinNavigatorGroup links = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_TransformationSystem_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
-			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(RuleEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(UnitEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
-			links.addChildren(createNavigatorItems(connectedViews, links, false));
-			if (!links.isEmpty()) {
-				result.add(links);
-			}
-			return result.toArray();
-		}
-
 		case EdgeEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
 			Edge sv = (Edge) view;
@@ -315,16 +289,23 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case SymbolEditPart.VISUAL_ID: {
+		case RuleEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
 			Node sv = (Node) view;
 			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3003_incominglinks,
+					Messages.NavigatorGroupName_Rule_2001_incominglinks,
 					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3003_outgoinglinks,
+					Messages.NavigatorGroupName_Rule_2001_outgoinglinks,
 					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry
+							.getType(RuleCompartmentEditPart.VISUAL_ID));
+			connectedViews = getChildrenByType(connectedViews,
+					HenshinVisualIDRegistry.getType(NodeEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,
@@ -373,6 +354,11 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 					HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID));
 			target.addChildren(createNavigatorItems(connectedViews, target,
 					true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry
+							.getType(InvocationEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target,
+					true));
 			connectedViews = getLinksSourceByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry.getType(RuleEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source,
@@ -394,6 +380,11 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 					HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source,
 					true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry
+							.getType(InvocationEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source,
+					true));
 			if (!target.isEmpty()) {
 				result.add(target);
 			}
@@ -403,32 +394,43 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case NodeEditPart.VISUAL_ID: {
+		case TransformationSystemEditPart.VISUAL_ID: {
+			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
+			Diagram sv = (Diagram) view;
+			HenshinNavigatorGroup links = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_TransformationSystem_1000_links,
+					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(RuleEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(UnitEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
+			links.addChildren(createNavigatorItems(connectedViews, links, false));
+			if (!links.isEmpty()) {
+				result.add(links);
+			}
+			return result.toArray();
+		}
+
+		case InvocationEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
 			Node sv = (Node) view;
 			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3001_incominglinks,
+					Messages.NavigatorGroupName_TransformationUnit_3003_incominglinks,
 					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Node_3001_outgoinglinks,
+					Messages.NavigatorGroupName_TransformationUnit_3003_outgoinglinks,
 					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
-			connectedViews = getChildrenByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry
-							.getType(NodeCompartmentEditPart.VISUAL_ID));
-			connectedViews = getChildrenByType(connectedViews,
-					HenshinVisualIDRegistry
-							.getType(AttributeEditPart.VISUAL_ID));
-			result.addAll(createNavigatorItems(connectedViews, parentElement,
-					false));
-			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			incominglinks.addChildren(createNavigatorItems(connectedViews,
-					incominglinks, true));
-			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
-					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
-			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
-					outgoinglinks, true));
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,
@@ -463,6 +465,14 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 					HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry
+							.getType(UnitCompartmentEditPart.VISUAL_ID));
+			connectedViews = getChildrenByType(connectedViews,
+					HenshinVisualIDRegistry
+							.getType(InvocationEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement,
+					false));
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,
@@ -480,23 +490,59 @@ public class HenshinNavigatorContentProvider implements ICommonContentProvider {
 			return result.toArray();
 		}
 
-		case RuleEditPart.VISUAL_ID: {
+		case SymbolEditPart.VISUAL_ID: {
 			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
 			Node sv = (Node) view;
 			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Rule_2001_incominglinks,
+					Messages.NavigatorGroupName_Node_3004_incominglinks,
 					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
-					Messages.NavigatorGroupName_Rule_2001_outgoinglinks,
+					Messages.NavigatorGroupName_Node_3004_outgoinglinks,
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			Collection<View> connectedViews;
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
+			incominglinks.addChildren(createNavigatorItems(connectedViews,
+					incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
+					outgoinglinks, true));
+			if (!incominglinks.isEmpty()) {
+				result.add(incominglinks);
+			}
+			if (!outgoinglinks.isEmpty()) {
+				result.add(outgoinglinks);
+			}
+			return result.toArray();
+		}
+
+		case NodeEditPart.VISUAL_ID: {
+			LinkedList<HenshinAbstractNavigatorItem> result = new LinkedList<HenshinAbstractNavigatorItem>();
+			Node sv = (Node) view;
+			HenshinNavigatorGroup incominglinks = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_Node_3001_incominglinks,
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+			HenshinNavigatorGroup outgoinglinks = new HenshinNavigatorGroup(
+					Messages.NavigatorGroupName_Node_3001_outgoinglinks,
 					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
 			Collection<View> connectedViews;
 			connectedViews = getChildrenByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry
-							.getType(RuleCompartmentEditPart.VISUAL_ID));
+							.getType(NodeCompartmentEditPart.VISUAL_ID));
 			connectedViews = getChildrenByType(connectedViews,
-					HenshinVisualIDRegistry.getType(NodeEditPart.VISUAL_ID));
+					HenshinVisualIDRegistry
+							.getType(AttributeEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement,
 					false));
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			incominglinks.addChildren(createNavigatorItems(connectedViews,
+					incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					HenshinVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews,
+					outgoinglinks, true));
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID));
 			incominglinks.addChildren(createNavigatorItems(connectedViews,

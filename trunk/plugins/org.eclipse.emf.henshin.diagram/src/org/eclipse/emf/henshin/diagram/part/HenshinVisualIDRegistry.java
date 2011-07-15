@@ -18,6 +18,8 @@ import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -164,6 +166,12 @@ public class HenshinVisualIDRegistry {
 				return AttributeEditPart.VISUAL_ID;
 			}
 			break;
+		case UnitCompartmentEditPart.VISUAL_ID:
+			if (HenshinPackage.eINSTANCE.getTransformationUnit().isSuperTypeOf(
+					domainElement.eClass())) {
+				return InvocationEditPart.VISUAL_ID;
+			}
+			break;
 		}
 		return -1;
 	}
@@ -224,6 +232,11 @@ public class HenshinVisualIDRegistry {
 				return true;
 			}
 			break;
+		case InvocationEditPart.VISUAL_ID:
+			if (InvocationNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
 		case RuleCompartmentEditPart.VISUAL_ID:
 			if (NodeEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
@@ -236,6 +249,9 @@ public class HenshinVisualIDRegistry {
 			break;
 		case UnitCompartmentEditPart.VISUAL_ID:
 			if (SymbolEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (InvocationEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;

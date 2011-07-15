@@ -69,11 +69,18 @@ public class PriorityUnitImpl extends TransformationUnitImpl implements Priority
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getSubUnits() {
 		if (subUnits == null) {
-			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.PRIORITY_UNIT__SUB_UNITS);
+			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.PRIORITY_UNIT__SUB_UNITS) {
+				private static final long serialVersionUID = 1L;
+				@Override
+				public boolean isUnique() {
+					// We don't want uniqueness. See also bug #89325.
+					return false;
+				}
+			};
 		}
 		return subUnits;
 	}

@@ -138,6 +138,31 @@
       </actualFigure>
     </descriptors>
     <descriptors
+        name="InvocationFigure">
+      <actualFigure
+          xsi:type="gmfgraph:RoundedRectangle"
+          name="InvocationFigure">
+        <layout
+            xsi:type="gmfgraph:GridLayout"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="InvocationNameFigure"
+            text="null">
+          <layoutData
+              xsi:type="gmfgraph:GridLayoutData"
+              grabExcessHorizontalSpace="true"
+              grabExcessVerticalSpace="true"/>
+          <insets
+              top="2"
+              left="2"
+              right="2"/>
+        </children>
+      </actualFigure>
+      <accessors
+          accessor="getInvocationNameFigure"
+          figure="//@figures.0/@descriptors.6/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
         name="LinkFigure">
       <actualFigure
           xsi:type="gmfgraph:PolylineConnection"
@@ -182,6 +207,9 @@
           dy="20"/>
     </facets>
   </nodes>
+  <nodes
+      name="Invocation"
+      figure="InvocationFigure"/>
   <connections
       name="Edge"
       figure="EdgeFigure"/>
@@ -228,4 +256,9 @@
   <labels
       name="Attribute"
       figure="AttributeFigure"/>
+  <labels
+      name="InvocationName"
+      figure="InvocationFigure"
+      elementIcon="false"
+      accessor="//@figures.0/@descriptors.6/@accessors.0"/>
 </gmfgraph:Canvas>

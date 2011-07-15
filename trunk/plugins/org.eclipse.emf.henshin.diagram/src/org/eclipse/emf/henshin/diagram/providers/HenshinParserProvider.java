@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
@@ -24,6 +25,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.parsers.AttributeParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeActionParser;
 import org.eclipse.emf.henshin.diagram.parsers.EdgeTypeParser;
+import org.eclipse.emf.henshin.diagram.parsers.InvocationNameParser;
 import org.eclipse.emf.henshin.diagram.parsers.MessageFormatParser;
 import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;
 import org.eclipse.emf.henshin.diagram.parsers.NodeTypeParser;
@@ -121,12 +123,19 @@ public class HenshinParserProvider extends AbstractProvider implements
 	/**
 	 * @generated NOT
 	 */
+	private IParser invocationNameParser = new InvocationNameParser();
+
+	/**
+	 * @generated NOT
+	 */
 	protected IParser getParser(int visualID) {
 		switch (visualID) {
 		case RuleNameEditPart.VISUAL_ID:
 			return getRuleName_5001Parser();
 		case UnitNameEditPart.VISUAL_ID:
 			return getTransformationUnitName_5004Parser();
+		case InvocationNameEditPart.VISUAL_ID:
+			return invocationNameParser;
 		case NodeTypeEditPart.VISUAL_ID:
 			return nodeTypeParser;
 		case NodeActionEditPart.VISUAL_ID:

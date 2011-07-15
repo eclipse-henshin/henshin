@@ -12,11 +12,11 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.henshin.diagram.edit.policies.UnitCompartmentCanonicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.UnitCompartmentItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.part.Messages;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
+import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
@@ -89,6 +89,29 @@ public class UnitCompartmentEditPart extends ShapeCompartmentEditPart {
 		if (getFigure().getParent().getLayoutManager() instanceof ConstrainedToolbarLayout) {
 			super.setRatio(ratio);
 		}
+	}
+
+	/**
+	 * Get the compartment view of a unit view.
+	 * This is a helper method to be used at multiple places.
+	 * @param view The unit view.
+	 * @return Compartment view.
+	 * @generated NOT
+	 */
+	public static View getUnitCompartment(View view) {
+
+		// Compartment type ID:
+		String type = HenshinVisualIDRegistry
+				.getType(UnitCompartmentEditPart.VISUAL_ID);
+
+		// Check if it is already the compartment:
+		if (type.equals(view.getType())) {
+			return view;
+		}
+
+		// Otherwise search the compartment:
+		return ViewUtil.getChildBySemanticHint(view, type);
+
 	}
 
 }

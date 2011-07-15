@@ -40,6 +40,13 @@
       queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://www.eclipse.org/emf/2010/Henshin' and _eClass_.name = 'Attribute') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://www.eclipse.org/emf/2010/Henshin' and _eClass_.name = 'Node') and _containmentMF_.name = 'attributes')"/>
   <childNodeTraces
       visualID="3003"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://www.eclipse.org/emf/2010/Henshin' and _eClass_.name = 'TransformationUnit') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://www.eclipse.org/emf/2010/Henshin' and _eClass_.name = 'TransformationSystem') and _containmentMF_.name = 'transformationUnits')">
+    <nodeLabelTraces
+        visualID="5005"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3004"
       queryText="modelFacet = null"/>
   <linkTraces
       visualID="4001"

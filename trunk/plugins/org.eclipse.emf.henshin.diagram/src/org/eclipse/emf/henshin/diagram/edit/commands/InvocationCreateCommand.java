@@ -11,14 +11,14 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.part.HenshinPaletteUpdater.EClassNodeTool;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -30,17 +30,15 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
- * This command creates a new transformation unit.
- * @generated NOT
+ * @generated
  */
-public class UnitCreateCommand extends EditElementCommand {
+public class InvocationCreateCommand extends EditElementCommand {
 
 	/**
-	 * Default constructor.
 	 * @generated
 	 */
-	public UnitCreateCommand(CreateElementRequest request) {
-		super(request.getLabel(), null, request);
+	public InvocationCreateCommand(CreateElementRequest req) {
+		super(req.getLabel(), null, req);
 	}
 
 	/**
@@ -57,42 +55,72 @@ public class UnitCreateCommand extends EditElementCommand {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public boolean canExecute() {
-		return true;
-
+		// We need at least one target candidate:
+		return !getTargetCandidates().isEmpty();
 	}
-
+	
+	/*
+	 * Helper method: get the current transformation system.
+	 */
+	private TransformationSystem getTransformationSystem() {
+		EObject object = getElementToEdit();
+		while (object!=null) {
+			if (object instanceof TransformationSystem) {
+				return (TransformationSystem) object;
+			}
+			object = object.eContainer();
+		}
+		return null;
+	}
+	
+	/*
+	 * Helper method: get a list of possible target candidate units.
+	 */
+	private List<TransformationUnit> getTargetCandidates() {
+		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
+		TransformationSystem system = getTransformationSystem();
+		if (system!=null) {
+			candidates.addAll(system.getRules());
+			candidates.addAll(system.getTransformationUnits());
+		}
+		return candidates;
+	}
+	
 	/**
-	 * We need to ask the user what kind of transformation unit should be created.
 	 * @generated NOT
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
 		
-		// Get the unit type:
-		EClass unitType = HenshinPackage.eINSTANCE.getSequentialUnit();
-		CreateElementRequest request = (CreateElementRequest) getRequest();
-		if (request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY) instanceof EClass) {
-			unitType = (EClass) request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
+		// Get the owner unit and the target candidate units:
+		TransformationUnit owner = (TransformationUnit) getElementToEdit();
+		List<TransformationUnit> candidates = getTargetCandidates();
+		
+		// Try to be smart: in most cases we don't want duplicate invocations:
+		for (TransformationUnit used : owner.getSubUnits(false)) {
+			if (candidates.size()>1) {
+				candidates.remove(used);
+			} else break;
+		}
+		
+		// Now we just take the first candidate:
+		TransformationUnit target = candidates.get(0);
+
+		// Add it to the parent unit:
+		if (owner instanceof SequentialUnit) {
+			((SequentialUnit) owner).getSubUnits().add(target);
 		}
 
-		// Create the transformation unit:
-		TransformationUnit unit = (TransformationUnit) HenshinFactory.eINSTANCE
-				.create(unitType);
-
-		// Add it to the transformation system:
-		TransformationSystem system = (TransformationSystem) getElementToEdit();
-		system.getTransformationUnits().add(unit);
-
-		// Configure the unit:
-		doConfigure(unit, monitor, info);
-
+		// No need to configure.
+		// doConfigure(newElement, monitor, info);
+		
 		// Done.
-		((CreateElementRequest) getRequest()).setNewElement(unit);
-		return CommandResult.newOKCommandResult(unit);
-
+		((CreateElementRequest) getRequest()).setNewElement(target);
+		return CommandResult.newOKCommandResult(target);
+		
 	}
 
 	/**

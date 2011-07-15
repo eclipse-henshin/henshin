@@ -117,7 +117,6 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * {@link #findRuleByName(String)} for such cases.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @model
 	 * @generated
 	 */

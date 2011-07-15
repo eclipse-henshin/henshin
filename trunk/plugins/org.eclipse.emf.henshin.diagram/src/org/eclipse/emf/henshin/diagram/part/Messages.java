@@ -299,6 +299,16 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
+	public static String Invocation6CreationTool_title;
+
+	/**
+	 * @generated
+	 */
+	public static String Invocation6CreationTool_desc;
+
+	/**
+	 * @generated
+	 */
 	public static String RuleCompartmentEditPart_title;
 
 	/**
@@ -319,6 +329,16 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
+	public static String NavigatorGroupName_Node_3004_incominglinks;
+
+	/**
+	 * @generated
+	 */
+	public static String NavigatorGroupName_Node_3004_outgoinglinks;
+
+	/**
+	 * @generated
+	 */
 	public static String NavigatorGroupName_TransformationSystem_1000_links;
 
 	/**
@@ -334,12 +354,12 @@ public class Messages extends NLS {
 	/**
 	 * @generated
 	 */
-	public static String NavigatorGroupName_Node_3003_incominglinks;
+	public static String NavigatorGroupName_TransformationUnit_3003_incominglinks;
 
 	/**
 	 * @generated
 	 */
-	public static String NavigatorGroupName_Node_3003_outgoinglinks;
+	public static String NavigatorGroupName_TransformationUnit_3003_outgoinglinks;
 
 	/**
 	 * @generated

@@ -13,26 +13,15 @@ package org.eclipse.emf.henshin.diagram.parsers;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
-import org.eclipse.gmf.runtime.common.core.command.ICommand;
-import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
-import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
-import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
-import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -40,111 +29,66 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated NOT
  * @author Christian Krause
  */
-public class RuleNameParser extends AbstractParser {
-	
-	// View of the rule to be edited:
-	private View ruleView;
+public class RuleNameParser extends UnitNameParser {
 	
 	/**
 	 * Default constructor.
 	 * @param rule Rule.
 	 */
 	public RuleNameParser(View view) {
-		super(new EAttribute[] { HenshinPackage.eINSTANCE.getNamedElement_Name() });
+		super(view);
 		if (!RootObjectEditHelper.isRuleView(view)) {
 			throw new IllegalArgumentException();
 		}
-		this.ruleView = view;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#isUnitEmpty(org.eclipse.emf.henshin.model.TransformationUnit)
+	 */
+	@Override
+	protected boolean isUnitEmpty(TransformationUnit unit) {
+		if (unit instanceof Rule) {
+			Rule rule = (Rule) unit;
+			return rule.getLhs().getNodes().isEmpty() && 
+					rule.getRhs().getNodes().isEmpty() &&
+					rule.getParameters().isEmpty();
+		} else {
+			return super.isUnitEmpty(unit);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
-		Rule rule = (Rule) ruleView.getElement();
-		
-		// Compute the display name:
-		String name = rule.getName();
-		if (name==null) {
-			name = "";
-		}
-		if ((name.trim().length()==0) && 
-			(!rule.getLhs().getNodes().isEmpty() || 
-			 !rule.getRhs().getNodes().isEmpty() ||
-			 !rule.getParameters().isEmpty())) {
-			name = "unnamed";
-		}
-		
-		// Compute the parameters:
-		String params = "";
-		int paramCount = rule.getParameters().size();
-		if (paramCount>0) {
-			for (int i=0; i<paramCount; i++) {
-				params = params + rule.getParameters().get(i).getName();
-				if (i<paramCount-1) {
-					params = params + ",";
-				}
-			}
-			params = "(" + params + ")";
-		}
 		
 		// Compute the root object:
 		String root = "";
-		Node rootObject = RootObjectEditHelper.getRootObject(ruleView);
+		Node rootObject = RootObjectEditHelper.getRootObject(unitView);
 		if (rootObject!=null) {
 			root = " @" + rootObject.getType().getName();
 		}
 		
 		// Compile the title:
-		return (name + params + root);
+		return (super.getPrintString(element, flags) + root);
+		
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getEditString(org.eclipse.core.runtime.IAdaptable, int)
+	 * @see org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#doParsing(java.lang.String)
 	 */
-	public String getEditString(IAdaptable element, int flags) {
-		return getPrintString(element, flags);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getParseCommand(org.eclipse.core.runtime.IAdaptable, java.lang.String, int)
-	 */
-	public ICommand getParseCommand(IAdaptable element, final String value, int flags) {
-		
-		// Resolve the rule view:
-		final View view = (View) element.getAdapter(View.class);
-		
-		// Get the editing domain:
-		final TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(view.getElement());
-		if (domain == null) {
-			return UnexecutableCommand.INSTANCE;
-		}
-		
-		// Create parse command:
-		AbstractTransactionalCommand command = new AbstractTransactionalCommand(domain, "Parse Rule Name", null) {
-			protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-				return doParsing(value);
-			}
-		};
-		return command;
-		
-	}
-	
-	/*
-	 * Parse a rule name and the optional root node.
-	 */
-	private CommandResult doParsing(String value) throws ExecutionException {
+	@Override
+	protected CommandResult doParsing(String value) throws ExecutionException {
 		
 		// We need the rule:
-		Rule rule = (Rule) ruleView.getElement();
+		Rule rule = (Rule) unitView.getElement();
 		
 		// Parse the input:
 		String name, rootType;
-		String[] params = new String[0];
-
+		
 		// Separate the root type:
 		int at = value.indexOf('@');
 		if (at<0) {
@@ -153,38 +97,16 @@ public class RuleNameParser extends AbstractParser {
 		} else {
 			name = value.substring(0,at).trim();
 			rootType = value.substring(at+1).trim();
-			if (rootType.length()==0) rootType = null;
+			if (rootType.length()==0) {
+				rootType = null;
+			}
 		}
 		
-		// Separate the parameters:
-		int open_bracket = name.indexOf('(');
-		int close_bracket = name.indexOf(')');
-		if (open_bracket>=0) {
-			if (close_bracket<open_bracket) {
-				return CommandResult.newErrorCommandResult("Error parsing rule parameters");
-			}
-			params = name.substring(open_bracket+1, close_bracket).split(",");
-			name = name.substring(0, open_bracket).trim();
-		}
-		
-		// Update the parameters:
-		rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());	// dummy change to enforce notification
-		while (rule.getParameters().size()>params.length) {
-			rule.getParameters().remove(rule.getParameters().size()-1);
-		}
-		while (rule.getParameters().size()<params.length) {
-			rule.getParameters().add(HenshinFactory.eINSTANCE.createParameter());
-		}
-		for (int i=0; i<params.length; i++) {
-			String p = params[i];
-			if (p==null || p.trim().length()==0) {
-				p = "p"+i;
-			}
-			rule.getParameters().get(i).setName(p.trim());
-		}
+		// Update the name and the parameters:
+		super.doParsing(name);
 		
 		// Update the root object:
-		Node oldRoot = RootObjectEditHelper.getRootObject(ruleView);
+		Node oldRoot = RootObjectEditHelper.getRootObject(unitView);
 		
 		// Do we need to set a new root object?
 		if (rootType!=null && (oldRoot==null || !rootType.equals(oldRoot.getType().getName()))) {
@@ -201,13 +123,13 @@ public class RuleNameParser extends AbstractParser {
 			
 			// We change only if the new root type was found:
 			if (rootClass!=null) {
-				RootObjectEditHelper.setRootObjectType(ruleView, rootClass);
+				RootObjectEditHelper.setRootObjectType(unitView, rootClass);
 			}
 		}
 		
 		// Do we have to erase the current root object?
 		if (rootType==null && oldRoot!=null) {
-			RootObjectEditHelper.setRootObject(ruleView, null);
+			RootObjectEditHelper.setRootObject(unitView, null);
 		}
 		
 		// Now we can update the rule name, but not directly:
@@ -218,25 +140,9 @@ public class RuleNameParser extends AbstractParser {
 		
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.diagram.parsers.AbstractParser#isAffectingFeature(java.lang.Object)
-	 */
 	@Override
-	protected boolean isAffectingFeature(Object feature) {
-		if (feature==HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
-		if (feature==HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()) return true;
-		if (feature==EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
-		if (feature==EcorePackage.eINSTANCE.getEAnnotation_References()) return true;
-		return false;
+	protected void doSetName(TransformationUnit unit, String name) {
+		// We do it ourself later.
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#isValidEditString(org.eclipse.core.runtime.IAdaptable, java.lang.String)
-	 */
-	public IParserEditStatus isValidEditString(IAdaptable element, String editString) {
-		return ParserEditStatus.EDITABLE_STATUS;
-	}
-
 }

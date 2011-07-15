@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
@@ -88,7 +89,12 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
-	public static final IElementType Node_3003 = getElementType("org.eclipse.emf.henshin.diagram.Node_3003"); //$NON-NLS-1$
+	public static final IElementType Node_3004 = getElementType("org.eclipse.emf.henshin.diagram.Node_3004"); //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
+	public static final IElementType TransformationUnit_3003 = getElementType("org.eclipse.emf.henshin.diagram.TransformationUnit_3003"); //$NON-NLS-1$
 
 	/**
 	 * @generated
@@ -234,6 +240,9 @@ public class HenshinElementTypes {
 			elements.put(Attribute_3002,
 					HenshinPackage.eINSTANCE.getAttribute());
 
+			elements.put(TransformationUnit_3003,
+					HenshinPackage.eINSTANCE.getTransformationUnit());
+
 			elements.put(Edge_4001, HenshinPackage.eINSTANCE.getEdge());
 		}
 		return (ENamedElement) elements.get(type);
@@ -257,7 +266,8 @@ public class HenshinElementTypes {
 			KNOWN_ELEMENT_TYPES.add(TransformationUnit_2002);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);
 			KNOWN_ELEMENT_TYPES.add(Attribute_3002);
-			KNOWN_ELEMENT_TYPES.add(Node_3003);
+			KNOWN_ELEMENT_TYPES.add(Node_3004);
+			KNOWN_ELEMENT_TYPES.add(TransformationUnit_3003);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
 			KNOWN_ELEMENT_TYPES.add(Link_4002);
 		}
@@ -280,7 +290,9 @@ public class HenshinElementTypes {
 		case AttributeEditPart.VISUAL_ID:
 			return Attribute_3002;
 		case SymbolEditPart.VISUAL_ID:
-			return Node_3003;
+			return Node_3004;
+		case InvocationEditPart.VISUAL_ID:
+			return TransformationUnit_3003;
 		case EdgeEditPart.VISUAL_ID:
 			return Edge_4001;
 		case LinkEditPart.VISUAL_ID:
