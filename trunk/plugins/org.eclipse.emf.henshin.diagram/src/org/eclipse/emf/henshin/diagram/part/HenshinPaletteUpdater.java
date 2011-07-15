@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -24,18 +23,10 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.presentation.HenshinIcons;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.ToolEntry;
-import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
-import org.eclipse.gmf.runtime.emf.type.core.IElementType;
-import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Monitors the imports of a transformation system and 
@@ -45,19 +36,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 public class HenshinPaletteUpdater {
 	
-	// EPackage icon:
-	private static ImageDescriptor EPACKAGE_ICON = ImageDescriptor.createFromImage(HenshinIcons.EPACKAGE);
-	
-	// EClass icon:
-	private static ImageDescriptor ECLASS_ICON = ImageDescriptor.createFromImage(HenshinIcons.ECLASS);
-	
-	// Element types: Henshin node
-	private static final List<IElementType> HENSHIN_NODE_TYPES;
-	static {
-		HENSHIN_NODE_TYPES = new ArrayList<IElementType>(1);
-		HENSHIN_NODE_TYPES.add(HenshinElementTypes.Node_3001);
-	}
-
 	// Palette root to be updated.
 	private PaletteRoot palette;
 	
@@ -90,14 +68,14 @@ public class HenshinPaletteUpdater {
 		
 		// Create a new drawer for every package:
 		for (EPackage epackage : system.getImports()) {
-			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), EPACKAGE_ICON);
+			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), HenshinPaletteTools.EPACKAGE_ICON);
 			
 			// Add entries for all classes:
 			List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
 			Collections.sort(eclassifiers, eclassComparator);
 			for (EClassifier eclassifier : eclassifiers){
 				if (eclassifier instanceof EClass) {
-					drawer.add(new EClassNodeToolEntry((EClass) eclassifier));
+					drawer.add(new HenshinPaletteTools.EClassNodeToolEntry((EClass) eclassifier));
 				}
 			}
 			
@@ -134,53 +112,5 @@ public class HenshinPaletteUpdater {
 			return n1.compareTo(n2);
 		}
 	};
-	
-	/**
-	 * Creation palette tool entry for nodes.
-	 */
-	static class EClassNodeToolEntry extends ToolEntry {
-				
-		// EClass:
-		private EClass eclass;
-
-		public EClassNodeToolEntry(EClass eclass) {
-			super(eclass.getName(), "Create a " + eclass.getName() + " node", ECLASS_ICON, null);
-			this.eclass = eclass;
-		}
-		
-		@Override
-		public Tool createTool() {
-			Tool tool = new EClassNodeTool(eclass, HENSHIN_NODE_TYPES);
-			tool.setProperties(getToolProperties());
-			return tool;
-		}
-	}
-	
-	/**
-	 * Creation tool for nodes.
-	 */
-	public static class EClassNodeTool extends UnspecifiedTypeCreationTool {
-		
-		/**
-		 * Key for the node type parameter in creation requests.
-		 */
-		public static final String TYPE_PARAMETER_KEY = "eclass_node_type";
-	
-		// Request parameters.
-		private Map<Object,Object> parameters = new HashMap<Object,Object>();
-		
-		public EClassNodeTool(EClass eclass, List<IElementType> types) {
-			super(types);
-			parameters.put(TYPE_PARAMETER_KEY, eclass);
-		}
-		
-		@Override
-		protected Request createTargetRequest() {
-			Request request = super.createTargetRequest();
-			request.setExtendedData(parameters);
-			return request;
-		}
-
-	}
 	
 }

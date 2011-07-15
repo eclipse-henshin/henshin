@@ -11,12 +11,11 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.part;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.henshin.diagram.part.HenshinPaletteUpdater.EClassNodeTool;
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.UnitNodeToolEntry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gef.Tool;
@@ -33,13 +32,6 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
  * @generated
  */
 public class HenshinPaletteFactory {
-	
-	// Element types: Transformation unit node
-	private static final List<IElementType> UNIT_NODE_TYPES;
-	static {
-		UNIT_NODE_TYPES = new ArrayList<IElementType>(1);
-		UNIT_NODE_TYPES.add(HenshinElementTypes.TransformationUnit_2002);
-	}
 
 	/**
 	 * @generated
@@ -222,30 +214,4 @@ public class HenshinPaletteFactory {
 		}
 	}
 	
-	private static String unitTypeName(EClass type) {
-		return type.getName().replaceFirst("Unit", " Unit");
-	}
-	
-	/**
-	 * Creation palette tool entry for transformation units.
-	 */
-	static class UnitNodeToolEntry extends ToolEntry {
-		
-		// Unit type:
-		private EClass type;
-
-		public UnitNodeToolEntry(EClass type) {
-			super(type.getName(), "Create a " + unitTypeName(type), 
-					HenshinElementTypes.getImageDescriptor(type), null);
-			this.type = type;
-		}
-		
-		@Override
-		public Tool createTool() {
-			Tool tool = new EClassNodeTool(type, UNIT_NODE_TYPES);
-			tool.setProperties(getToolProperties());
-			return tool;
-		}
-	}
-
 }

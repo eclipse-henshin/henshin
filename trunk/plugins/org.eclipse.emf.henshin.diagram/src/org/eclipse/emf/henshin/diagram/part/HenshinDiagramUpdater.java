@@ -30,12 +30,10 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
@@ -74,6 +72,7 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
+	 * Get the semantic children of a rule compartment.
 	 * @generated NOT
 	 */
 	public static List<HenshinNodeDescriptor> getRuleRuleCompartment_7001SemanticChildren(
@@ -111,10 +110,10 @@ public class HenshinDiagramUpdater {
 
 		// Done.
 		return result;
-
 	}
 
 	/**
+	 * Get the semantic children of a node compartment.
 	 * @generated NOT
 	 */
 	public static List<HenshinNodeDescriptor> getNodeNodeCompartment_7002SemanticChildren(
@@ -144,11 +143,13 @@ public class HenshinDiagramUpdater {
 				continue;
 			}
 		}
-
+		
+		// Done.
 		return result;
 	}
 
 	/**
+	 * Get the semantic children of a transformation unit compartment.
 	 * @generated NOT
 	 */
 	public static List<HenshinNodeDescriptor> getTransformationUnitUnitCompartment_7003SemanticChildren(
@@ -185,6 +186,7 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
+	 * Get the semantic children of a transformation system diagram.
 	 * @generated NOT
 	 */
 	public static List<HenshinNodeDescriptor> getTransformationSystem_1000SemanticChildren(
@@ -302,6 +304,7 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
+	 * Get the edges in a rule.
 	 * @generated NOT
 	 */
 	public static List<HenshinLinkDescriptor> getRule_2001ContainedLinks(
@@ -334,36 +337,14 @@ public class HenshinDiagramUpdater {
 
 		// Done.
 		return result;
-
 	}
 
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	public static List<HenshinLinkDescriptor> getTransformationUnit_2002ContainedLinks(
 			View view) {
-		
-		// Get the transformation unit:
-		TransformationUnit unit = (TransformationUnit) view.getElement();
-		
-		// Create link descriptors:
-		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
-		
-		// Check the type of unit:
-		if (unit instanceof SequentialUnit) {
-			SequentialUnit sequential = (SequentialUnit) unit;
-			TransformationUnit last = null;
-			for (TransformationUnit current : sequential.getSubUnits()) {
-				result.add(new HenshinLinkDescriptor(last, current, null,
-						HenshinElementTypes.Link_4002, LinkEditPart.VISUAL_ID));
-			}
-			result.add(new HenshinLinkDescriptor(last, null, null,
-					HenshinElementTypes.Link_4002, LinkEditPart.VISUAL_ID));			
-		}
-
-		// Done.
-		return result;
-
+		return Collections.emptyList();
 	}
 
 	/**
@@ -570,5 +551,5 @@ public class HenshinDiagramUpdater {
 		}
 		return result;
 	}
-
+	
 }

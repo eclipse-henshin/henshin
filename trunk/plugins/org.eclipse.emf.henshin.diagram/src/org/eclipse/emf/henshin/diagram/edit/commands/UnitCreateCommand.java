@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.part.HenshinPaletteUpdater.EClassNodeTool;
+import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;

@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.providers;
 
 import java.util.ArrayList;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -32,13 +33,13 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
+import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
+import org.eclipse.emf.henshin.diagram.part.HenshinSymbolUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.service.AbstractProvider;
 import org.eclipse.gmf.runtime.common.core.service.IOperation;
@@ -425,13 +426,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
 
-		// Create the begin and end symbols:
-		if (domainElement instanceof SequentialUnit) {
-			createSymbol(domainElement, node, -1, persisted, preferencesHint,
-					SymbolType.SEQUENTIAL_BEGIN, 15, 15);
-			createSymbol(domainElement, node, -1, persisted, preferencesHint,
-					SymbolType.SEQUENTIAL_END, 75, 15);
-		}
+		// Create the required symbols and links:
+		new HenshinSymbolUpdater(preferencesHint, persisted).update(node);
+		new HenshinLinkUpdater(preferencesHint, persisted).update(node);
 
 		// Done.
 		return node;
@@ -484,32 +481,6 @@ public class HenshinViewProvider extends AbstractProvider implements
 						.getType(NodeCompartmentEditPart.VISUAL_ID), false,
 				false, true, true);
 		return node;
-	}
-
-	/**
-	 * Private helper method which creates a symbol view in a unit compartment.
-	 * @param compartment The compartment.
-	 * @param type Symbol type.
-	 * @param x X coordinate.
-	 * @param y Y coordinate.
-	 */
-	public Node createSymbol(EObject unit, View unitView, int index,
-			boolean persisted, PreferencesHint preferencesHint,
-			SymbolType type, int x, int y) {
-
-		// Create a location object:
-		Location location = NotationFactory.eINSTANCE.createLocation();
-		location.setX(x);
-		location.setY(y);
-
-		// Create the symbol:
-		Node symbol = createNode_3004(unit,
-				UnitCompartmentEditPart.getUnitCompartment(unitView), index,
-				persisted, preferencesHint);
-		type.set(symbol);
-		symbol.setLayoutConstraint(location);
-		return symbol;
-
 	}
 
 	/**
@@ -615,6 +586,12 @@ public class HenshinViewProvider extends AbstractProvider implements
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
+		
+		
+		// Create the required symbols and links:
+		View unitView = (View) containerView.eContainer();
+		new HenshinSymbolUpdater(preferencesHint, persisted).update(unitView);
+		new HenshinLinkUpdater(preferencesHint, persisted).update(unitView);
 		
 		// Done.
 		return node;
@@ -812,4 +789,5 @@ public class HenshinViewProvider extends AbstractProvider implements
 		}
 		return (IElementType) semanticAdapter.getAdapter(IElementType.class);
 	}
+	
 }

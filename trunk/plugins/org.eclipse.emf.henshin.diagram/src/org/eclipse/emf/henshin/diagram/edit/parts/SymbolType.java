@@ -1,9 +1,7 @@
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -52,24 +50,4 @@ public enum SymbolType {
 		annotation.getDetails().put(KEY, toString());
 	}
 	
-	/**
-	 * Find a symbol view of a given type within a parent view.
-	 * @param parent The parent view.
-	 * @param element Element of the symbol -- should be a transformation unit.
-	 * @return The symbol view if found, <code>null</code> otherwise.
-	 */
-	public View findSymbolView(View parent, EObject element) {
-		String symbolType = HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID);
-		for (Object child : parent.getChildren()) {
-			if (child instanceof View) {
-				View view = (View) child;
-				if (element==view.getElement() && 
-					symbolType.equals(view.getType()) &&
-					this==get(view)) {
-					return view;
-				}
-			}
-		}
-		return null;
-	}
 }
