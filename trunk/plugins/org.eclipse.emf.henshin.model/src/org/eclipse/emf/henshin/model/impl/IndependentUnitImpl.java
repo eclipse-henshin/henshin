@@ -69,7 +69,7 @@ public class IndependentUnitImpl extends TransformationUnitImpl implements Indep
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getSubUnits() {
 		if (subUnits == null) {

@@ -95,7 +95,6 @@ public class SequentialUnitItemProvider extends TransformationUnitItemProvider i
 		return super.getChildFeature(object, child);
 	}
 	
-	
 	/**
 	 * This returns SequentialUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -146,45 +145,38 @@ public class SequentialUnitItemProvider extends TransformationUnitItemProvider i
 	 * describing the children that can be created under this object. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 		
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createRule()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createIndependentUnit()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createSequentialUnit()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createConditionalUnit()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createPriorityUnit()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createAmalgamationUnit()));
 		//
-		// newChildDescriptors.add
-		// (createChildParameter
-		// (HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
+		// newChildDescriptors.add(createChildParameter(
+		// HenshinPackage.Literals.SEQUENTIAL_UNIT__SUB_UNITS,
 		// HenshinFactory.eINSTANCE.createCountedUnit()));
 	}
 	

@@ -695,46 +695,26 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	 * @generated
 	 */
 	public void dispose() {
-		if (transformationSystemItemProvider != null)
-			transformationSystemItemProvider.dispose();
-		if (ruleItemProvider != null)
-			ruleItemProvider.dispose();
-		if (attributeConditionItemProvider != null)
-			attributeConditionItemProvider.dispose();
-		if (parameterItemProvider != null)
-			parameterItemProvider.dispose();
-		if (graphItemProvider != null)
-			graphItemProvider.dispose();
-		if (mappingItemProvider != null)
-			mappingItemProvider.dispose();
-		if (nodeItemProvider != null)
-			nodeItemProvider.dispose();
-		if (attributeItemProvider != null)
-			attributeItemProvider.dispose();
-		if (edgeItemProvider != null)
-			edgeItemProvider.dispose();
-		if (independentUnitItemProvider != null)
-			independentUnitItemProvider.dispose();
-		if (sequentialUnitItemProvider != null)
-			sequentialUnitItemProvider.dispose();
-		if (conditionalUnitItemProvider != null)
-			conditionalUnitItemProvider.dispose();
-		if (priorityUnitItemProvider != null)
-			priorityUnitItemProvider.dispose();
-		if (amalgamationUnitItemProvider != null)
-			amalgamationUnitItemProvider.dispose();
-		if (countedUnitItemProvider != null)
-			countedUnitItemProvider.dispose();
-		if (nestedConditionItemProvider != null)
-			nestedConditionItemProvider.dispose();
-		if (andItemProvider != null)
-			andItemProvider.dispose();
-		if (orItemProvider != null)
-			orItemProvider.dispose();
-		if (notItemProvider != null)
-			notItemProvider.dispose();
-		if (parameterMappingItemProvider != null)
-			parameterMappingItemProvider.dispose();
+		if (transformationSystemItemProvider != null) transformationSystemItemProvider.dispose();
+		if (ruleItemProvider != null) ruleItemProvider.dispose();
+		if (attributeConditionItemProvider != null) attributeConditionItemProvider.dispose();
+		if (parameterItemProvider != null) parameterItemProvider.dispose();
+		if (graphItemProvider != null) graphItemProvider.dispose();
+		if (mappingItemProvider != null) mappingItemProvider.dispose();
+		if (nodeItemProvider != null) nodeItemProvider.dispose();
+		if (attributeItemProvider != null) attributeItemProvider.dispose();
+		if (edgeItemProvider != null) edgeItemProvider.dispose();
+		if (independentUnitItemProvider != null) independentUnitItemProvider.dispose();
+		if (sequentialUnitItemProvider != null) sequentialUnitItemProvider.dispose();
+		if (conditionalUnitItemProvider != null) conditionalUnitItemProvider.dispose();
+		if (priorityUnitItemProvider != null) priorityUnitItemProvider.dispose();
+		if (amalgamationUnitItemProvider != null) amalgamationUnitItemProvider.dispose();
+		if (countedUnitItemProvider != null) countedUnitItemProvider.dispose();
+		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
+		if (andItemProvider != null) andItemProvider.dispose();
+		if (orItemProvider != null) orItemProvider.dispose();
+		if (notItemProvider != null) notItemProvider.dispose();
+		if (parameterMappingItemProvider != null) parameterMappingItemProvider.dispose();
 	}
 	
 }
