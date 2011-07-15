@@ -14,11 +14,16 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
+import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
+import org.eclipse.emf.henshin.diagram.part.HenshinSymbolUpdater;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
+import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * @generated NOT
@@ -28,15 +33,21 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 
 	private TransformationUnit unit;
 	private TransformationUnit invocation;
+	private View unitView;
 	
 	/**
 	 * Default constructor.
 	 * @param domain Editing domain.
 	 */
-	public InvocationDeleteCommand(TransactionalEditingDomain domain, TransformationUnit unit, TransformationUnit invocation) {
+	public InvocationDeleteCommand(
+			TransactionalEditingDomain domain, 
+			TransformationUnit unit, 
+			TransformationUnit invocation,
+			View unitView) {
 		super(domain, "Delete Invocation", null);
 		this.unit = unit;
 		this.invocation = invocation;
+		this.unitView = unitView;
 	}
 	
 	/*
@@ -62,10 +73,19 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
+		// Check the unit type:
 		if (unit instanceof SequentialUnit) {
 			((SequentialUnit) unit).getSubUnits().remove(invocation);
 		}
 		
+		// Update the unit view:
+		if (unitView!=null) {
+			PreferencesHint prefHint = HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
+			new HenshinSymbolUpdater(prefHint, true).update(unitView);
+			new HenshinLinkUpdater(prefHint, true).update(unitView);
+		}
+		
+		// Done.
 		return CommandResult.newOKCommandResult();
 	}
 	
