@@ -13,7 +13,6 @@ package org.eclipse.emf.henshin.diagram.edit.policies;
 
 import org.eclipse.emf.henshin.diagram.edit.commands.InvocationDeleteCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
@@ -36,12 +35,7 @@ public class InvocationItemSemanticEditPolicy extends
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
 		View invocationView = (View) getHost().getModel();
-		View unitView = (View) invocationView.eContainer();
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
-		TransformationUnit invocation = (TransformationUnit) invocationView
-				.getElement();
-		return getGEFWrapper(new InvocationDeleteCommand(getEditingDomain(),
-				unit, invocation, unitView));
+		return getGEFWrapper(new InvocationDeleteCommand(getEditingDomain(), invocationView));
 	}
 
 }

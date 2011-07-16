@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
+import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.notation.View;
 
@@ -31,23 +32,16 @@ import org.eclipse.gmf.runtime.notation.View;
  */
 public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 
-	private TransformationUnit unit;
-	private TransformationUnit invocation;
-	private View unitView;
+	// Invocation (view) to be deleted:
+	private View invocationView;
 	
 	/**
 	 * Default constructor.
 	 * @param domain Editing domain.
 	 */
-	public InvocationDeleteCommand(
-			TransactionalEditingDomain domain, 
-			TransformationUnit unit, 
-			TransformationUnit invocation,
-			View unitView) {
+	public InvocationDeleteCommand(TransactionalEditingDomain domain, View invocationView) {
 		super(domain, "Delete Invocation", null);
-		this.unit = unit;
-		this.invocation = invocation;
-		this.unitView = unitView;
+		this.invocationView = invocationView;
 	}
 	
 	/*
@@ -56,15 +50,14 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 	 */
 	@Override
 	public boolean canExecute() {
-		if (unit==null || invocation==null) {
+		if (invocationView==null || getInvocation()==null || getUnit()==null) {
 			return false;
 		}
-		if (!unit.getSubUnits(false).contains(invocation)) {
+		if (!getUnit().getSubUnits(false).contains(getInvocation())) {
 			return false;
 		}
 		return true;
 	}
-
 	
 	/*
 	 * (non-Javadoc)
@@ -73,20 +66,35 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 	@Override
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
+		View unitView = getUnitView();
+		TransformationUnit unit = getUnit();
+		TransformationUnit invocation = getInvocation();
+		
 		// Check the unit type:
 		if (unit instanceof SequentialUnit) {
 			((SequentialUnit) unit).getSubUnits().remove(invocation);
 		}
 		
-		// Update the unit view:
-		if (unitView!=null) {
-			PreferencesHint prefHint = HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
-			new HenshinSymbolUpdater(prefHint, true).update(unitView);
-			new HenshinLinkUpdater(prefHint, true).update(unitView);
-		}
+		// Delete the invocation view and update the unit view:
+		ViewUtil.destroy(invocationView);
+		PreferencesHint prefHint = HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT;
+		new HenshinSymbolUpdater(prefHint, true).update(unitView);
+		new HenshinLinkUpdater(prefHint, true).update(unitView);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();
 	}
-	
+
+	private TransformationUnit getInvocation() {
+		return (TransformationUnit) invocationView.getElement();
+	}
+
+	private TransformationUnit getUnit() {
+		return (TransformationUnit) getUnitView().getElement();
+	}
+
+	private View getUnitView() {
+		return (View) invocationView.eContainer().eContainer();
+	}
+
 }
