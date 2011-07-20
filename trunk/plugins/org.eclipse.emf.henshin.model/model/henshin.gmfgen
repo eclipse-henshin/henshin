@@ -530,7 +530,7 @@
   <plugin
       name="Henshin Diagram Editor Plugin"
       provider="Eclipse.org"
-      version="0.6.0.qualifier">
+      version="0.7.1.qualifier">
     <requiredPlugins>org.eclipse.draw2d</requiredPlugins>
     <requiredPlugins>org.eclipse.gmf.runtime.draw2d.ui</requiredPlugins>
   </plugin>
