@@ -40,6 +40,6 @@ function fix_incubation {
 fix_incubation $DROPS
 
 # Report possible problems:
-if [ ! "$(ls --hide=index.php $DROPS/../updates/nightly/plugins)" ]; then
+if [ ! "$(ls --hide=index.php $DROPS/../../updates/nightly/plugins)" ]; then
 	echo "Check out https://hudson.eclipse.org/hudson/job/cbi_henshin_nightly" | mail -s "Possible build problem for the nightly build of Henshin" henshin.ck@gmail.com
 fi
