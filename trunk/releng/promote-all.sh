@@ -12,6 +12,10 @@ DROPS=/home/data/httpd/download.eclipse.org/modeling/emft/henshin/downloads/drop
 NIGHTLY=/shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.releng
 RELEASE=/shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
 
+# We need to rebuild the artifacts.jar from scratch:
+rm "$DROPS/../../updates/nightly/artifacts.jar"
+rm "$DROPS/../../updates/releases/artifacts.jar"
+
 # Run the promote script:
 $ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
 $ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
@@ -46,7 +50,8 @@ fi
 # Update the repository meta-data so that 
 # we can collect download stats:
 function add_stats_update {
-	echo "\n*** Updating repository $1 ***"
+	echo
+	echo "*** Updating repository $1 ***"
 	updatesite="$DROPS/../../updates/$1"
 	tool="RepositoryStatsTool"
 	cp "tools/$tool.class" $updatesite
@@ -54,7 +59,7 @@ function add_stats_update {
 	if [ -f "artifacts.jar" ]; then
 		unzip "artifacts.jar"
 		java $tool artifacts.xml $2
-		zip artifacts.jar artifacts.xml
+		zip -u artifacts.jar artifacts.xml
 		rm artifacts.xml
 		rm $tool.class
 	else
