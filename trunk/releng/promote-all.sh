@@ -54,8 +54,8 @@ function add_stats_update {
 	if [ -f "artifacts.jar" ]; then
 		unzip "artifacts.jar"
 		java $tool artifacts.xml $2
-		zip artifact.jar artifact.xml
-		rm artifact.xml
+		zip artifacts.jar artifacts.xml
+		rm artifacts.xml
 		rm $tool.class
 	else
 		echo "Error updating $1/artifacts.jar for download stats."
