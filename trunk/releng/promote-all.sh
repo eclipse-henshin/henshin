@@ -46,10 +46,11 @@ fi
 # Update the repository meta-data so that 
 # we can collect download stats:
 function add_stats_update {
-	updatesite="$DROPS/../../updates/$1";
-	tool="RepositoryStatsTool";
+	echo "\n*** Updating repository $1 ***"
+	updatesite="$DROPS/../../updates/$1"
+	tool="RepositoryStatsTool"
 	cp "tools/$tool.class" $updatesite
-	cd $updatesite;
+	cd $updatesite
 	if [ -f "artifacts.jar" ]; then
 		unzip "artifacts.jar"
 		java $tool artifacts.xml $2
@@ -60,6 +61,6 @@ function add_stats_update {
 	cd -
 }
 add_stats_update "nightly" "N"
-add_stats_update "release" "R"
+add_stats_update "releases" "R"
 
 
