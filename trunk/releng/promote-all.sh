@@ -46,8 +46,8 @@ fi
 # Update the repository meta-data so that 
 # we can collect download stats:
 function add_stats_update {
-	$updatesite = "$DROPS/../../updates/$1";
-	$tool = "RepositoryStatsTool";
+	updatesite="$DROPS/../../updates/$1";
+	tool="RepositoryStatsTool";
 	cp "tools/$tool.java" $updatesite
 	cd $updatesite;
 	if [ -f "artifacts.jar" ]; then
