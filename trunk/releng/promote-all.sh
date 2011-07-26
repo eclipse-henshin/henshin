@@ -48,13 +48,12 @@ fi
 function add_stats_update {
 	updatesite="$DROPS/../../updates/$1";
 	tool="RepositoryStatsTool";
-	cp "tools/$tool.java" $updatesite
+	cp "tools/$tool.class" $updatesite
 	cd $updatesite;
 	if [ -f "artifacts.jar" ]; then
 		unzip "artifacts.jar"
-		javac $tool.java
 		java $tool artifacts.xml $2
-		rm $tool.*
+		rm $tool.class
 	else
 		echo "Error updating $1/artifacts.jar for download stats."
 	fi
