@@ -52,7 +52,7 @@ public class RepositoryStatsTool {
 		// Save the result:
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		FileWriter writer = new FileWriter(file+"1");
+		FileWriter writer = new FileWriter(file);
 		StreamResult result = new StreamResult(writer);
 		DOMSource source = new DOMSource(dom);
 		transformer.transform(source, result);
