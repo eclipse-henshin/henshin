@@ -36,10 +36,31 @@ function fix_incubation {
 	fi
     done
 }
-
 fix_incubation $DROPS
 
 # Report possible problems:
 if [ ! "$(ls --hide=index.php $DROPS/../../updates/nightly/plugins)" ]; then
 	echo "Check out https://hudson.eclipse.org/hudson/job/cbi_henshin_nightly" | mail -s "Possible build problem for the nightly build of Henshin" henshin.ck@gmail.com
 fi
+
+# Update the repository meta-data so that 
+# we can collect download stats:
+function add_stats_update {
+	$updatesite = "$DROPS/../../updates/$1";
+	$tool = "RepositoryStatsTool";
+	cp "tools/$tool.java" $updatesite
+	cd $updatesite;
+	if [ -f "artifacts.jar" ]; then
+		unzip "artifacts.jar"
+		javac $tool.java
+		java $tool artifacts.xml $2
+		rm $tool.*
+	else
+		echo "Error updating $1/artifacts.jar for download stats."
+	fi
+	cd -
+}
+add_stats_update "nightly" "N"
+add_stats_update "release" "R"
+
+
