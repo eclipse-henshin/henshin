@@ -36,10 +36,13 @@ import org.eclipse.emf.henshin.codegen.model.GenTransformation;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getPluginID <em>Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getSourceDirectory <em>Source Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getCopyrightText <em>Copyright Text</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getDirectory <em>Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getInterfacePackage <em>Interface Package</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getInterfacePattern <em>Interface Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getImplementationPackage <em>Implementation Package</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getImplementationPattern <em>Implementation Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getGenTransformations <em>Gen Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getGenModels <em>Gen Models</em>}</li>
  * </ul>
@@ -48,6 +51,46 @@ import org.eclipse.emf.henshin.codegen.model.GenTransformation;
  * @generated
  */
 public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
+	/**
+	 * The default value of the '{@link #getPluginID() <em>Plugin ID</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPluginID()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PLUGIN_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPluginID() <em>Plugin ID</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPluginID()
+	 * @generated
+	 * @ordered
+	 */
+	protected String pluginID = PLUGIN_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSourceDirectory() <em>Source Directory</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceDirectory()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SOURCE_DIRECTORY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSourceDirectory() <em>Source Directory</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSourceDirectory()
+	 * @generated
+	 * @ordered
+	 */
+	protected String sourceDirectory = SOURCE_DIRECTORY_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getCopyrightText() <em>Copyright Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -67,26 +110,6 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * @ordered
 	 */
 	protected String copyrightText = COPYRIGHT_TEXT_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getDirectory() <em>Directory</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDirectory()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DIRECTORY_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDirectory() <em>Directory</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDirectory()
-	 * @generated
-	 * @ordered
-	 */
-	protected String directory = DIRECTORY_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getInterfacePackage() <em>Interface Package</em>}' attribute.
@@ -109,6 +132,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	protected String interfacePackage = INTERFACE_PACKAGE_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getInterfacePattern() <em>Interface Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInterfacePattern()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String INTERFACE_PATTERN_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getInterfacePattern() <em>Interface Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInterfacePattern()
+	 * @generated
+	 * @ordered
+	 */
+	protected String interfacePattern = INTERFACE_PATTERN_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getImplementationPackage() <em>Implementation Package</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -127,6 +170,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * @ordered
 	 */
 	protected String implementationPackage = IMPLEMENTATION_PACKAGE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getImplementationPattern() <em>Implementation Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImplementationPattern()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String IMPLEMENTATION_PATTERN_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getImplementationPattern() <em>Implementation Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getImplementationPattern()
+	 * @generated
+	 * @ordered
+	 */
+	protected String implementationPattern = IMPLEMENTATION_PATTERN_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getGenTransformations() <em>Gen Transformations</em>}' containment reference list.
@@ -172,6 +235,48 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPluginID() {
+		return pluginID;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPluginID(String newPluginID) {
+		String oldPluginID = pluginID;
+		pluginID = newPluginID;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID, oldPluginID, pluginID));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getSourceDirectory() {
+		return sourceDirectory;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSourceDirectory(String newSourceDirectory) {
+		String oldSourceDirectory = sourceDirectory;
+		sourceDirectory = newSourceDirectory;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY, oldSourceDirectory, sourceDirectory));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getCopyrightText() {
 		return copyrightText;
 	}
@@ -186,27 +291,6 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		copyrightText = newCopyrightText;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT, oldCopyrightText, copyrightText));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getDirectory() {
-		return directory;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDirectory(String newDirectory) {
-		String oldDirectory = directory;
-		directory = newDirectory;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__DIRECTORY, oldDirectory, directory));
 	}
 
 	/**
@@ -235,6 +319,27 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getInterfacePattern() {
+		return interfacePattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInterfacePattern(String newInterfacePattern) {
+		String oldInterfacePattern = interfacePattern;
+		interfacePattern = newInterfacePattern;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN, oldInterfacePattern, interfacePattern));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getImplementationPackage() {
 		return implementationPackage;
 	}
@@ -249,6 +354,27 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		implementationPackage = newImplementationPackage;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE, oldImplementationPackage, implementationPackage));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getImplementationPattern() {
+		return implementationPattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImplementationPattern(String newImplementationPattern) {
+		String oldImplementationPattern = implementationPattern;
+		implementationPattern = newImplementationPattern;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN, oldImplementationPattern, implementationPattern));
 	}
 
 	/**
@@ -273,6 +399,39 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 			genModels = new EObjectResolvingEList<GenModel>(GenModel.class, this, GenHenshinPackage.GEN_HENSHIN__GEN_MODELS);
 		}
 		return genModels;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCopyrightComment() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String applyInterfacePattern(String baseName) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String applyImplementationPattern(String baseName) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -312,14 +471,20 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+				return getPluginID();
+			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
+				return getSourceDirectory();
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
 				return getCopyrightText();
-			case GenHenshinPackage.GEN_HENSHIN__DIRECTORY:
-				return getDirectory();
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:
 				return getInterfacePackage();
+			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
+				return getInterfacePattern();
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
 				return getImplementationPackage();
+			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
+				return getImplementationPattern();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				return getGenTransformations();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_MODELS:
@@ -337,17 +502,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+				setPluginID((String)newValue);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
+				setSourceDirectory((String)newValue);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
 				setCopyrightText((String)newValue);
-				return;
-			case GenHenshinPackage.GEN_HENSHIN__DIRECTORY:
-				setDirectory((String)newValue);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:
 				setInterfacePackage((String)newValue);
 				return;
+			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
+				setInterfacePattern((String)newValue);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
 				setImplementationPackage((String)newValue);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
+				setImplementationPattern((String)newValue);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				getGenTransformations().clear();
@@ -369,17 +543,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+				setPluginID(PLUGIN_ID_EDEFAULT);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
+				setSourceDirectory(SOURCE_DIRECTORY_EDEFAULT);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
 				setCopyrightText(COPYRIGHT_TEXT_EDEFAULT);
-				return;
-			case GenHenshinPackage.GEN_HENSHIN__DIRECTORY:
-				setDirectory(DIRECTORY_EDEFAULT);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:
 				setInterfacePackage(INTERFACE_PACKAGE_EDEFAULT);
 				return;
+			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
+				setInterfacePattern(INTERFACE_PATTERN_EDEFAULT);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
 				setImplementationPackage(IMPLEMENTATION_PACKAGE_EDEFAULT);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
+				setImplementationPattern(IMPLEMENTATION_PATTERN_EDEFAULT);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				getGenTransformations().clear();
@@ -399,14 +582,20 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+				return PLUGIN_ID_EDEFAULT == null ? pluginID != null : !PLUGIN_ID_EDEFAULT.equals(pluginID);
+			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
+				return SOURCE_DIRECTORY_EDEFAULT == null ? sourceDirectory != null : !SOURCE_DIRECTORY_EDEFAULT.equals(sourceDirectory);
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
 				return COPYRIGHT_TEXT_EDEFAULT == null ? copyrightText != null : !COPYRIGHT_TEXT_EDEFAULT.equals(copyrightText);
-			case GenHenshinPackage.GEN_HENSHIN__DIRECTORY:
-				return DIRECTORY_EDEFAULT == null ? directory != null : !DIRECTORY_EDEFAULT.equals(directory);
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:
 				return INTERFACE_PACKAGE_EDEFAULT == null ? interfacePackage != null : !INTERFACE_PACKAGE_EDEFAULT.equals(interfacePackage);
+			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
+				return INTERFACE_PATTERN_EDEFAULT == null ? interfacePattern != null : !INTERFACE_PATTERN_EDEFAULT.equals(interfacePattern);
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
 				return IMPLEMENTATION_PACKAGE_EDEFAULT == null ? implementationPackage != null : !IMPLEMENTATION_PACKAGE_EDEFAULT.equals(implementationPackage);
+			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
+				return IMPLEMENTATION_PATTERN_EDEFAULT == null ? implementationPattern != null : !IMPLEMENTATION_PATTERN_EDEFAULT.equals(implementationPattern);
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				return genTransformations != null && !genTransformations.isEmpty();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_MODELS:
@@ -425,14 +614,20 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (copyrightText: ");
+		result.append(" (pluginID: ");
+		result.append(pluginID);
+		result.append(", sourceDirectory: ");
+		result.append(sourceDirectory);
+		result.append(", copyrightText: ");
 		result.append(copyrightText);
-		result.append(", directory: ");
-		result.append(directory);
 		result.append(", interfacePackage: ");
 		result.append(interfacePackage);
+		result.append(", interfacePattern: ");
+		result.append(interfacePattern);
 		result.append(", implementationPackage: ");
 		result.append(implementationPackage);
+		result.append(", implementationPattern: ");
+		result.append(implementationPattern);
 		result.append(')');
 		return result.toString();
 	}

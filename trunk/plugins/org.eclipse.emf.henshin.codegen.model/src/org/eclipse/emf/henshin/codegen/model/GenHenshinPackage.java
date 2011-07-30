@@ -70,22 +70,31 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_HENSHIN = 0;
 
 	/**
+	 * The feature id for the '<em><b>Plugin ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__PLUGIN_ID = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source Directory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__SOURCE_DIRECTORY = 1;
+
+	/**
 	 * The feature id for the '<em><b>Copyright Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__COPYRIGHT_TEXT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Directory</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GEN_HENSHIN__DIRECTORY = 1;
+	int GEN_HENSHIN__COPYRIGHT_TEXT = 2;
 
 	/**
 	 * The feature id for the '<em><b>Interface Package</b></em>' attribute.
@@ -94,7 +103,16 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__INTERFACE_PACKAGE = 2;
+	int GEN_HENSHIN__INTERFACE_PACKAGE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Interface Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__INTERFACE_PATTERN = 4;
 
 	/**
 	 * The feature id for the '<em><b>Implementation Package</b></em>' attribute.
@@ -103,7 +121,16 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__IMPLEMENTATION_PACKAGE = 3;
+	int GEN_HENSHIN__IMPLEMENTATION_PACKAGE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Implementation Pattern</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__IMPLEMENTATION_PATTERN = 6;
 
 	/**
 	 * The feature id for the '<em><b>Gen Transformations</b></em>' containment reference list.
@@ -112,7 +139,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 4;
+	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 7;
 
 	/**
 	 * The feature id for the '<em><b>Gen Models</b></em>' reference list.
@@ -121,7 +148,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_MODELS = 5;
+	int GEN_HENSHIN__GEN_MODELS = 8;
 
 	/**
 	 * The number of structural features of the '<em>Gen Henshin</em>' class.
@@ -130,7 +157,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN_FEATURE_COUNT = 6;
+	int GEN_HENSHIN_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl <em>Gen Transformation</em>}' class.
@@ -319,6 +346,28 @@ public interface GenHenshinPackage extends EPackage {
 	EClass getGenHenshin();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getPluginID <em>Plugin ID</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Plugin ID</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getPluginID()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_PluginID();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getSourceDirectory <em>Source Directory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Source Directory</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getSourceDirectory()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_SourceDirectory();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getCopyrightText <em>Copyright Text</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -328,17 +377,6 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGenHenshin_CopyrightText();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getDirectory <em>Directory</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Directory</em>'.
-	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getDirectory()
-	 * @see #getGenHenshin()
-	 * @generated
-	 */
-	EAttribute getGenHenshin_Directory();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePackage <em>Interface Package</em>}'.
@@ -352,6 +390,17 @@ public interface GenHenshinPackage extends EPackage {
 	EAttribute getGenHenshin_InterfacePackage();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePattern <em>Interface Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Interface Pattern</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePattern()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_InterfacePattern();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPackage <em>Implementation Package</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -361,6 +410,17 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGenHenshin_ImplementationPackage();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPattern <em>Implementation Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Implementation Pattern</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPattern()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_ImplementationPattern();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenTransformations <em>Gen Transformations</em>}'.
@@ -557,20 +617,28 @@ public interface GenHenshinPackage extends EPackage {
 		EClass GEN_HENSHIN = eINSTANCE.getGenHenshin();
 
 		/**
+		 * The meta object literal for the '<em><b>Plugin ID</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__PLUGIN_ID = eINSTANCE.getGenHenshin_PluginID();
+
+		/**
+		 * The meta object literal for the '<em><b>Source Directory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__SOURCE_DIRECTORY = eINSTANCE.getGenHenshin_SourceDirectory();
+
+		/**
 		 * The meta object literal for the '<em><b>Copyright Text</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute GEN_HENSHIN__COPYRIGHT_TEXT = eINSTANCE.getGenHenshin_CopyrightText();
-
-		/**
-		 * The meta object literal for the '<em><b>Directory</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute GEN_HENSHIN__DIRECTORY = eINSTANCE.getGenHenshin_Directory();
 
 		/**
 		 * The meta object literal for the '<em><b>Interface Package</b></em>' attribute feature.
@@ -581,12 +649,28 @@ public interface GenHenshinPackage extends EPackage {
 		EAttribute GEN_HENSHIN__INTERFACE_PACKAGE = eINSTANCE.getGenHenshin_InterfacePackage();
 
 		/**
+		 * The meta object literal for the '<em><b>Interface Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__INTERFACE_PATTERN = eINSTANCE.getGenHenshin_InterfacePattern();
+
+		/**
 		 * The meta object literal for the '<em><b>Implementation Package</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute GEN_HENSHIN__IMPLEMENTATION_PACKAGE = eINSTANCE.getGenHenshin_ImplementationPackage();
+
+		/**
+		 * The meta object literal for the '<em><b>Implementation Pattern</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__IMPLEMENTATION_PATTERN = eINSTANCE.getGenHenshin_ImplementationPattern();
 
 		/**
 		 * The meta object literal for the '<em><b>Gen Transformations</b></em>' containment reference list feature.

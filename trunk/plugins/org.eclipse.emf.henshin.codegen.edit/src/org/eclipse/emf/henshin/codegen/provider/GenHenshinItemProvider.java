@@ -67,13 +67,60 @@ public class GenHenshinItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addPluginIDPropertyDescriptor(object);
+			addSourceDirectoryPropertyDescriptor(object);
 			addCopyrightTextPropertyDescriptor(object);
-			addDirectoryPropertyDescriptor(object);
 			addInterfacePackagePropertyDescriptor(object);
+			addInterfacePatternPropertyDescriptor(object);
 			addImplementationPackagePropertyDescriptor(object);
+			addImplementationPatternPropertyDescriptor(object);
 			addGenModelsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Plugin ID feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPluginIDPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenHenshin_pluginID_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_pluginID_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__PLUGIN_ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Source Directory feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSourceDirectoryPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenHenshin_sourceDirectory_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_sourceDirectory_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__SOURCE_DIRECTORY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -90,28 +137,6 @@ public class GenHenshinItemProvider
 				 getString("_UI_GenHenshin_copyrightText_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_copyrightText_feature", "_UI_GenHenshin_type"),
 				 GenHenshinPackage.Literals.GEN_HENSHIN__COPYRIGHT_TEXT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Directory feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDirectoryPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_GenHenshin_directory_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_directory_feature", "_UI_GenHenshin_type"),
-				 GenHenshinPackage.Literals.GEN_HENSHIN__DIRECTORY,
 				 true,
 				 false,
 				 false,
@@ -143,6 +168,28 @@ public class GenHenshinItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Interface Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addInterfacePatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenHenshin_interfacePattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_interfacePattern_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__INTERFACE_PATTERN,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Implementation Package feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -156,6 +203,28 @@ public class GenHenshinItemProvider
 				 getString("_UI_GenHenshin_implementationPackage_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_implementationPackage_feature", "_UI_GenHenshin_type"),
 				 GenHenshinPackage.Literals.GEN_HENSHIN__IMPLEMENTATION_PACKAGE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Implementation Pattern feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addImplementationPatternPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenHenshin_implementationPattern_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_implementationPattern_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__IMPLEMENTATION_PATTERN,
 				 true,
 				 false,
 				 false,
@@ -235,7 +304,7 @@ public class GenHenshinItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((GenHenshin)object).getCopyrightText();
+		String label = ((GenHenshin)object).getPluginID();
 		return label == null || label.length() == 0 ?
 			getString("_UI_GenHenshin_type") :
 			getString("_UI_GenHenshin_type") + " " + label;
@@ -253,10 +322,13 @@ public class GenHenshinItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(GenHenshin.class)) {
+			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
-			case GenHenshinPackage.GEN_HENSHIN__DIRECTORY:
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:
+			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
+			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:

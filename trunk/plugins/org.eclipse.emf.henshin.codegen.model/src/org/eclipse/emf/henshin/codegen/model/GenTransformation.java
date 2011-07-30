@@ -156,4 +156,12 @@ public interface GenTransformation extends EObject {
 	 */
 	GenPackage getGenPackage(EPackage ePackage);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getTransformationClassFormatted();
+
 } // GenTransformation

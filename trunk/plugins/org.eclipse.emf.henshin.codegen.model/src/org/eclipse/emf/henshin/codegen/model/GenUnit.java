@@ -107,4 +107,12 @@ public interface GenUnit extends EObject {
 	 */
 	void setPublic(boolean value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getMethodFormatted();
+
 } // GenUnit

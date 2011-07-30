@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
+import org.eclipse.jdt.core.IJavaProject;
 
 
 public class HenshinCodeGenerator {
@@ -19,7 +20,7 @@ public class HenshinCodeGenerator {
 	 * Generate the transformation code. This delegates to {@link #generate(GenTransformation, IProgressMonitor)}.
 	 * @param genHenshin GenHenshin model.
 	 * @param monitor Progress monitor.
-	 * @return Status.
+	 * @throws CoreException 
 	 */
 	public static IStatus generate(GenHenshin genHenshin, IProgressMonitor monitor) {
 		monitor.beginTask("Generate Transformation Code...", genHenshin.getGenTransformations().size());
@@ -38,23 +39,33 @@ public class HenshinCodeGenerator {
 	 * Generate the transformation code.
 	 * @param genTrafo GenTransformation model.
 	 * @param monitor Progress monitor.
-	 * @return Status.
+	 * @throws CoreException On errors.
 	 */
 	public static IStatus generate(GenTransformation genTrafo, IProgressMonitor monitor) {
 		
-	    // Get project root folder as absolute file system path:
-	    IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-	    IResource resource = root.findMember(new Path(genTrafo.getGenHenshin().getDirectory()));
-	    String containerName = resource.getLocation().toPortableString();
+		monitor.beginTask("Generating code", 10);
+		GenHenshin genHenshin = genTrafo.getGenHenshin();
+				
+		try {
+			String sourceDir = genHenshin.getSourceDirectory();
+			
+			// Create Java project:
+			IJavaProject project = HenshinCodeGenUtil.createJavaProject(
+					genHenshin.getPluginID(), sourceDir, "bin", new SubProgressMonitor(monitor,1));
+			
+			//HenshinCodeGenUtil.createFileFromString(sourceDir + "Test.java", name, content, monitor)
 
-	    // createJavaProject("ddd", monitor);
-	    	    
-	    // Refresh the project to get external updates:
-	    try {
-			resource.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		} catch (CoreException e) {}
+			// Refresh the project to get external updates:
+			try {
+				project.getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			} catch (CoreException e) {}
+
+		} catch (CoreException e) {
+			return e.getStatus();
+		}
 		
 		// Done.
+		monitor.done();
 		return Status.OK_STATUS;
 		
 	}
