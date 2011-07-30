@@ -9,17 +9,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
-import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
-import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.xpand2.XpandExecutionContextImpl;
-import org.eclipse.xpand2.XpandFacade;
-import org.eclipse.xpand2.output.Outlet;
-import org.eclipse.xpand2.output.OutputImpl;
-import org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel;
 
 
 public class HenshinCodeGenerator {
@@ -56,29 +47,8 @@ public class HenshinCodeGenerator {
 	    IResource resource = root.findMember(new Path(genTrafo.getGenHenshin().getDirectory()));
 	    String containerName = resource.getLocation().toPortableString();
 
-	    // Configure outlets:
-	    OutputImpl output = new OutputImpl();
-	    Outlet outlet = new Outlet(containerName);
-	    outlet.setOverwrite(true);
-	    output.addOutlet(outlet);
-
-	    // create execution context
-	    XpandExecutionContextImpl context = new XpandExecutionContextImpl(output, null);
-	    EmfRegistryMetaModel metamodel = new EmfRegistryMetaModel() {
-	        @Override
-	        protected EPackage[] allPackages() {
-	            return new EPackage[] { 
-	            		GenHenshinPackage.eINSTANCE, HenshinPackage.eINSTANCE, EcorePackage.eINSTANCE 
-	            };
-	        }
-	    };
-	    context.registerMetaModel(metamodel);
-	    
-	    // Generate code:
-	    XpandFacade facade = XpandFacade.create(context);
-	    String templateName = "template::GenTransformation::main";
-	    facade.evaluate(templateName, genTrafo, new Object[] {});
-
+	    // createJavaProject("ddd", monitor);
+	    	    
 	    // Refresh the project to get external updates:
 	    try {
 			resource.refreshLocal(IResource.DEPTH_INFINITE, monitor);

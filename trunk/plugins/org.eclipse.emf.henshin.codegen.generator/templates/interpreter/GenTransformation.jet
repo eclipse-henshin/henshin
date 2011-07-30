@@ -1,0 +1,11 @@
+<%@ jet package="org.eclipse.emf.henshin.codegen.templates.interpreter" 
+		imports="org.eclipse.emf.henshin.codegen.model.*" 
+		imports="org.eclipse.emf.henshin.model.*" 
+		class="GenTransformationTemplate"%><%
+		
+%>
+
+public class Hello {
+
+
+}

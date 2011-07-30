@@ -1,5 +1,0 @@
-
-«IMPORT codegen»
-
-String javaClassName(String name):
-    return name;
