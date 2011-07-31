@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.codegen.generator;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -11,6 +12,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
+import org.eclipse.emf.henshin.codegen.templates.interpreter.GenTransformationTemplate;
 import org.eclipse.jdt.core.IJavaProject;
 
 
@@ -47,17 +49,22 @@ public class HenshinCodeGenerator {
 		GenHenshin genHenshin = genTrafo.getGenHenshin();
 				
 		try {
-			String sourceDir = genHenshin.getSourceDirectory();
 			
 			// Create Java project:
 			IJavaProject project = HenshinCodeGenUtil.createJavaProject(
-					genHenshin.getPluginID(), sourceDir, "bin", new SubProgressMonitor(monitor,1));
+					genHenshin.getBaseDirectory(), genHenshin.getSourceDirectory(), "bin", new SubProgressMonitor(monitor,1));
 			
-			//HenshinCodeGenUtil.createFileFromString(sourceDir + "Test.java", name, content, monitor)
+			// Create packages:
+			IFolder interfacePackage = HenshinCodeGenUtil.createPackage(genHenshin.getInterfacePackage(), project);
+			IFolder implemantationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
+			
+			String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+			String content = new GenTransformationTemplate().generate(genTrafo);
+			HenshinCodeGenUtil.createFileFromString(implemantationPackage, className, content, new SubProgressMonitor(monitor,1));
 
 			// Refresh the project to get external updates:
 			try {
-				project.getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+				project.getProject().refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor,1));
 			} catch (CoreException e) {}
 
 		} catch (CoreException e) {

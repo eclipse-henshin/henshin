@@ -446,34 +446,39 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getCopyrightComment() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		if (copyrightText==null || copyrightText.trim().length()==0) {
+			return "";
+		}
+		String comment = "/********************************************************************\n";
+		String[] lines = copyrightText.split("\n");
+		for (String line : lines) {
+			comment = comment + " * " + line + "\n";
+		}
+		comment = comment + " *******************************************************************/\n";
+		return comment;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String applyInterfacePattern(String baseName) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		String pattern = interfacePattern!=null ? interfacePattern : "";
+		return pattern.replaceAll("*", baseName);
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String applyImplementationPattern(String baseName) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		String pattern = implementationPattern!=null ? implementationPattern : "";
+		return pattern.replaceAll("*", baseName);
 	}
 
 	/**

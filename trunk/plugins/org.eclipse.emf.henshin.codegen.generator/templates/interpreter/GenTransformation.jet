@@ -1,11 +1,17 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates.interpreter" 
 		imports="org.eclipse.emf.henshin.codegen.model.*" 
-		imports="org.eclipse.emf.henshin.model.*" 
 		class="GenTransformationTemplate"%><%
-		
-%>
 
-public class Hello {
+GenTransformation genTrafo = (GenTransformation) argument;
+GenHenshin genHenshin = genTrafo.getGenHenshin();
+String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+
+%><%=
+genHenshin.getCopyrightComment()
+%>
+package <%= genHenshin.getImplementationPackage() %>
+
+public class <%= className %> {
 
 
 }
