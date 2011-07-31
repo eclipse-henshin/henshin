@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.codegen.model.GenTransformation;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getPluginID <em>Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getBaseDirectory <em>Base Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getSourceDirectory <em>Source Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getCopyrightText <em>Copyright Text</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getInterfacePackage <em>Interface Package</em>}</li>
@@ -70,6 +71,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * @ordered
 	 */
 	protected String pluginID = PLUGIN_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getBaseDirectory() <em>Base Directory</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBaseDirectory()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String BASE_DIRECTORY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getBaseDirectory() <em>Base Directory</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBaseDirectory()
+	 * @generated
+	 * @ordered
+	 */
+	protected String baseDirectory = BASE_DIRECTORY_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getSourceDirectory() <em>Source Directory</em>}' attribute.
@@ -249,6 +270,27 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		pluginID = newPluginID;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID, oldPluginID, pluginID));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getBaseDirectory() {
+		return baseDirectory;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBaseDirectory(String newBaseDirectory) {
+		String oldBaseDirectory = baseDirectory;
+		baseDirectory = newBaseDirectory;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY, oldBaseDirectory, baseDirectory));
 	}
 
 	/**
@@ -473,6 +515,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		switch (featureID) {
 			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
 				return getPluginID();
+			case GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY:
+				return getBaseDirectory();
 			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 				return getSourceDirectory();
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
@@ -504,6 +548,9 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		switch (featureID) {
 			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
 				setPluginID((String)newValue);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY:
+				setBaseDirectory((String)newValue);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 				setSourceDirectory((String)newValue);
@@ -546,6 +593,9 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
 				setPluginID(PLUGIN_ID_EDEFAULT);
 				return;
+			case GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY:
+				setBaseDirectory(BASE_DIRECTORY_EDEFAULT);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 				setSourceDirectory(SOURCE_DIRECTORY_EDEFAULT);
 				return;
@@ -584,6 +634,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		switch (featureID) {
 			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
 				return PLUGIN_ID_EDEFAULT == null ? pluginID != null : !PLUGIN_ID_EDEFAULT.equals(pluginID);
+			case GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY:
+				return BASE_DIRECTORY_EDEFAULT == null ? baseDirectory != null : !BASE_DIRECTORY_EDEFAULT.equals(baseDirectory);
 			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 				return SOURCE_DIRECTORY_EDEFAULT == null ? sourceDirectory != null : !SOURCE_DIRECTORY_EDEFAULT.equals(sourceDirectory);
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
@@ -616,6 +668,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (pluginID: ");
 		result.append(pluginID);
+		result.append(", baseDirectory: ");
+		result.append(baseDirectory);
 		result.append(", sourceDirectory: ");
 		result.append(sourceDirectory);
 		result.append(", copyrightText: ");

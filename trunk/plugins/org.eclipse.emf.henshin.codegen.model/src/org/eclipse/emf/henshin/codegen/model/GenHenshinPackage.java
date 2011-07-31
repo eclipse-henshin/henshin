@@ -79,13 +79,22 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_HENSHIN__PLUGIN_ID = 0;
 
 	/**
+	 * The feature id for the '<em><b>Base Directory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__BASE_DIRECTORY = 1;
+
+	/**
 	 * The feature id for the '<em><b>Source Directory</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__SOURCE_DIRECTORY = 1;
+	int GEN_HENSHIN__SOURCE_DIRECTORY = 2;
 
 	/**
 	 * The feature id for the '<em><b>Copyright Text</b></em>' attribute.
@@ -94,7 +103,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__COPYRIGHT_TEXT = 2;
+	int GEN_HENSHIN__COPYRIGHT_TEXT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Interface Package</b></em>' attribute.
@@ -103,7 +112,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__INTERFACE_PACKAGE = 3;
+	int GEN_HENSHIN__INTERFACE_PACKAGE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Interface Pattern</b></em>' attribute.
@@ -112,7 +121,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__INTERFACE_PATTERN = 4;
+	int GEN_HENSHIN__INTERFACE_PATTERN = 5;
 
 	/**
 	 * The feature id for the '<em><b>Implementation Package</b></em>' attribute.
@@ -121,7 +130,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__IMPLEMENTATION_PACKAGE = 5;
+	int GEN_HENSHIN__IMPLEMENTATION_PACKAGE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Implementation Pattern</b></em>' attribute.
@@ -130,7 +139,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__IMPLEMENTATION_PATTERN = 6;
+	int GEN_HENSHIN__IMPLEMENTATION_PATTERN = 7;
 
 	/**
 	 * The feature id for the '<em><b>Gen Transformations</b></em>' containment reference list.
@@ -139,7 +148,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 7;
+	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 8;
 
 	/**
 	 * The feature id for the '<em><b>Gen Models</b></em>' reference list.
@@ -148,7 +157,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_MODELS = 8;
+	int GEN_HENSHIN__GEN_MODELS = 9;
 
 	/**
 	 * The number of structural features of the '<em>Gen Henshin</em>' class.
@@ -157,7 +166,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN_FEATURE_COUNT = 9;
+	int GEN_HENSHIN_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl <em>Gen Transformation</em>}' class.
@@ -355,6 +364,17 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGenHenshin_PluginID();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getBaseDirectory <em>Base Directory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base Directory</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#getBaseDirectory()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_BaseDirectory();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getSourceDirectory <em>Source Directory</em>}'.
@@ -623,6 +643,14 @@ public interface GenHenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GEN_HENSHIN__PLUGIN_ID = eINSTANCE.getGenHenshin_PluginID();
+
+		/**
+		 * The meta object literal for the '<em><b>Base Directory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__BASE_DIRECTORY = eINSTANCE.getGenHenshin_BaseDirectory();
 
 		/**
 		 * The meta object literal for the '<em><b>Source Directory</b></em>' attribute feature.

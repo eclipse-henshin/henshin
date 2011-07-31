@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getPluginID <em>Plugin ID</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getBaseDirectory <em>Base Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getSourceDirectory <em>Source Directory</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getCopyrightText <em>Copyright Text</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePackage <em>Interface Package</em>}</li>
@@ -62,6 +63,32 @@ public interface GenHenshin extends EObject {
 	 * @generated
 	 */
 	void setPluginID(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Base Directory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Base Directory</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Base Directory</em>' attribute.
+	 * @see #setBaseDirectory(String)
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_BaseDirectory()
+	 * @model
+	 * @generated
+	 */
+	String getBaseDirectory();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getBaseDirectory <em>Base Directory</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Base Directory</em>' attribute.
+	 * @see #getBaseDirectory()
+	 * @generated
+	 */
+	void setBaseDirectory(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Source Directory</b></em>' attribute.

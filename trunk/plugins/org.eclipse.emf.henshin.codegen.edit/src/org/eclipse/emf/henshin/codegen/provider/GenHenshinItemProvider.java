@@ -68,6 +68,7 @@ public class GenHenshinItemProvider
 			super.getPropertyDescriptors(object);
 
 			addPluginIDPropertyDescriptor(object);
+			addBaseDirectoryPropertyDescriptor(object);
 			addSourceDirectoryPropertyDescriptor(object);
 			addCopyrightTextPropertyDescriptor(object);
 			addInterfacePackagePropertyDescriptor(object);
@@ -93,6 +94,28 @@ public class GenHenshinItemProvider
 				 getString("_UI_GenHenshin_pluginID_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_pluginID_feature", "_UI_GenHenshin_type"),
 				 GenHenshinPackage.Literals.GEN_HENSHIN__PLUGIN_ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Base Directory feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addBaseDirectoryPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenHenshin_baseDirectory_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_baseDirectory_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__BASE_DIRECTORY,
 				 true,
 				 false,
 				 false,
@@ -323,6 +346,7 @@ public class GenHenshinItemProvider
 
 		switch (notification.getFeatureID(GenHenshin.class)) {
 			case GenHenshinPackage.GEN_HENSHIN__PLUGIN_ID:
+			case GenHenshinPackage.GEN_HENSHIN__BASE_DIRECTORY:
 			case GenHenshinPackage.GEN_HENSHIN__SOURCE_DIRECTORY:
 			case GenHenshinPackage.GEN_HENSHIN__COPYRIGHT_TEXT:
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PACKAGE:

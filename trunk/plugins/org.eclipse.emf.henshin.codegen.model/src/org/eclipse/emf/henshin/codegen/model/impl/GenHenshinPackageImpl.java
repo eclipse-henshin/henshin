@@ -149,7 +149,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_SourceDirectory() {
+	public EAttribute getGenHenshin_BaseDirectory() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -158,7 +158,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_CopyrightText() {
+	public EAttribute getGenHenshin_SourceDirectory() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -167,7 +167,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_InterfacePackage() {
+	public EAttribute getGenHenshin_CopyrightText() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -176,7 +176,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_InterfacePattern() {
+	public EAttribute getGenHenshin_InterfacePackage() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -185,7 +185,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_ImplementationPackage() {
+	public EAttribute getGenHenshin_InterfacePattern() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -194,7 +194,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_ImplementationPattern() {
+	public EAttribute getGenHenshin_ImplementationPackage() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -203,8 +203,17 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getGenHenshin_ImplementationPattern() {
+		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getGenHenshin_GenTransformations() {
-		return (EReference)genHenshinEClass.getEStructuralFeatures().get(7);
+		return (EReference)genHenshinEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -213,7 +222,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * @generated
 	 */
 	public EReference getGenHenshin_GenModels() {
-		return (EReference)genHenshinEClass.getEStructuralFeatures().get(8);
+		return (EReference)genHenshinEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -363,6 +372,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		// Create classes and their features
 		genHenshinEClass = createEClass(GEN_HENSHIN);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__PLUGIN_ID);
+		createEAttribute(genHenshinEClass, GEN_HENSHIN__BASE_DIRECTORY);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__SOURCE_DIRECTORY);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__COPYRIGHT_TEXT);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__INTERFACE_PACKAGE);
@@ -427,6 +437,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		// Initialize classes and features; add operations and parameters
 		initEClass(genHenshinEClass, GenHenshin.class, "GenHenshin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getGenHenshin_PluginID(), theEcorePackage.getEString(), "pluginID", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenHenshin_BaseDirectory(), ecorePackage.getEString(), "baseDirectory", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_SourceDirectory(), ecorePackage.getEString(), "sourceDirectory", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_CopyrightText(), ecorePackage.getEString(), "copyrightText", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_InterfacePackage(), ecorePackage.getEString(), "interfacePackage", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
