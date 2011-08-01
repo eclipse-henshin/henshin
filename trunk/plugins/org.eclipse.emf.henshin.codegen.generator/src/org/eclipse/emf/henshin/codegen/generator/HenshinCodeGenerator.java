@@ -2,20 +2,23 @@ package org.eclipse.emf.henshin.codegen.generator;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
-import org.eclipse.emf.henshin.codegen.templates.interpreter.GenTransformationTemplate;
+import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
+import org.eclipse.emf.henshin.codegen.templates.GenTransformationAdhoc;
+import org.eclipse.emf.henshin.codegen.templates.GenTransformationInterface;
+import org.eclipse.emf.henshin.codegen.templates.GenTransformationInterpreter;
 import org.eclipse.jdt.core.IJavaProject;
 
-
+/**
+ * Henshin code generator.
+ * @author Christian Krause
+ */
 public class HenshinCodeGenerator {
 	
 	/**
@@ -45,9 +48,9 @@ public class HenshinCodeGenerator {
 	 */
 	public static IStatus generate(GenTransformation genTrafo, IProgressMonitor monitor) {
 		
-		monitor.beginTask("Generating code", 10);
+		monitor.beginTask("Generating code", 5);
 		GenHenshin genHenshin = genTrafo.getGenHenshin();
-				
+		
 		try {
 			
 			// Create Java project:
@@ -56,16 +59,30 @@ public class HenshinCodeGenerator {
 			
 			// Create packages:
 			IFolder interfacePackage = HenshinCodeGenUtil.createPackage(genHenshin.getInterfacePackage(), project);
-			IFolder implemantationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
+			IFolder implementationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
+			monitor.worked(1);
 			
-			String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
-			String content = new GenTransformationTemplate().generate(genTrafo);
-			HenshinCodeGenUtil.createFileFromString(implemantationPackage, className, content, new SubProgressMonitor(monitor,1));
+			// Start the main code generation:
+			String baseName = genTrafo.getTransformationClassFormatted();
+			
+			// Generate interface:
+			if (!genHenshin.isSupressInterfaces()) {
+				String interfaceName = genHenshin.applyInterfacePattern(baseName);
+				HenshinCodeGenUtil.createFileFromString(
+						interfacePackage, interfaceName, generate(genTrafo, true), 
+						new SubProgressMonitor(monitor,1));
+			} else {
+				monitor.worked(1);
+			}
+			
+			// Generate implementation:
+			String implementationName = genHenshin.applyImplementationPattern(baseName);
+			HenshinCodeGenUtil.createFileFromString(
+					implementationPackage, implementationName, generate(genTrafo, false), 
+					new SubProgressMonitor(monitor,1));
 
 			// Refresh the project to get external updates:
-			try {
-				project.getProject().refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor,1));
-			} catch (CoreException e) {}
+			project.getProject().refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor,1));
 
 		} catch (CoreException e) {
 			return e.getStatus();
@@ -77,4 +94,18 @@ public class HenshinCodeGenerator {
 		
 	}
 
+	/*
+	 * Generate the code for a GenTransformation model.
+	 */
+	private static String generate(GenTransformation genTrafo, boolean interface_) {
+		if (interface_) {
+			return new GenTransformationInterface().generate(genTrafo);
+		}
+		if (genTrafo.getEngine()==TransformationEngine.INTERPRETER) {
+			return new GenTransformationInterpreter().generate(genTrafo);
+		} else {
+			return new GenTransformationAdhoc().generate(genTrafo);			
+		}
+	}
+	
 }

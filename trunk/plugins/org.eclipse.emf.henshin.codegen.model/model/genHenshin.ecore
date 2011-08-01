@@ -21,6 +21,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPattern"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supressInterfaces" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genTransformations" upperBound="-1"
         eType="#//GenTransformation" containment="true" eOpposite="#//GenTransformation/genHenshin"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genModels" upperBound="-1"
@@ -39,6 +40,7 @@
         eType="#//GenUnit" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genHenshin" eType="#//GenHenshin"
         eOpposite="#//GenHenshin/genTransformations"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="engine" eType="#//TransformationEngine"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenUnit">
     <eOperations name="getMethodFormatted" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
@@ -50,5 +52,9 @@
     <eOperations name="getRule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkDangling" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkInverseDangling" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TransformationEngine">
+    <eLiterals name="INTERPRETER"/>
+    <eLiterals name="ADHOC" value="1"/>
   </eClassifiers>
 </ecore:EPackage>

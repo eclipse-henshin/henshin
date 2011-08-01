@@ -8,6 +8,7 @@ package org.eclipse.emf.henshin.codegen.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -142,13 +143,22 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_HENSHIN__IMPLEMENTATION_PATTERN = 7;
 
 	/**
+	 * The feature id for the '<em><b>Supress Interfaces</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_HENSHIN__SUPRESS_INTERFACES = 8;
+
+	/**
 	 * The feature id for the '<em><b>Gen Transformations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 8;
+	int GEN_HENSHIN__GEN_TRANSFORMATIONS = 9;
 
 	/**
 	 * The feature id for the '<em><b>Gen Models</b></em>' reference list.
@@ -157,7 +167,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__GEN_MODELS = 9;
+	int GEN_HENSHIN__GEN_MODELS = 10;
 
 	/**
 	 * The number of structural features of the '<em>Gen Henshin</em>' class.
@@ -166,7 +176,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN_FEATURE_COUNT = 10;
+	int GEN_HENSHIN_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl <em>Gen Transformation</em>}' class.
@@ -224,13 +234,22 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_TRANSFORMATION__GEN_HENSHIN = 4;
 
 	/**
+	 * The feature id for the '<em><b>Engine</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_TRANSFORMATION__ENGINE = 5;
+
+	/**
 	 * The number of structural features of the '<em>Gen Transformation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_TRANSFORMATION_FEATURE_COUNT = 5;
+	int GEN_TRANSFORMATION_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl <em>Gen Unit</em>}' class.
@@ -345,6 +364,17 @@ public interface GenHenshinPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.codegen.model.TransformationEngine
+	 * @see org.eclipse.emf.henshin.codegen.model.impl.GenHenshinPackageImpl#getTransformationEngine()
+	 * @generated
+	 */
+	int TRANSFORMATION_ENGINE = 4;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin <em>Gen Henshin</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -443,6 +473,17 @@ public interface GenHenshinPackage extends EPackage {
 	EAttribute getGenHenshin_ImplementationPattern();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Supress Interfaces</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces()
+	 * @see #getGenHenshin()
+	 * @generated
+	 */
+	EAttribute getGenHenshin_SupressInterfaces();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenTransformations <em>Gen Transformations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -530,6 +571,17 @@ public interface GenHenshinPackage extends EPackage {
 	EReference getGenTransformation_GenHenshin();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getEngine <em>Engine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Engine</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenTransformation#getEngine()
+	 * @see #getGenTransformation()
+	 * @generated
+	 */
+	EAttribute getGenTransformation_Engine();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.codegen.model.GenUnit <em>Gen Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -603,6 +655,16 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGenRule_CheckInverseDangling();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Transformation Engine</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.TransformationEngine
+	 * @generated
+	 */
+	EEnum getTransformationEngine();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -701,6 +763,14 @@ public interface GenHenshinPackage extends EPackage {
 		EAttribute GEN_HENSHIN__IMPLEMENTATION_PATTERN = eINSTANCE.getGenHenshin_ImplementationPattern();
 
 		/**
+		 * The meta object literal for the '<em><b>Supress Interfaces</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_HENSHIN__SUPRESS_INTERFACES = eINSTANCE.getGenHenshin_SupressInterfaces();
+
+		/**
 		 * The meta object literal for the '<em><b>Gen Transformations</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -767,6 +837,14 @@ public interface GenHenshinPackage extends EPackage {
 		EReference GEN_TRANSFORMATION__GEN_HENSHIN = eINSTANCE.getGenTransformation_GenHenshin();
 
 		/**
+		 * The meta object literal for the '<em><b>Engine</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_TRANSFORMATION__ENGINE = eINSTANCE.getGenTransformation_Engine();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl <em>Gen Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -825,6 +903,16 @@ public interface GenHenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GEN_RULE__CHECK_INVERSE_DANGLING = eINSTANCE.getGenRule_CheckInverseDangling();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.codegen.model.TransformationEngine
+		 * @see org.eclipse.emf.henshin.codegen.model.impl.GenHenshinPackageImpl#getTransformationEngine()
+		 * @generated
+		 */
+		EEnum TRANSFORMATION_ENGINE = eINSTANCE.getTransformationEngine();
 
 	}
 

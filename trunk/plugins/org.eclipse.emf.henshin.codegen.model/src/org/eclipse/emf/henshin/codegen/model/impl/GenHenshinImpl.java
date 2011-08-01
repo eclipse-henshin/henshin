@@ -44,6 +44,7 @@ import org.eclipse.emf.henshin.codegen.model.GenTransformation;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getInterfacePattern <em>Interface Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getImplementationPackage <em>Implementation Package</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getImplementationPattern <em>Implementation Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#isSupressInterfaces <em>Supress Interfaces</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getGenTransformations <em>Gen Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenHenshinImpl#getGenModels <em>Gen Models</em>}</li>
  * </ul>
@@ -211,6 +212,26 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * @ordered
 	 */
 	protected String implementationPattern = IMPLEMENTATION_PATTERN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isSupressInterfaces() <em>Supress Interfaces</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSupressInterfaces()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SUPRESS_INTERFACES_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSupressInterfaces() <em>Supress Interfaces</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSupressInterfaces()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean supressInterfaces = SUPRESS_INTERFACES_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getGenTransformations() <em>Gen Transformations</em>}' containment reference list.
@@ -424,6 +445,27 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSupressInterfaces() {
+		return supressInterfaces;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSupressInterfaces(boolean newSupressInterfaces) {
+		boolean oldSupressInterfaces = supressInterfaces;
+		supressInterfaces = newSupressInterfaces;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES, oldSupressInterfaces, supressInterfaces));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<GenTransformation> getGenTransformations() {
 		if (genTransformations == null) {
 			genTransformations = new EObjectContainmentWithInverseEList<GenTransformation>(GenTransformation.class, this, GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS, GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN);
@@ -534,6 +576,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 				return getImplementationPackage();
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
 				return getImplementationPattern();
+			case GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES:
+				return isSupressInterfaces();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				return getGenTransformations();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_MODELS:
@@ -574,6 +618,9 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
 				setImplementationPattern((String)newValue);
+				return;
+			case GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES:
+				setSupressInterfaces((Boolean)newValue);
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				getGenTransformations().clear();
@@ -619,6 +666,9 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
 				setImplementationPattern(IMPLEMENTATION_PATTERN_EDEFAULT);
 				return;
+			case GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES:
+				setSupressInterfaces(SUPRESS_INTERFACES_EDEFAULT);
+				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				getGenTransformations().clear();
 				return;
@@ -653,6 +703,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 				return IMPLEMENTATION_PACKAGE_EDEFAULT == null ? implementationPackage != null : !IMPLEMENTATION_PACKAGE_EDEFAULT.equals(implementationPackage);
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
 				return IMPLEMENTATION_PATTERN_EDEFAULT == null ? implementationPattern != null : !IMPLEMENTATION_PATTERN_EDEFAULT.equals(implementationPattern);
+			case GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES:
+				return supressInterfaces != SUPRESS_INTERFACES_EDEFAULT;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:
 				return genTransformations != null && !genTransformations.isEmpty();
 			case GenHenshinPackage.GEN_HENSHIN__GEN_MODELS:
@@ -687,6 +739,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		result.append(implementationPackage);
 		result.append(", implementationPattern: ");
 		result.append(implementationPattern);
+		result.append(", supressInterfaces: ");
+		result.append(supressInterfaces);
 		result.append(')');
 		return result.toString();
 	}

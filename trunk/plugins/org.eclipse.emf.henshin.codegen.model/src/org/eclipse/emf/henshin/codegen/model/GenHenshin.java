@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePattern <em>Interface Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPackage <em>Implementation Package</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPattern <em>Implementation Pattern</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenTransformations <em>Gen Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenModels <em>Gen Models</em>}</li>
  * </ul>
@@ -245,6 +246,32 @@ public interface GenHenshin extends EObject {
 	 * @generated
 	 */
 	void setImplementationPattern(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Supress Interfaces</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Supress Interfaces</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Supress Interfaces</em>' attribute.
+	 * @see #setSupressInterfaces(boolean)
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_SupressInterfaces()
+	 * @model
+	 * @generated
+	 */
+	boolean isSupressInterfaces();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Supress Interfaces</em>' attribute.
+	 * @see #isSupressInterfaces()
+	 * @generated
+	 */
+	void setSupressInterfaces(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Gen Transformations</b></em>' containment reference list.

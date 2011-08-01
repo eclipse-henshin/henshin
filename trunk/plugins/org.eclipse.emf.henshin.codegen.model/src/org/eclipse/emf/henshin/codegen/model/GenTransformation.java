@@ -28,6 +28,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenUnits <em>Gen Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenHenshin <em>Gen Henshin</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getEngine <em>Engine</em>}</li>
  * </ul>
  * </p>
  *
@@ -147,6 +148,35 @@ public interface GenTransformation extends EObject {
 	 * @generated
 	 */
 	void setGenHenshin(GenHenshin value);
+
+	/**
+	 * Returns the value of the '<em><b>Engine</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.emf.henshin.codegen.model.TransformationEngine}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Engine</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Engine</em>' attribute.
+	 * @see org.eclipse.emf.henshin.codegen.model.TransformationEngine
+	 * @see #setEngine(TransformationEngine)
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenTransformation_Engine()
+	 * @model
+	 * @generated
+	 */
+	TransformationEngine getEngine();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getEngine <em>Engine</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Engine</em>' attribute.
+	 * @see org.eclipse.emf.henshin.codegen.model.TransformationEngine
+	 * @see #getEngine()
+	 * @generated
+	 */
+	void setEngine(TransformationEngine value);
 
 	/**
 	 * <!-- begin-user-doc -->

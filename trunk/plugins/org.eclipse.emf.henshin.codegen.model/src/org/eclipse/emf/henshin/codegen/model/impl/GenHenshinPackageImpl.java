@@ -10,6 +10,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -24,6 +25,7 @@ import org.eclipse.emf.henshin.codegen.model.GenRule;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
 
+import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
@@ -60,6 +62,13 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * @generated
 	 */
 	private EClass genRuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum transformationEngineEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -212,8 +221,17 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getGenHenshin_SupressInterfaces() {
+		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getGenHenshin_GenTransformations() {
-		return (EReference)genHenshinEClass.getEStructuralFeatures().get(8);
+		return (EReference)genHenshinEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -222,7 +240,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * @generated
 	 */
 	public EReference getGenHenshin_GenModels() {
-		return (EReference)genHenshinEClass.getEStructuralFeatures().get(9);
+		return (EReference)genHenshinEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -277,6 +295,15 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 */
 	public EReference getGenTransformation_GenHenshin() {
 		return (EReference)genTransformationEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGenTransformation_Engine() {
+		return (EAttribute)genTransformationEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -347,6 +374,15 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getTransformationEngine() {
+		return transformationEngineEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public GenHenshinFactory getGenHenshinFactory() {
 		return (GenHenshinFactory)getEFactoryInstance();
 	}
@@ -379,6 +415,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__INTERFACE_PATTERN);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__IMPLEMENTATION_PACKAGE);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__IMPLEMENTATION_PATTERN);
+		createEAttribute(genHenshinEClass, GEN_HENSHIN__SUPRESS_INTERFACES);
 		createEReference(genHenshinEClass, GEN_HENSHIN__GEN_TRANSFORMATIONS);
 		createEReference(genHenshinEClass, GEN_HENSHIN__GEN_MODELS);
 
@@ -388,6 +425,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		createEReference(genTransformationEClass, GEN_TRANSFORMATION__GEN_PACKAGES);
 		createEReference(genTransformationEClass, GEN_TRANSFORMATION__GEN_UNITS);
 		createEReference(genTransformationEClass, GEN_TRANSFORMATION__GEN_HENSHIN);
+		createEAttribute(genTransformationEClass, GEN_TRANSFORMATION__ENGINE);
 
 		genUnitEClass = createEClass(GEN_UNIT);
 		createEReference(genUnitEClass, GEN_UNIT__UNIT);
@@ -397,6 +435,9 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		genRuleEClass = createEClass(GEN_RULE);
 		createEAttribute(genRuleEClass, GEN_RULE__CHECK_DANGLING);
 		createEAttribute(genRuleEClass, GEN_RULE__CHECK_INVERSE_DANGLING);
+
+		// Create enums
+		transformationEngineEEnum = createEEnum(TRANSFORMATION_ENGINE);
 	}
 
 	/**
@@ -444,6 +485,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		initEAttribute(getGenHenshin_InterfacePattern(), ecorePackage.getEString(), "interfacePattern", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_ImplementationPackage(), ecorePackage.getEString(), "implementationPackage", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_ImplementationPattern(), ecorePackage.getEString(), "implementationPattern", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenHenshin_SupressInterfaces(), theEcorePackage.getEBoolean(), "supressInterfaces", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenHenshin_GenTransformations(), this.getGenTransformation(), this.getGenTransformation_GenHenshin(), "genTransformations", null, 0, -1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenHenshin_GenModels(), theGenModelPackage.getGenModel(), null, "genModels", null, 0, -1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -461,6 +503,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		initEReference(getGenTransformation_GenPackages(), theGenModelPackage.getGenPackage(), null, "genPackages", null, 0, -1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenTransformation_GenUnits(), this.getGenUnit(), null, "genUnits", null, 0, -1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenTransformation_GenHenshin(), this.getGenHenshin(), this.getGenHenshin_GenTransformations(), "genHenshin", null, 0, 1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenTransformation_Engine(), this.getTransformationEngine(), "engine", null, 0, 1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(genTransformationEClass, theGenModelPackage.getGenPackage(), "getGenPackage", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEPackage(), "ePackage", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -479,6 +522,11 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		initEAttribute(getGenRule_CheckInverseDangling(), theEcorePackage.getEBoolean(), "checkInverseDangling", null, 0, 1, GenRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(genRuleEClass, theHenshinPackage.getRule(), "getRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(transformationEngineEEnum, TransformationEngine.class, "TransformationEngine");
+		addEEnumLiteral(transformationEngineEEnum, TransformationEngine.INTERPRETER);
+		addEEnumLiteral(transformationEngineEEnum, TransformationEngine.ADHOC);
 
 		// Create resource
 		createResource(eNS_URI);

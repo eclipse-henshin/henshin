@@ -32,6 +32,7 @@ import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
 
+import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
@@ -46,6 +47,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl#getGenUnits <em>Gen Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl#getGenHenshin <em>Gen Henshin</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenTransformationImpl#getEngine <em>Engine</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,6 +103,26 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	 * @ordered
 	 */
 	protected EList<GenUnit> genUnits;
+
+	/**
+	 * The default value of the '{@link #getEngine() <em>Engine</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEngine()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final TransformationEngine ENGINE_EDEFAULT = TransformationEngine.INTERPRETER;
+
+	/**
+	 * The cached value of the '{@link #getEngine() <em>Engine</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEngine()
+	 * @generated
+	 * @ordered
+	 */
+	protected TransformationEngine engine = ENGINE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,6 +272,27 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TransformationEngine getEngine() {
+		return engine;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEngine(TransformationEngine newEngine) {
+		TransformationEngine oldEngine = engine;
+		engine = newEngine == null ? ENGINE_EDEFAULT : newEngine;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GenHenshinPackage.GEN_TRANSFORMATION__ENGINE, oldEngine, engine));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public GenPackage getGenPackage(EPackage ePackage) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -332,6 +375,8 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 				return getGenUnits();
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN:
 				return getGenHenshin();
+			case GenHenshinPackage.GEN_TRANSFORMATION__ENGINE:
+				return getEngine();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -362,6 +407,9 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN:
 				setGenHenshin((GenHenshin)newValue);
 				return;
+			case GenHenshinPackage.GEN_TRANSFORMATION__ENGINE:
+				setEngine((TransformationEngine)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -389,6 +437,9 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN:
 				setGenHenshin((GenHenshin)null);
 				return;
+			case GenHenshinPackage.GEN_TRANSFORMATION__ENGINE:
+				setEngine(ENGINE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -411,6 +462,8 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 				return genUnits != null && !genUnits.isEmpty();
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN:
 				return getGenHenshin() != null;
+			case GenHenshinPackage.GEN_TRANSFORMATION__ENGINE:
+				return engine != ENGINE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -427,6 +480,8 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transformationClass: ");
 		result.append(transformationClass);
+		result.append(", engine: ");
+		result.append(engine);
 		result.append(')');
 		return result.toString();
 	}
