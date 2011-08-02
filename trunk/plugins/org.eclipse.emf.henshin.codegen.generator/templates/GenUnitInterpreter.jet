@@ -1,9 +1,8 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		imports="java.util.* org.eclipse.emf.henshin.codegen.model.* org.eclipse.emf.henshin.model.* org.eclipse.emf.codegen.ecore.genmodel.*" 
+		imports="java.util.* org.eclipse.emf.henshin.codegen.model.* org.eclipse.emf.henshin.codegen.generator.internal.*" 
 		class="GenUnitInterpreter"%><%
 
 GenUnit genUnit = (GenUnit) argument;
-GenTransformation genTrafo = genUnit.getGenTransformation();
 boolean isRule = (genUnit instanceof GenRule);
 
 String unitModelName = genUnit.getMethodFormatted().toUpperCase();
@@ -36,37 +35,9 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
 	 */
 	<%= visibility %> boolean <%= genUnit.getMethodFormatted() + "(" + paramsString + ")" %> {
 		if (<%= unitModelName %>==null) {
-			<%= unitModelName %> = HenshinFactory.eINSTANCE.create<%= genUnit.getUnit().eClass().getName() %>(); <%
-			if (isRule) {
-				Rule rule = ((GenRule) genUnit).getRule();
-				%>
-			<%= unitModelName %>.setLhs(HenshinFactory.eINSTANCE.createGraph());
-			<%= unitModelName %>.setRhs(HenshinFactory.eINSTANCE.createGraph()); <%
-				for (Node lhsNode : rule.getLhs().getNodes()) {
-					GenPackage genPackage = genTrafo.getGenPackage(lhsNode.getType().getEPackage());
-					GenClass genClass = genTrafo.getGenClass(lhsNode.getType());
-					String nodeType = "null"; //genPackage.getQualifiedPackageInterfaceName() + 
-							//".eINSTANCE.get" + genClass.getFormattedName() + "()";
-					%>
-			HenshinFactory.eINSTANCE.createNode(<%= unitModelName + ".getLhs(), " + nodeType %>); <%
-				}
-				for (Node lhsNode : rule.getLhs().getNodes()) { 
-					String nodeType = "null"; %>
-			HenshinFactory.eINSTANCE.createNode(<%= unitModelName + ".getRhs(), " + nodeType %>); <%
-				}
-				for (Mapping mapping : rule.getMappings()) { 
-					String origin = unitModelName + ".getLhs().getNodes().get(" + 
-									rule.getLhs().getNodes().indexOf(mapping.getOrigin()) + ")";
-					String image  = unitModelName + ".getRhs().getNodes().get(" + 
-									rule.getRhs().getNodes().indexOf(mapping.getImage()) + ")"; %>
-			<%= unitModelName %>.getMappings().add(HenshinFactory.eINSTANCE.createMapping(<%= origin %>, <%= image %>));<%
-				}
-			}
-			else {
-			
-			}	
-			%>
-		}<% 
+<%= 
+		CodeGenUnitModelGenerator.generate(genUnit, unitModelName, "\t\t\t") 
+%>		}<% 
 		String applicationType = isRule ? "RuleApplication" : "UnitApplication";
 		%>
 		<%= applicationType %> application = new <%= applicationType %>(engine, <%= unitModelName %>);

@@ -7,7 +7,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.emf.henshin.codegen.generator.internal.HenshinCodeGenUtil;
+import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenFileUtil;
+import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenJavaUtil;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
@@ -55,7 +56,7 @@ public class HenshinCodeGenerator {
 		try {
 			
 			// Create Java project:
-			IJavaProject project = HenshinCodeGenUtil.createJavaProject(
+			IJavaProject project = CodeGenJavaUtil.createJavaProject(
 					genHenshin.getBaseDirectory(), genHenshin.getSourceDirectory(), "bin", new SubProgressMonitor(monitor,1));
 			
 			// Start the main code generation:
@@ -63,9 +64,9 @@ public class HenshinCodeGenerator {
 			
 			// Generate interface:
 			if (!genHenshin.isSupressInterfaces()) {
-				IFolder interfacePackage = HenshinCodeGenUtil.createPackage(genHenshin.getInterfacePackage(), project);
+				IFolder interfacePackage = CodeGenJavaUtil.createPackage(genHenshin.getInterfacePackage(), project);
 				String interfaceName = genHenshin.applyInterfacePattern(baseName);
-				HenshinCodeGenUtil.createFileFromString(
+				CodeGenFileUtil.createFileFromString(
 						interfacePackage, interfaceName + ".java", generate(genTrafo, true), 
 						new SubProgressMonitor(monitor,1));
 			} else {
@@ -73,9 +74,9 @@ public class HenshinCodeGenerator {
 			}
 			
 			// Generate implementation:
-			IFolder implementationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
+			IFolder implementationPackage = CodeGenJavaUtil.createPackage(genHenshin.getImplementationPackage(), project);
 			String implementationName = genHenshin.applyImplementationPattern(baseName);
-			HenshinCodeGenUtil.createFileFromString(
+			CodeGenFileUtil.createFileFromString(
 					implementationPackage, implementationName + ".java", generate(genTrafo, false), 
 					new SubProgressMonitor(monitor,1));
 
