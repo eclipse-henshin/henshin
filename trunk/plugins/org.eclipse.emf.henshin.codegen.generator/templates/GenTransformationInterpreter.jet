@@ -1,17 +1,79 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		imports="org.eclipse.emf.henshin.codegen.model.*" 
+		imports="java.util.* org.eclipse.emf.henshin.codegen.model.* org.eclipse.emf.codegen.ecore.genmodel.*" 
 		class="GenTransformationInterpreter"%><%
 
 GenTransformation genTrafo = (GenTransformation) argument;
 GenHenshin genHenshin = genTrafo.getGenHenshin();
+
 String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+String interfaceName = genHenshin.applyInterfacePattern(genTrafo.getTransformationClassFormatted());
+String interfacePackage = genHenshin.getInterfacePackage();
 
 %><%=
 genHenshin.getCopyrightComment()
 %>
-package <%= genHenshin.getImplementationPackage() %>
+package <%= genHenshin.getImplementationPackage() %>;
 
-public class <%= className %> {
+<%
+if (!genHenshin.isSupressInterfaces()) {
+%>
+import <%= interfacePackage + "." + interfaceName %>;
+<%
+}
 
+for (GenPackage genPackage : genTrafo.getGenPackages()) { %>
+import <%= genPackage.getQualifiedPackageName()%>.*;
+<% } %>
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+
+import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.*;
+import org.eclipse.emf.henshin.model.*;
+
+/**
+ * @generated
+ */
+public class <%= className + (genHenshin.isSupressInterfaces() ? "" : " implements " + interfaceName) %> {
+
+	/** 
+	 * Interpreter engine to be used.
+	 * @generated
+	 */
+	private EmfEngine engine;
+	
+	/**
+	 * Default constructor.
+	 * @param resources The model resources to be transformed. 
+	 * @generated
+	 */
+	public <%= className %>(Resource... resources) {
+		final EmfGraph graph = new EmfGraph();
+		for (Resource resource : resources) {
+			for (EObject root : resource.getContents()) {
+				graph.addRoot(root);
+			}
+		}
+		engine = new EmfEngine(graph);
+	}
+	
+	/**
+	 * Constructor for a resource set.
+	 * @param resourceSet The model resources to be transformed. 
+	 * @generated
+	 */
+	public <%= className %>(ResourceSet resourceSet) {
+		this(resourceSet.getResources().toArray(new Resource[0]));
+	}
+	
+<% 
+GenUnitInterpreter unitTemplate = new GenUnitInterpreter();
+for (GenUnit genUnit : genTrafo.getGenUnits()) {
+%>
+<%= unitTemplate.generate(genUnit) %>
+<%
+}
+%>
 }

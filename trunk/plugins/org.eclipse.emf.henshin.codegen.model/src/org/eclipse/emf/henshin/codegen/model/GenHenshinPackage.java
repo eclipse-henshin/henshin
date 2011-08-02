@@ -289,13 +289,22 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_UNIT__PUBLIC = 2;
 
 	/**
+	 * The feature id for the '<em><b>Gen Transformation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_UNIT__GEN_TRANSFORMATION = 3;
+
+	/**
 	 * The number of structural features of the '<em>Gen Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_UNIT_FEATURE_COUNT = 3;
+	int GEN_UNIT_FEATURE_COUNT = 4;
 
 
 	/**
@@ -334,6 +343,15 @@ public interface GenHenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int GEN_RULE__PUBLIC = GEN_UNIT__PUBLIC;
+
+	/**
+	 * The feature id for the '<em><b>Gen Transformation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_RULE__GEN_TRANSFORMATION = GEN_UNIT__GEN_TRANSFORMATION;
 
 	/**
 	 * The feature id for the '<em><b>Check Dangling</b></em>' attribute.
@@ -625,6 +643,17 @@ public interface GenHenshinPackage extends EPackage {
 	EAttribute getGenUnit_Public();
 
 	/**
+	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation <em>Gen Transformation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Gen Transformation</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation()
+	 * @see #getGenUnit()
+	 * @generated
+	 */
+	EReference getGenUnit_GenTransformation();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.codegen.model.GenRule <em>Gen Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -877,6 +906,14 @@ public interface GenHenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GEN_UNIT__PUBLIC = eINSTANCE.getGenUnit_Public();
+
+		/**
+		 * The meta object literal for the '<em><b>Gen Transformation</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GEN_UNIT__GEN_TRANSFORMATION = eINSTANCE.getGenUnit_GenTransformation();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenRuleImpl <em>Gen Rule</em>}' class.

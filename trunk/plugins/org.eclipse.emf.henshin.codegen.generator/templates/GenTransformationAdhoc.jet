@@ -1,17 +1,10 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		imports="org.eclipse.emf.henshin.codegen.model.*" 
+		imports="java.util.* org.eclipse.emf.henshin.codegen.model.*" 
 		class="GenTransformationAdhoc"%><%
 
-GenTransformation genTrafo = (GenTransformation) argument;
-GenHenshin genHenshin = genTrafo.getGenHenshin();
-String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+// For now use the interpreter template...
+GenTransformationInterpreter template = new GenTransformationInterpreter();
 
 %><%=
-genHenshin.getCopyrightComment()
+template.generate(argument)
 %>
-package <%= genHenshin.getImplementationPackage() %>
-
-public class <%= className %> {
-
-
-}

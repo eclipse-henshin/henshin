@@ -494,7 +494,7 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		if (copyrightText==null || copyrightText.trim().length()==0) {
 			return "";
 		}
-		String comment = "/********************************************************************\n";
+		String comment = "/*******************************************************************\n";
 		String[] lines = copyrightText.split("\n");
 		for (String line : lines) {
 			comment = comment + " * " + line + "\n";
@@ -510,7 +510,7 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 */
 	public String applyInterfacePattern(String baseName) {
 		String pattern = interfacePattern!=null ? interfacePattern : "";
-		return pattern.replaceAll("*", baseName);
+		return pattern.replaceAll("\\*", baseName);
 	}
 
 	/**
@@ -520,7 +520,7 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	 */
 	public String applyImplementationPattern(String baseName) {
 		String pattern = implementationPattern!=null ? implementationPattern : "";
-		return pattern.replaceAll("*", baseName);
+		return pattern.replaceAll("\\*", baseName);
 	}
 
 	/**

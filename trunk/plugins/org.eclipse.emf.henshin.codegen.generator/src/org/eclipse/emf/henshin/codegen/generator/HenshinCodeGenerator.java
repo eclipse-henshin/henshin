@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.henshin.codegen.generator.internal.HenshinCodeGenUtil;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
@@ -48,7 +49,7 @@ public class HenshinCodeGenerator {
 	 */
 	public static IStatus generate(GenTransformation genTrafo, IProgressMonitor monitor) {
 		
-		monitor.beginTask("Generating code", 5);
+		monitor.beginTask("Generating code", 4);
 		GenHenshin genHenshin = genTrafo.getGenHenshin();
 		
 		try {
@@ -57,28 +58,25 @@ public class HenshinCodeGenerator {
 			IJavaProject project = HenshinCodeGenUtil.createJavaProject(
 					genHenshin.getBaseDirectory(), genHenshin.getSourceDirectory(), "bin", new SubProgressMonitor(monitor,1));
 			
-			// Create packages:
-			IFolder interfacePackage = HenshinCodeGenUtil.createPackage(genHenshin.getInterfacePackage(), project);
-			IFolder implementationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
-			monitor.worked(1);
-			
 			// Start the main code generation:
 			String baseName = genTrafo.getTransformationClassFormatted();
 			
 			// Generate interface:
 			if (!genHenshin.isSupressInterfaces()) {
+				IFolder interfacePackage = HenshinCodeGenUtil.createPackage(genHenshin.getInterfacePackage(), project);
 				String interfaceName = genHenshin.applyInterfacePattern(baseName);
 				HenshinCodeGenUtil.createFileFromString(
-						interfacePackage, interfaceName, generate(genTrafo, true), 
+						interfacePackage, interfaceName + ".java", generate(genTrafo, true), 
 						new SubProgressMonitor(monitor,1));
 			} else {
 				monitor.worked(1);
 			}
 			
 			// Generate implementation:
+			IFolder implementationPackage = HenshinCodeGenUtil.createPackage(genHenshin.getImplementationPackage(), project);
 			String implementationName = genHenshin.applyImplementationPattern(baseName);
 			HenshinCodeGenUtil.createFileFromString(
-					implementationPackage, implementationName, generate(genTrafo, false), 
+					implementationPackage, implementationName + ".java", generate(genTrafo, false), 
 					new SubProgressMonitor(monitor,1));
 
 			// Refresh the project to get external updates:

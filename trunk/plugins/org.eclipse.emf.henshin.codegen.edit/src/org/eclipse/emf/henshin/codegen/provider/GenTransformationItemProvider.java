@@ -70,6 +70,7 @@ public class GenTransformationItemProvider
 			addTransformationPropertyDescriptor(object);
 			addTransformationClassPropertyDescriptor(object);
 			addGenPackagesPropertyDescriptor(object);
+			addEnginePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -136,6 +137,28 @@ public class GenTransformationItemProvider
 				 false,
 				 true,
 				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Engine feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addEnginePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenTransformation_engine_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenTransformation_engine_feature", "_UI_GenTransformation_type"),
+				 GenHenshinPackage.Literals.GEN_TRANSFORMATION__ENGINE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -208,6 +231,7 @@ public class GenTransformationItemProvider
 
 		switch (notification.getFeatureID(GenTransformation.class)) {
 			case GenHenshinPackage.GEN_TRANSFORMATION__TRANSFORMATION_CLASS:
+			case GenHenshinPackage.GEN_TRANSFORMATION__ENGINE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_UNITS:

@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.codegen.generator;
+package org.eclipse.emf.henshin.codegen.generator.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
-class HenshinCodeGenUtil {
+public class HenshinCodeGenUtil {
 
 	// Default source folder.
 	static final String DEFAULT_SRC_FOLDER = "src";
@@ -60,7 +60,7 @@ class HenshinCodeGenUtil {
 	 * @return Instance of IJavaProject.
 	 * @throws CoreException If an exception occurs during creation.
 	 */
-	static IJavaProject createJavaProject(String name, String srcFolder, String binFolder, IProgressMonitor monitor) throws CoreException {
+	public static IJavaProject createJavaProject(String name, String srcFolder, String binFolder, IProgressMonitor monitor) throws CoreException {
 		
 		monitor.beginTask("Creating Java project", 3);
 		IProject project = createProject(name, monitor);
@@ -123,7 +123,7 @@ class HenshinCodeGenUtil {
 	 * @return Instance of IJavaProject.
 	 * @throws CoreException If an exception occurs during creation.
 	 */
-	static IJavaProject createJavaProject(String name, IProgressMonitor monitor) throws CoreException {
+	public static IJavaProject createJavaProject(String name, IProgressMonitor monitor) throws CoreException {
 		return createJavaProject(name, DEFAULT_SRC_FOLDER, DEFAULT_BIN_FOLDER, monitor);
 	}
 		
@@ -137,7 +137,7 @@ class HenshinCodeGenUtil {
 	 * The file is copied from a specified plugin and automatically added to the
 	 * classpath of the Java project.
 	 */
-	static IFile addLibrary(String pluginID, String path, IJavaProject javaProject, IProgressMonitor monitor) throws CoreException {
+	public static IFile addLibrary(String pluginID, String path, IJavaProject javaProject, IProgressMonitor monitor) throws CoreException {
 
 		// Copy the library file.
 		IFile library = copyFile(pluginID, path, javaProject.getProject(), path, monitor);
@@ -166,7 +166,7 @@ class HenshinCodeGenUtil {
 	 * @return IFolder instance of the package folder.
 	 * @throws CoreException If a directory cannot be created.
 	 */
-	static IFolder createPackage(String name, IJavaProject javaProject, String srcFolder) throws CoreException {
+	public static IFolder createPackage(String name, IJavaProject javaProject, String srcFolder) throws CoreException {
 
 		String[] parts = name.split("\\.");
 		IProject project = javaProject.getProject();
@@ -196,7 +196,7 @@ class HenshinCodeGenUtil {
 	 * @return IFolder instance of the package folder.
 	 * @throws CoreException If a directory cannot be created.
 	 */
-	static IFolder createPackage(String name, IJavaProject javaProject) throws CoreException {
+	public static IFolder createPackage(String name, IJavaProject javaProject) throws CoreException {
 		return createPackage(name, javaProject, DEFAULT_SRC_FOLDER);
 	}
 	
@@ -211,7 +211,7 @@ class HenshinCodeGenUtil {
 	 * @param entry Classpath entry to be added.
 	 * @throws CoreException If any kind of exception occures.
 	 */
-	static void addClasspathEntry(IJavaProject javaProject, IClasspathEntry entry) throws CoreException {
+	public static void addClasspathEntry(IJavaProject javaProject, IClasspathEntry entry) throws CoreException {
 		
 		IClasspathEntry[] classpath = javaProject.getRawClasspath();
 		for (int i=0; i<classpath.length; i++) {
@@ -238,7 +238,7 @@ class HenshinCodeGenUtil {
 	 * @return The open project.
 	 * @throws CoreException Exception, if project creation fails.
 	 */
-	static IProject createProject(String name, IProgressMonitor monitor) throws CoreException {
+	public static IProject createProject(String name, IProgressMonitor monitor) throws CoreException {
 		
 		monitor.beginTask("Creating project", 2);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);		
@@ -265,7 +265,7 @@ class HenshinCodeGenUtil {
 	 * @return The created file.
 	 * @throws CoreException If any kind of IO exception occurs.
 	 */
-	static IFile createFileFromString(IContainer container, String name, String content, IProgressMonitor monitor) throws CoreException {
+	public static IFile createFileFromString(IContainer container, String name, String content, IProgressMonitor monitor) throws CoreException {
 		
 		if (content==null) content = "";
 		monitor.beginTask("Creating " + name, 1);
@@ -296,7 +296,7 @@ class HenshinCodeGenUtil {
 	 * @return The destination file.
 	 * @throws CoreException If an IOException occurs.
 	 */
-	static IFile copyFile(String srcPlugin, String srcPath, IProject destProject, String destPath, IProgressMonitor monitor) throws CoreException {
+	public static IFile copyFile(String srcPlugin, String srcPath, IProject destProject, String destPath, IProgressMonitor monitor) throws CoreException {
 
 		monitor.beginTask("Copying " + srcPath, 1);
 		IFile destination = destProject.getFile(srcPath);
@@ -335,7 +335,7 @@ class HenshinCodeGenUtil {
 	 * @param message The error message.
 	 * @return A new error status.
 	 */
-	static IStatus newErrorMessage(String message) {
+	public static IStatus newErrorMessage(String message) {
 		return new Status(IStatus.ERROR, "org.eclipse.emf.henshin.codegen.generator", IStatus.ERROR, message, null);
 	}
 
@@ -347,7 +347,7 @@ class HenshinCodeGenUtil {
 	 * @param message The error message.
 	 * @return A new error status.
 	 */
-	static IStatus newWarningMessage(String message) {
+	public static IStatus newWarningMessage(String message) {
 		return new Status(IStatus.WARNING,"org.eclipse.emf.henshin.codegen.generator", IStatus.WARNING, message, null);
 	}
 

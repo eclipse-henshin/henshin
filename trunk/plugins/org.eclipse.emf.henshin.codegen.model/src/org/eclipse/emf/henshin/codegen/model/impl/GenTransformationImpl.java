@@ -8,30 +8,24 @@ package org.eclipse.emf.henshin.codegen.model.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
-
 import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
@@ -221,7 +215,7 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	 */
 	public EList<GenUnit> getGenUnits() {
 		if (genUnits == null) {
-			genUnits = new EObjectContainmentEList<GenUnit>(GenUnit.class, this, GenHenshinPackage.GEN_TRANSFORMATION__GEN_UNITS);
+			genUnits = new EObjectContainmentWithInverseEList<GenUnit>(GenUnit.class, this, GenHenshinPackage.GEN_TRANSFORMATION__GEN_UNITS, GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION);
 		}
 		return genUnits;
 	}
@@ -291,23 +285,46 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public GenPackage getGenPackage(EPackage ePackage) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		for (GenPackage genPackage : getGenPackages()) {
+			if (genPackage.getEcorePackage()==ePackage) {
+				return genPackage;
+			}
+		}
+		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
+	 */
+	public GenClass getGenClass(EClass eClass) {
+		GenPackage genPackage = getGenPackage(eClass.getEPackage());
+		if (genPackage!=null) {
+			for (GenClass genClass : genPackage.getGenClasses()) {
+				if (genClass.getEcoreClass()==eClass) {
+					return genClass;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	public String getTransformationClassFormatted() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		String result = transformationClass;
+		if (result==null || result.trim().length()==0) {
+			result = "Transformation";
+		}
+		result = result.replaceAll("\\s", "");
+		return result;
 	}
 
 	/**
@@ -315,9 +332,12 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_UNITS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenUnits()).basicAdd(otherEnd, msgs);
 			case GenHenshinPackage.GEN_TRANSFORMATION__GEN_HENSHIN:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);

@@ -6,10 +6,12 @@
  */
 package org.eclipse.emf.henshin.codegen.model;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -108,6 +110,7 @@ public interface GenTransformation extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Gen Units</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenUnit}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation <em>Gen Transformation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Gen Units</em>' containment reference list isn't clear,
@@ -116,7 +119,8 @@ public interface GenTransformation extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Gen Units</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenTransformation_GenUnits()
-	 * @model containment="true"
+	 * @see org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation
+	 * @model opposite="genTransformation" containment="true"
 	 * @generated
 	 */
 	EList<GenUnit> getGenUnits();
@@ -185,6 +189,14 @@ public interface GenTransformation extends EObject {
 	 * @generated
 	 */
 	GenPackage getGenPackage(EPackage ePackage);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	GenClass getGenClass(EClass eClass);
 
 	/**
 	 * <!-- begin-user-doc -->

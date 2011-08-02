@@ -136,12 +136,10 @@ public class GenRuleImpl extends GenUnitImpl implements GenRule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Rule getRule() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return (Rule) unit;
 	}
 
 	/**

@@ -6,6 +6,7 @@
  */
 package org.eclipse.emf.henshin.codegen.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -21,6 +22,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#isPublic <em>Public</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation <em>Gen Transformation</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,6 +85,7 @@ public interface GenUnit extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Public</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Public</em>' attribute isn't clear,
@@ -92,7 +95,7 @@ public interface GenUnit extends EObject {
 	 * @return the value of the '<em>Public</em>' attribute.
 	 * @see #setPublic(boolean)
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_Public()
-	 * @model
+	 * @model default="true"
 	 * @generated
 	 */
 	boolean isPublic();
@@ -108,11 +111,47 @@ public interface GenUnit extends EObject {
 	void setPublic(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Gen Transformation</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenUnits <em>Gen Units</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Gen Transformation</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Gen Transformation</em>' container reference.
+	 * @see #setGenTransformation(GenTransformation)
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_GenTransformation()
+	 * @see org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenUnits
+	 * @model opposite="genUnits" transient="false"
+	 * @generated
+	 */
+	GenTransformation getGenTransformation();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation <em>Gen Transformation</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Gen Transformation</em>' container reference.
+	 * @see #getGenTransformation()
+	 * @generated
+	 */
+	void setGenTransformation(GenTransformation value);
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	String getMethodFormatted();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getParametersFormatted();
 
 } // GenUnit

@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.codegen.templates;
 
+import java.util.*;
 import org.eclipse.emf.henshin.codegen.model.*;
 
 public class GenTransformationAdhoc
@@ -14,30 +15,18 @@ public class GenTransformationAdhoc
   }
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-  protected final String TEXT_1 = "package ";
-  protected final String TEXT_2 = NL + NL + "public class ";
-  protected final String TEXT_3 = " {" + NL + "" + NL + "" + NL + "}";
-  protected final String TEXT_4 = NL;
-
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
     
 
-GenTransformation genTrafo = (GenTransformation) argument;
-GenHenshin genHenshin = genTrafo.getGenHenshin();
-String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+// For now use the interpreter template...
+GenTransformationInterpreter template = new GenTransformationInterpreter();
 
 
     stringBuffer.append(
-genHenshin.getCopyrightComment()
+template.generate(argument)
 );
-    stringBuffer.append(TEXT_1);
-    stringBuffer.append( genHenshin.getImplementationPackage() );
-    stringBuffer.append(TEXT_2);
-    stringBuffer.append( className );
-    stringBuffer.append(TEXT_3);
-    stringBuffer.append(TEXT_4);
     return stringBuffer.toString();
   }
 }

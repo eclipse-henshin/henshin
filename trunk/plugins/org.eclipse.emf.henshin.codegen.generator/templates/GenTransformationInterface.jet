@@ -1,17 +1,37 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		imports="org.eclipse.emf.henshin.codegen.model.*" 
+		imports="java.util.* org.eclipse.emf.henshin.codegen.model.*" 
 		class="GenTransformationInterface"%><%
 
 GenTransformation genTrafo = (GenTransformation) argument;
 GenHenshin genHenshin = genTrafo.getGenHenshin();
-String className = genHenshin.applyImplementationPattern(genTrafo.getTransformationClassFormatted());
+String className = genHenshin.applyInterfacePattern(genTrafo.getTransformationClassFormatted());
 
 %><%=
 genHenshin.getCopyrightComment()
 %>
-package <%= genHenshin.getImplementationPackage() %>
+package <%= genHenshin.getInterfacePackage() %>;
 
+/*
+ * @generated
+ */
 public interface <%= className %> {
 
-
+<% 
+for (GenUnit genUnit : genTrafo.getGenUnits()) {
+	if (!genUnit.isPublic()) continue;
+	String paramsString = "";
+	List<String> params = genUnit.getParametersFormatted();
+	for (int i=0; i<params.size(); i++) {
+		paramsString = paramsString + "String " + params.get(i);
+		if (i<params.size()-1) paramsString = paramsString + ", ";
+	}
+%>
+	/**
+	 * @generated
+	 */
+	boolean <%= genUnit.getMethodFormatted() + "(" + paramsString + ")" %>;
+	
+<%
+}
+%>
 }
