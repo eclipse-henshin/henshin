@@ -331,4 +331,12 @@ public interface GenHenshin extends EObject {
 	 */
 	String applyImplementationPattern(String baseName);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<String> getRequiredPlugins();
+
 } // GenHenshin

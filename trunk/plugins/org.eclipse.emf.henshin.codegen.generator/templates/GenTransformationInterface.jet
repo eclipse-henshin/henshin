@@ -11,7 +11,7 @@ genHenshin.getCopyrightComment()
 %>
 package <%= genHenshin.getInterfacePackage() %>;
 
-/*
+/**
  * @generated
  */
 public interface <%= className %> {

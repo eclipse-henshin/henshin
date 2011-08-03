@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.codegen.model.GenUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
-public class CodeGenUnitModelGenerator {
+public class UnitModelCodeGenerator {
 	
 	public static String generate(GenUnit genUnit, String varName, String indent) {
 		
@@ -28,7 +28,7 @@ public class CodeGenUnitModelGenerator {
 		
 		// Now create the contents:
 		if (unit instanceof Rule) {
-			Rule rule = (Rule) unit;
+			//Rule rule = (Rule) unit;
 			out.println(ind + varName + ".setLhs(factory.createGraph());");
 			out.println(ind + varName + ".setRhs(factory.createGraph());");
 			

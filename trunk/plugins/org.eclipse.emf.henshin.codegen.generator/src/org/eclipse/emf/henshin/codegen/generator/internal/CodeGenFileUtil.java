@@ -9,7 +9,6 @@ import java.net.URL;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -26,26 +25,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 public class CodeGenFileUtil {
 	
 	/**
-	 * Create a project with the given name. If the project
-	 * exists already, it will be returned. Further, the
-	 * project is opened automatically.
-	 * @param name Name of the project.
-	 * @param monitor Progress monitor.
-	 * @return The open project.
-	 * @throws CoreException Exception, if project creation fails.
-	 */
-	public static IProject createProject(String name, IProgressMonitor monitor) throws CoreException {
-		monitor.beginTask("Creating project", 2);
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);		
-		if (!project.exists()) {
-			project.create(new SubProgressMonitor(monitor, 1));
-			project.open(new SubProgressMonitor(monitor, 1));
-		}
-		monitor.done();
-		return project;
-	}
-	
-	/**
 	 * Create a file from a given string content. The argument folder
 	 * has to exist already. No check is performed. 
 	 * @param folder Folder where the file is created.
@@ -55,13 +34,20 @@ public class CodeGenFileUtil {
 	 * @return The created file.
 	 * @throws CoreException If any kind of IO exception occurs.
 	 */
-	public static IFile createFileFromString(IContainer container, String name, String content, IProgressMonitor monitor) throws CoreException {
-		if (content==null) content = "";
+	public static IFile createFileFromString(IContainer container, String name, 
+			String content, boolean override, IProgressMonitor monitor) throws CoreException {
+		if (content==null) {
+			content = "";
+		}
 		monitor.beginTask("Creating " + name, 1);
 		IFile file = container.getFile(new Path(name));
 		InputStream input = new ByteArrayInputStream(content.getBytes());
 		if (file.exists()) {
-			file.setContents(input, true, true, new SubProgressMonitor(monitor, 1));
+			if (override) {
+				file.setContents(input, true, true, new SubProgressMonitor(monitor, 1));
+			} else {
+				monitor.worked(1);
+			}
 		} else {
 			file.create(input, true, new SubProgressMonitor(monitor, 1));
 		}

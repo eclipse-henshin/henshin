@@ -507,6 +507,8 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		op = addEOperation(genHenshinEClass, theEcorePackage.getEString(), "applyImplementationPattern", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEString(), "baseName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(genHenshinEClass, theEcorePackage.getEString(), "getRequiredPlugins", 0, -1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(genTransformationEClass, GenTransformation.class, "GenTransformation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGenTransformation_Transformation(), theHenshinPackage.getTransformationSystem(), null, "transformation", null, 0, 1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenTransformation_TransformationClass(), ecorePackage.getEString(), "transformationClass", null, 0, 1, GenTransformation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

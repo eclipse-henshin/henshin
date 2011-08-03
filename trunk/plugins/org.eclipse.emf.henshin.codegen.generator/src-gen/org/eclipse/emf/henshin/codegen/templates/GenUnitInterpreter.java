@@ -70,7 +70,7 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
     stringBuffer.append(TEXT_6);
     stringBuffer.append(TEXT_7);
     stringBuffer.append( 
-		CodeGenUnitModelGenerator.generate(genUnit, unitModelName, "\t\t\t") 
+		UnitModelCodeGenerator.generate(genUnit, unitModelName, "\t\t\t") 
 );
     stringBuffer.append(TEXT_8);
      

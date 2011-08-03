@@ -36,7 +36,7 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
 	<%= visibility %> boolean <%= genUnit.getMethodFormatted() + "(" + paramsString + ")" %> {
 		if (<%= unitModelName %>==null) {
 <%= 
-		CodeGenUnitModelGenerator.generate(genUnit, unitModelName, "\t\t\t") 
+		UnitModelCodeGenerator.generate(genUnit, unitModelName, "\t\t\t") 
 %>		}<% 
 		String applicationType = isRule ? "RuleApplication" : "UnitApplication";
 		%>

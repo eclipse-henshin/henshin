@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.codegen.generator.internal;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -21,10 +20,7 @@ import org.eclipse.jdt.core.JavaCore;
 public class CodeGenJavaUtil {
 	
 	/**
-	 * Create a Java project. If the project exists already, nothing is changed.
-	 * If the project exists, but is closed, it is opened, but besides this,
-	 * nothing is done. If the project does not exist already, further 
-	 * initialization is done:
+	 * Create a Java project; in detail:
 	 * <ul>
 	 * <li>The Java project nature is explicitly added to the project. 
 	 * <li>Default <code>src</code> and <code>bin</code> folders are created.
@@ -40,7 +36,7 @@ public class CodeGenJavaUtil {
 	public static IJavaProject createJavaProject(String name, String srcFolder, String binFolder, IProgressMonitor monitor) throws CoreException {
 		
 		monitor.beginTask("Creating Java project", 6);
-		IProject project = CodeGenFileUtil.createProject(name, new SubProgressMonitor(monitor, 1));
+		IProject project = CodeGenProjectUtil.createProject(name, new SubProgressMonitor(monitor, 1));
 
 		// Create source folder.  
 		IFolder folder = project.getFolder(srcFolder);
@@ -58,11 +54,8 @@ public class CodeGenJavaUtil {
 			monitor.worked(1);
 		}
 		
-		// Set Java project nature.
-		String[] natures = { JavaCore.NATURE_ID };
-		IProjectDescription description = project.getDescription();
-		description.setNatureIds(natures);
-		project.setDescription(description, new SubProgressMonitor(monitor, 1));
+		// Add the Java project nature.
+		CodeGenProjectUtil.addProjectNature(project, JavaCore.NATURE_ID, new SubProgressMonitor(monitor, 1));
 		
 		// Create the Java project.
 		IJavaProject javaProject = JavaCore.create(project);			

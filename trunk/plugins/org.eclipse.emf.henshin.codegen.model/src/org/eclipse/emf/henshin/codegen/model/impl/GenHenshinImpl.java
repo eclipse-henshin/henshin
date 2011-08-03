@@ -6,28 +6,26 @@
  */
 package org.eclipse.emf.henshin.codegen.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
+import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
 
 /**
  * <!-- begin-user-doc -->
@@ -521,6 +519,28 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 	public String applyImplementationPattern(String baseName) {
 		String pattern = implementationPattern!=null ? implementationPattern : "";
 		return pattern.replaceAll("\\*", baseName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<String> getRequiredPlugins() {
+		List<String> plugins = new ArrayList<String>();
+		plugins.add("org.eclipse.emf.ecore");
+		for (GenTransformation genTrafo : getGenTransformations()) {
+			if (genTrafo.getEngine()==TransformationEngine.INTERPRETER) {
+				plugins.add("org.eclipse.emf.henshin.common");
+				plugins.add("org.eclipse.emf.henshin.interpreter");
+				plugins.add("org.eclipse.emf.henshin.model");
+				break;
+			}
+		}
+		for (GenModel genModel : getGenModels()) {
+			plugins.add(genModel.getModelPluginID());
+		}
+		return new BasicEList<String>(plugins);
 	}
 
 	/**

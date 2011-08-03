@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenFileUtil;
 import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenJavaUtil;
+import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenPluginUtil;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
@@ -55,9 +56,14 @@ public class HenshinCodeGenerator {
 		
 		try {
 			
-			// Create Java project:
-			IJavaProject project = CodeGenJavaUtil.createJavaProject(
-					genHenshin.getBaseDirectory(), genHenshin.getSourceDirectory(), "bin", new SubProgressMonitor(monitor,1));
+			// Create the plug-in project:
+			IJavaProject project = CodeGenPluginUtil.createPluginProject(
+					genHenshin.getBaseDirectory(), 
+					genHenshin.getPluginID(),
+					genHenshin.getRequiredPlugins(),
+					genHenshin.getSourceDirectory(), 
+					"bin", 
+					new SubProgressMonitor(monitor,1));
 			
 			// Start the main code generation:
 			String baseName = genTrafo.getTransformationClassFormatted();
@@ -68,7 +74,7 @@ public class HenshinCodeGenerator {
 				String interfaceName = genHenshin.applyInterfacePattern(baseName);
 				CodeGenFileUtil.createFileFromString(
 						interfacePackage, interfaceName + ".java", generate(genTrafo, true), 
-						new SubProgressMonitor(monitor,1));
+						true, new SubProgressMonitor(monitor,1));
 			} else {
 				monitor.worked(1);
 			}
@@ -78,7 +84,7 @@ public class HenshinCodeGenerator {
 			String implementationName = genHenshin.applyImplementationPattern(baseName);
 			CodeGenFileUtil.createFileFromString(
 					implementationPackage, implementationName + ".java", generate(genTrafo, false), 
-					new SubProgressMonitor(monitor,1));
+					true, new SubProgressMonitor(monitor,1));
 
 			// Refresh the project to get external updates:
 			project.getProject().refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor,1));

@@ -1,6 +1,5 @@
 package org.eclipse.emf.henshin.codegen.templates;
 
-import java.util.*;
 import org.eclipse.emf.henshin.codegen.model.*;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 
