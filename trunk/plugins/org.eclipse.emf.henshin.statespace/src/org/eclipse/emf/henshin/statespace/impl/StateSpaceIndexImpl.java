@@ -118,17 +118,19 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 			index[position] = new State[4];
 		}
 		
-		// Find the next free minor index:
+		// Find the first free minor index:
 		int minor = index[position].length;
+		boolean collision = false;
 		for (int i=0; i<index[position].length; i++) {
 			if (index[position][i]==null) {
 				minor = i;
-				break;
+			} else {
+				collision = true;
 			}
 		}
 		
 		// Record collision:
-		if (minor>0) {
+		if (collision) {
 			collisions++;
 		}
 		

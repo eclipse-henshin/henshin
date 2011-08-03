@@ -108,7 +108,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IGNORE_NODE_IDS_EDEFAULT = false;
+	protected static final boolean IGNORE_NODE_IDS_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isIgnoreNodeIDs() <em>Ignore Node IDs</em>}' attribute.

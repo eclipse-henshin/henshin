@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -36,7 +37,8 @@ import org.eclipse.ui.dialogs.PropertyPage;
 public class StateSpacePropertyPage extends PropertyPage {
 	
 	// Labels:
-	private Label statesLabel, transitionsLabel, rulesLabel;
+	private Label statesLabel, transitionsLabel, 
+				  rulesLabel, collisionsLabel;
 
 	
 	private void addSection(Composite parent) {
@@ -55,11 +57,24 @@ public class StateSpacePropertyPage extends PropertyPage {
 		label.setText("Rules:");
 		rulesLabel = new Label(composite, SWT.NONE);
 
-		StateSpace stateSpace = loadStateSpace();
+		label = new Label(composite, SWT.NONE);
+		label.setText("Hash collisions:");
+		collisionsLabel = new Label(composite, SWT.NONE);
+
+		StateSpaceManager manager = loadStateSpace();
+		StateSpace stateSpace = manager.getStateSpace();
+		
 		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount()+"");
 		rulesLabel.setText(stateSpace.getRules().size()+"");
-
+		if (manager instanceof StateSpaceIndexImpl) {
+			int collisions = ((StateSpaceIndexImpl) manager).getCollisions();
+			double percent  = ((int) ((collisions * 10000) / stateSpace.getStates().size())) / 100.0;
+			collisionsLabel.setText(collisions + " (" + percent + "%)");
+		} else {
+			collisionsLabel.setText("?");
+		}
+		
 	}
 	
 	/*
@@ -97,7 +112,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 		
 	}
 	
-	private StateSpace loadStateSpace() {
+	private StateSpaceManager loadStateSpace() {
 		
 		ResourceSet resourceSet = new ResourceSetImpl();
     	URI uri = URI.createPlatformResourceURI(((IResource) getElement()).getFullPath().toString(), false);
@@ -118,7 +133,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 			MessageDialog.openError(getShell(), "Load State Space", "Error loading state space. See the error log for mor information.");
 		}
 		
-		return manager.getStateSpace();
+		return manager;
 		
 	}
 	
