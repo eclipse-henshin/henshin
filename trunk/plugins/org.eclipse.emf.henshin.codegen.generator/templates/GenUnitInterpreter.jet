@@ -4,9 +4,12 @@
 
 GenUnit genUnit = (GenUnit) argument;
 boolean isRule = (genUnit instanceof GenRule);
+GenTransformation genTrafo = genUnit.getGenTransformation();
 
-String unitModelName = genUnit.getMethodFormatted().toUpperCase();
-unitModelName = (isRule ? "RULE" : "UNIT") + "_" + unitModelName;
+String unitMethod = genUnit.getMethodFormatted();
+String unitMethodCap = unitMethod.substring(0,1).toUpperCase() + unitMethod.substring(1);
+String unitModelName = (isRule ? "RULE" : "UNIT") + "_" + unitMethod.toUpperCase();
+String unitGetter = "get" + (isRule ? "Rule" : "Unit") + unitMethodCap;
 
 // Unit model:
 
@@ -14,7 +17,19 @@ unitModelName = (isRule ? "RULE" : "UNIT") + "_" + unitModelName;
 	/**
 	 * @generated
 	 */
-	private static <%= (isRule ? "Rule" : "TransformationUnit") + " " + unitModelName %> = null;
+	protected static <%= (isRule ? "Rule" : "TransformationUnit") + " " + unitModelName %> = null;
+
+	/**
+	 * @generated
+	 */
+	protected <%= (isRule ? "Rule" : "TransformationUnit") + " " + unitGetter %>() {
+		if (<%= unitModelName %>==null) {
+			HenshinFactory factory = HenshinFactory.eINSTANCE;
+<%=
+		new UnitModelCodeGenerator(genTrafo,"factory").generate(genUnit, unitModelName, "\t\t\t")
+%>		}
+		return <%= unitModelName %>;
+	}
 
 <%
 
@@ -34,12 +49,16 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
 	 * @generated
 	 */
 	<%= visibility %> boolean <%= genUnit.getMethodFormatted() + "(" + paramsString + ")" %> {
-		if (<%= unitModelName %>==null) {
-<%= 
-		UnitModelCodeGenerator.generate(genUnit, unitModelName, "\t\t\t") 
-%>		}<% 
+<% 
 		String applicationType = isRule ? "RuleApplication" : "UnitApplication";
 		%>
-		<%= applicationType %> application = new <%= applicationType %>(engine, <%= unitModelName %>);
+		<%= applicationType %> application = new <%= applicationType %>(engine, <%= unitGetter %>());
+<%
+		for (int i=0; i<params.size(); i++) {
+%>
+		application.setParameterValue("<%= genUnit.getUnit().getParameters().get(i).getName() %>", <%= params.get(i) %>);
+<%
+		}
+%>
 		return application.apply();
 	}

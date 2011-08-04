@@ -28,6 +28,7 @@ import <%= genPackage.getQualifiedPackageName()%>.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.*; // TODO: remove general Ecore import
 
 import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.*;

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EReference;
@@ -96,7 +97,7 @@ public interface HenshinFactory extends EFactory {
 	 * @param image Image node.
 	 * @return The created mapping.
 	 */
-	public Mapping createMapping(Node origin, Node image);	
+	Mapping createMapping(Node origin, Node image);	
 	
 	/**
 	 * Returns a new object of class '<em>Node</em>'.
@@ -113,7 +114,7 @@ public interface HenshinFactory extends EFactory {
 	 * @param type Type of the node.
 	 * @return The created node.
 	 */
-	public Node createNode(Graph graph, EClass type);
+	Node createNode(Graph graph, EClass type);
 	
 	/**
 	 * Returns a new object of class '<em>Attribute</em>'.
@@ -123,6 +124,15 @@ public interface HenshinFactory extends EFactory {
 	 * @generated
 	 */
 	Attribute createAttribute();
+
+	/**
+	 * Create an attribute for a given node, type and value.
+	 * @param node Node to which the attribute is added.
+	 * @param type Attribute type.
+	 * @param value Attribute value.
+	 * @return The created attribute.
+	 */
+	Attribute createAttribute(Node node, EAttribute type, String value);
 
 	/**
 	 * Returns a new object of class '<em>Edge</em>'.
@@ -141,7 +151,7 @@ public interface HenshinFactory extends EFactory {
 	 * @param type Edge type.
 	 * @return The created edge.
 	 */
-	public Edge createEdge(Node source, Node target, EReference type);
+	Edge createEdge(Node source, Node target, EReference type);
 	
 	/**
 	 * Returns a new object of class '<em>Independent Unit</em>'.

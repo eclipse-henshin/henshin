@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -205,6 +206,18 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public Attribute createAttribute() {
 		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createAttribute(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EAttribute, java.lang.String)
+	 */
+	public Attribute createAttribute(Node node, EAttribute type, String value) {
+		Attribute attribute = createAttribute();
+		attribute.setNode(node);
+		attribute.setType(type);
+		attribute.setValue(value);
 		return attribute;
 	}
 
