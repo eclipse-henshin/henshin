@@ -61,7 +61,9 @@ public class EditPropertiesWizard extends Wizard {
 			// Commit the changes to the model:
 			StateSpaceManager manager = explorer.getStateSpaceManager();
 			Map<String,String> props = propertiesPage.getResult();
-			explorer.executeCommand(new SetPropertiesCommand(manager,props));
+			SetPropertiesCommand setProps = new SetPropertiesCommand(manager,props);
+			setProps.setMaxStateDistance(propertiesPage.getNewMaxStateDistance());
+			explorer.executeCommand(setProps);
 			
 			// Ask whether we should do a reset:
 			if (manager.getStateSpace().getTransitionCount()>0 && 

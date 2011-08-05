@@ -65,7 +65,7 @@ public class StateSpaceDeserializer {
 		int stateCount = readInt(); // State count
 		int transitionCount = readInt(); // Transition count
 		
-		int[] data = readData(); // Metadata
+		int[] data = readData(); // Meta-data
 		stateSpace.setTransitionCount(transitionCount);
 		stateSpace.setData(data);
 		

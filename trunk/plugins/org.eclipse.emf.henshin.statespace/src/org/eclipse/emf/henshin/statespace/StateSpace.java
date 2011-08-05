@@ -143,6 +143,24 @@ public interface StateSpace extends Storage {
 	void setTransitionAttraction(int value);
 
 	/**
+	 * Get the maximum distance of states from the initial states.
+	 * @return the value of the '<em>Max State Distance</em>' attribute.
+	 * @see #setMaxStateDistance(int)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_MaxStateDistance()
+	 * @model default="-1" transient="true" volatile="true"
+	 * @generated
+	 */
+	int getMaxStateDistance();
+
+	/**
+	 * Set the maximum distance of states from the initial states.
+	 * @param value the new value of the '<em>Max State Distance</em>' attribute.
+	 * @see #getMaxStateDistance()
+	 * @generated
+	 */
+	void setMaxStateDistance(int value);
+
+	/**
 	 * Get the properties for this state space.
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_Properties()

@@ -178,7 +178,21 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		setPercent(2, attraction);
 	}
 
-	
+	/**
+	 * @generated NOT
+	 */
+	public int getMaxStateDistance() {
+		int maxDistance = getData(3);
+		return (maxDistance>0) ? maxDistance : -1;
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setMaxStateDistance(int maxStateDistance) {
+		setData(3, maxStateDistance);
+	}
+
 
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -288,6 +302,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected static final int TRANSITION_ATTRACTION_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getMaxStateDistance() <em>Max State Distance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaxStateDistance()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MAX_STATE_DISTANCE_EDEFAULT = -1;
+
 
 	/**
 	 * The cached value of the '{@link #getProperties() <em>Properties</em>}' map.
@@ -477,6 +502,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getStateRepulsion();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				return getTransitionAttraction();
+			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
+				return getMaxStateDistance();
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
@@ -524,6 +551,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				setTransitionAttraction((Integer)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
+				setMaxStateDistance((Integer)newValue);
+				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				((EStructuralFeature.Setting)getProperties()).set(newValue);
 				return;
@@ -566,6 +596,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				setTransitionAttraction(TRANSITION_ATTRACTION_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
+				setMaxStateDistance(MAX_STATE_DISTANCE_EDEFAULT);
+				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				getProperties().clear();
 				return;
@@ -599,6 +632,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getStateRepulsion() != STATE_REPULSION_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
 				return getTransitionAttraction() != TRANSITION_ATTRACTION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
+				return getMaxStateDistance() != MAX_STATE_DISTANCE_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 		}

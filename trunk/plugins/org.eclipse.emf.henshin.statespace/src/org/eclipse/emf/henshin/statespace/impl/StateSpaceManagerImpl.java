@@ -46,7 +46,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
+public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDistance {
 	
 	// State model cache:
 	private final Map<State,Model> cache = Collections.synchronizedMap(new StateModelCache());
@@ -221,6 +221,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
 	 */
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
+		
+		// Check if we exceeded the maximum state distance:
+		if (getStateDistance(state)>=getStateSpace().getMaxStateDistance()) {
+			return Collections.emptyList();
+		}
 		
 		// For testing only:
 		// performExplorationSanityCheck(state);

@@ -14,7 +14,10 @@ public class SetPropertiesCommand extends AbstractStateSpaceCommand {
 	
 	// New properties to be set:
 	private Map<String,String> properties;
-
+	
+	// New maximum state distance:
+	private Integer maxStateDistance;
+	
 	/**
 	 * Default constructor.
 	 * @param manager Statespace manager.
@@ -22,6 +25,10 @@ public class SetPropertiesCommand extends AbstractStateSpaceCommand {
 	public SetPropertiesCommand(StateSpaceManager manager, Map<String,String> properties) {
 		super("set properties", manager);
 		this.properties = properties;
+	}
+	
+	public void setMaxStateDistance(int maxStateDistance) {
+		this.maxStateDistance = maxStateDistance;
 	}
 	
 	/*
@@ -33,6 +40,9 @@ public class SetPropertiesCommand extends AbstractStateSpaceCommand {
 		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
 		stateSpace.getProperties().clear();
 		stateSpace.getProperties().putAll(properties);
+		if (maxStateDistance!=null) {
+			stateSpace.setMaxStateDistance(maxStateDistance);
+		}
 	}
 	
 	/*

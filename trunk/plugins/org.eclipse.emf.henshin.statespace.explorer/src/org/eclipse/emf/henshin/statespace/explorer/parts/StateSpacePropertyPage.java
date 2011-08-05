@@ -38,7 +38,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 	
 	// Labels:
 	private Label statesLabel, transitionsLabel, 
-				  rulesLabel, collisionsLabel;
+				  rulesLabel, collisionsLabel, maxStateDistanceLabel;
 
 	
 	private void addSection(Composite parent) {
@@ -58,6 +58,10 @@ public class StateSpacePropertyPage extends PropertyPage {
 		rulesLabel = new Label(composite, SWT.NONE);
 
 		label = new Label(composite, SWT.NONE);
+		label.setText("Maximum state distance:");
+		maxStateDistanceLabel = new Label(composite, SWT.NONE);
+
+		label = new Label(composite, SWT.NONE);
 		label.setText("Hash collisions:");
 		collisionsLabel = new Label(composite, SWT.NONE);
 
@@ -67,6 +71,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount()+"");
 		rulesLabel.setText(stateSpace.getRules().size()+"");
+		maxStateDistanceLabel.setText(stateSpace.getMaxStateDistance()+"");
 		if (manager instanceof StateSpaceIndexImpl) {
 			int collisions = ((StateSpaceIndexImpl) manager).getCollisions();
 			double percent  = ((int) ((collisions * 10000) / stateSpace.getStates().size())) / 100.0;

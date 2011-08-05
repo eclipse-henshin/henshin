@@ -35,6 +35,8 @@ import org.eclipse.swt.widgets.Text;
  */
 public class EditPropertiesPage extends WizardPage {
 	
+	private static final String MAX_STATE_DISTANCE_PROPERTY = "maxStateDistance";
+	
 	// Key-value pairs.
 	private List<String> keys, values;
 	
@@ -57,6 +59,7 @@ public class EditPropertiesPage extends WizardPage {
 		dummyStateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 		dummyStateSpace.getRules().addAll(stateSpace.getRules());
 		dummyStateSpace.getProperties().putAll(stateSpace.getProperties());
+		dummyStateSpace.getProperties().put(MAX_STATE_DISTANCE_PROPERTY, stateSpace.getMaxStateDistance() + "");
 	}
 	
 	/*
@@ -275,7 +278,6 @@ public class EditPropertiesPage extends WizardPage {
 		}
 		
 	}
-
 	
 	/**
 	 * Get the properties.
@@ -284,9 +286,25 @@ public class EditPropertiesPage extends WizardPage {
 	public Map<String,String> getResult() {
 		Map<String,String> result = new LinkedHashMap<String,String>();
 		for (int i=0; i<keys.size(); i++) {
-			result.put(keys.get(i), values.get(i));
+			if (!MAX_STATE_DISTANCE_PROPERTY.equals(keys.get(i))) {
+				result.put(keys.get(i), values.get(i));
+			}
 		}
 		return result;
+	}
+	
+	public int getNewMaxStateDistance() {
+		for (int i=0; i<keys.size(); i++) {
+			if (MAX_STATE_DISTANCE_PROPERTY.equals(keys.get(i))) {
+				try {
+					int maxStateDistance = Integer.parseInt(values.get(i));
+					return (maxStateDistance>0) ? maxStateDistance : -1;
+				} catch (Throwable t) {
+					return -1;
+				}
+			}
+		}
+		return -1;
 	}
 	
 	/**

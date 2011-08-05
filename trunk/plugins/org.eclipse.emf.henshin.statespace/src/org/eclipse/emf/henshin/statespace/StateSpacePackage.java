@@ -194,13 +194,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__TRANSITION_ATTRACTION = STORAGE_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Max State Distance</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 9;
+
+	/**
 	 * The feature id for the '<em><b>Properties</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 9;
+	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -209,7 +218,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 10;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -658,6 +667,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_TransitionAttraction();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getMaxStateDistance <em>Max State Distance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Max State Distance</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getMaxStateDistance()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_MaxStateDistance();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.StateSpace#getProperties <em>Properties</em>}'.
@@ -1134,6 +1154,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__TRANSITION_ATTRACTION = eINSTANCE.getStateSpace_TransitionAttraction();
+
+		/**
+		 * The meta object literal for the '<em><b>Max State Distance</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__MAX_STATE_DISTANCE = eINSTANCE.getStateSpace_MaxStateDistance();
 
 		/**
 		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.

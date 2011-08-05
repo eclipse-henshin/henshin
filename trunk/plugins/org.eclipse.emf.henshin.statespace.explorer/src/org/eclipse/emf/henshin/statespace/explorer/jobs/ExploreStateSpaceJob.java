@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
+import org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManagerWithStateDistance;
 import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.gef.EditDomain;
@@ -89,18 +90,18 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		int explored = 0;
 
 		try {
-						
+			
+			// List of states to be explored:
+			List<State> statesToExplore = getStatesToExplore();
+			
 			// Run until canceled or no more open states...
-			while (!stateSpace.getOpenStates().isEmpty() && !monitor.isCanceled()) {
-				
-				// Currently open states:
-				List<State> open = new ArrayList<State>(stateSpace.getOpenStates()); 
+			while (!statesToExplore.isEmpty() && !monitor.isCanceled()) {
 				
 				// Explore all open states:
-				for (int index=0; index<open.size(); index=index+numStatesAtOnce) {
+				for (int index=0; index<statesToExplore.size(); index=index+numStatesAtOnce) {
 					
 					// Execute as explore command:
-					ExploreStatesCommand command = createExploreCommand(open, index, numStatesAtOnce);
+					ExploreStatesCommand command = createExploreCommand(statesToExplore, index, numStatesAtOnce);
 					explored += command.getStatesToExplore().size();
 					executeExploreCommand(command, monitor);
 					
@@ -134,6 +135,9 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					
 				}
 				
+				// Update the list of states to explore:
+				statesToExplore = getStatesToExplore();
+				
 			}
 		
 		} catch (Throwable e) {
@@ -164,6 +168,23 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// Now we are done:
 		return new Status(IStatus.OK, StateSpaceExplorerPlugin.ID, 0, null, null);
 		
+	}
+	
+	private List<State> getStatesToExplore() {
+		List<State> statesToExplore = new ArrayList<State>();
+		if (getStateSpaceManager() instanceof AbstractStateSpaceManagerWithStateDistance) {
+			AbstractStateSpaceManagerWithStateDistance manager = 
+					(AbstractStateSpaceManagerWithStateDistance) getStateSpaceManager();
+			int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
+			for (State open : manager.getStateSpace().getOpenStates()) {
+				if (maxStateDistance<0 || maxStateDistance>manager.getStateDistance(open)) {
+					statesToExplore.add(open);					
+				}
+			}
+		} else {
+			statesToExplore.addAll(getStateSpaceManager().getStateSpace().getOpenStates());
+		}
+		return statesToExplore;
 	}
 	
 	/*

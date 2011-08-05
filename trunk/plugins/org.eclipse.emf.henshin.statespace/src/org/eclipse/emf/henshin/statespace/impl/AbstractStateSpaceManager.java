@@ -221,7 +221,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#createInitialState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public final State createInitialState(Model model) throws StateSpaceException {
+	public State createInitialState(Model model) throws StateSpaceException {
 		
 		// Check if the resource is persisted:
 		Resource resource = model.getResource();
@@ -254,7 +254,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public final List<State> removeState(State state) throws StateSpaceException {
+	public List<State> removeState(State state) throws StateSpaceException {
 		
 		// Check if the state space is tainted:
 		if (tainted) throw new StateSpaceException();
@@ -305,7 +305,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace()
 	 */
-	public final void resetStateSpace() {
+	public void resetStateSpace() {
 		
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
