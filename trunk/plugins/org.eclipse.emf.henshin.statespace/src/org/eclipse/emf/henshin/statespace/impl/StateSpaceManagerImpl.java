@@ -223,7 +223,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Check if we exceeded the maximum state distance:
-		if (getStateDistance(state)>=getStateSpace().getMaxStateDistance()) {
+		int maxStateDistance = getStateSpace().getMaxStateDistance();
+		if (maxStateDistance>=0 && getStateDistance(state)>=maxStateDistance) {
 			return Collections.emptyList();
 		}
 		
