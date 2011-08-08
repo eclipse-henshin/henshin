@@ -282,6 +282,14 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.XOR: {
+				Xor xor = (Xor)theEObject;
+				T result = caseXor(xor);
+				if (result == null) result = caseBinaryFormula(xor);
+				if (result == null) result = caseFormula(xor);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.NOT: {
 				Not not = (Not)theEObject;
 				T result = caseNot(not);
@@ -687,6 +695,21 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T caseNot(Not object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Xor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Xor</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseXor(Xor object) {
 		return null;
 	}
 

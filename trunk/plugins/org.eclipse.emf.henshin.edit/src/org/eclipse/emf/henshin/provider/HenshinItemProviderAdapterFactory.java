@@ -574,6 +574,30 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	
 	/**
 	 * This keeps track of the one adapter used for all
+	 * {@link org.eclipse.emf.henshin.model.Xor} instances. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected XorItemProvider xorItemProvider;
+	
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Xor}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public Adapter createXorAdapter() {
+		if (xorItemProvider == null) {
+			xorItemProvider = new XorItemProvider(this);
+		}
+		
+		return xorItemProvider;
+	}
+	
+	/**
+	 * This keeps track of the one adapter used for all
 	 * {@link org.eclipse.emf.henshin.model.ParameterMapping} instances. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -713,6 +737,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
 		if (andItemProvider != null) andItemProvider.dispose();
 		if (orItemProvider != null) orItemProvider.dispose();
+		if (xorItemProvider != null) xorItemProvider.dispose();
 		if (notItemProvider != null) notItemProvider.dispose();
 		if (parameterMappingItemProvider != null) parameterMappingItemProvider.dispose();
 	}

@@ -203,6 +203,9 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 					HenshinFactory.eINSTANCE.createOr()));
 			
 			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
+					HenshinFactory.eINSTANCE.createXor()));
+			
+			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 					HenshinFactory.eINSTANCE.createNot()));
 			
 		}// if

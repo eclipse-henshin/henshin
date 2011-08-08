@@ -165,6 +165,9 @@ public class BinaryFormulaItemProvider extends FormulaItemProvider implements
 				HenshinFactory.eINSTANCE.createOr()));
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
+				HenshinFactory.eINSTANCE.createXor()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__LEFT,
 				HenshinFactory.eINSTANCE.createNot()));
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
@@ -175,6 +178,9 @@ public class BinaryFormulaItemProvider extends FormulaItemProvider implements
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
 				HenshinFactory.eINSTANCE.createOr()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
+				HenshinFactory.eINSTANCE.createXor()));
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.BINARY_FORMULA__RIGHT,
 				HenshinFactory.eINSTANCE.createNot()));

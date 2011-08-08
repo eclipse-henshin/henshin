@@ -899,13 +899,31 @@ public interface HenshinPackage extends EPackage {
 	int SEQUENTIAL_UNIT__SUB_UNITS = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Strict</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_UNIT__STRICT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Rollback</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_UNIT__ROLLBACK = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Sequential Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEQUENTIAL_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int SEQUENTIAL_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl <em>Conditional Unit</em>}' class.
@@ -1465,7 +1483,44 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNot()
 	 * @generated
 	 */
-	int NOT = 25;
+	int NOT = 26;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.XorImpl <em>Xor</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.XorImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getXor()
+	 * @generated
+	 */
+	int XOR = 25;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int XOR__LEFT = BINARY_FORMULA__LEFT;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int XOR__RIGHT = BINARY_FORMULA__RIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Xor</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int XOR_FEATURE_COUNT = BINARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1493,7 +1548,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 	 * @generated
 	 */
-	int PARAMETER_MAPPING = 26;
+	int PARAMETER_MAPPING = 27;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -2080,6 +2135,28 @@ public interface HenshinPackage extends EPackage {
 	EReference getSequentialUnit_SubUnits();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.SequentialUnit#isStrict <em>Strict</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Strict</em>'.
+	 * @see org.eclipse.emf.henshin.model.SequentialUnit#isStrict()
+	 * @see #getSequentialUnit()
+	 * @generated
+	 */
+	EAttribute getSequentialUnit_Strict();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.SequentialUnit#isRollback <em>Rollback</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rollback</em>'.
+	 * @see org.eclipse.emf.henshin.model.SequentialUnit#isRollback()
+	 * @see #getSequentialUnit()
+	 * @generated
+	 */
+	EAttribute getSequentialUnit_Rollback();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ConditionalUnit <em>Conditional Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2364,6 +2441,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNot();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Xor <em>Xor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Xor</em>'.
+	 * @see org.eclipse.emf.henshin.model.Xor
+	 * @generated
+	 */
+	EClass getXor();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.ParameterMapping <em>Parameter Mapping</em>}'.
@@ -2866,6 +2953,22 @@ public interface HenshinPackage extends EPackage {
 		EReference SEQUENTIAL_UNIT__SUB_UNITS = eINSTANCE.getSequentialUnit_SubUnits();
 
 		/**
+		 * The meta object literal for the '<em><b>Strict</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SEQUENTIAL_UNIT__STRICT = eINSTANCE.getSequentialUnit_Strict();
+
+		/**
+		 * The meta object literal for the '<em><b>Rollback</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SEQUENTIAL_UNIT__ROLLBACK = eINSTANCE.getSequentialUnit_Rollback();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl <em>Conditional Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3102,6 +3205,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NOT = eINSTANCE.getNot();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.XorImpl <em>Xor</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.XorImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getXor()
+		 * @generated
+		 */
+		EClass XOR = eINSTANCE.getXor();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ParameterMappingImpl <em>Parameter Mapping</em>}' class.

@@ -163,6 +163,9 @@ public class UnaryFormulaItemProvider extends FormulaItemProvider implements
 				HenshinFactory.eINSTANCE.createOr()));
 		
 		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
+				HenshinFactory.eINSTANCE.createXor()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
 				HenshinFactory.eINSTANCE.createNot()));
 	}
 	

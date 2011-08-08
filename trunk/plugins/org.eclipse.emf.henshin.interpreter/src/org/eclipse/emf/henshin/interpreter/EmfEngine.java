@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.internal.conditions.nested.IFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.NotFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.OrFormula;
 import org.eclipse.emf.henshin.internal.conditions.nested.TrueFormula;
+import org.eclipse.emf.henshin.internal.conditions.nested.XorFormula;
 import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ConditionInfo;
@@ -62,6 +63,7 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Xor;
 
 /**
  * The default implementation of an interpreter engine.
@@ -190,6 +192,13 @@ public class EmfEngine implements InterpreterEngine {
 			OrFormula orFormula = new OrFormula(left, right);
 			
 			return orFormula;
+		} else if (formula instanceof Xor) {
+			Xor xor = (Xor) formula;
+			IFormula left = initFormula(xor.getLeft(), domainMap, graphMap, conditionHandler);
+			IFormula right = initFormula(xor.getRight(), domainMap, graphMap, conditionHandler);
+			XorFormula xorFormula = new XorFormula(left, right);
+			
+			return xorFormula;
 		} else if (formula instanceof Not) {
 			Not not = (Not) formula;
 			IFormula child = initFormula(not.getChild(), domainMap, graphMap, conditionHandler);

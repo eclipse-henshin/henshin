@@ -90,6 +90,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
 			case HenshinPackage.AND: return createAnd();
 			case HenshinPackage.OR: return createOr();
+			case HenshinPackage.XOR: return createXor();
 			case HenshinPackage.NOT: return createNot();
 			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
 			default:
@@ -342,6 +343,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public Not createNot() {
 		NotImpl not = new NotImpl();
 		return not;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Xor createXor() {
+		XorImpl xor = new XorImpl();
+		return xor;
 	}
 
 	/**

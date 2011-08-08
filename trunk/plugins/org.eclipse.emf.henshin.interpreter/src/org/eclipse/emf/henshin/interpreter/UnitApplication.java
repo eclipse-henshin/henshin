@@ -56,8 +56,7 @@ public class UnitApplication extends Observable {
 	 */
 	public UnitApplication(final InterpreterEngine engine,
 			final TransformationUnit transformationUnit) {
-		if (engine == null)
-			throw new IllegalArgumentException("engine can not be null");
+		if (engine == null) throw new IllegalArgumentException("engine can not be null");
 		
 		if (transformationUnit == null)
 			throw new IllegalArgumentException("transformationUnit can not be null");
@@ -202,12 +201,14 @@ public class UnitApplication extends Observable {
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);
 		ruleApplication.setMatch(match);
 		if (ruleApplication.apply()) {
-			System.out.println(rule.getName());
+			System.out.println(rule.getName() + "[success]");
 			parameterValues = ruleApplication.getComatch().getParameterValues();
 			appliedRules.push(ruleApplication);
 			return true;
-		} else
+		} else {
+			System.out.println(rule.getName() + "[fail]");
 			return false;
+		}
 	}
 	
 	private boolean executeAmalgamatedUnit() {
@@ -227,15 +228,17 @@ public class UnitApplication extends Observable {
 	private boolean executeSequentialUnit() {
 		SequentialUnit sequentialUnit = (SequentialUnit) transformationUnit;
 		
-		for (int i = 0; i < sequentialUnit.getSubUnits().size(); i++) {
-			TransformationUnit subUnit = sequentialUnit.getSubUnits().get(i);
+		for (TransformationUnit subUnit : sequentialUnit.getSubUnits()) {
 			UnitApplication genericUnit = createApplicationFor(subUnit);
 			if (genericUnit.execute()) {
 				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
-				undo();
-				return false;
+				if (sequentialUnit.isStrict()) {
+					if (sequentialUnit.isRollback()) undo();
+					return false;
+				}// if
+				
 			}
 		}
 		
@@ -360,8 +363,7 @@ public class UnitApplication extends Observable {
 		
 		if (parameterValues != null) {
 			Parameter parameter = transformationUnit.getParameterByName(name);
-			if (parameter != null)
-				return parameterValues.get(parameter);
+			if (parameter != null) return parameterValues.get(parameter);
 		}// if
 		return null;
 	}// getPortValue

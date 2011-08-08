@@ -48,6 +48,7 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.Xor;
 import org.eclipse.emf.henshin.model.util.HenshinValidator;
 
 /**
@@ -238,6 +239,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass notEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass xorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -789,6 +797,24 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSequentialUnit_Strict() {
+		return (EAttribute)sequentialUnitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSequentialUnit_Rollback() {
+		return (EAttribute)sequentialUnitEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getConditionalUnit() {
 		return conditionalUnitEClass;
 	}
@@ -1032,6 +1058,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getXor() {
+		return xorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getParameterMapping() {
 		return parameterMappingEClass;
 	}
@@ -1148,6 +1183,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		sequentialUnitEClass = createEClass(SEQUENTIAL_UNIT);
 		createEReference(sequentialUnitEClass, SEQUENTIAL_UNIT__SUB_UNITS);
+		createEAttribute(sequentialUnitEClass, SEQUENTIAL_UNIT__STRICT);
+		createEAttribute(sequentialUnitEClass, SEQUENTIAL_UNIT__ROLLBACK);
 
 		conditionalUnitEClass = createEClass(CONDITIONAL_UNIT);
 		createEReference(conditionalUnitEClass, CONDITIONAL_UNIT__IF);
@@ -1184,6 +1221,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		andEClass = createEClass(AND);
 
 		orEClass = createEClass(OR);
+
+		xorEClass = createEClass(XOR);
 
 		notEClass = createEClass(NOT);
 
@@ -1244,6 +1283,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		binaryFormulaEClass.getESuperTypes().add(this.getFormula());
 		andEClass.getESuperTypes().add(this.getBinaryFormula());
 		orEClass.getESuperTypes().add(this.getBinaryFormula());
+		xorEClass.getESuperTypes().add(this.getBinaryFormula());
 		notEClass.getESuperTypes().add(this.getUnaryFormula());
 
 		// Initialize classes and features; add operations and parameters
@@ -1366,6 +1406,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(sequentialUnitEClass, SequentialUnit.class, "SequentialUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSequentialUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, SequentialUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSequentialUnit_Strict(), ecorePackage.getEBoolean(), "strict", "true", 0, 1, SequentialUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSequentialUnit_Rollback(), ecorePackage.getEBoolean(), "rollback", "true", 0, 1, SequentialUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionalUnitEClass, ConditionalUnit.class, "ConditionalUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConditionalUnit_If(), this.getTransformationUnit(), null, "if", null, 1, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1405,6 +1447,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(andEClass, And.class, "And", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(orEClass, Or.class, "Or", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(xorEClass, Xor.class, "Xor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(notEClass, Not.class, "Not", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

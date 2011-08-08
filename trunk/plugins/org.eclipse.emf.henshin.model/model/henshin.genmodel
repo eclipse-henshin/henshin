@@ -130,6 +130,8 @@
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//SequentialUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//SequentialUnit/subUnits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/strict"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/rollback"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//ConditionalUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/if"/>
@@ -168,6 +170,7 @@
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//And"/>
     <genClasses ecoreClass="henshin.ecore#//Or"/>
+    <genClasses ecoreClass="henshin.ecore#//Xor"/>
     <genClasses ecoreClass="henshin.ecore#//Not"/>
     <genClasses ecoreClass="henshin.ecore#//ParameterMapping">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//ParameterMapping/source"/>

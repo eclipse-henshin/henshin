@@ -244,6 +244,15 @@ public interface HenshinFactory extends EFactory {
 	Not createNot();
 
 	/**
+	 * Returns a new object of class '<em>Xor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Xor</em>'.
+	 * @generated
+	 */
+	Xor createXor();
+
+	/**
 	 * Returns a new object of class '<em>Parameter Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

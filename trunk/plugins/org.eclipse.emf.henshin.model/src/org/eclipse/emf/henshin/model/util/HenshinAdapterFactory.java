@@ -177,6 +177,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createOrAdapter();
 			}
 			@Override
+			public Adapter caseXor(Xor object) {
+				return createXorAdapter();
+			}
+			@Override
 			public Adapter caseNot(Not object) {
 				return createNotAdapter();
 			}
@@ -565,6 +569,20 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Xor <em>Xor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.Xor
+	 * @generated
+	 */
+	public Adapter createXorAdapter() {
 		return null;
 	}
 
