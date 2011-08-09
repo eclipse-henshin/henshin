@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.layout.StateSpaceSpringLayouter;
 import org.eclipse.swt.widgets.Display;
 
 /**

@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.explorer.commands.MoveStateCommand;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.layout.StateSpaceSpringLayouter;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;

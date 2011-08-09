@@ -20,9 +20,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
-import org.eclipse.emf.henshin.statespace.util.GraphEqualityHelper;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceHashCodeHelper;
+import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
+import org.eclipse.emf.henshin.statespace.equality.GraphEqualityHelper;
+import org.eclipse.emf.henshin.statespace.equality.StateSpaceHashCodeHelper;
 
 /**
  * Default implementation of {@link StateEqualityHelper}.

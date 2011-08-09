@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.util;
+package org.eclipse.emf.henshin.statespace.layout;
 
 import java.util.Arrays;
 import java.util.List;

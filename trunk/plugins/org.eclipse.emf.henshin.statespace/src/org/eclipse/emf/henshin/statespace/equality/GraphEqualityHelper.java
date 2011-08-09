@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.util;
+package org.eclipse.emf.henshin.statespace.equality;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +35,7 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	private EcoreEqualityHelper attributeHelper;
 	
 	// Stack of lists to compare:
-	private EObject[][] t1, t2;
+	private EObject[][] s1, s2;
 	
 	// Current position in the stack:
 	private int current;
@@ -67,8 +67,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		// Initialize variables:
 		m1 = model1;
 		m2 = model2;
-		t1 = new EObject[][] { m1.getResource().getContents().toArray(new EObject[0]) };
-		t2 = new EObject[][] { m2.getResource().getContents().toArray(new EObject[0]) };
+		s1 = new EObject[][] { m1.getResource().getContents().toArray(new EObject[0]) };
+		s2 = new EObject[][] { m2.getResource().getContents().toArray(new EObject[0]) };
 		current = 0;
 		
 		// Perform depth-first search:
@@ -79,8 +79,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		// Release variables:
 		m1 = null;
 		m2 = null;
-		t1 = null;
-		t2 = null;
+		s1 = null;
+		s2 = null;
 		
 		// Done.
 		return equals;
@@ -100,8 +100,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		}
 		
 		// Get the lists to be matched now:
-		EObject[] l1 = t1[current];
-		EObject[] l2 = t1[current];
+		EObject[] l1 = s1[current];
+		EObject[] l2 = s1[current];
 		
 		// The lists must have the same length:
 		if (l1.length!=l2.length) {
@@ -227,12 +227,12 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 					if (valid) {
 						
 						// We need some more space on the stack first:
-						t1 = grow(t1, current+2);
-						t2 = grow(t2, current+2);
+						s1 = grow(s1, current+2);
+						s2 = grow(s2, current+2);
 						
 						// Append the new branch:
-						t1[current+1] = n1;
-						t2[current+1] = n2;
+						s1[current+1] = n1;
+						s2[current+1] = n2;
 						
 						// Go depth-first:
 						current++;

@@ -40,7 +40,7 @@ import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityComm
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSpringLayouter;
+import org.eclipse.emf.henshin.statespace.layout.StateSpaceSpringLayouter;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;

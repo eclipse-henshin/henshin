@@ -12,7 +12,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.TransitionBendpointHelper;
+import org.eclipse.emf.henshin.statespace.layout.TransitionBendpointHelper;
 
 /**
  * A state space exporter for the TikZ format (LaTeX).
