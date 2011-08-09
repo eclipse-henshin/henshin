@@ -36,7 +36,7 @@ public class StateSpaceHashCodeHelper {
 	 * Map for storing local hash codes of objects.
 	 * This map computes local hash codes on demand.
 	 */
-	private class LocalHashCodes extends HashMap<EObject,Integer> {
+	protected class LocalHashCodes extends HashMap<EObject,Integer> {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
@@ -96,7 +96,7 @@ public class StateSpaceHashCodeHelper {
 	 * Compute the total hash code of a list of EObjects.
 	 * This delegates to #totalhashCode() for a single EObject.
 	 */
-	private int totalHashCode(EList<EObject> nodes, LocalHashCodes localHashCodes, int depth) {
+	protected int totalHashCode(EList<EObject> nodes, LocalHashCodes localHashCodes, int depth) {
 		
 		// First compute the total hash codes of all nodes:
 		int[] total = new int[nodes.size()];
@@ -116,7 +116,7 @@ public class StateSpaceHashCodeHelper {
 	 * the method walks down the containment tree of the node.
 	 */
 	@SuppressWarnings("unchecked")
-	private int totalHashCode(EObject object, LocalHashCodes localHashCodes, int depth) {
+	protected int totalHashCode(EObject object, LocalHashCodes localHashCodes, int depth) {
 		
 		// Context-aware hash code of the current object:
 		int hash = contextHashCode(object, localHashCodes);
@@ -144,7 +144,7 @@ public class StateSpaceHashCodeHelper {
 	 * based on the type of the node, its attribute values 
 	 * and the number of references to other objects.
 	 */
-	private int localHashCode(EObject object) {
+	protected int localHashCode(EObject object) {
 		
 		// Class and its features:
 		EClass eclass = object.eClass();
@@ -199,7 +199,7 @@ public class StateSpaceHashCodeHelper {
 	 * the local hash code of the node and its neighbors into a single hash code.
 	 */
 	@SuppressWarnings("unchecked")
-	private int contextHashCode(EObject node, LocalHashCodes localHashCodes) {
+	protected int contextHashCode(EObject node, LocalHashCodes localHashCodes) {
 		
 		// Start with the local hash code of the node itself:
 		int hashCode = localHashCodes.get(node);
@@ -236,7 +236,7 @@ public class StateSpaceHashCodeHelper {
 	 * Depending on the equality type, the list is treated as 
 	 * a sequence or as a set.
 	 */
-	private int listHashCode(int[] hashCodes, int depth) {
+	protected int listHashCode(int[] hashCodes, int depth) {
 		int hash = 0;
 		for (int i=0; i<hashCodes.length; i++) {
 			if (!graphEquality) {
