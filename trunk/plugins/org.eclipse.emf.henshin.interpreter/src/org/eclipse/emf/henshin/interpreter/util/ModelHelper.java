@@ -228,7 +228,13 @@ public class ModelHelper {
 		EPackage result = null;
 		if (rs == null) rs = new ResourceSetImpl();
 		Resource packageResource = rs.createResource(ecoreFileUri);
-		if (packageResource.getContents() != null) {
+		try {
+			packageResource.load(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		if ((packageResource.getContents() != null) && (packageResource.getContents().size() > 0)) {
 			EObject tmp = packageResource.getContents().get(0);
 			if (tmp != null && tmp instanceof EPackage) {
 				result = (EPackage) tmp;
