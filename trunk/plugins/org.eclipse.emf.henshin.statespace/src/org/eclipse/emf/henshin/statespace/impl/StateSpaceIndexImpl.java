@@ -18,6 +18,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 
 /**
  * Default implementation of {@link StateSpaceIndexImpl}. 
@@ -232,15 +233,31 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the state equality helper.
 	 */
 	protected int hashCode(Model model) {
-		return stateSpace.getEqualityHelper().hashCode(model);
+		return stateSpace.getEqualityHelper().hashCode(model, null);
 	}
-	
+
+	/*
+	 * Compute the hash code of a state model.
+	 * This delegates to the state equality helper.
+	 */
+	protected int hashCode(Model model, HashCodeTree tree) {
+		return stateSpace.getEqualityHelper().hashCode(model, tree);
+	}
+
 	/*
 	 * Check if two state models are equal.
 	 * This delegates to the equality helper.
 	 */
 	protected boolean equals(Model model1, Model model2) {
-		return stateSpace.getEqualityHelper().equals(model1, model2);
+		return stateSpace.getEqualityHelper().equals(model1, null, model2, null);
 	}
-	
+
+	/*
+	 * Check if two state models are equal.
+	 * This delegates to the equality helper.
+	 */
+	protected boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2) {
+		return stateSpace.getEqualityHelper().equals(model1, tree1, model2, tree2);
+	}
+
 }

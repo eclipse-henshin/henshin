@@ -73,16 +73,16 @@ public class HashCodeTree {
 
 	public boolean createChildren(int numChildren) {
 		
-		// Check if there are already children:
-		if (data[position+1]==OPEN_MARKER) {
+		// Check if the children number is not positive:
+		if (numChildren<=0) {
 			return false;
 		}
-
-		// Where the children will start:
-		int start = position+1;
 		
-		// Space that we need:
-		int space = numChildren+2;
+		// Check if there are already children:
+		boolean hasChildren = hasChildren();
+		
+		// Additional space that we need:
+		int space = hasChildren ? numChildren : numChildren+2;
 
 		// Check if we need to resize the data array:
 		if (size+space > data.length) {
@@ -90,16 +90,24 @@ public class HashCodeTree {
 			LENGTH_SUM = LENGTH_SUM + newLength - data.length;
 			data = Arrays.copyOf(data, newLength);
 		}
+
+		// Where the children will start:
+		int start = hasChildren ? position+2 : position+1;
 		
 		// Make some space for the children:
-		System.arraycopy(data, start, data, start+space, size-position-1);
+		System.arraycopy(data, start, data, start+space, size-start);
 		size += space;
-		
+
 		// Initialize the children list:
 		Arrays.fill(data, start, start+space, 0);
-		data[start] = OPEN_MARKER;
-		data[start+space-1] = CLOSE_MARKER;
+
+		// Add the OPEN and CLOSE markers:
+		if (!hasChildren) {
+			data[start] = OPEN_MARKER;
+			data[start+space-1] = CLOSE_MARKER;
+		}
 		
+		// Done.
 		return true;
 		
 	}
@@ -230,10 +238,11 @@ public class HashCodeTree {
 				result = result + ")";
 				break;
 			default:
+				String hex = Integer.toHexString(data[i]);
 				if (i==position) {
-					result = result + "<" + data[i] + ">";
+					result = result + "<" + hex + ">";
 				} else {
-					result = result + data[i];
+					result = result + hex;
 				}
 			}
 			if (data[i]!=OPEN_MARKER &&

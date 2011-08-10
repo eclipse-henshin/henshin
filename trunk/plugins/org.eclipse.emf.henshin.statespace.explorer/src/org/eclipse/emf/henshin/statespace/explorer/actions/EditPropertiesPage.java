@@ -123,7 +123,7 @@ public class EditPropertiesPage extends WizardPage {
 		// Two columns:
 		TableColumn keyColumn = new TableColumn(table, SWT.NONE);
 		keyColumn.setText("Key");
-		keyColumn.setWidth(100);
+		keyColumn.setWidth(150);
 		
 		TableColumn valueColumn = new TableColumn(table, SWT.NONE);
 		valueColumn.setText("Value");

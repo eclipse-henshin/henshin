@@ -14,6 +14,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 
 /**
  * Helper class for deciding whether two state models are
@@ -75,17 +76,17 @@ public interface StateEqualityHelper extends EObject {
 	void setIgnoreAttributes(boolean value);
 
 	/**
-	 * Check whether two state models are equal.
-	 * @model
-	 * @generated
-	 */
-	boolean equals(Model model1, Model model2);
-
-	/**
 	 * Generate a hash code of a state model.
 	 * @model
 	 * @generated
 	 */
-	int hashCode(Model model);
+	int hashCode(Model model, HashCodeTree tree);
+
+	/**
+	 * Check whether two state models are equal.
+	 * @model
+	 * @generated
+	 */
+	boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2);
 
 }

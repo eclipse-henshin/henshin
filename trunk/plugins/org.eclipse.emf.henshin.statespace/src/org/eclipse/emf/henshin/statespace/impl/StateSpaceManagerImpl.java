@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateModelCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
@@ -385,7 +386,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 				}
 				
 				// Now compute and set the hash code (after the node IDs have been updated!).
-				newState.setHashCode(hashCode(transformed));
+				HashCodeTree tree = new HashCodeTree();
+				newState.setHashCode(hashCode(transformed, tree));
+				//System.out.println(tree);
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();

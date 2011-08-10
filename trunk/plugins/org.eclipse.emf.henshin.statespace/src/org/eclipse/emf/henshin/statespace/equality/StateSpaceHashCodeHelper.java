@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.equality;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -69,6 +70,11 @@ public class StateSpaceHashCodeHelper {
 	// Current model.
 	private Model model;
 	
+	// Current hash-code tree:
+	private HashCodeTree tree;
+	
+	// Currently used local hash codes:
+	private LocalHashCodes localHashCodes;
 	
 	/**
 	 * Default constructor.
@@ -80,32 +86,82 @@ public class StateSpaceHashCodeHelper {
 		this.ignoreNodeIDs = ignoreNodeIDs;
 		this.ignoreAttributes = ignoreAttributes;
 	}
-	
+
 	/**
 	 * Compute the hash code for a given model.
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
+		return hashCode(model, null);
+	}
+
+	/**
+	 * Compute the hash code for a given model
+	 * and update the hash-code tree.
+	 * @generated NOT
+	 */
+	public int hashCode(Model model, HashCodeTree tree) {
+		
+		// Set the required fields:
 		this.model = model;
-		int result = totalHashCode(model.getResource().getContents(), new LocalHashCodes(), 0);
+		this.tree = tree;
+		this.localHashCodes = new LocalHashCodes();
+		
+		// Reset the hash-code tree:
+		if (tree!=null) {
+			tree.clear();
+		}
+		
+		// Compute the hash-code:
+		int result = totalHashCode(model.getResource().getContents(), 0);
+		
+		// Reset the fields:
 		this.model = null;
+		this.tree = null;
+		this.localHashCodes = null;
+		
+		// Done.
 		return result;
+		
 	}
 
 	/*
 	 * Compute the total hash code of a list of EObjects.
 	 * This delegates to #totalhashCode() for a single EObject.
 	 */
-	protected int totalHashCode(EList<EObject> nodes, LocalHashCodes localHashCodes, int depth) {
-		
-		// First compute the total hash codes of all nodes:
+	protected int totalHashCode(EList<EObject> nodes, int depth) {
+
+		// We need to store the total hash codes of all nodes:
 		int[] total = new int[nodes.size()];
+
+		// Create the children in the tree if necessary:
+		if (tree!=null && total.length>0) {
+			tree.createChildren(total.length);
+			tree.moveDown();
+		}
+		
+		// Compute the total hash codes of all nodes:
 		for (int i=0; i<total.length; i++) {
-			total[i] = totalHashCode(nodes.get(i), localHashCodes, depth);
+			total[i] = totalHashCode(nodes.get(i), depth);			
+			if (tree!=null) {
+				tree.setHashCode(total[i]);
+				tree.moveRight();
+			}
 		}
 		
 		// Now merge them:
-		return listHashCode(total, depth);
+		int result = listHashCode(total, depth);
+		
+		// Update the tree:
+		if (tree!=null) {
+			if (total.length>0) {
+				tree.moveUp();
+			}
+			tree.setHashCode(result);
+		}
+
+		// Done.
+		return result;
 		
 	}
 	
@@ -116,23 +172,27 @@ public class StateSpaceHashCodeHelper {
 	 * the method walks down the containment tree of the node.
 	 */
 	@SuppressWarnings("unchecked")
-	protected int totalHashCode(EObject object, LocalHashCodes localHashCodes, int depth) {
+	protected int totalHashCode(EObject object, int depth) {
 		
 		// Context-aware hash code of the current object:
-		int hash = contextHashCode(object, localHashCodes);
+		int hash = contextHashCode(object);
 		
 		// Now the children:
 		for (EReference reference : object.eClass().getEAllContainments()) {
-			int value;
+			EList<EObject> children;
 			if (reference.isMany()) {
-				EList<EObject> list = (EList<EObject>) object.eGet(reference);
-				value = totalHashCode(list, localHashCodes, depth+1);
+				children = (EList<EObject>) object.eGet(reference);
 			} else {
 				EObject child = (EObject) object.eGet(reference);
-				value = (child==null) ? 0 : totalHashCode(child, localHashCodes, depth+1);
+				children = new BasicEList<EObject>();
+				if (child!=null) {
+					children.add(child);
+				}
 			}
-			hash = (hash * 31) + value;
+			hash = (hash * 31) + totalHashCode(children, depth+1);
 		}
+		
+		//System.out.println("Computed hash code " + hash + " for " + object);
 		
 		// Done.
 		return hash;
@@ -199,7 +259,7 @@ public class StateSpaceHashCodeHelper {
 	 * the local hash code of the node and its neighbors into a single hash code.
 	 */
 	@SuppressWarnings("unchecked")
-	protected int contextHashCode(EObject node, LocalHashCodes localHashCodes) {
+	protected int contextHashCode(EObject node) {
 		
 		// Start with the local hash code of the node itself:
 		int hashCode = localHashCodes.get(node);

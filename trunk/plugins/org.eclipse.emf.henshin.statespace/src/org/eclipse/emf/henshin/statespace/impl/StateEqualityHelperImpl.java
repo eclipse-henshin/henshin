@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
 import org.eclipse.emf.henshin.statespace.equality.GraphEqualityHelper;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.equality.StateSpaceHashCodeHelper;
 
 /**
@@ -38,14 +39,14 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	/**
 	 * @generated NOT
 	 */
-	public int hashCode(Model model) {
-		return hashCodeHelper.hashCode(model);
+	public int hashCode(Model model, HashCodeTree tree) {
+		return hashCodeHelper.hashCode(model, tree);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public boolean equals(Model model1, Model model2) {
+	public boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2) {
 		if (graphEquality) {
 			return new GraphEqualityHelper(ignoreNodeIDs,
 					ignoreAttributes).equals(model1, model2);
