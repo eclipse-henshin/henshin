@@ -46,15 +46,19 @@ public class HashCodeTree {
 		TREE_COUNT++;
 		LENGTH_SUM += data.length;
 		
-		// Create the root node (value is 0)
+		// Initialize the tree:
+		clear();
+		
+	}
+	
+	public void clear() {
 		data[0]	= OPEN_MARKER;
 		data[1]	= 0;
 		data[2]	= CLOSE_MARKER;
 		size = 3;
 		position = 1;
-		
 	}
-
+	
 	public int getHashCode() {
 		return data[position];
 	}
@@ -67,11 +71,11 @@ public class HashCodeTree {
 		return data[position+1]==OPEN_MARKER;
 	}
 
-	public void createChildren(int numChildren) {
+	public boolean createChildren(int numChildren) {
 		
 		// Check if there are already children:
 		if (data[position+1]==OPEN_MARKER) {
-			throw new RuntimeException("Current node already has children");
+			return false;
 		}
 
 		// Where the children will start:
@@ -88,13 +92,15 @@ public class HashCodeTree {
 		}
 		
 		// Make some space for the children:
-		System.arraycopy(data, start, data, start+space, size-position);
+		System.arraycopy(data, start, data, start+space, size-position-1);
 		size += space;
 		
 		// Initialize the children list:
 		Arrays.fill(data, start, start+space, 0);
 		data[start] = OPEN_MARKER;
 		data[start+space-1] = CLOSE_MARKER;
+		
+		return true;
 		
 	}
 
@@ -109,79 +115,110 @@ public class HashCodeTree {
 		
 		// Moving right, skipping all children:
 		int children = 0;
-		do {
-			position++;
+		while (++position < size) {
+			
+			// Check if it is an OPEN:
 			if (data[position]==OPEN_MARKER) {
-				children++; 
+				children++;
 			}
+			// Check if it is a CLOSE:
 			else if (data[position]==CLOSE_MARKER) {
-				children--; 
+				if (children>0) {
+					children--;
+				} else {
+					break;
+				}
 			}
-		} while (children>0);
-		
-		// If we are at a CLOSE_MARKER then there was no right neighbor:
-		if (data[position]==CLOSE_MARKER) {
-			position = oldposition;
-			return false;
+			// Otherwise it is a node:
+			else if (children==0) {
+				return true;
+			}			
 		}
 		
-		// Otherwise we are good.
-		return true;
+		// Problem finding the right element, so we reset:
+		position = oldposition;
+		return false;
+
 	}
 
 	public boolean moveLeft() {
 				
 		// Remember the old position:
 		int oldposition = position;
-		
+
 		// Moving left, skipping all children:
 		int children = 0;
-		do {
-			position--;
+		while (--position >= 0) {
+
+			// Check if it is a CLOSE:
 			if (data[position]==CLOSE_MARKER) {
-				children++; 
+				children++;
 			}
+			// Check if it is an OPEN:
 			else if (data[position]==OPEN_MARKER) {
-				children--; 
+				if (children>0) {
+					children--;
+				} else {
+					break;
+				}
 			}
-		} while (children>0);
-		
-		
-		if (data[position]==OPEN_MARKER) {
-			position = oldposition;
-			return false;
+			// Otherwise it is a node:
+			else if (children==0) {
+				return true;
+			}
 		}
-		return true;
+
+		// Problem finding the left element, so we reset:
+		position = oldposition;
+		return false;
+		
 	}
 
 	public boolean moveUp() {
+		
+		// Remember the old position:
 		int oldposition = position;
+
+		// Moving left, skipping all children:
 		int children = 0;
-		do {
-			position--;
+		while (--position >= 0) {
+
+			// Check if it is a CLOSE:
 			if (data[position]==CLOSE_MARKER) {
-				children++; 
+				children++;
 			}
+			// Check if it is an OPEN:
 			else if (data[position]==OPEN_MARKER) {
-				children--; 
+				children--;
 			}
-		} while (children>-1);
-		position--;
-		if (data[position]==OPEN_MARKER) {
-			position = oldposition;
-			return false;
+			// Otherwise it is a node:
+			else if (children==-1) {
+				return true;
+			}
 		}
-		return true;
+
+		// Problem finding the left element, so we reset:
+		position = oldposition;
+		return false;
+		
 	}
 
 	public boolean moveDown() {
+		
+		// Moving down is possible only if there are children:
 		if (data[position+1]==OPEN_MARKER) {
 			position += 2;
 			return true;
 		}
 		return false;
+		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
 	public String toString() {
 		String result = "";
 		for (int i=0; i<size; i++) {
@@ -194,7 +231,7 @@ public class HashCodeTree {
 				break;
 			default:
 				if (i==position) {
-					result = result + "_" + data[i] + "_";
+					result = result + "<" + data[i] + ">";
 				} else {
 					result = result + data[i];
 				}
@@ -209,33 +246,37 @@ public class HashCodeTree {
 		return result;
 	}
 	
+	/*
+	 * Test method
+	 */
 	public static void main(String[] args) {
-		HashCodeTree tree = new HashCodeTree();
-		System.out.println(tree);
-		tree.setHashCode(1);
-		tree.createChildren(3);
-		tree.moveDown();
-		tree.setHashCode(2);
-		tree.moveRight();
-		tree.setHashCode(3);
-		tree.moveRight();
-		tree.setHashCode(4);
-		tree.moveLeft();
-		tree.moveLeft();
-		tree.moveLeft();
-		tree.createChildren(4);
-		tree.moveDown();
-		tree.setHashCode(5);
-		tree.moveRight();
-		tree.setHashCode(6);
-		tree.moveRight();
-		tree.setHashCode(7);
-		tree.moveRight();
-		tree.setHashCode(8);
-		tree.moveUp();
-		tree.moveUp();
-		tree.moveUp();
-		System.out.println(tree);
+		
+		System.out.println("Generating random trees...");
+		for (int i=0; i<10000; i++) {
+			HashCodeTree tree = new HashCodeTree();
+			tree.setHashCode((int) (Math.random()*10));
+			int iterations = (int) (Math.random()*30 + 10);
+			for (int j=0; j<iterations; j++) {
+				if (Math.random()<.1) {
+					tree.createChildren((int) (Math.random()*8) + 2);
+					tree.moveDown();
+					tree.setHashCode((int) (Math.random()*10));
+					tree.moveRight();
+					tree.moveRight();
+				}
+				while (Math.random()<.9) {
+					double dir = Math.random();
+					if (dir<.2) tree.moveLeft(); else
+					if (dir<.4) tree.moveRight(); else
+					if (dir<.8) tree.moveDown(); else
+					tree.moveUp();
+				}
+				tree.setHashCode((int) (Math.random()*9) + 1);
+				if (Math.random()<0.05) tree.moveToRoot();
+			}
+			System.out.println(tree);			
+		}
+		
 	}
 	
 }
