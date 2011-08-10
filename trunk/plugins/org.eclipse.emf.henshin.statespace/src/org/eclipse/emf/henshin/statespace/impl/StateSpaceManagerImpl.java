@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.equality.GraphModelCanonicalizer;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateModelCache;
@@ -51,6 +52,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 	
 	// State model cache:
 	private final Map<State,Model> cache = Collections.synchronizedMap(new StateModelCache());
+	
+	//private final Map<State,HashCodeTree> trees = new HashMap<State,HashCodeTree>();
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
@@ -337,8 +340,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		// Get the state model:
 		Model model = getModel(state);
 		
-		// Check whether we can ignore node IDs:
+		// Get some important state space parameters:
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
+		boolean graphEquality = getStateSpace().getEqualityHelper().isGraphEquality();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -385,10 +389,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 					newState.setNodeCount(nodeIDs.length);
 				}
 				
-				// Now compute and set the hash code (after the node IDs have been updated!).
+				// Now compute and set the hash code (after the node IDs have been updated!):
 				HashCodeTree tree = new HashCodeTree();
 				newState.setHashCode(hashCode(transformed, tree));
-				//System.out.println(tree);
+				
+				// Canonicalize the model and its hash code tree:
+				if (graphEquality) {
+					//GraphModelCanonicalizer.canonicalize(transformed, tree);
+					// System.out.println(tree);
+				}
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();

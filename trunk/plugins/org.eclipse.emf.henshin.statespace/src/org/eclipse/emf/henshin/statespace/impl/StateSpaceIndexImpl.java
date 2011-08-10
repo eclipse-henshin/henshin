@@ -233,7 +233,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the state equality helper.
 	 */
 	protected int hashCode(Model model) {
-		return stateSpace.getEqualityHelper().hashCode(model, null);
+		return stateSpace.getEqualityHelper().getCopy().hashCode(model, null);
 	}
 
 	/*
@@ -241,7 +241,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the state equality helper.
 	 */
 	protected int hashCode(Model model, HashCodeTree tree) {
-		return stateSpace.getEqualityHelper().hashCode(model, tree);
+		return stateSpace.getEqualityHelper().getCopy().hashCode(model, tree);
 	}
 
 	/*
@@ -249,7 +249,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the equality helper.
 	 */
 	protected boolean equals(Model model1, Model model2) {
-		return stateSpace.getEqualityHelper().equals(model1, null, model2, null);
+		return stateSpace.getEqualityHelper().getCopy().equals(model1, null, model2, null);
 	}
 
 	/*
@@ -257,7 +257,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the equality helper.
 	 */
 	protected boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2) {
-		return stateSpace.getEqualityHelper().equals(model1, tree1, model2, tree2);
+		return stateSpace.getEqualityHelper().getCopy().equals(model1, tree1, model2, tree2);
 	}
 
 }

@@ -71,6 +71,14 @@ public class HashCodeTree {
 		return data[position+1]==OPEN_MARKER;
 	}
 
+	/**
+	 * Create the given number of new children to the node.
+	 * The children will be created at the end of the current
+	 * children list. Their hash codes will be in initialized 
+	 * with 0. The cursor is moved to the first new child!
+	 * @param numChildren Number of children to be created.
+	 * @return <code>true</code> if the children were created.
+	 */
 	public boolean createChildren(int numChildren) {
 		
 		// Check if the children number is not positive:
@@ -98,25 +106,48 @@ public class HashCodeTree {
 		System.arraycopy(data, start, data, start+space, size-start);
 		size += space;
 
-		// Initialize the children list:
+		// Move the existing children to the front first:
+		if (hasChildren) {
+			int p = start;
+			int children = 0;
+			while (p<size) {
+				int newValue = data[p+space];
+				if (newValue==OPEN_MARKER) {
+					children++;
+				}
+				else if (newValue==CLOSE_MARKER) {
+					children--;
+					if (children<0) {
+						break;
+					}
+				}
+				data[p++] = newValue;
+			}
+			start = p;			
+		}
+		
+		// Initialize the new children with zeros:
 		Arrays.fill(data, start, start+space, 0);
-
+		
 		// Add the OPEN and CLOSE markers:
 		if (!hasChildren) {
 			data[start] = OPEN_MARKER;
 			data[start+space-1] = CLOSE_MARKER;
 		}
 		
+		// Go to the first new child:
+		position = hasChildren ? start : start+1;
+		
 		// Done.
 		return true;
 		
 	}
 
-	public void moveToRoot() {
+	public void goToRoot() {
 		position = 1;
 	}
 
-	public boolean moveRight() {
+	public boolean goRight() {
 		
 		// Remember the old position:
 		int oldposition = position;
@@ -149,7 +180,7 @@ public class HashCodeTree {
 
 	}
 
-	public boolean moveLeft() {
+	public boolean goLeft() {
 				
 		// Remember the old position:
 		int oldposition = position;
@@ -182,7 +213,7 @@ public class HashCodeTree {
 		
 	}
 
-	public boolean moveUp() {
+	public boolean goUp() {
 		
 		// Remember the old position:
 		int oldposition = position;
@@ -211,7 +242,7 @@ public class HashCodeTree {
 		
 	}
 
-	public boolean moveDown() {
+	public boolean goDown() {
 		
 		// Moving down is possible only if there are children:
 		if (data[position+1]==OPEN_MARKER) {
@@ -220,6 +251,46 @@ public class HashCodeTree {
 		}
 		return false;
 		
+	}
+	
+	public boolean shiftLeft() {
+		
+		// Remember current position:
+		int rightPosition = position;
+		
+		// Go left if possible:
+		if (!goLeft()) {
+			return false;
+		}
+		
+		// Backup the content of the left node:
+		int[] leftContent = Arrays.copyOfRange(data, position, rightPosition);
+		
+		// Copy the content of the right node to the left node:
+		int children = 0;
+		int current;
+		for (current=rightPosition; current<size; current++) {
+			if (current>rightPosition) {
+				if (data[current]==OPEN_MARKER) {
+					children++;
+				} else if (data[current]==CLOSE_MARKER) {
+					children--;
+					if (children<0) {
+						break;
+					}
+				}
+				else if (children==0) {
+					break;
+				}
+			}
+			data[position+current-rightPosition] = data[current];
+		}
+		
+		// Copy the content of the left node to the right node:
+		System.arraycopy(leftContent, 0, data, position+current-rightPosition, leftContent.length);
+		
+		// Done.
+		return true;
 	}
 	
 	/*
@@ -267,21 +338,26 @@ public class HashCodeTree {
 			int iterations = (int) (Math.random()*30 + 10);
 			for (int j=0; j<iterations; j++) {
 				if (Math.random()<.1) {
-					tree.createChildren((int) (Math.random()*8) + 2);
-					tree.moveDown();
+					tree.createChildren((int) (Math.random()*3) + 2);
 					tree.setHashCode((int) (Math.random()*10));
-					tree.moveRight();
-					tree.moveRight();
+					tree.goRight();
+					tree.goRight();
 				}
 				while (Math.random()<.9) {
 					double dir = Math.random();
-					if (dir<.2) tree.moveLeft(); else
-					if (dir<.4) tree.moveRight(); else
-					if (dir<.8) tree.moveDown(); else
-					tree.moveUp();
+					if (dir<.1) tree.goLeft(); else
+					if (dir<.4) tree.goRight(); else
+					if (dir<.9) tree.goDown(); else
+					tree.goUp();
 				}
 				tree.setHashCode((int) (Math.random()*9) + 1);
-				if (Math.random()<0.05) tree.moveToRoot();
+				if (Math.random()<0.25) {
+					tree.goUp();
+					tree.goRight();
+					tree.goRight();
+					tree.shiftLeft();
+				}
+				if (Math.random()<0.05) tree.goToRoot();
 			}
 			System.out.println(tree);			
 		}

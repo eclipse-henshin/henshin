@@ -32,10 +32,28 @@ import org.eclipse.emf.henshin.statespace.equality.StateSpaceHashCodeHelper;
 public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implements StateEqualityHelper {
 	
 	// Helper for computing hash codes:
-	private StateSpaceHashCodeHelper hashCodeHelper = 
-		new StateSpaceHashCodeHelper(GRAPH_EQUALITY_EDEFAULT, 
-				IGNORE_NODE_IDS_EDEFAULT, IGNORE_ATTRIBUTES_EDEFAULT);
+	private StateSpaceHashCodeHelper hashCodeHelper;
 	
+	/**
+	 * Constructor.
+	 * @generated NOT
+	 * @param graphEquality Use graph-equality?
+	 * @param ignoreNodeIDs Ignore node IDs?
+	 * @param ignoreAttributes ignore attribute values?
+	 */
+	public StateEqualityHelperImpl(boolean graphEquality, 
+			boolean ignoreNodeIDs, boolean ignoreAttributes) {
+		hashCodeHelper = new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs, ignoreAttributes);
+	}
+	
+	/**
+	 * Default constructor.
+	 * @generated NOT
+	 */
+	public StateEqualityHelperImpl() {
+		this(GRAPH_EQUALITY_EDEFAULT, IGNORE_NODE_IDS_EDEFAULT, IGNORE_ATTRIBUTES_EDEFAULT);
+	}
+
 	/**
 	 * @generated NOT
 	 */
@@ -80,6 +98,13 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 		hashCodeHelper = new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs, ignoreAttributes);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public StateEqualityHelper getCopy() {
+		return new StateEqualityHelperImpl(graphEquality, ignoreNodeIDs, ignoreAttributes);
+	}
 
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -134,13 +159,6 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	 * @ordered
 	 */
 	protected boolean ignoreAttributes = IGNORE_ATTRIBUTES_EDEFAULT;
-
-	/**
-	 * @generated
-	 */
-	protected StateEqualityHelperImpl() {
-		super();
-	}
 
 	/**
 	 * @generated

@@ -159,9 +159,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// Final message:
 		if (logInfo) {
 			boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
+			String statesPerSec = "";
+			if (end>start) {
+				statesPerSec = "(" + speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second)";
+			}
 			StateSpaceExplorerPlugin.getInstance().logInfo(
-					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds (" +
-					speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second) in " +
+					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds " +
+					statesPerSec + " in " +
 					(multiThreaded ? "multi" : "single") + "-threaded mode.");
 		}
 		

@@ -136,8 +136,7 @@ public class StateSpaceHashCodeHelper {
 
 		// Create the children in the tree if necessary:
 		if (tree!=null && total.length>0) {
-			tree.createChildren(total.length);
-			tree.moveDown();
+			tree.createChildren(total.length); // the cursor automatically goes down
 		}
 		
 		// Compute the total hash codes of all nodes:
@@ -145,7 +144,7 @@ public class StateSpaceHashCodeHelper {
 			total[i] = totalHashCode(nodes.get(i), depth);			
 			if (tree!=null) {
 				tree.setHashCode(total[i]);
-				tree.moveRight();
+				tree.goRight();
 			}
 		}
 		
@@ -155,7 +154,7 @@ public class StateSpaceHashCodeHelper {
 		// Update the tree:
 		if (tree!=null) {
 			if (total.length>0) {
-				tree.moveUp();
+				tree.goUp();
 			}
 			tree.setHashCode(result);
 		}
