@@ -202,15 +202,15 @@ public class ModelHelper {
 	
 	/**
 	 * Tries to open the Ecore file at the given URI location. If successful,
-	 * the newly loaded EPackage is registered in the global EPackage registry
-	 * and returned.
+	 * the newly loaded EPackage instance is registered in the global EPackage
+	 * registry (<code>EPackage.Registry</code>) and returned.
 	 * 
 	 * @param ecoreFileUri
 	 * @return
 	 */
 	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri) {
 		EPackage p = registerEPackageByEcoreFile(ecoreFileUri, null);
-		EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
+		if (p != null) EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 		return p;
 	}// registerEPackageByEcoreFile
 	
@@ -228,18 +228,21 @@ public class ModelHelper {
 		EPackage result = null;
 		if (rs == null) rs = new ResourceSetImpl();
 		Resource packageResource = rs.createResource(ecoreFileUri);
-		try {
-			packageResource.load(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-		if ((packageResource.getContents() != null) && (packageResource.getContents().size() > 0)) {
-			EObject tmp = packageResource.getContents().get(0);
-			if (tmp != null && tmp instanceof EPackage) {
-				result = (EPackage) tmp;
-				rs.getPackageRegistry().put(result.getNsURI(), result);
-				// EPackage.Registry.INSTANCE.put(result.getNsURI(), result);
+		if (packageResource != null) {
+			try {
+				packageResource.load(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}// try catch
+			
+			if ((packageResource.getContents() != null)
+					&& (packageResource.getContents().size() > 0)) {
+				EObject tmp = packageResource.getContents().get(0);
+				if (tmp != null && tmp instanceof EPackage) {
+					result = (EPackage) tmp;
+					rs.getPackageRegistry().put(result.getNsURI(), result);
+				}// if
 			}// if
 		}// if
 		
