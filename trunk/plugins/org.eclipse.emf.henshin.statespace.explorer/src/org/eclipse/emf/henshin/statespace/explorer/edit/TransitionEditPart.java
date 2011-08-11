@@ -21,6 +21,8 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.RelativeBendpoint;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.layout.TransitionBendpointHelper;
 import org.eclipse.gef.EditPolicy;
@@ -32,7 +34,10 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  * @author Christian Krause
  */
 public class TransitionEditPart extends AbstractConnectionEditPart {
-
+	
+	// Used label:
+	private Label label;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
@@ -61,15 +66,33 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 		//}
 		connection.setTargetDecoration(new PolygonDecoration());
 		connection.setConnectionRouter(new BendpointConnectionRouter());
-		
-		// Add the label:
-		Label label = new Label(getTransition().getLabel());
-		connection.add(label);
-		connection.getLayoutManager().setConstraint(label, new TransitionLabelLocator(getTransition(), connection));
 		return connection;
 		
 	}
-
+	
+	/**
+	 * Refresh the label on the this transition.
+	 * @param hideLabel Whether to hide it.
+	 */
+	public void refreshLabel(boolean hideLabel) {
+		
+		PolylineConnection connection = (PolylineConnection) getFigure();
+		
+		if (hideLabel && label!=null) {
+			
+			// Remove the label:
+			connection.remove(label);
+			label = null;
+			
+		} else if (!hideLabel && label==null) {
+			
+			// Add the label:
+			connection.add(label = new Label(getTransition().getLabel()));
+			connection.getLayoutManager().setConstraint(label, new TransitionLabelLocator(getTransition(), connection));
+			
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
@@ -89,6 +112,15 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 			relative.add(bendpoint);
 		}
 		getConnectionFigure().setRoutingConstraint(relative);
+		
+		// Refresh the label:
+		State source = getTransition().getSource();
+		if (source!=null) {
+			StateSpace stateSpace = source.getStateSpace();
+			if (stateSpace!=null) {
+				refreshLabel(stateSpace.isHideLabels());
+			}
+		}
 		
 	}
 	

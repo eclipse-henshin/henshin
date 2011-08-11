@@ -46,7 +46,7 @@ import org.eclipse.swt.graphics.Color;
 public class StateEditPart extends AbstractGraphicalEditPart implements NodeEditPart, Adapter {
 	
 	// Size of state figures.
-	public final static int SIZE = 20;
+	public final static int SIZE = 18;
 	
 	// Default color to be used.
 	public final static Color COLOR_DEFAULT = RGB2Color(State.COLOR_DEFAULT);
@@ -187,32 +187,29 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void refreshVisuals() {
-		boolean hideLabel = getState().getStateSpace().isHideLabels();
-		refreshLocation(hideLabel);
-		refreshLabel(hideLabel);
+		refreshLabelAndLocation(getState().getStateSpace().isHideLabels());
 		refreshColor();
 	}
 	
-	/*
-	 * Update the state's location.
-	 */
-	private void refreshLocation(boolean hideLabel) {
-		int[] loc = getState().getLocation();
-		Rectangle bounds = new Rectangle(loc[0], loc[1], hideLabel ? SIZE : -1, SIZE);
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
-	}
 	
 	/**
-	 * Update the name label.
+	 * Update the name label and the location.
 	 */
-	public void refreshLabel(boolean hideLabel) {
+	public void refreshLabelAndLocation(boolean hideLabel) {
+		
+		StateFigure figure = (StateFigure) getFigure();
 		
 		// Update label text:
-		if (hideLabel) {
-			((StateFigure) getFigure()).setHideLabel(true);
-		} else {
-			((StateFigure) getFigure()).setHideLabel(false);
-			((StateFigure) getFigure()).getLabel().setText(" " + getState().getIndex() + " ");
+		figure.setHideLabel(hideLabel);
+		if (!hideLabel) {
+			figure.getLabel().setText(" " + getState().getIndex() + " ");
+		}
+		
+		// Also refresh the labels of the outgoing transitions:
+		for (Object edge : getSourceConnections()) {
+			if (edge instanceof TransitionEditPart) {
+				((TransitionEditPart) edge).refreshLabel(hideLabel);
+			}
 		}
 		
 		// Update tool tip:
@@ -221,10 +218,16 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 			String tooltip = modelURI.deresolve(getState().eResource().getURI()).toString();
 			getFigure().setToolTip(new Label(tooltip));
 		}
-		
+
+		// Update the location:
+		int[] loc = getState().getLocation();
+		int w = (hideLabel || getState().getIndex()<10) ? SIZE : -1;
+		Rectangle bounds = new Rectangle(loc[0], loc[1], w, SIZE);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+
 	}
 	
-	/*
+	/**
 	 * Refresh the color.
 	 */
 	private void refreshColor() {
@@ -324,17 +327,15 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	public void notifyChanged(final Notification event) {
 		
-		boolean hideLabel = getState().getStateSpace().isHideLabels();
 		switch (event.getFeatureID(State.class)) {
 		
 		case StateSpacePackageImpl.STATE__DATA: 
 			refreshColor();
-			refreshLocation(hideLabel);
+			refreshLabelAndLocation(getState().getStateSpace().isHideLabels());
 			break;
 		
 		case StateSpacePackageImpl.STATE__INDEX: 
-			refreshLabel(hideLabel); 
-			refreshLocation(hideLabel);
+			refreshLabelAndLocation(getState().getStateSpace().isHideLabels()); 
 			break;
 			
 		case StateSpacePackageImpl.STATE__OUTGOING: 

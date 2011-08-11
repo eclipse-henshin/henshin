@@ -92,7 +92,7 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 		boolean hide = getStateSpace().isHideLabels();
 		for (Object child : getChildren()) {
 			if (child instanceof StateEditPart) {
-				((StateEditPart) child).refreshLabel(hide);
+				((StateEditPart) child).refreshLabelAndLocation(hide);
 			}
 		}
 	}

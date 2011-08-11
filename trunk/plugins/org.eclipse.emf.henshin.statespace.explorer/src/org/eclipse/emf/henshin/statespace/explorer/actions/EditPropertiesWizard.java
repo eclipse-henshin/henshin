@@ -70,6 +70,7 @@ public class EditPropertiesWizard extends Wizard {
 				MessageDialog.openQuestion(getShell(), "Reset", 
 					"Changing the properties may affect the state space generation. " +
 					"Therefore we recommend to reset the state space now. Should the state space be reset?")) {
+				explorer.getJobManager().stopAllJobs();
 				explorer.executeCommand(new ResetStateSpaceCommand(manager));
 			}
 		}
