@@ -35,7 +35,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	 * Default constructor.
 	 * @generated
 	 */
-	public StateEqualityHelperImpl() {
+	protected StateEqualityHelperImpl() {
 		super();
 	}
 

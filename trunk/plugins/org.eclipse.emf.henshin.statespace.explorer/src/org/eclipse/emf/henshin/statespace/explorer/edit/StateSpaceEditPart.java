@@ -87,7 +87,16 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 		connections.setAntialias(SWT.ON);
 		return layer;
 	}
-		
+	
+	public void refreshLabels() {
+		boolean hide = getStateSpace().isHideLabels();
+		for (Object child : getChildren()) {
+			if (child instanceof StateEditPart) {
+				((StateEditPart) child).refreshLabel(hide);
+			}
+		}
+	}
+	
 	/**
 	 * Get the state space corresponding to this edit part.
 	 * @return State space.

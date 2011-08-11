@@ -194,6 +194,21 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 
+	/**
+	 * @generated NOT
+	 */
+	public boolean isHideLabels() {
+		return getData(4)!=0;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setHideLabels(boolean hideLabels) {
+		setData(4, hideLabels ? 1 : 0);
+	}
+
+
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *
@@ -312,6 +327,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected static final int MAX_STATE_DISTANCE_EDEFAULT = -1;
+
+
+	/**
+	 * The default value of the '{@link #isHideLabels() <em>Hide Labels</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isHideLabels()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean HIDE_LABELS_EDEFAULT = false;
 
 
 	/**
@@ -504,6 +530,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getTransitionAttraction();
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance();
+			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
+				return isHideLabels();
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
@@ -554,6 +582,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance((Integer)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
+				setHideLabels((Boolean)newValue);
+				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				((EStructuralFeature.Setting)getProperties()).set(newValue);
 				return;
@@ -599,6 +630,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance(MAX_STATE_DISTANCE_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
+				setHideLabels(HIDE_LABELS_EDEFAULT);
+				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				getProperties().clear();
 				return;
@@ -634,6 +668,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getTransitionAttraction() != TRANSITION_ATTRACTION_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance() != MAX_STATE_DISTANCE_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
+				return isHideLabels() != HIDE_LABELS_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 		}

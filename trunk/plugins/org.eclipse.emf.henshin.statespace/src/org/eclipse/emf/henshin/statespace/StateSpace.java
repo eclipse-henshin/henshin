@@ -161,6 +161,24 @@ public interface StateSpace extends Storage {
 	void setMaxStateDistance(int value);
 
 	/**
+	 * Check whether labels should be hidden.
+	 * @return the value of the '<em>Hide Labels</em>' attribute.
+	 * @see #setHideLabels(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_HideLabels()
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	boolean isHideLabels();
+
+	/**
+	 * Set the hide-labels flag.
+	 * @param value the new value of the '<em>Hide Labels</em>' attribute.
+	 * @see #isHideLabels()
+	 * @generated
+	 */
+	void setHideLabels(boolean value);
+
+	/**
 	 * Get the properties for this state space.
 	 * @return the value of the '<em>Properties</em>' map.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_Properties()

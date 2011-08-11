@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceActio
 import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
+import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
@@ -47,6 +48,7 @@ import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -131,6 +133,9 @@ public class StateSpaceToolsMenu extends Composite {
 	// Normal buttons:
 	private Button validateButton;
 	
+	// Check buttons:
+	private Button hideLabelsButton;
+	
 	// Text widget for validation property:
 	private Text validationText;
 	
@@ -211,6 +216,11 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceToolsMenuFactory.newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		repulsionScale = StateSpaceToolsMenuFactory.newScale(display, "Repulsion:", 1, 100, 5, 10, false, null);
 		attractionScale = StateSpaceToolsMenuFactory.newScale(display, "Attraction:", 1, 100, 5, 10, false, null);
+		hideLabelsButton = new Button(display, SWT.CHECK);
+		hideLabelsButton.setText("Hide labels");
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		data.horizontalSpan = 3;
+		hideLabelsButton.setLayoutData(data);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 2);
 
 		// The validation group:
@@ -313,6 +323,7 @@ public class StateSpaceToolsMenu extends Composite {
 		stateSpace.setZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
 		stateSpace.setStateRepulsion(repulsionScale.getSelection());
 		stateSpace.setTransitionAttraction(attractionScale.getSelection());
+		stateSpace.setHideLabels(hideLabelsButton.getSelection());
 	}
 
 	/**
@@ -334,6 +345,7 @@ public class StateSpaceToolsMenu extends Composite {
 			ecoreButton.setSelection(!helper.isGraphEquality());
 			useNodeIDsCheckbox.setSelection(!helper.isIgnoreNodeIDs());
 			useAttributesCheckbox.setSelection(!helper.isIgnoreAttributes());
+			hideLabelsButton.setSelection(stateSpace.isHideLabels());
 		}
 	}
 	
@@ -377,6 +389,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validationText.setEnabled(enabled);
 		useNodeIDsCheckbox.setEnabled(enabled);
 		useAttributesCheckbox.setEnabled(enabled);
+		hideLabelsButton.setEnabled(enabled);
 	}
 	
 	/**
@@ -495,6 +508,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validateButton.addSelectionListener(validateListener);
 		validationText.addModifyListener(validationTextListener);
 		validatorCombo.addSelectionListener(validatorComboListener);
+		hideLabelsButton.addSelectionListener(hideLabelsListener);
 		
 		addLinkJobListener(jobManager.getLayoutJob(), layouterLink);
 		addLinkJobListener(jobManager.getExploreJob(), explorerLink);
@@ -533,6 +547,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validateButton.removeSelectionListener(validateListener);
 		validationText.removeModifyListener(validationTextListener);
 		validatorCombo.removeSelectionListener(validatorComboListener);
+		hideLabelsButton.removeSelectionListener(hideLabelsListener);
 	}
 	
 	/*
@@ -602,6 +617,22 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetSelected(SelectionEvent e) {
 			commitMetadata();
 			updateLayouterProperties();
+		}
+		public void widgetDefaultSelected(SelectionEvent e) {
+			widgetSelected(e);
+		}
+	};
+
+	/*
+	 * Hide-labels listener.
+	 */
+	private SelectionListener hideLabelsListener = new SelectionListener() {
+		public void widgetSelected(SelectionEvent e) {
+			commitMetadata();
+			if (explorer!=null) {
+				RootEditPart root = explorer.getGraphicalViewer().getRootEditPart();
+				((StateSpaceEditPart) root.getChildren().get(0)).refreshLabels();
+			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);

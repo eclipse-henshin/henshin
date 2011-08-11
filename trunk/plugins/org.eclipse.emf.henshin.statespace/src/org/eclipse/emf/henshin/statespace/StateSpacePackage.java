@@ -203,13 +203,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 9;
 
 	/**
+	 * The feature id for the '<em><b>Hide Labels</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__HIDE_LABELS = STORAGE_FEATURE_COUNT + 10;
+
+	/**
 	 * The feature id for the '<em><b>Properties</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 10;
+	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -218,7 +227,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 11;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 12;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -571,6 +580,17 @@ public interface StateSpacePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '<em>Hash Code Tree</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeTree()
+	 * @generated
+	 */
+	int HASH_CODE_TREE = 9;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -678,6 +698,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_MaxStateDistance();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isHideLabels <em>Hide Labels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Hide Labels</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isHideLabels()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_HideLabels();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.StateSpace#getProperties <em>Properties</em>}'.
@@ -1060,6 +1091,17 @@ public interface StateSpacePackage extends EPackage {
 	EDataType getMatch();
 
 	/**
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.equality.HashCodeTree <em>Hash Code Tree</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Hash Code Tree</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
+	 * @model instanceClass="org.eclipse.emf.henshin.statespace.equality.HashCodeTree" serializeable="false"
+	 * @generated
+	 */
+	EDataType getHashCodeTree();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1162,6 +1204,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__MAX_STATE_DISTANCE = eINSTANCE.getStateSpace_MaxStateDistance();
+
+		/**
+		 * The meta object literal for the '<em><b>Hide Labels</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__HIDE_LABELS = eINSTANCE.getStateSpace_HideLabels();
 
 		/**
 		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
@@ -1457,6 +1507,16 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType MATCH = eINSTANCE.getMatch();
+
+		/**
+		 * The meta object literal for the '<em>Hash Code Tree</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeTree()
+		 * @generated
+		 */
+		EDataType HASH_CODE_TREE = eINSTANCE.getHashCodeTree();
 
 	}
 
