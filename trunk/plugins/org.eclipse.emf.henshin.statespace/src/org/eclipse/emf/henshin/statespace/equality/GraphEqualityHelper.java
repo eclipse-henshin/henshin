@@ -37,6 +37,9 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Stack of lists to compare:
 	private EObject[][] s1, s2;
 	
+	// Optional hash code trees:
+	private HashCodeTree t1, t2;
+	
 	// Current position in the stack:
 	private int current;
 	
@@ -62,25 +65,49 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 * @param model2 Model 2.
 	 * @return <code>true</code> if they are equal.
 	 */
-	public boolean equals(Model model1, Model model2) {
+	public boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2) {
+		
+		// We always need both trees:
+		if (tree1==null || tree2==null) {
+			tree1 = null;
+			tree2 = null;
+		}
 		
 		// Initialize variables:
 		m1 = model1;
 		m2 = model2;
 		s1 = new EObject[][] { m1.getResource().getContents().toArray(new EObject[0]) };
 		s2 = new EObject[][] { m2.getResource().getContents().toArray(new EObject[0]) };
+		t1 = tree1;
+		t2 = tree2;
 		current = 0;
+		
+		// Reset the trees:
+		if (t1!=null) {
+			t1.goToRoot();
+			t1.goDown();
+			t2.goToRoot();
+			t2.goDown();
+		}
 		
 		// Perform depth-first search:
 		//System.out.println("\n=== CHECKING GRAPH EQUALITY ===\n");
 		boolean equals = depthFirst();
 		//if (equals) System.out.println("\n=== MATCH FOUND === ");
-		
+
+		// Reset the trees:
+		if (t1!=null) {
+			t1.goToRoot();
+			t2.goToRoot();
+		}
+
 		// Release variables:
 		m1 = null;
 		m2 = null;
 		s1 = null;
 		s2 = null;
+		t1 = null;
+		t2 = null;
 		
 		// Done.
 		return equals;
@@ -114,6 +141,9 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			if (l1[i]!=null) {
 				index1 = i;
 				break;
+			}
+			if (t1!=null) {
+				t1.goRight();
 			}
 		}
 		

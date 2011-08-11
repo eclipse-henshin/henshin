@@ -87,7 +87,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		long start = System.currentTimeMillis();
 		long lastSave = start;
 		long lastCleanup = start;
-		int explored = 0;
+		int initialStateCount = stateSpace.getStates().size();
 
 		try {
 			
@@ -102,7 +102,6 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					
 					// Execute as explore command:
 					ExploreStatesCommand command = createExploreCommand(statesToExplore, index, numStatesAtOnce);
-					explored += command.getStatesToExplore().size();
 					executeExploreCommand(command, monitor);
 					
 					// Update the monitor:
@@ -111,7 +110,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 					monitor.subTask(large.format(states) + " states ("
 							+ large.format(stateSpace.getOpenStates().size()) + " open), " 
 							+ large.format(stateSpace.getTransitionCount()) + " transitions. Exploring "
-							+ speed.format((double) (1000 * explored) / (double) (time - start)) + " states/second...");
+							+ speed.format((double) (1000 * (states - initialStateCount)) / (double) (time - start)) + " states/second...");
 
 					// Should we stop?
 					if (monitor.isCanceled()) break;
@@ -159,12 +158,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		// Final message:
 		if (logInfo) {
 			boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
+			int explored = stateSpace.getStates().size() - initialStateCount;
 			String statesPerSec = "";
 			if (end>start) {
-				statesPerSec = "(" + speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second)";
+				statesPerSec = " (" + speed.format((double) (1000 * explored) / (double) (end-start)) + " states/second)";
 			}
 			StateSpaceExplorerPlugin.getInstance().logInfo(
-					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds " +
+					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds" +
 					statesPerSec + " in " +
 					(multiThreaded ? "multi" : "single") + "-threaded mode.");
 		}

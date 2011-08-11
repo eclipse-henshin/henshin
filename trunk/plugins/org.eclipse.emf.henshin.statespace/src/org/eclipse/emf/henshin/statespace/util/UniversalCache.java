@@ -14,21 +14,18 @@ package org.eclipse.emf.henshin.statespace.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.statespace.Model;
-import org.eclipse.emf.henshin.statespace.State;
-
 /**
- * A cache for state models.
+ * A general-purpose cache.
  * @generated NOT
  * @author Christian Krause
  */
-public class StateModelCache extends LinkedHashMap<State,Model> {
+public class UniversalCache<K,V> extends LinkedHashMap<K,V> {
 
 	// Default cache size
 	public static final int DEFAULT_CACHE_SIZE = 2048;
 
 	// Serial id:
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 
 	// Cache size:
 	private int cacheSize;
@@ -36,7 +33,7 @@ public class StateModelCache extends LinkedHashMap<State,Model> {
 	/**
 	 * Default constructor.
 	 */
-	public StateModelCache() {
+	public UniversalCache() {
 		this(DEFAULT_CACHE_SIZE);
 	}
 	
@@ -44,7 +41,7 @@ public class StateModelCache extends LinkedHashMap<State,Model> {
 	 * Constructor.
 	 * @param cacheSize Cache size.
 	 */
-	public StateModelCache(int cacheSize) {
+	public UniversalCache(int cacheSize) {
 		this.cacheSize = cacheSize;
 	}
 
@@ -53,7 +50,7 @@ public class StateModelCache extends LinkedHashMap<State,Model> {
 	 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
 	 */
 	@Override
-	protected boolean removeEldestEntry(Map.Entry<State,Model> eldest) {
+	protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 		return size() > cacheSize;
 	}
 

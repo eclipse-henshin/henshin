@@ -89,10 +89,4 @@ public interface StateEqualityHelper extends EObject {
 	 */
 	boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2);
 	
-	/**
-	 * Get a copy of this equality manager.
-	 * @return An exact copy.
-	 */
-	StateEqualityHelper getCopy();
-	
 }

@@ -1,7 +1,13 @@
 package org.eclipse.emf.henshin.statespace.equality;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -20,7 +26,12 @@ import org.eclipse.emf.henshin.statespace.Model;
  */
 public class GraphModelCanonicalizer {
 	
-	public static void canonicalize(Model model, HashCodeTree tree) {
+	/**
+	 * Get a canonicalized model with hash code tree.
+	 * @param model Model.
+	 * @param tree Its hash code tree.
+	 */
+	public static void canonicalizeModel(Model model, HashCodeTree tree) {
 		
 		// Set the tree cursor to the root node:
 		tree.goToRoot();
@@ -103,7 +114,7 @@ public class GraphModelCanonicalizer {
 			EObject object = objects.get(i);
 			boolean wentDown = false;
 			
-			for (EReference containment : object.eClass().getEAllContainments()) {
+			for (EReference containment : getCanonicalContainmentOrder(object.eClass())) {
 				EList<EObject> children;
 				if (containment.isMany()) {
 					children = (EList<EObject>) object.eGet(containment);
@@ -133,6 +144,33 @@ public class GraphModelCanonicalizer {
 			
 		}
 		
+	}
+	
+	private static final Map<EClass,List<EReference>> CLASS_CONTAINMENTS = new HashMap<EClass, List<EReference>>();
+	
+	/**
+	 * Get a canonical order of the containment references in an EClass.
+	 * @param eclass The eclass.
+	 * @return Ordered list of all containment references in the class.
+	 */
+	public static List<EReference> getCanonicalContainmentOrder(EClass eclass) {
+		List<EReference> containments = CLASS_CONTAINMENTS.get(eclass);
+		if (containments==null) {
+			List<List<EReference>> helper = new ArrayList<List<EReference>>();
+			for (EReference ref : eclass.getEAllContainments()) {
+				int numContainments = ref.getEReferenceType().getEAllContainments().size();
+				while (helper.size()<numContainments+1) {
+					helper.add(new ArrayList<EReference>());
+				}
+				helper.get(numContainments).add(ref);
+			}
+			containments = new ArrayList<EReference>();
+			for (int i=helper.size()-1; i>=0; i--) {
+				containments.addAll(helper.get(i));
+			}
+			CLASS_CONTAINMENTS.put(eclass, containments);
+		}
+		return containments;
 	}
 	
 	

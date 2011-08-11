@@ -188,13 +188,13 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		// The tasks group:
 		Composite tasks = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,2);
-		initialStateLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>New initial state</a>");
 		layouterLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start layouter</a>");
-		importLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Import rules</a>");
+		initialStateLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>New initial state</a>");
 		explorerLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start explorer</a>");
+		importLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Import rules</a>");
+		resetLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Reset state space</a>");
 		exportLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Export state space</a>");		
 		propertiesLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Edit properties</a>");
-		resetLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Reset state space</a>");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
 
 		// The display group:

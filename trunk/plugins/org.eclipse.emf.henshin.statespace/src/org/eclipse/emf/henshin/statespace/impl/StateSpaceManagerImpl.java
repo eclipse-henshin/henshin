@@ -30,6 +30,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -38,7 +39,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.equality.GraphModelCanonicalizer;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
-import org.eclipse.emf.henshin.statespace.util.StateModelCache;
+import org.eclipse.emf.henshin.statespace.util.UniversalCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
@@ -51,9 +52,10 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDistance {
 	
 	// State model cache:
-	private final Map<State,Model> cache = Collections.synchronizedMap(new StateModelCache());
+	private final Map<State,Model> modelCache = Collections.synchronizedMap(new UniversalCache<State,Model>());
 	
-	//private final Map<State,HashCodeTree> trees = new HashMap<State,HashCodeTree>();
+	// Hash code tree cache:
+	private final Map<Model,HashCodeTree> treeCache = Collections.synchronizedMap(new UniversalCache<Model,HashCodeTree>());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
@@ -120,7 +122,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		}
 		
 		// Cached?
-		Model cached = cache.get(state);
+		Model cached = modelCache.get(state);
 		if (cached!=null) {
 			return cached;
 		}
@@ -129,7 +131,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
 			protected boolean shouldStop(State current, Trace trace) {
-				return current.getModel()!=null || cache.get(current)!=null;
+				return current.getModel()!=null || modelCache.get(current)!=null;
 			}
 		};
 		boolean found = search.depthFirst(state, true);
@@ -139,11 +141,18 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		
 		// Derive the current model:
 		Model start = search.getCurrentState().getModel();
-		if (start==null) start = cache.get(search.getCurrentState());
+		if (start==null) start = modelCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
 		
 		// Always add it to the cache (is maintained automatically):
-		cache.put(state, model);
+		modelCache.put(state, model);
+		
+		// Update the hash code tree as well:
+		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
+			HashCodeTree tree = new HashCodeTree();
+			getStateSpace().getEqualityHelper().hashCode(model, tree);
+			treeCache.put(model, tree);
+		}
 		
 		// Done.
 		return model;
@@ -343,6 +352,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		// Get some important state space parameters:
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
 		boolean graphEquality = getStateSpace().getEqualityHelper().isGraphEquality();
+		StateEqualityHelper equalityHelper = getStateSpace().getEqualityHelper();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -389,14 +399,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 					newState.setNodeCount(nodeIDs.length);
 				}
 				
+				// Check if we need a hash code tree:
+				HashCodeTree tree = graphEquality ? new HashCodeTree() : null;
+			
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				HashCodeTree tree = new HashCodeTree();
-				newState.setHashCode(hashCode(transformed, tree));
+				newState.setHashCode(equalityHelper.hashCode(transformed, tree));
 				
-				// Canonicalize the model and its hash code tree:
+				// Canonicalize the model and its hash code tree; Store the tree:
 				if (graphEquality) {
-					//GraphModelCanonicalizer.canonicalize(transformed, tree);
-					// System.out.println(tree);
+					GraphModelCanonicalizer.canonicalizeModel(transformed, tree);
+					treeCache.put(transformed, tree);
 				}
 				
 				// Create a new transition:
@@ -442,6 +454,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 			}
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#equals(org.eclipse.emf.henshin.statespace.Model, org.eclipse.emf.henshin.statespace.Model)
+	 */
+	@Override
+	protected boolean equals(Model model1, Model model2) {
+		return getStateSpace().getEqualityHelper().equals(
+				model1, treeCache.get(model1), model2, treeCache.get(model2));
 	}
 
 	/*
@@ -519,7 +541,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 				state.setModel(null);
 			}
 		}
-		cache.clear();
+		modelCache.clear();
+		treeCache.clear();
 		System.gc();
 	}
 

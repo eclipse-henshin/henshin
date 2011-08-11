@@ -177,7 +177,7 @@ public class StateSpaceHashCodeHelper {
 		int hash = contextHashCode(object);
 		
 		// Now the children:
-		for (EReference reference : object.eClass().getEAllContainments()) {
+		for (EReference reference : GraphModelCanonicalizer.getCanonicalContainmentOrder(object.eClass())) {
 			EList<EObject> children;
 			if (reference.isMany()) {
 				children = (EList<EObject>) object.eGet(reference);
