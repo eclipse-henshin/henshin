@@ -16,7 +16,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.henshin.editor.commands.CreateEdgeCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.commands.QuantUtil;
@@ -30,7 +34,7 @@ import org.eclipse.jface.action.MenuManager;
  * 
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
- * 
+ * @author Felix Rieger
  */
 public class CreateEdgeCommandMenuContributor extends MenuContributor {
 	
@@ -69,13 +73,14 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 		// lookup references between the given types for which their are no
 		// edges yet.
 		//
-		eRefLoop: for (EReference reference : sourceNode.getType().getEReferences()) {
+		eRefLoop: for (EReference reference : sourceNode.getType().getEAllReferences()) {
 			// reference has matching type
 			//
 			if(!(reference.getEType() instanceof EClass))
 				continue;
-			EClass refType = (EClass) reference.getEType();  
-			if (refType.isSuperTypeOf(targetNode.getType())) {
+			
+			EClass refType = (EClass) reference.getEType();
+			if (refType.isSuperTypeOf(targetNode.getType()) || (refType.getName() == "EObject")) {
 				
 				// count given
 				int multiplicityCounter = 0;
@@ -112,13 +117,13 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 		// lookup references between the given types for which their are no
 		// edges yet.
 		//
-		eRefLoop: for (EReference reference : targetNode.getType().getEReferences()) {
+		eRefLoop: for (EReference reference : targetNode.getType().getEAllReferences()) {
 			if(!(reference.getEType() instanceof EClass))
 				continue;
 			EClass refType = (EClass) reference.getEType();
 			// reference has matching type
 			//
-			if (refType.isSuperTypeOf(sourceNode.getType())) {
+			if (refType.isSuperTypeOf(sourceNode.getType()) || (refType.getName() == "EObject")) {
 				
 				// count given
 				int multiplicityCounter = 0;
