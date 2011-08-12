@@ -126,7 +126,7 @@ public class StateSpaceHashCodeHelper {
 		this.localHashCodes = null;
 		
 		// Done.
-		return result;
+		return 0; //result;
 		
 	}
 
