@@ -232,7 +232,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * This delegates to the state equality helper.
 	 */
 	protected int hashCode(Model model) {
-		return stateSpace.getEqualityHelper().hashCode(model, null);
+		return stateSpace.getEqualityHelper().hashCode(model, null, null);
 	}
 
 	/*

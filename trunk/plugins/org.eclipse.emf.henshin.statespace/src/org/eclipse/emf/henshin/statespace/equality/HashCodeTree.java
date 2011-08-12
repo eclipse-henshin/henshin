@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @author Christian Krause
  */
 public class HashCodeTree {
-
+	
 	// Marker for starting the children list:
 	private static final int OPEN_MARKER = Integer.MAX_VALUE-2;
 	
@@ -79,11 +79,11 @@ public class HashCodeTree {
 	 * @param numChildren Number of children to be created.
 	 * @return <code>true</code> if the children were created.
 	 */
-	public boolean createChildren(int numChildren) {
+	public void createChildren(int numChildren) {
 		
 		// Check if the children number is not positive:
 		if (numChildren<=0) {
-			return false;
+			throw new IllegalArgumentException();
 		}
 		
 		// Check if there are already children:
@@ -137,9 +137,6 @@ public class HashCodeTree {
 		
 		// Go to the first new child:
 		position = hasChildren ? start : start+1;
-		
-		// Done.
-		return true;
 		
 	}
 
@@ -293,6 +290,66 @@ public class HashCodeTree {
 		return true;
 	}
 	
+	/**
+	 * Safely go some steps to the left.
+	 * Throws an {@link IndexOutOfBoundsException} if it
+	 * cannot go the required number of steps.
+	 * @param steps Number of steps.
+	 */
+	public void safeGoLeft(int steps) {
+		for (int i=0; i<steps; i++) {
+			if (!goLeft()) throw new IndexOutOfBoundsException("Cannot go further to the left");
+		}
+	}
+
+	/**
+	 * Safely go some steps to the right.
+	 * Throws an {@link IndexOutOfBoundsException} if it
+	 * cannot go the required number of steps.
+	 * @param steps Number of steps.
+	 */
+	public void safeGoRight(int steps) {
+		for (int i=0; i<steps; i++) {
+			if (!goRight()) throw new IndexOutOfBoundsException("Cannot go further to the right");
+		}
+	}
+	
+	/**
+	 * Safely go some steps up.
+	 * Throws an {@link IndexOutOfBoundsException} if it
+	 * cannot go the required number of steps.
+	 * @param steps Number of steps.
+	 */
+	public void safeGoUp(int steps) {
+		for (int i=0; i<steps; i++) {
+			if (!goUp()) throw new IndexOutOfBoundsException("Cannot go up further");
+		}
+	}
+	
+	/**
+	 * Safely go some steps down.
+	 * Throws an {@link IndexOutOfBoundsException} if it
+	 * cannot go the required number of steps.
+	 * @param steps Number of steps.
+	 */
+	public void safeGoDown(int steps) {
+		for (int i=0; i<steps; i++) {
+			if (!goDown()) throw new IndexOutOfBoundsException("Cannot go down further");
+		}
+	}
+	
+	/**
+	 * Safely shift some steps to the left.
+	 * Throws an {@link IndexOutOfBoundsException} if it
+	 * cannot shift the required number of steps.
+	 * @param steps Number of steps.
+	 */
+	public void safeShiftLeft(int steps) {
+		for (int i=0; i<steps; i++) {
+			if (!shiftLeft()) throw new IndexOutOfBoundsException("Cannot shift further to the left");
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()

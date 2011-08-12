@@ -44,5 +44,10 @@ public class Fork extends MinimalEObjectImpl.Container implements EObject {
 	protected EClass eStaticClass() {
 		return PhilosophersPackage.Literals.FORK;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Fork@" + Integer.toHexString(hashCode());
+	}
+	
 } // Fork

@@ -257,4 +257,9 @@ public class Table extends MinimalEObjectImpl.Container implements EObject {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString() {
+		return "Table@" + Integer.toHexString(hashCode());
+	}
+
 } // Table

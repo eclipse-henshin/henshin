@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace.equality;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,10 +27,13 @@ import org.eclipse.emf.henshin.statespace.Model;
  * @generated NOT
  * @author Christian Krause
  */
-public class GraphEqualityHelper extends HashMap<EObject,EObject> {	
+public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {	
 	
 	// Default serial ID:
 	private static final long serialVersionUID = 1L;
+	
+	// Empty hash code map:
+	private static final HashCodeMap EMPTY_MAP = new HashCodeMap();
 	
 	// Helper for handling attributes:
 	private EcoreEqualityHelper attributeHelper;
@@ -37,11 +41,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Stack of lists to compare:
 	private EObject[][] s1, s2;
 	
-	// Optional hash code trees:
-	private HashCodeTree t1, t2;
-	
-	// Current position in the stack:
-	private int current;
+	// Optional hash code maps:
+	private HashCodeMap p1, p2;
 	
 	// Cached models:
 	private Model m1, m2;
@@ -65,40 +66,30 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 * @param model2 Model 2.
 	 * @return <code>true</code> if they are equal.
 	 */
-	public boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2) {
+	public boolean equals(Model model1, HashCodeMap map1, 
+						  Model model2, HashCodeMap map2) {
 		
-		// We always need both trees:
-		if (tree1==null || tree2==null) {
-			tree1 = null;
-			tree2 = null;
-		}
+		// Make sure we have both trees
+		//if (map1==null || map2==null) {
+			map1 = EMPTY_MAP;
+			map2 = EMPTY_MAP;
+		//}
 		
 		// Initialize variables:
 		m1 = model1;
 		m2 = model2;
 		s1 = new EObject[][] { m1.getResource().getContents().toArray(new EObject[0]) };
 		s2 = new EObject[][] { m2.getResource().getContents().toArray(new EObject[0]) };
-		t1 = tree1;
-		t2 = tree2;
-		current = 0;
-		
-		// Reset the trees:
-		if (t1!=null) {
-			t1.goToRoot();
-			t1.goDown();
-			t2.goToRoot();
-			t2.goDown();
-		}
+		p1 = map1;
+		p2 = map2;
 		
 		// Perform depth-first search:
-		//System.out.println("\n=== CHECKING GRAPH EQUALITY ===\n");
-		boolean equals = depthFirst();
-		//if (equals) System.out.println("\n=== MATCH FOUND === ");
-
-		// Reset the trees:
-		if (t1!=null) {
-			t1.goToRoot();
-			t2.goToRoot();
+		debug("\n=== CHECKING GRAPH EQUALITY ===\n", 0);
+		boolean equals = depthFirst(0);
+		if (equals) {
+			debug("\n=== MATCH FOUND === ", 0);
+		} else {
+			debug("\n=== NO MATCH FOUND === ", 0);
 		}
 
 		// Release variables:
@@ -106,11 +97,13 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		m2 = null;
 		s1 = null;
 		s2 = null;
-		t1 = null;
-		t2 = null;
+		p1 = null;
+		p2 = null;
 		
 		// Done.
-		return equals;
+		//return equals;
+		
+		return true;
 		
 	}
 	
@@ -119,7 +112,7 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 * @return <code>true</code> if a match was found.
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean depthFirst() {
+	private boolean depthFirst(int current) {
 		
 		// If we have a negative index, we cannot backtrack anymore:
 		if (current<0) {
@@ -128,10 +121,11 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		
 		// Get the lists to be matched now:
 		EObject[] l1 = s1[current];
-		EObject[] l2 = s1[current];
+		EObject[] l2 = s2[current];
 		
 		// The lists must have the same length:
 		if (l1.length!=l2.length) {
+			debug("Current lists have different lengths, aborting...", current);
 			return false;
 		}
 		
@@ -142,24 +136,19 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				index1 = i;
 				break;
 			}
-			if (t1!=null) {
-				t1.goRight();
-			}
 		}
-		
+
 		// If the list is empty, we are done with this branch:
 		if (index1<0) {
 			
 			// Now check whether there is more work on the stack left:
 			if (current==0) {
-				return true;	// everything done already
+				return true;				  // everything done already
 			} else {
-				current--;		// otherwise continue with parent
-				return depthFirst();
+				return depthFirst(current-1); // otherwise continue with parent
 			}
 			
 		}
-		
 		
 		// Get the first node and check if it is matched already:
 		EObject node1 = l1[index1];
@@ -185,7 +174,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				l2[index2] = null;
 				
 				// Try to match the rest of the current lists:
-				if (depthFirst()) {
+				if (depthFirst(current)) {
+					debug("Matching " + node1 + " with " + node2 + " works", current);
 					return true;
 				}
 				
@@ -196,7 +186,7 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			}
 			
 			// The existing match doesn't work:
-			// System.out.println("Failed verifying match between for " + node1);
+			debug("Failed verifying match for " + node1 + "\n", current);
 			return false;
 			
 		}
@@ -204,29 +194,35 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		
 		/* We have to find a valid match for the node now. */
 		
-		// First, get the node type:
+		// First, get the node type and the node hash code:
 		EClass eclass = node1.eClass();
-
+		int hash1 = p1.getHashCode(node1);
+		
 		// Try out all candidates:
+		int attempt = 0;
 		for (int index2=0; index2<l2.length; index2++) {
 			
-			// Must be not null and of the same type:
+			// This is the candidate node:
 			node2 = l2[index2];
-			if (node2==null || !eclass.equals(node2.eClass())) {
+			
+			// Must be not null and of the same type, with the same hash code:
+			if (node2==null || 
+				!eclass.equals(node2.eClass()) ||
+				hash1!=p2.getHashCode(node2)) {
 				continue;
 			}
 			
 			// Compare the IDs if necessary:
 			if (!ignoreNodeIDs) {
-				if (getNodeID(node1)!=getNodeID(node2)) continue;
+				if (getNodeID(node1,m1)!=getNodeID(node2,m2)) continue;
 			}
 
 			// Assume it is a valid match for now.
 			put(node1, node2);
 			boolean valid = true;
-			// System.out.println("Attempt " + index2 + " of matching " + node1);
-			// System.out.println("Current match: " + this + "\n");
-						
+			debug("Attempt " + (++attempt) + " for matching " + node1 + "...", current);
+			debug("Current match: " + this + "\n", current);
+			
 			// Compare the features:
 			for (EStructuralFeature feature : eclass.getEAllStructuralFeatures()) {
 				
@@ -245,12 +241,15 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 					if (feature.isMany()) {
 						n1 = ((List<EObject>) node1.eGet(feature)).toArray(new EObject[0]);
 						n2 = ((List<EObject>) node2.eGet(feature)).toArray(new EObject[0]);
+						if (n1.length!=n2.length) {
+							valid = false;
+						}
 					} else {
 						n1 = new EObject[] { (EObject) node1.eGet(feature) };
 						n2 = new EObject[] { (EObject) node2.eGet(feature) };
 						if ((n1[0]==null && n2[0]!=null) || (n1[0]!=null && n2[0]==null)) {
 							valid = false;
-						}						
+						}
 					}
 					
 					// Try depth-first traversal:
@@ -265,8 +264,9 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 						s2[current+1] = n2;
 						
 						// Go depth-first:
-						current++;
-						valid = depthFirst();
+						if (!depthFirst(current+1)) {
+							valid = false;
+						}
 						
 					}
 
@@ -274,50 +274,40 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				
 				// If the assumed match doesn't work, stop checking the features:
 				if (!valid) {
-					// System.out.println("Cannot match feature '" + feature.getName() + "' in class '" + eclass.getName() + "'");
+					debug("Cannot match feature '" + feature.getName() + "' in " + node1, current);
 					break;
 				}
 				
 			}
 			
-			
-			// Was the match successful?
-			if (valid) {
-				
-				// Remove the match from the lists:
-				l1[index1] = null;
-				l2[index2] = null;
-				
-				// Try to match the current rest:
-				if (depthFirst()) {
-					return true;
-				}
-				
-				// Was not successful:
-				l1[index1] = node1;
-				l2[index2] = node2;
-				
+			if (valid && depthFirst(current)) {
+				return true;
 			}
 			
 			// If we are here, the matching was not successful:
+			debug("Attempt " + attempt + " for matching " + node1 + " FAILED!!!\n", current);
 			remove(node1);
-			
+				
 		}
 		
 		// None of the candidates could be matched.
-		// System.out.println("Giving up matching " + node1);
+		debug("Giving up matching " + node1 + " after " + attempt + " attempts\n", current);
 		return false;
 		
+	}
+	
+	private static void debug(String message, int depth) {
+		//for (int i=0; i<depth; i++) {
+		//	System.out.print("    ");
+		//}
+		//System.out.println(message);
 	}
 	
 	/*
 	 * Get the ID of a node.
 	 */
-	private int getNodeID(EObject object) {
-		Integer result = m1.getNodeIDsMap().get(object);
-		if (result==null) {
-			result = m2.getNodeIDsMap().get(object);			
-		}
+	private static int getNodeID(EObject object, Model model) {
+		Integer result = model.getNodeIDsMap().get(object);
 		if (result==null) {
 			throw new RuntimeException("No node ID found for " + object);			
 		}

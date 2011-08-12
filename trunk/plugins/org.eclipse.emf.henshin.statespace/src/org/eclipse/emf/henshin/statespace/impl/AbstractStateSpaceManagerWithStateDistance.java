@@ -4,14 +4,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -41,7 +37,8 @@ public abstract class AbstractStateSpaceManagerWithStateDistance extends Abstrac
 	 */
 	private void checkDistanceArraySize() {
 		if (distances.length<getStateSpace().getStates().size()) {
-			int[] newDistances = new int[(int) (getStateSpace().getStates().size() * 1.75) + 4];
+			int newSize = (getStateSpace().getStates().size() * 2) + 4;
+			int[] newDistances = Arrays.copyOf(distances, newSize);
 			Arrays.fill(newDistances, distances.length, newDistances.length, -1);
 			distances = newDistances;
 		}
@@ -96,65 +93,32 @@ public abstract class AbstractStateSpaceManagerWithStateDistance extends Abstrac
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#createOpenState(org.eclipse.emf.henshin.statespace.Model, int, int[])
-	 */
 	@Override
-	protected State createOpenState(Model model, int hash, int[] location) {
-		State openState = super.createOpenState(model, hash, location);
+	protected void notifyCreateOpenState(State state) {
 		checkDistanceArraySize();
-		distances[openState.getIndex()] = -1;
-		return openState;
+		distances[state.getIndex()] = -1;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#createInitialState(org.eclipse.emf.henshin.statespace.Model)
-	 */
 	@Override
-	public State createInitialState(Model model) throws StateSpaceException {
-		State initialState = super.createInitialState(model);
-		distances[initialState.getIndex()] = 0;
-		return initialState;
+	public void notifyCreateInitialState(State state) {
+		distances[state.getIndex()] = 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
-	 */
 	@Override
-	public List<State> removeState(State state) throws StateSpaceException {
-		Set<State> successors = new HashSet<State>();
-		for (Transition outgoing : state.getOutgoing()) {
-			successors.add(outgoing.getTarget());
-		}
-		List<State> removed = super.removeState(state); // perform the removal
-		successors.removeAll(removed);
-		updateDistances(successors);
-		return removed;
+	public void notifyRemoveState(State state) {
+		checkDistanceArraySize();
+		updateDistances(getStateSpace().getInitialStates());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#resetStateSpace()
-	 */
 	@Override
-	public void resetStateSpace() {
-		super.resetStateSpace();
-		distances = new int[64];
-		Arrays.fill(distances, -1);
+	public void notifyResetStateSpace() {
+		checkDistanceArraySize();
+		updateDistances(getStateSpace().getInitialStates());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#createTransition(org.eclipse.emf.henshin.statespace.State, org.eclipse.emf.henshin.statespace.State, org.eclipse.emf.henshin.model.Rule, int, int[])
-	 */
 	@Override
-	protected Transition createTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
-		Transition transition = super.createTransition(source, target, rule, match, paramIDs);
-		updateDistances(Collections.singleton(target));
-		return transition;
+	protected void notifyCreateTransition(Transition transition) {
+		updateDistances(Collections.singleton(transition.getTarget()));
 	}
 	
 	public int getStateDistance(State state) {

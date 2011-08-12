@@ -73,6 +73,9 @@ public class StateSpaceHashCodeHelper {
 	// Current hash-code tree:
 	private HashCodeTree tree;
 	
+	// Current hash-code map:
+	private HashCodeMap map;
+	
 	// Currently used local hash codes:
 	private LocalHashCodes localHashCodes;
 	
@@ -92,7 +95,7 @@ public class StateSpaceHashCodeHelper {
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
-		return hashCode(model, null);
+		return hashCode(model, null, null);
 	}
 
 	/**
@@ -100,10 +103,11 @@ public class StateSpaceHashCodeHelper {
 	 * and update the hash-code tree.
 	 * @generated NOT
 	 */
-	public int hashCode(Model model, HashCodeTree tree) {
+	public int hashCode(Model model, HashCodeMap map, HashCodeTree tree) {
 		
 		// Set the required fields:
 		this.model = model;
+		this.map = map;
 		this.tree = tree;
 		this.localHashCodes = new LocalHashCodes();
 		
@@ -113,10 +117,11 @@ public class StateSpaceHashCodeHelper {
 		}
 		
 		// Compute the hash-code:
-		int result = totalHashCode(model.getResource().getContents(), 0);
+		int result = totalHashCode(null, model.getResource().getContents(), 0);
 		
 		// Reset the fields:
 		this.model = null;
+		this.map = null;
 		this.tree = null;
 		this.localHashCodes = null;
 		
@@ -129,7 +134,7 @@ public class StateSpaceHashCodeHelper {
 	 * Compute the total hash code of a list of EObjects.
 	 * This delegates to #totalhashCode() for a single EObject.
 	 */
-	protected int totalHashCode(EList<EObject> nodes, int depth) {
+	protected int totalHashCode(EObject container, EList<EObject> nodes, int depth) {
 
 		// We need to store the total hash codes of all nodes:
 		int[] total = new int[nodes.size()];
@@ -143,8 +148,11 @@ public class StateSpaceHashCodeHelper {
 		for (int i=0; i<total.length; i++) {
 			total[i] = totalHashCode(nodes.get(i), depth);			
 			if (tree!=null) {
-				tree.setHashCode(total[i]);
+				tree.setHashCode(total[i]);					
 				tree.goRight();
+			}
+			if (map!=null) {
+				map.put(nodes.get(i), total[i]);
 			}
 		}
 		
@@ -156,7 +164,12 @@ public class StateSpaceHashCodeHelper {
 			if (total.length>0) {
 				tree.goUp();
 			}
-			tree.setHashCode(result);
+			tree.setHashCode(result);				
+		}
+		
+		// Update the map:
+		if (map!=null && container!=null) {
+			map.put(container, result);
 		}
 
 		// Done.
@@ -188,7 +201,7 @@ public class StateSpaceHashCodeHelper {
 					children.add(child);
 				}
 			}
-			hash = (hash * 31) + totalHashCode(children, depth+1);
+			hash = (hash * 31) + totalHashCode(object, children, depth+1);
 		}
 		
 		//System.out.println("Computed hash code " + hash + " for " + object);

@@ -243,4 +243,9 @@ public class Plate extends MinimalEObjectImpl.Container implements EObject {
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString() {
+		return "Plate@" + Integer.toHexString(hashCode());
+	}
+
 } // Plate

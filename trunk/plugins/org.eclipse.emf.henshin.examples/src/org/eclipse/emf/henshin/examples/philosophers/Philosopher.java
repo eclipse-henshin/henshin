@@ -342,4 +342,9 @@ public class Philosopher extends MinimalEObjectImpl.Container implements EObject
 		return super.eIsSet(featureID);
 	}
 
+	@Override
+	public String toString() {
+		return "Phil@" + Integer.toHexString(hashCode());
+	}
+
 } // Philosopher

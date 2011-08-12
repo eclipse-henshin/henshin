@@ -14,6 +14,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 
 /**
@@ -78,15 +79,15 @@ public interface StateEqualityHelper extends EObject {
 	/**
 	 * Generate a hash code of a state model.
 	 * @model
-	 * @generated
+	 * @generated NOT
 	 */
-	int hashCode(Model model, HashCodeTree tree);
+	int hashCode(Model model, HashCodeTree tree, HashCodeMap map);
 
 	/**
 	 * Check whether two state models are equal.
 	 * @model
-	 * @generated
+	 * @generated NOT
 	 */
-	boolean equals(Model model1, HashCodeTree tree1, Model model2, HashCodeTree tree2);
+	boolean equals(Model model1, HashCodeMap map1, Model model2, HashCodeMap map2);
 	
 }

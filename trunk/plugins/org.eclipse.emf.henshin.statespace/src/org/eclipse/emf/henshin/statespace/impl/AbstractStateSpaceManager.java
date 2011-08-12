@@ -182,7 +182,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param hash The model's hash code.
 	 * @return The newly created state.
 	 */
-	protected State createOpenState(Model model, int hash, int[] location) {
+	protected final State createOpenState(Model model, int hash, int[] location) {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
@@ -208,6 +208,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			change = true;
 			getStateSpace().getStates().add(state);
 			getStateSpace().getOpenStates().add(state);
+			notifyCreateOpenState(state);
 			change = false;
 		}
 		
@@ -217,11 +218,15 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 
 	}
 	
+	protected void notifyCreateOpenState(State state) {
+		// No default implementation.
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#createInitialState(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public State createInitialState(Model model) throws StateSpaceException {
+	public final State createInitialState(Model model) throws StateSpaceException {
 		
 		// Check if the resource is persisted:
 		Resource resource = model.getResource();
@@ -244,17 +249,22 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		synchronized (stateSpaceLock) {
 			change = true;
 			getStateSpace().getInitialStates().add(initial);
+			notifyCreateInitialState(state);
 			change = false;
 		}
 		return initial;
 		
 	}
 	
+	protected void notifyCreateInitialState(State state) {
+		// No default implementation.
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
 	 */
-	public List<State> removeState(State state) throws StateSpaceException {
+	public final List<State> removeState(State state) throws StateSpaceException {
 		
 		// Check if the state space is tainted:
 		if (tainted) throw new StateSpaceException();
@@ -293,6 +303,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			int number = getStateSpace().getTransitionCount() - transitions.size();
 			getStateSpace().setTransitionCount(number);
 			
+			notifyRemoveState(state);
 			change = false;
 		}
 		
@@ -301,11 +312,15 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 	}
 	
+	protected void notifyRemoveState(State state) {
+		// No default implementation.
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace()
 	 */
-	public void resetStateSpace() {
+	public final void resetStateSpace() {
 		
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
@@ -322,6 +337,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			
 			getStateSpace().setTransitionCount(0);
 			
+			notifyResetStateSpace();
 			change = false;
 		}
 		
@@ -336,6 +352,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			tainted = true;
 		}
 	}
+	
+	protected void notifyResetStateSpace() {
+		// No default implementation.
+	}
+
 	
 	/**
 	 * Create a new outgoing transition. Note that the this does not check
@@ -358,11 +379,16 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			transition.setSource(source);
 			transition.setTarget(target);
 			getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
+			notifyCreateTransition(transition);
 			change = false;
 		}
 		return transition;
 	}
 	
+	protected void notifyCreateTransition(Transition transition) {
+		// No default implementation.
+	}
+
 	/**
 	 * Find an outgoing transition.
 	 */

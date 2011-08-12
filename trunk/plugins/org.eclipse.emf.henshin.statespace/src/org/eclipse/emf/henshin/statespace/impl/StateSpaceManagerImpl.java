@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.equality.GraphModelCanonicalizer;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.UniversalCache;
@@ -52,10 +53,12 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDistance {
 	
 	// State model cache:
-	private final Map<State,Model> modelCache = Collections.synchronizedMap(new UniversalCache<State,Model>());
+	private final Map<State,Model> modelCache = 
+			Collections.synchronizedMap(new UniversalCache<State,Model>());
 	
-	// Hash code tree cache:
-	private final Map<Model,HashCodeTree> treeCache = Collections.synchronizedMap(new UniversalCache<Model,HashCodeTree>());
+	// Hash code tree maps:
+	private final Map<Model,HashCodeMap> codesCache = 
+			Collections.synchronizedMap(new UniversalCache<Model,HashCodeMap>());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
@@ -143,17 +146,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		Model start = search.getCurrentState().getModel();
 		if (start==null) start = modelCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
+			
+		// Canonicalize and update the hash code map:
+		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
+			HashCodeMap map = new HashCodeMap();
+			HashCodeTree tree = new HashCodeTree();
+			getStateSpace().getEqualityHelper().hashCode(model, tree, map);
+			GraphModelCanonicalizer.canonicalizeModel(model, tree);
+			codesCache.put(model, map);
+		}
 		
 		// Always add it to the cache (is maintained automatically):
 		modelCache.put(state, model);
-		
-		// Update the hash code tree as well:
-		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
-			HashCodeTree tree = new HashCodeTree();
-			getStateSpace().getEqualityHelper().hashCode(model, tree);
-			treeCache.put(model, tree);
-		}
-		
+
 		// Done.
 		return model;
 		
@@ -399,16 +404,17 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 					newState.setNodeCount(nodeIDs.length);
 				}
 				
-				// Check if we need a hash code tree:
-				HashCodeTree tree = graphEquality ? new HashCodeTree() : null;
+				// Hash code map and tree:
+				HashCodeMap map = new HashCodeMap();
+				HashCodeTree tree = new HashCodeTree();
 			
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				newState.setHashCode(equalityHelper.hashCode(transformed, tree));
+				newState.setHashCode(equalityHelper.hashCode(transformed, tree, map));
+				codesCache.put(transformed, map);
 				
 				// Canonicalize the model and its hash code tree; Store the tree:
 				if (graphEquality) {
 					GraphModelCanonicalizer.canonicalizeModel(transformed, tree);
-					treeCache.put(transformed, tree);
 				}
 				
 				// Create a new transition:
@@ -463,7 +469,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 	@Override
 	protected boolean equals(Model model1, Model model2) {
 		return getStateSpace().getEqualityHelper().equals(
-				model1, treeCache.get(model1), model2, treeCache.get(model2));
+				model1, codesCache.get(model1), model2, codesCache.get(model2));
 	}
 
 	/*
@@ -542,7 +548,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 			}
 		}
 		modelCache.clear();
-		treeCache.clear();
+		codesCache.clear();
 		System.gc();
 	}
 

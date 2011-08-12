@@ -67,7 +67,7 @@ public class GraphModelCanonicalizer {
 		for (int i2=1; i2<size; i2++) {
 			
 			// Go one to the right:
-			goRight(tree, 1);
+			tree.safeGoRight(1);
 			
 			// Get the current hash code:
 			hashcodes[i2] = tree.getHashCode();
@@ -82,7 +82,7 @@ public class GraphModelCanonicalizer {
 				if (hashcodes[i1] > hashcodes[x]) {
 					
 					// Shift in the tree:
-					shiftLeft(tree);
+					tree.safeShiftLeft(1);
 					
 					// Shift in the hash-codes array:
 					dummyHash = hashcodes[i1];
@@ -102,11 +102,11 @@ public class GraphModelCanonicalizer {
 			}
 			
 			// We need to move the cursor in the tree to the last position:
-			goRight(tree, shifts);
+			tree.safeGoRight(shifts);
 		}
 		
 		// Move the tree cursor back the start:
-		goLeft(tree, size-1);
+		tree.safeGoLeft(size-1);
 		
 		// Now recursively sort all children:
 		for (int i=0; i<size; i++) {
@@ -128,7 +128,7 @@ public class GraphModelCanonicalizer {
 				// Recursive canonicalization if there are any children:
 				if (!children.isEmpty()) {
 					if (!wentDown) {
-						goDown(tree);
+						tree.safeGoDown(1);
 						wentDown = true;
 					}
 					canonicalize(children, tree);
@@ -136,7 +136,7 @@ public class GraphModelCanonicalizer {
 			}
 			// Go up again if we went down:
 			if (wentDown) {
-				goUp(tree);
+				tree.safeGoUp(1);
 			}
 			
 			// Move the tree cursor one right (without throwing an exception!):
@@ -171,47 +171,6 @@ public class GraphModelCanonicalizer {
 			CLASS_CONTAINMENTS.put(eclass, containments);
 		}
 		return containments;
-	}
-	
-	
-	// ******* Helper methods ******** //
-	
-	private static void goLeft(HashCodeTree tree, int steps) {
-		for (int i=0; i<steps; i++) {
-			if (!tree.goLeft()) {
-				throwTreeException();
-			}
-		}
-	}
-
-	private static void goRight(HashCodeTree tree, int steps) {
-		for (int i=0; i<steps; i++) {
-			if (!tree.goRight()) {
-				throwTreeException();
-			}
-		}
-	}
-
-	private static void goDown(HashCodeTree tree) {
-		if (!tree.goDown()) {
-			throwTreeException();
-		}
-	}
-
-	private static void goUp(HashCodeTree tree) {
-		if (!tree.goUp()) {
-			throwTreeException();
-		}
-	}
-
-	private static void shiftLeft(HashCodeTree tree) {
-		if (!tree.shiftLeft()) {
-			throwTreeException();
-		}
-	}
-	
-	private static void throwTreeException() {
-		throw new RuntimeException("Error canonicalizing model: hash code tree is structurally different from model!");
 	}
 	
 }
