@@ -136,9 +136,9 @@ public class RuleApplication {
 		Parameter parameter = rule.getParameterByName(name);
 		if (parameter != null) {
 			if (isExecuted && !isUndone) {
-				result = comatch.getParameterValues().get(name);
+				result = comatch.getParameterValues().get(parameter);
 			} else {
-				result = match.getParameterValues().get(name);
+				result = match.getParameterValues().get(parameter);
 			}// if else
 		}// if
 		return result;
