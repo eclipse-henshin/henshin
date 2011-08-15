@@ -23,17 +23,19 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
 import org.eclipse.emf.henshin.statespace.equality.GraphEqualityHelper;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.equality.StateSpaceHashCodeHelper;
 
 /**
  * Default implementation of {@link StateEqualityHelper}.
+ * 
  * @generated
  */
-public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implements StateEqualityHelper {
-	
+public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
+		implements StateEqualityHelper {
+
 	/**
 	 * Default constructor.
+	 * 
 	 * @generated
 	 */
 	protected StateEqualityHelperImpl() {
@@ -43,31 +45,36 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	/**
 	 * @generated NOT
 	 */
-	public int hashCode(Model model, HashCodeTree tree, HashCodeMap map) {
-		return new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs, ignoreAttributes).hashCode(model, map, tree);
+	public int hashCode(Model model, HashCodeMap map) {
+		return new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs,
+				ignoreAttributes).hashCode(model, map);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public boolean equals(Model model1, HashCodeMap map1, Model model2, HashCodeMap map2) {
+	public boolean equals(Model model1, HashCodeMap map1, Model model2,
+			HashCodeMap map2) {
 		if (graphEquality) {
-			return new GraphEqualityHelper(ignoreNodeIDs,
-					ignoreAttributes).equals(model1, map1, model2, map2);
+			return new GraphEqualityHelper(ignoreNodeIDs, ignoreAttributes)
+					.equals(model1, map1, model2, map2);
 		} else {
-			return new EcoreEqualityHelper(ignoreNodeIDs,
-					ignoreAttributes).equals(model1, model2);
+			return new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes)
+					.equals(model1, model2);
 		}
 	}
 
-	/* ---------------------------------------------------------------- *
-	 * GENERATED CODE.                                                  *
-	 * Do not edit below this line. If you need to edit, move it above  *
-	 * this line and change the '@generated'-tag to '@generated NOT'.   *
-	 * ---------------------------------------------------------------- */
-	
+	/*
+	 * ---------------------------------------------------------------- *
+	 * GENERATED CODE. * Do not edit below this line. If you need to edit, move
+	 * it above * this line and change the '@generated'-tag to '@generated NOT'.
+	 * * ----------------------------------------------------------------
+	 */
+
 	/**
-	 * The default value of the '{@link #isGraphEquality() <em>Graph Equality</em>}' attribute.
+	 * The default value of the '{@link #isGraphEquality()
+	 * <em>Graph Equality</em>}' attribute.
+	 * 
 	 * @see #isGraphEquality()
 	 * @generated
 	 * @ordered
@@ -75,7 +82,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	protected static final boolean GRAPH_EQUALITY_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isGraphEquality() <em>Graph Equality</em>}' attribute.
+	 * The cached value of the '{@link #isGraphEquality()
+	 * <em>Graph Equality</em>}' attribute.
+	 * 
 	 * @see #isGraphEquality()
 	 * @generated
 	 * @ordered
@@ -83,7 +92,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	protected boolean graphEquality = GRAPH_EQUALITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIgnoreNodeIDs() <em>Ignore Node IDs</em>}' attribute.
+	 * The default value of the '{@link #isIgnoreNodeIDs()
+	 * <em>Ignore Node IDs</em>}' attribute.
+	 * 
 	 * @see #isIgnoreNodeIDs()
 	 * @generated
 	 * @ordered
@@ -91,7 +102,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	protected static final boolean IGNORE_NODE_IDS_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isIgnoreNodeIDs() <em>Ignore Node IDs</em>}' attribute.
+	 * The cached value of the '{@link #isIgnoreNodeIDs()
+	 * <em>Ignore Node IDs</em>}' attribute.
+	 * 
 	 * @see #isIgnoreNodeIDs()
 	 * @generated
 	 * @ordered
@@ -99,7 +112,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	protected boolean ignoreNodeIDs = IGNORE_NODE_IDS_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIgnoreAttributes() <em>Ignore Attributes</em>}' attribute.
+	 * The default value of the '{@link #isIgnoreAttributes()
+	 * <em>Ignore Attributes</em>}' attribute.
+	 * 
 	 * @see #isIgnoreAttributes()
 	 * @generated
 	 * @ordered
@@ -107,7 +122,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	protected static final boolean IGNORE_ATTRIBUTES_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isIgnoreAttributes() <em>Ignore Attributes</em>}' attribute.
+	 * The cached value of the '{@link #isIgnoreAttributes()
+	 * <em>Ignore Attributes</em>}' attribute.
+	 * 
 	 * @see #isIgnoreAttributes()
 	 * @generated
 	 * @ordered
@@ -136,7 +153,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 		boolean oldGraphEquality = graphEquality;
 		graphEquality = newGraphEquality;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY, oldGraphEquality, graphEquality));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY,
+					oldGraphEquality, graphEquality));
 	}
 
 	/**
@@ -153,7 +172,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 		boolean oldIgnoreNodeIDs = ignoreNodeIDs;
 		ignoreNodeIDs = newIgnoreNodeIDs;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS, oldIgnoreNodeIDs, ignoreNodeIDs));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS,
+					oldIgnoreNodeIDs, ignoreNodeIDs));
 	}
 
 	/**
@@ -170,7 +191,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 		boolean oldIgnoreAttributes = ignoreAttributes;
 		ignoreAttributes = newIgnoreAttributes;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES, oldIgnoreAttributes, ignoreAttributes));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES,
+					oldIgnoreAttributes, ignoreAttributes));
 	}
 
 	/**
@@ -179,12 +202,12 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				return isGraphEquality();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				return isIgnoreNodeIDs();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				return isIgnoreAttributes();
+		case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
+			return isGraphEquality();
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
+			return isIgnoreNodeIDs();
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
+			return isIgnoreAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -195,15 +218,15 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				setGraphEquality((Boolean)newValue);
-				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				setIgnoreNodeIDs((Boolean)newValue);
-				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				setIgnoreAttributes((Boolean)newValue);
-				return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
+			setGraphEquality((Boolean) newValue);
+			return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
+			setIgnoreNodeIDs((Boolean) newValue);
+			return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
+			setIgnoreAttributes((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -214,15 +237,15 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				setGraphEquality(GRAPH_EQUALITY_EDEFAULT);
-				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				setIgnoreNodeIDs(IGNORE_NODE_IDS_EDEFAULT);
-				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				setIgnoreAttributes(IGNORE_ATTRIBUTES_EDEFAULT);
-				return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
+			setGraphEquality(GRAPH_EQUALITY_EDEFAULT);
+			return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
+			setIgnoreNodeIDs(IGNORE_NODE_IDS_EDEFAULT);
+			return;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
+			setIgnoreAttributes(IGNORE_ATTRIBUTES_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -233,12 +256,12 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				return graphEquality != GRAPH_EQUALITY_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				return ignoreNodeIDs != IGNORE_NODE_IDS_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				return ignoreAttributes != IGNORE_ATTRIBUTES_EDEFAULT;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
+			return graphEquality != GRAPH_EQUALITY_EDEFAULT;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
+			return ignoreNodeIDs != IGNORE_NODE_IDS_EDEFAULT;
+		case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
+			return ignoreAttributes != IGNORE_ATTRIBUTES_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -248,7 +271,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container implem
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (graphEquality: ");

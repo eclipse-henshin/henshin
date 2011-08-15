@@ -70,9 +70,6 @@ public class StateSpaceHashCodeHelper {
 	// Current model.
 	private Model model;
 	
-	// Current hash-code tree:
-	private HashCodeTree tree;
-	
 	// Current hash-code map:
 	private HashCodeMap map;
 	
@@ -95,26 +92,20 @@ public class StateSpaceHashCodeHelper {
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
-		return hashCode(model, null, null);
+		return hashCode(model, null);
 	}
 
 	/**
 	 * Compute the hash code for a given model
-	 * and update the hash-code tree.
+	 * and update the hash-code map.
 	 * @generated NOT
 	 */
-	public int hashCode(Model model, HashCodeMap map, HashCodeTree tree) {
+	public int hashCode(Model model, HashCodeMap map) {
 		
 		// Set the required fields:
 		this.model = model;
 		this.map = map;
-		this.tree = tree;
 		this.localHashCodes = new LocalHashCodes();
-		
-		// Reset the hash-code tree:
-		if (tree!=null) {
-			tree.clear();
-		}
 		
 		// Compute the hash-code:
 		int result = totalHashCode(null, model.getResource().getContents(), 0);
@@ -122,7 +113,6 @@ public class StateSpaceHashCodeHelper {
 		// Reset the fields:
 		this.model = null;
 		this.map = null;
-		this.tree = null;
 		this.localHashCodes = null;
 		
 		// Done.
@@ -138,19 +128,10 @@ public class StateSpaceHashCodeHelper {
 
 		// We need to store the total hash codes of all nodes:
 		int[] total = new int[nodes.size()];
-
-		// Create the children in the tree if necessary:
-		if (tree!=null && total.length>0) {
-			tree.createChildren(total.length); // the cursor automatically goes down
-		}
 		
 		// Compute the total hash codes of all nodes:
 		for (int i=0; i<total.length; i++) {
 			total[i] = totalHashCode(nodes.get(i), depth);			
-			if (tree!=null) {
-				tree.setHashCode(total[i]);					
-				tree.goRight();
-			}
 			if (map!=null) {
 				map.put(nodes.get(i), total[i]);
 			}
@@ -158,15 +139,7 @@ public class StateSpaceHashCodeHelper {
 		
 		// Now merge them:
 		int result = listHashCode(total, depth);
-		
-		// Update the tree:
-		if (tree!=null) {
-			if (total.length>0) {
-				tree.goUp();
-			}
-			tree.setHashCode(result);				
-		}
-		
+				
 		// Update the map:
 		if (map!=null && container!=null) {
 			map.put(container, result);
@@ -190,7 +163,7 @@ public class StateSpaceHashCodeHelper {
 		int hash = contextHashCode(object);
 		
 		// Now the children:
-		for (EReference reference : GraphModelCanonicalizer.getCanonicalContainmentOrder(object.eClass())) {
+		for (EReference reference : object.eClass().getEAllContainments()) {
 			EList<EObject> children;
 			if (reference.isMany()) {
 				children = (EList<EObject>) object.eGet(reference);

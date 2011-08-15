@@ -204,8 +204,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated
 	 */
-	public void setHideLabels(boolean hideLabels) {
-		setData(4, hideLabels ? 1 : 0);
+	public void setHideLabels(boolean newHideLabels) {
+		// TODO: implement this method to set the 'Hide Labels' attribute
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 

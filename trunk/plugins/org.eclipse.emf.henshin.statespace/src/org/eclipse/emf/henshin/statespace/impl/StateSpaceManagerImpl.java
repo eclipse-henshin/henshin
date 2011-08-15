@@ -36,9 +36,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.equality.GraphModelCanonicalizer;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.UniversalCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
@@ -147,12 +145,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		if (start==null) start = modelCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
 			
-		// Canonicalize and update the hash code map:
+		// Update the hash code map:
 		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
 			HashCodeMap map = new HashCodeMap();
-			HashCodeTree tree = new HashCodeTree();
-			getStateSpace().getEqualityHelper().hashCode(model, tree, map);
-			GraphModelCanonicalizer.canonicalizeModel(model, tree);
+			getStateSpace().getEqualityHelper().hashCode(model, map);
 			codesCache.put(model, map);
 		}
 		
@@ -404,17 +400,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 					newState.setNodeCount(nodeIDs.length);
 				}
 				
-				// Hash code map and tree:
-				HashCodeMap map = new HashCodeMap();
-				HashCodeTree tree = new HashCodeTree();
-			
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				newState.setHashCode(equalityHelper.hashCode(transformed, tree, map));
-				codesCache.put(transformed, map);
-				
-				// Canonicalize the model and its hash code tree; Store the tree:
+				HashCodeMap map = graphEquality ? new HashCodeMap() : null;
+				newState.setHashCode(equalityHelper.hashCode(transformed, map));
 				if (graphEquality) {
-					GraphModelCanonicalizer.canonicalizeModel(transformed, tree);
+					codesCache.put(transformed, map);
 				}
 				
 				// Create a new transition:

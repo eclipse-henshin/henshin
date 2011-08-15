@@ -580,15 +580,23 @@ public interface StateSpacePackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '<em>Hash Code Tree</em>' data type.
+	 * The meta object id for the '<em>Hash Code Map</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeTree()
+	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
 	 * @generated
 	 */
-	int HASH_CODE_TREE = 9;
+	int HASH_CODE_MAP = 9;
 
+	/**
+	 * The meta object id for the '<em>EObject Array</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectArray()
+	 * @generated
+	 */
+	int EOBJECT_ARRAY = 10;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
@@ -1091,15 +1099,25 @@ public interface StateSpacePackage extends EPackage {
 	EDataType getMatch();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.equality.HashCodeTree <em>Hash Code Tree</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.equality.HashCodeMap <em>Hash Code Map</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Hash Code Tree</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
-	 * @model instanceClass="org.eclipse.emf.henshin.statespace.equality.HashCodeTree" serializeable="false"
+	 * @return the meta object for data type '<em>Hash Code Map</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+	 * @model instanceClass="org.eclipse.emf.henshin.statespace.equality.HashCodeMap" serializeable="false"
 	 * @generated
 	 */
-	EDataType getHashCodeTree();
+	EDataType getHashCodeMap();
+
+	/**
+	 * Returns the meta object for data type '<em>EObject Array</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EObject Array</em>'.
+	 * @model instanceClass="org.eclipse.emf.ecore.EObject[]"
+	 * @generated
+	 */
+	EDataType getEObjectArray();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1509,14 +1527,23 @@ public interface StateSpacePackage extends EPackage {
 		EDataType MATCH = eINSTANCE.getMatch();
 
 		/**
-		 * The meta object literal for the '<em>Hash Code Tree</em>' data type.
+		 * The meta object literal for the '<em>Hash Code Map</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeTree
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeTree()
+		 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
 		 * @generated
 		 */
-		EDataType HASH_CODE_TREE = eINSTANCE.getHashCodeTree();
+		EDataType HASH_CODE_MAP = eINSTANCE.getHashCodeMap();
+
+		/**
+		 * The meta object literal for the '<em>EObject Array</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectArray()
+		 * @generated
+		 */
+		EDataType EOBJECT_ARRAY = eINSTANCE.getEObjectArray();
 
 	}
 

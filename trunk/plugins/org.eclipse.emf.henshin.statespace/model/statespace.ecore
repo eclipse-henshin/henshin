@@ -60,6 +60,7 @@
       <eParameters name="match" eType="#//Match"/>
     </eOperations>
     <eOperations name="updateNodeIDs"/>
+    <eOperations name="asArray" eType="#//EObjectArray"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeIDsMap" upperBound="-1"
@@ -84,13 +85,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="StateEqualityHelper">
     <eOperations name="equals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="model1" eType="#//Model"/>
-      <eParameters name="tree1" eType="#//HashCodeTree"/>
+      <eParameters name="map1" eType="#//HashCodeMap"/>
       <eParameters name="model2" eType="#//Model"/>
-      <eParameters name="tree2" eType="#//HashCodeTree"/>
+      <eParameters name="map2" eType="#//HashCodeMap"/>
     </eOperations>
     <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eParameters name="model" eType="#//Model"/>
-      <eParameters name="tree" eType="#//HashCodeTree"/>
+      <eParameters name="map" eType="#//HashCodeMap"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="graphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
@@ -128,6 +129,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.util.Match"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="HashCodeTree" instanceClassName="org.eclipse.emf.henshin.statespace.equality.HashCodeTree"
+  <eClassifiers xsi:type="ecore:EDataType" name="HashCodeMap" instanceClassName="org.eclipse.emf.henshin.statespace.equality.HashCodeMap"
       serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EObjectArray" instanceClassName="org.eclipse.emf.ecore.EObject[]"/>
 </ecore:EPackage>

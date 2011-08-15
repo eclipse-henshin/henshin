@@ -12,9 +12,11 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Map;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -29,7 +31,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Storage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeTree;
+import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
 
 /**
  * <!-- begin-user-doc -->
@@ -113,7 +115,14 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType hashCodeTreeEDataType = null;
+	private EDataType hashCodeMapEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType eObjectArrayEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -636,8 +645,18 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getHashCodeTree() {
-		return hashCodeTreeEDataType;
+	public EDataType getHashCodeMap() {
+		return hashCodeMapEDataType;
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEObjectArray() {
+		return eObjectArrayEDataType;
 	}
 
 
@@ -723,7 +742,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Create data types
 		integerArrayEDataType = createEDataType(INTEGER_ARRAY);
 		matchEDataType = createEDataType(MATCH);
-		hashCodeTreeEDataType = createEDataType(HASH_CODE_TREE);
+		hashCodeMapEDataType = createEDataType(HASH_CODE_MAP);
+		eObjectArrayEDataType = createEDataType(EOBJECT_ARRAY);
 	}
 
 	/**
@@ -805,6 +825,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		addEOperation(modelEClass, null, "updateNodeIDs", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(modelEClass, this.getEObjectArray(), "asArray", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransition_Source(), this.getState(), this.getState_Outgoing(), "source", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Target(), this.getState(), this.getState_Incoming(), "target", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -822,13 +844,13 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		op = addEOperation(stateEqualityHelperEClass, ecorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getModel(), "model1", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getHashCodeTree(), "tree1", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getHashCodeMap(), "map1", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getModel(), "model2", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getHashCodeTree(), "tree2", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getHashCodeMap(), "map2", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(stateEqualityHelperEClass, ecorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getModel(), "model", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getHashCodeTree(), "tree", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getHashCodeMap(), "map", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(storageEClass, Storage.class, "Storage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStorage_Data(), this.getIntegerArray(), "data", null, 0, 1, Storage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -860,7 +882,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Initialize data types
 		initEDataType(integerArrayEDataType, int[].class, "IntegerArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(matchEDataType, Match.class, "Match", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(hashCodeTreeEDataType, HashCodeTree.class, "HashCodeTree", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(hashCodeMapEDataType, HashCodeMap.class, "HashCodeMap", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(eObjectArrayEDataType, EObject[].class, "EObjectArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

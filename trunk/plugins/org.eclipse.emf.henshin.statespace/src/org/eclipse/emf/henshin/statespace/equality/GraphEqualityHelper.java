@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.equality;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -35,21 +36,11 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 	// Default serial ID:
 	private static final long serialVersionUID = 1L;
 	
-	// Empty hash code map:
-	private static final HashCodeMap EMPTY_MAP = new HashCodeMap();
-	
 	// Helper for handling attributes:
 	private EcoreEqualityHelper attributeHelper;
 
-	// Cached models:
-	private Model m1, m2;
-
-	// Optional hash code maps:
-	private HashCodeMap p1, p2;
-
 	// Whether node IDs should be ignored:
 	private boolean ignoreNodeIDs;
-
 	
 	/**
 	 * Default constructor.
@@ -57,7 +48,7 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 	 */
 	public GraphEqualityHelper(boolean ignoreNodeIDs, boolean ignoreAttributes) {
 		this.ignoreNodeIDs = ignoreNodeIDs;
-		this.attributeHelper = ignoreAttributes ? null : new EcoreEqualityHelper(ignoreNodeIDs, false);
+		this.attributeHelper = new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes);
 	}
 	
 	/**
@@ -70,149 +61,118 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 						  Model model2, HashCodeMap map2) {
 		
 		// Make sure we have both trees
-		//if (map1==null || map2==null) {
-			map1 = EMPTY_MAP;
-			map2 = EMPTY_MAP;
-		//}
-		
-		// Initialize variables:
-		m1 = model1;
-		m2 = model2;
-		p1 = map1;
-		p2 = map2;
-		
-		// Perform depth-first search:
-		boolean equals = equals(m1.getResource().getContents(), m2.getResource().getContents(), 0);
+		if (map1==null || map2==null) {
+			map1 = HashCodeMap.ECLASS_HASH_CODE_MAP;
+			map2 = HashCodeMap.ECLASS_HASH_CODE_MAP;
+		}
 
-		// Release variables:
-		m1 = null;
-		m2 = null;
-		p1 = null;
-		p2 = null;
+		// Get the array representations of the models:
+		EObject[] objects1 = model1.asArray();
+		EObject[] objects2 = model2.asArray();
 		
-		// Done.
-		return true; //equals;
-		
-	}
-	
-	
-	/**
-	 * Check graph equality using depth-first search.
-	 * @return <code>true</code> if a match was found.
-	 */
-	private boolean equals(EList<EObject> list1, EList<EObject> list2,  int start) {
-		
-		// System.out.println("Current match: " + this);
-		
-		// Lists must have the same size:
-		int size = list1.size();
-		if (size!=list2.size()) {
+		// They must have the same length:
+		if (objects1.length!=objects2.length) {
 			return false;
 		}
-		
-		// Find the first object that is not matched yet:
-		EObject obj1 = null;
-		for (int i=start; i<size; i++) {
-			EObject current = list1.get(i);
-			EObject matched = get(current);
-			
-			// If it is matched already, it must be also in the list:
-			if (matched!=null) {
-				if (!list2.contains(matched)) {
-					return false;
-				}
-			} else {
-				obj1 = current;
-				break;
-			}
-		}
-		
-		// If all objects are matched already, we are done:
-		if (obj1==null) {
-			return true;
-		}
-		
-		// Get some details of the first objects:
-		EClass type = obj1.eClass();
-		int hashcode = p1.getHashCode(obj1);
-		int nodeId = getNodeID(obj1, m1);
-		
-		// Now we try to match it:
-		for (EObject obj2 : list2) {
-			
-			// The type must be the same:
-			if (!type.equals(obj2.eClass())) {
-				continue;
-			}
-			
-			// The hash code must be the same:
-			if (hashcode!=p2.getHashCode(obj2)) {
-				continue;
-			}
-			
-			// The node IDs must be the same:
-			if (!ignoreNodeIDs && nodeId!=getNodeID(obj2,m2)) {
-				continue;
-			}
-			
-			// The object must not be matched yet:
-			if (containsKey(obj2)) {
-				continue;
-			}
-			
-			// Must have the same attributes:
-			if (attributeHelper!=null) {
-				boolean equalAttributes = true;
-				for (EAttribute attribute : type.getEAllAttributes()) {
-					if (!attributeHelper.haveEqualAttribute(obj1, obj2, attribute)) {
-						equalAttributes = false;
-						break;
-					}
-				}
-				if (!equalAttributes) {
-					continue;
-				}
-			}
-			
-			// Assume it is a valid match:
-			put(obj1, obj2);
-			put(obj2, obj1);
-			boolean matchWorks = true;
+		int size = objects1.length;
 
-			// Now check the references:
-			for (EReference reference : type.getEAllReferences()) {
-				EList<EObject> refs1 = getReferenceAsList(obj1, reference);
-				EList<EObject> refs2 = getReferenceAsList(obj2, reference);
+		// Number of different object types:
+		int types = 0;
+
+		// Generate the two patterns based on the local hash codes:
+		int[] pattern1 = new int[size];
+		int[] pattern2 = new int[size];
+		
+		// We associate hash codes with indizes:
+		Map<Integer,Integer> indizes = new HashMap<Integer, Integer>();
+		for (int i=0; i<size; i++) {
+			int hash = map1.getHashCode(objects1[i]);
+			Integer index = indizes.get(hash);
+			if (index==null) {
+				index = types++;
+				indizes.put(hash, index);
+			}
+			pattern1[i] = index;
+		}
+		for (int i=0; i<size; i++) {
+			int hash = map1.getHashCode(objects2[i]);
+			Integer index = indizes.get(hash);
+			if (index==null) {
+				return false;
+			}
+			pattern2[i] = index;
+		}
+		
+		// Now generate the matches:
+		MatchIterator matches = new MatchIterator(pattern1, pattern2, types);
+		while (matches.hasNext()) {
+			
+			// Get the next match:
+			int[] match = matches.next();
+			System.out.println("Trying out match " + Arrays.toString(match) + "...");
+			
+			// Check whether the match is valid:
+			boolean valid = true;
+			for (int i=0; i<size; i++) {
 				
-				// Depth-first:
-				if (!equals(refs1, refs2, 0)) {
-					matchWorks = false;
+				// Get the matched objects:
+				EObject o1 = objects1[i];
+				EObject o2 = objects2[match[i]];
+				
+				// The type must be the same:
+				EClass type = o1.eClass();
+				if (!o2.eClass().equals(type)) {
+					valid = false;
+					System.err.println("Illegal match");
+					break;
+				}
+				
+				// The node IDs must be the same:
+				if (!ignoreNodeIDs && getNodeID(o1,model1)!=getNodeID(o2,model2)) {
+					valid = false;
+					break;
+				}
+
+				// Check the structural features:
+				for (EStructuralFeature feature : type.getEAllStructuralFeatures()) {
+					
+					if (feature instanceof EAttribute) {
+						if (!attributeHelper.haveEqualAttribute(o1, o2, (EAttribute) feature)) {
+							valid = false;
+							break;
+						}
+					} else {
+						EList<EObject> list1 = getReferenceAsList(o1, (EReference) feature);
+						EList<EObject> list2 = getReferenceAsList(o2, (EReference) feature);
+						if (list1.size()!=list2.size()) {
+							valid = false;
+							System.out.println(o1 + " and " + o2 + " have different refs for " + feature.getName());
+							break;
+						}
+					}
+					
+				}
+				if (!valid) {
 					break;
 				}
 			}
 			
-			// Check if the match worked:
-			if (matchWorks) {
-				
-				// Now we just need to match the rest of the original lists:
-				if (equals(list1, list2, start+1)) {
-					return true;
-				}
-				
+			// Check if the match was valid, then we are done:
+			if (valid) {
+				return true;
 			}
-			
-			// If we get to here the match didn't work:
-			remove(obj1);
-			remove(obj2);
-			
+
 		}
 		
-		// No match found:
+		// No (valid) match found:
+		System.out.println("Giving up\n");
 		return false;
 		
 	}
 	
-	
+	/*
+	 * Get a reference of an eObject as a list.
+	 */
 	@SuppressWarnings("unchecked")
 	private static EList<EObject> getReferenceAsList(EObject obj, EReference reference) {
 		if (reference.isMany()) {
@@ -226,14 +186,11 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 			return list;
 		}
 	}
-	
-	/**
+
+	/*
 	 * Get the ID of a node.
 	 */
 	private int getNodeID(EObject object, Model model) {
-		if (ignoreNodeIDs) {
-			return 0;
-		}
 		Integer result = model.getNodeIDsMap().get(object);
 		if (result==null) {
 			throw new RuntimeException("No node ID found for " + object);			
