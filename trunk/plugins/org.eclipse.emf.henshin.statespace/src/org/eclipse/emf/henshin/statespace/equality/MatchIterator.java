@@ -192,6 +192,15 @@ public class MatchIterator {
 		
 	}
 	
+	/**
+	 * Returns the indizes in the second pattern which match a given code.
+	 * @param code The code.
+	 * @return Array of indizes in the target pattern.
+	 */
+	public int[] getPossibleTargetIndizes(int code) {
+		return indizes2[code];
+	}
+	
 	/*
 	 * Test for generating permutations.
 	 */

@@ -30,7 +30,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -38,9 +37,9 @@ import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
-import org.eclipse.emf.henshin.statespace.util.UniversalCache;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
+import org.eclipse.emf.henshin.statespace.util.UniversalCache;
 
 /**
  * Default state space manager implementation.
@@ -145,11 +144,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		if (start==null) start = modelCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
 			
-		// Update the hash code map:
+		// Update the cached hash code maps if necessary:
 		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
-			HashCodeMap map = new HashCodeMap();
-			getStateSpace().getEqualityHelper().hashCode(model, map);
-			codesCache.put(model, map);
+			hashCode(model);
 		}
 		
 		// Always add it to the cache (is maintained automatically):
@@ -352,8 +349,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		
 		// Get some important state space parameters:
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
-		boolean graphEquality = getStateSpace().getEqualityHelper().isGraphEquality();
-		StateEqualityHelper equalityHelper = getStateSpace().getEqualityHelper();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -401,11 +396,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 				}
 				
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				HashCodeMap map = graphEquality ? new HashCodeMap() : null;
-				newState.setHashCode(equalityHelper.hashCode(transformed, map));
-				if (graphEquality) {
-					codesCache.put(transformed, map);
-				}
+				newState.setHashCode(hashCode(transformed));
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
@@ -451,15 +442,46 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 		}
 		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#hashCode(org.eclipse.emf.henshin.statespace.Model)
+	 */
+	@Override
+	protected int hashCode(Model model) {
+		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
+			HashCodeMap map = new HashCodeMap();
+			int hashcode = getStateSpace().getEqualityHelper().hashCode(model, map);
+			codesCache.put(model, map);
+			return hashcode;			
+		} else {
+			return getStateSpace().getEqualityHelper().hashCode(model, null);
+		}
+	}	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#equals(org.eclipse.emf.henshin.statespace.Model, org.eclipse.emf.henshin.statespace.Model)
 	 */
 	@Override
 	protected boolean equals(Model model1, Model model2) {
-		return getStateSpace().getEqualityHelper().equals(
-				model1, codesCache.get(model1), model2, codesCache.get(model2));
+		// We definitely need the hash code maps if we use graph equality:
+		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
+			HashCodeMap map1 = codesCache.get(model1);
+			if (map1==null) {
+				map1 = new HashCodeMap();
+				getStateSpace().getEqualityHelper().hashCode(model1, map1);
+				codesCache.put(model1, map1);
+			}
+			HashCodeMap map2 = codesCache.get(model2);
+			if (map2==null) {
+				map2 = new HashCodeMap();
+				getStateSpace().getEqualityHelper().hashCode(model2, map2);
+				codesCache.put(model2, map2);
+			}
+			return getStateSpace().getEqualityHelper().equals(model1, map1, model2, map2);
+		} else {
+			return super.equals(model1, model2);
+		}
 	}
 
 	/*

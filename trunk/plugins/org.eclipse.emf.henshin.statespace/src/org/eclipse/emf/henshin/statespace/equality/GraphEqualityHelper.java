@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.statespace.Model;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * Helper class for deciding whether two models are graph equal.
@@ -64,6 +65,7 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 		if (map1==null || map2==null) {
 			map1 = HashCodeMap.ECLASS_HASH_CODE_MAP;
 			map2 = HashCodeMap.ECLASS_HASH_CODE_MAP;
+			StateSpacePlugin.INSTANCE.logWarning("Using EClass-based node comparison (very slow!)");
 		}
 
 		// Get the array representations of the models:
@@ -95,7 +97,7 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 			pattern1[i] = index;
 		}
 		for (int i=0; i<size; i++) {
-			int hash = map1.getHashCode(objects2[i]);
+			int hash = map2.getHashCode(objects2[i]);
 			Integer index = indizes.get(hash);
 			if (index==null) {
 				return false;
@@ -109,7 +111,7 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 			
 			// Get the next match:
 			int[] match = matches.next();
-			System.out.println("Trying out match " + Arrays.toString(match) + "...");
+			//System.out.println("Match " + Arrays.toString(match));
 			
 			// Check whether the match is valid:
 			boolean valid = true;
@@ -123,7 +125,6 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 				EClass type = o1.eClass();
 				if (!o2.eClass().equals(type)) {
 					valid = false;
-					System.err.println("Illegal match");
 					break;
 				}
 				
@@ -144,11 +145,17 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 					} else {
 						EList<EObject> list1 = getReferenceAsList(o1, (EReference) feature);
 						EList<EObject> list2 = getReferenceAsList(o2, (EReference) feature);
-						if (list1.size()!=list2.size()) {
+						int references = list1.size();
+						if (list2.size()!=references) {
 							valid = false;
-							System.out.println(o1 + " and " + o2 + " have different refs for " + feature.getName());
 							break;
 						}
+						for (int j=0; j<references; j++) {
+							EObject r1 = list1.get(j);
+							
+							// TODO compare lists
+						}
+						
 					}
 					
 				}
@@ -165,7 +172,6 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 		}
 		
 		// No (valid) match found:
-		System.out.println("Giving up\n");
 		return false;
 		
 	}

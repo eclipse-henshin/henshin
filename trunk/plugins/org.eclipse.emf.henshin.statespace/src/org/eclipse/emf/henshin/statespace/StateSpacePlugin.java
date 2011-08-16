@@ -144,7 +144,20 @@ public final class StateSpacePlugin extends EMFPlugin {
 			if (t!=null) t.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Log a warning.
+	 * @param message Warning message.
+	 * @generated NOT
+	 */
+	public void logWarning(String message) {
+		if (plugin!=null && plugin.getLog()!=null) {
+			plugin.getLog().log(new Status(IStatus.WARNING, PLUGIN_ID, 0, message, null));
+		} else {
+			System.err.println(message);
+		}
+	}
+
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
 	 * @return the singleton instance.
