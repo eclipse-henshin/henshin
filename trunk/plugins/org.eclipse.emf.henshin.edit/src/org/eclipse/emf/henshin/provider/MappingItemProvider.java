@@ -53,7 +53,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
 		IItemPropertySource {
 	
-	NodeListener nodeListener;
+	protected NodeListener nodeListener;
 	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
@@ -336,7 +336,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	 * @author Stefan Jurack (sjurack)
 	 * 
 	 */
-	private class NodeListener implements INotifyChangedListener {
+	protected class NodeListener implements INotifyChangedListener {
 		
 		@Override
 		public void notifyChanged(Notification notification) {
@@ -364,7 +364,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		 * @param node
 		 * @return
 		 */
-		private List<Mapping> findMappingsByNode(Node node) {
+		protected List<Mapping> findMappingsByNode(Node node) {
 			List<Mapping> resultList = new ArrayList<Mapping>();
 			Graph graph = node.getGraph();
 			

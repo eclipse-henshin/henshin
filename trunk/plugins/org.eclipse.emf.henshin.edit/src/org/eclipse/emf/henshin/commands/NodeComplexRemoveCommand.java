@@ -50,8 +50,8 @@ import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
  */
 public class NodeComplexRemoveCommand extends CompoundCommand {
 	
-	private final EditingDomain domain;
-	private final Collection<Node> nodes;
+	protected final EditingDomain domain;
+	protected final Collection<Node> nodes;
 	Graph owningGraph;
 	
 	/**

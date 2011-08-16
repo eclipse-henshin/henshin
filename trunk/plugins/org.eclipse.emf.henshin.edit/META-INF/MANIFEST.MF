@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
 Export-Package: org.eclipse.emf.henshin.commands,
  org.eclipse.emf.henshin.provider,
  org.eclipse.emf.henshin.provider.filter,
- org.eclipse.emf.henshin.provider.trans
+ org.eclipse.emf.henshin.provider.trans,
+ org.eclipse.emf.henshin.provider.util
 
