@@ -53,6 +53,7 @@ public class HenshinPaletteFactory {
 		
 		// Rules:
 		paletteContainer.add(createRule1CreationTool());
+		paletteContainer.add(createNodeCreationTool());
 		paletteContainer.add(createEdge2CreationTool());
 		paletteContainer.add(createAttribute3CreationTool());
 		
@@ -68,6 +69,19 @@ public class HenshinPaletteFactory {
 		return paletteContainer;
 	}
 
+	/**
+	 * 
+	 */
+	private ToolEntry createNodeCreationTool() {
+		NodeToolEntry entry = new NodeToolEntry(Messages.NodeCreationTool_title,
+				Messages.NodeCreationTool_desc,
+				Collections.singletonList(HenshinElementTypes.Node_3001));
+		entry.setId("createNodeCreationTool"); //$NON-NLS-1$
+		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Node_3001));
+		entry.setLargeIcon(entry.getSmallIcon());
+		return entry;
+	}
+	
 	/**
 	 * @generated
 	 */

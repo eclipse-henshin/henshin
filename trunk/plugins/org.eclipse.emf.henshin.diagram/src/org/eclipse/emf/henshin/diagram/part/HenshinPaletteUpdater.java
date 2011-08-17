@@ -23,18 +23,22 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
 
 /**
- * Monitors the imports of a transformation system and 
- * updates the palette of a Henshin diagram editor.
+ * Monitors the imports of a transformation system and updates the palette of a
+ * Henshin diagram editor.
+ * 
  * @generated NOT
  * @author Christian Krause
  */
 public class HenshinPaletteUpdater {
+	
+	private static final Comparator<EClassifier> ECLASS_COMPARATOR = new EClassComparator();
 	
 	// Palette root to be updated.
 	private PaletteRoot palette;
@@ -43,17 +47,20 @@ public class HenshinPaletteUpdater {
 	private TransformationSystem system;
 	
 	// Palette drawers for the packages.
-	private HashMap<EPackage,PaletteDrawer> drawers;
+	private HashMap<EPackage, PaletteDrawer> drawers;
 	
 	/**
 	 * Default constructor.
-	 * @param palette Palette root.
-	 * @param system Transformation system.
+	 * 
+	 * @param palette
+	 *            Palette root.
+	 * @param system
+	 *            Transformation system.
 	 */
 	public HenshinPaletteUpdater(PaletteRoot palette, TransformationSystem system) {
 		this.palette = palette;
 		this.system = system;
-		this.drawers = new HashMap<EPackage,PaletteDrawer>();
+		this.drawers = new HashMap<EPackage, PaletteDrawer>();
 		system.eAdapters().add(listener);
 		refresh();
 	}
@@ -72,7 +79,7 @@ public class HenshinPaletteUpdater {
 		}
 		
 	}
-
+	
 	/**
 	 * @param epackage
 	 */
@@ -83,8 +90,8 @@ public class HenshinPaletteUpdater {
 		
 		// Add entries for all classes:
 		List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
-		Collections.sort(eclassifiers, eclassComparator);
-		for (EClassifier eclassifier : eclassifiers){
+		Collections.sort(eclassifiers, ECLASS_COMPARATOR);
+		for (EClassifier eclassifier : eclassifiers) {
 			if (eclassifier instanceof EClass) {
 				drawer.add(new HenshinPaletteTools.EClassNodeToolEntry((EClass) eclassifier));
 			}
@@ -93,10 +100,10 @@ public class HenshinPaletteUpdater {
 		palette.add(drawer);
 		drawers.put(epackage, drawer);
 		
-		//include subpackages as well
+		// include subpackages as well
 		for (EPackage ep : epackage.getESubpackages()) {
-			addDrawerForEPackageHelper(ep, epackageName +".");
-		}
+			addDrawerForEPackageHelper(ep, epackageName + ".");
+		}//for
 		
 	}
 	
@@ -110,21 +117,9 @@ public class HenshinPaletteUpdater {
 	private Adapter listener = new AdapterImpl() {
 		public void notifyChanged(Notification event) {
 			int featureID = event.getFeatureID(TransformationSystem.class);
-			if (featureID==HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS) {
+			if (featureID == HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS) {
 				refresh();
 			}
-		}
-	};
-	
-	
-	/*
-	 * A comparator for EClasses.
-	 */
-	private Comparator<EClassifier> eclassComparator = new Comparator<EClassifier>() {
-		public int compare(EClassifier c1, EClassifier c2) {
-			String n1 = c1.getName()!=null ? c1.getName() : "";
-			String n2 = c2.getName()!=null ? c2.getName() : "";
-			return n1.compareTo(n2);
 		}
 	};
 	
