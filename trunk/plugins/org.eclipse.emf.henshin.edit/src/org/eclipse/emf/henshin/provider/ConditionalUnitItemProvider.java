@@ -214,18 +214,19 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
-			children.add(0, new IfItemProvider(adapterFactory, cu));
-			children.add(1, new ThenItemProvider(adapterFactory, cu));
-			children.add(2, new ElseItemProvider(adapterFactory, cu));
+			children.add(new IfItemProvider(adapterFactory, cu));
+			children.add(new ThenItemProvider(adapterFactory, cu));
+			children.add(new ElseItemProvider(adapterFactory, cu));
 		}// if
 		else {
 			@SuppressWarnings("rawtypes")
 			List l = (List<?>) super.getChildren(object);
 			
 			// reuse item providers in the 'children' list
-			l.add(0, children.get(0));
-			l.add(1, children.get(1));
-			l.add(2, children.get(2));
+			int size = children.size();
+			l.add(children.get(size-3));
+			l.add(children.get(size-2));
+			l.add(children.get(size-1));
 			children = l;
 		}
 		
