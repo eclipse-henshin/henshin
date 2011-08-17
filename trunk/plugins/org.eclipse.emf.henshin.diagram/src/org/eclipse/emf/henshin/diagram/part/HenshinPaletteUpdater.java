@@ -68,19 +68,34 @@ public class HenshinPaletteUpdater {
 		
 		// Create a new drawer for every package:
 		for (EPackage epackage : system.getImports()) {
-			PaletteDrawer drawer = new PaletteDrawer(epackage.getName(), HenshinPaletteTools.EPACKAGE_ICON);
-			
-			// Add entries for all classes:
-			List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
-			Collections.sort(eclassifiers, eclassComparator);
-			for (EClassifier eclassifier : eclassifiers){
-				if (eclassifier instanceof EClass) {
-					drawer.add(new HenshinPaletteTools.EClassNodeToolEntry((EClass) eclassifier));
-				}
+			addDrawerForEPackageHelper(epackage, "");
+		}
+		
+	}
+
+	/**
+	 * @param epackage
+	 */
+	private void addDrawerForEPackageHelper(EPackage epackage, String prefix) {
+		
+		String epackageName = prefix + epackage.getName();
+		PaletteDrawer drawer = new PaletteDrawer(epackageName, HenshinPaletteTools.EPACKAGE_ICON);
+		
+		// Add entries for all classes:
+		List<EClassifier> eclassifiers = new ArrayList<EClassifier>(epackage.getEClassifiers());
+		Collections.sort(eclassifiers, eclassComparator);
+		for (EClassifier eclassifier : eclassifiers){
+			if (eclassifier instanceof EClass) {
+				drawer.add(new HenshinPaletteTools.EClassNodeToolEntry((EClass) eclassifier));
 			}
-			
-			palette.add(drawer);
-			drawers.put(epackage, drawer);
+		}
+		
+		palette.add(drawer);
+		drawers.put(epackage, drawer);
+		
+		//include subpackages as well
+		for (EPackage ep : epackage.getESubpackages()) {
+			addDrawerForEPackageHelper(ep, epackageName +".");
 		}
 		
 	}
