@@ -31,9 +31,10 @@ public class AttributeConstraint implements UnaryConstraint {
 	
 	@Override
 	public boolean check(final DomainSlot slot) {
+		
 		if (slot.locked)
-			return attributeValue == null ? slot.value.eGet(attribute) == null : slot.value.eGet(
-					attribute).equals(attributeValue);
+			return attributeValue == null ? slot.value.eGet(attribute) == null : slot.value
+					.eGet(attribute) != null && slot.value.eGet(attribute).equals(attributeValue);
 		
 		List<EObject> domain = slot.domain;
 		for (int i = domain.size() - 1; i >= 0; i--) {
