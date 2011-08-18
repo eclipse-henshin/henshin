@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -22,9 +21,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
@@ -204,7 +203,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			this.setTitle(Messages.SingleEClassifierSelectionDialog_title);
 			this.setMessage(Messages.SingleEClassifierSelectionDialog_msg);
 			this.ts = ts;
-		}//constructor
+		}// constructor
 		
 		/**
 		 * Opens the dialog and returns the first selected EClassifier in the
@@ -215,10 +214,8 @@ public class NodeCreateCommand extends EditElementCommand {
 		 */
 		public final EClassifier openAndReturnSelection() {
 			
-			final List<EClassifier> elements = new ArrayList<EClassifier>();
-			for (EPackage p : ts.getImports()) {
-				collectAllClassifier(elements, p);
-			}// for
+			final List<EClassifier> elements = TransformationSystemEditHelper
+					.collectAllEClassifier(ts);
 			
 			EClassifier result = null;
 			if (elements.size() > 0) {
@@ -233,18 +230,6 @@ public class NodeCreateCommand extends EditElementCommand {
 			
 			return result;
 		}// openAndReturnElement
-		
-		/**
-		 * Helper method for recursively collect EClassifier.
-		 * 
-		 * @param elements
-		 * @param p
-		 */
-		private void collectAllClassifier(List<EClassifier> elements, EPackage p) {
-			elements.addAll(p.getEClassifiers());
-			for (EPackage p2 : p.getESubpackages())
-				collectAllClassifier(elements, p2);
-		}// collectAllClassifier
 		
 	}// inner class
 	

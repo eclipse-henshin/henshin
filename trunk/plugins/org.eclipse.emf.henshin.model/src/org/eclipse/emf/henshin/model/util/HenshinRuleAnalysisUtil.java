@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.util;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -86,7 +87,6 @@ public class HenshinRuleAnalysisUtil {
 		}
 		return false;
 	}
-	
 	
 	/**
 	 * Checks if the given edge represents a 'deletion' edge. This is the case,
@@ -176,6 +176,26 @@ public class HenshinRuleAnalysisUtil {
 		return (graph.eContainer() != null) && (graph.eContainer() instanceof Rule)
 				&& (graph.getContainerRule().getLhs() == graph);
 		
+	}
+	
+	/**
+	 * Checks whether the given graph is part of an LHS in the sense that it
+	 * might be the lhs itself or a nested conditions contained in the lhs. a
+	 * nested condition might be even part of a formula.
+	 * 
+	 * @param graph
+	 * @return
+	 */
+	public static boolean isLHSPart(Graph graph) {
+		boolean result = true;
+		EObject eobject = graph;
+		while ((eobject.eContainer() != null) && !(eobject.eContainer() instanceof Rule)) {
+			eobject = eobject.eContainer();
+		}// while
+		if (eobject instanceof Graph) {
+			result = isLHS((Graph) eobject);
+		}// if
+		return result;
 	}
 	
 	/**
