@@ -109,7 +109,7 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 			CreateParameterMappingCommand cmd = new CreateParameterMappingCommand(sourceParameter, targetParameter);
 			if (cmd.canExecute()) menuManager.add(createAction(labelST, cmd));
 			
-			cmd = new CreateParameterMappingCommand(sourceParameter, targetParameter);
+			cmd = new CreateParameterMappingCommand(targetParameter, sourceParameter);
 			if (cmd.canExecute()) menuManager.add(createAction(labelTS, cmd));			
 			
 		} // if else
