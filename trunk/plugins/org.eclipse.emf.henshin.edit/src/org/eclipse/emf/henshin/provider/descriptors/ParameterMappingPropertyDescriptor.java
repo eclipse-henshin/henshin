@@ -48,6 +48,14 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 			EStructuralFeature feature) {
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
 				true, null, null, null);
+		
+		this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator) {
+			@Override
+			public String getText(Object object) {
+				Parameter p = (Parameter) object;
+				return p.getName() + "  [" + p.getUnit().getName() + "]";
+			}
+		};
 	}// constructor
 	
 	/**
