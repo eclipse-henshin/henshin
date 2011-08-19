@@ -13,11 +13,15 @@ package org.eclipse.emf.henshin.editor.menuContributors;
 
 import java.util.List;
 
+import org.eclipse.emf.edit.provider.WrapperItemProvider;
 import org.eclipse.emf.henshin.editor.commands.CreateMappingCommand;
+import org.eclipse.emf.henshin.editor.commands.CreateParameterMappingCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.commands.QuantUtil;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
@@ -43,27 +47,72 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 		
 		if (selection.size() != 2) return;
 		
-		if (!QuantUtil.allInstancesOf(Node.class, selection.get(0), selection.get(1))) return;
+		Object source = selection.get(0);
+		Object target = selection.get(1);
 		
-		Node sourceNode = (Node) selection.get(0);
-		Node targetNode = (Node) selection.get(1);
 		
-		// Nodes must be contained in different graphs
-		//
-		if (QuantUtil.anyNull(sourceNode.getGraph(), targetNode.getGraph())
-				|| QuantUtil.allIdentical(sourceNode.getGraph(), targetNode.getGraph())) return;
+		while (source instanceof WrapperItemProvider) {
+			source = ((WrapperItemProvider) source).getValue();
+		}
+
+		while (target instanceof WrapperItemProvider) {
+			target = ((WrapperItemProvider) target).getValue();
+		}
 		
-		// Nodes must have the same type.
-		//
-		// if (!QuantUtil.allIdenticalAndNotNull(sourceNode.getType(),
-		// targetNode.getType())) return;
+		boolean bNodeMapping = QuantUtil.allInstancesOf(Node.class, source,
+				target);
+		boolean bParameterMapping = QuantUtil.allInstancesOf(Parameter.class, source,
+				target);
 		
-		CreateMappingCommand cmd = new CreateMappingCommand(sourceNode, targetNode);
-		if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
-		
-		cmd = new CreateMappingCommand(targetNode, sourceNode);
-		if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
+		if (bNodeMapping) {
+			Node sourceNode = (Node) source;
+			Node targetNode = (Node) target;
+			
+			// Nodes must be contained in different graphs
+			//
+			if (QuantUtil.anyNull(sourceNode.getGraph(), targetNode.getGraph())
+					|| QuantUtil.allIdentical(sourceNode.getGraph(), targetNode.getGraph()))
+				return;
+			
+			// Nodes must have the same type.
+			//
+			// if (!QuantUtil.allIdenticalAndNotNull(sourceNode.getType(),
+			// targetNode.getType())) return;
+			
+			CreateMappingCommand cmd = new CreateMappingCommand(sourceNode, targetNode);
+			if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
+			
+			cmd = new CreateMappingCommand(targetNode, sourceNode);
+			if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
+			
+		} else if (bParameterMapping) {
+			
+			Parameter sourceParameter = (Parameter) source;
+			Parameter targetParameter = (Parameter) target;
+			
+			/*
+			 * One parameter shall be in the "containing" unit, the other one in
+			 * the "contained".
+			 */
+			TransformationUnit sourceUnit = sourceParameter.getUnit();
+			TransformationUnit targetUnit = targetParameter.getUnit();
+			
+			if (!(sourceUnit.getSubUnits(false).contains(targetUnit)
+					|| targetUnit.getSubUnits(false).contains(sourceUnit))) return;
+			
+			String srcP = sourceUnit.getName() + "." + sourceParameter.getName();
+			String trgP = targetUnit.getName() + "." + targetParameter.getName();
+			
+			String labelST = getLabel(COMMAND_LABEL) +"[" + srcP +" -> "+ trgP + "]";
+			String labelTS = getLabel(COMMAND_LABEL) +"[" + trgP +" -> "+ srcP + "]";
+			
+			CreateParameterMappingCommand cmd = new CreateParameterMappingCommand(sourceParameter, targetParameter);
+			if (cmd.canExecute()) menuManager.add(createAction(labelST, cmd));
+			
+			cmd = new CreateParameterMappingCommand(sourceParameter, targetParameter);
+			if (cmd.canExecute()) menuManager.add(createAction(labelTS, cmd));			
+			
+		} // if else
 		
 	}// contributeActions
-	
 }// class
