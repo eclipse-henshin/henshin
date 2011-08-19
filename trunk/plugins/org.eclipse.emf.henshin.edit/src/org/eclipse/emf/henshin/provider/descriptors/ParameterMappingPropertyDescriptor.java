@@ -53,7 +53,11 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 			@Override
 			public String getText(Object object) {
 				Parameter p = (Parameter) object;
-				return p.getName() + "  [" + p.getUnit().getName() + "]";
+				String text = p.getName();
+				if (p.getUnit().getName() != null) {
+					text = text + "  [" + p.getUnit().getName() + "]";
+				}
+				return text;
 			}
 		};
 	}// constructor
