@@ -29,6 +29,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.NegligentRemoveCommand;
 import org.eclipse.emf.henshin.commands.NodeComplexRemoveCommand;
+import org.eclipse.emf.henshin.commands.SetNestedConditionCommand;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -238,5 +239,18 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		
 		return super.createRemoveCommand(domain, owner, feature, collection);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	@Override
+	protected Command createSetCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Object value) {
+		if ((feature == HenshinPackage.eINSTANCE.getGraph_Formula())) {
+			return new SetNestedConditionCommand(domain, owner, feature, value);
+		}
+		return super.createSetCommand(domain, owner, feature, value);
+	}
+
 	
 }
