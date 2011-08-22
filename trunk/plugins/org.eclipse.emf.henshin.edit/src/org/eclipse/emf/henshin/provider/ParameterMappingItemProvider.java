@@ -36,6 +36,7 @@ import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDesc
  * {@link org.eclipse.emf.henshin.model.ParameterMapping} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
  * 
+ * @author Felix Rieger
  * @generated
  */
 public class ParameterMappingItemProvider extends ItemProviderAdapter implements
@@ -125,15 +126,22 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		ParameterMapping pmapping = (ParameterMapping) object;
 		
 		String result = getString("_UI_ParameterMapping_type");
-		String src = null, trg = null;
+		String src = null, trg = null, srcUnit = null, trgUnit = null;
 		if (pmapping.getSource() != null) {
+			
+			if (pmapping.getSource().getUnit().getName() != null) {
+				srcUnit = pmapping.getSource().getUnit().getName() + ".";
+			}
 			src = pmapping.getSource().getName();
 		}
 		if (pmapping.getTarget() != null) {
+			if (pmapping.getTarget().getUnit().getName() != null) {
+				trgUnit = pmapping.getTarget().getUnit().getName() + ".";
+			}
 			trg = pmapping.getTarget().getName();
 		}
 		
-		return result + " " + convertString(src) + " -> " + convertString(trg);
+		return result + " " + ((srcUnit==null)?"":srcUnit) + convertString(src) + " -> " + ((trgUnit==null)?"":trgUnit) + convertString(trg);
 	}// getText
 	
 	/**
