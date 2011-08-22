@@ -11,13 +11,11 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.equality;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -85,24 +83,32 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 		int[] pattern1 = new int[size];
 		int[] pattern2 = new int[size];
 		
-		// We associate hash codes with indizes:
-		Map<Integer,Integer> indizes = new HashMap<Integer, Integer>();
+		// We also want to record the indizes of all objects:
+		Map<EObject,Integer> indizes = new HashMap<EObject,Integer>();
+		
+		// We also cache the references of all EObjects:
+		EObjectReferenceMap references = new EObjectReferenceMap(2 * size);
+		
+		// We associate hash values with codes in the range 0..n:
+		Map<Integer,Integer> codes = new HashMap<Integer, Integer>();
 		for (int i=0; i<size; i++) {
+			indizes.put(objects1[i], i);
 			int hash = map1.getHashCode(objects1[i]);
-			Integer index = indizes.get(hash);
-			if (index==null) {
-				index = types++;
-				indizes.put(hash, index);
+			Integer code = codes.get(hash);
+			if (code==null) {
+				code = types++;
+				codes.put(hash, code);
 			}
-			pattern1[i] = index;
+			pattern1[i] = code;
 		}
 		for (int i=0; i<size; i++) {
+			indizes.put(objects2[i], i);
 			int hash = map2.getHashCode(objects2[i]);
-			Integer index = indizes.get(hash);
-			if (index==null) {
+			Integer code = codes.get(hash);
+			if (code==null) {
 				return false;
 			}
-			pattern2[i] = index;
+			pattern2[i] = code;
 		}
 		
 		// Now generate the matches:
@@ -143,25 +149,30 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 							break;
 						}
 					} else {
-						EList<EObject> list1 = getReferenceAsList(o1, (EReference) feature);
-						EList<EObject> list2 = getReferenceAsList(o2, (EReference) feature);
-						int references = list1.size();
-						if (list2.size()!=references) {
+						/*
+						Set<EObject> ref1 = references.get(indizes.get(o1), o1, (EReference) feature);
+						Set<EObject> ref2 = references.get(indizes.get(o2) + size, o2, (EReference) feature);
+						if (ref2.size()!=ref1.size()) {
 							valid = false;
 							break;
 						}
-						for (int j=0; j<references; j++) {
-							EObject r1 = list1.get(j);
-							
-							// TODO compare lists
+						for (EObject source : ref1) {
+							EObject target = objects2[match[indizes.get(source)]];
+							if (!ref2.contains(target)) {
+								valid = false;
+								break;
+							}
 						}
-						
+						*/
 					}
 					
 				}
+				
+				// Abort the check for this match if we found an error:
 				if (!valid) {
 					break;
 				}
+				
 			}
 			
 			// Check if the match was valid, then we are done:
@@ -176,23 +187,6 @@ public class GraphEqualityHelper extends LinkedHashMap<EObject,EObject> {
 		
 	}
 	
-	/*
-	 * Get a reference of an eObject as a list.
-	 */
-	@SuppressWarnings("unchecked")
-	private static EList<EObject> getReferenceAsList(EObject obj, EReference reference) {
-		if (reference.isMany()) {
-			return (EList<EObject>) obj.eGet(reference);
-		} else {
-			EList<EObject> list = new BasicEList<EObject>();
-			EObject target = (EObject) obj.eGet(reference);
-			if (target!=null) {
-				list.add(target);
-			}
-			return list;
-		}
-	}
-
 	/*
 	 * Get the ID of a node.
 	 */
