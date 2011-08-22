@@ -63,7 +63,7 @@ public abstract class BaseFilterControlsViewer {
 		tb.addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				System.out.println("disposing");
+				// System.out.println("disposing");
 				for (Image img : images)
 					img.dispose();
 			}
@@ -115,8 +115,7 @@ public abstract class BaseFilterControlsViewer {
 		
 		void init(ToolBar tb) {
 			item = new ToolItem(tb, SWT.CHECK);
-			if (pressed)
-				item.setSelection(pressed);
+			if (pressed) item.setSelection(pressed);
 			getState().setStateUI(item);
 			item.addSelectionListener(this);
 		}
