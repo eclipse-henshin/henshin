@@ -36,7 +36,6 @@ import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDesc
  * {@link org.eclipse.emf.henshin.model.ParameterMapping} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
  * 
- * @author Felix Rieger
  * @generated
  */
 public class ParameterMappingItemProvider extends ItemProviderAdapter implements
