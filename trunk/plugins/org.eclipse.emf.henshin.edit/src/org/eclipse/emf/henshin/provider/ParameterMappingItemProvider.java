@@ -123,34 +123,46 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	@Override
 	public String getText(Object object) {
 		ParameterMapping pmapping = (ParameterMapping) object;
+		TransformationUnit unit = (TransformationUnit) pmapping.eContainer();
 		
-		String result = getString("_UI_ParameterMapping_type");
-		String src = null, trg = null, srcUnit = null, trgUnit = null;
-		if (pmapping.getSource() != null) {
-			
-			if (pmapping.getSource().getUnit().getName() != null) {
-				srcUnit = pmapping.getSource().getUnit().getName() + ".";
-			}
-			src = pmapping.getSource().getName();
-		}
-		if (pmapping.getTarget() != null) {
-			if (pmapping.getTarget().getUnit().getName() != null) {
-				trgUnit = pmapping.getTarget().getUnit().getName() + ".";
-			}
-			trg = pmapping.getTarget().getName();
-		}
+		final StringBuffer result = new StringBuffer(getString("_UI_ParameterMapping_type"));
+		final String src = calculateParameterString(pmapping.getSource(), unit);
+		final String trg = calculateParameterString(pmapping.getTarget(), unit);
 		
-		return result + " " + ((srcUnit==null)?"":srcUnit) + convertString(src) + " -> " + ((trgUnit==null)?"":trgUnit) + convertString(trg);
+		result.append(" ").append(src).append(" -> ").append(trg);
+		
+		return result.toString();
+		
+		// TODO: Refreshing of this text if parameter or unit names of foreign
+		// parameters change
+		
 	}// getText
 	
 	/**
-	 * @param s
+	 * @param p
+	 *            the parameter to calculate the string for
+	 * @param owningUnit
+	 *            unit which owns the parameter mapping
 	 * @return
 	 */
-	private String convertString(String s) {
-		final String EMPTY_STRING = "?";
-		return ((s == null) ? EMPTY_STRING : s);
-	}// convertString
+	private String calculateParameterString(Parameter p, TransformationUnit owningUnit) {
+		final String EMPTY_STRING = "_";
+		final String UNSET_PARAMETER = "?";
+		
+		if (p != null) {
+			final StringBuffer buf = new StringBuffer();
+			if (!p.getUnit().equals(owningUnit)) {
+				final String n1 = p.getUnit().getName();
+				buf.append((n1 == null || n1.trim().isEmpty()) ? EMPTY_STRING : n1);
+				buf.append(".");
+			}// if
+			final String n2 = p.getName();
+			buf.append((n2 == null || n2.trim().isEmpty()) ? EMPTY_STRING : n2);
+			return buf.toString();
+		} else
+			return UNSET_PARAMETER;
+		
+	}// calculateParameterString
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
