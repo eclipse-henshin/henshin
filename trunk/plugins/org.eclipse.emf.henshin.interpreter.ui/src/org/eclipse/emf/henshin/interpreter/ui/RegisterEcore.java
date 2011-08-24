@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class RegisterEcore implements IObjectActionDelegate {
 	
-	private static final List<IFile> list = new ArrayList<IFile>();
+	private final List<IFile> list = new ArrayList<IFile>();
 	
 	@Override
 	public void run(IAction action) {
