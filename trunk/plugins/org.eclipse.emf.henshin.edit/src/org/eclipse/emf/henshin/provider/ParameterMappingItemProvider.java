@@ -43,7 +43,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		IItemLabelProvider, IItemPropertySource {
 	
 	ParameterListener parameterListener;
-		
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -267,15 +267,23 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			ItemProviderAdapter parameterAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
 					parameter, Parameter.class);
 			parameterAdapter.removeListener(parameterListener);
-			ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
-					parameter.getUnit(), TransformationUnit.class);
-			ruleAdapter.removeListener(parameterListener);
+			
+			/*
+			 * Check if the parameter is still contained in a unit. This is not
+			 * the case if source/target parameter is deleted from the model. If
+			 * this is the case, we are not able to remove the listener.
+			 */
+			if (parameter.getUnit() != null) {
+				ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+						parameter.getUnit(), TransformationUnit.class);
+				ruleAdapter.removeListener(parameterListener);
+			}// if
 		}// if
 	}// removeParameterListener
 	
-	
 	/**
-	 * This Listener listens for events on parameters.
+	 * This Listener listens for renaming events on parameters and its container
+	 * units.
 	 * 
 	 * @author Stefan Jurack (sjurack)
 	 * @author Felix Rieger
@@ -285,50 +293,47 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		@Override
 		public void notifyChanged(Notification notification) {
 			
-			/*
-			 * Listen for Parameter renaming events.
-			 */
-			if ((notification.getNotifier() instanceof Parameter) && 
-					(notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME)) {
-				List<ParameterMapping> pms = findParameterMappings((Parameter) notification
-						.getNotifier());
+			// we care for renaming events only
+			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME) {
 				
-				AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
-				for (ParameterMapping pm : pms) {
-					// update the mapping visualization in the editor
-					Notification notif = new ViewerNotification(notification, pm, false, true);
-					ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
-							ParameterMapping.class);
-					adapter.fireNotifyChanged(notif);
-				}// for
+				// ...especially renaming events of Parameters
+				if (notification.getNotifier() instanceof Parameter) {
+					List<ParameterMapping> pms = findParameterMappings((Parameter) notification
+							.getNotifier());
+					
+					notifyParameterMappingItemProvider(notification, pms);
+				}// if
+				
+				// ...and renaming events of parameter's TransformationUnits
+				if (notification.getNotifier() instanceof TransformationUnit) {
+					
+					TransformationUnit tu = (TransformationUnit) notification.getNotifier();
+					for (Parameter param : tu.getParameters()) { // get the TU's
+																	// parameters
+						List<ParameterMapping> pms = parameterListener.findParameterMappings(param);
+						notifyParameterMappingItemProvider(notification, pms);
+					}// for
+				}// if
 				
 			}// if
 			
-			/*
-			 * Listen for TransformationUnit renaming events
-			 */
-			if ((notification.getNotifier() instanceof TransformationUnit) && 
-					(notification.getFeatureID(TransformationUnit.class) == HenshinPackage.TRANSFORMATION_UNIT__NAME)) {
-				
-				TransformationUnit tu = (TransformationUnit) notification.getNotifier();//((Parameter) notification.getNotifier()).getUnit();
-				for (Parameter param : tu.getParameters()) { // get the TU's
-																// parameters
-					List<ParameterMapping> pms = parameterListener.findParameterMappings(param);
-					AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
-					for (ParameterMapping pm : pms) { // get the parameter
-														// mappings referencing
-														// the parameter
-						Notification notif = new ViewerNotification(notification, pm, false, true);
-						ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
-								ParameterMapping.class);
-						adapter.fireNotifyChanged(notif); // and update their
-															// text
-					}
-				}
-				
-			}
-			
 		}// notifyChanged
+		
+		/**
+		 * @param notification
+		 * @param pms
+		 */
+		private void notifyParameterMappingItemProvider(Notification notification,
+				List<ParameterMapping> pms) {
+			final AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
+			for (ParameterMapping pm : pms) {
+				// update the mapping visualization in the editor
+				Notification notif = new ViewerNotification(notification, pm, false, true);
+				ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
+						ParameterMapping.class);
+				adapter.fireNotifyChanged(notif);
+			}// for
+		}// notifyParameterMappingItemProvider
 		
 		/**
 		 * Finds all {@link ParameterMapping}s related to the given
@@ -337,7 +342,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		 * @param para
 		 * @return
 		 */
-		private List<ParameterMapping> findParameterMappings(Parameter para) {
+		private final List<ParameterMapping> findParameterMappings(Parameter para) {
 			/*
 			 * According to the semantics of our Henshin model, Parameters can
 			 * only be mapped by a ParameterMapping contained in the same
@@ -370,8 +375,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 				List<ParameterMapping> result) {
 			
 			for (ParameterMapping pm : tu.getParameterMappings()) {
-				if (pm.getSource() == para || pm.getTarget() == para)
-					result.add(pm);
+				if (pm.getSource() == para || pm.getTarget() == para) result.add(pm);
 			}// for
 		}// collectRelatedParameterMappings
 		
