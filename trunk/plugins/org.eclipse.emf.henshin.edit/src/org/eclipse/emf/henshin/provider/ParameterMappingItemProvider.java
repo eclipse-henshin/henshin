@@ -36,9 +36,6 @@ import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDesc
  * {@link org.eclipse.emf.henshin.model.ParameterMapping} object. <!--
  * begin-user-doc --> <!-- end-user-doc -->
  * 
- * @author Stefan Jurack
- * @author Felix Rieger
- * 
  * @generated NOT
  */
 public class ParameterMappingItemProvider extends ItemProviderAdapter implements
@@ -46,7 +43,8 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		IItemLabelProvider, IItemPropertySource {
 	
 	ParameterListener parameterListener;
-	TransformationUnitListener tuListener;
+	
+	// TransformationUnitListener tuListener;
 	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
@@ -58,7 +56,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		super(adapterFactory);
 		
 		parameterListener = new ParameterListener();
-		tuListener = new TransformationUnitListener();
+		// tuListener = new TransformationUnitListener();
 	}
 	
 	/**
@@ -185,9 +183,9 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			Parameter p_new = (Parameter) notification.getNewValue();
 			Parameter p_old = (Parameter) notification.getOldValue();
 			removeParameterListener(p_old);
-			removeRuleListener(p_old.getUnit());
+			// removeRuleListener(p_old);
 			addParameterListener(p_new);
-			addRuleListener(p_new.getUnit());
+			// addRuleListener(p_new.getUnit());
 		}// if
 		updateChildren(notification);
 		super.notifyChanged(notification);
@@ -231,12 +229,12 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		ParameterMapping mapping = (ParameterMapping) target;
 		addParameterListener(mapping.getSource());
 		addParameterListener(mapping.getTarget());
-		if (mapping.getSource() != null) {
-			addRuleListener(mapping.getSource().getUnit());
-		}
-		if (mapping.getTarget() != null) {
-			addRuleListener(mapping.getTarget().getUnit());	
-		}
+		// if (mapping.getSource() != null) {
+		// addRuleListener(mapping.getSource().getUnit());
+		// }
+		// if (mapping.getTarget() != null) {
+		// addRuleListener(mapping.getTarget().getUnit());
+		// }
 		
 	}// setTarget
 	
@@ -255,12 +253,6 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		ParameterMapping mapping = (ParameterMapping) target;
 		removeParameterListener(mapping.getSource());
 		removeParameterListener(mapping.getTarget());
-		if (mapping.getSource() != null) {
-			removeRuleListener(mapping.getSource().getUnit());
-		}
-		if (mapping.getTarget() != null) {
-			removeRuleListener(mapping.getTarget().getUnit());
-		}
 	}// unsetTarget
 	
 	/**
@@ -268,9 +260,14 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 */
 	private void addParameterListener(Parameter parameter) {
 		if (parameter != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+			ItemProviderAdapter parameterAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
 					parameter, Parameter.class);
-			adapter.addListener(parameterListener);
+			parameterAdapter.addListener(parameterListener);
+			
+			ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					parameter.getUnit(), TransformationUnit.class);
+			ruleAdapter.addListener(parameterListener);
+			
 		}// if
 	}// addParameterListener
 	
@@ -279,58 +276,21 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 */
 	private void removeParameterListener(Parameter parameter) {
 		if (parameter != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+			ItemProviderAdapter parameterAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
 					parameter, Parameter.class);
-			adapter.removeListener(parameterListener);
+			parameterAdapter.removeListener(parameterListener);
+			ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					parameter.getUnit(), TransformationUnit.class);
+			ruleAdapter.removeListener(parameterListener);
 		}// if
 	}// removeParameterListener
 	
-	
-	
-	private void addRuleListener(TransformationUnit rule) {
-		if (rule != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(rule, TransformationUnit.class);
-			adapter.addListener(tuListener);
-		}
-	}
-	
-	private void removeRuleListener(TransformationUnit rule) {
-		if (rule != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(rule, TransformationUnit.class);
-			adapter.removeListener(tuListener);
-		}
-	}
-	
-	private class TransformationUnitListener implements INotifyChangedListener {
-		
-		@Override
-		public void notifyChanged(Notification notification) {
-		/*
-		 * Listen for TransformationUnit renaming events
-		 */
-			if (notification.getFeatureID(TransformationUnit.class) == HenshinPackage.TRANSFORMATION_UNIT__NAME) {
-				
-				TransformationUnit tu = (TransformationUnit) notification.getNotifier();
-				for (Parameter param : tu.getParameters()) {	// get the TU's parameters
-					List<ParameterMapping> pms = parameterListener.findParameterMappings(param);
-					AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
-					for (ParameterMapping pm : pms) {	// get the parameter mappings referencing the parameter
-						Notification notif = new ViewerNotification(notification, pm, false, true);
-						ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm, ParameterMapping.class);
-						adapter.fireNotifyChanged(notif);	// and update their text
-					}
-				}
-
-			}
-		}
-		
-	}
 	
 	/**
 	 * This Listener listens for events on parameters.
 	 * 
 	 * @author Stefan Jurack (sjurack)
-	 * 
+	 * @author Felix Rieger
 	 */
 	private class ParameterListener implements INotifyChangedListener {
 		
@@ -340,7 +300,8 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			/*
 			 * Listen for Parameter renaming events.
 			 */
-			if ((notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME)) {
+			if ((notification.getNotifier() instanceof Parameter) && 
+					(notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME)) {
 				List<ParameterMapping> pms = findParameterMappings((Parameter) notification
 						.getNotifier());
 				
@@ -355,6 +316,30 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 				
 			}// if
 			
+			/*
+			 * Listen for TransformationUnit renaming events
+			 */
+			if ((notification.getNotifier() instanceof TransformationUnit) && 
+					(notification.getFeatureID(TransformationUnit.class) == HenshinPackage.TRANSFORMATION_UNIT__NAME)) {
+				
+				TransformationUnit tu = (TransformationUnit) notification.getNotifier();//((Parameter) notification.getNotifier()).getUnit();
+				for (Parameter param : tu.getParameters()) { // get the TU's
+																// parameters
+					List<ParameterMapping> pms = parameterListener.findParameterMappings(param);
+					AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
+					for (ParameterMapping pm : pms) { // get the parameter
+														// mappings referencing
+														// the parameter
+						Notification notif = new ViewerNotification(notification, pm, false, true);
+						ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
+								ParameterMapping.class);
+						adapter.fireNotifyChanged(notif); // and update their
+															// text
+					}
+				}
+				
+			}
+			
 		}// notifyChanged
 		
 		/**
@@ -364,7 +349,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		 * @param para
 		 * @return
 		 */
-		protected List<ParameterMapping> findParameterMappings(Parameter para) {
+		private List<ParameterMapping> findParameterMappings(Parameter para) {
 			/*
 			 * According to the semantics of our Henshin model, Parameters can
 			 * only be mapped by a ParameterMapping contained in the same
@@ -393,11 +378,12 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		 * @param result
 		 * @param tu
 		 */
-		protected void collectRelatedParameterMappings(TransformationUnit tu, Parameter para,
+		private void collectRelatedParameterMappings(TransformationUnit tu, Parameter para,
 				List<ParameterMapping> result) {
 			
 			for (ParameterMapping pm : tu.getParameterMappings()) {
-				if (pm.getSource() == para || pm.getTarget() == para) result.add(pm);
+				if (pm.getSource() == para || pm.getTarget() == para)
+					result.add(pm);
 			}// for
 		}// collectRelatedParameterMappings
 		
