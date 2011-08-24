@@ -13,6 +13,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+@Deprecated
 public class RegisterTrafoSystem extends AbstractHandler {
 
 	@Override
