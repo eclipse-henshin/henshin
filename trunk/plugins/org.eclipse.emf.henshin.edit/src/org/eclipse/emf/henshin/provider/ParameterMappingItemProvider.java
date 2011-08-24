@@ -43,9 +43,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		IItemLabelProvider, IItemPropertySource {
 	
 	ParameterListener parameterListener;
-	
-	// TransformationUnitListener tuListener;
-	
+		
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -56,7 +54,6 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		super(adapterFactory);
 		
 		parameterListener = new ParameterListener();
-		// tuListener = new TransformationUnitListener();
 	}
 	
 	/**
@@ -183,9 +180,7 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			Parameter p_new = (Parameter) notification.getNewValue();
 			Parameter p_old = (Parameter) notification.getOldValue();
 			removeParameterListener(p_old);
-			// removeRuleListener(p_old);
 			addParameterListener(p_new);
-			// addRuleListener(p_new.getUnit());
 		}// if
 		updateChildren(notification);
 		super.notifyChanged(notification);
@@ -229,13 +224,6 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		ParameterMapping mapping = (ParameterMapping) target;
 		addParameterListener(mapping.getSource());
 		addParameterListener(mapping.getTarget());
-		// if (mapping.getSource() != null) {
-		// addRuleListener(mapping.getSource().getUnit());
-		// }
-		// if (mapping.getTarget() != null) {
-		// addRuleListener(mapping.getTarget().getUnit());
-		// }
-		
 	}// setTarget
 	
 	/*
