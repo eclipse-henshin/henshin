@@ -36,6 +36,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 	
+	ParameterItemDelegator pItemDelegator;
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -49,17 +51,11 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
 				true, null, null, null);
 		
-		this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator) {
-			@Override
-			public String getText(Object object) {
-				Parameter p = (Parameter) object;
-				String text = p.getName();
-				if (p.getUnit().getName() != null) {
-					text = text + "  [" + p.getUnit().getName() + "]";
-				}
-				return text;
-			}
-		};
+		this.pItemDelegator = new ParameterItemDelegator(adapterFactory, resourceLocator);
+		// redundant variable but prevents from permanent casts in method
+		// getComboBoxObjects
+		this.itemDelegator = this.pItemDelegator;
+		
 	}// constructor
 	
 	/**
@@ -76,6 +72,8 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 			
 			ParameterMapping pmapping = (ParameterMapping) object;
 			TransformationUnit owningUnit = (TransformationUnit) pmapping.eContainer();
+			// declare the current trafo unit to the item delegator
+			this.pItemDelegator.setCurrentTrafoUnit(owningUnit);
 			
 			Collection<Parameter> result = new HashSet<Parameter>();
 			
@@ -90,5 +88,45 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
+	
+	/**
+	 * @author Stefan Jurack (sjurack)
+	 * 
+	 */
+	private class ParameterItemDelegator extends ItemDelegator {
+		TransformationUnit currentUnit;
+		
+		public ParameterItemDelegator(AdapterFactory adapterFactory, ResourceLocator resourceLocator) {
+			super(adapterFactory, resourceLocator);
+			currentUnit = null;
+		}
+		
+		@Override
+		public String getText(Object object) {
+			Parameter p = (Parameter) object;
+			String text = normalize(p.getName());
+			if (currentUnit == null || !currentUnit.equals(p.getUnit())) {
+				final String unitName = normalize(p.getUnit().getName());
+				text = text + "  [" + unitName + "]";
+			}
+			return text;
+			
+		}// getText
+		
+		private String normalize(String s) {
+			return (s == null || s.trim().isEmpty()) ? "_" : s;
+		}
+		
+		/**
+		 * Sets the owning unit of the current parameter mapping in order to
+		 * optimize the visualization of parameters in the combo box.
+		 * 
+		 * @param unit
+		 */
+		public void setCurrentTrafoUnit(TransformationUnit unit) {
+			this.currentUnit = unit;
+		}// setCurrentTrafoUnit
+		
+	}// inner class
 	
 }// class
