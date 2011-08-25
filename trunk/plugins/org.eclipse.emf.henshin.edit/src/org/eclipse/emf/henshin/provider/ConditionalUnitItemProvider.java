@@ -38,7 +38,6 @@ import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
 import org.eclipse.emf.henshin.provider.trans.IfItemProvider;
 import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
@@ -224,9 +223,9 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 			
 			// reuse item providers in the 'children' list
 			int size = children.size();
-			l.add(children.get(size-3));
-			l.add(children.get(size-2));
-			l.add(children.get(size-1));
+			l.add(children.get(size - 3));
+			l.add(children.get(size - 2));
+			l.add(children.get(size - 1));
 			children = l;
 		}
 		
@@ -319,7 +318,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		// The behavior has to be fixed only if the features refer elements
 		if (commandParameter.collection != null && !commandParameter.collection.isEmpty()) {
 			Object realObject = unwrap(commandParameter.collection.iterator().next());
-			if (realObject instanceof TransformationUnit) {
+			if (realObject != object) {
 				CompoundCommand command = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
 				Iterator<?> iterator = commandParameter.collection.iterator();
 				Object o;
