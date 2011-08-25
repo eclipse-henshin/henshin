@@ -12,7 +12,7 @@ Note: If a constraint below has been implemented, please mark it with a leading 
 
 * TransformationSystem
 <done> [warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
-<done> [error] cyclic transformation units are forbidden
+<done> [warn] be aware of cyclic transformation units. 
 <done> [error] no parameter name shall be equal to the name of an EClassifier in the underlying ecore models
 
 * AttributeCondition
