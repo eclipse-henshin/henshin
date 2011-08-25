@@ -15,17 +15,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.henshin.editor.commands.CreateEdgeCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.commands.QuantUtil;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
+import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 
@@ -37,63 +38,104 @@ import org.eclipse.jface.action.MenuManager;
  * @author Felix Rieger
  */
 public class CreateEdgeCommandMenuContributor extends MenuContributor {
-	
+
 	public static MenuContributor INSTANCE = new CreateEdgeCommandMenuContributor();
-	
+
 	private static final String COMMAND_LABEL = "CreateEdge";
 	private static final String COMMAND_LABEL_UR = "CreateEdge_UnnamedReference";
 	private static final String COMMAND_LABEL_EM = "CreateEdge_ExceededMultiplicity";
 	private static final String COMMAND_LABEL_AE = "CreateEdge_AlreadyExists";
-	
+	private static final String COMMAND_LABEL_DU = "CreateEdge_DerivedUnmapped";
+	private static final String COMMAND_LABEL_DERIVED = "CreateEdge_DerivedReference";
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.editor.commands.MenuContributor#contributeActions
 	 * (org.eclipse.jface.action.IMenuManager, java.util.List)
 	 */
 	@Override
 	public void contributeActions(IMenuManager menuManager, List<?> selection) {
-		
-		if (selection.size() != 2) return;
-		
-		if (!QuantUtil.allInstancesOf(Node.class, selection.toArray())) return;
-		
+
+		if (selection.size() != 2)
+			return;
+
+		if (!QuantUtil.allInstancesOf(Node.class, selection.toArray()))
+			return;
+
 		Node sourceNode = (Node) selection.get(0);
 		Node targetNode = (Node) selection.get(1);
-		
-		if (!QuantUtil.allIdenticalAndNotNull(sourceNode.getGraph(), targetNode.getGraph()))
+
+		if (!QuantUtil.allIdenticalAndNotNull(sourceNode.getGraph(),
+				targetNode.getGraph()))
 			return;
-		
-		if (!QuantUtil.noneNull(sourceNode.getType(), targetNode.getType())) return;
-		
+
+		boolean includeDerived = false;
+		boolean createDerived = false;
+		Node mappedSourceNode = null;
+		Node mappedTargetNode = null;
+		Graph graph = sourceNode.getGraph();
+		if (HenshinRuleAnalysisUtil.isLHS(graph)) {
+			Graph rhs = graph.getContainerRule().getRhs();
+			List<Mapping> mappings = graph.getContainerRule().getMappings();
+			mappedSourceNode = HenshinMappingUtil.getNodeImage(sourceNode, rhs,
+					mappings);
+			mappedTargetNode = HenshinMappingUtil.getNodeImage(targetNode, rhs,
+					mappings);
+			createDerived = includeDerived = QuantUtil.noneNull(
+					mappedSourceNode, mappedTargetNode);
+		} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
+			List<Mapping> mappings = graph.getContainerRule().getMappings();
+			mappedSourceNode = HenshinMappingUtil.getNodeOrigin(sourceNode,
+					mappings);
+			mappedTargetNode = HenshinMappingUtil.getNodeOrigin(targetNode,
+					mappings);
+			createDerived = includeDerived = QuantUtil.noneNull(
+					mappedSourceNode, mappedTargetNode);
+		} else
+			includeDerived = true;
+
+		if (QuantUtil.anyNull(sourceNode.getType(), targetNode.getType()))
+			return;
+
 		Collection<EReference> references = new ArrayList<EReference>();
 		Collection<EReference> referencesWithExceededMultiplicity = new ArrayList<EReference>();
 		Collection<EReference> existingReferences = new ArrayList<EReference>();
-		
+		Collection<EReference> derivedUnmappedReferences = new ArrayList<EReference>();
+
 		// lookup references between the given types for which their are no
 		// edges yet.
 		//
-		eRefLoop: for (EReference reference : sourceNode.getType().getEAllReferences()) {
+		eRefLoop: for (EReference reference : sourceNode.getType()
+				.getEAllReferences()) {
 			// reference has matching type
 			//
-			if(!(reference.getEType() instanceof EClass))
+			if (!(reference.getEType() instanceof EClass))
 				continue;
-			
+
 			EClass refType = (EClass) reference.getEType();
-			if (refType.isSuperTypeOf(targetNode.getType()) || (refType.getName() == "EObject")) {
-				
+			if (refType.isSuperTypeOf(targetNode.getType())
+					|| (refType.getName() == "EObject")) {
+
+				if (reference.isDerived() && !includeDerived) {
+					derivedUnmappedReferences.add(reference);
+					continue;
+				}
+
 				// count given
 				int multiplicityCounter = 0;
-				
+
 				for (Edge edge : sourceNode.getOutgoing()) {
-					
+
 					if (reference.equals(edge.getType())) {
 						multiplicityCounter++;
 					}
 					// check whether their already exists an edge for this
 					// reference between the given nodes
 					//
-					if ((edge.getTarget() == targetNode) && reference.equals(edge.getType())) {
+					if ((edge.getTarget() == targetNode)
+							&& reference.equals(edge.getType())) {
 						existingReferences.add(edge.getType());
 						continue eRefLoop;
 					}
@@ -109,34 +151,43 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 				}
 			}
 		}
-		
+
 		Collection<EReference> inverseReferences = new ArrayList<EReference>();
 		Collection<EReference> inverseReferencesWithExceededMultiplicity = new ArrayList<EReference>();
 		Collection<EReference> inverseExistingReferences = new ArrayList<EReference>();
-		
+		Collection<EReference> inverseDerivedUnmappedReferences = new ArrayList<EReference>();
 		// lookup references between the given types for which their are no
 		// edges yet.
 		//
-		eRefLoop: for (EReference reference : targetNode.getType().getEAllReferences()) {
-			if(!(reference.getEType() instanceof EClass))
+		eRefLoop: for (EReference reference : targetNode.getType()
+				.getEAllReferences()) {
+			if (!(reference.getEType() instanceof EClass))
 				continue;
 			EClass refType = (EClass) reference.getEType();
+
 			// reference has matching type
 			//
-			if (refType.isSuperTypeOf(sourceNode.getType()) || (refType.getName() == "EObject")) {
-				
+			if (refType.isSuperTypeOf(sourceNode.getType())
+					|| (refType.getName() == "EObject")) {
+
+				if (reference.isDerived() && !includeDerived) {
+					inverseDerivedUnmappedReferences.add(reference);
+					continue;
+				}
+
 				// count given
 				int multiplicityCounter = 0;
-				
+
 				for (Edge edge : targetNode.getOutgoing()) {
-					
+
 					if (reference.equals(edge.getType())) {
 						multiplicityCounter++;
 					}
 					// check whether their already exists an edge for this
 					// reference between the given nodes
 					//
-					if ((edge.getTarget() == sourceNode) && reference.equals(edge.getType())) {
+					if ((edge.getTarget() == sourceNode)
+							&& reference.equals(edge.getType())) {
 						inverseExistingReferences.add(edge.getType());
 						continue eRefLoop;
 					}
@@ -152,44 +203,67 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 				}
 			}
 		}
-		
+
 		if (references.size() + referencesWithExceededMultiplicity.size()
-				+ existingReferences.size() > 0) {
-			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " " + sourceNode.getName()
-					+ " -> " + targetNode.getName());
+				+ existingReferences.size() + derivedUnmappedReferences.size() > 0) {
+			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " "
+					+ sourceNode.getName() + " -> " + targetNode.getName());
 			for (EReference ref : references) {
 				// System.out.println("domain: " + domain);
-				CreateEdgeCommand cmd = new CreateEdgeCommand(sourceNode, targetNode, ref);
+				Command cmd = new CreateEdgeCommand(sourceNode, targetNode, ref);
 				String label = ref.getName();
+				if (ref.isDerived()) {
+					label += getLabel(COMMAND_LABEL_DERIVED);
+					if (createDerived)
+						cmd = cmd.chain(new CreateEdgeCommand(mappedSourceNode,
+								mappedTargetNode, ref));
+				}
 				label = label.length() > 0 ? label : getLabel(COMMAND_LABEL_UR);
 				mm.add(createAction(label, cmd));
 			}
 			for (EReference ref : referencesWithExceededMultiplicity) {
-				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_EM)
-						+ " *"));
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_EM) + " *"));
 			}
 			for (EReference ref : existingReferences) {
-				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_AE)
-						+ " *"));
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_AE) + " *"));
+			}
+			for (EReference ref : derivedUnmappedReferences) {
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_DU) + " *"));
 			}
 			menuManager.add(mm);
 		}
-		
-		if (inverseReferences.size() + inverseReferencesWithExceededMultiplicity.size()
+
+		if (inverseReferences.size()
+				+ inverseReferencesWithExceededMultiplicity.size()
 				+ inverseExistingReferences.size() > 0) {
-			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " " + targetNode.getName()
-					+ " -> " + sourceNode.getName());
+			MenuManager mm = new MenuManager(getLabel(COMMAND_LABEL) + " "
+					+ targetNode.getName() + " -> " + sourceNode.getName());
 			for (EReference ref : inverseReferences) {
-				CreateEdgeCommand cmd = new CreateEdgeCommand(targetNode, sourceNode, ref);
-				mm.add(createAction(ref.getName(), cmd));
+				Command cmd = new CreateEdgeCommand(targetNode, sourceNode, ref);
+				String label = ref.getName();
+				if (ref.isDerived()) {
+					label += getLabel(COMMAND_LABEL_DERIVED);
+					if (createDerived)
+						cmd = cmd.chain(new CreateEdgeCommand(mappedTargetNode,
+								mappedSourceNode, ref));
+				}
+
+				mm.add(createAction(label, cmd));
 			}
 			for (EReference ref : inverseReferencesWithExceededMultiplicity) {
-				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_EM)
-						+ " *"));
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_EM) + " *"));
 			}
 			for (EReference ref : inverseExistingReferences) {
-				mm.add(createUnrunnableItem(ref.getName() + " * " + getLabel(COMMAND_LABEL_AE)
-						+ " *"));
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_AE) + " *"));
+			}
+			for (EReference ref : inverseDerivedUnmappedReferences) {
+				mm.add(createUnrunnableItem(ref.getName() + " * "
+						+ getLabel(COMMAND_LABEL_DU) + " *"));
 			}
 			menuManager.add(mm);
 		}

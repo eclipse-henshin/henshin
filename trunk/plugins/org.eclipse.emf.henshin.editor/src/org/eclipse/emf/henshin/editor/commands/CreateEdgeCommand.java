@@ -51,8 +51,6 @@ public class CreateEdgeCommand extends AbstractCommand {
 	@Override
 	public void execute() {
 		edge = HenshinFactory.eINSTANCE.createEdge();
-		edge.setSource(source);
-		edge.setTarget(target);
 		edge.setType(edgeType);
 		redo();
 	}
@@ -60,11 +58,15 @@ public class CreateEdgeCommand extends AbstractCommand {
 	@Override
 	public void undo() {
 		graph.getEdges().remove(edge);
+		edge.setSource(null);
+		edge.setTarget(null);
 	}
 	
 	@Override
 	public void redo() {
 		graph.getEdges().add(edge);
+		edge.setSource(source);
+		edge.setTarget(target);
 	}
 	
 	@Override

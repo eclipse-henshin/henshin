@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
@@ -205,18 +206,25 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-		
 		if (notification.getEventType() == Notification.SET) {
 			
 			Edge edge = (Edge) notification.getNotifier();
 			Notification notif = new ViewerNotification(notification, edge, false, true);
 			this.fireNotifyChanged(notif);
+						
+			Graph graph = edge.getGraph();
+			if(graph != null){
+				GraphItemProvider gip = (GraphItemProvider) adapterFactory.adapt(graph, Graph.class);
+				gip.notifyCorrespondingEdges(graph, notification);	
+			}
+			
 		}// if
 		
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}// notifyChanged
 	
+
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
 	 * describing the children that can be created under this object. <!--
