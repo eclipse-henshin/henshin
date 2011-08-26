@@ -32,11 +32,16 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		// Run exploration job.
 		StateSpaceManager manager = getStateSpaceManager();
 		ExploreStateSpaceJob job = new ExploreStateSpaceJob(manager, new EditDomain());
-		
+
 		// Adjust the number of states to be explored at one for multi-threaded state space managers:
+		int numStatesAtOnce = ExploreStateSpaceJob.DEFAULT_NUM_STATES_AT_ONCE;
 		if (manager instanceof MultiThreadedStateSpaceManager) {
-			job.setNumStatesAtOnce((int) (ExploreStateSpaceJob.DEFAULT_NUM_STATES_AT_ONCE * MultiThreadedStateSpaceManager.CPU_COUNT * 0.5));
+			numStatesAtOnce = (int) (numStatesAtOnce * MultiThreadedStateSpaceManager.CPU_COUNT * 0.5);
 		}
+		if (manager.getStateSpace().getEqualityHelper().isGraphEquality()) {
+			numStatesAtOnce = (numStatesAtOnce / 5) + 1;
+		}
+		job.setNumStatesAtOnce(numStatesAtOnce);
 		
 		// Schedule the job:
 		job.schedule();

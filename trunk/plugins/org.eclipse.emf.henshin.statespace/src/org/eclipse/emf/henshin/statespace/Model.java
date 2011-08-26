@@ -81,12 +81,4 @@ public interface Model extends EObject {
 	 */
 	void updateNodeIDs();
 
-	/**
-	 * Return an array representation of the contents of this model.
-	 * This array is cached and should not be modified!
-	 * @model dataType="org.eclipse.emf.henshin.statespace.EObjectArray"
-	 * @generated
-	 */
-	EObject[] asArray();
-
 } // Model

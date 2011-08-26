@@ -46,9 +46,6 @@ import org.eclipse.emf.henshin.statespace.StateSpacePackage;
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 
-	// Cached array representation of this model:
-	private EObject[] cachedModelArray;
-
 	/**
 	 * Constructor.
 	 * @generated NOT
@@ -146,7 +143,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		List<Integer> ids = new ArrayList<Integer>(24);
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
-			ids.add(nodeIDsMap.get(iterator.next()));
+			EObject object = iterator.next();
+			Integer id = nodeIDsMap.get(object);
+			if (id==null) {
+				throw new RuntimeException("No node ID found for " + object);
+			}
+			ids.add(id.intValue());
 		}
 		int[] result = new int[ids.size()];
 		for (int i = 0; i < ids.size(); i++) {
@@ -154,21 +156,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		}
 		return result;
 
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	public EObject[] asArray() {
-		if (cachedModelArray == null) {
-			List<EObject> objects = new ArrayList<EObject>();
-			TreeIterator<EObject> it = resource.getAllContents();
-			while (it.hasNext()) {
-				objects.add(it.next());
-			}
-			cachedModelArray = objects.toArray(new EObject[objects.size()]);
-		}
-		return cachedModelArray;
 	}
 
 	/*
