@@ -99,9 +99,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		String paraString = PARSER_HELPER.getParameterString(para1, para1Dir, para2, para2Dir);
 		
-		
-		
-//		String name = node.getName() != null ? node.getName() : "";
+		// String name = node.getName() != null ? node.getName() : "";
 		if (node.getType() != null) {
 			return paraString + ":" + node.getType().getName();
 		} else {
@@ -233,50 +231,11 @@ public class NodeTypeParser extends AbstractParser {
 			for (Node current : imageNodes) {
 				current.setName(null);
 			}// for
-		}
+		}// if else
 		
-		// // Separate name and type:
-		// String name, type;
-		// int colon = value.indexOf(':');
-		// if (colon < 0) {
-		// name = value;
-		// type = null;
-		// } else {
-		// name = value.substring(0, colon);
-		// type = value.substring(colon + 1);
-		// }
-		//
-		// // Search for the corresponding EClass
-		// EClass eclass = null;
-		// if (type != null) {
-		// for (EPackage epackage : rule.getTransformationSystem().getImports())
-		// {
-		// EClassifier classifier = epackage.getEClassifier(type);
-		// if (classifier instanceof EClass) {
-		// eclass = (EClass) classifier;
-		// break;
-		// }
-		// }
-		// }
-		
-		// // Find all mapped nodes:
-		// List<Node> nodes = new ArrayList<Node>();
-		// nodes.add(node);
-		// for (Mapping mapping : rule.getMappings()) {
-		// if (mapping.getOrigin() == node) nodes.add(mapping.getImage());
-		// if (mapping.getImage() == node) nodes.add(mapping.getOrigin());
-		// }
-		//
-		// Set the node attributes:
-		// for (Node current : nodes) {
-		// current.setName(name);
-		// current.setType(eclass);
-		// }
-		
-		// Done.
 		return CommandResult.newOKCommandResult();
 		
-	}
+	}// doParsing
 	
 	/**
 	 * @param node
