@@ -11,17 +11,14 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -34,13 +31,11 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.NegligentRemoveCommand;
 import org.eclipse.emf.henshin.commands.NodeComplexRemoveCommand;
 import org.eclipse.emf.henshin.commands.SetNestedConditionCommand;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
@@ -278,37 +273,37 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		// commands
 		if (feature == pack.getGraph_Edges()) {
 			Command cmd = new NegligentRemoveCommand(domain, owner, feature,
-					collection);
-			Graph graph = (Graph) owner;
-			Collection<Edge> derivedMappedEdges = new ArrayList<Edge>();
-			for (Object o : collection) {
-				Edge edge = (Edge) o;
-				if (edge.getType() != null && edge.getType().isDerived()) {
-					Edge otherEdge = null;
-					Graph otherGraph = null;
-					if (HenshinRuleAnalysisUtil.isLHS(graph)) {
-						otherGraph = graph.getContainerRule().getRhs();
-						otherEdge = HenshinMappingUtil.getEdgeImage(edge,
-								otherGraph, graph.getContainerRule()
-										.getMappings());
-					} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
-						otherGraph = graph.getContainerRule().getLhs();
-						otherEdge = HenshinMappingUtil.getEdgeOrigin(edge,
-								graph.getContainerRule().getMappings());
-					}
-					if (otherEdge != null) {
-						cmd = cmd
-								.chain(new RemoveCommand(domain, otherEdge
-										.getSource(), pack.getNode_Outgoing(),
-										otherEdge))
-								.chain(new RemoveCommand(domain, otherEdge
-										.getTarget(), pack.getNode_Incoming(),
-										otherEdge))
-								.chain(new RemoveCommand(domain, otherGraph,
-										feature, otherEdge));
-					}
-				}
-			}
+					collection);			
+//			Graph graph = (Graph) owner;
+//			Collection<Edge> derivedMappedEdges = new ArrayList<Edge>();
+//			for (Object o : collection) {
+//				Edge edge = (Edge) o;
+//				if (edge.getType() != null && edge.getType().isDerived()) {
+//					Edge otherEdge = null;
+//					Graph otherGraph = null;
+//					if (HenshinRuleAnalysisUtil.isLHS(graph)) {
+//						otherGraph = graph.getContainerRule().getRhs();
+//						otherEdge = HenshinMappingUtil.getEdgeImage(edge,
+//								otherGraph, graph.getContainerRule()
+//										.getMappings());
+//					} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
+//						otherGraph = graph.getContainerRule().getLhs();
+//						otherEdge = HenshinMappingUtil.getEdgeOrigin(edge,
+//								graph.getContainerRule().getMappings());
+//					}
+//					if (otherEdge != null) {
+//						cmd = cmd
+//								.chain(new RemoveCommand(domain, otherEdge
+//										.getSource(), pack.getNode_Outgoing(),
+//										otherEdge))
+//								.chain(new RemoveCommand(domain, otherEdge
+//										.getTarget(), pack.getNode_Incoming(),
+//										otherEdge))
+//								.chain(new RemoveCommand(domain, otherGraph,
+//										feature, otherEdge));
+//					}
+//				}
+//			}
 			return cmd;
 		}
 

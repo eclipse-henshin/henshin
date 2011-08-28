@@ -22,11 +22,7 @@ import org.eclipse.emf.henshin.editor.commands.CreateEdgeCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.commands.QuantUtil;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 
@@ -71,29 +67,29 @@ public class CreateEdgeCommandMenuContributor extends MenuContributor {
 				targetNode.getGraph()))
 			return;
 
-		boolean includeDerived = false;
+		boolean includeDerived = false;		
 		boolean createDerived = false;
 		Node mappedSourceNode = null;
 		Node mappedTargetNode = null;
-		Graph graph = sourceNode.getGraph();
-		if (HenshinRuleAnalysisUtil.isLHS(graph)) {
-			Graph rhs = graph.getContainerRule().getRhs();
-			List<Mapping> mappings = graph.getContainerRule().getMappings();
-			mappedSourceNode = HenshinMappingUtil.getNodeImage(sourceNode, rhs,
-					mappings);
-			mappedTargetNode = HenshinMappingUtil.getNodeImage(targetNode, rhs,
-					mappings);
-			createDerived = includeDerived = QuantUtil.noneNull(
-					mappedSourceNode, mappedTargetNode);
-		} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
-			List<Mapping> mappings = graph.getContainerRule().getMappings();
-			mappedSourceNode = HenshinMappingUtil.getNodeOrigin(sourceNode,
-					mappings);
-			mappedTargetNode = HenshinMappingUtil.getNodeOrigin(targetNode,
-					mappings);
-			createDerived = includeDerived = QuantUtil.noneNull(
-					mappedSourceNode, mappedTargetNode);
-		} else
+//		Graph graph = sourceNode.getGraph();
+//		if (HenshinRuleAnalysisUtil.isLHS(graph)) {
+//			Graph rhs = graph.getContainerRule().getRhs();
+//			List<Mapping> mappings = graph.getContainerRule().getMappings();
+//			mappedSourceNode = HenshinMappingUtil.getNodeImage(sourceNode, rhs,
+//					mappings);
+//			mappedTargetNode = HenshinMappingUtil.getNodeImage(targetNode, rhs,
+//					mappings);
+//			createDerived = includeDerived = QuantUtil.noneNull(
+//					mappedSourceNode, mappedTargetNode);
+//		} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
+//			List<Mapping> mappings = graph.getContainerRule().getMappings();
+//			mappedSourceNode = HenshinMappingUtil.getNodeOrigin(sourceNode,
+//					mappings);
+//			mappedTargetNode = HenshinMappingUtil.getNodeOrigin(targetNode,
+//					mappings);
+//			createDerived = includeDerived = QuantUtil.noneNull(
+//					mappedSourceNode, mappedTargetNode);
+//		} else
 			includeDerived = true;
 
 		if (QuantUtil.anyNull(sourceNode.getType(), targetNode.getType()))
