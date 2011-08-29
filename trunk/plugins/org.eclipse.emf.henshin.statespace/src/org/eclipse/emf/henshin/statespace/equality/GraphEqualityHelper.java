@@ -115,13 +115,16 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 */
 	private boolean matchFirst() {
 		
-		// Find the first object to be matched:
-		EObject next = null;
-		Integer hash = null;
+		// Find the first object to be matched
+		Map.Entry<Integer,List<EObject>> next = null;
+		
+		// We take the one with the least number of similar objects:
 		for (Map.Entry<Integer,List<EObject>> entry : slots1.entrySet()) {
-			if (!entry.getValue().isEmpty()) {
-				hash = entry.getKey();
-				next = entry.getValue().get(0);
+			int elements = entry.getValue().size();
+			if (elements>0) {
+				if (next==null || elements<next.getValue().size()) {
+					next = entry;
+				}
 			}
 		}
 		
@@ -130,9 +133,11 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			return true;
 		}
 		
-		// Try to find a match for it:
-		for (EObject match : slots2.get(hash).toArray(new EObject[0])) {
-			if (match(next, match)) {
+		// Choose an object and try to find a match for it:
+		EObject object = next.getValue().get(0);
+		EObject[] candidates = slots2.get(next.getKey()).toArray(new EObject[0]);
+		for (EObject candidate : candidates) {
+			if (match(object, candidate)) {
 				return true;
 			}
 		}
