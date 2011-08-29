@@ -222,10 +222,23 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		// They have the same hash code:
 		Integer hash = hashcodes1.get(o1);
 		
+		// The currently used slots:
+		List<EObject> slot1 = slots1.get(hash);
+		List<EObject> slot2 = slots2.get(hash);
+		
+		// Get the indizes of the objects:
+		int i1 = slot1.indexOf(o1);
+		int i2 = slot2.indexOf(o2);
+		
 		// For now we assume that the match works:
 		put(o1, o2);
-		slots1.get(hash).remove(o1);
-		slots2.get(hash).remove(o2);
+		slot1.remove(i1);
+		slot2.remove(i2);
+		
+		// TEMP BUGFIX:
+		i1 = 0;
+		i2 = 0;
+		// END OF TEMP BUGFIX
 		
 		// Now check the references:
 		for (EReference reference : o1.eClass().getEAllReferences()) {
@@ -238,8 +251,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				// Must have the same size:
 				if (list1.size()!=list2.size()) {
 					remove(o1);			// abort the current match
-					slots1.get(hash).add(0,o1);
-					slots2.get(hash).add(0,o2);
+					slot1.add(i1,o1);
+					slot2.add(i2,o2);
 					return false;
 				}
 				
@@ -247,15 +260,17 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				for (EObject l1 : list1) {
 					for (EObject l2 : list2) {
 						if (match(l1, l2)) {
-							return true;	// done!
+							if (validateReferencesForCompleteMatch(o1)) {
+								return true;	// done!						
+							}
 						}
 					}
 				}
 				
 				// No match found; we abort:
 				remove(o1);
-				slots1.get(hash).add(0,o1);
-				slots2.get(hash).add(0,o2);
+				slot1.add(i1,o1);
+				slot2.add(i2,o2);
 				return false;
 				
 			} else {
@@ -263,14 +278,19 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 				// Single referenced objects:
 				EObject l1 = (EObject) o1.eGet(reference);
 				EObject l2 = (EObject) o2.eGet(reference);
-				if ((l1==null && l2!=null) || 
-					(l1!=null && l2==null) ||
-					(l1!=null && !match(l1,l2))) {
-					remove(o1);			// abort the current match
-					slots1.get(hash).add(0,o1);
-					slots2.get(hash).add(0,o2);
-					return false;
+				
+				if ((l1==null && l2==null) || 
+					(l1!=null && l2!=null && match(l1,l2))) {
+					if (validateReferencesForCompleteMatch(o1)) {
+						return true;	// done!
+					}
 				}
+				
+				// No match found; we abort:
+				remove(o1);
+				slot1.add(i1,o1);
+				slot2.add(i2,o2);
+				return false;
 			}
 			
 		}
@@ -282,10 +302,53 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		
 		// Otherwise abort:
 		remove(o1);
-		slots1.get(hash).add(0,o1);
-		slots2.get(hash).add(0,o2);
+		slot1.add(i1,o1);
+		slot2.add(i2,o2);
 		return false;
 
+	}
+	
+	
+	/*
+	 * Check whether the references of an object are ok w.r.t.
+	 * to the current match, which has to be complete.
+	 */
+	@SuppressWarnings("unchecked")
+	private boolean validateReferencesForCompleteMatch(EObject o1) {
+		EObject o2 = get(o1);
+		for (EReference reference : o1.eClass().getEAllReferences()) {
+			if (reference.isMany()) {
+				
+				// List of referenced objects:
+				EList<EObject> list1 = (EList<EObject>) o1.eGet(reference);
+				EList<EObject> list2 = (EList<EObject>) o2.eGet(reference);
+				
+				// Must have the same size:
+				if (list1.size()!=list2.size()) {
+					return false;
+				}
+				
+				// Match all objects in the two lists:
+				for (EObject l1 : list1) {
+					if (!list2.contains(get(l1))) {
+						return false;
+					}
+				}
+				
+			} else {
+				
+				// Single referenced objects:
+				EObject l1 = (EObject) o1.eGet(reference);
+				EObject l2 = (EObject) o2.eGet(reference);
+				
+				if ((l1==null && l2!=null) || 
+					(l1!=null && l2!=get(l1))) {
+					return false;
+				}
+				
+			}
+		}
+		return true;
 	}
 	
 	/*
