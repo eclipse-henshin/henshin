@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.trans.RuleMappingItemProvider;
+import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
  * This is the item provider adapter for a
@@ -145,7 +146,15 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Rule"));
+		Rule rule = (Rule) object;
+		Object ruleImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Rule"));
+		Object deactivatedImage = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
+		
+		if (rule.isActivated() == false) {
+			ruleImage = IconUtil.getCompositeImage(ruleImage, deactivatedImage);
+		}
+		
+		return ruleImage;
 	}
 	
 	/**
@@ -185,6 +194,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		}
 		super.notifyChanged(notification);
 	}
+	
 	
 	/**
 	 * If a mapping is added or removed this directly affect the visualization
