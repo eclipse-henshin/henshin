@@ -224,14 +224,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			}// for
 			
 			if (rule.getLhs() == graph) {
-				
 				return IconUtil.getCompositeImage(defaultImage, deleteOverlay);
-//				return overlayImage(object,
-//						getResourceLocator().getImage("full/obj16/Node_Delete.png"));
 			} else { // rule.getRhs() == graph
 				return IconUtil.getCompositeImage(defaultImage, createOverlay);
-//				return overlayImage(object, getResourceLocator()
-//						.getImage("full/obj16/Node_Add.png"));
 			}// if else
 			
 		} else if (container instanceof NestedCondition) {
@@ -248,8 +243,6 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				
 				return IconUtil.getCompositeImage(defaultImage, forbidOverlay);
 				
-//				return overlayImage(object,
-//						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
 				/*
 				 * Please note, mapped NAC-nodes are not marked by a 'forbid
 				 * symbol' even though they belong to the forbidden structure as
