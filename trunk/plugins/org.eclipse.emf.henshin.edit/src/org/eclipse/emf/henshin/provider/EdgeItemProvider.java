@@ -156,20 +156,32 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public Object getImage(Object object) {
 		Edge edge = (Edge) object;
 		Object edgeImage = null;
+		Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
+		Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
+		Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
+		
+		boolean needsAttention = false;
+		needsAttention |= (edge.getType() == null);
+		needsAttention |= (edge.getSource() == null);
+		needsAttention |= (edge.getTarget() == null);
 		
 		if (edge.getType() != null && edge.getType().isContainment()) {
 			edgeImage = getResourceLocator().getImage("full/obj16/ContainmentEdge.png");
+		} else if (edge.getType() != null && edge.getType().isMany()) {
+			edgeImage = IconUtil.getCompositeImage(getResourceLocator().getImage("full/obj16/Edge"), getResourceLocator().getImage("full/obj16/Edge"), 1, 2);
 		} else {
 			edgeImage = getResourceLocator().getImage("full/obj16/Edge");
 		}// if
 		
 		if (HenshinRuleAnalysisUtil.isDeletionEdge(edge)) {
-			Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, deleteOverlay);
 		} else if (HenshinRuleAnalysisUtil.isCreationEdge(edge)) {
-			Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, createOverlay);
 		}// if
+		
+		if (needsAttention) {
+			edgeImage = IconUtil.getCompositeImage(edgeImage, attentionOverlay);
+		}
 		
 		return edgeImage;
 	}// getImage

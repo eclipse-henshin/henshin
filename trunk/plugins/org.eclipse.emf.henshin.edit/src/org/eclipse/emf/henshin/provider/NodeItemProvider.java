@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
  * This is the item provider adapter for a
@@ -186,6 +187,21 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		Node node = (Node) object;
 		Object defaultImage = overlayImage(object,
 				getResourceLocator().getImage("full/obj16/Node.png"));
+
+		
+		Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
+		Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
+		Object forbidOverlay = getResourceLocator().getImage("full/ovr16/Forbid_ovr.png");
+		
+		// draw a red border around the icon if the node needs attention
+		// (i.e. has no type)
+		Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
+		boolean needsAttention = false;
+		needsAttention |= (node.getType() == null);
+		
+		if (needsAttention) {
+			defaultImage = IconUtil.getCompositeImage(defaultImage, attentionOverlay);
+		}
 		
 		// get the container graph
 		Graph graph = node.getGraph();
@@ -208,11 +224,14 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			}// for
 			
 			if (rule.getLhs() == graph) {
-				return overlayImage(object,
-						getResourceLocator().getImage("full/obj16/Node_Delete.png"));
+				
+				return IconUtil.getCompositeImage(defaultImage, deleteOverlay);
+//				return overlayImage(object,
+//						getResourceLocator().getImage("full/obj16/Node_Delete.png"));
 			} else { // rule.getRhs() == graph
-				return overlayImage(object, getResourceLocator()
-						.getImage("full/obj16/Node_Add.png"));
+				return IconUtil.getCompositeImage(defaultImage, createOverlay);
+//				return overlayImage(object, getResourceLocator()
+//						.getImage("full/obj16/Node_Add.png"));
 			}// if else
 			
 		} else if (container instanceof NestedCondition) {
@@ -226,8 +245,11 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 													// the visual one ;-)
 						return defaultImage;
 				}// for
-				return overlayImage(object,
-						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
+				
+				return IconUtil.getCompositeImage(defaultImage, forbidOverlay);
+				
+//				return overlayImage(object,
+//						getResourceLocator().getImage("full/obj16/Node_Forbid.png"));
 				/*
 				 * Please note, mapped NAC-nodes are not marked by a 'forbid
 				 * symbol' even though they belong to the forbidden structure as
