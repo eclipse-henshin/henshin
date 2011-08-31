@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.impl;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +11,13 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
- * Abstract state space manager implementation which keeps track
- * of the distances of states from the initial states.
+ * Utility class for keeping track of state distances.
  * @author Christian Krause
  */
-public abstract class AbstractStateSpaceManagerWithStateDistance extends AbstractStateSpaceManager {
+public class StateDistanceMonitor {
+
+	// The state space:
+	private StateSpace stateSpace;
 	
 	// Distances of states from the initial states:
 	private int[] distances;
@@ -24,10 +26,9 @@ public abstract class AbstractStateSpaceManagerWithStateDistance extends Abstrac
 	 * Default constructor.
 	 * @param stateSpace The state space.
 	 */
-	public AbstractStateSpaceManagerWithStateDistance(StateSpace stateSpace) {
-		super(stateSpace);
-		distances = new int[0];
-		checkDistanceArraySize();
+	public StateDistanceMonitor(StateSpace stateSpace) {
+		this.stateSpace = stateSpace;
+		this.distances = new int[0];
 		updateDistances(stateSpace.getInitialStates());
 	}
 	
@@ -36,20 +37,31 @@ public abstract class AbstractStateSpaceManagerWithStateDistance extends Abstrac
 	 * resize it if necessary.
 	 */
 	private void checkDistanceArraySize() {
-		if (distances.length<getStateSpace().getStates().size()) {
-			int newSize = (getStateSpace().getStates().size() * 2) + 4;
+		if (distances.length<stateSpace.getStates().size()) {
+			int newSize = (stateSpace.getStates().size() * 2) + 4;
 			int[] newDistances = Arrays.copyOf(distances, newSize);
 			Arrays.fill(newDistances, distances.length, newDistances.length, -1);
 			distances = newDistances;
 		}
 	}
-	
-	/*
-	 * Compute the distances of a list of states
-	 * and all its successor states.
+
+	/**
+	 * Update the distances of a of states and all its 
+	 * successor states.
 	 */
-	private void updateDistances(Collection<State> states) {
-		
+	public void updateDistance(State state) {
+		updateDistances(Collections.singletonList(state));
+	}
+
+	/**
+	 * Update the distances of a list of states and all their 
+	 * successor states.
+	 */
+	public void updateDistances(Collection<State> states) {
+
+		// Make sure the array is large enough.
+		checkDistanceArraySize();
+
 		// visited states and current:
 		Set<State> visited = new HashSet<State>();
 		Set<State> current = new HashSet<State>();
@@ -93,36 +105,8 @@ public abstract class AbstractStateSpaceManagerWithStateDistance extends Abstrac
 		}
 	}
 	
-	@Override
-	protected void notifyCreateOpenState(State state) {
-		checkDistanceArraySize();
-		distances[state.getIndex()] = -1;
-	}
-	
-	@Override
-	public void notifyCreateInitialState(State state) {
-		distances[state.getIndex()] = 0;
-	}
-
-	@Override
-	public void notifyRemoveState(State state) {
-		checkDistanceArraySize();
-		updateDistances(getStateSpace().getInitialStates());
-	}
-
-	@Override
-	public void notifyResetStateSpace() {
-		checkDistanceArraySize();
-		updateDistances(getStateSpace().getInitialStates());
-	}
-
-	@Override
-	protected void notifyCreateTransition(Transition transition) {
-		updateDistances(Collections.singleton(transition.getTarget()));
-	}
-	
-	public int getStateDistance(State state) {
+	public int getDistance(State state) {
 		return distances[state.getIndex()];
 	}
-	
+
 }

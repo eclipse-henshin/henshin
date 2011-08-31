@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -51,18 +52,39 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	
 	// Change flag:
 	private boolean change = false;
+
+	// A lock for the state space:
+	private final Object stateSpaceLock = new Object();
+
+	// State distance monitor:
+	private StateDistanceMonitor stateDistanceMonitor;
+	
+	// Cached maximum state distance:
+	private int chachedMaxStateDistance;
 	
 	// State space adapter:
 	private Adapter adapter = new AdapterImpl() {		
 		@Override
 		public void notifyChanged(Notification event) {
+			
+			// Get the changed feature:
+			Object feature = event.getFeature();
+			
 			// Check if the change is illegal:
-			if (!change && event.getFeature()==METADATA_FEATURE) tainted = true;
+			if (!change && feature!=METADATA_FEATURE) {
+				tainted = true;
+			}
+			
+			// Check if we need to update the state distance monitor:
+			if (feature==METADATA_FEATURE) {
+				if (chachedMaxStateDistance!=getStateSpace().getMaxStateDistance()) {
+					resetStateDistanceMonitor();
+				}
+			}
+			
 		}
 	};
 	
-	// A lock for the state space:
-	private final Object stateSpaceLock = new Object();
 	
 	/**
 	 * Default constructor.
@@ -72,6 +94,19 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		super(stateSpace);
 		this.tainted = false;
 		stateSpace.eAdapters().add(adapter);
+		resetStateDistanceMonitor();
+	}
+	
+	/*
+	 * Initialize the state distance monitor.
+	 * If it is not required, it is set to null.
+	 */
+	private void resetStateDistanceMonitor() {
+		if (getStateSpace().getMaxStateDistance()>=0) {
+			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
+		} else {
+			stateDistanceMonitor = null;
+		}
 	}
 	
 	/**
@@ -208,7 +243,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			change = true;
 			getStateSpace().getStates().add(state);
 			getStateSpace().getOpenStates().add(state);
-			notifyCreateOpenState(state);
+			if (stateDistanceMonitor!=null) {
+				stateDistanceMonitor.updateDistance(state);
+			}
 			change = false;
 		}
 		
@@ -216,10 +253,6 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		addToIndex(state);
 		return state;
 
-	}
-	
-	protected void notifyCreateOpenState(State state) {
-		// No default implementation.
 	}
 	
 	/*
@@ -249,17 +282,15 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		synchronized (stateSpaceLock) {
 			change = true;
 			getStateSpace().getInitialStates().add(initial);
-			notifyCreateInitialState(state);
+			if (stateDistanceMonitor!=null) {
+				stateDistanceMonitor.updateDistance(state);
+			}
 			change = false;
 		}
 		return initial;
 		
 	}
 	
-	protected void notifyCreateInitialState(State state) {
-		// No default implementation.
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#removeState(org.eclipse.emf.henshin.statespace.State)
@@ -303,17 +334,13 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			int number = getStateSpace().getTransitionCount() - transitions.size();
 			getStateSpace().setTransitionCount(number);
 			
-			notifyRemoveState(state);
+			// No need to update the state distance monitor here.
 			change = false;
 		}
 		
 		// Done.
 		return removed;
 		
-	}
-	
-	protected void notifyRemoveState(State state) {
-		// No default implementation.
 	}
 	
 	/*
@@ -336,8 +363,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			}
 			
 			getStateSpace().setTransitionCount(0);
-			
-			notifyResetStateSpace();
+			resetStateDistanceMonitor();
 			change = false;
 		}
 		
@@ -352,11 +378,6 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			tainted = true;
 		}
 	}
-	
-	protected void notifyResetStateSpace() {
-		// No default implementation.
-	}
-
 	
 	/**
 	 * Create a new outgoing transition. Note that the this does not check
@@ -379,16 +400,14 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			transition.setSource(source);
 			transition.setTarget(target);
 			getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
-			notifyCreateTransition(transition);
+			if (stateDistanceMonitor!=null) {
+				stateDistanceMonitor.updateDistance(transition.getTarget());
+			}
 			change = false;
 		}
 		return transition;
 	}
 	
-	protected void notifyCreateTransition(Transition transition) {
-		// No default implementation.
-	}
-
 	/**
 	 * Find an outgoing transition.
 	 */
@@ -400,6 +419,22 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Get the distance of a state to an initial state.
+	 * This returns the correct distance only if the
+	 * maximum state distance of the state space is positive.
+	 * Otherwise the distance is not relevant and therefore not stored.
+	 * @param state The state.
+	 * @return Its distance from an initial state, or -1 if not available.
+	 */
+	public int getStateDistance(State state) {
+		if (stateDistanceMonitor!=null) {
+			return stateDistanceMonitor.getDistance(state);
+		} else {
+			return -1;
+		}
 	}
 	
 	/*

@@ -59,7 +59,9 @@ public class EditPropertiesPage extends WizardPage {
 		dummyStateSpace = StateSpaceFactory.eINSTANCE.createStateSpace();
 		dummyStateSpace.getRules().addAll(stateSpace.getRules());
 		dummyStateSpace.getProperties().putAll(stateSpace.getProperties());
-		dummyStateSpace.getProperties().put(MAX_STATE_DISTANCE_PROPERTY, stateSpace.getMaxStateDistance() + "");
+		if (stateSpace.getMaxStateDistance()>0) {
+			dummyStateSpace.getProperties().put(MAX_STATE_DISTANCE_PROPERTY, stateSpace.getMaxStateDistance() + "");
+		}
 	}
 	
 	/*

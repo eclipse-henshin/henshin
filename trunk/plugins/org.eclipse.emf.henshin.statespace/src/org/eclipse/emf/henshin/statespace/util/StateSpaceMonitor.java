@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -32,11 +32,11 @@ public class StateSpaceMonitor {
 	// State space to be monitored.
 	private final StateSpace stateSpace;
 	
-	// List of states that have been added since the activation.
-	private List<State> addedStates = new ArrayList<State>();
+	// Set of states that have been added since the activation.
+	private Collection<State> addedStates = new HashSet<State>();
 
 	// List of states that have been removed since the activation.
-	private List<State> removedStates = new ArrayList<State>();
+	private Collection<State> removedStates = new HashSet<State>();
 	
 	/**
 	 * Default constructor. This does not activate the monitor.
@@ -79,7 +79,7 @@ public class StateSpaceMonitor {
 	 * since the activation.
 	 * @return The added states.
 	 */
-	public List<State> getAddedStates() {
+	public Collection<State> getAddedStates() {
 		return addedStates;
 	}
 	
@@ -88,7 +88,7 @@ public class StateSpaceMonitor {
 	 * since the activation.
 	 * @return The removed states.
 	 */
-	public List<State> getRemovedStates() {
+	public Collection<State> getRemovedStates() {
 		return removedStates;
 	}
 

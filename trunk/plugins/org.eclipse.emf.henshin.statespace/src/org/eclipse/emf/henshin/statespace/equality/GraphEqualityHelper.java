@@ -6,10 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -42,6 +40,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Hash code maps:
 	private HashCodeMap hashcodes1, hashcodes2;
 	
+	private ModelTraversalHelper traversalHelper;
+	
 	/**
 	 * Default constructor.
 	 * @param ignoreAttributes Whether to ignore attributes.
@@ -62,7 +62,9 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	 */
 	public boolean equals(Model model1, HashCodeMap map1, 
 						  Model model2, HashCodeMap map2) {
-
+		
+		long time = System.currentTimeMillis();
+		
 		// Make sure we have both hash codes maps:
 		if (map1==null || map2==null) {
 			hashcodes1 = HashCodeMap.ECLASS_HASH_CODE_MAP;
@@ -88,6 +90,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		this.model1 = model1;
 		this.model2 = model2;
 		
+		traversalHelper = new ModelTraversalHelper(hashcodes1);
+		
 		// Reset the match first:
 		clear();
 		
@@ -101,6 +105,10 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		hashcodes2 = null;
 		this.model1 = null;
 		this.model2 = null;
+		traversalHelper = null;
+		
+		time = System.currentTimeMillis() - time;
+		log("Equality check took " + time + "ms\n");
 		
 		// Done.
 		return result;
@@ -148,26 +156,19 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	}
 	
 	/*
-	 * Check whether two objects are allowed to be matched.
-	 * This does not change the current match. It performs
-	 * only a basic check.
+	 * Basic check whether two objects are allowed to be matched.
+	 * This does not change the current match.
 	 */
-	private boolean canMatch(EObject o1, EObject o2) {
+	private boolean basicCanMatch(EObject o1, EObject o2) {
 		
-		// Check if the first object has been matched already:
-		EObject match = get(o1);
-		if (match!=null) {
-			
-			// If yes, it must be o2:
-			return (match==o2);
-			
-		} else {
-			
-			// If not, o2 must not have been matched yet by another object.
-			if (values().contains(o2)) {
-				return false;
-			}
-			
+		// Check if the objects are matched already:
+		EObject m1 = get(o1);
+		if (m1!=null && m1!=o2) {
+			return false;
+		}
+		EObject m2 = get(o2);
+		if (m2!=null && m2!=o1) {
+			return false;
 		}
 		
 		// Must have the same hash code:
@@ -182,15 +183,41 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		}
 		
 		// Must be of the same type:
-		EClass type = o1.eClass();
-		if (!o2.eClass().equals(type)) {
+		if (!o1.eClass().equals(o2.eClass())) {
 			return false;
 		}
 
 		// Compare all attributes:
 		if (!ignoreAttributes) {
-			for (EAttribute attribute : type.getEAllAttributes()) {
+			for (EAttribute attribute : o1.eClass().getEAllAttributes()) {
 				if (!attributeHelper.haveEqualAttribute(o1, o2, attribute)) {
+					return false;
+				}
+			}
+		}
+					
+		// Check the references w.r.t. the already matched objects:
+		for (EReference reference : traversalHelper.getReferences(o1)) {
+		
+			// List of referenced objects:
+			List<EObject> list1 = traversalHelper.getReferenceAsList(o1, reference);
+			List<EObject> list2 = traversalHelper.getReferenceAsList(o2, reference);
+			
+			// Must have the same size:
+			if (list1.size()!=list2.size()) {
+				return false;
+			}
+
+			// Check matched objects in the lists:
+			for (EObject l1 : list1) {
+				EObject l2 = get(l1);
+				if (l2!=null && !list2.contains(l2)) {
+					return false;
+				}
+			}
+			for (EObject l2 : list2) {
+				EObject l1 = get(l2);
+				if (l1!=null && !list1.contains(l1)) {
 					return false;
 				}
 			}
@@ -202,13 +229,53 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	}
 	
 	/*
+	 * Check whether two objects are allowed to be matched.
+	 * This does not change the current match.
+	 */
+	private boolean canMatch(EObject o1, EObject o2) {
+		
+		// Do the basic check first:
+		if (!basicCanMatch(o1, o2)) {
+			return false;
+		}
+		
+		// Check whether all referenced objects can be matched:
+		for (EReference reference : traversalHelper.getReferences(o1)) {
+			
+			// List of referenced objects:
+			List<EObject> list1 = traversalHelper.getReferenceAsList(o1, reference);
+			List<EObject> list2 = traversalHelper.getReferenceAsList(o2, reference);
+
+			// Check whether every object can in principle be matched: 
+			for (EObject l1 : list1) {
+				boolean canMatch = false;
+				for (EObject l2 : list2) {
+					if (basicCanMatch(l1,l2)) {
+						canMatch = true;
+						break;
+					}
+				}
+				if (!canMatch) {
+					return false;
+				}
+			}
+			
+		}
+
+		// Ok.
+		return true;
+		
+	}
+
+	
+	/*
 	 * Perform a match operation.
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean match(EObject o1, EObject o2) {
 		
 		// Check if a match is possible:
 		if (!canMatch(o1,o2)) {
+			log("Cannot match " + o1 + " with " + o2);
 			return false;
 		}
 		
@@ -219,136 +286,89 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			return matchFirst();
 		}
 		
-		// They have the same hash code:
-		Integer hash = hashcodes1.get(o1);
-		
-		// The currently used slots:
-		List<EObject> slot1 = slots1.get(hash);
-		List<EObject> slot2 = slots2.get(hash);
-		
-		// Get the indizes of the objects:
-		int i1 = slot1.indexOf(o1);
-		int i2 = slot2.indexOf(o2);
-		
 		// For now we assume that the match works:
-		put(o1, o2);
-		slot1.remove(i1);
-		slot2.remove(i2);
+		doMatch(o1, o2);
 		
-		// TEMP BUGFIX:
-		i1 = 0;
-		i2 = 0;
-		// END OF TEMP BUGFIX
-		
-		// Now check the references:
-		for (EReference reference : o1.eClass().getEAllReferences()) {
-			if (reference.isMany()) {
-				
-				// List of referenced objects:
-				EList<EObject> list1 = (EList<EObject>) o1.eGet(reference);
-				EList<EObject> list2 = (EList<EObject>) o2.eGet(reference);
-				
-				// Must have the same size:
-				if (list1.size()!=list2.size()) {
-					remove(o1);			// abort the current match
-					slot1.add(i1,o1);
-					slot2.add(i2,o2);
-					return false;
+		// Now actually try to match them:
+		for (EReference reference : traversalHelper.getReferences(o1)) {
+			
+			// Find the first object that is not matched yet:
+			EObject l1 = null;
+			for (EObject current : traversalHelper.getReferenceAsList(o1, reference)) {
+				if (!containsKey(current)) {
+					l1 = current;
+					break;
 				}
-				
-				// Match all objects in the two lists:
-				for (EObject l1 : list1) {
-					for (EObject l2 : list2) {
-						if (match(l1, l2)) {
-							if (validateReferencesForCompleteMatch(o1)) {
-								return true;	// done!						
-							}
-						}
-					}
+			}
+			if (l1==null) {
+				continue;
+			}
+			for (EObject l2 : traversalHelper.getReferenceAsList(o2, reference)) {
+				if (!values().contains(l2) && match(l1, l2) && canMatch(o1,o2)) {	// check the references again with canMatch()
+					return true;
 				}
-				
-				// No match found; we abort:
-				remove(o1);
-				slot1.add(i1,o1);
-				slot2.add(i2,o2);
-				return false;
-				
-			} else {
-				
-				// Single referenced objects:
-				EObject l1 = (EObject) o1.eGet(reference);
-				EObject l2 = (EObject) o2.eGet(reference);
-				
-				if ((l1==null && l2==null) || 
-					(l1!=null && l2!=null && match(l1,l2))) {
-					if (validateReferencesForCompleteMatch(o1)) {
-						return true;	// done!
-					}
-				}
-				
-				// No match found; we abort:
-				remove(o1);
-				slot1.add(i1,o1);
-				slot2.add(i2,o2);
-				return false;
 			}
 			
+			// No match found; we abort:
+			doUnmatch(o1, o2);
+			return false;
+			
 		}
-		
+
 		// Still need to match the rest:
 		if (matchFirst()) {
 			return true;
+		} else {
+			doUnmatch(o1, o2);
+			return false;
 		}
 		
-		// Otherwise abort:
+	}
+	
+	/*
+	 * Add a to objects to the match.
+	 */
+	private void doMatch(EObject o1, EObject o2) {
+
+		log("Trying to match " + o1 + " with " + o2);
+
+		// Add to the match:
+		put(o1,o2);
+		put(o2,o1);
+
+		// They have the same hash code:
+		Integer hash = hashcodes1.get(o1);
+		
+		// Remove from the list of available objects:
+		slots1.get(hash).remove(o1);
+		slots2.get(hash).remove(o2);
+		
+	}
+
+	/*
+	 * Remove two objects from the match.
+	 */
+	private void doUnmatch(EObject o1, EObject o2) {
+
+		// Remove from the match:
 		remove(o1);
-		slot1.add(i1,o1);
-		slot2.add(i2,o2);
-		return false;
+		remove(o2);
+		
+		// They have the same hash code:
+		Integer hash = hashcodes1.get(o1);
+		
+		// Add them to the list of available objects:
+		slots1.get(hash).add(o1);
+		slots2.get(hash).add(o2);
+
+		log("Aborting match  " + o1 + " with " + o2);
 
 	}
 	
-	
-	/*
-	 * Check whether the references of an object are ok w.r.t.
-	 * to the current match, which has to be complete.
-	 */
-	@SuppressWarnings("unchecked")
-	private boolean validateReferencesForCompleteMatch(EObject o1) {
-		EObject o2 = get(o1);
-		for (EReference reference : o1.eClass().getEAllReferences()) {
-			if (reference.isMany()) {
-				
-				// List of referenced objects:
-				EList<EObject> list1 = (EList<EObject>) o1.eGet(reference);
-				EList<EObject> list2 = (EList<EObject>) o2.eGet(reference);
-				
-				// Must have the same size:
-				if (list1.size()!=list2.size()) {
-					return false;
-				}
-				
-				// Match all objects in the two lists:
-				for (EObject l1 : list1) {
-					if (!list2.contains(get(l1))) {
-						return false;
-					}
-				}
-				
-			} else {
-				
-				// Single referenced objects:
-				EObject l1 = (EObject) o1.eGet(reference);
-				EObject l2 = (EObject) o2.eGet(reference);
-				
-				if ((l1==null && l2!=null) || 
-					(l1!=null && l2!=get(l1))) {
-					return false;
-				}
-				
-			}
-		}
-		return true;
+	private void log(String message) {
+		//int indent = keySet().size() / 2;
+		//for (int i=0; i<indent; i++) System.out.print(" ");
+		//System.out.println(message);
 	}
 	
 	/*

@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
-import org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManagerWithStateDistance;
+import org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.gef.EditDomain;
@@ -176,13 +176,12 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
 	private List<State> getStatesToExplore() {
 		List<State> statesToExplore = new ArrayList<State>();
-		if (getStateSpaceManager() instanceof AbstractStateSpaceManagerWithStateDistance) {
-			AbstractStateSpaceManagerWithStateDistance manager = 
-					(AbstractStateSpaceManagerWithStateDistance) getStateSpaceManager();
+		if (getStateSpaceManager() instanceof AbstractStateSpaceManager) {
+			AbstractStateSpaceManager manager = (AbstractStateSpaceManager) getStateSpaceManager();
 			int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
 			for (State open : manager.getStateSpace().getOpenStates()) {
 				if (maxStateDistance<0 || maxStateDistance>manager.getStateDistance(open)) {
-					statesToExplore.add(open);					
+					statesToExplore.add(open);
 				}
 			}
 		} else {

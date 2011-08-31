@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -47,7 +48,7 @@ import org.eclipse.emf.henshin.statespace.util.UniversalCache;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDistance {
+public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
 	private final Map<State,Model> modelCache = 
@@ -295,6 +296,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 				// Ok, now we can create a new state if necessary.
 				if (target==null) {
 					target = createOpenState(transformed, hashCode, location);
+					monitor.getAddedStates().remove(target);
 					newState = true;
 				}
 				
@@ -434,7 +436,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManagerWithStateDis
 	/*
 	 * Helper method for finding a state in a list.
 	 */
-	private State findState(Model model, int hashCode, List<State> states) throws StateSpaceException {
+	private State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
 		for (State state : states) {
 			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
 				return state;
