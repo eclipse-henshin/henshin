@@ -15,6 +15,7 @@ package org.eclipse.emf.henshin.tests.basicTests;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
+import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,5 +131,20 @@ public class DeleteNodes extends HenshinTest {
 		//System.out.println(htRuleApp.apply());
 		//Tools.printGraph(htEmfGraph);
 		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), 0.9);
+	}
+	
+	// ----
+	
+	@Test
+	public void testDeleteRootNode() {
+		/**
+		 * Delete a root node in a graph
+		 */
+		loadGraph("graphWithRootNode");
+		loadRule("deleteRootNode");
+		Rules.assertRuleCanBeApplied(htRuleApp);
+		if (Tools.getGraphRoot(htEmfGraph) != null) {
+			throw new AssertionError("expected: Root node deleted, but a root node still exists.");
+		}
 	}
 }

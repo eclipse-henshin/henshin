@@ -231,4 +231,59 @@ public class TransformationUnitTests extends HenshinTest {
 		
 	}
 	
+	// -----
+	
+	@Test
+	public void testAmalgamationUnitAttributeInKernelRuleNac() {
+		loadGraph("graphBefore_amu_attributeInKernelNac");
+		//loadRule("amu2_krl");
+		//Tools.printMatches(htRuleApp.findAllMatches());
+		loadTu("loop_amu_attributeInKernelNac");
+		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		//Tools.persist(Tools.getGraphRoot(htEmfGraph), "gt_amu2.testmodel");
+	}
+	
+	@Test
+	public void testEmptyIndependentUnit() {
+		loadGraph("graphBefore_countedUnit");
+		loadTu("emptyIndependentUnit");
+		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		htUnitApp.undo();
+		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+	}
+	
+	@Test
+	public void testEmptySequentialUnit() {
+		loadGraph("graphBefore_countedUnit");
+		loadTu("emptySequentialUnit");
+		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		htUnitApp.undo();
+		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+	}
+	
+	@Test
+	public void testEmptyPriorityUnit() {
+		loadGraph("graphBefore_countedUnit");
+		loadTu("emptyPriorityUnit");
+		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		htUnitApp.undo();
+		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+	}
+	
+	// graphAfter_IndependentUnit1a
+	@Test
+	public void testIndependentUnitWithOneSubUnit() {
+		loadGraph("graphWithCont");
+		loadTu("independentUnitWithOneSubUnit");
+		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_IndependentUnit1a")), 0.9);
+	}
+	
+	@Test
+	public void testPriorityUnitWithOneSubUnit() {
+		loadGraph("graphWithCont");
+		loadTu("priorityUnitWithOneSubUnit");
+		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_IndependentUnit1a")), 0.9);
+	}
+
+	
 }

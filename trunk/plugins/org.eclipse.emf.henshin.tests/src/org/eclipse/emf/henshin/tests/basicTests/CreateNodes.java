@@ -94,4 +94,13 @@ public class CreateNodes extends HenshinTest {
 			junit.framework.Assert.fail("root node couldn't be created.");
 		}
 	}
+	
+	// ----
+	
+	@Test
+	public void edgeCTest() {
+		loadGraph("graphWithCont");
+		loadRule("edgeCtest");
+		GraphTransformations.assertTransformsGraph(htRule, htEngine, HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgeCtest")), 0.9);
+	}
 }

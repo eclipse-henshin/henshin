@@ -204,4 +204,35 @@ public class ParameterTests extends HenshinTest {
 		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_attribCond1")), 0.9);
 	}
 	
+	// ----
+	
+	@Test
+	public void testEmptyRuleWithAttributeCondition() {
+		System.out.println("--------------------------- empty rule with attrib cond ---------------");
+		loadGraph("paramTest");
+		loadRule("emptyRuleWithAttribCond");
+		htRuleApp.setParameterValue("p1", 10);
+		htRuleApp.setParameterValue("p2", 20);
+		htRuleApp.setParameterValue("p3", 30);
+		Rules.assertRuleCanBeApplied(htRuleApp);
+		Tools.printParameterMappings(htRuleApp);
+	}
+	
+	@Test
+	public void testMultipleAttributeConditions1() {
+		loadGraph("paramTest");
+		loadRule("multipleAttributeConditions");
+		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_multipleAttribCond2")), 0.9);
+		Tools.printGraph(htEmfGraph);
+	}
+	
+	@Test
+	public void testMultipleAttributeConditions2() {
+		loadGraph("graphBefore_multipleAttribCond1");
+		loadRule("multipleAttributeConditions");
+		GraphTransformations.assertGraphIsNotChanged(htRule, htEmfGraph, 0.9);
+		Tools.printGraph(htEmfGraph);
+	}
+
+	
 }

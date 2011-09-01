@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_Ab_xwCV2EeCKJo7pGi_c2A" name="paramTest">
-  <rules xmi:id="_H_FIsCV2EeCKJo7pGi_c2A" name="parameterAttribute" activated="true">
+  <rules xmi:id="_H_FIsCV2EeCKJo7pGi_c2A" name="parameterAttribute">
     <parameters xmi:id="_QTWE8CV2EeCKJo7pGi_c2A" name="param_Nodename"/>
     <lhs xmi:id="_H_FIsSV2EeCKJo7pGi_c2A" name="LHS">
       <nodes xmi:id="_MNMH4CV2EeCKJo7pGi_c2A" name="nd" incoming="_cd9AoCV2EeCKJo7pGi_c2A">
@@ -23,7 +23,7 @@
     </rhs>
     <mappings xmi:id="_er_lgCV2EeCKJo7pGi_c2A" origin="_aBflQCV2EeCKJo7pGi_c2A" image="_eTdwwCV2EeCKJo7pGi_c2A"/>
   </rules>
-  <rules xmi:id="_DT8iYDkWEeCSzrXE7lCjzA" name="parameterObject" activated="true">
+  <rules xmi:id="_DT8iYDkWEeCSzrXE7lCjzA" name="parameterObject">
     <parameters xmi:id="_DT8iYTkWEeCSzrXE7lCjzA" name="param_nd"/>
     <lhs xmi:id="_DT8iYjkWEeCSzrXE7lCjzA" name="LHS">
       <nodes xmi:id="_DT8iYzkWEeCSzrXE7lCjzA" name="param_nd" incoming="_DT8iZjkWEeCSzrXE7lCjzA">
@@ -43,7 +43,7 @@
     </rhs>
     <mappings xmi:id="_DT8iaTkWEeCSzrXE7lCjzA" origin="_DT8iZTkWEeCSzrXE7lCjzA" image="_DT8iaDkWEeCSzrXE7lCjzA"/>
   </rules>
-  <rules xmi:id="_-w_-0DkZEeCSzrXE7lCjzA" name="parameterComposition2" activated="true">
+  <rules xmi:id="_-w_-0DkZEeCSzrXE7lCjzA" name="parameterComposition2">
     <parameters xmi:id="_FpJiYDkaEeCSzrXE7lCjzA" name="p1"/>
     <parameters xmi:id="_HJZ0MDkaEeCSzrXE7lCjzA" name="p2"/>
     <parameters xmi:id="_AQ1BMEAdEeCSur9t7YWs0Q" name="vl"/>
@@ -75,7 +75,7 @@
     <mappings xmi:id="_Q-qCEDkaEeCSzrXE7lCjzA" origin="_LSDEkDkaEeCSzrXE7lCjzA" image="_M2q5ADkaEeCSzrXE7lCjzA"/>
     <mappings xmi:id="_7AODMEAcEeCSur9t7YWs0Q" origin="_A_PYADkaEeCSzrXE7lCjzA" image="_6EgB0EAcEeCSur9t7YWs0Q"/>
   </rules>
-  <rules xmi:id="_QgEqkDnIEeCSzrXE7lCjzA" name="parameterInOut" activated="true">
+  <rules xmi:id="_QgEqkDnIEeCSzrXE7lCjzA" name="parameterInOut">
     <parameters xmi:id="_gI8c4DnIEeCSzrXE7lCjzA" name="param_node"/>
     <parameters xmi:id="_hbBv0DnIEeCSzrXE7lCjzA" name="param_ndname"/>
     <lhs xmi:id="_QgFRoDnIEeCSzrXE7lCjzA" name="LHS">
@@ -96,7 +96,7 @@
     </rhs>
     <mappings xmi:id="_fl3lADnIEeCSzrXE7lCjzA" origin="_TC9eEDnIEeCSzrXE7lCjzA" image="_fCqxUDnIEeCSzrXE7lCjzA"/>
   </rules>
-  <rules xmi:id="_g4E5IDnbEeCSzrXE7lCjzA" name="parameterOperations" activated="true">
+  <rules xmi:id="_g4E5IDnbEeCSzrXE7lCjzA" name="parameterOperations">
     <parameters xmi:id="_47Ls0DnbEeCSzrXE7lCjzA" description="" name="nd"/>
     <parameters xmi:id="_5oPAEDnbEeCSzrXE7lCjzA" name="param_string"/>
     <parameters xmi:id="_-CMC4DnbEeCSzrXE7lCjzA" name="param_int"/>
@@ -137,7 +137,7 @@
     <mappings xmi:id="_m-QNMDnbEeCSzrXE7lCjzA" origin="_j3LHgDnbEeCSzrXE7lCjzA" image="_k3hKMDnbEeCSzrXE7lCjzA"/>
     <mappings xmi:id="_pHS9UDnbEeCSzrXE7lCjzA" origin="_jaUMYDnbEeCSzrXE7lCjzA" image="_kXoJMDnbEeCSzrXE7lCjzA"/>
   </rules>
-  <rules xmi:id="_Lnsy0EAdEeCSur9t7YWs0Q" name="parameterComposition1" activated="true">
+  <rules xmi:id="_Lnsy0EAdEeCSur9t7YWs0Q" name="parameterComposition1">
     <parameters xmi:id="_Lnsy0UAdEeCSur9t7YWs0Q" name="p1"/>
     <parameters xmi:id="_Lnsy0kAdEeCSur9t7YWs0Q" name="p2"/>
     <parameters xmi:id="_Lnsy00AdEeCSur9t7YWs0Q" name="vl"/>
@@ -169,7 +169,7 @@
     <mappings xmi:id="_Lnsy3UAdEeCSur9t7YWs0Q" origin="_Lnsy1kAdEeCSur9t7YWs0Q" image="_Lnsy2UAdEeCSur9t7YWs0Q"/>
     <mappings xmi:id="_Lnsy3kAdEeCSur9t7YWs0Q" origin="_Lnsy1UAdEeCSur9t7YWs0Q" image="_Lnsy2kAdEeCSur9t7YWs0Q"/>
   </rules>
-  <rules xmi:id="_TnvLgEAdEeCSur9t7YWs0Q" name="attribCond1" activated="true">
+  <rules xmi:id="_TnvLgEAdEeCSur9t7YWs0Q" name="attribCond1">
     <parameters xmi:id="_fnQ4kEAdEeCSur9t7YWs0Q" name="p3"/>
     <lhs xmi:id="_TnvLgUAdEeCSur9t7YWs0Q" name="LHS">
       <nodes xmi:id="_WXR68EAdEeCSur9t7YWs0Q" name="cont" outgoing="_ZpItQEAdEeCSur9t7YWs0Q _H_bSUEAiEeCSur9t7YWs0Q">
@@ -209,7 +209,7 @@
     <mappings xmi:id="_b_oDgEAdEeCSur9t7YWs0Q" origin="_WXR68EAdEeCSur9t7YWs0Q" image="_ajKFgEAdEeCSur9t7YWs0Q"/>
     <mappings xmi:id="_jhWIhEAdEeCSur9t7YWs0Q" origin="_X7dqgEAdEeCSur9t7YWs0Q" image="_jhWIgUAdEeCSur9t7YWs0Q"/>
   </rules>
-  <rules xmi:id="_IhokUEAeEeCSur9t7YWs0Q" name="attribCond2" activated="true">
+  <rules xmi:id="_IhokUEAeEeCSur9t7YWs0Q" name="attribCond2">
     <parameters xmi:id="_IhokUUAeEeCSur9t7YWs0Q" name="p3"/>
     <parameters xmi:id="_J8Cs0EAeEeCSur9t7YWs0Q" name="p1"/>
     <parameters xmi:id="_LFaIoEAeEeCSur9t7YWs0Q" name="p2"/>
@@ -251,8 +251,52 @@
     <mappings xmi:id="_IhokX0AeEeCSur9t7YWs0Q" origin="_IhokU0AeEeCSur9t7YWs0Q" image="_IhokWkAeEeCSur9t7YWs0Q"/>
     <mappings xmi:id="_IhokYEAeEeCSur9t7YWs0Q" origin="_IhokVEAeEeCSur9t7YWs0Q" image="_IhokW0AeEeCSur9t7YWs0Q"/>
   </rules>
+  <rules xmi:id="_hqDq0IuMEeCvp8DM52BBtg" description="empty rule with attribute conditions" name="emptyRuleWithAttribCond">
+    <parameters xmi:id="_m2LKYIuMEeCvp8DM52BBtg" name="p1"/>
+    <parameters xmi:id="_nsEQkIuMEeCvp8DM52BBtg" name="p2"/>
+    <parameters xmi:id="_okcqEIuMEeCvp8DM52BBtg" name="p3"/>
+    <lhs xmi:id="_hqDq0YuMEeCvp8DM52BBtg" name="LHS"/>
+    <rhs xmi:id="_hqDq0ouMEeCvp8DM52BBtg" name="RHS"/>
+    <attributeConditions xmi:id="_pjqrYIuMEeCvp8DM52BBtg" name="p3 = p1+p2" conditionText="p3 == (p1 + p2)"/>
+  </rules>
+  <rules xmi:id="_oio88I3hEeCekMTje1EdnA" description="if the minimum of both values is even, set both values to the miniumum. else, fail" name="multipleAttributeConditions">
+    <parameters xmi:id="_tsGKEI3hEeCekMTje1EdnA" name="vl1_val"/>
+    <parameters xmi:id="_vdYhgI3hEeCekMTje1EdnA" name="vl2_val"/>
+    <lhs xmi:id="_oio88Y3hEeCekMTje1EdnA" name="LHS">
+      <nodes xmi:id="_w42Z8I3hEeCekMTje1EdnA" name="vl1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_ytxUMI3hEeCekMTje1EdnA" value="vl1_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_1uQpsI3hEeCekMTje1EdnA" name="vl2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_3AvlQI3hEeCekMTje1EdnA" value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_oio88o3hEeCekMTje1EdnA" name="RHS">
+      <nodes xmi:id="_5S_UsI3hEeCekMTje1EdnA" name="vl1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_5S_UsY3hEeCekMTje1EdnA" value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_5S_Uso3hEeCekMTje1EdnA" name="vl2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes xmi:id="_5S_Us43hEeCekMTje1EdnA" value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <attributeConditions xmi:id="_86qmAI3hEeCekMTje1EdnA" name="vl1 greater than vl2" conditionText="vl1_val > vl2_val"/>
+    <attributeConditions xmi:id="_NkZ_cI3iEeCekMTje1EdnA" name="vl2 is even" conditionText="(vl2_val % 2) == 0"/>
+    <mappings xmi:id="_5S_UtI3hEeCekMTje1EdnA" origin="_w42Z8I3hEeCekMTje1EdnA" image="_5S_UsI3hEeCekMTje1EdnA"/>
+    <mappings xmi:id="_5S_UtY3hEeCekMTje1EdnA" origin="_1uQpsI3hEeCekMTje1EdnA" image="_5S_Uso3hEeCekMTje1EdnA"/>
+  </rules>
   <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_GkceIDqoEeCSzrXE7lCjzA" name="parameterUnit" activated="true" subUnits="_QgEqkDnIEeCSzrXE7lCjzA _DT8iYDkWEeCSzrXE7lCjzA">
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_GkceIDqoEeCSzrXE7lCjzA" name="parameterUnit" subUnits="_QgEqkDnIEeCSzrXE7lCjzA _DT8iYDkWEeCSzrXE7lCjzA">
     <parameters xmi:id="_Hj-ogDqoEeCSzrXE7lCjzA" name="tu_param_in"/>
     <parameters xmi:id="_2hLcUDtLEeCp2vZwrfgSew" name="p2"/>
     <parameterMappings xmi:id="_IGjxIDqoEeCSzrXE7lCjzA" source="_Hj-ogDqoEeCSzrXE7lCjzA" target="_hbBv0DnIEeCSzrXE7lCjzA"/>

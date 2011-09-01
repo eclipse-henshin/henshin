@@ -288,4 +288,24 @@ public class MatchTests extends HenshinTest {
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
+	// ----
+	
+	@Test
+	public void testNestedConditionMultipleMappings() {
+		/**
+		 * Tests multiple mappings in nested conditions
+		 * Will find a parent Node nd1 which has a Val
+		 * and a child Node (of nd1) nd2 which doesn't have a Val
+		 * 
+		 * i.e. t_11 and t_1
+		 */
+		loadGraph("nestedACTests");
+		loadRule("nestedCondition_multipleMappings");
+		Collection<Node> anticipatedMatches = new ArrayList<Node>();
+		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_11'", htEmfGraph));
+		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_1'", htEmfGraph));
+		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+
+	}
+	
 }
