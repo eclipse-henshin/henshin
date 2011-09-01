@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.export.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.properties.CompoundPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpacePlatformHelper;
 import org.eclipse.emf.henshin.statespace.validation.Validator;

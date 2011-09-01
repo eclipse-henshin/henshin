@@ -27,7 +27,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.export.AUTStateSpaceExporter;
+import org.eclipse.emf.henshin.statespace.external.cadp.AUTStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.validation.AbstractStateSpaceValidator;
 
 /**

@@ -1,10 +1,9 @@
-package org.eclipse.emf.henshin.statespace.export;
+package org.eclipse.emf.henshin.statespace;
 
 import java.io.IOException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.statespace.StateSpace;
 
 /**
  * Interface for state space exporters.

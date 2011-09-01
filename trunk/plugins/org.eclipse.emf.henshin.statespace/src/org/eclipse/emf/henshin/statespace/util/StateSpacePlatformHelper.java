@@ -14,8 +14,8 @@ package org.eclipse.emf.henshin.statespace.util;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.export.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.properties.StateSpacePropertiesManager;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 

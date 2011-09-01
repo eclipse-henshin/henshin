@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 
 /**
  * Command for exploring states.
@@ -65,14 +64,7 @@ public class ExploreStatesCommand extends AbstractStateSpaceCommand {
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	public void doExecute() throws StateSpaceException {
-		StateSpaceManager manager = getStateSpaceManager();
-		if (manager instanceof MultiThreadedStateSpaceManager) {
-			((MultiThreadedStateSpaceManager) manager).exploreStates(states, generateLocations);
-		} else {
-			for (State state : states) {
-				manager.exploreState(state, generateLocations);
-			}
-		}
+		getStateSpaceManager().exploreStates(states, generateLocations);
 	}
 	
 	/*

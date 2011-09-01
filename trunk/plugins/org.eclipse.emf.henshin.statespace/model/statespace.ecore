@@ -60,7 +60,6 @@
       <eParameters name="match" eType="#//Match"/>
     </eOperations>
     <eOperations name="updateNodeIDs"/>
-    <eOperations name="asArray" eType="#//EObjectArray"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeIDsMap" upperBound="-1"
@@ -131,5 +130,4 @@
   <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.util.Match"/>
   <eClassifiers xsi:type="ecore:EDataType" name="HashCodeMap" instanceClassName="org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap"
       serializable="false"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="EObjectArray" instanceClassName="org.eclipse.emf.ecore.EObject[]"/>
 </ecore:EPackage>

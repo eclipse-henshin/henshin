@@ -62,7 +62,7 @@
                   State space exporter implementation.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.export.StateSpaceExporter"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.emf.henshin.statespace.StateSpaceExporter"/>
                </appInfo>
             </annotation>
          </attribute>

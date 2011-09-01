@@ -34,6 +34,14 @@
    <extension
          point="org.eclipse.emf.henshin.statespace.exporters">
       <exporter
+            class="org.eclipse.emf.henshin.statespace.external.cadp.AUTStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.external.aut">
+      </exporter>
+      <exporter
+            class="org.eclipse.emf.henshin.statespace.external.tikz.TikZStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.external.tikz">
+      </exporter>
+      <exporter
             class="org.eclipse.emf.henshin.statespace.external.prism.PRISMStateSpaceExporter"
             id="org.eclipse.emf.henshin.statespace.external.export.prism">
       </exporter>

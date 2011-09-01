@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.export;
+package org.eclipse.emf.henshin.statespace.external.tikz;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.layout.TransitionBendpointHelper;
 

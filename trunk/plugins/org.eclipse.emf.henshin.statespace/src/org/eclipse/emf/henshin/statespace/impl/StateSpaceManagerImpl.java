@@ -227,12 +227,35 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		return model;
 		
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#explore(org.eclipse.emf.henshin.statespace.State)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#exploreStates(java.util.List, boolean)
 	 */
-	public List<Transition> exploreState(State state, boolean generateLocation) throws StateSpaceException {
+	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
+		List<State> result = new ArrayList<State>();
+		try {
+		for (State state : states) {
+			result.addAll(exploreState(state, generateLocation));
+		}
+		} catch (Throwable t) {
+			if (t instanceof StateSpaceException) {
+				throw (StateSpaceException) t;
+			} else {
+				throw new StateSpaceException(t);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Explore a given state.
+	 * @param state State to be explored.
+	 * @param generateLocation Whether to generate locations for the new state.
+	 * @return List of newly created successor states.
+	 * @throws StateSpaceException On errors.
+	 */
+	protected List<State> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Check if we exceeded the maximum state distance:
 		int maxStateDistance = getStateSpace().getMaxStateDistance();
@@ -249,7 +272,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Initialize the result.
 		int newStates = 0;
-		List<Transition> result = new ArrayList<Transition>(transitions.size());
+		List<State> result = new ArrayList<State>(transitions.size());
 
 		// For performance we use a monitor to detect concurrently made changes.
 		StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
@@ -304,15 +327,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			// END OF EXPLORER LOCK
 
 			// Find or create the transition.
-			Transition transition = findTransition(state, target, rule, parameters);
-			if (transition==null) {
-				transition = createTransition(state, target, rule, match, parameters);
-				result.add(transition);
+			if (newState || findTransition(state, target, rule, parameters)==null) {
+				createTransition(state, target, rule, match, parameters);
 			}
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
 				storeModel(target, transformed);
+				result.add(target);
 			}
 			
 		}

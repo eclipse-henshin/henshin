@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
  org.eclipse.emf.henshin.interpreter;bundle-version="0.7.0"
 Export-Package: org.eclipse.emf.henshin.statespace,
  org.eclipse.emf.henshin.statespace.equality,
- org.eclipse.emf.henshin.statespace.export,
  org.eclipse.emf.henshin.statespace.hashcodes,
  org.eclipse.emf.henshin.statespace.impl,
  org.eclipse.emf.henshin.statespace.layout,

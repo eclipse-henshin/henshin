@@ -30,17 +30,6 @@
       </parser>
    </extension>
    <extension
-         point="org.eclipse.emf.henshin.statespace.exporters">
-      <exporter
-            class="org.eclipse.emf.henshin.statespace.export.AUTStateSpaceExporter"
-            id="org.eclipse.emf.henshin.statespace.export.aut">
-      </exporter>
-      <exporter
-            class="org.eclipse.emf.henshin.statespace.export.TikZStateSpaceExporter"
-            id="org.eclipse.emf.henshin.statespace.export.tikz">
-      </exporter>
-   </extension>
-   <extension
          point="org.eclipse.emf.henshin.statespace.validators">
       <validator
             class="org.eclipse.emf.henshin.statespace.validation.SingleRootStateValidator"

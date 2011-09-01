@@ -53,6 +53,9 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	// HashMap for prepared states.
 	private Map<State,List<Transition>> preparedStates;
 	
+	// Last time the explore command was invoked.
+	private long lastExplorationCall;
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -79,10 +82,14 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 * Explore states concurrently.
 	 * @param states States to be explored.
 	 * @param generateLocations Whether to generate locations.
-	 * @return Newly created transitions.
+	 * @return Newly created successor states.
 	 * @throws StateSpaceException On state space errors.
 	 */
-	public synchronized List<Transition> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
+	@Override
+	public synchronized List<State> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
+
+		// Update the time stamp of the last call:
+		lastExplorationCall = System.currentTimeMillis();
 		
 		// If we haven't start the preparer thread, we do it now. But not earlier.
 		if (preparer==null) {
@@ -92,7 +99,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		
 		// We use a new list for the states:
 		List<State> queue = new Vector<State>(states);
-		List<Transition> result = new Vector<Transition>();
+		List<State> result = new Vector<State>();
 		
 		try {
 			// Launch the workers:
@@ -158,7 +165,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		private List<State> states;
 		
 		// Result list:
-		private List<Transition> result;
+		private List<State> result;
 		
 		// Whether to generate locations:
 		private boolean generateLocations;
@@ -166,7 +173,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		/*
 		 * Default constructor.
 		 */
-		ExplorationWorker(List<State> states, List<Transition> result, boolean generateLocations) {
+		ExplorationWorker(List<State> states, List<State> result, boolean generateLocations) {
 			this.states = states;
 			this.result = result;
 			this.generateLocations = generateLocations;
@@ -221,7 +228,17 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 						if (open[i]!=null) {
 							doExplore(open[i]);
 						}
-						if (i % 100==0) Thread.sleep(100);
+						// Sleep for a while:
+						if (i % 100==0) {
+							Thread.sleep(100);
+						}
+						// Check if we should stop:
+						if (i % 1000==0) {
+							if (System.currentTimeMillis() - lastExplorationCall > 1000) { // one second
+								preparer = null;
+								return;
+							}
+						}
 					} catch (Throwable t) {}
 				}
 			}
