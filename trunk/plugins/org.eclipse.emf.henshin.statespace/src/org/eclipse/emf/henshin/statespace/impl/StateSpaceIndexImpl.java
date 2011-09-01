@@ -111,7 +111,8 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		}
 		
 		// Get the hash code of the state:
-		int position = hash2position(state.getHashCode());
+		int hashcode = state.getHashCode();
+		int position = hash2position(hashcode);
 		
 		// Need to create a new array?
 		if (index[position]==null) {
@@ -121,19 +122,32 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		// Find the first free minor index:
 		int minor = index[position].length;
 		boolean collision = false;
+		
+		// Find an empty slot:
 		for (int i=0; i<index[position].length; i++) {
+			
+			// Empty slot?
 			if (index[position][i]==null) {
 				minor = i;
-			} else {
-				collision = true;
+				if (collision) {
+					break;
+				}
 			}
+			// Collision?
+			else if (index[position][i].getHashCode()==hashcode) {
+				collision = true;
+				if (minor<i) {
+					break;
+				}
+			}
+			
 		}
-		
-		// Record collision:
+
+		// Record collisions:
 		if (collision) {
 			collisions++;
 		}
-		
+
 		// Check if the array needs to be expanded:
 		if (minor>=index[position].length) {
 			index[position] = Arrays.copyOf(index[position], index[position].length*2);
