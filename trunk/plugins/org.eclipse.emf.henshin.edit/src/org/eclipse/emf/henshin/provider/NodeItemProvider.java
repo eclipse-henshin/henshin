@@ -188,18 +188,21 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		Object defaultImage = overlayImage(object,
 				getResourceLocator().getImage("full/obj16/Node.png"));
 
+		if (node.eContainer() == null) {
+			// This is used to return the icon needed for the visual editor.
+			// Otherwise, since the visual editor will create Nodese without source, target nor type,
+			// a red border will be drawn around the Node icon in the properties view.
+			return defaultImage;
+		}
 		
-		Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-		Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
-		Object forbidOverlay = getResourceLocator().getImage("full/ovr16/Forbid_ovr.png");
 		
 		// draw a red border around the icon if the node needs attention
 		// (i.e. has no type)
-		Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
 		boolean needsAttention = false;
 		needsAttention |= (node.getType() == null);
 		
 		if (needsAttention) {
+			Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
 			defaultImage = IconUtil.getCompositeImage(defaultImage, attentionOverlay);
 		}
 		
@@ -224,8 +227,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			}// for
 			
 			if (rule.getLhs() == graph) {
+				Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
 				return IconUtil.getCompositeImage(defaultImage, deleteOverlay);
 			} else { // rule.getRhs() == graph
+				Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
 				return IconUtil.getCompositeImage(defaultImage, createOverlay);
 			}// if else
 			
@@ -241,6 +246,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 						return defaultImage;
 				}// for
 				
+				Object forbidOverlay = getResourceLocator().getImage("full/ovr16/Forbid_ovr.png");
 				return IconUtil.getCompositeImage(defaultImage, forbidOverlay);
 				
 				/*

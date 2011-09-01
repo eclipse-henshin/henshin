@@ -155,10 +155,15 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	@Override
 	public Object getImage(Object object) {
 		Edge edge = (Edge) object;
+		
+		if (edge.eContainer() == null) {
+			// This is used to return the palette icon needed for the visual editor.
+			// Otherwise, since the visual editor will create an Edge without source, target nor type,
+			// a red border will be drawn around the Edge icon in the palette.
+			return getResourceLocator().getImage("full/obj16/Edge");
+		}
+		
 		Object edgeImage = null;
-		Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
-		Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
-		Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
 		
 		boolean needsAttention = false;
 		needsAttention |= (edge.getType() == null);
@@ -174,12 +179,15 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 		}// if
 		
 		if (HenshinRuleAnalysisUtil.isDeletionEdge(edge)) {
+			Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, deleteOverlay);
 		} else if (HenshinRuleAnalysisUtil.isCreationEdge(edge)) {
+			Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, createOverlay);
 		}// if
 		
 		if (needsAttention) {
+			Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, attentionOverlay);
 		}
 		
