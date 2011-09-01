@@ -61,7 +61,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	@SuppressWarnings("unchecked")
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
-		this.numWorkers = Math.max(numThreads, 1) - 1; 	// -1 for the preparation worker
+		this.numWorkers = Math.max(numThreads, 1);
 		this.executor = Executors.newFixedThreadPool(numWorkers);
 		this.futures = new Future[numWorkers];
 		this.preparedStates = Collections.synchronizedMap(new HashMap<State,List<Transition>>());
