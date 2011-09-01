@@ -36,7 +36,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -327,7 +327,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 		// Mark the state as closed:
 		setOpen(state, false);
-				
+		
 		// Done: return the new transitions.
 		return result;
 		

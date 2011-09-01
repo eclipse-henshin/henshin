@@ -24,7 +24,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -163,7 +163,7 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	 */
 	public void notifyChanged(Notification event) {
 		switch (event.getFeatureID(StateSpace.class)) {
-		case StateSpacePackageImpl.STATE_SPACE__STATES:
+		case StateSpacePackage.STATE_SPACE__STATES:
 			int type = event.getEventType();
 			if (type==Notification.ADD) {
 				EditPart editpart = createChild(event.getNewValue());

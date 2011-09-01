@@ -583,7 +583,7 @@ public interface StateSpacePackage extends EPackage {
 	 * The meta object id for the '<em>Hash Code Map</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+	 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
 	 * @generated
 	 */
@@ -1099,11 +1099,11 @@ public interface StateSpacePackage extends EPackage {
 	EDataType getMatch();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.equality.HashCodeMap <em>Hash Code Map</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap <em>Hash Code Map</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Hash Code Map</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+	 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
 	 * @model instanceClass="org.eclipse.emf.henshin.statespace.equality.HashCodeMap" serializeable="false"
 	 * @generated
 	 */
@@ -1530,7 +1530,7 @@ public interface StateSpacePackage extends EPackage {
 		 * The meta object literal for the '<em>Hash Code Map</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.equality.HashCodeMap
+		 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
 		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
 		 * @generated
 		 */

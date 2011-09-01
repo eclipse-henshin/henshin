@@ -39,7 +39,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 	
 	// Number of threads to be used.
-	private int numThreads;
+	private int numWorkers;
 	
 	// Executor service.
 	private ExecutorService executor;
@@ -61,9 +61,9 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	@SuppressWarnings("unchecked")
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
-		this.numThreads = numThreads = Math.max(numThreads, 1);
-		this.executor = Executors.newFixedThreadPool(numThreads);
-		this.futures = new Future[numThreads];
+		this.numWorkers = Math.max(numThreads, 1) - 1; 	// -1 for the preparation worker
+		this.executor = Executors.newFixedThreadPool(numWorkers);
+		this.futures = new Future[numWorkers];
 		this.preparedStates = Collections.synchronizedMap(new HashMap<State,List<Transition>>());
 	}
 
@@ -96,11 +96,11 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		
 		try {
 			// Launch the workers:
-			for (int i=0; i<numThreads; i++) {
+			for (int i=0; i<numWorkers; i++) {
 				futures[i] = executor.submit(new ExplorationWorker(queue, result, generateLocations));
 			}
 			// Evaluate the results:
-			for (int i=0; i<numThreads; i++) {
+			for (int i=0; i<numWorkers; i++) {
 				if (futures[i].get()!=null) {
 					throw futures[i].get();
 				}
@@ -215,15 +215,26 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		@Override
 		public void run() {
 			while (true) {
-				List<State> open = getStateSpace().getOpenStates();
-				for (int i=0; i<open.size(); i++) {
+				State[] open = getOpenStates();
+				for (int i=0; i<open.length; i++) {
 					try {
-						doExplore(open.get(i));
+						if (open[i]!=null) {
+							doExplore(open[i]);
+						}
 						if (i % 100==0) Thread.sleep(100);
 					} catch (Throwable t) {}
 				}
 			}
 		}
+		
+		private State[] getOpenStates() {
+			while (true) {
+				try {
+					return getStateSpace().getOpenStates().toArray(new State[0]);
+				} catch (Throwable t) {}
+			}
+		}
+		
 	}
 	
 }

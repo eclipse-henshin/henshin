@@ -22,8 +22,8 @@ import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
 import org.eclipse.emf.henshin.statespace.equality.GraphEqualityHelper;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
-import org.eclipse.emf.henshin.statespace.equality.StateSpaceHashCodeHelper;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
+import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeHelper;
 
 /**
  * Default implementation of {@link StateEqualityHelper}.

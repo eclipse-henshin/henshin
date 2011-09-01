@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * Graph-based equality checker for EMF models. 
@@ -40,7 +41,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	// Hash code maps:
 	private HashCodeMap hashcodes1, hashcodes2;
 	
-	private ModelTraversalHelper traversalHelper;
+	// Graph traversal helper:
+	private GraphTraversalHelper traversalHelper;
 	
 	/**
 	 * Default constructor.
@@ -90,7 +92,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		this.model1 = model1;
 		this.model2 = model2;
 		
-		traversalHelper = new ModelTraversalHelper(hashcodes1);
+		// Initialize the traversal helper:
+		traversalHelper = new GraphTraversalHelper(hashcodes1);
 		
 		// Reset the match first:
 		clear();
@@ -124,15 +127,23 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 	private boolean matchFirst() {
 		
 		// Find the first object to be matched
-		Map.Entry<Integer,List<EObject>> next = null;
+		EObject next = null;
+		int hashcode = 0;
 		
-		// We take the one with the least number of similar objects:
-		for (Map.Entry<Integer,List<EObject>> entry : slots1.entrySet()) {
-			int elements = entry.getValue().size();
-			if (elements>0) {
-				if (next==null || elements<next.getValue().size()) {
-					next = entry;
+		// Otherwise we take the one with the least number of similar objects:
+		if (next==null) {
+			Map.Entry<Integer,List<EObject>> smallest = null;
+			for (Map.Entry<Integer,List<EObject>> entry : slots1.entrySet()) {
+				int elements = entry.getValue().size();
+				if (elements>0) {
+					if (smallest==null || elements<smallest.getValue().size()) {
+						smallest = entry;
+					}
 				}
+			}
+			if (smallest!=null) {
+				next = smallest.getValue().get(0);
+				hashcode = smallest.getKey();
 			}
 		}
 		
@@ -142,10 +153,9 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		}
 		
 		// Choose an object and try to find a match for it:
-		EObject object = next.getValue().get(0);
-		EObject[] candidates = slots2.get(next.getKey()).toArray(new EObject[0]);
+		EObject[] candidates = slots2.get(hashcode).toArray(new EObject[0]);
 		for (EObject candidate : candidates) {
-			if (match(object, candidate)) {
+			if (match(next, candidate)) {
 				return true;
 			}
 		}
@@ -200,8 +210,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		for (EReference reference : traversalHelper.getReferences(o1)) {
 		
 			// List of referenced objects:
-			List<EObject> list1 = traversalHelper.getReferenceAsList(o1, reference);
-			List<EObject> list2 = traversalHelper.getReferenceAsList(o2, reference);
+			List<EObject> list1 = traversalHelper.getContents(o1, reference);
+			List<EObject> list2 = traversalHelper.getContents(o2, reference);
 			
 			// Must have the same size:
 			if (list1.size()!=list2.size()) {
@@ -243,8 +253,8 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 		for (EReference reference : traversalHelper.getReferences(o1)) {
 			
 			// List of referenced objects:
-			List<EObject> list1 = traversalHelper.getReferenceAsList(o1, reference);
-			List<EObject> list2 = traversalHelper.getReferenceAsList(o2, reference);
+			List<EObject> list1 = traversalHelper.getContents(o1, reference);
+			List<EObject> list2 = traversalHelper.getContents(o2, reference);
 
 			// Check whether every object can in principle be matched: 
 			for (EObject l1 : list1) {
@@ -294,17 +304,22 @@ public class GraphEqualityHelper extends HashMap<EObject,EObject> {
 			
 			// Find the first object that is not matched yet:
 			EObject l1 = null;
-			for (EObject current : traversalHelper.getReferenceAsList(o1, reference)) {
+			for (EObject current : traversalHelper.getContents(o1, reference)) {
 				if (!containsKey(current)) {
 					l1 = current;
 					break;
 				}
 			}
+			
+			// If no element was found, we continue with the rest of the references:
 			if (l1==null) {
 				continue;
 			}
-			for (EObject l2 : traversalHelper.getReferenceAsList(o2, reference)) {
-				if (!values().contains(l2) && match(l1, l2) && canMatch(o1,o2)) {	// check the references again with canMatch()
+			
+			// Try to match the current child:
+			for (EObject l2 : traversalHelper.getContents(o2, reference)) {
+				// after matching, we need to check the references for this object again with canMatch()
+				if (!values().contains(l2) && match(l1, l2) && canMatch(o1,o2)) {
 					return true;
 				}
 			}

@@ -37,7 +37,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -314,7 +313,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			StateSpace stateSpace = resource.getStateSpace();
 			
 			// Create a new state space manager. We cannot use multi-treaded managers in the explorer.
-			stateSpaceManager = new StateSpaceManagerImpl(stateSpace);
+			stateSpaceManager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, 1); // no multi-threading!
 			jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
 			
 			// Initialize tools menu:

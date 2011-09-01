@@ -14,7 +14,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * Helper class for deciding whether two state models are

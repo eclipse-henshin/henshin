@@ -26,8 +26,8 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
-import org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
@@ -329,20 +329,20 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		
 		switch (event.getFeatureID(State.class)) {
 		
-		case StateSpacePackageImpl.STATE__DATA: 
+		case StateSpacePackage.STATE__DATA: 
 			refreshColor();
 			refreshLabelAndLocation(getState().getStateSpace().isHideLabels());
 			break;
 		
-		case StateSpacePackageImpl.STATE__INDEX: 
+		case StateSpacePackage.STATE__INDEX: 
 			refreshLabelAndLocation(getState().getStateSpace().isHideLabels()); 
 			break;
 			
-		case StateSpacePackageImpl.STATE__OUTGOING: 
+		case StateSpacePackage.STATE__OUTGOING: 
 			refreshSourceConnections(); 
 			break;
 
-		case StateSpacePackageImpl.STATE__INCOMING: 
+		case StateSpacePackage.STATE__INCOMING: 
 			refreshTargetConnections(); 
 			break;
 			

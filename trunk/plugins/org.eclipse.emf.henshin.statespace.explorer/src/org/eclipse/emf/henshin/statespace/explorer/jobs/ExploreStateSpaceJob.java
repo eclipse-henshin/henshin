@@ -77,7 +77,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		monitor.beginTask("Exploring state space...", IProgressMonitor.UNKNOWN);
 		
 		// State space manager and state space:
-		StateSpaceManager manager = (StateSpaceManagerImpl) getStateSpaceManager();
+		StateSpaceManager manager = getStateSpaceManager();
 		StateSpace stateSpace = manager.getStateSpace();
 		
 		DecimalFormat large = new DecimalFormat("#,###,###,##0");

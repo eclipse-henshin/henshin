@@ -19,10 +19,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -49,6 +48,9 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	
 	// Selection:
 	private ISelection selection;
+	
+	// Number of manager threads:
+	private final int numManagerThreads = Runtime.getRuntime().availableProcessors();
 	
 	/*
 	 * (non-Javadoc)
@@ -77,6 +79,10 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	
 	protected IWorkbenchPart getWorkbenchPart() {
 		return part;
+	}
+	
+	protected int getNumManagerThreads() {
+		return numManagerThreads;
 	}
 	
 	/**
@@ -118,11 +124,8 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 				stateSpace = resource.getStateSpace();
 				
 				// Create the manager:
-				if (MultiThreadedStateSpaceManager.CPU_COUNT>1) {
-					manager = new MultiThreadedStateSpaceManager(stateSpace);				
-				} else {
-					manager = new StateSpaceManagerImpl(stateSpace);
-				}
+				manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, numManagerThreads);
+				
 			}
 			catch (Throwable e) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error loading state space", e);

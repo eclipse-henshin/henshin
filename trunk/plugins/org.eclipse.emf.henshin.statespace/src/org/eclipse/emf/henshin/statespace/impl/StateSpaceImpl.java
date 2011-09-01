@@ -12,6 +12,8 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -42,30 +44,32 @@ import org.eclipse.emf.henshin.statespace.Transition;
 public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	/**
+	 * Set of open states.
+	 * @see #getOpenStates()
+	 * @generated NOT
+	 */
+	protected Set<State> openStates;
+
+	/**
 	 * Default constructor.
 	 * @generated NOT
 	 */
 	protected StateSpaceImpl() {
 		super();
+		
 		// Create a default equality helper:
 		setEqualityHelper(StateSpaceFactory.eINSTANCE.createStateEqualityHelper());
+		
+		// Already initialize the set of open states here:
+		openStates = new HashSet<State>();
+		
 	}
 
 	/**
-	 * Get the list of open states in this state space.
+	 * Get the set of open states in this state space.
 	 * @generated NOT
 	 */
-	public EList<State> getOpenStates() {
-		if (openStates == null) {
-			openStates = new EObjectResolvingEList<State>(State.class, this, StateSpacePackage.STATE_SPACE__OPEN_STATES) {
-				private static final long serialVersionUID = 1L;
-				@Override
-				protected boolean isUnique() {
-					// For performance we omit the uniqueness check.
-					return false;
-				}
-			};
-		}
+	public Set<State> getOpenStates() {
 		return openStates;
 	}
 	
@@ -244,16 +248,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected EList<State> initialStates;
-
-	/**
-	 * The cached value of the '{@link #getOpenStates() <em>Open States</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpenStates()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<State> openStates;
 
 	/**
 	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.

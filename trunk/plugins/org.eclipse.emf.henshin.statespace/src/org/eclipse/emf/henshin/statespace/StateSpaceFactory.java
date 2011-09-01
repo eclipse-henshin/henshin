@@ -30,6 +30,7 @@ public interface StateSpaceFactory extends EFactory {
 	 * @generated
 	 */
 	StateSpaceFactory eINSTANCE = org.eclipse.emf.henshin.statespace.impl.StateSpaceFactoryImpl.init();
+	
 	/**
 	 * Returns a new object of class '<em>State Space</em>'.
 	 * <!-- begin-user-doc -->
@@ -39,6 +40,15 @@ public interface StateSpaceFactory extends EFactory {
 	 */
 	StateSpace createStateSpace();
 
+	/**
+	 * Returns a new state space manager.
+	 * @param numThreads Number of threads to be used for exploration.
+	 * @param stateSpace The state space to be managed.
+	 * @return A new state space manager instance.
+	 * @generated NOT
+	 */
+	StateSpaceManager createStateSpaceManager(StateSpace stateSpace, int numThreads);
+	
 	/**
 	 * Returns a new object of class '<em>State</em>'.
 	 * <!-- begin-user-doc -->

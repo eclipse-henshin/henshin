@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Storage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.equality.HashCodeMap;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * <!-- begin-user-doc -->

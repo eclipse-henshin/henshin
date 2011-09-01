@@ -13,7 +13,6 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreStateSpaceJob;
-import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.jface.action.IAction;
 
@@ -34,10 +33,7 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		ExploreStateSpaceJob job = new ExploreStateSpaceJob(manager, new EditDomain());
 
 		// Adjust the number of states to be explored at one for multi-threaded state space managers:
-		int numStatesAtOnce = ExploreStateSpaceJob.DEFAULT_NUM_STATES_AT_ONCE;
-		if (manager instanceof MultiThreadedStateSpaceManager) {
-			numStatesAtOnce = (int) (numStatesAtOnce * MultiThreadedStateSpaceManager.CPU_COUNT * 0.5);
-		}
+		int numStatesAtOnce = (int) (ExploreStateSpaceJob.DEFAULT_NUM_STATES_AT_ONCE * getNumManagerThreads() * 0.75);
 		if (manager.getStateSpace().getEqualityHelper().isGraphEquality()) {
 			numStatesAtOnce = (numStatesAtOnce / 5) + 1;
 		}

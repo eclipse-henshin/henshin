@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace;
 
+import java.util.Set;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.henshin.model.Rule;
@@ -52,10 +54,12 @@ public interface StateSpace extends Storage {
 
 	/**
 	 * Get the open states in this state space.
+	 * For fast add and remove operations, this
+	 * collection is implemented as a set, not a list.
 	 * @model
-	 * @generated
+	 * @generated NOT
 	 */
-	EList<State> getOpenStates();
+	Set<State> getOpenStates();
 
 	/**
 	 * Get the total number of transitions in this state space.

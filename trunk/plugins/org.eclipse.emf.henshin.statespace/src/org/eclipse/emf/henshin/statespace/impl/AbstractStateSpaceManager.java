@@ -196,9 +196,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			change = true;
 			state.setOpen(open);
 			if (open) {
-				if (!getStateSpace().getOpenStates().contains(state)) {
-					getStateSpace().getOpenStates().add(state);
-				}
+				getStateSpace().getOpenStates().add(state);
 			} else {
 				getStateSpace().getOpenStates().remove(state);
 			}			

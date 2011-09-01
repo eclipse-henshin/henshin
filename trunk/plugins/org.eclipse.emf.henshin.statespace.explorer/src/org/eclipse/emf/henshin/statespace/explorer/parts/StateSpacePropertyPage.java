@@ -16,10 +16,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -130,7 +130,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 			resource = (StateSpaceResource) resourceSet.getResource(uri, true);
 			
 			// Load the state space manager:
-			manager = new StateSpaceManagerImpl(resource.getStateSpace());
+			manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(resource.getStateSpace(), 1);
 			
 		}
 		catch (Throwable e) {
