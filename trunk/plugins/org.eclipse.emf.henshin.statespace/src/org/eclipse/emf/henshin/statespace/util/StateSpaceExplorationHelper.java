@@ -17,7 +17,7 @@ public class StateSpaceExplorationHelper {
 	private final StateSpaceManager manager;
 
 	// Expected duration of an exploration step in milliseconds:
-	private int expectedDuration = 1000;
+	private int expectedDuration = 500;
 	
 	// Duration of the last exploration step:
 	private int lastDuration = expectedDuration;
@@ -28,12 +28,16 @@ public class StateSpaceExplorationHelper {
 	// Next states to be explored:
 	private List<State> nextStates;
 	
+	// Whether to generate locations:
+	private boolean generateLocations;
+	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
 	 */
 	public StateSpaceExplorationHelper(StateSpaceManager manager) {
 		this.manager = manager;
+		this.generateLocations = false;
 		this.nextStates = new ArrayList<State>();
 	}
 	
@@ -41,31 +45,19 @@ public class StateSpaceExplorationHelper {
 	 * Do an exploration step.
 	 * @throws StateSpaceException On state space errors.
 	 */
-	public void doExplorationStep(boolean generateLocations) throws StateSpaceException {
+	public boolean doExplorationStep() throws StateSpaceException {
 		
 		// Measure how long it takes:
 		long startTime = System.currentTimeMillis();
 		
 		// Adjust the number of states to be explored in one step:
-		double speedChange = (double) lastDuration / (double) expectedDuration;
-		if (speedChange<0.5) {
-			speedChange = 0.5;
-		} else if (speedChange>1.5) {
-			speedChange = 1.5;
-		}
-		blockSize = (int) ((double) blockSize * speedChange);
-		if (blockSize<1) {
-			blockSize = 1;
-		}
+		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.1, 10);
+		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 1, 1000);
 		
 		/* Update the list of next states to be explored. */
 		
-		// First, remove closed states:
-		for (int i=0; i<nextStates.size(); i++) {
-			if (!nextStates.get(i).isOpen()) {
-				nextStates.remove(i);
-			}
-		}
+		// Filter out irrelevant states:
+		filterNextStates();
 		
 		// Check if we have enough states in the list:
 		if (nextStates.size()<blockSize) {
@@ -74,9 +66,20 @@ public class StateSpaceExplorationHelper {
 					nextStates.add(open);
 				}
 				if (nextStates.size()>=2*blockSize) {
-					break;
+					filterNextStates();
+					if (nextStates.size()>=blockSize) {
+						break;
+					}
 				}
 			}
+		}
+		
+		// Filter out distant states:
+		filterNextStates();
+		
+		// Nothing left to do?
+		if (nextStates.isEmpty()) {
+			return false;
 		}
 		
 		// States to be explored right now:
@@ -90,19 +93,54 @@ public class StateSpaceExplorationHelper {
 		nextStates.addAll(0, result);
 		
 		// Update the last duration value:
-		lastDuration = (int) (System.currentTimeMillis() - startTime);
-		if (lastDuration==0) {
-			lastDuration = 1;
-		}
+		lastDuration = rangeCheck((int) (System.currentTimeMillis() - startTime), 1, 10*expectedDuration);
 		
+		// Done for this cycle.
+		return true;
+		
+	}
+	
+	private void filterNextStates() {
+		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
+		for (int i=0; i<nextStates.size(); i++) {
+
+			// Not open?
+			if (!nextStates.get(i).isOpen()) {
+				nextStates.remove(i--);
+				continue;
+			}
+
+			// To distant?
+			if (maxStateDistance>=0 && maxStateDistance<=manager.getStateDistance(nextStates.get(i))) {
+				nextStates.remove(i--);
+				continue;
+			}
+
+		}
+	}
+	
+	private int rangeCheck(int value, int min, int max) {
+		return (value<min) ? min : ((value>max) ? max : value);
+	}
+
+	private double rangeCheck(double value, double min, double max) {
+		return (value<min) ? min : ((value>max) ? max : value);
+	}
+
+	public StateSpaceManager getStateSpaceManager() {
+		return manager;
 	}
 	
 	public void setStepDuration(int stepDuration) {
 		expectedDuration = stepDuration;
 	}
 	
+	public void setGenerateLocations(boolean generateLocations) {
+		this.generateLocations = generateLocations;
+	}
+	
 	public double getCurrentSpeed() {
-		return (double) blockSize / (double) lastDuration;
+		return (1000.0d * (double) blockSize) / (double) lastDuration;
 	}
 	
 }

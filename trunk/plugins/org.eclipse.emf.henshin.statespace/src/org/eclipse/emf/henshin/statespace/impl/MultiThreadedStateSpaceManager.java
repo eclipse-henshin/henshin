@@ -33,11 +33,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
  */
 public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	
-	/**
-	 * Cached number of available processors.
-	 */
-	public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-	
 	// Number of threads to be used.
 	private int numWorkers;
 	
@@ -75,7 +70,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 * @param stateSpace State space.
 	 */
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace) {
-		this(stateSpace, CPU_COUNT);
+		this(stateSpace, Runtime.getRuntime().availableProcessors());
 	}
 
 	/**
@@ -234,7 +229,7 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 						}
 						// Check if we should stop:
 						if (i % 1000==0) {
-							if (System.currentTimeMillis() - lastExplorationCall > 1000) { // one second
+							if (System.currentTimeMillis() - lastExplorationCall > 3000) { // 3 seconds
 								preparer = null;
 								return;
 							}

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.edit;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -261,8 +262,8 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	public void performRequest(Request request) {
 		if (request.getType()==RequestConstants.REQ_OPEN && getState().isOpen()) {
 			// Explore the current state:
-			ExploreStatesCommand command = new ExploreStatesCommand(getStateSpaceManager(), getState());
-			command.setGenerateLocations(true);
+			ExploreStatesCommand command = 
+					new ExploreStatesCommand(getStateSpaceManager(), Collections.singletonList(getState()), true);
 			CommandStack stack = getViewer().getEditDomain().getCommandStack();
 			stack.execute(command);
 		} else {

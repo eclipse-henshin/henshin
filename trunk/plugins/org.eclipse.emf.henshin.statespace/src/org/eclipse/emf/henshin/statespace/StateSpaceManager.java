@@ -52,6 +52,15 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	List<State> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException;
 	
 	/**
+	 * Get the shortest distance of a state from an arbitrary initial state.
+	 * Implementations should provide this method if the maximum state distance
+	 * property of the state space is non-negative.
+	 * @param state State.
+	 * @return Its distance from an initial state.
+	 */
+	int getStateDistance(State state);
+	
+	/**
 	 * Reset the state space managed by this instance.
 	 * This removes all derived states and all transitions.
 	 */

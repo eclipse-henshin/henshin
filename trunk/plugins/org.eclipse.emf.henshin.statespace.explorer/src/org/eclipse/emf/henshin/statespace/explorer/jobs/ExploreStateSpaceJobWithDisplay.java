@@ -11,13 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.jobs;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.widgets.Display;
@@ -51,22 +47,14 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		// We don't want automatic saves:
 		setSaveInterval(-1);
 		
-		// We explore less states at once:
-		setNumStatesAtOnce(5);
+		// We need to generate locations:
+		getExplorationHelper().setGenerateLocations(true);
+		
+		// We want to generate less states in one step:
+		getExplorationHelper().setStepDuration(80);		// 80 milliseconds
 		
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreStateSpaceJob#createExploreCommand(java.util.List, int, int)
-	 */
-	@Override
-	protected ExploreStatesCommand createExploreCommand(List<State> states, int start, int count) {
-		ExploreStatesCommand command = super.createExploreCommand(states, start, count);
-		command.setGenerateLocations(true);
-		return command;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreOpenStatesJob#executeExploreCommand(org.eclipse.gef.commands.Command, org.eclipse.core.runtime.IProgressMonitor)

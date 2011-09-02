@@ -427,6 +427,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param state The state.
 	 * @return Its distance from an initial state, or -1 if not available.
 	 */
+	@Override
 	public int getStateDistance(State state) {
 		if (stateDistanceMonitor!=null) {
 			return stateDistanceMonitor.getDistance(state);

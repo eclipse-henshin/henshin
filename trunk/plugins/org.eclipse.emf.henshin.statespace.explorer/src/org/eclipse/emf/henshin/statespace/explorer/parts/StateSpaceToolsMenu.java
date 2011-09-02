@@ -38,7 +38,6 @@ import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
-import org.eclipse.emf.henshin.statespace.explorer.jobs.ExploreStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
@@ -727,10 +726,6 @@ public class StateSpaceToolsMenu extends Composite {
 		public void widgetSelected(SelectionEvent e) {
 			if (jobManager==null) return;			
 			if (explorerLink.getText().indexOf("Start")>=0) {
-				if (explorer.getStateSpaceManager().getStateSpace().getEqualityHelper().isGraphEquality()) {
-					int num = ExploreStateSpaceJob.DEFAULT_NUM_STATES_AT_ONCE / 5;
-					jobManager.getExploreJob().setNumStatesAtOnce(num);
-				}
 				jobManager.startExploreJob();
 				explorerLink.setText(explorerLink.getText().replaceFirst("Start","Stop"));
 			} else {
