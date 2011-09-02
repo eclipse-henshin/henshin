@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +41,6 @@ import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
-import org.eclipse.emf.henshin.statespace.util.UniversalCache;
 
 /**
  * Default state space manager implementation.
@@ -52,11 +52,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
 	private final Map<State,Model> modelCache = 
-			Collections.synchronizedMap(new UniversalCache<State,Model>());
+			Collections.synchronizedMap(new Cache<State,Model>());
 	
 	// Hash code tree maps:
 	private final Map<Model,HashCodeMap> codesCache = 
-			Collections.synchronizedMap(new UniversalCache<Model,HashCodeMap>());
+			Collections.synchronizedMap(new Cache<Model,HashCodeMap>());
 	
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
@@ -621,4 +621,28 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 	}
 	
+	
+	/**
+	 * A general-purpose cache.
+	 * @author Christian Krause
+	 */
+	static class Cache<K,V> extends LinkedHashMap<K,V> {
+
+		// Cache size:
+		public static final int CACHE_SIZE = 4096;
+
+		// Serial id:
+		private static final long serialVersionUID = 1L;
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+		 */
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+			return size() > CACHE_SIZE;
+		}
+
+	}
+
 }
