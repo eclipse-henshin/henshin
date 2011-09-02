@@ -16,7 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * @author Stefan Jurack (sjurack)
- * 
+ * @author Felix Rieger (frieger)
  */
 public class RegisterEcore implements IObjectActionDelegate {
 	
@@ -28,22 +28,30 @@ public class RegisterEcore implements IObjectActionDelegate {
 			// String filename = file.getRawLocationURI().getRawPath();
 			URI uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
 			EPackage p = ModelHelper.registerEPackageByEcoreFile(uri);
-			if (p != null) {
-				String msg = "EPackage " + p + " registered";
-				InterpreterUIPlugin.getPlugin().getLog()
-						.log(new Status(Status.INFO, InterpreterUIPlugin.ID, Status.OK, msg, null));
-			} else {
-				String msg = "EPackage in Ecore file " + file.getFullPath().toOSString()
-						+ " could not be registered";
-				InterpreterUIPlugin
-						.getPlugin()
-						.getLog()
-						.log(new Status(Status.ERROR, InterpreterUIPlugin.ID, Status.ERROR, msg,
-								null));
-			}// if else
+
+			registerEPackageRec(p, file, "");
 			
 		}
 	}// run
+	
+	private void registerEPackageRec(EPackage p, IFile file, String breadcrumb) {
+		if (p != null) {
+			String msg = "EPackage " + breadcrumb + p.getName() + "  (" + p.getNsURI() + ")" + " registered";
+			InterpreterUIPlugin.getPlugin().getLog()
+					.log(new Status(Status.INFO, InterpreterUIPlugin.ID, Status.OK, msg, null));
+			for (EPackage sp : p.getESubpackages()) {
+				registerEPackageRec(sp, file, breadcrumb + p.getName() + ".");
+			}
+		} else {
+			String msg = "EPackage in Ecore file " + file.getFullPath().toOSString()
+					+ " could not be registered";
+			InterpreterUIPlugin
+					.getPlugin()
+					.getLog()
+					.log(new Status(Status.ERROR, InterpreterUIPlugin.ID, Status.ERROR, msg,
+							null));
+		}// if else
+	}
 	
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
