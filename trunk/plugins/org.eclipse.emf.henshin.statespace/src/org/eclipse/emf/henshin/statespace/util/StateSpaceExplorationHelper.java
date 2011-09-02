@@ -60,7 +60,7 @@ public class StateSpaceExplorationHelper {
 		
 		// Adjust the number of states to be explored in one step:
 		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.1, 10);
-		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 1, 1000);
+		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 3, 1000);
 		
 		/* Update the list of next states to be explored. */
 		
