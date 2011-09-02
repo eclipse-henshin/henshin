@@ -31,6 +31,12 @@ public class StateSpaceExplorationHelper {
 	// Whether to generate locations:
 	private boolean generateLocations;
 	
+	// Count the number of steps performed:
+	private int steps;
+	
+	// Record how fast we were during the last steps:
+	private double[] lastSpeeds;
+	
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
@@ -39,6 +45,8 @@ public class StateSpaceExplorationHelper {
 		this.manager = manager;
 		this.generateLocations = false;
 		this.nextStates = new ArrayList<State>();
+		this.lastSpeeds = new double[10];
+		this.steps = 0;
 	}
 	
 	/**
@@ -95,6 +103,12 @@ public class StateSpaceExplorationHelper {
 		// Update the last duration value:
 		lastDuration = rangeCheck((int) (System.currentTimeMillis() - startTime), 1, 10*expectedDuration);
 		
+		// Record the speed:
+		lastSpeeds[steps % lastSpeeds.length] = (1000.0d * (double) blockSize) / (double) lastDuration;
+		
+		// Increase steps count:
+		steps++;
+		
 		// Done for this cycle.
 		return true;
 		
@@ -140,7 +154,16 @@ public class StateSpaceExplorationHelper {
 	}
 	
 	public double getCurrentSpeed() {
-		return (1000.0d * (double) blockSize) / (double) lastDuration;
+		if (steps<=0) {
+			return 0d;
+		} else {
+			double speed = 0d;
+			int count = Math.min(steps, lastSpeeds.length);
+			for (int i=0; i<count; i++) {
+				speed += lastSpeeds[i];
+			}
+			return speed / (double) count;
+		}
 	}
 	
 }

@@ -106,7 +106,12 @@ public class StateDistanceMonitor {
 	}
 	
 	public int getDistance(State state) {
-		return distances[state.getIndex()];
+		int index = state.getIndex();
+		if (index>=distances.length) {
+			distances = new int[0];
+			updateDistances(stateSpace.getInitialStates());
+		}
+		return distances[index];
 	}
 
 }
