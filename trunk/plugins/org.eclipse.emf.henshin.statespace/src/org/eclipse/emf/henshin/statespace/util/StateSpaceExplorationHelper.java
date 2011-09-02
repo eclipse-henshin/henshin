@@ -58,10 +58,33 @@ public class StateSpaceExplorationHelper {
 			blockSize = 1;
 		}
 		
+		/* Update the list of next states to be explored. */
 		
+		// First, remove closed states:
+		for (int i=0; i<nextStates.size(); i++) {
+			if (!nextStates.get(i).isOpen()) {
+				nextStates.remove(i);
+			}
+		}
+		
+		// Check if we have enough states in the list:
+		if (nextStates.size()<blockSize) {
+			for (State open : manager.getStateSpace().getOpenStates()) {
+				if (!nextStates.contains(open)) {
+					nextStates.add(open);
+				}
+				if (nextStates.size()>=2*blockSize) {
+					break;
+				}
+			}
+		}
+		
+		// States to be explored right now:
+		List<State> exploreNow = (nextStates.size()<=blockSize) ? 
+				nextStates : nextStates.subList(0, blockSize);
 		
 		// Explore the next states:
-		List<State> result = manager.exploreStates(nextStates, generateLocations);
+		List<State> result = manager.exploreStates(exploreNow, generateLocations);
 		
 		// We want to use the new states in the next step:
 		nextStates.addAll(0, result);
