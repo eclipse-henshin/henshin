@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_iTzuIE1IEd-Mu_HLw4tVCg">
-  <rules xmi:id="_RF80IFNgEd-i-KpCMHQ-Hg" description="Create a new reference class with dedicated references to source and target class. After application we need to remember only one edge (to be deleted later), since source, target and opposite edge can be uniquely deduced." name="MM_CreateRefClass" activated="true">
+  <rules xmi:id="_RF80IFNgEd-i-KpCMHQ-Hg" description="Create a new reference class with dedicated references to source and target class. After application we need to remember only one edge (to be deleted later), since source, target and opposite edge can be uniquely deduced." name="MM_CreateRefClass">
     <parameters xmi:id="_Gj0oQFXIEd-x-9lW7sYuiQ" name="objSource"/>
     <parameters xmi:id="_H-R0EFXIEd-x-9lW7sYuiQ" name="objTarget"/>
     <parameters xmi:id="_IRBJ4FXIEd-x-9lW7sYuiQ" name="objRefclass"/>
@@ -26,10 +26,10 @@
       <nodes xmi:id="_-8PnUFNgEd-i-KpCMHQ-Hg" name="objRef" incoming="_Ej-r4FNhEd-i-KpCMHQ-Hg _Ib2ScFRrEd-x-9lW7sYuiQ" outgoing="_FLQHQFNhEd-i-KpCMHQ-Hg _K3wUMFRrEd-x-9lW7sYuiQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_3AFaUFNmEd-i-KpCMHQ-Hg" name="del1" incoming="_5wYXsFNmEd-i-KpCMHQ-Hg _K3wUMFRrEd-x-9lW7sYuiQ" outgoing="_6pqJEFNmEd-i-KpCMHQ-Hg _Ib2ScFRrEd-x-9lW7sYuiQ">
+      <nodes xmi:id="_3AFaUFNmEd-i-KpCMHQ-Hg" incoming="_5wYXsFNmEd-i-KpCMHQ-Hg _K3wUMFRrEd-x-9lW7sYuiQ" outgoing="_6pqJEFNmEd-i-KpCMHQ-Hg _Ib2ScFRrEd-x-9lW7sYuiQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_g2VvcFXsEd-NjIhoE2H1tg" name="l_p" outgoing="_6IfJIFXsEd-NjIhoE2H1tg _6eM6cFXsEd-NjIhoE2H1tg">
+      <nodes xmi:id="_g2VvcFXsEd-NjIhoE2H1tg" outgoing="_6IfJIFXsEd-NjIhoE2H1tg _6eM6cFXsEd-NjIhoE2H1tg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
       </nodes>
       <edges xmi:id="_Ej-r4FNhEd-i-KpCMHQ-Hg" source="_901TUFNgEd-i-KpCMHQ-Hg" target="_-8PnUFNgEd-i-KpCMHQ-Hg">
@@ -58,7 +58,7 @@
       </edges>
       <formula xsi:type="henshin:NestedCondition" xmi:id="_JBr_sFRFEd-z0vg4YPdKmw" negated="true">
         <conclusion xmi:id="_JBr_sVRFEd-z0vg4YPdKmw" name="default">
-          <nodes xmi:id="_v10NIFREEd-z0vg4YPdKmw" name="nac1">
+          <nodes xmi:id="_v10NIFREEd-z0vg4YPdKmw">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
             <attributes xmi:id="_JZZ8IFRFEd-z0vg4YPdKmw" value="refclassName">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
@@ -101,25 +101,25 @@
           <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_DPSCcFNkEd-i-KpCMHQ-Hg" name="r3" incoming="_SET9AFNkEd-i-KpCMHQ-Hg _AY7IQFX0Ed-NjIhoE2H1tg" outgoing="_TBwcsFNkEd-i-KpCMHQ-Hg _BI07MFX0Ed-NjIhoE2H1tg">
+      <nodes xmi:id="_DPSCcFNkEd-i-KpCMHQ-Hg" incoming="_SET9AFNkEd-i-KpCMHQ-Hg _AY7IQFX0Ed-NjIhoE2H1tg" outgoing="_TBwcsFNkEd-i-KpCMHQ-Hg _BI07MFX0Ed-NjIhoE2H1tg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
         <attributes xmi:id="_zUP3MFNlEd-i-KpCMHQ-Hg" value="&quot;src&quot;">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_DhvEYFNkEd-i-KpCMHQ-Hg" name="r4" incoming="_X6oQIFNkEd-i-KpCMHQ-Hg _CeE24FX0Ed-NjIhoE2H1tg" outgoing="_YifhYFNkEd-i-KpCMHQ-Hg _B4uuIFX0Ed-NjIhoE2H1tg">
+      <nodes xmi:id="_DhvEYFNkEd-i-KpCMHQ-Hg" incoming="_X6oQIFNkEd-i-KpCMHQ-Hg _CeE24FX0Ed-NjIhoE2H1tg" outgoing="_YifhYFNkEd-i-KpCMHQ-Hg _B4uuIFX0Ed-NjIhoE2H1tg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
         <attributes xmi:id="_3sY8IFNlEd-i-KpCMHQ-Hg" value="&quot;dst&quot;">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_w1Nj4FRgEd-Kwv3hBMsoCw" name="r5" incoming="_w1Nj4lRgEd-Kwv3hBMsoCw _nTDOIFSBEd-x-9lW7sYuiQ" outgoing="_w1Nj41RgEd-Kwv3hBMsoCw _qKCpYFSBEd-x-9lW7sYuiQ">
+      <nodes xmi:id="_w1Nj4FRgEd-Kwv3hBMsoCw" incoming="_w1Nj4lRgEd-Kwv3hBMsoCw _nTDOIFSBEd-x-9lW7sYuiQ" outgoing="_w1Nj41RgEd-Kwv3hBMsoCw _qKCpYFSBEd-x-9lW7sYuiQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
       <nodes xmi:id="_xmdaoFRgEd-Kwv3hBMsoCw" name="objRef" incoming="_xmdaolRgEd-Kwv3hBMsoCw _qKCpYFSBEd-x-9lW7sYuiQ" outgoing="_xmdao1RgEd-Kwv3hBMsoCw _nTDOIFSBEd-x-9lW7sYuiQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
-      <nodes xmi:id="_g2fgcFXsEd-NjIhoE2H1tg" name="r_p" outgoing="_GvlMgFXtEd-NjIhoE2H1tg _HGWGsFXtEd-NjIhoE2H1tg _JdWaUFXtEd-NjIhoE2H1tg">
+      <nodes xmi:id="_g2fgcFXsEd-NjIhoE2H1tg" outgoing="_GvlMgFXtEd-NjIhoE2H1tg _HGWGsFXtEd-NjIhoE2H1tg _JdWaUFXtEd-NjIhoE2H1tg">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
       </nodes>
       <edges xmi:id="_KWFtEFNkEd-i-KpCMHQ-Hg" source="_LFGIIFNkEd-i-KpCMHQ-Hg" target="_nR0SAVNjEd-i-KpCMHQ-Hg">
@@ -192,16 +192,16 @@
     <mappings xmi:id="_xmdaoVRgEd-Kwv3hBMsoCw" origin="_-8PnUFNgEd-i-KpCMHQ-Hg" image="_xmdaoFRgEd-Kwv3hBMsoCw"/>
     <mappings xmi:id="_g2fgcVXsEd-NjIhoE2H1tg" origin="_g2VvcFXsEd-NjIhoE2H1tg" image="_g2fgcFXsEd-NjIhoE2H1tg"/>
   </rules>
-  <rules xmi:id="_bGiJkFRjEd-Kwv3hBMsoCw" description="Deletes old direct references between a source and target class." name="MM_DeleteOldRefs" activated="true">
+  <rules xmi:id="_bGiJkFRjEd-Kwv3hBMsoCw" description="Deletes old direct references between a source and target class." name="MM_DeleteOldRefs">
     <parameters xmi:id="_wnbfMFRjEd-Kwv3hBMsoCw" name="objDelRef"/>
     <lhs xmi:id="_bGiJlFRjEd-Kwv3hBMsoCw" name="LHS">
-      <nodes xmi:id="_bGiJlVRjEd-Kwv3hBMsoCw" name="l_src" incoming="_bGiJnlRjEd-Kwv3hBMsoCw" outgoing="_bGiJm1RjEd-Kwv3hBMsoCw">
+      <nodes xmi:id="_bGiJlVRjEd-Kwv3hBMsoCw" incoming="_bGiJnlRjEd-Kwv3hBMsoCw" outgoing="_bGiJm1RjEd-Kwv3hBMsoCw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_bGiJl1RjEd-Kwv3hBMsoCw" name="l_trg" incoming="_bGiJnFRjEd-Kwv3hBMsoCw" outgoing="_bGiJnVRjEd-Kwv3hBMsoCw">
+      <nodes xmi:id="_bGiJl1RjEd-Kwv3hBMsoCw" incoming="_bGiJnFRjEd-Kwv3hBMsoCw" outgoing="_bGiJnVRjEd-Kwv3hBMsoCw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_bGiJmlRjEd-Kwv3hBMsoCw" name="r1" incoming="_bGiJnVRjEd-Kwv3hBMsoCw _dYAOAFa1Ed-2F_JpJNec6w" outgoing="_bGiJnlRjEd-Kwv3hBMsoCw _d8yWEFa1Ed-2F_JpJNec6w">
+      <nodes xmi:id="_bGiJmlRjEd-Kwv3hBMsoCw" incoming="_bGiJnVRjEd-Kwv3hBMsoCw _dYAOAFa1Ed-2F_JpJNec6w" outgoing="_bGiJnlRjEd-Kwv3hBMsoCw _d8yWEFa1Ed-2F_JpJNec6w">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
       <nodes xmi:id="_bGiJmVRjEd-Kwv3hBMsoCw" name="objDelRef" incoming="_bGiJm1RjEd-Kwv3hBMsoCw _d8yWEFa1Ed-2F_JpJNec6w" outgoing="_bGiJnFRjEd-Kwv3hBMsoCw _dYAOAFa1Ed-2F_JpJNec6w">
@@ -227,10 +227,10 @@
       </edges>
     </lhs>
     <rhs xmi:id="_bGiJo1RjEd-Kwv3hBMsoCw" name="RHS">
-      <nodes xmi:id="_bGiJpFRjEd-Kwv3hBMsoCw" name="r_src">
+      <nodes xmi:id="_bGiJpFRjEd-Kwv3hBMsoCw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
-      <nodes xmi:id="_bGiJplRjEd-Kwv3hBMsoCw" name="r_trg">
+      <nodes xmi:id="_bGiJplRjEd-Kwv3hBMsoCw">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       </nodes>
     </rhs>

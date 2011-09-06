@@ -28,10 +28,10 @@ import org.eclipse.emf.henshin.common.util.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
+import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -288,16 +288,16 @@ public class Evolution1 {
 		Mapping m2 = hFac.createMapping(lhs_n_tC, rhs_n_tC);
 		i_rule1.getMappings().add(m2);
 		/*
-		 * Create now an independent unit to allow continuous application of
-		 * that rule. Alternatively, we could perform a single application of
-		 * that rule in a <code>while</code> block until transformation returns
+		 * Create now a counted unit to allow continuous application of that
+		 * rule. Alternatively, we could perform a single application of that
+		 * rule in a <code>while</code> block until transformation returns
 		 * <code>false</code>.
 		 */
-		IndependentUnit i_unit = hFac.createIndependentUnit();
-		tsI.getTransformationUnits().add(i_unit);
-		i_unit.setActivated(true);
-		i_unit.setName("Migration I-Unit");
-		i_unit.getSubUnits().add(i_rule1);
+		CountedUnit c_unit = hFac.createCountedUnit();
+		c_unit.setCount(-1);
+		tsI.getTransformationUnits().add(c_unit);
+		c_unit.setName("MigrationUnit");
+		c_unit.setSubUnit(i_rule1);
 
 		// Remark: Only for debugging purposes! You may comment this out.
 		savePetriInstanceTrafoSystem(tsI);
@@ -310,7 +310,7 @@ public class Evolution1 {
 		graphI.addRoot(net);
 		EmfEngine engineI = new EmfEngine(graphI);
 
-		UnitApplication i_unit1App = new UnitApplication(engineI, i_unit);
+		UnitApplication i_unit1App = new UnitApplication(engineI, c_unit);
 
 		boolean resultI = i_unit1App.execute();
 
@@ -393,7 +393,7 @@ public class Evolution1 {
 	 * @param tsI
 	 */
 	private void savePetriInstanceTrafoSystem(TransformationSystem tsI) {
-		// 
+		//
 		URI iURI = URI.createFileURI(new File(HENSHIN_PETRI_INSTANCE)
 				.getAbsolutePath());
 		Resource res = resourceSet.createResource(iURI, "henshin");
