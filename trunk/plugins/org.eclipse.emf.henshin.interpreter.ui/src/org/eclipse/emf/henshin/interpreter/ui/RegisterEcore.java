@@ -16,7 +16,6 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * @author Stefan Jurack (sjurack)
- * @author Felix Rieger (frieger)
  */
 public class RegisterEcore implements IObjectActionDelegate {
 	
@@ -36,6 +35,7 @@ public class RegisterEcore implements IObjectActionDelegate {
 	
 	private void registerEPackageRec(EPackage p, IFile file, String breadcrumb) {
 		if (p != null) {
+			ModelHelper.registerEPackage(p);
 			String msg = "EPackage " + breadcrumb + p.getName() + "  (" + p.getNsURI() + ")" + " registered";
 			InterpreterUIPlugin.getPlugin().getLog()
 					.log(new Status(Status.INFO, InterpreterUIPlugin.ID, Status.OK, msg, null));
