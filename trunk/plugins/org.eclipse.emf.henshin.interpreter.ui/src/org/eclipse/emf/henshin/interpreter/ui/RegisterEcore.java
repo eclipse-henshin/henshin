@@ -27,7 +27,7 @@ public class RegisterEcore implements IObjectActionDelegate {
 			// String filename = file.getRawLocationURI().getRawPath();
 			URI uri = URI.createPlatformResourceURI(file.getFullPath().toOSString(), true);
 			EPackage p = ModelHelper.registerEPackageByEcoreFile(uri);
-
+			
 			registerEPackageRec(p, file, "");
 			
 		}
@@ -35,8 +35,9 @@ public class RegisterEcore implements IObjectActionDelegate {
 	
 	private void registerEPackageRec(EPackage p, IFile file, String breadcrumb) {
 		if (p != null) {
-			ModelHelper.registerEPackage(p);
-			String msg = "EPackage " + breadcrumb + p.getName() + "  (" + p.getNsURI() + ")" + " registered";
+			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
+			String msg = "EPackage " + breadcrumb + p.getName() + "  (" + p.getNsURI() + ")"
+					+ " registered";
 			InterpreterUIPlugin.getPlugin().getLog()
 					.log(new Status(Status.INFO, InterpreterUIPlugin.ID, Status.OK, msg, null));
 			for (EPackage sp : p.getESubpackages()) {
@@ -45,11 +46,8 @@ public class RegisterEcore implements IObjectActionDelegate {
 		} else {
 			String msg = "EPackage in Ecore file " + file.getFullPath().toOSString()
 					+ " could not be registered";
-			InterpreterUIPlugin
-					.getPlugin()
-					.getLog()
-					.log(new Status(Status.ERROR, InterpreterUIPlugin.ID, Status.ERROR, msg,
-							null));
+			InterpreterUIPlugin.getPlugin().getLog()
+					.log(new Status(Status.ERROR, InterpreterUIPlugin.ID, Status.ERROR, msg, null));
 		}// if else
 	}
 	
