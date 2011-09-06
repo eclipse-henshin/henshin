@@ -187,14 +187,6 @@ public class ModelHelper {
 		return complexValue;
 	}
 	
-	// public static Rule findRuleByName(TransformationSystem ts, String name) {
-	// for (Rule rule : ts.getRules()) {
-	// if (name.equals(rule.getName()))
-	// return rule;
-	// }
-	// return null;
-	// }
-	
 	public static void registerFileExtension(String extension) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
 				new XMIResourceFactoryImpl());
@@ -213,6 +205,10 @@ public class ModelHelper {
 		if (p != null) EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 		return p;
 	}// registerEPackageByEcoreFile
+	
+	public static void registerEPackage(EPackage ePackage) {
+		EPackage.Registry.INSTANCE.put(ePackage.getNsURI(), ePackage);
+	}
 	
 	/**
 	 * Tries to open the Ecore file at the given URI location in the context of
