@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
@@ -50,19 +51,16 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 		Object source = selection.get(0);
 		Object target = selection.get(1);
 		
-		
 		while (source instanceof WrapperItemProvider) {
 			source = ((WrapperItemProvider) source).getValue();
 		}
-
+		
 		while (target instanceof WrapperItemProvider) {
 			target = ((WrapperItemProvider) target).getValue();
 		}
 		
-		boolean bNodeMapping = QuantUtil.allInstancesOf(Node.class, source,
-				target);
-		boolean bParameterMapping = QuantUtil.allInstancesOf(Parameter.class, source,
-				target);
+		boolean bNodeMapping = QuantUtil.allInstancesOf(Node.class, source, target);
+		boolean bParameterMapping = QuantUtil.allInstancesOf(Parameter.class, source, target);
 		
 		if (bNodeMapping) {
 			Node sourceNode = (Node) source;
@@ -97,20 +95,29 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 			TransformationUnit sourceUnit = sourceParameter.getUnit();
 			TransformationUnit targetUnit = targetParameter.getUnit();
 			
-			if (!(sourceUnit.getSubUnits(false).contains(targetUnit)
-					|| targetUnit.getSubUnits(false).contains(sourceUnit))) return;
+			if (!(sourceUnit.getSubUnits(false).contains(targetUnit) || targetUnit.getSubUnits(
+					false).contains(sourceUnit))) return;
 			
 			String srcP = sourceUnit.getName() + "." + sourceParameter.getName();
 			String trgP = targetUnit.getName() + "." + targetParameter.getName();
 			
-			String labelST = getLabel(COMMAND_LABEL) +"[" + srcP +" -> "+ trgP + "]";
-			String labelTS = getLabel(COMMAND_LABEL) +"[" + trgP +" -> "+ srcP + "]";
+			String labelST = getLabel(COMMAND_LABEL) + "[" + srcP + " -> " + trgP + "]";
+			String labelTS = getLabel(COMMAND_LABEL) + "[" + srcP + " <- " + trgP + "]";
 			
-			CreateParameterMappingCommand cmd = new CreateParameterMappingCommand(sourceParameter, targetParameter);
-			if (cmd.canExecute()) menuManager.add(createAction(labelST, cmd));
+			CreateParameterMappingCommand cmd = new CreateParameterMappingCommand(sourceParameter,
+					targetParameter);
+			if (cmd.canExecute()) {
+				IAction action = createAction(labelST, cmd);
+				action.setEnabled(cmd.isEnabled());
+				menuManager.add(action);
+			}
 			
 			cmd = new CreateParameterMappingCommand(targetParameter, sourceParameter);
-			if (cmd.canExecute()) menuManager.add(createAction(labelTS, cmd));			
+			if (cmd.canExecute()) {
+				IAction action = createAction(labelTS, cmd);
+				action.setEnabled(cmd.isEnabled());
+				menuManager.add(action);
+			}
 			
 		} // if else
 		

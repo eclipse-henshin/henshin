@@ -41,7 +41,28 @@ public class CreateParameterMappingCommand extends AbstractCommand {
 		this.target = target;
 	}
 	
+	/**
+	 * Checks if a parameter mappings already exists. This method shall hint the
+	 * wrapping action to appear enabled or disabled.
+	 * 
+	 * @return
+	 */
+	public boolean isEnabled() {
+		if (this.canExecute()) {
+			
+			// Check if there already exists such a parameter mapping
+			for (ParameterMapping pm : ownerUnit.getParameterMappings()) {
+				if (pm.getSource().equals(this.source) && pm.getTarget().equals(this.target))
+					return false;
+			}// for
+			return true;
+		}// if
+		return false;
+	}// isEnabled
+	
 	/*
+	 * Checks if a parameter mapping between the given parameters is principally
+	 * possible. However, is NOT checked, whether a mapping already exists.
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
 	 */
@@ -52,9 +73,8 @@ public class CreateParameterMappingCommand extends AbstractCommand {
 			return false;
 		
 		/*
-		 * 1) Check if one of both parameter's parent unit refers the other's
-		 * parent unit. 2) Check if there already exists such a parameter
-		 * mapping
+		 * Check if one of both parameter's parent unit refers the other's
+		 * parent unit.
 		 */
 
 		// (1)
@@ -69,12 +89,6 @@ public class CreateParameterMappingCommand extends AbstractCommand {
 			ownerUnit = null;
 		
 		if (ownerUnit == null) return false;
-		
-		// (2)
-		for (ParameterMapping pm : ownerUnit.getParameterMappings()) {
-			if (pm.getSource().equals(this.source) && pm.getTarget().equals(this.target))
-				return false;
-		}// for
 		
 		return true;
 	}// prepare
