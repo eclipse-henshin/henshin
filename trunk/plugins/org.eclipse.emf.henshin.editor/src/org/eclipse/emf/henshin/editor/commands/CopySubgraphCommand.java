@@ -98,6 +98,14 @@ public class CopySubgraphCommand extends CompoundCommand {
 	 */
 	@Override
 	protected boolean prepare() {
+		
+		for (Node node : subgraphNodes) {
+			if (!node.getGraph().equals(sourceGraph)) {
+				System.out.println("false");
+				
+				return false;
+			}// if
+		}// for
 		return true;
 	}
 	
