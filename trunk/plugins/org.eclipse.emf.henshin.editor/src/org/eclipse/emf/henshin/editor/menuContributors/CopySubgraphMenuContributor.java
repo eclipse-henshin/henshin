@@ -65,7 +65,7 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
 			
-			menuManager.add(createAction("Copy to RHS", cmd));
+			if (cmd.canExecute()) menuManager.add(createAction("Copy to RHS", cmd));
 			
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 			
@@ -79,8 +79,8 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			
 			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
+			if (cmd.canExecute()) menuManager.add(createAction("Copy to LHS", cmd));
 			
-			menuManager.add(createAction("Copy to LHS", cmd));
 		} else if (HenshinRuleAnalysisUtil.isConclusion(sourceGraph)) {
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 		}
@@ -111,8 +111,9 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			
 			cmd.setNodes((Collection<Node>) selection);
 			
-			menu.add(createAction("Copy to NC: "
-					+ ((NestedCondition) formula).getConclusion().getName(), cmd));
+			if (cmd.canExecute())
+				menu.add(createAction("Copy to NC: "
+						+ ((NestedCondition) formula).getConclusion().getName(), cmd));
 			
 			// menuManager.add(createAction("CopySubgraph To NCs ...", cmd));
 		} else if (formula instanceof BinaryFormula) {
