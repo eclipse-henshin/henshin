@@ -19,7 +19,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl;
+import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeCollisionCounter;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -38,7 +38,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 	
 	// Labels:
 	private Label statesLabel, transitionsLabel, 
-				  rulesLabel, collisionsLabel, maxStateDistanceLabel;
+				  rulesLabel, statesPerHashLabel;
 
 	
 	private void addSection(Composite parent) {
@@ -58,12 +58,8 @@ public class StateSpacePropertyPage extends PropertyPage {
 		rulesLabel = new Label(composite, SWT.NONE);
 
 		label = new Label(composite, SWT.NONE);
-		label.setText("Maximum state distance:");
-		maxStateDistanceLabel = new Label(composite, SWT.NONE);
-
-		label = new Label(composite, SWT.NONE);
-		label.setText("Hash collisions:");
-		collisionsLabel = new Label(composite, SWT.NONE);
+		label.setText("States per hash:");
+		statesPerHashLabel = new Label(composite, SWT.NONE);
 
 		StateSpaceManager manager = loadStateSpace();
 		StateSpace stateSpace = manager.getStateSpace();
@@ -71,14 +67,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount()+"");
 		rulesLabel.setText(stateSpace.getRules().size()+"");
-		maxStateDistanceLabel.setText(stateSpace.getMaxStateDistance()+"");
-		if (manager instanceof StateSpaceIndexImpl) {
-			int collisions = ((StateSpaceIndexImpl) manager).getCollisions();
-			double percent  = ((int) ((collisions * 10000) / stateSpace.getStates().size())) / 100.0;
-			collisionsLabel.setText(collisions + " (" + percent + "%)");
-		} else {
-			collisionsLabel.setText("?");
-		}
+		statesPerHashLabel.setText(HashCodeCollisionCounter.getNumStatesPerHash(stateSpace) + "");
 		
 	}
 	

@@ -35,15 +35,15 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	// State space:
 	private StateSpace stateSpace;
 	
-	// Some statistics:
-	private int entries, collisions;
+	// Number of entries in the index:
+	private int entries;
 	
 	/**
 	 * Default constructor. This fills the state index.
 	 */
 	public StateSpaceIndexImpl(StateSpace stateSpace) {
 		if (stateSpace==null) {
-			throw new IllegalArgumentException();
+			throw new NullPointerException();
 		}
 		this.stateSpace = stateSpace;
 		
@@ -114,38 +114,19 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		int hashcode = state.getHashCode();
 		int position = hash2position(hashcode);
 		
-		// Need to create a new array?
+		// Need to create a new slot?
 		if (index[position]==null) {
 			index[position] = new State[4];
 		}
 		
 		// Find the first free minor index:
 		int minor = index[position].length;
-		boolean collision = false;
 		
-		// Find an empty slot:
+		// Find an empty cell in the slot:
 		for (int i=0; i<index[position].length; i++) {
-			
-			// Empty slot?
 			if (index[position][i]==null) {
 				minor = i;
-				if (collision) {
-					break;
-				}
 			}
-			// Collision?
-			else if (index[position][i].getHashCode()==hashcode) {
-				collision = true;
-				if (minor<i) {
-					break;
-				}
-			}
-			
-		}
-
-		// Record collisions:
-		if (collision) {
-			collisions++;
 		}
 
 		// Check if the array needs to be expanded:
@@ -185,9 +166,8 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Reset this state space index.
 	 */
 	public void resetIndex() {
-		this.index = new State[optimalSize()][];
+		index = new State[optimalSize()][];
 		entries = 0;
-		collisions = 0;
 	}
 	
 	/*
@@ -198,14 +178,6 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		return stateSpace;
 	}
 	
-	/**
-	 * Get the number of collisions that occurred.
-	 * @return Number of collisions.
-	 */
-	public int getCollisions() {
-		return collisions;
-	}
-
 	/*
 	 * Grow the index. This method is linear in the
 	 * number of indexed states and does not compute any models.
