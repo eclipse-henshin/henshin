@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
-	
+
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -50,12 +50,30 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 * @param feature
 	 */
 	public MappingOriginPropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName, String description,
-			EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
-				true, null, null, null);
+			ResourceLocator resourceLocator, String displayName,
+			String description, EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description,
+				feature, true, false, true, null, null, null);
+
+		this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator) {
+			public String getText(Object object) {
+				if (object instanceof Node) {
+					Node node = (Node) object;
+					String nodeLabel = node.getName() == null
+							|| node.getName().equals("") ? "_" : node.getName();
+					String typeLabel = node.getType() != null ? node.getType()
+							.getName() : "_";
+					String nodeContainerLabel = node.getGraph().getName() == null
+							|| node.getGraph().getName().equals("") ? "_"
+							: node.getGraph().getName();
+					return nodeLabel + ":" + typeLabel + " ["
+							+ nodeContainerLabel + "]";
+				}
+				return super.getText(object);
+			}
+		};
 	}// constructor
-	
+
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.
@@ -65,9 +83,9 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-		
+
 		Collection<Node> result = null;
-		
+
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
@@ -89,7 +107,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				while (f.eContainer() instanceof Formula)
 					f = (Formula) f.eContainer();
-				
+
 				Graph graph = (Graph) f.eContainer();
 				result = graph.getNodes();
 			} else if (eobject instanceof AmalgamationUnit) {
@@ -100,7 +118,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
-				
+
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					result = au.getKernelRule().getLhs().getNodes();
 				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
@@ -108,12 +126,12 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				}// if else if
 			}// if else if
 		}// if
-		
+
 		if (result != null) {
 			return Collections.unmodifiableCollection(result);
 		} else {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
-	
+
 }// class

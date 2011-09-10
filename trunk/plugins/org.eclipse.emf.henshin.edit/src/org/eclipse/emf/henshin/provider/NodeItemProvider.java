@@ -35,6 +35,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.provider.descriptors.NodeTypePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
@@ -80,16 +81,15 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+		itemPropertyDescriptors.add(new NodeTypePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(),
 				getString("_UI_Node_type_feature"),
 				getString("_UI_PropertyDescriptor_description", "_UI_Node_type_feature",
-						"_UI_Node_type"), HenshinPackage.Literals.NODE__TYPE, true, false, true,
-				null, null, null));
+						"_UI_Node_type")));
 	}
 	
 	/**

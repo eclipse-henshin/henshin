@@ -36,7 +36,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
-	
+
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -47,12 +47,30 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	 * @see ItemPropertyDescriptor
 	 */
 	public MappingImagePropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName, String description,
-			EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
-				true, null, null, null);
+			ResourceLocator resourceLocator, String displayName,
+			String description, EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description,
+				feature, true, false, true, null, null, null);
+		
+		this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator) {
+			public String getText(Object object) {
+				if (object instanceof Node) {
+					Node node = (Node) object;
+					String nodeLabel = node.getName() == null
+							|| node.getName().equals("") ? "_" : node.getName();
+					String typeLabel = node.getType() != null ? node.getType()
+							.getName() : "_";
+					String nodeContainerLabel = node.getGraph().getName() == null
+							|| node.getGraph().getName().equals("") ? "_"
+							: node.getGraph().getName();
+					return nodeLabel + ":" + typeLabel + " ["
+							+ nodeContainerLabel + "]";
+				}
+				return super.getText(object);
+			}
+		};
 	}// constructor
-	
+
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.
@@ -61,9 +79,9 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-		
+
 		Collection<Node> result = new ArrayList<Node>();
-		
+
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
@@ -74,7 +92,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				Rule rule = (Rule) eobject;
 				result = rule.getRhs().getNodes();
-				
+
 			} else if (eobject instanceof NestedCondition) {
 				/*
 				 * The image of a mapping contained in a nested condition may be
@@ -82,7 +100,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				NestedCondition ncond = (NestedCondition) eobject;
 				result = ncond.getConclusion().getNodes();
-				
+
 			} else if (eobject instanceof AmalgamationUnit) {
 				/*
 				 * The image of a mapping contained in a an amalgamation unit
@@ -90,7 +108,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
-				
+
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					for (Rule rule : au.getMultiRules()) {
 						result.addAll(rule.getLhs().getNodes());
@@ -102,8 +120,8 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				}// if else if
 			}// if else if
 		}// if
-		
+
 		return result;
 	}// getComboBoxObjects
-	
+
 }// class
