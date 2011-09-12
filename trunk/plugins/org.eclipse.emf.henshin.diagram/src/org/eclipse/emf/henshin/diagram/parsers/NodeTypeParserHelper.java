@@ -29,6 +29,9 @@ public class NodeTypeParserHelper {
 		}
 	}// enum
 	
+	private final Pattern PATTERN_NODE_NAME_WITHOUT_TYPE = Pattern
+			.compile("^([\\w]+)$");
+	
 	/**
 	 * If this pattern matches, a non-empty (more or less) Java-conforming type
 	 * is given! Furthermore, one or two (comma-separated) parameters could have
@@ -59,6 +62,25 @@ public class NodeTypeParserHelper {
 		initialize();
 	}
 	
+	public String parseName(String nodeString) {
+		initialize();
+		if (isUndefined(nodeString)) {
+			return null;
+		}
+		
+		nodeString = nodeString.trim();
+		
+		final Matcher nname_matcher = PATTERN_NODE_NAME_WITHOUT_TYPE.matcher(nodeString);
+		if (nname_matcher.matches()) { // check if the node has a valid name
+			// if the node has a valid name, the current node type can be used
+			return nodeString;
+		} 
+		
+//		return nodeString;
+		// TODO: Debug regex
+		return null;
+	}
+	
 	/**
 	 * Parses the given nodeString and extracts a type and one or two
 	 * parameters. If no type information can be extracted, this method return
@@ -79,10 +101,12 @@ public class NodeTypeParserHelper {
 		
 		nodeString = nodeString.trim();
 		
+		
 		final Matcher matcher = PATTERN_NODE_NAME.matcher(nodeString);
 		
-		if (!matcher.matches()) // check for valid type and parameters
+		if (!matcher.matches()) {// check for valid type and parameters
 			return false;
+		}
 		
 		// At this point we know, that a valid type is given
 		this.type = matcher.group(3).trim();
