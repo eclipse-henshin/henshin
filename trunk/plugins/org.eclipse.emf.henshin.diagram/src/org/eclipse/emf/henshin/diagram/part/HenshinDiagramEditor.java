@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.part;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -21,6 +24,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.ui.URIEditorInput;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -45,7 +50,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorMatchingStrategy;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
@@ -84,6 +91,35 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 		return CONTEXT_ID;
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
+		super.init(site, input);
+		
+		// Collect all packages which cannot be resolved:
+		TransformationSystem system = (TransformationSystem) getDiagram().getElement();
+		List<EPackage> unresolved = new ArrayList<EPackage>();
+		for (EPackage epackage : system.getImports()) {
+			if (epackage.eIsProxy()) {
+				unresolved.add(epackage);
+			}
+		}
+		
+		// Throwing a PartInitException at this point seems to cause problem.
+		// So we just display an error message but throw no exception.
+		if (!unresolved.isEmpty()) {
+			String message = "The following imported packages could not be resolved:\n\n";
+			for (EPackage epackage : unresolved) {
+				message = message + "  -  " + EcoreUtil.getURI(epackage) + "\n";
+			}
+			message = message + "\nIf no generated model code exists for these packages, try to register their " + 
+					"corresponding Ecore-files from the context menu using \"Henshin->Register EPackages\".";
+			MessageDialog.openError(getSite().getShell(), "Error opening Henshin file", message);
+		}
+	}
+	
 	/**
 	 * @generated NOT
 	 */
