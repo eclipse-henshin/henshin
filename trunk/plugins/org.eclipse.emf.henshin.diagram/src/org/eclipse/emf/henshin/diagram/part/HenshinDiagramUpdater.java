@@ -219,12 +219,12 @@ public class HenshinDiagramUpdater {
 		}
 
 		// Iterate over all transformation units:
-		for (TransformationUnit unit : system.getTransformationUnits()) {
-			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
-			if (visualID == UnitEditPart.VISUAL_ID) {
-				result.add(new HenshinNodeDescriptor(unit, visualID));
-			}
-		}
+		//for (TransformationUnit unit : system.getTransformationUnits()) {
+		//	int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
+		//	if (visualID == UnitEditPart.VISUAL_ID) {
+		//		result.add(new HenshinNodeDescriptor(unit, visualID));
+		//	}
+		//}
 
 		// Done.
 		return result;

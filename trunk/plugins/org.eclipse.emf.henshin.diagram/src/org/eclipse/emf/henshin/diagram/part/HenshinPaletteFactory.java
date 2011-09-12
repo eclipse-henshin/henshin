@@ -58,13 +58,13 @@ public class HenshinPaletteFactory {
 		paletteContainer.add(createAttribute3CreationTool());
 		
 		// Transformation units:
-		paletteContainer.add(new PaletteSeparator());
-		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getConditionalUnit()));
-		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getCountedUnit()));
-		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getIndependentUnit()));
-		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getPriorityUnit()));
-		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getSequentialUnit()));
-		paletteContainer.add(createInvocation6CreationTool());
+//		paletteContainer.add(new PaletteSeparator());
+//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getConditionalUnit()));
+//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getCountedUnit()));
+//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getIndependentUnit()));
+//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getPriorityUnit()));
+//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getSequentialUnit()));
+//		paletteContainer.add(createInvocation6CreationTool());
 		
 		return paletteContainer;
 	}
