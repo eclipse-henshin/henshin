@@ -29,19 +29,16 @@ public class NodeTypeParserHelper {
 		}
 	}// enum
 	
-	private final Pattern PATTERN_NODE_NAME_WITHOUT_TYPE = Pattern
-			.compile("^([\\w]+)$");
-	
 	/**
 	 * If this pattern matches, a non-empty (more or less) Java-conforming type
 	 * is given! Furthermore, one or two (comma-separated) parameters could have
 	 * been found. The indices are as follows:<br>
 	 * 1: parameter1 (optional)<br>
 	 * 2: parameter2 (optional)<br>
-	 * 3: type
+	 * 3: type (optional)
 	 */
 	private final Pattern PATTERN_NODE_NAME = Pattern
-			.compile("^(?:([^,:]*)(?:,([^,:]*))?)?:([A-Za-z0-9_\\.]+)$");
+			.compile("^(?:([^,:]*)(?:,([^,:]*))?)?(?::([\\w\\.]+))?$");
 	
 	/**
 	 * If this pattern matches, a parameter name is given, which may be followed
@@ -60,25 +57,6 @@ public class NodeTypeParserHelper {
 	
 	public NodeTypeParserHelper() {
 		initialize();
-	}
-	
-	public String parseName(String nodeString) {
-		initialize();
-		if (isUndefined(nodeString)) {
-			return null;
-		}
-		
-		nodeString = nodeString.trim();
-		
-		final Matcher nname_matcher = PATTERN_NODE_NAME_WITHOUT_TYPE.matcher(nodeString);
-		if (nname_matcher.matches()) { // check if the node has a valid name
-			// if the node has a valid name, the current node type can be used
-			return nodeString;
-		} 
-		
-//		return nodeString;
-		// TODO: Debug regex
-		return null;
 	}
 	
 	/**
@@ -101,15 +79,14 @@ public class NodeTypeParserHelper {
 		
 		nodeString = nodeString.trim();
 		
-		
 		final Matcher matcher = PATTERN_NODE_NAME.matcher(nodeString);
 		
-		if (!matcher.matches()) {// check for valid type and parameters
+		if (!matcher.matches()) // check for valid type and parameters
 			return false;
-		}
 		
-		// At this point we know, that a valid type is given
-		this.type = matcher.group(3).trim();
+		// process the type
+		this.type = matcher.group(3);
+		this.type = (isUndefined(this.type)) ? null : this.type.trim();
 		
 		String p = matcher.group(1);
 		parseParameterString(p, 0);
@@ -253,7 +230,7 @@ public class NodeTypeParserHelper {
 					result = p1;
 				}
 			} else
-				result=p1;
+				result = p1;
 			
 		}// if else
 		return result;

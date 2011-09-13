@@ -151,27 +151,21 @@ public class NodeTypeParser extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Node node) {
 		
-		String temporaryNodeName = null;
-		boolean newTypeGiven = true;
+		if (!PARSER_HELPER.parse(value))
+			return CommandResult.newErrorCommandResult("Invalid input");
 		
-		if (!PARSER_HELPER.parse(value)) {	// value is not a correct value
-			temporaryNodeName = PARSER_HELPER.parseName(value);	// try to parse value as a node name
-			// (when creating new nodes in the diagram, everything will be selected by default,
-			// so when the user just types in a node name, the type will be erased;
-			// this tries to correct this issue
-			if (temporaryNodeName == null) {
-				return CommandResult.newErrorCommandResult("Invalid input");
-			} else {
-				newTypeGiven = false;	// no new type was given, so use the old type
-			}
-		}
 		// We need the rule and the TS
 		TransformationSystem ts = node.getGraph().getContainerRule().getTransformationSystem();
 		
+		// Find all mapped nodes:
+		List<Node> originNodes = new ArrayList<Node>();
+		List<Node> imageNodes = new ArrayList<Node>();
+		findMappedNodes(node, originNodes, imageNodes);
 		
-		EClass eclass = null;
-		if (newTypeGiven) {
-			EClassifier[] list = TransformationSystemEditHelper.findEClassifierByName(ts,
+		// set the typing
+		if (PARSER_HELPER.getType() != null) {
+			EClass eclass = null;
+			final EClassifier[] list = TransformationSystemEditHelper.findEClassifierByName(ts,
 					PARSER_HELPER.getType());
 			if (list.length > 0) {
 				for (EClassifier ec : list) {
@@ -183,23 +177,15 @@ public class NodeTypeParser extends AbstractParser {
 			}// if
 			
 			if (eclass == null) return CommandResult.newErrorCommandResult("No such EClass found");
-		} else {
-			eclass = node.getType();	// if just the node name was given, use the current node type
-		}
-		
-		// Find all mapped nodes:
-		List<Node> originNodes = new ArrayList<Node>();
-		List<Node> imageNodes = new ArrayList<Node>();
-		
-		findMappedNodes(node, originNodes, imageNodes);
-		
-		// set the typing
-		for (Node current : originNodes) {
-			current.setType(eclass);
-		}// for
-		for (Node current : imageNodes) {
-			current.setType(eclass);
-		}// for
+			
+			// set the typing
+			for (Node current : originNodes) {
+				current.setType(eclass);
+			}// for
+			for (Node current : imageNodes) {
+				current.setType(eclass);
+			}// for
+		}// if
 		
 		// now deal with the parameter information
 		if (PARSER_HELPER.getParameter1() != null) {
@@ -240,13 +226,6 @@ public class NodeTypeParser extends AbstractParser {
 				
 			}// if
 			
-		} else if (temporaryNodeName != null) {
-			for (Node current : originNodes) {
-				current.setName(temporaryNodeName);
-			}
-			for (Node current : imageNodes) {
-				current.setName(temporaryNodeName);
-			}
 		} else { // remove names if available
 			for (Node current : originNodes) {
 				current.setName(null);
