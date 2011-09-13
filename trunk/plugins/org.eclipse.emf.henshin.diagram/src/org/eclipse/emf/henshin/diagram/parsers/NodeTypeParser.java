@@ -259,17 +259,15 @@ public class NodeTypeParser extends AbstractParser {
 				if (mapping.getImage() == node) originNodes.add(mapping.getOrigin());
 			}// for
 		} else if (container instanceof NestedCondition) {
-			/*
-			 * The graph and related mappings of a nested condition always
-			 * belong to one side, LHS or RHS. Nodes are added accordingly.
-			 */
 			NestedCondition nc = (NestedCondition) container;
+			/*
+			 * The mappings within a nested condition run always upwards, i.e.,
+			 * the mappings have "remote" origins while all images are nodes in
+			 * the nested condition's graph.
+			 */
 			for (Mapping mapping : nc.getMappings()) {
 				if (mapping.getImage() == node) {
-					if (isLhsPart)
-						originNodes.add(mapping.getOrigin());
-					else
-						imageNodes.add(mapping.getOrigin());
+					originNodes.add(mapping.getOrigin());
 				}// if
 			}// for
 		}// if else
