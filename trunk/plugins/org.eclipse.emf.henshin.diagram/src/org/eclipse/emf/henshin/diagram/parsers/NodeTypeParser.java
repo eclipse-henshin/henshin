@@ -40,8 +40,12 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 
 /**
+ * Class for parsing, processing and formatting the input of node name labels.
+ * This actually comprises the node's typing and parameter information.
+ * 
  * @generated NOT
  * @author Christian Krause
+ * @author Stefan Jurack (sjurack)
  */
 public class NodeTypeParser extends AbstractParser {
 	
@@ -147,7 +151,7 @@ public class NodeTypeParser extends AbstractParser {
 	}
 	
 	/*
-	 * Parse a node name and type.
+	 * Parse a node label value and deduce type and parameter information.
 	 */
 	private CommandResult doParsing(String value, Node node) {
 		
@@ -240,6 +244,14 @@ public class NodeTypeParser extends AbstractParser {
 	}// doParsing
 	
 	/**
+	 * For a given <code>node</code>, finds all mapped nodes whether they are
+	 * origin or image nodes. Findings are added to the corresponding lists. The
+	 * given <code>node</code> itself will be contained in
+	 * <code>originNodes</code> if it is contained in the LHS, otherwise it will
+	 * be contained in <code>imageNodes</code>.<br>
+	 * Remark: <code>originNodes</code> and <code>imageNodes</code> must not be
+	 * <code>null</code>!
+	 * 
 	 * @param node
 	 * @param originNodes
 	 * @param imageNodes

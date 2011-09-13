@@ -3,6 +3,13 @@ package org.eclipse.emf.henshin.diagram.parsers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Helper class for {@link NodeTypeParser}, providing methods to parse a string
+ * and deduce typing and parameter information.
+ * 
+ * @author Stefan Jurack (sjurack)
+ * 
+ */
 public class NodeTypeParserHelper {
 	
 	public enum ParameterDirection {
@@ -53,11 +60,17 @@ public class NodeTypeParserHelper {
 	private String[] para = new String[2];
 	private ParameterDirection[] paraDirection = new ParameterDirection[2];
 	
+	/**
+	 * Type information contained in the parsed string.
+	 */
 	private String type;
 	
+	/**
+	 * Constructor
+	 */
 	public NodeTypeParserHelper() {
 		initialize();
-	}
+	}// constructor
 	
 	/**
 	 * Parses the given nodeString and extracts a type and one or two
@@ -156,7 +169,7 @@ public class NodeTypeParserHelper {
 	}// parseParameterString
 	
 	/**
-	 * 
+	 * Resets all instance variables.
 	 */
 	private void initialize() {
 		para[0] = null;
@@ -164,8 +177,15 @@ public class NodeTypeParserHelper {
 		paraDirection[0] = null;
 		paraDirection[1] = null;
 		type = null;
-	}
+	}// initialize
 	
+	/**
+	 * Returns <code>true</code> if the given string <code>s</code> is null or
+	 * an empty string. Otherwise <code>false</code> is returned.
+	 * 
+	 * @param s
+	 * @return
+	 */
 	private boolean isUndefined(String s) {
 		return s == null || s.trim().length() == 0;
 	}
@@ -235,4 +255,5 @@ public class NodeTypeParserHelper {
 		}// if else
 		return result;
 	}// getParameterString
-}
+	
+}// class
