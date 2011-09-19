@@ -15,8 +15,8 @@ import java.io.File;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.common.util.TransformationOptions;
+import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.matching.util.TransformationOptions;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;

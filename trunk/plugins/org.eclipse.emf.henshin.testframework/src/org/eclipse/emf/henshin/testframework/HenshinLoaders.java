@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.HenshinGraph;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;

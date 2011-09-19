@@ -14,7 +14,7 @@ package org.eclipse.emf.henshin.testframework;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 
 /**
  * Assertions for element groups, i.e. {@link Collection}s of {@link EObject}s.<br />

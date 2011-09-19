@@ -18,7 +18,7 @@ import org.eclipse.emf.compare.match.metamodel.MatchElement;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 
 /**

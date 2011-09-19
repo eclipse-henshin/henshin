@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;

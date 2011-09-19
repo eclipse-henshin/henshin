@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.testframework;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.TransformationUnit;
