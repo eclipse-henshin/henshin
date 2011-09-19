@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.change;
+package org.eclipse.emf.henshin.interpreter.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
