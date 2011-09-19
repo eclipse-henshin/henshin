@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
-Bundle-SymbolicName: org.eclipse.emf.henshin.common;singleton:=true
+Bundle-SymbolicName: org.eclipse.emf.henshin.matching;singleton:=true
 Bundle-Version: 0.7.1.qualifier
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
