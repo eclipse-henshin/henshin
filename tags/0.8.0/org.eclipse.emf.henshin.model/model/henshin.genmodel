@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.model/src"
+    editDirectory="/org.eclipse.emf.henshin.edit/src" editorDirectory="/org.eclipse.emf.henshin.editor/src"
+    modelPluginID="org.eclipse.emf.henshin.model" templateDirectory="org.eclipse.emf.henshin.model/ocltemplates"
+    dynamicTemplates="true" modelName="Henshin" modelPluginClass="org.eclipse.emf.henshin.HenshinModelPlugin"
+    testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="" editPluginID="org.eclipse.emf.henshin.edit"
+    editorPluginID="org.eclipse.emf.henshin.editor" testsPluginID="org.eclipse.emf.henshin.tests">
+  <foreignModel>henshin.ecore</foreignModel>
+  <modelPluginVariables>OCL_ECORE=org.eclipse.ocl.ecore</modelPluginVariables>
+  <genPackages prefix="Henshin" basePackage="org.eclipse.emf" disposableProviderFactory="true"
+      interfacePackageSuffix="model" metaDataPackageSuffix="model" classPackageSuffix="model.impl"
+      utilityPackageSuffix="model.util" ecorePackage="henshin.ecore#/">
+    <genClasses ecoreClass="henshin.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="henshin.ecore#//DescribedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//DescribedElement/description"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//TransformationSystem">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/rules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/instances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationSystem/transformationUnits"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationSystem/findUnitByName">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findUnitByName/unitName"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationSystem/findRuleByName">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findRuleByName/ruleName"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Rule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/lhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/rhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/attributeConditions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/mappings"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Rule/transformationSystem"/>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/getNodeByName">
+        <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/nodename"/>
+        <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/isLhs"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/containsMapping">
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/sourceNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/targetNode"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//AttributeCondition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//AttributeCondition/rule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//AttributeCondition/conditionText"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Parameter">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Parameter/unit"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Graph">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/edges"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Graph/formula"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/removeEdge">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/removeEdge/edge"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/removeNode">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/removeNode/node"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/getContainerRule"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/findNodesByType">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/findNodesByType/nodeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/findEdgesByType">
+        <genParameters ecoreParameter="henshin.ecore#//Graph/findEdgesByType/edgeType"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="henshin.ecore#//GraphElement">
+      <genOperations ecoreOperation="henshin.ecore#//GraphElement/getGraph"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Mapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/origin"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/image"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Node">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/attributes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Node/graph"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/outgoing"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Node/allEdges"/>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findOutgoingEdgesByType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findOutgoingEdgesByType/edgeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findIncomingEdgesByType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findIncomingEdgesByType/edgeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findAttributeByType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findAttributeByType/attributeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findOutgoingEdgeByType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findOutgoingEdgeByType/targetNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Node/findOutgoingEdgeByType/edgeType"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Node/findIncomingEdgeByType">
+        <genParameters ecoreParameter="henshin.ecore#//Node/findIncomingEdgeByType/sourceNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Node/findIncomingEdgeByType/edgeType"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Attribute">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Attribute/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Attribute/value"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Attribute/node"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Edge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Edge/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Edge/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Edge/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Edge/graph"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="henshin.ecore#//TransformationUnit">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//TransformationUnit/activated"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameterMappings"/>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getSubUnits">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getSubUnits/deep"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getParameterByName">
+        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getParameterByName/parametername"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//IndependentUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//IndependentUnit/subUnits"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//SequentialUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//SequentialUnit/subUnits"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/strict"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/rollback"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//ConditionalUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/if"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/then"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/else"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//PriorityUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//PriorityUnit/subUnits"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//AmalgamationUnit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/kernelRule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/multiRules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/lhsMappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/rhsMappings"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//CountedUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//CountedUnit/subUnit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//CountedUnit/count"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//NestedCondition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NestedCondition/negated"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/conclusion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/mappings"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//Formula">
+      <genOperations ecoreOperation="henshin.ecore#//Formula/stringRepresentation">
+        <genParameters ecoreParameter="henshin.ecore#//Formula/stringRepresentation/recursive"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//UnaryFormula">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//UnaryFormula/child"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//BinaryFormula">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//BinaryFormula/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//BinaryFormula/right"/>
+    </genClasses>
+    <genClasses ecoreClass="henshin.ecore#//And"/>
+    <genClasses ecoreClass="henshin.ecore#//Or"/>
+    <genClasses ecoreClass="henshin.ecore#//Xor"/>
+    <genClasses ecoreClass="henshin.ecore#//Not"/>
+    <genClasses ecoreClass="henshin.ecore#//ParameterMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//ParameterMapping/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//ParameterMapping/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
