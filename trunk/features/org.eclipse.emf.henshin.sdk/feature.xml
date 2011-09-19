@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk"
       label="%featureName"
-      version="0.8.0.qualifier"
+      version="0.8.1.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -59,106 +59,114 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.emf.validation"/>
       <import plugin="org.eclipse.emf.ecore.change" version="2.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.codegen.ecore" version="2.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.query.ocl" version="2.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.validation.ocl" version="1.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common.ui" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.diff" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.match" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.compare.ui" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.compare" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.codegen.ecore" version="2.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.query.ocl" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.validation.ocl" version="1.3.0" match="greaterOrEqual"/>
+      <import plugin="org.junit4" version="4.8.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.emf.henshin.model"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.editor"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.diagram"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter.ui"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.explorer"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.external"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.ocl"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.trace"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.matching"
          download-size="0"
          install-size="0"
-         version="0.8.0.qualifier"
+         version="0.8.1.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.henshin.testframework"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
