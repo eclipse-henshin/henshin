@@ -1,6 +1,5 @@
-package org.eclipse.emf.henshin.internal.constraints;
+package org.eclipse.emf.henshin.matching.constraints;
 
-import org.eclipse.emf.henshin.internal.matching.DomainSlot;
 
 public interface BinaryConstraint extends Constraint {
 	/**

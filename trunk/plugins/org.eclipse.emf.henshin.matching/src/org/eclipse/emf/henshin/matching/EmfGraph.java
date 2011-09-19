@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.common.util;
+package org.eclipse.emf.henshin.matching;
 
 import java.util.ArrayList;
 import java.util.Collection;

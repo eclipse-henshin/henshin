@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.Collection;
 import java.util.HashSet;

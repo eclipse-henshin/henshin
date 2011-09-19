@@ -9,13 +9,12 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.internal.constraints.UnaryConstraint;
 
 /**
  * This constraint checks whether an attribute has a specific value.

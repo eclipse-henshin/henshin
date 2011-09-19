@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
+import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;

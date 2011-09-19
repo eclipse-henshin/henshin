@@ -9,18 +9,13 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.conditions.nested;
+package org.eclipse.emf.henshin.matching.conditions.nested;
 
 
-public class NotFormula implements IFormula {
-	private IFormula child;
-	
-	public NotFormula(IFormula child) {
-		this.child = child;
-	}
-	
+public class TrueFormula implements IFormula {
+
 	@Override
 	public boolean eval() {
-		return !child.eval();
+		return true;
 	}
 }

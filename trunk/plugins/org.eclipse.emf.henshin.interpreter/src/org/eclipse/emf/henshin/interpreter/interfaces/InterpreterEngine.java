@@ -14,9 +14,9 @@ package org.eclipse.emf.henshin.interpreter.interfaces;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.common.util.TransformationOptions;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.matching.util.TransformationOptions;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 

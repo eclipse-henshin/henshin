@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.common.util.TransformationOptions;
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.constraints.BinaryConstraint;
+import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
+import org.eclipse.emf.henshin.matching.util.TransformationOptions;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 
 public class DomainSlot {
 	/**

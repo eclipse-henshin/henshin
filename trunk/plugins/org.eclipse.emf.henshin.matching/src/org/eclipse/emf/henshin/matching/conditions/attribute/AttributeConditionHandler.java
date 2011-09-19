@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.conditions.attribute;
+package org.eclipse.emf.henshin.matching.conditions.attribute;
 
 import java.util.ArrayList;
 import java.util.Collection;

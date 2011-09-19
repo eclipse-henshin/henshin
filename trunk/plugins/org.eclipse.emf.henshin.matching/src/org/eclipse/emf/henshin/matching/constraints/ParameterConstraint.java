@@ -9,10 +9,9 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.henshin.internal.constraints.UnaryConstraint;
 
 /**
  * This constraint checks if the attribute has the same value as the parameter.

@@ -7,21 +7,21 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Technical University Berlin - initial API and implementation
+ *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.conditions.nested;
+package org.eclipse.emf.henshin.matching.conditions.nested;
 
 
-public class AndFormula implements IFormula {	
+public class XorFormula implements IFormula {
 	private IFormula left;
 	private IFormula right;
 	
-	public AndFormula(IFormula left, IFormula right) {
+	public XorFormula(IFormula left, IFormula right) {
 		this.left = left;
 		this.right = right;
 	}
 	
 	public boolean eval() {
-		return left.eval() && right.eval();
+		return left.eval() ^ right.eval();
 	}
 }

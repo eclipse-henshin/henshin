@@ -9,8 +9,18 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.conditions.nested;
+package org.eclipse.emf.henshin.matching.constraints;
 
-public interface IFormula {
-	public boolean eval();
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EObject;
+
+public class DomainChange {
+	DomainSlot slot;
+	Collection<EObject> originalValues;
+	
+	public DomainChange(DomainSlot slot, Collection<EObject> originalValues) {
+		this.slot = slot;
+		this.originalValues = originalValues;
+	}
 }

@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.common.util;
+package org.eclipse.emf.henshin.matching.util;
 
 /**
  * Possible options to control transformations. 

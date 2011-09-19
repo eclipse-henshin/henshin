@@ -9,16 +9,16 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
-import org.eclipse.emf.henshin.internal.conditions.nested.ApplicationCondition;
+import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
+import org.eclipse.emf.henshin.matching.conditions.nested.ApplicationCondition;
 
 public class Matchfinder extends ApplicationCondition {
 	private List<Solution> solutions;

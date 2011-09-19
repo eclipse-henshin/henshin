@@ -9,14 +9,13 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.ArrayList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.internal.constraints.UnaryConstraint;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 
 /**
  * This constraint checks whether an node has a specific value.

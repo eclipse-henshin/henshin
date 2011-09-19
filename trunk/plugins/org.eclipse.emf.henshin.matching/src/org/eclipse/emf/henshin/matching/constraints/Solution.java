@@ -9,14 +9,14 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.constraints;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.internal.conditions.attribute.AttributeConditionHandler;
+import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
 
 public class Solution {
 	Map<Variable, EObject> objectMatches;

@@ -9,14 +9,14 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.conditions.nested;
+package org.eclipse.emf.henshin.matching.conditions.nested;
 
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.common.util.EmfGraph;
-import org.eclipse.emf.henshin.internal.matching.DomainSlot;
-import org.eclipse.emf.henshin.internal.matching.Variable;
+import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.matching.constraints.DomainSlot;
+import org.eclipse.emf.henshin.matching.constraints.Variable;
 
 public class ApplicationCondition implements IFormula {
 	protected boolean negated;

@@ -9,18 +9,18 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.matching;
+package org.eclipse.emf.henshin.matching.conditions.nested;
 
-import java.util.Collection;
 
-import org.eclipse.emf.ecore.EObject;
-
-public class DomainChange {
-	DomainSlot slot;
-	Collection<EObject> originalValues;
+public class NotFormula implements IFormula {
+	private IFormula child;
 	
-	public DomainChange(DomainSlot slot, Collection<EObject> originalValues) {
-		this.slot = slot;
-		this.originalValues = originalValues;
+	public NotFormula(IFormula child) {
+		this.child = child;
+	}
+	
+	@Override
+	public boolean eval() {
+		return !child.eval();
 	}
 }
