@@ -18,6 +18,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -112,6 +114,12 @@ public class InvocationCreateCommand extends EditElementCommand {
 		// Add it to the parent unit:
 		if (owner instanceof SequentialUnit) {
 			((SequentialUnit) owner).getSubUnits().add(target);
+		}
+		else if (owner instanceof PriorityUnit) {
+			((PriorityUnit) owner).getSubUnits().add(target);
+		}
+		else if (owner instanceof IndependentUnit) {
+			((IndependentUnit) owner).getSubUnits().add(target);
 		}
 
 		// No need to configure.

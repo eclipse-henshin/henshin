@@ -14,15 +14,11 @@ package org.eclipse.emf.henshin.diagram.part;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.UnitNodeToolEntry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
@@ -58,13 +54,8 @@ public class HenshinPaletteFactory {
 		paletteContainer.add(createAttribute3CreationTool());
 		
 		// Transformation units:
-//		paletteContainer.add(new PaletteSeparator());
-//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getConditionalUnit()));
-//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getCountedUnit()));
-//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getIndependentUnit()));
-//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getPriorityUnit()));
-//		paletteContainer.add(createUnitCreationTool(HenshinPackage.eINSTANCE.getSequentialUnit()));
-//		paletteContainer.add(createInvocation6CreationTool());
+		paletteContainer.add(createUnit5CreationTool());
+		paletteContainer.add(createInvocation6CreationTool());
 		
 		return paletteContainer;
 	}
@@ -139,17 +130,6 @@ public class HenshinPaletteFactory {
 		entry.setId("createUnit5CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
 				.getImageDescriptor(HenshinElementTypes.TransformationUnit_2002));
-		entry.setLargeIcon(entry.getSmallIcon());
-		return entry;
-	}
-
-	/**
-	 * New creation tool for a transformation unit:
-	 */
-	private ToolEntry createUnitCreationTool(EClass type) {		
-		UnitNodeToolEntry entry = new UnitNodeToolEntry(type);
-		entry.setId("create" + type.getName() + "CreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(type));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}

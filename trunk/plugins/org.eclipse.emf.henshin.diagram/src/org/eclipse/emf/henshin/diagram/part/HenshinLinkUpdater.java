@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
+import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
@@ -52,38 +55,65 @@ public class HenshinLinkUpdater {
 	
 	public void update(View unitView) {
 		
-		// Get the compartment view and the transformation unit:
+		// Get the compartment view:
 		View compartment = symbolHelper.getUnitCompartment(unitView);
-		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
 		
-		// Check the unit type:
-		if (unit instanceof SequentialUnit) {
-			SequentialUnit seq = (SequentialUnit) unit;
-			List<View> invocations = getInvocations(compartment, seq.getSubUnits());
-			Set<Edge> links = new HashSet<Edge>();
+		// Get the unit and its sub-units:
+		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
+		EList<TransformationUnit> subUnits = unit.getSubUnits(false);
+		
+		// Get the begin and the end symbol:
+		View begin = getSymbol(unit, compartment, SymbolType.UNIT_BEGIN);
+		View end = getSymbol(unit, compartment, SymbolType.UNIT_END);
+
+		// Get all invocations in the unit view:
+		List<View> invocations = getInvocations(compartment, subUnits);
+
+		// Known links:
+		Set<Edge> knownLinks = new HashSet<Edge>();
+		
+		/* NOW WE ARE READY TO UPDATE THE LINKS */
+		
+		// Sequential and priority units:
+		if (unit instanceof SequentialUnit ||
+			unit instanceof PriorityUnit) {
 			
 			// Update the links:
-			View begin = getSymbol(unit, compartment, SymbolType.SEQUENTIAL_BEGIN);
-			View end = getSymbol(unit, compartment, SymbolType.SEQUENTIAL_END);
-			if (seq.getSubUnits().isEmpty()) {
-				links.add(updateLink(seq, begin, end));
+			if (subUnits.isEmpty()) {
+				knownLinks.add(updateLink(unit, begin, end));
 			} else {
 				int count = invocations.size();
-				links.add(updateLink(seq, begin, invocations.get(0)));
-				links.add(updateLink(seq, invocations.get(count-1), end));
+				knownLinks.add(updateLink(unit, begin, invocations.get(0)));
+				knownLinks.add(updateLink(unit, invocations.get(count-1), end));
 				for (int i=1; i<count; i++) {
-					links.add(updateLink(seq, invocations.get(i-1), invocations.get(i)));
+					knownLinks.add(updateLink(unit, invocations.get(i-1), invocations.get(i)));
 				}
 			}
-			// Delete unknown links:
-			Set<View> nodes = new HashSet<View>(invocations.size()+1);
-			for (View node : invocations) {
-				if (node!=null) nodes.add(node);
-			}
-			if (begin!=null) nodes.add(begin);
-			if (end!=null) nodes.add(end);
-			deleteUnknownLinks(unitView.getDiagram(), links, nodes);
 		}
+		
+		// Independent units:
+		if (unit instanceof IndependentUnit) {
+				
+			// Update the links:
+			if (subUnits.isEmpty()) {
+				knownLinks.add(updateLink(unit, begin, end));
+			} else {
+				for (View invocation : invocations) {
+					knownLinks.add(updateLink(unit, begin, invocation));
+					knownLinks.add(updateLink(unit, invocation, end));
+				}
+			}
+		}
+		
+		// Delete unknown links:
+		Set<View> nodes = new HashSet<View>(invocations.size()+1);
+		for (View node : invocations) {
+			if (node!=null) nodes.add(node);
+		}
+		if (begin!=null) nodes.add(begin);
+		if (end!=null) nodes.add(end);
+		deleteUnknownLinks(unitView.getDiagram(), knownLinks, nodes);
+
 	}
 	
 	/*

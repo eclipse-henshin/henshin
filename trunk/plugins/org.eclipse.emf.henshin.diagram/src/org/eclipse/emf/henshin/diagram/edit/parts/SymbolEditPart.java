@@ -104,17 +104,15 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape() {
-		switch (SymbolType.get(getNotationView())) {
-		case SEQUENTIAL_BEGIN:
+		SymbolType symbol = SymbolType.get(getNotationView());
+		if (symbol==SymbolType.UNIT_BEGIN) {
 			primaryShape = new SymbolCircleFigure(true);
-			break;
-		case SEQUENTIAL_END:
+		}
+		else if (symbol==SymbolType.UNIT_END) {
 			primaryShape = new SymbolCircleFigure(false);
-			break;
-
-		default:
+		}
+		else {
 			primaryShape = new InvalidSymbolFigure();
-			break;
 		}
 		return primaryShape;
 	}
@@ -125,11 +123,20 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		// We usually forbid deletion of symbols:
-		if (RequestConstants.REQ_DELETE.equals(request.getType())
+		
+		// We forbid deletion of symbols, unless it is corrupt:
+		Object type = request.getType();
+		if (RequestConstants.REQ_DELETE.equals(type)
 				&& SymbolType.get(getNotationView()) != null) {
 			return UnexecutableCommand.INSTANCE;
 		}
+
+		// We also forbid to reconnect links:
+		if (RequestConstants.REQ_RECONNECT_SOURCE.equals(type) ||
+			RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
+			return UnexecutableCommand.INSTANCE;
+		}
+		
 		// Everything else is ok:
 		return super.getCommand(request);
 	}
@@ -271,7 +278,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 			setForegroundColor(ColorConstants.black);
 			setBackgroundColor(ColorConstants.red);
 			setLayoutManager(new StackLayout());
-			add(new Label("?"));
+			add(new Label("  Invalid  "));
 		}
 
 	}

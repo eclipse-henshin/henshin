@@ -7,7 +7,6 @@ import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
-import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -49,11 +48,9 @@ public class HenshinSymbolUpdater {
 		View compartment = getUnitCompartment(unitView);
 		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
 		
-		// Check the unit type:
-		if (unit instanceof SequentialUnit) {
-			updateSymbol(unit, compartment, SymbolType.SEQUENTIAL_BEGIN, 15, 15);
-			updateSymbol(unit, compartment, SymbolType.SEQUENTIAL_END, 75, 15);
-		}
+		// Always ensure that there are start and end symbols:
+		updateSymbol(unit, compartment, SymbolType.UNIT_BEGIN, 15, 15);
+		updateSymbol(unit, compartment, SymbolType.UNIT_END, 75, 15);
 		
 	}
 	

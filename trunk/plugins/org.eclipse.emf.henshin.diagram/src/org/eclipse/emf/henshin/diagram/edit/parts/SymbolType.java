@@ -10,8 +10,8 @@ import org.eclipse.gmf.runtime.notation.View;
  */
 public enum SymbolType {
 	
-	SEQUENTIAL_BEGIN,
-	SEQUENTIAL_END;
+	UNIT_BEGIN,
+	UNIT_END;
 	
 	// Keys to be used internally to get/set view annotations.
 	private static String SOURCE = "symbol";

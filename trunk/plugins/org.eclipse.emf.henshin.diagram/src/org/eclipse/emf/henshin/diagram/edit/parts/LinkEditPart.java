@@ -62,12 +62,18 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		// We usually forbid deletion of links:
-		if (RequestConstants.REQ_DELETE.equals(request.getType())) {
+		
+		// We forbid to delete or reconnect links:
+		Object type = request.getType();
+		if (RequestConstants.REQ_DELETE.equals(type) ||
+			RequestConstants.REQ_RECONNECT_SOURCE.equals(type) ||
+			RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
 			return UnexecutableCommand.INSTANCE;
 		}
-		// Everything else is ok:
+		
+		// Everything else should be ok:
 		return super.getCommand(request);
+		
 	}
 
 	/**

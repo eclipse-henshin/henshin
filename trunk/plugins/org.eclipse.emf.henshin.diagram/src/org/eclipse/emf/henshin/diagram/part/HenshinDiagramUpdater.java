@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
@@ -170,14 +171,11 @@ public class HenshinDiagramUpdater {
 		LinkedList<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
 
 		// All subUnits get an invocation view, and we added the required symbol views as well.
-		if (unit instanceof SequentialUnit) {
-			for (TransformationUnit subUnit : ((SequentialUnit) unit)
-					.getSubUnits()) {
-				int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,
-						subUnit);
-				if (visualID == InvocationEditPart.VISUAL_ID) {
-					result.add(new HenshinNodeDescriptor(subUnit, visualID));
-				}
+		for (TransformationUnit subUnit : unit.getSubUnits(false)) {
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view,
+					subUnit);
+			if (visualID == InvocationEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(subUnit, visualID));
 			}
 		}
 
@@ -219,12 +217,20 @@ public class HenshinDiagramUpdater {
 		}
 
 		// Iterate over all transformation units:
-		//for (TransformationUnit unit : system.getTransformationUnits()) {
-		//	int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
-		//	if (visualID == UnitEditPart.VISUAL_ID) {
-		//		result.add(new HenshinNodeDescriptor(unit, visualID));
-		//	}
-		//}
+		for (TransformationUnit unit : system.getTransformationUnits()) {
+			
+			// Rules and amalgamation units do not count!
+			if (unit instanceof Rule || unit instanceof AmalgamationUnit) {
+				continue;
+			}
+			
+			// Otherwise create a node descriptor for it:
+			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
+			if (visualID == UnitEditPart.VISUAL_ID) {
+				result.add(new HenshinNodeDescriptor(unit, visualID));
+			}
+			
+		}
 
 		// Done.
 		return result;

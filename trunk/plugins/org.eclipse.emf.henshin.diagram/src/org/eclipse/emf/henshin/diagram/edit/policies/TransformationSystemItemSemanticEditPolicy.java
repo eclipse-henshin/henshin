@@ -20,6 +20,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @generated
@@ -37,7 +38,7 @@ public class TransformationSystemItemSemanticEditPolicy extends
 	/**
 	 * @generated
 	 */
-	protected Command getCreateCommand(CreateElementRequest req) {
+	protected Command getCreateCommandGen(CreateElementRequest req) {
 		if (HenshinElementTypes.Rule_2001 == req.getElementType()) {
 			return getGEFWrapper(new RuleCreateCommand(req));
 		}
@@ -45,6 +46,21 @@ public class TransformationSystemItemSemanticEditPolicy extends
 			return getGEFWrapper(new UnitCreateCommand(req));
 		}
 		return super.getCreateCommand(req);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	protected Command getCreateCommand(CreateElementRequest req) {
+		
+		// We need to override the default implementation because
+		// the unit create command needs a shell:
+		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {
+			Shell shell = getHost().getViewer().getControl().getShell();
+			return getGEFWrapper(new UnitCreateCommand(req, shell));
+		} else {
+			return getCreateCommandGen(req);
+		}
 	}
 
 	/**

@@ -82,37 +82,4 @@ public class HenshinPaletteTools {
 		}
 	}
 
-	private static String unitTypeName(EClass type) {
-		return type.getName().replaceFirst("Unit", " Unit");
-	}
-	
-	/**
-	 * Creation palette tool entry for transformation units.
-	 */
-	public static class UnitNodeToolEntry extends ToolEntry {
-
-		// Element types: Transformation unit node
-		private static final List<IElementType> UNIT_NODE_TYPES;
-		static {
-			UNIT_NODE_TYPES = new ArrayList<IElementType>(1);
-			UNIT_NODE_TYPES.add(HenshinElementTypes.TransformationUnit_2002);
-		}
-
-		// Unit type:
-		private EClass type;
-
-		public UnitNodeToolEntry(EClass type) {
-			super(unitTypeName(type), "Create a " + unitTypeName(type), 
-					HenshinElementTypes.getImageDescriptor(type), null);
-			this.type = type;
-		}
-		
-		@Override
-		public Tool createTool() {
-			Tool tool = new EClassNodeTool(type, UNIT_NODE_TYPES);
-			tool.setProperties(getToolProperties());
-			return tool;
-		}
-	}
-
 }

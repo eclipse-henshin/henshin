@@ -11,36 +11,56 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
+import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
+import org.eclipse.gmf.runtime.diagram.ui.menus.PopupMenu;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * This command creates a new transformation unit.
+ * It pops up a drop-down menu for choosing the unit type.
  * @generated NOT
  */
 public class UnitCreateCommand extends EditElementCommand {
 
+	// Parent shell to be used for displaying the menu.
+	private Shell shell;
+
 	/**
-	 * Default constructor.
+	 * Default constructor (without menu).
 	 * @generated
 	 */
 	public UnitCreateCommand(CreateElementRequest request) {
 		super(request.getLabel(), null, request);
+	}
+
+	/**
+	 * Constructor with shell (with menu).
+	 * @generated NOT
+	 */
+	public UnitCreateCommand(CreateElementRequest request, Shell shell) {
+		this(request);
+		this.shell = shell;
 	}
 
 	/**
@@ -70,12 +90,18 @@ public class UnitCreateCommand extends EditElementCommand {
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		
-		// Get the unit type:
+
+		// The fall-back unit type if the shell is not set:
 		EClass unitType = HenshinPackage.eINSTANCE.getSequentialUnit();
-		CreateElementRequest request = (CreateElementRequest) getRequest();
-		if (request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY) instanceof EClass) {
-			unitType = (EClass) request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
+
+		// Display the pop-up menu:
+		if (shell != null) {
+			PopupMenu menu = getPopupMenu();
+			if (menu.show(shell) == false) {
+				monitor.setCanceled(true);
+				return CommandResult.newCancelledCommandResult();
+			}
+			unitType = (EClass) menu.getResult();
 		}
 
 		// Create the transformation unit:
@@ -92,6 +118,40 @@ public class UnitCreateCommand extends EditElementCommand {
 		// Done.
 		((CreateElementRequest) getRequest()).setNewElement(unit);
 		return CommandResult.newOKCommandResult(unit);
+
+	}
+
+	/**
+	 * Create a pop-up menu for choosing the unit type.
+	 * @return Pop-up menu instance.
+	 * @generated NOT
+	 */
+	protected PopupMenu getPopupMenu() {
+
+		// Supported unit types:
+		List<EClass> unitTypes = new ArrayList<EClass>();
+		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
+
+		// Label provider:
+		ILabelProvider labelProvider = new org.eclipse.jface.viewers.LabelProvider() {
+			@Override
+			public Image getImage(Object element) {
+				return HenshinElementTypes.getImage((EClass) element);
+			}
+
+			@Override
+			public String getText(Object element) {
+				return ((EClass) element).getName().replaceFirst("Unit",
+						" Unit");
+			}
+		};
+
+		// Create and return the pop-up menu:
+		return new PopupMenu(unitTypes, labelProvider);
 
 	}
 
