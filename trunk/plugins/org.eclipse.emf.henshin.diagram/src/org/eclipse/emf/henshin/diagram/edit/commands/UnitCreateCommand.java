@@ -130,11 +130,11 @@ public class UnitCreateCommand extends EditElementCommand {
 
 		// Supported unit types:
 		List<EClass> unitTypes = new ArrayList<EClass>();
-		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());
-		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
-		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());
 
 		// Label provider:
 		ILabelProvider labelProvider = new org.eclipse.jface.viewers.LabelProvider() {
@@ -145,8 +145,7 @@ public class UnitCreateCommand extends EditElementCommand {
 
 			@Override
 			public String getText(Object element) {
-				return ((EClass) element).getName().replaceFirst("Unit",
-						" Unit");
+				return ((EClass) element).getName();
 			}
 		};
 

@@ -87,11 +87,10 @@ public class UnitNameParser extends AbstractParser {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString
-	 * (org.eclipse.core.runtime.IAdaptable, int)
+	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getEditString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
-	public String getPrintString(IAdaptable element, int flags) {
+	@Override
+	public String getEditString(IAdaptable element, int flags) {
 		TransformationUnit unit = (TransformationUnit) unitView.getElement();
 		
 		final StringBuilder sb = new StringBuilder();
@@ -117,12 +116,12 @@ public class UnitNameParser extends AbstractParser {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getEditString
-	 * (org.eclipse.core.runtime.IAdaptable, int)
+	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
-	public String getEditString(IAdaptable element, int flags) {
-		return getPrintString(element, flags);
+	@Override
+	public String getPrintString(IAdaptable element, int flags) {
+		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		return unit.eClass().getName() + " " + getEditString(element, flags);
 	}
 	
 	/*

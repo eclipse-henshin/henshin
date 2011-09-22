@@ -13,9 +13,13 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.emf.henshin.model.PriorityUnit;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -26,6 +30,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ViewComponentEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
+import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -55,7 +60,70 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 				new ViewComponentEditPolicy());
 		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
 	}
-
+	
+	/*
+	 * Update the arrow of the line depending on the
+	 * type of transformation unit this link belongs to.
+	 */
+	private void updateArrow(LinkFigure figure) {
+		if (figure!=null) {
+			TransformationUnit unit = getTransformationUnit();
+			figure.setTargetDecoration(null);	// must be done here because child is cached
+			figure.removeAll();
+			if (unit instanceof PriorityUnit) {
+				figure.add(createArrowDecoration(4, 7), new MiddleLocator(figure));
+			} else {
+				figure.setTargetDecoration(createArrowDecoration(7, 3));				
+			}
+		}
+	}
+	
+	/*
+	 * Get the transformation unit which this link belong to.
+	 */
+	private TransformationUnit getTransformationUnit() {
+		
+		// Get the source node of this link:
+		View sourceNode = ((Edge) getNotationView()).getSource();
+		if (sourceNode==null) {
+			return null;
+		}
+		
+		// Get the compartment where the node is contained in:
+		View compartment = (View) sourceNode.eContainer();
+		if (compartment==null) {
+			return null;
+		}
+		
+		// Get the view of the transformation unit:
+		View unitView = (View) compartment.eContainer();
+		if (unitView==null) {
+			return null;
+		}
+		
+		// Now we can access the unit:
+		if (unitView.getElement() instanceof TransformationUnit) {
+			return (TransformationUnit) unitView.getElement();
+		} else {
+			return null;
+		}
+	}
+	
+	/*
+	 * Create an arrow decoration.
+	 */
+	private RotatableDecoration createArrowDecoration(int length, int width) {
+		PolygonDecoration df = new PolygonDecoration();
+		df.setFill(true);
+		PointList pl = new PointList();
+		pl.addPoint(getMapMode().DPtoLP(-1), getMapMode().DPtoLP(1));
+		pl.addPoint(getMapMode().DPtoLP(0), getMapMode().DPtoLP(0));
+		pl.addPoint(getMapMode().DPtoLP(-1), getMapMode().DPtoLP(-1));
+		df.setTemplate(pl);
+		df.setScale(getMapMode().DPtoLP(length), getMapMode().DPtoLP(width));
+		return df;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#getCommand(org.eclipse.gef.Request)
@@ -78,14 +146,12 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 
 	/**
 	 * Creates figure for this edit part.
-	 * 
-	 * Body of this method does not depend on settings in generation model
-	 * so you may safely remove <i>generated</i> tag and modify it.
-	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected Connection createConnectionFigure() {
-		return new LinkFigure();
+		LinkFigure linkFigure = new LinkFigure();
+		updateArrow(linkFigure);
+		return linkFigure;
 	}
 
 	/**
@@ -126,4 +192,27 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 
 	}
 
+	/*
+	 * A locator which places a decoration in the middle of the line. 
+	 */
+	private class MiddleLocator extends ConnectionLocator {
+
+		public MiddleLocator(Connection arg0) {
+			super(arg0);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.draw2d.AbstractLocator#relocate(org.eclipse.draw2d.IFigure)
+		 */
+		@Override
+		public void relocate(IFigure target) {
+			PointList points = getConnection().getPoints();
+			RotatableDecoration box = (RotatableDecoration) target;
+			box.setLocation(getLocation(points));
+			int midPoint = points.size() / 2;
+			box.setReferencePoint(points.getPoint(midPoint - 1));
+		}
+
+	}
 }

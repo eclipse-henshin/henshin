@@ -5,13 +5,18 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
- * Enum for symbol types.
+ * Enum for symbol types. Symbols are visual elements
+ * in a compartment of a unit view which indicate star
+ * and end, decision nodes etc. This is somewhat similar
+ * to the symbols used in activity diagrams.
+ * 
  * @author Christian Krause
  */
 public enum SymbolType {
 	
-	UNIT_BEGIN,
-	UNIT_END;
+	UNIT_BEGIN,				// begin of a unit
+	UNIT_END,				// end of a unit
+	INDEPENDENT_CHOICE; 	// choice symbol for IndependentUnits
 	
 	// Keys to be used internally to get/set view annotations.
 	private static String SOURCE = "symbol";
