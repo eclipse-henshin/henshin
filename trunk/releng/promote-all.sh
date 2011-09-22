@@ -46,28 +46,66 @@ fix_incubation $DROPS
 if [ ! "$(ls --hide=index.php $DROPS/../../updates/nightly/plugins)" ]; then
 	echo "Check out https://hudson.eclipse.org/hudson/job/cbi_henshin_nightly" | mail -s "Possible build problem for the nightly build of Henshin" henshin.ck@gmail.com
 fi
+#
 
+
+############################################################
 # Update the repository meta-data so that 
 # we can collect download stats:
-function add_stats_update {
-	echo
-	echo "*** Updating repository $1 ***"
-	updatesite="$DROPS/../../updates/$1"
-	tool="RepositoryStatsTool"
-	cp "tools/$tool.class" $updatesite
-	cd $updatesite
-	if [ -f "artifacts.jar" ]; then
-		unzip "artifacts.jar"
-		java $tool artifacts.xml $2
-		zip -u artifacts.jar artifacts.xml
-		rm artifacts.xml
-		rm $tool.class
-	else
-		echo "Error updating $1/artifacts.jar for download stats."
-	fi
-	cd -
-}
-add_stats_update "nightly" "N"
-add_stats_update "releases" "R"
+#function add_stats_update {
+#	echo
+#	echo "*** Updating repository $1 ***"
+#	updatesite="$DROPS/../../updates/$1"
+#	tool="RepositoryStatsTool"
+#	cp "tools/$tool.class" $updatesite
+#	cd $updatesite
+#	if [ -f "artifacts.jar" ]; then
+#		unzip "artifacts.jar"
+#		java $tool artifacts.xml $2
+#		zip -u artifacts.jar artifacts.xml
+#		rm artifacts.xml
+#		rm $tool.class
+#	else
+#		echo "Error updating $1/artifacts.jar for download stats."
+#	fi
+#	rm $updatesite/$tool.class
+#	cd -
+#}
+#add_stats_update "nightly" "N"
+#add_stats_update "releases" "R"
+############################################################
 
 
+
+############################################################
+### TEMPORARY CODE TO FIX MISPLACED DROPS ###
+############################################################
+
+if [ -d "$DROPS/0.7.0/R201109190426" ]; then
+	mkdir $DROPS/0.8.0
+	mkdir $DROPS/0.8.0/R201109190426
+	mv $DROPS/0.7.0/R201109190426/Henshin-SDK-Incubation-0.7.0.zip $DROPS/0.8.0/R201109190426/Henshin-SDK-Incubation-0.8.0.zip
+	rm -R $DROPS/0.7.0/R201109190426
+fi
+
+# CLEANUP UPDATE SITE
+
+# Features:
+rm "$DROPS/../../updates/releases/features/*0.7.0*-18*.jar"
+
+# Plug-ins:
+rm "$DROPS/../../updates/releases/plugins/*0.7.0*930.jar"
+rm "$DROPS/../../updates/releases/plugins/*0.7.0*506.jar"
+rm "$DROPS/../../updates/releases/plugins/*0.7.0*635.jar"
+
+# Stats tool:
+rm "$DROPS/../../updates/releases/*.class"
+rm "$DROPS/../../updates/nightly/*.class"
+
+# Correct the site.xml
+if [ ! -f "$DROPS/../../updates/releases/site.bak" ]; then
+	cp $DROPS/../../updates/releases/site.xml $DROPS/../../updates/releases/site.bak
+	sed 's/0\.7\.0/0\.8\.0/g' $DROPS/../../updates/releases/site.xml > $DROPS/../../updates/releases/site.new
+	rm $DROPS/../../updates/releases/site.xml
+	mv $DROPS/../../updates/releases/site.new $DROPS/../../updates/releases/site.xml
+fi
