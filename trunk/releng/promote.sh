@@ -23,9 +23,6 @@ DROPS=/home/data/httpd/download.eclipse.org/modeling/emft/henshin/downloads/drop
 # Releng directory:
 RELENG=/shared/jobs/$JOB/workspace/build/org.eclipse.henshin.releng
 
-# We need to rebuild the artifacts.jar from scratch:
-rm "$DROPS/../../updates/$TARGET/artifacts.jar"
-
 # Run the promote script:
 $ANT -f $RELENG/promote.xml -Dpromote.properties=$RELENG/promote.properties
 
