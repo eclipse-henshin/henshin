@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Check the parameters:
-if [ $# -ne 2 ]
-then
+if [ $# -ne 2 ]; then
   echo "Usage: promote.sh JOB DEST"
   exit 1
 fi
