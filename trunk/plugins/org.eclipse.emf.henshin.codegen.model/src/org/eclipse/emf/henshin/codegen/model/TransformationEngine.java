@@ -30,17 +30,7 @@ public enum TransformationEngine implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	INTERPRETER(0, "INTERPRETER", "INTERPRETER"),
-
-	/**
-	 * The '<em><b>ADHOC</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #ADHOC_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	ADHOC(1, "ADHOC", "ADHOC");
+	INTERPRETER(0, "INTERPRETER", "INTERPRETER");
 
 	/**
 	 * The '<em><b>INTERPRETER</b></em>' literal value.
@@ -58,21 +48,6 @@ public enum TransformationEngine implements Enumerator {
 	public static final int INTERPRETER_VALUE = 0;
 
 	/**
-	 * The '<em><b>ADHOC</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>ADHOC</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #ADHOC
-	 * @model
-	 * @generated
-	 * @ordered
-	 */
-	public static final int ADHOC_VALUE = 1;
-
-	/**
 	 * An array of all the '<em><b>Transformation Engine</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -81,7 +56,6 @@ public enum TransformationEngine implements Enumerator {
 	private static final TransformationEngine[] VALUES_ARRAY =
 		new TransformationEngine[] {
 			INTERPRETER,
-			ADHOC,
 		};
 
 	/**
@@ -133,7 +107,6 @@ public enum TransformationEngine implements Enumerator {
 	public static TransformationEngine get(int value) {
 		switch (value) {
 			case INTERPRETER_VALUE: return INTERPRETER;
-			case ADHOC_VALUE: return ADHOC;
 		}
 		return null;
 	}

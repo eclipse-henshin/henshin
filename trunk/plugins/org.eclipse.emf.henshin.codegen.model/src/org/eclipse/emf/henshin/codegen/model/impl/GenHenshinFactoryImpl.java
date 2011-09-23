@@ -65,6 +65,7 @@ public class GenHenshinFactoryImpl extends EFactoryImpl implements GenHenshinFac
 			case GenHenshinPackage.GEN_TRANSFORMATION: return createGenTransformation();
 			case GenHenshinPackage.GEN_UNIT: return createGenUnit();
 			case GenHenshinPackage.GEN_RULE: return createGenRule();
+			case GenHenshinPackage.GEN_PARAMETER: return createGenParameter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -138,6 +139,16 @@ public class GenHenshinFactoryImpl extends EFactoryImpl implements GenHenshinFac
 	public GenRule createGenRule() {
 		GenRuleImpl genRule = new GenRuleImpl();
 		return genRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GenParameter createGenParameter() {
+		GenParameterImpl genParameter = new GenParameterImpl();
+		return genParameter;
 	}
 
 	/**

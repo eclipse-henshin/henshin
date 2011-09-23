@@ -62,6 +62,15 @@ public interface GenHenshinFactory extends EFactory {
 	GenRule createGenRule();
 
 	/**
+	 * Returns a new object of class '<em>Gen Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Gen Parameter</em>'.
+	 * @generated
+	 */
+	GenParameter createGenParameter();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

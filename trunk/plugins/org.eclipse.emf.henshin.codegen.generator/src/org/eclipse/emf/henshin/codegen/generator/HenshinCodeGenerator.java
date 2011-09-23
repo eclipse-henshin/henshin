@@ -12,8 +12,6 @@ import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenJavaUtil;
 import org.eclipse.emf.henshin.codegen.generator.internal.CodeGenPluginUtil;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
-import org.eclipse.emf.henshin.codegen.model.TransformationEngine;
-import org.eclipse.emf.henshin.codegen.templates.GenTransformationAdhoc;
 import org.eclipse.emf.henshin.codegen.templates.GenTransformationInterface;
 import org.eclipse.emf.henshin.codegen.templates.GenTransformationInterpreter;
 import org.eclipse.jdt.core.IJavaProject;
@@ -106,11 +104,9 @@ public class HenshinCodeGenerator {
 		if (interface_) {
 			return new GenTransformationInterface().generate(genTrafo);
 		}
-		if (genTrafo.getEngine()==TransformationEngine.INTERPRETER) {
-			return new GenTransformationInterpreter().generate(genTrafo);
-		} else {
-			return new GenTransformationAdhoc().generate(genTrafo);			
-		}
+//		if (genTrafo.getEngine()==TransformationEngine.INTERPRETER) {
+		return new GenTransformationInterpreter().generate(genTrafo);
+//		}
 	}
 	
 }

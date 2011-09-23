@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.henshin.codegen.model.GenHenshin;
 import org.eclipse.emf.henshin.codegen.model.GenHenshinFactory;
 import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
+import org.eclipse.emf.henshin.codegen.model.GenParameter;
 import org.eclipse.emf.henshin.codegen.model.GenRule;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
@@ -62,6 +63,13 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * @generated
 	 */
 	private EClass genRuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass genParameterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -356,6 +364,24 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getGenUnit_InputGenParameters() {
+		return (EReference)genUnitEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGenUnit_OutputGenParameters() {
+		return (EReference)genUnitEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGenRule() {
 		return genRuleEClass;
 	}
@@ -365,8 +391,8 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenRule_CheckDangling() {
-		return (EAttribute)genRuleEClass.getEStructuralFeatures().get(0);
+	public EClass getGenParameter() {
+		return genParameterEClass;
 	}
 
 	/**
@@ -374,8 +400,26 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenRule_CheckInverseDangling() {
-		return (EAttribute)genRuleEClass.getEStructuralFeatures().get(1);
+	public EReference getGenParameter_Parameter() {
+		return (EReference)genParameterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGenParameter_Name() {
+		return (EAttribute)genParameterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGenParameter_Type() {
+		return (EAttribute)genParameterEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -441,10 +485,15 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		createEAttribute(genUnitEClass, GEN_UNIT__METHOD);
 		createEAttribute(genUnitEClass, GEN_UNIT__PUBLIC);
 		createEReference(genUnitEClass, GEN_UNIT__GEN_TRANSFORMATION);
+		createEReference(genUnitEClass, GEN_UNIT__INPUT_GEN_PARAMETERS);
+		createEReference(genUnitEClass, GEN_UNIT__OUTPUT_GEN_PARAMETERS);
 
 		genRuleEClass = createEClass(GEN_RULE);
-		createEAttribute(genRuleEClass, GEN_RULE__CHECK_DANGLING);
-		createEAttribute(genRuleEClass, GEN_RULE__CHECK_INVERSE_DANGLING);
+
+		genParameterEClass = createEClass(GEN_PARAMETER);
+		createEReference(genParameterEClass, GEN_PARAMETER__PARAMETER);
+		createEAttribute(genParameterEClass, GEN_PARAMETER__NAME);
+		createEAttribute(genParameterEClass, GEN_PARAMETER__TYPE);
 
 		// Create enums
 		transformationEngineEEnum = createEEnum(TRANSFORMATION_ENGINE);
@@ -530,21 +579,39 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		initEAttribute(getGenUnit_Method(), ecorePackage.getEString(), "method", null, 0, 1, GenUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenUnit_Public(), ecorePackage.getEBoolean(), "public", "true", 0, 1, GenUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenUnit_GenTransformation(), this.getGenTransformation(), this.getGenTransformation_GenUnits(), "genTransformation", null, 0, 1, GenUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenUnit_InputGenParameters(), this.getGenParameter(), null, "inputGenParameters", null, 0, -1, GenUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGenUnit_OutputGenParameters(), this.getGenParameter(), null, "outputGenParameters", null, 0, -1, GenUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(genUnitEClass, theEcorePackage.getEString(), "getMethodFormatted", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(genUnitEClass, theEcorePackage.getEString(), "getParametersFormatted", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(genUnitEClass, theEcorePackage.getEString(), "getResultTypeName", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(genUnitEClass, theEcorePackage.getEString(), "getResultTypeInterface", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEString(), "indent", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(genUnitEClass, theEcorePackage.getEString(), "getResultTypeImplementation", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEString(), "indent", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEBoolean(), "result", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEStringToStringMapEntry(), "output", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(genUnitEClass, theEcorePackage.getEString(), "getInputGenParametersFormatted", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genRuleEClass, GenRule.class, "GenRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getGenRule_CheckDangling(), theEcorePackage.getEBoolean(), "checkDangling", null, 0, 1, GenRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGenRule_CheckInverseDangling(), theEcorePackage.getEBoolean(), "checkInverseDangling", null, 0, 1, GenRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(genRuleEClass, theHenshinPackage.getRule(), "getRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(genParameterEClass, GenParameter.class, "GenParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGenParameter_Parameter(), theHenshinPackage.getParameter(), null, "parameter", null, 0, 1, GenParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenParameter_Name(), ecorePackage.getEString(), "name", null, 0, 1, GenParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenParameter_Type(), theEcorePackage.getEString(), "type", null, 0, 1, GenParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(genParameterEClass, theEcorePackage.getEString(), "getNameFormatted", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(genParameterEClass, this.getGenUnit(), "getGenUnit", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(transformationEngineEEnum, TransformationEngine.class, "TransformationEngine");
 		addEEnumLiteral(transformationEngineEEnum, TransformationEngine.INTERPRETER);
-		addEEnumLiteral(transformationEngineEEnum, TransformationEngine.ADHOC);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -7,25 +7,24 @@
 package org.eclipse.emf.henshin.codegen.model.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
+import org.eclipse.emf.henshin.codegen.model.GenParameter;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
-
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -39,6 +38,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl#isPublic <em>Public</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl#getGenTransformation <em>Gen Transformation</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl#getInputGenParameters <em>Input Gen Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.impl.GenUnitImpl#getOutputGenParameters <em>Output Gen Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -94,6 +95,26 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	 * @ordered
 	 */
 	protected boolean public_ = PUBLIC_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getInputGenParameters() <em>Input Gen Parameters</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInputGenParameters()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<GenParameter> inputGenParameters;
+
+	/**
+	 * The cached value of the '{@link #getOutputGenParameters() <em>Output Gen Parameters</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutputGenParameters()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<GenParameter> outputGenParameters;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -238,6 +259,30 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<GenParameter> getInputGenParameters() {
+		if (inputGenParameters == null) {
+			inputGenParameters = new EObjectContainmentEList<GenParameter>(GenParameter.class, this, GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS);
+		}
+		return inputGenParameters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<GenParameter> getOutputGenParameters() {
+		if (outputGenParameters == null) {
+			outputGenParameters = new EObjectContainmentEList<GenParameter>(GenParameter.class, this, GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS);
+		}
+		return outputGenParameters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public String getMethodFormatted() {
@@ -267,25 +312,67 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<String> getParametersFormatted() {
-		List<String> formatted = new ArrayList<String>();
-		if (getUnit()!=null) {
-			for (Parameter p : getUnit().getParameters()) {
-				String name = p.getName();
-				if (name==null || name.trim().length()==0) {
-					name = "p";
-				}
-				if (formatted.contains(name)) {
-					int i = 2;
-					while (formatted.contains(name + String.valueOf(i))) {
-						i++;
-					}
-					name = name + String.valueOf(i);
-				}
-				formatted.add(name);
-			}
+	public String getResultTypeName() {
+		if (getOutputGenParameters().isEmpty()) {
+			return Boolean.TYPE.getName();
+		} else {
+			return capitalize(getMethodFormatted()) + "Result";
 		}
-		return new BasicEList<String>(formatted);
+	}
+	
+	/*
+	 * Capitalize a string.
+	 */
+	private static String capitalize(String string) {
+		return string = string.substring(0, 1).toUpperCase() + string.substring(1);
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getResultTypeInterface(String indent) {
+		if (getOutputGenParameters().isEmpty()) {
+			return "";
+		} else {
+			String result = indent + "interface " + getResultTypeName() + " {\n";
+			result = result + indent + "\t" + "getResult();\n";
+			for (GenParameter outParam : getOutputGenParameters()) {
+				result = result + indent + "\t" + "get" + capitalize(outParam.getNameFormatted()) + "();\n";
+			}
+			result = result + "\n" + indent + "}";
+			return result;
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getResultTypeImplementation(String indent, boolean result, EMap<String, String> output) {
+		if (getOutputGenParameters().isEmpty()) {
+			return String.valueOf(result);
+		} else {
+			return "new " + getResultTypeName() + "() {}";
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public String getInputGenParametersFormatted() {
+		String paramsString = "";
+		int count = getInputGenParameters().size();
+		for (int i=0; i<count; i++) {
+			GenParameter param = getInputGenParameters().get(i);
+			paramsString = paramsString + param.getType() + " " + param.getNameFormatted();
+			if (i<count-1) paramsString = paramsString + ", ";
+		}
+		return paramsString;
 	}
 
 	/**
@@ -314,6 +401,10 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 		switch (featureID) {
 			case GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION:
 				return basicSetGenTransformation(null, msgs);
+			case GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS:
+				return ((InternalEList<?>)getInputGenParameters()).basicRemove(otherEnd, msgs);
+			case GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS:
+				return ((InternalEList<?>)getOutputGenParameters()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -349,6 +440,10 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 				return isPublic();
 			case GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION:
 				return getGenTransformation();
+			case GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS:
+				return getInputGenParameters();
+			case GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS:
+				return getOutputGenParameters();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -358,6 +453,7 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -372,6 +468,14 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 				return;
 			case GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION:
 				setGenTransformation((GenTransformation)newValue);
+				return;
+			case GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS:
+				getInputGenParameters().clear();
+				getInputGenParameters().addAll((Collection<? extends GenParameter>)newValue);
+				return;
+			case GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS:
+				getOutputGenParameters().clear();
+				getOutputGenParameters().addAll((Collection<? extends GenParameter>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -397,6 +501,12 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 			case GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION:
 				setGenTransformation((GenTransformation)null);
 				return;
+			case GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS:
+				getInputGenParameters().clear();
+				return;
+			case GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS:
+				getOutputGenParameters().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -417,6 +527,10 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 				return public_ != PUBLIC_EDEFAULT;
 			case GenHenshinPackage.GEN_UNIT__GEN_TRANSFORMATION:
 				return getGenTransformation() != null;
+			case GenHenshinPackage.GEN_UNIT__INPUT_GEN_PARAMETERS:
+				return inputGenParameters != null && !inputGenParameters.isEmpty();
+			case GenHenshinPackage.GEN_UNIT__OUTPUT_GEN_PARAMETERS:
+				return outputGenParameters != null && !outputGenParameters.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

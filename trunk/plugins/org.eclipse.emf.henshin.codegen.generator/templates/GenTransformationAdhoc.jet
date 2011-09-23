@@ -1,9 +1,0 @@
-<%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		class="GenTransformationAdhoc"%><%
-
-// For now use the interpreter template...
-GenTransformationInterpreter template = new GenTransformationInterpreter();
-
-%><%=
-template.generate(argument)
-%>

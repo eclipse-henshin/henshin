@@ -298,13 +298,31 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_UNIT__GEN_TRANSFORMATION = 3;
 
 	/**
+	 * The feature id for the '<em><b>Input Gen Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_UNIT__INPUT_GEN_PARAMETERS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Output Gen Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_UNIT__OUTPUT_GEN_PARAMETERS = 5;
+
+	/**
 	 * The number of structural features of the '<em>Gen Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_UNIT_FEATURE_COUNT = 4;
+	int GEN_UNIT_FEATURE_COUNT = 6;
 
 
 	/**
@@ -354,22 +372,22 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_RULE__GEN_TRANSFORMATION = GEN_UNIT__GEN_TRANSFORMATION;
 
 	/**
-	 * The feature id for the '<em><b>Check Dangling</b></em>' attribute.
+	 * The feature id for the '<em><b>Input Gen Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_RULE__CHECK_DANGLING = GEN_UNIT_FEATURE_COUNT + 0;
+	int GEN_RULE__INPUT_GEN_PARAMETERS = GEN_UNIT__INPUT_GEN_PARAMETERS;
 
 	/**
-	 * The feature id for the '<em><b>Check Inverse Dangling</b></em>' attribute.
+	 * The feature id for the '<em><b>Output Gen Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_RULE__CHECK_INVERSE_DANGLING = GEN_UNIT_FEATURE_COUNT + 1;
+	int GEN_RULE__OUTPUT_GEN_PARAMETERS = GEN_UNIT__OUTPUT_GEN_PARAMETERS;
 
 	/**
 	 * The number of structural features of the '<em>Gen Rule</em>' class.
@@ -378,8 +396,54 @@ public interface GenHenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_RULE_FEATURE_COUNT = GEN_UNIT_FEATURE_COUNT + 2;
+	int GEN_RULE_FEATURE_COUNT = GEN_UNIT_FEATURE_COUNT + 0;
 
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.codegen.model.impl.GenParameterImpl
+	 * @see org.eclipse.emf.henshin.codegen.model.impl.GenHenshinPackageImpl#getGenParameter()
+	 * @generated
+	 */
+	int GEN_PARAMETER = 4;
+
+	/**
+	 * The feature id for the '<em><b>Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_PARAMETER__PARAMETER = 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_PARAMETER__NAME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_PARAMETER__TYPE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Gen Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GEN_PARAMETER_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}' enum.
@@ -389,7 +453,7 @@ public interface GenHenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.codegen.model.impl.GenHenshinPackageImpl#getTransformationEngine()
 	 * @generated
 	 */
-	int TRANSFORMATION_ENGINE = 4;
+	int TRANSFORMATION_ENGINE = 5;
 
 
 	/**
@@ -654,6 +718,28 @@ public interface GenHenshinPackage extends EPackage {
 	EReference getGenUnit_GenTransformation();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getInputGenParameters <em>Input Gen Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Input Gen Parameters</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenUnit#getInputGenParameters()
+	 * @see #getGenUnit()
+	 * @generated
+	 */
+	EReference getGenUnit_InputGenParameters();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getOutputGenParameters <em>Output Gen Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Output Gen Parameters</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenUnit#getOutputGenParameters()
+	 * @see #getGenUnit()
+	 * @generated
+	 */
+	EReference getGenUnit_OutputGenParameters();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.codegen.model.GenRule <em>Gen Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -664,26 +750,47 @@ public interface GenHenshinPackage extends EPackage {
 	EClass getGenRule();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenRule#isCheckDangling <em>Check Dangling</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.codegen.model.GenParameter <em>Gen Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Check Dangling</em>'.
-	 * @see org.eclipse.emf.henshin.codegen.model.GenRule#isCheckDangling()
-	 * @see #getGenRule()
+	 * @return the meta object for class '<em>Gen Parameter</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenParameter
 	 * @generated
 	 */
-	EAttribute getGenRule_CheckDangling();
+	EClass getGenParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenRule#isCheckInverseDangling <em>Check Inverse Dangling</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.codegen.model.GenParameter#getParameter <em>Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Check Inverse Dangling</em>'.
-	 * @see org.eclipse.emf.henshin.codegen.model.GenRule#isCheckInverseDangling()
-	 * @see #getGenRule()
+	 * @return the meta object for the reference '<em>Parameter</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenParameter#getParameter()
+	 * @see #getGenParameter()
 	 * @generated
 	 */
-	EAttribute getGenRule_CheckInverseDangling();
+	EReference getGenParameter_Parameter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenParameter#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenParameter#getName()
+	 * @see #getGenParameter()
+	 * @generated
+	 */
+	EAttribute getGenParameter_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenParameter#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenParameter#getType()
+	 * @see #getGenParameter()
+	 * @generated
+	 */
+	EAttribute getGenParameter_Type();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}'.
@@ -916,6 +1023,22 @@ public interface GenHenshinPackage extends EPackage {
 		EReference GEN_UNIT__GEN_TRANSFORMATION = eINSTANCE.getGenUnit_GenTransformation();
 
 		/**
+		 * The meta object literal for the '<em><b>Input Gen Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GEN_UNIT__INPUT_GEN_PARAMETERS = eINSTANCE.getGenUnit_InputGenParameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Output Gen Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference GEN_UNIT__OUTPUT_GEN_PARAMETERS = eINSTANCE.getGenUnit_OutputGenParameters();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenRuleImpl <em>Gen Rule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -926,20 +1049,38 @@ public interface GenHenshinPackage extends EPackage {
 		EClass GEN_RULE = eINSTANCE.getGenRule();
 
 		/**
-		 * The meta object literal for the '<em><b>Check Dangling</b></em>' attribute feature.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.codegen.model.impl.GenParameterImpl
+		 * @see org.eclipse.emf.henshin.codegen.model.impl.GenHenshinPackageImpl#getGenParameter()
 		 * @generated
 		 */
-		EAttribute GEN_RULE__CHECK_DANGLING = eINSTANCE.getGenRule_CheckDangling();
+		EClass GEN_PARAMETER = eINSTANCE.getGenParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Check Inverse Dangling</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Parameter</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GEN_RULE__CHECK_INVERSE_DANGLING = eINSTANCE.getGenRule_CheckInverseDangling();
+		EReference GEN_PARAMETER__PARAMETER = eINSTANCE.getGenParameter_Parameter();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_PARAMETER__NAME = eINSTANCE.getGenParameter_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GEN_PARAMETER__TYPE = eINSTANCE.getGenParameter_Type();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.codegen.model.TransformationEngine <em>Transformation Engine</em>}' enum.

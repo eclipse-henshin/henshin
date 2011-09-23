@@ -7,6 +7,7 @@
 package org.eclipse.emf.henshin.codegen.model;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -23,6 +24,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getMethod <em>Method</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#isPublic <em>Public</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getGenTransformation <em>Gen Transformation</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getInputGenParameters <em>Input Gen Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenUnit#getOutputGenParameters <em>Output Gen Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -139,6 +142,38 @@ public interface GenUnit extends EObject {
 	void setGenTransformation(GenTransformation value);
 
 	/**
+	 * Returns the value of the '<em><b>Input Gen Parameters</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenParameter}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Input Gen Parameters</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Input Gen Parameters</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_InputGenParameters()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<GenParameter> getInputGenParameters();
+
+	/**
+	 * Returns the value of the '<em><b>Output Gen Parameters</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenParameter}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Output Gen Parameters</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Output Gen Parameters</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_OutputGenParameters()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<GenParameter> getOutputGenParameters();
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
@@ -152,6 +187,30 @@ public interface GenUnit extends EObject {
 	 * @model kind="operation"
 	 * @generated
 	 */
-	EList<String> getParametersFormatted();
+	String getResultTypeName();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	String getResultTypeInterface(String indent);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model outputMapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @generated
+	 */
+	String getResultTypeImplementation(String indent, boolean result, EMap<String, String> output);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getInputGenParametersFormatted();
 
 } // GenUnit

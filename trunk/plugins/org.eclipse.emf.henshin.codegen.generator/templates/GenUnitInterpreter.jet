@@ -33,14 +33,6 @@ String unitGetter = "get" + (isRule ? "Rule" : "Unit") + unitMethodCap;
 
 <%
 
-// Unit parameters:
-String paramsString = "";
-List<String> params = genUnit.getParametersFormatted();
-for (int i=0; i<params.size(); i++) {
-	paramsString = paramsString + "String " + params.get(i);
-	if (i<params.size()-1) paramsString = paramsString + ", ";
-}
-
 // Visibility of the unit:
 String visibility = genUnit.isPublic() ? "public" : "protected";
 
@@ -48,15 +40,18 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
 	/**
 	 * @generated
 	 */
-	<%= visibility %> boolean <%= genUnit.getMethodFormatted() + "(" + paramsString + ")" %> {
+	<%= visibility + " " +
+		genUnit.getResultTypeName() + " " + 
+		genUnit.getMethodFormatted() + "(" + 
+		genUnit.getInputGenParametersFormatted() + ")" %> {
 <% 
 		String applicationType = isRule ? "RuleApplication" : "UnitApplication";
 		%>
 		<%= applicationType %> application = new <%= applicationType %>(engine, <%= unitGetter %>());
 <%
-		for (int i=0; i<params.size(); i++) {
+		for (GenParameter input : genUnit.getInputGenParameters()) {
 %>
-		application.setParameterValue("<%= genUnit.getUnit().getParameters().get(i).getName() %>", <%= params.get(i) %>);
+		application.setParameterValue("<%= input.getParameter().getName() %>", <%= input.getNameFormatted() %>);
 <%
 		}
 %>

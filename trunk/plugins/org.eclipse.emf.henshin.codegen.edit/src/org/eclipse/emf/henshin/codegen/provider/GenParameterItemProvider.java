@@ -12,23 +12,31 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.ResourceLocator;
+
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.eclipse.emf.henshin.codegen.model.GenHenshinPackage;
-import org.eclipse.emf.henshin.codegen.model.GenRule;
+import org.eclipse.emf.henshin.codegen.model.GenParameter;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.henshin.codegen.model.GenRule} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.codegen.model.GenParameter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class GenRuleItemProvider
-	extends GenUnitItemProvider
+public class GenParameterItemProvider
+	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -41,7 +49,7 @@ public class GenRuleItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GenRuleItemProvider(AdapterFactory adapterFactory) {
+	public GenParameterItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -56,19 +64,65 @@ public class GenRuleItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addParameterPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This returns GenRule.gif.
+	 * This adds a property descriptor for the Parameter feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addParameterPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenParameter_parameter_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenParameter_parameter_feature", "_UI_GenParameter_type"),
+				 GenHenshinPackage.Literals.GEN_PARAMETER__PARAMETER,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GenParameter_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenParameter_name_feature", "_UI_GenParameter_type"),
+				 GenHenshinPackage.Literals.GEN_PARAMETER__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns GenParameter.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/GenRule"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/GenParameter"));
 	}
 
 	/**
@@ -79,10 +133,10 @@ public class GenRuleItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((GenRule)object).getMethod();
+		String label = ((GenParameter)object).getName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_GenRule_type") :
-			getString("_UI_GenRule_type") + " " + label;
+			getString("_UI_GenParameter_type") :
+			getString("_UI_GenParameter_type") + " " + label;
 	}
 
 	/**
@@ -95,6 +149,12 @@ public class GenRuleItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(GenParameter.class)) {
+			case GenHenshinPackage.GEN_PARAMETER__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
@@ -111,26 +171,14 @@ public class GenRuleItemProvider
 	}
 
 	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * Return the resource locator for this item provider's resources.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify =
-			childFeature == GenHenshinPackage.Literals.GEN_UNIT__INPUT_GEN_PARAMETERS ||
-			childFeature == GenHenshinPackage.Literals.GEN_UNIT__OUTPUT_GEN_PARAMETERS;
-
-		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
+	public ResourceLocator getResourceLocator() {
+		return GenHenshinEditPlugin.INSTANCE;
 	}
 
 }

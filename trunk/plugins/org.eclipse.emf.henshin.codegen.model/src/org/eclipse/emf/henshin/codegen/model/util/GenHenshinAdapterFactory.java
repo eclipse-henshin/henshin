@@ -88,6 +88,10 @@ public class GenHenshinAdapterFactory extends AdapterFactoryImpl {
 				return createGenRuleAdapter();
 			}
 			@Override
+			public Adapter caseGenParameter(GenParameter object) {
+				return createGenParameterAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -160,6 +164,20 @@ public class GenHenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGenRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.codegen.model.GenParameter <em>Gen Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenParameter
+	 * @generated
+	 */
+	public Adapter createGenParameterAdapter() {
 		return null;
 	}
 

@@ -168,6 +168,29 @@ public class GenHenshinItemProviderAdapterFactory extends GenHenshinAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.codegen.model.GenParameter} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected GenParameterItemProvider genParameterItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.codegen.model.GenParameter}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createGenParameterAdapter() {
+		if (genParameterItemProvider == null) {
+			genParameterItemProvider = new GenParameterItemProvider(this);
+		}
+
+		return genParameterItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -270,6 +293,7 @@ public class GenHenshinItemProviderAdapterFactory extends GenHenshinAdapterFacto
 		if (genTransformationItemProvider != null) genTransformationItemProvider.dispose();
 		if (genUnitItemProvider != null) genUnitItemProvider.dispose();
 		if (genRuleItemProvider != null) genRuleItemProvider.dispose();
+		if (genParameterItemProvider != null) genParameterItemProvider.dispose();
 	}
 
 }
