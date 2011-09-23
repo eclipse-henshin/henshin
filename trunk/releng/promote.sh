@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Check the parameters:
+if [ $# -ne 2 ]
+then
+  echo "Usage: promote.sh JOB DEST"
+  exit 1
+fi
+
+# The job and the destination:
+JOB=$1
+DEST=$2
+
 # Environment:
 JAVA_HOME=/opt/public/common/jdk-1.6.x86_64
 ANT_HOME=/opt/public/common/apache-ant-1.7.1
@@ -8,17 +19,14 @@ ANT=/opt/public/common/apache-ant-1.7.1/bin/ant
 # Directory for the drops:
 DROPS=/home/data/httpd/download.eclipse.org/modeling/emft/henshin/downloads/drops
 
-# Releng directories:
-NIGHTLY=/shared/jobs/cbi_henshin_nightly/workspace/build/org.eclipse.henshin.releng
-RELEASE=/shared/jobs/cbi_henshin_release/workspace/build/org.eclipse.henshin.releng
+# Releng directory:
+RELENG=/shared/jobs/$JOB/workspace/build/org.eclipse.henshin.releng
 
 # We need to rebuild the artifacts.jar from scratch:
-rm "$DROPS/../../updates/nightly/artifacts.jar"
-rm "$DROPS/../../updates/releases/artifacts.jar"
+rm "$DROPS/../../updates/$DEST/artifacts.jar"
 
 # Run the promote script:
-$ANT -f $NIGHTLY/promote.xml -Dpromote.properties=$NIGHTLY/promote.properties
-$ANT -f $RELEASE/promote.xml -Dpromote.properties=$RELEASE/promote.properties
+$ANT -f $RELENG/promote.xml -Dpromote.properties=$RELENG/promote.properties
 
 # Clean up:
 rm $DROPS/*/*/Henshin-examples* 2> /dev/null
@@ -43,10 +51,9 @@ function fix_incubation {
 fix_incubation $DROPS
 
 # Report possible problems:
-if [ ! "$(ls --hide=index.php $DROPS/../../updates/nightly/plugins)" ]; then
-	echo "Check out https://hudson.eclipse.org/hudson/job/cbi_henshin_nightly" | mail -s "Possible build problem for the nightly build of Henshin" henshin.ck@gmail.com
+if [ ! "$(ls --hide=index.php $DROPS/../../updates/$DEST/plugins)" ]; then
+	echo "Check out https://hudson.eclipse.org/hudson/job/$JOB" | mail -s "Possible build problem for $JOB" henshin.ck@gmail.com
 fi
-#
 
 
 ############################################################
@@ -74,7 +81,6 @@ fi
 #add_stats_update "nightly" "N"
 #add_stats_update "releases" "R"
 ############################################################
-
 
 
 ############################################################
