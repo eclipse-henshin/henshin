@@ -72,6 +72,14 @@ public class HenshinLinkUpdater {
 		// Known links:
 		Set<Edge> knownLinks = new HashSet<Edge>();
 		
+		// Known nodes:
+		Set<View> nodes = new HashSet<View>();
+		for (View node : invocations) {
+			if (node!=null) nodes.add(node);
+		}
+		if (begin!=null) nodes.add(begin);
+		if (end!=null) nodes.add(end);
+		
 		/* NOW WE ARE READY TO UPDATE THE LINKS */
 		
 		// Sequential and priority units:
@@ -93,25 +101,28 @@ public class HenshinLinkUpdater {
 		
 		// Independent units:
 		if (unit instanceof IndependentUnit) {
-				
+			int size = invocations.size();
+			
 			// Update the links:
-			if (subUnits.isEmpty()) {
+			if (size==0) {
 				knownLinks.add(updateLink(unit, begin, end));
-			} else {
+			}
+			else if (size==1) {
+				knownLinks.add(updateLink(unit, begin, invocations.get(0)));
+				knownLinks.add(updateLink(unit, invocations.get(0), end));
+			}
+			else {
+				View choice = getSymbol(unit, compartment, SymbolType.INDEPENDENT_CHOICE);
+				knownLinks.add(updateLink(unit, begin, choice));
 				for (View invocation : invocations) {
-					knownLinks.add(updateLink(unit, begin, invocation));
+					knownLinks.add(updateLink(unit, choice, invocation));
 					knownLinks.add(updateLink(unit, invocation, end));
 				}
+				nodes.add(choice);
 			}
 		}
 		
 		// Delete unknown links:
-		Set<View> nodes = new HashSet<View>(invocations.size()+1);
-		for (View node : invocations) {
-			if (node!=null) nodes.add(node);
-		}
-		if (begin!=null) nodes.add(begin);
-		if (end!=null) nodes.add(end);
 		deleteUnknownLinks(unitView.getDiagram(), knownLinks, nodes);
 
 	}

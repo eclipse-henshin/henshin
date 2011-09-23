@@ -1,12 +1,17 @@
 package org.eclipse.emf.henshin.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
+import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -44,26 +49,52 @@ public class HenshinSymbolUpdater {
 	
 	public void update(View unitView) {
 		
-		// Get the compartment view and the transformation unit:
+		// Get the compartment view, the transformation unit and the subUnits:
 		View compartment = getUnitCompartment(unitView);
 		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
+		EList<TransformationUnit> subUnits = unit.getSubUnits(false);
+		
+		// Remember the known symbols:
+		Set<View> knownSymbols = new HashSet<View>();
 		
 		// Always ensure that there are start and end symbols:
-		updateSymbol(unit, compartment, SymbolType.UNIT_BEGIN, 15, 15);
-		updateSymbol(unit, compartment, SymbolType.UNIT_END, 75, 15);
+		knownSymbols.add(ensureSingleSymbol(unit, compartment, SymbolType.UNIT_BEGIN, 15, 15));
+		knownSymbols.add(ensureSingleSymbol(unit, compartment, SymbolType.UNIT_END, 205, 15));
+		
+		// For IndependentUnits with more than 1 subUnits, we need a symbol for denoting the choice:
+		if (unit instanceof IndependentUnit && subUnits.size()>1) {
+			knownSymbols.add(ensureSingleSymbol(unit, compartment, SymbolType.INDEPENDENT_CHOICE, 50, 15));
+		}
+		
+		// Delete all unknown symbols:
+		deleteUnknownSymbols(unit, compartment, knownSymbols);
 		
 	}
 	
 	/*
 	 * Make sure there exists exactly one symbol of the given type.
 	 */
-	public void updateSymbol(TransformationUnit unit, View compartment, SymbolType type, int x, int y) {
+	public View ensureSingleSymbol(TransformationUnit unit, View compartment, SymbolType type, int x, int y) {
 		List<View> symbols = getSymbols(unit, compartment, type);
 		while (symbols.size()>1) {
 			ViewUtil.destroy(symbols.remove(symbols.size()-1));
 		}
 		if (symbols.isEmpty()) {
-			createSymbol(unit, compartment, -1, type, x, y);
+			return createSymbol(unit, compartment, -1, type, x, y);
+		} else {
+			return symbols.get(0);
+		}
+	}
+	
+	/*
+	 * Delete all unknown symbols in a unit compartment.
+	 */
+	private void deleteUnknownSymbols(TransformationUnit unit, View compartment, Collection<View> knownSymbols) {
+		List<View> allSymbols = getSymbols(unit, compartment, null);
+		for (View symbol : allSymbols) {
+			if (!knownSymbols.contains(symbol)) {
+				ViewUtil.destroy(symbol);
+			}
 		}
 	}
 	
@@ -76,7 +107,7 @@ public class HenshinSymbolUpdater {
 		for (Object child : compartment.getChildren()) {
 			View view = (View) child;
 			if (visualType.equals(view.getType())) {
-				if (SymbolType.get(view)==type) {
+				if (type==null || SymbolType.get(view)==type) {
 					result.add(view);
 				}
 			}

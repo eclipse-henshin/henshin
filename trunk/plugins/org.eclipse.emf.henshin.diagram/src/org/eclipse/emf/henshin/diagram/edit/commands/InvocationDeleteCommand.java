@@ -17,6 +17,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinSymbolUpdater;
+import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -53,6 +55,7 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 		if (invocationView==null || getInvocation()==null || getUnit()==null) {
 			return false;
 		}
+		// Invocation must be part of the parent unit:
 		if (!getUnit().getSubUnits(false).contains(getInvocation())) {
 			return false;
 		}
@@ -73,6 +76,15 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 		// Check the unit type:
 		if (unit instanceof SequentialUnit) {
 			((SequentialUnit) unit).getSubUnits().remove(invocation);
+		}
+		else if (unit instanceof PriorityUnit) {
+			((PriorityUnit) unit).getSubUnits().remove(invocation);
+		}
+		else if (unit instanceof IndependentUnit) {
+			((IndependentUnit) unit).getSubUnits().remove(invocation);
+		}
+		else {
+			return CommandResult.newErrorCommandResult("Unsupport unit type: " + unit.eClass().getName());
 		}
 		
 		// Delete the invocation view and update the unit view:

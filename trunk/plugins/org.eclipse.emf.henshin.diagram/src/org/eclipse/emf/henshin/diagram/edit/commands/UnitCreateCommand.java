@@ -130,8 +130,8 @@ public class UnitCreateCommand extends EditElementCommand {
 
 		// Supported unit types:
 		List<EClass> unitTypes = new ArrayList<EClass>();
-		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
-		unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
+		//unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
+		//unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());

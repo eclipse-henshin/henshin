@@ -13,10 +13,14 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -98,10 +102,9 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		return lep;
 	}
 
-	/**
+	/*
 	 * Create the node shape for this symbol.
 	 * The shape depends on the symbol type.
-	 * @generated NOT
 	 */
 	protected IFigure createNodeShape() {
 		SymbolType symbol = SymbolType.get(getNotationView());
@@ -110,6 +113,9 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 		else if (symbol==SymbolType.UNIT_END) {
 			primaryShape = new SymbolCircleFigure(false);
+		}
+		else if (symbol==SymbolType.INDEPENDENT_CHOICE) {
+			primaryShape = new IndependentChoiceSymbolFigure();
 		}
 		else {
 			primaryShape = new InvalidSymbolFigure();
@@ -143,7 +149,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 
 	/**
 	 * Get the primary shape of this edit part.
-	 * @generated NOT
+	 * @generated
 	 */
 	public IFigure getPrimaryShape() {
 		return primaryShape;
@@ -235,9 +241,6 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	public class SymbolCircleFigure extends Ellipse {
 
-		/**
-		 * @generated
-		 */
 		public SymbolCircleFigure() {
 			this.setForegroundColor(ColorConstants.black);
 			this.setBackgroundColor(ColorConstants.white);
@@ -269,8 +272,8 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 	}
 
-	/**
-	 * @generated NOT
+	/*
+	 * A figure for invalid symbols.
 	 */
 	public class InvalidSymbolFigure extends Ellipse {
 
@@ -282,5 +285,52 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 
 	}
+	
+	/*
+	 * A figure for independent choices.
+	 */
+	public class IndependentChoiceSymbolFigure extends Figure {
+		
+		public IndependentChoiceSymbolFigure() {
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.draw2d.Figure#paint(org.eclipse.draw2d.Graphics)
+		 */
+		@Override
+		public void paint(Graphics graphics) {
 
+			graphics.setForegroundColor(ColorConstants.black);
+			graphics.setBackgroundColor(ColorConstants.white);
+			graphics.setLineWidthFloat(1.0f);
+
+			Rectangle r = getBounds();
+
+			// We want to draw a diamond:
+			Point p1 = new Point(r.x, r.y + r.height/2);
+			Point p2 = new Point(r.x + r.width/2, r.y);
+			Point p3 = new Point(r.x + r.width - 1, r.y + r.height/2);
+			Point p4 = new Point(r.x + r.width/2, r.y + r.height - 1);
+
+			PointList pointList = new PointList();
+			pointList.addPoint(p1);
+			pointList.addPoint(p2);
+			pointList.addPoint(p3);
+			pointList.addPoint(p4);
+
+			// Fill the shape
+			graphics.fillPolygon(pointList);
+
+			// Draw the outline
+			graphics.drawLine(p1, p2);
+			graphics.drawLine(p2, p3);
+			graphics.drawLine(p3, p4);
+			graphics.drawLine(p4, p1);
+
+		}
+
+
+	}
+	
 }
