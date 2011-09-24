@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -28,6 +29,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.GraphComplexUnsetCommand;
@@ -41,10 +43,9 @@ import org.eclipse.emf.henshin.provider.trans.RuleMappingItemProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Rule} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Rule} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class RuleItemProvider extends TransformationUnitItemProvider implements
@@ -77,19 +78,62 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
+			addCheckDanglingPropertyDescriptor(object);
+			addInjectiveMatchingPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Check Dangling feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCheckDanglingPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Rule_checkDangling_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Rule_checkDangling_feature", "_UI_Rule_type"),
+				 HenshinPackage.Literals.RULE__CHECK_DANGLING,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Injective Matching feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addInjectiveMatchingPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Rule_injectiveMatching_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Rule_injectiveMatching_feature", "_UI_Rule_type"),
+				 HenshinPackage.Literals.RULE__INJECTIVE_MATCHING,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -127,47 +171,38 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-		
+
 		return super.getChildFeature(object, child);
 	}
 	
 	/**
-	 * This returns Rule.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Rule.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		Rule rule = (Rule) object;
-		Object ruleImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Rule"));
-		Object deactivatedImage = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-		
-		if (rule.isActivated() == false) {
-			ruleImage = IconUtil.getCompositeImage(ruleImage, deactivatedImage);
-		}
-		
-		return ruleImage;
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Rule"));
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Rule) object).getName();
-		return (label == null) || (label.length() == 0) ? getString("_UI_Rule_type")
-				: getString("_UI_Rule_type") + " " + label;
+		String label = ((Rule)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_Rule_type") :
+			getString("_UI_Rule_type") + " " + label;
 	}
 	
 	/**
@@ -258,19 +293,26 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__LHS,
-				HenshinFactory.eINSTANCE.createGraph()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__RHS,
-				HenshinFactory.eINSTANCE.createGraph()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS,
-				HenshinFactory.eINSTANCE.createAttributeCondition()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__MAPPINGS,
-				HenshinFactory.eINSTANCE.createMapping()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__LHS,
+				 HenshinFactory.eINSTANCE.createGraph()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__RHS,
+				 HenshinFactory.eINSTANCE.createGraph()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS,
+				 HenshinFactory.eINSTANCE.createAttributeCondition()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__MAPPINGS,
+				 HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
 	/**
@@ -285,13 +327,16 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			Collection<?> selection) {
 		Object childFeature = feature;
 		Object childObject = child;
-		
-		boolean qualify = (childFeature == HenshinPackage.Literals.RULE__LHS)
-				|| (childFeature == HenshinPackage.Literals.RULE__RHS);
-		
-		if (qualify)
-			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
-					getFeatureText(childFeature), getTypeText(owner) });
+
+		boolean qualify =
+			childFeature == HenshinPackage.Literals.RULE__LHS ||
+			childFeature == HenshinPackage.Literals.RULE__RHS;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
 	

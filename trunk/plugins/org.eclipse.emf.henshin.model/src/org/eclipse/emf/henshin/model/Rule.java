@@ -26,6 +26,8 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getAttributeConditions <em>Attribute Conditions</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMappings <em>Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#isCheckDangling <em>Check Dangling</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#isInjectiveMatching <em>Injective Matching</em>}</li>
  * </ul>
  * </p>
  *
@@ -148,6 +150,60 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	void setTransformationSystem(TransformationSystem value);
+
+	/**
+	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Check Dangling</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Check Dangling</em>' attribute.
+	 * @see #setCheckDangling(boolean)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_CheckDangling()
+	 * @model default="true"
+	 * @generated
+	 */
+	boolean isCheckDangling();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Rule#isCheckDangling <em>Check Dangling</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Check Dangling</em>' attribute.
+	 * @see #isCheckDangling()
+	 * @generated
+	 */
+	void setCheckDangling(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Injective Matching</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Injective Matching</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Injective Matching</em>' attribute.
+	 * @see #setInjectiveMatching(boolean)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_InjectiveMatching()
+	 * @model default="true"
+	 * @generated
+	 */
+	boolean isInjectiveMatching();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Rule#isInjectiveMatching <em>Injective Matching</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Injective Matching</em>' attribute.
+	 * @see #isInjectiveMatching()
+	 * @generated
+	 */
+	void setInjectiveMatching(boolean value);
 
 	/**
 	 * <!-- begin-user-doc -->

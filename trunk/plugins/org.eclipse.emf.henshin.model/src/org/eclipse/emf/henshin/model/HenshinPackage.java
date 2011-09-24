@@ -428,13 +428,31 @@ public interface HenshinPackage extends EPackage {
 	int RULE__TRANSFORMATION_SYSTEM = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Check Dangling</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__CHECK_DANGLING = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Injective Matching</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__INJECTIVE_MATCHING = TRANSFORMATION_UNIT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
+	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1739,6 +1757,28 @@ public interface HenshinPackage extends EPackage {
 	EReference getRule_TransformationSystem();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Rule#isCheckDangling <em>Check Dangling</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Check Dangling</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#isCheckDangling()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_CheckDangling();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Rule#isInjectiveMatching <em>Injective Matching</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Injective Matching</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#isInjectiveMatching()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EAttribute getRule_InjectiveMatching();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AttributeCondition <em>Attribute Condition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2633,6 +2673,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE__TRANSFORMATION_SYSTEM = eINSTANCE.getRule_TransformationSystem();
+
+		/**
+		 * The meta object literal for the '<em><b>Check Dangling</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__CHECK_DANGLING = eINSTANCE.getRule_CheckDangling();
+
+		/**
+		 * The meta object literal for the '<em><b>Injective Matching</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE__INJECTIVE_MATCHING = eINSTANCE.getRule_InjectiveMatching();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.

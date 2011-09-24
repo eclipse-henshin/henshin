@@ -44,6 +44,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getAttributeConditions <em>Attribute Conditions</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMappings <em>Mappings</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getTransformationSystem <em>Transformation System</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isCheckDangling <em>Check Dangling</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isInjectiveMatching <em>Injective Matching</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,6 +90,46 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 */
 	protected EList<Mapping> mappings;
 	
+	/**
+	 * The default value of the '{@link #isCheckDangling() <em>Check Dangling</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isCheckDangling()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean CHECK_DANGLING_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isCheckDangling() <em>Check Dangling</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isCheckDangling()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean checkDangling = CHECK_DANGLING_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isInjectiveMatching() <em>Injective Matching</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInjectiveMatching()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INJECTIVE_MATCHING_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isInjectiveMatching() <em>Injective Matching</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInjectiveMatching()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean injectiveMatching = INJECTIVE_MATCHING_EDEFAULT;
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -247,6 +289,48 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isCheckDangling() {
+		return checkDangling;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCheckDangling(boolean newCheckDangling) {
+		boolean oldCheckDangling = checkDangling;
+		checkDangling = newCheckDangling;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__CHECK_DANGLING, oldCheckDangling, checkDangling));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isInjectiveMatching() {
+		return injectiveMatching;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInjectiveMatching(boolean newInjectiveMatching) {
+		boolean oldInjectiveMatching = injectiveMatching;
+		injectiveMatching = newInjectiveMatching;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__INJECTIVE_MATCHING, oldInjectiveMatching, injectiveMatching));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
@@ -345,6 +429,10 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				return getMappings();
 			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
 				return getTransformationSystem();
+			case HenshinPackage.RULE__CHECK_DANGLING:
+				return isCheckDangling();
+			case HenshinPackage.RULE__INJECTIVE_MATCHING:
+				return isInjectiveMatching();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -374,6 +462,12 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
 				setTransformationSystem((TransformationSystem)newValue);
 				return;
+			case HenshinPackage.RULE__CHECK_DANGLING:
+				setCheckDangling((Boolean)newValue);
+				return;
+			case HenshinPackage.RULE__INJECTIVE_MATCHING:
+				setInjectiveMatching((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -400,6 +494,12 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
 				setTransformationSystem((TransformationSystem)null);
 				return;
+			case HenshinPackage.RULE__CHECK_DANGLING:
+				setCheckDangling(CHECK_DANGLING_EDEFAULT);
+				return;
+			case HenshinPackage.RULE__INJECTIVE_MATCHING:
+				setInjectiveMatching(INJECTIVE_MATCHING_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -421,10 +521,32 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				return mappings != null && !mappings.isEmpty();
 			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
 				return getTransformationSystem() != null;
+			case HenshinPackage.RULE__CHECK_DANGLING:
+				return checkDangling != CHECK_DANGLING_EDEFAULT;
+			case HenshinPackage.RULE__INJECTIVE_MATCHING:
+				return injectiveMatching != INJECTIVE_MATCHING_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (checkDangling: ");
+		result.append(checkDangling);
+		result.append(", injectiveMatching: ");
+		result.append(injectiveMatching);
+		result.append(')');
+		return result.toString();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public EList<TransformationUnit> getSubUnits(boolean deep) {
