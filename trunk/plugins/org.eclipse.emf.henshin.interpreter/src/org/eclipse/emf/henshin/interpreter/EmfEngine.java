@@ -89,8 +89,6 @@ public class EmfEngine implements InterpreterEngine {
 		
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		scriptEngine = mgr.getEngineByName("JavaScript");
-		
-		options = new TransformationOptions();
 	}
 	
 	/**
@@ -135,8 +133,14 @@ public class EmfEngine implements InterpreterEngine {
 		for (Variable mainVariable : variableInfo.getMainVariables()) {
 			Node node = variableInfo.getVariableForNode(mainVariable);
 			
-			// use injective, deterministic matching for nested conditions
 			TransformationOptions options = getOptions();
+			if (options == null) {
+				options = new TransformationOptions();
+				options.setDangling(ruleInfo.getRule().isCheckDangling());
+				options.setInjective(ruleInfo.getRule().isInjectiveMatching());
+			}
+				
+			// use injective, deterministic matching for nested conditions
 			if (node.getGraph() != ruleInfo.getRule().getLhs()) {
 				options = new TransformationOptions();
 				options.setDeterministic(true);
