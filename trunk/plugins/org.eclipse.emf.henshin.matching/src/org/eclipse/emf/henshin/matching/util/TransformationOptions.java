@@ -26,16 +26,10 @@ public class TransformationOptions {
 		dangling = true;
 	}
 
-	/**
-	 * @deprecated Use Rule#isInjectiveMatching()
-	 */
 	public boolean isInjective() {
 		return injective;
 	}
 
-	/**
-	 * @deprecated Use Rule#setInjectiveMatching()
-	 */
 	public void setInjective(boolean injective) {
 		this.injective = injective;
 	}
@@ -48,16 +42,10 @@ public class TransformationOptions {
 		this.deterministic = deterministic;
 	}
 
-	/**
-	 * @deprecated Use Rule#isCheckDangling()
-	 */
 	public boolean isDangling() {
 		return dangling;
 	}
 
-	/**
-	 * @deprecated Use Rule#setCheckDangling()
-	 */
 	public void setDangling(boolean dangling) {
 		this.dangling = dangling;
 	}
