@@ -4,15 +4,15 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="codegen"
     nsURI="http://www.eclipse.org/emf/2011/Henshin/codegen" nsPrefix="codegen">
   <eClassifiers xsi:type="ecore:EClass" name="GenHenshin">
-    <eOperations name="getCopyrightComment" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eOperations name="applyInterfacePattern" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
-      <eParameters name="baseName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getCopyrightComment" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="applyInterfacePattern" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eParameters name="baseName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     </eOperations>
-    <eOperations name="applyImplementationPattern" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
-      <eParameters name="baseName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="applyImplementationPattern" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eParameters name="baseName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     </eOperations>
-    <eOperations name="getRequiredPlugins" upperBound="-1" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginID" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getRequiredPlugins" upperBound="-1" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pluginID" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="copyrightText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -22,24 +22,24 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPattern"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supressInterfaces" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supressInterfaces" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genTransformations" upperBound="-1"
         eType="#//GenTransformation" containment="true" eOpposite="#//GenTransformation/genHenshin"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genModels" upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenModel"/>
+        eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenModel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenTransformation">
-    <eOperations name="getGenPackage" eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage">
-      <eParameters name="ePackage" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
+    <eOperations name="getGenPackage" eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage">
+      <eParameters name="ePackage" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EPackage"/>
     </eOperations>
-    <eOperations name="getGenClass" eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenClass">
-      <eParameters name="eClass" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+    <eOperations name="getGenClass" eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenClass">
+      <eParameters name="eClass" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
     </eOperations>
-    <eOperations name="getTransformationClassFormatted" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
+    <eOperations name="getTransformationClassFormatted" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformation" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="transformationClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage"/>
+        eType="ecore:EClass ../../org.eclipse.emf.codegen.ecore/model/GenModel.ecore#//GenPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genUnits" upperBound="-1"
         eType="#//GenUnit" containment="true" eOpposite="#//GenUnit/genTransformation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genHenshin" eType="#//GenHenshin"
@@ -47,18 +47,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="engine" eType="#//TransformationEngine"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenUnit">
-    <eOperations name="getMethodFormatted" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eOperations name="getResultTypeName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eOperations name="getResultTypeInterface" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
-      <eParameters name="indent" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getMethodFormatted" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getResultTypeName" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getResultTypeInterface" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eParameters name="indent" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     </eOperations>
-    <eOperations name="getResultTypeImplementation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
-      <eParameters name="indent" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-      <eParameters name="result" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-      <eParameters name="output" upperBound="-1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry"/>
+    <eOperations name="getResultTypeImplementation" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString">
+      <eParameters name="indent" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+      <eParameters name="result" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+      <eParameters name="output" upperBound="-1" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry"/>
     </eOperations>
-    <eOperations name="getInputGenParametersFormatted" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
+    <eOperations name="getInputGenParametersFormatted" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="public" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
@@ -70,14 +70,14 @@
         eType="#//GenParameter" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenRule" eSuperTypes="#//GenUnit">
-    <eOperations name="getRule" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+    <eOperations name="getRule" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenParameter">
-    <eOperations name="getNameFormatted" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eOperations name="getNameFormatted" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
     <eOperations name="getGenUnit" eType="#//GenUnit"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="ecore:EClass platform:/plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TransformationEngine">
     <eLiterals name="INTERPRETER"/>
