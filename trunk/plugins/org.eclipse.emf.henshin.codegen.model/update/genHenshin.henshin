@@ -11,26 +11,28 @@
       <nodes xmi:id="_ZrRiEOggEeCAV5hoRt0LtQ" name="trafo">
         <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
       </nodes>
-      <formula xsi:type="henshin:NestedCondition" xmi:id="_vGEPsOggEeCAV5hoRt0LtQ" negated="true">
-        <conclusion xmi:id="_vGEPseggEeCAV5hoRt0LtQ" name="default">
-          <nodes xmi:id="_t04UoOggEeCAV5hoRt0LtQ" incoming="_y2yIQOggEeCAV5hoRt0LtQ" outgoing="_xUM7MOggEeCAV5hoRt0LtQ">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
-          </nodes>
-          <nodes xmi:id="_xULGAOggEeCAV5hoRt0LtQ" name="trafo" incoming="_xUM7MOggEeCAV5hoRt0LtQ">
-            <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
-          </nodes>
-          <nodes xmi:id="_y2vsAOggEeCAV5hoRt0LtQ" name="genHenshin" outgoing="_y2yIQOggEeCAV5hoRt0LtQ">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenHenshin"/>
-          </nodes>
-          <edges xmi:id="_xUM7MOggEeCAV5hoRt0LtQ" source="_t04UoOggEeCAV5hoRt0LtQ" target="_xULGAOggEeCAV5hoRt0LtQ">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/transformation"/>
-          </edges>
-          <edges xmi:id="_y2yIQOggEeCAV5hoRt0LtQ" source="_y2vsAOggEeCAV5hoRt0LtQ" target="_t04UoOggEeCAV5hoRt0LtQ">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenHenshin/genTransformations"/>
-          </edges>
-        </conclusion>
-        <mappings xmi:id="_xULGAeggEeCAV5hoRt0LtQ" origin="_ZrRiEOggEeCAV5hoRt0LtQ" image="_xULGAOggEeCAV5hoRt0LtQ"/>
-        <mappings xmi:id="_y2wTEOggEeCAV5hoRt0LtQ" origin="_Svs3EOggEeCAV5hoRt0LtQ" image="_y2vsAOggEeCAV5hoRt0LtQ"/>
+      <formula xsi:type="henshin:Not" xmi:id="_hElXUOgzEeCtjbJSRBHkOw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_hElXUegzEeCtjbJSRBHkOw">
+          <conclusion xmi:id="_hElXUugzEeCtjbJSRBHkOw" name="default">
+            <nodes xmi:id="_hEnMgOgzEeCtjbJSRBHkOw" name="context" outgoing="_y2yIQOggEeCAV5hoRt0LtQ">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenHenshin"/>
+            </nodes>
+            <nodes xmi:id="_hEvvYOgzEeCtjbJSRBHkOw" name="trafo" incoming="_xUM7MOggEeCAV5hoRt0LtQ">
+              <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationSystem"/>
+            </nodes>
+            <nodes xmi:id="_t04UoOggEeCAV5hoRt0LtQ" incoming="_y2yIQOggEeCAV5hoRt0LtQ" outgoing="_xUM7MOggEeCAV5hoRt0LtQ">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
+            </nodes>
+            <edges xmi:id="_y2yIQOggEeCAV5hoRt0LtQ" source="_hEnMgOgzEeCtjbJSRBHkOw" target="_t04UoOggEeCAV5hoRt0LtQ">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenHenshin/genTransformations"/>
+            </edges>
+            <edges xmi:id="_xUM7MOggEeCAV5hoRt0LtQ" source="_t04UoOggEeCAV5hoRt0LtQ" target="_hEvvYOgzEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/transformation"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_hEnMgegzEeCtjbJSRBHkOw" origin="_Svs3EOggEeCAV5hoRt0LtQ" image="_hEnMgOgzEeCtjbJSRBHkOw"/>
+          <mappings xmi:id="_hEvvYegzEeCtjbJSRBHkOw" origin="_ZrRiEOggEeCAV5hoRt0LtQ" image="_hEvvYOgzEeCtjbJSRBHkOw"/>
+        </child>
       </formula>
     </lhs>
     <rhs xmi:id="_Zg6hougfEeCAV5hoRt0LtQ" name="RHS">
@@ -64,26 +66,28 @@
       <nodes xmi:id="_TBfRAOgoEeCtjbJSRBHkOw" name="unit">
         <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
       </nodes>
-      <formula xsi:type="henshin:NestedCondition" xmi:id="_a9p2UOgoEeCtjbJSRBHkOw" negated="true">
-        <conclusion xmi:id="_a9p2UegoEeCtjbJSRBHkOw" name="default">
-          <nodes xmi:id="_VsKukOgoEeCtjbJSRBHkOw" incoming="_a80WkOgtEeCtjbJSRBHkOw" outgoing="_jPVmYOgtEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit"/>
-          </nodes>
-          <nodes xmi:id="_a8UnUOgtEeCtjbJSRBHkOw" name="context" outgoing="_a80WkOgtEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
-          </nodes>
-          <nodes xmi:id="_jPTKIOgtEeCtjbJSRBHkOw" name="unit" incoming="_jPVmYOgtEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
-          </nodes>
-          <edges xmi:id="_a80WkOgtEeCtjbJSRBHkOw" source="_a8UnUOgtEeCtjbJSRBHkOw" target="_VsKukOgoEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
-          </edges>
-          <edges xmi:id="_jPVmYOgtEeCtjbJSRBHkOw" source="_VsKukOgoEeCtjbJSRBHkOw" target="_jPTKIOgtEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
-          </edges>
-        </conclusion>
-        <mappings xmi:id="_a8zvgOgtEeCtjbJSRBHkOw" origin="_yrLRAOgnEeCtjbJSRBHkOw" image="_a8UnUOgtEeCtjbJSRBHkOw"/>
-        <mappings xmi:id="_jPUYQOgtEeCtjbJSRBHkOw" origin="_TBfRAOgoEeCtjbJSRBHkOw" image="_jPTKIOgtEeCtjbJSRBHkOw"/>
+      <formula xsi:type="henshin:Not" xmi:id="_hDIbQOgyEeCtjbJSRBHkOw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_hDIbQegyEeCtjbJSRBHkOw">
+          <conclusion xmi:id="_hDIbQugyEeCtjbJSRBHkOw" name="default">
+            <nodes xmi:id="_hDMFoOgyEeCtjbJSRBHkOw" name="context" outgoing="_a80WkOgtEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
+            </nodes>
+            <nodes xmi:id="_hDWdsOgyEeCtjbJSRBHkOw" name="unit" incoming="_jPVmYOgtEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
+            </nodes>
+            <nodes xmi:id="_VsKukOgoEeCtjbJSRBHkOw" incoming="_a80WkOgtEeCtjbJSRBHkOw" outgoing="_jPVmYOgtEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit"/>
+            </nodes>
+            <edges xmi:id="_a80WkOgtEeCtjbJSRBHkOw" source="_hDMFoOgyEeCtjbJSRBHkOw" target="_VsKukOgoEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
+            </edges>
+            <edges xmi:id="_jPVmYOgtEeCtjbJSRBHkOw" source="_VsKukOgoEeCtjbJSRBHkOw" target="_hDWdsOgyEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_hDMssOgyEeCtjbJSRBHkOw" origin="_yrLRAOgnEeCtjbJSRBHkOw" image="_hDMFoOgyEeCtjbJSRBHkOw"/>
+          <mappings xmi:id="_hDWdsegyEeCtjbJSRBHkOw" origin="_TBfRAOgoEeCtjbJSRBHkOw" image="_hDWdsOgyEeCtjbJSRBHkOw"/>
+        </child>
       </formula>
     </lhs>
     <rhs xmi:id="_sjGfgegnEeCtjbJSRBHkOw" name="RHS">
@@ -117,26 +121,28 @@
       <nodes xmi:id="_E_ppwOgvEeCtjbJSRBHkOw" name="context">
         <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
       </nodes>
-      <formula xsi:type="henshin:NestedCondition" xmi:id="_N1PxcOgvEeCtjbJSRBHkOw" negated="true">
-        <conclusion xmi:id="_N1PxcegvEeCtjbJSRBHkOw" name="default">
-          <nodes xmi:id="_N1QYgOgvEeCtjbJSRBHkOw" name="context" outgoing="_KZ3PsOgvEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
-          </nodes>
-          <nodes xmi:id="_72P1QOguEeCtjbJSRBHkOw" incoming="_KZ3PsOgvEeCtjbJSRBHkOw" outgoing="_PxyWoOgvEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenRule"/>
-          </nodes>
-          <nodes xmi:id="_PxwhcOgvEeCtjbJSRBHkOw" name="rule" incoming="_PxyWoOgvEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
-          </nodes>
-          <edges xmi:id="_KZ3PsOgvEeCtjbJSRBHkOw" source="_N1QYgOgvEeCtjbJSRBHkOw" target="_72P1QOguEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
-          </edges>
-          <edges xmi:id="_PxyWoOgvEeCtjbJSRBHkOw" source="_72P1QOguEeCtjbJSRBHkOw" target="_PxwhcOgvEeCtjbJSRBHkOw">
-            <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
-          </edges>
-        </conclusion>
-        <mappings xmi:id="_N1Q_kOgvEeCtjbJSRBHkOw" origin="_E_ppwOgvEeCtjbJSRBHkOw" image="_N1QYgOgvEeCtjbJSRBHkOw"/>
-        <mappings xmi:id="_PxxIgOgvEeCtjbJSRBHkOw" origin="_6RrEIOguEeCtjbJSRBHkOw" image="_PxwhcOgvEeCtjbJSRBHkOw"/>
+      <formula xsi:type="henshin:Not" xmi:id="_yO0EIOgyEeCtjbJSRBHkOw">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_yO0EIegyEeCtjbJSRBHkOw">
+          <conclusion xmi:id="_yO0EIugyEeCtjbJSRBHkOw" name="default">
+            <nodes xmi:id="_yO3HcOgyEeCtjbJSRBHkOw" name="context" outgoing="_KZ3PsOgvEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
+            </nodes>
+            <nodes xmi:id="_yPA4cOgyEeCtjbJSRBHkOw" name="rule" incoming="_PxyWoOgvEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+            </nodes>
+            <nodes xmi:id="_72P1QOguEeCtjbJSRBHkOw" incoming="_KZ3PsOgvEeCtjbJSRBHkOw" outgoing="_PxyWoOgvEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenRule"/>
+            </nodes>
+            <edges xmi:id="_KZ3PsOgvEeCtjbJSRBHkOw" source="_yO3HcOgyEeCtjbJSRBHkOw" target="_72P1QOguEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
+            </edges>
+            <edges xmi:id="_PxyWoOgvEeCtjbJSRBHkOw" source="_72P1QOguEeCtjbJSRBHkOw" target="_yPA4cOgyEeCtjbJSRBHkOw">
+              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_yO3ugOgyEeCtjbJSRBHkOw" origin="_E_ppwOgvEeCtjbJSRBHkOw" image="_yO3HcOgyEeCtjbJSRBHkOw"/>
+          <mappings xmi:id="_yPA4cegyEeCtjbJSRBHkOw" origin="_6RrEIOguEeCtjbJSRBHkOw" image="_yPA4cOgyEeCtjbJSRBHkOw"/>
+        </child>
       </formula>
     </lhs>
     <rhs xmi:id="_zWO8AuguEeCtjbJSRBHkOw" name="RHS">

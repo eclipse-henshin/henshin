@@ -68,7 +68,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_2KnMUugnEeCtjbJSRBHkOw"/>
         </children>
         <element xmi:type="henshin:Node" href="genHenshin.henshin#_2KhswOgnEeCtjbJSRBHkOw"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2Kl-MegnEeCtjbJSRBHkOw" x="319" y="89"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2Kl-MegnEeCtjbJSRBHkOw" x="304" y="89"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_TBkJgOgoEeCtjbJSRBHkOw" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_TBkJgugoEeCtjbJSRBHkOw" type="5002"/>
@@ -105,7 +105,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_45B2NOguEeCtjbJSRBHkOw"/>
         </children>
         <element xmi:type="henshin:Node" href="genHenshin.henshin#_4489sOguEeCtjbJSRBHkOw"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_45BPIeguEeCtjbJSRBHkOw" x="321" y="107"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_45BPIeguEeCtjbJSRBHkOw" x="306" y="107"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_6Rv8oOguEeCtjbJSRBHkOw" type="3001" fontName="Sans">
         <children xmi:type="notation:DecorationNode" xmi:id="_6RwjsOguEeCtjbJSRBHkOw" type="5002"/>
@@ -240,7 +240,7 @@
     <styles xmi:type="notation:FontStyle" xmi:id="_i4LOIeguEeCtjbJSRBHkOw" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="genHenshin.henshin#_i4HjwOguEeCtjbJSRBHkOw"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_i4LOIuguEeCtjbJSRBHkOw" points="[-1, 34, 2, -68]$[17, 69, 20, -33]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i4RUwOguEeCtjbJSRBHkOw" id="(0.47058823529411764,0.19047619047619047)"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i4RUwOguEeCtjbJSRBHkOw" id="(0.45294117647058824,0.19047619047619047)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i4RUweguEeCtjbJSRBHkOw" id="(0.42718446601941745,0.7857142857142857)"/>
   </edges>
   <edges xmi:type="notation:Connector" xmi:id="_KZ8IMOgvEeCtjbJSRBHkOw" type="4001" source="_E_vwYOgvEeCtjbJSRBHkOw" target="_72V74OguEeCtjbJSRBHkOw">
@@ -288,6 +288,5 @@
     <styles xmi:type="notation:FontStyle" xmi:id="_ZhyREegvEeCtjbJSRBHkOw" fontName="Sans"/>
     <element xmi:type="henshin:Edge" href="genHenshin.henshin#_Zhq8UOgvEeCtjbJSRBHkOw"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ZhyREugvEeCtjbJSRBHkOw" points="[0, 37, -4, -65]$[-27, 123, -31, 21]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Zh2igOgvEeCtjbJSRBHkOw" id="(0.47058823529411764,0.11904761904761904)"/>
   </edges>
 </notation:Diagram>
