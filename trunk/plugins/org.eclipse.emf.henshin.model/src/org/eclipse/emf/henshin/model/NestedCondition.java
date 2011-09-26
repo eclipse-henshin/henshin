@@ -35,16 +35,13 @@ public interface NestedCondition extends Formula {
 	/**
 	 * Returns the value of the '<em><b>Negated</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Negated</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Negated</em>' attribute.
 	 * @see #setNegated(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Negated()
 	 * @model
 	 * @generated
+	 * @deprecated Use {@link Not} to represent negative conditions.
 	 */
 	boolean isNegated();
 
@@ -55,16 +52,13 @@ public interface NestedCondition extends Formula {
 	 * @param value the new value of the '<em>Negated</em>' attribute.
 	 * @see #isNegated()
 	 * @generated
+	 * @deprecated Use {@link Not} to represent negative conditions.
 	 */
 	void setNegated(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Conclusion</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Conclusion</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Conclusion</em>' containment reference.
 	 * @see #setConclusion(Graph)
@@ -88,10 +82,6 @@ public interface NestedCondition extends Formula {
 	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Mappings()
