@@ -13,5 +13,6 @@ Export-Package: org.eclipse.emf.henshin.codegen.model,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.codegen.ecore;visibility:=reexport,
- org.eclipse.emf.henshin.model;visibility:=reexport
+ org.eclipse.emf.henshin.model;visibility:=reexport,
+ org.eclipse.emf.henshin.interpreter;bundle-version="0.8.1"
 Bundle-ActivationPolicy: lazy
