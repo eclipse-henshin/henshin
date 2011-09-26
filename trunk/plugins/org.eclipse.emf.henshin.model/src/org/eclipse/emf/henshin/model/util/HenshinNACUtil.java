@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -75,9 +76,21 @@ public class HenshinNACUtil {
 		}
 		
 		// The actual NACs (NestedCondition):
+		
+		// THIS PART WILL BE REMOVED:
 		else if (formula instanceof NestedCondition) {
 			NestedCondition nested = (NestedCondition) formula;
 			if (nested.isNegated()) nacs.add(nested);
+		}
+		// END OF REMOVAL PART
+		
+		// NestedConditions wrapped by a Not (the NACs):
+		else if (formula instanceof Not) {
+			Formula child = ((Not) formula).getChild();
+			if (child instanceof NestedCondition) {
+				NestedCondition nested = (NestedCondition) child;
+				if (!nested.isNegated()) nacs.add(nested);	// CHECK WILL BE REMOVED
+			}
 		}
 		
 		// Done.
@@ -93,18 +106,21 @@ public class HenshinNACUtil {
 		
 		// Create the NAC:
 		NestedCondition nac = HenshinFactory.eINSTANCE.createNestedCondition();
-		nac.setNegated(true);
 		Graph graph = HenshinFactory.eINSTANCE.createGraph();
 		graph.setName(name);
 		nac.setConclusion(graph);
 		
+		// Wrapped in a 'Not'!!
+		Not not = HenshinFactory.eINSTANCE.createNot();
+		not.setChild(nac);
+		
 		// Add it to the rule:
 		if (rule.getLhs().getFormula()==null) {
-			rule.getLhs().setFormula(nac);
+			rule.getLhs().setFormula(not);
 		} else {
 			And and = HenshinFactory.eINSTANCE.createAnd();
 			and.setLeft(rule.getLhs().getFormula());
-			and.setRight(nac);
+			and.setRight(not);
 			rule.getLhs().setFormula(and);
 		}
 		
