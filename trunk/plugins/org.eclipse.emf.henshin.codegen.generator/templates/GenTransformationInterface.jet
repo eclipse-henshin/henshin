@@ -23,7 +23,7 @@ for (GenUnit genUnit : genTrafo.getGenUnits()) {
 	/**
 	 * @generated
 	 */
-	<%= genUnit.getResultTypeInterface("\t") %>
+<%= genUnit.getResultTypeInterface("\t") %>
 
 	/**
 	 * @generated

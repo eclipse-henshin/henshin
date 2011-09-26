@@ -314,7 +314,7 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	 */
 	public String getResultTypeName() {
 		if (getOutputGenParameters().isEmpty()) {
-			return Boolean.TYPE.getName();
+			return "boolean";
 		} else {
 			return capitalize(getMethodFormatted()) + "Result";
 		}
@@ -337,11 +337,11 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 			return "";
 		} else {
 			String result = indent + "interface " + getResultTypeName() + " {\n";
-			result = result + indent + "\t" + "getResult();\n";
+			result = result + indent + "\t" + "boolean getResult();\n";
 			for (GenParameter outParam : getOutputGenParameters()) {
-				result = result + indent + "\t" + "get" + capitalize(outParam.getNameFormatted()) + "();\n";
+				result = result + indent + "\t" + outParam.getType() + " get" + capitalize(outParam.getNameFormatted()) + "();\n";
 			}
-			result = result + "\n" + indent + "}";
+			result = result + indent + "}";
 			return result;
 		}
 	}

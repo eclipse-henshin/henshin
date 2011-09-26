@@ -531,9 +531,8 @@ public class GenHenshinImpl extends EObjectImpl implements GenHenshin {
 		plugins.add("org.eclipse.emf.ecore");
 		for (GenTransformation genTrafo : getGenTransformations()) {
 			if (genTrafo.getEngine()==TransformationEngine.INTERPRETER) {
-				plugins.add("org.eclipse.emf.henshin.common");
-				plugins.add("org.eclipse.emf.henshin.interpreter");
 				plugins.add("org.eclipse.emf.henshin.model");
+				plugins.add("org.eclipse.emf.henshin.interpreter");
 				break;
 			}
 		}

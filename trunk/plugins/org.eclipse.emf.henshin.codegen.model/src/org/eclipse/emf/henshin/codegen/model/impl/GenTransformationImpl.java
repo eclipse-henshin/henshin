@@ -288,10 +288,20 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	 * @generated NOT
 	 */
 	public GenPackage getGenPackage(EPackage ePackage) {
+		// Check based on identity:
 		for (GenPackage genPackage : getGenPackages()) {
 			if (genPackage.getEcorePackage()==ePackage) {
 				return genPackage;
 			}
+		}
+		// Check based on nsURI equality:
+		String nsURI = ePackage.getNsURI();
+		if (nsURI!=null && nsURI.trim().length()!=0) {
+			for (GenPackage genPackage : getGenPackages()) {
+				if (nsURI.equals(genPackage.getEcorePackage().getNsURI())) {
+					return genPackage;
+				}
+			}			
 		}
 		return null;
 	}
@@ -304,10 +314,20 @@ public class GenTransformationImpl extends EObjectImpl implements GenTransformat
 	public GenClass getGenClass(EClass eClass) {
 		GenPackage genPackage = getGenPackage(eClass.getEPackage());
 		if (genPackage!=null) {
+			// Check based on identity:
 			for (GenClass genClass : genPackage.getGenClasses()) {
 				if (genClass.getEcoreClass()==eClass) {
 					return genClass;
 				}
+			}
+			// Check based on name equality:
+			String name = eClass.getName();
+			if (name!=null && name.trim().length()!=0) {
+				for (GenClass genClass : genPackage.getGenClasses()) {
+					if (name.equals(genClass.getEcoreClass().getName())) {
+						return genClass;
+					}
+				}				
 			}
 		}
 		return null;

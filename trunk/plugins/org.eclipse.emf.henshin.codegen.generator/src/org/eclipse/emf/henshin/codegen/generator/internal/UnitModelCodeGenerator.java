@@ -130,7 +130,7 @@ public class UnitModelCodeGenerator {
 			if (genClass!=null) {
 				GenPackage genPackage = genClass.getGenPackage();
 				pack = genPackage.getInterfacePackageName();
-				clazz = genClass.getImportedInterfaceName();
+				clazz = genClass.getImportedMetaType();
 			} else {
 				pack = node.getType().getEPackage().getName();
 				pack = capitalize(pack) + "Package";

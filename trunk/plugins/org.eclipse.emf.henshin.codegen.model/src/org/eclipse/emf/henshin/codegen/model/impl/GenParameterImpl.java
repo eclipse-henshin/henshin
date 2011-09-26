@@ -167,9 +167,13 @@ public class GenParameterImpl extends EObjectImpl implements GenParameter {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public String getType() {
+	public String getType() {		
+		// If the type is empty, we default to 'Object':
+		if (type==null || type.trim().length()==0) {
+			return "Object";
+		}
 		return type;
 	}
 
