@@ -66,28 +66,40 @@
       <nodes xmi:id="_TBfRAOgoEeCtjbJSRBHkOw" name="unit">
         <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
       </nodes>
-      <formula xsi:type="henshin:Not" xmi:id="_hDIbQOgyEeCtjbJSRBHkOw">
-        <child xsi:type="henshin:NestedCondition" xmi:id="_hDIbQegyEeCtjbJSRBHkOw">
-          <conclusion xmi:id="_hDIbQugyEeCtjbJSRBHkOw" name="default">
-            <nodes xmi:id="_hDMFoOgyEeCtjbJSRBHkOw" name="context" outgoing="_a80WkOgtEeCtjbJSRBHkOw">
-              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
-            </nodes>
-            <nodes xmi:id="_hDWdsOgyEeCtjbJSRBHkOw" name="unit" incoming="_jPVmYOgtEeCtjbJSRBHkOw">
-              <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
-            </nodes>
-            <nodes xmi:id="_VsKukOgoEeCtjbJSRBHkOw" incoming="_a80WkOgtEeCtjbJSRBHkOw" outgoing="_jPVmYOgtEeCtjbJSRBHkOw">
-              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit"/>
-            </nodes>
-            <edges xmi:id="_a80WkOgtEeCtjbJSRBHkOw" source="_hDMFoOgyEeCtjbJSRBHkOw" target="_VsKukOgoEeCtjbJSRBHkOw">
-              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
-            </edges>
-            <edges xmi:id="_jPVmYOgtEeCtjbJSRBHkOw" source="_VsKukOgoEeCtjbJSRBHkOw" target="_hDWdsOgyEeCtjbJSRBHkOw">
-              <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
-            </edges>
-          </conclusion>
-          <mappings xmi:id="_hDMssOgyEeCtjbJSRBHkOw" origin="_yrLRAOgnEeCtjbJSRBHkOw" image="_hDMFoOgyEeCtjbJSRBHkOw"/>
-          <mappings xmi:id="_hDWdsegyEeCtjbJSRBHkOw" origin="_TBfRAOgoEeCtjbJSRBHkOw" image="_hDWdsOgyEeCtjbJSRBHkOw"/>
-        </child>
+      <formula xsi:type="henshin:And" xmi:id="_Lhun8Og1EeCtjbJSRBHkOw">
+        <left xsi:type="henshin:Not" xmi:id="_hDIbQOgyEeCtjbJSRBHkOw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_hDIbQegyEeCtjbJSRBHkOw">
+            <conclusion xmi:id="_hDIbQugyEeCtjbJSRBHkOw" name="default">
+              <nodes xmi:id="_hDMFoOgyEeCtjbJSRBHkOw" name="context" outgoing="_a80WkOgtEeCtjbJSRBHkOw">
+                <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation"/>
+              </nodes>
+              <nodes xmi:id="_hDWdsOgyEeCtjbJSRBHkOw" name="unit" incoming="_jPVmYOgtEeCtjbJSRBHkOw">
+                <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//TransformationUnit"/>
+              </nodes>
+              <nodes xmi:id="_VsKukOgoEeCtjbJSRBHkOw" incoming="_a80WkOgtEeCtjbJSRBHkOw" outgoing="_jPVmYOgtEeCtjbJSRBHkOw">
+                <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit"/>
+              </nodes>
+              <edges xmi:id="_a80WkOgtEeCtjbJSRBHkOw" source="_hDMFoOgyEeCtjbJSRBHkOw" target="_VsKukOgoEeCtjbJSRBHkOw">
+                <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenTransformation/genUnits"/>
+              </edges>
+              <edges xmi:id="_jPVmYOgtEeCtjbJSRBHkOw" source="_VsKukOgoEeCtjbJSRBHkOw" target="_hDWdsOgyEeCtjbJSRBHkOw">
+                <type href="../../../plugin/org.eclipse.emf.henshin.codegen.model/model/genHenshin.ecore#//GenUnit/unit"/>
+              </edges>
+            </conclusion>
+            <mappings xmi:id="_hDMssOgyEeCtjbJSRBHkOw" origin="_yrLRAOgnEeCtjbJSRBHkOw" image="_hDMFoOgyEeCtjbJSRBHkOw"/>
+            <mappings xmi:id="_hDWdsegyEeCtjbJSRBHkOw" origin="_TBfRAOgoEeCtjbJSRBHkOw" image="_hDWdsOgyEeCtjbJSRBHkOw"/>
+          </child>
+        </left>
+        <right xsi:type="henshin:Not" xmi:id="_OXCBIOg1EeCtjbJSRBHkOw">
+          <child xsi:type="henshin:NestedCondition" xmi:id="_hwV_MOg1EeCtjbJSRBHkOw">
+            <conclusion xmi:id="_hwV_Meg1EeCtjbJSRBHkOw" name="isNoRule">
+              <nodes xmi:id="_hwV_M-g1EeCtjbJSRBHkOw" name="rule">
+                <type href="../../../plugin/org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
+              </nodes>
+            </conclusion>
+            <mappings xmi:id="_hwV_OOg1EeCtjbJSRBHkOw" origin="_TBfRAOgoEeCtjbJSRBHkOw" image="_hwV_M-g1EeCtjbJSRBHkOw"/>
+          </child>
+        </right>
       </formula>
     </lhs>
     <rhs xmi:id="_sjGfgegnEeCtjbJSRBHkOw" name="RHS">
