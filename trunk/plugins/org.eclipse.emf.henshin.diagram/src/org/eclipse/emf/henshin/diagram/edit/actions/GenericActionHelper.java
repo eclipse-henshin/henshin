@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
  * @generated NOT
  * @author Christian Krause
  */
-public abstract class AbstractActionHelper<E extends EObject,C extends EObject> implements ActionHelper<E,C> {
+public abstract class GenericActionHelper<E extends EObject,C extends EObject> implements ActionHelper<E,C> {
 	
 	/*
 	 * (non-Javadoc)
@@ -218,7 +218,7 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 			NestedCondition nac = (NestedCondition) graph.eContainer();
 			editor = getMapEditor(nac.getConclusion());
 			
-			// We move the element to the LHS is the action type has changed:
+			// We move the element to the LHS if the action type has changed:
 			if (action.getType()!=ActionType.FORBID) {
 				editor.move(element);
 			}
@@ -228,6 +228,12 @@ public abstract class AbstractActionHelper<E extends EObject,C extends EObject> 
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
 			}
+
+			// For CREATE actions, move the element to the RHS:
+			else if (action.getType()==ActionType.CREATE) {
+				editor = getMapEditor(rule.getRhs());
+				editor.move(element);
+			}			
 
 			// For FORBID actions, move the element to the new NAC:
 			else if (action.getType()==ActionType.FORBID) {

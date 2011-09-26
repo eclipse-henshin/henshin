@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * @generated NOT
  */
-public class NodeActionHelper extends AbstractActionHelper<Node,Rule> {
+public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 	
 	/**
 	 * Static instance.

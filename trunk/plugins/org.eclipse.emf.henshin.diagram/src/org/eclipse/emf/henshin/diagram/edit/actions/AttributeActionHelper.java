@@ -17,7 +17,7 @@ import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
 /**
  * @generated NOT
  */
-public class AttributeActionHelper extends AbstractActionHelper<Attribute,Node> {
+public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	
 	/**
 	 * Static instance.
