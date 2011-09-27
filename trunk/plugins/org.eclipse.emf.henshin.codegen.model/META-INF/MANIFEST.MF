@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.henshin.codegen.model;singleton:=true
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -14,5 +14,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.codegen.ecore;visibility:=reexport,
  org.eclipse.emf.henshin.model;visibility:=reexport,
- org.eclipse.emf.henshin.interpreter;bundle-version="0.8.1"
+ org.eclipse.emf.henshin.interpreter;bundle-version="0.8.0"
 Bundle-ActivationPolicy: lazy
