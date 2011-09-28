@@ -127,6 +127,30 @@ public class EdgeTypeParser extends AbstractParser {
 			current.setType(type);
 		}
 		
+		
+		// ---
+		// Bidirectional edges:
+		if (edge.getType().getEOpposite() != null) {
+			List<Edge> oppositeEdges = new ArrayList<Edge>();
+			
+			for (Edge imageTargetOutgoingEdge : image.getTarget().getOutgoing()) {
+				if (imageTargetOutgoingEdge.getType().equals(image.getType()) &&
+					imageTargetOutgoingEdge.getTarget().equals(image.getSource())) {
+					// found the opposite edge
+					oppositeEdges.add(imageTargetOutgoingEdge);
+				}
+			}
+			
+			for (Edge originTargetOutgoingEdge : origin.getTarget().getOutgoing()) {
+				if (originTargetOutgoingEdge.getType().equals(origin.getType()) &&
+					originTargetOutgoingEdge.getTarget().equals(origin.getSource())) {
+					// found the opposite edge
+					oppositeEdges.add(originTargetOutgoingEdge);
+				}
+			}
+		}
+		
+		
 		// Done.
 		return CommandResult.newOKCommandResult();
 		
