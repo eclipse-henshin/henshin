@@ -28,6 +28,7 @@ import org.eclipse.emf.henshin.editor.menuContributors.CreateNestedConditionMenu
 import org.eclipse.emf.henshin.editor.menuContributors.FormulaCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.RemoveMappedNodesMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.SimpleCommandMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.TransformationUnitCommandMenuContributor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -144,6 +145,8 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 		
 		CopySubgraphMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);			
+		
+		TransformationUnitCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
 		
 		menuManager.update(true);
 	}
