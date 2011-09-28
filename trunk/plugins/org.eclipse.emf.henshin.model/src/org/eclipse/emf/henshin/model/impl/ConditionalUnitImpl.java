@@ -215,9 +215,15 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 		allunits.add(then);
 		allunits.add(else_);
 		if (deep) {
-			allunits.addAll(if_.getSubUnits(deep));
-			allunits.addAll(then.getSubUnits(deep));
-			allunits.addAll(else_.getSubUnits(deep));
+			if (if_ != null) {
+				allunits.addAll(if_.getSubUnits(deep));
+			}
+			if (then != null) {
+				allunits.addAll(then.getSubUnits(deep));
+			}
+			if (else_ != null) {
+				allunits.addAll(else_.getSubUnits(deep));
+			}
 		}// if
 		
 		return new BasicEList<TransformationUnit>(allunits);
