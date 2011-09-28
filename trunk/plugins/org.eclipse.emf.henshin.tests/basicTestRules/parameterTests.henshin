@@ -295,6 +295,65 @@
     <mappings xmi:id="_5S_UtI3hEeCekMTje1EdnA" origin="_w42Z8I3hEeCekMTje1EdnA" image="_5S_UsI3hEeCekMTje1EdnA"/>
     <mappings xmi:id="_5S_UtY3hEeCekMTje1EdnA" origin="_1uQpsI3hEeCekMTje1EdnA" image="_5S_Uso3hEeCekMTje1EdnA"/>
   </rules>
+  <rules xmi:id="_h1q-gOkOEeCfirjaxGtDuQ" name="parameterInNestedCondition1">
+    <parameters xmi:id="_pR9w8OkOEeCfirjaxGtDuQ" name="p1"/>
+    <lhs xmi:id="_h1q-gekOEeCfirjaxGtDuQ" name="LHS">
+      <nodes xmi:id="_k4Sa8OkOEeCfirjaxGtDuQ" name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_tn9g0OkOEeCfirjaxGtDuQ" value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_mYoMUOkOEeCfirjaxGtDuQ">
+        <conclusion xmi:id="_mYoMUekOEeCfirjaxGtDuQ">
+          <nodes xmi:id="_m-nOQOkOEeCfirjaxGtDuQ" name="nd1_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            <attributes xmi:id="_r87iYOkOEeCfirjaxGtDuQ" value="p1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+            </attributes>
+          </nodes>
+        </conclusion>
+        <mappings xmi:id="_ohadwOkOEeCfirjaxGtDuQ" origin="_k4Sa8OkOEeCfirjaxGtDuQ" image="_m-nOQOkOEeCfirjaxGtDuQ"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_h1q-gukOEeCfirjaxGtDuQ" name="RHS">
+      <nodes xmi:id="_wQnlIOkOEeCfirjaxGtDuQ" name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_wQnlIekOEeCfirjaxGtDuQ" value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_wQnlIukOEeCfirjaxGtDuQ" origin="_k4Sa8OkOEeCfirjaxGtDuQ" image="_wQnlIOkOEeCfirjaxGtDuQ"/>
+  </rules>
+  <rules xmi:id="_xVOcwOkOEeCfirjaxGtDuQ" name="parameterInNestedCondition2">
+    <parameters xmi:id="_xVOcwekOEeCfirjaxGtDuQ" name="p1"/>
+    <lhs xmi:id="_xVOcwukOEeCfirjaxGtDuQ" name="LHS">
+      <nodes xmi:id="_xVOcw-kOEeCfirjaxGtDuQ" name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition" xmi:id="_xVOcxekOEeCfirjaxGtDuQ" negated="true">
+        <conclusion xmi:id="_xVOcxukOEeCfirjaxGtDuQ">
+          <nodes xmi:id="_xVOcx-kOEeCfirjaxGtDuQ" name="nd1_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            <attributes xmi:id="_xVOcyOkOEeCfirjaxGtDuQ" value="p1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+            </attributes>
+          </nodes>
+        </conclusion>
+        <mappings xmi:id="_xVOcyekOEeCfirjaxGtDuQ" origin="_xVOcw-kOEeCfirjaxGtDuQ" image="_xVOcx-kOEeCfirjaxGtDuQ"/>
+      </formula>
+    </lhs>
+    <rhs xmi:id="_xVOcyukOEeCfirjaxGtDuQ" name="RHS">
+      <nodes xmi:id="_xVOcy-kOEeCfirjaxGtDuQ" name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes xmi:id="_xVOczOkOEeCfirjaxGtDuQ" value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings xmi:id="_xVOczekOEeCfirjaxGtDuQ" origin="_xVOcw-kOEeCfirjaxGtDuQ" image="_xVOcy-kOEeCfirjaxGtDuQ"/>
+  </rules>
   <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
   <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_GkceIDqoEeCSzrXE7lCjzA" name="parameterUnit" subUnits="_QgEqkDnIEeCSzrXE7lCjzA _DT8iYDkWEeCSzrXE7lCjzA">
     <parameters xmi:id="_Hj-ogDqoEeCSzrXE7lCjzA" name="tu_param_in"/>

@@ -12,13 +12,18 @@
 package org.eclipse.emf.henshin.tests.basicTests;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
+import org.eclipse.emf.henshin.testframework.Matches;
+import org.eclipse.emf.henshin.testframework.OclQueries;
 import org.eclipse.emf.henshin.testframework.Parameters;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
@@ -234,5 +239,41 @@ public class ParameterTests extends HenshinTest {
 		Tools.printGraph(htEmfGraph);
 	}
 
+	// tests a parameter in a nested condition (PAC). If the test succeeds, one Node should be matched
+	@Test
+	public void testParameterInNestedCondition1() {
+		loadGraph("paramTest");
+		loadRule("parameterInNestedCondition1");
+		
+		htRuleApp.setParameterValue("p1", "ndVal");
+		
+		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
+		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEmfGraph);
+		
+		Matches.assertObjectContainedInAllMatches(htRuleApp, ndVal);
+		Tools.printMatches(htRuleApp.findAllMatches());
+	}
+	
+	// tests a parameter in a nested condition (NAC). If the test succeeds, nd1 and nd2 should be matched
+	@Test
+	public void testParameterInNestedCondition2() {
+		loadGraph("paramTest");
+		loadRule("parameterInNestedCondition2");
+		
+		htRuleApp.setParameterValue("p1", "ndVal");
+		
+		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
+		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEmfGraph);
+		
+		Matches.assertObjectContainedInNoMatch(htRuleApp, ndVal);
+		
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEmfGraph);
+		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd2'", htEmfGraph);
+		
+		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd1);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd2);
+		
+		Tools.printMatches(htRuleApp.findAllMatches());
+	}
 	
 }
