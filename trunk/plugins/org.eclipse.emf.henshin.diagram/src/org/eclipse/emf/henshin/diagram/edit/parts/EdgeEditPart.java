@@ -200,10 +200,10 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 				getPrimaryShape()
 						.setSourceDecoration(createDiamondDecoration());
 			} else if (type.getEOpposite() != null) {
-				PolylineDecoration sourceArrow = (PolylineDecoration) createArrowDecoration();
-				sourceArrow.setAlpha(96);
-				getPrimaryShape().setSourceDecoration(sourceArrow);
-				//getPrimaryShape().setSourceDecoration(createArrowDecoration());
+				//PolylineDecoration sourceArrow = (PolylineDecoration) createArrowDecoration();
+				//sourceArrow.setAlpha(96);
+				//getPrimaryShape().setSourceDecoration(sourceArrow);
+				getPrimaryShape().setSourceDecoration(null);
 			} else {
 				getPrimaryShape().setSourceDecoration(null);
 			}
