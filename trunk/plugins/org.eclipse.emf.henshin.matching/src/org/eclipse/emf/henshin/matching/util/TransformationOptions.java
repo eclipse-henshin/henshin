@@ -68,6 +68,9 @@ public class TransformationOptions {
 		options.put(key, value);
 	}
 	
+	public void unsetOption(String key) {
+		options.remove(key);
+	}
 	
 	public TransformationOptions copy() {
 		TransformationOptions copy = new TransformationOptions();
