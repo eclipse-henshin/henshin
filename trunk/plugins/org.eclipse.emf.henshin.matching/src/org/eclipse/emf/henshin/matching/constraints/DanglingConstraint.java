@@ -11,11 +11,14 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.matching.constraints;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 
 /**
@@ -24,31 +27,31 @@ import org.eclipse.emf.henshin.matching.EmfGraph;
  */
 public class DanglingConstraint implements Constraint {
 	private Map<EReference, Integer> outgoingEdgeCount;
-	
-	// private Map<EReference, Integer> incomingEdgeCount;
+	private Map<EReference, Integer> incomingEdgeCount;
 	
 	public DanglingConstraint(Map<EReference, Integer> outgoingEdgeCount,
 			Map<EReference, Integer> incomingEdgeCount) {
 		this.outgoingEdgeCount = outgoingEdgeCount;
-		// this.incomingEdgeCount = incomingEdgeCount;
+		this.incomingEdgeCount = incomingEdgeCount;
 	}
 	
+		
 	@SuppressWarnings("unchecked")
 	public boolean check(EObject sourceValue, EmfGraph graph) {
-		// TODO: implement incoming edges
-		// incoming references
-		// Collection<Setting> incomingEdges = crossReferences.get(sourceValue);
-		// if (incomingEdges != null) { for (EReference ref :
-		// sourceValue.eClass().getEReferences()) { // compare number of cross
-		// references to number of incoming // edges of the rule Map<EReference,
-		// Integer> objectIncomingEdges = createCountMap(incomingEdges); if
-		// (incomingEdgeCount == null && objectIncomingEdges.keySet().size() >
-		// 0) return false;
-		//
-		// for (EReference type : objectIncomingEdges.keySet()) { Integer
-		// expectedCount = incomingEdgeCount.get(type); Integer actualCount =
-		// objectIncomingEdges.get(type); if
-		// (!actualCount.equals(expectedCount)) { return false; } } } }
+		 Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
+		 
+		 Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
+		 
+		 if (incomingEdgeCount != null) {
+			 for (EReference ref: actualIncomingEdges.keySet()) {
+				 if (actualIncomingEdges.get(ref) > actualIncomingEdges.get(ref))
+					 return false;
+			 }
+		 } else {
+			 if (!actualIncomingEdges.isEmpty())
+				 return false;
+		 }
+		 
 		
 		// outgoing references
 		for (EReference type : sourceValue.eClass().getEReferences()) {
@@ -74,8 +77,23 @@ public class DanglingConstraint implements Constraint {
 						return false;
 				}
 			}
+		}		
+		return true;
+	}
+	
+	private Map<EReference, Integer> createMapFromSettings(Collection<Setting> settings) {
+		Map<EReference, Integer> result = new HashMap<EReference, Integer>();
+		
+		for (Setting setting: settings) {
+			Integer count = result.get(setting.getEStructuralFeature());
+			if (count == null) {
+				count = 1;
+				result.put((EReference) setting.getEStructuralFeature(), count);
+			} else {
+				count++;
+			}
 		}
 		
-		return true;
+		return result;
 	}
 }

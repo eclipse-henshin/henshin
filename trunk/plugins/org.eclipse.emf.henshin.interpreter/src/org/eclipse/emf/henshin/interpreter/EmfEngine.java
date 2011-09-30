@@ -27,6 +27,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
@@ -89,6 +91,8 @@ public class EmfEngine implements InterpreterEngine {
 		
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		scriptEngine = mgr.getEngineByName("JavaScript");
+		
+		options = new TransformationOptions();
 	}
 	
 	/**
@@ -133,16 +137,15 @@ public class EmfEngine implements InterpreterEngine {
 		for (Variable mainVariable : variableInfo.getMainVariables()) {
 			Node node = variableInfo.getVariableForNode(mainVariable);
 			
-			TransformationOptions options = getOptions();
-			if (options == null) {
-				options = new TransformationOptions();
-				options.setDangling(ruleInfo.getRule().isCheckDangling());
+			// The matchfinder gets a new set of transformation options in case it has to be modified
+			TransformationOptions options = getOptions().copy();			
+			if (options.getOption(TransformationOptions.INJECTIVE) == null)
 				options.setInjective(ruleInfo.getRule().isInjectiveMatching());
-			}
+			if (options.getOption(TransformationOptions.DANGLING) == null)
+				options.setDangling(ruleInfo.getRule().isCheckDangling());
 				
 			// use injective, deterministic matching for nested conditions
 			if (node.getGraph() != ruleInfo.getRule().getLhs()) {
-				options = new TransformationOptions();
 				options.setDeterministic(true);
 				options.setInjective(true);
 				options.setDangling(false);
@@ -359,7 +362,16 @@ public class EmfEngine implements InterpreterEngine {
 		// delete EObjects
 		for (Node node : changeInfo.getDeletedNodes()) {
 			modelChange.addDeletedObject(match.getNodeMapping().get(node));
-			emfGraph.removeEObject(match.getNodeMapping().get(node));
+			EObject removedNode = match.getNodeMapping().get(node);
+			
+			emfGraph.removeEObject(removedNode);
+			
+			if (!rule.isCheckDangling()) {
+				Collection<Setting> removedEdges = emfGraph.getCrossReferenceAdapter().getInverseReferences(removedNode);
+				for (Setting edge : removedEdges) {
+					modelChange.addReferenceChange(edge.getEObject(), (EReference) edge.getEStructuralFeature(), removedNode, true);
+				}
+			}
 		}
 		
 		for (Node node : changeInfo.getPreservedNodes()) {

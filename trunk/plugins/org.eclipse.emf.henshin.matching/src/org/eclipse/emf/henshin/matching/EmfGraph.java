@@ -23,7 +23,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -47,6 +49,10 @@ public class EmfGraph {
 	 * Mappings from each type to all its extending subtypes.
 	 */
 	final Map<EClass, Collection<EClass>> inheritanceMap;
+	/**
+	 * Determines cross references for registered objects
+	 */
+	final ECrossReferenceAdapter crossReferenceAdapter;
 	
 	/**
 	 * Constructor
@@ -56,6 +62,7 @@ public class EmfGraph {
 		ePackages = new HashSet<EPackage>();
 		domainMap = new HashMap<EClass, Collection<EObject>>();
 		inheritanceMap = new HashMap<EClass, Collection<EClass>>();
+		crossReferenceAdapter = new ECrossReferenceAdapter();
 	}
 	
 	/**
@@ -66,8 +73,9 @@ public class EmfGraph {
 	 */
 	public EmfGraph(final EObject... roots) {
 		this();
-		for (EObject r : roots)
+		for (EObject r : roots) {
 			addRoot(r);
+		}
 	}// constructor
 	
 	/**
@@ -164,6 +172,7 @@ public class EmfGraph {
 		boolean isNew = eObjects.add(eObject);
 		
 		if (isNew) {
+			eObject.eAdapters().add(crossReferenceAdapter);
 			final EClass type = eObject.eClass();
 			final EPackage ePackage = type.getEPackage();
 			
@@ -270,7 +279,8 @@ public class EmfGraph {
 		return eObjects;
 	}
 	
-	public Map<EObject, Collection<EStructuralFeature.Setting>> getCrossReferenceMap() {
-		return EcoreUtil.CrossReferencer.find(geteObjects());
-	}
+
+	public ECrossReferenceAdapter getCrossReferenceAdapter() {
+		return crossReferenceAdapter;
+	}	
 }
