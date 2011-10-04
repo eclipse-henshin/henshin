@@ -507,13 +507,6 @@ public class Matches {
 				"expected: At least one object from group is contained in at least one match, but isn't.");
 	}
 	
-	/****************************************************************************************
-	 * *************************************************************************
-	 * *************
-	 * ************************************************************
-	 * **************************
-	 ****************************************************************************************/
-	
 	/**
 	 * Asserts that an {@link EObject} is contained in at least one match
 	 * produced by the {@link RuleApplication}s created by executing the
@@ -718,7 +711,6 @@ public class Matches {
 		for (Match m : ra.findAllMatches()) {
 			for (EObject eo2 : m.getNodeMapping().values()) {
 				matchContained.put(eo2, true);
-				// if (matchContained.containsKey(eo2)
 			}
 		}
 		
@@ -744,9 +736,9 @@ public class Matches {
 	 */
 	public static void assertOnlyGroupIsMatched(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
-		
-		if ((ra.getInterpreterEngine() instanceof EmfEngine)
-				&& (!(((EmfEngine) ra.getInterpreterEngine()).getOptions().isInjective()))) {
+		if ((ra.getInterpreterEngine() instanceof EmfEngine) &&
+				(!(ra.getRule().isInjectiveMatching()))) {
+//				&& (!(((EmfEngine) ra.getInterpreterEngine()).getOptions().isInjective()))) {
 			// non-injective mode
 			HashMap<EObject, Integer> matchContents = new HashMap<EObject, Integer>();
 			
