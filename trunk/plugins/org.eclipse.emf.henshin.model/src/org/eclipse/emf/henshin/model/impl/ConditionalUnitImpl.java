@@ -221,7 +221,7 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 			if ((then != null) && (then != this)) {		// do not recursively add recursive units
 				allunits.addAll(then.getSubUnits(deep));
 			}
-			if ((else_ != null) && (else_ != this)) {	// do not recursively add recursive units
+			if ((else_ != null) && (else_ != this)) {	// do not recursively add recursive units 
 				allunits.addAll(else_.getSubUnits(deep));
 			}
 		}// if

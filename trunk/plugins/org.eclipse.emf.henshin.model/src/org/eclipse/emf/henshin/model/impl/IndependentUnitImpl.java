@@ -96,7 +96,7 @@ public class IndependentUnitImpl extends TransformationUnitImpl implements Indep
 			allunits.add(unit);
 			if (deep && (unit != this)) {	// do not recursively add recursive units
 				allunits.addAll(unit.getSubUnits(deep));
-			}
+			} 
 		}// for
 		return new BasicEList<TransformationUnit>(allunits);
 	}// getSubUnits

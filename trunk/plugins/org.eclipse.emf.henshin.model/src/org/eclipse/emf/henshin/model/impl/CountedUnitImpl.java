@@ -158,7 +158,7 @@ public class CountedUnitImpl extends TransformationUnitImpl implements CountedUn
 		allunits.add(this.getSubUnit());
 		if (deep && (this.getSubUnit() != this)) {
 			allunits.addAll(this.getSubUnit().getSubUnits(deep));
-		}// if
+		}// if 
 		return new BasicEList<TransformationUnit>(allunits);
 	}// getSubUnits
 	
