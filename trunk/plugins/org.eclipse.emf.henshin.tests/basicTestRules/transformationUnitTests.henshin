@@ -511,11 +511,13 @@
   <transformationUnits xsi:type="henshin:AmalgamationUnit" xmi:id="_naBy0IIfEeCq9MTNIVDP_g" name="amu_attributeInKernelNac" kernelRule="__12TYIIdEeCq9MTNIVDP_g" multiRules="_LIFAIIIfEeCq9MTNIVDP_g">
     <lhsMappings xmi:id="_sK-ZUIIfEeCq9MTNIVDP_g" origin="_CfyKEIIeEeCq9MTNIVDP_g" image="_MqDJMIIfEeCq9MTNIVDP_g"/>
     <lhsMappings xmi:id="_twXp0IIfEeCq9MTNIVDP_g" origin="_HUQlsIIeEeCq9MTNIVDP_g" image="_Pzke4IIfEeCq9MTNIVDP_g"/>
+    <lhsMappings xmi:id="_onQEENSWEeCLoJqamH7VUA" origin="_ukK6wIIeEeCq9MTNIVDP_g" image="_QznmoIIfEeCq9MTNIVDP_g"/>
     <rhsMappings xmi:id="_xbvvYIIfEeCq9MTNIVDP_g" origin="_Jn74gIIeEeCq9MTNIVDP_g" image="_Vl5p4IIfEeCq9MTNIVDP_g"/>
     <rhsMappings xmi:id="_ynUxsIIfEeCq9MTNIVDP_g" origin="_Jn74goIeEeCq9MTNIVDP_g" image="_Vl5p4YIfEeCq9MTNIVDP_g"/>
+    <rhsMappings xmi:id="_qZonsNSWEeCLoJqamH7VUA" origin="_xw-N8IIeEeCq9MTNIVDP_g" image="_Vl5p4oIfEeCq9MTNIVDP_g"/>
   </transformationUnits>
   <transformationUnits xsi:type="henshin:CountedUnit" xmi:id="_ggzNAIImEeCq9MTNIVDP_g" name="loop_amu_attributeInKernelNac" subUnit="_naBy0IIfEeCq9MTNIVDP_g" count="2"/>
-  <transformationUnits xsi:type="henshin:ConditionalUnit" xmi:id="_1RJnMI3yEeCekMTje1EdnA" if="_9OHbID3MEeCp2vZwrfgSew" else="_LIFAIIIfEeCq9MTNIVDP_g">
+  <transformationUnits xsi:type="henshin:ConditionalUnit" xmi:id="_1RJnMI3yEeCekMTje1EdnA" name="cu1" if="_9OHbID3MEeCp2vZwrfgSew" else="_LIFAIIIfEeCq9MTNIVDP_g">
     <parameters xmi:id="_V8IPoI3zEeCekMTje1EdnA" name="valname"/>
     <parameterMappings xmi:id="_iLfvgI3zEeCekMTje1EdnA" source="_V8IPoI3zEeCekMTje1EdnA" target="_Iv6DUD3NEeCp2vZwrfgSew"/>
   </transformationUnits>
@@ -524,5 +526,5 @@
   <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_2HwIMJwNEeC3T_gf7Idl6g" name="emptyPriorityUnit"/>
   <transformationUnits xsi:type="henshin:IndependentUnit" xmi:id="_j38ocJzUEeC7C5mbhESV7g" description="" name="independentUnitWithOneSubUnit" subUnits="_DOUU4D6PEeCp2vZwrfgSew"/>
   <transformationUnits xsi:type="henshin:PriorityUnit" xmi:id="_7rFtgJzUEeC7C5mbhESV7g" name="priorityUnitWithOneSubUnit" subUnits="_DOUU4D6PEeCp2vZwrfgSew"/>
-  <transformationUnits xsi:type="henshin:ConditionalUnit" xmi:id="_T25UwJzWEeC7C5mbhESV7g" if="_QiQQYPJBEd-dK-O66NSJKQ" then="_nT7RYPJBEd-dK-O66NSJKQ"/>
+  <transformationUnits xsi:type="henshin:ConditionalUnit" xmi:id="_T25UwJzWEeC7C5mbhESV7g" name="cu2" if="_QiQQYPJBEd-dK-O66NSJKQ" then="_nT7RYPJBEd-dK-O66NSJKQ"/>
 </henshin:TransformationSystem>
