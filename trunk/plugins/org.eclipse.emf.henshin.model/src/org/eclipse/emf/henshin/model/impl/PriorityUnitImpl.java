@@ -95,7 +95,9 @@ public class PriorityUnitImpl extends TransformationUnitImpl implements Priority
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 		for (TransformationUnit unit : this.getSubUnits()) {
 			allunits.add(unit);
-			if (deep) allunits.addAll(unit.getSubUnits(deep));
+			if (deep && (unit != this)) {	// do not recursively add recursive units
+				allunits.addAll(unit.getSubUnits(deep));
+			}
 		}// for
 		return new BasicEList<TransformationUnit>(allunits);
 	}// getSubUnits
