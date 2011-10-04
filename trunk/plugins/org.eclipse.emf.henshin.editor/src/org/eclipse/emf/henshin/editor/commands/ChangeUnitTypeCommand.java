@@ -132,11 +132,13 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	 */
 	private void changeParameterMappingsRec(TransformationUnit parentUnit, TransformationUnit oldUnit, TransformationUnit newUnit) {
 		for (TransformationUnit tu : parentUnit.getSubUnits(false)) {
-			if (tu.equals(oldUnit)) {
-				changeParameterMappings(parentUnit, tu, newUnit);
-			}
-			if (tu.getSubUnits(false).size() > 0) {
-				changeParameterMappingsRec(tu, oldUnit, newUnit);
+			if (tu != parentUnit) {	// do not recurse infinitely
+				if (tu.equals(oldUnit)) {
+					changeParameterMappings(parentUnit, tu, newUnit);
+				}
+				if (tu.getSubUnits(false).size() > 0) {
+					changeParameterMappingsRec(tu, oldUnit, newUnit);
+				}
 			}
 		}
 
@@ -176,14 +178,17 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 			return;
 		}
 		
+		// remove the old unit and replace it with the new unit
 		while(subUnitList.contains(oldUnit)) {
 			int i = subUnitList.indexOf(oldUnit);
 			subUnitList.remove(i);
 			subUnitList.add(i, newUnit);
 		}
 		
+		// recursively replace all old units with new units
 		for (TransformationUnit tu : subUnitList) {
-			if ((!(tu.equals(newUnit))) && tu.getSubUnits(true).contains(oldUnit)) {
+			// do not replace if the current unit is the parent unit, as this leads to an infinite recursion
+			if ((!(tu.equals(newUnit))) && tu.getSubUnits(true).contains(oldUnit) && (tu != parentUnit)) { 
 				replaceUnitRec(tu, oldUnit, newUnit);
 			}
 		}
