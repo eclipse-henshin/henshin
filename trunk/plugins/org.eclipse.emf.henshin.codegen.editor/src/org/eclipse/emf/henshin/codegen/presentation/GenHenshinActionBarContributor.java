@@ -178,8 +178,7 @@ public class GenHenshinActionBarContributor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public void contributeToMenu(IMenuManager menuManager) {
+	public void contributeToMenuGen(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
 		IMenuManager submenuManager = new MenuManager(GenHenshinEditorPlugin.INSTANCE.getString("_UI_GenHenshinEditor_menu"), "org.eclipse.emf.henshin.codegen.modelMenuID");

@@ -143,13 +143,13 @@ public interface GenHenshinPackage extends EPackage {
 	int GEN_HENSHIN__IMPLEMENTATION_PATTERN = 7;
 
 	/**
-	 * The feature id for the '<em><b>Supress Interfaces</b></em>' attribute.
+	 * The feature id for the '<em><b>Suppress Interfaces</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GEN_HENSHIN__SUPRESS_INTERFACES = 8;
+	int GEN_HENSHIN__SUPPRESS_INTERFACES = 8;
 
 	/**
 	 * The feature id for the '<em><b>Gen Transformations</b></em>' containment reference list.
@@ -555,15 +555,15 @@ public interface GenHenshinPackage extends EPackage {
 	EAttribute getGenHenshin_ImplementationPattern();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSuppressInterfaces <em>Suppress Interfaces</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Supress Interfaces</em>'.
-	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces()
+	 * @return the meta object for the attribute '<em>Suppress Interfaces</em>'.
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshin#isSuppressInterfaces()
 	 * @see #getGenHenshin()
 	 * @generated
 	 */
-	EAttribute getGenHenshin_SupressInterfaces();
+	EAttribute getGenHenshin_SuppressInterfaces();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenTransformations <em>Gen Transformations</em>}'.
@@ -899,12 +899,12 @@ public interface GenHenshinPackage extends EPackage {
 		EAttribute GEN_HENSHIN__IMPLEMENTATION_PATTERN = eINSTANCE.getGenHenshin_ImplementationPattern();
 
 		/**
-		 * The meta object literal for the '<em><b>Supress Interfaces</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Suppress Interfaces</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GEN_HENSHIN__SUPRESS_INTERFACES = eINSTANCE.getGenHenshin_SupressInterfaces();
+		EAttribute GEN_HENSHIN__SUPPRESS_INTERFACES = eINSTANCE.getGenHenshin_SuppressInterfaces();
 
 		/**
 		 * The meta object literal for the '<em><b>Gen Transformations</b></em>' containment reference list feature.

@@ -2,19 +2,25 @@
 <codegen:GenHenshin xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:codegen="http://www.eclipse.org/emf/2011/Henshin/codegen" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" pluginID="org.eclipse.emf.henshin.codegen.model2" baseDirectory="org.eclipse.emf.henshin.codegen.model2" sourceDirectory="src" copyrightText="Copyright 2011 HPI Potsdam" interfacePackage="org.eclipse.emf.henshin.codegen.update" interfacePattern="*" implementationPackage="org.eclipse.emf.henshin.codegen.update.impl" implementationPattern="*Impl">
   <genTransformations transformationClass="GenHenshinUpdater">
     <transformation href="genHenshin.henshin#_Op-lELiPEeCmM9p5llAzog"/>
+    <genPackages href="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore"/>
+    <genPackages href="../../org.eclipse.emf.codegen.ecore/model/GenModel.genmodel#//genmodel"/>
+    <genPackages href="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#//henshin"/>
     <genPackages href="../model/genHenshin.genmodel#//codegen"/>
     <genUnits method="updateGenTransformation">
       <unit xsi:type="henshin:Rule" href="genHenshin.henshin#_Zg6hoOgfEeCAV5hoRt0LtQ"/>
-      <inputGenParameters name="trafo" type="org.eclipse.emf.henshin.model.TransformationSystem">
+      <inputGenParameters name="trafo" type="TransformationSystem">
         <parameter href="genHenshin.henshin#_DLgzoOgkEeCtjbJSRBHkOw"/>
       </inputGenParameters>
-      <inputGenParameters name="context" type="org.eclipse.emf.henshin.codegen.model.GenHenshin">
+      <inputGenParameters name="context" type="GenHenshin">
         <parameter href="genHenshin.henshin#_FTi6UOgoEeCtjbJSRBHkOw"/>
       </inputGenParameters>
-      <outputGenParameters name="genTrafo" type="org.eclipse.emf.henshin.codegen.model.GenTransformation">
+      <outputGenParameters name="genTrafo" type="GenTransformation">
         <parameter href="genHenshin.henshin#_-kdMIOgnEeCtjbJSRBHkOw"/>
       </outputGenParameters>
     </genUnits>
   </genTransformations>
+  <genModels href="../../org.eclipse.emf.ecore/model/Ecore.genmodel#/"/>
+  <genModels href="../../org.eclipse.emf.codegen.ecore/model/GenModel.genmodel#/"/>
+  <genModels href="../../org.eclipse.emf.henshin.model/model/henshin.genmodel#/"/>
   <genModels href="../model/genHenshin.genmodel#/"/>
 </codegen:GenHenshin>

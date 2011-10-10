@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getInterfacePattern <em>Interface Pattern</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPackage <em>Implementation Package</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getImplementationPattern <em>Implementation Pattern</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSuppressInterfaces <em>Suppress Interfaces</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenTransformations <em>Gen Transformations</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#getGenModels <em>Gen Models</em>}</li>
  * </ul>
@@ -39,13 +39,10 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface GenHenshin extends EObject {
+	
 	/**
 	 * Returns the value of the '<em><b>Plugin ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Plugin ID</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Plugin ID</em>' attribute.
 	 * @see #setPluginID(String)
@@ -68,10 +65,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Base Directory</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Base Directory</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Base Directory</em>' attribute.
 	 * @see #setBaseDirectory(String)
@@ -94,10 +87,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Source Directory</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source Directory</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source Directory</em>' attribute.
 	 * @see #setSourceDirectory(String)
@@ -120,10 +109,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Copyright Text</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Copyright Text</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Copyright Text</em>' attribute.
 	 * @see #setCopyrightText(String)
@@ -146,10 +131,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Interface Package</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Interface Package</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interface Package</em>' attribute.
 	 * @see #setInterfacePackage(String)
@@ -172,10 +153,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Interface Pattern</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Interface Pattern</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Interface Pattern</em>' attribute.
 	 * @see #setInterfacePattern(String)
@@ -198,10 +175,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Implementation Package</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Implementation Package</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Implementation Package</em>' attribute.
 	 * @see #setImplementationPackage(String)
@@ -224,10 +197,6 @@ public interface GenHenshin extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Implementation Pattern</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Implementation Pattern</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Implementation Pattern</em>' attribute.
 	 * @see #setImplementationPattern(String)
@@ -248,40 +217,32 @@ public interface GenHenshin extends EObject {
 	void setImplementationPattern(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Supress Interfaces</b></em>' attribute.
+	 * Returns the value of the '<em><b>Suppress Interfaces</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Supress Interfaces</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Supress Interfaces</em>' attribute.
-	 * @see #setSupressInterfaces(boolean)
-	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_SupressInterfaces()
+	 * @return the value of the '<em>Suppress Interfaces</em>' attribute.
+	 * @see #setSuppressInterfaces(boolean)
+	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_SuppressInterfaces()
 	 * @model
 	 * @generated
 	 */
-	boolean isSupressInterfaces();
+	boolean isSuppressInterfaces();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSupressInterfaces <em>Supress Interfaces</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.codegen.model.GenHenshin#isSuppressInterfaces <em>Suppress Interfaces</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Supress Interfaces</em>' attribute.
-	 * @see #isSupressInterfaces()
+	 * @param value the new value of the '<em>Suppress Interfaces</em>' attribute.
+	 * @see #isSuppressInterfaces()
 	 * @generated
 	 */
-	void setSupressInterfaces(boolean value);
+	void setSuppressInterfaces(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Gen Transformations</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenTransformation}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.codegen.model.GenTransformation#getGenHenshin <em>Gen Henshin</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Gen Transformations</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Gen Transformations</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_GenTransformations()
@@ -295,10 +256,6 @@ public interface GenHenshin extends EObject {
 	 * Returns the value of the '<em><b>Gen Models</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenModel}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Gen Models</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Gen Models</em>' reference list.
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenHenshin_GenModels()

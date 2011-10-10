@@ -67,7 +67,7 @@ public class HenshinCodeGenerator {
 			String baseName = genTrafo.getTransformationClassFormatted();
 			
 			// Generate interface:
-			if (!genHenshin.isSupressInterfaces()) {
+			if (!genHenshin.isSuppressInterfaces()) {
 				IFolder interfacePackage = CodeGenJavaUtil.createPackage(genHenshin.getInterfacePackage(), project);
 				String interfaceName = genHenshin.applyInterfacePattern(baseName);
 				CodeGenFileUtil.createFileFromString(

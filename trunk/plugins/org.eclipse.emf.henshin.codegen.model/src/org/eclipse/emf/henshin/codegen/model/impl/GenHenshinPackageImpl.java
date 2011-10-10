@@ -229,7 +229,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGenHenshin_SupressInterfaces() {
+	public EAttribute getGenHenshin_SuppressInterfaces() {
 		return (EAttribute)genHenshinEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -468,7 +468,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__INTERFACE_PATTERN);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__IMPLEMENTATION_PACKAGE);
 		createEAttribute(genHenshinEClass, GEN_HENSHIN__IMPLEMENTATION_PATTERN);
-		createEAttribute(genHenshinEClass, GEN_HENSHIN__SUPRESS_INTERFACES);
+		createEAttribute(genHenshinEClass, GEN_HENSHIN__SUPPRESS_INTERFACES);
 		createEReference(genHenshinEClass, GEN_HENSHIN__GEN_TRANSFORMATIONS);
 		createEReference(genHenshinEClass, GEN_HENSHIN__GEN_MODELS);
 
@@ -544,7 +544,7 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 		initEAttribute(getGenHenshin_InterfacePattern(), ecorePackage.getEString(), "interfacePattern", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_ImplementationPackage(), ecorePackage.getEString(), "implementationPackage", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGenHenshin_ImplementationPattern(), ecorePackage.getEString(), "implementationPattern", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGenHenshin_SupressInterfaces(), theEcorePackage.getEBoolean(), "supressInterfaces", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGenHenshin_SuppressInterfaces(), theEcorePackage.getEBoolean(), "suppressInterfaces", null, 0, 1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenHenshin_GenTransformations(), this.getGenTransformation(), this.getGenTransformation_GenHenshin(), "genTransformations", null, 0, -1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getGenHenshin_GenModels(), theGenModelPackage.getGenModel(), null, "genModels", null, 0, -1, GenHenshin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

@@ -336,9 +336,16 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 		if (getOutputGenParameters().isEmpty()) {
 			return "";
 		} else {
-			String result = indent + "interface " + getResultTypeName() + " {\n";
-			result = result + indent + "\t" + "boolean getResult();\n";
+			String result = indent + "public interface " + getResultTypeName() + " {\n\n";
+			result = result + indent + "\t" + "/**\n";
+			result = result + indent + "\t" + " * @generated\n";
+			result = result + indent + "\t" + " */\n";
+			result = result + indent + "\t" + "boolean success();\n";
 			for (GenParameter outParam : getOutputGenParameters()) {
+				result = result + "\n";
+				result = result + indent + "\t" + "/**\n";
+				result = result + indent + "\t" + " * @generated\n";
+				result = result + indent + "\t" + " */\n";
 				result = result + indent + "\t" + outParam.getType() + " get" + capitalize(outParam.getNameFormatted()) + "();\n";
 			}
 			result = result + indent + "}";

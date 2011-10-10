@@ -75,7 +75,7 @@ public class GenHenshinItemProvider
 			addInterfacePatternPropertyDescriptor(object);
 			addImplementationPackagePropertyDescriptor(object);
 			addImplementationPatternPropertyDescriptor(object);
-			addSupressInterfacesPropertyDescriptor(object);
+			addSuppressInterfacesPropertyDescriptor(object);
 			addGenModelsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -258,19 +258,19 @@ public class GenHenshinItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Supress Interfaces feature.
+	 * This adds a property descriptor for the Suppress Interfaces feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addSupressInterfacesPropertyDescriptor(Object object) {
+	protected void addSuppressInterfacesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_GenHenshin_supressInterfaces_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_supressInterfaces_feature", "_UI_GenHenshin_type"),
-				 GenHenshinPackage.Literals.GEN_HENSHIN__SUPRESS_INTERFACES,
+				 getString("_UI_GenHenshin_suppressInterfaces_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GenHenshin_suppressInterfaces_feature", "_UI_GenHenshin_type"),
+				 GenHenshinPackage.Literals.GEN_HENSHIN__SUPPRESS_INTERFACES,
 				 true,
 				 false,
 				 false,
@@ -376,7 +376,7 @@ public class GenHenshinItemProvider
 			case GenHenshinPackage.GEN_HENSHIN__INTERFACE_PATTERN:
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PACKAGE:
 			case GenHenshinPackage.GEN_HENSHIN__IMPLEMENTATION_PATTERN:
-			case GenHenshinPackage.GEN_HENSHIN__SUPRESS_INTERFACES:
+			case GenHenshinPackage.GEN_HENSHIN__SUPPRESS_INTERFACES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case GenHenshinPackage.GEN_HENSHIN__GEN_TRANSFORMATIONS:

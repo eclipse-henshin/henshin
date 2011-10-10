@@ -16,20 +16,20 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IEditorActionDelegate;
+import org.eclipse.ui.IEditorPart;
 
 /**
  * Action for triggering the code generation.
  * @author Christian Krause
  */
-public class GenHenshinGeneratorAction implements IObjectActionDelegate {
+public class GenHenshinGeneratorAction implements IEditorActionDelegate {
 	
 	// Henshin transformation generator models:
 	private Set<GenTransformation> genTrafos = new LinkedHashSet<GenTransformation>();
 	
-	// Workbench part:
-	private IWorkbenchPart part;
+	// Editor part:
+	private IEditorPart editor;
 	
 	/*
 	 * (non-Javadoc)
@@ -57,7 +57,7 @@ public class GenHenshinGeneratorAction implements IObjectActionDelegate {
 				}
 				
 				// Pop-up OK dialog:
-				final Shell shell = part.getSite().getShell();
+				final Shell shell = editor.getSite().getShell();
 				shell.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
@@ -96,11 +96,11 @@ public class GenHenshinGeneratorAction implements IObjectActionDelegate {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
 	 */
 	@Override
-	public void setActivePart(IAction action, IWorkbenchPart part) {
-		this.part = part;
+	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		this.editor = targetEditor;
 	}
 
 }
