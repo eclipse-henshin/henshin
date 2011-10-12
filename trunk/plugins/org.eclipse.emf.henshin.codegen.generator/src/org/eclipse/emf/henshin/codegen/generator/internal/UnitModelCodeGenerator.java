@@ -53,9 +53,10 @@ public class UnitModelCodeGenerator {
 		// Reset the print writer:
 		StringWriter writer = new StringWriter();
 		out = new PrintWriter(writer);
+		TransformationUnit unit = genUnit.getUnit();
+		
 		
 		// Generate the set of mapped nodes:
-		TransformationUnit unit = genUnit.getUnit();
 		TreeIterator<EObject> contents = unit.eAllContents();
 		mappedNodes = new HashSet<Node>();
 		while (contents.hasNext()) {
@@ -69,9 +70,16 @@ public class UnitModelCodeGenerator {
 		
 		// Reset the node names:
 		nodeNames = new HashMap<Node,String>();
-		
+
+		String unitType = unit.eClass().getName();
+		String localVarName = (unit instanceof Rule) ? "rule" : "unit";
+
 		// Instantiate the unit variable:
-		out.println(indent + varName + " = " + factory + ".create" + unit.eClass().getName() + "();");
+		out.println(indent + "final " + unitType + " " + localVarName + " = " + factory + ".create" + unitType + "();");
+		if (unit.getName()!=null) {
+			out.print(indent + localVarName + ".setName(" + CodeGenStringUtil.escapeString(unit.getName()) + ");\n");
+		}
+		out.println(indent + varName + " = " + localVarName + ";");
 		
 		// Now create the contents:
 		if (unit instanceof Rule) {
@@ -79,15 +87,13 @@ public class UnitModelCodeGenerator {
 			
 			// LHS and RHS:
 			generateGraph(rule.getLhs(), "lhs", indent);
-			out.println(indent + varName + ".setLhs(lhs);");
+			out.println(indent + localVarName + ".setLhs(lhs);");
 			generateGraph(rule.getRhs(), "rhs", indent);
-			out.println(indent + varName + ".setRhs(rhs);");
+			out.println(indent + localVarName + ".setRhs(rhs);");
 			
 			// Mappings LHS->RHS:
 			for (Mapping mapping : rule.getMappings()) {
-				out.println(indent + factory + ".createMapping(" +
-						nodeNames.get(mapping.getOrigin()) + ", " + 
-						nodeNames.get(mapping.getImage()) + ");");
+				generateMapping(indent, localVarName, mapping);
 			}
 			
 		}
@@ -112,14 +118,22 @@ public class UnitModelCodeGenerator {
 		boolean requiresName = false;
 		if (!node.getAttributes().isEmpty() || mappedNodes.contains(node)) {
 			requiresName = true;
+			nodeNames.put(node, name);
 		}
 		String assignment = requiresName ? ("Node " + name + " = ") : "";
 		out.println(indent + assignment + factory + ".createNode(" + graphName + ", " + getNodeType(node) + ");");
 		for (Attribute attribute : node.getAttributes()) {
 			out.println(indent + factory + ".createAttribute(" + name + ", " + 
-					getAttributeType(attribute) + ", " + asString(attribute.getValue()) + ");");
+					getAttributeType(attribute) + ", " + CodeGenStringUtil.escapeString(attribute.getValue()) + ");");
 		}
 		
+	}
+	
+	private void generateMapping(String indent, String ruleName, Mapping mapping) {
+		out.println(indent + ruleName + ".getMappings().add(" + 
+				factory + ".createMapping(" +
+					nodeNames.get(mapping.getOrigin()) + ", " +
+					nodeNames.get(mapping.getImage()) + "));");
 	}
 	
 	private String getNodeType(Node node) {
@@ -129,11 +143,11 @@ public class UnitModelCodeGenerator {
 			GenClass genClass = genTrafo.getGenClass(node.getType());
 			if (genClass!=null) {
 				GenPackage genPackage = genClass.getGenPackage();
-				pack = genPackage.getInterfacePackageName();
+				pack = genPackage.getPackageInterfaceName();
 				clazz = genClass.getEcoreClass().getName();
 			} else {
 				pack = node.getType().getEPackage().getName();
-				pack = capitalize(pack) + "Package";
+				pack = CodeGenStringUtil.capitalize(pack) + "Package";
 				clazz = node.getType().getName();
 			}
 			return pack + ".eINSTANCE.get" + clazz + "()"; 
@@ -149,15 +163,8 @@ public class UnitModelCodeGenerator {
 		if (nodeType.equals("null")) {
 			return "null";
 		} else {
-			return nodeType.replaceFirst("\\(\\)", "_" + capitalize(attribute.getType().getName()) + "()");
+			return nodeType.replaceFirst("\\(\\)", "_" + CodeGenStringUtil.capitalize(attribute.getType().getName()) + "()");
 		}
 	}
-	
-	private static String capitalize(String string) {
-		return string.substring(0,1).toUpperCase() + string.substring(1);
-	}
-	
-	private static String asString(String value) {
-		return "\"" + value.replaceAll("\"", "\\\\\"")+ "\"";
-	}
+		
 }

@@ -1,5 +1,5 @@
 <%@ jet package="org.eclipse.emf.henshin.codegen.templates" 
-		imports="java.util.* org.eclipse.emf.henshin.codegen.model.* org.eclipse.emf.henshin.codegen.generator.internal.*" 
+		imports="org.eclipse.emf.henshin.codegen.model.* org.eclipse.emf.henshin.codegen.generator.internal.* org.eclipse.emf.common.util.*" 
 		class="GenUnitInterpreter"%><%
 
 GenUnit genUnit = (GenUnit) argument;
@@ -7,9 +7,10 @@ boolean isRule = (genUnit instanceof GenRule);
 GenTransformation genTrafo = genUnit.getGenTransformation();
 
 String unitMethod = genUnit.getMethodFormatted();
-String unitMethodCap = unitMethod.substring(0,1).toUpperCase() + unitMethod.substring(1);
-String unitModelName = (isRule ? "RULE" : "UNIT") + "_" + unitMethod.toUpperCase();
+String unitMethodCap = CodeGenStringUtil.capitalize(unitMethod);
+String unitModelName = (isRule ? "RULE" : "UNIT") + "_" + CodeGenStringUtil.camelCaseToUpperCase(unitMethod);
 String unitGetter = "get" + (isRule ? "Rule" : "Unit") + unitMethodCap;
+String unitType = isRule ? "Rule" : "TransformationUnit";
 
 // Unit model:
 
@@ -17,12 +18,12 @@ String unitGetter = "get" + (isRule ? "Rule" : "Unit") + unitMethodCap;
 	/**
 	 * @generated
 	 */
-	protected static <%= (isRule ? "Rule" : "TransformationUnit") + " " + unitModelName %> = null;
+	protected static <%= unitType + " " + unitModelName %> = null;
 
 	/**
 	 * @generated
 	 */
-	protected <%= (isRule ? "Rule" : "TransformationUnit") + " " + unitGetter %>() {
+	protected <%= unitType + " " + unitGetter %>() {
 		if (<%= unitModelName %>==null) {
 			HenshinFactory factory = HenshinFactory.eINSTANCE;
 <%=
@@ -47,13 +48,21 @@ String visibility = genUnit.isPublic() ? "public" : "protected";
 <% 
 		String applicationType = isRule ? "RuleApplication" : "UnitApplication";
 		%>
-		<%= applicationType %> application = new <%= applicationType %>(engine, <%= unitGetter %>());
+		final <%= applicationType %> application = new <%= applicationType %>(engine, <%= unitGetter %>());
 <%
 		for (GenParameter input : genUnit.getInputGenParameters()) {
 %>
-		application.setParameterValue("<%= input.getParameter().getName() %>", <%= input.getNameFormatted() %>);
+		application.setParameterValue(<%= CodeGenStringUtil.escapeString(input.getParameter().getName()) %>, <%= input.getNameFormatted() %>);
 <%
 		}
+		
+		// Prepare a output parameter map:
+		EMap<String,String> outputValues = new BasicEMap<String,String>();
+		for (GenParameter genParam : genUnit.getOutputGenParameters()) {
+			outputValues.put(genParam.getParameter().getName(), 
+				"application.getParameterValue(" + CodeGenStringUtil.escapeString(genParam.getNameFormatted()) + ")");
+		}
 %>
-		return application.apply();
+		final boolean success = application.execute();
+		return <%= genUnit.getResultTypeImplementation("\t\t", "success", outputValues)%>
 	}

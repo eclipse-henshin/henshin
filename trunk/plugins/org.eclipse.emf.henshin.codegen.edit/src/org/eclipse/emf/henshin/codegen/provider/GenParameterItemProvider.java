@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -149,13 +150,27 @@ public class GenParameterItemProvider
 	}
 
 	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String getText(Object object) {
+		EStructuralFeature feature = ((GenParameter)object).eContainingFeature();
+		if (feature==GenHenshinPackage.eINSTANCE.getGenUnit_InputGenParameters()) {
+			return "Input " + getTextGen(object);
+		}
+		if (feature==GenHenshinPackage.eINSTANCE.getGenUnit_OutputGenParameters()) {
+			return "Output " + getTextGen(object);
+		}
+		return getTextGen(object);
+	}
+
+	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public String getText(Object object) {
+	public String getTextGen(Object object) {
 		String label = ((GenParameter)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_GenParameter_type") :

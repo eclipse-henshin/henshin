@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
@@ -358,11 +360,22 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public String getResultTypeImplementation(String indent, boolean result, EMap<String, String> output) {
+	public String getResultTypeImplementation(String indent, String success, EMap<String, String> output) {
 		if (getOutputGenParameters().isEmpty()) {
-			return String.valueOf(result);
+			return success;
 		} else {
-			return "new " + getResultTypeName() + "() {}";
+			String result = "new " + getResultTypeName() + "() {\n\n";
+			result = result + indent + "\t" + "public boolean success() {\n";
+			result = result + indent + "\t\t" + "return " + success + ";\n";
+			result = result + indent + "\t" + "}\n";
+			for (GenParameter outParam : getOutputGenParameters()) {
+				result = result + "\n";
+				result = result + indent + "\t" + "public " + outParam.getType() + " get" + capitalize(outParam.getNameFormatted()) + "() {\n";
+				result = result + indent + "\t\t" + "return (" + outParam.getType() + ") " + output.get(outParam.getParameter().getName()) + ";\n";
+				result = result + indent + "\t" + "}\n";
+			}
+			result = result + indent + "};";
+			return result;
 		}
 	}
 
@@ -380,6 +393,17 @@ public class GenUnitImpl extends EObjectImpl implements GenUnit {
 			if (i<count-1) paramsString = paramsString + ", ";
 		}
 		return paramsString;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<GenParameter> getAllGenParameters() {
+		EList<GenParameter> all = new BasicEList<GenParameter>(getInputGenParameters());
+		all.addAll(getOutputGenParameters());
+		return ECollections.unmodifiableEList(all);
 	}
 
 	/**

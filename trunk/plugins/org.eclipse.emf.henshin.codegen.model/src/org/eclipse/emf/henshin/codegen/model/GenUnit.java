@@ -145,10 +145,6 @@ public interface GenUnit extends EObject {
 	 * Returns the value of the '<em><b>Input Gen Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenParameter}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Input Gen Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Input Gen Parameters</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_InputGenParameters()
@@ -161,10 +157,6 @@ public interface GenUnit extends EObject {
 	 * Returns the value of the '<em><b>Output Gen Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.codegen.model.GenParameter}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Output Gen Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Output Gen Parameters</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.codegen.model.GenHenshinPackage#getGenUnit_OutputGenParameters()
@@ -203,7 +195,7 @@ public interface GenUnit extends EObject {
 	 * @model outputMapType="org.eclipse.emf.ecore.EStringToStringMapEntry<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
 	 * @generated
 	 */
-	String getResultTypeImplementation(String indent, boolean result, EMap<String, String> output);
+	String getResultTypeImplementation(String indent, String result, EMap<String, String> output);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -212,5 +204,13 @@ public interface GenUnit extends EObject {
 	 * @generated
 	 */
 	String getInputGenParametersFormatted();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<GenParameter> getAllGenParameters();
 
 } // GenUnit

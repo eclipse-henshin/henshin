@@ -591,10 +591,12 @@ public class GenHenshinPackageImpl extends EPackageImpl implements GenHenshinPac
 
 		op = addEOperation(genUnitEClass, theEcorePackage.getEString(), "getResultTypeImplementation", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEString(), "indent", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, theEcorePackage.getEBoolean(), "result", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theEcorePackage.getEString(), "result", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theEcorePackage.getEStringToStringMapEntry(), "output", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(genUnitEClass, theEcorePackage.getEString(), "getInputGenParametersFormatted", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(genUnitEClass, this.getGenParameter(), "getAllGenParameters", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genRuleEClass, GenRule.class, "GenRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
