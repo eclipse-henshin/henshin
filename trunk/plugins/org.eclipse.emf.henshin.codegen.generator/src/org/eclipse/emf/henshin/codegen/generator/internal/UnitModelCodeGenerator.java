@@ -14,10 +14,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.codegen.model.GenTransformation;
 import org.eclipse.emf.henshin.codegen.model.GenUnit;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -81,6 +83,11 @@ public class UnitModelCodeGenerator {
 		}
 		out.println(indent + varName + " = " + localVarName + ";");
 		
+		// Add the parameters:
+		for (Parameter parameter : unit.getParameters()) {
+			generateParameter(indent, localVarName, parameter);
+		}
+		
 		// Now create the contents:
 		if (unit instanceof Rule) {
 			Rule rule = (Rule) unit;
@@ -95,7 +102,13 @@ public class UnitModelCodeGenerator {
 			for (Mapping mapping : rule.getMappings()) {
 				generateMapping(indent, localVarName, mapping);
 			}
-			
+						
+			// Attribute conditions:
+			int c = 0;
+			for (AttributeCondition condition : rule.getAttributeConditions()) {
+				generateAttributeCondition(indent, localVarName, "cond"+(c++), condition);
+			}
+						
 		}
 		
 		// Clean-up.
@@ -134,6 +147,18 @@ public class UnitModelCodeGenerator {
 				factory + ".createMapping(" +
 					nodeNames.get(mapping.getOrigin()) + ", " +
 					nodeNames.get(mapping.getImage()) + "));");
+	}
+
+	private void generateAttributeCondition(String indent, String ruleName, String varName, AttributeCondition condition) {
+		out.println(indent + varName + " = " + factory + ".createAttributeCondition();");	
+		out.println(indent + varName + ".setName(" + CodeGenStringUtil.escapeString(condition.getName()) + ");");
+		out.println(indent + varName + ".setConditionText(" + CodeGenStringUtil.escapeString(condition.getConditionText()) + ");");
+		out.println(indent + ruleName+ ".getAttributeConditions().add(" + varName + ");");
+	}
+
+	private void generateParameter(String indent, String ruleName, Parameter parameter) {
+		out.println(indent + ruleName + ".getParameters().add(" + 
+				factory + ".createParameter(" + CodeGenStringUtil.escapeString(parameter.getName()) + "));");
 	}
 	
 	private String getNodeType(Node node) {
