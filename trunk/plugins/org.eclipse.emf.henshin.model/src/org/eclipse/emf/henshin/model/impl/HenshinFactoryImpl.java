@@ -31,7 +31,14 @@ import org.eclipse.emf.henshin.model.*;
  */
 public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	
+	/**
+	 * The default name of LHS graphs.
+	 */
 	public static final String DEFAULT_RULE_LHS_NAME = "LHS";
+
+	/**
+	 * The default name of RHS graphs.
+	 */
 	public static final String DEFAULT_RULE_RHS_NAME = "RHS";
 	
 	
@@ -143,6 +150,15 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public Parameter createParameter() {
 		ParameterImpl parameter = new ParameterImpl();
+		return parameter;
+	}
+
+	/**
+	 * Create a parameter.
+	 */
+	public Parameter createParameter(String name) {
+		ParameterImpl parameter = new ParameterImpl();
+		parameter.setName(name);
 		return parameter;
 	}
 
