@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
@@ -49,8 +47,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-/**
- * 
+/** 
  * 
  * @author Gregor Bonifer
  * @author Stefan Jurack
@@ -106,7 +103,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	}
 	
 	protected String getUnitLabel(TransformationUnit unit) {
-		return unit.getName() + "[" + unit.getClass().getSimpleName() + "]";
+		return unit.getName() + "[" + unit.eClass().getName() + "]";
 	}
 	
 	protected void initData() {
@@ -135,9 +132,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 				if (r.getURIFragment(unit).equals(id)) {
 					this.initialUnit = unit;
 					break;
-				}// if
-			}// for
-		}// if
+				}
+			}
+		}
 		
 		availableUnits = new ArrayList<TransformationUnit>();
 		availableUnits.addAll(transformationSystem.getTransformationUnits());
@@ -176,45 +173,31 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		unitSelector.setEnabled(initialUnit == null);
 		
 		List<String> lastUsedModels = getModelPreferences();
+		
+		
+		cfg = new Henshination();
+		if (selectedUnit != null)
+			cfg.setTransformationUnit(selectedUnit,getParameterPreferences(selectedUnit));
+		
+		if (lastUsedModels.get(0).length() > 0)
+			cfg.setModelUri(URI.createURI(lastUsedModels.get(0)));
+		
+		
+		
 		modelSelector.setLastUsedModels(lastUsedModels.toArray(new String[0]));
 		
 		if (selectedUnit != null)
-			parameterEditor.setParameters(getParameterPreferences(selectedUnit.getParameters()));
+			parameterEditor.setParameters(cfg.getParameterConfigurations());
 		
 		unitSelector.addUnitSelectionListener(HenshinWizard.this);
 		modelSelector.addModelSelectorListener(HenshinWizard.this);
 		parameterEditor.addParameterChangeListener(HenshinWizard.this);
-		
-		cfg = new Henshination();
-		if (selectedUnit != null) cfg.setTransformationUnit(selectedUnit);
-		if (lastUsedModels.get(0).length() > 0)
-			cfg.setModelUri(URI.createURI(lastUsedModels.get(0)));
-		for (String pName : cfg.getParameterNames())
-			cfg.setParameterValue(pName, loadParameterValue(pName));
 	}
 	
-	protected String loadParameterValue(Parameter parameter) {
-		return loadParameterValue(parameter.getName());
-	}
-	
-	protected String loadParameterValue(String name) {
-		String value = store.getString("param_" + name);
-		return value != null ? value : "";
-	}
-	
-	protected void storeParameterValue(Parameter p, String value) {
-		storeParameterValue(p.getName(), value);
-	}
-	
-	protected void storeParameterValue(String name, String value) {
-		store.setValue("param_" + name, value);
-	}
-	
-	protected Map<Parameter, String> getParameterPreferences(Collection<Parameter> parameters) {
-		String prefix = "param_";
-		Map<Parameter, String> result = new HashMap<Parameter, String>();
-		for (Parameter param : parameters)
-			result.put(param, store.getString(prefix + param.getName()));
+	protected List<ParameterConfiguration> getParameterPreferences(TransformationUnit unit) {
+		List<ParameterConfiguration> result = new ArrayList<ParameterConfiguration>();
+		for (Parameter param : unit.getParameters())
+			result.add(ParameterConfiguration.loadConfiguration(store, param.getName()));
 		return result;
 	}
 	
@@ -294,12 +277,14 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			page.setMessage(null);
 		}
 		
-		if (cfg.getModelUri() == null || cfg.getTransformationUnit() == null) return false;
+		if (cfg.getModelUri() == null || cfg.getTransformationUnit() == null)
+			return false;
 		
 		List<String> errors = new ArrayList<String>();
 		
 		try {
-			if (cfg.getModel() == null) return false;
+			if (cfg.getModel() == null)
+				return false;
 		} catch (Exception e) {
 			errors.add(e.getMessage());
 		}
@@ -309,7 +294,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		
 		if (errors.size() == 0) {
 			page.setErrorMessage(null);
-			if (!cfg.isModelAffectedByTtransformation())
+			if (!cfg.isModelAffectedByTransformation())
 				page.setMessage(
 						InterpreterUIPlugin.LL("_UI_Status_TransformationDoesNotAffectModel"),
 						WizardPage.WARNING);
@@ -352,7 +337,8 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	@Override
 	public boolean performCancel() {
-		if (store.getBoolean("saveOnCancel")) saveSettings();
+		if (store.getBoolean("saveOnCancel"))
+			saveSettings();
 		return true;
 	}
 	
@@ -365,20 +351,22 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			for (int i = 0; i < 5; i++)
 				store.setValue("model_" + i, models.get(i));
 		}
-		for (String parameterName : cfg.getParameterNames())
-			store.setValue("param_" + parameterName, cfg.getParameterValue(parameterName)
-					.toString());
+		
+		for(ParameterConfiguration paramCfg:cfg.getParameterConfigurations())
+			paramCfg.persist(store);
 	}
 	
 	@Override
 	public boolean unitSelected(int idx) {
+		
 		TransformationUnit unit = this.availableUnits.get(idx);
-		Map<Parameter, String> params = getParameterPreferences(unit.getParameters());
-		parameterEditor.setParameters(params);
-		cfg.setTransformationUnit(unit);
-		for (Parameter parameter : params.keySet())
-			cfg.setParameterValue(parameter.getName(), params.get(parameter));
+		
+		cfg.setTransformationUnit(unit,getParameterPreferences(unit));
+		
+		parameterEditor.setParameters(cfg.getParameterConfigurations());
+				
 		fireCompletionChange();
+		
 		return false;
 	}
 	
@@ -391,8 +379,8 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	}
 	
 	@Override
-	public void parameterChanged(Parameter parameter, String value) {
-		cfg.parameterValues.put(parameter.getName(), value);
+	public void parameterChanged(ParameterConfiguration paramCfg) {
+		//cfg.parameterValues.put(parameter.getName(), value);
 		fireCompletionChange();
 	}
 	

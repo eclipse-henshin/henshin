@@ -167,8 +167,10 @@ public class HenshinationPreview {
 		parameterValueAfterColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return henshinationResult.getUnitApplication().getParameterValues()
-						.get((Parameter) element).toString();
+				Object value = henshinationResult.getUnitApplication().getParameterValues()
+						.get((Parameter) element);
+				return value == null ? "null" : value.toString();
+				
 			}
 		});
 		

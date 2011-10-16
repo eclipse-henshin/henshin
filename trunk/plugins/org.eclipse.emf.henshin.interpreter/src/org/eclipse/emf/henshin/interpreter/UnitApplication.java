@@ -38,6 +38,8 @@ public class UnitApplication extends Observable {
 	InterpreterEngine engine;
 	TransformationUnit transformationUnit;
 	
+	protected ApplicationMonitor appMonitor;
+	
 	Map<Parameter, Object> parameterValues;
 	Map<Parameter, Object> oldParameterValues;
 	
@@ -56,7 +58,8 @@ public class UnitApplication extends Observable {
 	 */
 	public UnitApplication(final InterpreterEngine engine,
 			final TransformationUnit transformationUnit) {
-		if (engine == null) throw new IllegalArgumentException("engine can not be null");
+		if (engine == null)
+			throw new IllegalArgumentException("engine can not be null");
 		
 		if (transformationUnit == null)
 			throw new IllegalArgumentException("transformationUnit can not be null");
@@ -84,6 +87,16 @@ public class UnitApplication extends Observable {
 			final Map<Parameter, Object> parameterValues) {
 		this(engine, transformationUnit);
 		this.parameterValues = parameterValues;
+	}
+	
+	public ApplicationMonitor getApplicationMonitor() {
+		if (appMonitor == null)
+			appMonitor = new ApplicationMonitor();
+		return appMonitor;
+	}
+	
+	private void setApplicationMonitor(ApplicationMonitor mon) {
+		this.appMonitor = mon;
 	}
 	
 	public boolean execute() {
@@ -137,7 +150,9 @@ public class UnitApplication extends Observable {
 	
 	private UnitApplication createApplicationFor(final TransformationUnit unit) {
 		Map<Parameter, Object> childPortValues = createChildParameterValues(unit);
-		return new UnitApplication(engine, unit, childPortValues);
+		UnitApplication ua = new UnitApplication(engine, unit, childPortValues);
+		ua.setApplicationMonitor(getApplicationMonitor());
+		return ua;
 	}
 	
 	private Map<Parameter, Object> createChildParameterValues(final TransformationUnit child) {
@@ -175,7 +190,7 @@ public class UnitApplication extends Observable {
 		List<TransformationUnit> possibleUnits = new ArrayList<TransformationUnit>(
 				independentUnit.getSubUnits());
 		
-		while (possibleUnits.size() > 0) {
+		while (possibleUnits.size() > 0 && !getApplicationMonitor().isCanceled()) {
 			int index = new Random().nextInt(possibleUnits.size());
 			UnitApplication unitApplication = createApplicationFor(possibleUnits.get(index));
 			if (!unitApplication.execute()) {
@@ -229,13 +244,20 @@ public class UnitApplication extends Observable {
 		SequentialUnit sequentialUnit = (SequentialUnit) transformationUnit;
 		
 		for (TransformationUnit subUnit : sequentialUnit.getSubUnits()) {
+			if (getApplicationMonitor().isCanceled()) {
+				if (getApplicationMonitor().isUndo())
+					undo();
+				return false;
+			}
+			
 			UnitApplication genericUnit = createApplicationFor(subUnit);
 			if (genericUnit.execute()) {
 				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
 				if (sequentialUnit.isStrict()) {
-					if (sequentialUnit.isRollback()) undo();
+					if (sequentialUnit.isRollback())
+						undo();
 					return false;
 				}// if
 				
@@ -257,6 +279,11 @@ public class UnitApplication extends Observable {
 			
 			TransformationUnit thenUnit = conditionalUnit.getThen();
 			UnitApplication genericThenUnit = createApplicationFor(thenUnit);
+			if (getApplicationMonitor().isCanceled()) {
+				if (getApplicationMonitor().isUndo())
+					undo();
+				return false;
+			}
 			success = genericThenUnit.execute();
 			if (success) {
 				updateParameterValues(genericThenUnit);
@@ -266,12 +293,19 @@ public class UnitApplication extends Observable {
 			if (conditionalUnit.getElse() != null) {
 				TransformationUnit elseUnit = conditionalUnit.getElse();
 				UnitApplication genericElseUnit = createApplicationFor(elseUnit);
+				if (getApplicationMonitor().isCanceled())
+					return false;
 				success = genericElseUnit.execute();
 				if (success) {
 					updateParameterValues(genericElseUnit);
 				}
 				appliedRules.addAll(genericElseUnit.appliedRules);
 			}
+		}
+		if (getApplicationMonitor().isCanceled()) {
+			if (getApplicationMonitor().isUndo())
+				undo();
+			return false;
 		}
 		
 		if (!success) {
@@ -287,6 +321,8 @@ public class UnitApplication extends Observable {
 				priorityUnit.getSubUnits());
 		
 		while (possibleUnits.size() > 0) {
+			if (getApplicationMonitor().isCanceled())
+				return false;
 			UnitApplication genericUnit = createApplicationFor(possibleUnits.get(0));
 			if (!genericUnit.execute()) {
 				possibleUnits.remove(0);
@@ -306,7 +342,7 @@ public class UnitApplication extends Observable {
 		CountedUnit countedUnit = (CountedUnit) transformationUnit;
 		int count = countedUnit.getCount();
 		
-		for (int i = 0; i < count || count == -1; i++) {
+		for (int i = 0; (i < count || count == -1) && !getApplicationMonitor().isCanceled(); i++) {
 			UnitApplication genericUnit = createApplicationFor(countedUnit.getSubUnit());
 			
 			if (genericUnit.execute()) {
@@ -321,7 +357,8 @@ public class UnitApplication extends Observable {
 				}
 			}
 		}
-		
+		if (getApplicationMonitor().isUndo())
+			undo();
 		return true;
 	}
 	
@@ -363,7 +400,8 @@ public class UnitApplication extends Observable {
 		
 		if (parameterValues != null) {
 			Parameter parameter = transformationUnit.getParameterByName(name);
-			if (parameter != null) return parameterValues.get(parameter);
+			if (parameter != null)
+				return parameterValues.get(parameter);
 		}// if
 		return null;
 	}// getPortValue
@@ -405,5 +443,38 @@ public class UnitApplication extends Observable {
 	public InterpreterEngine getInterpreterEngine() {
 		return engine;
 	}// getInterpreterEngine
+	
+	/**
+	 * Control-flag container.
+	 * 
+	 * @author Gregor Bonifer
+	 *
+	 */
+	public static class ApplicationMonitor {
+		
+		private boolean canceled = false;
+		
+		private boolean undo = false;
+		
+		protected ApplicationMonitor() {
+		}
+		
+		public boolean isCanceled() {
+			return canceled;
+		}
+		
+		public boolean isUndo() {
+			return undo;
+		}
+		
+		public void cancel() {
+			this.canceled = true;
+		}
+		
+		public void cancelAndUndo() {
+			this.canceled = true;
+			this.undo = true;
+		}
+	}
 	
 }

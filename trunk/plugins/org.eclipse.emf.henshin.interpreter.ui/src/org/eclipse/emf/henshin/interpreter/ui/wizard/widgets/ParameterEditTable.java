@@ -13,13 +13,12 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard.widgets;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
-import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.interpreter.ui.wizard.ParameterConfiguration;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -78,8 +77,8 @@ public class ParameterEditTable {
 			@Override
 			public Object[] getElements(Object inputElement) {
 				@SuppressWarnings("unchecked")
-				Map<Parameter, String> pMap = (Map<Parameter, String>) inputElement;
-				return pMap.entrySet().toArray();
+				Collection<ParameterConfiguration> paramCfgs = (Collection<ParameterConfiguration>) inputElement;
+				return paramCfgs.toArray();
 			}
 			
 			@Override
@@ -100,10 +99,54 @@ public class ParameterEditTable {
 			keyColumn.getColumn().setWidth(100);
 			keyColumn.setLabelProvider(new ColumnLabelProvider() {
 				
-				@SuppressWarnings("unchecked")
 				@Override
 				public String getText(Object entry) {
-					return ((Entry<Parameter, String>) entry).getKey().getName();
+					return ((ParameterConfiguration) entry).getName();
+				}
+			});
+		}
+		
+		TableViewerColumn typeColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		{
+			typeColumn.getColumn().setText(InterpreterUIPlugin.LL("_UI_ParameterColumn_Type"));
+			typeColumn.getColumn().setWidth(100);
+			typeColumn.setLabelProvider(new ColumnLabelProvider() {
+				
+				@Override
+				public String getText(Object element) {
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					return paramCfg.getTypeLabel();
+				}
+			});
+			typeColumn.setEditingSupport(new EditingSupport(tableViewer) {
+				
+				@Override
+				protected void setValue(Object element, Object value) {
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					
+					paramCfg.setType((Integer) value);
+					
+					for (ParameterChangeListener l : listeners)
+						l.parameterChanged(paramCfg);
+					tableViewer.refresh();
+				}
+				
+				@Override
+				protected Object getValue(Object element) {
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					return paramCfg.getType();
+				}
+				
+				@Override
+				protected CellEditor getCellEditor(Object element) {
+					
+					return new ComboBoxCellEditor(tableViewer.getTable(), ParameterConfiguration
+							.getSupportedTypes().values().toArray(new String[0]), SWT.READ_ONLY);
+				}
+				
+				@Override
+				protected boolean canEdit(Object element) {
+					return true;
 				}
 			});
 		}
@@ -113,41 +156,94 @@ public class ParameterEditTable {
 			valueColumn.getColumn().setText(InterpreterUIPlugin.LL("_UI_ParameterColumn_Value"));
 			valueColumn.getColumn().setWidth(100);
 			valueColumn.setLabelProvider(new ColumnLabelProvider() {
-				@SuppressWarnings("unchecked")
 				@Override
-				public String getText(Object entry) {
-					return ((Entry<Parameter, String>) entry).getValue();
+				public String getText(Object element) {
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					switch (paramCfg.getType()) {
+						case ParameterConfiguration.CLEAR:
+							return "";
+						case ParameterConfiguration.NULL:
+							return "null";
+						default:
+							return paramCfg.getValue().toString();
+					}
 				}
 			});
 			valueColumn.setEditingSupport(new EditingSupport(tableViewer) {
 				
-				@SuppressWarnings("unchecked")
 				@Override
-				protected void setValue(Object entry, Object value) {
-					((Entry<Parameter, String>) entry).setValue(value.toString());
-					for (ParameterChangeListener l : listeners)
-						l.parameterChanged(((Entry<Parameter, String>) entry).getKey(),
-								value.toString());
-					tableViewer.refresh();
+				protected void setValue(Object element, Object value) {
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					try {
+						switch (paramCfg.getType()) {
+							case ParameterConfiguration.STRING:
+								paramCfg.setValue(value.toString());
+								break;
+							case ParameterConfiguration.FLOAT:
+								paramCfg.setValue(Float.parseFloat(value.toString()));
+								break;
+							case ParameterConfiguration.DOUBLE:
+								paramCfg.setValue(Double.parseDouble(value.toString()));
+								break;
+							case ParameterConfiguration.INT:
+								paramCfg.setValue(Integer.parseInt(value.toString()));
+								break;
+							case ParameterConfiguration.LONG:
+								paramCfg.setValue(Long.parseLong(value.toString()));
+								break;
+							case ParameterConfiguration.BOOLEAN:
+								paramCfg.setValue((Integer) value > 0 ? true : false);
+								break;
+							default:
+								paramCfg.setValue(value);
+						}
+						for (ParameterChangeListener l : listeners)
+							l.parameterChanged(paramCfg);
+						tableViewer.refresh();
+					} catch (Exception e) {						
+					}
 				}
 				
-				@SuppressWarnings("unchecked")
 				@Override
 				protected Object getValue(Object entry) {
-					return ((Entry<Parameter, String>) entry).getValue();
+					ParameterConfiguration paramCfg = (ParameterConfiguration) entry;
+					System.out.println("celleditor getvalue: " + paramCfg.getValue() + "("
+							+ paramCfg.getTypeLabel() + ")");
+					
+					switch (paramCfg.getType()) {
+						case ParameterConfiguration.BOOLEAN:
+							boolean value = (Boolean) paramCfg.getValue();
+							return value ? 1 : 0;
+						default:
+							return paramCfg.getValue().toString();
+					}
+					
 				}
 				
 				@Override
 				protected CellEditor getCellEditor(Object element) {
-					return new TextCellEditor(tableViewer.getTable());
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					// case ParameterConfiguration.NULL is not editable
+					switch (paramCfg.getType()) {
+						case ParameterConfiguration.BOOLEAN:
+							return new ComboBoxCellEditor(tableViewer.getTable(), new String[] {
+									"false", "true" }, SWT.READ_ONLY);
+						default:
+							// default covers the cases:
+							// STRING,INT,LONG,FLOAT,DOUBLE
+							return new TextCellEditor(tableViewer.getTable());
+					}
 				}
 				
 				@Override
 				protected boolean canEdit(Object element) {
-					return true;
+					ParameterConfiguration paramCfg = (ParameterConfiguration) element;
+					return paramCfg.getType() != ParameterConfiguration.NULL
+							&& paramCfg.getType() != ParameterConfiguration.CLEAR;
 				}
 			});
 		}
+		
 	}
 	
 	public void addParameterChangeListener(ParameterChangeListener listener) {
@@ -155,11 +251,11 @@ public class ParameterEditTable {
 	}
 	
 	public static interface ParameterChangeListener {
-		void parameterChanged(Parameter parameter, String value);
+		void parameterChanged(ParameterConfiguration paramCfg);
 	}
 	
-	public void setParameters(Map<Parameter, String> parameters) {
-		tableViewer.setInput(parameters);
+	public void setParameters(Collection<ParameterConfiguration> paramCfgs) {
+		tableViewer.setInput(paramCfgs);
 	}
 	
 }

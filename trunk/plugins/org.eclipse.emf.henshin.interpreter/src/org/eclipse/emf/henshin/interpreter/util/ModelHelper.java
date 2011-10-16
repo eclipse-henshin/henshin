@@ -62,7 +62,8 @@ public class ModelHelper {
 		boolean found = false;
 		for (Parameter parameter : rule.getParameters()) {
 			found = parameter.getName().equals(potentialParameter);
-			if (found) break;
+			if (found)
+				break;
 		}// for
 		
 		return found;
@@ -101,7 +102,8 @@ public class ModelHelper {
 		if (remoteSourceNode != null && remoteTargetNode != null) {
 			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
 				if (remoteEdge.getTarget() == remoteTargetNode
-						&& remoteEdge.getType() == edge.getType()) return true;
+						&& remoteEdge.getType() == edge.getType())
+					return true;
 			}
 		}
 		
@@ -119,8 +121,10 @@ public class ModelHelper {
 	 */
 	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
 		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == node) return mapping.getImage();
-			if (mapping.getImage() == node) return mapping.getOrigin();
+			if (mapping.getOrigin() == node)
+				return mapping.getImage();
+			if (mapping.getImage() == node)
+				return mapping.getOrigin();
 		}
 		
 		return null;
@@ -130,7 +134,8 @@ public class ModelHelper {
 		Collection<Node> result = new ArrayList<Node>();
 		
 		for (Mapping mapping : mappings) {
-			if (mapping.getImage() == node) result.add(mapping.getOrigin());
+			if (mapping.getImage() == node)
+				result.add(mapping.getOrigin());
 		}
 		
 		return result;
@@ -140,7 +145,8 @@ public class ModelHelper {
 		Collection<Node> result = new ArrayList<Node>();
 		
 		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin() == node) result.add(mapping.getImage());
+			if (mapping.getOrigin() == node)
+				result.add(mapping.getImage());
 		}
 		
 		return result;
@@ -158,7 +164,8 @@ public class ModelHelper {
 	public static NestedCondition getParentCondition(Formula formula, Graph graph) {
 		if (formula instanceof NestedCondition) {
 			NestedCondition nestedCondition = (NestedCondition) formula;
-			if (nestedCondition.getConclusion() == graph) return nestedCondition;
+			if (nestedCondition.getConclusion() == graph)
+				return nestedCondition;
 		} else if (formula instanceof BinaryFormula) {
 			getParentCondition(((BinaryFormula) formula).getLeft(), graph);
 			getParentCondition(((BinaryFormula) formula).getRight(), graph);
@@ -202,7 +209,8 @@ public class ModelHelper {
 	 */
 	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri) {
 		EPackage p = registerEPackageByEcoreFile(ecoreFileUri, null);
-		if (p != null) EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
+		if (p != null)
+			EPackage.Registry.INSTANCE.put(p.getNsURI(), p);
 		return p;
 	}// registerEPackageByEcoreFile
 	
@@ -222,7 +230,8 @@ public class ModelHelper {
 	 */
 	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri, ResourceSet rs) {
 		EPackage result = null;
-		if (rs == null) rs = new ResourceSetImpl();
+		if (rs == null)
+			rs = new ResourceSetImpl();
 		Resource packageResource = rs.createResource(ecoreFileUri);
 		if (packageResource != null) {
 			try {
@@ -262,18 +271,20 @@ public class ModelHelper {
 	
 	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
 			Map<Parameter, Object> parameterValues) {
+		
 		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
 		
-		for (Parameter parameter : unit.getParameters()) {
-			Rule rule = null;
-			if (unit instanceof Rule)
-				rule = (Rule) unit;
-			else if (unit instanceof AmalgamationUnit)
-				rule = ((AmalgamationUnit) unit).getKernelRule();
-			
-			if (rule != null) {
+		Rule rule = null;
+		if (unit instanceof Rule)
+			rule = (Rule) unit;
+		else if (unit instanceof AmalgamationUnit)
+			rule = ((AmalgamationUnit) unit).getKernelRule();
+		
+		if (rule != null) {
+			for (Parameter parameter : unit.getParameters()) {
 				Node node = rule.getNodeByName(parameter.getName(), true);
-				if (node != null) prematch.put(node, (EObject) parameterValues.get(parameter));
+				if (node != null)
+					prematch.put(node, (EObject) parameterValues.get(parameter));
 			}
 		}
 		return prematch;
@@ -289,6 +300,7 @@ public class ModelHelper {
 	public static void renameParameterInAttribute(Attribute attribute, String oldName,
 			String newName) {
 		// TODO: do a real parse on the value
-		if (attribute.getValue().equals(oldName)) attribute.setValue(newName);
+		if (attribute.getValue().equals(oldName))
+			attribute.setValue(newName);
 	}
 }

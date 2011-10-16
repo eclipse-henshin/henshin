@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
-import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -44,9 +45,11 @@ import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -58,14 +61,15 @@ public class Henshination {
 	
 	protected TransformationUnit transformationUnit;
 	
-	protected Map<String, Object> parameterValues = new HashMap<String, Object>();
+	protected Collection<ParameterConfiguration> paramCfgs;
 	
 	protected URI modelUri;
+	
+	protected EObject modelRoot;
 	
 	protected ResourceSet resourceSet;
 	
 	public Henshination() {
-		resourceSet = new ResourceSetImpl();
 		modelUri = null;
 	}
 	
@@ -75,44 +79,102 @@ public class Henshination {
 	
 	public void setModelUri(URI modelUri) {
 		this.modelUri = modelUri;
+		this.modelRoot = null;
+		this.resourceSet = new ResourceSetImpl();
+		registerImportedPackages();
 	}
 	
 	public TransformationUnit getTransformationUnit() {
 		return transformationUnit;
 	}
 	
-	public void setTransformationUnit(TransformationUnit transformationUnit) {
+	public void setTransformationUnit(TransformationUnit transformationUnit,
+			Collection<ParameterConfiguration> paramCfgs) {
 		this.transformationUnit = transformationUnit;
-		
-		if (transformationUnit.eResource() != null
-				&& transformationUnit.eResource().getResourceSet() != null)
-			this.resourceSet = transformationUnit.eResource().getResourceSet();
-		
-		for (Parameter p : this.transformationUnit.getParameters())
-			this.parameterValues.put(p.getName(), "");
+		this.paramCfgs = paramCfgs;
+		registerImportedPackages();
 	}
 	
-	public void setParameterValue(String parameterName, Object value) {
-		this.parameterValues.put(parameterName, value);
-	}
-	
-	public Collection<String> getParameterNames() {
-		return parameterValues.keySet();
+	private void registerImportedPackages() {
+		if (this.resourceSet == null || this.transformationUnit == null)
+			return;
+		TransformationSystem tSys = (TransformationSystem) this.transformationUnit.eContainer();
+		for (EPackage pack : tSys.getImports())
+			this.resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
 	}
 	
 	public Object getParameterValue(String parameterName) {
-		return parameterValues.get(parameterName);
+		for (ParameterConfiguration pCfg : paramCfgs)
+			if (pCfg.getName().equals(parameterName))
+				return pCfg.getValue();
+		return null;
+	}
+	
+	public Collection<ParameterConfiguration> getParameterConfigurations() {
+		return paramCfgs;
+	}
+	
+	protected Map<String, Object> prepareParameterValues() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		for (ParameterConfiguration paramCfg : paramCfgs) {
+			if (paramCfg.isClear())
+				continue;
+			System.out.println(paramCfg.getName() + " => " + paramCfg.getValue() + "("
+					+ paramCfg.getTypeLabel() + ")[isNull:" + (paramCfg.getValue() == null) + "]");
+			result.put(paramCfg.getName(), paramCfg.getValue());
+		}
+		System.out.println(result);
+		
+		return result;
 	}
 	
 	protected HenshinationResult applyTo(EObject model) throws HenshinationException {
 		UnitApplication unitApplication = createUnitApplication(model);
-		try {
-			unitApplication.execute();
-		} catch (Exception e) {
-			throw new HenshinationException(e, unitApplication);
-		}
-		
+		runUnitApplication(unitApplication, false);
 		return new HenshinationResult(this, unitApplication);
+	}
+	
+	protected boolean runUnitApplication(final UnitApplication ua, final boolean undoOnCancel) {
+		final UnitApplication.ApplicationMonitor appMon = ua.getApplicationMonitor();
+		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
+			@Override
+			public synchronized void run(IProgressMonitor progMon) {
+				Thread unitAppThread = new Thread(new Runnable() {
+					public void run() {
+						ua.execute();
+					}
+				});
+				unitAppThread.start();
+				while (unitAppThread.isAlive() && !progMon.isCanceled()) {
+					try {
+						this.wait(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				if (progMon.isCanceled() && unitAppThread.isAlive()) {
+					if (undoOnCancel)
+						appMon.cancelAndUndo();
+					else
+						appMon.cancel();
+					try {
+						unitAppThread.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		
+		try {
+			new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getShell()).run(true, true, unitApplicationMonitor);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return !appMon.isCanceled();
 	}
 	
 	protected UnitApplication createUnitApplication(EObject model) {
@@ -120,21 +182,20 @@ public class Henshination {
 		context.addRoot(model);
 		EmfEngine engine = new EmfEngine(context);
 		UnitApplication unitApplication = new UnitApplication(engine, transformationUnit);
-		unitApplication.setParameterValues(parameterValues);
+		unitApplication.setParameterValues(prepareParameterValues());
 		return unitApplication;
 	}
 	
-	public boolean isModelAffectedByTtransformation() {
+	public boolean isModelAffectedByTransformation() {
 		TransformationSystem tSys = (TransformationSystem) transformationUnit.eContainer();
-		for (EPackage ep : tSys.getImports()) {
+		for (EPackage ep : tSys.getImports())
 			EcoreUtil.resolveAll(ep);
-		}
 		return tSys.getImports().contains(getModel().eClass().getEPackage());
 	}
 	
 	public HenshinationPreview createPreview() throws HenshinationException {
 		EObject originalModel = createCopy(getModel());
-		EObject previewModel = getModel();
+		EObject previewModel = createCopy(getModel());
 		HenshinationResult result = applyTo(previewModel);
 		try {
 			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel,
@@ -151,46 +212,46 @@ public class Henshination {
 	}
 	
 	protected EObject createCopy(EObject eobj) {
-		ResourceSet rs = new ResourceSetImpl();
-		Resource r = rs.createResource(eobj.eResource().getURI());
-		try {
-			r.load(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return r.getContents().get(0);
-		
-		// EObject copy = EcoreUtil.copy(eobj);
-		// Resource resource = new ResourceImpl();
-		// resource.setURI(URI.createFileURI("."));
-		// resource.getContents().add(copy);
-		// return copy;
+		EObject result = EcoreUtil.copy(eobj);
+		Resource resource = new ResourceImpl();
+		resource.setURI(eobj.eResource().getURI());
+		resource.getContents().add(result);
+		return result;
 	}
 	
 	public EObject getModel() {
-		if (modelUri == null || modelUri.isEmpty()) return null;
 		
-		ResourceSet resSet = (this.resourceSet != null) ? this.resourceSet : new ResourceSetImpl();
-		Map<String, Object> extReg = resSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+		if (modelRoot != null)
+			return modelRoot;
+		
+		if (modelUri == null || modelUri.isEmpty())
+			return null;
+		
+		Map<String, Object> extReg = resourceSet.getResourceFactoryRegistry()
+				.getExtensionToFactoryMap();
+		
 		if (!extReg.containsKey(modelUri.fileExtension()))
 			extReg.put(modelUri.fileExtension(), new XMIResourceFactoryImpl());
 		Resource res;
 		
 		try {
-			res = resSet.getResource(modelUri, true);
+			res = resourceSet.getResource(modelUri, true);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to load Resource");
 		}
-		if (res.getContents().size() == 0) throw new RuntimeException("Resource is empty");
 		
-		return res.getContents().get(0);
+		if (res.getContents().size() == 0)
+			throw new RuntimeException("Resource is empty");
 		
+		modelRoot = res.getContents().get(0);
+		
+		return modelRoot;
 	}
 	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + transformationUnit.getName() + " "
-				+ parameterValues.toString();
+				+ paramCfgs.toString();
 	}
 	
 	public IUndoableOperation getUndoableOperation() {
@@ -211,13 +272,17 @@ public class Henshination {
 			@Override
 			public IStatus execute(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
+				
 				try {
-					unitApplication.execute();
-					resource.save(null);
+					if (runUnitApplication(unitApplication, true)) {
+						resource.save(null);
+						return Status.OK_STATUS;
+					}
+					return new Status(Status.ERROR, InterpreterUIPlugin.ID, "Canceled by user!");
 				} catch (Exception e) {
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
 				}
-				return Status.OK_STATUS;
+				
 			}
 			
 			@Override
