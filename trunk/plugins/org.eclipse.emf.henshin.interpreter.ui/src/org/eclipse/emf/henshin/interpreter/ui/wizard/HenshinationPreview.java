@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.TabItem;
  * @author Gregor Bonifer
  * @author Stefan Jurack
  */
-public class HenshinationPreview {
+public class HenshinationPreview implements HenshinationResultView {
 	
 	protected CompareEditorInput editorInput;
 	
@@ -49,6 +49,10 @@ public class HenshinationPreview {
 		this.henshinationResult = henshinationResult;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinationResultView#showDialog(org.eclipse.swt.widgets.Shell)
+	 */
+	@Override
 	public void showDialog(Shell shell) {
 		editorInput.setTitle(InterpreterUIPlugin.LL("_UI_Preview_Title"));
 		editorInput.getCompareConfiguration().setRightLabel(

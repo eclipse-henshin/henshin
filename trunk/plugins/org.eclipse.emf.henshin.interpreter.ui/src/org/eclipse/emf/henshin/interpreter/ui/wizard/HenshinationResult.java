@@ -25,10 +25,13 @@ public class HenshinationResult {
 	
 	protected UnitApplication unitApplication;
 	
-	public HenshinationResult(Henshination henshination, UnitApplication unitApplication) {
+	protected boolean success;
+	
+	public HenshinationResult(Henshination henshination, UnitApplication unitApplication,boolean success) {
 		super();
 		this.henshination = henshination;
 		this.unitApplication = unitApplication;
+		this.success = success;
 	}
 	
 	public UnitApplication getUnitApplication() {
@@ -37,6 +40,10 @@ public class HenshinationResult {
 	
 	public Henshination getHenshination() {
 		return henshination;
+	}
+
+	public boolean isSuccess() {
+		return success;
 	}
 	
 }

@@ -44,11 +44,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
+import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
+import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
+import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -130,18 +136,26 @@ public class Henshination {
 	
 	protected HenshinationResult applyTo(EObject model) throws HenshinationException {
 		UnitApplication unitApplication = createUnitApplication(model);
-		runUnitApplication(unitApplication, false);
-		return new HenshinationResult(this, unitApplication);
+		boolean result = runUnitApplication(unitApplication, false).getSecond();
+		return new HenshinationResult(this, unitApplication, result);
 	}
 	
-	protected boolean runUnitApplication(final UnitApplication ua, final boolean undoOnCancel) {
+	/**
+	 * 
+	 * @param ua
+	 * @param undoOnCancel
+	 * @return {@link Tuple} (not canceled, application result)
+	 */
+	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua,
+			final boolean undoOnCancel) {
 		final UnitApplication.ApplicationMonitor appMon = ua.getApplicationMonitor();
+		final Capsule<Boolean> result = new Capsule<Boolean>();
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
 			@Override
 			public synchronized void run(IProgressMonitor progMon) {
 				Thread unitAppThread = new Thread(new Runnable() {
 					public void run() {
-						ua.execute();
+						result.setValue(ua.execute());
 					}
 				});
 				unitAppThread.start();
@@ -174,7 +188,8 @@ public class Henshination {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return !appMon.isCanceled();
+		// return result;
+		return new Tuple<Boolean, Boolean>(!appMon.isCanceled(), result.getValue());
 	}
 	
 	protected UnitApplication createUnitApplication(EObject model) {
@@ -193,10 +208,21 @@ public class Henshination {
 		return tSys.getImports().contains(getModel().eClass().getEPackage());
 	}
 	
-	public HenshinationPreview createPreview() throws HenshinationException {
+	public HenshinationResultView createPreview() throws HenshinationException {
 		EObject originalModel = createCopy(getModel());
 		EObject previewModel = createCopy(getModel());
 		HenshinationResult result = applyTo(previewModel);
+		if (!result.isSuccess()) {
+			return new HenshinationResultView() {
+				@Override
+				public void showDialog(Shell shell) {
+					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING |  SWT.OK );
+					mb.setText(InterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
+					mb.setMessage(InterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Message"));
+					mb.open();
+				}
+			};
+		}
 		try {
 			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel,
 					Collections.<String, Object> emptyMap());
@@ -274,7 +300,7 @@ public class Henshination {
 					throws ExecutionException {
 				
 				try {
-					if (runUnitApplication(unitApplication, true)) {
+					if (Tuples.and(runUnitApplication(unitApplication, true))) {
 						resource.save(null);
 						return Status.OK_STATUS;
 					}
