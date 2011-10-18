@@ -149,7 +149,7 @@ public class Henshination {
 	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua,
 			final boolean undoOnCancel) {
 		final UnitApplication.ApplicationMonitor appMon = ua.getApplicationMonitor();
-		final Capsule<Boolean> result = new Capsule<Boolean>();
+		final Capsule<Boolean> result = new Capsule<Boolean>(false);
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
 			@Override
 			public synchronized void run(IProgressMonitor progMon) {
