@@ -31,13 +31,13 @@ import org.junit.After;
  * convenient methods for loading henshin rules and models. Some useful
  * variables:
  * <ul>
- * <li>ts -- {@link TransformationSystem}</li>
- * <li>engine -- {@link EmfEngine}</li>
- * <li>graph -- engine's {@link EmfGraph}</li>
- * <li>r -- {@link Rule}</li>
- * <li>ra -- corresponding {@link RuleApplication}</li>
- * <li>tu -- {@link TransformationUnit}</li>
- * <li>ua -- corresponding {@link UnitApplication}</li>
+ * <li>htTransformationSystem	-- {@link TransformationSystem}</li>
+ * <li>htEngine 				-- {@link EmfEngine}</li>
+ * <li>htEmfGraph	 			-- engine's {@link EmfGraph}</li>
+ * <li>htRule	 				-- {@link Rule}</li>
+ * <li>htRuleApp	 			-- corresponding {@link RuleApplication}</li>
+ * <li>htTransUnit	 			-- {@link TransformationUnit}</li>
+ * <li>htUnitApp	 			-- corresponding {@link UnitApplication}</li>
  * </ul>
  * 
  * @author Felix Rieger
@@ -101,8 +101,8 @@ public class HenshinTest {
 	 * Initialize the tests. This should be called at the start of your JUnit
 	 * setUp() method.<br />
 	 * <strong>Attention:</strong> This method will not load a model, which has
-	 * to be loaded manually (don't forget to set <em>engine</em> and
-	 * <em>graph</em> to the corresponding {@link EmfEngine} and its
+	 * to be loaded manually (don't forget to set <em>htEngine</em> and
+	 * <em>htEmfGraph</em> to the corresponding {@link EmfEngine} and its
 	 * {@link EmfGraph} as well). Otherwise, other methods will not work
 	 * (especially loadRule and loadTu).<br />
 	 * 
@@ -126,6 +126,7 @@ public class HenshinTest {
 	 *            model file extension
 	 * @throws Exception
 	 */
+
 	protected void init(String henshinFile, String modelFile, String modelFileExt) throws Exception {
 		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
 		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
@@ -147,6 +148,7 @@ public class HenshinTest {
 	 *            {@link TransformationOptions} the {@link EmfEngine} should use
 	 * @throws Exception
 	 */
+
 	protected void init(String henshinFile, String modelFile, String modelFileExt,
 			TransformationOptions options) throws Exception {
 		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
@@ -160,7 +162,7 @@ public class HenshinTest {
 	 * setUp() method.<br />
 	 * <strong>Attention:</strong> This method will not load a
 	 * {@link TransformationSystem}, which has to be loaded manually (don't
-	 * forget to set <em>ts</em> to the loaded {@link TransformationSystem}).
+	 * forget to set <em>htTransformationSystem</em> to the loaded {@link TransformationSystem}).
 	 * Otherwise, other methods will not work (especially loadRule and loadTu).
 	 * 
 	 * @param modelFile
@@ -169,6 +171,7 @@ public class HenshinTest {
 	 *            model file extension
 	 * @throws Exception
 	 */
+
 	protected void init(String modelFile, String modelFileExt) throws Exception {
 		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
 		htEmfGraph = htEngine.getEmfGraph();
@@ -179,7 +182,7 @@ public class HenshinTest {
 	 * setUp() method.<br />
 	 * <strong>Attention:</strong> This method will not load a
 	 * {@link TransformationSystem}, which has to be loaded manually (don't
-	 * forget to set <em>ts</em> to the loaded {@link TransformationSystem}).
+	 * forget to set <em>htTransformationSystem</em> to the loaded {@link TransformationSystem}).
 	 * Otherwise, other methods will not work (especially loadRule and loadTu).
 	 * 
 	 * @param modelFile
@@ -199,8 +202,8 @@ public class HenshinTest {
 	
 	/**
 	 * Load a {@link Rule}.<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>r</em> and the
-	 * corresponding RuleApplication will be assigned to <em>ra</em>.
+	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
+	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
 	 * 
 	 * @param ruleName
 	 */
@@ -211,8 +214,8 @@ public class HenshinTest {
 	
 	/**
 	 * Load a {@link Rule} with a parameter<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>r</em> and the
-	 * corresponding RuleApplication will be assigned to <em>ra</em>.
+	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
+	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
 	 * 
 	 * @param ruleName
 	 *            Name of the {@link Rule}
@@ -228,8 +231,8 @@ public class HenshinTest {
 	
 	/**
 	 * Load a {@link Rule} with parameters<br />
-	 * As a side effect, th loaded Rule will be assigned to <em>r</em> and the
-	 * corresponding RuleApplication will be assigned to <em>ra</em>.
+	 * As a side effect, th loaded Rule will be assigned to <em>htRule</em> and the
+	 * corresponding RuleApplication will be assigned to <em>htRuleApp</em>.
 	 * 
 	 * @param ruleName
 	 *            Name of the {@link Rule}
@@ -246,8 +249,8 @@ public class HenshinTest {
 	/**
 	 * Load a {@link TransformationUnit}<br />
 	 * As a side effect, the loaded TransformationUnit will be assigned to
-	 * <em>tu</em> and the corresponding UnitApplication will be assigned to
-	 * <em>ua</em>.
+	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
+	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
 	 *            {@link TransformationUnit} to be loaded
@@ -260,8 +263,8 @@ public class HenshinTest {
 	/**
 	 * Load a {@link TransformationUnit} with a parameter. <br />
 	 * As a side effect, the loaded TransformationUnit will be assigned to
-	 * <em>tu</em> and the corresponding UnitApplication will be assigned to
-	 * <em>ua</em>.
+	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
+	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
 	 *            {@link TransformationUnit} to be loaded
@@ -278,8 +281,8 @@ public class HenshinTest {
 	/**
 	 * Load a transformation Unit with parameters. <br />
 	 * As a side effect, the loaded TransformationUnit will be assigned to
-	 * <em>tu</em> and the corresponding UnitApplication will be assigned to
-	 * <em>ua</em>.
+	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
+	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
 	 *            {@link TransformationUnit} to be loaded
@@ -291,26 +294,51 @@ public class HenshinTest {
 		htUnitApp.setParameterValues(paramMappings);
 	}
 	
+	/**
+	 * Load a graph and create a new EmfEngine for the graph (htEngine)
+	 * @param graph
+	 */
 	protected void loadGraph(EmfGraph graph) {
 		htEmfGraph = graph;
 		htEngine = new EmfEngine(htEmfGraph);
 	}
 	
+	/**
+	 * Load a graph embedded in the currently loaded TransformationSystem. 
+	 * <strong>This method should not be used and may be removed in the future.</strong>
+	 * @param embeddedGraphName
+	 */
 	protected void loadEmbeddedGraph(String embeddedGraphName) {
 		loadGraph(HenshinLoaders.loadEmbeddedGraph(embeddedGraphName, htTransformationSystem));
 	}
 	
-	protected void loadGraph(String fileName) {
-		URI graphURI = URI.createFileURI(new File(graphBasePath + fileName + "."
+	/**
+	 * Load a graph and create a new EmfEngine for the graph (htEngine)
+	 * @param graphName		name of the graph. Loaded graph is 
+	 * 						graphBasePath + graphName + "." + graphFileExtension
+	 */
+	protected void loadGraph(String graphName) {
+		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "."
 				+ graphFileExtension).getAbsolutePath());
 		loadGraph(HenshinLoaders.loadGraph(graphURI));
 	}
 	
+	/**
+	 * Set graph base path and file extension
+	 * @param graphPath		Path in which all graphs can be found
+	 * @param fileExtension	Common file extension for all graphs
+	 */
 	protected void setModelGraphProperties(String graphPath, String fileExtension) {
 		graphBasePath = graphPath;
 		graphFileExtension = fileExtension;
 	}
 	
+	/**
+	 * Get a graph's URI. 
+	 * @param graphName	name of the graph. The returned URI is the URI for
+	 * 					graphBasePath + graphName + "." + graphFileExtension
+	 * @return
+	 */
 	protected URI getGraphURI(String graphName) {
 		URI graphURI = URI.createFileURI(new File(graphBasePath + graphName + "."
 				+ graphFileExtension).getAbsolutePath());
