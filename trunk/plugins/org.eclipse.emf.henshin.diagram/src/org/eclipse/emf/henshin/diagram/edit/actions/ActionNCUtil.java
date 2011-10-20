@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
 /**
  * @generated NOT
  */
-public class ActionNACUtil {
+public class ActionNCUtil {
 	
 	/**
 	 * Name of the default NC.
@@ -30,6 +30,12 @@ public class ActionNACUtil {
 		return getOrCreateNC(action, rule, false);
 	}
 	
+	/**
+	 * Find or create a PAC for a REQUIRE action.
+	 * @param action	REQUIRE action.
+	 * @param rule		Rule.
+	 * @return			The PAC.
+	 */
 	public static NestedCondition getOrCreatePAC(Action action, Rule rule) {
 		
 		// Make sure the action is of type REQUIRE.
@@ -41,6 +47,13 @@ public class ActionNACUtil {
 	}
 	
 	
+	/**
+	 * Find or create a Nested Condition (either PAC or NAC)
+	 * @param action	FORBID/REQUIRE action
+	 * @param rule		Rule
+	 * @param positive	true if a PAC should be created, false if a NAC should be created
+	 * @return	the NC
+	 */
 	public static NestedCondition getOrCreateNC(Action action, Rule rule, boolean positive) {
 		
 		if (!((action != null) && 

@@ -97,7 +97,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// If it has an origin in the LHS, it is a NAC-action:
 			if (origin==null) {
-				if (ActionNACUtil.DEFAULT_NC_NAME.equals(graph.getName())) {
+				if (ActionNCUtil.DEFAULT_NC_NAME.equals(graph.getName())) {
 					return new Action(ActionType.FORBID);
 				} else {
 					return new Action(ActionType.FORBID, graph.getName());					
@@ -153,7 +153,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				editor.remove(image);
 				
 				// Move the node to the NAC:
-				NestedCondition nac = ActionNACUtil.getOrCreateNAC(action, rule);
+				NestedCondition nac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(nac.getConclusion());
 				editor.move(element);
 				
@@ -179,7 +179,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// For FORBID actions, move the element further to the NAC:
 			else if (action.getType()==ActionType.FORBID) {
-				NestedCondition nac = ActionNACUtil.getOrCreateNAC(action, rule);
+				NestedCondition nac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(nac.getConclusion());
 				editor.move(element);
 			}
@@ -204,7 +204,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// For FORBID actions, move the element to the NAC:
 			else if (action.getType()==ActionType.FORBID) {
-				NestedCondition nac = ActionNACUtil.getOrCreateNAC(action, rule);
+				NestedCondition nac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(nac.getConclusion());
 				editor.move(element);
 			}
@@ -237,7 +237,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 
 			// For FORBID actions, move the element to the new NAC:
 			else if (action.getType()==ActionType.FORBID) {
-				NestedCondition newNac = ActionNACUtil.getOrCreateNAC(action, rule);
+				NestedCondition newNac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(newNac.getConclusion());
 				editor.move(element);
 			}
