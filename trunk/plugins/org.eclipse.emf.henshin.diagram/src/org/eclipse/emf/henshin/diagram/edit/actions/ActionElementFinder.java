@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
+import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
 
 /**
  * @generated NOT
@@ -60,7 +60,7 @@ class ActionElementFinder {
 		
 		// Add NAC elements:
 		if (action==null || action.getType()==ActionType.FORBID) {
-			for (NestedCondition nac : HenshinNACUtil.getAllNACs(kernel)) {
+			for (NestedCondition nac : HenshinNCUtil.getAllNACs(kernel)) {
 				candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
 			}
 		}

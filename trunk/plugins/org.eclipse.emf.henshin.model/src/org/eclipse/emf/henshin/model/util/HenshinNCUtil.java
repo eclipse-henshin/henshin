@@ -38,17 +38,50 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  * @author Christian Krause
  */
-public class HenshinNACUtil {
+public class HenshinNCUtil {
+	
+	/**
+	 * Find all nested condition of a Rule.
+	 * @param rule		Rule.
+	 * @param positive	<code>true</code> if PACs should be found, <code>false</code> if NACs should be found.
+	 * @return			List of nested conditions.
+	 */
+	public static List<NestedCondition> getAllNCs(Rule rule, boolean positive) {
+		List<NestedCondition> ncs = new ArrayList<NestedCondition>();
+		addNCs(rule.getLhs().getFormula(), ncs, positive);
+		return ncs;
+	}
 	
 	/**
 	 * Find all negative application conditions (NACs) of a rule.
 	 * @param rule Rule.
 	 * @return List of negative application conditions.
 	 */
+	@Deprecated
 	public static List<NestedCondition> getAllNACs(Rule rule) {
+		return getAllNCs(rule, false);
+		/*
+		// XXX
 		List<NestedCondition> nacs = new ArrayList<NestedCondition>();
 		addNACs(rule.getLhs().getFormula(), nacs);
-		return nacs;
+		return nacs; */
+	}
+	
+	
+	/**
+	 * Find a Nested Condition with a given name.
+	 * @param rule		Rule.
+	 * @param name		Name of the Nested Condition.
+	 * @param positive	<code>true</code> if PACs should be found, <code>false</code> if NACs should be found.
+	 * @return	the nested condition if found.
+	 */
+	public static NestedCondition getNC(Rule rule, String name, boolean positive) {
+		for (NestedCondition nc : getAllNCs(rule, positive)) {
+			if (name.equals(nc.getConclusion().getName())) {
+				return nc;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -57,18 +90,56 @@ public class HenshinNACUtil {
 	 * @param name Name of the NAC.
 	 * @return The NAC if found.
 	 */
+	@Deprecated
 	public static NestedCondition getNAC(Rule rule, String name) {
+		// XXX
+		/*
 		for (NestedCondition nac : getAllNACs(rule)) {
 			if (name.equals(nac.getConclusion().getName())) return nac;
 		}
-		return null;
+		return null;*/
+		return getNC(rule, name, false);
+	}
+	
+	/**
+	 * Collect all nested conditions of a Rule recursively
+	 * @param formula
+	 * @param ncs
+	 * @param positive	<code>true</code> if PACs should be collected, <code>false</code> if NACs should be collected
+	 */
+	private static void addNCs(Formula formula, List<NestedCondition> ncs, boolean positive) {
+		// Conjunction (And):
+		if (formula instanceof And) {
+			addNCs(((And) formula).getLeft(), ncs, positive);
+			addNCs(((And) formula).getRight(), ncs, positive);
+		} 
+		// XXX: This part will be removed --v
+		else if (formula instanceof NestedCondition) {
+			NestedCondition nested = (NestedCondition) formula;
+			if (nested.isNegated() != positive) {
+				ncs.add(nested);
+			}
+		}
+		// XXX: End of removal part --^
+		else if (formula instanceof Not) {
+			Formula child = ((Not) formula).getChild();
+			if (child instanceof NestedCondition) {
+				NestedCondition nested = (NestedCondition) child;
+				if (nested.isNegated() == positive) {	// check will be removed
+					ncs.add(nested);
+				}
+			}
+		}
 	}
 	
 	/*
 	 * Collect all NACs of rule recursively.
 	 */
+	@Deprecated
 	private static void addNACs(Formula formula, List<NestedCondition> nacs) {
-		
+		addNCs(formula, nacs, false);
+		/*
+		// XXX
 		// Conjunction (And):
 		if (formula instanceof And) {
 			addNACs(((And) formula).getLeft(),nacs);
@@ -92,18 +163,60 @@ public class HenshinNACUtil {
 				if (!nested.isNegated()) nacs.add(nested);	// CHECK WILL BE REMOVED
 			}
 		}
-		
+		*/
 		// Done.
 	}
 
+	
+	/**
+	 * Create a new Nested Condition
+	 * @param rule		Rule.
+	 * @param name		Name of the NC.
+	 * @param positive	<code>true</code> if a PAC should be created, <code>false</code> if a NAC should be created
+	 * @return	the created NC
+	 */
+	public static NestedCondition createNC(Rule rule, String name, boolean positive) {
+		// Create the NC
+		NestedCondition nc = HenshinFactory.eINSTANCE.createNestedCondition();
+		Graph graph = HenshinFactory.eINSTANCE.createGraph();
+		graph.setName(name);
+		nc.setConclusion(graph);
+		
+		Formula ncFormula;
+		
+		// Wrapped in a 'Not' if it is a NAC:
+		if (!positive) {
+			Not not = HenshinFactory.eINSTANCE.createNot();
+			not.setChild(nc);
+			ncFormula = not;
+		} else {
+			ncFormula = nc;
+		}
+		
+		// Add it to the rule:
+		if (rule.getLhs().getFormula() == null) {
+			rule.getLhs().setFormula(ncFormula);
+		} else {
+			And and = HenshinFactory.eINSTANCE.createAnd();
+			and.setLeft(rule.getLhs().getFormula());
+			and.setRight(ncFormula);
+			rule.getLhs().setFormula(and);
+		}
+		
+		return nc;
+	
+	}
+	
 	/**
 	 * Create a new NAC.
 	 * @param rule Rule.
 	 * @param name Name of the NAC.
 	 * @return The newly create NAC.
 	 */
+	@Deprecated
 	public static NestedCondition createNAC(Rule rule, String name) {
-		
+		/*
+		// XXX
 		// Create the NAC:
 		NestedCondition nac = HenshinFactory.eINSTANCE.createNestedCondition();
 		Graph graph = HenshinFactory.eINSTANCE.createGraph();
@@ -126,19 +239,19 @@ public class HenshinNACUtil {
 		
 		// Done.
 		return nac;
-		
+		*/
+		return createNC(rule, name, false);
 	}
 	
 	/**
-	 * Remove a NAC from a rule.
-	 * @param rule Rule to be modified.
-	 * @param nac NAC to be removed.
+	 * Remove a Nested Condition from a rule.
+	 * @param rule	Rule to be modified.
+	 * @param nc	Nested Condition to be removed.
 	 */
-	public static void removeNAC(Rule rule, NestedCondition nac) {
-		
+	public static void removeNC(Rule rule, NestedCondition nc) {
 		// Remember the container and destroy the object:
-		EObject container = nac.eContainer();
-		EcoreUtil.remove(nac);
+		EObject container = nc.eContainer();
+		EcoreUtil.remove(nc);
 		
 		// Check if the container was a binary formula:
 		if (container instanceof BinaryFormula) {
@@ -148,7 +261,16 @@ public class HenshinNACUtil {
 			Formula remainder = (binary.getLeft()!=null) ? binary.getLeft() : binary.getRight();
 			EcoreUtil.replace(binary, remainder);
 		}
-		
+	}
+	
+	/**
+	 * Remove a NAC from a rule.
+	 * @param rule Rule to be modified.
+	 * @param nac NAC to be removed.
+	 */
+	@Deprecated
+	public static void removeNAC(Rule rule, NestedCondition nac) {
+		removeNC(rule, nac);
 	}
 	
 	/**
@@ -192,9 +314,9 @@ public class HenshinNACUtil {
 	 * @param rule Rule.
 	 */
 	public static void removeTrivialNACs(Rule rule) {
-		for (NestedCondition nac : getAllNACs(rule)) {
+		for (NestedCondition nac : getAllNCs(rule, false)) {
 			if (isTrivialNAC(nac)) {
-				removeNAC(rule, nac);
+				removeNC(rule, nac);
 			}
 		}
 	}

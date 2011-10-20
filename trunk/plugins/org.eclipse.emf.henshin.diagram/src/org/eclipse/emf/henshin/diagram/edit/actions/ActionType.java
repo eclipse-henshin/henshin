@@ -25,7 +25,8 @@ public enum ActionType {
 	PRESERVE(ColorConstants.gray), 
 	CREATE(new Color(null, 0, 200, 0)), 
 	DELETE(ColorConstants.red), 
-	FORBID(ColorConstants.blue);
+	FORBID(ColorConstants.blue),
+	REQUIRE(new Color(null, 170, 68, 0));
 	
 	// Color to be used for this action type.
 	private Color color;

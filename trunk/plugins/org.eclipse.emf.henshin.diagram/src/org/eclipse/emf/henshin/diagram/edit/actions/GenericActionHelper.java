@@ -14,7 +14,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinNACUtil;
+import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
 
 /**
  * @generated NOT
@@ -97,7 +97,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// If it has an origin in the LHS, it is a NAC-action:
 			if (origin==null) {
-				if (ActionNACUtil.DEFAULT_NAC_NAME.equals(graph.getName())) {
+				if (ActionNACUtil.DEFAULT_NC_NAME.equals(graph.getName())) {
 					return new Action(ActionType.FORBID);
 				} else {
 					return new Action(ActionType.FORBID, graph.getName());					
@@ -243,8 +243,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			}
 			
 			// Delete the NAC is it became empty or trivial due to the current change.
-			if (HenshinNACUtil.isTrivialNAC(nac)) {
-				HenshinNACUtil.removeNAC(rule, nac);
+			if (HenshinNCUtil.isTrivialNAC(nac)) {
+				HenshinNCUtil.removeNAC(rule, nac);
 			}
 			
 		}
