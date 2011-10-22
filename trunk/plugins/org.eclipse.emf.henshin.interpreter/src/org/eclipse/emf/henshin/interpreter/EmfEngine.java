@@ -225,7 +225,8 @@ public class EmfEngine implements InterpreterEngine {
 	private ApplicationCondition initApplicationCondition(final NestedCondition nc,
 			final Map<Variable, DomainSlot> domainMap, final Map<Graph, List<Variable>> graphMap,
 			final AttributeConditionHandler conditionHandler) {
-		ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, nc.isNegated());
+		//ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, nc.isNegated());
+		ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, false);
 		ac.setVariables(graphMap.get(nc.getConclusion()));
 		ac.setFormula(initFormula(nc.getConclusion().getFormula(), domainMap, graphMap,
 				conditionHandler));

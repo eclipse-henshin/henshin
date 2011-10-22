@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.matching.util.TransformationOptions;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 
 public class DomainSlot {
 	/**
@@ -197,10 +197,11 @@ public class DomainSlot {
 	 * @return true, if another instantiation is possible.
 	 */
 	public boolean unlock(Variable sender) {
-		// TODO: use ReferenceConstraints in inverse order in case of two
-		// different edges are between the same two nodes
-		for (ReferenceConstraint constraint : sender.getReferenceConstraints()) {
-			DomainChange change = remoteChangeMap.get(constraint);
+		
+		List<ReferenceConstraint> refList = new ArrayList<ReferenceConstraint>(sender.getReferenceConstraints());
+		Collections.reverse(refList);		
+		for (ReferenceConstraint constraint : refList) {
+			DomainChange change = remoteChangeMap.get(constraint); 
 			if (change != null) {
 				change.slot.temporaryDomain = change.originalValues;
 				remoteChangeMap.remove(constraint);
