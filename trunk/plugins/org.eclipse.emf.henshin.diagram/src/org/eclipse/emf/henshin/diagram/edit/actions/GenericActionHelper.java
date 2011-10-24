@@ -13,6 +13,7 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
 
@@ -30,9 +31,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// Get the graph and the rule:
 		Graph graph = getGraph(element);
-		if (graph==null) return null;
+		if (graph==null) {
+			return null;
+		}
 		Rule rule = graph.getContainerRule();
-		if (rule==null) return null;
+		if (rule==null) {
+			return null;
+		}
 		
 		// Get the amalgamation unit, if existing:
 		AmalgamationUnit amalgamation = 
@@ -57,7 +62,6 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// LHS element?
 		if (graph==rule.getLhs()) {
-			
 			// Try to get the image in the RHS:
 			editor = getMapEditor(rule.getRhs());
 			E image = editor.getOpposite(element);
@@ -75,7 +79,6 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// RHS element?
 		else if (graph==rule.getRhs()) {
-
 			// Try to get the origin in the LHS:
 			editor = getMapEditor(rule.getRhs());
 			E origin = editor.getOpposite(element);
@@ -90,7 +93,6 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// NAC element?
 		else if (isNAC(graph)) {
-			
 			// Try to get the origin in the LHS:
 			editor = getMapEditor(graph);
 			E origin = editor.getOpposite(element);
@@ -104,6 +106,17 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				}
 			}
 			
+		// PAC element?
+		} else if (!isNAC(graph)) {
+			editor = getMapEditor(graph);
+			E origin = editor.getOpposite(element);
+			if (origin == null) {
+				if (ActionNCUtil.DEFAULT_NC_NAME.equals(graph.getName())) {
+					return new Action(ActionType.REQUIRE);
+				} else {
+					return new Action(ActionType.REQUIRE, graph.getName());
+				}
+			}
 		}
 		
 		// At this point we know it is not considered as an action element.
@@ -157,6 +170,15 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				editor = getMapEditor(nac.getConclusion());
 				editor.move(element);
 				
+			} 
+			// REQUIRE 
+			else if (action.getType() == ActionType.REQUIRE) {
+				editor.remove(image);
+				
+				// Move the node to the PAC:
+				NestedCondition pac = ActionNCUtil.getOrCreateNC(action, rule, true);
+				editor = getMapEditor(pac.getConclusion());
+				editor.move(element);
 			}
 			
 		}
@@ -182,6 +204,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				NestedCondition nac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(nac.getConclusion());
 				editor.move(element);
+			}	
+			
+			// REQUIRE
+			else if (action.getType() == ActionType.REQUIRE) {
+				NestedCondition pac = ActionNCUtil.getOrCreateNC(action, rule, true);
+				editor = getMapEditor(pac.getConclusion());
+				editor.move(element);
 			}
 			
 		}
@@ -206,6 +235,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			else if (action.getType()==ActionType.FORBID) {
 				NestedCondition nac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(nac.getConclusion());
+				editor.move(element);
+			}	
+			
+			// REQUIRE
+			else if (action.getType() == ActionType.REQUIRE) {
+				NestedCondition pac = ActionNCUtil.getOrCreateNC(action, rule, true);
+				editor = getMapEditor(pac.getConclusion());
 				editor.move(element);
 			}
 			
@@ -239,6 +275,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			else if (action.getType()==ActionType.FORBID) {
 				NestedCondition newNac = ActionNCUtil.getOrCreateNAC(action, rule);
 				editor = getMapEditor(newNac.getConclusion());
+				editor.move(element);
+			}
+			
+			// REQUIRE
+			else if (action.getType() == ActionType.REQUIRE) {
+				NestedCondition pac = ActionNCUtil.getOrCreateNC(action, rule, true);
+				editor = getMapEditor(pac.getConclusion());
 				editor.move(element);
 			}
 			
@@ -340,10 +383,39 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	
 	/*
 	 * Check if a graph belongs to a NAC.
+	 * true - graph is a NAC
+	 * false - graph is not a NAC (possibly is a PAC)
 	 */
 	protected boolean isNAC(Graph graph) {
-		return (graph.eContainer() instanceof NestedCondition);
+		boolean retval = false;
+		boolean st = false;
+		if (graph.eContainer() instanceof NestedCondition) {
+			if (((NestedCondition) graph.eContainer()).eContainer() instanceof Not) {
+				System.err.println(graph.getName() + " NAC by 'NOT'"   + "\t\t" + graph);
+				retval = true;
+				st = true;
+			}
+			if (((NestedCondition) graph.eContainer()).isNegated()) {
+				System.err.println(graph.getName() + " NAC by negated flag" + "\t\t" + graph);
+				retval = true;
+				st = true;
+			}
+			if (!(((NestedCondition) graph.eContainer()).eContainer() instanceof Not)) {
+				System.err.println(graph.getName() + " PAC by absence of 'NOT'" + "\t\t" + graph);
+				st = true;
+				retval = false;
+			}
+			if (!st) {
+				System.err.println(graph.getName() + " didn't fulfill any criteria" + "\t\t" + graph);
+				st = true;
+			}
+		}
+		if (!st) {
+			System.err.println(graph.getName() + " is not a NC");
+		}
+		return retval;
 	}
+
 	
 	/*
 	 * Create a new map editor for a given target graph.
