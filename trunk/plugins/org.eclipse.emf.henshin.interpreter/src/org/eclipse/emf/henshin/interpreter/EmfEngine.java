@@ -137,13 +137,14 @@ public class EmfEngine implements InterpreterEngine {
 		for (Variable mainVariable : variableInfo.getMainVariables()) {
 			Node node = variableInfo.getVariableForNode(mainVariable);
 			
-			// The matchfinder gets a new set of transformation options in case it has to be modified
-			TransformationOptions options = getOptions().copy();			
+			// The matchfinder gets a new set of transformation options in case
+			// it has to be modified
+			TransformationOptions options = getOptions().copy();
 			if (options.getOption(TransformationOptions.INJECTIVE) == null)
 				options.setInjective(ruleInfo.getRule().isInjectiveMatching());
 			if (options.getOption(TransformationOptions.DANGLING) == null)
 				options.setDangling(ruleInfo.getRule().isCheckDangling());
-				
+			
 			// use injective, deterministic matching for nested conditions
 			if (node.getGraph() != ruleInfo.getRule().getLhs()) {
 				options.setDeterministic(true);
@@ -225,7 +226,8 @@ public class EmfEngine implements InterpreterEngine {
 	private ApplicationCondition initApplicationCondition(final NestedCondition nc,
 			final Map<Variable, DomainSlot> domainMap, final Map<Graph, List<Variable>> graphMap,
 			final AttributeConditionHandler conditionHandler) {
-		//ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, nc.isNegated());
+		// ApplicationCondition ac = new ApplicationCondition(emfGraph,
+		// domainMap, nc.isNegated());
 		ApplicationCondition ac = new ApplicationCondition(emfGraph, domainMap, false);
 		ac.setVariables(graphMap.get(nc.getConclusion()));
 		ac.setFormula(initFormula(nc.getConclusion().getFormula(), domainMap, graphMap,
@@ -368,9 +370,11 @@ public class EmfEngine implements InterpreterEngine {
 			emfGraph.removeEObject(removedNode);
 			
 			if (!rule.isCheckDangling()) {
-				Collection<Setting> removedEdges = emfGraph.getCrossReferenceAdapter().getInverseReferences(removedNode);
+				Collection<Setting> removedEdges = emfGraph.getCrossReferenceAdapter()
+						.getInverseReferences(removedNode);
 				for (Setting edge : removedEdges) {
-					modelChange.addReferenceChange(edge.getEObject(), (EReference) edge.getEStructuralFeature(), removedNode, true);
+					modelChange.addReferenceChange(edge.getEObject(),
+							(EReference) edge.getEStructuralFeature(), removedNode, true);
 				}
 			}
 		}
@@ -394,16 +398,18 @@ public class EmfEngine implements InterpreterEngine {
 		for (Edge edge : changeInfo.getDeletedEdges()) {
 			modelChange.addReferenceChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
 					matchNodeMapping.get(edge.getTarget()), true);
-//			modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()), edge.getType(),
-//					matchNodeMapping.get(edge.getTarget()), true);
+			// modelChange.addObjectChange(matchNodeMapping.get(edge.getSource()),
+			// edge.getType(),
+			// matchNodeMapping.get(edge.getTarget()), true);
 		}
 		
 		// add new edges
 		for (Edge edge : changeInfo.getCreatedEdges()) {
 			modelChange.addReferenceChange(comatchNodeMapping.get(edge.getSource()),
 					edge.getType(), comatchNodeMapping.get(edge.getTarget()), false);
-//			modelChange.addObjectChange(comatchNodeMapping.get(edge.getSource()), edge.getType(),
-//					comatchNodeMapping.get(edge.getTarget()), false);
+			// modelChange.addObjectChange(comatchNodeMapping.get(edge.getSource()),
+			// edge.getType(),
+			// comatchNodeMapping.get(edge.getTarget()), false);
 		}
 		
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
@@ -414,9 +420,13 @@ public class EmfEngine implements InterpreterEngine {
 			// workaround for Double conversion
 			if (value != null) {
 				valueString = value.toString();
-				if (valueString.endsWith(".0")) {
-					valueString = valueString.substring(0, valueString.length() - 2);
-				}
+				// removal of trailing ".0" is fatal in case of string
+				// attributes!
+				//
+				// if (valueString.endsWith(".0")) {
+				// valueString = valueString.substring(0, valueString.length() -
+				// 2);
+				// }
 			}
 			
 			modelChange.addAttributeChange(targetObject, attribute.getType(), valueString, false);
