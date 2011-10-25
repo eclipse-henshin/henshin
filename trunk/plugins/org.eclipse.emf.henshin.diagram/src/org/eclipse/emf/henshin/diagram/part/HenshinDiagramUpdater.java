@@ -346,11 +346,17 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public static List<HenshinLinkDescriptor> getTransformationUnit_2002ContainedLinks(
 			View view) {
+		
+		// Ideally, we want to return a list of all expected links
+		// inside the unit view here. Since this is not really nice
+		// to implement, we update the links only when something
+		// changed or when the unit view is being created.
 		return Collections.emptyList();
+		
 	}
 
 	/**

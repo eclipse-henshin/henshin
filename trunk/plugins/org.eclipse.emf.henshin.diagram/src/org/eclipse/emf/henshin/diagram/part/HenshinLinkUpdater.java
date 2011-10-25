@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -90,11 +92,15 @@ public class HenshinLinkUpdater {
 			if (subUnits.isEmpty()) {
 				knownLinks.add(updateLink(unit, begin, end));
 			} else {
-				int count = invocations.size();
-				knownLinks.add(updateLink(unit, begin, invocations.get(0)));
-				knownLinks.add(updateLink(unit, invocations.get(count-1), end));
+				int count = subUnits.size();
+				knownLinks.add(updateLink(unit, begin, findViewByElement(invocations, subUnits.get(0))));
+				knownLinks.add(updateLink(unit, findViewByElement(invocations, subUnits.get(count-1)), end));
 				for (int i=1; i<count; i++) {
-					knownLinks.add(updateLink(unit, invocations.get(i-1), invocations.get(i)));
+					View from = findViewByElement(invocations, subUnits.get(i-1));
+					View to = findViewByElement(invocations, subUnits.get(i));
+					if (from!=null && to!=null) {
+						knownLinks.add(updateLink(unit, from, to));
+					}
 				}
 			}
 		}
@@ -119,6 +125,23 @@ public class HenshinLinkUpdater {
 					knownLinks.add(updateLink(unit, invocation, end));
 				}
 				nodes.add(choice);
+			}
+		}
+		
+		// Conditional units:
+		if (unit instanceof ConditionalUnit) {
+			ConditionalUnit cond = (ConditionalUnit) unit;
+			View ifView = findViewByElement(invocations, cond.getIf());
+			View thenView = findViewByElement(invocations, cond.getThen());
+			View elseView = findViewByElement(invocations, cond.getElse());
+			if (ifView!=null) {
+				knownLinks.add(updateLink(unit, begin, ifView));
+				if (thenView!=null) {
+					knownLinks.add(updateLink(unit, ifView, thenView));
+				}
+				if (elseView!=null) {
+					knownLinks.add(updateLink(unit, ifView, elseView));
+				}
 			}
 		}
 		
@@ -204,6 +227,17 @@ public class HenshinLinkUpdater {
 		}
 		return null;
 	}
+	
+	private View findViewByElement(List<View> views, EObject object) {
+		for (View view : views) {
+			if (view.getElement()==object) {
+				return view;
+			}
+		}
+		return null;
+	}
+	
+
 	
 	private static final String INVOCATION_VISUAL_ID = HenshinVisualIDRegistry.getType(InvocationEditPart.VISUAL_ID);
 	private static final String LINK_VISUAL_ID = HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID);
