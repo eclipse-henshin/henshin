@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
@@ -422,11 +423,10 @@ public class EmfEngine implements InterpreterEngine {
 				valueString = value.toString();
 				// removal of trailing ".0" is fatal in case of string
 				// attributes!
-				//
-				// if (valueString.endsWith(".0")) {
-				// valueString = valueString.substring(0, valueString.length() -
-				// 2);
-				// }
+				if (valueString.endsWith(".0")
+						&& attribute.getType().getEAttributeType().getClassifierID() != EcorePackage.ESTRING) {					
+					valueString = valueString.substring(0, valueString.length() - 2);					
+				}
 			}
 			
 			modelChange.addAttributeChange(targetObject, attribute.getType(), valueString, false);

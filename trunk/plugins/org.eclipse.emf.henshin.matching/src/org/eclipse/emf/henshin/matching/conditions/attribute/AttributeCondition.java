@@ -18,10 +18,15 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 public class AttributeCondition {
-	String conditionText;
-	Collection<String> remainingParameters;
 	
-	ScriptEngine scriptEngine;
+	String conditionText;
+	
+	/**
+	 * Collection of parameters used in the conditionText which are not set yet.  
+	 */
+	private Collection<String> remainingParameters;
+	
+	private ScriptEngine scriptEngine;
 	
 	public AttributeCondition(String condition, Collection<String> conditionParameters,
 			ScriptEngine engine) {
@@ -30,6 +35,11 @@ public class AttributeCondition {
 		this.scriptEngine = engine;
 	}
 	
+	/**
+	 * Evaluates the conditionText if there are no more outstanding parameters.
+	 * 
+	 * @return
+	 */
 	public boolean eval() {
 		if (remainingParameters.isEmpty()) {
 			try {
