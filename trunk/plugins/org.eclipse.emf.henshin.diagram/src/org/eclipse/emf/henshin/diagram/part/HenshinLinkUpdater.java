@@ -230,13 +230,12 @@ public class HenshinLinkUpdater {
 	
 	private View findViewByElement(List<View> views, EObject object) {
 		for (View view : views) {
-			if (view.getElement()==object) {
+			if (view!=null && view.getElement()==object) {
 				return view;
 			}
 		}
 		return null;
 	}
-	
 
 	
 	private static final String INVOCATION_VISUAL_ID = HenshinVisualIDRegistry.getType(InvocationEditPart.VISUAL_ID);
