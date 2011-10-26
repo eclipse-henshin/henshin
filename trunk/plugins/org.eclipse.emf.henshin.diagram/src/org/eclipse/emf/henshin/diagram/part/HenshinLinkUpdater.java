@@ -138,9 +138,11 @@ public class HenshinLinkUpdater {
 				knownLinks.add(updateLink(unit, begin, ifView));
 				if (thenView!=null) {
 					knownLinks.add(updateLink(unit, ifView, thenView));
+					knownLinks.add(updateLink(unit, thenView, end));
 				}
 				if (elseView!=null) {
 					knownLinks.add(updateLink(unit, ifView, elseView));
+					knownLinks.add(updateLink(unit, elseView, end));
 				}
 			}
 		}
