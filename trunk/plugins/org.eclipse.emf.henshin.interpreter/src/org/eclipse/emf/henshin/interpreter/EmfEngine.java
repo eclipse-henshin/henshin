@@ -418,14 +418,18 @@ public class EmfEngine implements InterpreterEngine {
 			Object value = evalAttributeExpression(match.getParameterValues(), attribute);
 			
 			String valueString = null;
-			// workaround for Double conversion
+			// workaround for Double conversion:
+			// javascript evaluated numbers are always shown in floating point
+			// notation. This leads to a NumberFormatException if the EAttribute
+			// has EDataType EInt or ELong. 
+			//
 			if (value != null) {
 				valueString = value.toString();
 				// removal of trailing ".0" is fatal in case of string
 				// attributes!
 				if (valueString.endsWith(".0")
-						&& attribute.getType().getEAttributeType().getClassifierID() != EcorePackage.ESTRING) {					
-					valueString = valueString.substring(0, valueString.length() - 2);					
+						&& attribute.getType().getEAttributeType().getClassifierID() != EcorePackage.ESTRING) {
+					valueString = valueString.substring(0, valueString.length() - 2);
 				}
 			}
 			
