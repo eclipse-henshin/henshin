@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
@@ -49,8 +50,11 @@ public class HenshinationPreview implements HenshinationResultView {
 		this.henshinationResult = henshinationResult;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinationResultView#showDialog(org.eclipse.swt.widgets.Shell)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinationResultView#
+	 * showDialog(org.eclipse.swt.widgets.Shell)
 	 */
 	@Override
 	public void showDialog(Shell shell) {
@@ -154,11 +158,13 @@ public class HenshinationPreview implements HenshinationResultView {
 		parameterValueBeforeColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Object value = henshinationResult.getHenshination().getParameterValue(
-						((Parameter) element).getName());
-				if (value == null)
-					return "-null-";
-				return value.toString();
+				Parameter parameter = (Parameter) element;
+				ParameterConfiguration pCfg = henshinationResult.getHenshination()
+						.getParameterConfiguration(parameter.getName());
+				if (pCfg.isClear())
+					return "";
+				return pCfg.getValue() == null ? "null" : pCfg.getValue().toString();
+				
 			}
 		});
 		
@@ -171,14 +177,20 @@ public class HenshinationPreview implements HenshinationResultView {
 		parameterValueAfterColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Object value = henshinationResult.getUnitApplication().getParameterValues()
-						.get((Parameter) element);
-				return value == null ? "null" : value.toString();
-				
+				Parameter parameter = (Parameter) element;
+				Map<Parameter, Object> pValues = henshinationResult.getUnitApplication()
+						.getParameterValues();
+				Object value = "";
+				if (pValues.containsKey(parameter)) {
+					value = pValues.get((Parameter) element);
+					value = value == null ? "null" : value;
+				}
+				return value.toString();
 			}
 		});
 		
-		tableViewer.setInput(henshinationResult.getUnitApplication().getParameterValues().keySet());
+		tableViewer.setInput(henshinationResult.getUnitApplication().getTransformationUnit()
+				.getParameters());
 		return tableViewer.getTable();
 	}
 }

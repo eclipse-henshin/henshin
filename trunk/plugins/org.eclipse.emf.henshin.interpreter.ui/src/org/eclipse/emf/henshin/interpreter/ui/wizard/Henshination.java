@@ -110,9 +110,16 @@ public class Henshination {
 	}
 	
 	public Object getParameterValue(String parameterName) {
+		ParameterConfiguration pCfg = getParameterConfiguration(parameterName);
+		if (pCfg == null)
+			return null;
+		return pCfg.getValue();
+	}
+	
+	public ParameterConfiguration getParameterConfiguration(String parameterName) {
 		for (ParameterConfiguration pCfg : paramCfgs)
 			if (pCfg.getName().equals(parameterName))
-				return pCfg.getValue();
+				return pCfg;
 		return null;
 	}
 	
@@ -216,9 +223,10 @@ public class Henshination {
 			return new HenshinationResultView() {
 				@Override
 				public void showDialog(Shell shell) {
-					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING |  SWT.OK );
+					MessageBox mb = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 					mb.setText(InterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Title"));
-					mb.setMessage(InterpreterUIPlugin.LL("_UI_Preview_ApplicationNotSuccessful_Message"));
+					mb.setMessage(InterpreterUIPlugin
+							.LL("_UI_Preview_ApplicationNotSuccessful_Message"));
 					mb.open();
 				}
 			};
