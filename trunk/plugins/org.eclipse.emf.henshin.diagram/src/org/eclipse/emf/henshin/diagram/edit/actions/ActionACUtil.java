@@ -24,7 +24,7 @@ public class ActionACUtil {
 	 * @param rule		Rule
 	 * @return the application condition.
 	 */
-	public static NestedCondition getOrCreateNC(Action action, Rule rule) {
+	public static NestedCondition getOrCreateAC(Action action, Rule rule) {
 		
 		// Check if the action type is ok:
 		if (!((action != null) && 

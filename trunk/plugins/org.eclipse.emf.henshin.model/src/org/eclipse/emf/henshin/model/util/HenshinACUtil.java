@@ -29,6 +29,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
  * Common utility function for accessing and modifying
@@ -162,6 +163,13 @@ public class HenshinACUtil {
 		// Remember the container and destroy the object:
 		EObject container = ac.eContainer();
 		EcoreUtil.remove(ac);
+		
+		// Destroy unary containers:
+		while (container instanceof UnaryFormula) {
+			EObject dummy = container;
+			container = container.eContainer();
+			EcoreUtil.remove(dummy);			
+		}
 		
 		// Check if the container was a binary formula:
 		if (container instanceof BinaryFormula) {

@@ -171,7 +171,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				editor.remove(image);
 				
 				// Move the node to the AC:
-				NestedCondition ac = ActionACUtil.getOrCreateNC(action, rule);
+				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 				
@@ -199,7 +199,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			else if (action.getType()==ActionType.REQUIRE ||
 					action.getType()==ActionType.FORBID) {
 				
-				NestedCondition ac = ActionACUtil.getOrCreateNC(action, rule);
+				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 			}	
@@ -226,7 +226,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			else if (action.getType()==ActionType.REQUIRE || 
 					 action.getType()==ActionType.FORBID) {
 				
-				NestedCondition ac = ActionACUtil.getOrCreateNC(action, rule);
+				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 			}	
@@ -260,7 +260,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			else if (action.getType()==ActionType.REQUIRE ||
 					 action.getType()==ActionType.FORBID) {
 
-				NestedCondition newAc = ActionACUtil.getOrCreateNC(action, rule);
+				NestedCondition newAc = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(newAc.getConclusion());
 				editor.move(element);
 			}
