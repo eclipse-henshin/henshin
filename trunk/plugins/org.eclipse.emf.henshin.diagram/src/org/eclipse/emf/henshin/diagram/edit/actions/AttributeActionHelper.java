@@ -12,7 +12,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
  * @generated NOT
@@ -45,11 +45,11 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 				candidates.addAll(rhsNode.getAttributes());
 			}
 
-			// Attributes in the NACs:
-			for (NestedCondition nac : HenshinNCUtil.getAllNACs(rule)) {
-				Node nacNode = new NodeMapEditor(nac.getConclusion()).getOpposite(lhsNode);
-				if (nacNode!=null) {
-					candidates.addAll(nacNode.getAttributes());
+			// Attributes in the PACs and NACs:
+			for (NestedCondition nc : HenshinACUtil.getAllACs(rule)) {
+				Node ncNode = new NodeMapEditor(nc.getConclusion()).getOpposite(lhsNode);
+				if (ncNode!=null) {
+					candidates.addAll(ncNode.getAttributes());
 				}
 			}
 		} else {

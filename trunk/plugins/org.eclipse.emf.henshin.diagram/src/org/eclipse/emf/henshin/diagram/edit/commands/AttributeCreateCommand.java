@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -108,11 +108,11 @@ public class AttributeCreateCommand extends EditElementCommand {
 			if (rhsNode != null) {
 				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
 			}
-			for (NestedCondition nac : HenshinNCUtil.getAllNACs(rule)) {
-				Node nacNode = HenshinMappingUtil.getNodeImage(lhsNode,
-						nac.getConclusion(), nac.getMappings());
-				if (nacNode != null) {
-					addAttribute(nacNode, (Attribute) EcoreUtil.copy(attribute));
+			for (NestedCondition ac : HenshinACUtil.getAllACs(rule)) {
+				Node acNode = HenshinMappingUtil.getNodeImage(lhsNode,
+						ac.getConclusion(), ac.getMappings());
+				if (acNode != null) {
+					addAttribute(acNode, (Attribute) EcoreUtil.copy(attribute));
 				}
 			}
 		}

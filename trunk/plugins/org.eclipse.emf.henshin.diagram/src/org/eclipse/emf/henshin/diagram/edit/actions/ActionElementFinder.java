@@ -13,7 +13,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
  * @generated NOT
@@ -57,10 +57,17 @@ class ActionElementFinder {
 				candidates.addAll((List<E>) rule.getRhs().eGet(containment));				
 			}
 		}
-		
+
+		// Add PAC elements:
+		if (action==null || action.getType()==ActionType.REQUIRE) {
+			for (NestedCondition pac : HenshinACUtil.getAllACs(kernel, true)) {
+				candidates.addAll((List<E>) pac.getConclusion().eGet(containment));
+			}
+		}
+
 		// Add NAC elements:
 		if (action==null || action.getType()==ActionType.FORBID) {
-			for (NestedCondition nac : HenshinNCUtil.getAllNACs(kernel)) {
+			for (NestedCondition nac : HenshinACUtil.getAllACs(kernel, false)) {
 				candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
 			}
 		}

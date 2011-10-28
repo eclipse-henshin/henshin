@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -73,8 +73,8 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		// Remove the image in the RHS, if existing:
 		doRemove(HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()));
 		
-		// Remove images in the NACs:
-		for (NestedCondition nac : HenshinNCUtil.getAllNACs(rule)) {
+		// Remove images in the PACs/NACs:
+		for (NestedCondition nac : HenshinACUtil.getAllACs(rule)) {
 			doRemove(HenshinMappingUtil.getEdgeImage(edge, nac.getConclusion(), nac.getMappings()));
 		}
 		
@@ -91,7 +91,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		doRemove(edge);
 		
 		// Clean up trivial NAC and multi-rules:
-		HenshinNCUtil.removeTrivialNACs(rule);
+		HenshinACUtil.removeTrivialACs(rule);
 		AmalgamationEditHelper.cleanUpAmalagamation(rule);
 		
 		// Done.

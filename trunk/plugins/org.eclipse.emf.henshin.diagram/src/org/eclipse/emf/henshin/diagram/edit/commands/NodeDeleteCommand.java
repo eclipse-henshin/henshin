@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-import org.eclipse.emf.henshin.model.util.HenshinNCUtil;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -85,7 +85,7 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		node.getGraph().removeNode(node);
 		
 		// Clean up trivial NAC and multi-rules:
-		HenshinNCUtil.removeTrivialNACs(kernel);
+		HenshinACUtil.removeTrivialACs(kernel);
 		if (amalgamation!=null) {
 			AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);			
 		}
