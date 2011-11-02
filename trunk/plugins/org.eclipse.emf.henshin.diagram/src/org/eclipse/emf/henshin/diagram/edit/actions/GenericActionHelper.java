@@ -240,11 +240,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			NestedCondition ac = (NestedCondition) graph.eContainer();
 			editor = getMapEditor(ac.getConclusion());
 			
-			// We move the element to the LHS if the action is not an AC:
-			if (action.getType()!=ActionType.REQUIRE &&
-				action.getType()!=ActionType.FORBID) {
-				editor.move(element);
-			}
+			// We move the element to the LHS in any case:
+			editor.move(element);
 			
 			// For PRESERVE actions, create a copy in the RHS as well:
 			if (action.getType()==ActionType.PRESERVE) {
