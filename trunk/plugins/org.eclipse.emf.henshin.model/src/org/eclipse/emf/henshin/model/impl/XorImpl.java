@@ -21,13 +21,12 @@ import org.eclipse.emf.henshin.model.Xor;
  * <em><b>Xor</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
- * 
+ *
  * @generated
  */
 public class XorImpl extends BinaryFormulaImpl implements Xor {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected XorImpl() {
@@ -36,7 +35,6 @@ public class XorImpl extends BinaryFormulaImpl implements Xor {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

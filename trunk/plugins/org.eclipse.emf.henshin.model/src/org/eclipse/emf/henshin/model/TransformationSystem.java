@@ -37,7 +37,6 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Rules</em>' containment reference list isn't
@@ -46,8 +45,7 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Rules()
-	 * @see org.eclipse.emf.henshin.model.Rule#getTransformationSystem
-	 * @model opposite="transformationSystem" containment="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Rule> getRules();

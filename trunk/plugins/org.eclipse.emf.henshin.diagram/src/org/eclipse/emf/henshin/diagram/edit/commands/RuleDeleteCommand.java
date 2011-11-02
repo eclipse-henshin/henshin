@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Rule;
@@ -45,13 +46,13 @@ public class RuleDeleteCommand extends AbstractTransactionalCommand {
 		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamation(rule);
 		if (amalgamation!=null) {
 			for (Rule multi : amalgamation.getMultiRules()) {
-				multi.setTransformationSystem(null);
+				EcoreUtil.delete(multi);
 			}
 			rule.getTransformationSystem().getTransformationUnits().remove(amalgamation);
 		}
 		
 		// Delete the rule.
-		rule.setTransformationSystem(null);
+		EcoreUtil.delete(rule);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

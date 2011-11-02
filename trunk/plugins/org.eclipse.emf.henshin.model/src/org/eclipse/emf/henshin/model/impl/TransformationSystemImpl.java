@@ -156,7 +156,7 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 */
 	public EList<Rule> getRules() {
 		if (rules == null) {
-			rules = new EObjectContainmentWithInverseEList<Rule>(Rule.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, HenshinPackage.RULE__TRANSFORMATION_SYSTEM);
+			rules = new EObjectContainmentEList<Rule>(Rule.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES);
 		}
 		return rules;
 	}
@@ -226,21 +226,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 		}// for
 		return null;
 	}// findRuleByName
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getRules()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -29,17 +29,14 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
-import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Edge} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Edge} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
@@ -65,10 +62,10 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addSourcePropertyDescriptor(object);
-			addTypePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
+			addTypePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -148,51 +145,14 @@ public class EdgeItemProvider extends ItemProviderAdapter implements IEditingDom
 	}
 	
 	/**
-	 * This returns Edge.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Edge.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		Edge edge = (Edge) object;
-		
-		if (edge.eContainer() == null) {
-			// This is used to return the palette icon needed for the visual editor.
-			// Otherwise, since the visual editor will create an Edge without source, target nor type,
-			// a red border will be drawn around the Edge icon in the palette.
-			return getResourceLocator().getImage("full/obj16/Edge");
-		}
-		
-		Object edgeImage = null;
-		
-		boolean needsAttention = false;
-		needsAttention |= (edge.getType() == null);
-		needsAttention |= (edge.getSource() == null);
-		needsAttention |= (edge.getTarget() == null);
-		
-		if (edge.getType() != null && edge.getType().isContainment()) {
-			edgeImage = getResourceLocator().getImage("full/obj16/ContainmentEdge.png");
-		} else if (edge.getType() != null && edge.getType().isMany()) {
-			edgeImage = IconUtil.getCompositeImage(getResourceLocator().getImage("full/obj16/Edge"), getResourceLocator().getImage("full/obj16/Edge"), 1, 2);
-		} else {
-			edgeImage = getResourceLocator().getImage("full/obj16/Edge");
-		}// if
-		
-		if (HenshinRuleAnalysisUtil.isDeletionEdge(edge)) {
-			Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-			edgeImage = IconUtil.getCompositeImage(edgeImage, deleteOverlay);
-		} else if (HenshinRuleAnalysisUtil.isCreationEdge(edge)) {
-			Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
-			edgeImage = IconUtil.getCompositeImage(edgeImage, createOverlay);
-		}// if
-		
-		if (needsAttention) {
-			Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
-			edgeImage = IconUtil.getCompositeImage(edgeImage, attentionOverlay);
-		}
-		
-		return edgeImage;
-	}// getImage
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Edge"));
+	}
 	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc

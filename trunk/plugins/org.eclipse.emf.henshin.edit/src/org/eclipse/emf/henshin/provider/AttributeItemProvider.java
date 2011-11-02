@@ -35,10 +35,9 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Attribute} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Attribute} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
 public class AttributeItemProvider extends ItemProviderAdapter implements
@@ -64,7 +63,7 @@ public class AttributeItemProvider extends ItemProviderAdapter implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addTypePropertyDescriptor(object);
 			addValuePropertyDescriptor(object);
 		}
@@ -102,18 +101,24 @@ public class AttributeItemProvider extends ItemProviderAdapter implements
 	 * @generated
 	 */
 	protected void addValuePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Attribute_value_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_Attribute_value_feature",
-						"_UI_Attribute_type"), HenshinPackage.Literals.ATTRIBUTE__VALUE, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Attribute_value_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Attribute_value_feature", "_UI_Attribute_type"),
+				 HenshinPackage.Literals.ATTRIBUTE__VALUE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 	
 	/**
-	 * This returns Attribute.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Attribute.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -139,21 +144,19 @@ public class AttributeItemProvider extends ItemProviderAdapter implements
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
+
 		switch (notification.getFeatureID(Attribute.class)) {
 			case HenshinPackage.ATTRIBUTE__VALUE:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);

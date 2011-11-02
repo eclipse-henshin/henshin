@@ -180,11 +180,10 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getSubUnits(boolean deep) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
+		// Must be implemented by the subclasses.
 		throw new UnsupportedOperationException();
 	}
 	

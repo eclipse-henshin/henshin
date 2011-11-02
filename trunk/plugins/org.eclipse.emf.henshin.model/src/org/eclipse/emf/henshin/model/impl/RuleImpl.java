@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -43,9 +44,10 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getRhs <em>Rhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getAttributeConditions <em>Attribute Conditions</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMappings <em>Mappings</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getTransformationSystem <em>Transformation System</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isCheckDangling <em>Check Dangling</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#isInjectiveMatching <em>Injective Matching</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiRules <em>Multi Rules</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.RuleImpl#getMultiMappings <em>Multi Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -129,6 +131,26 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected boolean injectiveMatching = INJECTIVE_MATCHING_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getMultiRules() <em>Multi Rules</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMultiRules()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Rule> multiRules;
+
+	/**
+	 * The cached value of the '{@link #getMultiMappings() <em>Multi Mappings</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMultiMappings()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Mapping> multiMappings;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -251,41 +273,17 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public TransformationSystem getTransformationSystem() {
-		if (eContainerFeatureID() != HenshinPackage.RULE__TRANSFORMATION_SYSTEM) return null;
-		return (TransformationSystem)eContainer();
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetTransformationSystem(
-			TransformationSystem newTransformationSystem, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newTransformationSystem, HenshinPackage.RULE__TRANSFORMATION_SYSTEM, msgs);
-		return msgs;
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTransformationSystem(TransformationSystem newTransformationSystem) {
-		if (newTransformationSystem != eInternalContainer() || (eContainerFeatureID() != HenshinPackage.RULE__TRANSFORMATION_SYSTEM && newTransformationSystem != null)) {
-			if (EcoreUtil.isAncestor(this, newTransformationSystem))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newTransformationSystem != null)
-				msgs = ((InternalEObject)newTransformationSystem).eInverseAdd(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
-			msgs = basicSetTransformationSystem(newTransformationSystem, msgs);
-			if (msgs != null) msgs.dispatch();
+		EObject container = eContainer();
+		while (container!=null) {
+			if (container instanceof TransformationSystem) {
+				return (TransformationSystem) container;
+			}
+			container = container.eContainer();
 		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.RULE__TRANSFORMATION_SYSTEM, newTransformationSystem, newTransformationSystem));
+		return null;
 	}
 	
 	/**
@@ -331,6 +329,30 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Rule> getMultiRules() {
+		if (multiRules == null) {
+			multiRules = new EObjectContainmentEList<Rule>(Rule.class, this, HenshinPackage.RULE__MULTI_RULES);
+		}
+		return multiRules;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Mapping> getMultiMappings() {
+		if (multiMappings == null) {
+			multiMappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.RULE__MULTI_MAPPINGS);
+		}
+		return multiMappings;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
@@ -369,10 +391,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		switch (featureID) {
 			case HenshinPackage.RULE__ATTRIBUTE_CONDITIONS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAttributeConditions()).basicAdd(otherEnd, msgs);
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetTransformationSystem((TransformationSystem)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -393,23 +411,12 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				return ((InternalEList<?>)getAttributeConditions()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.RULE__MAPPINGS:
 				return ((InternalEList<?>)getMappings()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return basicSetTransformationSystem(null, msgs);
+			case HenshinPackage.RULE__MULTI_RULES:
+				return ((InternalEList<?>)getMultiRules()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.RULE__MULTI_MAPPINGS:
+				return ((InternalEList<?>)getMultiMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return eInternalContainer().eInverseRemove(this, HenshinPackage.TRANSFORMATION_SYSTEM__RULES, TransformationSystem.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 	
 	/**
@@ -427,12 +434,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				return getAttributeConditions();
 			case HenshinPackage.RULE__MAPPINGS:
 				return getMappings();
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return getTransformationSystem();
 			case HenshinPackage.RULE__CHECK_DANGLING:
 				return isCheckDangling();
 			case HenshinPackage.RULE__INJECTIVE_MATCHING:
 				return isInjectiveMatching();
+			case HenshinPackage.RULE__MULTI_RULES:
+				return getMultiRules();
+			case HenshinPackage.RULE__MULTI_MAPPINGS:
+				return getMultiMappings();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -459,14 +468,19 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				getMappings().clear();
 				getMappings().addAll((Collection<? extends Mapping>)newValue);
 				return;
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				setTransformationSystem((TransformationSystem)newValue);
-				return;
 			case HenshinPackage.RULE__CHECK_DANGLING:
 				setCheckDangling((Boolean)newValue);
 				return;
 			case HenshinPackage.RULE__INJECTIVE_MATCHING:
 				setInjectiveMatching((Boolean)newValue);
+				return;
+			case HenshinPackage.RULE__MULTI_RULES:
+				getMultiRules().clear();
+				getMultiRules().addAll((Collection<? extends Rule>)newValue);
+				return;
+			case HenshinPackage.RULE__MULTI_MAPPINGS:
+				getMultiMappings().clear();
+				getMultiMappings().addAll((Collection<? extends Mapping>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -491,14 +505,17 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			case HenshinPackage.RULE__MAPPINGS:
 				getMappings().clear();
 				return;
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				setTransformationSystem((TransformationSystem)null);
-				return;
 			case HenshinPackage.RULE__CHECK_DANGLING:
 				setCheckDangling(CHECK_DANGLING_EDEFAULT);
 				return;
 			case HenshinPackage.RULE__INJECTIVE_MATCHING:
 				setInjectiveMatching(INJECTIVE_MATCHING_EDEFAULT);
+				return;
+			case HenshinPackage.RULE__MULTI_RULES:
+				getMultiRules().clear();
+				return;
+			case HenshinPackage.RULE__MULTI_MAPPINGS:
+				getMultiMappings().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -519,12 +536,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				return attributeConditions != null && !attributeConditions.isEmpty();
 			case HenshinPackage.RULE__MAPPINGS:
 				return mappings != null && !mappings.isEmpty();
-			case HenshinPackage.RULE__TRANSFORMATION_SYSTEM:
-				return getTransformationSystem() != null;
 			case HenshinPackage.RULE__CHECK_DANGLING:
 				return checkDangling != CHECK_DANGLING_EDEFAULT;
 			case HenshinPackage.RULE__INJECTIVE_MATCHING:
 				return injectiveMatching != INJECTIVE_MATCHING_EDEFAULT;
+			case HenshinPackage.RULE__MULTI_RULES:
+				return multiRules != null && !multiRules.isEmpty();
+			case HenshinPackage.RULE__MULTI_MAPPINGS:
+				return multiMappings != null && !multiMappings.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

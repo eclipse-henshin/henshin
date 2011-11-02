@@ -40,19 +40,16 @@ import org.eclipse.emf.common.util.EList;
  * If <code>rollback=false</code> no rollback is performed on abortion.
  * </p>
  * <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#getSubUnits <em>Sub
- * Units</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isStrict <em>Strict
- * </em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isRollback <em>
- * Rollback</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#getSubUnits <em>Sub Units</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isStrict <em>Strict</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.SequentialUnit#isRollback <em>Rollback</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.emf.henshin.model.HenshinPackage#getSequentialUnit()
  * @model
  * @generated
@@ -77,14 +74,14 @@ public interface SequentialUnit extends TransformationUnit {
 	EList<TransformationUnit> getSubUnits();
 	
 	/**
-	 * Returns the value of the '<em><b>Strict</b></em>' attribute. The default
-	 * value is <code>"true"</code>. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Strict</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Strict</em>' attribute isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Strict</em>' attribute.
 	 * @see #setStrict(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getSequentialUnit_Strict()
@@ -107,14 +104,14 @@ public interface SequentialUnit extends TransformationUnit {
 	void setStrict(boolean value);
 	
 	/**
-	 * Returns the value of the '<em><b>Rollback</b></em>' attribute. The
-	 * default value is <code>"true"</code>. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Rollback</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Rollback</em>' attribute isn't clear, there
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Rollback</em>' attribute.
 	 * @see #setRollback(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getSequentialUnit_Rollback()

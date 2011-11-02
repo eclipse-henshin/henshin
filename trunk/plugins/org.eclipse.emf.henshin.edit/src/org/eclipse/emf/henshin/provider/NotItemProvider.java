@@ -25,10 +25,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Not} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Not} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class NotItemProvider extends UnaryFormulaItemProvider implements
@@ -54,14 +53,14 @@ public class NotItemProvider extends UnaryFormulaItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 		}
 		return itemPropertyDescriptors;
 	}
 	
 	/**
-	 * This returns Not.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Not.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -70,9 +69,9 @@ public class NotItemProvider extends UnaryFormulaItemProvider implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -81,11 +80,10 @@ public class NotItemProvider extends UnaryFormulaItemProvider implements
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

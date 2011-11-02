@@ -419,22 +419,13 @@ public interface HenshinPackage extends EPackage {
 	int RULE__MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Transformation System</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE__TRANSFORMATION_SYSTEM = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
-
-	/**
 	 * The feature id for the '<em><b>Check Dangling</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__CHECK_DANGLING = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
+	int RULE__CHECK_DANGLING = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Injective Matching</b></em>' attribute.
@@ -443,7 +434,25 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__INJECTIVE_MATCHING = TRANSFORMATION_UNIT_FEATURE_COUNT + 6;
+	int RULE__INJECTIVE_MATCHING = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Multi Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Multi Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__MULTI_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
@@ -452,7 +461,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 7;
+	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1746,17 +1755,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getRule_Mappings();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Transformation System</em>'.
-	 * @see org.eclipse.emf.henshin.model.Rule#getTransformationSystem()
-	 * @see #getRule()
-	 * @generated
-	 */
-	EReference getRule_TransformationSystem();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Rule#isCheckDangling <em>Check Dangling</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1777,6 +1775,28 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRule_InjectiveMatching();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Rule#getMultiRules <em>Multi Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Multi Rules</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#getMultiRules()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_MultiRules();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Rule#getMultiMappings <em>Multi Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Multi Mappings</em>'.
+	 * @see org.eclipse.emf.henshin.model.Rule#getMultiMappings()
+	 * @see #getRule()
+	 * @generated
+	 */
+	EReference getRule_MultiMappings();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AttributeCondition <em>Attribute Condition</em>}'.
@@ -2667,14 +2687,6 @@ public interface HenshinPackage extends EPackage {
 		EReference RULE__MAPPINGS = eINSTANCE.getRule_Mappings();
 
 		/**
-		 * The meta object literal for the '<em><b>Transformation System</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RULE__TRANSFORMATION_SYSTEM = eINSTANCE.getRule_TransformationSystem();
-
-		/**
 		 * The meta object literal for the '<em><b>Check Dangling</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2689,6 +2701,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RULE__INJECTIVE_MATCHING = eINSTANCE.getRule_InjectiveMatching();
+
+		/**
+		 * The meta object literal for the '<em><b>Multi Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__MULTI_RULES = eINSTANCE.getRule_MultiRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Multi Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE__MULTI_MAPPINGS = eINSTANCE.getRule_MultiMappings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.

@@ -36,7 +36,10 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/rhs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/attributeConditions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/mappings"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//Rule/transformationSystem"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/checkDangling"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Rule/injectiveMatching"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiRules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/multiMappings"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getNodeByName">
         <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/nodename"/>
         <genParameters ecoreParameter="henshin.ecore#//Rule/getNodeByName/isLhs"/>
@@ -45,6 +48,7 @@
         <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/sourceNode"/>
         <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/targetNode"/>
       </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/getTransformationSystem"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//AttributeCondition">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//AttributeCondition/rule"/>

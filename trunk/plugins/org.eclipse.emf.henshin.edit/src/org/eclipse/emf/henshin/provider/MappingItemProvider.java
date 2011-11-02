@@ -43,10 +43,9 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingImagePropertyDescript
 import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Mapping} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Mapping} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class MappingItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
@@ -77,7 +76,7 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addOriginPropertyDescriptor(object);
 			addImagePropertyDescriptor(object);
 		}
@@ -145,8 +144,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 	}
 	
 	/**
-	 * This returns Mapping.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Mapping.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

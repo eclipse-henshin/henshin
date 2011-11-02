@@ -25,9 +25,10 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getRhs <em>Rhs</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getAttributeConditions <em>Attribute Conditions</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMappings <em>Mappings</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#isCheckDangling <em>Check Dangling</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Rule#isInjectiveMatching <em>Injective Matching</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiRules <em>Multi Rules</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Rule#getMultiMappings <em>Multi Mappings</em>}</li>
  * </ul>
  * </p>
  *
@@ -37,13 +38,10 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Rule extends TransformationUnit {
+	
 	/**
 	 * Returns the value of the '<em><b>Lhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Lhs</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lhs</em>' containment reference.
 	 * @see #setLhs(Graph)
@@ -66,10 +64,6 @@ public interface Rule extends TransformationUnit {
 	/**
 	 * Returns the value of the '<em><b>Rhs</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rhs</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rhs</em>' containment reference.
 	 * @see #setRhs(Graph)
@@ -94,10 +88,6 @@ public interface Rule extends TransformationUnit {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.AttributeCondition}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.AttributeCondition#getRule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attribute Conditions</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attribute Conditions</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_AttributeConditions()
@@ -111,10 +101,6 @@ public interface Rule extends TransformationUnit {
 	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mappings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Mappings()
@@ -124,41 +110,20 @@ public interface Rule extends TransformationUnit {
 	EList<Mapping> getMappings();
 
 	/**
-	 * Returns the value of the '<em><b>Transformation System</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.TransformationSystem#getRules <em>Rules</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transformation System</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
+	 * Get the {@link TransformationSystem} instance this rule is
+	 * contained in or <code>null</code> if it is not part of a
+	 * transformation system.
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transformation System</em>' container reference.
-	 * @see #setTransformationSystem(TransformationSystem)
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_TransformationSystem()
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getRules
-	 * @model opposite="rules" transient="false"
+	 * @model kind="operation"
 	 * @generated
 	 */
 	TransformationSystem getTransformationSystem();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Rule#getTransformationSystem <em>Transformation System</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Transformation System</em>' container reference.
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	void setTransformationSystem(TransformationSystem value);
-
-	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.
 	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Check Dangling</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Check Dangling</em>' attribute.
 	 * @see #setCheckDangling(boolean)
@@ -182,10 +147,6 @@ public interface Rule extends TransformationUnit {
 	 * Returns the value of the '<em><b>Injective Matching</b></em>' attribute.
 	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Injective Matching</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Injective Matching</em>' attribute.
 	 * @see #setInjectiveMatching(boolean)
@@ -204,6 +165,30 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	void setInjectiveMatching(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Multi Rules</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Multi Rules</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_MultiRules()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Rule> getMultiRules();
+
+	/**
+	 * Returns the value of the '<em><b>Multi Mappings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Multi Mappings</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_MultiMappings()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Mapping> getMultiMappings();
 
 	/**
 	 * <!-- begin-user-doc -->

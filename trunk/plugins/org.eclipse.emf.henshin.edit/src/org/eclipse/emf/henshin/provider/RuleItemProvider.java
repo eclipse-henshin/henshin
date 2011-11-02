@@ -20,9 +20,9 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -40,7 +40,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.trans.RuleMappingItemProvider;
-import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Rule} object.
@@ -144,6 +143,8 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			childrenFeatures.add(HenshinPackage.Literals.RULE__RHS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS);
 			childrenFeatures.add(HenshinPackage.Literals.RULE__MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.RULE__MULTI_RULES);
+			childrenFeatures.add(HenshinPackage.Literals.RULE__MULTI_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
@@ -313,6 +314,16 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			(createChildParameter
 				(HenshinPackage.Literals.RULE__MAPPINGS,
 				 HenshinFactory.eINSTANCE.createMapping()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__MULTI_RULES,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__MULTI_MAPPINGS,
+				 HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
 	/**
@@ -330,7 +341,9 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 
 		boolean qualify =
 			childFeature == HenshinPackage.Literals.RULE__LHS ||
-			childFeature == HenshinPackage.Literals.RULE__RHS;
+			childFeature == HenshinPackage.Literals.RULE__RHS ||
+			childFeature == HenshinPackage.Literals.RULE__MAPPINGS ||
+			childFeature == HenshinPackage.Literals.RULE__MULTI_MAPPINGS;
 
 		if (qualify) {
 			return getString
