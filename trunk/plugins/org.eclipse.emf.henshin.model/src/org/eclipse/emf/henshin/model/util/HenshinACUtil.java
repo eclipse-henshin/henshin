@@ -119,7 +119,7 @@ public class HenshinACUtil {
 	 * @param positive	<code>true</code> if a PAC should be created, <code>false</code> if a NAC should be created
 	 * @return the created application condition
 	 */
-	public static NestedCondition createNC(Rule rule, String name, boolean positive) {
+	public static NestedCondition createAC(Rule rule, String name, boolean positive) {
 		
 		// Create the application condition:
 		NestedCondition ac = HenshinFactory.eINSTANCE.createNestedCondition();

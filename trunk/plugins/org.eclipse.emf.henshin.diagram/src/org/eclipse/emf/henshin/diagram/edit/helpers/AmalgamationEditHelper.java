@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 /**
  * Helper methods for handling amalgamation units in
  * the graphical editor.
+ * 
  * @author Christian Krause
  */
 public class AmalgamationEditHelper {
@@ -36,7 +37,6 @@ public class AmalgamationEditHelper {
 	 */
 	public static final String MULTI_RULE_NAME_PREFIX = "multi_";
 
-	
 	/**
 	 * Get the associated default amalgamation unit for a given
 	 * kernel or multi rule. This delegates to {@link #getAmalgamationFromKernelRule(Rule)}

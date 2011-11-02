@@ -46,7 +46,7 @@ public class ActionACUtil {
 		// Find or create the application condition:
 		NestedCondition ac = HenshinACUtil.getAC(rule, name, positive);
 		if (ac == null) {
-			ac = HenshinACUtil.createNC(rule, name, positive);
+			ac = HenshinACUtil.createAC(rule, name, positive);
 		}
 		
 		// Done.
