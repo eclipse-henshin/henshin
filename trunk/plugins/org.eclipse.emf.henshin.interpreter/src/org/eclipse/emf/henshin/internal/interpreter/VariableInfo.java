@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.matching.constraints.AttributeConstraint;
+import org.eclipse.emf.henshin.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.matching.constraints.DanglingConstraint;
 import org.eclipse.emf.henshin.matching.constraints.ParameterConstraint;
 import org.eclipse.emf.henshin.matching.constraints.ReferenceConstraint;
@@ -126,6 +127,15 @@ public class VariableInfo {
 			Variable targetVariable = node2variable.get(edge.getTarget());
 			ReferenceConstraint constraint = new ReferenceConstraint(targetVariable, edge.getType());
 			var.addConstraint(constraint);
+		}
+		
+		for (Edge edge : node.getIncoming()) {
+			if (edge.getType().isContainment()) {
+				Variable targetVariable = node2variable.get(edge.getSource());
+				ContainmentConstraint constraint = new ContainmentConstraint(edge.getType(),
+						targetVariable);
+				var.addConstraint(constraint);
+			}
 		}
 		
 		for (Attribute attribute : node.getAttributes()) {

@@ -16,8 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.matching.EmfGraph;
@@ -128,22 +130,26 @@ public class DomainSlot {
 			initialized = true;
 			owner = variable;
 			
-			// If temporaryDomain is not null, there exist ReferenceConstraints
-			// pointing to this slot.
+			// If temporaryDomain is not null, there are BinaryConstraints
+			// restricting this slot's domain.
 			if (temporaryDomain != null) {
 				domain = new ArrayList<EObject>(temporaryDomain);
 			}
 			
 			variable.getTypeConstraint().initDomain(this, graph);
-			if (domain.isEmpty()) return false;
+			if (domain.isEmpty())
+				return false;
 			
-			if (!options.isDeterministic()) Collections.shuffle(domain);
+			if (!options.isDeterministic())
+				Collections.shuffle(domain);
 			
-			if (options.isInjective()) domain.removeAll(usedObjects);
+			if (options.isInjective())
+				domain.removeAll(usedObjects);
 		}
 		
 		if (!locked) {
-			if (domain.isEmpty()) return false;
+			if (domain.isEmpty())
+				return false;
 			
 			value = domain.get(domain.size() - 1);
 			domain.remove(domain.size() - 1);
@@ -152,22 +158,33 @@ public class DomainSlot {
 		}
 		
 		if (!checkedVariables.contains(variable)) {
-			if (!variable.getTypeConstraint().check(this)) return false;
+			if (!variable.getTypeConstraint().check(this))
+				return false;
 			
 			for (AttributeConstraint constraint : variable.getAttributeConstraints()) {
-				if (!constraint.check(this)) return false;
+				if (!constraint.check(this))
+					return false;
 			}
 			
 			if (options.isDangling()) {
 				for (DanglingConstraint constraint : variable.getDanglingConstraints()) {
-					if (!constraint.check(value, graph)) return false;
+					if (!constraint.check(value, graph))
+						return false;
 				}
 			}
 			
 			for (ParameterConstraint constraint : variable.getParameterConstraints()) {
 				if (!conditionHandler.isSet(constraint.parameterName))
 					initializedParameters.add(constraint.parameterName);
-				if (!constraint.check(this)) return false;
+				if (!constraint.check(this))
+					return false;
+			}
+			
+			for (ContainmentConstraint constraint : variable.getContainmentConstraints()) {
+				DomainSlot targetSlot = domainMap.get(constraint.getTargetVariable());
+				
+				if (!constraint.check(this, targetSlot))
+					return false;
 			}
 			
 			for (ReferenceConstraint constraint : variable.getReferenceConstraints()) {
@@ -198,15 +215,21 @@ public class DomainSlot {
 	 */
 	public boolean unlock(Variable sender) {
 		
-		List<ReferenceConstraint> refList = new ArrayList<ReferenceConstraint>(sender.getReferenceConstraints());
-		Collections.reverse(refList);		
-		for (ReferenceConstraint constraint : refList) {
-			DomainChange change = remoteChangeMap.get(constraint); 
+		List<BinaryConstraint> reverseBinaryConstraints = new ArrayList<BinaryConstraint>(sender
+				.getReferenceConstraints().size() + sender.getContainmentConstraints().size());
+		// add constraints in the order they are checked. 
+		//
+		reverseBinaryConstraints.addAll(sender.getContainmentConstraints());
+		reverseBinaryConstraints.addAll(sender.getReferenceConstraints());
+		Collections.reverse(reverseBinaryConstraints);
+		
+		for (BinaryConstraint constraint : reverseBinaryConstraints) {
+			DomainChange change = remoteChangeMap.get(constraint);
 			if (change != null) {
 				change.slot.temporaryDomain = change.originalValues;
 				remoteChangeMap.remove(constraint);
 			}
-		}
+		}				
 		
 		if (locked && sender == owner) {
 			locked = false;
@@ -254,9 +277,11 @@ public class DomainSlot {
 	 * @return true, if instantiation might be possible.
 	 */
 	public boolean instantiationPossible() {
-		if (domain == null) return false;
+		if (domain == null)
+			return false;
 		
-		if (!locked) return domain.size() > 0;
+		if (!locked)
+			return domain.size() > 0;
 		
 		return false;
 	}
@@ -276,4 +301,5 @@ public class DomainSlot {
 		this.usedObjects.add(value);
 		this.owner = null;
 	}
+	
 }

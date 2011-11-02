@@ -22,6 +22,7 @@ public class Variable {
 	private Collection<DanglingConstraint> danglingConstraints;
 	private Collection<ReferenceConstraint> referenceConstraints;
 	private Collection<ParameterConstraint> parameterConstraints;
+	private Collection<ContainmentConstraint> containmentConstraints;
 	
 	/**
 	 * Constructor<br>
@@ -36,6 +37,7 @@ public class Variable {
 		danglingConstraints = new HashSet<DanglingConstraint>();
 		referenceConstraints = new HashSet<ReferenceConstraint>();
 		parameterConstraints = new HashSet<ParameterConstraint>();
+		containmentConstraints = new HashSet<ContainmentConstraint>();
 	}
 	
 	/**
@@ -64,6 +66,13 @@ public class Variable {
 	 */
 	public void addConstraint(ParameterConstraint constraint) {
 		parameterConstraints.add((ParameterConstraint) constraint);
+	}
+	
+	/**
+	 * @param constraint
+	 */
+	public void addConstraint(ContainmentConstraint constraint) {
+		containmentConstraints.add((ContainmentConstraint) constraint);
 	}
 	
 	/**
@@ -99,5 +108,12 @@ public class Variable {
 	 */
 	public Collection<ParameterConstraint> getParameterConstraints() {
 		return parameterConstraints;
+	}
+	
+	/**
+	 * @return the containmentConstraints
+	 */
+	public Collection<ContainmentConstraint> getContainmentConstraints() {
+		return containmentConstraints;
 	}
 }
