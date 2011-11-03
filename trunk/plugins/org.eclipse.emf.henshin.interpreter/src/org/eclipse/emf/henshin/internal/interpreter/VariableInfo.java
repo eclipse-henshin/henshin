@@ -132,8 +132,7 @@ public class VariableInfo {
 		for (Edge edge : node.getIncoming()) {
 			if (edge.getType().isContainment()) {
 				Variable targetVariable = node2variable.get(edge.getSource());
-				ContainmentConstraint constraint = new ContainmentConstraint(edge.getType(),
-						targetVariable);
+				ContainmentConstraint constraint = new ContainmentConstraint(targetVariable);
 				var.addConstraint(constraint);
 			}
 		}

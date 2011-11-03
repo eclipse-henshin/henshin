@@ -16,18 +16,18 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+
 /**
- * {@link ContainmentConstraint} checks 
+ * {@link ContainmentConstraint} checks
+ * 
  * @author Gregor Bonifer
- *
+ * 
  */
 public class ContainmentConstraint implements BinaryConstraint {
-	
-	private EReference reference;
+		
 	private Variable target;
 	
-	public ContainmentConstraint(EReference reference, Variable target) {
-		this.reference = reference;
+	public ContainmentConstraint(Variable target) {	
 		this.target = target;
 	}
 	
@@ -39,50 +39,34 @@ public class ContainmentConstraint implements BinaryConstraint {
 		if (!containedSlot.locked)
 			return false;
 		
+		// containedSlot.value must be an element of the temporaryDomain
+		// specified by the containment reference.
+		//
+		if (containerSlot.locked)
+			return true;
+		
 		// the source value must have a container
 		//
 		EObject container = containedSlot.value.eContainer();
 		if (container == null)
 			return false;
 		
-		if (containerSlot.locked) { // containerSlot already locked
+		// Constraint is fulfilled if the containerSlot's temporaryDomain is
+		// unrestricted or contains the required container.
+		//
+		boolean result = containerSlot.temporaryDomain == null
+				|| containerSlot.temporaryDomain.contains(container);
 		
-			// containerSlot must hold the container 
-			//
-			if (containerSlot.value != container)
-				return false;
-			
-			// containment must be established by the given EReference
-			//
-			return isContainedByRequiredEReference(containedSlot.value, container);
-			
-		} else { // containerSlot not locked yet
+		if (result) {
+			DomainChange change = new DomainChange(containerSlot, containerSlot.temporaryDomain);
+			containedSlot.remoteChangeMap.put(this, change);
+			containerSlot.temporaryDomain = new ArrayList<EObject>(1);
+			containerSlot.temporaryDomain.add(container);
+		}
+		return result;
+		// }
+	}
 		
-			// Constraint is fulfilled if the containerSlot's temporaryDomain is
-			// unrestricted or contains the required container.
-			//
-			boolean result = containerSlot.temporaryDomain == null
-					|| containerSlot.temporaryDomain.contains(container);
-			
-			if (result) {
-				DomainChange change = new DomainChange(containerSlot, containerSlot.temporaryDomain);
-				containedSlot.remoteChangeMap.put(this, change);
-				containerSlot.temporaryDomain = new ArrayList<EObject>(1);
-				containerSlot.temporaryDomain.add(container);
-			}
-			return result;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private boolean isContainedByRequiredEReference(EObject containedObject, EObject container) {
-		if (reference.isMany())
-			return ((List<EObject>) container.eGet(reference)).contains(containedObject);
-		else {
-			return container.eGet(reference) == containedObject;
-		}
-	}
-	
 	public Variable getTargetVariable() {
 		return target;
 	}
