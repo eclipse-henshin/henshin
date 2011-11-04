@@ -31,7 +31,7 @@ import org.eclipse.gmf.runtime.notation.View;
  * @author Christian Krause
  */
 public class RuleNameParser extends UnitNameParser {
-	
+
 	/**
 	 * Default constructor.
 	 * 
@@ -44,9 +44,10 @@ public class RuleNameParser extends UnitNameParser {
 			throw new IllegalArgumentException();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#isUnitEmpty(org
 	 * .eclipse.emf.henshin.model.TransformationUnit)
@@ -55,48 +56,52 @@ public class RuleNameParser extends UnitNameParser {
 	protected boolean isUnitEmpty(TransformationUnit unit) {
 		if (unit instanceof Rule) {
 			Rule rule = (Rule) unit;
-			return rule.getLhs().getNodes().isEmpty() && rule.getRhs().getNodes().isEmpty()
+			return rule.getLhs().getNodes().isEmpty()
+					&& rule.getRhs().getNodes().isEmpty()
 					&& rule.getParameters().isEmpty();
 		} else {
 			return super.isUnitEmpty(unit);
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
-	 * org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString
-	 * (org.eclipse.core.runtime.IAdaptable, int)
+	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#getEditString(
+	 * org.eclipse.core.runtime.IAdaptable, int)
 	 */
-	public String getPrintString(IAdaptable element, int flags) {
-		
+	@Override
+	public String getEditString(IAdaptable element, int flags) {
+
 		// Compute the root object:
 		String root = "";
 		Node rootObject = RootObjectEditHelper.getRootObject(unitView);
 		if (rootObject != null) {
 			root = " @" + rootObject.getType().getName();
 		}
-		
+
 		// Compile the title:
-		return (super.getPrintString(element, flags) + root);
-		
+		return (super.getEditString(element, flags) + root);
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#doParsing(java
 	 * .lang.String)
 	 */
 	@Override
 	protected CommandResult doParsing(String value) throws ExecutionException {
-		
+
 		// We need the rule:
 		Rule rule = (Rule) unitView.getElement();
-		
+
 		// Parse the input:
 		String name, rootType;
-		
+
 		// Separate the root type:
 		int at = value.indexOf('@');
 		if (at < 0) {
@@ -109,46 +114,49 @@ public class RuleNameParser extends UnitNameParser {
 				rootType = null;
 			}
 		}
-		
+
 		// Update the name and the parameters:
 		super.doParsing(name);
-		
+
 		// Update the root object:
 		Node oldRoot = RootObjectEditHelper.getRootObject(unitView);
-		
+
 		// Do we need to set a new root object?
-		if (rootType != null && (oldRoot == null || !rootType.equals(oldRoot.getType().getName()))) {
-			
+		if (rootType != null
+				&& (oldRoot == null || !rootType.equals(oldRoot.getType()
+						.getName()))) {
+
 			// First find the proper class and initialize the new root:
 			EClass rootClass = null;
-			EClassifier[] eclassifiers = TransformationSystemEditHelper.findEClassifierByName(
-					rule.getTransformationSystem(), rootType);
+			EClassifier[] eclassifiers = TransformationSystemEditHelper
+					.findEClassifierByName(rule.getTransformationSystem(),
+							rootType);
 			for (EClassifier ec : eclassifiers) {
 				if (ec instanceof EClass) {
-					rootClass = (EClass) rootClass;
+					rootClass = (EClass) ec;
 					break;
 				}// if
 			}// for
-			
+
 			// We change only if the new root type was found:
 			if (rootClass != null) {
 				RootObjectEditHelper.setRootObjectType(unitView, rootClass);
 			}
 		}
-		
+
 		// Do we have to erase the current root object?
 		if (rootType == null && oldRoot != null) {
 			RootObjectEditHelper.setRootObject(unitView, null);
 		}
-		
+
 		// Done.
 		return CommandResult.newOKCommandResult();
-		
+
 	}
-	
+
 	@Override
 	protected void doSetName(TransformationUnit unit, String name) {
 		AmalgamationEditHelper.renameKernelRule((Rule) unit, name);
 	}
-	
+
 }
