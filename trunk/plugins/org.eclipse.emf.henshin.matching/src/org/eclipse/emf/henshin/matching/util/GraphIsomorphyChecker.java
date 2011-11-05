@@ -1,7 +1,13 @@
 package org.eclipse.emf.henshin.matching.util;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
@@ -9,8 +15,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.matching.constraints.DomainSlot;
+import org.eclipse.emf.henshin.matching.constraints.Matchfinder;
 import org.eclipse.emf.henshin.matching.constraints.ReferenceConstraint;
 import org.eclipse.emf.henshin.matching.constraints.Variable;
 
@@ -19,6 +27,21 @@ import org.eclipse.emf.henshin.matching.constraints.Variable;
  * @author Christian Krause
  */
 public class GraphIsomorphyChecker {
+	
+	// Transformation options (used internally for the match finding):
+	private static final TransformationOptions TRANSFORMATION_OPTIONS;
+	static {
+		TRANSFORMATION_OPTIONS = new TransformationOptions();
+		TRANSFORMATION_OPTIONS.setInjective(true);
+		TRANSFORMATION_OPTIONS.setDeterministic(true);
+	}
+	
+	// Attribute condition handles (used internally for the match finding):
+	private static final AttributeConditionHandler ATTRIBUTE_CONDITION_HANDLER;
+	static {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
+		ATTRIBUTE_CONDITION_HANDLER = new AttributeConditionHandler(new HashMap<String, Collection<String>>(), engine);
+	}
 	
 	// The source graph:
 	private final EmfGraph source;
@@ -43,7 +66,6 @@ public class GraphIsomorphyChecker {
 	/*
 	 * Initialize variables.
 	 */
-	@SuppressWarnings("unused")
 	private void initVariables() {
 		
 		// Instantiate variables map:
@@ -69,27 +91,46 @@ public class GraphIsomorphyChecker {
 			// Create reference constraints:
 			for (EReference ref : object.eClass().getEAllReferences()) {
 				if (ref.isMany()) {
-					EList<EObject> target = (EList<EObject>) object.eGet(ref);
-					
+					@SuppressWarnings("unchecked")
+					EList<EObject> targets = (EList<EObject>) object.eGet(ref);
+					for (EObject target : targets) {
+						variable.addConstraint(new ReferenceConstraint(variables.get(target), ref));
+					}
 				} else {
 					EObject target = (EObject) object.eGet(ref);
-					
+					if (target!=null) {
+						variable.addConstraint(new ReferenceConstraint(variables.get(target), ref));
+					}
 				}
-				
-				variable.addConstraint(new ReferenceConstraint(variable, ref));
-			}
-			
+			}	
 		}
-
-
 		
 	}
 	
-	public boolean isIsomorphic(EmfGraph graph, Map<EObject,EObject> preMatch) {
-	
+	public boolean isIsomorphicTo(EmfGraph graph) {
+		
+		// We do a quick comparison of the object count first:
+		if (source.geteObjects().size()!=graph.geteObjects().size()) {
+			return false;
+		}
+		
+		// Create the domain map:
 		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
+		
+		// Create the domain slots:
+		for (Variable variable : variables.values()) {
+			domainMap.put(variable, new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), TRANSFORMATION_OPTIONS));
+		}
 
-		return false;
+		// Create the match finder:
+		Matchfinder matchFinder = new Matchfinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER);
+		
+		// Try to find a match:
+		boolean matchFound = matchFinder.findSolution();
+		
+		// Check for surjectivity...
+		
+		return matchFound;
 	}
 	
 }
