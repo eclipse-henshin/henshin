@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
@@ -24,6 +25,9 @@ public abstract class AbstractStateSpaceCommand extends Command {
 	
 	// State space manager to be used.
 	private StateSpaceManager manager;
+	
+	// Calling job (can be null):
+	private Job job;
 	
 	// Exception:
 	private Throwable exception;
@@ -78,6 +82,9 @@ public abstract class AbstractStateSpaceCommand extends Command {
 			doExecute();
 		} catch (Throwable e) {
 			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
+			if (job!=null) {
+				job.cancel();
+			}
 			this.exception = e;
 		}
 	}
@@ -91,6 +98,9 @@ public abstract class AbstractStateSpaceCommand extends Command {
 			doUndo();
 		} catch (Throwable e) {
 			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
+			if (job!=null) {
+				job.cancel();
+			}
 			this.exception = e;
 		}
 	}
@@ -104,8 +114,20 @@ public abstract class AbstractStateSpaceCommand extends Command {
 			doRedo();
 		} catch (Throwable e) {
 			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
+			if (job!=null) {
+				job.cancel();
+			}
 			this.exception = e;
 		}
+	}
+	
+	/**
+	 * Set the calling job. If not <code>null</code> the job
+	 * will be cancelled whenever an error occurs.
+	 * @param job The calling job.
+	 */
+	public void setCallingJob(Job job) {
+		this.job = job;
 	}
 	
 	/**

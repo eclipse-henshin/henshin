@@ -59,13 +59,13 @@
     <eOperations name="getCopy" eType="#//Model">
       <eParameters name="match" eType="#//Match"/>
     </eOperations>
-    <eOperations name="updateNodeIDs"/>
+    <eOperations name="updateNodeIDs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeIDsMap" upperBound="-1"
         eType="#//NodeID" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeIDs" eType="#//IntegerArray"
-        changeable="false" volatile="true" transient="true" derived="true"/>
+        volatile="true" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
     <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

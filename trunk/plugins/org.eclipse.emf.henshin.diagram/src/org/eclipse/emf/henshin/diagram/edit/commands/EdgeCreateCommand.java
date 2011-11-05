@@ -139,7 +139,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 		}
 
 		// Target type must be ok. Extra check for EObjects!!!
-		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType)
+		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
+			!targetType.isSuperTypeOf(edgeType.getEReferenceType())
 				&& edgeType.getEReferenceType() != EcorePackage.eINSTANCE
 						.getEObject()) {
 			return false;

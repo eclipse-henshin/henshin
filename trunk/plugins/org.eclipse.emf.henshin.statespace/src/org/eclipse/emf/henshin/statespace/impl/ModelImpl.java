@@ -104,11 +104,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public void updateNodeIDs() {
+	public boolean updateNodeIDs() {
 
 		// Make sure the node IDs map is not null.
 		getNodeIDsMap();
-
+		
+		// Remember whether there was a change:
+		boolean changed = false;
+		
 		// Get the next free ID:
 		int nextID = 0;
 		TreeIterator<EObject> iterator = resource.getAllContents();
@@ -126,9 +129,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			EObject object = iterator.next();
 			if (nodeIDsMap.get(object) == null) {
 				nodeIDsMap.put(object, nextID++);
+				changed = true;
 			}
 		}
-
+		
+		// Done.
+		return changed;
+		
 	}
 
 	/**
@@ -155,6 +162,24 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			result[i] = ids.get(i);
 		}
 		return result;
+
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setNodeIDs(int[] nodeIDs) {
+
+		// Make sure the node IDs map is not null and empty it.
+		getNodeIDsMap().clear();
+
+		// Copy the map contents of the integer array to the map:
+		TreeIterator<EObject> iterator = resource.getAllContents();
+		int index = 0;
+		while (iterator.hasNext()) {
+			EObject object = iterator.next();
+			nodeIDsMap.put(object, nodeIDs[index++]);
+		}
 
 	}
 
@@ -186,9 +211,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected Resource resource = RESOURCE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getNodeIDsMap() <em>Node IDs Map</em>}'
-	 * map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNodeIDsMap() <em>Node IDs Map</em>}' map.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodeIDsMap()
 	 * @generated
 	 * @ordered
@@ -196,9 +220,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EMap<EObject, Integer> nodeIDsMap;
 
 	/**
-	 * The default value of the '{@link #getNodeIDs() <em>Node IDs</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getNodeIDs() <em>Node IDs</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodeIDs()
 	 * @generated
 	 * @ordered
@@ -227,8 +250,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		Resource oldResource = resource;
 		resource = newResource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					StateSpacePackage.MODEL__RESOURCE, oldResource, resource));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.MODEL__RESOURCE, oldResource, resource));
 	}
 
 	/**
@@ -236,9 +258,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 */
 	public EMap<EObject, Integer> getNodeIDsMap() {
 		if (nodeIDsMap == null) {
-			nodeIDsMap = new EcoreEMap<EObject, Integer>(
-					StateSpacePackage.Literals.NODE_ID, NodeIDImpl.class, this,
-					StateSpacePackage.MODEL__NODE_IDS_MAP);
+			nodeIDsMap = new EcoreEMap<EObject,Integer>(StateSpacePackage.Literals.NODE_ID, NodeIDImpl.class, this, StateSpacePackage.MODEL__NODE_IDS_MAP);
 		}
 		return nodeIDsMap;
 	}
@@ -250,9 +270,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case StateSpacePackage.MODEL__NODE_IDS_MAP:
-			return ((InternalEList<?>) getNodeIDsMap()).basicRemove(otherEnd,
-					msgs);
+			case StateSpacePackage.MODEL__NODE_IDS_MAP:
+				return ((InternalEList<?>)getNodeIDsMap()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -263,15 +282,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case StateSpacePackage.MODEL__RESOURCE:
-			return getResource();
-		case StateSpacePackage.MODEL__NODE_IDS_MAP:
-			if (coreType)
-				return getNodeIDsMap();
-			else
-				return getNodeIDsMap().map();
-		case StateSpacePackage.MODEL__NODE_IDS:
-			return getNodeIDs();
+			case StateSpacePackage.MODEL__RESOURCE:
+				return getResource();
+			case StateSpacePackage.MODEL__NODE_IDS_MAP:
+				if (coreType) return getNodeIDsMap();
+				else return getNodeIDsMap().map();
+			case StateSpacePackage.MODEL__NODE_IDS:
+				return getNodeIDs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -282,12 +299,15 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case StateSpacePackage.MODEL__RESOURCE:
-			setResource((Resource) newValue);
-			return;
-		case StateSpacePackage.MODEL__NODE_IDS_MAP:
-			((EStructuralFeature.Setting) getNodeIDsMap()).set(newValue);
-			return;
+			case StateSpacePackage.MODEL__RESOURCE:
+				setResource((Resource)newValue);
+				return;
+			case StateSpacePackage.MODEL__NODE_IDS_MAP:
+				((EStructuralFeature.Setting)getNodeIDsMap()).set(newValue);
+				return;
+			case StateSpacePackage.MODEL__NODE_IDS:
+				setNodeIDs((int[])newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -298,12 +318,15 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case StateSpacePackage.MODEL__RESOURCE:
-			setResource(RESOURCE_EDEFAULT);
-			return;
-		case StateSpacePackage.MODEL__NODE_IDS_MAP:
-			getNodeIDsMap().clear();
-			return;
+			case StateSpacePackage.MODEL__RESOURCE:
+				setResource(RESOURCE_EDEFAULT);
+				return;
+			case StateSpacePackage.MODEL__NODE_IDS_MAP:
+				getNodeIDsMap().clear();
+				return;
+			case StateSpacePackage.MODEL__NODE_IDS:
+				setNodeIDs(NODE_IDS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -314,14 +337,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case StateSpacePackage.MODEL__RESOURCE:
-			return RESOURCE_EDEFAULT == null ? resource != null
-					: !RESOURCE_EDEFAULT.equals(resource);
-		case StateSpacePackage.MODEL__NODE_IDS_MAP:
-			return nodeIDsMap != null && !nodeIDsMap.isEmpty();
-		case StateSpacePackage.MODEL__NODE_IDS:
-			return NODE_IDS_EDEFAULT == null ? getNodeIDs() != null
-					: !NODE_IDS_EDEFAULT.equals(getNodeIDs());
+			case StateSpacePackage.MODEL__RESOURCE:
+				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
+			case StateSpacePackage.MODEL__NODE_IDS_MAP:
+				return nodeIDsMap != null && !nodeIDsMap.isEmpty();
+			case StateSpacePackage.MODEL__NODE_IDS:
+				return NODE_IDS_EDEFAULT == null ? getNodeIDs() != null : !NODE_IDS_EDEFAULT.equals(getNodeIDs());
 		}
 		return super.eIsSet(featureID);
 	}
@@ -331,8 +352,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (resource: ");

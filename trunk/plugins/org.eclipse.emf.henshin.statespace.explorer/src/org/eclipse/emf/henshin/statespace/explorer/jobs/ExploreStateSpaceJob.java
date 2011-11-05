@@ -92,6 +92,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 				
 				// Execute the explore command:
 				ExploreStatesCommand command = new ExploreStatesCommand(helper);
+				command.setCallingJob(this);
 				executeExploreCommand(command, monitor);
 				moreStates = command.getResult();
 				

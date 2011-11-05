@@ -171,7 +171,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			markTainted();
 			throw new StateSpaceException(t);
 		} finally {
-			monitor.done();	
+			monitor.done();
 		}
 		
 	}
@@ -267,6 +267,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 		// Resolve all objects in the model:
 		EcoreUtil.resolveAll(model);
+		
+		// Make sure the node IDs are set:
+		if (!getStateSpace().getEqualityHelper().isIgnoreNodeIDs()) {
+			model.updateNodeIDs();
+		}
 		
 		// Compute the hash code of the model:
 		int hash = hashCode(model);

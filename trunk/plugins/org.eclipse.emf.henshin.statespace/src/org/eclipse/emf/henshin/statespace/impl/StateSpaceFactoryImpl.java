@@ -96,8 +96,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return createIntegerArrayFromString(eDataType, initialValue);
 			case StateSpacePackage.MATCH:
 				return createMatchFromString(eDataType, initialValue);
-			case StateSpacePackage.EOBJECT_ARRAY:
-				return createEObjectArrayFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -115,8 +113,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return convertIntegerArrayToString(eDataType, instanceValue);
 			case StateSpacePackage.MATCH:
 				return convertMatchToString(eDataType, instanceValue);
-			case StateSpacePackage.EOBJECT_ARRAY:
-				return convertEObjectArrayToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -248,24 +244,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 */
 	public String convertMatchToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EObject[] createEObjectArrayFromString(EDataType eDataType, String initialValue) {
-		return (EObject[])super.createFromString(initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertEObjectArrayToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(instanceValue);
 	}
 
 	/**

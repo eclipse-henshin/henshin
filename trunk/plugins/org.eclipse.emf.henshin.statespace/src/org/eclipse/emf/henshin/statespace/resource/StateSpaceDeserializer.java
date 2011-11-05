@@ -89,8 +89,13 @@ public class StateSpaceDeserializer {
 		transitionCount = 0;
 		for (State state : stateSpace.getStates()) {
 			
-			// Initial states:
+			// Initial states have a model URI:
 			String modelUri = readString();
+			
+			// Read meta-data:
+			state.setData(readData());
+			
+			// Check if it was an initial state:
 			if (modelUri!=null) {
 				
 				// Load the model:
@@ -99,15 +104,15 @@ public class StateSpaceDeserializer {
 				Resource contents = resource.getResourceSet().getResource(resolved,true);
 				contents.setURI(uri);
 				Model model = new ModelImpl(contents);
+				if (!helper.isIgnoreNodeIDs()) {
+					model.setNodeIDs(state.getNodeIDs());
+				}
 				state.setModel(model);
 				
 				// Add it to the list of initial states:
 				stateSpace.getInitialStates().add(state);
 			}
-			
-			// Read meta-data:
-			state.setData(readData());
-			
+
 			// Check if it is an open state:
 			if (state.isOpen()) {
 				stateSpace.getOpenStates().add(state);

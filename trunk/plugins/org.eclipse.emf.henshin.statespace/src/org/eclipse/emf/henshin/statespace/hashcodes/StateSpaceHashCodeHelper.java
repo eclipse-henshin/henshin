@@ -102,6 +102,14 @@ public class StateSpaceHashCodeHelper {
 	 */
 	public int hashCode(Model model, HashCodeMap map) {
 		
+		// Some basic checks:
+		if (model==null) {
+			throw new NullPointerException("Cannot compute hashcode for null model");
+		}
+		if (model.getResource()==null) {
+			throw new NullPointerException("Cannot compute hashcode for without model resource");
+		}
+		
 		// Set the required fields:
 		this.model = model;
 		this.map = map;
@@ -200,7 +208,10 @@ public class StateSpaceHashCodeHelper {
 		
 		// Use node IDs:
 		if (!ignoreNodeIDs) {
-			int id = model.getNodeIDsMap().get(object);
+			Integer id = model.getNodeIDsMap().get(object);
+			if (id==null) {
+				throw new RuntimeException("Missing node ID for " + object);
+			}
 			hashCode = (hashCode * PRIMES[0]) + id;
 		}
 		

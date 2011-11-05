@@ -65,6 +65,15 @@ public interface Model extends EObject {
 	int[] getNodeIDs();
 
 	/**
+	 * Set the node IDs of this state model as an integer array.
+	 * This forwards to {@link #getNodeIDsMap()}.
+	 * @param value the new value of the '<em>Node IDs</em>' attribute.
+	 * @see #getNodeIDs()
+	 * @generated
+	 */
+	void setNodeIDs(int[] value);
+
+	/**
 	 * Get a copy of this model.
 	 * @param Optional match.
 	 * @model matchDataType="org.eclipse.emf.henshin.statespace.Match"
@@ -79,6 +88,6 @@ public interface Model extends EObject {
 	 * @model
 	 * @generated
 	 */
-	void updateNodeIDs();
+	boolean updateNodeIDs();
 
 } // Model

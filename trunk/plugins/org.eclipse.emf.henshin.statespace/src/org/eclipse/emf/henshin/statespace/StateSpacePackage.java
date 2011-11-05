@@ -590,15 +590,6 @@ public interface StateSpacePackage extends EPackage {
 	int HASH_CODE_MAP = 9;
 
 	/**
-	 * The meta object id for the '<em>EObject Array</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectArray()
-	 * @generated
-	 */
-	int EOBJECT_ARRAY = 10;
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1104,20 +1095,10 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Hash Code Map</em>'.
 	 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
-	 * @model instanceClass="org.eclipse.emf.henshin.statespace.equality.HashCodeMap" serializeable="false"
+	 * @model instanceClass="org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap" serializeable="false"
 	 * @generated
 	 */
 	EDataType getHashCodeMap();
-
-	/**
-	 * Returns the meta object for data type '<em>EObject Array</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>EObject Array</em>'.
-	 * @model instanceClass="org.eclipse.emf.ecore.EObject[]"
-	 * @generated
-	 */
-	EDataType getEObjectArray();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1535,15 +1516,6 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType HASH_CODE_MAP = eINSTANCE.getHashCodeMap();
-
-		/**
-		 * The meta object literal for the '<em>EObject Array</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectArray()
-		 * @generated
-		 */
-		EDataType EOBJECT_ARRAY = eINSTANCE.getEObjectArray();
 
 	}
 

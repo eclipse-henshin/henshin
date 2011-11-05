@@ -80,6 +80,11 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 */
 	protected State getState(Model model, int hash) throws StateSpaceException {
 		
+		// Check if the model is set:
+		if (model==null) {
+			throw new NullPointerException("Cannot look up state for null model");
+		}
+		
 		// Find all possibly matching states:
 		int position = hash2position(hash);
 		State[] matched = index[position];
@@ -87,10 +92,11 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		
 		// Check if one of them is the correct one:
 		for (int i=0; i<matched.length; i++) {
-			if (matched[i]==null || matched[i].getHashCode()!=hash) continue;
-			Model current = getModel(matched[i]);
+			State cand = matched[i];
+			if (cand==null || cand.getHashCode()!=hash) continue;
+			Model current = getModel(cand);
 			if (equals(model, current)) {
-				return matched[i];
+				return cand;
 			}
 		}
 		

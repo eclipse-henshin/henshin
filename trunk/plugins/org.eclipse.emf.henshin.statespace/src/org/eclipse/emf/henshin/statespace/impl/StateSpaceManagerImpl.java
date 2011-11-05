@@ -144,7 +144,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		Model start = search.getCurrentState().getModel();
 		if (start==null) start = modelCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
-			
+		
 		// Update the cached hash code maps if necessary:
 		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
 			hashCode(model);
@@ -152,7 +152,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Always add it to the cache (is maintained automatically):
 		modelCache.put(state, model);
-
+		
 		// Done.
 		return model;
 		
@@ -190,6 +190,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 
 		// We need a transformation engine first:
 		EmfEngine engine = acquireEngine();
+		
+		// We need to know whether node IDs are required:
+		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
 
 		// We copy the model:
 		Model model = start.getCopy(null);
@@ -213,6 +216,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			application.setMatch(match);
 			application.apply();
 			
+			// Update the node IDs map if necessary:
+			if (!ignoreNodeIDs) {
+				model.updateNodeIDs();
+			}
+			
 			// Store model:
 			storeModel(transition.getTarget(), model.getCopy(null));
 			
@@ -222,7 +230,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		releaseEngine(engine);
 		
 		// Decide whether the model in the start state should be kept:
-		storeModel(path.getSource(),start);
+		storeModel(path.getSource(), start);
 		
 		return model;
 		
@@ -488,6 +496,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	@Override
 	protected boolean equals(Model model1, Model model2) {
+		
 		// We definitely need the hash code maps if we use graph equality:
 		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
 			HashCodeMap map1 = codesCache.get(model1);
@@ -503,6 +512,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				codesCache.put(model2, map2);
 			}
 			return getStateSpace().getEqualityHelper().equals(model1, map1, model2, map2);
+		
 		} else {
 			return super.equals(model1, model2);
 		}
@@ -513,8 +523,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private static EmfGraph createEmfGraph(Model model) {
 		EmfGraph graph = new EmfGraph();
-		for (EObject root : model.getResource().getContents()) {
-			graph.addRoot(root);
+		synchronized (model) {
+			for (EObject root : model.getResource().getContents()) {
+				graph.addRoot(root);
+			}			
 		}
 		return graph;
 	}
