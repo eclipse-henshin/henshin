@@ -1,7 +1,6 @@
 package org.eclipse.emf.henshin.matching.util;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,7 +10,6 @@ import javax.script.ScriptEngineManager;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.matching.EmfGraph;
@@ -46,6 +44,9 @@ public class GraphIsomorphyChecker {
 	// The source graph:
 	private final EmfGraph source;
 	
+	// Number of links in the source graph:
+	private int linkCount;
+	
 	// Flag indicating whether attribute values should be ignored:
 	private final boolean ignoreAttributes;
 	
@@ -60,6 +61,7 @@ public class GraphIsomorphyChecker {
 	public GraphIsomorphyChecker(EmfGraph source, boolean ignoreAttributes) {
 		this.source = source;
 		this.ignoreAttributes = ignoreAttributes;
+		this.linkCount = computeLinkCount(source);
 		initVariables();
 	}
 	
@@ -73,7 +75,7 @@ public class GraphIsomorphyChecker {
 		
 		// Create a variable for every object:
 		for (EObject object : source.geteObjects()) {
-			variables.put(object, new Variable(object.eClass()));
+			variables.put(object, new Variable(object.eClass(), true));
 		}
 
 		// Create constraints:
@@ -107,7 +109,13 @@ public class GraphIsomorphyChecker {
 		
 	}
 	
-	public boolean isIsomorphicTo(EmfGraph graph) {
+	/**
+	 * Check whether the argument graph is isomorphic to the source graph.
+	 * @param graph Graph for which you want to check isomorphy.
+	 * @param preMatch Optional (partial) match from source to the argument graph.
+	 * @return <code>true</code> if the source and the graph are isomorphic.
+	 */
+	public boolean isIsomorphicTo(EmfGraph graph, Map<EObject,EObject> preMatch) {
 		
 		// We do a quick comparison of the object count first:
 		if (source.geteObjects().size()!=graph.geteObjects().size()) {
@@ -118,19 +126,50 @@ public class GraphIsomorphyChecker {
 		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
 		
 		// Create the domain slots:
-		for (Variable variable : variables.values()) {
-			domainMap.put(variable, new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), TRANSFORMATION_OPTIONS));
+		for (Map.Entry<EObject, Variable> entry : variables.entrySet()) {
+			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), TRANSFORMATION_OPTIONS);
+			if (preMatch!=null) {
+				EObject match = preMatch.get(entry.getKey());
+				if (match!=null) {
+					domainSlot.fixInstantiation(match);
+				}
+			}
+			domainMap.put(entry.getValue(), domainSlot);
 		}
 
 		// Create the match finder:
 		Matchfinder matchFinder = new Matchfinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER);
 		
 		// Try to find a match:
-		boolean matchFound = matchFinder.findSolution();
+		if (!matchFinder.findSolution()) {
+			return false;
+		}
 		
-		// Check for surjectivity...
+		// We still need to verify that the link count is the same:
+		if (linkCount!=computeLinkCount(graph)) {
+			return false;
+		}
 		
-		return matchFound;
+		// No reason why they shouldn't be isomorphic:
+		return true;
+		
+	}
+	
+	/*
+	 * Compute the number of links in a graph.
+	 */
+	private static int computeLinkCount(EmfGraph graph) {
+		int links = 0;
+		for (EObject object : graph.geteObjects()) {
+			for (EReference ref : object.eClass().getEAllReferences()) {
+				if (ref.isMany()) {
+					links += ((EList<?>) object.eGet(ref)).size();
+				} else {
+					if (object.eGet(ref)!=null) links++;
+				}
+			}
+		}
+		return links;
 	}
 	
 }
