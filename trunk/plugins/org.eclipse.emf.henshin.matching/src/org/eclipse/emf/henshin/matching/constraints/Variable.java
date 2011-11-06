@@ -31,7 +31,17 @@ public class Variable {
 	 * @param type
 	 */
 	public Variable(EClass type) {
-		typeConstraint = new TypeConstraint(type);
+		this(type, false);
+	}
+	
+	/**
+	 * Constructor<br>
+	 * Creates the related {@link TypeConstraint} already.
+	 * 
+	 * @param type
+	 */
+	public Variable(EClass type, boolean strictTyping) {
+		typeConstraint = new TypeConstraint(type, strictTyping);
 		
 		attributeConstraints = new HashSet<AttributeConstraint>();
 		danglingConstraints = new HashSet<DanglingConstraint>();

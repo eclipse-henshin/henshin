@@ -22,9 +22,11 @@ import org.eclipse.emf.henshin.matching.EmfGraph;
  */
 public class TypeConstraint implements UnaryConstraint {
 	EClass type;
+	boolean strictTyping;
 	
-	public TypeConstraint(EClass type) {
+	public TypeConstraint(EClass type, boolean strictTyping) {
 		this.type = type;
+		this.strictTyping = strictTyping;
 	}
 	
 	/*
@@ -35,7 +37,8 @@ public class TypeConstraint implements UnaryConstraint {
 	 */
 	@Override
 	public boolean check(DomainSlot slot) {
-		if (slot.locked) return type.isSuperTypeOf(slot.value.eClass());
+		if (slot.locked) 
+			return strictTyping ? type == slot.value.eClass() : type.isSuperTypeOf(slot.value.eClass());
 		
 		return true;
 	}
@@ -52,7 +55,7 @@ public class TypeConstraint implements UnaryConstraint {
 			for (int i = slot.domain.size() - 1; i >= 0; i--) {
 				EObject eObject = slot.domain.get(i);
 				
-				if (eObject != null && !type.isSuperTypeOf(eObject.eClass()))
+				if (eObject != null && ((strictTyping && type != eObject.eClass()) || (!strictTyping && !type.isSuperTypeOf(eObject.eClass()))))
 					slot.domain.remove(i);
 			}
 		}
