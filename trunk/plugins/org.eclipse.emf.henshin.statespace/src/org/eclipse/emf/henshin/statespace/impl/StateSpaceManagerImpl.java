@@ -122,11 +122,21 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			return cached;
 		}
 		
-		// Find a predecessor state that has a model:
+		// Find a predecessor state that has a model.
+		// Careful: the model could be unset in between, so we use a bag: 
+		final Model[] bag = new Model[1];
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
 			protected boolean shouldStop(State current, Trace trace) {
-				return current.getModel()!=null || accessedModelsCache.get(current)!=null;
+				Model model = current.getModel();
+				if (model==null) {
+					model = accessedModelsCache.get(current);
+				}
+				if (model!=null) {
+					bag[0] = model;
+					return true;
+				}
+				return false;
 			}
 		};
 		boolean found = search.depthFirst(state, true);
@@ -135,29 +145,26 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Derive the current model:
-		Model start = search.getCurrentState().getModel();
-		if (start==null) start = accessedModelsCache.get(search.getCurrentState());
-		Model model = deriveModel(start, search.getTrace());
+		Model model = deriveModel(bag[0], search.getTrace());
 		
 		// Store the state model:
-		state.setModel(model);
-		discardModel(state);
+		storeModel(state, model);
 
 		// Cache the accessed model:
 		accessedModelsCache.put(state, model);
-
+		
 		// Done.
 		return model;
 		
 	}
 	
 	/*
-	 * Discard a state model probabilistically.
+	 * Store or discard a state model probabilistically.
 	 */
-	private void discardModel(State state) {
+	private void storeModel(State state, Model model) {
 		
-		// Do not override initial state or empty models!!!
-		if (state.isInitial() || state.getModel()==null) return;
+		// Do not override initial state models!!!
+		if (state.isInitial()) return;
 		
 		// Number of states: rounded up for more stability:
 		int states = getStateSpace().getStates().size();
@@ -170,8 +177,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		//System.out.println(stored);
 		
 		if (index % stored != 0) {
-			state.setModel(null);
+			model = null;
 		}
+		
+		// Set the model:
+		state.setModel(model);
 		
 	}
 	
@@ -329,8 +339,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
-				target.setModel(transformed);
-				discardModel(target);
+				storeModel(target, transformed);
 				result.add(target);
 			}
 			
