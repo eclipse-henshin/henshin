@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 
 /**
  * Container class for state models.
@@ -36,14 +37,15 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	Resource getResource();
-
+	
 	/**
-	 * Set the resource that contains the actual model elements.
-	 * @param value the new value of the '<em>Resource</em>' attribute.
-	 * @see #getResource()
+	 * Get the associated {@link EmfGraph} instance for this model.
+	 * @return the value of the '<em>Emf Graph</em>' attribute.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_EmfGraph()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.EmfGraph" transient="true" changeable="false"
 	 * @generated
 	 */
-	void setResource(Resource value);
+	EmfGraph getEmfGraph();
 
 	/**
 	 * Get the node IDs map for this state model.
@@ -89,5 +91,13 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	boolean updateNodeIDs();
+
+	/**
+	 * Collect missing root objects from the {@link EmfGraph} of this model.
+	 * New root objects will be added to this objects resource.
+	 * @model
+	 * @generated
+	 */
+	void collectMissingRootObjects();
 
 } // Model

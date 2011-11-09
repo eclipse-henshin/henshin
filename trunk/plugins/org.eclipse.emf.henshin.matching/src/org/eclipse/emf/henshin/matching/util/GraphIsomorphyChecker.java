@@ -1,8 +1,10 @@
 package org.eclipse.emf.henshin.matching.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
@@ -14,6 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
+import org.eclipse.emf.henshin.matching.conditions.nested.IFormula;
+import org.eclipse.emf.henshin.matching.conditions.nested.TrueFormula;
 import org.eclipse.emf.henshin.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.matching.constraints.Matchfinder;
@@ -32,6 +36,7 @@ public class GraphIsomorphyChecker {
 		TRANSFORMATION_OPTIONS = new TransformationOptions();
 		TRANSFORMATION_OPTIONS.setInjective(true);
 		TRANSFORMATION_OPTIONS.setDeterministic(true);
+		TRANSFORMATION_OPTIONS.setDangling(false);
 	}
 	
 	// Attribute condition handles (used internally for the match finding):
@@ -40,6 +45,9 @@ public class GraphIsomorphyChecker {
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 		ATTRIBUTE_CONDITION_HANDLER = new AttributeConditionHandler(new HashMap<String, Collection<String>>(), engine);
 	}
+	
+	// True formula:
+	private static final IFormula TRUE_FORMULA = new TrueFormula();
 	
 	// The source graph:
 	private final EmfGraph source;
@@ -50,15 +58,19 @@ public class GraphIsomorphyChecker {
 	// Flag indicating whether attribute values should be ignored:
 	private final boolean ignoreAttributes;
 	
-	// Object variables:
-	private Map<EObject, Variable> variables;
+	// Object variables map:
+	private Map<EObject, Variable> variablesMap;
+	
+	// Variables as a list:
+	private List<Variable> variablesList;
+	
 	
 	/**
 	 * Default constructor.
 	 * @param source Source graph.
 	 * @param ignoreAttributes Flag indicating whether attribute values should be ignored.
 	 */
-	public GraphIsomorphyChecker(EmfGraph source, boolean ignoreAttributes) {
+	public GraphIsomorphyChecker(final EmfGraph source, boolean ignoreAttributes) {
 		this.source = source;
 		this.ignoreAttributes = ignoreAttributes;
 		this.linkCount = computeLinkCount(source);
@@ -70,16 +82,20 @@ public class GraphIsomorphyChecker {
 	 */
 	private void initVariables() {
 		
-		// Instantiate variables map:
-		variables = new HashMap<EObject, Variable>(source.geteObjects().size());
+		// Instantiate variables map and list:
+		int objectCount = source.geteObjects().size();
+		variablesMap = new HashMap<EObject, Variable>(objectCount);
+		variablesList = new ArrayList<Variable>(objectCount);
 		
 		// Create a variable for every object:
 		for (EObject object : source.geteObjects()) {
-			variables.put(object, new Variable(object.eClass(), true));
+			Variable variable = new Variable(object.eClass(), true);
+			variablesMap.put(object, variable);
+			variablesList.add(variable);
 		}
 
 		// Create constraints:
-		for (Map.Entry<EObject, Variable> entry : variables.entrySet()) {
+		for (Map.Entry<EObject, Variable> entry : variablesMap.entrySet()) {
 			EObject object = entry.getKey();
 			Variable variable = entry.getValue();
 			
@@ -96,12 +112,12 @@ public class GraphIsomorphyChecker {
 					@SuppressWarnings("unchecked")
 					EList<EObject> targets = (EList<EObject>) object.eGet(ref);
 					for (EObject target : targets) {
-						variable.addConstraint(new ReferenceConstraint(variables.get(target), ref));
+						variable.addConstraint(new ReferenceConstraint(variablesMap.get(target), ref));
 					}
 				} else {
 					EObject target = (EObject) object.eGet(ref);
 					if (target!=null) {
-						variable.addConstraint(new ReferenceConstraint(variables.get(target), ref));
+						variable.addConstraint(new ReferenceConstraint(variablesMap.get(target), ref));
 					}
 				}
 			}	
@@ -126,7 +142,7 @@ public class GraphIsomorphyChecker {
 		Map<Variable, DomainSlot> domainMap = new HashMap<Variable, DomainSlot>();
 		
 		// Create the domain slots:
-		for (Map.Entry<EObject, Variable> entry : variables.entrySet()) {
+		for (Map.Entry<EObject, Variable> entry : variablesMap.entrySet()) {
 			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), TRANSFORMATION_OPTIONS);
 			if (preMatch!=null) {
 				EObject match = preMatch.get(entry.getKey());
@@ -139,6 +155,8 @@ public class GraphIsomorphyChecker {
 
 		// Create the match finder:
 		Matchfinder matchFinder = new Matchfinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER);
+		matchFinder.setVariables(variablesList);
+		matchFinder.setFormula(TRUE_FORMULA);
 		
 		// Try to find a match:
 		if (!matchFinder.findSolution()) {

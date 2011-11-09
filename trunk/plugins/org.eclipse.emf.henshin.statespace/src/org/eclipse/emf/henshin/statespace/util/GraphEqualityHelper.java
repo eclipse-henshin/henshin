@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.equality;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * Graph-based equality checker for EMF models. 
  * @author Christian Krause
+ * @deprecated
  */
 public class GraphEqualityHelper extends HashMap<EObject,EObject> {	
 	

@@ -14,7 +14,6 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * Helper class for deciding whether two state models are
@@ -80,13 +79,13 @@ public interface StateEqualityHelper extends EObject {
 	 * @model
 	 * @generated
 	 */
-	int hashCode(Model model, HashCodeMap map);
+	int hashCode(Model model);
 
 	/**
 	 * Check whether two state models are equal.
 	 * @model
 	 * @generated
 	 */
-	boolean equals(Model model1, HashCodeMap map1, Model model2, HashCodeMap map2);
+	boolean equals(Model model1, Model model2);
 	
 }

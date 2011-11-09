@@ -22,22 +22,20 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.matching.util.TransformationOptions;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -51,13 +49,9 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private final Map<State,Model> modelCache = 
+	private final Map<State,Model> accessedModelsCache = 
 			Collections.synchronizedMap(new Cache<State,Model>());
-	
-	// Hash code tree maps:
-	private final Map<Model,HashCodeMap> codesCache = 
-			Collections.synchronizedMap(new Cache<Model,HashCodeMap>());
-	
+		
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
@@ -123,7 +117,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Cached?
-		Model cached = modelCache.get(state);
+		Model cached = accessedModelsCache.get(state);
 		if (cached!=null) {
 			return cached;
 		}
@@ -132,7 +126,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
 			protected boolean shouldStop(State current, Trace trace) {
-				return current.getModel()!=null || modelCache.get(current)!=null;
+				return current.getModel()!=null || accessedModelsCache.get(current)!=null;
 			}
 		};
 		boolean found = search.depthFirst(state, true);
@@ -142,29 +136,28 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Derive the current model:
 		Model start = search.getCurrentState().getModel();
-		if (start==null) start = modelCache.get(search.getCurrentState());
+		if (start==null) start = accessedModelsCache.get(search.getCurrentState());
 		Model model = deriveModel(start, search.getTrace());
 		
-		// Update the cached hash code maps if necessary:
-		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
-			hashCode(model);
-		}
-		
-		// Always add it to the cache (is maintained automatically):
-		modelCache.put(state, model);
-		
+		// Store the state model:
+		state.setModel(model);
+		discardModel(state);
+
+		// Cache the accessed model:
+		accessedModelsCache.put(state, model);
+
 		// Done.
 		return model;
 		
 	}
 	
 	/*
-	 * Store a model in a state.
+	 * Discard a state model probabilistically.
 	 */
-	private void storeModel(State state, Model model) {
+	private void discardModel(State state) {
 		
-		// Do not override initial state models!!!
-		if (state.isInitial()) return;
+		// Do not override initial state or empty models!!!
+		if (state.isInitial() || state.getModel()==null) return;
 		
 		// Number of states: rounded up for more stability:
 		int states = getStateSpace().getStates().size();
@@ -177,9 +170,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		//System.out.println(stored);
 		
 		if (index % stored != 0) {
-			model = null;
+			state.setModel(null);
 		}
-		state.setModel(model);
 		
 	}
 	
@@ -188,15 +180,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private Model deriveModel(Model start, Trace path) throws StateSpaceException {
 
-		// We need a transformation engine first:
+		// We copy the start model and create an engine for it:
+		Model model = start.getCopy(null);
 		EmfEngine engine = acquireEngine();
-		
+		engine.setEmfGraph(model.getEmfGraph());
+
 		// We need to know whether node IDs are required:
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
 
-		// We copy the model:
-		Model model = start.getCopy(null);
-		
 		// Derive the model for the current state:
 		for (Transition transition : path) {
 			
@@ -205,7 +196,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
-			RuleApplication application = createRuleApplication(model, rule, engine);
+			RuleApplication application = new RuleApplication(engine, rule);
 			List<Match> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
 				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
@@ -216,22 +207,19 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			application.setMatch(match);
 			application.apply();
 			
+			// Collect the missing root objects:
+			model.collectMissingRootObjects();
+			
 			// Update the node IDs map if necessary:
 			if (!ignoreNodeIDs) {
 				model.updateNodeIDs();
 			}
-			
-			// Store model:
-			storeModel(transition.getTarget(), model.getCopy(null));
-			
 		}
 		
-		// We can release the engine already:
+		// We can release the engine again:
 		releaseEngine(engine);
 		
-		// Decide whether the model in the start state should be kept:
-		storeModel(path.getSource(), start);
-		
+		// Done.
 		return model;
 		
 	}
@@ -243,9 +231,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
 		List<State> result = new ArrayList<State>();
 		try {
-		for (State state : states) {
-			result.addAll(exploreState(state, generateLocation));
-		}
+			for (State state : states) {
+				result.addAll(exploreState(state, generateLocation));
+			}
 		} catch (Throwable t) {
 			if (t instanceof StateSpaceException) {
 				throw (StateSpaceException) t;
@@ -341,7 +329,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
-				storeModel(target, transformed);
+				target.setModel(transformed);
+				discardModel(target);
 				result.add(target);
 			}
 			
@@ -373,11 +362,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	protected List<Transition> doExplore(State state) throws StateSpaceException {
 		
-		// We need a transformation engine first:
-		EmfEngine engine = acquireEngine();
-		
-		// Get the state model:
+		// Get the state model and create an engine for it:
 		Model model = getModel(state);
+		EmfEngine engine = acquireEngine();
 		
 		// Get some important state space parameters:
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
@@ -389,7 +376,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		for (Rule rule : getStateSpace().getRules()) {
 			
 			// Compute matches:
-			RuleApplication application = createRuleApplication(model, rule, engine);
+			engine.setEmfGraph(model.getEmfGraph());
+			RuleApplication application = new RuleApplication(engine, rule);
 			List<Match> matches = application.findAllMatches();
 			
 			// Get the parameters of the rule:
@@ -402,18 +390,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Transform the model:
 				Match match = matches.get(i);
 				Model transformed = model.getCopy(match);
-				EmfGraph graph = createEmfGraph(transformed);
-				application = createRuleApplication(graph, rule, engine);
+				engine.setEmfGraph(transformed.getEmfGraph());
+				application = new RuleApplication(engine, rule);
 				application.setMatch(match);
 				application.apply();
 				
 				// Collect newly created root objects:
-				Resource resource = transformed.getResource();
-				for (EObject root : graph.getRootObjects()) {
-					if (!resource.getContents().contains(root)) {
-						resource.getContents().add(root);
-					}
-				}
+				transformed.collectMissingRootObjects();
 				
 				// Create a new state:
 				State newState = StateSpaceFactory.eINSTANCE.createState();
@@ -428,7 +411,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				}
 				
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				newState.setHashCode(hashCode(transformed));
+				int newHashCode = getStateSpace().getEqualityHelper().hashCode(transformed);
+				newState.setHashCode(newHashCode);
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
@@ -468,85 +452,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
 		for (State state : states) {
-			if (hashCode==state.getHashCode() && equals(model,getModel(state))) {
+			if (hashCode==state.getHashCode() && 
+				getStateSpace().getEqualityHelper().equals(model,getModel(state))) {
 				return state;
 			}
 		}
 		return null;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#hashCode(org.eclipse.emf.henshin.statespace.Model)
-	 */
-	@Override
-	protected int hashCode(Model model) {
-		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
-			HashCodeMap map = new HashCodeMap();
-			int hashcode = getStateSpace().getEqualityHelper().hashCode(model, map);
-			codesCache.put(model, map);
-			return hashcode;			
-		} else {
-			return getStateSpace().getEqualityHelper().hashCode(model, null);
-		}
-	}	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#equals(org.eclipse.emf.henshin.statespace.Model, org.eclipse.emf.henshin.statespace.Model)
-	 */
-	@Override
-	protected boolean equals(Model model1, Model model2) {
-		
-		// We definitely need the hash code maps if we use graph equality:
-		if (getStateSpace().getEqualityHelper().isGraphEquality()) {
-			HashCodeMap map1 = codesCache.get(model1);
-			if (map1==null) {
-				map1 = new HashCodeMap();
-				getStateSpace().getEqualityHelper().hashCode(model1, map1);
-				codesCache.put(model1, map1);
-			}
-			HashCodeMap map2 = codesCache.get(model2);
-			if (map2==null) {
-				map2 = new HashCodeMap();
-				getStateSpace().getEqualityHelper().hashCode(model2, map2);
-				codesCache.put(model2, map2);
-			}
-			return getStateSpace().getEqualityHelper().equals(model1, map1, model2, map2);
-		
-		} else {
-			return super.equals(model1, model2);
-		}
-	}
-
-	/*
-	 * Create a new EmfGraph.
-	 */
-	private static EmfGraph createEmfGraph(Model model) {
-		EmfGraph graph = new EmfGraph();
-		synchronized (model) {
-			for (EObject root : model.getResource().getContents()) {
-				graph.addRoot(root);
-			}			
-		}
-		return graph;
-	}
-
-	/*
-	 * Create a new RuleApplication.
-	 */
-	private static RuleApplication createRuleApplication(EmfGraph graph, Rule rule, EmfEngine engine) {
-		engine.setEmfGraph(graph);
-		return new RuleApplication(engine, rule);
-	}
-
-	/*
-	 * Create a new RuleApplication.
-	 */
-	private static RuleApplication createRuleApplication(Model model, Rule rule, EmfEngine engine) {
-		EmfGraph graph = createEmfGraph(model);
-		return createRuleApplication(graph, rule, engine);
-	}
-
 	/*
 	 * Acquire a transformation engine.
 	 */
@@ -595,8 +508,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				state.setModel(null);
 			}
 		}
-		modelCache.clear();
-		codesCache.clear();
+		accessedModelsCache.clear();
+		StateEqualityHelper helper = getStateSpace().getEqualityHelper();
+		if (helper instanceof StateEqualityHelperImpl) {
+			((StateEqualityHelperImpl) helper).clearCache();
+		}
 		System.gc();
 	}
 
@@ -622,7 +538,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
 					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
 				}
-				if (!equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+				if (!getStateSpace().getEqualityHelper().equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
 					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
 				}
 				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {

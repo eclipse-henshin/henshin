@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.equality;
+package org.eclipse.emf.henshin.statespace.util;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;

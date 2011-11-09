@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * <!-- begin-user-doc -->
@@ -66,6 +67,15 @@ public interface StateSpaceFactory extends EFactory {
 	 * @generated
 	 */
 	Model createModel();
+
+	/**
+	 * Returns a new object of class '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model</em>'.
+	 * @generated NOT
+	 */
+	Model createModel(final Resource resource);
 
 	/**
 	 * Returns a new object of class '<em>Transition</em>'.

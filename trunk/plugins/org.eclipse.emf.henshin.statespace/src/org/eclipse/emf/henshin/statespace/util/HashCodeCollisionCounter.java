@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.hashcodes;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.HashMap;
 import java.util.Map;

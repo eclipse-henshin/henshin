@@ -13,17 +13,23 @@
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.equality.EcoreEqualityHelper;
-import org.eclipse.emf.henshin.statespace.equality.GraphEqualityHelper;
-import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
-import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeHelper;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
+import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceHashCodeHelper;
 
 /**
  * Default implementation of {@link StateEqualityHelper}.
@@ -33,42 +39,112 @@ import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeHelper;
 public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		implements StateEqualityHelper {
 
-	/**
-	 * Default constructor.
-	 * 
-	 * @generated
+	/* 
+	 * Graph isomorphy-checker cache:
 	 */
-	protected StateEqualityHelperImpl() {
-		super();
-	}
+	private final Map<Model,GraphIsomorphyChecker> isomorphyCheckerCache = 
+		Collections.synchronizedMap(new Cache<Model,GraphIsomorphyChecker>());
 
 	/**
 	 * @generated NOT
 	 */
-	public int hashCode(Model model, HashCodeMap map) {
+	public int hashCode(Model model) {
 		return new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs,
-				ignoreAttributes).hashCode(model, map);
+				ignoreAttributes).hashCode(model);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public boolean equals(Model model1, HashCodeMap map1, Model model2,
-			HashCodeMap map2) {
+	public boolean equals(Model model1, Model model2) {
+		
+		// Graph equality?
 		if (graphEquality) {
-			return new GraphEqualityHelper(ignoreNodeIDs, ignoreAttributes)
-					.equals(model1, map1, model2, map2);
+			
+			// Get the isomorphy checker for the first model:
+			GraphIsomorphyChecker checker1 = isomorphyCheckerCache.get(model1);
+			
+			// Switch if there is only checker for model2:
+			if (checker1==null) {
+				GraphIsomorphyChecker checker2 = isomorphyCheckerCache.get(model2);
+				if (checker2!=null) {
+					checker1 = checker2;
+					Model dummy = model2;
+					model2 = model1;
+					model1 = dummy;
+				}
+			}
+			
+			// Create a new isomorphy checker if required:
+			if (checker1==null) {
+				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), ignoreAttributes);
+				isomorphyCheckerCache.put(model1, checker1);
+			}
+			
+			// Get the EmfGraph for the second model:
+			EmfGraph graph2 = model2.getEmfGraph();
+			
+			// Do we need to compute a match for the node IDs?
+			Map<EObject,EObject> match = null;
+			if (!ignoreNodeIDs) {
+				
+				// Index the second model:
+				EObject[] indexedModel2 = new EObject[graph2.geteObjects().size()];
+				for (Map.Entry<EObject, Integer> entry2 : model2.getNodeIDsMap().entrySet()) {
+					indexedModel2[entry2.getValue()] = entry2.getKey();
+				}
+				
+				// Compute the match:
+				match = new HashMap<EObject,EObject>();
+				for (Map.Entry<EObject, Integer> entry1 : model1.getNodeIDsMap().entrySet()) {
+					match.put(entry1.getKey(), indexedModel2[entry1.getValue()]);
+				}
+				
+			}
+			
+			// Now we can invoke the checker:
+			return checker1.isIsomorphicTo(model2.getEmfGraph(), match);
+		
 		} else {
-			return new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes)
-					.equals(model1, model2);
+			
+			// Use standard Ecore equality checker:
+			EcoreEqualityHelper helper = 
+					new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes);
+			return helper.equals(model1, model2);
+			
 		}
+		
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	public void setGraphEquality(boolean graphEquality) {
+		setGraphEqualityGen(graphEquality);
+		isomorphyCheckerCache.clear();
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setIgnoreAttributes(boolean ignoreAttributes) {
+		setIgnoreAttributesGen(ignoreAttributes);
+		isomorphyCheckerCache.clear();
 	}
 
 	/*
-	 * ---------------------------------------------------------------- *
-	 * GENERATED CODE. * Do not edit below this line. If you need to edit, move
-	 * it above * this line and change the '@generated'-tag to '@generated NOT'.
-	 * * ----------------------------------------------------------------
+	 * Clear cache.
+	 */
+	public void clearCache() {
+		isomorphyCheckerCache.clear();
+	}
+
+
+	/*
+	 * ----------------------------------------------------------------------- *
+	 * GENERATED CODE. Do not edit below this line. If you need to edit, move
+	 * it above this line and change the '@generated'-tag to '@generated NOT'.
+	 * ----------------------------------------------------------------------- *
 	 */
 
 	/**
@@ -132,6 +208,14 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	protected boolean ignoreAttributes = IGNORE_ATTRIBUTES_EDEFAULT;
 
 	/**
+	 * Default constructor.
+	 * @generated
+	 */
+	protected StateEqualityHelperImpl() {
+		super();
+	}
+
+	/**
 	 * @generated
 	 */
 	@Override
@@ -149,7 +233,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated
 	 */
-	public void setGraphEquality(boolean newGraphEquality) {
+	public void setGraphEqualityGen(boolean newGraphEquality) {
 		boolean oldGraphEquality = graphEquality;
 		graphEquality = newGraphEquality;
 		if (eNotificationRequired())
@@ -183,7 +267,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated
 	 */
-	public void setIgnoreAttributes(boolean newIgnoreAttributes) {
+	public void setIgnoreAttributesGen(boolean newIgnoreAttributes) {
 		boolean oldIgnoreAttributes = ignoreAttributes;
 		ignoreAttributes = newIgnoreAttributes;
 		if (eNotificationRequired())

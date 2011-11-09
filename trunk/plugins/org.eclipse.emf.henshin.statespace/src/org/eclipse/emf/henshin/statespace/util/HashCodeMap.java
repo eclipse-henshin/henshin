@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.hashcodes;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.HashMap;
 
@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * A map which associates hash codes to objects.
  * @author Christian Krause
+ * @deprecated
  */
 public class HashCodeMap extends HashMap<EObject,Integer> {
 	

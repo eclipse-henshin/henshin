@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.statespace.equality;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,12 +12,12 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap;
 
 /**
  * Graph traversal helper used for depth-first traversal
  * of models in the {@link GraphEqualityHelper} class.
  * @author Christian Krause
+ * @deprecated
  */
 public class GraphTraversalHelper {
 	

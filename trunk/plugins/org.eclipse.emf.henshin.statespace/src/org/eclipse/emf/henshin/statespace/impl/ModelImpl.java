@@ -14,28 +14,21 @@ package org.eclipse.emf.henshin.statespace.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-
 import org.eclipse.emf.ecore.util.EcoreEMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
@@ -48,20 +41,35 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 
 	/**
 	 * Constructor.
+	 * @param resource Resource for this model.
 	 * @generated NOT
 	 */
-	public ModelImpl() {
-		super();
-		setResource(new ResourceImpl());
+	public ModelImpl(Resource resource) {
+		this.resource = resource;
 	}
 
 	/**
 	 * Constructor.
 	 * @param resource Resource for this model.
+	 * @param emfGraph EmfGraph for this model.
 	 * @generated NOT
 	 */
-	public ModelImpl(Resource resource) {
-		setResource(resource);
+	public ModelImpl(Resource resource, EmfGraph emfGraph) {
+		this.resource = resource;
+		this.emfGraph = emfGraph;
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public EmfGraph getEmfGraph() {
+		if (emfGraph==null) {
+			emfGraph = new EmfGraph();
+			for (EObject root : resource.getContents()) {
+				emfGraph.addRoot(root);
+			}
+		}
+		return emfGraph;
 	}
 
 	/**
@@ -72,9 +80,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public Model getCopy(Match match) {
 
 		// Copy the resource.
-		Model copy = new ModelImpl();
+		Resource copiedResource = new ResourceImpl();
 		Copier copier = new Copier();
-		copy.getResource().getContents()
+		copiedResource.getContents()
 				.addAll(copier.copyAll(resource.getContents()));
 		copier.copyReferences();
 
@@ -85,6 +93,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				match.getNodeMapping().put(node, newImage);
 			}
 		}
+		
+		// Now create a new model.
+		Model copy = new ModelImpl(copiedResource);
 
 		// Copy the nodeIDs.
 		if (nodeIDsMap != null) {
@@ -136,6 +147,19 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		// Done.
 		return changed;
 		
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void collectMissingRootObjects() {
+		if (emfGraph!=null) {
+			for (EObject root : emfGraph.getRootObjects()) {
+				if (!resource.getContents().contains(root)) {
+					resource.getContents().add(root);
+				}
+			}
+		}
 	}
 
 	/**
@@ -211,6 +235,26 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected Resource resource = RESOURCE_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getEmfGraph() <em>Emf Graph</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEmfGraph()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final EmfGraph EMF_GRAPH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getEmfGraph() <em>Emf Graph</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEmfGraph()
+	 * @generated
+	 * @ordered
+	 */
+	protected EmfGraph emfGraph = EMF_GRAPH_EDEFAULT;
+
+	/**
 	 * The cached value of the '{@link #getNodeIDsMap() <em>Node IDs Map</em>}' map.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodeIDsMap()
@@ -229,6 +273,15 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected static final int[] NODE_IDS_EDEFAULT = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ModelImpl() {
+		super();
+	}
+
+	/**
 	 * @generated
 	 */
 	@Override
@@ -241,16 +294,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 */
 	public Resource getResource() {
 		return resource;
-	}
-
-	/**
-	 * @generated
-	 */
-	public void setResource(Resource newResource) {
-		Resource oldResource = resource;
-		resource = newResource;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.MODEL__RESOURCE, oldResource, resource));
 	}
 
 	/**
@@ -284,6 +327,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__RESOURCE:
 				return getResource();
+			case StateSpacePackage.MODEL__EMF_GRAPH:
+				return getEmfGraph();
 			case StateSpacePackage.MODEL__NODE_IDS_MAP:
 				if (coreType) return getNodeIDsMap();
 				else return getNodeIDsMap().map();
@@ -299,9 +344,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__RESOURCE:
-				setResource((Resource)newValue);
-				return;
 			case StateSpacePackage.MODEL__NODE_IDS_MAP:
 				((EStructuralFeature.Setting)getNodeIDsMap()).set(newValue);
 				return;
@@ -318,9 +360,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__RESOURCE:
-				setResource(RESOURCE_EDEFAULT);
-				return;
 			case StateSpacePackage.MODEL__NODE_IDS_MAP:
 				getNodeIDsMap().clear();
 				return;
@@ -339,6 +378,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__RESOURCE:
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
+			case StateSpacePackage.MODEL__EMF_GRAPH:
+				return EMF_GRAPH_EDEFAULT == null ? emfGraph != null : !EMF_GRAPH_EDEFAULT.equals(emfGraph);
 			case StateSpacePackage.MODEL__NODE_IDS_MAP:
 				return nodeIDsMap != null && !nodeIDsMap.isEmpty();
 			case StateSpacePackage.MODEL__NODE_IDS:
@@ -357,6 +398,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (resource: ");
 		result.append(resource);
+		result.append(", emfGraph: ");
+		result.append(emfGraph);
 		result.append(')');
 		return result.toString();
 	}

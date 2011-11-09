@@ -367,13 +367,22 @@ public interface StateSpacePackage extends EPackage {
 	int MODEL__RESOURCE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Emf Graph</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__EMF_GRAPH = 1;
+
+	/**
 	 * The feature id for the '<em><b>Node IDs Map</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__NODE_IDS_MAP = 1;
+	int MODEL__NODE_IDS_MAP = 2;
 
 	/**
 	 * The feature id for the '<em><b>Node IDs</b></em>' attribute.
@@ -382,7 +391,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__NODE_IDS = 2;
+	int MODEL__NODE_IDS = 3;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -391,7 +400,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 3;
+	int MODEL_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -580,14 +589,14 @@ public interface StateSpacePackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '<em>Hash Code Map</em>' data type.
+	 * The meta object id for the '<em>Emf Graph</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
+	 * @see org.eclipse.emf.henshin.matching.EmfGraph
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
 	 * @generated
 	 */
-	int HASH_CODE_MAP = 9;
+	int EMF_GRAPH = 9;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
@@ -805,6 +814,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getModel_Resource();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getEmfGraph <em>Emf Graph</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Emf Graph</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getEmfGraph()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EAttribute getModel_EmfGraph();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getNodeIDsMap <em>Node IDs Map</em>}'.
@@ -1090,15 +1110,15 @@ public interface StateSpacePackage extends EPackage {
 	EDataType getMatch();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap <em>Hash Code Map</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.matching.EmfGraph <em>Emf Graph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Hash Code Map</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
-	 * @model instanceClass="org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap" serializeable="false"
+	 * @return the meta object for data type '<em>Emf Graph</em>'.
+	 * @see org.eclipse.emf.henshin.matching.EmfGraph
+	 * @model instanceClass="org.eclipse.emf.henshin.matching.EmfGraph"
 	 * @generated
 	 */
-	EDataType getHashCodeMap();
+	EDataType getEmfGraph();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1287,6 +1307,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL__RESOURCE = eINSTANCE.getModel_Resource();
+
+		/**
+		 * The meta object literal for the '<em><b>Emf Graph</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL__EMF_GRAPH = eINSTANCE.getModel_EmfGraph();
 
 		/**
 		 * The meta object literal for the '<em><b>Node IDs Map</b></em>' map feature.
@@ -1508,14 +1536,14 @@ public interface StateSpacePackage extends EPackage {
 		EDataType MATCH = eINSTANCE.getMatch();
 
 		/**
-		 * The meta object literal for the '<em>Hash Code Map</em>' data type.
+		 * The meta object literal for the '<em>Emf Graph</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.hashcodes.HashCodeMap
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getHashCodeMap()
+		 * @see org.eclipse.emf.henshin.matching.EmfGraph
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
 		 * @generated
 		 */
-		EDataType HASH_CODE_MAP = eINSTANCE.getHashCodeMap();
+		EDataType EMF_GRAPH = eINSTANCE.getEmfGraph();
 
 	}
 

@@ -69,7 +69,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getState(org.eclipse.emf.henshin.statespace.Model)
 	 */
 	public final State getState(Model model) throws StateSpaceException {
-		return getState(model, hashCode(model));
+		return getState(model, stateSpace.getEqualityHelper().hashCode(model));
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 			State cand = matched[i];
 			if (cand==null || cand.getHashCode()!=hash) continue;
 			Model current = getModel(cand);
-			if (equals(model, current)) {
+			if (stateSpace.getEqualityHelper().equals(model, current)) {
 				return cand;
 			}
 		}
@@ -219,20 +219,4 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		return (size<INITIAL_INDEX_SIZE) ? INITIAL_INDEX_SIZE : size;
 	}
 	
-	/*
-	 * Compute the hash code of a state model.
-	 * This delegates to the state equality helper.
-	 */
-	protected int hashCode(Model model) {
-		return stateSpace.getEqualityHelper().hashCode(model, null);
-	}
-
-	/*
-	 * Check if two state models are equal.
-	 * This delegates to the equality helper.
-	 */
-	protected boolean equals(Model model1, Model model2) {
-		return stateSpace.getEqualityHelper().equals(model1, null, model2, null);
-	}
-
 }

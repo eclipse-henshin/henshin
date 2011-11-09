@@ -88,8 +88,7 @@ public class CreateInitialStateAction extends AbstractStateSpaceAction {
 			resource.setURI(relative);
 			
 			// Create the model instance:
-			Model model = StateSpaceFactory.eINSTANCE.createModel();
-			model.setResource(resource);
+			Model model = StateSpaceFactory.eINSTANCE.createModel(resource);
 			
 			// New command:
 			CreateInitialStateCommand command = new CreateInitialStateCommand(model, manager);

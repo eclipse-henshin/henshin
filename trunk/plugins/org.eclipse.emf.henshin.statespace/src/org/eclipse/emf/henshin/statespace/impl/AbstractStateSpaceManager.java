@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -118,6 +119,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 		monitor.beginTask("Reload models", getStateSpace().getStates().size());
 		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
+		StateEqualityHelper equalityHelper = getStateSpace().getEqualityHelper();
 		
 		try {			
 			// Reset state index:
@@ -147,7 +149,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				state.setNodeCount(nodeIDs.length);
 				
 				// Now compute the hash code:
-				int hash = hashCode(model);
+				int hash = equalityHelper.hashCode(model);
 				
 				// Check if it exists already: 
 				if (getState(model,hash)!=null) {
@@ -274,7 +276,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 		
 		// Compute the hash code of the model:
-		int hash = hashCode(model);
+		int hash = getStateSpace().getEqualityHelper().hashCode(model);
 		
 		// Look for an existing state:
 		State state = getState(model,hash);

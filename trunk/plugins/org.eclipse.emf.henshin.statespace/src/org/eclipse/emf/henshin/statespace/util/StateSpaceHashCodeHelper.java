@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.hashcodes;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,10 +69,7 @@ public class StateSpaceHashCodeHelper {
 	
 	// Current model.
 	private Model model;
-	
-	// Current hash-code map:
-	private HashCodeMap map;
-	
+		
 	// Currently used local hash codes:
 	private LocalHashCodes localHashCodes;
 	
@@ -88,19 +85,11 @@ public class StateSpaceHashCodeHelper {
 	}
 
 	/**
-	 * Compute the hash code for a given model.
-	 * @generated NOT
-	 */
-	public int hashCode(Model model) {
-		return hashCode(model, null);
-	}
-
-	/**
 	 * Compute the hash code for a given model
 	 * and update the hash-code map.
 	 * @generated NOT
 	 */
-	public int hashCode(Model model, HashCodeMap map) {
+	public int hashCode(Model model) {
 		
 		// Some basic checks:
 		if (model==null) {
@@ -112,7 +101,6 @@ public class StateSpaceHashCodeHelper {
 		
 		// Set the required fields:
 		this.model = model;
-		this.map = map;
 		this.localHashCodes = new LocalHashCodes();
 		
 		// Compute the hash-code:
@@ -120,7 +108,6 @@ public class StateSpaceHashCodeHelper {
 		
 		// Reset the fields:
 		this.model = null;
-		this.map = null;
 		this.localHashCodes = null;
 		
 		// Done.
@@ -140,18 +127,10 @@ public class StateSpaceHashCodeHelper {
 		// Compute the total hash codes of all nodes:
 		for (int i=0; i<total.length; i++) {
 			total[i] = totalHashCode(nodes.get(i), depth);			
-			if (map!=null) {
-				map.put(nodes.get(i), total[i]);
-			}
 		}
 		
 		// Now merge them:
 		int result = listHashCode(total, depth);
-				
-		// Update the map:
-		if (map!=null && container!=null) {
-			map.put(container, result);
-		}
 
 		// Done.
 		return result;
