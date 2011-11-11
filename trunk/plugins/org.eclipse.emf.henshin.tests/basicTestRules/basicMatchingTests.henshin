@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_DhbTwCPYEeC7QrNpQH_8hA" name="basicMatchingTests">
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_DhbTwCPYEeC7QrNpQH_8hA" name="basicMatchingTests">
   <rules xmi:id="_KJt2YCPYEeC7QrNpQH_8hA" name="matchAllNodes">
     <lhs xmi:id="_KJt2YSPYEeC7QrNpQH_8hA" name="LHS">
       <nodes xmi:id="_NQ-iQCPYEeC7QrNpQH_8hA" name="nd">
