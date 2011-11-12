@@ -99,6 +99,7 @@
     <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eParameters name="model" eType="#//Model"/>
     </eOperations>
+    <eOperations name="clearCache"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="useGraphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="useObjectIdentities" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"

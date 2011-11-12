@@ -30,7 +30,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -512,7 +511,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/**
 	 * Clear the state model cache. Should be done every now and then.
 	 */
-	public void clearStateModelCache() {
+	public void clearCache() {
 		int index = 0;
 		for (State state : getStateSpace().getStates()) {
 			// We leave a small rest amount of the state models.
@@ -521,10 +520,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			}
 		}
 		accessedModelsCache.clear();
-		StateEqualityHelper helper = getStateSpace().getEqualityHelper();
-		if (helper instanceof StateEqualityHelperImpl) {
-			((StateEqualityHelperImpl) helper).clearCache();
-		}
+		getStateSpace().getEqualityHelper().clearCache();
 		System.gc();
 	}
 

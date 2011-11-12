@@ -21,7 +21,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
 import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
@@ -38,8 +37,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	// Edit domain.
 	protected final EditDomain editDomain;
 
-	// Clean up interval (default is 10 minutes):
-	private int cleanupInterval = 600;
+	// Clean up interval (default is 15 minutes):
+	private int cleanupInterval = 900;
 
 	// Save interval (default is 30 minutes):
 	private int saveInterval = 1800;
@@ -162,10 +161,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	 * Clear state model cache.
 	 */
 	private void clearCache(IProgressMonitor monitor) {
-		if (getStateSpaceManager() instanceof StateSpaceManagerImpl) {
-			monitor.subTask("Clearing state model cache...");
-			((StateSpaceManagerImpl) getStateSpaceManager()).clearStateModelCache();
-		}
+		monitor.subTask("Clearing state model cache...");
+		getStateSpaceManager().clearCache();
 	}
 	
 	/*

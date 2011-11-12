@@ -66,4 +66,9 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 */
 	void resetStateSpace();
 	
+	/**
+	 * Clear the cache of the state space manager.
+	 */
+	void clearCache();
+	
 }

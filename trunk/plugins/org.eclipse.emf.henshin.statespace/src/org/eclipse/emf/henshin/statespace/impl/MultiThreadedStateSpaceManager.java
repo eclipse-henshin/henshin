@@ -138,8 +138,8 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl#clearStateModelCache()
 	 */
 	@Override
-	public void clearStateModelCache() {
-		super.clearStateModelCache();
+	public void clearCache() {
+		super.clearCache();
 		preparedStates.clear();
 		System.gc();
 	}

@@ -82,6 +82,13 @@ public interface StateEqualityHelper extends EObject {
 	int hashCode(Model model);
 
 	/**
+	 * Clear all caches.
+	 * @model
+	 * @generated
+	 */
+	void clearCache();
+
+	/**
 	 * Check whether two state models are equal.
 	 * @model
 	 * @generated
