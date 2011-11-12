@@ -84,15 +84,15 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
-	public int getNodeCount() {
+	public int getObjectCount() {
 		return getData(2);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setNodeCount(int nodeCount) {
-		setData(2, nodeCount);
+	public void setObjectCount(int objectCount) {
+		setData(2, objectCount);
 	}
 
 	/**
@@ -112,17 +112,24 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getNodeIDs() {
-		return getData(6, 6+getNodeCount());
+	public int[] getObjectIdentities() {
+		return getData(6, 6+getObjectCount());
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setNodeIDs(int[] nodeIDs) {
-		setData(6, nodeIDs);
+	public void setObjectIdentities(int[] objectIdentities) {
+		setData(6, objectIdentities);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return "State " + index;
+	}
 	
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
@@ -189,22 +196,24 @@ public class StateImpl extends StorageImpl implements State {
 	protected static final int HASH_CODE_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getNodeCount() <em>Node Count</em>}' attribute.
+	 * The default value of the '{@link #getObjectCount() <em>Object Count</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNodeCount()
+	 * @see #getObjectCount()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int NODE_COUNT_EDEFAULT = 0;
+	protected static final int OBJECT_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getNodeIDs() <em>Node IDs</em>}' attribute.
-	 * @see #getNodeIDs()
+	 * The default value of the '{@link #getObjectIdentities() <em>Object Identities</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectIdentities()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] NODE_IDS_EDEFAULT = null;
+	protected static final int[] OBJECT_IDENTITIES_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
@@ -413,10 +422,10 @@ public class StateImpl extends StorageImpl implements State {
 				return isOpen();
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode();
-			case StateSpacePackage.STATE__NODE_COUNT:
-				return getNodeCount();
-			case StateSpacePackage.STATE__NODE_IDS:
-				return getNodeIDs();
+			case StateSpacePackage.STATE__OBJECT_COUNT:
+				return getObjectCount();
+			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+				return getObjectIdentities();
 			case StateSpacePackage.STATE__MODEL:
 				return getModel();
 		}
@@ -453,11 +462,11 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE__NODE_COUNT:
-				setNodeCount((Integer)newValue);
+			case StateSpacePackage.STATE__OBJECT_COUNT:
+				setObjectCount((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE__NODE_IDS:
-				setNodeIDs((int[])newValue);
+			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+				setObjectIdentities((int[])newValue);
 				return;
 			case StateSpacePackage.STATE__MODEL:
 				setModel((Model)newValue);
@@ -493,11 +502,11 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__HASH_CODE:
 				setHashCode(HASH_CODE_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE__NODE_COUNT:
-				setNodeCount(NODE_COUNT_EDEFAULT);
+			case StateSpacePackage.STATE__OBJECT_COUNT:
+				setObjectCount(OBJECT_COUNT_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE__NODE_IDS:
-				setNodeIDs(NODE_IDS_EDEFAULT);
+			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+				setObjectIdentities(OBJECT_IDENTITIES_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__MODEL:
 				setModel((Model)null);
@@ -526,28 +535,14 @@ public class StateImpl extends StorageImpl implements State {
 				return isOpen() != OPEN_EDEFAULT;
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode() != HASH_CODE_EDEFAULT;
-			case StateSpacePackage.STATE__NODE_COUNT:
-				return getNodeCount() != NODE_COUNT_EDEFAULT;
-			case StateSpacePackage.STATE__NODE_IDS:
-				return NODE_IDS_EDEFAULT == null ? getNodeIDs() != null : !NODE_IDS_EDEFAULT.equals(getNodeIDs());
+			case StateSpacePackage.STATE__OBJECT_COUNT:
+				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
+			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectIdentities() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectIdentities());
 			case StateSpacePackage.STATE__MODEL:
 				return model != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (index: ");
-		result.append(index);
-		result.append(')');
-		return result.toString();
 	}
 
 } //StateImpl

@@ -80,7 +80,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 			case StateSpacePackage.TRANSITION: return createTransition();
 			case StateSpacePackage.STATE_EQUALITY_HELPER: return createStateEqualityHelper();
 			case StateSpacePackage.STORAGE: return createStorage();
-			case StateSpacePackage.NODE_ID: return (EObject)createNodeID();
+			case StateSpacePackage.OBJECT_IDENTITY: return (EObject)createObjectIdentity();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +96,10 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		switch (eDataType.getClassifierID()) {
 			case StateSpacePackage.INTEGER_ARRAY:
 				return createIntegerArrayFromString(eDataType, initialValue);
+			case StateSpacePackage.STRING_ARRAY:
+				return createStringArrayFromString(eDataType, initialValue);
+			case StateSpacePackage.ECLASS_ARRAY:
+				return createEClassArrayFromString(eDataType, initialValue);
 			case StateSpacePackage.MATCH:
 				return createMatchFromString(eDataType, initialValue);
 			case StateSpacePackage.EMF_GRAPH:
@@ -115,6 +119,10 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		switch (eDataType.getClassifierID()) {
 			case StateSpacePackage.INTEGER_ARRAY:
 				return convertIntegerArrayToString(eDataType, instanceValue);
+			case StateSpacePackage.STRING_ARRAY:
+				return convertStringArrayToString(eDataType, instanceValue);
+			case StateSpacePackage.ECLASS_ARRAY:
+				return convertEClassArrayToString(eDataType, instanceValue);
 			case StateSpacePackage.MATCH:
 				return convertMatchToString(eDataType, instanceValue);
 			case StateSpacePackage.EMF_GRAPH:
@@ -211,9 +219,9 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<EObject, Integer> createNodeID() {
-		NodeIDImpl nodeID = new NodeIDImpl();
-		return nodeID;
+	public Map.Entry<EObject, Integer> createObjectIdentity() {
+		ObjectIdentityImpl objectIdentity = new ObjectIdentityImpl();
+		return objectIdentity;
 	}
 
 	/**
@@ -241,6 +249,42 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 		return convertIntegerArrayToString(eDataType, (int[]) location);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String[] createStringArrayFromString(EDataType eDataType, String initialValue) {
+		return (String[])super.createFromString(initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertStringArrayToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass[] createEClassArrayFromString(EDataType eDataType, String initialValue) {
+		return (EClass[])super.createFromString(initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEClassArrayToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(instanceValue);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

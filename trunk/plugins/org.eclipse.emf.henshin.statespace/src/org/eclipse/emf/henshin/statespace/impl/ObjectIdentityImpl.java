@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
- * A map entry implementation for node IDs.
+ * A map entry implementation for object identities.
  * @generated
  */
-public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
+public class ObjectIdentityImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
 	
 	/**
 	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
@@ -58,7 +58,7 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	/**
 	 * @generated
 	 */
-	protected NodeIDImpl() {
+	protected ObjectIdentityImpl() {
 		super();
 	}
 
@@ -67,7 +67,7 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackage.Literals.NODE_ID;
+		return StateSpacePackage.Literals.OBJECT_IDENTITY;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 			key = eResolveProxy(oldKey);
 			if (key != oldKey) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.NODE_ID__KEY, oldKey, key));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.OBJECT_IDENTITY__KEY, oldKey, key));
 			}
 		}
 		return key;
@@ -99,7 +99,7 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 		EObject oldKey = key;
 		key = newKey;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.NODE_ID__KEY, oldKey, key));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_IDENTITY__KEY, oldKey, key));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 		Integer oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.NODE_ID__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_IDENTITY__VALUE, oldValue, value));
 	}
 
 	/**
@@ -125,10 +125,10 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.NODE_ID__KEY:
+			case StateSpacePackage.OBJECT_IDENTITY__KEY:
 				if (resolve) return getTypedKey();
 				return basicGetTypedKey();
-			case StateSpacePackage.NODE_ID__VALUE:
+			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
 				return getTypedValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -140,10 +140,10 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.NODE_ID__KEY:
+			case StateSpacePackage.OBJECT_IDENTITY__KEY:
 				setTypedKey((EObject)newValue);
 				return;
-			case StateSpacePackage.NODE_ID__VALUE:
+			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
 				setTypedValue((Integer)newValue);
 				return;
 		}
@@ -156,10 +156,10 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.NODE_ID__KEY:
+			case StateSpacePackage.OBJECT_IDENTITY__KEY:
 				setTypedKey((EObject)null);
 				return;
-			case StateSpacePackage.NODE_ID__VALUE:
+			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
 				setTypedValue(VALUE_EDEFAULT);
 				return;
 		}
@@ -172,9 +172,9 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.NODE_ID__KEY:
+			case StateSpacePackage.OBJECT_IDENTITY__KEY:
 				return key != null;
-			case StateSpacePackage.NODE_ID__VALUE:
+			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);
@@ -250,4 +250,4 @@ public class NodeIDImpl extends MinimalEObjectImpl.Container implements BasicEMa
 		return container == null ? null : (EMap<EObject, Integer>)container.eGet(eContainmentFeature());
 	}
 
-} //NodeIDImpl
+} //ObjectIdentityImpl

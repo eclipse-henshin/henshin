@@ -131,9 +131,9 @@ public class StateSpaceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackage.NODE_ID: {
-				@SuppressWarnings("unchecked") Map.Entry<EObject, Integer> nodeID = (Map.Entry<EObject, Integer>)theEObject;
-				T result = caseNodeID(nodeID);
+			case StateSpacePackage.OBJECT_IDENTITY: {
+				@SuppressWarnings("unchecked") Map.Entry<EObject, Integer> objectIdentity = (Map.Entry<EObject, Integer>)theEObject;
+				T result = caseObjectIdentity(objectIdentity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -232,17 +232,17 @@ public class StateSpaceSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Node ID</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Object Identity</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Node ID</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Object Identity</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNodeID(Map.Entry<EObject, Integer> object) {
+	public T caseObjectIdentity(Map.Entry<EObject, Integer> object) {
 		return null;
 	}
 

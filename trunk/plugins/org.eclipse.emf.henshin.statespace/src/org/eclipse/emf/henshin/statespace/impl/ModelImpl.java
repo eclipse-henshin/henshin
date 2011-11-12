@@ -32,6 +32,7 @@ import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
 
 /**
  * Transient container for state models.
@@ -98,12 +99,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		Model copy = new ModelImpl(copiedResource);
 
 		// Copy the nodeIDs.
-		if (nodeIDsMap != null) {
+		if (objectIdentitiesMap != null) {
 			TreeIterator<EObject> iterator = resource.getAllContents();
 			while (iterator.hasNext()) {
 				EObject object = iterator.next();
-				copy.getNodeIDsMap().put(copier.get(object),
-						nodeIDsMap.get(object));
+				copy.getObjectIdentitiesMap().put(copier.get(object),
+						objectIdentitiesMap.get(object));
 			}
 		}
 
@@ -115,31 +116,34 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public boolean updateNodeIDs() {
+	public boolean updateObjectIdentities(EClass[] objectTypes) {
 
-		// Make sure the node IDs map is not null.
-		getNodeIDsMap();
+		// Make sure the object identities map is not null.
+		getObjectIdentitiesMap();
 		
 		// Remember whether there was a change:
 		boolean changed = false;
 		
 		// Get the next free ID:
-		int nextID = 0;
+		int nextId = 0;
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			Integer value = nodeIDsMap.get(object);
-			if (value != null && value >= nextID) {
-				nextID = value + 1;
+			Integer identity = objectIdentitiesMap.get(object);
+			if (identity!=null) {
+				int id = ObjectIdentityHelper.getObjectID(identity);
+				if (identity>=nextId) {
+					nextId = id+1;
+				}
 			}
 		}
 
-		// Now set the IDs for new objects:
+		// Now set the identities for new objects:
 		iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			if (nodeIDsMap.get(object) == null) {
-				nodeIDsMap.put(object, nextID++);
+			if (objectIdentitiesMap.get(object) == null) {
+				objectIdentitiesMap.put(object, nextId++);
 				changed = true;
 			}
 		}
@@ -165,19 +169,19 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getNodeIDs() {
+	public int[] getObjectIdentities() {
 
-		// Make sure the node IDs map is not null.
-		getNodeIDsMap();
+		// Make sure the object identities map is not null.
+		getObjectIdentitiesMap();
 
 		// Copy the map contents to an integer array:
 		List<Integer> ids = new ArrayList<Integer>(24);
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			Integer id = nodeIDsMap.get(object);
+			Integer id = objectIdentitiesMap.get(object);
 			if (id==null) {
-				throw new RuntimeException("No node ID found for " + object);
+				throw new RuntimeException("No object identity found for " + object);
 			}
 			ids.add(id.intValue());
 		}
@@ -192,26 +196,26 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public void setNodeIDs(int[] nodeIDs) {
+	public void setObjectIdentities(int[] objectIdentities) {
 
-		// Make sure the node IDs map is not null and empty it.
-		getNodeIDsMap().clear();
+		// Make sure the object identities map is not null and empty it.
+		getObjectIdentitiesMap().clear();
 
 		// Copy the map contents of the integer array to the map:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		int index = 0;
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			nodeIDsMap.put(object, nodeIDs[index++]);
+			objectIdentitiesMap.put(object, objectIdentities[index++]);
 		}
 
 	}
 
 	/*
-	 * ---------------------------------------------------------------- *
-	 * GENERATED CODE. * Do not edit below this line. If you need to edit, move
-	 * it above * this line and change the '@generated'-tag to '@generated NOT'.
-	 * * ----------------------------------------------------------------
+	 * ----------------------------------------------------------------------- *
+	 * GENERATED CODE. Do not edit below this line. If you need to edit, move  *
+	 * it above this line and change the '@generated'-tag to '@generated NOT'. *
+	 * ----------------------------------------------------------------------- *
 	 */
 
 	/**
@@ -255,22 +259,23 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EmfGraph emfGraph = EMF_GRAPH_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getNodeIDsMap() <em>Node IDs Map</em>}' map.
+	 * The cached value of the '{@link #getObjectIdentitiesMap() <em>Object Identities Map</em>}' map.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getNodeIDsMap()
+	 * @see #getObjectIdentitiesMap()
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap<EObject, Integer> nodeIDsMap;
+	protected EMap<EObject, Integer> objectIdentitiesMap;
 
 	/**
-	 * The default value of the '{@link #getNodeIDs() <em>Node IDs</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getNodeIDs()
+	 * The default value of the '{@link #getObjectIdentities() <em>Object Identities</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectIdentities()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] NODE_IDS_EDEFAULT = null;
+	protected static final int[] OBJECT_IDENTITIES_EDEFAULT = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -299,11 +304,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated
 	 */
-	public EMap<EObject, Integer> getNodeIDsMap() {
-		if (nodeIDsMap == null) {
-			nodeIDsMap = new EcoreEMap<EObject,Integer>(StateSpacePackage.Literals.NODE_ID, NodeIDImpl.class, this, StateSpacePackage.MODEL__NODE_IDS_MAP);
+	public EMap<EObject, Integer> getObjectIdentitiesMap() {
+		if (objectIdentitiesMap == null) {
+			objectIdentitiesMap = new EcoreEMap<EObject,Integer>(StateSpacePackage.Literals.OBJECT_IDENTITY, ObjectIdentityImpl.class, this, StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP);
 		}
-		return nodeIDsMap;
+		return objectIdentitiesMap;
 	}
 
 	/**
@@ -313,8 +318,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__NODE_IDS_MAP:
-				return ((InternalEList<?>)getNodeIDsMap()).basicRemove(otherEnd, msgs);
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+				return ((InternalEList<?>)getObjectIdentitiesMap()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -329,11 +334,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return getResource();
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return getEmfGraph();
-			case StateSpacePackage.MODEL__NODE_IDS_MAP:
-				if (coreType) return getNodeIDsMap();
-				else return getNodeIDsMap().map();
-			case StateSpacePackage.MODEL__NODE_IDS:
-				return getNodeIDs();
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+				if (coreType) return getObjectIdentitiesMap();
+				else return getObjectIdentitiesMap().map();
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+				return getObjectIdentities();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -344,11 +349,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__NODE_IDS_MAP:
-				((EStructuralFeature.Setting)getNodeIDsMap()).set(newValue);
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+				((EStructuralFeature.Setting)getObjectIdentitiesMap()).set(newValue);
 				return;
-			case StateSpacePackage.MODEL__NODE_IDS:
-				setNodeIDs((int[])newValue);
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+				setObjectIdentities((int[])newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -360,11 +365,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__NODE_IDS_MAP:
-				getNodeIDsMap().clear();
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+				getObjectIdentitiesMap().clear();
 				return;
-			case StateSpacePackage.MODEL__NODE_IDS:
-				setNodeIDs(NODE_IDS_EDEFAULT);
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+				setObjectIdentities(OBJECT_IDENTITIES_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -380,10 +385,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return EMF_GRAPH_EDEFAULT == null ? emfGraph != null : !EMF_GRAPH_EDEFAULT.equals(emfGraph);
-			case StateSpacePackage.MODEL__NODE_IDS_MAP:
-				return nodeIDsMap != null && !nodeIDsMap.isEmpty();
-			case StateSpacePackage.MODEL__NODE_IDS:
-				return NODE_IDS_EDEFAULT == null ? getNodeIDs() != null : !NODE_IDS_EDEFAULT.equals(getNodeIDs());
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+				return objectIdentitiesMap != null && !objectIdentitiesMap.isEmpty();
+			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectIdentities() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectIdentities());
 		}
 		return super.eIsSet(featureID);
 	}

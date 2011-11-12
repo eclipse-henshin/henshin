@@ -93,9 +93,19 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 */
 	public AbstractStateSpaceManager(StateSpace stateSpace) {
 		super(stateSpace);
+		
+		// Not tainted:
 		this.tainted = false;
+		
+		// Add the state space adapter:
 		stateSpace.eAdapters().add(adapter);
+		
+		// Reset the state distance monitor:
 		resetStateDistanceMonitor();
+		
+		// Update the support object types:
+		stateSpace.updateObjectTypes();
+		
 	}
 	
 	/*
@@ -111,22 +121,31 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	}
 	
 	/**
-	 * Reload all models and update hash codes.
+	 * Reload all models, update hash codes and update the object types.
 	 * @param monitor Progress monitor.
 	 * @exception StateSpaceException If the state space contains errors.
 	 */
 	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
 		
-		monitor.beginTask("Reload models", getStateSpace().getStates().size());
-		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
-		StateEqualityHelper equalityHelper = getStateSpace().getEqualityHelper();
+		monitor.beginTask("Reload models", getStateSpace().getStates().size() + 3);
 		
-		try {			
+		// We need some info:
+		StateSpace stateSpace = getStateSpace();
+		StateEqualityHelper equalityHelper = stateSpace.getEqualityHelper();
+		boolean useObjectIdentities = equalityHelper.isUseObjectIdentities();
+
+		// Update the object types:
+		stateSpace.updateObjectTypes();
+		monitor.worked(1);
+		
+		try {
+			
 			// Reset state index:
 			resetIndex();
+			monitor.worked(1);
 			
 			// Reset all derived state models:
-			for (State state : getStateSpace().getStates()) {
+			for (State state : stateSpace.getStates()) {
 				if (!state.isInitial()) {
 					state.setModel(null);
 				}
@@ -134,19 +153,19 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			monitor.worked(1);
 			
 			// Compute state models, update the hash code and the index:
-			for (State state : getStateSpace().getStates()) {
+			for (State state : stateSpace.getStates()) {
 				
 				// Get the model first:
 				Model model = getModel(state);
 				
 				// Update the node IDs:
-				int[] nodeIDs = StorageImpl.EMPTY_DATA;
-				if (!ignoreNodeIDs) {
-					model.updateNodeIDs();
-					nodeIDs = model.getNodeIDs();
+				int[] objectIdentities = StorageImpl.EMPTY_DATA;
+				if (useObjectIdentities) {
+					model.updateObjectIdentities(stateSpace.getObjectTypes());
+					objectIdentities = model.getObjectIdentities();
 				}
-				state.setNodeIDs(nodeIDs);
-				state.setNodeCount(nodeIDs.length);
+				state.setObjectIdentities(objectIdentities);
+				state.setObjectCount(objectIdentities.length);
 				
 				// Now compute the hash code:
 				int hash = equalityHelper.hashCode(model);
@@ -164,8 +183,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				setOpen(state,isOpen(state));
 				
 				// Add the state to the index:
-				addToIndex(state);
-				
+				addToIndex(state);				
 				monitor.worked(1);
 				
 			}
@@ -231,11 +249,11 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			state.setLocation(location);
 		}
 		
-		// Set the node IDs, if required:
-		if (!getStateSpace().getEqualityHelper().isIgnoreNodeIDs()) {
-			int[] nodeIDs = model.getNodeIDs();
-			state.setNodeIDs(nodeIDs);
-			state.setNodeCount(nodeIDs.length);
+		// Set the object identities, if required:
+		if (getStateSpace().getEqualityHelper().isUseObjectIdentities()) {
+			int[] objectIdentities = model.getObjectIdentities();
+			state.setObjectIdentities(objectIdentities);
+			state.setObjectCount(objectIdentities.length);
 		}
 		
 		// Add the state to the state space:
@@ -270,9 +288,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		// Resolve all objects in the model:
 		EcoreUtil.resolveAll(model);
 		
-		// Make sure the node IDs are set:
-		if (!getStateSpace().getEqualityHelper().isIgnoreNodeIDs()) {
-			model.updateNodeIDs();
+		// Make sure the objects identities are set:
+		if (getStateSpace().getEqualityHelper().isUseObjectIdentities()) {
+			model.updateObjectIdentities(getStateSpace().getObjectTypes());
 		}
 		
 		// Compute the hash code of the model:
@@ -398,7 +416,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
 		transition.setRule(rule);
 		transition.setMatch(match);
-		transition.setParameterIDs(paramIDs);
+		transition.setParameterIdentities(paramIDs);
 		transition.setParameterCount(paramIDs.length);
 		synchronized (stateSpaceLock) {
 			change = true;
@@ -419,7 +437,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	protected static Transition findTransition(State source, State target, Rule rule, int[] paramIDs) {
 		for (Transition transition : source.getOutgoing()) {
 			if (rule==transition.getRule() && target==transition.getTarget() &&
-				Arrays.equals(paramIDs, transition.getParameterIDs())) {
+				Arrays.equals(paramIDs, transition.getParameterIdentities())) {
 				return transition;
 			}
 		}

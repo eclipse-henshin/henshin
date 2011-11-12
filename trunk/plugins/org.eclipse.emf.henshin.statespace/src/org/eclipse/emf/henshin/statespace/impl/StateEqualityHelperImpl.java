@@ -49,8 +49,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
-		return new StateSpaceHashCodeHelper(graphEquality, ignoreNodeIDs,
-				ignoreAttributes).hashCode(model);
+		return new StateSpaceHashCodeHelper(useGraphEquality, 
+				useObjectIdentities, useObjectAttributes).hashCode(model);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	public boolean equals(Model model1, Model model2) {
 		
 		// Graph equality?
-		if (graphEquality) {
+		if (useGraphEquality) {
 			
 			// Get the isomorphy checker for the first model:
 			GraphIsomorphyChecker checker1 = isomorphyCheckerCache.get(model1);
@@ -77,7 +77,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 			// Create a new isomorphy checker if required:
 			if (checker1==null) {
-				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), ignoreAttributes);
+				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), useObjectAttributes);
 				isomorphyCheckerCache.put(model1, checker1);
 			}
 			
@@ -86,17 +86,17 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 			// Do we need to compute a match for the node IDs?
 			Map<EObject,EObject> match = null;
-			if (!ignoreNodeIDs) {
+			if (useObjectIdentities) {
 				
 				// Index the second model:
 				EObject[] indexedModel2 = new EObject[graph2.geteObjects().size()];
-				for (Map.Entry<EObject, Integer> entry2 : model2.getNodeIDsMap().entrySet()) {
+				for (Map.Entry<EObject, Integer> entry2 : model2.getObjectIdentitiesMap().entrySet()) {
 					indexedModel2[entry2.getValue()] = entry2.getKey();
 				}
 				
 				// Compute the match:
 				match = new HashMap<EObject,EObject>();
-				for (Map.Entry<EObject, Integer> entry1 : model1.getNodeIDsMap().entrySet()) {
+				for (Map.Entry<EObject, Integer> entry1 : model1.getObjectIdentitiesMap().entrySet()) {
 					match.put(entry1.getKey(), indexedModel2[entry1.getValue()]);
 				}
 				
@@ -108,9 +108,9 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		} else {
 			
 			// Use standard Ecore equality checker:
-			EcoreEqualityHelper helper = 
-					new EcoreEqualityHelper(ignoreNodeIDs, ignoreAttributes);
-			return helper.equals(model1, model2);
+			return new EcoreEqualityHelper(
+					useObjectIdentities, 
+					useObjectAttributes).equals(model1, model2);
 			
 		}
 		
@@ -119,26 +119,25 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated NOT
 	 */
-	public void setGraphEquality(boolean graphEquality) {
-		setGraphEqualityGen(graphEquality);
+	public void setUseGraphEquality(boolean useGraphEquality) {
+		setUseGraphEqualityGen(useGraphEquality);
 		isomorphyCheckerCache.clear();
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setIgnoreAttributes(boolean ignoreAttributes) {
-		setIgnoreAttributesGen(ignoreAttributes);
+	public void setUseObjectAttributes(boolean useObjectAttributes) {
+		setUseObjectAttributesGen(useObjectAttributes);
 		isomorphyCheckerCache.clear();
 	}
 
-	/*
-	 * Clear cache.
+	/**
+	 * @generated NOT
 	 */
 	public void clearCache() {
 		isomorphyCheckerCache.clear();
 	}
-
 
 	/*
 	 * ----------------------------------------------------------------------- *
@@ -148,64 +147,64 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 
 	/**
-	 * The default value of the '{@link #isGraphEquality()
-	 * <em>Graph Equality</em>}' attribute.
-	 * 
-	 * @see #isGraphEquality()
+	 * The default value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseGraphEquality()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean GRAPH_EQUALITY_EDEFAULT = true;
+	protected static final boolean USE_GRAPH_EQUALITY_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isGraphEquality()
-	 * <em>Graph Equality</em>}' attribute.
-	 * 
-	 * @see #isGraphEquality()
+	 * The cached value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseGraphEquality()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean graphEquality = GRAPH_EQUALITY_EDEFAULT;
+	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIgnoreNodeIDs()
-	 * <em>Ignore Node IDs</em>}' attribute.
-	 * 
-	 * @see #isIgnoreNodeIDs()
+	 * The default value of the '{@link #isUseObjectIdentities() <em>Use Object Identities</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseObjectIdentities()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IGNORE_NODE_IDS_EDEFAULT = true;
+	protected static final boolean USE_OBJECT_IDENTITIES_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isIgnoreNodeIDs()
-	 * <em>Ignore Node IDs</em>}' attribute.
-	 * 
-	 * @see #isIgnoreNodeIDs()
+	 * The cached value of the '{@link #isUseObjectIdentities() <em>Use Object Identities</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseObjectIdentities()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean ignoreNodeIDs = IGNORE_NODE_IDS_EDEFAULT;
+	protected boolean useObjectIdentities = USE_OBJECT_IDENTITIES_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isIgnoreAttributes()
-	 * <em>Ignore Attributes</em>}' attribute.
-	 * 
-	 * @see #isIgnoreAttributes()
+	 * The default value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseObjectAttributes()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean IGNORE_ATTRIBUTES_EDEFAULT = false;
+	protected static final boolean USE_OBJECT_ATTRIBUTES_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isIgnoreAttributes()
-	 * <em>Ignore Attributes</em>}' attribute.
-	 * 
-	 * @see #isIgnoreAttributes()
+	 * The cached value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isUseObjectAttributes()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean ignoreAttributes = IGNORE_ATTRIBUTES_EDEFAULT;
+	protected boolean useObjectAttributes = USE_OBJECT_ATTRIBUTES_EDEFAULT;
 
 	/**
 	 * Default constructor.
@@ -226,52 +225,52 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated
 	 */
-	public boolean isGraphEquality() {
-		return graphEquality;
+	public boolean isUseGraphEquality() {
+		return useGraphEquality;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setGraphEqualityGen(boolean newGraphEquality) {
-		boolean oldGraphEquality = graphEquality;
-		graphEquality = newGraphEquality;
+	public void setUseGraphEqualityGen(boolean newUseGraphEquality) {
+		boolean oldUseGraphEquality = useGraphEquality;
+		useGraphEquality = newUseGraphEquality;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY, oldGraphEquality, graphEquality));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
 	}
 
 	/**
 	 * @generated
 	 */
-	public boolean isIgnoreNodeIDs() {
-		return ignoreNodeIDs;
+	public boolean isUseObjectIdentities() {
+		return useObjectIdentities;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setIgnoreNodeIDs(boolean newIgnoreNodeIDs) {
-		boolean oldIgnoreNodeIDs = ignoreNodeIDs;
-		ignoreNodeIDs = newIgnoreNodeIDs;
+	public void setUseObjectIdentities(boolean newUseObjectIdentities) {
+		boolean oldUseObjectIdentities = useObjectIdentities;
+		useObjectIdentities = newUseObjectIdentities;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS, oldIgnoreNodeIDs, ignoreNodeIDs));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES, oldUseObjectIdentities, useObjectIdentities));
 	}
 
 	/**
 	 * @generated
 	 */
-	public boolean isIgnoreAttributes() {
-		return ignoreAttributes;
+	public boolean isUseObjectAttributes() {
+		return useObjectAttributes;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setIgnoreAttributesGen(boolean newIgnoreAttributes) {
-		boolean oldIgnoreAttributes = ignoreAttributes;
-		ignoreAttributes = newIgnoreAttributes;
+	public void setUseObjectAttributesGen(boolean newUseObjectAttributes) {
+		boolean oldUseObjectAttributes = useObjectAttributes;
+		useObjectAttributes = newUseObjectAttributes;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES, oldIgnoreAttributes, ignoreAttributes));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES, oldUseObjectAttributes, useObjectAttributes));
 	}
 
 	/**
@@ -280,12 +279,12 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				return isGraphEquality();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				return isIgnoreNodeIDs();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				return isIgnoreAttributes();
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+				return isUseGraphEquality();
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+				return isUseObjectIdentities();
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+				return isUseObjectAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -296,14 +295,14 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				setGraphEquality((Boolean)newValue);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+				setUseGraphEquality((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				setIgnoreNodeIDs((Boolean)newValue);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+				setUseObjectIdentities((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				setIgnoreAttributes((Boolean)newValue);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+				setUseObjectAttributes((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -315,14 +314,14 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				setGraphEquality(GRAPH_EQUALITY_EDEFAULT);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				setIgnoreNodeIDs(IGNORE_NODE_IDS_EDEFAULT);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+				setUseObjectIdentities(USE_OBJECT_IDENTITIES_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				setIgnoreAttributes(IGNORE_ATTRIBUTES_EDEFAULT);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+				setUseObjectAttributes(USE_OBJECT_ATTRIBUTES_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -334,12 +333,12 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__GRAPH_EQUALITY:
-				return graphEquality != GRAPH_EQUALITY_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_NODE_IDS:
-				return ignoreNodeIDs != IGNORE_NODE_IDS_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES:
-				return ignoreAttributes != IGNORE_ATTRIBUTES_EDEFAULT;
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+				return useObjectIdentities != USE_OBJECT_IDENTITIES_EDEFAULT;
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+				return useObjectAttributes != USE_OBJECT_ATTRIBUTES_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -352,12 +351,12 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (graphEquality: ");
-		result.append(graphEquality);
-		result.append(", ignoreNodeIDs: ");
-		result.append(ignoreNodeIDs);
-		result.append(", ignoreAttributes: ");
-		result.append(ignoreAttributes);
+		result.append(" (useGraphEquality: ");
+		result.append(useGraphEquality);
+		result.append(", useObjectIdentities: ");
+		result.append(useObjectIdentities);
+		result.append(", useObjectAttributes: ");
+		result.append(useObjectAttributes);
 		result.append(')');
 		return result.toString();
 	}

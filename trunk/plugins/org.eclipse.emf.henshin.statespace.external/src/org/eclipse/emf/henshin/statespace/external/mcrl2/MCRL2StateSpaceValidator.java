@@ -133,7 +133,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	 */
 	private String createActions(StateSpace stateSpace) throws StateSpaceException {
 		StringBuffer actions = new StringBuffer();
-		if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
+		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
 			Map<EClass,Integer> maxIDs = getMaxIDs(stateSpace);
 			for (EClass type : maxIDs.keySet()) {
 				actions.append("sort " + type.getName() + " = struct ");
@@ -149,7 +149,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
 			Rule rule = stateSpace.getRules().get(i);
 			actions.append(rule.getName());
-			if (!stateSpace.getEqualityHelper().isIgnoreNodeIDs()) {
+			if (!stateSpace.getEqualityHelper().isUseObjectIdentities()) {
 				actions.append(" : ");
 				List<Node> params = ParametersPropertiesManager.getParameters(stateSpace,rule);
 				for (int j=0; j<params.size(); j++) {
@@ -179,7 +179,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		for (State state : stateSpace.getStates()) {
 			for (Transition transition : state.getOutgoing()) {
 				List<EClass> params = paramTypes.get(transition.getRule());
-				int[] ids = transition.getParameterIDs();
+				int[] ids = transition.getParameterIdentities();
 				int count = Math.min(ids.length, params.size());
 				for (int i=0; i<count; i++) {
 					EClass type = params.get(i);

@@ -24,55 +24,55 @@ import org.eclipse.emf.ecore.EObject;
 public interface StateEqualityHelper extends EObject {
 	
 	/**
-	 * Whether to use graph equality instead of Ecore equality.
-	 * @see #setGraphEquality(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_GraphEquality()
-	 * @model
+	 * Check whether graph equality should be used.
+	 * @return the value of the '<em>Use Graph Equality</em>' attribute.
+	 * @see #setUseGraphEquality(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_UseGraphEquality()
+	 * @model default="true"
 	 * @generated
 	 */
-	boolean isGraphEquality();
+	boolean isUseGraphEquality();
 
 	/**
-	 * Set whether to use graph equality.
-	 * @see #isGraphEquality()
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}' attribute.
+	 * @param value the new value of the '<em>Use Graph Equality</em>' attribute.
+	 * @see #isUseGraphEquality()
 	 * @generated
 	 */
-	void setGraphEquality(boolean value);
+	void setUseGraphEquality(boolean value);
 
 	/**
-	 * Check whether node IDs should be ignored.
-	 * @see #setIgnoreNodeIDs(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_IgnoreNodeIDs()
+	 * Check whether object identities should be used.
+	 * @see #setUseObjectIdentities(boolean)
 	 * @model default="false"
 	 * @generated
 	 */
-	boolean isIgnoreNodeIDs();
+	boolean isUseObjectIdentities();
 
 	/**
-	 * Set whether node IDs should be ignored.
-	 * @param value the new value of the '<em>Ignore Node IDs</em>' attribute.
-	 * @see #isIgnoreNodeIDs()
+	 * Set whether node IDs should be used.
+	 * @param useObjectIdentities the new value of the '<em>Use Object Identities</em>' attribute.
+	 * @see #isUseObjectIdentities()
 	 * @generated
 	 */
-	void setIgnoreNodeIDs(boolean value);
+	void setUseObjectIdentities(boolean value);
 
 	/**
-	 * Check whether this helper ignores node attributes.
-	 * @return <code>true</code> if it ignores attributes.
-	 * @see #setIgnoreAttributes(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_IgnoreAttributes()
+	 * Check whether this helper uses object attributes.
+	 * @return <code>true</code> if it uses attributes.
+	 * @see #setUseObjectAttributes(boolean)
 	 * @model
 	 * @generated
 	 */
-	boolean isIgnoreAttributes();
+	boolean isUseObjectAttributes();
 
 	/**
 	 * Set the ignore-attributes flag.
-	 * @param value Flag determining whether attributes should be ignored.
-	 * @see #isIgnoreAttributes()
+	 * @param useObjectAttributes the new value of the '<em>Use Object Attributes</em>' attribute.
+	 * @see #isUseObjectAttributes()
 	 * @generated
 	 */
-	void setIgnoreAttributes(boolean value);
+	void setUseObjectAttributes(boolean value);
 
 	/**
 	 * Generate a hash code of a state model.

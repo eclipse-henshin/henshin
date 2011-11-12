@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -68,6 +69,33 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	int getTransitionCount();
+
+	/**
+	 * Update the object types for this state space.
+	 * @model
+	 * @generated
+	 */
+	void updateObjectTypes();
+
+	/**
+	 * Get the supported object types of this state space.
+	 * @return the value of the '<em>Object Types</em>' attribute.
+	 * @see #setObjectTypes(EClass[])
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_ObjectTypes()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.EClassArray" transient="true"
+	 * @generated
+	 */
+	EClass[] getObjectTypes();
+
+	/**
+	 * Get the object type prefixes of this state space.
+	 * @return the value of the '<em>Object Type Prefixes</em>' attribute.
+	 * @see #setObjectTypePrefixes(String[])
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_ObjectTypePrefixes()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.StringArray" transient="true"
+	 * @generated
+	 */
+	String[] getObjectTypePrefixes();
 
 	/**
 	 * Set the total number of transitions in this state space.
@@ -190,5 +218,5 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	EMap<String, String> getProperties();
-	
+
 }

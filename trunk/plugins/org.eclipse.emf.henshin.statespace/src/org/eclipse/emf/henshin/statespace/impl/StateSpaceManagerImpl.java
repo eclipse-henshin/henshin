@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
+import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
@@ -87,7 +88,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			}
 			
 			// Find the corresponding outgoing transition:
-			Transition transition = findTransition(state, target, current.getRule(), current.getParameterIDs());
+			Transition transition = findTransition(state, target, current.getRule(), current.getParameterIdentities());
 			if (transition==null) {
 				return true;
 			}
@@ -195,9 +196,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		EmfEngine engine = acquireEngine();
 		engine.setEmfGraph(model.getEmfGraph());
 
-		// We need to know whether node IDs are required:
-		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
-
 		// Derive the model for the current state:
 		for (Transition transition : path) {
 			
@@ -220,12 +218,13 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			// Collect the missing root objects:
 			model.collectMissingRootObjects();
 			
-			// Update the node IDs map if necessary:
-			if (!ignoreNodeIDs) {
-				model.updateNodeIDs();
-			}
 		}
-		
+
+		// Set the object identities if necessary:
+		if (getStateSpace().getEqualityHelper().isUseObjectIdentities()) {
+			model.setObjectIdentities(path.getTarget().getObjectIdentities());
+		}
+
 		// We can release the engine again:
 		releaseEngine(engine);
 		
@@ -295,7 +294,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			// Transition label details:
 			Rule rule = current.getRule();
 			int match = current.getMatch();
-			int[] parameters = current.getParameterIDs();
+			int[] parameters = current.getParameterIdentities();
 			
 			// Get the hash and model of the new target state:
 			int hashCode = current.getTarget().getHashCode();
@@ -376,7 +375,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		EmfEngine engine = acquireEngine();
 		
 		// Get some important state space parameters:
-		boolean ignoreNodeIDs = getStateSpace().getEqualityHelper().isIgnoreNodeIDs();
+		boolean useObjectIdentities = getStateSpace().getEqualityHelper().isUseObjectIdentities();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -390,8 +389,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			List<Match> matches = application.findAllMatches();
 			
 			// Get the parameters of the rule:
-			List<Node> parameters = ignoreNodeIDs ? 
-					null : ParametersPropertiesManager.getParameters(getStateSpace(), rule);
+			List<Node> parameters = useObjectIdentities ? 
+					ParametersPropertiesManager.getParameters(getStateSpace(), rule) : null;
 			
 			// Iterate over all matches:
 			for (int i=0; i<matches.size(); i++) {
@@ -411,12 +410,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				State newState = StateSpaceFactory.eINSTANCE.createState();
 				newState.setModel(transformed);
 				
-				// Update node IDs if necessary:
-				if (!ignoreNodeIDs) {
-					transformed.updateNodeIDs();
-					int[] nodeIDs = transformed.getNodeIDs();
-					newState.setNodeIDs(nodeIDs);
-					newState.setNodeCount(nodeIDs.length);
+				// Update object identities if necessary:
+				if (useObjectIdentities) {
+					transformed.updateObjectIdentities(getStateSpace().getObjectTypes());
+					int[] identities = transformed.getObjectIdentities();
+					newState.setObjectIdentities(identities);
+					newState.setObjectCount(identities.length);
 				}
 				
 				// Now compute and set the hash code (after the node IDs have been updated!):
@@ -428,18 +427,22 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				newTransition.setRule(rule);
 				newTransition.setMatch(i);
 				newTransition.setTarget(newState);
-				if (!ignoreNodeIDs) {
-					int[] paramIDs = new int[parameters.size()];
-					for (int p=0; p<paramIDs.length; p++) {
+				
+				// Set the parameters if necessary:
+				if (useObjectIdentities) {
+					int[] params = new int[parameters.size()];
+					for (int p=0; p<params.length; p++) {
 						Node node = parameters.get(p);
 						EObject matched = match.getNodeMapping().get(node);
 						if (matched==null) {
 							matched = application.getComatch().getNodeMapping().get(node);
 						}
-						paramIDs[p] = transformed.getNodeIDsMap().get(matched);
+						int id = transformed.getObjectIdentitiesMap().get(matched);
+						params[p] = ObjectIdentityHelper.createObjectIdentitity(
+								matched.eClass(), id, getStateSpace().getObjectTypes());
 					}
-					newTransition.setParameterIDs(paramIDs);
-					newTransition.setParameterCount(paramIDs.length);
+					newTransition.setParameterIdentities(params);
+					newTransition.setParameterCount(params.length);
 				}
 				
 				// Remember the transition:

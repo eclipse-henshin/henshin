@@ -7,6 +7,7 @@
     <eOperations name="removeState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="state" eType="#//State"/>
     </eOperations>
+    <eOperations name="updateObjectTypes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
@@ -31,6 +32,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectTypes" eType="#//EClassArray"
+        changeable="false" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectTypePrefixes" eType="#//StringArray"
+        changeable="false" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -48,9 +53,9 @@
         volatile="true" transient="true" defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeIDs" eType="#//IntegerArray"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectIdentities" eType="#//IntegerArray"
         volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//Model"
         transient="true" containment="true"/>
@@ -59,15 +64,17 @@
     <eOperations name="getCopy" eType="#//Model">
       <eParameters name="match" eType="#//Match"/>
     </eOperations>
-    <eOperations name="updateNodeIDs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="updateObjectIdentities" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="objectTypes" eType="#//EClassArray"/>
+    </eOperations>
     <eOperations name="collectMissingRootObjects"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="emfGraph" eType="#//EmfGraph"
         changeable="false" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodeIDsMap" upperBound="-1"
-        eType="#//NodeID" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeIDs" eType="#//IntegerArray"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectIdentitiesMap" upperBound="-1"
+        eType="#//ObjectIdentity" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectIdentities" eType="#//IntegerArray"
         volatile="true" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
@@ -81,7 +88,7 @@
         volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterIDs" eType="#//IntegerArray"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterIdentities" eType="#//IntegerArray"
         volatile="true" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StateEqualityHelper">
@@ -92,11 +99,11 @@
     <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eParameters name="model" eType="#//Model"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="graphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useGraphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreNodeIDs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useObjectIdentities" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreAttributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useObjectAttributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Storage">
@@ -122,11 +129,13 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" eType="#//IntegerArray"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NodeID" instanceClassName="java.util.Map$Entry">
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectIdentity" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="StringArray" instanceClassName="java.lang.String[]"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EClassArray" instanceClassName="org.eclipse.emf.ecore.EClass[]"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.util.Match"/>
   <eClassifiers xsi:type="ecore:EDataType" name="EmfGraph" instanceClassName="org.eclipse.emf.henshin.matching.EmfGraph"/>
 </ecore:EPackage>

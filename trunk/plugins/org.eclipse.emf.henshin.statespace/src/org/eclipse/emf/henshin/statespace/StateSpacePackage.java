@@ -221,13 +221,31 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 11;
 
 	/**
+	 * The feature id for the '<em><b>Object Types</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__OBJECT_TYPES = STORAGE_FEATURE_COUNT + 12;
+
+	/**
+	 * The feature id for the '<em><b>Object Type Prefixes</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__OBJECT_TYPE_PREFIXES = STORAGE_FEATURE_COUNT + 13;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 12;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -312,22 +330,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE__HASH_CODE = STORAGE_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Node Count</b></em>' attribute.
+	 * The feature id for the '<em><b>Object Count</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__NODE_COUNT = STORAGE_FEATURE_COUNT + 7;
+	int STATE__OBJECT_COUNT = STORAGE_FEATURE_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>Node IDs</b></em>' attribute.
+	 * The feature id for the '<em><b>Object Identities</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__NODE_IDS = STORAGE_FEATURE_COUNT + 8;
+	int STATE__OBJECT_IDENTITIES = STORAGE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Model</b></em>' containment reference.
@@ -376,22 +394,22 @@ public interface StateSpacePackage extends EPackage {
 	int MODEL__EMF_GRAPH = 1;
 
 	/**
-	 * The feature id for the '<em><b>Node IDs Map</b></em>' map.
+	 * The feature id for the '<em><b>Object Identities Map</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__NODE_IDS_MAP = 2;
+	int MODEL__OBJECT_IDENTITIES_MAP = 2;
 
 	/**
-	 * The feature id for the '<em><b>Node IDs</b></em>' attribute.
+	 * The feature id for the '<em><b>Object Identities</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__NODE_IDS = 3;
+	int MODEL__OBJECT_IDENTITIES = 3;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -467,13 +485,13 @@ public interface StateSpacePackage extends EPackage {
 	int TRANSITION__PARAMETER_COUNT = STORAGE_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Parameter IDs</b></em>' attribute.
+	 * The feature id for the '<em><b>Parameter Identities</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__PARAMETER_IDS = STORAGE_FEATURE_COUNT + 5;
+	int TRANSITION__PARAMETER_IDENTITIES = STORAGE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
@@ -495,31 +513,31 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_EQUALITY_HELPER = 4;
 
 	/**
-	 * The feature id for the '<em><b>Graph Equality</b></em>' attribute.
+	 * The feature id for the '<em><b>Use Graph Equality</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__GRAPH_EQUALITY = 0;
+	int STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Ignore Node IDs</b></em>' attribute.
+	 * The feature id for the '<em><b>Use Object Identities</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__IGNORE_NODE_IDS = 1;
+	int STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES = 1;
 
 	/**
-	 * The feature id for the '<em><b>Ignore Attributes</b></em>' attribute.
+	 * The feature id for the '<em><b>Use Object Attributes</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES = 2;
+	int STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = 2;
 
 	/**
 	 * The number of structural features of the '<em>State Equality Helper</em>' class.
@@ -531,14 +549,14 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_EQUALITY_HELPER_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.NodeIDImpl <em>Node ID</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl <em>Object Identity</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.NodeIDImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getNodeID()
+	 * @see org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectIdentity()
 	 * @generated
 	 */
-	int NODE_ID = 6;
+	int OBJECT_IDENTITY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
@@ -547,7 +565,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_ID__KEY = 0;
+	int OBJECT_IDENTITY__KEY = 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -556,16 +574,16 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_ID__VALUE = 1;
+	int OBJECT_IDENTITY__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Node ID</em>' class.
+	 * The number of structural features of the '<em>Object Identity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_ID_FEATURE_COUNT = 2;
+	int OBJECT_IDENTITY_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '<em>Integer Array</em>' data type.
@@ -578,6 +596,24 @@ public interface StateSpacePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '<em>String Array</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStringArray()
+	 * @generated
+	 */
+	int STRING_ARRAY = 8;
+
+	/**
+	 * The meta object id for the '<em>EClass Array</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEClassArray()
+	 * @generated
+	 */
+	int ECLASS_ARRAY = 9;
+
+	/**
 	 * The meta object id for the '<em>Match</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -585,7 +621,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getMatch()
 	 * @generated
 	 */
-	int MATCH = 8;
+	int MATCH = 10;
 
 
 	/**
@@ -596,7 +632,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
 	 * @generated
 	 */
-	int EMF_GRAPH = 9;
+	int EMF_GRAPH = 11;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
@@ -730,6 +766,28 @@ public interface StateSpacePackage extends EPackage {
 	EReference getStateSpace_Properties();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getObjectTypes <em>Object Types</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Types</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getObjectTypes()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_ObjectTypes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getObjectTypePrefixes <em>Object Type Prefixes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Type Prefixes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getObjectTypePrefixes()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_ObjectTypePrefixes();
+
+	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -827,26 +885,26 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getModel_EmfGraph();
 
 	/**
-	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getNodeIDsMap <em>Node IDs Map</em>}'.
+	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getObjectIdentitiesMap <em>Object Identities Map</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Node IDs Map</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getNodeIDsMap()
+	 * @return the meta object for the map '<em>Object Identities Map</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectIdentitiesMap()
 	 * @see #getModel()
 	 * @generated
 	 */
-	EReference getModel_NodeIDsMap();
+	EReference getModel_ObjectIdentitiesMap();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getNodeIDs <em>Node IDs</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getObjectIdentities <em>Object Identities</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Node IDs</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getNodeIDs()
+	 * @return the meta object for the attribute '<em>Object Identities</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectIdentities()
 	 * @see #getModel()
 	 * @generated
 	 */
-	EAttribute getModel_NodeIDs();
+	EAttribute getModel_ObjectIdentities();
 
 	/**
 	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}'.
@@ -893,26 +951,26 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getState_HashCode();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getNodeCount <em>Node Count</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getObjectCount <em>Object Count</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Node Count</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getNodeCount()
+	 * @return the meta object for the attribute '<em>Object Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getObjectCount()
 	 * @see #getState()
 	 * @generated
 	 */
-	EAttribute getState_NodeCount();
+	EAttribute getState_ObjectCount();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getNodeIDs <em>Node IDs</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getObjectIdentities <em>Object Identities</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Node IDs</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getNodeIDs()
+	 * @return the meta object for the attribute '<em>Object Identities</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getObjectIdentities()
 	 * @see #getState()
 	 * @generated
 	 */
-	EAttribute getState_NodeIDs();
+	EAttribute getState_ObjectIdentities();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Transition <em>Transition</em>}'.
@@ -958,17 +1016,6 @@ public interface StateSpacePackage extends EPackage {
 	EReference getTransition_Rule();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getParameterIDs <em>Parameter IDs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Parameter IDs</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getParameterIDs()
-	 * @see #getTransition()
-	 * @generated
-	 */
-	EAttribute getTransition_ParameterIDs();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper <em>State Equality Helper</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -979,37 +1026,37 @@ public interface StateSpacePackage extends EPackage {
 	EClass getStateEqualityHelper();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isGraphEquality <em>Graph Equality</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Graph Equality</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isGraphEquality()
+	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality()
 	 * @see #getStateEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getStateEqualityHelper_GraphEquality();
+	EAttribute getStateEqualityHelper_UseGraphEquality();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreNodeIDs <em>Ignore Node IDs</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectIdentities <em>Use Object Identities</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ignore Node IDs</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreNodeIDs()
+	 * @return the meta object for the attribute '<em>Use Object Identities</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectIdentities()
 	 * @see #getStateEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getStateEqualityHelper_IgnoreNodeIDs();
+	EAttribute getStateEqualityHelper_UseObjectIdentities();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreAttributes <em>Ignore Attributes</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectAttributes <em>Use Object Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ignore Attributes</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isIgnoreAttributes()
+	 * @return the meta object for the attribute '<em>Use Object Attributes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectAttributes()
 	 * @see #getStateEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getStateEqualityHelper_IgnoreAttributes();
+	EAttribute getStateEqualityHelper_UseObjectAttributes();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
@@ -1034,6 +1081,17 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getTransition_ParameterCount();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getParameterIdentities <em>Parameter Identities</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Parameter Identities</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Transition#getParameterIdentities()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_ParameterIdentities();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Storage <em>Storage</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1055,16 +1113,16 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getStorage_Data();
 
 	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Node ID</em>}'.
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Object Identity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Node ID</em>'.
+	 * @return the meta object for class '<em>Object Identity</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject"
 	 *        valueDataType="org.eclipse.emf.ecore.EIntegerObject"
 	 * @generated
 	 */
-	EClass getNodeID();
+	EClass getObjectIdentity();
 
 	/**
 	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
@@ -1072,10 +1130,10 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
-	 * @see #getNodeID()
+	 * @see #getObjectIdentity()
 	 * @generated
 	 */
-	EReference getNodeID_Key();
+	EReference getObjectIdentity_Key();
 
 	/**
 	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
@@ -1083,10 +1141,10 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see java.util.Map.Entry
-	 * @see #getNodeID()
+	 * @see #getObjectIdentity()
 	 * @generated
 	 */
-	EAttribute getNodeID_Value();
+	EAttribute getObjectIdentity_Value();
 
 	/**
 	 * Returns the meta object for data type '<em>Integer Array</em>'.
@@ -1097,6 +1155,26 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getIntegerArray();
+
+	/**
+	 * Returns the meta object for data type '<em>String Array</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>String Array</em>'.
+	 * @model instanceClass="java.lang.String[]"
+	 * @generated
+	 */
+	EDataType getStringArray();
+
+	/**
+	 * Returns the meta object for data type '<em>EClass Array</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EClass Array</em>'.
+	 * @model instanceClass="org.eclipse.emf.ecore.EClass[]"
+	 * @generated
+	 */
+	EDataType getEClassArray();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.interpreter.util.Match <em>Match</em>}'.
@@ -1241,6 +1319,22 @@ public interface StateSpacePackage extends EPackage {
 		EReference STATE_SPACE__PROPERTIES = eINSTANCE.getStateSpace_Properties();
 
 		/**
+		 * The meta object literal for the '<em><b>Object Types</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__OBJECT_TYPES = eINSTANCE.getStateSpace_ObjectTypes();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Type Prefixes</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__OBJECT_TYPE_PREFIXES = eINSTANCE.getStateSpace_ObjectTypePrefixes();
+
+		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1317,20 +1411,20 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute MODEL__EMF_GRAPH = eINSTANCE.getModel_EmfGraph();
 
 		/**
-		 * The meta object literal for the '<em><b>Node IDs Map</b></em>' map feature.
+		 * The meta object literal for the '<em><b>Object Identities Map</b></em>' map feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODEL__NODE_IDS_MAP = eINSTANCE.getModel_NodeIDsMap();
+		EReference MODEL__OBJECT_IDENTITIES_MAP = eINSTANCE.getModel_ObjectIdentitiesMap();
 
 		/**
-		 * The meta object literal for the '<em><b>Node IDs</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Object Identities</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MODEL__NODE_IDS = eINSTANCE.getModel_NodeIDs();
+		EAttribute MODEL__OBJECT_IDENTITIES = eINSTANCE.getModel_ObjectIdentities();
 
 		/**
 		 * The meta object literal for the '<em><b>State Space</b></em>' container reference feature.
@@ -1365,20 +1459,20 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute STATE__HASH_CODE = eINSTANCE.getState_HashCode();
 
 		/**
-		 * The meta object literal for the '<em><b>Node Count</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Object Count</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE__NODE_COUNT = eINSTANCE.getState_NodeCount();
+		EAttribute STATE__OBJECT_COUNT = eINSTANCE.getState_ObjectCount();
 
 		/**
-		 * The meta object literal for the '<em><b>Node IDs</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Object Identities</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE__NODE_IDS = eINSTANCE.getState_NodeIDs();
+		EAttribute STATE__OBJECT_IDENTITIES = eINSTANCE.getState_ObjectIdentities();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -1415,14 +1509,6 @@ public interface StateSpacePackage extends EPackage {
 		EReference TRANSITION__RULE = eINSTANCE.getTransition_Rule();
 
 		/**
-		 * The meta object literal for the '<em><b>Parameter IDs</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRANSITION__PARAMETER_IDS = eINSTANCE.getTransition_ParameterIDs();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1433,28 +1519,28 @@ public interface StateSpacePackage extends EPackage {
 		EClass STATE_EQUALITY_HELPER = eINSTANCE.getStateEqualityHelper();
 
 		/**
-		 * The meta object literal for the '<em><b>Graph Equality</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_EQUALITY_HELPER__GRAPH_EQUALITY = eINSTANCE.getStateEqualityHelper_GraphEquality();
+		EAttribute STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY = eINSTANCE.getStateEqualityHelper_UseGraphEquality();
 
 		/**
-		 * The meta object literal for the '<em><b>Ignore Node IDs</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Use Object Identities</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_EQUALITY_HELPER__IGNORE_NODE_IDS = eINSTANCE.getStateEqualityHelper_IgnoreNodeIDs();
+		EAttribute STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES = eINSTANCE.getStateEqualityHelper_UseObjectIdentities();
 
 		/**
-		 * The meta object literal for the '<em><b>Ignore Attributes</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Use Object Attributes</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_EQUALITY_HELPER__IGNORE_ATTRIBUTES = eINSTANCE.getStateEqualityHelper_IgnoreAttributes();
+		EAttribute STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = eINSTANCE.getStateEqualityHelper_UseObjectAttributes();
 
 		/**
 		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.
@@ -1471,6 +1557,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRANSITION__PARAMETER_COUNT = eINSTANCE.getTransition_ParameterCount();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Identities</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__PARAMETER_IDENTITIES = eINSTANCE.getTransition_ParameterIdentities();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.
@@ -1491,14 +1585,14 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute STORAGE__DATA = eINSTANCE.getStorage_Data();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.NodeIDImpl <em>Node ID</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl <em>Object Identity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.NodeIDImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getNodeID()
+		 * @see org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectIdentity()
 		 * @generated
 		 */
-		EClass NODE_ID = eINSTANCE.getNodeID();
+		EClass OBJECT_IDENTITY = eINSTANCE.getObjectIdentity();
 
 		/**
 		 * The meta object literal for the '<em><b>Key</b></em>' reference feature.
@@ -1506,7 +1600,7 @@ public interface StateSpacePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference NODE_ID__KEY = eINSTANCE.getNodeID_Key();
+		EReference OBJECT_IDENTITY__KEY = eINSTANCE.getObjectIdentity_Key();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -1514,7 +1608,7 @@ public interface StateSpacePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute NODE_ID__VALUE = eINSTANCE.getNodeID_Value();
+		EAttribute OBJECT_IDENTITY__VALUE = eINSTANCE.getObjectIdentity_Value();
 
 		/**
 		 * The meta object literal for the '<em>Integer Array</em>' data type.
@@ -1524,6 +1618,24 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType INTEGER_ARRAY = eINSTANCE.getIntegerArray();
+
+		/**
+		 * The meta object literal for the '<em>String Array</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStringArray()
+		 * @generated
+		 */
+		EDataType STRING_ARRAY = eINSTANCE.getStringArray();
+
+		/**
+		 * The meta object literal for the '<em>EClass Array</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEClassArray()
+		 * @generated
+		 */
+		EDataType ECLASS_ARRAY = eINSTANCE.getEClassArray();
 
 		/**
 		 * The meta object literal for the '<em>Match</em>' data type.

@@ -52,13 +52,20 @@ public class StateSpaceDeserializer {
 		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("State space file marker not found"); // Marker
 		
 		int version = readShort(); // Version number
-		if (version<0 || version>1) throw new IOException("Unsupported format version: " + version);
+		if (version<0 || version>2) throw new IOException("Unsupported format version: " + version);
 		
 		int equalityType = readShort(); // Equality type
 		StateEqualityHelper helper = StateSpaceFactory.eINSTANCE.createStateEqualityHelper();
-		helper.setGraphEquality((equalityType & 1)==1);
-		helper.setIgnoreAttributes((equalityType & 2)==2);
-		helper.setIgnoreNodeIDs((equalityType & 4)==4);
+		helper.setUseGraphEquality((equalityType & 1)==1);
+		
+		// In version 2, "ignore" attributes changed to "use":
+		if (version>=2) {
+			helper.setUseObjectAttributes((equalityType & 2)==2);
+			helper.setUseObjectIdentities((equalityType & 4)==4);	
+		} else {
+			helper.setUseObjectAttributes((equalityType & 2)==0);
+			helper.setUseObjectIdentities((equalityType & 4)==0);
+		}		
 		stateSpace.setEqualityHelper(helper);
 		
 		int ruleCount = readShort(); // Rule count
@@ -104,8 +111,8 @@ public class StateSpaceDeserializer {
 				Resource contents = resource.getResourceSet().getResource(resolved,true);
 				contents.setURI(uri);
 				Model model = new ModelImpl(contents);
-				if (!helper.isIgnoreNodeIDs()) {
-					model.setNodeIDs(state.getNodeIDs());
+				if (helper.isUseObjectIdentities()) {
+					model.setObjectIdentities(state.getObjectIdentities());
 				}
 				state.setModel(model);
 				
@@ -125,7 +132,7 @@ public class StateSpaceDeserializer {
 				transition.setRule(stateSpace.getRules().get(readShort()));
 				if (version==0) {
 					transition.setMatch(readShort());	// In version 0, the match is stored here.
-				} else if (version==1) {
+				} else {
 					transition.setData(readData());		// Since version 1, transitions implement Storage.
 				}
 				transition.setTarget(stateSpace.getStates().get(readInt()));
@@ -138,11 +145,14 @@ public class StateSpaceDeserializer {
 		// Update transition count:
 		stateSpace.setTransitionCount(transitionCount);
 		
+		// Update the object types:
+		stateSpace.updateObjectTypes();
+		
 		// We expect EOF now:
 		if (in.read()>=0) {
 			throw new IOException("Expected end of file");
 		}
-				
+		
 		// Attach the state space to the resource:
 		resource.getContents().clear();
 		resource.getContents().add(stateSpace);

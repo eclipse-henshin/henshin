@@ -11,21 +11,18 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
+import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
 
 /**
  * @generated
@@ -38,45 +35,32 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	 * @generated NOT
 	 */
 	public String getLabel() {
-		if (rule==null) return null;
+		
+		// We need a rule and a rule name:
+		if (rule==null || rule.getName()==null) {
+			return "?";
+		}
 		String label = rule.getName();
-		if (getParameterCount()>0) {
+		
+		// Any parameters?
+		StateSpace stateSpace = getSource().getStateSpace();
+		if (getParameterCount()>0 && stateSpace!=null) {
 			label = label + "(";
-			char[] prefixes = getParamPrefixes();
-			int[] params = getParameterIDs();
-			int count = Math.min(prefixes.length, params.length);
-			for (int i=0; i<count; i++) {
-				label = label + prefixes[i] + params[i];
-				if (i<count-1) label = label + ",";
+			int[] identities = getParameterIdentities();
+			for (int i=0; i<identities.length; i++) {
+				label = label + 
+						ObjectIdentityHelper.getObjectTypePrefix(identities[i], 
+								stateSpace.getObjectTypePrefixes()) + 
+						ObjectIdentityHelper.getObjectID(identities[i]);
+				if (i<identities.length-1) {
+					label = label + ",";
+				}
 			}
 			label = label + ")";
 		}
+		
+		// Done.
 		return label;
-	}
-	
-	/*
-	 * Private helper for computing the prefixes of parameters.
-	 */
-	private char[] getParamPrefixes() {
-		if (getSource()==null || getSource().getStateSpace()==null) {
-			return new char[0];
-		}
-		List<Node> nodes;
-		try {
-			nodes = ParametersPropertiesManager.getParameters(getSource().getStateSpace(), rule);
-		} catch (StateSpaceException e) {
-			throw new RuntimeException(e);
-		}
-		char[] prefixes = new char[nodes.size()];
-		for (int i=0; i<prefixes.length; i++) {
-			EClass type = nodes.get(i).getType();
-			if (type!=null && type.getName()!=null) {
-				prefixes[i] = type.getName().toLowerCase().charAt(0);
-			} else {
-				prefixes[i] = 'x';
-			}
-		}
-		return prefixes;
 	}
 	
 	/**
@@ -110,14 +94,14 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getParameterIDs() {
+	public int[] getParameterIdentities() {
 		return getData(2, 2+getParameterCount());
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setParameterIDs(int[] paramIDs) {
+	public void setParameterIdentities(int[] paramIDs) {
 		setData(2, paramIDs);
 	}
 
@@ -175,14 +159,14 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	protected static final int PARAMETER_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getParameterIDs() <em>Parameter IDs</em>}' attribute.
+	 * The default value of the '{@link #getParameterIdentities() <em>Parameter Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParameterIDs()
+	 * @see #getParameterIdentities()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] PARAMETER_IDS_EDEFAULT = null;
+	protected static final int[] PARAMETER_IDENTITIES_EDEFAULT = null;
 
 	/**
 	 * @generated
@@ -384,8 +368,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				return getMatch();
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount();
-			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
-				return getParameterIDs();
+			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+				return getParameterIdentities();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -411,8 +395,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				setParameterCount((Integer)newValue);
 				return;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
-				setParameterIDs((int[])newValue);
+			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+				setParameterIdentities((int[])newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -439,8 +423,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				setParameterCount(PARAMETER_COUNT_EDEFAULT);
 				return;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
-				setParameterIDs(PARAMETER_IDS_EDEFAULT);
+			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+				setParameterIdentities(PARAMETER_IDENTITIES_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -462,8 +446,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				return getMatch() != MATCH_EDEFAULT;
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount() != PARAMETER_COUNT_EDEFAULT;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDS:
-				return PARAMETER_IDS_EDEFAULT == null ? getParameterIDs() != null : !PARAMETER_IDS_EDEFAULT.equals(getParameterIDs());
+			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+				return PARAMETER_IDENTITIES_EDEFAULT == null ? getParameterIdentities() != null : !PARAMETER_IDENTITIES_EDEFAULT.equals(getParameterIdentities());
 		}
 		return super.eIsSet(featureID);
 	}

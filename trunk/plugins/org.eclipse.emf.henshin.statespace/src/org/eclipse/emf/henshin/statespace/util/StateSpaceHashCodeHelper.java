@@ -53,13 +53,13 @@ public class StateSpaceHashCodeHelper {
 	};
 	
 	// Whether to use graph equality.
-	private boolean graphEquality;
+	private boolean useGraphEquality;
 
-	// Whether to ignore node IDs.
-	private boolean ignoreNodeIDs;
+	// Whether to use object identities.
+	private boolean useObjectIdentities;
 
-	// Whether to ignore attributes.
-	private boolean ignoreAttributes;
+	// Whether to use object attributes.
+	private boolean useObjectAttributes;
 	
 	// Currently used EPackage (cached).
 	private EPackage ePackage;
@@ -75,13 +75,12 @@ public class StateSpaceHashCodeHelper {
 	
 	/**
 	 * Default constructor.
-	 * @param graphEquality Graph equality?
-	 * @param ignoreAttributes Ignore attributes?
 	 */
-	public StateSpaceHashCodeHelper(boolean graphEquality, boolean ignoreNodeIDs, boolean ignoreAttributes) {
-		this.graphEquality = graphEquality;
-		this.ignoreNodeIDs = ignoreNodeIDs;
-		this.ignoreAttributes = ignoreAttributes;
+	public StateSpaceHashCodeHelper(boolean useGraphEquality, 
+			boolean useObjectIdentities, boolean useObjectAttributes) {
+		this.useGraphEquality = useGraphEquality;
+		this.useObjectIdentities = useObjectIdentities;
+		this.useObjectAttributes = useObjectAttributes;
 	}
 
 	/**
@@ -185,11 +184,11 @@ public class StateSpaceHashCodeHelper {
 		// Use classifier ID:
 		int hashCode = eclass.getClassifierID() + 1;
 		
-		// Use node IDs:
-		if (!ignoreNodeIDs) {
-			Integer id = model.getNodeIDsMap().get(object);
+		// Use object identities?
+		if (useObjectIdentities) {
+			Integer id = model.getObjectIdentitiesMap().get(object);
 			if (id==null) {
-				throw new RuntimeException("Missing node ID for " + object);
+				throw new RuntimeException("Missing object identity for " + object);
 			}
 			hashCode = (hashCode * PRIMES[0]) + id;
 		}
@@ -203,7 +202,7 @@ public class StateSpaceHashCodeHelper {
 				if (feature instanceof EReference) {
 					value = list.size();
 				} else if (feature instanceof EAttribute) {
-					value = ignoreAttributes ? 0 : list.hashCode();
+					value = useObjectAttributes ? list.hashCode() : 0;
 				}
 			} else {
 				Object single = object.eGet(feature);
@@ -212,7 +211,7 @@ public class StateSpaceHashCodeHelper {
 				} else if (feature instanceof EReference) {
 					value = 1;
 				} else if (feature instanceof EAttribute) {
-					value = ignoreAttributes ? 0 : single.hashCode();
+					value = useObjectAttributes ? single.hashCode() : 0;
 				}
 			}
 			hashCode = (hashCode * PRIMES[(i+1) % PRIMES.length]) + value;
@@ -274,7 +273,7 @@ public class StateSpaceHashCodeHelper {
 	protected int listHashCode(int[] hashCodes, int depth) {
 		int hash = 0;
 		for (int i=0; i<hashCodes.length; i++) {
-			if (!graphEquality) {
+			if (!useGraphEquality) {
 				hash *= PRIMES[depth % PRIMES.length];
 			}
 			hash += hashCodes[i];

@@ -114,8 +114,8 @@ public class StateSpaceToolsMenu extends Composite {
 	private Scale attractionScale;
 	
 	// Check boxes:
-	private Button useNodeIDsCheckbox;
-	private Button useAttributesCheckbox;
+	private Button useObjectIdentitiesCheckbox;
+	private Button useObjectAttributesCheckbox;
 
 	// Links:
 	private Link layouterLink;
@@ -171,7 +171,7 @@ public class StateSpaceToolsMenu extends Composite {
 		statesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "States:", "0");
 		transitionsLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Transitions:", "0");
 		rulesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Rules:", "0");
-		StateSpaceToolsMenuFactory.newLabel(details, "Equality:", GridData.HORIZONTAL_ALIGN_END);
+		StateSpaceToolsMenuFactory.newLabel(details, "Models:", GridData.HORIZONTAL_ALIGN_END);
 		Composite radioButtons = new Composite(details, SWT.NONE);
 		radioButtons.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout layout = new GridLayout(2,false);
@@ -181,14 +181,14 @@ public class StateSpaceToolsMenu extends Composite {
 		ecoreButton.setText("Ecore");
 		graphButton = new Button(radioButtons, SWT.RADIO);
 		graphButton.setText("Graph");
-		StateSpaceToolsMenuFactory.newLabel(details, "Options:", GridData.HORIZONTAL_ALIGN_END);
+		StateSpaceToolsMenuFactory.newLabel(details, "Objects:", GridData.HORIZONTAL_ALIGN_END);
 		Composite checkBoxes = new Composite(details, SWT.NONE);
 		checkBoxes.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		checkBoxes.setLayout(layout);
-		useNodeIDsCheckbox = new Button(checkBoxes, SWT.CHECK);
-		useNodeIDsCheckbox.setText("Node-IDs");
-		useAttributesCheckbox = new Button(checkBoxes, SWT.CHECK);
-		useAttributesCheckbox.setText("Attributes");
+		useObjectIdentitiesCheckbox = new Button(checkBoxes, SWT.CHECK);
+		useObjectIdentitiesCheckbox.setText("Identities");
+		useObjectAttributesCheckbox = new Button(checkBoxes, SWT.CHECK);
+		useObjectAttributesCheckbox.setText("Attributes");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);
 		
 		// The tasks group:
@@ -341,10 +341,10 @@ public class StateSpaceToolsMenu extends Composite {
 			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
-			graphButton.setSelection(helper.isGraphEquality());
-			ecoreButton.setSelection(!helper.isGraphEquality());
-			useNodeIDsCheckbox.setSelection(!helper.isIgnoreNodeIDs());
-			useAttributesCheckbox.setSelection(!helper.isIgnoreAttributes());
+			graphButton.setSelection(helper.isUseGraphEquality());
+			ecoreButton.setSelection(!helper.isUseGraphEquality());
+			useObjectIdentitiesCheckbox.setSelection(helper.isUseObjectIdentities());
+			useObjectAttributesCheckbox.setSelection(helper.isUseObjectAttributes());
 			hideLabelsButton.setSelection(stateSpace.isHideLabels());
 		}
 	}
@@ -387,8 +387,8 @@ public class StateSpaceToolsMenu extends Composite {
 		validateButton.setEnabled(enabled);
 		validatorCombo.setEnabled(enabled);
 		validationText.setEnabled(enabled);
-		useNodeIDsCheckbox.setEnabled(enabled);
-		useAttributesCheckbox.setEnabled(enabled);
+		useObjectIdentitiesCheckbox.setEnabled(enabled);
+		useObjectAttributesCheckbox.setEnabled(enabled);
 		hideLabelsButton.setEnabled(enabled);
 	}
 	
@@ -427,14 +427,14 @@ public class StateSpaceToolsMenu extends Composite {
 	/*
 	 * Change the graph-equality property.
 	 */
-	private void setEqualityType(boolean graphEquality, boolean ignoreNodeIDs, boolean ignoreAttributes) {
+	private void setEqualityType(boolean useGraphEquality, boolean useObjectIdentities, boolean useObjectAttributes) {
 		
 		StateSpaceManager manager = jobManager.getStateSpaceManager();
 		StateEqualityHelper helper = manager.getStateSpace().getEqualityHelper();
 		
-		if (graphEquality!=helper.isGraphEquality() || 
-				ignoreAttributes!=helper.isIgnoreAttributes() ||
-				ignoreNodeIDs!=helper.isIgnoreNodeIDs()) {
+		if (useGraphEquality!=helper.isUseGraphEquality() || 
+			useObjectAttributes!=helper.isUseObjectAttributes() ||
+			useObjectIdentities!=helper.isUseObjectIdentities()) {
 			
 			StateSpace stateSpace = manager.getStateSpace();
 			boolean confirmed = stateSpace.getStates().size()==stateSpace.getInitialStates().size() ||
@@ -444,7 +444,7 @@ public class StateSpaceToolsMenu extends Composite {
 			if (confirmed) {
 				// Execute as command:
 				Command command = new SetGraphEqualityCommand(manager, 
-										graphEquality, ignoreNodeIDs, ignoreAttributes);
+						useGraphEquality, useObjectIdentities, useObjectAttributes);
 				editDomain.getCommandStack().execute(command);
 			}
 			refresh();
@@ -503,8 +503,8 @@ public class StateSpaceToolsMenu extends Composite {
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
 		graphButton.addSelectionListener(equalityTypeListener);
-		useNodeIDsCheckbox.addSelectionListener(equalityTypeListener);
-		useAttributesCheckbox.addSelectionListener(equalityTypeListener);
+		useObjectIdentitiesCheckbox.addSelectionListener(equalityTypeListener);
+		useObjectAttributesCheckbox.addSelectionListener(equalityTypeListener);
 		validateButton.addSelectionListener(validateListener);
 		validationText.addModifyListener(validationTextListener);
 		validatorCombo.addSelectionListener(validatorComboListener);
@@ -535,8 +535,8 @@ public class StateSpaceToolsMenu extends Composite {
 		attractionScale.removeSelectionListener(layouterScaleListener);
 		zoomScale.removeSelectionListener(zoomListener);
 		graphButton.removeSelectionListener(equalityTypeListener);
-		useNodeIDsCheckbox.removeSelectionListener(equalityTypeListener);
-		useAttributesCheckbox.removeSelectionListener(equalityTypeListener);
+		useObjectIdentitiesCheckbox.removeSelectionListener(equalityTypeListener);
+		useObjectAttributesCheckbox.removeSelectionListener(equalityTypeListener);
 		initialStateLink.removeSelectionListener(initialStateListener);
 		importLink.removeSelectionListener(importListener);
 		exportLink.removeSelectionListener(exportListener);
@@ -602,8 +602,8 @@ public class StateSpaceToolsMenu extends Composite {
 	private SelectionListener equalityTypeListener = new SelectionListener() {
 		public void widgetSelected(SelectionEvent e) {
 			setEqualityType(graphButton.getSelection(), 
-					!useNodeIDsCheckbox.getSelection(),
-					!useAttributesCheckbox.getSelection());
+					useObjectIdentitiesCheckbox.getSelection(),
+					useObjectAttributesCheckbox.getSelection());
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
 			widgetSelected(e);

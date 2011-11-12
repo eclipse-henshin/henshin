@@ -11,8 +11,10 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -20,6 +22,8 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -30,6 +34,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -114,6 +119,60 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	public void updateObjectTypes() {
+		
+		// Get the list of supported rules:
+		List<Rule> rules = getRules();
+		
+		// Compute the list of supported object types:
+		List<EClass> types = new ArrayList<EClass>();
+		for (Rule rule : rules) {
+			
+			// Get the transformation system:
+			TransformationSystem system = rule.getTransformationSystem();
+			if (system==null) {
+				continue;
+			}
+			
+			// Get the imported packages and their classes:
+			for (EPackage epackage : system.getImports()) {
+				for (EClassifier eclassifier : epackage.getEClassifiers()) {
+					if (eclassifier instanceof EClass) {
+						EClass eclass = (EClass) eclassifier;
+						
+						// Abstract classes and interfaces are not supported as object types!
+						if (!eclass.isAbstract() && !eclass.isInterface() && !types.contains(eclass)) {
+							types.add(eclass);
+						}
+					}
+				}
+			}
+		}
+		
+		// Compute the prefixes for these types:
+		List<String> prefixes = new ArrayList<String>(types.size());
+		for (EClass type : types) {
+			char prefix = Character.toLowerCase(type.getName().charAt(0));
+			while (prefixes.contains(String.valueOf(prefix))) {
+				if (prefix=='z') {
+					prefix = 'a';
+				} else {
+					prefix++;
+				}
+			}
+			prefixes.add(String.valueOf(prefix));
+		}
+		
+		// Now we can update the state space attributes:
+		objectTypes = types.toArray(new EClass[0]);
+		objectTypePrefixes = prefixes.toArray(new String[0]);
+
+	}
+
+	
 	/**
 	 * @generated NOT
 	 */
@@ -345,6 +404,48 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected EMap<String, String> properties;
 
 	/**
+	 * The default value of the '{@link #getObjectTypes() <em>Object Types</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final EClass[] OBJECT_TYPES_EDEFAULT = null;
+
+
+	/**
+	 * The cached value of the '{@link #getObjectTypes() <em>Object Types</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EClass[] objectTypes = OBJECT_TYPES_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getObjectTypePrefixes() <em>Object Type Prefixes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectTypePrefixes()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String[] OBJECT_TYPE_PREFIXES_EDEFAULT = null;
+
+
+	/**
+	 * The cached value of the '{@link #getObjectTypePrefixes() <em>Object Type Prefixes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectTypePrefixes()
+	 * @generated
+	 * @ordered
+	 */
+	protected String[] objectTypePrefixes = OBJECT_TYPE_PREFIXES_EDEFAULT;
+
+	/**
 	 * @generated
 	 */
 	@Override
@@ -427,6 +528,24 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			properties = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, StateSpacePackage.STATE_SPACE__PROPERTIES);
 		}
 		return properties;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass[] getObjectTypes() {
+		return objectTypes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String[] getObjectTypePrefixes() {
+		return objectTypePrefixes;
 	}
 
 	/**
@@ -529,6 +648,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
+			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
+				return getObjectTypes();
+			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
+				return getObjectTypePrefixes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -666,6 +789,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return isHideLabels() != HIDE_LABELS_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
+			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
+				return OBJECT_TYPES_EDEFAULT == null ? objectTypes != null : !OBJECT_TYPES_EDEFAULT.equals(objectTypes);
+			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
+				return OBJECT_TYPE_PREFIXES_EDEFAULT == null ? objectTypePrefixes != null : !OBJECT_TYPE_PREFIXES_EDEFAULT.equals(objectTypePrefixes);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -682,6 +809,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
+		result.append(", objectTypes: ");
+		result.append(objectTypes);
+		result.append(", objectTypePrefixes: ");
+		result.append(objectTypePrefixes);
 		result.append(')');
 		return result.toString();
 	}

@@ -165,39 +165,36 @@ public interface State extends Storage {
 	/**
 	 * Get the number of nodes in this state's model.
 	 * @return the value of the '<em>Node Count</em>' attribute.
-	 * @see #setNodeCount(int)
+	 * @see #setObjectCount(int)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_NodeCount()
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
-	int getNodeCount();
+	int getObjectCount();
 
 	/**
-	 * Set the number of nodes in this state's model.
-	 * @param value the new value of the '<em>Node Count</em>' attribute.
-	 * @see #getNodeCount()
+	 * Set the number of objects in this state's model.
+	 * @param objectCount the new value of the '<em>Object Count</em>' attribute.
+	 * @see #getObjectCount()
 	 * @generated
 	 */
-	void setNodeCount(int value);
+	void setObjectCount(int value);
 
 	/**
-	 * Get the node IDs for the current state model.
-	 * This associates a unique integer ID to every node in the model.
-	 * @return the value of the '<em>Node IDs</em>' attribute.
-	 * @see #setNodeIDs(int[])
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_NodeIDs()
+	 * Get the object identities for the current state model.
+	 * @return the value of the '<em>Object Identities</em>' attribute.
 	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
 	 * @generated
 	 */
-	int[] getNodeIDs();
+	int[] getObjectIdentities();
 
 	/**
-	 * Set the node IDs for the current state model.
-	 * @param value the new value of the '<em>Node IDs</em>' attribute.
-	 * @see #getNodeIDs()
+	 * Set the object identities for the current state model.
+	 * @param objectIdentities the new value of the '<em>Object Identities</em>' attribute.
+	 * @see #getObjectIdentities()
 	 * @generated
 	 */
-	void setNodeIDs(int[] value);
+	void setObjectIdentities(int[] value);
 
 	/**
 	 * Check whether this state is an initial one. A state is initial
