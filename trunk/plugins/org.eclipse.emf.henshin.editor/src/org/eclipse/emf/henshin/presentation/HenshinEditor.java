@@ -58,6 +58,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.PasteFromClipboardCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
@@ -76,6 +78,7 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.henshin.editor.HighlightingTreeViewer;
+import org.eclipse.emf.henshin.editor.commands.PropagateImportsCommand;
 import org.eclipse.emf.henshin.editor.filter.FilterControlsViewer;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
@@ -683,7 +686,7 @@ public class HenshinEditor extends MultiPageEditorPart implements
 	 * This sets up the editing domain for the model editor.
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void initializeEditingDomain() {
 		// Create an adapter factory that yields item providers.
@@ -691,7 +694,7 @@ public class HenshinEditor extends MultiPageEditorPart implements
 		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-		adapterFactory.addAdapterFactory(new HenshinItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new HenshinItemProviderAdapterFactory(filterProvider));
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
 		// Create the command stack that will notify this editor as commands are executed.
@@ -724,7 +727,34 @@ public class HenshinEditor extends MultiPageEditorPart implements
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
+				commandStack, new HashMap<Resource, Boolean>()) {
+
+			public Collection<Object> getClipboard() {
+				return sharedClipboard;
+			}
+
+			public void setClipboard(java.util.Collection<Object> clipboard) {
+				sharedClipboard = clipboard;
+			}
+
+			/*
+			 * Extend the common PastFromClipboardCommand to enable the
+			 * automatic addition of missing EPackage imports in the
+			 * TransformationSystem.
+			 */
+			public Command createCommand(Class<? extends Command> commandClass,
+					CommandParameter commandParameter) {
+				Command cmd = super.createCommand(commandClass,
+						commandParameter);
+				if (commandClass == PasteFromClipboardCommand.class) {
+					cmd = cmd.chain(new PropagateImportsCommand(this,
+							commandParameter));
+				}
+				return cmd;
+			}
+
+		};
 	}
 
 	/**
