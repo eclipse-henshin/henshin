@@ -22,6 +22,7 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.CreateDynamicMC;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateEdgeCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateMappingCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateNestedConditionMenuContributor;
@@ -130,6 +131,9 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 	 * @param menuManager
 	 */
 	protected void buildContributions(IMenuManager menuManager) {
+		
+		CreateDynamicMC.INSTANCE.buildContributions(menuManager, currentSelection, domain);
+		
 		SimpleCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);
 		CreateEdgeCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
@@ -144,19 +148,26 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 				currentSelection, domain);
 		
 		CopySubgraphMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
-				domain);			
+				domain);
 		
-		TransformationUnitCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);
+		TransformationUnitCommandMenuContributor.INSTANCE.buildContributions(menuManager,
+				currentSelection, domain);
+		
+		// ExpandNodeMenuContributor.INSTANCE.buildContributions(menuManager,
+		// currentSelection, domain);
 		
 		menuManager.update(true);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor#createDeleteAction()
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor#
+	 * createDeleteAction()
 	 */
-	@Override	
+	@Override
 	protected DeleteAction createDeleteAction() {
-		return new org.eclipse.emf.henshin.editor.actions.DeleteAction(removeAllReferencesOnDelete());
+		return new org.eclipse.emf.henshin.editor.actions.DeleteAction(
+				removeAllReferencesOnDelete());
 	}
 	
 }
