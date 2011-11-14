@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
@@ -145,20 +146,45 @@ public class EmfGraph {
 	 * 
 	 * @param type
 	 *            The type of the eObjects.
+	 * @param strict
+	 *            Whether subTypes are excluded from the result.
 	 * 
 	 * @return A collection of eObjects compatible with the type.
 	 */
-	public Collection<EObject> getDomainForType(EClass type) {
-		final Collection<EObject> domain = new ArrayList<EObject>();
+	public List<EObject> getDomainForType(EClass type, boolean strict) {
+		if (strict)
+			return new ArrayList<EObject>(getDomain(type));
 		
+		final List<EObject> domain = new ArrayList<EObject>();
 		Collection<EClass> inhMap = inheritanceMap.get(type);
 		if (inhMap != null) {
 			for (EClass child : inhMap) {
 				domain.addAll(getDomain(child));
 			}
 		}
-		
 		return domain;
+	}
+	
+	/**
+	 * Returns whether {@link EmfGraph#getDomainForType(EClass)} will give an
+	 * empty List.
+	 * 
+	 * @param type
+	 * @param strict
+	 *            Whether subTypes are regarded for the result.
+	 * @return
+	 */
+	public boolean isDomainEmpty(EClass type, boolean strict) {
+		if (strict)
+			return getDomain(type).isEmpty();
+		Collection<EClass> inhMap = inheritanceMap.get(type);
+		if (inhMap != null) {
+			for (EClass child : inhMap) {
+				if (!getDomain(child).isEmpty())
+					return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -261,7 +287,8 @@ public class EmfGraph {
 	public Collection<EObject> getRootObjects() {
 		final Collection<EObject> rootObjects = new HashSet<EObject>();
 		for (EObject eObject : geteObjects()) {
-			if (eObject.eContainer() == null) rootObjects.add(eObject);
+			if (eObject.eContainer() == null)
+				rootObjects.add(eObject);
 		}
 		
 		return rootObjects;
@@ -276,8 +303,7 @@ public class EmfGraph {
 		return eObjects;
 	}
 	
-
 	public ECrossReferenceAdapter getCrossReferenceAdapter() {
 		return crossReferenceAdapter;
-	}	
+	}
 }

@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.matching.constraints;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -36,11 +36,12 @@ public class TypeConstraint implements UnaryConstraint {
 	 * .eclipse.emf.henshin.internal.matching.DomainSlot)
 	 */
 	@Override
-	public boolean check(DomainSlot slot) {
-		if (slot.locked) 
-			return strictTyping ? type == slot.value.eClass() : type.isSuperTypeOf(slot.value.eClass());
-		
-		return true;
+	public boolean check(DomainSlot slot) {		
+		return !slot.locked || isValid(slot);
+	}
+	
+	protected boolean isValid(DomainSlot slot) {
+		return strictTyping ? type == slot.value.eClass() : type.isSuperTypeOf(slot.value.eClass());
 	}
 	
 	/**
@@ -49,17 +50,36 @@ public class TypeConstraint implements UnaryConstraint {
 	 * @return
 	 */
 	public boolean initDomain(DomainSlot slot, EmfGraph graph) {
+		
 		if (slot.domain == null) {
-			slot.domain = new ArrayList<EObject>(graph.getDomainForType(type));
-		} else if (!slot.domain.isEmpty()) {
-			for (int i = slot.domain.size() - 1; i >= 0; i--) {
-				EObject eObject = slot.domain.get(i);
-				
-				if (eObject != null && ((strictTyping && type != eObject.eClass()) || (!strictTyping && !type.isSuperTypeOf(eObject.eClass()))))
-					slot.domain.remove(i);
-			}
+			slot.domain = graph.getDomainForType(type, strictTyping);
+			return !slot.domain.isEmpty();
 		}
 		
+		// slot.domain != null
+		//
+		if (slot.domain.isEmpty())
+			return false;
+		
+		List<EObject> graphDomain = graph.getDomainForType(type, strictTyping);
+		
+		// swap for retainAll efficiency
+		//
+		if (slot.domain.size() > graphDomain.size()) {
+			List<EObject> slotDomain = slot.domain;
+			slot.domain = graphDomain;
+			graphDomain = slotDomain;
+		}
+		slot.domain.retainAll(graphDomain);
 		return !slot.domain.isEmpty();
 	}
+	
+	public boolean isStrictTyping() {
+		return strictTyping;
+	}
+
+	public boolean instantiationPossible(DomainSlot slot, EmfGraph graph) {
+		return slot.locked?isValid(slot):!graph.isDomainEmpty(type, strictTyping);		
+	}
+		
 }
