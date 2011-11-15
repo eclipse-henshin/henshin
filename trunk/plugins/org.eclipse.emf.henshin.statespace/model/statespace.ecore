@@ -36,6 +36,9 @@
         changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectTypePrefixes" eType="#//StringArray"
         changeable="false" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="allParameterIdentities"
+        eType="#//IntegerArray" changeable="false" volatile="true" transient="true"
+        derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

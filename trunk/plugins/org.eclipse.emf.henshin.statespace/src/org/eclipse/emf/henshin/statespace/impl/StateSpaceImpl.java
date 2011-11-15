@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +48,13 @@ import org.eclipse.emf.henshin.statespace.Transition;
  * @generated
  */
 public class StateSpaceImpl extends StorageImpl implements StateSpace {
+
+	/**
+	 * Set of open states.
+	 * @see #getOpenStates()
+	 * @generated NOT
+	 */
+	protected Set<State> openStates;
 
 	/**
 	 * Default constructor.
@@ -172,6 +180,39 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	public int[] getAllParameterIdentities() {
+		
+		// Use a set so we do not count duplicates:
+		Set<Integer> identities = new LinkedHashSet<Integer>();
+		
+		// Iterate over all transitions:
+		int i, paramCount;
+		int[] params;
+		for (State state : getStates()) {
+			for (Transition transition : state.getOutgoing()) {
+				
+				// Add all parameters to the set:
+				paramCount = transition.getParameterCount();
+				params = transition.getParameterIdentities();
+				for (i=0; i<paramCount; i++) {
+					identities.add(params[i]);
+				}
+				
+			}
+		}
+		
+		// Now just put it into an array:
+		int[] result = new int[identities.size()];
+		i=0;
+		for (Integer identity : identities) {
+			result[i++] = identity;
+		}
+		return result;
+		
+	}
 	
 	/**
 	 * @generated NOT
@@ -190,7 +231,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			setData(index, p);
 		}
 	}
-
 	
 	/**
 	 * @generated NOT
@@ -272,8 +312,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getRules()
 	 * @generated
 	 * @ordered
@@ -283,8 +321,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	
 	/**
 	 * The cached value of the '{@link #getStates() <em>States</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getStates()
 	 * @generated
 	 * @ordered
@@ -293,21 +329,11 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	/**
 	 * The cached value of the '{@link #getInitialStates() <em>Initial States</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @see #getInitialStates()
 	 * @generated
 	 * @ordered
 	 */
 	protected EList<State> initialStates;
-
-
-	/**
-	 * Set of open states.
-	 * @see #getOpenStates()
-	 * @generated NOT
-	 */
-	protected Set<State> openStates;
 
 	/**
 	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
@@ -446,6 +472,16 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected String[] objectTypePrefixes = OBJECT_TYPE_PREFIXES_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getAllParameterIdentities() <em>All Parameter Identities</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAllParameterIdentities()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int[] ALL_PARAMETER_IDENTITIES_EDEFAULT = null;
+
+	/**
 	 * @generated
 	 */
 	@Override
@@ -549,8 +585,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetEqualityHelper(StateEqualityHelper newEqualityHelper, NotificationChain msgs) {
@@ -564,8 +598,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setEqualityHelper(StateEqualityHelper newEqualityHelper) {
@@ -583,8 +615,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -598,8 +628,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -616,8 +644,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -652,13 +678,13 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getObjectTypes();
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
 				return getObjectTypePrefixes();
+			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
+				return getAllParameterIdentities();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -710,8 +736,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -758,8 +782,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -793,6 +815,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return OBJECT_TYPES_EDEFAULT == null ? objectTypes != null : !OBJECT_TYPES_EDEFAULT.equals(objectTypes);
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
 				return OBJECT_TYPE_PREFIXES_EDEFAULT == null ? objectTypePrefixes != null : !OBJECT_TYPE_PREFIXES_EDEFAULT.equals(objectTypePrefixes);
+			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
+				return ALL_PARAMETER_IDENTITIES_EDEFAULT == null ? getAllParameterIdentities() != null : !ALL_PARAMETER_IDENTITIES_EDEFAULT.equals(getAllParameterIdentities());
 		}
 		return super.eIsSet(featureID);
 	}

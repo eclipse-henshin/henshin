@@ -14,22 +14,23 @@ package org.eclipse.emf.henshin.statespace.external.mcrl2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
+import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
@@ -133,18 +134,28 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	 */
 	private String createActions(StateSpace stateSpace) throws StateSpaceException {
 		StringBuffer actions = new StringBuffer();
-		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
-			Map<EClass,Integer> maxIDs = getMaxIDs(stateSpace);
-			for (EClass type : maxIDs.keySet()) {
-				actions.append("sort " + type.getName() + " = struct ");
-				char prefix = type.getName().toLowerCase().charAt(0);
-				int max = maxIDs.get(type);
-				if (max<0) max = 0;
-				for (int i=0; i<=max; i++) {
-					actions.append(String.valueOf(prefix) + i + ((i<max) ? " | " : ";\n"));
+		
+		// Compute super types to be used:
+		Map<EClass, EClass> superTypes = getSuperTypeMap(stateSpace);
+		
+		// Create the data types if required:
+		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {			
+			Map<EClass,Set<String>> params = getUsedParameterNamesByType(stateSpace, superTypes);
+			for (Map.Entry<EClass,Set<String>> entry : params.entrySet()) {				
+				actions.append("sort " + entry.getKey().getName() + " = struct ");
+				Iterator<String> it = entry.getValue().iterator();
+				while (it.hasNext()) {
+					actions.append(it.next());
+					if (it.hasNext()) {
+						actions.append(" | ");
+					}
 				}
+				actions.append( ";\n");
 			}
+			
 		}
+		
+		// Create the actions (rule names):
 		actions.append("act ");
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
 			Rule rule = stateSpace.getRules().get(i);
@@ -153,47 +164,90 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 				actions.append(" : ");
 				List<Node> params = ParametersPropertiesManager.getParameters(stateSpace,rule);
 				for (int j=0; j<params.size(); j++) {
-					actions.append(params.get(j).getType().getName());
+					EClass type = superTypes.get(params.get(j).getType());
+					actions.append(type.getName());
 					if (j<params.size()-1) actions.append(" # ");
 				}
 			}
 			actions.append("; ");
 		}
+		
+		// Done.
 		return actions.toString() + "\n";
+		
 	}
 
-	
-	private Map<EClass,Integer> getMaxIDs(StateSpace stateSpace) throws StateSpaceException {
+	/*
+	 * Construct a super type map for a state space.
+	 */
+	private Map<EClass,EClass> getSuperTypeMap(StateSpace stateSpace) throws StateSpaceException {
 		
-		// Get the parameter types for all rules:
-		Map<Rule,List<EClass>> paramTypes = new HashMap<Rule,List<EClass>>();
-		for (Rule rule : stateSpace.getRules()) {
-			List<Node> nodes = ParametersPropertiesManager.getParameters(stateSpace, rule);
-			List<EClass> types = new ArrayList<EClass>();
-			for (Node node : nodes) types.add(node.getType());
-			paramTypes.put(rule,types);
+		// Get the used types:
+		EClass[] types = stateSpace.getObjectTypes();
+		
+		// Initialize with the identity map:
+		Map<EClass,EClass> superTypes = new HashMap<EClass,EClass>();
+		for (EClass type : types) {
+			superTypes.put(type, type);
 		}
 		
-		// Now compute the max IDs:
-		Map<EClass,Integer> max = new HashMap<EClass,Integer>();
-		for (State state : stateSpace.getStates()) {
-			for (Transition transition : state.getOutgoing()) {
-				List<EClass> params = paramTypes.get(transition.getRule());
-				int[] ids = transition.getParameterIdentities();
-				int count = Math.min(ids.length, params.size());
-				for (int i=0; i<count; i++) {
-					EClass type = params.get(i);
-					if (!max.containsKey(type)) {
-						max.put(type, 0);
-					}
-					if (max.get(type)<ids[i]) {
-						max.put(type, ids[i]);
+		// Now check for super types used in rules:
+		for (Rule rule : stateSpace.getRules()) {
+			List<Node> params = ParametersPropertiesManager.getParameters(stateSpace, rule);
+			for (Node param : params) {
+				EClass superType2 = param.getType();
+				for (EClass type : types) {
+					EClass superType1 = superTypes.get(type);
+					if (superType1!=superType2 && 
+						superType2.isSuperTypeOf(superType1)) {
+						superTypes.put(type, superType2);
 					}
 				}
 			}
 		}
-		return max;
 		
+		// Done.
+		return superTypes;
+		
+	}
+	
+	/*
+	 * Get all used parameter names sorted by their types.
+	 */
+	private Map<EClass,Set<String>> getUsedParameterNamesByType(
+			StateSpace stateSpace, Map<EClass,EClass> superTypes) throws StateSpaceException {
+		
+		// Get all used parameter identities:
+		int[] params = stateSpace.getAllParameterIdentities();
+		
+		// Get the object types and prefixes:
+		EClass[] types = stateSpace.getObjectTypes();
+		String[] prefixes = stateSpace.getObjectTypePrefixes();
+		
+		// Now we build the map:
+		Map<EClass,Set<String>> result = new HashMap<EClass,Set<String>>();
+		for (int i=0; i<params.length; i++) {
+			
+			// Get the parameter type and compute the super types to be used:
+			EClass type = ObjectIdentityHelper.getObjectType(params[i], types);
+			type = superTypes.get(type);
+			
+			// Get the type prefix and the object id:
+			String prefix = ObjectIdentityHelper.getObjectTypePrefix(params[i], prefixes);
+			int id = ObjectIdentityHelper.getObjectID(params[i]);
+			
+			// Construct the name and store it:
+			String name = prefix + id;
+			Set<String> names = result.get(type);
+			if (names==null) {
+				names = new LinkedHashSet<String>();
+				result.put(type, names);
+			}
+			names.add(name);
+		}
+		
+		// Done.
+		return result;
 	}
 	
 	/*

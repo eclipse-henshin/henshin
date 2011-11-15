@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	
 	// State model cache:
-	private final Map<State,Model> accessedModelsCache = 
+	private final Map<State,Model> stateModelCache = 
 			Collections.synchronizedMap(new Cache<State,Model>());
 		
 	// Transformation engines:
@@ -112,14 +112,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	public Model getModel(State state) throws StateSpaceException {
 		
 		// Model already set?
-		if (state.getModel()!=null) {
-			return state.getModel();
+		Model model = state.getModel();
+		if (model!=null) {
+			return model;
 		}
 		
 		// Cached?
-		Model cached = accessedModelsCache.get(state);
-		if (cached!=null) {
-			return cached;
+		model = stateModelCache.get(state);
+		if (model!=null) {
+			return model;
 		}
 		
 		// Find a predecessor state that has a model.
@@ -130,7 +131,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			protected boolean shouldStop(State current, Trace trace) {
 				Model model = current.getModel();
 				if (model==null) {
-					model = accessedModelsCache.get(current);
+					model = stateModelCache.get(current);
 				}
 				if (model!=null) {
 					bag[0] = model;
@@ -145,13 +146,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		
 		// Derive the current model:
-		Model model = deriveModel(bag[0], search.getTrace());
+		model = deriveModel(bag[0], search.getTrace());
 		
 		// Store the state model:
 		storeModel(state, model);
-
-		// Cache the accessed model:
-		accessedModelsCache.put(state, model);
 		
 		// Done.
 		return model;
@@ -163,8 +161,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	private void storeModel(State state, Model model) {
 		
-		// Do not override initial state models!!!
+		// Never lose initial state models!!!
 		if (state.isInitial()) return;
+		
+		// Cache the model in any case:
+		stateModelCache.put(state, model);
 		
 		// Number of states: rounded up for more stability:
 		int states = getStateSpace().getStates().size();
@@ -173,14 +174,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Decide whether the current model should be kept in memory.
 		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 9-10
 		int index = state.getIndex() + 1;					// always greater or equal 1
-		
 		//System.out.println(stored);
 		
+		// Unset the model by chance:
 		if (index % stored != 0) {
 			model = null;
 		}
 		
-		// Set the model:
+		// Update the state:
 		state.setModel(model);
 		
 	}
@@ -519,7 +520,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				state.setModel(null);
 			}
 		}
-		accessedModelsCache.clear();
+		stateModelCache.clear();
 		getStateSpace().getEqualityHelper().clearCache();
 		System.gc();
 	}
@@ -565,7 +566,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	static class Cache<K,V> extends LinkedHashMap<K,V> {
 
 		// Cache size:
-		public static final int CACHE_SIZE = 4096;
+		public static final int CACHE_SIZE = 1024;
 
 		// Serial id:
 		private static final long serialVersionUID = 1L;

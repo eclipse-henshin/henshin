@@ -9,6 +9,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
  * An exploration helper class.
+ * 
  * @author Christian Krause
  */
 public class StateSpaceExplorationHelper {

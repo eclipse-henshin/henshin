@@ -32,22 +32,23 @@ public class GraphIsomorphyChecker {
 	
 	// Transformation options (used internally for the match finding):
 	private static final TransformationOptions TRANSFORMATION_OPTIONS;
+	
+	// Attribute condition handles (used internally for the match finding):
+	private static final AttributeConditionHandler ATTRIBUTE_CONDITION_HANDLER;
+
+	// True formula:
+	private static final IFormula TRUE_FORMULA;
+
+	// Initialize static members:
 	static {
 		TRANSFORMATION_OPTIONS = new TransformationOptions();
 		TRANSFORMATION_OPTIONS.setInjective(true);
 		TRANSFORMATION_OPTIONS.setDeterministic(true);
-		TRANSFORMATION_OPTIONS.setDangling(false);
-	}
-	
-	// Attribute condition handles (used internally for the match finding):
-	private static final AttributeConditionHandler ATTRIBUTE_CONDITION_HANDLER;
-	static {
+		TRANSFORMATION_OPTIONS.setDangling(false);		
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 		ATTRIBUTE_CONDITION_HANDLER = new AttributeConditionHandler(new HashMap<String, Collection<String>>(), engine);
+		TRUE_FORMULA = new TrueFormula();
 	}
-	
-	// True formula:
-	private static final IFormula TRUE_FORMULA = new TrueFormula();
 	
 	// The source graph:
 	private final EmfGraph source;
@@ -63,7 +64,6 @@ public class GraphIsomorphyChecker {
 	
 	// Variables as a list:
 	private List<Variable> variablesList;
-	
 	
 	/**
 	 * Default constructor.

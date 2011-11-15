@@ -338,6 +338,16 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStateSpace_AllParameterIdentities() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(14);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getStateSpace_Rules() {
 		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(0);
 	}
@@ -749,6 +759,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(stateSpaceEClass, STATE_SPACE__PROPERTIES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__OBJECT_TYPES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__OBJECT_TYPE_PREFIXES);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__ALL_PARAMETER_IDENTITIES);
 
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__INDEX);
@@ -847,6 +858,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getStateSpace_Properties(), ecorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_ObjectTypes(), this.getEClassArray(), "objectTypes", null, 0, 1, StateSpace.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_ObjectTypePrefixes(), this.getStringArray(), "objectTypePrefixes", null, 0, 1, StateSpace.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_AllParameterIdentities(), this.getIntegerArray(), "allParameterIdentities", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);

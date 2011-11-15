@@ -239,13 +239,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__OBJECT_TYPE_PREFIXES = STORAGE_FEATURE_COUNT + 13;
 
 	/**
+	 * The feature id for the '<em><b>All Parameter Identities</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__ALL_PARAMETER_IDENTITIES = STORAGE_FEATURE_COUNT + 14;
+
+	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 14;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -786,6 +795,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_ObjectTypePrefixes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getAllParameterIdentities <em>All Parameter Identities</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>All Parameter Identities</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getAllParameterIdentities()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_AllParameterIdentities();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.StateSpace#getRules <em>Rules</em>}'.
@@ -1333,6 +1353,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__OBJECT_TYPE_PREFIXES = eINSTANCE.getStateSpace_ObjectTypePrefixes();
+
+		/**
+		 * The meta object literal for the '<em><b>All Parameter Identities</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__ALL_PARAMETER_IDENTITIES = eINSTANCE.getStateSpace_AllParameterIdentities();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

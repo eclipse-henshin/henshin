@@ -98,6 +98,15 @@ public interface StateSpace extends Storage {
 	String[] getObjectTypePrefixes();
 
 	/**
+	 * Get all parameter identities used in transitions in this state space.
+	 * @return the value of the '<em>All Parameter Identities</em>' attribute.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_AllParameterIdentities()
+	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	int[] getAllParameterIdentities();
+
+	/**
 	 * Set the total number of transitions in this state space.
 	 * @see #getTransitionCount()
 	 * @generated
