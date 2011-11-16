@@ -50,13 +50,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 	/**
-	 * Set of open states.
-	 * @see #getOpenStates()
-	 * @generated NOT
-	 */
-	protected Set<State> openStates;
-
-	/**
 	 * Default constructor.
 	 * @generated NOT
 	 */
@@ -334,6 +327,14 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected EList<State> initialStates;
+
+
+	/**
+	 * Set of open states.
+	 * @see #getOpenStates()
+	 * @generated NOT
+	 */
+	protected Set<State> openStates;
 
 	/**
 	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.

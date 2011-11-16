@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl;
 
 /**
  * Job for loading a state space manager.
@@ -45,10 +44,7 @@ public class ReloadStateSpaceJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
-			
-			// Reload the manager:
-			((StateSpaceManagerImpl) manager).reload(monitor);
-			
+			manager.reload(monitor);
 		} catch (Throwable e) {
 			return new Status(IStatus.ERROR, StateSpaceExplorerPlugin.ID, 0, "Error reloading state space", e);
 		}

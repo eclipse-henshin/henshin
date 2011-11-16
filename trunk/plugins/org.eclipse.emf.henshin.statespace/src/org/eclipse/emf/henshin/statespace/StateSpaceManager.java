@@ -13,6 +13,8 @@ package org.eclipse.emf.henshin.statespace;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 /**
  * State space manager interface. State managers are used to
  * modify and explore state spaces.
@@ -66,6 +68,12 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 */
 	void resetStateSpace();
 	
+	/**
+	 * Reload derived state space properties, such as hash codes.
+	 * @param monitor Progress monitor.
+	 */
+	void reload(IProgressMonitor monitor) throws StateSpaceException;
+
 	/**
 	 * Clear the cache of the state space manager.
 	 */

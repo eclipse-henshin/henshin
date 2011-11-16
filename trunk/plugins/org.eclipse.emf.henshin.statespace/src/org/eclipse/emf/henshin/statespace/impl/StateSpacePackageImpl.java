@@ -455,6 +455,16 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getModel_ObjectCount() {
+		return (EAttribute)modelEClass.getEStructuralFeatures().get(4);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getState_StateSpace() {
 		return (EReference)stateEClass.getEStructuralFeatures().get(3);
 	}
@@ -778,6 +788,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(modelEClass, MODEL__EMF_GRAPH);
 		createEReference(modelEClass, MODEL__OBJECT_IDENTITIES_MAP);
 		createEAttribute(modelEClass, MODEL__OBJECT_IDENTITIES);
+		createEAttribute(modelEClass, MODEL__OBJECT_COUNT);
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__SOURCE);
@@ -886,6 +897,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEAttribute(getModel_EmfGraph(), this.getEmfGraph(), "emfGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_ObjectIdentitiesMap(), this.getObjectIdentity(), null, "objectIdentitiesMap", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectIdentities(), this.getIntegerArray(), "objectIdentities", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModel_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(modelEClass, this.getModel(), "getCopy", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getMatch(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);

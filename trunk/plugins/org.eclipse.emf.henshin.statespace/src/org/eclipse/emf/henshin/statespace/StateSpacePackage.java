@@ -421,13 +421,22 @@ public interface StateSpacePackage extends EPackage {
 	int MODEL__OBJECT_IDENTITIES = 3;
 
 	/**
+	 * The feature id for the '<em><b>Object Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__OBJECT_COUNT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 4;
+	int MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -925,6 +934,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getModel_ObjectIdentities();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getObjectCount <em>Object Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectCount()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EAttribute getModel_ObjectCount();
 
 	/**
 	 * Returns the meta object for the container reference '{@link org.eclipse.emf.henshin.statespace.State#getStateSpace <em>State Space</em>}'.
@@ -1453,6 +1473,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL__OBJECT_IDENTITIES = eINSTANCE.getModel_ObjectIdentities();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL__OBJECT_COUNT = eINSTANCE.getModel_ObjectCount();
 
 		/**
 		 * The meta object literal for the '<em><b>State Space</b></em>' container reference feature.

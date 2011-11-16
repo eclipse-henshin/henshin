@@ -79,6 +79,8 @@
         eType="#//ObjectIdentity" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectIdentities" eType="#//IntegerArray"
         volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//Storage">
     <eOperations name="getLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

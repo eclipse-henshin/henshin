@@ -37,9 +37,9 @@ import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceHashCodeHelper;
 
 /**
  * Default implementation of {@link StateEqualityHelper}.
@@ -63,8 +63,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
-		return new StateSpaceHashCodeHelper(useGraphEquality, 
-				useObjectIdentities, useObjectAttributes).hashCode(model);
+		return StateSpaceHashCodeUtil.computeHashCode(model, 
+				useGraphEquality, useObjectIdentities, useObjectAttributes);
 	}
 
 	/**
@@ -133,9 +133,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 				}
 				
 				// Fall-back: make sure that we didn't make a mistake:
-				//return checker1.isIsomorphicTo(model2.getEmfGraph(), null);				
-				return false;
-				
+				return checker1.isIsomorphicTo(model2.getEmfGraph(), null);				
 			}
 			
 		} else {

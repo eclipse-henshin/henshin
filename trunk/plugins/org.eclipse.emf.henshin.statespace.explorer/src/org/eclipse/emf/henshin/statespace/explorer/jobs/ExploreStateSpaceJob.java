@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.commands.ExploreStatesCommand;
-import org.eclipse.emf.henshin.statespace.impl.MultiThreadedStateSpaceManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
@@ -140,16 +139,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		
 		// Final message:
 		if (logInfo) {
-			boolean multiThreaded = (manager instanceof MultiThreadedStateSpaceManager);
 			int explored = stateSpace.getStates().size() - initialStateCount;
 			String statesPerSec = "";
 			if (end>start) {
 				statesPerSec = " (" + speedFormat.format((double) (1000 * explored) / (double) (end-start)) + " states/second)";
 			}
 			StateSpaceExplorerPlugin.getInstance().logInfo(
-					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds" +
-					statesPerSec + " in " +
-					(multiThreaded ? "multi" : "single") + "-threaded mode.");
+					"Explored " + explored + " states in " + ((end-start)/1000) + " seconds" + statesPerSec);
 		}
 		
 		// Now we are done:

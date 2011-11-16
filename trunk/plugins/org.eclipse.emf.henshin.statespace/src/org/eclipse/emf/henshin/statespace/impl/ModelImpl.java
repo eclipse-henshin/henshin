@@ -211,6 +211,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	public int getObjectCount() {
+		if (emfGraph==null) {
+			getEmfGraph();
+		}
+		return emfGraph.geteObjects().size();
+	}
+
 	/*
 	 * ----------------------------------------------------------------------- *
 	 * GENERATED CODE. Do not edit below this line. If you need to edit, move  *
@@ -278,6 +288,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected static final int[] OBJECT_IDENTITIES_EDEFAULT = null;
 
 	/**
+	 * The default value of the '{@link #getObjectCount() <em>Object Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int OBJECT_COUNT_EDEFAULT = 0;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -339,6 +359,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				else return getObjectIdentitiesMap().map();
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
 				return getObjectIdentities();
+			case StateSpacePackage.MODEL__OBJECT_COUNT:
+				return getObjectCount();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -389,6 +411,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return objectIdentitiesMap != null && !objectIdentitiesMap.isEmpty();
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
 				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectIdentities() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectIdentities());
+			case StateSpacePackage.MODEL__OBJECT_COUNT:
+				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -76,6 +76,16 @@ public interface Model extends EObject {
 	void setObjectIdentities(int[] value);
 
 	/**
+	 * Get the number of objects in this model.
+	 * This is derived from {@link #getEmfGraph()}.
+	 * @return the value of the '<em>Object Count</em>' attribute.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectCount()
+	 * @model transient="true" changeable="false" volatile="true" derived="true"
+	 * @generated
+	 */
+	int getObjectCount();
+
+	/**
 	 * Get a copy of this model.
 	 * @param Optional match.
 	 * @model matchDataType="org.eclipse.emf.henshin.statespace.Match"

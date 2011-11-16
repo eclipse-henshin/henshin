@@ -19,8 +19,8 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
-import org.eclipse.emf.henshin.statespace.util.HashCodeCollisionCounter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -67,7 +67,7 @@ public class StateSpacePropertyPage extends PropertyPage {
 		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount()+"");
 		rulesLabel.setText(stateSpace.getRules().size()+"");
-		statesPerHashLabel.setText(HashCodeCollisionCounter.getNumStatesPerHash(stateSpace) + "");
+		statesPerHashLabel.setText(StateSpaceHashCodeUtil.getHashCodeCollisions(stateSpace) + "");
 		
 	}
 	
