@@ -50,7 +50,7 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	private ISelection selection;
 	
 	// Number of manager threads:
-	private final int numManagerThreads = Runtime.getRuntime().availableProcessors();
+	private final int numManagerThreads = 1;//Runtime.getRuntime().availableProcessors();
 	
 	/*
 	 * (non-Javadoc)

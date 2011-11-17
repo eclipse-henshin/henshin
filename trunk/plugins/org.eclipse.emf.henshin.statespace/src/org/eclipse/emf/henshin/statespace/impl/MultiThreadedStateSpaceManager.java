@@ -11,10 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +21,6 @@ import java.util.concurrent.Future;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
  * Multi-threaded version of the basic state space manager.
@@ -42,15 +38,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	// Future objects.
 	private Future<StateSpaceException>[] futures;
 	
-	// Thread that prepares the exploration.
-	private Thread preparer;
-	
-	// HashMap for prepared states.
-	private Map<State,List<Transition>> preparedStates;
-	
-	// Last time the explore command was invoked.
-	private long lastExplorationCall;
-	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -62,7 +49,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		this.numWorkers = Math.max(numThreads, 1);
 		this.executor = Executors.newFixedThreadPool(numWorkers);
 		this.futures = new Future[numWorkers];
-		this.preparedStates = Collections.synchronizedMap(new HashMap<State,List<Transition>>());
 	}
 
 	/**
@@ -83,15 +69,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	@Override
 	public synchronized List<State> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
 
-		// Update the time stamp of the last call:
-		lastExplorationCall = System.currentTimeMillis();
-		
-		// If we haven't start the preparer thread, we do it now. But not earlier.
-		if (preparer==null) {
-			preparer = new Thread(new PreparationWorker());
-			preparer.start();
-		}
-		
 		// We use a new list for the states:
 		List<State> queue = new Vector<State>(states);
 		List<State> result = new Vector<State>();
@@ -114,34 +91,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		// Done:
 		return result;
 		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl#doExplore(org.eclipse.emf.henshin.statespace.State)
-	 */
-	@Override
-	protected List<Transition> doExplore(State state) throws StateSpaceException {
-		
-		// Get the cached result or compute it if necessary.
-		List<Transition> result = preparedStates.get(state);
-		if (result==null) {
-			result = super.doExplore(state);
-			preparedStates.put(state, result);
-		}
-		return result;	// That's all.
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl#clearStateModelCache()
-	 */
-	@Override
-	public void clearCache() {
-		super.clearCache();
-		preparedStates.clear();
-		System.gc();
 	}
 	
 	/*
@@ -195,7 +144,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 				// Now explore it:
 				try {
 					result.addAll(exploreState(next, generateLocations));
-					preparedStates.remove(next);
 				}
 				catch (Throwable t) {
 					return wrapException(t);
@@ -203,50 +151,6 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 			}
 			
 		}
-	}
-	
-	/*
-	 * Worker class that pre-computes exploration results.
-	 */
-	private class PreparationWorker implements Runnable {
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			while (true) {
-				State[] open = getOpenStates();
-				for (int i=0; i<open.length; i++) {
-					try {
-						if (open[i]!=null) {
-							doExplore(open[i]);
-						}
-						// Sleep for a while:
-						if (i % 100==0) {
-							Thread.sleep(100);
-						}
-						// Check if we should stop:
-						if (i % 1000==0) {
-							if (System.currentTimeMillis() - lastExplorationCall > 3000) { // 3 seconds
-								preparer = null;
-								return;
-							}
-						}
-					} catch (Throwable t) {}
-				}
-			}
-		}
-		
-		private State[] getOpenStates() {
-			while (true) {
-				try {
-					return getStateSpace().getOpenStates().toArray(new State[0]);
-				} catch (Throwable t) {}
-			}
-		}
-		
 	}
 	
 }

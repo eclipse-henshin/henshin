@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.external.mcrl2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -160,7 +161,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
 			Rule rule = stateSpace.getRules().get(i);
 			actions.append(rule.getName());
-			if (!stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+			if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
 				actions.append(" : ");
 				List<Node> params = ParametersPropertiesManager.getParameters(stateSpace,rule);
 				for (int j=0; j<params.size(); j++) {
@@ -182,8 +183,15 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	 */
 	private Map<EClass,EClass> getSuperTypeMap(StateSpace stateSpace) throws StateSpaceException {
 		
-		// Get the used types:
-		EClass[] types = stateSpace.getObjectTypes();
+		// Get all relevant types:
+		Set<EClass> types = new LinkedHashSet<EClass>();
+		types.addAll(Arrays.asList(stateSpace.getObjectTypes()));
+		for (Rule rule : stateSpace.getRules()) {
+			List<Node> params = ParametersPropertiesManager.getParameters(stateSpace, rule);
+			for (Node param : params) {
+				types.add(param.getType());
+			}
+		}
 		
 		// Initialize with the identity map:
 		Map<EClass,EClass> superTypes = new HashMap<EClass,EClass>();

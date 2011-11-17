@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
+import java.text.DecimalFormat;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -67,7 +69,9 @@ public class StateSpacePropertyPage extends PropertyPage {
 		statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 		transitionsLabel.setText(stateSpace.getTransitionCount()+"");
 		rulesLabel.setText(stateSpace.getRules().size()+"");
-		statesPerHashLabel.setText(StateSpaceHashCodeUtil.getHashCodeCollisions(stateSpace) + "");
+		
+		DecimalFormat decimal = new DecimalFormat("###,##0.000");
+		statesPerHashLabel.setText(decimal.format(StateSpaceHashCodeUtil.getHashCodeCollisions(stateSpace)) + "");
 		
 	}
 	

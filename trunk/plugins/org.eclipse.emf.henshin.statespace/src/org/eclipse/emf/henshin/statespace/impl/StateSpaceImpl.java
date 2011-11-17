@@ -60,7 +60,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		setEqualityHelper(StateSpaceFactory.eINSTANCE.createStateEqualityHelper());
 		
 		// Already initialize the set of open states here:
-		openStates = new HashSet<State>();
+		openStates = new LinkedHashSet<State>();
 		
 	}
 

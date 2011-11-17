@@ -18,7 +18,7 @@ public class StateSpaceExplorationHelper {
 	private final StateSpaceManager manager;
 
 	// Expected duration of an exploration step in milliseconds:
-	private int expectedDuration = 500;
+	private int expectedDuration = 1000;
 	
 	// Duration of the last exploration step:
 	private int lastDuration = expectedDuration;
@@ -60,8 +60,8 @@ public class StateSpaceExplorationHelper {
 		long startTime = System.currentTimeMillis();
 		
 		// Adjust the number of states to be explored in one step:
-		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.1, 10);
-		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 3, 1000);
+		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.25, 4);
+		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 2, 2000);
 		
 		/* Update the list of next states to be explored. */
 		
@@ -91,9 +91,12 @@ public class StateSpaceExplorationHelper {
 			return false;
 		}
 		
+		// How many state we can really explore:
+		int realSize = Math.min(blockSize, nextStates.size());
+		
 		// States to be explored right now:
-		List<State> exploreNow = (nextStates.size()<=blockSize) ? 
-				nextStates : nextStates.subList(0, blockSize);
+		List<State> exploreNow = (nextStates.size()==realSize) ? 
+				nextStates : nextStates.subList(0, realSize);
 		
 		// Explore the next states:
 		List<State> result = manager.exploreStates(exploreNow, generateLocations);
@@ -105,7 +108,7 @@ public class StateSpaceExplorationHelper {
 		lastDuration = rangeCheck((int) (System.currentTimeMillis() - startTime), 1, 10*expectedDuration);
 		
 		// Record the speed:
-		lastSpeeds[steps % lastSpeeds.length] = (1000.0d * (double) blockSize) / (double) lastDuration;
+		lastSpeeds[steps % lastSpeeds.length] = (1000.0d * (double) realSize) / (double) lastDuration;
 		
 		// Increase steps count:
 		steps++;

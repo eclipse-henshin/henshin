@@ -53,7 +53,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		super("Exploring state space...", manager);
 		this.editDomain = editDomain;
 		this.helper = new StateSpaceExplorationHelper(manager);
-		this.helper.setStepDuration(500); // 0.5 second update interval
+		this.helper.setStepDuration(800); // 0.8 second update interval
 		this.helper.setGenerateLocations(false);
 		setUser(true);
 		setPriority(LONG);
@@ -80,7 +80,7 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		long start = System.currentTimeMillis();
 		long lastSave = start;
 		long lastCleanup = start;
-		int initialStateCount = stateSpace.getStates().size();
+		int initialClosedStateCount = stateSpace.getStates().size() - stateSpace.getOpenStates().size();
 		boolean moreStates = true;
 		
 		try {
@@ -139,7 +139,8 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		
 		// Final message:
 		if (logInfo) {
-			int explored = stateSpace.getStates().size() - initialStateCount;
+			int finalClosedStateCount = stateSpace.getStates().size() - stateSpace.getOpenStates().size();
+			int explored = finalClosedStateCount - initialClosedStateCount;
 			String statesPerSec = "";
 			if (end>start) {
 				statesPerSec = " (" + speedFormat.format((double) (1000 * explored) / (double) (end-start)) + " states/second)";
