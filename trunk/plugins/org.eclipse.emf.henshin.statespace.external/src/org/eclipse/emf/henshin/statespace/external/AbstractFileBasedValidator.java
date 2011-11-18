@@ -159,6 +159,22 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		command[command.length-2] = input.getAbsolutePath();
 		command[command.length-1] = output.getAbsolutePath();
 		
+		// Increase stack size on Linux machines:
+		if (isLinux()) {
+			String mergedCommand = "";
+			for (String part : command) {
+				mergedCommand = mergedCommand + " " + part;
+			}
+			command = new String[] { "bash", "-c", "ulimit -s unlimited;" + mergedCommand };
+		}
+		
+		// Print some debug info:
+		for (String part : command) {
+			System.out.print(part + " ");
+		}
+		System.out.println();
+		
+		// Now start the process:
 		Process process = Runtime.getRuntime().exec(command);
 		int exit;
 		int wait = 50;
@@ -225,6 +241,14 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 	 */
 	protected boolean isWindows() {
 		return Platform.OS_WIN32.equals(Platform.getOS());
+	}
+	
+	/**
+	 * Check whether the current platform is Linux.
+	 * @return <code>true</code> if it is Linux.
+	 */
+	protected boolean isLinux() {
+		return Platform.OS_LINUX.equals(Platform.getOS());
 	}
 	
 }
