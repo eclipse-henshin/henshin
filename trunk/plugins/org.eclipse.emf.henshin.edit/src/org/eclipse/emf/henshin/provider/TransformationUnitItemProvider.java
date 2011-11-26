@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterItemProvider;
 import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvider;
 
@@ -44,7 +45,8 @@ import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvi
  * @generated
  */
 public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above
@@ -78,7 +80,7 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addNamePropertyDescriptor(object);
 			addActivatedPropertyDescriptor(object);
 		}
@@ -86,24 +88,22 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	}
 	
 	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(0,createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(
+				0,
+				createItemPropertyDescriptor(
+						((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(),
+						getString("_UI_NamedElement_name_feature"),
+						getString("_UI_PropertyDescriptor_description",
+								"_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
+						HenshinPackage.Literals.NAMED_ELEMENT__NAME, true, false, false,
+						ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 	
 	/**
@@ -113,26 +113,24 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	 * @generated
 	 */
 	protected void addActivatedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TransformationUnit_activated_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
-				 HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_TransformationUnit_activated_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
+				HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED, true, false, false,
+				ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This specifies how to implement {@link #getChildren} and is used to
+	 * deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand},
+	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
+	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,13 +145,15 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
+		// Check the type of the specified child object and return the proper
+		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
 	}
 	
@@ -178,37 +178,45 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 					break;
 			}// for
 			
-			// filteringEnabled implies feature not filtered
-			//
-			if (!filteringEnabled
-					|| !filterProvider.isFiltered(HenshinPackage.eINSTANCE.getParameterMapping()))
+			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()))
 				childrenList.add(offset, new TrafoUnitParameterMappingItemProvider(adapterFactory,
 						tu));
 			
-		}// if
+		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings())) {
+			childrenList.removeAll(tu.getParameterMappings());
+		}
 		
 		if (tu.getParameters().size() > MAX_UNFOLD_PARAMETERMAPPINGS) {
 			childrenList.removeAll(tu.getParameters());
-			if (!filteringEnabled
-					|| !filterProvider.isFiltered(HenshinPackage.eINSTANCE.getParameter()))
+			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings()))
 				childrenList.add(0, new TrafoUnitParameterItemProvider(adapterFactory, tu));
-		}// if
+		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters())) {
+			childrenList.removeAll(tu.getParameters());
+		}
 		
 		return childrenList;
 	}
 	
+	protected boolean isFiltered(EStructuralFeature feature) {
+		if (adapterFactory instanceof HenshinItemProviderAdapterFactory) {
+			IFilterProvider fp = ((HenshinItemProviderAdapterFactory) adapterFactory)
+					.getFilterProvider();
+			return fp != null ? fp.isFiltered(feature) : false;
+		}
+		return false;
+	}
+	
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TransformationUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_TransformationUnit_type") :
-			getString("_UI_TransformationUnit_type") + " " + label;
+		String label = ((TransformationUnit) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_TransformationUnit_type")
+				: getString("_UI_TransformationUnit_type") + " " + label;
 	}
 	
 	/*
@@ -219,7 +227,7 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	 */
 	@Override
 	public Object getForeground(Object object) {
-		//System.out.println("getForeground()");
+		// System.out.println("getForeground()");
 		TransformationUnit tUnit = (TransformationUnit) object;
 		if (!tUnit.isActivated())
 			return "color://hsb///0.5";
@@ -227,24 +235,27 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(TransformationUnit.class)) {
 			case HenshinPackage.TRANSFORMATION_UNIT__NAME:
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						false, true));
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -307,16 +318,14 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS,
-				 HenshinFactory.eINSTANCE.createParameter()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS,
-				 HenshinFactory.eINSTANCE.createParameterMapping()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS,
+				HenshinFactory.eINSTANCE.createParameter()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS,
+				HenshinFactory.eINSTANCE.createParameterMapping()));
 	}
 	
 }

@@ -11,10 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.provider.filter;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
-import org.eclipse.emf.ecore.EClassifier;
 
 /**
  * 
@@ -22,22 +20,8 @@ import org.eclipse.emf.ecore.EClassifier;
  * @author Gregor Bonifer
  * @author Stefan Jurack
  */
-public interface IFilterStore extends IFilterChangeListener {
-	
-	public abstract Map<EClassifier, Boolean> getFilterPreferences();
-	
-	public static IFilterStore TRANSIENT_STORE = new IFilterStore() {
+public interface IFilterProvider {
 		
-		@Override
-		public void filterChanged(EClassifier classifier, boolean filtered) {
-			System.out.println("filterChanged");
-		}
-		
-		@Override
-		public Map<EClassifier, Boolean> getFilterPreferences() {
-			System.out.println("restoreing filters");
-			return new HashMap<EClassifier, Boolean>();
-		}
-	};
+	public boolean isFiltered(EStructuralFeature feature);
 	
 }

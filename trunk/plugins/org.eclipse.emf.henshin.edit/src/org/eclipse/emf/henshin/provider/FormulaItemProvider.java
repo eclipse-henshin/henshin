@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.henshin.provider.util.FilteringItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Formula} object.
@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.provider.util.FilteringItemProviderAdapter;
  * <!-- end-user-doc -->
  * @generated
  */
-public class FormulaItemProvider extends FilteringItemProviderAdapter implements IEditingDomainItemProvider,
+public class FormulaItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
 		IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
 		IItemPropertySource {
 	/**

@@ -119,7 +119,7 @@ public class CreateDynamicMC extends MenuContributor {
 				public void menuAboutToShow(IMenuManager manager) {
 					populateMenu(manager);
 				}
-			});
+			});								
 		}
 		
 		protected abstract void populateMenu(IMenuManager manager);

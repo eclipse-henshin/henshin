@@ -149,7 +149,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		
 		if (HenshinRuleAnalysisUtil.isRHS(node.getGraph())) {
 			for (Mapping mapping : node.getGraph().getContainerRule().getMappings()) {
-				if (mapping.getImage() == node) {
+				if (mapping.getImage() == node && mapping.getOrigin() != null) {
 					menuManager.add(createAction(getLabel(COMMAND_LABEL_ORIGIN) + ": "
 							+ mapping.getOrigin().getName(),
 							RemoveCommand.create(domain, mapping.getOrigin())));

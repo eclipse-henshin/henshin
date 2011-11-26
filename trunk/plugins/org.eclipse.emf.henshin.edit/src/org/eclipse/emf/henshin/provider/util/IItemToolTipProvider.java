@@ -9,16 +9,16 @@
  * Contributors:
  *     Philipps-University Marburg - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.provider.filter;
-
-import org.eclipse.emf.ecore.EClassifier;
+package org.eclipse.emf.henshin.provider.util;
 
 /**
- * 
+ * Implementing classes provide tool tips. Used to process delegates calls within emf.edit.
  * 
  * @author Gregor Bonifer
- * @author Stefan Jurack
+ * 
  */
-public interface IFilterChangeListener {
-	public void filterChanged(EClassifier classifier,boolean filtered);
+public interface IItemToolTipProvider {
+	
+	public Object getToolTip(Object object);
+	
 }

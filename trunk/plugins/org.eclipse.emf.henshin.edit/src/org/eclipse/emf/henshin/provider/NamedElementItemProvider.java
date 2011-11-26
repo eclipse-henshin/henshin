@@ -25,10 +25,10 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
-import org.eclipse.emf.henshin.provider.util.FilteringItemProviderAdapter;
 
 /**
  * This is the item provider adapter for a
@@ -37,7 +37,7 @@ import org.eclipse.emf.henshin.provider.util.FilteringItemProviderAdapter;
  * 
  * @generated
  */
-public class NamedElementItemProvider extends FilteringItemProviderAdapter implements
+public class NamedElementItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	/**

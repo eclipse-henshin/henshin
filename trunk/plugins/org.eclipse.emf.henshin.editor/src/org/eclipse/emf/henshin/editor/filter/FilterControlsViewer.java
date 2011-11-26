@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.editor.filter;
 
-import org.eclipse.emf.henshin.provider.filter.FilterProvider;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.swt.widgets.ToolBar;
 
 /**
@@ -22,8 +22,10 @@ import org.eclipse.swt.widgets.ToolBar;
  */
 public class FilterControlsViewer extends BaseFilterControlsViewer {
 	
-	public FilterControlsViewer(FilterProvider filter) {
-		this.filterProvider = filter;
+	protected FilterController filterController;
+	
+	public FilterControlsViewer(FilterController filter) {
+		this.filterController = filter;
 	}
 	
 	public void addControls(ToolBar tb) {
@@ -34,15 +36,15 @@ public class FilterControlsViewer extends BaseFilterControlsViewer {
 				getImage("full/obj16/Filter/MappingsShow.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterMappings(true);
+				filterController.setFiltered(true, HenshinPackage.eINSTANCE.getMapping());
 			}
 		}, new ButtonState(getString("_UI_FeatureFilter_HideMappings"),
 				getImage("full/obj16/Filter/MappingsHide.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterMappings(false);
+				filterController.setFiltered(false, HenshinPackage.eINSTANCE.getMapping());
 			}
-		}, this.filterProvider.mappingsFiltered()).init(tb);
+		}, this.filterController.isFiltered(HenshinPackage.eINSTANCE.getMapping())).init(tb);
 		
 		// create ToolItem for Parameters
 		//
@@ -50,15 +52,15 @@ public class FilterControlsViewer extends BaseFilterControlsViewer {
 				getImage("full/obj16/Filter/ParametersShow.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterParameters(true);
+				filterController.setFiltered(true, HenshinPackage.eINSTANCE.getParameter());
 			}
 		}, new ButtonState(getString("_UI_FeatureFilter_HideParameters"),
 				getImage("full/obj16/Filter/ParametersHide.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterParameters(false);
+				filterController.setFiltered(false, HenshinPackage.eINSTANCE.getParameter());
 			}
-		}, this.filterProvider.parametersFiltered()).init(tb);
+		}, this.filterController.isFiltered(HenshinPackage.eINSTANCE.getParameter())).init(tb);
 		
 		// createToolItem for ParameterMappings
 		//
@@ -66,15 +68,15 @@ public class FilterControlsViewer extends BaseFilterControlsViewer {
 				getImage("full/obj16/Filter/ParameterMappingsShow.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterParameterMappings(true);
+				filterController.setFiltered(true, HenshinPackage.eINSTANCE.getParameterMapping());
 			}
 		}, new ButtonState(getString("_UI_FeatureFilter_HideParameterMappings"),
 				getImage("full/obj16/Filter/ParameterMappingsHide.png")) {
 			@Override
 			void initState() {
-				filterProvider.filterParameterMappings(false);
+				filterController.setFiltered(false, HenshinPackage.eINSTANCE.getParameterMapping());
 			}
-		}, this.filterProvider.parameterMappingsFiltered()).init(tb);
+		}, this.filterController.isFiltered(HenshinPackage.eINSTANCE.getParameterMapping())).init(tb);
 		
 	}
 	

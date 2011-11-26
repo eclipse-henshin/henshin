@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.henshin.presentation.HenshinEditorPlugin;
-import org.eclipse.emf.henshin.provider.filter.FilterProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -35,7 +34,7 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public abstract class BaseFilterControlsViewer {
 	
-	protected FilterProvider filterProvider;
+	
 	protected Collection<Image> images = new ArrayList<Image>();
 	
 	protected static abstract class ButtonState {
