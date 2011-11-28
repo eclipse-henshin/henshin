@@ -6,8 +6,9 @@
     modelPluginID="org.eclipse.emf.henshin.model" templateDirectory="org.eclipse.emf.henshin.model/ocltemplates"
     dynamicTemplates="true" modelName="Henshin" modelPluginClass="org.eclipse.emf.henshin.HenshinModelPlugin"
     testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="" editPluginID="org.eclipse.emf.henshin.edit"
-    editorPluginID="org.eclipse.emf.henshin.editor" testsPluginID="org.eclipse.emf.henshin.tests">
+    complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter"
+    editPluginID="org.eclipse.emf.henshin.edit" editorPluginID="org.eclipse.emf.henshin.editor"
+    testsPluginID="org.eclipse.emf.henshin.tests" colorProviders="true">
   <foreignModel>henshin.ecore</foreignModel>
   <modelPluginVariables>OCL_ECORE=org.eclipse.ocl.ecore</modelPluginVariables>
   <genPackages prefix="Henshin" basePackage="org.eclipse.emf" disposableProviderFactory="true"
@@ -31,7 +32,7 @@
         <genParameters ecoreParameter="henshin.ecore#//TransformationSystem/findRuleByName/ruleName"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//Rule">
+    <genClasses provider="Stateful" ecoreClass="henshin.ecore#//Rule">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/lhs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/rhs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Rule/attributeConditions"/>
@@ -74,6 +75,10 @@
       <genOperations ecoreOperation="henshin.ecore#//Graph/findEdgesByType">
         <genParameters ecoreParameter="henshin.ecore#//Graph/findEdgesByType/edgeType"/>
       </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/isLhs"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/isRhs"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/isHost"/>
+      <genOperations ecoreOperation="henshin.ecore#//Graph/isNestedCondition"/>
     </genClasses>
     <genClasses image="false" ecoreClass="henshin.ecore#//GraphElement">
       <genOperations ecoreOperation="henshin.ecore#//GraphElement/getGraph"/>
@@ -137,7 +142,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/strict"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//SequentialUnit/rollback"/>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//ConditionalUnit">
+    <genClasses provider="Stateful" ecoreClass="henshin.ecore#//ConditionalUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/if"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/then"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//ConditionalUnit/else"/>
@@ -145,7 +150,7 @@
     <genClasses ecoreClass="henshin.ecore#//PriorityUnit">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//PriorityUnit/subUnits"/>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//AmalgamationUnit">
+    <genClasses provider="Stateful" ecoreClass="henshin.ecore#//AmalgamationUnit">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/kernelRule"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/multiRules"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/lhsMappings"/>
