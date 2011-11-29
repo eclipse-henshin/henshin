@@ -294,7 +294,13 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 				remove(label);
 				label = null;
 			} else if (!hideLabel && label==null) {
-				add(label = new Label());
+				add(label = new Label() {
+					@Override
+					public String getSubStringText() {
+						// No "..."
+						return getText();
+					}
+				});
 			}
 		}
 	}

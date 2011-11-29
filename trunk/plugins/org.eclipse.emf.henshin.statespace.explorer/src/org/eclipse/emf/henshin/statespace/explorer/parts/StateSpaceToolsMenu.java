@@ -648,6 +648,7 @@ public class StateSpaceToolsMenu extends Composite {
 				CreateInitialStateAction action = new CreateInitialStateAction();
 				action.setExplorer(explorer);
 				action.run(null);
+				refresh();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -664,6 +665,7 @@ public class StateSpaceToolsMenu extends Composite {
 				ImportRulesAction action = new ImportRulesAction();
 				action.setExplorer(explorer);
 				action.run(null);
+				refresh();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -680,6 +682,7 @@ public class StateSpaceToolsMenu extends Composite {
 				ExportStateSpaceAction action = new ExportStateSpaceAction();
 				action.setExplorer(explorer);
 				action.run(null);
+				refresh();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -696,6 +699,7 @@ public class StateSpaceToolsMenu extends Composite {
 				ResetStateSpaceAction action = new ResetStateSpaceAction();
 				action.setExplorer(explorer);
 				action.run(null);
+				refresh();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -712,6 +716,7 @@ public class StateSpaceToolsMenu extends Composite {
 				EditPropertiesAction action = new EditPropertiesAction();
 				action.setExplorer(explorer);
 				action.run(null);
+				refresh();
 			}
 		}
 		public void widgetDefaultSelected(SelectionEvent e) {

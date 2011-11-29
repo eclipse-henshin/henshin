@@ -138,11 +138,12 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Compute super types to be used:
 		Map<EClass, EClass> superTypes = getSuperTypeMap(stateSpace);
+		Map<EClass,Set<String>> superTypeParams = getUsedParameterNamesByType(stateSpace, superTypes);
+		Map<EClass,Set<String>> basicTypeParams = getUsedParameterNamesByType(stateSpace, null);
 		
 		// Create the data types if required:
-		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {			
-			Map<EClass,Set<String>> params = getUsedParameterNamesByType(stateSpace, superTypes);
-			for (Map.Entry<EClass,Set<String>> entry : params.entrySet()) {				
+		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+			for (Map.Entry<EClass,Set<String>> entry : superTypeParams.entrySet()) {				
 				actions.append("sort " + entry.getKey().getName() + " = struct ");
 				Iterator<String> it = entry.getValue().iterator();
 				while (it.hasNext()) {
@@ -153,7 +154,6 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 				}
 				actions.append( ";\n");
 			}
-			
 		}
 		
 		// Create the actions (rule names):
@@ -163,18 +163,46 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 			actions.append(rule.getName());
 			if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
 				actions.append(" : ");
-				List<Node> params = ParametersPropertiesManager.getParameters(stateSpace,rule);
-				for (int j=0; j<params.size(); j++) {
-					EClass type = superTypes.get(params.get(j).getType());
+				List<Node> nodes = ParametersPropertiesManager.getParameters(stateSpace,rule);
+				for (int j=0; j<nodes.size(); j++) {
+					EClass type = superTypes.get(nodes.get(j).getType());
 					actions.append(type.getName());
-					if (j<params.size()-1) actions.append(" # ");
+					if (j<nodes.size()-1) actions.append(" # ");
 				}
 			}
 			actions.append("; ");
 		}
+		actions.append("\n\n");
+		
+		// Create type functions:
+		int var=1;
+		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+			for (Map.Entry<EClass,Set<String>> entry : basicTypeParams.entrySet()) {	
+				
+				String variable = "xyz" + (var++); 
+				String superType = superTypes.get(entry.getKey()).getName();
+				String function = "is" + entry.getKey().getName();
+				
+				actions.append("map " + function + " : " + superType + " -> Bool;\n");
+				actions.append("var " + variable + " : " + superType + ";\n");
+				Iterator<String> it = entry.getValue().iterator();
+				actions.append("eqn " + function + "(" + variable + ") = ");
+				if (it.hasNext()) {
+					while (it.hasNext()) {
+						actions.append("(" + variable + "==" + it.next() + ")");
+						if (it.hasNext()) {
+							actions.append(" || ");
+						}
+					}
+				} else {
+					actions.append("false");
+				}
+				actions.append(";\n\n");
+			}
+		}
 		
 		// Done.
-		return actions.toString() + "\n";
+		return actions.toString();
 		
 	}
 
@@ -238,7 +266,9 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 			
 			// Get the parameter type and compute the super types to be used:
 			EClass type = ObjectIdentityHelper.getObjectType(params[i], types);
-			type = superTypes.get(type);
+			if (superTypes!=null && superTypes.containsKey(type)) {
+				type = superTypes.get(type);
+			}
 			
 			// Get the type prefix and the object id:
 			String prefix = ObjectIdentityHelper.getObjectTypePrefix(params[i], prefixes);

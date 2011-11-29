@@ -2,6 +2,7 @@ package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -222,16 +223,16 @@ public class EditPropertiesPage extends WizardPage {
 	 */
 	public void remove() {
 		int[] indices = table.getSelectionIndices();
-		if (indices==null) return;
-		table.remove(indices);
-		List<String> keysToRemove = new ArrayList<String>();
-		List<String> valuesToRemove = new ArrayList<String>();
-		for (int i=0; i<indices.length; i++) {
-			keysToRemove.add(keys.get(indices[i]));
-			valuesToRemove.add(values.get(indices[i]));
+		if (indices==null || indices.length==0) {
+			return;
 		}
-		keys.removeAll(keysToRemove);
-		values.removeAll(valuesToRemove);
+		// To be sure: sort the indices:
+		Arrays.sort(indices);
+		table.remove(indices);
+		for (int i=indices.length-1; i>=0; i--) {
+			keys.remove(indices[i]);
+			values.remove(indices[i]);
+		}
 		dirty = true;
 		validate();
 	}

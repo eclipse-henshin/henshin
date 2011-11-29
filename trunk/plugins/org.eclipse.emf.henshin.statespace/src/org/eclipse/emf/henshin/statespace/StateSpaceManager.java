@@ -65,8 +65,9 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	/**
 	 * Reset the state space managed by this instance.
 	 * This removes all derived states and all transitions.
+	 * @throws StateSpaceException On errors.
 	 */
-	void resetStateSpace();
+	void resetStateSpace() throws StateSpaceException;
 	
 	/**
 	 * Reload derived state space properties, such as hash codes.

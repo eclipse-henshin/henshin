@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
 /**
@@ -31,7 +32,7 @@ public class ResetStateSpaceCommand extends AbstractStateSpaceCommand {
 	 * @see org.eclipse.emf.henshin.statespace.explorer.commands.AbstractStateSpaceCommand#doExecute()
 	 */
 	@Override
-	public void doExecute() { 
+	public void doExecute() throws StateSpaceException { 
 		getStateSpaceManager().resetStateSpace();
 	}
 	

@@ -370,7 +370,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace()
 	 */
-	public final void resetStateSpace() {
+	public final void resetStateSpace() throws StateSpaceException {
 		
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
@@ -396,9 +396,8 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			tainted = false;
 		}
 		catch (StateSpaceException e) {
-			// This should not happen because the state space is reset.
-			e.printStackTrace();
 			tainted = true;
+			throw e;
 		}
 	}
 	

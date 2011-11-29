@@ -204,7 +204,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		// Copy the map contents of the integer array to the map:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		int index = 0;
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && index<objectIdentities.length) {
 			EObject object = iterator.next();
 			objectIdentitiesMap.put(object, objectIdentities[index++]);
 		}
