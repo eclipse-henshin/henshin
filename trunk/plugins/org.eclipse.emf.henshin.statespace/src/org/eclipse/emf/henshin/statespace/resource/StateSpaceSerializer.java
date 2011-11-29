@@ -61,7 +61,7 @@ public class StateSpaceSerializer {
 		int equalityType = 0;
 		if (helper.isUseGraphEquality()) equalityType = equalityType | 1;
 		if (helper.isUseObjectAttributes()) equalityType = equalityType | 2;
-		if (helper.isUseObjectIdentities()) equalityType = equalityType | 4;
+		if (helper.isUseObjectKeys()) equalityType = equalityType | 4;
 		writeShort(equalityType); 
 		
 		writeShort(rules.size()); // Rule count

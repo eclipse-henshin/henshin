@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
@@ -64,7 +63,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 	public int hashCode(Model model) {
 		return StateSpaceHashCodeUtil.computeHashCode(model, 
-				useGraphEquality, useObjectIdentities, useObjectAttributes);
+				useGraphEquality, useObjectKeys, useObjectAttributes);
 	}
 
 	/**
@@ -95,22 +94,26 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 				isomorphyCheckerCache.put(model1, checker1);
 			}
 			
-			// Get the EmfGraph for the second model:
-			EmfGraph graph2 = model2.getEmfGraph();
-			
 			// Do we need to compute a match for the node IDs?
 			Map<EObject,EObject> match = new HashMap<EObject,EObject>();
-			if (useObjectIdentities) {
+			if (useObjectKeys) {
 				
-				// Index the second model:
-				EObject[] indexedModel2 = new EObject[graph2.geteObjects().size()];
-				for (Map.Entry<EObject, Integer> entry2 : model2.getObjectIdentitiesMap().entrySet()) {
-					indexedModel2[entry2.getValue()] = entry2.getKey();
-				}
-				
-				// Compute the match:
-				for (Map.Entry<EObject, Integer> entry1 : model1.getObjectIdentitiesMap().entrySet()) {
-					match.put(entry1.getKey(), indexedModel2[entry1.getValue()]);
+				// Precompute a partial match:
+				for (Map.Entry<EObject, Integer> entry1 : model1.getObjectKeysMap().entrySet()) {
+					int objectKey = entry1.getValue();
+					if (objectKey!=0) {
+						boolean found = false;
+						for (Map.Entry<EObject, Integer> entry2 : model2.getObjectKeysMap().entrySet()) {
+							if (entry2.getValue()==objectKey) {
+								found = true;
+								match.put(entry1.getKey(), entry2.getKey());
+							}
+						}
+						if (!found) {
+							match.clear();
+							break;
+						}
+					}
 				}
 
 				// Now we can invoke the checker:
@@ -140,7 +143,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 			// Use standard Ecore equality checker:
 			return new EcoreEqualityHelper(
-					useObjectIdentities, 
+					useObjectKeys, 
 					useObjectAttributes).equals(model1, model2);
 			
 		}
@@ -168,7 +171,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		}
 		
 		// Check all real containment references:
-		for (EClass type : stateSpace.getObjectTypes()) {
+		for (EClass type : stateSpace.getSupportedTypes()) {
 			for (EReference containment : type.getEAllContainments()) {			
 				if (isStableContainment(containment, stateSpace)) {
 					stableContainments.add(containment);
@@ -343,24 +346,24 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isUseObjectIdentities() <em>Use Object Identities</em>}' attribute.
+	 * The default value of the '{@link #isUseObjectKeys() <em>Use Object Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseObjectIdentities()
+	 * @see #isUseObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
 	protected static final boolean USE_OBJECT_IDENTITIES_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isUseObjectIdentities() <em>Use Object Identities</em>}' attribute.
+	 * The cached value of the '{@link #isUseObjectKeys() <em>Use Object Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseObjectIdentities()
+	 * @see #isUseObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean useObjectIdentities = USE_OBJECT_IDENTITIES_EDEFAULT;
+	protected boolean useObjectKeys = USE_OBJECT_IDENTITIES_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
@@ -418,18 +421,18 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated
 	 */
-	public boolean isUseObjectIdentities() {
-		return useObjectIdentities;
+	public boolean isUseObjectKeys() {
+		return useObjectKeys;
 	}
 
 	/**
 	 * @generated
 	 */
-	public void setUseObjectIdentities(boolean newUseObjectIdentities) {
-		boolean oldUseObjectIdentities = useObjectIdentities;
-		useObjectIdentities = newUseObjectIdentities;
+	public void setUseObjectKeys(boolean newUseObjectIdentities) {
+		boolean oldUseObjectIdentities = useObjectKeys;
+		useObjectKeys = newUseObjectIdentities;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES, oldUseObjectIdentities, useObjectIdentities));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES, oldUseObjectIdentities, useObjectKeys));
 	}
 
 	/**
@@ -458,7 +461,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return isUseGraphEquality();
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				return isUseObjectIdentities();
+				return isUseObjectKeys();
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return isUseObjectAttributes();
 		}
@@ -475,7 +478,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 				setUseGraphEquality((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				setUseObjectIdentities((Boolean)newValue);
+				setUseObjectKeys((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				setUseObjectAttributes((Boolean)newValue);
@@ -494,7 +497,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				setUseObjectIdentities(USE_OBJECT_IDENTITIES_EDEFAULT);
+				setUseObjectKeys(USE_OBJECT_IDENTITIES_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				setUseObjectAttributes(USE_OBJECT_ATTRIBUTES_EDEFAULT);
@@ -512,7 +515,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				return useObjectIdentities != USE_OBJECT_IDENTITIES_EDEFAULT;
+				return useObjectKeys != USE_OBJECT_IDENTITIES_EDEFAULT;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return useObjectAttributes != USE_OBJECT_ATTRIBUTES_EDEFAULT;
 		}
@@ -529,8 +532,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (useGraphEquality: ");
 		result.append(useGraphEquality);
-		result.append(", useObjectIdentities: ");
-		result.append(useObjectIdentities);
+		result.append(", useObjectKeys: ");
+		result.append(useObjectKeys);
 		result.append(", useObjectAttributes: ");
 		result.append(useObjectAttributes);
 		result.append(')');

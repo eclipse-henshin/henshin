@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
+import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 
 /**
  * @generated
@@ -46,13 +46,13 @@ public class TransitionImpl extends StorageImpl implements Transition {
 		StateSpace stateSpace = getSource().getStateSpace();
 		if (getParameterCount()>0 && stateSpace!=null) {
 			label = label + "(";
-			int[] identities = getParameterIdentities();
-			for (int i=0; i<identities.length; i++) {
+			int[] keys = getParameterKeys();
+			for (int i=0; i<keys.length; i++) {
 				label = label + 
-						ObjectIdentityHelper.getObjectTypePrefix(identities[i], 
-								stateSpace.getObjectTypePrefixes()) + 
-						ObjectIdentityHelper.getObjectID(identities[i]);
-				if (i<identities.length-1) {
+						ObjectKeyHelper.getObjectTypePrefix(keys[i], 
+								stateSpace.getSupportedTypePrefixes()) + 
+						ObjectKeyHelper.getObjectID(keys[i]);
+				if (i<keys.length-1) {
 					label = label + ",";
 				}
 			}
@@ -94,14 +94,14 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getParameterIdentities() {
+	public int[] getParameterKeys() {
 		return getData(2, 2+getParameterCount());
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setParameterIdentities(int[] paramIDs) {
+	public void setParameterKeys(int[] paramIDs) {
 		setData(2, paramIDs);
 	}
 
@@ -159,10 +159,10 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	protected static final int PARAMETER_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getParameterIdentities() <em>Parameter Identities</em>}' attribute.
+	 * The default value of the '{@link #getParameterKeys() <em>Parameter Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getParameterIdentities()
+	 * @see #getParameterKeys()
 	 * @generated
 	 * @ordered
 	 */
@@ -369,7 +369,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount();
 			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				return getParameterIdentities();
+				return getParameterKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -396,7 +396,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				setParameterCount((Integer)newValue);
 				return;
 			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				setParameterIdentities((int[])newValue);
+				setParameterKeys((int[])newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -424,7 +424,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				setParameterCount(PARAMETER_COUNT_EDEFAULT);
 				return;
 			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				setParameterIdentities(PARAMETER_IDENTITIES_EDEFAULT);
+				setParameterKeys(PARAMETER_IDENTITIES_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -447,7 +447,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount() != PARAMETER_COUNT_EDEFAULT;
 			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				return PARAMETER_IDENTITIES_EDEFAULT == null ? getParameterIdentities() != null : !PARAMETER_IDENTITIES_EDEFAULT.equals(getParameterIdentities());
+				return PARAMETER_IDENTITIES_EDEFAULT == null ? getParameterKeys() != null : !PARAMETER_IDENTITIES_EDEFAULT.equals(getParameterKeys());
 		}
 		return super.eIsSet(featureID);
 	}

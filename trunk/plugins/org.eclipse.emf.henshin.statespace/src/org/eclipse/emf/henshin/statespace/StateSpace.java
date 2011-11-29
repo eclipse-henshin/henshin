@@ -71,40 +71,32 @@ public interface StateSpace extends Storage {
 	int getTransitionCount();
 
 	/**
-	 * Update the object types for this state space.
+	 * Update the supported object types for this state space.
 	 * @model
 	 * @generated
 	 */
-	void updateObjectTypes();
+	void updateSupportedTypes();
 
 	/**
 	 * Get the supported object types of this state space.
-	 * @return the value of the '<em>Object Types</em>' attribute.
-	 * @see #setObjectTypes(EClass[])
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_ObjectTypes()
 	 * @model dataType="org.eclipse.emf.henshin.statespace.EClassArray" transient="true"
 	 * @generated
 	 */
-	EClass[] getObjectTypes();
+	EClass[] getSupportedTypes();
 
 	/**
-	 * Get the object type prefixes of this state space.
-	 * @return the value of the '<em>Object Type Prefixes</em>' attribute.
-	 * @see #setObjectTypePrefixes(String[])
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_ObjectTypePrefixes()
+	 * Get the supported object type prefixes of this state space.
 	 * @model dataType="org.eclipse.emf.henshin.statespace.StringArray" transient="true"
 	 * @generated
 	 */
-	String[] getObjectTypePrefixes();
+	String[] getSupportedTypePrefixes();
 
 	/**
-	 * Get all parameter identities used in transitions in this state space.
-	 * @return the value of the '<em>All Parameter Identities</em>' attribute.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_AllParameterIdentities()
+	 * Get all object keys used as parameters in transitions in this state space.
 	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
-	int[] getAllParameterIdentities();
+	int[] getAllParameterKeys();
 
 	/**
 	 * Set the total number of transitions in this state space.

@@ -220,7 +220,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * @generated
 	 */
 	public Map.Entry<EObject, Integer> createObjectIdentity() {
-		ObjectIdentityImpl objectIdentity = new ObjectIdentityImpl();
+		ObjectKeyImpl objectIdentity = new ObjectKeyImpl();
 		return objectIdentity;
 	}
 

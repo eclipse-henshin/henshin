@@ -567,10 +567,10 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_EQUALITY_HELPER_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl <em>Object Identity</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl <em>Object Identity</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl
+	 * @see org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectIdentity()
 	 * @generated
 	 */
@@ -788,7 +788,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Object Types</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getObjectTypes()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getSupportedTypes()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
@@ -810,7 +810,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>All Parameter Identities</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getAllParameterIdentities()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getAllParameterKeys()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
@@ -918,7 +918,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Object Identities Map</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectIdentitiesMap()
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectKeysMap()
 	 * @see #getModel()
 	 * @generated
 	 */
@@ -929,7 +929,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Object Identities</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectIdentities()
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectKeys()
 	 * @see #getModel()
 	 * @generated
 	 */
@@ -1006,7 +1006,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Object Identities</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.State#getObjectIdentities()
+	 * @see org.eclipse.emf.henshin.statespace.State#getObjectKeys()
 	 * @see #getState()
 	 * @generated
 	 */
@@ -1081,7 +1081,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Use Object Identities</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectIdentities()
+	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectKeys()
 	 * @see #getStateEqualityHelper()
 	 * @generated
 	 */
@@ -1125,7 +1125,7 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Parameter Identities</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Transition#getParameterIdentities()
+	 * @see org.eclipse.emf.henshin.statespace.Transition#getParameterKeys()
 	 * @see #getTransition()
 	 * @generated
 	 */
@@ -1641,10 +1641,10 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute STORAGE__DATA = eINSTANCE.getStorage_Data();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl <em>Object Identity</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl <em>Object Identity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.ObjectIdentityImpl
+		 * @see org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl
 		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectIdentity()
 		 * @generated
 		 */

@@ -181,20 +181,20 @@ public interface State extends Storage {
 	void setObjectCount(int value);
 
 	/**
-	 * Get the object identities for the current state model.
-	 * @return the value of the '<em>Object Identities</em>' attribute.
+	 * Get the object keys for the current state model.
+	 * @return the value of the '<em>Object Keys</em>' attribute.
 	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
 	 * @generated
 	 */
-	int[] getObjectIdentities();
+	int[] getObjectKeys();
 
 	/**
-	 * Set the object identities for the current state model.
-	 * @param objectIdentities the new value of the '<em>Object Identities</em>' attribute.
-	 * @see #getObjectIdentities()
+	 * Set the object keys for the current state model.
+	 * @param objectKeys the new value of the '<em>Object Keys</em>' attribute.
+	 * @see #getObjectKeys()
 	 * @generated
 	 */
-	void setObjectIdentities(int[] value);
+	void setObjectKeys(int[] value);
 
 	/**
 	 * Check whether this state is an initial one. A state is initial

@@ -32,14 +32,17 @@ import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
-import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
+import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 
 /**
  * Transient container for state models.
  * @generated
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
-
+	
+	// Next free object Id:
+	private int nextFreeObjectId = 1;
+	
 	/**
 	 * Constructor.
 	 * @param resource Resource for this model.
@@ -74,6 +77,24 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	}
 
 	/**
+	 * @generated NOT
+	 */
+	public EMap<EObject, Integer> getObjectKeysMap() {
+		if (objectKeysMap == null) {
+			objectKeysMap = new EcoreEMap<EObject,Integer>(
+					StateSpacePackage.Literals.OBJECT_IDENTITY, ObjectKeyImpl.class, this, StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP) {
+				private static final long serialVersionUID = 1L;
+				@Override
+				public Integer get(Object object) {
+					Integer key = super.get(object);
+					return (key!=null) ? key : 0;
+				}
+			};
+		}
+		return objectKeysMap;
+	}
+
+	/**
 	 * Get a copy of this model.
 	 * @see org.eclipse.emf.henshin.statespace.Model#getCopy(org.eclipse.emf.henshin.interpreter.util.Match)
 	 * @generated NOT
@@ -96,17 +117,20 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		}
 		
 		// Now create a new model.
-		Model copy = new ModelImpl(copiedResource);
+		ModelImpl copy = new ModelImpl(copiedResource);
 
-		// Copy the nodeIDs.
-		if (objectIdentitiesMap != null) {
+		// Copy the object keys.
+		if (objectKeysMap != null) {
 			TreeIterator<EObject> iterator = resource.getAllContents();
 			while (iterator.hasNext()) {
 				EObject object = iterator.next();
-				copy.getObjectIdentitiesMap().put(copier.get(object),
-						objectIdentitiesMap.get(object));
+				copy.getObjectKeysMap().put(copier.get(object),
+						objectKeysMap.get(object));
 			}
 		}
+
+		// Copy the cached stuff.
+		copy.nextFreeObjectId = nextFreeObjectId;
 
 		// Done.
 		return copy;
@@ -116,35 +140,36 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public boolean updateObjectIdentities(EClass[] objectTypes) {
+	public boolean updateObjectKeys(EClass[] supportedTypes) {
 
-		// Make sure the object identities map is not null.
-		getObjectIdentitiesMap();
+		// Make sure the object keys map is not null.
+		getObjectKeysMap();
 		
 		// Remember whether there was a change:
 		boolean changed = false;
-		
-		// Get the next free ID:
-		int nextId = 0;
+
+		// Now set the keys for new objects:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			Integer identity = objectIdentitiesMap.get(object);
-			if (identity!=null) {
-				int id = ObjectIdentityHelper.getObjectID(identity);
-				if (identity>=nextId) {
-					nextId = id+1;
+			if (objectKeysMap.get(object)==0) {
+				
+				// Check if the current object type is supported:
+				EClass type = object.eClass();
+				boolean isSupported = false;
+				for (int i=0; i<supportedTypes.length; i++) {
+					if (supportedTypes[i]==type) {
+						isSupported = true;
+						break;
+					}
 				}
-			}
-		}
-
-		// Now set the identities for new objects:
-		iterator = resource.getAllContents();
-		while (iterator.hasNext()) {
-			EObject object = iterator.next();
-			if (objectIdentitiesMap.get(object) == null) {
-				objectIdentitiesMap.put(object, nextId++);
-				changed = true;
+				
+				// Update the key if necessary:
+				if (isSupported) {
+					int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeObjectId++, supportedTypes);
+					objectKeysMap.put(object, objectKey);
+					changed = true;
+				}
 			}
 		}
 		
@@ -169,25 +194,20 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getObjectIdentities() {
+	public int[] getObjectKeys() {
 
-		// Make sure the object identities map is not null.
-		getObjectIdentitiesMap();
+		// Make sure the object keys map is not null.
+		getObjectKeysMap();
 
 		// Copy the map contents to an integer array:
-		List<Integer> ids = new ArrayList<Integer>(24);
+		List<Integer> objectKeys = new ArrayList<Integer>(24);
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
-			EObject object = iterator.next();
-			Integer id = objectIdentitiesMap.get(object);
-			if (id==null) {
-				throw new RuntimeException("No object identity found for " + object);
-			}
-			ids.add(id.intValue());
+			objectKeys.add(objectKeysMap.get(iterator.next()));
 		}
-		int[] result = new int[ids.size()];
-		for (int i = 0; i < ids.size(); i++) {
-			result[i] = ids.get(i);
+		int[] result = new int[objectKeys.size()];
+		for (int i = 0; i < objectKeys.size(); i++) {
+			result[i] = objectKeys.get(i);
 		}
 		return result;
 
@@ -196,17 +216,22 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public void setObjectIdentities(int[] objectIdentities) {
+	public void setObjectKeys(int[] objectKeys) {
 
-		// Make sure the object identities map is not null and empty it.
-		getObjectIdentitiesMap().clear();
+		// Make sure the object keys map is not null and empty it.
+		getObjectKeysMap().clear();
+		
+		// Reset the next free object Id:
+		nextFreeObjectId = 1;
 
 		// Copy the map contents of the integer array to the map:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		int index = 0;
-		while (iterator.hasNext() && index<objectIdentities.length) {
+		while (iterator.hasNext() && index<objectKeys.length) {
 			EObject object = iterator.next();
-			objectIdentitiesMap.put(object, objectIdentities[index++]);
+			int key = objectKeys[index++];
+			objectKeysMap.put(object, key);
+			nextFreeObjectId = Math.max(ObjectKeyHelper.getObjectID(key)+1, nextFreeObjectId);
 		}
 
 	}
@@ -269,19 +294,19 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EmfGraph emfGraph = EMF_GRAPH_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getObjectIdentitiesMap() <em>Object Identities Map</em>}' map.
+	 * The cached value of the '{@link #getObjectKeysMap() <em>Object Identities Map</em>}' map.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getObjectIdentitiesMap()
+	 * @see #getObjectKeysMap()
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap<EObject, Integer> objectIdentitiesMap;
+	protected EMap<EObject, Integer> objectKeysMap;
 
 	/**
-	 * The default value of the '{@link #getObjectIdentities() <em>Object Identities</em>}' attribute.
+	 * The default value of the '{@link #getObjectKeys() <em>Object Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectIdentities()
+	 * @see #getObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
@@ -324,22 +349,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated
 	 */
-	public EMap<EObject, Integer> getObjectIdentitiesMap() {
-		if (objectIdentitiesMap == null) {
-			objectIdentitiesMap = new EcoreEMap<EObject,Integer>(StateSpacePackage.Literals.OBJECT_IDENTITY, ObjectIdentityImpl.class, this, StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP);
-		}
-		return objectIdentitiesMap;
-	}
-
-	/**
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
-				return ((InternalEList<?>)getObjectIdentitiesMap()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getObjectKeysMap()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -355,10 +370,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return getEmfGraph();
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
-				if (coreType) return getObjectIdentitiesMap();
-				else return getObjectIdentitiesMap().map();
+				if (coreType) return getObjectKeysMap();
+				else return getObjectKeysMap().map();
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				return getObjectIdentities();
+				return getObjectKeys();
 			case StateSpacePackage.MODEL__OBJECT_COUNT:
 				return getObjectCount();
 		}
@@ -372,10 +387,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
-				((EStructuralFeature.Setting)getObjectIdentitiesMap()).set(newValue);
+				((EStructuralFeature.Setting)getObjectKeysMap()).set(newValue);
 				return;
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				setObjectIdentities((int[])newValue);
+				setObjectKeys((int[])newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -388,10 +403,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
-				getObjectIdentitiesMap().clear();
+				getObjectKeysMap().clear();
 				return;
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				setObjectIdentities(OBJECT_IDENTITIES_EDEFAULT);
+				setObjectKeys(OBJECT_IDENTITIES_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -408,9 +423,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return EMF_GRAPH_EDEFAULT == null ? emfGraph != null : !EMF_GRAPH_EDEFAULT.equals(emfGraph);
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
-				return objectIdentitiesMap != null && !objectIdentitiesMap.isEmpty();
+				return objectKeysMap != null && !objectKeysMap.isEmpty();
 			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectIdentities() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectIdentities());
+				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectKeys());
 			case StateSpacePackage.MODEL__OBJECT_COUNT:
 				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
 		}

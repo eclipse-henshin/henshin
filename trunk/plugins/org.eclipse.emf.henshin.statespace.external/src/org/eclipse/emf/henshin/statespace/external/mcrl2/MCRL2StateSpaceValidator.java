@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
-import org.eclipse.emf.henshin.statespace.util.ObjectIdentityHelper;
+import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
@@ -142,7 +142,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		Map<EClass,Set<String>> basicTypeParams = getUsedParameterNamesByType(stateSpace, null);
 		
 		// Create the data types if required:
-		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+		if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
 			for (Map.Entry<EClass,Set<String>> entry : superTypeParams.entrySet()) {				
 				actions.append("sort " + entry.getKey().getName() + " = struct ");
 				Iterator<String> it = entry.getValue().iterator();
@@ -161,7 +161,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
 			Rule rule = stateSpace.getRules().get(i);
 			actions.append(rule.getName());
-			if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+			if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
 				actions.append(" : ");
 				List<Node> nodes = ParametersPropertiesManager.getParameters(stateSpace,rule);
 				for (int j=0; j<nodes.size(); j++) {
@@ -176,7 +176,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Create type functions:
 		int var=1;
-		if (stateSpace.getEqualityHelper().isUseObjectIdentities()) {
+		if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
 			for (Map.Entry<EClass,Set<String>> entry : basicTypeParams.entrySet()) {	
 				
 				String variable = "xyz" + (var++); 
@@ -213,7 +213,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Get all relevant types:
 		Set<EClass> types = new LinkedHashSet<EClass>();
-		types.addAll(Arrays.asList(stateSpace.getObjectTypes()));
+		types.addAll(Arrays.asList(stateSpace.getSupportedTypes()));
 		for (Rule rule : stateSpace.getRules()) {
 			List<Node> params = ParametersPropertiesManager.getParameters(stateSpace, rule);
 			for (Node param : params) {
@@ -253,26 +253,26 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	private Map<EClass,Set<String>> getUsedParameterNamesByType(
 			StateSpace stateSpace, Map<EClass,EClass> superTypes) throws StateSpaceException {
 		
-		// Get all used parameter identities:
-		int[] params = stateSpace.getAllParameterIdentities();
+		// Get all used parameter keys:
+		int[] params = stateSpace.getAllParameterKeys();
 		
 		// Get the object types and prefixes:
-		EClass[] types = stateSpace.getObjectTypes();
-		String[] prefixes = stateSpace.getObjectTypePrefixes();
+		EClass[] types = stateSpace.getSupportedTypes();
+		String[] prefixes = stateSpace.getSupportedTypePrefixes();
 		
 		// Now we build the map:
 		Map<EClass,Set<String>> result = new HashMap<EClass,Set<String>>();
 		for (int i=0; i<params.length; i++) {
 			
 			// Get the parameter type and compute the super types to be used:
-			EClass type = ObjectIdentityHelper.getObjectType(params[i], types);
+			EClass type = ObjectKeyHelper.getObjectType(params[i], types);
 			if (superTypes!=null && superTypes.containsKey(type)) {
 				type = superTypes.get(type);
 			}
 			
 			// Get the type prefix and the object id:
-			String prefix = ObjectIdentityHelper.getObjectTypePrefix(params[i], prefixes);
-			int id = ObjectIdentityHelper.getObjectID(params[i]);
+			String prefix = ObjectKeyHelper.getObjectTypePrefix(params[i], prefixes);
+			int id = ObjectKeyHelper.getObjectID(params[i]);
 			
 			// Construct the name and store it:
 			String name = prefix + id;

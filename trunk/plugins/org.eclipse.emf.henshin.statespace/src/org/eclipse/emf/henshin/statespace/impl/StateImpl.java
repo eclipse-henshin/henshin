@@ -112,15 +112,15 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getObjectIdentities() {
+	public int[] getObjectKeys() {
 		return getData(6, 6+getObjectCount());
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setObjectIdentities(int[] objectIdentities) {
-		setData(6, objectIdentities);
+	public void setObjectKeys(int[] objectKeys) {
+		setData(6, objectKeys);
 	}
 
 	/**
@@ -206,10 +206,10 @@ public class StateImpl extends StorageImpl implements State {
 	protected static final int OBJECT_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getObjectIdentities() <em>Object Identities</em>}' attribute.
+	 * The default value of the '{@link #getObjectKeys() <em>Object Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectIdentities()
+	 * @see #getObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
@@ -425,7 +425,7 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount();
 			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				return getObjectIdentities();
+				return getObjectKeys();
 			case StateSpacePackage.STATE__MODEL:
 				return getModel();
 		}
@@ -466,7 +466,7 @@ public class StateImpl extends StorageImpl implements State {
 				setObjectCount((Integer)newValue);
 				return;
 			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				setObjectIdentities((int[])newValue);
+				setObjectKeys((int[])newValue);
 				return;
 			case StateSpacePackage.STATE__MODEL:
 				setModel((Model)newValue);
@@ -506,7 +506,7 @@ public class StateImpl extends StorageImpl implements State {
 				setObjectCount(OBJECT_COUNT_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				setObjectIdentities(OBJECT_IDENTITIES_EDEFAULT);
+				setObjectKeys(OBJECT_IDENTITIES_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__MODEL:
 				setModel((Model)null);
@@ -538,7 +538,7 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
 			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectIdentities() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectIdentities());
+				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectKeys());
 			case StateSpacePackage.STATE__MODEL:
 				return model != null;
 		}

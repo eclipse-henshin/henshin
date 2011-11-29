@@ -18,7 +18,7 @@ class TotalHashCodeHelper {
 
 	// Flags:
 	private boolean useGraphEquality;
-	private boolean useObjectIdentities;
+	private boolean useObjectKeys;
 	private boolean useObjectAttributes;
 	
 	// Cached context hash codes:
@@ -27,16 +27,16 @@ class TotalHashCodeHelper {
 	/**
 	 * Default constructor.
 	 * @param useGraphEquality 
-	 * @param useObjectIdentities
+	 * @param useObjectKeys
 	 * @param useObjectAttributes
 	 */
 	TotalHashCodeHelper(
 			boolean useGraphEquality,
-			boolean useObjectIdentities, 
+			boolean useObjectKeys, 
 			boolean useObjectAttributes) {
 		
 		this.useGraphEquality = useGraphEquality;
-		this.useObjectIdentities = useObjectIdentities;
+		this.useObjectKeys = useObjectKeys;
 		this.useObjectAttributes = useObjectAttributes;
 	}
 	
@@ -47,7 +47,7 @@ class TotalHashCodeHelper {
 
 		// Compute the context hash codes:
 		contextHashCodes = new ContextHashCodeHelper(model,
-				useGraphEquality, useObjectIdentities, useObjectAttributes);
+				useGraphEquality, useObjectKeys, useObjectAttributes);
 		
 		// Compute the total hash code:
 		int result = totalHashCode(null, model.getResource().getContents(), 0);

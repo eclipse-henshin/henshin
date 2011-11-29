@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
- * A map entry implementation for object identities.
+ * A map entry implementation for object keys.
  * @generated
  */
-public class ObjectIdentityImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
+public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
 	
 	/**
 	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
@@ -58,7 +58,7 @@ public class ObjectIdentityImpl extends MinimalEObjectImpl.Container implements 
 	/**
 	 * @generated
 	 */
-	protected ObjectIdentityImpl() {
+	protected ObjectKeyImpl() {
 		super();
 	}
 

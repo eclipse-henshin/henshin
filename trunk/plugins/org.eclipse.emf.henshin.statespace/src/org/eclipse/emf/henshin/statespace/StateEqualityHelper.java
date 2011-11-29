@@ -42,20 +42,19 @@ public interface StateEqualityHelper extends EObject {
 	void setUseGraphEquality(boolean value);
 
 	/**
-	 * Check whether object identities should be used.
-	 * @see #setUseObjectIdentities(boolean)
+	 * Check whether object keys should be used.
 	 * @model default="false"
 	 * @generated
 	 */
-	boolean isUseObjectIdentities();
+	boolean isUseObjectKeys();
 
 	/**
-	 * Set whether node IDs should be used.
-	 * @param useObjectIdentities the new value of the '<em>Use Object Identities</em>' attribute.
-	 * @see #isUseObjectIdentities()
+	 * Set whether object keys should be used.
+	 * @param useObjectKeys the new value of the '<em>Use Object Keys</em>' attribute.
+	 * @see #isUseObjectKeys()
 	 * @generated
 	 */
-	void setUseObjectIdentities(boolean value);
+	void setUseObjectKeys(boolean useObjectKeys);
 
 	/**
 	 * Check whether this helper uses object attributes.

@@ -61,10 +61,10 @@ public class StateSpaceDeserializer {
 		// In version 2, "ignore" attributes changed to "use":
 		if (version>=2) {
 			helper.setUseObjectAttributes((equalityType & 2)==2);
-			helper.setUseObjectIdentities((equalityType & 4)==4);	
+			helper.setUseObjectKeys((equalityType & 4)==4);	
 		} else {
 			helper.setUseObjectAttributes((equalityType & 2)==0);
-			helper.setUseObjectIdentities((equalityType & 4)==0);
+			helper.setUseObjectKeys((equalityType & 4)==0);
 		}		
 		stateSpace.setEqualityHelper(helper);
 		
@@ -111,8 +111,8 @@ public class StateSpaceDeserializer {
 				Resource contents = resource.getResourceSet().getResource(resolved,true);
 				contents.setURI(uri);
 				Model model = new ModelImpl(contents);
-				if (helper.isUseObjectIdentities()) {
-					model.setObjectIdentities(state.getObjectIdentities());
+				if (helper.isUseObjectKeys()) {
+					model.setObjectKeys(state.getObjectKeys());
 				}
 				state.setModel(model);
 				
@@ -146,7 +146,7 @@ public class StateSpaceDeserializer {
 		stateSpace.setTransitionCount(transitionCount);
 		
 		// Update the object types:
-		stateSpace.updateObjectTypes();
+		stateSpace.updateSupportedTypes();
 		
 		// We expect EOF now:
 		if (in.read()>=0) {

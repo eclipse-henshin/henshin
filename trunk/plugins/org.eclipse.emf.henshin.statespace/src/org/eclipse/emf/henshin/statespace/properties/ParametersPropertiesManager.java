@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -105,6 +106,22 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		return nodes;
 	}
 
+	/**
+	 * Get the parameter types of a rule.
+	 * @param stateSpace State space.
+	 * @param rule The rule.
+	 * @return List of parameter types.
+	 * @throws StateSpaceException On errors.
+	 */
+	public static List<EClass> getParameterTypes(StateSpace stateSpace, Rule rule) throws StateSpaceException {
+		List<Node> params = getParameters(stateSpace, rule);
+		List<EClass> types = new ArrayList<EClass>(params.size());
+		for (Node param : params) {
+			types.add(param.getType());
+		}
+		return types;
+	}
+	
 	/**
 	 * Set the parameters of a rule, as used in the state space for labeling transitions.
 	 * @param stateSpace State space.

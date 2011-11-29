@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 
 	private boolean useGraphEquality;
-	private boolean useObjectIdentities;
+	private boolean useObjectKeys;
 	private boolean useObjectAttributes;
 
 	public SetGraphEqualityCommand(StateSpaceManager manager, 
@@ -35,7 +35,7 @@ public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 		super(manager);
 		setLabel("set equality type");
 		this.useGraphEquality = useGraphEquality;
-		this.useObjectIdentities = useObjectIdentites;
+		this.useObjectKeys = useObjectIdentites;
 		this.useObjectAttributes = useObjectAttributes;
 	}
 	
@@ -50,7 +50,7 @@ public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 		
 		// Set the graph-equality property:
 		helper.setUseGraphEquality(useGraphEquality);
-		helper.setUseObjectIdentities(useObjectIdentities);
+		helper.setUseObjectKeys(useObjectKeys);
 		helper.setUseObjectAttributes(useObjectAttributes);
 		
 		// Now do a reset:

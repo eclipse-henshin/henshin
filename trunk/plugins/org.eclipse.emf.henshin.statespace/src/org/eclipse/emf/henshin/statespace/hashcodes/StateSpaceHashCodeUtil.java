@@ -29,13 +29,13 @@ public class StateSpaceHashCodeUtil {
 	 * Compute the hash code of a model.
 	 * @param model The model.
 	 * @param useGraphEquality Whether to use graph equality.
-	 * @param useObjectIdentities Whether to use object identities.
+	 * @param useObjectKeys Whether to use object keys.
 	 * @param useObjectAttributes Whether to use object attributes.
 	 * @return The model's hash code.
 	 */
 	public static int computeHashCode(Model model,
 			boolean useGraphEquality, 
-			boolean useObjectIdentities, 
+			boolean useObjectKeys, 
 			boolean useObjectAttributes) {
 
 		// Do some basic checks first:
@@ -48,7 +48,7 @@ public class StateSpaceHashCodeUtil {
 		
 		// Compute the total hash code of the model:
 		TotalHashCodeHelper helper = new TotalHashCodeHelper(
-				useGraphEquality, useObjectIdentities, useObjectAttributes);
+				useGraphEquality, useObjectKeys, useObjectAttributes);
 		
 		return helper.hashCode(model);
 		

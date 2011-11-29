@@ -119,21 +119,18 @@ public interface Transition extends Storage {
 	void setParameterCount(int value);
 
 	/**
-	 * Get the parameter identities for this transition.
-	 * @return the value of the '<em>Parameter Identities</em>' attribute.
-	 * @see #setParameterIdentities(int[])
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getTransition_ParameterIDs()
+	 * Get the parameter keys for this transition.
+	 * @see #setParameterKeys(int[])
 	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" volatile="true"
 	 * @generated
 	 */
-	int[] getParameterIdentities();
+	int[] getParameterKeys();
 
 	/**
-	 * Set the parameter identities for this transition.
-	 * @param parameterIdentities the new value of the '<em>Parameter Identities</em>' attribute.
-	 * @see #getParameterIdentities()
+	 * Set the parameter keys for this transition.
+	 * @see #getParameterKeys()
 	 * @generated
 	 */
-	void setParameterIdentities(int[] value);
+	void setParameterKeys(int[] value);
 
 }

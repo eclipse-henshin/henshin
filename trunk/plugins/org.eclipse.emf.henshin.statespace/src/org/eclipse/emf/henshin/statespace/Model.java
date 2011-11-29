@@ -49,31 +49,30 @@ public interface Model extends EObject {
 	EmfGraph getEmfGraph();
 
 	/**
-	 * Get the object identities map for this state model.
-	 * @return the value of the '<em>Object Identities</em>' map.
-	 * @model mapType="org.eclipse.emf.henshin.statespace.ObjectIdentity<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"
+	 * Get the object keys map for this state model.
+	 * @return the value of the '<em>Object Keys</em>' map.
+	 * @model mapType="org.eclipse.emf.henshin.statespace.ObjectKey<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"
 	 * @generated
 	 */
-	EMap<EObject, Integer> getObjectIdentitiesMap();
+	EMap<EObject, Integer> getObjectKeysMap();
 
 	/**
-	 * Get the object identities of this state model as an integer array.
-	 * This is derived from {@link #getObjectIdentitiesMap()}.
-	 * @return the value of the '<em>Object Identities</em>' attribute.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_NodeIDs()
+	 * Get the object keys of this state model as an integer array.
+	 * This is derived from {@link #getObjectKeysMap()}.
+	 * @return the value of the '<em>Object Keys</em>' attribute.
 	 * @model dataType="org.eclipse.emf.henshin.statespace.IntegerArray" transient="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
-	int[] getObjectIdentities();
+	int[] getObjectKeys();
 
 	/**
-	 * Set the object identities of this state model as an integer array.
-	 * This forwards to {@link #getObjectIdentitiesMap()}.
-	 * @param objectIdentities the new value of the '<em>Object Identities</em>' attribute.
-	 * @see #getObjectIdentities()
+	 * Set the object keys of this state model as an integer array.
+	 * This forwards to {@link #getObjectKeysMap()}.
+	 * @param objectKeys the new value of the '<em>Object Keys</em>' attribute.
+	 * @see #getObjectKeys()
 	 * @generated
 	 */
-	void setObjectIdentities(int[] value);
+	void setObjectKeys(int[] keys);
 
 	/**
 	 * Get the number of objects in this model.
@@ -94,10 +93,11 @@ public interface Model extends EObject {
 	Model getCopy(Match match);
 
 	/**
+	 * Update the object keys in this model.
 	 * @model
 	 * @generated
 	 */
-	boolean updateObjectIdentities(EClass[] objectTypes);
+	boolean updateObjectKeys(EClass[] supportedTypes);
 
 	/**
 	 * Collect missing root objects from the {@link EmfGraph} of this model.

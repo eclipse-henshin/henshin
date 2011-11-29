@@ -38,9 +38,11 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 
 /**
  * Concrete implementation of the {@link State} interface.
@@ -122,10 +124,20 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
-	public void updateObjectTypes() {
+	public void updateSupportedTypes() {
 		
 		// Get the list of supported rules:
 		List<Rule> rules = getRules();
+		
+		// Get all relevant parameter types:
+		Set<EClass> parameterTypes = new LinkedHashSet<EClass>();
+		for (Rule rule : rules) {
+			try {
+				parameterTypes.addAll(ParametersPropertiesManager.getParameterTypes(this, rule));
+			} catch (StateSpaceException e) {
+				throw new RuntimeException(e);
+			}
+		}		
 		
 		// Compute the list of supported object types:
 		List<EClass> types = new ArrayList<EClass>();
@@ -143,8 +155,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 					if (eclassifier instanceof EClass) {
 						EClass eclass = (EClass) eclassifier;
 						
+						// Check if it is a parameter type:
+						boolean isParameterType = false;
+						for (EClass paramType : parameterTypes) {
+							if (paramType.isSuperTypeOf(eclass) || eclass.isSuperTypeOf(paramType)) {
+								isParameterType = true;
+								break;
+							}
+						}
+						
 						// Abstract classes and interfaces are not supported as object types!
-						if (!eclass.isAbstract() && !eclass.isInterface() && !types.contains(eclass)) {
+						if (isParameterType && !eclass.isAbstract() && !eclass.isInterface() && !types.contains(eclass)) {
 							types.add(eclass);
 						}
 					}
@@ -167,7 +188,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		}
 		
 		// Now we can update the state space attributes:
-		objectTypes = types.toArray(new EClass[0]);
+		supportedTypes = types.toArray(new EClass[0]);
 		objectTypePrefixes = prefixes.toArray(new String[0]);
 
 	}
@@ -175,10 +196,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
-	public int[] getAllParameterIdentities() {
+	public int[] getAllParameterKeys() {
 		
 		// Use a set so we do not count duplicates:
-		Set<Integer> identities = new LinkedHashSet<Integer>();
+		Set<Integer> objectKeys = new LinkedHashSet<Integer>();
 		
 		// Iterate over all transitions:
 		int i, paramCount;
@@ -188,19 +209,19 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				
 				// Add all parameters to the set:
 				paramCount = transition.getParameterCount();
-				params = transition.getParameterIdentities();
+				params = transition.getParameterKeys();
 				for (i=0; i<paramCount; i++) {
-					identities.add(params[i]);
+					objectKeys.add(params[i]);
 				}
 				
 			}
 		}
 		
 		// Now just put it into an array:
-		int[] result = new int[identities.size()];
+		int[] result = new int[objectKeys.size()];
 		i=0;
-		for (Integer identity : identities) {
-			result[i++] = identity;
+		for (Integer key : objectKeys) {
+			result[i++] = key;
 		}
 		return result;
 		
@@ -430,10 +451,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected EMap<String, String> properties;
 
 	/**
-	 * The default value of the '{@link #getObjectTypes() <em>Object Types</em>}' attribute.
+	 * The default value of the '{@link #getSupportedTypes() <em>Object Types</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectTypes()
+	 * @see #getSupportedTypes()
 	 * @generated
 	 * @ordered
 	 */
@@ -441,14 +462,14 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 
 
 	/**
-	 * The cached value of the '{@link #getObjectTypes() <em>Object Types</em>}' attribute.
+	 * The cached value of the '{@link #getSupportedTypes() <em>Object Types</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectTypes()
+	 * @see #getSupportedTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EClass[] objectTypes = OBJECT_TYPES_EDEFAULT;
+	protected EClass[] supportedTypes = OBJECT_TYPES_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getObjectTypePrefixes() <em>Object Type Prefixes</em>}' attribute.
@@ -472,10 +493,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected String[] objectTypePrefixes = OBJECT_TYPE_PREFIXES_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAllParameterIdentities() <em>All Parameter Identities</em>}' attribute.
+	 * The default value of the '{@link #getAllParameterKeys() <em>All Parameter Identities</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAllParameterIdentities()
+	 * @see #getAllParameterKeys()
 	 * @generated
 	 * @ordered
 	 */
@@ -571,8 +592,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass[] getObjectTypes() {
-		return objectTypes;
+	public EClass[] getSupportedTypes() {
+		return supportedTypes;
 	}
 
 	/**
@@ -580,7 +601,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String[] getObjectTypePrefixes() {
+	public String[] getSupportedTypePrefixes() {
 		return objectTypePrefixes;
 	}
 
@@ -675,11 +696,11 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				if (coreType) return getProperties();
 				else return getProperties().map();
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
-				return getObjectTypes();
+				return getSupportedTypes();
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
-				return getObjectTypePrefixes();
+				return getSupportedTypePrefixes();
 			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
-				return getAllParameterIdentities();
+				return getAllParameterKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -812,11 +833,11 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
-				return OBJECT_TYPES_EDEFAULT == null ? objectTypes != null : !OBJECT_TYPES_EDEFAULT.equals(objectTypes);
+				return OBJECT_TYPES_EDEFAULT == null ? supportedTypes != null : !OBJECT_TYPES_EDEFAULT.equals(supportedTypes);
 			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
 				return OBJECT_TYPE_PREFIXES_EDEFAULT == null ? objectTypePrefixes != null : !OBJECT_TYPE_PREFIXES_EDEFAULT.equals(objectTypePrefixes);
 			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
-				return ALL_PARAMETER_IDENTITIES_EDEFAULT == null ? getAllParameterIdentities() != null : !ALL_PARAMETER_IDENTITIES_EDEFAULT.equals(getAllParameterIdentities());
+				return ALL_PARAMETER_IDENTITIES_EDEFAULT == null ? getAllParameterKeys() != null : !ALL_PARAMETER_IDENTITIES_EDEFAULT.equals(getAllParameterKeys());
 		}
 		return super.eIsSet(featureID);
 	}
@@ -834,7 +855,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
 		result.append(", objectTypes: ");
-		result.append(objectTypes);
+		result.append(supportedTypes);
 		result.append(", objectTypePrefixes: ");
 		result.append(objectTypePrefixes);
 		result.append(')');

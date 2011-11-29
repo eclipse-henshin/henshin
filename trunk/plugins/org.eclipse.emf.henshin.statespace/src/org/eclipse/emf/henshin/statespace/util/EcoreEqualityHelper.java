@@ -16,8 +16,8 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	// Default serial ID:
 	private static final long serialVersionUID = 1L;
 
-	// Whether object identities should be used:
-	private boolean useObjectIdentities;
+	// Whether object keys should be used:
+	private boolean useObjectKeys;
 
 	// Whether attributes should be used:
 	private boolean useObjectAttributes;
@@ -28,12 +28,12 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param useObjectIdentities Whether object identities should be used.
+	 * @param useObjectKeys Whether object keys should be used.
 	 * @param useObjectAttributes Whether attributes should be used.
 	 */
-	public EcoreEqualityHelper(boolean useObjectIdentities,
+	public EcoreEqualityHelper(boolean useObjectKeys,
 			boolean useObjectAttributes) {
-		this.useObjectIdentities = useObjectIdentities;
+		this.useObjectKeys = useObjectKeys;
 		this.useObjectAttributes = useObjectAttributes;
 	}
 
@@ -69,8 +69,14 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	 */
 	@Override
 	public boolean equals(EObject o1, EObject o2) {
-		return (!useObjectIdentities || model1.getObjectIdentitiesMap().get(o1)==model2.getObjectIdentitiesMap().get(o2)) 
-				&& super.equals(o1, o2);
+		if (useObjectKeys) {
+			int key1 = model1.getObjectKeysMap().get(o1);
+			int key2 = model2.getObjectKeysMap().get(o2);
+			if (key1!=key2) {
+				return false;
+			}
+		}
+		return super.equals(o1, o2);
 	}
 
 	/*

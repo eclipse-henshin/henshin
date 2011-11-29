@@ -38,7 +38,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	 */
 	ContextHashCodeHelper(Model model, 
 			boolean useGraphEquality,
-			boolean useObjectIdentities, 
+			boolean useObjectKeys, 
 			boolean useObjectAttributes) {
 		
 		super(model.getObjectCount());
@@ -48,7 +48,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 		extractCrossReferences();
 
 		// Initialize the context hash codes with the local hash codes:
-		initContextHashCodes(model, useObjectIdentities, useObjectAttributes);
+		initContextHashCodes(model, useObjectKeys, useObjectAttributes);
 
 		// Update the context hash codes a fixed number of times:
 		for (int i=0; i<CONTEXT_UPDATES; i++) {
@@ -93,11 +93,11 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	 * Initialize the hash codes arrays with the local hash codes.
 	 * 
 	 * @param model Model to be analyzed.
-	 * @param useObjectIdentities Whether to use the object identities.
+	 * @param useObjectKeys Whether to use the object keys.
 	 * @param useObjectAttributes Whether to use the object attributes.
 	 */
 	protected void initContextHashCodes(Model model,
-			boolean useObjectIdentities, 
+			boolean useObjectKeys, 
 			boolean useObjectAttributes) {
 		
 		// We store the hash codes in two arrays:
@@ -107,18 +107,18 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 		// Initialize main array with local hash codes:
 		for (int i=0; i<objects.length; i++) {
 			
-			// Do we need he object identity?
-			int objectId = 0;
-			if (useObjectIdentities) {
-				Integer id = model.getObjectIdentitiesMap().get(objects[i]);
-				if (id==null) {
-					throw new RuntimeException("Missing object identity for " + objects[i]);
+			// Do we need he object key?
+			int objectKey = 0;
+			if (useObjectKeys) {
+				Integer key = model.getObjectKeysMap().get(objects[i]);
+				if (key==null) {
+					throw new RuntimeException("Missing object key for " + objects[i]);
 				}
-				objectId = id;
+				objectKey = key;
 			}
 			
 			// Now compute the local hash code:
-			hashCodes[i] = LocalHashCodeHelper.hashCode(objects[i], objectId, useObjectAttributes);	
+			hashCodes[i] = LocalHashCodeHelper.hashCode(objects[i], objectKey, useObjectAttributes);	
 		}
 	}
 	
