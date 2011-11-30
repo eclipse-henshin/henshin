@@ -40,9 +40,6 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	
-	// Next free object Id:
-	private int nextFreeObjectId = 1;
-	
 	/**
 	 * Constructor.
 	 * @param resource Resource for this model.
@@ -129,9 +126,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			}
 		}
 
-		// Copy the cached stuff.
-		copy.nextFreeObjectId = nextFreeObjectId;
-
 		// Done.
 		return copy;
 
@@ -148,33 +142,67 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		// Remember whether there was a change:
 		boolean changed = false;
 
+		// Get the next free object Id:
+		int nextFreeId = getNextFreeId();
+		
 		// Now set the keys for new objects:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
-			if (objectKeysMap.get(object)==0) {
 				
-				// Check if the current object type is supported:
-				EClass type = object.eClass();
-				boolean isSupported = false;
-				for (int i=0; i<supportedTypes.length; i++) {
-					if (supportedTypes[i]==type) {
-						isSupported = true;
-						break;
-					}
-				}
-				
-				// Update the key if necessary:
-				if (isSupported) {
-					int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeObjectId++, supportedTypes);
-					objectKeysMap.put(object, objectKey);
-					changed = true;
+			// Check if the current object type is supported:
+			EClass type = object.eClass();
+			boolean isSupported = false;
+			for (int i=0; i<supportedTypes.length; i++) {
+				if (supportedTypes[i]==type) {
+					isSupported = true;
+					break;
 				}
 			}
+			
+			// Get the current Id:
+			int currentId = ObjectKeyHelper.getObjectID(objectKeysMap.get(object));
+			
+			// Check if we need to create or change the key:
+			if (currentId==0 && isSupported) {
+				//System.out.println("Creating object id " + nextFreeId + " for object of type " + object.eClass().getName());
+				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeId++, supportedTypes);
+				objectKeysMap.put(object, objectKey);
+				changed = true;
+			}
+			else if (currentId!=0 && !isSupported) {
+				//System.out.println("Removing illegal object id for object of type " + object.eClass().getName());
+				objectKeysMap.remove(object);
+				changed = true;
+			}
+			
 		}
 		
 		// Done.
 		return changed;
+		
+	}
+	
+	/*
+	 * Get the next free object Id.
+	 */
+	private int getNextFreeId() {
+		
+		// Make sure the keys map is not null.
+		getObjectKeysMap();
+		
+		// Compute the next free object Id.
+		int nextFreeId = 1;
+		TreeIterator<EObject> iterator = resource.getAllContents();
+		while (iterator.hasNext()) {
+			int id = ObjectKeyHelper.getObjectID(objectKeysMap.get(iterator.next()));
+			if (id>=nextFreeId) {
+				nextFreeId = id+1;
+			}
+		}
+		
+		// Done.
+		return nextFreeId;
 		
 	}
 
@@ -221,17 +249,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		// Make sure the object keys map is not null and empty it.
 		getObjectKeysMap().clear();
 		
-		// Reset the next free object Id:
-		nextFreeObjectId = 1;
-
 		// Copy the map contents of the integer array to the map:
 		TreeIterator<EObject> iterator = resource.getAllContents();
 		int index = 0;
 		while (iterator.hasNext() && index<objectKeys.length) {
 			EObject object = iterator.next();
 			int key = objectKeys[index++];
+			//System.out.println("Setting object id " + ObjectKeyHelper.getObjectID(key) + " for object of type " + object.eClass().getName());
 			objectKeysMap.put(object, key);
-			nextFreeObjectId = Math.max(ObjectKeyHelper.getObjectID(key)+1, nextFreeObjectId);
 		}
 
 	}

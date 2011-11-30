@@ -161,10 +161,10 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				// Get the model first:
 				Model model = getModel(state);
 				
-				// Recompute the object keys:
-				model.setObjectKeys(StorageImpl.EMPTY_DATA);
+				// Update the object keys if necessary:
 				if (useObjectKeys) {
 					model.updateObjectKeys(stateSpace.getSupportedTypes());
+					state.setObjectKeys(model.getObjectKeys());
 				}
 				
 				// Update object count:
@@ -379,17 +379,32 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		synchronized (stateSpaceLock) {
 			change = true;
 			
+			// Recompute the supported types:
+			getStateSpace().updateSupportedTypes();
+			
+			// Remove all states except the initial ones:
 			getStateSpace().getStates().clear();
 			getStateSpace().getOpenStates().clear();
 			getStateSpace().getStates().addAll(getStateSpace().getInitialStates());
 			
+			// Remove all transitions:
 			for (State initial : getStateSpace().getStates()) {
 				initial.getOutgoing().clear();
 				initial.getIncoming().clear();
 			}
-			
 			getStateSpace().setTransitionCount(0);
+
+			// Reset the object keys for the initial states:
+			for (State initial : getStateSpace().getStates()) {
+				Model model = initial.getModel();
+				model.setObjectKeys(StorageImpl.EMPTY_DATA);
+				model.updateObjectKeys(getStateSpace().getSupportedTypes());
+				initial.setObjectKeys(model.getObjectKeys());
+			}
+
+			// Reset the state distance monitor:
 			resetStateDistanceMonitor();
+			
 			change = false;
 		}
 		
