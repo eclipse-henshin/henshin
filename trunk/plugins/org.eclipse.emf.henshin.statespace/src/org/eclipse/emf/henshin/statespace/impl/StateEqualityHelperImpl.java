@@ -15,26 +15,16 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
-import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
-import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
@@ -52,12 +42,6 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	private final Map<Model,GraphIsomorphyChecker> isomorphyCheckerCache = 
 		Collections.synchronizedMap(new Cache<Model,GraphIsomorphyChecker>());
 
-	// Set of "stable" containment references:
-	private Set<EReference> stableContainments;
-	
-	// Dummy reference for indicating root containment:
-	private static final EReference ROOT_CONTAINMENT = EcoreFactory.eINSTANCE.createEReference();
-	
 	/**
 	 * @generated NOT
 	 */
@@ -95,10 +79,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			}
 			
 			// Do we need to compute a match for the node IDs?
-			Map<EObject,EObject> match = new HashMap<EObject,EObject>();
+			Map<EObject,EObject> match = null;
 			if (useObjectKeys) {
 				
 				// Precompute a partial match:
+				match = new HashMap<EObject,EObject>();
 				for (Map.Entry<EObject, Integer> entry1 : model1.getObjectKeysMap().entrySet()) {
 					int objectKey = entry1.getValue();
 					if (objectKey!=0) {
@@ -115,30 +100,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 						}
 					}
 				}
-
-				// Now we can invoke the checker:
-				return checker1.isIsomorphicTo(model2.getEmfGraph(), match);
-
-			} else {
-				
-				// Try to compute a partial match based on stable containments:
-				if (stableContainments==null) {
-					initStableContainments();
-				}
-				if (stableContainments.contains(ROOT_CONTAINMENT)) {
-					if (buildStableContainmentMatch(match, 
-							model1.getResource().getContents(), 
-							model2.getResource().getContents())) {
-						if (checker1.isIsomorphicTo(model2.getEmfGraph(), match)) {
-							return true;
-						}
-					}
-				}
-				
-				// Fall-back: make sure that we didn't make a mistake:
-				return checker1.isIsomorphicTo(model2.getEmfGraph(), null);				
 			}
-			
+
+			// Now we can invoke the checker:
+			return checker1.isIsomorphicTo(model2.getEmfGraph(), match);
+
 		} else {
 			
 			// Use standard Ecore equality checker:
@@ -148,150 +114,6 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 		}
 		
-	}
-	
-	/*
-	 * Compute "stable" containments.
-	 */
-	private void initStableContainments() {
-		
-		// We need the state space!
-		EObject container = eContainer();
-		if (!(container instanceof StateSpace)) {
-			throw new RuntimeException("Equality helper not contained in state space");
-		}
-		StateSpace stateSpace = (StateSpace) container;
-
-		// Now compute the stable containments:
-		stableContainments = new HashSet<EReference>();
-
-		// Check whether root containment is stable:
-		if (hasStableRootContaiment(stateSpace)) {
-			stableContainments.add(ROOT_CONTAINMENT);
-		}
-		
-		// Check all real containment references:
-		for (EClass type : stateSpace.getSupportedTypes()) {
-			for (EReference containment : type.getEAllContainments()) {			
-				if (isStableContainment(containment, stateSpace)) {
-					stableContainments.add(containment);
-				}
-			}
-		}
-		
-	}
-
-	/*
-	 * Check whether all imported rule have stable root containments.
-	 */
-	private boolean hasStableRootContaiment(StateSpace stateSpace) {
-		for (Rule rule : stateSpace.getRules()) {
-			for (Node node : rule.getLhs().getNodes()) {
-				Node image = HenshinMappingUtil.getNodeImage(node, rule.getRhs(), rule.getMappings());
-				if (image==null && !hasIncomingContainment(node)) {
-					return false; // root node deletion
-				}
-			}
-			for (Node node : rule.getRhs().getNodes()) {
-				Node origin = HenshinMappingUtil.getNodeOrigin(node, rule.getMappings());
-				if (origin==null && !hasIncomingContainment(node)) {
-					return false; // root node creation
-				}
-			}
-		}
-		return true; // everything ok
-	}
-	
-	/*
-	 * Check if a node has an incoming containment edge.
-	 */
-	private boolean hasIncomingContainment(Node node) {
-		for (Edge edge : node.getIncoming()) {
-			if (edge.getType().isContainment()) return true;
-		}
-		for (Edge edge : node.getOutgoing()) {
-			if (edge.getType().isContainer()) return true;
-		}
-		return false;
-	}
-	
-	/*
-	 * Check if a reference is a "stable" containment.
-	 */
-	private boolean isStableContainment(EReference containment, StateSpace stateSpace) {
-		EReference opposite = containment.getEOpposite();
-		for (Rule rule : stateSpace.getRules()) {
-			for (Edge edge : rule.getLhs().getEdges()) {
-				Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
-				if (image==null && (edge.getType()==containment || edge.getType()==opposite)) {
-					return false; // containment edge deletion
-				}
-			}
-			for (Edge edge : rule.getRhs().getEdges()) {
-				Edge origin = HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings());
-				if (origin==null && (edge.getType()==containment || edge.getType()==opposite)) {
-					return false; // containment edge creation
-				}
-			}
-		}
-		return true;
-	}
-	
-	/*
-	 * Recursively build a partial match based on stable containments.
-	 */
-	private boolean buildStableContainmentMatch(Map<EObject,EObject> match, 
-			List<EObject> l1, List<EObject> l2) {
-		
-		// Lists must have the same length to be matchable:
-		int size = l1.size();
-		if (size!=l2.size()) {
-			return false;
-		}
-		
-		// Check the types and add the current layer to the match:
-		for (int i=0; i<size; i++) {
-			EObject o1 = l1.get(i);
-			EObject o2 = l2.get(i);
-			if (o1.eClass()!=o2.eClass()) {
-				return false;
-			}
-			match.put(o1, o2);
-		}
-		
-		// Dive into the stable part of the containment tree:
-		for (int i=0; i<size; i++) {
-			for (EReference containment : l1.get(i).eClass().getEAllContainments()) {
-				if (stableContainments.contains(containment)) {
-					List<EObject> k1 = getReferenceAsList(l1.get(i), containment);
-					List<EObject> k2 = getReferenceAsList(l2.get(i), containment);
-					if (!buildStableContainmentMatch(match, k1, k2)) {
-						return false;
-					}
-				}
-			}
-		}
-		
-		// Ok.
-		return true;
-		
-	}
-	
-	/*
-	 * Get a reference as a list.
-	 */
-	@SuppressWarnings("unchecked")
-	private List<EObject> getReferenceAsList(EObject object, EReference reference) {
-		List<EObject> result;
-		if (reference.isMany()) {
-			result = (List<EObject>) object.eGet(reference);
-		} else {
-			EObject target = (EObject) object.eGet(reference);
-			result = (List<EObject>) ((target!=null) ? 
-					Collections.singletonList(target) : 
-					Collections.emptyList());
-		}
-		return result;
 	}
 	
 	/**
@@ -315,7 +137,6 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 	public void clearCache() {
 		isomorphyCheckerCache.clear();
-		stableContainments = null;
 	}
 
 	/*

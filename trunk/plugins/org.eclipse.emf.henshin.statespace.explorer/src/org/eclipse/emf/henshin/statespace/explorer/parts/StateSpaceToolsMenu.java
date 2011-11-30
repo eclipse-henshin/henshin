@@ -185,10 +185,10 @@ public class StateSpaceToolsMenu extends Composite {
 		Composite checkBoxes = new Composite(details, SWT.NONE);
 		checkBoxes.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		checkBoxes.setLayout(layout);
-		useObjectKeysCheckbox = new Button(checkBoxes, SWT.CHECK);
-		useObjectKeysCheckbox.setText("Keys");
 		useObjectAttributesCheckbox = new Button(checkBoxes, SWT.CHECK);
 		useObjectAttributesCheckbox.setText("Attributes");
+		useObjectKeysCheckbox = new Button(checkBoxes, SWT.CHECK);
+		useObjectKeysCheckbox.setText("Keys");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);
 		
 		// The tasks group:
