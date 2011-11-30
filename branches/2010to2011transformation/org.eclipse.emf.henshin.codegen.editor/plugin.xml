@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.henshin.wizards"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.emf.henshin.codegen.presentation.GenHenshinModelWizardID"
+            name="%_UI_GenHenshinModelWizard_label"
+            class="org.eclipse.emf.henshin.codegen.presentation.GenHenshinModelWizard"
+            category="org.eclipse.emf.henshin.wizards"
+            icon="icons/full/obj16/GenHenshinModelFile.gif">
+         <description>%_UI_GenHenshinModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.eclipse.emf.henshin.codegen.presentation.GenHenshinEditorID"
+            name="%_UI_GenHenshinEditor_label"
+            icon="icons/full/obj16/GenHenshinModelFile.gif"
+            extensions="henshin_generator"
+            class="org.eclipse.emf.henshin.codegen.presentation.GenHenshinEditor"
+            contributorClass="org.eclipse.emf.henshin.codegen.presentation.GenHenshinActionBarContributor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <viewerContribution
+            id="org.eclipse.emf.henshin.codegen.editorContribution"
+            targetID="org.eclipse.emf.henshin.codegen.presentation.GenHenshinEditorID">
+         <action
+               class="org.eclipse.emf.henshin.codegen.presentation.GenHenshinUpdateAction"
+               enablesFor="*"
+               id="org.eclipse.emf.henshin.codegen.update"
+               label="Update Generator Model"
+               menubarPath="org.eclipse.emf.henshin.codegen.modelMenuID"
+               style="push">
+         </action>
+         <action
+               class="org.eclipse.emf.henshin.codegen.presentation.GenHenshinGeneratorAction"
+               enablesFor="1+"
+               id="org.eclipse.emf.henshin.codegen.generate"
+               label="Generate Transformation Code"
+               menubarPath="org.eclipse.emf.henshin.codegen.modelMenuID"
+               style="push">
+         </action>
+      </viewerContribution>
+   </extension>
+
+</plugin>
