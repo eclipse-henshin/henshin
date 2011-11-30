@@ -275,14 +275,14 @@ public class TransformationUnitTests extends HenshinTest {
 	public void testIndependentUnitWithOneSubUnit() {
 		loadGraph("graphWithCont");
 		loadTu("independentUnitWithOneSubUnit");
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_IndependentUnit1a")), 0.9);
+		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
 	}
 	
 	@Test
 	public void testPriorityUnitWithOneSubUnit() {
 		loadGraph("graphWithCont");
 		loadTu("priorityUnitWithOneSubUnit");
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_IndependentUnit1a")), 0.9);
+		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
 	}
 
 	
