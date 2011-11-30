@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="__C534AyyEd-sevZvIGAaZw" type="Henshin" measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="__6bVwAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="__6lt0AyyEd-sevZvIGAaZw" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="__6mU4AyyEd-sevZvIGAaZw" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_AyEIYAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyEvcAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyEvcQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyJn8AyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_AyJn8QyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_AyJn8gyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_ogeF0AdZEd-l9fE4S3UNLA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AyEIYQyzEd-sevZvIGAaZw" x="211" y="14"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_AyKPAAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyLdIAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyLdIQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyLdIgyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_AyLdIwyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_AyLdJAyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_qYKAMAdZEd-l9fE4S3UNLA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AyKPAQyzEd-sevZvIGAaZw" x="209" y="104"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_AyMrQAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyN5YAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyOgcAyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyOgcQyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_AyOgcgyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_AyOgcwyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_rKc_0AdZEd-l9fE4S3UNLA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AyMrQQyzEd-sevZvIGAaZw" x="13" y="104"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_AyPHgAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyQVoAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyQVoQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_AyQVogyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_AyQVowyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_AyQVpAyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_aylkEAdaEd-aOuJFyPztjA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AyPHgQyzEd-sevZvIGAaZw" x="211" y="201"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="philosophers.henshin#_ltExIAdZEd-l9fE4S3UNLA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6bVwQyyEd-sevZvIGAaZw" x="45" y="36" width="381" height="304"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="__6m78AyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="__6njAAyyEd-sevZvIGAaZw" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="__6oKEAyyEd-sevZvIGAaZw" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_Az1qAAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az2REAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az24IAyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az24IQyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_Az24IgyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_Az24IwyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_NvAC4QxFEd-NSqR1D2XGHA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Az1qAQyzEd-sevZvIGAaZw" x="52" y="14"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_Az3fMAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az4tUAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az4tUQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az4tUgyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_Az4tUwyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_Az4tVAyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_NvAC4gxFEd-NSqR1D2XGHA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Az3fMQyzEd-sevZvIGAaZw" x="50" y="123"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_Az57cAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az6igAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az6igQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az7JkAyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_Az7JkQyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_Az7JkgyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_NvAC4wxFEd-NSqR1D2XGHA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Az57cQyzEd-sevZvIGAaZw" x="263" y="123"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_Az7woAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az8XsAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az8-wAyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_Az8-wQyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_Az8-wgyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_Az8-wwyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_NvAC5AxFEd-NSqR1D2XGHA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Az7woQyzEd-sevZvIGAaZw" x="52" y="215"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="philosophers.henshin#_Nu_b0AxFEd-NSqR1D2XGHA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6m78QyyEd-sevZvIGAaZw" x="468" y="36" width="381" height="304"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="__6oxIAyyEd-sevZvIGAaZw" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
+    <children xmi:type="notation:DecorationNode" xmi:id="__6pYMAyyEd-sevZvIGAaZw" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="__6pYMQyyEd-sevZvIGAaZw" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_A05Z8AyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_A06BAAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A06oEAyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A06oEQyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_A06oEgyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_A06oEwyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnEgdcEd-0LKv0uxhTyQ"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_A05Z8QyzEd-sevZvIGAaZw" x="195" y="11"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_A072MAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_A09EUAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A09EUQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A09rYAyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_A09rYQyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_A09rYgyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnEwdcEd-0LKv0uxhTyQ"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_A072MQyzEd-sevZvIGAaZw" x="193" y="121"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_A0-ScAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_A0_gkAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A0_gkQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A0_gkgyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_A0_gkwyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_A0_glAyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnFAdcEd-0LKv0uxhTyQ"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_A0-ScQyzEd-sevZvIGAaZw" x="384" y="121"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_A1AusAyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1BVwAyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1BVwQyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1B80AyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_A1B80QyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_A1B80gyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_LrKnFQdcEd-0LKv0uxhTyQ"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_A1AusQyzEd-sevZvIGAaZw" x="196" y="244"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_A1Cj4AyzEd-sevZvIGAaZw" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1DK8AyzEd-sevZvIGAaZw" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1DyAAyzEd-sevZvIGAaZw" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_A1DyAQyzEd-sevZvIGAaZw" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_A1DyAgyzEd-sevZvIGAaZw"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_A1DyAwyzEd-sevZvIGAaZw"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_jqCa0AmoEd-BTP3GZpEOVA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_A1Cj4QyzEd-sevZvIGAaZw" x="10" y="121"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="philosophers.henshin#_LrKnEAdcEd-0LKv0uxhTyQ"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__6oxIQyyEd-sevZvIGAaZw" x="178" y="388" width="506" height="344"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_iJAAwHlEEd--cZ9Xscsd8g" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4mnAALtgEd-6F6HrA5096Q" source="rootObject">
+      <references xmi:type="henshin:Node" href="philosophers.henshin#_4mnnELtgEd-6F6HrA5096Q"/>
+    </eAnnotations>
+    <children xmi:type="notation:DecorationNode" xmi:id="_iJBO4HlEEd--cZ9Xscsd8g" type="5001"/>
+    <children xmi:type="notation:DecorationNode" xmi:id="_iJBO4XlEEd--cZ9Xscsd8g" type="7001">
+      <children xmi:type="notation:Shape" xmi:id="_pXrN8HlEEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_pXr1AHlEEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_pXr1AXlEEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_pXr1AnlEEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_pXr1A3lEEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_pXr1BHlEEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_pXoxsHlEEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pXrN8XlEEd--cZ9Xscsd8g" x="37" y="18"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_rfpnEHlEEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_rfqOIHlEEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_rfqOIXlEEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_rfqOInlEEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_rfqOI3lEEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_rfqOJHlEEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_rfnK0HlEEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_rfpnEXlEEd--cZ9Xscsd8g" x="37" y="104"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_IUkj8HlFEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_IUlLAHlFEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_IUlLAXlFEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_IUlLAnlFEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_IUlLA3lFEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_IUlLBHlFEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_IUd2QHlFEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IUkj8XlFEd--cZ9Xscsd8g" x="136" y="197"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_a2aHcHlFEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_a2augHlFEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_a2augXlFEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_a2augnlFEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_a2aug3lFEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_a2auhHlFEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_a2WdEHlFEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_a2aHcXlFEd--cZ9Xscsd8g" x="412" y="18"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_dPoooHlFEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_dPooonlFEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_dPpPsHlFEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_dPpPsXlFEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_dPpPsnlFEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_dPpPs3lFEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_dPjJEHlFEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dPoooXlFEd--cZ9Xscsd8g" x="412" y="104"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_doL5QHlKEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_doMgUHlKEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_doMgUXlKEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_doMgUnlKEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_doMgU3lKEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_doMgVHlKEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_dnzewHlKEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_doL5QXlKEd--cZ9Xscsd8g" x="233" y="104"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_vzelAHlKEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzelAnlKEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzelA3lKEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzelBHlKEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_vzelBXlKEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_vzelBnlKEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_vyxaYHlKEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vzelAXlKEd--cZ9Xscsd8g" x="233" y="18"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="_vzfMEHlKEd--cZ9Xscsd8g" type="3001" fontName="Sans">
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzfMEnlKEd--cZ9Xscsd8g" type="5002"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzfME3lKEd--cZ9Xscsd8g" type="5003"/>
+        <children xmi:type="notation:DecorationNode" xmi:id="_vzfMFHlKEd--cZ9Xscsd8g" type="7002">
+          <styles xmi:type="notation:SortingStyle" xmi:id="_vzfMFXlKEd--cZ9Xscsd8g"/>
+          <styles xmi:type="notation:FilteringStyle" xmi:id="_vzfMFnlKEd--cZ9Xscsd8g"/>
+        </children>
+        <element xmi:type="henshin:Node" href="philosophers.henshin#_vy2S4HlKEd--cZ9Xscsd8g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vzfMEXlKEd--cZ9Xscsd8g" x="419" y="197"/>
+      </children>
+    </children>
+    <element xmi:type="henshin:Rule" href="philosophers.henshin#_iHzG4HlEEd--cZ9Xscsd8g"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_iJAAwXlEEd--cZ9Xscsd8g" x="178" y="768" width="555" height="289"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="__C6e8AyyEd-sevZvIGAaZw"/>
+  <element xmi:type="henshin:TransformationSystem" href="philosophers.henshin#_bcD0UQdZEd-l9fE4S3UNLA"/>
+  <edges xmi:type="notation:Connector" xmi:id="_A22hwAyzEd-sevZvIGAaZw" type="4001" source="_AyPHgAyzEd-sevZvIGAaZw" target="_AyMrQAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A24W8AyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A24-AAyzEd-sevZvIGAaZw" x="-18" y="-29"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A25lEAyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A25lEQyzEd-sevZvIGAaZw" x="29" y="-31"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A22hwQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_y8x9kAxEEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A22hwgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A4v_MAyzEd-sevZvIGAaZw" type="4001" source="_AyKPAAyzEd-sevZvIGAaZw" target="_AyPHgAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A4xNUAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A4x0YAyzEd-sevZvIGAaZw" x="7" y="-25"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A4x0YQyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A4x0YgyzEd-sevZvIGAaZw" x="-10" y="-56"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A4wmQAyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_2NEpoAxEEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A4wmQQyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A5IZsAyzEd-sevZvIGAaZw" type="4001" source="_AyEIYAyzEd-sevZvIGAaZw" target="_AyKPAAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A5Jn0AyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A5Jn0QyzEd-sevZvIGAaZw" x="9" y="-47"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A5Jn0gyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A5Jn0wyzEd-sevZvIGAaZw" x="-7" y="-54"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A5IZsQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_3_9jkAxEEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A5IZsgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A6UsgAyzEd-sevZvIGAaZw" type="4001" source="_AyEIYAyzEd-sevZvIGAaZw" target="_AyMrQAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6V6oAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6WhsAyzEd-sevZvIGAaZw" x="28" y="15"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6WhsQyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6WhsgyzEd-sevZvIGAaZw" x="8" y="26"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A6VTkAyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_5MqAMAxEEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A6VTkQyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A6hg0AyzEd-sevZvIGAaZw" type="4001" source="_AyKPAAyzEd-sevZvIGAaZw" target="_AyMrQAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6iH4AyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6iu8AyzEd-sevZvIGAaZw" x="-8" y="-13"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6iu8QyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6iu8gyzEd-sevZvIGAaZw" x="-3" y="14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A6hg0QyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_0chSAAxEEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A6hg0gyzEd-sevZvIGAaZw" points="[-67, 0, 166, 0]$[-130, 0, 103, 0]$[-184, 0, 49, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A6tHAAyzEd-sevZvIGAaZw" type="4001" source="_Az7woAyzEd-sevZvIGAaZw" target="_Az57cAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6u8MAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6u8MQyzEd-sevZvIGAaZw" x="-7" y="22"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A6u8MgyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A6vjQAyzEd-sevZvIGAaZw" x="29" y="21"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A6tuEAyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_NvAC5QxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A6tuEQyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A657UAyzEd-sevZvIGAaZw" type="4001" source="_Az3fMAyzEd-sevZvIGAaZw" target="_Az7woAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A67JcAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A67JcQyzEd-sevZvIGAaZw" x="6" y="29"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A67wgAyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A67wgQyzEd-sevZvIGAaZw" x="-11" y="54"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A657UQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_NvAC5gxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A657UgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A7FhgAyzEd-sevZvIGAaZw" type="4001" source="_Az1qAAyzEd-sevZvIGAaZw" target="_Az3fMAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7GvoAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7GvoQyzEd-sevZvIGAaZw" x="1" y="48"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7GvogyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7HWsAyzEd-sevZvIGAaZw" x="-14" y="54"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A7FhgQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_NvAC5wxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A7FhggyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A7RuwAyzEd-sevZvIGAaZw" type="4001" source="_Az1qAAyzEd-sevZvIGAaZw" target="_Az57cAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7S84AyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7S84QyzEd-sevZvIGAaZw" x="22" y="-21"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7S84gyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7Tj8AyzEd-sevZvIGAaZw" x="3" y="-31"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A7RuwQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_NvAC6AxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A7RuwgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A7d8AAyzEd-sevZvIGAaZw" type="4001" source="_Az3fMAyzEd-sevZvIGAaZw" target="_Az57cAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7fKIAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7fKIQyzEd-sevZvIGAaZw" x="-3" y="13"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7fxMAyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7fxMQyzEd-sevZvIGAaZw" x="-3" y="-14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A7d8AQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_NvAC7wxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A7d8AgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A7rXYAyzEd-sevZvIGAaZw" type="4001" source="_A072MAyzEd-sevZvIGAaZw" target="_A1Cj4AyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7tMkAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7tMkQyzEd-sevZvIGAaZw" x="-1" y="-13"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A7tzoAyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A7tzoQyzEd-sevZvIGAaZw" x="-1" y="14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A7rXYQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_fcq-gAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A7rXYgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A76A4AyzEd-sevZvIGAaZw" type="4001" source="_A072MAyzEd-sevZvIGAaZw" target="_A0-ScAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A77PAAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A77PAQyzEd-sevZvIGAaZw" x="2" y="13"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A77PAgyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A772EAyzEd-sevZvIGAaZw" x="-1" y="-14"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A76A4QyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_g1CfoAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A76A4gyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A8FnEAyzEd-sevZvIGAaZw" type="4001" source="_A072MAyzEd-sevZvIGAaZw" target="_A1AusAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8G1MAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8G1MQyzEd-sevZvIGAaZw" x="9" y="6"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8G1MgyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8HcQAyzEd-sevZvIGAaZw" x="-7" y="4"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A8FnEQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_i_NRIAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A8FnEgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A8RNQAyzEd-sevZvIGAaZw" type="4001" source="_A1AusAyzEd-sevZvIGAaZw" target="_A0-ScAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8SbYAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8SbYQyzEd-sevZvIGAaZw" x="13" y="33"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8TCcAyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8TCcQyzEd-sevZvIGAaZw" x="49" y="36"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A8RNQQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_k4j_cAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A8R0UAyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A8czcAyzEd-sevZvIGAaZw" type="4001" source="_A1AusAyzEd-sevZvIGAaZw" target="_A1Cj4AyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8eBkAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8eooAyzEd-sevZvIGAaZw" x="15" y="-36"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8eooQyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8eoogyzEd-sevZvIGAaZw" x="46" y="-38"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A8dagAyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_l68CcAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A8dagQyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A8pnwAyzEd-sevZvIGAaZw" type="4001" source="_A05Z8AyzEd-sevZvIGAaZw" target="_A072MAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8qO0AyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8q14AyzEd-sevZvIGAaZw" x="15"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A8q14QyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A8q14gyzEd-sevZvIGAaZw" x="-2" y="-1"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A8pnwQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_sKlbkAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A8pnwgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A811AAyzEd-sevZvIGAaZw" type="4001" source="_A05Z8AyzEd-sevZvIGAaZw" target="_A0-ScAyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A83DIAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A83DIQyzEd-sevZvIGAaZw" x="13" y="-17"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A83DIgyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A83qMAyzEd-sevZvIGAaZw" x="-11" y="-24"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A811AQyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_cZbP8AxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A811AgyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_A9BbMAyzEd-sevZvIGAaZw" type="4001" source="_A05Z8AyzEd-sevZvIGAaZw" target="_A1Cj4AyzEd-sevZvIGAaZw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_A9DQYAyzEd-sevZvIGAaZw" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A9DQYQyzEd-sevZvIGAaZw" x="9" y="19"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_A9DQYgyzEd-sevZvIGAaZw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_A9D3cAyzEd-sevZvIGAaZw" x="-14" y="27"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_A9CCQAyzEd-sevZvIGAaZw" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_drQrQAxFEd-NSqR1D2XGHA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_A9CCQQyzEd-sevZvIGAaZw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_K8UCQHlFEd--cZ9Xscsd8g" type="4001" source="_rfpnEHlEEd--cZ9Xscsd8g" target="_IUkj8HlFEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_K8UpUHlFEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K8UpUXlFEd--cZ9Xscsd8g" x="-15" y="27"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_K8UpUnlFEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K8UpU3lFEd--cZ9Xscsd8g" x="-54" y="39"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_K8UCQXlFEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_K8Q-8HlFEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_K8UCQnlFEd--cZ9Xscsd8g" points="[19, 21, -70, -54]$[41, 87, -48, 12]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_AkavcHlHEd--cZ9Xscsd8g" type="4001" source="_dPoooHlFEd--cZ9Xscsd8g" target="_IUkj8HlFEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_Akavc3lHEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_AkbWgHlHEd--cZ9Xscsd8g" x="49" y="-43"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_AkbWgXlHEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_AkbWgnlHEd--cZ9Xscsd8g" x="48" y="-25"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_AkavcXlHEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_AkUBwHlHEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_AkavcnlHEd--cZ9Xscsd8g" points="[-18, 5, 260, -77]$[-255, 91, 23, 9]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_AkeZ0HlHEd--cZ9Xscsd8g" id="(0.1875,0.5)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_AkeZ0XlHEd--cZ9Xscsd8g" id="(0.7604166666666666,0.7380952380952381)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_hcmGYHlHEd--cZ9Xscsd8g" type="4001" source="_pXrN8HlEEd--cZ9Xscsd8g" target="_rfpnEHlEEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_hcmtcnlHEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hcnUgHlHEd--cZ9Xscsd8g" x="10" y="25"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_hcnUgXlHEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_hcnUgnlHEd--cZ9Xscsd8g" x="-7" y="15"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_hcmtcHlHEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_hcexoHlHEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hcmtcXlHEd--cZ9Xscsd8g" points="[1, 21, 1, -218]$[1, 218, 1, -21]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_J4H6AHlIEd--cZ9Xscsd8g" type="4001" source="_a2aHcHlFEd--cZ9Xscsd8g" target="_dPoooHlFEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_J4IhEHlIEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_J4IhEXlIEd--cZ9Xscsd8g" x="9" y="-20"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_J4IhEnlIEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_J4IhE3lIEd--cZ9Xscsd8g" x="-5" y="-53"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_J4H6AXlIEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_J4BMUHlIEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_J4H6AnlIEd--cZ9Xscsd8g" points="[1, 21, 1, -218]$[1, 260, 1, 21]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_vzkEkHlKEd--cZ9Xscsd8g" type="4001" source="_vzelAHlKEd--cZ9Xscsd8g" target="_doL5QHlKEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzkroHlKEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzkroXlKEd--cZ9Xscsd8g" x="10" y="24"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzkronlKEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzkro3lKEd--cZ9Xscsd8g" x="-7" y="47"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_vzkEkXlKEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_lnEiwHlHEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vzkEknlKEd--cZ9Xscsd8g" points="[0, 0, -345, -282]$[319, 261, -26, -21]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_vzlSsHlKEd--cZ9Xscsd8g" type="4001" source="_doL5QHlKEd--cZ9Xscsd8g" target="_vzfMEHlKEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzl5wHlKEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzl5wXlKEd--cZ9Xscsd8g" x="34" y="18"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzl5wnlKEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzl5w3lKEd--cZ9Xscsd8g" x="8" y="11"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_vzlSsXlKEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_c9UUIHlGEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vzlSsnlKEd--cZ9Xscsd8g" points="[-26, -21, 319, 261]$[-345, -282, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_vzpkIHlKEd--cZ9Xscsd8g" type="4001" source="_dPoooHlFEd--cZ9Xscsd8g" target="_vzfMEHlKEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzpkI3lKEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzpkJHlKEd--cZ9Xscsd8g" x="7" y="-23"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_vzpkJXlKEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_vzqLMHlKEd--cZ9Xscsd8g" x="-12" y="-46"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_vzpkIXlKEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_fChwUHlKEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vzpkInlKEd--cZ9Xscsd8g" points="[-45, -21, 557, 266]$[-602, -287, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_6ebr0HlKEd--cZ9Xscsd8g" type="4001" source="_doL5QHlKEd--cZ9Xscsd8g" target="_IUkj8HlFEd--cZ9Xscsd8g">
+    <children xmi:type="notation:DecorationNode" xmi:id="_6ebr03lKEd--cZ9Xscsd8g" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_6ebr1HlKEd--cZ9Xscsd8g" x="25" y="19"/>
+    </children>
+    <children xmi:type="notation:DecorationNode" xmi:id="_6ebr1XlKEd--cZ9Xscsd8g" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_6ebr1nlKEd--cZ9Xscsd8g" x="14" y="36"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_6ebr0XlKEd--cZ9Xscsd8g" fontName="Sans"/>
+    <element xmi:type="henshin:Edge" href="philosophers.henshin#_6eXaYHlKEd--cZ9Xscsd8g"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6ebr0nlKEd--cZ9Xscsd8g" points="[-17, 21, 99, -110]$[-68, 129, 48, -2]"/>
+  </edges>
+</notation:Diagram>
