@@ -20,6 +20,14 @@ import org.eclipse.emf.ecore.resource.Resource;
  */
 public class StateSpaceResourceFactory implements Resource.Factory {
 	
+	/**
+	 * Register a static version of the state space resource factory in the runtime.
+	 */
+	public static void registerInRuntime() {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+				StateSpaceResource.FILE_EXTENSION, new StateSpaceResourceFactory());
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.ecore.resource.Resource.Factory#createResource(org.eclipse.emf.common.util.URI)
