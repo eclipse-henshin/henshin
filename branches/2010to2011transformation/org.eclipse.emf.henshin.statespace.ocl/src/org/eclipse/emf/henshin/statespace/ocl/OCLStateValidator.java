@@ -1,0 +1,129 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     CWI Amsterdam - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.emf.henshin.statespace.ocl;
+
+import java.text.ParseException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.statespace.Model;
+import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.validation.StateValidator;
+import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
+import org.eclipse.ocl.OCL;
+import org.eclipse.ocl.ecore.Constraint;
+import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
+import org.eclipse.ocl.helper.OCLHelper;
+
+/**
+ * OCL state validator.
+ * @author Christian Krause
+ */
+public class OCLStateValidator implements StateValidator {
+	
+	// Property to be checked.
+	private String property;
+
+	// State space index.
+	private StateSpaceIndex index;
+	
+	// OCL:
+	private OCL<?, EClassifier, ?, ?, ?, ?, ?, ?, ?, Constraint, EClass, EObject> ocl;
+	
+	// OCL helper:
+	private OCLHelper<EClassifier, ?, ?, Constraint> helper;
+	
+	// Parsed constraint:
+	private Constraint constraint;
+	
+	// Context classifier:
+	private EClassifier classifier;
+
+	/**
+	 * Default constructor.
+	 */
+	public OCLStateValidator() {
+		ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+		helper = ocl.createOCLHelper();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateValidator#validate(org.eclipse.emf.henshin.statespace.State, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public ValidationResult validate(State state, IProgressMonitor monitor) throws Exception {
+		
+		// Get the model for the current state:
+		Model model = index.getModel(state);
+		
+		// Check the constraint for all root elements:
+		for (EObject root : model.getResource().getContents()) {
+			
+			// Update the context and the constraint:
+			if (constraint==null || classifier!=root.eClass()) {
+				classifier = root.eClass();
+			  	helper.setContext(classifier);
+				constraint = helper.createInvariant(property);
+			}
+			
+			// Check the constraint:
+			if (!ocl.check(root, constraint)) {
+				monitor.done();
+				return ValidationResult.INVALID;
+			}
+			
+		}
+		
+		// Invariant is true.
+		monitor.done();
+		return ValidationResult.VALID;
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#setProperty(java.lang.String)
+	 */
+	public void setProperty(String property) throws ParseException {
+		this.property = property;
+		this.constraint = null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#setStateSpaceIndex(org.eclipse.emf.henshin.statespace.StateSpaceIndex)
+	 */
+	public void setStateSpaceIndex(StateSpaceIndex index) {
+		this.index = index;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#getName()
+	 */
+	public String getName() {
+		return "OCL";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.validation.Validator#usesProperty()
+	 */
+	@Override
+	public boolean usesProperty() {
+		return true;
+	}
+
+}
