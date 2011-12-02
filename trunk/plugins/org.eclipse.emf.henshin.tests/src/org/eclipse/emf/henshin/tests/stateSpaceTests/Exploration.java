@@ -25,6 +25,7 @@ public class Exploration extends StateSpaceTest {
 	@Test
 	public synchronized void singleThreadedExploration() {
 		testAllFiles(1);
+		System.out.println("singleThreadedExploration[success]");
 	}
 
 	/**
@@ -35,6 +36,7 @@ public class Exploration extends StateSpaceTest {
 	@Test
 	public synchronized void multiThreadedExploration() {
 		testAllFiles(4);
+		System.out.println("multiThreadedExploration[success]");
 	}
 	
 	/*
