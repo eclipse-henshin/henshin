@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: henshinTransformation
+Bundle-SymbolicName: org.eclipse.emf.henshin.migration1011
+Bundle-Version: 1.0.0.qualifier
+Export-Package: .
+Import-Package: org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.henshin.interpreter.util,
+ org.eclipse.emf.henshin.model.impl,
+ org.eclipse.emf.henshin.testframework
+Require-Bundle: org.eclipse.emf.common,
+ org.eclipse.emf.henshin.model
