@@ -31,8 +31,8 @@ public abstract class StateSpaceTest {
 	 * @param path Path of the state space file.
 	 * @return The loaded state space.
 	 */
-	protected StateSpace loadStateSpace(String path) {
-		return (StateSpace) ModelHelper.loadFile(path);
+	protected StateSpace loadStateSpace(File file) {
+		return (StateSpace) ModelHelper.loadFile(file.getAbsolutePath());
 	}
 
 	/**
@@ -40,9 +40,9 @@ public abstract class StateSpaceTest {
 	 * @param path Path where to look for state space files.
 	 * @return List of full paths of the found state space files.
 	 */
-	protected List<File> findStateSpaceFiles(String path) {
+	protected List<File> findStateSpaceFiles(File path) {
 		List<File> files = new ArrayList<File>();
-		addStateSpaceFiles(new File(path), files);
+		addStateSpaceFiles(path, files);
 		Collections.sort(files);
 		return files;
 	}
@@ -66,10 +66,33 @@ public abstract class StateSpaceTest {
 	 * Do a full exploration of a state space.
 	 * @param manager State space manager.
 	 */
-	protected void doFullExploration(StateSpaceManager manager) {
+	protected void doFullExploration(StateSpaceManager manager, boolean printProgress) {
 		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager);
+		helper.setStepDuration(5000); // five seconds
+		long start = System.currentTimeMillis();
 		try {
-			while (helper.doExplorationStep()) {}
+			while (helper.doExplorationStep()) {
+				if (printProgress) {
+					System.out.print(".");
+				}
+			}
+		} catch (StateSpaceException e) {
+			throw new RuntimeException(e);
+		}
+		if (printProgress) {
+			long duration = (System.currentTimeMillis() - start) / 1000;
+			System.out.println(" done in " + duration + " seconds");
+		}
+	}
+	
+	/**
+	 * Do a state space reset. This catches possible state space exceptions
+	 * and wraps them into run-time exceptions.
+	 * @param manager State space manager.
+	 */
+	protected void doStateSpaceReset(StateSpaceManager manager) {
+		try {
+			manager.resetStateSpace();
 		} catch (StateSpaceException e) {
 			throw new RuntimeException(e);
 		}

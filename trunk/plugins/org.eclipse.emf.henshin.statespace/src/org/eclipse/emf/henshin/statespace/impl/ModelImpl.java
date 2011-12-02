@@ -40,6 +40,33 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	
+	/*
+	 * Default implementation of an object key map.
+	 * This implementation returns 0 for all objects
+	 * that do not have a key.
+	 */
+	private static class ObjectKeyMap extends EcoreEMap<EObject,Integer> {
+
+		// Static zero integer object:
+		private static final Integer ZERO = new Integer(0);
+
+		// Serial Id:
+		private static final long serialVersionUID = 1L;
+
+		public ObjectKeyMap(ModelImpl model) {
+			super(StateSpacePackage.Literals.OBJECT_IDENTITY, 
+				ObjectKeyImpl.class, model, 
+				StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP);
+		}
+
+		@Override
+		public Integer get(Object object) {
+			Integer key = super.get(object);
+			return (key!=null) ? key : ZERO;
+		}
+	};
+	
+	
 	/**
 	 * Constructor.
 	 * @param resource Resource for this model.
@@ -63,6 +90,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
+	public EMap<EObject, Integer> getObjectKeysMap() {
+		if (objectKeysMap == null) {
+			objectKeysMap = new ObjectKeyMap(this);
+		}
+		return objectKeysMap;
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public EmfGraph getEmfGraph() {
 		if (emfGraph==null) {
 			emfGraph = new EmfGraph();
@@ -71,24 +108,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			}
 		}
 		return emfGraph;
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	public EMap<EObject, Integer> getObjectKeysMap() {
-		if (objectKeysMap == null) {
-			objectKeysMap = new EcoreEMap<EObject,Integer>(
-					StateSpacePackage.Literals.OBJECT_IDENTITY, ObjectKeyImpl.class, this, StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP) {
-				private static final long serialVersionUID = 1L;
-				@Override
-				public Integer get(Object object) {
-					Integer key = super.get(object);
-					return (key!=null) ? key : 0;
-				}
-			};
-		}
-		return objectKeysMap;
 	}
 
 	/**
