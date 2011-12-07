@@ -14,12 +14,13 @@ package org.eclipse.emf.henshin.interpreter.ui.wizard;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.eclipse.compare.CompareEditorInput;
+import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -40,11 +42,12 @@ import org.eclipse.swt.widgets.TabItem;
  */
 public class HenshinationPreview implements HenshinationResultView {
 	
-	protected CompareEditorInput editorInput;
+	protected ModelCompareEditorInput editorInput;
 	
 	protected HenshinationResult henshinationResult;
+	Composite cc;
 	
-	public HenshinationPreview(CompareEditorInput compareInput,
+	public HenshinationPreview(ModelCompareEditorInput compareInput,
 			HenshinationResult henshinationResult) {
 		this.editorInput = compareInput;
 		this.henshinationResult = henshinationResult;
@@ -57,23 +60,29 @@ public class HenshinationPreview implements HenshinationResultView {
 	 * showDialog(org.eclipse.swt.widgets.Shell)
 	 */
 	@Override
-	public void showDialog(Shell shell) {
+	public void showDialog(final Shell shell) {
+		
+		boolean result = false;
+		try {
+			PlatformUI.getWorkbench().getProgressService().run(true, true, editorInput);
+			result = editorInput.getMessage() == null && editorInput.getCompareResult() != null;
+		} catch (InterruptedException e) {
+		} catch (InvocationTargetException e) {
+		}
+		if (!result) {
+			MessageDialog.openError(shell, InterpreterUIPlugin.LL("_UI_Preview_ComparisonError"),
+					InterpreterUIPlugin.LL("_UI_Preview_ComparisonError_msg"));
+			return;
+		}
+		
 		editorInput.setTitle(InterpreterUIPlugin.LL("_UI_Preview_Title"));
 		editorInput.getCompareConfiguration().setRightLabel(
 				InterpreterUIPlugin.LL("_UI_Preview_OriginalModel"));
 		editorInput.getCompareConfiguration().setLeftLabel(
 				InterpreterUIPlugin.LL("_UI_Preview_TransformedModel"));
+		
 		editorInput.getCompareConfiguration().setLeftEditable(false);
 		editorInput.getCompareConfiguration().setRightEditable(false);
-		editorInput.setDirty(true);
-		
-		try {
-			editorInput.run(null);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
 		
 		Dialog dlg = new Dialog(shell) {
 			
@@ -91,6 +100,7 @@ public class HenshinationPreview implements HenshinationResultView {
 			@Override
 			protected Control createDialogArea(Composite parent) {
 				Composite container = (Composite) super.createDialogArea(parent);
+				
 				createTabFolder(container).setLayoutData(new GridData(GridData.FILL_BOTH));
 				return container;
 			}
@@ -105,6 +115,7 @@ public class HenshinationPreview implements HenshinationResultView {
 			}
 			
 		};
+		
 		dlg.open();
 	}
 	

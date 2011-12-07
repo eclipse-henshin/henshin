@@ -186,7 +186,6 @@ public class Henshination {
 				}
 			}
 		};
-		
 		try {
 			new ProgressMonitorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 					.getShell()).run(true, true, unitApplicationMonitor);
@@ -216,9 +215,11 @@ public class Henshination {
 	}
 	
 	public HenshinationResultView createPreview() throws HenshinationException {
-		EObject originalModel = createCopy(getModel());
-		EObject previewModel = createCopy(getModel());
+		
+		EObject originalModel = getModel();
+		EObject previewModel = createCopy(originalModel);
 		HenshinationResult result = applyTo(previewModel);
+		
 		if (!result.isSuccess()) {
 			return new HenshinationResultView() {
 				@Override
@@ -232,15 +233,20 @@ public class Henshination {
 			};
 		}
 		try {
+			
 			MatchModel matchModel = MatchService.doMatch(previewModel, originalModel,
 					Collections.<String, Object> emptyMap());
 			DiffModel diffModel = DiffService.doDiff(matchModel);
+			
 			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE
 					.createComparisonResourceSnapshot();
+			
 			snapshot.setMatch(matchModel);
 			snapshot.setDiff(diffModel);
-			return new HenshinationPreview(new ModelCompareEditorInput(snapshot), result);
-		} catch (InterruptedException e) {
+			
+			ModelCompareEditorInput input = new ModelCompareEditorInput(snapshot);
+			return new HenshinationPreview(input, result);
+		} catch (Exception e) {
 			return new HenshinationPreview(null, result);
 		}
 	}
@@ -248,7 +254,7 @@ public class Henshination {
 	protected EObject createCopy(EObject eobj) {
 		EObject result = EcoreUtil.copy(eobj);
 		Resource resource = new ResourceImpl();
-		resource.setURI(eobj.eResource().getURI());
+		resource.setURI(URI.createURI("dummy"));
 		resource.getContents().add(result);
 		return result;
 	}
