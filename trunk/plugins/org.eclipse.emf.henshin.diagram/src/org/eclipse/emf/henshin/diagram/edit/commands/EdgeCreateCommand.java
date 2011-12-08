@@ -149,14 +149,22 @@ public class EdgeCreateCommand extends EditElementCommand {
 		// Check for source/target consistency.
 		Graph sourceGraph = source.getGraph();
 		Graph targetGraph = target.getGraph();
-
-		// Make sure the rule is found and that it is the same:
-		if (sourceGraph.getContainerRule() == null
-				|| sourceGraph.getContainerRule() != targetGraph
-						.getContainerRule()) {
+		if (sourceGraph==null || targetGraph==null) {
 			return false;
 		}
 
+		// Make sure the rules are found and compatible:
+		Rule sourceRule = sourceGraph.getContainerRule();
+		Rule targetRule = targetGraph.getContainerRule();
+		if (sourceRule == null || targetRule == null) {
+			return false;
+		}
+		if (sourceRule!=targetRule && 
+			sourceRule!=targetRule.getKernelRule() &&
+			sourceRule.getKernelRule()!=targetRule) {
+			return false;
+		}
+		
 		// Get the node actions:
 		Action action1 = NodeActionHelper.INSTANCE.getAction(source);
 		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
@@ -168,8 +176,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 
 		// Different actions are only allowed if one is a preserve action:
 		if (!action1.equals(action2)
-				&& action1.getType() != ActionType.PRESERVE
-				&& action2.getType() != ActionType.PRESERVE) {
+				&& !isSimplePreserve(action1)
+				&& !isSimplePreserve(action2)) {
 			return false;
 		}
 
@@ -177,7 +185,13 @@ public class EdgeCreateCommand extends EditElementCommand {
 		return true;
 
 	}
-
+	
+	private static boolean isSimplePreserve(Action action) {
+		return action.getType()==ActionType.PRESERVE && 
+				!action.isAmalgamated() && 
+				action.getArguments().length==0;
+	}
+	
 	/**
 	 * @generated NOT
 	 */
@@ -227,12 +241,28 @@ public class EdgeCreateCommand extends EditElementCommand {
 			 * We look for the image of the PRESERVE node and use it to create the edge.
 			 * If the image does not exist yet (for a NAC for instance), we copy the node.
 			 */
-			if (srcAction.getType() == ActionType.PRESERVE) {
+			if (isSimplePreserve(srcAction)) {
+				
+				if (trgAction.isAmalgamated()) {
+					Node realSource = HenshinMappingUtil.getNodeImage(source, target.getGraph(), target.getGraph().getContainerRule().getMultiMappings());
+					if (realSource!=null) {
+						source = realSource;
+					}
+				}
+				
 				if (trgAction.getType() == ActionType.CREATE
 						|| trgAction.getType() == ActionType.FORBID) {
 					source = new NodeMapEditor(target.getGraph()).copy(source);
 				}
 			} else {
+				
+				if (srcAction.isAmalgamated()) {
+					Node realTarget = HenshinMappingUtil.getNodeImage(target, source.getGraph(), source.getGraph().getContainerRule().getMultiMappings());
+					if (realTarget!=null) {
+						target = realTarget;
+					}
+				}
+
 				if (srcAction.getType() == ActionType.CREATE
 						|| srcAction.getType() == ActionType.FORBID) {
 					target = new NodeMapEditor(source.getGraph()).copy(target);

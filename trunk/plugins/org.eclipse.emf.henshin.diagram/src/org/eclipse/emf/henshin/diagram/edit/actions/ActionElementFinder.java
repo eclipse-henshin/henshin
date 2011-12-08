@@ -6,8 +6,6 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -30,18 +28,13 @@ class ActionElementFinder {
 		// Get a list of elements to be checked:
 		List<E> candidates = new ArrayList<E>();
 		
-		// Check if the rule is a multi-rule of some amalgamation:
-		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
-		
 		// Determine the rules top be checked:
 		List<Rule> rules = new ArrayList<Rule>();
 		if (action==null || !action.isAmalgamated()) {
 			rules.add(kernel);
 		}
 		if (action==null || action.isAmalgamated()) {
-			if (amalgamation!=null) {
-				rules.addAll(amalgamation.getMultiRules());
-			}
+			rules.addAll(kernel.getMultiRules());
 		}
 		
 		// Add LHS elements:
@@ -97,13 +90,9 @@ class ActionElementFinder {
 				if (origin==null) origin = element;
 				
 				// Multi-rule of an amalgamation?
-				AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
-				if (amalgamation!=null) {
-					@SuppressWarnings("unchecked")
-					E originInKernel = (E) AmalgamationEditHelper.getPreimageInKernelRule(origin, amalgamation);
-					if (originInKernel!=null) {
-						return originInKernel;
-					}
+				E originInKernel = rule.getOriginInKernelRule(origin);
+				if (originInKernel!=null) {
+					return originInKernel;
 				}
 				return origin;
 			}

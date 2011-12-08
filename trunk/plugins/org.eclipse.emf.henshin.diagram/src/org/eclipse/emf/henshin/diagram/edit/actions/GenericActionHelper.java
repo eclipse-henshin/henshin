@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
 import org.eclipse.emf.henshin.diagram.edit.maps.MappingMapEditor;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -38,21 +37,19 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			return null;
 		}
 		
-		// Get the amalgamation unit, if existing:
-		AmalgamationUnit amalgamation = 
-			AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
+		// Get the kernel rule, if existing:
+		Rule kernel = rule.getKernelRule();
 		
 		// Check if the element is amalgamated:
-		boolean isAmalgamated = 
-			isAmalgamated(element, amalgamation);
+		boolean isAmalgamated = isAmalgamated(element);
 		
 		// Get the amalgamation parameters:
 		String[] amalgamationParams = 
-			getAmalgamationParameters(element, rule, amalgamation);
+			getAmalgamationParameters(element, rule);
 		
 		// If the rule is a multi-rule, but the action is not
 		// amalgamated, the element is not an action element.
-		if (amalgamation!=null && !isAmalgamated) {
+		if (kernel!=null && !isAmalgamated) {
 			return null;
 		}
 		
@@ -275,35 +272,32 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (current.isAmalgamated()!=action.isAmalgamated()) {
 			
 			// Find the amalgamation and the kernel / multi rule.
-			AmalgamationUnit amalgamation;
-			Rule multi;
+			Rule multi, kernel;
 			if (action.isAmalgamated()) {
 				multi = getOrCreateMultiRule(rule, action.getArguments());
-				amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
+				kernel = rule;
 			} else {
+				kernel = rule.getKernelRule();
 				multi = rule;
-				amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
 			}
-			Rule kernel = amalgamation.getKernelRule();
 			
 			// First make sure the multi-rule is complete.
-			sanitizeMultiRule(multi, amalgamation);
+			sanitizeMultiRule(multi);
 			
 			// Move the element(s).
 			if (action.getType()==ActionType.CREATE) {
-				getMapEditor(kernel.getRhs(), multi.getRhs(), amalgamation.getRhsMappings()).move(element);
+				getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
 			}
 			else if (action.getType()==ActionType.DELETE) {
-				getMapEditor(kernel.getLhs(), multi.getLhs(), amalgamation.getLhsMappings()).move(element);
+				getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
 			}
 			else if (action.getType()==ActionType.PRESERVE) {
-				MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, 
-						amalgamation.getLhsMappings(), amalgamation.getRhsMappings());
+				MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
 				mappingEditor.moveMappedElement(element);
 			}
 			
 			// Remove trivial multi-rules from the amalgamation:
-			AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);
+			RuleEditHelper.removeTrivialMultiRules(kernel);
 			
 		}
 		
@@ -312,12 +306,12 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// The only thing that can be different now is the name of the multi-rule:
 		if (current.isAmalgamated() && action.isAmalgamated()) {
 			
-			AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromMultiRule(rule);
-			Rule newMulti = getOrCreateMultiRule(amalgamation.getKernelRule(), action.getArguments());
+			Rule kernelRule = rule.getKernelRule();
+			Rule newMulti = getOrCreateMultiRule(kernelRule, action.getArguments());
 			
 			if (newMulti!=rule) {
 				
-				sanitizeMultiRule(newMulti, amalgamation);
+				sanitizeMultiRule(newMulti);
 				
 				// Move the element(s).
 				if (action.getType()==ActionType.CREATE) {
@@ -327,21 +321,24 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 					getMapEditor(rule.getLhs(), newMulti.getLhs(), null).move(element);
 				}
 				else if (action.getType()==ActionType.PRESERVE) {
-					MappingMapEditor mappingEditor = new MappingMapEditor(rule, newMulti, null, null);
+					MappingMapEditor mappingEditor = new MappingMapEditor(rule, newMulti, null);
 					mappingEditor.moveMappedElement(element);
 				}
 				
 				// Remove trivial multi-rules from the amalgamation:
-				AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);
+				RuleEditHelper.removeTrivialMultiRules(kernelRule);
+				
 			}
 		}
 			
 	}
 	
-	private void sanitizeMultiRule(Rule multi, AmalgamationUnit amalgamation) {
+	private void sanitizeMultiRule(Rule multi) {
+		Rule kernelRule = multi.getKernelRule();
+		
 		MappingMapEditor mappingEditor = new MappingMapEditor(
-				amalgamation.getKernelRule(), multi, 
-				amalgamation.getLhsMappings(), amalgamation.getRhsMappings());
+				kernelRule, multi, 
+				multi.getMultiMappings());
 		mappingEditor.ensureCompleteness();
 	}
 	
@@ -393,27 +390,34 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	 * Helper method for checking whether the action of an element
 	 * should be amalgamated.
 	 */
-	private boolean isAmalgamated(E element, AmalgamationUnit amalgamation) {
-		if (amalgamation!=null &&
-			element instanceof GraphElement) {
-			try {
-				return AmalgamationEditHelper.getPreimageInKernelRule(
-							(GraphElement) element, amalgamation)==null;
-			} catch (IllegalArgumentException e) {}
+	private boolean isAmalgamated(E element) {
+		if (!(element instanceof GraphElement)) {
+			return false;
 		}
-		return false;
+		GraphElement elem = (GraphElement) element;
+		Graph graph = elem.getGraph();
+		if (elem.getGraph()==null) {
+			return false;
+		}
+		Rule rule = graph.getContainerRule();
+		if (rule==null || rule.getKernelRule()==null) {
+			return false;
+		}
+		if (rule.getOriginInKernelRule(elem)!=null) {
+			return false;
+		}
+		return true;
 	}
 	
 	/*
 	 * If an element has an amalgamated action, this method
 	 * returns the proper parameters for the amalgamated action.
 	 */
-	private String[] getAmalgamationParameters(E element, 
-			Rule multiRule, AmalgamationUnit amalgamation) {
-		if (!isAmalgamated(element, amalgamation)) {
+	private String[] getAmalgamationParameters(E element, Rule multiRule) {
+		if (!isAmalgamated(element)) {
 			return new String[] {};
 		}
-		String name = AmalgamationEditHelper.getMultiRuleName(multiRule, amalgamation);
+		String name = multiRule.getName();
 		if (name==null || name.length()==0) {
 			return new String[] {};
 		} else {
@@ -424,26 +428,21 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	
 	private Rule getOrCreateMultiRule(Rule kernel, String[] actionArguments) {
 		
-		// Find or create the amalgamation unit:
-		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
-		if (amalgamation==null) {
-			amalgamation = HenshinFactory.eINSTANCE.createAmalgamationUnit();
-			amalgamation.setName(kernel.getName());
-			amalgamation.setKernelRule(kernel);
-			kernel.getTransformationSystem().getTransformationUnits().add(amalgamation);
+		// Derive the multi-rule name:
+		String name = null;
+		if (actionArguments.length>0 && actionArguments[0].trim().length()>0) {
+			name = actionArguments[0].trim();
 		}
-
-		Rule multiRule;
-		if (actionArguments.length==0) {
-			multiRule = AmalgamationEditHelper.getDefaultMultiRule(kernel);
-			if (multiRule==null) {
-				multiRule = AmalgamationEditHelper.createDefaultMultiRule(amalgamation);
-			}
-		} else {
-			String name = actionArguments[0].trim();
-			multiRule = AmalgamationEditHelper.getMultiRule(kernel, name);
-			if (multiRule==null) {
-				multiRule = AmalgamationEditHelper.createMultiRule(amalgamation, name);
+		
+		// Get or create the multi-rule:
+		Rule multiRule = kernel.getMultiRuleByName(name);
+		if (multiRule==null) {
+			multiRule = HenshinFactory.eINSTANCE.createRule();
+			multiRule.setName(name);
+			if (name==null) {
+				kernel.getMultiRules().add(0, multiRule);
+			} else {
+				kernel.getMultiRules().add(multiRule);
 			}
 		}
 		return multiRule;

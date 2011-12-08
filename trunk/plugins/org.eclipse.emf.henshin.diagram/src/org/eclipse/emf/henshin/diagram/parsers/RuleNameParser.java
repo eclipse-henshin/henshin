@@ -15,7 +15,6 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
 import org.eclipse.emf.henshin.model.Node;
@@ -152,11 +151,6 @@ public class RuleNameParser extends UnitNameParser {
 		// Done.
 		return CommandResult.newOKCommandResult();
 
-	}
-
-	@Override
-	protected void doSetName(TransformationUnit unit, String name) {
-		AmalgamationEditHelper.renameKernelRule((Rule) unit, name);
 	}
 
 }

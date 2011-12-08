@@ -25,18 +25,17 @@ public class MappingMapEditor {
 	// Edge map editors:
 	private EdgeMapEditor lhsEdgeMapEditor, rhsEdgeMapEditor;
 
-	public MappingMapEditor(Rule source, Rule target, 
-			List<Mapping> lhsMappings, List<Mapping> rhsMappings) {
+	public MappingMapEditor(Rule source, Rule target, List<Mapping> mappings) {
 		
 		// Source and target:
 		this.source = source;
 		this.target = target;
 
 		// LHS and RHS map editors:
-		lhsNodeMapEditor = new NodeMapEditor(source.getLhs(), target.getLhs(), lhsMappings);
-		rhsNodeMapEditor = new NodeMapEditor(source.getRhs(), target.getRhs(), rhsMappings);
-		lhsEdgeMapEditor = new EdgeMapEditor(source.getLhs(), target.getLhs(), lhsMappings);
-		rhsEdgeMapEditor = new EdgeMapEditor(source.getRhs(), target.getRhs(), rhsMappings);
+		lhsNodeMapEditor = new NodeMapEditor(source.getLhs(), target.getLhs(), mappings);
+		rhsNodeMapEditor = new NodeMapEditor(source.getRhs(), target.getRhs(), mappings);
+		lhsEdgeMapEditor = new EdgeMapEditor(source.getLhs(), target.getLhs(), mappings);
+		rhsEdgeMapEditor = new EdgeMapEditor(source.getRhs(), target.getRhs(), mappings);
 	}
 	
 	/**

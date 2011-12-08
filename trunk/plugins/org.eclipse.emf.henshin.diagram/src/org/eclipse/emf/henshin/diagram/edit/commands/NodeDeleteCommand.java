@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
@@ -69,15 +68,12 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Check if there are images in multi-rules.
 		Rule kernel = node.getGraph().getContainerRule();
-		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(kernel);
-		if (amalgamation!=null) {
-			for (Rule multi : amalgamation.getMultiRules()) {
-				Node image = HenshinMappingUtil
-						.getNodeImage(node, multi.getLhs(), amalgamation.getLhsMappings());
-				if (image!=null) {
-					image.getGraph().removeNode(image);
-					HenshinMappingUtil.removeMapping(node, image, amalgamation.getLhsMappings());
-				}
+		for (Rule multi : kernel.getMultiRules()) {
+			Node image = HenshinMappingUtil
+					.getNodeImage(node, multi.getLhs(), multi.getMultiMappings());
+			if (image!=null) {
+				image.getGraph().removeNode(image);
+				HenshinMappingUtil.removeMapping(node, image, multi.getMultiMappings());
 			}
 		}
 		
@@ -86,9 +82,7 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Clean up trivial NAC and multi-rules:
 		HenshinACUtil.removeTrivialACs(kernel);
-		if (amalgamation!=null) {
-			AmalgamationEditHelper.cleanUpAmalagamation(amalgamation);			
-		}
+		RuleEditHelper.removeTrivialMultiRules(kernel);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

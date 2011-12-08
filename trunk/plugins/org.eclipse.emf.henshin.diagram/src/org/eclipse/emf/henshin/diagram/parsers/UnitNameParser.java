@@ -239,15 +239,11 @@ public class UnitNameParser extends AbstractParser {
 		}
 		
 		// Now set the name:
-		doSetName(unit, name);
+		unit.setName(name);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();
 		
-	}
-	
-	protected void doSetName(TransformationUnit unit, String name) {
-		unit.setName(name);
 	}
 	
 	/*

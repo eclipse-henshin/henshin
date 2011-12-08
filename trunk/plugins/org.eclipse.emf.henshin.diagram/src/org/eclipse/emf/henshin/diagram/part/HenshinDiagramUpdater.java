@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -38,14 +37,12 @@ import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.notation.View;
@@ -201,35 +198,18 @@ public class HenshinDiagramUpdater {
 
 		// Iterate over all rules:
 		for (Rule rule : system.getRules()) {
-
-			// We have to check whether the rule is a multi-rule of one
-			// of the default amalgamation unit. In that case we don't
-			// want to display it.
-			if (AmalgamationEditHelper.isMultiRule(rule)) {
-				continue;
-			}
-
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, rule);
 			if (visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(rule, visualID));
 			}
-
 		}
 
 		// Iterate over all transformation units:
 		for (TransformationUnit unit : system.getTransformationUnits()) {
-			
-			// Rules and amalgamation units do not count!
-			if (unit instanceof Rule || unit instanceof AmalgamationUnit) {
-				continue;
-			}
-			
-			// Otherwise create a node descriptor for it:
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
-			if (visualID == UnitEditPart.VISUAL_ID) {
+			if (visualID == UnitEditPart.VISUAL_ID || visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(unit, visualID));
 			}
-			
 		}
 
 		// Done.

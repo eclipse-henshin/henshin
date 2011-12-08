@@ -17,9 +17,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.actions.Action;
 import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.AmalgamationEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
@@ -79,12 +78,9 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		}
 		
 		// Check if there are images in multi-rules:
-		AmalgamationUnit amalgamation = AmalgamationEditHelper.getAmalgamationFromKernelRule(rule);
-		if (amalgamation!=null) {
-			for (Rule multi : amalgamation.getMultiRules()) {
-				doRemove(HenshinMappingUtil
-						.getEdgeImage(edge, multi.getLhs(), amalgamation.getLhsMappings()));
-			}
+		for (Rule multiRule : rule.getMultiRules()) {
+			doRemove(HenshinMappingUtil
+					.getEdgeImage(edge, multiRule.getLhs(), multiRule.getMultiMappings()));
 		}
 		
 		// Now remove the edge.
@@ -92,7 +88,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Clean up trivial NAC and multi-rules:
 		HenshinACUtil.removeTrivialACs(rule);
-		AmalgamationEditHelper.cleanUpAmalagamation(rule);
+		RuleEditHelper.removeTrivialMultiRules(rule);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();
@@ -115,8 +111,10 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		// Update the root containment if the edge is containment / container:
 		if (type!=null && (type.isContainment() || type.isContainer())) {
 			View ruleView = RootObjectEditHelper.findRuleView(rule);
-			RootObjectEditHelper.updateRootContainment(ruleView, source);
-			RootObjectEditHelper.updateRootContainment(ruleView, target);
+			if (ruleView!=null) {
+				RootObjectEditHelper.updateRootContainment(ruleView, source);
+				RootObjectEditHelper.updateRootContainment(ruleView, target);
+			}
 		}
 
 	}
