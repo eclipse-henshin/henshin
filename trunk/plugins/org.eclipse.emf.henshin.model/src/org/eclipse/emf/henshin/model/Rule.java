@@ -121,6 +121,22 @@ public interface Rule extends TransformationUnit {
 	TransformationSystem getTransformationSystem();
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Rule getKernelRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Rule getMultiRuleByName(String name);
+
+	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.
 	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->

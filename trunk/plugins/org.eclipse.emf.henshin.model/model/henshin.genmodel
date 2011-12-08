@@ -8,7 +8,7 @@
     testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter"
     editPluginID="org.eclipse.emf.henshin.edit" editorPluginID="org.eclipse.emf.henshin.editor"
-    testsPluginID="org.eclipse.emf.henshin.tests" colorProviders="true">
+    testsPluginID="org.eclipse.emf.henshin.tests" colorProviders="true" runtimeVersion="2.6">
   <foreignModel>henshin.ecore</foreignModel>
   <modelPluginVariables>OCL_ECORE=org.eclipse.ocl.ecore</modelPluginVariables>
   <genPackages prefix="Henshin" basePackage="org.eclipse.emf" disposableProviderFactory="true"
@@ -50,6 +50,10 @@
         <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/targetNode"/>
       </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getTransformationSystem"/>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/getKernelRule"/>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/getMultiRuleByName">
+        <genParameters ecoreParameter="henshin.ecore#//Rule/getMultiRuleByName/name"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//AttributeCondition">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//AttributeCondition/rule"/>

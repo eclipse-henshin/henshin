@@ -40,6 +40,7 @@ public interface NestedCondition extends Formula {
 	 * @see #setNegated(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Negated()
 	 * @model
+	 * @deprecated
 	 * @generated
 	 */
 	boolean isNegated();
@@ -50,6 +51,7 @@ public interface NestedCondition extends Formula {
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Negated</em>' attribute.
 	 * @see #isNegated()
+	 * @deprecated
 	 * @generated
 	 */
 	void setNegated(boolean value);

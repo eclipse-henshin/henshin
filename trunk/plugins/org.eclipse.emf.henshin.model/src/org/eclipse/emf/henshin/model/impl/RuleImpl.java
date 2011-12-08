@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Graph;
@@ -272,7 +271,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public TransformationSystem getTransformationSystem() {
@@ -286,6 +286,34 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		return null;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Rule getKernelRule() {
+		EObject container = eContainer();
+		if (container instanceof Rule) {
+			return (Rule) container;
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Rule getMultiRuleByName(String name) {
+		for (Rule multiRule : getMultiRules()) {
+			if ((name==null && multiRule.getName()==null) || 
+				(name!=null && name.equals(multiRule.getName()))) {
+				return multiRule;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

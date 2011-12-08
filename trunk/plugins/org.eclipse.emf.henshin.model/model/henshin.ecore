@@ -59,6 +59,10 @@
       <eParameters name="targetNode" eType="#//Node"/>
     </eOperations>
     <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
+    <eOperations name="getKernelRule" eType="#//Rule"/>
+    <eOperations name="getMultiRuleByName" eType="#//Rule">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Graph"
