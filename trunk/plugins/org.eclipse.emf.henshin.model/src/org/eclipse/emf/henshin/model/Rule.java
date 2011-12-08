@@ -137,6 +137,14 @@ public interface Rule extends TransformationUnit {
 	Rule getMultiRuleByName(String name);
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated NOT
+	 */
+	<T extends GraphElement> T getOriginInKernelRule(T element);
+
+	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.
 	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
@@ -221,6 +229,5 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	boolean containsMapping(Node sourceNode, Node targetNode);
-
 	
 } // Rule

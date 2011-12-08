@@ -26,12 +26,14 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -317,6 +319,15 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public <T extends GraphElement> T getOriginInKernelRule(T element) {
+		return HenshinMappingUtil.getOrigin(element, getMultiMappings());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isCheckDangling() {
@@ -389,7 +400,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		for (Node node : (isLhs) ? lhs.getNodes() : rhs.getNodes()) {
 			if (nodename.equals(node.getName())) return node;
 		}
-		
 		return null;
 	}
 	
@@ -400,11 +410,9 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public boolean containsMapping(Node sourceNode, Node targetNode) {
-		
 		for (Mapping m : getMappings()) {
 			if (m.getOrigin() == sourceNode && m.getImage() == targetNode) return true;
 		}
-		
 		return false;
 	}// containsMapping
 	
