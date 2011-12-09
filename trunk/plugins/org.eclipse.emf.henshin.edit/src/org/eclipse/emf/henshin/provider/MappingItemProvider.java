@@ -48,9 +48,8 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescrip
  * <!-- end-user-doc -->
  * @generated
  */
-public class MappingItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider,
-		IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider,
-		IItemPropertySource {
+public class MappingItemProvider extends HenshinItemProviderAdapter implements
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	
 	protected NodeListener nodeListener;
 	
@@ -345,7 +344,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME
 					|| notification.getFeature() == HenshinPackage.Literals.NODE__TYPE) {
 				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
-				if (mappings == null) return;
+				if (mappings == null)
+					return;
 				
 				AdapterFactory fac = MappingItemProvider.this.adapterFactory;
 				for (Mapping m : mappings) {
@@ -374,16 +374,19 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 			 * model elements, in a inappropriate order while this editor is
 			 * open.
 			 */
-			if (node.getGraph() == null) return null;
+			if (node.getGraph() == null)
+				return null;
 			
 			if (graph.eContainer() instanceof Rule) {
 				Rule rule = (Rule) graph.eContainer();
-				if (rule == null) return null;
+				if (rule == null)
+					return null;
 				
 				collectMappingHelper(node, rule.getMappings(), resultList);
 			} else if (graph.eContainer() instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) graph.eContainer();
-				if (nc == null) return null;
+				if (nc == null)
+					return null;
 				List<NestedCondition> allNestedConditions = new ArrayList<NestedCondition>();
 				collectNestedConditions(nc, allNestedConditions);
 				
@@ -407,7 +410,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		private void collectMappingHelper(Node node, List<Mapping> mappingList,
 				List<Mapping> resultList) {
 			for (Mapping m : mappingList) {
-				if ((m.getImage() == node) || (m.getOrigin() == node)) resultList.add(m);
+				if ((m.getImage() == node) || (m.getOrigin() == node))
+					resultList.add(m);
 			}// for
 		}// collectMappingHelper
 		
@@ -425,7 +429,8 @@ public class MappingItemProvider extends ItemProviderAdapter implements IEditing
 		 */
 		private void collectNestedConditions(Formula formula, List<NestedCondition> resultList) {
 			
-			if (formula == null) return;
+			if (formula == null)
+				return;
 			
 			if (formula instanceof BinaryFormula) {
 				BinaryFormula bf = (BinaryFormula) formula;

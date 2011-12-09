@@ -54,8 +54,7 @@ import org.eclipse.emf.henshin.provider.trans.RhsMappingItemProvider;
  * @generated
  */
 public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	
 	@SuppressWarnings("rawtypes")
 	protected List children = null;

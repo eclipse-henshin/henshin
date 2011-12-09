@@ -82,7 +82,7 @@ import org.eclipse.emf.henshin.editor.filter.FilterController;
 import org.eclipse.emf.henshin.editor.filter.FilterControlsViewer;
 import org.eclipse.emf.henshin.editor.filter.IFilterChangeListener;
 import org.eclipse.emf.henshin.editor.util.AdapterFactoryLabelFontColorToolTipProvider;
-import org.eclipse.emf.henshin.editor.util.TreeViewerToolTipSupport;
+import org.eclipse.emf.henshin.editor.util.HtmlTipSupport;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -130,6 +130,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
@@ -387,7 +388,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 */
 	protected EContentAdapter problemIndicationAdapter = new EContentAdapter() {
 		@Override
-		public void notifyChanged(Notification notification) {
+		public void notifyChanged(Notification notification) {			
 			if (notification.getNotifier() instanceof Resource) {
 				switch (notification.getFeatureID(Resource.class)) {
 					case Resource.RESOURCE__IS_LOADED:
@@ -579,6 +580,7 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	protected void updateProblemIndication() {
+		System.out.println("updateProblemIndication");
 		if (updateProblemIndication) {
 			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK,
 					"org.eclipse.emf.henshin.editor", 0, null,
@@ -1035,6 +1037,13 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 		return ImageDescriptor.createFromURL(imgUrl);
 	}
 	
+	@Override
+	protected Composite createPageContainer(Composite parent) {
+		Composite cmp = super.createPageContainer(parent);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(cmp, "org.eclipse.emf.henshin.editor.testHenshinContext");
+		return cmp;
+	}	
+	
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1119,8 +1128,8 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet()
 						.getResources().get(0)), true);
 				
-				TreeViewerToolTipSupport.enableFor(selectionViewer);
-				
+				// TreeViewerToolTipSupport.enableFor(selectionViewer);
+				HtmlTipSupport.enableFor(selectionViewer);
 				viewerPane.setTitle(editingDomain.getResourceSet());
 				
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);

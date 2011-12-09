@@ -12,11 +12,14 @@
 package org.eclipse.emf.henshin.presentation;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.DeleteAction;
@@ -30,9 +33,13 @@ import org.eclipse.emf.henshin.editor.menuContributors.FormulaCommandMenuContrib
 import org.eclipse.emf.henshin.editor.menuContributors.RemoveMappedNodesMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.SimpleCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.TransformationUnitCommandMenuContributor;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.provider.ReferencedRuleItemProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -104,11 +111,69 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 	
 	@Override
 	public void menuAboutToShow(IMenuManager menuManager) {
+		
 		super.menuAboutToShow(menuManager);
+		
 		IMenuManager submenuManager = new MenuManager(
 				HenshinEditorPlugin.INSTANCE.getString("_UI_CreateAdvanced_menu_item"));
 		buildContributions(submenuManager);
 		menuManager.insertBefore("edit", submenuManager);
+		buildNavigationActions(menuManager);
+	}
+	
+	protected void buildNavigationActions(IMenuManager menuManager) {
+		IStructuredSelection selection = (IStructuredSelection) selectionProvider.getSelection();
+		menuManager.insertBefore("edit", new Separator("henshinNavigation"));
+		if (selection.size() == 1) {
+			
+			if (selection.getFirstElement() instanceof ReferencedRuleItemProvider) {
+				final ReferencedRuleItemProvider rrip = (ReferencedRuleItemProvider) selection
+						.getFirstElement();
+				menuManager.appendToGroup(
+						"henshinNavigation",
+						new Action(HenshinEditorPlugin.INSTANCE
+								.getString("_UI_NavigationAction_GotoDeclaration")) {
+							@Override
+							public void run() {
+								Rule rule = (Rule) rrip.getValue();
+								HenshinEditor hEditor = (HenshinEditor) activeEditor;
+								hEditor.setSelectionToViewer(Collections.singleton(rule));
+							}
+						});
+			}
+			if (selection.getFirstElement() instanceof TransformationUnit) {
+				TransformationUnit unit = (TransformationUnit) selection.getFirstElement();
+				IMenuManager usageMenu = new MenuManager(
+						HenshinEditorPlugin.INSTANCE.getString("_UI_NavigationAction_GotoUsage"));
+				Collection<Setting> settings = EcoreUtil.UsageCrossReferencer.find(unit,
+						unit.eContainer());
+				boolean used = false;
+				for (final Setting setting : settings) {
+					used = true;
+					
+					System.out.println(setting.getClass());
+					
+					usageMenu.add(new Action(setting.getEObject().getClass().getSimpleName() + "."
+							+ setting.getEStructuralFeature().getName()) {
+						@Override
+						public void run() {
+							HenshinEditor hEditor = (HenshinEditor) activeEditor;
+							hEditor.setSelectionToViewer(Collections.singleton(setting.getEObject()));
+						}
+					});
+				}
+				if (!used)
+					usageMenu.add(new Action(HenshinEditorPlugin.INSTANCE
+							.getString("_UI_NavigationAction_GotoUsage_None")) {
+						@Override
+						public boolean isEnabled() {
+							return false;
+						}
+					});
+				
+				menuManager.appendToGroup("henshinNavigation", usageMenu);
+			}
+		}
 	}
 	
 	@Override

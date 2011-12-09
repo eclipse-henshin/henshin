@@ -49,8 +49,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * @generated
  */
 public class NestedConditionItemProvider extends FormulaItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	
 	/**
 	 * Number of mappings which are shown in an unfold way. Any number above the

@@ -107,11 +107,11 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 * This returns ParameterMapping.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ParameterMapping"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ParameterMapping.png"));
 	}
 	
 	/**
@@ -375,7 +375,8 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 				List<ParameterMapping> result) {
 			
 			for (ParameterMapping pm : tu.getParameterMappings()) {
-				if (pm.getSource() == para || pm.getTarget() == para) result.add(pm);
+				if (pm.getSource() == para || pm.getTarget() == para)
+					result.add(pm);
 			}// for
 		}// collectRelatedParameterMappings
 		

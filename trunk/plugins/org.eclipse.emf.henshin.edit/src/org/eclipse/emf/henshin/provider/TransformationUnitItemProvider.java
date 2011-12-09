@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -275,7 +274,8 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		 * referred to and thus need to be wrapped up, rule have no such referee
 		 * and do not need to wrap their children.
 		 */
-		if (object instanceof TransformationUnit && !(object instanceof Rule))
+		if (object instanceof TransformationUnit)// && !(object instanceof
+													// Rule))
 			return Boolean.TRUE;
 		else
 			return Boolean.FALSE;
@@ -294,18 +294,17 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		
 		if (!isWrappingNeeded(object))
 			return value;
-		
-		/*
-		 * Only those, who are not contained but referred to, shall be replaced
-		 * by a wrapper
-		 */
-		if (!((EReference) feature).isContainment()) {
-			value = new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
+
+		if (value instanceof TransformationUnit) {
+			if (value instanceof Rule) {
+				return new ReferencedRuleItemProvider((Rule) value, object, feature, index,
+						adapterFactory);
+			}
+			return new DelegatingWrapperTrafoUnitItemProvider(value, object, feature, index,
 					adapterFactory);
-		} else
-			value = super.createWrapper(object, feature, value, index);
+		}
 		
-		return value;
+		return super.createWrapper(object, feature, value, index);
 	}// createWrapper
 	
 	/**

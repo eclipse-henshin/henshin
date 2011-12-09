@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved. 
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Philipps-University Marburg - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.provider.trans;
 
 import java.util.Collection;
@@ -23,7 +34,12 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
-
+/**
+ * Generic transient representation for a single reference.
+ * 
+ * @author Gregor Bonifer
+ *
+ */
 public class GenericReferenceContainerItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
@@ -59,14 +75,17 @@ public class GenericReferenceContainerItemProvider extends ItemProviderAdapter i
 	
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage(imagePath));
+		return imagePath != null ? overlayImage(object, getResourceLocator().getImage(imagePath))
+				: null;
 	}
 	
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-		newChildDescriptors.add(createChildParameter(reference, reference.getEReferenceType()
-				.getEPackage().getEFactoryInstance().create(reference.getEReferenceType())));
+		if (!reference.getEReferenceType().isAbstract()
+				&& !reference.getEReferenceType().isInterface())
+			newChildDescriptors.add(createChildParameter(reference, reference.getEReferenceType()
+					.getEPackage().getEFactoryInstance().create(reference.getEReferenceType())));
 	}
 	
 	@Override

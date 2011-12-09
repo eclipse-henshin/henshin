@@ -43,9 +43,8 @@ public class AdapterFactoryLabelFontColorToolTipProvider extends
 	
 	protected IItemToolTipProvider getItemToolTipProvider(Object object) {
 		Object adapter = adapterFactory.adapt(object, IItemToolTipProvider.class);
-		if (adapter instanceof IItemToolTipProvider) {
+		if (adapter instanceof IItemToolTipProvider)
 			return ((IItemToolTipProvider) adapter);
-		}
 		return null;
 	}
 	

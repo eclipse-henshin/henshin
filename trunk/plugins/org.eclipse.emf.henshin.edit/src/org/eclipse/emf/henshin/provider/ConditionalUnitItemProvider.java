@@ -40,7 +40,7 @@ import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
-import org.eclipse.emf.henshin.provider.trans.IfItemProvider;
+import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
 import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
 
 /**
@@ -153,205 +153,179 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
+		// Check the type of the specified child object and return the proper
+		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns ConditionalUnit.gif.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ConditionalUnit"));
 	}
 	
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns ConditionalUnit.gif. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public Object getImage(Object object) {
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ConditionalUnit.png"));
+	}
+	
+	/**
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ConditionalUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_ConditionalUnit_type") :
-			getString("_UI_ConditionalUnit_type") + " " + label;
+		String label = ((ConditionalUnit) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_ConditionalUnit_type")
+				: getString("_UI_ConditionalUnit_type") + " " + label;
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(ConditionalUnit.class)) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						true, false));
 				return;
 		}
 		super.notifyChanged(notification);
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
-	 * that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
+	 * describing the children that can be created under this object. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createRule()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createIndependentUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createSequentialUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createConditionalUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createRule()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createIndependentUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createSequentialUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createConditionalUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createRule()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createIndependentUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createSequentialUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createConditionalUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createPriorityUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createRule()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createIndependentUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createSequentialUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createConditionalUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createPriorityUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
+				HenshinFactory.eINSTANCE.createCountedUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createRule()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createIndependentUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createSequentialUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createConditionalUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createPriorityUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
+				HenshinFactory.eINSTANCE.createCountedUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createRule()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createIndependentUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createSequentialUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createConditionalUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createPriorityUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
+				HenshinFactory.eINSTANCE.createCountedUnit()));
 	}
-
+	
 	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This returns the label text for
+	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+	public String getCreateChildText(Object owner, Object feature, Object child,
+			Collection<?> selection) {
 		Object childFeature = feature;
 		Object childObject = child;
-
-		boolean qualify =
-			childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF ||
-			childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__THEN ||
-			childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE;
-
+		
+		boolean qualify = childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF
+				|| childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__THEN
+				|| childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE;
+		
 		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
+					getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
-
+	
 	/**
 	 * 
 	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
@@ -367,7 +341,9 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 			
 			// Note, contents of methods getKernelRule, getMultiRules etc.
 			// reflect this order
-			children.add(new IfItemProvider(adapterFactory, cu));
+			// children.add(new IfItemProvider(adapterFactory, cu));
+			children.add(new GenericReferenceContainerItemProvider(adapterFactory, cu,
+					HenshinPackage.eINSTANCE.getConditionalUnit_If(), "_UI_ConditionalUnit_if_feature", null));
 			children.add(new ThenItemProvider(adapterFactory, cu));
 			children.add(new ElseItemProvider(adapterFactory, cu));
 		}// if
@@ -394,7 +370,8 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	 * @return
 	 */
 	public Object findChildProvider(EStructuralFeature feature) {
-		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF) return getIfItemProvider();
+		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF)
+			return getIfItemProvider();
 		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__THEN)
 			return getThenItemProvider();
 		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE)

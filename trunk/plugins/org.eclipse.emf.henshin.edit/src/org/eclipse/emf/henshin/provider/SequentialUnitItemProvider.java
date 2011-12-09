@@ -37,8 +37,7 @@ import org.eclipse.emf.henshin.model.SequentialUnit;
  * @generated
  */
 public class SequentialUnitItemProvider extends TransformationUnitItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -139,9 +138,9 @@ public class SequentialUnitItemProvider extends TransformationUnitItemProvider i
 	}
 	
 	/**
-	 * This returns SequentialUnit.gif.
-	 * <!-- begin-user-doc --> <!--
+	 * This returns SequentialUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	@Override

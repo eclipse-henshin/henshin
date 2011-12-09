@@ -45,8 +45,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * @generated
  */
 public class NodeItemProvider extends NamedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -85,9 +84,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(new NodeTypePropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_Node_type_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_Node_type_feature",
+				getResourceLocator(), getString("_UI_Node_type_feature"), getString(
+						"_UI_PropertyDescriptor_description", "_UI_Node_type_feature",
 						"_UI_Node_type")));
 	}
 	
@@ -199,14 +197,15 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		Node node = (Node) object;
 		Object defaultImage = overlayImage(object,
 				getResourceLocator().getImage("full/obj16/Node.png"));
-
+		
 		if (node.eContainer() == null) {
 			// This is used to return the icon needed for the visual editor.
-			// Otherwise, since the visual editor will create Nodese without source, target nor type,
-			// a red border will be drawn around the Node icon in the properties view.
+			// Otherwise, since the visual editor will create Nodese without
+			// source, target nor type,
+			// a red border will be drawn around the Node icon in the properties
+			// view.
 			return defaultImage;
 		}
-		
 		
 		// draw a red border around the icon if the node needs attention
 		// (i.e. has no type)
@@ -292,8 +291,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	public static String getNodeLabel(Node node) {
 		String label = "";
-		if (node.getName() != null) label = label + node.getName();
-		if (node.getType() != null) label = label + ":" + node.getType().getName();
+		if (node.getName() != null)
+			label = label + node.getName();
+		if (node.getType() != null)
+			label = label + ":" + node.getType().getName();
 		return label.trim();
 	}
 	

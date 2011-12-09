@@ -36,8 +36,7 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
  * @generated
  */
 public class PriorityUnitItemProvider extends TransformationUnitItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -95,11 +94,11 @@ public class PriorityUnitItemProvider extends TransformationUnitItemProvider imp
 	 * This returns PriorityUnit.gif. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/PriorityUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PriorityUnit.png"));
 	}
 	
 	/**

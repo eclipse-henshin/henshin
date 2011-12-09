@@ -68,11 +68,32 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 	@Override
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
-		
 		return new DelegatingWrapperFeatureDragAndDropCommand(domain, owner, location, collection);
-		
 	}
 	
+//	@Override
+//	public Collection<?> getChildren(Object object) {
+//		System.out.println("getChildren for " + object);
+//		if (isRecursion(object))
+//			return Collections.emptyList();
+//		Collection<?> children = super.getChildren(object);
+//		return children;
+//	}
+//	
+//	private boolean isRecursion(Object object) {
+//		Object value = AdapterFactoryEditingDomain.unwrap(object);
+//		// System.out.println("Checking rec for: " + value);
+//		while (object instanceof DelegatingWrapperItemProvider) {
+//			object = ((DelegatingWrapperItemProvider) object).getParent(object);
+//			System.out.println("step check: " + object);
+//			if (AdapterFactoryEditingDomain.unwrap(object).equals(value))
+//				return true;
+//		}
+//		System.out.println("stop checking with: " + object);
+//		return false;
+//	}
+	
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()

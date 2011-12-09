@@ -36,8 +36,7 @@ import org.eclipse.emf.henshin.model.IndependentUnit;
  * @generated
  */
 public class IndependentUnitItemProvider extends TransformationUnitItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -95,11 +94,11 @@ public class IndependentUnitItemProvider extends TransformationUnitItemProvider 
 	 * This returns IndependentUnit.gif.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/IndependentUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/IndependentUnit.png"));
 	}
 	
 	/**

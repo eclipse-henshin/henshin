@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.DefaultToolTip;
 import org.eclipse.jface.window.ToolTip;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -29,6 +30,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * 
  */
 public class TreeViewerToolTipSupport extends DefaultToolTip {
+	
+	private String text;
 	
 	private TreeViewer viewer;
 	
@@ -46,6 +49,8 @@ public class TreeViewerToolTipSupport extends DefaultToolTip {
 		setStyle(SWT.SHADOW_OUT);
 		setPopupDelay(0);
 		setHideDelay(0);
+		setHideOnMouseDown(false);
+		
 		viewer.getControl().setToolTipText(""); //$NON-NLS-1$
 	}
 	
@@ -66,7 +71,14 @@ public class TreeViewerToolTipSupport extends DefaultToolTip {
 	}
 	
 	protected Composite createToolTipContentArea(Event event, Composite parent) {
-		return super.createToolTipContentArea(event, parent);
+		// return super.createToolTipContentArea(event, parent);
+		
+		Browser browser = new Browser(parent, SWT.NONE);
+		browser.setJavascriptEnabled(false);
+		browser.setText(getText(event));
+		browser.setBackground(getBackgroundColor(event));
+		browser.setSize(200, SWT.DEFAULT);
+		return browser;
 	}
 	
 	protected boolean shouldCreateToolTip(Event event) {
@@ -90,5 +102,15 @@ public class TreeViewerToolTipSupport extends DefaultToolTip {
 			viewer.getControl().setFocus();
 		}
 	}
+	
+	protected String getText(Event event) {
+		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	
 	
 }
