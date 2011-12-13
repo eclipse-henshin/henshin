@@ -32,6 +32,8 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -39,19 +41,24 @@ import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.testframework.Tools;
 
+/**
+ * 
+ * @author Felix Rieger
+ *
+ */
 
 public class Transformation {
 
-	private static Map<EObject, EObject> newElements = new HashMap<EObject, EObject>();		// map from old element to new element
-	private static ArrayList<EObject> createdElements = new ArrayList<EObject>();	// list of newly created elements
+	private Map<EObject, EObject> newElements = new HashMap<EObject, EObject>();		// map from old element to new element
+	private ArrayList<EObject> createdElements = new ArrayList<EObject>();	// list of newly created elements
 	
-	private static ArrayList<NestedCondition> nacList = new ArrayList<NestedCondition>();	// list of NACs
-	private static ArrayList<String> errorList = new ArrayList<String>();
+	private ArrayList<NestedCondition> nacList = new ArrayList<NestedCondition>();	// list of NACs
+	private ArrayList<String> errorList = new ArrayList<String>();	// list of errors for future gui
 	
-	private static Map<Rule, Rule> amalgamationUnitRuleCopies = new HashMap<Rule, Rule>();  // Map from (Rules used in AmalgamationUnits) to (Copies of Rules)
-	private static ArrayList<RuleReplacementHelper> ruleReplacements = new ArrayList<RuleReplacementHelper>();
+	private Map<Rule, Rule> amalgamationUnitRuleCopies = new HashMap<Rule, Rule>();  // Map from (Rules used in AmalgamationUnits) to (Copies of Rules)
+	private ArrayList<RuleReplacementHelper> ruleReplacements = new ArrayList<RuleReplacementHelper>();	// List containing Rules and their indices in TransformationUnits
 	
-	private static class AmalgamationUnitHelper {
+	private class AmalgamationUnitHelper {
 		/**
 		 * Data structure for storing information related to amalgamationUnits
 		 */
@@ -71,33 +78,44 @@ public class Transformation {
 		}
 	}
 	
-	private static class RuleReplacementHelper {
+	private class RuleReplacementHelper {
 		/**
 		 * Data structure for storing information related to Rules
 		 */
 		EObject rule;
 		EObject tu;
-		int ruleInTuIndex = -1;
+		
+		ArrayList<Integer> ruleInTuIndices = new ArrayList<Integer>();
 		
 		public RuleReplacementHelper(EObject rule, EObject tu, int ruleInTuIndex) {
 			this.rule = rule;
 			this.tu = tu;
-			this.ruleInTuIndex = ruleInTuIndex;
+			ruleInTuIndices.add(ruleInTuIndex);
 		}
 		
 		@Override
 		public String toString() {
-			return "@idx=" + ruleInTuIndex + "    " + rule + "      in " + tu;
+			return "@idx=" + getIndicesString() + "    " + rule + "      in " + tu;
+		}
+		
+		private String getIndicesString() {
+			String s = "";
+			for (Integer i : ruleInTuIndices) {
+				s = s + i + " ";
+			}
+			return s;
 		}
 	}
 	
-	private static ArrayList<AmalgamationUnitHelper> amuList = new ArrayList<AmalgamationUnitHelper>();	// List of amalgamation units
+	private ArrayList<AmalgamationUnitHelper> amuList = new ArrayList<AmalgamationUnitHelper>();	// List of amalgamation units
 	
 	
-	private static TransformationSystem newRoot;	// root object of the new Transformation System
+	private TransformationSystem newRoot;	// root object of the new Transformation System
+	
 	
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException {
-		migrate(new java.net.URI("dbg/pnt2.henshin"));
+		Transformation tr = new Transformation();
+		tr.migrate(new java.net.URI("dbg/amut.henshin"));
 	}
 	
 	/**
@@ -106,7 +124,7 @@ public class Transformation {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	public static void migrate(java.net.URI fileUri) throws ClassNotFoundException, IOException, FileNotFoundException {		
+	public void migrate(java.net.URI fileUri) throws ClassNotFoundException, IOException, FileNotFoundException {		
 		//String oldHenshinFilename = "dbg/philNew.henshin";
 
 		
@@ -114,8 +132,8 @@ public class Transformation {
 		org.eclipse.emf.common.util.URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
 		
 		URI backupUri = eFileUri.appendFileExtension("bak");
-		URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
-		//URI newUri = eFileUri;
+		//URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
+		URI newUri = eFileUri;
 		
 		HenshinPackageImpl.init();
 
@@ -163,11 +181,11 @@ public class Transformation {
 		
 		// rename old file:
 		// TODO: uncomment this when transformation works
-/*		File oldHenshinFile = new File(fileUri);
+		File oldHenshinFile = new File(fileUri);
 		File oldHenshinFileBackup = new File(backupUri.toFileString());
 		if (!oldHenshinFile.renameTo(oldHenshinFileBackup)) { // renaming failed
 			throw new FileNotFoundException();
-		} */
+		} 
 		// write new file
 		Tools.persist(newRoot, newUri.toFileString());
 		
@@ -202,35 +220,40 @@ public class Transformation {
 	 * Kernel Rules of AmalgamationUnits used outside an AmalgamationUnit can be correctly
 	 * converted and will not be replaced by the Rule formerly known as AmalgamationUnit 
 	 */
-	private static void collectRuleReferences() {
+	private void collectRuleReferences() {
 		for (Entry<EObject, EObject> e : newElements.entrySet()) {
 			if ((e.getValue() instanceof TransformationUnit) && !(e.getValue() instanceof Rule)) {	// only transformationUnits are interesting
 				System.out.println("NOW working on " + e.getKey() + " -> " + e.getValue()); 
 				if (e.getValue() instanceof CountedUnit) {		
 					Object subUnit = e.getKey().eGet(getEReferenceByName("subUnit", e.getKey().eClass()));
 					if (newElements.get(subUnit) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
+						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
+						addRuleReplacement(newElements.get(subUnit), e.getValue(), 0);
 					}
 				} else if (e.getValue() instanceof ConditionalUnit) {
 					Object subIf = e.getKey().eGet(getEReferenceByName("if", e.getKey().eClass()));
 					Object subThen = e.getKey().eGet(getEReferenceByName("then", e.getKey().eClass()));
 					Object subElse = e.getKey().eGet(getEReferenceByName("else", e.getKey().eClass()));
 					if (newElements.get(subIf) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						ruleReplacements.add(new RuleReplacementHelper(newElements.get(subIf), e.getValue(), 0));
+						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subIf), e.getValue(), 0));
+						addRuleReplacement(newElements.get(subIf), e.getValue(), 0);
 					}
 					
 					if (newElements.get(subThen) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						ruleReplacements.add(new RuleReplacementHelper(newElements.get(subThen), e.getValue(), 0));
+						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subThen), e.getValue(), 0));
+						addRuleReplacement(newElements.get(subThen), e.getValue(), 0);
 					}
 					
 					if (newElements.get(subElse) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						ruleReplacements.add(new RuleReplacementHelper(newElements.get(subElse), e.getValue(), 0));
+						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subElse), e.getValue(), 0));
+						addRuleReplacement(newElements.get(subElse), e.getValue(), 0);
 					}
 				} else { // any other transformation unit
 					EList<TransformationUnit> subUnits = (EList<TransformationUnit>) e.getKey().eGet(getEReferenceByName("subUnits", e.getKey().eClass()));
 					for (int i = 0; i < subUnits.size(); i++) {
 						if (newElements.get(subUnits.get(i)) instanceof Rule) {
-							ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnits.get(i)), e.getValue(), i));
+							//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnits.get(i)), e.getValue(), i));
+							addRuleReplacement(newElements.get(subUnits.get(i)), e.getValue(), i);
 						}
 					}
 				}
@@ -242,7 +265,7 @@ public class Transformation {
 	 * When an amalgamationUnit is converted, it becomes a Rule, but will still be contained in the TransformationSystem's
 	 * TransformationUnits. For improved model consistency, move these Rules to the "Rules" reference.
 	 */
-	private static void moveRulesToRulesReference() {
+	private void moveRulesToRulesReference() {
 		ArrayList<TransformationUnit> ruleList = new ArrayList<TransformationUnit>();
 		for (TransformationUnit tu : newRoot.getTransformationUnits()) {
 			if (tu instanceof Rule) {
@@ -261,7 +284,7 @@ public class Transformation {
 	 * Update references to Amalgamation Units
 	 * @param tu
 	 */
-	private static void updateAmalgamationUnitReferences(TransformationUnit tu) {
+	private void updateAmalgamationUnitReferences(TransformationUnit tu) {
 		updateAmalgamationUnitReferences(new ArrayList<TransformationUnit>(), tu);
 	}
 	
@@ -270,7 +293,7 @@ public class Transformation {
 	 * @param stack	Contains the TransformationUnits which were already visited
 	 * @param tu	TransformationUnit to update
 	 */
-	private static void updateAmalgamationUnitReferences(ArrayList<TransformationUnit> stack, TransformationUnit tu) {
+	private void updateAmalgamationUnitReferences(ArrayList<TransformationUnit> stack, TransformationUnit tu) {
 		// TODO: If the kernel rule was previously used outside of the amalgamation unit, this method will replace this occurence with the amalgamation unit
 		// Needed: List of kernel rules used outside of amalgamation units to check against.
 		
@@ -321,16 +344,20 @@ public class Transformation {
 			EList<TransformationUnit> subUnits = (EList<TransformationUnit>) tu.eGet(getEReferenceByName("subUnits", tu.eClass()));
 			for (int i = 0; i < subUnits.size(); i++) {
 				TransformationUnit su = subUnits.get(i);
-				System.err.println("I=" + i + " SU=" + su);
+				System.out.println("I=" + i + " SU=" + su);
 				if (su instanceof TransformationUnit && !(su instanceof Rule)) { // check for nested TransformationUnits
 					updateAmalgamationUnitReferences(stack, su);
 				} else if (amalgamationUnitRuleCopies.get(su) != null) {
 					RuleReplacementHelper rrh = searchForRuleReplacement(tu, (Rule) su);
-					System.err.println("idx::" + i + " Rule replacement ::: " + rrh);
-					if ((rrh == null) || (rrh.ruleInTuIndex != i)) {
+					System.out.println("idx::" + i + " Rule replacement ::: " + rrh);
+					if ((rrh == null) || (!(rrh.ruleInTuIndices.contains(i)))) { // replace
+						System.out.println("replacing!");
+						subUnits.set(i, amalgamationUnitRuleCopies.get(su));
+					} 
+					/*if ((rrh == null) || (rrh.ruleInTuIndex != i)) {
 						System.err.println("replacing!");
 						subUnits.set(i, amalgamationUnitRuleCopies.get(su));
-					}
+					}*/
 				}
 			}
 			/*for (TransformationUnit su : subUnits) {
@@ -357,7 +384,7 @@ public class Transformation {
 	 * Build new Rules in place of the old AmalgamationUnits
 	 * Note: Kernel and Multi Rules will be copied, although this will not be neccessary most of the time.
 	 */
-	private static void buildAmalgamationUnits() {
+	private void buildAmalgamationUnits() {
 		for (AmalgamationUnitHelper amu : amuList) {
 			Rule krlRuleTmp = (Rule) newElements.get(amu.kernelRule);
 			Rule krlRule = (Rule) EcoreUtil.copy(krlRuleTmp);
@@ -465,7 +492,7 @@ public class Transformation {
 	 * Update references of the new objects. All references of 2011 objects should point to other 2011 objects, so
 	 * traverse the newElements map and update all references between objects.
 	 */
-	private static void updateReferences() {
+	private void updateReferences() {
 		for (Entry<EObject, EObject> e : newElements.entrySet()) {
 			System.out.println("\nREFERENCES FOR " + e.getKey());
 
@@ -487,6 +514,18 @@ public class Transformation {
 								if (er.getName().equals("imports")) { // special case for imports
 									System.out.println("special case for imports");
 									((EObject) e.getValue()).eSet(er, oldReferencedObjects);
+								} else if (er.getName().equals("parameterMappings")) { // special case for parameter mappings
+									if (e.getKey().eClass().getName().equals("AmalgamationUnit")) {
+										// do nothing
+									} else {
+										convertObjectList(oldReferencedObjects, newReferencedObjects);
+									}
+								} else if (er.getName().equals("parameters")) { // special case for parameters
+									if (e.getKey().eClass().getName().equals("AmalgamationUnit")) {
+										// do nothing; use the kernel rule's parameters
+									} else {
+										convertObjectList(oldReferencedObjects, newReferencedObjects);
+									}
 								} else {
 									convertObjectList(oldReferencedObjects, newReferencedObjects);
 									System.out.println("NEW:: " + newReferencedObjects);
@@ -515,8 +554,7 @@ public class Transformation {
 							}
 						}
 					} else {
-						System.err.println(er + " has no old reference equivalent");
-						System.err.flush();
+						System.out.println(er + " has no old reference equivalent");
 					}
 				} else {
 					System.out.println("reference not changeable");
@@ -530,7 +568,7 @@ public class Transformation {
 	 * @param oldList	List of '2010' objects
 	 * @param newList	New List of '2011' objects
 	 */
-	private static void convertObjectList(EList<EObject> oldList, EList<EObject> newList) {
+	private void convertObjectList(EList<EObject> oldList, EList<EObject> newList) {
 		System.out.print("{");
 	
 		for (int i = 0; i < oldList.size(); i++) {
@@ -553,7 +591,7 @@ public class Transformation {
 	/**
 	 * Update references to amalgamation units to point to their kernel rules
 	 */
-	private static void updateAmalgamationUnitReferences() {
+	private void updateAmalgamationUnitReferences() {
 		for (Entry<EObject, EObject> e : newElements.entrySet()) {
 			if (newElements.containsKey(e.getValue())) {
 				EObject ruleReplacingAmalgamationUnit = newElements.get(e.getValue());
@@ -566,7 +604,7 @@ public class Transformation {
 	 * Fill the old Element->new Element map (newElements) recursively.
 	 * @param rootObject
 	 */
-	private static void fillMap(EObject rootObject) {
+	private void fillMap(EObject rootObject) {
 		EPackage henshinNew = HenshinPackageImpl.eINSTANCE;
 		//EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2011/Henshin");
 		
@@ -611,6 +649,21 @@ public class Transformation {
 					Mapping newRhsMapping = HenshinFactory.eINSTANCE.createMapping();
 					newElements.put(rhsMapping, newRhsMapping);
 				}
+
+				/*
+				EList<EObject> amalgamationUnitParameters = (EList<EObject>) eo.eGet(getEReferenceByName("parameters", eo.eClass()));
+				for (Iterator iter = amalgamationUnitParameters.iterator(); iter.hasNext(); ) {
+					EObject parameter = (EObject) iter.next();
+					Parameter newParameter = HenshinFactory.eINSTANCE.createParameter();
+					newElements.put(parameter, newParameter);
+				}
+				
+				EList<EObject> amalgamationUnitParameterMappings = (EList<EObject>) eo.eGet(getEReferenceByName("parameterMappings", eo.eClass()));
+				for (Iterator iter = amalgamationUnitParameterMappings.iterator(); iter.hasNext(); ) {
+					EObject parameterMapping = (EObject) iter.next();
+					ParameterMapping newParameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+					//newElements.put(parameterMapping, newParameterMapping);
+				} */
 				
 				amuList.add(amu);
 				newElements.put(eo, amalgamationUnitKernelRule);
@@ -677,7 +730,7 @@ public class Transformation {
 	 * Add the root object to the newElements map
 	 * @param eo
 	 */
-	private static void addRootObjectToMap(EObject eo) {
+	private void addRootObjectToMap(EObject eo) {
 		EPackage henshinNew = HenshinPackageImpl.eINSTANCE;
 		//.EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2011/Henshin");
 		
@@ -730,7 +783,7 @@ public class Transformation {
 	 * @param ec
 	 * @return
 	 */
-	private static EAttribute getEAttributeForName(String name, EClass ec) {
+	private EAttribute getEAttributeForName(String name, EClass ec) {
 		for (Iterator<EAttribute> iter = ec.getEAllAttributes().iterator(); iter.hasNext(); ) {
 			EAttribute attr = (EAttribute) iter.next();
 			if (attr.getName().equals(name)) {
@@ -746,7 +799,7 @@ public class Transformation {
 	 * @param ec
 	 * @return
 	 */
-	private static EReference getEReferenceByName(String name, EClass ec) {
+	private EReference getEReferenceByName(String name, EClass ec) {
 		for (Iterator<EReference> iter = ec.getEAllReferences().iterator(); iter.hasNext(); ) {
 			EReference eref = (EReference) iter.next();
 			System.out.println("\t" + eref.getName());
@@ -761,7 +814,7 @@ public class Transformation {
 	/**
 	 * Wrap NACs in NOT
 	 */
-	private static void wrapNACs() {
+	private void wrapNACs() {
 		System.out.println("\n\n --- wrap nacs ---");
 		for (Entry<EObject, EObject> entry : newElements.entrySet()) {
 			if (entry.getValue() instanceof Graph) {
@@ -797,7 +850,7 @@ public class Transformation {
 	 * Traverse formulas recursively for searching for NACs.
 	 * @param f
 	 */
-	private static void traverseFormula(Formula f) {
+	private void traverseFormula(Formula f) {
 		System.out.println("... traversing formula " + f);
 		if (f instanceof Not) {
 			 if (((Not) f).getChild() instanceof NestedCondition) {
@@ -834,10 +887,10 @@ public class Transformation {
 		}
 	}
 	
-	/*
+	/**
 	 * Wrap a NAC and return Not<>--NC
 	 */
-	private static Not wrapNac(NestedCondition nac) {
+	private Not wrapNac(NestedCondition nac) {
 		nacList.remove(nac);
 		Not nacNotWrapper = HenshinFactory.eINSTANCE.createNot();
 		nacNotWrapper.setChild(nac);
@@ -849,7 +902,7 @@ public class Transformation {
 	/**
 	 * Clean up double negations
 	 */
-	private static void cleanUpNotFormulas() {
+	private void cleanUpNotFormulas() {
 		ArrayList<EObject> newObjectList = new ArrayList<EObject>();
 		newObjectList.addAll(newElements.values());
 		newObjectList.addAll(createdElements);
@@ -884,17 +937,38 @@ public class Transformation {
 	}
 	
 	
-	private static void addError(String errorText) {
+	private void addError(String errorText) {
 		errorList.add(errorText);
 	}
 
-	private static RuleReplacementHelper searchForRuleReplacement(TransformationUnit tu, Rule r) {
+	/**
+	 * Search for a Rule Replacement in the Rule Replacement list
+	 * @param tu	TransformationUnit to look for
+	 * @param r		Rule to look for
+	 * @return		the Rule Replacement, if found. Otherwise, null.
+	 */
+	private RuleReplacementHelper searchForRuleReplacement(TransformationUnit tu, Rule r) {
 		for (RuleReplacementHelper rrh : ruleReplacements) {
 			if ((r.equals(rrh.rule)) && (tu.equals(rrh.tu))) {
 				return rrh;
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Adds a Rule to the Rule Replacement list.
+	 * @param rule	Rule
+	 * @param tu	TransformationUnit referencing the Rule
+	 * @param index	index of the Rule in the TransformationUnit
+	 */
+	private void addRuleReplacement(EObject rule, EObject tu, int index) {
+		RuleReplacementHelper rrh = searchForRuleReplacement((TransformationUnit) tu, (Rule) rule);
+		if (rrh == null) { // no matching rule replacement, add new rule replacement to list
+			ruleReplacements.add(new RuleReplacementHelper((Rule) rule, (TransformationUnit) tu, index));
+		} else { // rule replacement already exists, so just add another index to the already existing list
+			rrh.ruleInTuIndices.add(index);
+		}
 	}
 	
 }
