@@ -41,8 +41,11 @@ public class TransformationUnitTests extends HenshinTest {
 	@Test
 	public void amalgamationUnitTest() {
 		loadGraph("graphBefore_amalgamationUnit");
-		loadTu("amalgamationUnitTest", "ndname", "R");		
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
+		//loadTu("amalgamationUnitTest", "ndname", "R");
+		loadRule("amalgamationUnitTest_krl_findNode", "ndname", "R");
+		//GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRuleApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
+
 	}
 	
 	// -------- counted unit ---------
