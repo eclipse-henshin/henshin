@@ -1,9 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: henshinTransformation
-Bundle-SymbolicName: org.eclipse.emf.henshin.migration1011
+Bundle-SymbolicName: org.eclipse.emf.henshin.migration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Export-Package: .
+Export-Package: .,
+ org.eclipse.emf.henshin.migration,
+ org.eclipse.emf.henshin.migration.wizard
 Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.resource,
@@ -12,4 +14,7 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.henshin.model.impl,
  org.eclipse.emf.henshin.testframework
 Require-Bundle: org.eclipse.emf.common,
- org.eclipse.emf.henshin.model
+ org.eclipse.emf.henshin.model,
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime;bundle-version="3.6.0"
