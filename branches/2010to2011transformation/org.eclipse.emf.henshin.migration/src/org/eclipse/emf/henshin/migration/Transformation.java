@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -32,8 +35,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -135,18 +136,15 @@ public class Transformation {
 		//URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
 		URI newUri = eFileUri;
 		
-		HenshinPackageImpl.init();
-
+		HenshinPackageImpl.init();		
 		
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-		URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
+		//URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
+		URI henshinUri = URI.createPlatformPluginURI("org.eclipse.emf.henshin.migration/model/henshin-080.ecore", false);
 		ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri));
-		
-		
-		
+
 		ModelHelper.registerFileExtension("henshin");	// TODO: aus modelhelper kopieren
 		EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
-		//EObject graphRoot = ModelHelper.loadFile(oldHenshinFilename);
 
 		
 		addRootObjectToMap(graphRoot);	// fill map by creating new objects
