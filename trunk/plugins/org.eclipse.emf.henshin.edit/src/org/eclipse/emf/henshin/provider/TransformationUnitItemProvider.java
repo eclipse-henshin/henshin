@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -33,8 +34,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
-import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterItemProvider;
-import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvider;
+import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
 
 /**
  * This is the item provider adapter for a
@@ -45,7 +45,7 @@ import org.eclipse.emf.henshin.provider.trans.TrafoUnitParameterMappingItemProvi
  */
 public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above
@@ -178,8 +178,10 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 			}// for
 			
 			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()))
-				childrenList.add(offset, new TrafoUnitParameterMappingItemProvider(adapterFactory,
-						tu));
+				childrenList.add(offset, new GenericReferenceContainerItemProvider(adapterFactory,
+						tu, HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings(),
+						"_UI_TransformationUnit_parameterMappings_feature",
+						"full/obj16/ParameterMapping"));
 			
 		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings())) {
 			childrenList.removeAll(tu.getParameterMappings());
@@ -188,7 +190,9 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		if (tu.getParameters().size() > MAX_UNFOLD_PARAMETERMAPPINGS) {
 			childrenList.removeAll(tu.getParameters());
 			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings()))
-				childrenList.add(0, new TrafoUnitParameterItemProvider(adapterFactory, tu));
+				childrenList.add(0, new GenericReferenceContainerItemProvider(adapterFactory, tu,
+						HenshinPackage.eINSTANCE.getTransformationUnit_Parameters(),
+						"_UI_TransformationUnit_parameters_feature", "full/obj16/Parameter"));
 		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters())) {
 			childrenList.removeAll(tu.getParameters());
 		}
@@ -216,21 +220,6 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		String label = ((TransformationUnit) object).getName();
 		return label == null || label.length() == 0 ? getString("_UI_TransformationUnit_type")
 				: getString("_UI_TransformationUnit_type") + " " + label;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getForeground(java.
-	 * lang.Object)
-	 */
-	@Override
-	public Object getForeground(Object object) {
-		// System.out.println("getForeground()");
-		TransformationUnit tUnit = (TransformationUnit) object;
-		if (!tUnit.isActivated())
-			return "color://hsb///0.5";
-		return super.getForeground(object);
 	}
 	
 	/**
@@ -268,17 +257,12 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
-		
 		/*
 		 * In contrast to transformation units, whose children units are
 		 * referred to and thus need to be wrapped up, rule have no such referee
 		 * and do not need to wrap their children.
 		 */
-		if (object instanceof TransformationUnit)// && !(object instanceof
-													// Rule))
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
+		return object instanceof TransformationUnit;
 	}// isWrappingNeeded
 	
 	/*
@@ -294,7 +278,7 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		
 		if (!isWrappingNeeded(object))
 			return value;
-
+		
 		if (value instanceof TransformationUnit) {
 			if (value instanceof Rule) {
 				return new ReferencedRuleItemProvider((Rule) value, object, feature, index,

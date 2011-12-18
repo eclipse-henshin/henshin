@@ -14,6 +14,7 @@
  */
 package org.eclipse.emf.henshin.provider.descriptors;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -41,7 +42,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
-
+	
 	/**
 	 * @param adapterFactory
 	 * @param resourceLocator
@@ -50,30 +51,28 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 * @param feature
 	 */
 	public MappingOriginPropertyDescriptor(AdapterFactory adapterFactory,
-			ResourceLocator resourceLocator, String displayName,
-			String description, EStructuralFeature feature) {
-		super(adapterFactory, resourceLocator, displayName, description,
-				feature, true, false, true, null, null, null);
-
+			ResourceLocator resourceLocator, String displayName, String description,
+			EStructuralFeature feature) {
+		super(adapterFactory, resourceLocator, displayName, description, feature, true, false,
+				true, null, null, null);
+		
 		this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator) {
 			public String getText(Object object) {
 				if (object instanceof Node) {
 					Node node = (Node) object;
-					String nodeLabel = node.getName() == null
-							|| node.getName().equals("") ? "_" : node.getName();
-					String typeLabel = node.getType() != null ? node.getType()
-							.getName() : "_";
+					String nodeLabel = node.getName() == null || node.getName().equals("") ? "_"
+							: node.getName();
+					String typeLabel = node.getType() != null ? node.getType().getName() : "_";
 					String nodeContainerLabel = node.getGraph().getName() == null
-							|| node.getGraph().getName().equals("") ? "_"
-							: node.getGraph().getName();
-					return nodeLabel + ":" + typeLabel + " ["
-							+ nodeContainerLabel + "]";
+							|| node.getGraph().getName().equals("") ? "_" : node.getGraph()
+							.getName();
+					return nodeLabel + ":" + typeLabel + " [" + nodeContainerLabel + "]";
 				}
 				return super.getText(object);
 			}
 		};
 	}// constructor
-
+	
 	/**
 	 * Collects all nodes, which are provided by the combo box in a related
 	 * property sheet.
@@ -83,18 +82,25 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
-
-		Collection<Node> result = null;
-
+		
+		Collection<Node> result = new ArrayList<Node>();
+		
 		if (object instanceof Mapping) {
 			Mapping mapping = (Mapping) object;
 			EObject eobject = mapping.eContainer();
 			if (eobject instanceof Rule) {
-				/*
-				 * Origin in a rule may be any node in the LHS.
-				 */
 				Rule rule = (Rule) eobject;
-				result = rule.getLhs().getNodes();
+				if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_Mappings()) {
+					result = rule.getLhs().getNodes();
+				} else if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE
+						.getRule_MultiMappings()) {
+					EObject ruleContainer = rule.eContainer();
+					if (ruleContainer instanceof Rule) {
+						Rule containerRule = (Rule) ruleContainer;
+						result.addAll(containerRule.getLhs().getNodes());
+						result.addAll(containerRule.getRhs().getNodes());
+					}
+				}
 			} else if (eobject instanceof NestedCondition) {
 				/*
 				 * Origin in a nested condition may be any node in the
@@ -107,7 +113,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				while (f.eContainer() instanceof Formula)
 					f = (Formula) f.eContainer();
-
+				
 				Graph graph = (Graph) f.eContainer();
 				result = graph.getNodes();
 			} else if (eobject instanceof AmalgamationUnit) {
@@ -118,7 +124,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				AmalgamationUnit au = (AmalgamationUnit) eobject;
 				EStructuralFeature sf = mapping.eContainingFeature();
-
+				
 				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
 					result = au.getKernelRule().getLhs().getNodes();
 				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
@@ -126,12 +132,12 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				}// if else if
 			}// if else if
 		}// if
-
+		
 		if (result != null) {
 			return Collections.unmodifiableCollection(result);
 		} else {
 			return super.getComboBoxObjects(object);
 		}// if else
 	}// getComboBoxObjects
-
+	
 }// class

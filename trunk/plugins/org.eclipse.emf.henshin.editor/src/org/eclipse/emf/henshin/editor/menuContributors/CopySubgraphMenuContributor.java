@@ -23,8 +23,10 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 
 /**
  * Contributes copy actions for subgraphs.
@@ -47,9 +49,11 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 	@Override
 	protected void contributeActions(IMenuManager menuManager, List<?> selection) {
 		
-		if (selection.size() == 0) return;
+		if (selection.size() == 0)
+			return;
 		
-		if (!QuantUtil.allInstancesOf(Node.class, selection.toArray())) return;
+		if (!QuantUtil.allInstancesOf(Node.class, selection.toArray()))
+			return;
 		
 		Graph sourceGraph = ((Node) selection.get(0)).getGraph();
 		
@@ -65,8 +69,9 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
 			
-			if (cmd.canExecute()) menuManager.add(createAction("Copy to RHS", cmd));
-			
+			if (cmd.canExecute())
+				menuManager.add(createAction("Copy to RHS", cmd));
+			menuManager.add(new Separator());
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 			
 		} else if (HenshinRuleAnalysisUtil.isRHS(sourceGraph)) {
@@ -79,11 +84,38 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			
 			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
-			if (cmd.canExecute()) menuManager.add(createAction("Copy to LHS", cmd));
+			if (cmd.canExecute())
+				menuManager.add(createAction("Copy to LHS", cmd));
 			
 		} else if (HenshinRuleAnalysisUtil.isConclusion(sourceGraph)) {
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 		}
+		
+		if (sourceGraph.isLhs() || sourceGraph.isRhs()) {
+			menuManager.add(new Separator());
+			Rule rule = sourceGraph.getContainerRule();
+			int mRuleIndex = 0;
+			for (Rule mRule : rule.getMultiRules()) {
+				CopySubgraphCommand cmd = new CopySubgraphCommand();
+				cmd.setDomain(domain);
+				cmd.setMappingOrigin(true);
+				cmd.setSourceGraph(sourceGraph);
+				cmd.setTargetGraph(sourceGraph.isLhs() ? mRule.getLhs() : mRule.getRhs());
+				cmd.setMappings(mRule.getMultiMappings());
+				cmd.setNodes((Collection<Node>) selection);
+				if (cmd.canExecute()) {
+					String label = "Copy to MultiRule \"";
+					if (mRule.getName() != null && mRule.getName().length() > 0)
+						label += mRule.getName();
+					else
+						label += "_(idx:" + mRuleIndex + ")";
+					label += "\"";
+					menuManager.add(createAction(label, cmd));
+				}
+				mRuleIndex++;
+			}
+		}
+		
 	}
 	
 	/**
@@ -96,9 +128,11 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 	 */
 	private void walkNC(IMenuManager menu, Formula formula, Graph sourceGraph,
 			Collection<Node> selection) {
-		if (formula == null) return;
+		if (formula == null)
+			return;
 		if (formula instanceof NestedCondition) {
-			if (((NestedCondition) formula).getConclusion() == null) return;
+			if (((NestedCondition) formula).getConclusion() == null)
+				return;
 			
 			CopySubgraphCommand cmd = new CopySubgraphCommand();
 			cmd.setDomain(domain);

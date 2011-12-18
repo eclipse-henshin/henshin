@@ -18,10 +18,15 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
@@ -141,8 +146,11 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 							}
 						});
 			}
-			if (selection.getFirstElement() instanceof TransformationUnit) {
+			if (selection.getFirstElement() instanceof TransformationUnit
+					&& domain instanceof AdapterFactoryEditingDomain) {
 				TransformationUnit unit = (TransformationUnit) selection.getFirstElement();
+				AdapterFactoryEditingDomain aDomain = (AdapterFactoryEditingDomain) domain;
+				
 				IMenuManager usageMenu = new MenuManager(
 						HenshinEditorPlugin.INSTANCE.getString("_UI_NavigationAction_GotoUsage"));
 				Collection<Setting> settings = EcoreUtil.UsageCrossReferencer.find(unit,
@@ -150,17 +158,27 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 				boolean used = false;
 				for (final Setting setting : settings) {
 					used = true;
-					
-					System.out.println(setting.getClass());
-					
-					usageMenu.add(new Action(setting.getEObject().getClass().getSimpleName() + "."
-							+ setting.getEStructuralFeature().getName()) {
-						@Override
-						public void run() {
-							HenshinEditor hEditor = (HenshinEditor) activeEditor;
-							hEditor.setSelectionToViewer(Collections.singleton(setting.getEObject()));
+					Object adapter = aDomain.getAdapterFactory().adapt(setting.getEObject(),
+							ITreeItemContentProvider.class);
+					if (adapter == null)
+						continue;
+					ITreeItemContentProvider tcp = (ITreeItemContentProvider) adapter;
+					for (final Object child : tcp.getChildren(setting.getEObject())) {
+						if (child instanceof IWrapperItemProvider
+								&& ((IWrapperItemProvider) child).getValue() == unit) {
+							usageMenu.add(new Action(setting.getEObject().getClass()
+									.getSimpleName()
+									+ "." + setting.getEStructuralFeature().getName()) {
+								@Override
+								public void run() {
+									HenshinEditor hEditor = (HenshinEditor) activeEditor;
+									hEditor.setSelectionToViewer(Collections.singleton(child));
+								}
+							});
 						}
-					});
+						
+					}
+					
 				}
 				if (!used)
 					usageMenu.add(new Action(HenshinEditorPlugin.INSTANCE

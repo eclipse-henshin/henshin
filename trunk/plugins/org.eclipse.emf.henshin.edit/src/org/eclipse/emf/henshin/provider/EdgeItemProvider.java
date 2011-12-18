@@ -17,8 +17,10 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -28,6 +30,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
@@ -43,7 +46,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  */
 public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -64,10 +67,10 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
 			addSourcePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			// makePropertyDescriptorsContextSensitive();
 		}
 		return itemPropertyDescriptors;
 	}
@@ -85,21 +88,6 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 				getResourceLocator(), getString("_UI_Edge_source_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Edge_source_feature",
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__SOURCE));
-		
-		// itemPropertyDescriptors.add
-		// (createItemPropertyDescriptor
-		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-		// getResourceLocator(),
-		// getString("_UI_Edge_source_feature"),
-		// getString("_UI_PropertyDescriptor_description",
-		// "_UI_Edge_source_feature", "_UI_Edge_type"),
-		// HenshinPackage.Literals.EDGE__SOURCE,
-		// true,
-		// false,
-		// true,
-		// null,
-		// null,
-		// null));
 	}
 	
 	/**
@@ -109,27 +97,11 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 * @generated NOT
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
-		
 		itemPropertyDescriptors.add(new EdgeTargetPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
 				getResourceLocator(), getString("_UI_Edge_target_feature"), getString(
 						"_UI_PropertyDescriptor_description", "_UI_Edge_target_feature",
 						"_UI_Edge_type"), HenshinPackage.Literals.EDGE__TARGET));
-		
-		// itemPropertyDescriptors.add
-		// (createItemPropertyDescriptor
-		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-		// getResourceLocator(),
-		// getString("_UI_Edge_target_feature"),
-		// getString("_UI_PropertyDescriptor_description",
-		// "_UI_Edge_target_feature", "_UI_Edge_type"),
-		// HenshinPackage.Literals.EDGE__TARGET,
-		// true,
-		// false,
-		// true,
-		// null,
-		// null,
-		// null));
 	}
 	
 	/**
@@ -270,5 +242,36 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	public ResourceLocator getResourceLocator() {
 		return HenshinEditPlugin.INSTANCE;
 	}
+	
+	protected boolean isUserEditable(Object object) {
+		Edge edge = (Edge) object;
+		
+		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
+			Rule rule = edge.getGraph().getContainerRule();
+			return rule.getOriginInKernelRule(edge) == null;
+		}
+		return true;
+	}
+	
+	@Override
+	public Object getForeground(Object object) {
+		return isUserEditable(object) ? super.getForeground(object) : URI
+				.createURI("color://rgb/0/0/255");
+	}
+	
+	// @Override
+	// protected Command createSetCommand(EditingDomain domain, EObject owner,
+	// EStructuralFeature feature, Object value, int index) {
+	// Edge edge = (Edge) owner;
+	// CompoundCommand cmpCmd = new
+	// CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
+	// for (Edge dependentEdge : HenshinMultiRuleUtil.getDependentEdges(edge)) {
+	// cmpCmd.append(createSetCommand(domain, dependentEdge, feature, value,
+	// index));
+	// }
+	// cmpCmd.append(super.createSetCommand(domain, owner, feature, value,
+	// index));
+	// return cmpCmd.unwrap();
+	// }
 	
 }

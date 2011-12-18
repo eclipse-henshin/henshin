@@ -156,7 +156,6 @@ public class HighlightingTreeViewer extends TreeViewer {
 		} else if (formula instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) formula;
 			for (Mapping m : nc.getMappings()) {
-				System.out.println("nested mapping");
 				if (m.getOrigin() == node) {
 					mark(m, getYELLOW());
 					if (m.getImage() != null) {

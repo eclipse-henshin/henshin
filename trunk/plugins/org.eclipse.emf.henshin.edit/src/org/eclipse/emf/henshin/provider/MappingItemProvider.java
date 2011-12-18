@@ -21,6 +21,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -43,13 +44,15 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingImagePropertyDescript
 import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Mapping} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.eclipse.emf.henshin.model.Mapping} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class MappingItemProvider extends HenshinItemProviderAdapter implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	protected NodeListener nodeListener;
 	
@@ -75,7 +78,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addOriginPropertyDescriptor(object);
 			addImagePropertyDescriptor(object);
 		}
@@ -143,8 +146,8 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns Mapping.gif.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This returns Mapping.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -196,9 +199,19 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 			} else {
 				return auIp != null ? auIp.getRhsMappingsItemProvider() : null;
 			}
-		} else {
+		} else if (o instanceof Rule) {
+			Rule rule = (Rule) o;
+			Mapping mapping = (Mapping) object;
+			
+			RuleItemProvider rip = (RuleItemProvider) getRootAdapterFactory().adapt(rule,
+					IEditingDomainItemProvider.class);
+			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_MultiMappings())
+				return rip.getMultiMappingContainer(rule);
+			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_Mappings())
+				return rip.getLrMappingContainer(rule);
 			return super.getParent(object);
-		}
+		} else
+			return super.getParent(object);
 	}// getParent
 	
 	/**

@@ -111,7 +111,8 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ParameterMapping.png"));
+		return overlayImage(object, getResourceLocator()
+				.getImage("full/obj16/ParameterMapping.png"));
 	}
 	
 	/**

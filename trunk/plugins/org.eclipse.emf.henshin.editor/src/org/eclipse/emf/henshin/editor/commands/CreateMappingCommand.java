@@ -14,8 +14,14 @@ package org.eclipse.emf.henshin.editor.commands;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
@@ -28,15 +34,19 @@ import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
  */
-public class CreateMappingCommand extends AbstractCommand {
+public class CreateMappingCommand extends CompoundCommand {
 	
+	protected EditingDomain domain;
 	protected Node origin;
 	protected Node image;
 	protected Mapping mapping;
 	protected Collection<?> affectedObjects;
-	private boolean lhsRhsMapping = false;
+	protected EObject owner;
+	protected EStructuralFeature feature;
 	
-	public CreateMappingCommand(Node source, Node target) {
+	public CreateMappingCommand(EditingDomain domain, Node source, Node target) {
+		super();
+		this.domain = domain;
 		this.origin = source;
 		this.image = target;
 	}
@@ -47,79 +57,94 @@ public class CreateMappingCommand extends AbstractCommand {
 	 */
 	@Override
 	protected boolean prepare() {
-		lhsRhsMapping = false;
 		/*
 		 * 1) Check at first if any reference is null which shall not be null.
 		 * 2) Check if the graphs of origin and image are not the same.
 		 */
 		if (QuantUtil.anyNull(origin, image, origin.getGraph(), image.getGraph(), origin.getGraph()
 				.eContainer(), image.getGraph().eContainer())
-				|| QuantUtil.allIdentical(origin.getGraph(), image.getGraph())) return false;
+				|| QuantUtil.allIdentical(origin.getGraph(), image.getGraph()))
+			return false;
 		
 		if (isUnmappedLhsRhsPairFromSameRule(origin, image)) {
-			lhsRhsMapping = true;
-			return true;
-		}
-		if (isMappableSourceAndNestedTargetNode(origin, image)) return true;
+			feature = HenshinPackage.eINSTANCE.getRule_Mappings();
+			owner = origin.getGraph().getContainerRule();
+		} else if (isMappableSourceAndNestedTargetNode(origin, image)) {
+			feature = HenshinPackage.eINSTANCE.getNestedCondition_Mappings();
+			owner = image.getGraph().eContainer();
+		} else if (isMappableSourceAndMultiRuleTargetNode(origin, image)) {
+			feature = HenshinPackage.eINSTANCE.getRule_MultiMappings();
+			owner = image.getGraph().getContainerRule();
+		} else
+			return false;
 		
-		return false;
+		mapping = HenshinFactory.eINSTANCE.createMapping(origin, image);
+		affectedObjects = Collections.singleton(mapping);
+		append(domain.createCommand(AddCommand.class, new CommandParameter(owner, feature, mapping,
+				CommandParameter.NO_INDEX)));
+		return super.prepare();
 	}// prepare
 	
-	@Override
-	public void execute() {
-		
-		mapping = HenshinFactory.eINSTANCE.createMapping();
-		mapping.setOrigin(origin);
-		mapping.setImage(image);
-		redo();
-	}
-	
-	@Override
-	public void redo() {
-		if (lhsRhsMapping) {
-			origin.getGraph().getContainerRule().getMappings().add(mapping);
-		} else {
-			NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
-			nc.getMappings().add(mapping);
-		}
-		affectedObjects = Collections.singleton(mapping);
-	}
-	
-	@Override
-	public boolean canUndo() {
-		return true;
-	}
-	
-	@Override
-	public void undo() {
-		if (lhsRhsMapping) {
-			origin.getGraph().getContainerRule().getMappings().remove(mapping);
-			affectedObjects = Collections.singleton(origin.getGraph().getContainerRule());
-		} else {
-			NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
-			nc.getMappings().remove(mapping);
-			affectedObjects = Collections.singleton(nc);
-		}
-	}
-	
-	@Override
-	public Collection<?> getAffectedObjects() {
-		return affectedObjects;
-	}
-	
 	/**
-	 * Common interface for creating and deleting the containment relation of
-	 * mappings in the model
+	 * Returns whether both nodes are in LHS or both nodes are in LHS and the
+	 * Rule containing the image has to be a direct multiRule of Rule containing
+	 * the origin.
 	 * 
+	 * @param origin
+	 * @param image
+	 * @return
 	 */
-	protected interface ModelConnectionStrategy {
-		void makeContained();
-		
-		/**
-		 * @return affectedObjects
-		 */
-		Collection<?> makeUncontained();
+	private boolean isMappableSourceAndMultiRuleTargetNode(Node origin, Node image) {
+		boolean result = false;
+		result |= origin.getGraph().isLhs() && image.getGraph().isLhs();
+		result |= origin.getGraph().isRhs() && image.getGraph().isRhs();
+		result &= origin.getGraph().getContainerRule().getMultiRules()
+				.contains(image.getGraph().getContainerRule());
+		return result;
 	}
+	
+	// @Override
+	// public void execute() {
+	//
+	// mapping = HenshinFactory.eINSTANCE.createMapping();
+	// mapping.setOrigin(origin);
+	// mapping.setImage(image);
+	// redo();
+	// }
+	
+	// @Override
+	// public void redo() {
+	// if (lhsRhsMapping) {
+	// origin.getGraph().getContainerRule().getMappings().add(mapping);
+	// } else {
+	// NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
+	// nc.getMappings().add(mapping);
+	// }
+	// affectedObjects = Collections.singleton(mapping);
+	// }
+	
+	// @Override
+	// public boolean canUndo() {
+	// return true;
+	// }
+	//
+	// @Override
+	// public void undo() {
+	// if (lhsRhsMapping) {
+	// origin.getGraph().getContainerRule().getMappings().remove(mapping);
+	// affectedObjects =
+	// Collections.singleton(origin.getGraph().getContainerRule());
+	// } else {
+	// NestedCondition nc = (NestedCondition) image.getGraph().eContainer();
+	// nc.getMappings().remove(mapping);
+	// affectedObjects = Collections.singleton(nc);
+	// }
+	// }
+	
+	// @Override
+	// public Collection<?> getAffectedObjects() {
+	// return affectedObjects;
+	// }
 	
 	/**
 	 * Returns true is source and target are contained in the LHS and RHS of the
@@ -147,7 +172,6 @@ public class CreateMappingCommand extends AbstractCommand {
 	 * @return
 	 */
 	protected boolean isUnmapped(Node sourceNode, Node targetNode, Collection<Mapping> mappings) {
-		
 		for (Mapping mapping : mappings) {
 			if (mapping.getOrigin() == sourceNode || mapping.getImage() == targetNode)
 				return false;

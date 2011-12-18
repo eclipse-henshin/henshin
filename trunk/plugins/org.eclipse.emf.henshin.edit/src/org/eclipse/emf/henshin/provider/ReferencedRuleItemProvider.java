@@ -27,11 +27,12 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
+
 /**
  * Represents Rule in the context of TransformationUnits.
  * 
  * @author Gregor Bonifer
- *
+ * 
  */
 public class ReferencedRuleItemProvider extends DelegatingWrapperItemProvider implements
 		IItemToolTipProvider {

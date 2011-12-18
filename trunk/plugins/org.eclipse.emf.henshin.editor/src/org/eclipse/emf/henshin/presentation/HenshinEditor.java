@@ -580,7 +580,6 @@ public class HenshinEditor extends MultiPageEditorPart implements IEditingDomain
 	 * @generated
 	 */
 	protected void updateProblemIndication() {
-		System.out.println("updateProblemIndication");
 		if (updateProblemIndication) {
 			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK,
 					"org.eclipse.emf.henshin.editor", 0, null,

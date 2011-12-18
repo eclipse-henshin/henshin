@@ -46,7 +46,8 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 	@Override
 	public void contributeActions(IMenuManager menuManager, List<?> selection) {
 		
-		if (selection.size() != 2) return;
+		if (selection.size() != 2)
+			return;
 		
 		Object source = selection.get(0);
 		Object target = selection.get(1);
@@ -77,11 +78,13 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 			// if (!QuantUtil.allIdenticalAndNotNull(sourceNode.getType(),
 			// targetNode.getType())) return;
 			
-			CreateMappingCommand cmd = new CreateMappingCommand(sourceNode, targetNode);
-			if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
+			CreateMappingCommand cmd = new CreateMappingCommand(domain, sourceNode, targetNode);
+			if (cmd.canExecute())
+				menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
 			
-			cmd = new CreateMappingCommand(targetNode, sourceNode);
-			if (cmd.canExecute()) menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
+			cmd = new CreateMappingCommand(domain, targetNode, sourceNode);
+			if (cmd.canExecute())
+				menuManager.add(createAction(getLabel(COMMAND_LABEL), cmd));
 			
 		} else if (bParameterMapping) {
 			
@@ -96,7 +99,8 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 			TransformationUnit targetUnit = targetParameter.getUnit();
 			
 			if (!(sourceUnit.getSubUnits(false).contains(targetUnit) || targetUnit.getSubUnits(
-					false).contains(sourceUnit))) return;
+					false).contains(sourceUnit)))
+				return;
 			
 			String srcP = sourceUnit.getName() + "." + sourceParameter.getName();
 			String trgP = targetUnit.getName() + "." + targetParameter.getName();

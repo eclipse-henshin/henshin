@@ -27,8 +27,8 @@ import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -37,11 +37,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.provider.trans.ElseItemProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
-import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
 
 /**
  * This is the item provider adapter for a
@@ -52,10 +49,11 @@ import org.eclipse.emf.henshin.provider.trans.ThenItemProvider;
  */
 public class ConditionalUnitItemProvider extends TransformationUnitItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource {
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
-	@SuppressWarnings("rawtypes")
-	protected List children = null;
+	protected GenericReferenceContainerItemProvider ifItemProvider;
+	protected GenericReferenceContainerItemProvider thenItemProvider;
+	protected GenericReferenceContainerItemProvider elseItemProvider;
 	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
@@ -132,41 +130,6 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	}// addElsePropertyDescriptor
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			// childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__IF);
-			// childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN);
-			// childrenFeatures.add(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE);
-		}
-		return childrenFeatures;
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-		
-		return super.getChildFeature(object, child);
-	}
-	
-	/**
 	 * This returns ConditionalUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
@@ -207,7 +170,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						true, false));
+						false, true));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -223,107 +186,6 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createRule()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createIndependentUnit()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createSequentialUnit()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createConditionalUnit()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createPriorityUnit()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				HenshinFactory.eINSTANCE.createCountedUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createRule()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createIndependentUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createSequentialUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createConditionalUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createPriorityUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				HenshinFactory.eINSTANCE.createCountedUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createRule()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createIndependentUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createSequentialUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createConditionalUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createPriorityUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createAmalgamationUnit()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				HenshinFactory.eINSTANCE.createCountedUnit()));
-	}
-	
-	/**
-	 * This returns the label text for
-	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child,
-			Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-		
-		boolean qualify = childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF
-				|| childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__THEN
-				|| childFeature == HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE;
-		
-		if (qualify) {
-			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
-					getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
 	}
 	
 	/**
@@ -332,34 +194,14 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	 *      .Object)
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Collection<?> getChildren(Object object) {
-		if (children == null) {
-			ConditionalUnit cu = (ConditionalUnit) object;
-			children = (List<?>) super.getChildren(object);
-			
-			// Note, contents of methods getKernelRule, getMultiRules etc.
-			// reflect this order
-			// children.add(new IfItemProvider(adapterFactory, cu));
-			children.add(new GenericReferenceContainerItemProvider(adapterFactory, cu,
-					HenshinPackage.eINSTANCE.getConditionalUnit_If(), "_UI_ConditionalUnit_if_feature", null));
-			children.add(new ThenItemProvider(adapterFactory, cu));
-			children.add(new ElseItemProvider(adapterFactory, cu));
-		}// if
-		else {
-			@SuppressWarnings("rawtypes")
-			List l = (List<?>) super.getChildren(object);
-			
-			// reuse item providers in the 'children' list
-			int size = children.size();
-			l.add(children.get(size - 3));
-			l.add(children.get(size - 2));
-			l.add(children.get(size - 1));
-			children = l;
-		}
-		
-		return children;
+		Collection childrenList = super.getChildren(object);
+		childrenList.add(getIfItemProvider((ConditionalUnit) object));
+		childrenList.add(getThenItemProvider((ConditionalUnit) object));
+		childrenList.add(getElseItemProvider((ConditionalUnit) object));
+		return childrenList;
 	}// getChildren
 	
 	/**
@@ -369,35 +211,55 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	 * @param feature
 	 * @return
 	 */
-	public Object findChildProvider(EStructuralFeature feature) {
+	public Object findChildProvider(EStructuralFeature feature, EObject cu) {
 		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__IF)
-			return getIfItemProvider();
+			return getIfItemProvider(cu);
 		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__THEN)
-			return getThenItemProvider();
+			return getThenItemProvider(cu);
 		if (feature == HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE)
-			return getElseItemProvider();
+			return getElseItemProvider(cu);
 		return null;
 	}// resolveChildProvider
 	
 	/**
 	 * @return
 	 */
-	public Object getIfItemProvider() {
-		return children.get(0);
+	public Object getIfItemProvider(EObject cu) {
+		
+		if (ifItemProvider == null) {
+			ifItemProvider = new GenericReferenceContainerItemProvider(adapterFactory, cu,
+					HenshinPackage.eINSTANCE.getConditionalUnit_If(),
+					"_UI_ConditionalUnit_if_feature", null);
+			getDisposable().add(ifItemProvider);
+		}
+		return ifItemProvider;
 	}// getIfItemProvider
 	
 	/**
 	 * @return
 	 */
-	public Object getThenItemProvider() {
-		return children.get(1);
+	public Object getThenItemProvider(EObject cu) {
+		if (thenItemProvider == null) {
+			thenItemProvider = new GenericReferenceContainerItemProvider(adapterFactory, cu,
+					HenshinPackage.eINSTANCE.getConditionalUnit_Then(),
+					"_UI_ConditionalUnit_then_feature", null);
+			getDisposable().add(thenItemProvider);
+		}
+		return thenItemProvider;
 	}// getThenItemProvider
 	
 	/**
 	 * @return
 	 */
-	public Object getElseItemProvider() {
-		return children.get(2);
+	public Object getElseItemProvider(EObject cu) {
+		if (elseItemProvider == null) {
+			elseItemProvider = new GenericReferenceContainerItemProvider(adapterFactory, cu,
+					HenshinPackage.eINSTANCE.getConditionalUnit_Else(),
+					"_UI_ConditionalUnit_else_feature", null);
+			getDisposable().add(elseItemProvider);
+		}
+		
+		return elseItemProvider;
 	}// getElseItemProvider
 	
 	/**
@@ -417,7 +279,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 				public Collection<?> getAffectedObjects() {
 					Collection<?> affected = super.getAffectedObjects();
 					if (affected.contains(owner)) {
-						affected = Collections.singleton(findChildProvider(feature));
+						affected = Collections.singleton(findChildProvider(feature, owner));
 					}// if
 					return affected;
 				}// getAffectedObjects
@@ -533,20 +395,6 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		return createWrappedCommand(
 				super.createAddCommand(domain, owner, feature, collection, index), owner, feature);
 	}// createAddCommand
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#dispose()
-	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		if (children != null) {
-			((IDisposable) children.get(0)).dispose();
-			((IDisposable) children.get(1)).dispose();
-			((IDisposable) children.get(2)).dispose();
-		}// if
-	}// dispose
 	
 	// /**
 	// * This returns the label text for

@@ -82,7 +82,7 @@ public class HtmlTipSupport {
 				Point position = toDisplay(new Point(e.x, e.y));
 				if (bounds.contains(position))
 					return;
-				System.out.println("mouse move on tree");
+				//System.out.println("mouse move on tree");
 				hideInfo();
 			}
 		});
@@ -204,7 +204,7 @@ public class HtmlTipSupport {
 		try {
 			formText.setText("<form>" + tipText + "</form>", true, false);
 		} catch (Exception e) {
-			System.out.println("An error occured in formtext: " + e);
+			//System.out.println("An error occured in formtext: " + e);
 			return;
 		}
 		tipShell.pack();
@@ -246,7 +246,7 @@ public class HtmlTipSupport {
 	}
 	
 	protected void setHideOnMouseExit(boolean enabled) {
-		System.out.println("setHideOnMouseExit: " + enabled);
+		//System.out.println("setHideOnMouseExit: " + enabled);
 		hideOnMouseExitEnabled = enabled;
 	}
 }

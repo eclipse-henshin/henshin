@@ -105,12 +105,14 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 				/*
 				 * Add only edges to be removed, which are not yet removed.
 				 */
-				if (edge.getGraph() != null) edgeSet.add(edge);
+				if (edge.getGraph() != null)
+					edgeSet.add(edge);
 			}// for
 		}// for
 		
 		// Do the removal
-		if (!edgeSet.isEmpty()) this.appendAndExecute(new DeleteCommand(domain, edgeSet));
+		if (!edgeSet.isEmpty())
+			this.appendAndExecute(new DeleteCommand(domain, edgeSet));
 	}// removeEdges
 	
 	/**
@@ -126,9 +128,11 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 		 * related mappings are already removed as well (see
 		 * GraphComplexUnsetCommand).
 		 */
-		if (graphContainer == null) return;
+		if (graphContainer == null)
+			return;
 		
-		// Otherwise distinguish between Rule, NestedCondition and direct subgraphs
+		// Otherwise distinguish between Rule, NestedCondition and direct
+		// subgraphs
 		if (graphContainer instanceof Rule) {
 			Rule rule = (Rule) graphContainer;
 			filterMappings(rule.getMappings(), mappingSet);
@@ -137,12 +141,17 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 				collectAmalgamationUnitRelatedMappings(mappingSet, rule);
 			}// if
 			
+			for (Rule mRule : rule.getMultiRules()) {
+				filterMappings(mRule.getMultiMappings(), mappingSet);
+			}
+			
 		} else if (graphContainer instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) graphContainer;
 			filterMappings(nc.getMappings(), mappingSet);
 		} else {
 			// direct subgraph of TransformationSystem
-			return; // nothing to remove here, as direct subgraphs don't have mappings.
+			return; // nothing to remove here, as direct subgraphs don't have
+					// mappings.
 		}
 		
 		/*
@@ -158,7 +167,10 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 		}// if
 		
 		// Do the removal
-		if (!mappingSet.isEmpty()) this.appendAndExecute(new DeleteCommand(domain, mappingSet));
+		if (!mappingSet.isEmpty()){
+			this.appendAndExecute(new DeleteCommand(domain, mappingSet));
+		}
+			
 	}// removeMappings
 	
 	/**
@@ -173,7 +185,7 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 	 * @param rule
 	 */
 	private void collectAmalgamationUnitRelatedMappings(final Set<Mapping> mappingSet, Rule rule) {
-		if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem){
+		if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem) {
 			TransformationSystem trafoSys = (TransformationSystem) rule.eContainer();
 			for (TransformationUnit unit : trafoSys.getTransformationUnits()) {
 				if (unit instanceof AmalgamationUnit) {
@@ -209,7 +221,8 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 			BinaryFormula bf = (BinaryFormula) f;
 			findDirectlyContainedNestedConditions(bf.getLeft(), list);
 			findDirectlyContainedNestedConditions(bf.getRight(), list);
-		} else if (f != null) list.add((NestedCondition) f);
+		} else if (f != null)
+			list.add((NestedCondition) f);
 	}// findAllNestedConditions
 	
 	/**
@@ -226,6 +239,9 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 			if (mapping.eContainer() != null) {
 				for (Node node : nodes) {
 					if (mapping.getImage() == node || mapping.getOrigin() == node) {
+						System.out.println("adding mapping: "
+								+ mapping.getOrigin().getGraph().getContainerRule().getName() + " -> "
+								+ mapping.getImage().getGraph().getContainerRule().getName());
 						targetSet.add(mapping);
 						break;
 					}// if

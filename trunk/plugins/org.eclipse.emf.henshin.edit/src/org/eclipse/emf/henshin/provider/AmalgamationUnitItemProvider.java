@@ -29,6 +29,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -54,7 +55,8 @@ import org.eclipse.emf.henshin.provider.trans.RhsMappingItemProvider;
  * @generated
  */
 public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	@SuppressWarnings("rawtypes")
 	protected List children = null;
@@ -79,7 +81,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addKernelRulePropertyDescriptor(object);
 			addMultiRulesPropertyDescriptor(object);
 			addLhsMappingsPropertyDescriptor(object);
@@ -95,19 +97,14 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addKernelRulePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AmalgamationUnit_kernelRule_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_kernelRule_feature", "_UI_AmalgamationUnit_type"),
-				 HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_AmalgamationUnit_kernelRule_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_AmalgamationUnit_kernelRule_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, true, false, true, null,
+				null, null));
 	}
 	
 	/**
@@ -117,19 +114,14 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addMultiRulesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AmalgamationUnit_multiRules_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_multiRules_feature", "_UI_AmalgamationUnit_type"),
-				 HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_AmalgamationUnit_multiRules_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_AmalgamationUnit_multiRules_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, true, false, true, null,
+				null, null));
 	}
 	
 	/**
@@ -139,19 +131,14 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addLhsMappingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AmalgamationUnit_lhsMappings_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_lhsMappings_feature", "_UI_AmalgamationUnit_type"),
-				 HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_AmalgamationUnit_lhsMappings_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_AmalgamationUnit_lhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, true, false, true, null,
+				null, null));
 	}
 	
 	/**
@@ -161,44 +148,43 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addRhsMappingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AmalgamationUnit_rhsMappings_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_rhsMappings_feature", "_UI_AmalgamationUnit_type"),
-				 HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_AmalgamationUnit_rhsMappings_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_AmalgamationUnit_rhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, true, false, true, null,
+				null, null));
 	}
 	
 	/**
-	 * This returns AmalgamationUnit.gif.
-	 * <!-- begin-user-doc --> <!--
+	 * This returns AmalgamationUnit.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @generated
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/AmalgamationUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AmalgamationUnitDeprecated.png"));
+	}
+	
+	@Override
+	public Object getToolTip(Object object) {	
+		return "<p><b>DEPRECATED</b> Please use nested Rules instead of AmalgamationUnit.</p>";
 	}
 	
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AmalgamationUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_AmalgamationUnit_type") :
-			getString("_UI_AmalgamationUnit_type") + " " + label;
+		String label = ((AmalgamationUnit) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_AmalgamationUnit_type")
+				: getString("_UI_AmalgamationUnit_type") + " " + label;
 	}
 	
 	/**
@@ -265,10 +251,10 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 			
 			// reuse item providers in the 'children' list
 			int size = children.size();
-			l.add(children.get(size-4));
-			l.add(children.get(size-3));
-			l.add(children.get(size-2));
-			l.add(children.get(size-1));
+			l.add(children.get(size - 4));
+			l.add(children.get(size - 3));
+			l.add(children.get(size - 2));
+			l.add(children.get(size - 1));
 			children = l;
 		}
 		
@@ -359,7 +345,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 		 * features into account.
 		 */
 
-		//The behavior has to be fixed only if collection contains a Rule
+		// The behavior has to be fixed only if collection contains a Rule
 		if (commandParameter.collection != null && !commandParameter.collection.isEmpty()) {
 			Object realObject = unwrap(commandParameter.collection.iterator().next());
 			if (realObject instanceof Rule) {
@@ -482,10 +468,10 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public void dispose() {
 		super.dispose();
 		if (children != null) {
-			((IDisposable) children.get(0)).dispose();
-			((IDisposable) children.get(1)).dispose();
-			((IDisposable) children.get(2)).dispose();
-			((IDisposable) children.get(3)).dispose();
+			((IDisposable) children.get(children.size()-1)).dispose();
+			((IDisposable) children.get(children.size()-2)).dispose();
+			((IDisposable) children.get(children.size()-3)).dispose();
+			((IDisposable) children.get(children.size()-4)).dispose();
 		}// if
 	}// dispose
 	

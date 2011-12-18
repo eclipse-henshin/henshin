@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.provider;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.edit.provider.Disposable;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
 
@@ -26,10 +27,17 @@ public class HenshinItemProviderAdapter extends ItemProviderAdapter implements I
 	
 	public HenshinItemProviderAdapter(AdapterFactory adapterFactory) {
 		super(adapterFactory);
-	}	
+	}
 	
 	@Override
 	public Object getToolTip(Object object) {
 		return null;
 	}
+	
+	protected Disposable getDisposable() {
+		if (wrappers == null)
+			wrappers = new Disposable();
+		return wrappers;
+	}
+	
 }

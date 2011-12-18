@@ -11,14 +11,18 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.editor.commands;
 
-import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 
 /**
@@ -28,50 +32,40 @@ import org.eclipse.emf.henshin.model.Node;
  * @author Stefan Jurack (sjurack)
  * 
  */
-public class CreateEdgeCommand extends AbstractCommand {
+public class CreateEdgeCommand extends CompoundCommand {
 	
 	protected Node source;
 	protected Node target;
 	protected EReference edgeType;
 	protected Graph graph;
 	protected Edge edge;
+	protected EditingDomain domain;
 	
-	public CreateEdgeCommand(Node source, Node target, EReference edgeType) {
-		this.source = source;
-		this.target = target;
-		this.edgeType = edgeType;
-	}
-	
-	@Override
-	protected boolean prepare() {
-		graph = source.getGraph();
-		return QuantUtil.noneNull(source, target, edgeType, graph);
+	public CreateEdgeCommand(EditingDomain domain, Graph graph, Node source, Node target,
+			EReference type) {
+		super(CompoundCommand.LAST_COMMAND_ALL);
+		this.domain = domain;
+		this.graph = graph;
+		
+		edge = HenshinFactory.eINSTANCE.createEdge();
+		
+		this.append(domain.createCommand(SetCommand.class, new CommandParameter(edge,
+				HenshinPackage.eINSTANCE.getEdge_Source(), source, -1)));
+		
+		this.append(domain.createCommand(SetCommand.class, new CommandParameter(edge,
+				HenshinPackage.eINSTANCE.getEdge_Target(), target, -1)));
+		
+		this.append(domain.createCommand(SetCommand.class, new CommandParameter(edge,
+				HenshinPackage.eINSTANCE.getEdge_Type(), type, -1)));
+		
 	}
 	
 	@Override
 	public void execute() {
-		edge = HenshinFactory.eINSTANCE.createEdge();
-		edge.setType(edgeType);
-		redo();
-	}
-	
-	@Override
-	public void undo() {
-		graph.getEdges().remove(edge);
-		edge.setSource(null);
-		edge.setTarget(null);
-	}
-	
-	@Override
-	public void redo() {
-		graph.getEdges().add(edge);
-		edge.setSource(source);
-		edge.setTarget(target);
-	}
-	
-	@Override
-	public Collection<?> getAffectedObjects() {
-		return Collections.singleton(edge);
+		super.execute();
+		this.appendAndExecute(domain.createCommand(AddCommand.class, new CommandParameter(graph,
+				HenshinPackage.eINSTANCE.getGraph_Edges(), Collections.singleton(edge), -1)));
+		
 	}
 	
 }

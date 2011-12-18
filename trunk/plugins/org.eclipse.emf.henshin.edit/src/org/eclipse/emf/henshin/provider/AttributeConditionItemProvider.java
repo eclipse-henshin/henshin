@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -36,7 +37,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class AttributeConditionItemProvider extends DescribedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -57,7 +59,7 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addNamePropertyDescriptor(object);
 			addConditionTextPropertyDescriptor(object);
 		}
@@ -65,25 +67,19 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 	}
 	
 	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc
+	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_NamedElement_name_feature"),
+				getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature",
+						"_UI_NamedElement_type"), HenshinPackage.Literals.NAMED_ELEMENT__NAME,
+				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 	
 	/**
@@ -93,25 +89,21 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 	 * @generated
 	 */
 	protected void addConditionTextPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_AttributeCondition_conditionText_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_AttributeCondition_conditionText_feature", "_UI_AttributeCondition_type"),
-				 HenshinPackage.Literals.ATTRIBUTE_CONDITION__CONDITION_TEXT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_AttributeCondition_conditionText_feature"),
+				getString("_UI_PropertyDescriptor_description",
+						"_UI_AttributeCondition_conditionText_feature",
+						"_UI_AttributeCondition_type"),
+				HenshinPackage.Literals.ATTRIBUTE_CONDITION__CONDITION_TEXT, true, false, false,
+				ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 	
 	/**
-	 * This returns AttributeCondition.gif.
-	 * <!-- begin-user-doc --> <!--
+	 * This returns AttributeCondition.gif. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -120,34 +112,35 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 	}
 	
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AttributeCondition)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_AttributeCondition_type") :
-			getString("_UI_AttributeCondition_type") + " " + label;
+		String label = ((AttributeCondition) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_AttributeCondition_type")
+				: getString("_UI_AttributeCondition_type") + " " + label;
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to
+	 * update any cached children and by creating a viewer notification, which
+	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
+		
 		switch (notification.getFeatureID(AttributeCondition.class)) {
 			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
+						false, true));
 				return;
 		}
 		super.notifyChanged(notification);

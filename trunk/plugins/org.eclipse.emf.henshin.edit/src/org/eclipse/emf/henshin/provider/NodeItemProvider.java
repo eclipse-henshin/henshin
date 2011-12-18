@@ -15,11 +15,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -35,17 +41,21 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.henshin.provider.descriptors.NodeTypePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
+import org.eclipse.emf.henshin.provider.util.ItemPropertyDescriptorDecorator;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Node} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.eclipse.emf.henshin.model.Node} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class NodeItemProvider extends NamedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
+		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -60,17 +70,25 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addTypePropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
 			addAllEdgesPropertyDescriptor(object);
+			List<IItemPropertyDescriptor> origDescriptors = itemPropertyDescriptors;
+			itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>(origDescriptors.size());
+			for (IItemPropertyDescriptor origDescriptor : origDescriptors)
+				itemPropertyDescriptors.add(new ItemPropertyDescriptorDecorator(origDescriptor) {
+					public boolean canSetProperty(Object object) {
+						return isUserEditable(object) && super.canSetProperty(object);
+					}
+				});
 		}
 		return itemPropertyDescriptors;
 	}
@@ -96,19 +114,13 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	protected void addIncomingPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Node_incoming_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_incoming_feature", "_UI_Node_type"),
-				 HenshinPackage.Literals.NODE__INCOMING,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Node_incoming_feature"),
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_incoming_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__INCOMING, true, false,
+				true, null, null, null));
 	}
 	
 	/**
@@ -118,19 +130,13 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	protected void addOutgoingPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Node_outgoing_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_outgoing_feature", "_UI_Node_type"),
-				 HenshinPackage.Literals.NODE__OUTGOING,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Node_outgoing_feature"),
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_outgoing_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__OUTGOING, true, false,
+				true, null, null, null));
 	}
 	
 	/**
@@ -140,26 +146,23 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * @generated
 	 */
 	protected void addAllEdgesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Node_allEdges_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Node_allEdges_feature", "_UI_Node_type"),
-				 HenshinPackage.Literals.NODE__ALL_EDGES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(
+				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+				getResourceLocator(),
+				getString("_UI_Node_allEdges_feature"),
+				getString("_UI_PropertyDescriptor_description", "_UI_Node_allEdges_feature",
+						"_UI_Node_type"), HenshinPackage.Literals.NODE__ALL_EDGES, true, false,
+				true, null, null, null));
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This specifies how to implement {@link #getChildren} and is used to
+	 * deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand},
+	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
+	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -173,13 +176,15 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
+		// Check the type of the specified child object and return the proper
+		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
 	}
 	
@@ -309,7 +314,6 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
 		switch (notification.getFeatureID(Node.class)) {
 			case HenshinPackage.NODE__ATTRIBUTES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
@@ -321,20 +325,24 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				break;
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				Node node = (Node) notification.getNotifier();
-				List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
-				edgeList.addAll(node.getOutgoing());
-				if (!edgeList.isEmpty()) {
-					ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
-							edgeList.get(0), null);
-					for (Edge edge : edgeList) {
-						Notification notif = new ViewerNotification(notification, edge, false, true);
-						adapter.fireNotifyChanged(notif);
-					}// for
-				}// if
+				notifyEdges(node, notification);
 				break;
 		}// switch
 		super.notifyChanged(notification);
 	}// notifyChanged
+	
+	private void notifyEdges(Node node, Notification notification) {
+		List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
+		edgeList.addAll(node.getOutgoing());
+		if (!edgeList.isEmpty()) {
+			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(
+					edgeList.get(0), null);
+			for (Edge edge : edgeList) {
+				Notification notif = new ViewerNotification(notification, edge, false, true);
+				adapter.fireNotifyChanged(notif);
+			}// for
+		}// if
+	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
@@ -346,11 +354,37 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.NODE__ATTRIBUTES,
-				 HenshinFactory.eINSTANCE.createAttribute()));
+		
+		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.NODE__ATTRIBUTES,
+				HenshinFactory.eINSTANCE.createAttribute()));
+	}
+	
+	@Override
+	protected Command createSetCommand(EditingDomain domain, EObject owner,
+			EStructuralFeature feature, Object value, int index) {
+		Node node = (Node) owner;
+		CompoundCommand cmpCmd = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
+		for (Node dependentNode : HenshinMultiRuleUtil.getDependentNodes(node)) {
+			cmpCmd.append(createSetCommand(domain, dependentNode, feature, value, index));
+		}
+		cmpCmd.append(super.createSetCommand(domain, owner, feature, value, index));
+		return cmpCmd.unwrap();
+	}
+	
+	protected boolean isUserEditable(Object object) {
+		Node node = (Node) object;
+		
+		if (node.getGraph() != null && (node.getGraph().isLhs() || node.getGraph().isRhs())) {
+			Rule rule = node.getGraph().getContainerRule();
+			return rule.getOriginInKernelRule(node) == null;
+		}
+		return true;
+	}
+	
+	@Override
+	public Object getForeground(Object object) {
+		return isUserEditable(object) ? super.getForeground(object) : URI
+				.createURI("color://rgb/0/0/255");
 	}
 	
 }
