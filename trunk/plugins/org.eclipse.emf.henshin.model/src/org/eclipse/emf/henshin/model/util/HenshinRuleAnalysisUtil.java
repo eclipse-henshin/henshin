@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -36,7 +37,8 @@ public class HenshinRuleAnalysisUtil {
 	public static boolean isAddingNodes(Rule rule) {
 		// Check if any of the nodes in the RHS is not the image of a mapping.
 		for (Node node : rule.getRhs().getNodes()) {
-			if (HenshinMappingUtil.getNodeOrigin(node, rule.getMappings()) == null) return true;
+			if (HenshinMappingUtil.getNodeOrigin(node, rule.getMappings()) == null)
+				return true;
 		}
 		return false;
 	}
@@ -67,7 +69,8 @@ public class HenshinRuleAnalysisUtil {
 	public static boolean isAddingEdges(Rule rule) {
 		// Check if any of the edges in the RHS is not the image of a mapping.
 		for (Edge edge : rule.getRhs().getEdges()) {
-			if (HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings()) == null) return true;
+			if (HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings()) == null)
+				return true;
 		}
 		return false;
 	}
@@ -149,8 +152,10 @@ public class HenshinRuleAnalysisUtil {
 	 * Check if to attribute values are equal.
 	 */
 	static boolean valueEquals(String v1, String v2) {
-		if (v1 == null) return (v2 == null);
-		if (v2 == null) return false;
+		if (v1 == null)
+			return (v2 == null);
+		if (v2 == null)
+			return false;
 		return v1.trim().equals(v2.trim());
 	}
 	
@@ -214,6 +219,10 @@ public class HenshinRuleAnalysisUtil {
 	 */
 	public static boolean isConclusion(Graph graph) {
 		return (graph.eContainer() != null) && (graph.eContainer() instanceof NestedCondition);
+	}
+	
+	public static boolean isMultiRule(Rule rule) {
+		return rule.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_MultiRules();
 	}
 	
 }

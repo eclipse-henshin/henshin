@@ -35,12 +35,12 @@ public interface NestedCondition extends Formula {
 	/**
 	 * Returns the value of the '<em><b>Negated</b></em>' attribute.
 	 * <!-- begin-user-doc -->
+	 * @deprecated
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Negated</em>' attribute.
 	 * @see #setNegated(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Negated()
 	 * @model
-	 * @deprecated
 	 * @generated
 	 */
 	boolean isNegated();
@@ -48,10 +48,10 @@ public interface NestedCondition extends Formula {
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.NestedCondition#isNegated <em>Negated</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	 * @deprecated
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Negated</em>' attribute.
 	 * @see #isNegated()
-	 * @deprecated
 	 * @generated
 	 */
 	void setNegated(boolean value);
