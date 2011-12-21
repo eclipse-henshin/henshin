@@ -80,8 +80,8 @@ public class CreateMappingCommand extends CompoundCommand {
 		
 		mapping = HenshinFactory.eINSTANCE.createMapping(origin, image);
 		affectedObjects = Collections.singleton(mapping);
-		append(domain.createCommand(AddCommand.class, new CommandParameter(owner, feature, mapping,
-				CommandParameter.NO_INDEX)));
+		append(domain.createCommand(AddCommand.class, new CommandParameter(owner, feature,
+				Collections.singleton(mapping), CommandParameter.NO_INDEX)));
 		return super.prepare();
 	}// prepare
 	
