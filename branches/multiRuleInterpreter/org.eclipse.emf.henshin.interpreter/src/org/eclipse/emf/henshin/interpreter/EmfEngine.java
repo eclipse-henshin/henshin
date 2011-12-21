@@ -397,11 +397,13 @@ public class EmfEngine implements InterpreterEngine {
 		for (Rule mRule : rule.getMultiRules()) {
 			for (Match multiMatch : match.getNestedMatchesFor(mRule)) {
 				Map<Node, EObject> multiComatchNodeMapping = new HashMap<Node, EObject>();
-//				for (Mapping comatchMapping : mRule.getMultiMappings()) {
-//					if (comatchMapping.getImage().getGraph().isRhs())
-//						multiComatchNodeMapping.put(comatchMapping.getImage(), comatch
-//								.getNodeMapping().get(comatchMapping.getOrigin()));
-//				}
+				
+				for (Mapping comatchMapping : mRule.getMultiMappings()) {
+					if (comatchMapping.getImage().getGraph().isRhs()) {
+						multiComatchNodeMapping.put(comatchMapping.getImage(), comatch
+								.getNodeMapping().get(comatchMapping.getOrigin()));
+					}
+				}
 				Match multiComatch = accumulateModelChange(mRule, multiMatch, modelChange,
 						multiComatchNodeMapping);
 				comatch.addNestedMatch(mRule, multiComatch);

@@ -37,16 +37,16 @@ public class ChangeInfo {
 		preservedNodes = new ArrayList<Node>();
 		
 		for (Node node : rule.getLhs().getNodes()) {
-//			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
-//				continue;
+			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
+				continue;
 			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
 				deletedNodes.add(node);
 			}
 		}
 		
 		for (Node node : rule.getRhs().getNodes()) {
-//			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
-//				continue;
+			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
+				continue;
 			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
 				createdNodes.add(node);
 			} else {
