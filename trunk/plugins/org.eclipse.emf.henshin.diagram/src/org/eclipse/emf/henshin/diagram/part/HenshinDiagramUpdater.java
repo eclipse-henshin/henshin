@@ -22,9 +22,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
@@ -45,6 +42,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -87,7 +85,7 @@ public class HenshinDiagramUpdater {
 
 		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
-		List<Node> actionNodes = NodeActionHelper.INSTANCE.getActionElements(
+		List<Node> actionNodes = HenshinActionHelper.getActionNodes(
 				rule, null);
 
 		// Check if we should exclude a root object:
@@ -128,8 +126,8 @@ public class HenshinDiagramUpdater {
 
 		// Get the node and compute the action attributes:
 		Node node = (Node) containerView.getElement();
-		List<Attribute> attributes = AttributeActionHelper.INSTANCE
-				.getActionElements(node, null);
+		List<Attribute> attributes = HenshinActionHelper
+				.getActionAttributes(node, null);
 
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
@@ -298,7 +296,7 @@ public class HenshinDiagramUpdater {
 
 		// Get the action edges:
 		Rule rule = (Rule) view.getElement();
-		List<Edge> edges = EdgeActionHelper.INSTANCE.getActionElements(rule,
+		List<Edge> edges = HenshinActionHelper.getActionEdges(rule,
 				null);
 
 		// Check if we should exclude a root object:
@@ -309,9 +307,9 @@ public class HenshinDiagramUpdater {
 		for (Edge edge : edges) {
 
 			// Get the proper source / target action nodes:
-			Node source = NodeActionHelper.INSTANCE.getActionNode(edge
+			Node source = HenshinActionHelper.getActionNode(edge
 					.getSource());
-			Node target = NodeActionHelper.INSTANCE.getActionNode(edge
+			Node target = HenshinActionHelper.getActionNode(edge
 					.getTarget());
 
 			// Create the descriptor if the edge does not link to the root:

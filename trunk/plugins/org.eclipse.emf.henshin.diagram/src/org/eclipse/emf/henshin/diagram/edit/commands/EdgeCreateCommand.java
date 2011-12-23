@@ -14,22 +14,15 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.diagram.edit.maps.NodeMapEditor;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -111,87 +104,11 @@ public class EdgeCreateCommand extends EditElementCommand {
 			// Check the type as well:
 			EReference type = (EReference) getRequest().getParameter(
 					TYPE_PARAMETER_KEY);
-			return canCreateEdge(getSource(), getTarget(), type);
+			return HenshinActionHelper.canCreateEdge(getSource(), getTarget(), type);
 		}
 		return true;
 	}
 
-	/**
-	 * Check if an edge can be created.
-	 * @generated NOT
-	 */
-	public static boolean canCreateEdge(Node source, Node target,
-			EReference edgeType) {
-
-		// Get the source and target type.
-		EClass targetType = target.getType();
-		EClass sourceType = source.getType();
-
-		// Everything must be set.
-		if (source == null || target == null || sourceType == null
-				|| targetType == null || edgeType == null) {
-			return false;
-		}
-
-		// Reference must be owned by source.
-		if (!sourceType.getEAllReferences().contains(edgeType)) {
-			return false;
-		}
-
-		// Target type must be ok. Extra check for EObjects!!!
-		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
-			!targetType.isSuperTypeOf(edgeType.getEReferenceType())
-				&& edgeType.getEReferenceType() != EcorePackage.eINSTANCE
-						.getEObject()) {
-			return false;
-		}
-
-		// Check for source/target consistency.
-		Graph sourceGraph = source.getGraph();
-		Graph targetGraph = target.getGraph();
-		if (sourceGraph==null || targetGraph==null) {
-			return false;
-		}
-
-		// Make sure the rules are found and compatible:
-		Rule sourceRule = sourceGraph.getContainerRule();
-		Rule targetRule = targetGraph.getContainerRule();
-		if (sourceRule == null || targetRule == null) {
-			return false;
-		}
-		if (sourceRule!=targetRule && 
-			sourceRule!=targetRule.getKernelRule() &&
-			sourceRule.getKernelRule()!=targetRule) {
-			return false;
-		}
-		
-		// Get the node actions:
-		Action action1 = NodeActionHelper.INSTANCE.getAction(source);
-		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
-
-		// Sanity check:
-		if (action1 == null || action2 == null) {
-			return false;
-		}
-
-		// Different actions are only allowed if one is a preserve action:
-		if (!action1.equals(action2)
-				&& !isSimplePreserve(action1)
-				&& !isSimplePreserve(action2)) {
-			return false;
-		}
-
-		// Ok.
-		return true;
-
-	}
-	
-	private static boolean isSimplePreserve(Action action) {
-		return action.getType()==ActionType.PRESERVE && 
-				!action.isAmalgamated() && 
-				action.getArguments().length==0;
-	}
-	
 	/**
 	 * @generated NOT
 	 */
@@ -210,75 +127,14 @@ public class EdgeCreateCommand extends EditElementCommand {
 				TYPE_PARAMETER_KEY);
 		Rule rule = getSource().getGraph().getContainerRule();
 
-		// Source, target and the edge to be created:
-		Node source = getSource();
-		Node target = getTarget();
-		Edge edge = null;
-
-		// Get the node actions:
-		Action srcAction = NodeActionHelper.INSTANCE.getAction(source);
-		Action trgAction = NodeActionHelper.INSTANCE.getAction(target);
-
-		// Check if the actions are the same:
-		if (srcAction.equals(trgAction)) {
-
-			// Create the new edge (we know the nodes are in the same graph):
-			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
-
-			// For PRESERVE actions we need to create an image in the RHS as well:
-			if (srcAction.getType() == ActionType.PRESERVE) {
-				Node srcImage = HenshinMappingUtil.getNodeImage(getSource(),
-						rule.getRhs(), rule.getMappings());
-				Node trgImage = HenshinMappingUtil.getNodeImage(getTarget(),
-						rule.getRhs(), rule.getMappings());
-				HenshinFactory.eINSTANCE.createEdge(srcImage, trgImage, type);
-			}
-
-		} else {
-
-			/* 
-			 * We know one of the action is of type PRESERVE, the other one is not.
-			 * We look for the image of the PRESERVE node and use it to create the edge.
-			 * If the image does not exist yet (for a NAC for instance), we copy the node.
-			 */
-			if (isSimplePreserve(srcAction)) {
-				
-				if (trgAction.isAmalgamated()) {
-					Node realSource = HenshinMappingUtil.getNodeImage(source, target.getGraph(), target.getGraph().getContainerRule().getMultiMappings());
-					if (realSource!=null) {
-						source = realSource;
-					}
-				}
-				
-				if (trgAction.getType() == ActionType.CREATE
-						|| trgAction.getType() == ActionType.FORBID) {
-					source = new NodeMapEditor(target.getGraph()).copy(source);
-				}
-			} else {
-				
-				if (srcAction.isAmalgamated()) {
-					Node realTarget = HenshinMappingUtil.getNodeImage(target, source.getGraph(), source.getGraph().getContainerRule().getMultiMappings());
-					if (realTarget!=null) {
-						target = realTarget;
-					}
-				}
-
-				if (srcAction.getType() == ActionType.CREATE
-						|| srcAction.getType() == ActionType.FORBID) {
-					target = new NodeMapEditor(source.getGraph()).copy(target);
-				}
-			}
-
-			// Now we can safely create the edge:
-			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
-
-		}
+		// Create the edge:
+		Edge edge = HenshinActionHelper.createEdge(getSource(), getTarget(), type);
 
 		// Update the root containment is the edge is containment / container:
 		if (type.isContainment() || type.isContainer()) {
 			View ruleView = RootObjectEditHelper.findRuleView(rule);
-			RootObjectEditHelper.updateRootContainment(ruleView, source);
-			RootObjectEditHelper.updateRootContainment(ruleView, target);
+			RootObjectEditHelper.updateRootContainment(ruleView, getSource());
+			RootObjectEditHelper.updateRootContainment(ruleView, getTarget());
 		}
 
 		// Configure and return:

@@ -16,13 +16,12 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -52,7 +51,7 @@ public class EdgeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Edge edge = (Edge) element.getAdapter(EObject.class);
-		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
+		Action action = HenshinActionHelper.getAction(edge);
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -98,25 +97,24 @@ public class EdgeActionParser extends AbstractParser {
 			Action action = Action.parse(value);
 			
 			// Make sure the action is compatible with the source and target actions:
-			NodeActionHelper helper = NodeActionHelper.INSTANCE;
-			Node src = helper.getActionNode(edge.getSource());
-			Node trg = helper.getActionNode(edge.getTarget());
-			Action srcAction = helper.getAction(src);
-			Action trgAction = helper.getAction(trg);
+			Node src = HenshinActionHelper.getActionNode(edge.getSource());
+			Node trg = HenshinActionHelper.getActionNode(edge.getTarget());
+			Action srcAction = HenshinActionHelper.getAction(src);
+			Action trgAction = HenshinActionHelper.getAction(trg);
 			
 			// The source and the target node must have either the same
 			// action as the edge, or PRESERVE.			
 			if (!srcAction.equals(action) && 
 				!(srcAction.getType()==ActionType.PRESERVE && !srcAction.isAmalgamated())) {
-				NodeActionHelper.INSTANCE.setAction(src, action);
+				HenshinActionHelper.setAction(src, action);
 			}
 			if (!trgAction.equals(action) && 
 				!(trgAction.getType()==ActionType.PRESERVE && !trgAction.isAmalgamated())) {
-				NodeActionHelper.INSTANCE.setAction(trg, action);
+				HenshinActionHelper.setAction(trg, action);
 			}
 			
 			// Now we can safely set the action:
-			EdgeActionHelper.INSTANCE.setAction(edge, action);
+			HenshinActionHelper.setAction(edge, action);
 			return CommandResult.newOKCommandResult();
 			
 		}

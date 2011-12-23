@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.diagram.edit.maps;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
 import java.util.List;

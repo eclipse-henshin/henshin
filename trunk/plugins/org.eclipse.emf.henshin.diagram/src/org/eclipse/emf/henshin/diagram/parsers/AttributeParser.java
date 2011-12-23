@@ -18,15 +18,13 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.maps.AttributeMapEditor;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -71,9 +69,9 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Get the action for the attribute and the node:
-		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
-		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(attribute.getNode());
-		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
+		Action action = HenshinActionHelper.getAction(attribute);
+		Node actionNode = HenshinActionHelper.getActionNode(attribute.getNode());
+		Action nodeAction = HenshinActionHelper.getAction(actionNode);
 		
 		if (action!=null && !action.equals(nodeAction)) {
 			result = "<<" + action + ">> " + result;
@@ -156,8 +154,8 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// The node action must be compatible:
-		Node actionNode = NodeActionHelper.INSTANCE.getActionNode(node);
-		Action nodeAction = NodeActionHelper.INSTANCE.getAction(actionNode);
+		Node actionNode = HenshinActionHelper.getActionNode(node);
+		Action nodeAction = HenshinActionHelper.getAction(actionNode);
 		ActionType nodeActionType = nodeAction.getType();
 		boolean compatible = (nodeActionType==ActionType.PRESERVE) || 
 							 (nodeActionType==ActionType.DELETE && action.getType()==ActionType.FORBID);
@@ -196,10 +194,11 @@ public class AttributeParser extends AbstractParser {
 		// Check if there is are image in the RHS that we need to updated:
 		if (action.getType()==ActionType.PRESERVE) {
 			Rule rule = node.getGraph().getContainerRule();
-			AttributeMapEditor editor = new AttributeMapEditor(rule.getRhs());
-			Attribute image = editor.copy(attribute);
-			image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
-			image.setType(attr);
+			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			if (image!=null) {
+				image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
+				image.setType(attr);
+			}
 		}
 
 		// Update the properties:
@@ -208,7 +207,7 @@ public class AttributeParser extends AbstractParser {
 		attribute.setType(attr);
 		
 		// Set the action:
-		AttributeActionHelper.INSTANCE.setAction(attribute, action);
+		HenshinActionHelper.setAction(attribute, action);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

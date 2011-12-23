@@ -22,9 +22,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
@@ -35,6 +32,9 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.emf.core.resources.GMFResource;
@@ -135,11 +135,11 @@ public class RootObjectEditHelper {
 			// Now add the new root node to the LHS and RHS:
 			if (!rule.getLhs().getNodes().contains(newRoot)) {
 				rule.getLhs().getNodes().add(0,newRoot);
-				NodeActionHelper.INSTANCE.setAction(newRoot, new Action(ActionType.PRESERVE));
+				HenshinActionHelper.setAction(newRoot, new Action(ActionType.PRESERVE));
 			}
 			
 			// Now add the containment references:
-			for (Node node : NodeActionHelper.INSTANCE.getActionElements(rule, null)) {
+			for (Node node : HenshinActionHelper.getActionNodes(rule, null)) {
 				updateRootContainment(ruleView, node);
 			}
 			
@@ -199,7 +199,7 @@ public class RootObjectEditHelper {
 	public static void updateRootContainment(View ruleView, Node node) throws ExecutionException {
 		
 		// First make sure we have an action node:
-		node = NodeActionHelper.INSTANCE.getActionNode(node);
+		node = HenshinActionHelper.getActionNode(node);
 		if (node==null) return;
 		
 		// Get the root node first, must be not null:

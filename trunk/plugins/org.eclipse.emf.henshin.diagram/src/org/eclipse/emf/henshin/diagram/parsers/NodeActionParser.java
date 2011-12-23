@@ -11,16 +11,14 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.parsers;
 
-import java.nio.charset.Charset;
-
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -49,7 +47,7 @@ public class NodeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Node node = (Node) element.getAdapter(EObject.class);
-		Action action = NodeActionHelper.INSTANCE.getAction(node);
+		Action action = HenshinActionHelper.getAction(node);
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -99,7 +97,7 @@ public class NodeActionParser extends AbstractParser {
 	private CommandResult doParsing(String value, Node node) {
 		try {
 			Action action = Action.parse(value);
-			NodeActionHelper.INSTANCE.setAction(node, action);
+			HenshinActionHelper.setAction(node, action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
 			// t.printStackTrace();

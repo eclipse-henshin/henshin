@@ -9,7 +9,7 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions;
 
 import java.text.ParseException;
 import java.util.Arrays;
@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
  * 
  * @author Christian Krause
  * @author Stefan Jurack
- * @generated NOT
  */
 public class Action {
 
@@ -30,19 +29,22 @@ public class Action {
 	 * Separator of the action type information
 	 */
 	private static final String SEPARATOR_TYPE = ":";
+	private static final Pattern PATTERN_TYPE = Pattern.compile(SEPARATOR_TYPE);
 
 	/**
 	 * Separator of action type arguments
 	 */
 	private static final String SEPARATOR_ARGS = ",";
+	private static final Pattern PATTERN_ARGS = Pattern.compile(SEPARATOR_ARGS);
 
 	/**
 	 * Amalgamation marker
 	 */
 	private static final String MARKER_AMALGAMATION = "*";
 
-	private static final Pattern PATTERN_TYPE = Pattern.compile(SEPARATOR_TYPE);
-	private static final Pattern PATTERN_ARGS = Pattern.compile(SEPARATOR_ARGS);
+	/**
+	 * Empty string array
+	 */
 	private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
 	/**

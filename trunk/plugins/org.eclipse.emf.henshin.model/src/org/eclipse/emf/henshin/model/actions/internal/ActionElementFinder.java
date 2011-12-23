@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,13 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
- * @generated NOT
+ * Action element finder class.
  */
 class ActionElementFinder {	
 	

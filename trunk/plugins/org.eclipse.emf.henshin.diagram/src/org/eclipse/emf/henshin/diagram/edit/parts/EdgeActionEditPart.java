@@ -21,14 +21,15 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.ActionLabelDirectEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -496,8 +497,8 @@ public class EdgeActionEditPart extends LabelEditPart implements
 	@Override
 	protected void refreshFontColor() {
 		Edge edge = (Edge) getNotationView().getElement();
-		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
-		Color color = (action != null) ? action.getType().getColor()
+		Action action = HenshinActionHelper.getAction(edge);
+		Color color = (action != null) ? ActionColorProvider.getColor(action)
 				: ColorConstants.gray;
 		setForegroundColor(color);
 	}

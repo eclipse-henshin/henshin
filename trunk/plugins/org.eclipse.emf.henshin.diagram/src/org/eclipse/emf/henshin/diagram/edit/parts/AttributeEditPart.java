@@ -20,16 +20,17 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.AttributeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.AttributeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextNonResizableEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
@@ -434,9 +435,9 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	 */
 	protected void refreshFontColor() {
 		Attribute attribute = (Attribute) getNotationView().getElement();
-		Action action = AttributeActionHelper.INSTANCE.getAction(attribute);
+		Action action = HenshinActionHelper.getAction(attribute);
 		if (action != null && action.getType() != ActionType.PRESERVE) {
-			setFontColor(action.getType().getColor());
+			setFontColor(ActionColorProvider.getColor(action));
 		} else {
 			setFontColor(ColorConstants.black);
 		}

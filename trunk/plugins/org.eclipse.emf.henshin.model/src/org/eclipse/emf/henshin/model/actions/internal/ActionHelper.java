@@ -1,9 +1,11 @@
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.List;
 
+import org.eclipse.emf.henshin.model.actions.Action;
+
 /**
- * @generated NOT
+ * Action helper.
  */
 public interface ActionHelper<E,C> {
 	

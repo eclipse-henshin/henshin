@@ -15,16 +15,16 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
+import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -63,7 +63,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		Rule rule = edge.getGraph().getContainerRule();
 		
 		// Check if there is an action associated:
-		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
+		Action action = HenshinActionHelper.getAction(edge);
 		if (action==null) {
 			edge.getGraph().removeEdge(edge);
 			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
@@ -88,7 +88,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Clean up trivial NAC and multi-rules:
 		HenshinACUtil.removeTrivialACs(rule);
-		RuleEditHelper.removeTrivialMultiRules(rule);
+		HenshinMultiRuleUtil.removeTrivialMultiRules(rule);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

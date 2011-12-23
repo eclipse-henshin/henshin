@@ -1,17 +1,15 @@
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.henshin.diagram.edit.maps.AttributeMapEditor;
-import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
-import org.eclipse.emf.henshin.diagram.edit.maps.NodeMapEditor;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**

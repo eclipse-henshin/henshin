@@ -1,19 +1,19 @@
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
-import org.eclipse.emf.henshin.diagram.edit.maps.MapEditor;
-import org.eclipse.emf.henshin.diagram.edit.maps.MappingMapEditor;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
+import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 
 /**
  * @generated NOT
@@ -297,7 +297,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			}
 			
 			// Remove trivial multi-rules from the amalgamation:
-			RuleEditHelper.removeTrivialMultiRules(kernel);
+			HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
 			
 		}
 		
@@ -326,7 +326,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				}
 				
 				// Remove trivial multi-rules from the amalgamation:
-				RuleEditHelper.removeTrivialMultiRules(kernelRule);
+				HenshinMultiRuleUtil.removeTrivialMultiRules(kernelRule);
 				
 			}
 		}

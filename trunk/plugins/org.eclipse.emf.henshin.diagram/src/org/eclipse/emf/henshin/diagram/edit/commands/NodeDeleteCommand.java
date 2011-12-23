@@ -14,14 +14,14 @@ package org.eclipse.emf.henshin.diagram.edit.commands;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.ActionType;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RuleEditHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
+import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -58,13 +58,13 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		}
 		
 		// Check if there is an action associated:
-		if (NodeActionHelper.INSTANCE.getAction(node)==null) {
+		if (HenshinActionHelper.getAction(node)==null) {
 			node.getGraph().removeNode(node);
 			return CommandResult.newWarningCommandResult("Node seems to be illegal. Deleted anyway.", null); // done.
 		}
 
 		// We reset the action to DELETE, then we know where the node is:
-		NodeActionHelper.INSTANCE.setAction(node, new Action(ActionType.DELETE));
+		HenshinActionHelper.setAction(node, new Action(ActionType.DELETE));
 		
 		// Check if there are images in multi-rules.
 		Rule kernel = node.getGraph().getContainerRule();
@@ -82,7 +82,7 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		
 		// Clean up trivial NAC and multi-rules:
 		HenshinACUtil.removeTrivialACs(kernel);
-		RuleEditHelper.removeTrivialMultiRules(kernel);
+		HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

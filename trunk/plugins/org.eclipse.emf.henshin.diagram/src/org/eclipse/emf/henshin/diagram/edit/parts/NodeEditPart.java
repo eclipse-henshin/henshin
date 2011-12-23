@@ -26,16 +26,17 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.NodeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeGraphicalEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.NodeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
+import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -142,7 +143,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public void refreshForegroundColor() {
 		Action action = getNodeAction();
 		if (action != null) {
-			setForegroundColor(action.getType().getColor());
+			setForegroundColor(ActionColorProvider.getColor(action));
 		} else {
 			super.refreshForegroundColor();
 		}
@@ -177,7 +178,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public Action getNodeAction() {
 		if (getNotationView().getElement() instanceof Node) {
 			Node node = (Node) getNotationView().getElement();
-			return NodeActionHelper.INSTANCE.getAction(node);
+			return HenshinActionHelper.getAction(node);
 		} else {
 			return null;
 		}

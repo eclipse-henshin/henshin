@@ -19,12 +19,13 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.diagram.edit.actions.Action;
-import org.eclipse.emf.henshin.diagram.edit.actions.EdgeActionHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
@@ -62,8 +63,12 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	protected void addSemanticListeners() {
 		super.addSemanticListeners();
+		View view = getNotationView();
+		if (view==null) return;
 		Edge edge = (Edge) (getNotationView().getElement());
+		if (edge==null) return;
 		Rule rule = edge.getGraph().getContainerRule();
+		if (rule==null) return;
 		TransformationSystem system = rule.getTransformationSystem();
 		transformationListener = new TransformationSystemListener(system,
 				new AdapterImpl() {
@@ -174,9 +179,9 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		Edge edge = (Edge) getNotationView().getElement();
-		Action action = EdgeActionHelper.INSTANCE.getAction(edge);
+		Action action = HenshinActionHelper.getAction(edge);
 		if (action != null) {
-			setForegroundColor(action.getType().getColor());
+			setForegroundColor(ActionColorProvider.getColor(action));
 		} else {
 			super.refreshForegroundColor();
 		}

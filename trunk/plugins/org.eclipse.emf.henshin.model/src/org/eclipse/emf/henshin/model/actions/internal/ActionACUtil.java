@@ -1,7 +1,9 @@
-package org.eclipse.emf.henshin.diagram.edit.actions;
+package org.eclipse.emf.henshin.model.actions.internal;
 
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
@@ -9,7 +11,6 @@ import org.eclipse.emf.henshin.model.util.HenshinACUtil;
  * (PACs and NACs) based on actions.
  * 
  * @author Christian Krause
- * @generated NOT
  */
 public class ActionACUtil {
 	
