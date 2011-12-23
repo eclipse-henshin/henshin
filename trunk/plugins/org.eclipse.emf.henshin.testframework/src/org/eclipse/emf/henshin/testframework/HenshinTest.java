@@ -12,6 +12,9 @@
 package org.eclipse.emf.henshin.testframework;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -24,6 +27,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.junit.After;
 
 /**
@@ -344,4 +348,32 @@ public class HenshinTest {
 				+ graphFileExtension).getAbsolutePath());
 		return graphURI;
 	}
+	
+	/**
+	 * Recursively find Henshin files in a given path.
+	 * @param path Path where to look for Henshin files.
+	 * @return List of full paths of the found Henshin files.
+	 */
+	protected List<File> findHenshinFiles(File path) {
+		List<File> files = new ArrayList<File>();
+		addHenshinFiles(path, files);
+		Collections.sort(files);
+		return files;
+	}
+	
+	/*
+	 * Recursively search for Henshin files.
+	 */
+	private void addHenshinFiles(File file, List<File> stateSpaceFiles) {
+		if (file.isDirectory()) {
+			for (File child : file.listFiles()) {
+				addHenshinFiles(child, stateSpaceFiles);
+			}
+		} else {
+			if (file.getName().endsWith("." + HenshinResource.FILE_EXTENSION)) {
+				stateSpaceFiles.add(file);
+			}
+		}
+	}
+
 }
