@@ -45,7 +45,9 @@ public class SetAction extends HenshinTest {
 		"require",		"require:pac1",	"require:pac2",
 		
 		// Amalgamated actions:
-		"preserve*",	"create*",		"delete*"
+		"preserve*",	"preserve*:multi1",	"preserve*:multi2",	
+		"create*",		"create*:multi1",	"create*:multi2",	
+		"delete*",		"delete*:multi1",	"delete*:multi2",	
 		
 	};
 	
@@ -99,6 +101,8 @@ public class SetAction extends HenshinTest {
 		
 		// Check all rules:
 		for (Rule rule : rules) {
+			System.out.println("Testing " + elementType.getName().toLowerCase() + 
+							   " actions for rule " + rule.getName() + "...");
 			
 			// Set node actions for all action elements:
 			for (Object element : getActionElements(rule, elementType)) {
@@ -147,25 +151,29 @@ public class SetAction extends HenshinTest {
 	 * Set an element action and check if it went well.
 	 */
 	private void setAction(Object element, Action action) {
-		if (action.isAmalgamated() && element instanceof Attribute) {
+		if (action.isAmalgamated() && 
+			(element instanceof Attribute || element instanceof Edge)) {
 			return;
 		}
 		Rule rule = getRule((EObject) element);
-		//System.out.println("Setting action " + action + " for " + ((EObject) element).eClass().getName() + " in rule " + rule.getName());
+		//System.out.println("Setting action " + action + " for " + ((EObject) element).eClass().getName() + " in rule " + ruleName(rule));
 		if (element instanceof Node) {
 			HenshinActionHelper.setAction((Node) element, action);
-			assertTrue("Error setting node action " + action + " in rule " + rule.getName(), 
-				action.equals(HenshinActionHelper.getAction((Node) element)));
+			Action action2 = HenshinActionHelper.getAction((Node) element); 
+			assertTrue("Error setting node action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
+				action.equals(action2));
 		}
 		else if (element instanceof Edge) {
 			HenshinActionHelper.setAction((Edge) element, action);
-			assertTrue("Error setting edge action " + action + " in rule " + rule.getName(), 
-				action.equals(HenshinActionHelper.getAction((Edge) element)));
+			Action action2 = HenshinActionHelper.getAction((Edge) element); 
+			assertTrue("Error setting edge action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
+				action.equals(action2));
 		}
 		else if (element instanceof Attribute) {
 			HenshinActionHelper.setAction((Attribute) element, action);
-			assertTrue("Error setting attribute action " + action + " in rule " + rule.getName(), 
-				action.equals(HenshinActionHelper.getAction((Attribute) element)));
+			Action action2 = HenshinActionHelper.getAction((Attribute) element); 
+			assertTrue("Error setting attribute action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
+				action.equals(action2));
 		}
 	}
 	
