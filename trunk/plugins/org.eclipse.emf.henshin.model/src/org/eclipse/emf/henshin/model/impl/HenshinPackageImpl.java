@@ -1355,6 +1355,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		addEParameter(op, this.getNode(), "sourceNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getNode(), "targetNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(ruleEClass, ecorePackage.getEBoolean(), "containsMultiMapping", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getNode(), "sourceNode", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getNode(), "targetNode", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(ruleEClass, this.getTransformationSystem(), "getTransformationSystem", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(ruleEClass, this.getRule(), "getKernelRule", 0, 1, IS_UNIQUE, IS_ORDERED);

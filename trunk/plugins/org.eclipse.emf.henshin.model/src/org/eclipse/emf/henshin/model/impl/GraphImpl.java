@@ -42,22 +42,18 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getNodes <em>Nodes
- * </em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getEdges <em>Edges
- * </em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getFormula <em>
- * Formula</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getEdges <em>Edges</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.GraphImpl#getFormula <em>Formula</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class GraphImpl extends NamedElementImpl implements Graph {
 	/**
-	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNodes()
 	 * @generated
 	 * @ordered
@@ -65,9 +61,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	protected EList<Node> nodes;
 	
 	/**
-	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEdges()
 	 * @generated
 	 * @ordered
@@ -75,9 +70,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	protected EList<Edge> edges;
 	
 	/**
-	 * The cached value of the '{@link #getFormula() <em>Formula</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormula() <em>Formula</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormula()
 	 * @generated
 	 * @ordered
@@ -86,7 +80,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected GraphImpl() {
@@ -95,7 +88,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -105,33 +97,28 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Node> getNodes() {
 		if (nodes == null) {
-			nodes = new EObjectContainmentWithInverseEList<Node>(Node.class, this,
-					HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
+			nodes = new EObjectContainmentWithInverseEList<Node>(Node.class, this, HenshinPackage.GRAPH__NODES, HenshinPackage.NODE__GRAPH);
 		}
 		return nodes;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList<Edge> getEdges() {
 		if (edges == null) {
-			edges = new EObjectContainmentWithInverseEList<Edge>(Edge.class, this,
-					HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
+			edges = new EObjectContainmentWithInverseEList<Edge>(Edge.class, this, HenshinPackage.GRAPH__EDGES, HenshinPackage.EDGE__GRAPH);
 		}
 		return edges;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Formula getFormula() {
@@ -140,43 +127,34 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormula(Formula newFormula, NotificationChain msgs) {
 		Formula oldFormula = formula;
 		formula = newFormula;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.GRAPH__FORMULA, oldFormula, newFormula);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HenshinPackage.GRAPH__FORMULA, oldFormula, newFormula);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormula(Formula newFormula) {
 		if (newFormula != formula) {
 			NotificationChain msgs = null;
 			if (formula != null)
-				msgs = ((InternalEObject) formula).eInverseRemove(this, EOPPOSITE_FEATURE_BASE
-						- HenshinPackage.GRAPH__FORMULA, null, msgs);
+				msgs = ((InternalEObject)formula).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.GRAPH__FORMULA, null, msgs);
 			if (newFormula != null)
-				msgs = ((InternalEObject) newFormula).eInverseAdd(this, EOPPOSITE_FEATURE_BASE
-						- HenshinPackage.GRAPH__FORMULA, null, msgs);
+				msgs = ((InternalEObject)newFormula).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HenshinPackage.GRAPH__FORMULA, null, msgs);
 			msgs = basicSetFormula(newFormula, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.GRAPH__FORMULA,
-					newFormula, newFormula));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.GRAPH__FORMULA, newFormula, newFormula));
 	}
 	
 	/**
@@ -294,7 +272,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -303,18 +280,15 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.GRAPH__NODES:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getNodes()).basicAdd(
-						otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNodes()).basicAdd(otherEnd, msgs);
 			case HenshinPackage.GRAPH__EDGES:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getEdges()).basicAdd(
-						otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEdges()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -322,9 +296,9 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 			NotificationChain msgs) {
 		switch (featureID) {
 			case HenshinPackage.GRAPH__NODES:
-				return ((InternalEList<?>) getNodes()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.GRAPH__EDGES:
-				return ((InternalEList<?>) getEdges()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getEdges()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.GRAPH__FORMULA:
 				return basicSetFormula(null, msgs);
 		}
@@ -333,7 +307,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -351,7 +324,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -360,14 +332,14 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		switch (featureID) {
 			case HenshinPackage.GRAPH__NODES:
 				getNodes().clear();
-				getNodes().addAll((Collection<? extends Node>) newValue);
+				getNodes().addAll((Collection<? extends Node>)newValue);
 				return;
 			case HenshinPackage.GRAPH__EDGES:
 				getEdges().clear();
-				getEdges().addAll((Collection<? extends Edge>) newValue);
+				getEdges().addAll((Collection<? extends Edge>)newValue);
 				return;
 			case HenshinPackage.GRAPH__FORMULA:
-				setFormula((Formula) newValue);
+				setFormula((Formula)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -375,7 +347,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -388,7 +359,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 				getEdges().clear();
 				return;
 			case HenshinPackage.GRAPH__FORMULA:
-				setFormula((Formula) null);
+				setFormula((Formula)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -396,7 +367,6 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

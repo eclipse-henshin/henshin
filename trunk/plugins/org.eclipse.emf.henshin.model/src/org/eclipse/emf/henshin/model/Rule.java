@@ -229,5 +229,13 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	boolean containsMapping(Node sourceNode, Node targetNode);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean containsMultiMapping(Node sourceNode, Node targetNode);
 	
 } // Rule

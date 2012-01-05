@@ -58,6 +58,10 @@
       <eParameters name="sourceNode" eType="#//Node"/>
       <eParameters name="targetNode" eType="#//Node"/>
     </eOperations>
+    <eOperations name="containsMultiMapping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="sourceNode" eType="#//Node"/>
+      <eParameters name="targetNode" eType="#//Node"/>
+    </eOperations>
     <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getKernelRule" eType="#//Rule"/>
     <eOperations name="getMultiRuleByName" eType="#//Rule">

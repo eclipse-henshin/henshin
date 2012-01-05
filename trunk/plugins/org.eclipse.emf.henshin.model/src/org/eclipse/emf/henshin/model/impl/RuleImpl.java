@@ -404,8 +404,10 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
+	 * <!-- begin-user-doc -->
 	 * Checks whether the rule morphism maps the two specified nodes. NOTE: Will
 	 * check only rule mappings, not mappings in application conditions.
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -416,6 +418,21 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		return false;
 	}// containsMapping
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Check whether the multi-mappings list of this rule contain a mapping
+	 * for the given source and target node.
+	 * <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public boolean containsMultiMapping(Node sourceNode, Node targetNode) {
+		for (Mapping m : getMultiMappings()) {
+			if (m.getOrigin() == sourceNode && m.getImage() == targetNode) return true;
+		}
+		return false;
+	}// containsMultiMapping
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
