@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -107,6 +109,22 @@ public class UnitCreateCommand extends EditElementCommand {
 		// Create the transformation unit:
 		TransformationUnit unit = (TransformationUnit) HenshinFactory.eINSTANCE
 				.create(unitType);
+		
+		// Special cases:
+		List<TransformationUnit> targets = getTargetCandidates();
+		if (!targets.isEmpty()) {
+			if (unit instanceof ConditionalUnit) {
+				TransformationUnit ifUnit = targets.remove(0);
+				TransformationUnit thenUnit = targets.isEmpty() ? ifUnit : targets.remove(0);
+				TransformationUnit elseUnit = targets.isEmpty() ? thenUnit : targets.remove(0);
+				((ConditionalUnit) unit).setIf(ifUnit);
+				((ConditionalUnit) unit).setThen(thenUnit);
+				((ConditionalUnit) unit).setElse(elseUnit);
+			}
+			else if (unit instanceof CountedUnit) {
+				((CountedUnit) unit).setSubUnit(targets.get(0));
+			}
+		}
 
 		// Add it to the transformation system:
 		TransformationSystem system = (TransformationSystem) getElementToEdit();
@@ -130,8 +148,8 @@ public class UnitCreateCommand extends EditElementCommand {
 
 		// Supported unit types:
 		List<EClass> unitTypes = new ArrayList<EClass>();
-		//unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
-		//unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());
@@ -152,6 +170,33 @@ public class UnitCreateCommand extends EditElementCommand {
 		// Create and return the pop-up menu:
 		return new PopupMenu(unitTypes, labelProvider);
 
+	}
+
+	/*
+	 * Helper method: get the current transformation system.
+	 */
+	private TransformationSystem getTransformationSystem() {
+		EObject object = getElementToEdit();
+		while (object!=null) {
+			if (object instanceof TransformationSystem) {
+				return (TransformationSystem) object;
+			}
+			object = object.eContainer();
+		}
+		return null;
+	}
+	
+	/*
+	 * Helper method: get a list of possible target candidate units.
+	 */
+	private List<TransformationUnit> getTargetCandidates() {
+		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
+		TransformationSystem system = getTransformationSystem();
+		if (system!=null) {
+			candidates.addAll(system.getRules());
+			candidates.addAll(system.getTransformationUnits());
+		}
+		return candidates;
 	}
 
 	/**

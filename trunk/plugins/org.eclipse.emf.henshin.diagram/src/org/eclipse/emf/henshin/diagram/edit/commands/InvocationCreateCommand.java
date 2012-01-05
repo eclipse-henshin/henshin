@@ -18,6 +18,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -120,6 +122,23 @@ public class InvocationCreateCommand extends EditElementCommand {
 		}
 		else if (owner instanceof IndependentUnit) {
 			((IndependentUnit) owner).getSubUnits().add(target);
+		}
+		else if (owner instanceof ConditionalUnit) {
+			ConditionalUnit cond = (ConditionalUnit) owner;
+			if (cond.getIf()==null) {
+				cond.setIf(target);
+			}
+			else if (cond.getThen()==null) {
+				cond.setThen(target);
+			}
+			else if (cond.getElse()==null) {
+				cond.setElse(target);
+			}
+		}
+		else if (owner instanceof CountedUnit) {
+			if (((CountedUnit) owner).getSubUnit()==null) {
+				((CountedUnit) owner).setSubUnit(target);
+			}
 		}
 
 		// No need to configure.
