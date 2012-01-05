@@ -70,7 +70,7 @@ public class HtmlTipSupport {
 		
 		this.viewer.getTree().addMouseMoveListener(new MouseMoveListener() {
 			public void mouseMove(MouseEvent e) {
-				if (!infoVisible || !hideOnMouseExitEnabled || tipShell == null || tipShell.isDisposed())
+				if (!infoVisible || !hideOnMouseExitEnabled)
 					return;
 				if (getItem(e) == currentItem)
 					return;
@@ -213,7 +213,7 @@ public class HtmlTipSupport {
 	}
 	
 	protected void createNewTipShell() {
-		tipShell = new Shell(viewer.getTree().getShell(), SWT.RESIZE);
+		tipShell = new Shell(viewer.getTree().getShell(), SWT.ON_TOP | SWT.TOOL | SWT.RESIZE);
 		tipShell.setLayout(new FillLayout());
 		formText = new FormText(tipShell, SWT.NONE);
 		
