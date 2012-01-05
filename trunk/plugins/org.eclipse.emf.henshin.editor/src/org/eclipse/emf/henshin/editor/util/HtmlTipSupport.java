@@ -70,7 +70,7 @@ public class HtmlTipSupport {
 		
 		this.viewer.getTree().addMouseMoveListener(new MouseMoveListener() {
 			public void mouseMove(MouseEvent e) {
-				if (!infoVisible || !hideOnMouseExitEnabled)
+				if (!infoVisible || !hideOnMouseExitEnabled || tipShell == null || tipShell.isDisposed())
 					return;
 				if (getItem(e) == currentItem)
 					return;
