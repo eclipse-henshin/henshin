@@ -31,10 +31,9 @@ import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.CountedUnit} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.CountedUnit} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
 public class CountedUnitItemProvider extends TransformationUnitItemProvider implements
@@ -60,7 +59,7 @@ public class CountedUnitItemProvider extends TransformationUnitItemProvider impl
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addCountPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -73,23 +72,26 @@ public class CountedUnitItemProvider extends TransformationUnitItemProvider impl
 	 * @generated
 	 */
 	protected void addCountPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_CountedUnit_count_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_CountedUnit_count_feature",
-						"_UI_CountedUnit_type"), HenshinPackage.Literals.COUNTED_UNIT__COUNT, true,
-				false, false, ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_CountedUnit_count_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_CountedUnit_count_feature", "_UI_CountedUnit_type"),
+				 HenshinPackage.Literals.COUNTED_UNIT__COUNT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -103,15 +105,13 @@ public class CountedUnitItemProvider extends TransformationUnitItemProvider impl
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-		
+
 		return super.getChildFeature(object, child);
 	}
 	
@@ -127,38 +127,36 @@ public class CountedUnitItemProvider extends TransformationUnitItemProvider impl
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((CountedUnit) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_CountedUnit_type")
-				: getString("_UI_CountedUnit_type") + " " + label;
+		String label = ((CountedUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_CountedUnit_type") :
+			getString("_UI_CountedUnit_type") + " " + label;
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
+
 		switch (notification.getFeatureID(CountedUnit.class)) {
 			case HenshinPackage.COUNTED_UNIT__COUNT:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case HenshinPackage.COUNTED_UNIT__SUB_UNIT:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);

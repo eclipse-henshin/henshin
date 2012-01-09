@@ -94,6 +94,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
 			case HenshinPackage.AMALGAMATION_UNIT: return createAmalgamationUnit();
 			case HenshinPackage.COUNTED_UNIT: return createCountedUnit();
+			case HenshinPackage.LOOP_UNIT: return createLoopUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
 			case HenshinPackage.AND: return createAnd();
 			case HenshinPackage.OR: return createOr();
@@ -319,6 +320,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public CountedUnit createCountedUnit() {
 		CountedUnitImpl countedUnit = new CountedUnitImpl();
 		return countedUnit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LoopUnit createLoopUnit() {
+		LoopUnitImpl loopUnit = new LoopUnitImpl();
+		return loopUnit;
 	}
 
 	/**

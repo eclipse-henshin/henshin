@@ -141,36 +141,35 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ConditionalUnit) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_ConditionalUnit_type")
-				: getString("_UI_ConditionalUnit_type") + " " + label;
+		String label = ((ConditionalUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_ConditionalUnit_type") :
+			getString("_UI_ConditionalUnit_type") + " " + label;
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
+
 		switch (notification.getFeatureID(ConditionalUnit.class)) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);

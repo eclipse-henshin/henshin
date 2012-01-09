@@ -300,6 +300,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateAmalgamationUnit((AmalgamationUnit)value, diagnostics, context);
 			case HenshinPackage.COUNTED_UNIT:
 				return validateCountedUnit((CountedUnit)value, diagnostics, context);
+			case HenshinPackage.LOOP_UNIT:
+				return validateLoopUnit((LoopUnit)value, diagnostics, context);
 			case HenshinPackage.NESTED_CONDITION:
 				return validateNestedCondition((NestedCondition)value, diagnostics, context);
 			case HenshinPackage.FORMULA:
@@ -2275,6 +2277,27 @@ public class HenshinValidator extends EObjectValidator {
 		return true;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLoopUnit(LoopUnit loopUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

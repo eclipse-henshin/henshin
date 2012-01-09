@@ -38,10 +38,9 @@ import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Edge} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Edge} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class EdgeItemProvider extends HenshinItemProviderAdapter implements
@@ -67,10 +66,10 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
+
 			addSourcePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
-			// makePropertyDescriptorsContextSensitive();
 		}
 		return itemPropertyDescriptors;
 	}

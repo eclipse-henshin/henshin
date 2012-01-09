@@ -80,7 +80,7 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addNegatedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -93,24 +93,26 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	 * @generated
 	 */
 	protected void addNegatedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_NestedCondition_negated_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_NestedCondition_negated_feature", "_UI_NestedCondition_type"),
-				HenshinPackage.Literals.NESTED_CONDITION__NEGATED, true, false, false,
-				ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NestedCondition_negated_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NestedCondition_negated_feature", "_UI_NestedCondition_type"),
+				 HenshinPackage.Literals.NESTED_CONDITION__NEGATED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -125,15 +127,13 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-		
+
 		return super.getChildFeature(object, child);
 	}
 	
@@ -176,14 +176,14 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		NestedCondition nestedCondition = (NestedCondition) object;
+		NestedCondition nestedCondition = (NestedCondition)object;
 		return getString("_UI_NestedCondition_type") + " " + nestedCondition.isNegated();
 	}
 	
@@ -276,14 +276,16 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION,
-				HenshinFactory.eINSTANCE.createGraph()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.NESTED_CONDITION__MAPPINGS,
-				HenshinFactory.eINSTANCE.createMapping()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION,
+				 HenshinFactory.eINSTANCE.createGraph()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.NESTED_CONDITION__MAPPINGS,
+				 HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
 	@Override

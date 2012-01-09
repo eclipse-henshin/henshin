@@ -208,6 +208,15 @@ public interface HenshinFactory extends EFactory {
 	CountedUnit createCountedUnit();
 
 	/**
+	 * Returns a new object of class '<em>Loop Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Loop Unit</em>'.
+	 * @generated
+	 */
+	LoopUnit createLoopUnit();
+
+	/**
 	 * Returns a new object of class '<em>Nested Condition</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

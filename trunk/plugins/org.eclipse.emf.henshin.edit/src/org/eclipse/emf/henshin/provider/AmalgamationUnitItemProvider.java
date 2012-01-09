@@ -81,7 +81,7 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addKernelRulePropertyDescriptor(object);
 			addMultiRulesPropertyDescriptor(object);
 			addLhsMappingsPropertyDescriptor(object);
@@ -97,14 +97,19 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addKernelRulePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_AmalgamationUnit_kernelRule_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_kernelRule_feature", "_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE, true, false, true, null,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AmalgamationUnit_kernelRule_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_kernelRule_feature", "_UI_AmalgamationUnit_type"),
+				 HenshinPackage.Literals.AMALGAMATION_UNIT__KERNEL_RULE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 	
 	/**
@@ -114,14 +119,19 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addMultiRulesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_AmalgamationUnit_multiRules_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_multiRules_feature", "_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES, true, false, true, null,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AmalgamationUnit_multiRules_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_multiRules_feature", "_UI_AmalgamationUnit_type"),
+				 HenshinPackage.Literals.AMALGAMATION_UNIT__MULTI_RULES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 	
 	/**
@@ -131,14 +141,19 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addLhsMappingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_AmalgamationUnit_lhsMappings_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_lhsMappings_feature", "_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS, true, false, true, null,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AmalgamationUnit_lhsMappings_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_lhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				 HenshinPackage.Literals.AMALGAMATION_UNIT__LHS_MAPPINGS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 	
 	/**
@@ -148,14 +163,19 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addRhsMappingsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_AmalgamationUnit_rhsMappings_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_AmalgamationUnit_rhsMappings_feature", "_UI_AmalgamationUnit_type"),
-				HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS, true, false, true, null,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_AmalgamationUnit_rhsMappings_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_AmalgamationUnit_rhsMappings_feature", "_UI_AmalgamationUnit_type"),
+				 HenshinPackage.Literals.AMALGAMATION_UNIT__RHS_MAPPINGS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 	
 	/**
@@ -175,16 +195,17 @@ public class AmalgamationUnitItemProvider extends TransformationUnitItemProvider
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AmalgamationUnit) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_AmalgamationUnit_type")
-				: getString("_UI_AmalgamationUnit_type") + " " + label;
+		String label = ((AmalgamationUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_AmalgamationUnit_type") :
+			getString("_UI_AmalgamationUnit_type") + " " + label;
 	}
 	
 	/**

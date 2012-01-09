@@ -26,10 +26,9 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.Xor} object. <!-- begin-user-doc -->
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Xor} object.
+ * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class XorItemProvider extends BinaryFormulaItemProvider implements
@@ -55,14 +54,14 @@ public class XorItemProvider extends BinaryFormulaItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 		}
 		return itemPropertyDescriptors;
 	}
 	
 	/**
-	 * This returns Xor.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Xor.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -71,9 +70,9 @@ public class XorItemProvider extends BinaryFormulaItemProvider implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,11 +81,10 @@ public class XorItemProvider extends BinaryFormulaItemProvider implements
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -119,13 +117,15 @@ public class XorItemProvider extends BinaryFormulaItemProvider implements
 			Collection<?> selection) {
 		Object childFeature = feature;
 		Object childObject = child;
-		
-		boolean qualify = childFeature == HenshinPackage.Literals.BINARY_FORMULA__LEFT
-				|| childFeature == HenshinPackage.Literals.BINARY_FORMULA__RIGHT;
-		
+
+		boolean qualify =
+			childFeature == HenshinPackage.Literals.BINARY_FORMULA__LEFT ||
+			childFeature == HenshinPackage.Literals.BINARY_FORMULA__RIGHT;
+
 		if (qualify) {
-			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
-					getFeatureText(childFeature), getTypeText(owner) });
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
 	}

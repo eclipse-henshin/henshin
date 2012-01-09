@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.LoopUnit;
+import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -37,6 +39,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * </p>
  *
  * @generated
+ * @deprecated Use {@link SequentialUnit} or {@link LoopUnit}
  */
 public class CountedUnitImpl extends TransformationUnitImpl implements CountedUnit {
 	/**

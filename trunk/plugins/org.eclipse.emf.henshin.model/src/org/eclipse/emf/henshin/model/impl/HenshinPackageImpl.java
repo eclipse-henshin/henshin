@@ -36,6 +36,7 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -192,6 +193,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass countedUnitEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass loopUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -970,6 +978,24 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLoopUnit() {
+		return loopUnitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLoopUnit_SubUnit() {
+		return (EReference)loopUnitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNestedCondition() {
 		return nestedConditionEClass;
 	}
@@ -1236,6 +1262,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEReference(countedUnitEClass, COUNTED_UNIT__SUB_UNIT);
 		createEAttribute(countedUnitEClass, COUNTED_UNIT__COUNT);
 
+		loopUnitEClass = createEClass(LOOP_UNIT);
+		createEReference(loopUnitEClass, LOOP_UNIT__SUB_UNIT);
+
 		nestedConditionEClass = createEClass(NESTED_CONDITION);
 		createEAttribute(nestedConditionEClass, NESTED_CONDITION__NEGATED);
 		createEReference(nestedConditionEClass, NESTED_CONDITION__CONCLUSION);
@@ -1310,6 +1339,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		priorityUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		amalgamationUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		countedUnitEClass.getESuperTypes().add(this.getTransformationUnit());
+		loopUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		nestedConditionEClass.getESuperTypes().add(this.getFormula());
 		unaryFormulaEClass.getESuperTypes().add(this.getFormula());
 		binaryFormulaEClass.getESuperTypes().add(this.getFormula());
@@ -1489,6 +1519,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(countedUnitEClass, CountedUnit.class, "CountedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCountedUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, CountedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCountedUnit_Count(), ecorePackage.getEInt(), "count", null, 0, 1, CountedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(loopUnitEClass, LoopUnit.class, "LoopUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLoopUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, LoopUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nestedConditionEClass, NestedCondition.class, "NestedCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNestedCondition_Negated(), ecorePackage.getEBoolean(), "negated", null, 0, 1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
