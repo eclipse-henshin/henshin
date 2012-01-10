@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
@@ -116,6 +117,8 @@ public class UnitApplication extends Observable {
 					return executePriorityUnit();
 				case HenshinPackage.COUNTED_UNIT:
 					return executeCountedUnit();
+				case HenshinPackage.LOOP_UNIT:
+					return executeLoopUnit();
 			}
 		}
 		
@@ -362,6 +365,23 @@ public class UnitApplication extends Observable {
 		return true;
 	}
 	
+	private boolean executeLoopUnit() {
+		
+		LoopUnit countedUnit = (LoopUnit) transformationUnit;
+		while (!getApplicationMonitor().isCanceled()) {
+			UnitApplication genericUnit = createApplicationFor(countedUnit.getSubUnit());
+			if (genericUnit.execute()) {
+				updateParameterValues(genericUnit);
+				appliedRules.addAll(genericUnit.appliedRules);
+			} else {
+				break;
+			}
+		}
+		if (getApplicationMonitor().isUndo())
+			undo();
+		return true;
+	}
+	
 	/**
 	 * @return the transformationUnit
 	 */
@@ -448,7 +468,7 @@ public class UnitApplication extends Observable {
 	 * Control-flag container.
 	 * 
 	 * @author Gregor Bonifer
-	 *
+	 * 
 	 */
 	public static class ApplicationMonitor {
 		
