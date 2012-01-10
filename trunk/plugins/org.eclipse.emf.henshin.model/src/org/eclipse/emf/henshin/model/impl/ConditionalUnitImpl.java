@@ -25,276 +25,294 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Conditional Unit</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Conditional Unit</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getIf <em>If</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getThen <em>Then</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getElse <em>Else</em>}</li>
+ * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getIf <em>
+ * If</em>}</li>
+ * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getThen
+ * <em>Then</em>}</li>
+ * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getElse
+ * <em>Else</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ConditionalUnitImpl extends TransformationUnitImpl implements ConditionalUnit {
 	/**
-	 * The cached value of the '{@link #getIf() <em>If</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getIf() <em>If</em>}' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getIf()
 	 * @generated
 	 * @ordered
 	 */
 	protected TransformationUnit if_;
-
+	
 	/**
 	 * The cached value of the '{@link #getThen() <em>Then</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getThen()
 	 * @generated
 	 * @ordered
 	 */
 	protected TransformationUnit then;
-
+	
 	/**
 	 * The cached value of the '{@link #getElse() <em>Else</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getElse()
 	 * @generated
 	 * @ordered
 	 */
 	protected TransformationUnit else_;
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ConditionalUnitImpl() {
 		super();
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.CONDITIONAL_UNIT;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit getIf() {
 		if (if_ != null && if_.eIsProxy()) {
-			InternalEObject oldIf = (InternalEObject)if_;
-			if_ = (TransformationUnit)eResolveProxy(oldIf);
+			InternalEObject oldIf = (InternalEObject) if_;
+			if_ = (TransformationUnit) eResolveProxy(oldIf);
 			if (if_ != oldIf) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
 			}
 		}
 		return if_;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetIf() {
 		return if_;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setIf(TransformationUnit newIf) {
 		TransformationUnit oldIf = if_;
 		if_ = newIf;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit getThen() {
 		if (then != null && then.eIsProxy()) {
-			InternalEObject oldThen = (InternalEObject)then;
-			then = (TransformationUnit)eResolveProxy(oldThen);
+			InternalEObject oldThen = (InternalEObject) then;
+			then = (TransformationUnit) eResolveProxy(oldThen);
 			if (then != oldThen) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
 			}
 		}
 		return then;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetThen() {
 		return then;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setThen(TransformationUnit newThen) {
 		TransformationUnit oldThen = then;
 		then = newThen;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit getElse() {
 		if (else_ != null && else_.eIsProxy()) {
-			InternalEObject oldElse = (InternalEObject)else_;
-			else_ = (TransformationUnit)eResolveProxy(oldElse);
+			InternalEObject oldElse = (InternalEObject) else_;
+			else_ = (TransformationUnit) eResolveProxy(oldElse);
 			if (else_ != oldElse) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
 			}
 		}
 		return else_;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetElse() {
 		return else_;
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setElse(TransformationUnit newElse) {
 		TransformationUnit oldElse = else_;
 		else_ = newElse;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated NOT
 	 */
 	public EList<TransformationUnit> getSubUnits(boolean deep) {
 		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
 		
-		allunits.add(if_);
-		allunits.add(then);
-		allunits.add(else_);
+		if (if_ != null)
+			allunits.add(if_);
+		if (then != null)
+			allunits.add(then);
+		if (else_ != null)
+			allunits.add(else_);
+		
 		if (deep) {
-			if ((if_ != null) && (if_ != this)) {		// do not recursively add recursive units
-					allunits.addAll(if_.getSubUnits(deep));
+			if ((if_ != null) && (if_ != this)) { // do not recursively add
+													// recursive units
+				allunits.addAll(if_.getSubUnits(deep));
 			}
-			if ((then != null) && (then != this)) {		// do not recursively add recursive units
+			if ((then != null) && (then != this)) { // do not recursively add
+													// recursive units
 				allunits.addAll(then.getSubUnits(deep));
 			}
-			if ((else_ != null) && (else_ != this)) {	// do not recursively add recursive units 
+			if ((else_ != null) && (else_ != this)) { // do not recursively add
+														// recursive units
 				allunits.addAll(else_.getSubUnits(deep));
 			}
 		}// if
 		
 		return new BasicEList<TransformationUnit>(allunits);
 	}// getSubUnits
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				if (resolve) return getIf();
+				if (resolve)
+					return getIf();
 				return basicGetIf();
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				if (resolve) return getThen();
+				if (resolve)
+					return getThen();
 				return basicGetThen();
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				if (resolve) return getElse();
+				if (resolve)
+					return getElse();
 				return basicGetElse();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				setIf((TransformationUnit)newValue);
+				setIf((TransformationUnit) newValue);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				setThen((TransformationUnit)newValue);
+				setThen((TransformationUnit) newValue);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				setElse((TransformationUnit)newValue);
+				setElse((TransformationUnit) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				setIf((TransformationUnit)null);
+				setIf((TransformationUnit) null);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				setThen((TransformationUnit)null);
+				setThen((TransformationUnit) null);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				setElse((TransformationUnit)null);
+				setElse((TransformationUnit) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
-
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -309,5 +327,5 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 		}
 		return super.eIsSet(featureID);
 	}
-
-} //ConditionalUnitImpl
+	
+} // ConditionalUnitImpl
