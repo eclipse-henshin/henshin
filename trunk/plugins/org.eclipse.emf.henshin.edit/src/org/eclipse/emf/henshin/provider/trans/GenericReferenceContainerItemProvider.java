@@ -34,16 +34,18 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.provider.HenshinEditPlugin;
+
 /**
  * Generic transient representation for a single reference.
  * 
  * @author Gregor Bonifer
- *
+ * 
  */
 public class GenericReferenceContainerItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	
+	protected boolean forceNoWrapping = false;
 	protected EReference reference;
 	protected String labelKey;
 	protected String imagePath;
@@ -158,9 +160,15 @@ public class GenericReferenceContainerItemProvider extends ItemProviderAdapter i
 		return true;
 	}
 	
+	public void setForceNoWrapping(boolean forceNoWrapping) {
+		this.forceNoWrapping = forceNoWrapping;
+	}
+	
 	@Override
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
 			int index) {
+		if (forceNoWrapping)
+			return value;
 		return new DelegatingWrapperItemProvider(value, this, feature, index, adapterFactory);
 	}
 	

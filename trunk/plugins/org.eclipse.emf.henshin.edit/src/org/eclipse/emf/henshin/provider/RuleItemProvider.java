@@ -448,6 +448,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			lrMappingContainer = new GenericReferenceContainerItemProvider(adapterFactory, rule,
 					HenshinPackage.eINSTANCE.getRule_Mappings(), "_UI_Rule_mappings_feature",
 					"full/obj16/Mapping");
+			lrMappingContainer.setForceNoWrapping(true);
 			getDisposable().add(lrMappingContainer);
 		}
 		
@@ -459,6 +460,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			multiMappingContainer = new GenericReferenceContainerItemProvider(adapterFactory, rule,
 					HenshinPackage.eINSTANCE.getRule_MultiMappings(),
 					"_UI_Rule_multiMappings_feature", "full/obj16/Mapping");
+			multiMappingContainer.setForceNoWrapping(true);
 			getDisposable().add(multiMappingContainer);
 		}
 		
