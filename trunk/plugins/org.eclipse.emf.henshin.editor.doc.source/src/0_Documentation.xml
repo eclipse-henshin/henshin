@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "../lib/docbook-5.0.dtd" >
+<book>
+	<title>The tree-based Henshin Transformation Model Editor</title>
+	<info>
+		<authorgroup>
+			<author>
+				<personname>
+					<surname>Bonifer</surname>
+					<firstname>Gregor</firstname>
+				</personname>
+			</author>
+		</authorgroup>
+	</info>
+
+	<xi:include href="1_Overview.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />	
+	<xi:include href="2_AdvancedEditing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="3_DisplayOptions.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="4_TransformationWizard.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+</book>

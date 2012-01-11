@@ -1,0 +1,181 @@
+<?xml version='1.0' ?><!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN" "../lib/docbook-5.0.dtd" >
+
+<chapter xml:id="TransformationWizard">
+	<title>Transformation Wizard</title>
+	<section>
+		<title>Opening the wizard</title>
+		<para>
+			The transformation wizard provides a UI for applying and testing
+			transformations. An action for opening the wizard is provided in the
+			context of Rules, TransformationUnits, TransformationSystems and
+			henshin-files. Inside the henshin-editor the popup menu provides an
+			action "Apply with Henshin" as shown in
+			<xref linkend="fig_WizardMenuAction"></xref>
+			. The popup menu of the Package Explorer lists the action in the
+			Henshin submenu.
+			<figure xml:id="fig_WizardMenuAction">
+				<title>Wizard menu entry</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center" fileref="img/WizardMenuAction.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</para>
+	</section>
+
+	<section>
+		<title>Wizard Elements</title>
+		<para>
+			The wizard's interface is made of a single page containing
+			several sections that allow to configure the different aspects of a
+			transformation's application. The following illustrates the UI
+			elements in detail. 	
+		</para>
+		<figure xml:id="fig_Wizard">
+			<title>Wizard</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="img/Wizard_.png"></imagedata>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<orderedlist>
+			<listitem>
+				<para>Select the Rule or TransformationUnit that shall be executed.
+					This selector is only enabled if the wizard is opened in the
+					context of a TransforamtionSystem or a henshin-file. Otherwise the
+					Rule or TransforamtionUnit for which the wizard was opened will be
+					fixed.</para>
+			</listitem>
+			<listitem>
+				<para>Select the resource you wish to transform. Only the first
+					content element of the resource will be used as the graph.The
+					element is inserted as root. This means that the graph will consist
+					of the element itself and all transitively contained objects.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Set values for the parameters of the chosen unit. Since all
+					values
+					are entered as strings, it is necessary to also select a
+					type. The
+					given string-value is parsed as the defined type, which is then
+					passed to the transformation.
+					<figure xml:id="fig_WizardParameterTypes">
+						<title>Selecting a parameter's type</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata align="center" fileref="img/Wizard_ParameterTypes.png"></imagedata>
+							</imageobject>
+						</mediaobject>
+					</figure>
+					There are two types which do not allow a value to be entered:
+					<itemizedlist>
+						<listitem>
+							<para>
+								The type
+								<emphasis>Ignore</emphasis>
+								prevent a parameter from being initialized. This option must be
+								used for parameters that pre-match a node in the LHS.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								The type
+								<emphasis>Null</emphasis>
+								initializes a parameter with null. If the parameter is used as
+								an attribute value in the LHS, the attribute value of a
+								match
+								must be null. In case the parameter defines a prematch-node,
+								setting the Null-type will prevent the unit from being
+								applicable.
+							</para>
+						</listitem>
+					</itemizedlist>
+				</para>
+			</listitem>
+			<listitem>
+				<para>This allows to see a preview of the transformation. The
+					transformation will be applied to a copy of the selected model. The
+					differences are detected and visualized using EMF Compare.</para>
+			</listitem>
+			<listitem>
+				<para>Applies the transformation to the selected model and writes
+					the result back to the resource. This action is encapsulated as an
+					undoable operation using the Eclipse Command Framework. Note that
+					this does not place an undoable command on the EMF CommandStack
+					inside the editor. To undo a transformation you have to focus the
+					Package Explorer. This will switch the context of the edit-menu to
+					the platform's operation history.</para>
+			</listitem>
+			<listitem>
+				<para>Cancel closes the dialog without applying the transformation.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					This flag indicates whether the settings shall be saved even if the
+					transformation was not applied. The current settings are
+					automatically saved when the dialog is closed via the
+					<emphasis>Transform</emphasis>
+					button. If you are in the process of developing a transformation,
+					usually you will only preview your transformation's effects without
+					applying them to the selected model. To avoid having to select a
+					model and entering parameter values each time, those settings may
+					are saved if the
+					<emphasis>Save Cfg on Cancel</emphasis>
+					is checked, even if the dialog is canceled.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Provides access to
+					<emphasis>this document</emphasis>
+					.
+				</para>
+			</listitem>
+		</orderedlist>
+	</section>
+	<section>
+		<title>Transformation Preview</title>
+		<para>
+			EMF Compare is used to preview a transformation's effect on a given
+			model. As shown in
+			<xref linkend="fig_WizardPreview"></xref>
+			, a transformed copy is compared to the original model. To inspect
+			the changes of the parameter values, the preview window provides a
+			second page, that lists the parameters of the applied unit together
+			with their initial values and their values after the transformation
+			was applied.
+
+			<xref linkend="fig_WizardPreviewParameters"></xref>
+			shows a changed parameter value that is used to externalize an object
+			that was matched by a node named "package". Note that here the type
+			of the parameters has to be
+			<emphasis>Ignore</emphasis>
+			. This guarantees that the parameter does not affect the
+			match-finding. The parameter will hold a reference to the object
+			matched by the "package"-node.
+			<figure xml:id="fig_WizardPreview">
+				<title>Wizard Preview</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center" fileref="img/WizardPreview.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<figure xml:id="fig_WizardPreviewParameters">
+				<title>Wizard Parameter Preview</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center" fileref="img/WizardPreviewParameters.png"></imagedata>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</para>
+	</section>
+
+
+</chapter>

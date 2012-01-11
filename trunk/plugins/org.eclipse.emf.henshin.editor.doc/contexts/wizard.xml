@@ -1,0 +1,6 @@
+<contexts>
+	<context id="wizardHelp" title="Henshin Transformation Wizard">
+		<description>Wizard to preview and apply Henshin Transformations.</description>
+		<topic href="ch04.html" label="Wizard Documentation" />
+	</context>
+</contexts>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="editorMain.xml"
+            primary="false">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts/editor.xml"
+            plugin="org.eclipse.emf.henshin.editor">
+      </contexts>
+      <contexts
+            file="contexts/wizard.xml"
+            plugin="org.eclipse.emf.henshin.interpreter.ui">
+      </contexts>
+   </extension>
+
+</plugin>
