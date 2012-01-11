@@ -46,14 +46,17 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 
-/** 
+/**
  * 
  * @author Gregor Bonifer
  * @author Stefan Jurack
  */
 public class HenshinWizard extends Wizard implements UnitSelectionListener, ModelSelectorListener,
 		ParameterChangeListener {
+	
+	final String HELP_CONTEXT_ID = "org.eclipse.emf.henshin.interpreter.ui.wizardHelp";
 	
 	protected static int CONTROL_OFFSET = 5;
 	
@@ -174,15 +177,12 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		
 		List<String> lastUsedModels = getModelPreferences();
 		
-		
 		cfg = new Henshination();
 		if (selectedUnit != null)
-			cfg.setTransformationUnit(selectedUnit,getParameterPreferences(selectedUnit));
+			cfg.setTransformationUnit(selectedUnit, getParameterPreferences(selectedUnit));
 		
 		if (lastUsedModels.get(0).length() > 0)
 			cfg.setModelUri(URI.createURI(lastUsedModels.get(0)));
-		
-		
 		
 		modelSelector.setLastUsedModels(lastUsedModels.toArray(new String[0]));
 		
@@ -212,7 +212,13 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	public void addPages() {
 		addPage(page = new WizardPage(InterpreterUIPlugin.LL("_UI_PseudoPage")) {
 			{
+				
 				setDescription(InterpreterUIPlugin.LL("_UI_Wizard_DefaultDescription"));
+				
+			}
+			
+			public void performHelp() {
+				PlatformUI.getWorkbench().getHelpSystem().displayHelp(HELP_CONTEXT_ID);				
 			}
 			
 			@Override
@@ -352,7 +358,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 				store.setValue("model_" + i, models.get(i));
 		}
 		
-		for(ParameterConfiguration paramCfg:cfg.getParameterConfigurations())
+		for (ParameterConfiguration paramCfg : cfg.getParameterConfigurations())
 			paramCfg.persist(store);
 	}
 	
@@ -361,10 +367,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		
 		TransformationUnit unit = this.availableUnits.get(idx);
 		
-		cfg.setTransformationUnit(unit,getParameterPreferences(unit));
+		cfg.setTransformationUnit(unit, getParameterPreferences(unit));
 		
 		parameterEditor.setParameters(cfg.getParameterConfigurations());
-				
+		
 		fireCompletionChange();
 		
 		return false;
@@ -380,7 +386,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	@Override
 	public void parameterChanged(ParameterConfiguration paramCfg) {
-		//cfg.parameterValues.put(parameter.getName(), value);
+		// cfg.parameterValues.put(parameter.getName(), value);
 		fireCompletionChange();
 	}
 	
@@ -402,5 +408,10 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	public static interface CompletionListener {
 		public void completionChanged();
 	}
+	
+	// @Override
+	// public boolean isHelpAvailable() {
+	// return true;
+	// }
 	
 }
