@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.edit.provider.IWrapperItemProvider;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -85,6 +86,9 @@ public class HighlightingTreeViewer extends TreeViewer {
 	}
 	
 	protected void markAssociated(Object o) {
+		if (o instanceof IWrapperItemProvider) {
+			o = ((IWrapperItemProvider) o).getValue();			
+		}
 		
 		if (o instanceof Mapping) {
 			Mapping m = (Mapping) o;
@@ -114,7 +118,7 @@ public class HighlightingTreeViewer extends TreeViewer {
 				Rule rule = n.getGraph().getContainerRule();
 				if (rule != null) {
 					for (Mapping m : rule.getMappings()) {
-						if (m.getOrigin() == n) {
+						if (m.getOrigin() == n) {							
 							mark(m, getYELLOW());
 							if (m.getImage() != null) {
 								mark(m.getImage(), getBLUE());
