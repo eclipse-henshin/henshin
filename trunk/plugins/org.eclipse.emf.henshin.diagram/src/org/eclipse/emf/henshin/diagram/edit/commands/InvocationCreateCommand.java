@@ -19,8 +19,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -135,9 +135,9 @@ public class InvocationCreateCommand extends EditElementCommand {
 				cond.setElse(target);
 			}
 		}
-		else if (owner instanceof CountedUnit) {
-			if (((CountedUnit) owner).getSubUnit()==null) {
-				((CountedUnit) owner).setSubUnit(target);
+		else if (owner instanceof LoopUnit) {
+			if (((LoopUnit) owner).getSubUnit()==null) {
+				((LoopUnit) owner).setSubUnit(target);
 			}
 		}
 

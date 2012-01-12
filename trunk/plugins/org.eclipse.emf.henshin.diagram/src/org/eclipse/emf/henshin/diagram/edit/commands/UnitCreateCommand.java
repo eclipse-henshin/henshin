@@ -21,9 +21,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -121,8 +121,8 @@ public class UnitCreateCommand extends EditElementCommand {
 				((ConditionalUnit) unit).setThen(thenUnit);
 				((ConditionalUnit) unit).setElse(elseUnit);
 			}
-			else if (unit instanceof CountedUnit) {
-				((CountedUnit) unit).setSubUnit(targets.get(0));
+			else if (unit instanceof LoopUnit) {
+				((LoopUnit) unit).setSubUnit(targets.get(0));
 			}
 		}
 
@@ -149,8 +149,8 @@ public class UnitCreateCommand extends EditElementCommand {
 		// Supported unit types:
 		List<EClass> unitTypes = new ArrayList<EClass>();
 		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
-		unitTypes.add(HenshinPackage.eINSTANCE.getCountedUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getLoopUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());
 

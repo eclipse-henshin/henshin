@@ -6,7 +6,12 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -31,6 +36,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class LoopUnitImpl extends TransformationUnitImpl implements LoopUnit {
+	
 	/**
 	 * The cached value of the '{@link #getSubUnit() <em>Sub Unit</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -98,6 +104,20 @@ public class LoopUnitImpl extends TransformationUnitImpl implements LoopUnit {
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.LOOP_UNIT__SUB_UNIT, oldSubUnit, subUnit));
 	}
+
+	/**
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<TransformationUnit> getSubUnits(boolean deep) {
+		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
+		allunits.add(this.getSubUnit());
+		if (deep && (this.getSubUnit() != this)) {
+			allunits.addAll(this.getSubUnit().getSubUnits(deep));
+		}// if 
+		return new BasicEList<TransformationUnit>(allunits);
+	}// getSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->

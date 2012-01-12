@@ -182,10 +182,7 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<TransformationUnit> getSubUnits(boolean deep) {
-		// Must be implemented by the subclasses.
-		throw new UnsupportedOperationException();
-	}
+	public abstract EList<TransformationUnit> getSubUnits(boolean deep);
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
