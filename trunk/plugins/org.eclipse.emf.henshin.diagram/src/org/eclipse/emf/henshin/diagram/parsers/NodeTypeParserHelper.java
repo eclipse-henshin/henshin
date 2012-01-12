@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * and deduce typing and parameter information.
  * 
  * @author Stefan Jurack (sjurack)
- * 
+ * @deprecated We use "->" to indicate changing parameter names.
  */
 public class NodeTypeParserHelper {
 	

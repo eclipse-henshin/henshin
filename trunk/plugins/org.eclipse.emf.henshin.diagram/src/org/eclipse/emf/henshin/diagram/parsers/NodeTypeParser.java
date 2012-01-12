@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.diagram.parsers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -22,14 +19,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
-import org.eclipse.emf.henshin.diagram.parsers.NodeTypeParserHelper.ParameterDirection;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.Mapping;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -49,8 +46,6 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  */
 public class NodeTypeParser extends AbstractParser {
 	
-	private static final NodeTypeParserHelper PARSER_HELPER = new NodeTypeParserHelper();
-	
 	/**
 	 * Default constructor.
 	 */
@@ -65,49 +60,31 @@ public class NodeTypeParser extends AbstractParser {
 	 * (org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getPrintString(IAdaptable element, int flags) {
+		
+		// Get the node and its name:
 		Node node = (Node) element.getAdapter(EObject.class);
+		String name = node.getName()!=null ? node.getName() : "";
 		
-		// Find all mapped nodes:
-		List<Node> originNodes = new ArrayList<Node>();
-		List<Node> imageNodes = new ArrayList<Node>();
-		
-		String para1 = null;
-		ParameterDirection para1Dir = ParameterDirection.IN;
-		String para2 = null;
-		ParameterDirection para2Dir = ParameterDirection.OUT;
-		
-		findMappedNodes(node, originNodes, imageNodes);
-		for (Node origNode : originNodes) {
-			if (origNode.getName() != null && !origNode.getName().trim().isEmpty()) {
-				para1 = origNode.getName().trim();
-				break;
-			}// if
-		}// for
-		for (Node imgNode : imageNodes) {
-			if (imgNode.getName() != null && !imgNode.getName().trim().isEmpty()) {
-				para2 = imgNode.getName().trim();
-				break;
-			}// if
-		}// for
-		
-		if (para1 == null && para2 != null) {
-			para1 = para2;
-			para2 = null;
-			para1Dir = para2Dir;
-			para2Dir = null;
-		} else if (para1 != null && para1.equals(para2)) {
-			para2 = null;
-			para2Dir = null;
-			para1Dir = ParameterDirection.INOUT;
+		// For <<preserve>>-nodes we offer an arrow notation:
+		Action action = HenshinActionHelper.getAction(node);
+		if (action!=null && action.getType()==ActionType.PRESERVE) {
+			
+			// Get the RHS-node and its name:
+			Rule rule = node.getGraph().getContainerRule();
+			Node rhsNode = HenshinMappingUtil.getNodeImage(node, rule.getRhs(), rule.getMappings());
+			String rhsName = rhsNode.getName()!=null ? rhsNode.getName() : "";
+			
+			// Adapt the label:
+			if (!name.equals(rhsName)) {
+				name = name + "->" + rhsName;
+			}
 		}
 		
-		String paraString = PARSER_HELPER.getParameterString(para1, para1Dir, para2, para2Dir);
-		
-		// String name = node.getName() != null ? node.getName() : "";
+		// Append the type, if available:
 		if (node.getType() != null) {
-			return paraString + ":" + node.getType().getName();
+			return name + ":" + node.getType().getName();
 		} else {
-			return paraString;
+			return name;
 		}
 	}
 	
@@ -154,136 +131,64 @@ public class NodeTypeParser extends AbstractParser {
 	 * Parse a node label value and deduce type and parameter information.
 	 */
 	private CommandResult doParsing(String value, Node node) {
+
+		// We need the rule and the transformation system:
+		Rule rule = node.getGraph().getContainerRule();
+		TransformationSystem system = rule.getTransformationSystem();
+
+		// Separate name and type:
+		String name, type;
+		int colon = value.indexOf(":");
+		if (colon>=0) {
+			name = value.substring(0, colon).trim();
+			type = value.substring(colon+1).trim();
+		} else {
+			name = value.trim();
+			type = "";
+		}
 		
-		if (!PARSER_HELPER.parse(value))
-			return CommandResult.newErrorCommandResult("Invalid input");
+		// Check if the name contains an arrow:
+		int arrow = name.indexOf("->");
+		String name2 = name;
+		if (arrow>=0) {
+			name2 = name.substring(arrow+2);
+			name = name.substring(0, arrow);
+		}
 		
-		// We need the rule and the TS
-		TransformationSystem ts = node.getGraph().getContainerRule().getTransformationSystem();
+		// Find the node type:
+		EClass nodeType = null;
+		EClassifier[] classifiers = TransformationSystemEditHelper.findEClassifierByName(system, type);
+		for (EClassifier classifier : classifiers) {
+			if (classifier instanceof EClass) {
+				nodeType = (EClass) classifier;
+				break;
+			}
+		}
 		
-		// Find all mapped nodes:
-		List<Node> originNodes = new ArrayList<Node>();
-		List<Node> imageNodes = new ArrayList<Node>();
-		findMappedNodes(node, originNodes, imageNodes);
+		// Set the name and the type of the secondary node:
+		Action action = HenshinActionHelper.getAction(node);
+		if (action!=null && action.getType()==ActionType.PRESERVE) { 
+			Node rhsNode = HenshinMappingUtil.getNodeImage(node, rule.getRhs(), rule.getMappings());
+			if (rhsNode!=null) {
+				rhsNode.setName(name2);
+				if (nodeType!=null) {
+					rhsNode.setType(nodeType);
+				}
+				// We need to make a dummy change to trigger a notification event:
+				node.setName(name+"2");
+			}
+		}
 		
-		// set the typing
-		if (PARSER_HELPER.getType() != null) {
-			EClass eclass = null;
-			final EClassifier[] list = TransformationSystemEditHelper.findEClassifierByName(ts,
-					PARSER_HELPER.getType());
-			if (list.length > 0) {
-				for (EClassifier ec : list) {
-					if ((ec instanceof EClass)) {
-						eclass = (EClass) ec;
-						break;
-					}// if
-				}// for
-			}// if
-			
-			if (eclass == null) return CommandResult.newErrorCommandResult("No such EClass found");
-			
-			// set the typing
-			for (Node current : originNodes) {
-				current.setType(eclass);
-			}// for
-			for (Node current : imageNodes) {
-				current.setType(eclass);
-			}// for
-		}// if
+		// Set the name and the tye of the primary node:
+		node.setName(name);
+		if (nodeType!=null) {
+			node.setType(nodeType);			
+		}
 		
-		// now deal with the parameter information
-		if (PARSER_HELPER.getParameter1() != null) {
-			final String para1 = PARSER_HELPER.getParameter1();
-			final ParameterDirection dir1 = PARSER_HELPER.getDirection1();
-			for (Node current : imageNodes) {
-				current.setName(null);
-			}// for
-			for (Node current : originNodes) {
-				current.setName(null);
-			}// for
-			if (dir1.equals(NodeTypeParserHelper.ParameterDirection.IN)
-					|| dir1.equals(NodeTypeParserHelper.ParameterDirection.INOUT)) {
-				for (Node current : originNodes) {
-					current.setName(para1);
-				}// for
-			} // if
-			if (dir1.equals(NodeTypeParserHelper.ParameterDirection.OUT)
-					|| dir1.equals(NodeTypeParserHelper.ParameterDirection.INOUT)) {
-				for (Node current : imageNodes) {
-					current.setName(para1);
-				}// for
-			} // if
-			
-			if (PARSER_HELPER.getParameter2() != null) {
-				final String para2 = PARSER_HELPER.getParameter2();
-				final ParameterDirection dir2 = PARSER_HELPER.getDirection2();
-				if (dir2.equals(NodeTypeParserHelper.ParameterDirection.IN)) {
-					for (Node current : originNodes) {
-						current.setName(para2);
-					}// for
-				}// if
-				if (dir2.equals(NodeTypeParserHelper.ParameterDirection.OUT)) {
-					for (Node current : imageNodes) {
-						current.setName(para2);
-					}// for
-				}// if
-				
-			}// if
-			
-		} else { // remove names if available
-			for (Node current : originNodes) {
-				current.setName(null);
-			}// for
-			for (Node current : imageNodes) {
-				current.setName(null);
-			}// for
-		}// if else
-		
+		// Done.
 		return CommandResult.newOKCommandResult();
 		
-	}// doParsing
-	
-	/**
-	 * For a given <code>node</code>, finds all mapped nodes whether they are
-	 * origin or image nodes. Findings are added to the corresponding lists. The
-	 * given <code>node</code> itself will be contained in
-	 * <code>originNodes</code> if it is contained in the LHS, otherwise it will
-	 * be contained in <code>imageNodes</code>.<br>
-	 * Remark: <code>originNodes</code> and <code>imageNodes</code> must not be
-	 * <code>null</code>!
-	 * 
-	 * @param node
-	 * @param originNodes
-	 * @param imageNodes
-	 */
-	private void findMappedNodes(Node node, List<Node> originNodes, List<Node> imageNodes) {
-		EObject container = node.getGraph().eContainer();
-		boolean isLhsPart = HenshinRuleAnalysisUtil.isLHSPart(node.getGraph());
-		if (isLhsPart)
-			originNodes.add(node);
-		else
-			imageNodes.add(node);
-		
-		if (container instanceof Rule) {
-			Rule rule = (Rule) container;
-			for (Mapping mapping : rule.getMappings()) {
-				if (mapping.getOrigin() == node) imageNodes.add(mapping.getImage());
-				if (mapping.getImage() == node) originNodes.add(mapping.getOrigin());
-			}// for
-		} else if (container instanceof NestedCondition) {
-			NestedCondition nc = (NestedCondition) container;
-			/*
-			 * The mappings within a nested condition run always upwards, i.e.,
-			 * the mappings have "remote" origins while all images are nodes in
-			 * the nested condition's graph.
-			 */
-			for (Mapping mapping : nc.getMappings()) {
-				if (mapping.getImage() == node) {
-					originNodes.add(mapping.getOrigin());
-				}// if
-			}// for
-		}// if else
-	}// findMappedNodes
+	}
 	
 	/*
 	 * (non-Javadoc)
