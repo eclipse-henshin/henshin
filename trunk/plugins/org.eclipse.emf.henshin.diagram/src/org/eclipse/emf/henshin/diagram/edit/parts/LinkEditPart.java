@@ -15,9 +15,12 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gef.EditPolicy;
@@ -43,7 +46,13 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 * @generated
 	 */
 	public static final int VISUAL_ID = 4002;
-
+	
+	// Arrow decoration:
+	private RotatableDecoration arrow;
+	
+	// Optional label:
+	private Label label;
+	
 	/**
 	 * @generated
 	 */
@@ -69,11 +78,37 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 		if (figure!=null) {
 			TransformationUnit unit = getTransformationUnit();
 			figure.setTargetDecoration(null);	// must be done here because child is cached
-			figure.removeAll();
+			if (arrow!=null) {
+				if (figure.getChildren().contains(arrow)) {
+					figure.remove(arrow);
+				}
+				arrow = null;
+			}
 			if (unit instanceof PriorityUnit) {
-				figure.add(createArrowDecoration(4, 7), new MiddleLocator(figure));
+				figure.add(arrow = createArrowDecoration(4, 7), new MiddleLocator(figure));
 			} else {
-				figure.setTargetDecoration(createArrowDecoration(7, 3));				
+				figure.setTargetDecoration(arrow = createArrowDecoration(7, 3));				
+			}
+		}
+	}
+	
+	/*
+	 * Update the label of the link.
+	 */
+	private void updateLabel(LinkFigure figure) {
+		if (figure!=null) {
+			if (label!=null) {
+				figure.remove(label);
+				label = null;
+			}
+			if (HenshinLinkUpdater.isIfLink(getTransformationUnit(), getNotationView())) {
+				figure.add(label = new Label("if"), new LabelLocator(figure, 0, -10));
+			}
+			else if (HenshinLinkUpdater.isThenLink(getTransformationUnit(), getNotationView())) {
+				figure.add(label = new Label("then"), new LabelLocator(figure, 10, -10));
+			}
+			else if (HenshinLinkUpdater.isElseLink(getTransformationUnit(), getNotationView())) {
+				figure.add(label = new Label("else"), new LabelLocator(figure, 10, 10));
 			}
 		}
 	}
@@ -150,7 +185,9 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	protected Connection createConnectionFigure() {
 		LinkFigure linkFigure = new LinkFigure();
+		linkFigure.setTargetDecoration(null);
 		updateArrow(linkFigure);
+		updateLabel(linkFigure);
 		return linkFigure;
 	}
 
@@ -197,8 +234,8 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	private class MiddleLocator extends ConnectionLocator {
 
-		public MiddleLocator(Connection arg0) {
-			super(arg0);
+		public MiddleLocator(Connection connection) {
+			super(connection);
 		}
 
 		/*
@@ -215,4 +252,35 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 		}
 
 	}
+	
+	/*
+	 * Private label locator class.
+	 */
+	private class LabelLocator extends ConnectionLocator {
+		
+		// Distance from the mid point.
+		private int x, y;
+
+		public LabelLocator(Connection connection, int x, int y) {
+			super(connection);
+			this.x = x;
+			this.y = y;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.draw2d.ConnectionLocator#getReferencePoint()
+		 */
+		@Override
+		protected Point getReferencePoint() {
+			Connection connection = getConnection();
+			Point p = connection.getPoints().getMidpoint();
+			connection.translateToAbsolute(p);
+			p.x += x;
+			p.y += y;
+			return p;
+		}
+
+	}
+
 }

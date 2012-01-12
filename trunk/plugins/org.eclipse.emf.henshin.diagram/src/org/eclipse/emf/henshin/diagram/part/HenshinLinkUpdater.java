@@ -22,6 +22,9 @@ import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
+import org.eclipse.gmf.runtime.notation.Routing;
+import org.eclipse.gmf.runtime.notation.RoutingStyle;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -160,6 +163,8 @@ public class HenshinLinkUpdater {
 			List<Edge> links = getLinks(source, target);
 			if (links.isEmpty()) {
 				Edge link = provider.createLink_4002(source.getDiagram(), -1, persisted, prefHint);
+				RoutingStyle routingStyle = (RoutingStyle) link.getStyle(NotationPackage.eINSTANCE.getRoutingStyle());
+				routingStyle.setRouting(Routing.RECTILINEAR_LITERAL);
 				link.setElement(unit);
 				link.setSource(source);
 				link.setTarget(target);
@@ -237,6 +242,51 @@ public class HenshinLinkUpdater {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Check whether a view is an If-link in a ConditionalUnit.
+	 * @param unit Transformation unit.
+	 * @param link The link view (should be an edge).
+	 * @return <code>true</code> if it is an if-link.
+	 */
+	public static boolean isIfLink(TransformationUnit unit, View link) {
+		if (unit instanceof ConditionalUnit && link instanceof Edge) {
+			View target = ((Edge) link).getTarget();
+			TransformationUnit ifUnit = ((ConditionalUnit) unit).getIf();
+			return (target!=null && ifUnit!=null && target.getElement()==ifUnit);
+		}
+		return false;
+	}
+
+	/**
+	 * Check whether a view is an Then-link in a ConditionalUnit.
+	 * @param unit Transformation unit.
+	 * @param link The link view (should be an edge).
+	 * @return <code>true</code> if it is an then-link.
+	 */
+	public static boolean isThenLink(TransformationUnit unit, View link) {
+		if (unit instanceof ConditionalUnit && link instanceof Edge) {
+			View target = ((Edge) link).getTarget();
+			TransformationUnit thenUnit = ((ConditionalUnit) unit).getThen();
+			return (target!=null && thenUnit!=null && target.getElement()==thenUnit);
+		}
+		return false;
+	}
+
+	/**
+	 * Check whether a view is an Else-link in a ConditionalUnit.
+	 * @param unit Transformation unit.
+	 * @param link The link view (should be an edge).
+	 * @return <code>true</code> if it is an else-link.
+	 */
+	public static boolean isElseLink(TransformationUnit unit, View link) {
+		if (unit instanceof ConditionalUnit && link instanceof Edge) {
+			View target = ((Edge) link).getTarget();
+			TransformationUnit elseUnit = ((ConditionalUnit) unit).getElse();
+			return (target!=null && elseUnit!=null && target.getElement()==elseUnit);
+		}
+		return false;
 	}
 
 	
