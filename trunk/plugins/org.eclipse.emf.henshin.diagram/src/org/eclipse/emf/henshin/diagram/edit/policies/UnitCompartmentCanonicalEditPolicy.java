@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -181,4 +182,21 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 		makeViewsImmutable(createdViews);
 	}
 	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected boolean shouldDeleteView(View view) {
+		if (String.valueOf(InvocationEditPart.VISUAL_ID).equals(view.getType())) {
+			View unitView = (View) view.eContainer();
+			if (view.getElement() instanceof TransformationUnit &&
+				unitView.getElement() instanceof TransformationUnit) {
+				TransformationUnit unit = (TransformationUnit) unitView.getElement();
+				TransformationUnit subUnit = (TransformationUnit) view.getElement();
+				return !unit.getSubUnits(false).contains(subUnit);
+			}
+		}
+		return super.shouldDeleteView(view);
+	}
+
 }
