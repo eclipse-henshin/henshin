@@ -20,6 +20,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -32,6 +37,7 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -115,8 +121,14 @@ public class InvocationNameParser extends AbstractParser {
 				// Update the parent unit:
 				if (parent instanceof SequentialUnit) {
 					SequentialUnit sequential = (SequentialUnit) parent;
+					
+					// First update the views!!!
+					updateInvocationViews(sequential, invocation, unit);
+					
+					// Then the model:
 					int index = sequential.getSubUnits().indexOf(invocation);
 					sequential.getSubUnits().set(index, unit);
+					
 				} else {
 					// Error.
 					return CommandResult.newErrorCommandResult("Unknown transformation unit type: " + parent.eClass().getName());
@@ -133,6 +145,44 @@ public class InvocationNameParser extends AbstractParser {
 		// Error.
 		return CommandResult.newErrorCommandResult("Unknown transformation unit: " + value);
 		
+	}
+
+	/*
+	 * Update all views associated to an invocation.
+	 */
+	private void updateInvocationViews(TransformationUnit parent, 
+			TransformationUnit oldInvocation, TransformationUnit newInvocation) {
+		
+		String unitViewType = String.valueOf(UnitEditPart.VISUAL_ID);
+		String unitCompartmentType = String.valueOf(UnitCompartmentEditPart.VISUAL_ID);
+		String invocationViewType = String.valueOf(InvocationEditPart.VISUAL_ID);
+		
+		// Update all resources:
+		ResourceSet resourceSet = parent.eResource().getResourceSet();
+		for (Resource resource : resourceSet.getResources()) {
+			for (EObject root : resource.getContents()) {
+				if (root instanceof Diagram) {
+					for (Object obj : ((Diagram) root).getChildren()) {
+						View parentView = (View) obj;
+						if (unitViewType.equals(parentView.getType())) {
+							for (Object obj2 : parentView.getChildren()) {
+								View compartment = (View) obj2;
+								if (unitCompartmentType.equals(compartment.getType())) {
+									for (Object obj3 : compartment.getChildren()) {
+										View invocationView = (View) obj3;
+										if (invocationViewType.equals(invocationView.getType()) &&
+												invocationView.getElement()==oldInvocation) {
+											invocationView.setElement(newInvocation);
+											//System.out.println("updating view for " + oldInvocation.getName());
+										}
+									}
+								}
+							}							
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	/*
