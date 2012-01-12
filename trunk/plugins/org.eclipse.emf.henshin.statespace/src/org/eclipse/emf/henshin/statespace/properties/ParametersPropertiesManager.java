@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -25,12 +26,12 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 	 */
 	@Override
 	public void initialize(StateSpace stateSpace) {
-		for (Rule rule : stateSpace.getRules()) {
-			String key = getParametersKey(rule);
-			if (!stateSpace.getProperties().containsKey(key)) {
-				stateSpace.getProperties().put(key,"");	// no parameters per default
-			}
-		}
+//		for (Rule rule : stateSpace.getRules()) {
+//			String key = getParametersKey(rule);
+//			if (!stateSpace.getProperties().containsKey(key)) {
+//				stateSpace.getProperties().put(key,"");	// no parameters per default
+//			}
+//		}
 	}
 	
 	/*
@@ -82,25 +83,23 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 	public static List<Node> getParameters(StateSpace stateSpace, Rule rule) throws StateSpaceException {
 		
 		List<Node> nodes = new ArrayList<Node>();
-		String value = stateSpace.getProperties().get(ParametersPropertiesManager.getParametersKey(rule));
-		if (value==null || value.trim().length()==0) {
-			return nodes;
-		}
 		
-		String[] names = value.split(",");
-		for (int i=0; i<names.length; i++) {
-			String name = names[i].trim();
-			if (name.length()==0) {
-				throw new StateSpaceException("Illegal rule parameters for rule \"" + rule.getName() + "\"");
+		// First check the "params..." properties:
+		String value = stateSpace.getProperties().get(ParametersPropertiesManager.getParametersKey(rule));
+		if (value!=null && value.trim().length()>0) {
+			String[] names = value.split(",");
+			for (int i=0; i<names.length; i++) {
+				String name = names[i].trim();
+				if (name.length()==0) {
+					throw new StateSpaceException("Illegal rule parameters for rule \"" + rule.getName() + "\"");
+				}
+				nodes.add(findNodeByName(name, rule));
 			}
-			Node node = findNodeByName(name,rule.getLhs());
-			if (node==null) {
-				node = findNodeByName(name,rule.getRhs());
+		} else {
+			// Otherwise use the rule parameters...
+			for (Parameter param : rule.getParameters()) {
+				nodes.add(findNodeByName(param.getName(), rule));
 			}
-			if (node==null) {
-				throw new StateSpaceException("Unknown node \"" + name + "\" for rule \"" + rule.getName() + "\"");
-			}
-			nodes.add(node);
 		}
 		
 		return nodes;
@@ -151,5 +150,18 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		return null;
 	}
 	
+	/*
+	 * Find a node in a rule based on its name.
+	 */
+	static Node findNodeByName(String name, Rule rule) throws StateSpaceException {
+		Node node = findNodeByName(name, rule.getLhs());
+		if (node==null) {
+			node = findNodeByName(name, rule.getRhs());
+		}
+		if (node==null) {
+			throw new StateSpaceException("Unknown node \"" + name + "\" for rule \"" + rule.getName() + "\"");
+		}
+		return node;
+	}
 
 }
