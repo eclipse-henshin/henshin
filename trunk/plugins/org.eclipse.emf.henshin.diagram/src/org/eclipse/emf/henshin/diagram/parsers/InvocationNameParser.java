@@ -101,10 +101,13 @@ public class InvocationNameParser extends AbstractParser {
 	}
 	
 	/*
-	 * Parse an invocation name.
+	 * Parse an invocation name and parameters.
 	 */
 	protected CommandResult doParsing(View nameView, String value) throws ExecutionException {
-		
+
+		// Do the parsing:
+		String[] parsed = parseNameAndParams(value);
+
 		// It is the label, but we need the node:
 		View invocationView = (View) nameView.eContainer();
 		View compartmentView = (View) invocationView.eContainer();
@@ -126,9 +129,8 @@ public class InvocationNameParser extends AbstractParser {
 		candidates.addAll(system.getTransformationUnits());
 
 		// Find the right one:
-		value = value.trim();
 		for (TransformationUnit target : candidates) {
-			if (value.equals(target.getName())) {
+			if (parsed[0].equals(target.getName())) {
 				
 				// Update the parent unit:
 				if (unit instanceof SequentialUnit) {
@@ -174,6 +176,33 @@ public class InvocationNameParser extends AbstractParser {
 		// Error.
 		return CommandResult.newErrorCommandResult("Unknown transformation unit: " + value);
 		
+	}
+	
+	/*
+	 * Parse names and parameters.
+	 */
+	private String[] parseNameAndParams(String value) throws ExecutionException {
+		String name;
+		String[] params;
+		int openParen = value.indexOf('(');
+		if (openParen>=0) {
+			int closeParen = value.indexOf(')');
+			if (closeParen<openParen) {
+				throw new ExecutionException("Syntax error");
+			}
+			name = value.substring(0, openParen);
+			params = value.substring(openParen+1, closeParen).split(",");
+			for (int i=0; i<params.length; i++) {
+				params[i] = params[i].trim();
+			}
+		} else {
+			name = value.trim();
+			params = new String[0];
+		}
+		String[] result = new String[params.length+1];
+		result[0] = name;
+		System.arraycopy(params, 0, result, 1, params.length);
+		return result;
 	}
 	
 	/*
