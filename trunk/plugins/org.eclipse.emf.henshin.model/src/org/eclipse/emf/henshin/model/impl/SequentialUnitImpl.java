@@ -11,12 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
-import java.util.List;
 
-import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -167,22 +164,6 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.SEQUENTIAL_UNIT__ROLLBACK, oldRollback, rollback));
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<TransformationUnit> getSubUnits(boolean deep) {
-		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-		for (TransformationUnit unit : this.getSubUnits()) {
-			allunits.add(unit);
-			if (deep && (unit != this)) {	// do not recursively add recursive units 
-				allunits.addAll(unit.getSubUnits(deep));
-			}
-		}// for
-		return new BasicEList<TransformationUnit>(allunits);
-	}// getSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->

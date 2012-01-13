@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -179,11 +180,40 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * Get the direct subUnits of this unit. Subclasses must implement this method.
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public abstract EList<TransformationUnit> getSubUnits(boolean deep);
-	
+	protected abstract EList<TransformationUnit> getSubUnits();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public final EList<TransformationUnit> getSubUnits(boolean deep) {
+		EList<TransformationUnit> result = new BasicEList<TransformationUnit>();
+		result.addAll(getSubUnits());
+		if (deep) {
+			boolean changed;
+			do {
+				changed = false;
+				int count = result.size();
+				for (int i=0; i<count; i++) {
+					for (TransformationUnit unit : 
+						((TransformationUnitImpl) result.get(i)).getSubUnits()) {
+						if (!result.contains(unit)) {
+							result.add(unit);
+							changed = true;
+						}
+					}
+				}
+			} while (changed);
+		}
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

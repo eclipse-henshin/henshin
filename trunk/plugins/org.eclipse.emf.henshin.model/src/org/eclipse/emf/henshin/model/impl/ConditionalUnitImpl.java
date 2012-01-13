@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -212,38 +209,24 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<TransformationUnit> getSubUnits(boolean deep) {
-		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-		
-		if (if_ != null)
-			allunits.add(if_);
-		if (then != null)
-			allunits.add(then);
-		if (else_ != null)
-			allunits.add(else_);
-		
-		if (deep) {
-			if ((if_ != null) && (if_ != this)) { // do not recursively add
-													// recursive units
-				allunits.addAll(if_.getSubUnits(deep));
-			}
-			if ((then != null) && (then != this)) { // do not recursively add
-													// recursive units
-				allunits.addAll(then.getSubUnits(deep));
-			}
-			if ((else_ != null) && (else_ != this)) { // do not recursively add
-														// recursive units
-				allunits.addAll(else_.getSubUnits(deep));
-			}
-		}// if
-		
-		return new BasicEList<TransformationUnit>(allunits);
-	}// getSubUnits
-	
+	public EList<TransformationUnit> getSubUnits() {
+		EList<TransformationUnit> units = new BasicEList<TransformationUnit>();
+		if (if_ != null) {
+			units.add(if_);
+		}
+		if (then != null) {
+			units.add(then);
+		}
+		if (else_ != null) {
+			units.add(else_);
+		}
+		return units;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

@@ -11,11 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
@@ -84,22 +81,6 @@ public class IndependentUnitImpl extends TransformationUnitImpl implements Indep
 		}
 		return subUnits;
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<TransformationUnit> getSubUnits(boolean deep) {
-		List<TransformationUnit> allunits = new ArrayList<TransformationUnit>();
-		for (TransformationUnit unit : this.getSubUnits()) {
-			allunits.add(unit);
-			if (deep && (unit != this)) {	// do not recursively add recursive units
-				allunits.addAll(unit.getSubUnits(deep));
-			} 
-		}// for
-		return new BasicEList<TransformationUnit>(allunits);
-	}// getSubUnits
 
 	/**
 	 * <!-- begin-user-doc -->

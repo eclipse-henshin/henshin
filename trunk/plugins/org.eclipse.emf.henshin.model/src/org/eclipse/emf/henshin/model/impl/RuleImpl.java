@@ -621,7 +621,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public EList<TransformationUnit> getSubUnits(boolean deep) {
+	public EList<TransformationUnit> getSubUnits() {
 		return (EList<TransformationUnit>) ECollections.EMPTY_ELIST;
 	}// getSubUnits
 	
