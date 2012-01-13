@@ -6,9 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper.InvocationViewKey;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
@@ -62,18 +61,17 @@ public class HenshinLinkUpdater {
 	public void update(View unitView) {
 		
 		// Get the compartment view:
-		View compartment = symbolHelper.getUnitCompartment(unitView);
+		View compartment = UnitEditHelper.getUnitCompartment(unitView);
 		
-		// Get the unit and its sub-units:
+		// Get the unit:
 		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
-		EList<TransformationUnit> subUnits = unit.getSubUnits(false);
 		
 		// Get the begin and the end symbol:
 		View begin = getSymbol(unit, compartment, SymbolType.UNIT_BEGIN);
 		View end = getSymbol(unit, compartment, SymbolType.UNIT_END);
 
 		// Get all invocations in the unit view:
-		List<View> invocations = getInvocations(compartment, subUnits);
+		List<View> invocations = UnitEditHelper.getInvocationViews(unitView, false);
 
 		// Known links:
 		Set<Edge> knownLinks = new HashSet<Edge>();
@@ -93,18 +91,14 @@ public class HenshinLinkUpdater {
 			unit instanceof PriorityUnit) {
 			
 			// Update the links:
-			if (subUnits.isEmpty()) {
+			if (invocations.isEmpty()) {
 				knownLinks.add(updateLink(unit, begin, end));
 			} else {
-				int count = subUnits.size();
-				knownLinks.add(updateLink(unit, begin, findViewByElement(invocations, subUnits.get(0))));
-				knownLinks.add(updateLink(unit, findViewByElement(invocations, subUnits.get(count-1)), end));
+				int count = invocations.size();
+				knownLinks.add(updateLink(unit, begin, invocations.get(0)));
+				knownLinks.add(updateLink(unit, invocations.get(count-1), end));
 				for (int i=1; i<count; i++) {
-					View from = findViewByElement(invocations, subUnits.get(i-1));
-					View to = findViewByElement(invocations, subUnits.get(i));
-					if (from!=null && to!=null) {
-						knownLinks.add(updateLink(unit, from, to));
-					}
+					knownLinks.add(updateLink(unit, invocations.get(i-1), invocations.get(i)));
 				}
 			}
 		}
@@ -134,10 +128,9 @@ public class HenshinLinkUpdater {
 		
 		// Conditional units:
 		if (unit instanceof ConditionalUnit) {
-			ConditionalUnit cond = (ConditionalUnit) unit;
-			View ifView = findViewByElement(invocations, cond.getIf());
-			View thenView = findViewByElement(invocations, cond.getThen());
-			View elseView = findViewByElement(invocations, cond.getElse());
+			View ifView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.IF);
+			View thenView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.THEN);
+			View elseView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.ELSE);
 			if (ifView!=null) {
 				knownLinks.add(updateLink(unit, begin, ifView));
 				if (thenView!=null) {
@@ -153,8 +146,7 @@ public class HenshinLinkUpdater {
 		
 		// Loop units:
 		if (unit instanceof LoopUnit) {
-			LoopUnit loop = (LoopUnit) unit;
-			View subUnitView = findViewByElement(invocations, loop.getSubUnit());
+			View subUnitView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.LOOP);
 			if (subUnitView!=null) {
 				knownLinks.add(updateLink(unit, begin, subUnitView));
 				knownLinks.add(updateLink(unit, subUnitView, end));
@@ -226,37 +218,6 @@ public class HenshinLinkUpdater {
 		return (symbols.isEmpty()) ? null : symbols.get(0);
 	}
 
-	private List<View> getInvocations(View compartment, List<TransformationUnit> targets) {
-		List<View> invocations = new ArrayList<View>(targets.size());
-		for (TransformationUnit unit : targets) {
-			invocations.add(getInvocation(compartment, unit, invocations));
-		}
-		return invocations;
-	}
-
-	private View getInvocation(View compartment, TransformationUnit target, Collection<View> exclude) {
-		if (compartment==null || target==null) {
-			return null;
-		}
-		for (Object obj : compartment.getChildren()) {
-			View view = (View) obj;
-			if (view.getElement()==target && 
-				INVOCATION_VISUAL_ID.equals(view.getType()) &&
-				!exclude.contains(view)) {
-				return view;
-			}
-		}
-		return null;
-	}
-	
-	private View findViewByElement(List<View> views, EObject object) {
-		for (View view : views) {
-			if (view!=null && view.getElement()==object) {
-				return view;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Check whether a view is an If-link in a ConditionalUnit.
@@ -267,8 +228,11 @@ public class HenshinLinkUpdater {
 	public static boolean isIfLink(TransformationUnit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
 			View target = ((Edge) link).getTarget();
-			TransformationUnit ifUnit = ((ConditionalUnit) unit).getIf();
-			return (target!=null && ifUnit!=null && target.getElement()==ifUnit);
+			if (target!=null) {
+				View unitView = (View) target.eContainer().eContainer();
+				View ifView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.IF);
+				return (target==ifView);
+			}
 		}
 		return false;
 	}
@@ -281,9 +245,14 @@ public class HenshinLinkUpdater {
 	 */
 	public static boolean isThenLink(TransformationUnit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
+			View source = ((Edge) link).getSource();
 			View target = ((Edge) link).getTarget();
-			TransformationUnit thenUnit = ((ConditionalUnit) unit).getThen();
-			return (target!=null && thenUnit!=null && target.getElement()==thenUnit);
+			if (source!=null && target!=null) {
+				View unitView = (View) source.eContainer().eContainer();
+				View ifView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.IF);
+				View thenView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.THEN);
+				return (source==ifView && target==thenView);
+			}
 		}
 		return false;
 	}
@@ -296,17 +265,19 @@ public class HenshinLinkUpdater {
 	 */
 	public static boolean isElseLink(TransformationUnit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
+			View source = ((Edge) link).getSource();
 			View target = ((Edge) link).getTarget();
-			TransformationUnit elseUnit = ((ConditionalUnit) unit).getElse();
-			return (target!=null && elseUnit!=null && target.getElement()==elseUnit);
+			if (source!=null && target!=null) {
+				View unitView = (View) source.eContainer().eContainer();
+				View ifView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.IF);
+				View elseView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.ELSE);
+				return (source==ifView && target==elseView);
+			}
 		}
 		return false;
 	}
-
 	
-	private static final String INVOCATION_VISUAL_ID = HenshinVisualIDRegistry.getType(InvocationEditPart.VISUAL_ID);
-	private static final String LINK_VISUAL_ID = HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID);
-	
+	private static final String LINK_VISUAL_ID = HenshinVisualIDRegistry.getType(LinkEditPart.VISUAL_ID);	
 	private static final Edge DUMMY_EDGE = NotationFactory.eINSTANCE.createEdge();
 	
 }

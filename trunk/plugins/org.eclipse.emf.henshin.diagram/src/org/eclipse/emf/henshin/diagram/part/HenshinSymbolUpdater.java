@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
-import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -50,7 +50,7 @@ public class HenshinSymbolUpdater {
 	public void update(View unitView) {
 		
 		// Get the compartment view, the transformation unit and the subUnits:
-		View compartment = getUnitCompartment(unitView);
+		View compartment = UnitEditHelper.getUnitCompartment(unitView);
 		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
 		EList<TransformationUnit> subUnits = unit.getSubUnits(false);
 		
@@ -133,22 +133,4 @@ public class HenshinSymbolUpdater {
 		return symbol;
 	}
 	
-	/*
-	 * Get the compartment view of a unit view.
-	 */
-	public View getUnitCompartment(View view) {
-		
-		// Compartment type ID:
-		String type = HenshinVisualIDRegistry
-				.getType(UnitCompartmentEditPart.VISUAL_ID);
-		
-		// Check if it is already the compartment:
-		if (type.equals(view.getType())) {
-			return view;
-		}
-		
-		// Otherwise search the compartment:
-		return ViewUtil.getChildBySemanticHint(view, type);
-	}
-
 }

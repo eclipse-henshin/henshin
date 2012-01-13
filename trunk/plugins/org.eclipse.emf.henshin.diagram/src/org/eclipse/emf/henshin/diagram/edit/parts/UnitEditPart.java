@@ -73,13 +73,22 @@ public class UnitEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated
 	 */
-	protected void createDefaultEditPolicies() {
+	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
 				new UnitItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		// XXX need an SCR to runtime to have another abstract superclass that would let children add reasonable editpolicies
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	protected void createDefaultEditPolicies() {
+		createDefaultEditPoliciesGen();
+		removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 	}
 
 	/**

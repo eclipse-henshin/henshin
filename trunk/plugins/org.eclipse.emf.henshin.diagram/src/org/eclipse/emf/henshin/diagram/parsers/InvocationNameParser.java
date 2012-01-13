@@ -20,12 +20,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
+import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper.InvocationViewKey;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
+import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -37,7 +38,6 @@ import org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
-import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -101,41 +101,70 @@ public class InvocationNameParser extends AbstractParser {
 	}
 	
 	/*
-	 * Parse a rule name and the optional root node.
+	 * Parse an invocation name.
 	 */
-	protected CommandResult doParsing(View view, String value) throws ExecutionException {
+	protected CommandResult doParsing(View nameView, String value) throws ExecutionException {
 		
-		TransformationUnit parent = (TransformationUnit) ((View) view.eContainer().eContainer()).getElement();
-		TransformationUnit invocation = (TransformationUnit) view.getElement();
+		// It is the label, but we need the node:
+		View invocationView = (View) nameView.eContainer();
+		View compartmentView = (View) invocationView.eContainer();
+		View unitView = (View) compartmentView.eContainer();
+		
+		// Get the transformation unit:
+		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		
+		// Locate the position of the current invocation view:
+		int position = UnitEditHelper.getInvocationViews(unitView, true).indexOf(invocationView);
+		if (position<0) {
+			return CommandResult.newErrorCommandResult("Error locating position of invocation");
+		}
 		
 		// Compute possible target candidates:
-		TransformationSystem system = (TransformationSystem) view.getDiagram().getElement();
+		TransformationSystem system = (TransformationSystem) nameView.getDiagram().getElement();
 		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
 		candidates.addAll(system.getRules());
 		candidates.addAll(system.getTransformationUnits());
-		
+
+		// Find the right one:
 		value = value.trim();
-		for (TransformationUnit unit : candidates) {
-			if (value.equals(unit.getName())) {
+		for (TransformationUnit target : candidates) {
+			if (value.equals(target.getName())) {
 				
 				// Update the parent unit:
-				if (parent instanceof SequentialUnit) {
-					SequentialUnit sequential = (SequentialUnit) parent;
-					
-					// First update the views!!!
-					updateInvocationViews(sequential, invocation, unit);
-					
-					// Then the model:
-					int index = sequential.getSubUnits().indexOf(invocation);
-					sequential.getSubUnits().set(index, unit);
-					
-				} else {
+				if (unit instanceof SequentialUnit) {
+					((SequentialUnit) unit).getSubUnits().set(position, target);
+				}
+				else if (unit instanceof PriorityUnit) {
+					((PriorityUnit) unit).getSubUnits().set(position, target);
+				}
+				else if (unit instanceof IndependentUnit) {
+					((IndependentUnit) unit).getSubUnits().set(position, target);
+				}
+				else if (unit instanceof LoopUnit) {
+					((LoopUnit) unit).setSubUnit(target);
+				}
+				else if (unit instanceof ConditionalUnit) {
+					if (invocationView==UnitEditHelper
+							.getInvocationView(unitView, InvocationViewKey.IF)) {
+						((ConditionalUnit) unit).setIf(target);
+					}
+					else if (invocationView==UnitEditHelper
+							.getInvocationView(unitView, InvocationViewKey.THEN)) {
+						((ConditionalUnit) unit).setThen(target);
+					}
+					else if (invocationView==UnitEditHelper
+							.getInvocationView(unitView, InvocationViewKey.ELSE)) {
+						((ConditionalUnit) unit).setElse(target);
+					}
+				}
+				else {
 					// Error.
-					return CommandResult.newErrorCommandResult("Unknown transformation unit type: " + parent.eClass().getName());
+					return CommandResult.newErrorCommandResult("Unknown transformation unit type: " + unit.eClass().getName());
 				}
 				
-				// Update the view:
-				view.setElement(unit);
+				// Update the views:
+				invocationView.setElement(target);
+				nameView.setElement(target);
 				
 				// Done:
 				return CommandResult.newOKCommandResult();
@@ -145,44 +174,6 @@ public class InvocationNameParser extends AbstractParser {
 		// Error.
 		return CommandResult.newErrorCommandResult("Unknown transformation unit: " + value);
 		
-	}
-
-	/*
-	 * Update all views associated to an invocation.
-	 */
-	private void updateInvocationViews(TransformationUnit parent, 
-			TransformationUnit oldInvocation, TransformationUnit newInvocation) {
-		
-		String unitViewType = String.valueOf(UnitEditPart.VISUAL_ID);
-		String unitCompartmentType = String.valueOf(UnitCompartmentEditPart.VISUAL_ID);
-		String invocationViewType = String.valueOf(InvocationEditPart.VISUAL_ID);
-		
-		// Update all resources:
-		ResourceSet resourceSet = parent.eResource().getResourceSet();
-		for (Resource resource : resourceSet.getResources()) {
-			for (EObject root : resource.getContents()) {
-				if (root instanceof Diagram) {
-					for (Object obj : ((Diagram) root).getChildren()) {
-						View parentView = (View) obj;
-						if (unitViewType.equals(parentView.getType())) {
-							for (Object obj2 : parentView.getChildren()) {
-								View compartment = (View) obj2;
-								if (unitCompartmentType.equals(compartment.getType())) {
-									for (Object obj3 : compartment.getChildren()) {
-										View invocationView = (View) obj3;
-										if (invocationViewType.equals(invocationView.getType()) &&
-												invocationView.getElement()==oldInvocation) {
-											invocationView.setElement(newInvocation);
-											//System.out.println("updating view for " + oldInvocation.getName());
-										}
-									}
-								}
-							}							
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	/*
