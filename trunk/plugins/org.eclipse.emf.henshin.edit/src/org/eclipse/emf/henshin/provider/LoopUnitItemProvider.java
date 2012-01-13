@@ -89,14 +89,14 @@ public class LoopUnitItemProvider
 	}
 
 	/**
-	 * This returns LoopUnit.gif.
+	 * This returns LoopUnit.png.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/LoopUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/LoopUnit.png"));
 	}
 
 	/**
