@@ -93,15 +93,17 @@ public class Tools {
 	 * @return {@link TransformationUnit}
 	 */
 	public static TransformationUnit createTUFromRule(Rule r) {
-		HenshinFactory hf = new HenshinFactoryImpl();
+		/*HenshinFactory hf = new HenshinFactoryImpl();
 		CountedUnit cu = hf.createCountedUnit();
 		cu.setCount(1);
 		cu.setActivated(true);
 		cu.setName("__CREATED_from_" + r.getName());
 		cu.setDescription("automatically created from Rule " + r.getName() + "   [do not change]");
-		cu.setSubUnit(r);
+		cu.setSubUnit(r);*/
 		
-		return cu;
+		return (TransformationUnit) r;
+		
+		//return cu;
 	}
 	
 	/**

@@ -149,8 +149,8 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createAmalgamationUnitAdapter();
 			}
 			@Override
-			public Adapter caseCountedUnit(CountedUnit object) {
-				return createCountedUnitAdapter();
+			public Adapter caseLoopUnit(LoopUnit object) {
+				return createLoopUnitAdapter();
 			}
 			@Override
 			public Adapter caseNestedCondition(NestedCondition object) {
@@ -461,16 +461,16 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.CountedUnit <em>Counted Unit</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.LoopUnit <em>Loop Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit
+	 * @see org.eclipse.emf.henshin.model.LoopUnit
 	 * @generated
 	 */
-	public Adapter createCountedUnitAdapter() {
+	public Adapter createLoopUnitAdapter() {
 		return null;
 	}
 

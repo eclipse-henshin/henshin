@@ -241,7 +241,7 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 		
 		newChildDescriptors.add(createChildParameter(
 				HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS,
-				HenshinFactory.eINSTANCE.createCountedUnit()));
+				HenshinFactory.eINSTANCE.createLoopUnit()));
 	}
 	
 	/**

@@ -199,13 +199,13 @@ public interface HenshinFactory extends EFactory {
 	AmalgamationUnit createAmalgamationUnit();
 
 	/**
-	 * Returns a new object of class '<em>Counted Unit</em>'.
+	 * Returns a new object of class '<em>Loop Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Counted Unit</em>'.
+	 * @return a new object of class '<em>Loop Unit</em>'.
 	 * @generated
 	 */
-	CountedUnit createCountedUnit();
+	LoopUnit createLoopUnit();
 
 	/**
 	 * Returns a new object of class '<em>Nested Condition</em>'.

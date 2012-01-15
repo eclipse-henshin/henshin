@@ -151,9 +151,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/lhsMappings"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/rhsMappings"/>
     </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//CountedUnit">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//CountedUnit/subUnit"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//CountedUnit/count"/>
+    <genClasses ecoreClass="henshin.ecore#//LoopUnit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//LoopUnit/subUnit"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//NestedCondition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NestedCondition/negated"/>

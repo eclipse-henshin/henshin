@@ -4,15 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -27,7 +24,8 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.CountedUnit;
+import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -36,6 +34,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
@@ -79,6 +78,20 @@ public class Transformation {
 		}
 	}
 	
+	private class CountedUnitHelper {
+		/**
+		 * Data structure for storing information related to countedUnits
+		 */
+		EObject countedUnit;	// counted unit (old model)
+		EObject subUnit;		// sub unit	(old model)
+		int count;				// count
+		public CountedUnitHelper(EObject countedUnit, EObject subUnit, int count) {
+			this.countedUnit = countedUnit;
+			this.subUnit = subUnit;
+			this.count = count;
+		}
+	}
+	
 	private class RuleReplacementHelper {
 		/**
 		 * Data structure for storing information related to Rules
@@ -109,15 +122,16 @@ public class Transformation {
 	}
 	
 	private ArrayList<AmalgamationUnitHelper> amuList = new ArrayList<AmalgamationUnitHelper>();	// List of amalgamation units
-	
+	private ArrayList<CountedUnitHelper> cuList = new ArrayList<CountedUnitHelper>();	// List of counted units
 	
 	private TransformationSystem newRoot;	// root object of the new Transformation System
 	
 	
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException {
 		Transformation tr = new Transformation();
-		tr.migrate(new java.net.URI("dbg/amut.henshin"));
+		tr.migrate(new java.net.URI("dbg/cuTest.henshin"));
 	}
+	
 	
 	/**
 	 * @param args
@@ -128,42 +142,50 @@ public class Transformation {
 	public void migrate(java.net.URI fileUri) throws ClassNotFoundException, IOException, FileNotFoundException {		
 		//String oldHenshinFilename = "dbg/philNew.henshin";
 
-		
-		
-		org.eclipse.emf.common.util.URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
-		
+		URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
+
 		URI backupUri = eFileUri.appendFileExtension("bak");
-		//URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
+//		URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
 		URI newUri = eFileUri;
 		
+
 		HenshinPackageImpl.init();		
+		HenshinPackage.eINSTANCE.getClass();
 		
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-		//URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
+		
+		//TODO: Correct URI to use the platform plugin uri
+//		URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
 		URI henshinUri = URI.createPlatformPluginURI("org.eclipse.emf.henshin.migration/model/henshin-080.ecore", false);
+		
 		ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri));
+		
 
-		ModelHelper.registerFileExtension("henshin");	// TODO: aus modelhelper kopieren
+		ModelHelper.registerFileExtension("henshin");
 		EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
 
+		// --- Actual conversion starts here ---
 		
-		addRootObjectToMap(graphRoot);	// fill map by creating new objects
-		collectRuleReferences();
+		
+		addRootObjectToMap(graphRoot);			// fill map by creating new objects
+		collectRuleReferences();				// collect references to rules so there will be no ambiguity when AmalgamationUnits are replaced by their kernel rules
 		System.out.println("\n\n\n");
 		for (RuleReplacementHelper rrh : ruleReplacements) {
 			System.out.println(rrh);
 		}
 //		System.exit(0);
 		
-		updateAmalgamationUnitReferences();
+		updateAmalgamationUnitReferences();		// update references to AmalgamationUnits to point to the kernel rule
+		processCountedUnits();					// replace counted units not already replaced by loop units by sequential units
+
 		System.out.println("\n ****** \n");
 		newRoot = (TransformationSystem) newElements.get(graphRoot);
 
-		updateReferences();	// update references between objects
-		buildAmalgamationUnits();
-		wrapNACs();	// wrap NACs
-//		cleanUpNotFormulas();	// clean up not formulas
-		moveRulesToRulesReference();	// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
+		updateReferences();						// update references between objects
+		buildAmalgamationUnits();				// create copies of the rules used in AmalgamationUnits and modify existing kernel rules to contain the multi rules
+		wrapNACs();								// wrap NACs
+//		cleanUpNotFormulas();					// clean up not formulas (consolidate multiple negations)
+		moveRulesToRulesReference();			// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
 
 		for (TransformationUnit tu : newRoot.getTransformationUnits()) {
 			System.out.println("updating amalgamation unit references for " + tu.getName());
@@ -178,7 +200,6 @@ public class Transformation {
 		
 		
 		// rename old file:
-		// TODO: uncomment this when transformation works
 		File oldHenshinFile = new File(fileUri);
 		File oldHenshinFileBackup = new File(backupUri.toFileString());
 		if (!oldHenshinFile.renameTo(oldHenshinFileBackup)) { // renaming failed
@@ -222,7 +243,7 @@ public class Transformation {
 		for (Entry<EObject, EObject> e : newElements.entrySet()) {
 			if ((e.getValue() instanceof TransformationUnit) && !(e.getValue() instanceof Rule)) {	// only transformationUnits are interesting
 				System.out.println("NOW working on " + e.getKey() + " -> " + e.getValue()); 
-				if (e.getValue() instanceof CountedUnit) {		
+				if (e.getValue() instanceof LoopUnit) {		
 					Object subUnit = e.getKey().eGet(getEReferenceByName("subUnit", e.getKey().eClass()));
 					if (newElements.get(subUnit) instanceof Rule) { // if the subunit is a Rule, add it to the list
 						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
@@ -245,6 +266,13 @@ public class Transformation {
 					if (newElements.get(subElse) instanceof Rule) { // if the subunit is a Rule, add it to the list
 						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subElse), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subElse), e.getValue(), 0);
+					}
+				} else if ("CountedUnit".equals(e.getKey().eClass().getName())) {
+					// special case for counted units
+					Object subUnit = e.getKey().eGet(getEReferenceByName("subUnit", e.getKey().eClass()));
+					if (newElements.get(subUnit) instanceof Rule) { // if the subunit is a Rule, add it to the list
+						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
+						addRuleReplacement(newElements.get(subUnit), e.getValue(), 0);
 					}
 				} else { // any other transformation unit
 					EList<TransformationUnit> subUnits = (EList<TransformationUnit>) e.getKey().eGet(getEReferenceByName("subUnits", e.getKey().eClass()));
@@ -292,21 +320,18 @@ public class Transformation {
 	 * @param tu	TransformationUnit to update
 	 */
 	private void updateAmalgamationUnitReferences(ArrayList<TransformationUnit> stack, TransformationUnit tu) {
-		// TODO: If the kernel rule was previously used outside of the amalgamation unit, this method will replace this occurence with the amalgamation unit
-		// Needed: List of kernel rules used outside of amalgamation units to check against.
-		
 		if (stack.contains(tu)) { // unit already is on stack, so we have a cycle
 			return;
 		}
 		stack.add(tu);	// push the current transformation unit on the stack
-		if (tu instanceof CountedUnit) {
-			TransformationUnit su = ((CountedUnit) tu).getSubUnit();
+		if (tu instanceof LoopUnit) {
+			TransformationUnit su = ((LoopUnit) tu).getSubUnit();
 			
 			if (su instanceof TransformationUnit && !(su instanceof Rule)) { // check for nested transformation units
 				updateAmalgamationUnitReferences(stack, su);	// recursively check nested transformation units
 			} else if (amalgamationUnitRuleCopies.get(su) != null) { // is the rule known to have been an amalgamation unit?
 				if (searchForRuleReplacement(tu, (Rule) su) == null) { // search for the rule+unit combination in the list of rule replacements. If not found, the Rule was an amalgamationUnit, so replace it
-					((CountedUnit) tu).setSubUnit(amalgamationUnitRuleCopies.get(su));
+					((LoopUnit) tu).setSubUnit(amalgamationUnitRuleCopies.get(su));
 				}
 			}
 		} else if (tu instanceof Rule) {
@@ -352,29 +377,8 @@ public class Transformation {
 						System.out.println("replacing!");
 						subUnits.set(i, amalgamationUnitRuleCopies.get(su));
 					} 
-					/*if ((rrh == null) || (rrh.ruleInTuIndex != i)) {
-						System.err.println("replacing!");
-						subUnits.set(i, amalgamationUnitRuleCopies.get(su));
-					}*/
 				}
 			}
-			/*for (TransformationUnit su : subUnits) {
-				if (su instanceof TransformationUnit && !(su instanceof Rule)) { // check for nested TransformationUnits
-					updateAmalgamationUnitReferences(stack,  su);
-				} else if (amalgamationUnitRuleCopies.get(su) != null) {
-					int currentIndex = subUnits.indexOf(su);
-					
-					// search for a rule replacement in the current rule+unit. If it does not exist or
-					// the index of the Rule is different than the current index, the current index contains
-					// an amalgamationUnit, and can thus be replaced
-					RuleReplacementHelper rrh = searchForRuleReplacement(tu, (Rule) su);
-					System.err.println("idx:" + currentIndex + " Rule replacement::::" + rrh);
-					if ((rrh == null) || (rrh.ruleInTuIndex != currentIndex)) {	
-						System.err.println("replacing!");
-						subUnits.set(currentIndex, amalgamationUnitRuleCopies.get(su));
-					}
-				}
-			}*/
 		}
 	}
 	
@@ -384,6 +388,8 @@ public class Transformation {
 	 */
 	private void buildAmalgamationUnits() {
 		for (AmalgamationUnitHelper amu : amuList) {
+			// Copy the kernel rule
+			// New name will be AMALGAMATIONUNITNAME_KRL_KERNELRULENAME
 			Rule krlRuleTmp = (Rule) newElements.get(amu.kernelRule);
 			Rule krlRule = (Rule) EcoreUtil.copy(krlRuleTmp);
 			krlRule.getMultiRules().clear();
@@ -393,6 +399,8 @@ public class Transformation {
 			newRoot.getRules().add(krlRule);
 			
 			for (EObject mr : amu.multiRules) {
+				// Copy the multi rules
+				// New name will be AMALGAMATIONUNITNAME_mul_MULTIRULENAME
 				Rule multiRuleTmp = (Rule) newElements.get(mr);
 				Rule multiRule = (Rule) EcoreUtil.copy(multiRuleTmp);
 				amalgamationUnitRuleCopies.put(multiRuleTmp, multiRule);
@@ -540,11 +548,22 @@ public class Transformation {
 								((EObject) e.getValue()).eSet(er, objectType);
 								
 							} else if (((EObject) e.getKey()).eGet(oldErefType) instanceof EObject) {
+								
+								
+								
+								if (e.getValue() instanceof LoopUnit) {
+									System.err.println("*********");
+									System.out.println("**********" + e.getValue());
+									System.out.println("**********" + e.getKey());
+									System.out.flush();
+								}
+								
 								EObject oldReferencedObject = (EObject) ((EObject) e.getKey()).eGet(oldErefType);
 								System.out.println("obj:: " + oldReferencedObject);
 								if (oldReferencedObject != null) {
 									EObject newReferencedObject = newElements.get(oldReferencedObject);
 									((EObject) e.getValue()).eSet(er, newReferencedObject);
+									System.out.println("~>" + newReferencedObject);
 									System.out.println("non-null");
 								}
 							} else {
@@ -575,9 +594,6 @@ public class Transformation {
 		}
 		
 		// sort the new list so the new items are in the same place as the old items
-		/*for (int i = 0; i < oldList.size(); i++) {
-			newList.move(i, (EObject) newElements.get(oldList.get(i)));
-		}*/
 		for (int i = oldList.size() - 1; i > 0; i--) {
 			newList.move(i, (EObject) newElements.get(oldList.get(i)));
 		}
@@ -597,6 +613,23 @@ public class Transformation {
 			}
 		}
 	}
+	
+	
+	/**
+	 * When replacing counted units by sequential units, create the sequential units with COUNT times the countedUnit's subUnit
+	 */
+	private void processCountedUnits() {
+		for (CountedUnitHelper cuh : cuList) {
+			SequentialUnit su = (SequentialUnit) newElements.get(cuh.countedUnit);
+			
+			EObject subUnit = newElements.get(cuh.subUnit);
+			
+			for (int i = 0; i < cuh.count; i++) {
+				su.getSubUnits().add((TransformationUnit) subUnit);
+			}
+		}
+	}
+	
 	
 	/**
 	 * Fill the old Element->new Element map (newElements) recursively.
@@ -671,6 +704,42 @@ public class Transformation {
 				// Handle NestedCondition
 				// TODO: rewrite when model is correct?
 				detectedNC = true;
+			} else if ("CountedUnit".equals(type)) {
+				// handle counted unit: gets replaced by (a LoopUnit (containing a sequential unit (containing 'count' times the subunit)))
+
+				EAttribute attr = getEAttributeForName("count", eo.eClass());
+				int count = (Integer) eo.eGet(attr);
+				
+				EObject cuReplacement;
+				
+				if (count < 1) { // counted unit will just be replaced by a LoopUnit
+					LoopUnit countedUnitReplacement = HenshinFactoryImpl.eINSTANCE.createLoopUnit();
+					countedUnitReplacement.setName((String) eo.eGet(getEAttributeForName("name", eo.eClass())));
+					countedUnitReplacement.setDescription((String) eo.eGet(getEAttributeForName("description", eo.eClass())));
+					if (count != 0) {
+						countedUnitReplacement.setActivated((Boolean) eo.eGet(getEAttributeForName("activated", eo.eClass())));
+					} else if (count == 0) {
+						// count was 0, so we don't know what to do.
+						// In order to preserve structure and not confuse the user, create a LoopUnit, but deactivate it
+						countedUnitReplacement.setActivated(false);
+					}
+					cuReplacement = countedUnitReplacement;
+				} else {
+					// counted unit will be replaced by a sequential unit
+					CountedUnitHelper cuHelper = new CountedUnitHelper(eo, (EObject) eo.eGet(getEReferenceByName("subUnit", eo.eClass())), (Integer) eo.eGet(getEAttributeForName("count", eo.eClass())));
+					SequentialUnit countedUnitReplacementSeqUnit = HenshinFactory.eINSTANCE.createSequentialUnit();
+					countedUnitReplacementSeqUnit.setName((String) eo.eGet(getEAttributeForName("name", eo.eClass())));
+					countedUnitReplacementSeqUnit.setDescription((String) eo.eGet(getEAttributeForName("description", eo.eClass())));
+					countedUnitReplacementSeqUnit.setActivated((Boolean) eo.eGet(getEAttributeForName("activated", eo.eClass())));
+					
+					cuList.add(cuHelper);
+					
+					
+					cuReplacement = countedUnitReplacementSeqUnit;
+				}
+				
+				newElements.put(eo, cuReplacement);
+				continue;
 			}
 			
 			

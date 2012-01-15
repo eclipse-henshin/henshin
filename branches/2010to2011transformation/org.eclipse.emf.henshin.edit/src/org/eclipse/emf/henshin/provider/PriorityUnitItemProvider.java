@@ -179,7 +179,7 @@ public class PriorityUnitItemProvider extends TransformationUnitItemProvider imp
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.PRIORITY_UNIT__SUB_UNITS,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+				 HenshinFactory.eINSTANCE.createLoopUnit()));
 	}
 	
 }

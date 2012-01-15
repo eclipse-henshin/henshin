@@ -58,7 +58,7 @@ public class TransformationUnitTests extends HenshinTest {
 		System.out.println("countedUnitTest1");
 		loadGraph("graphBefore_countedUnit");
 		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-1);
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-1);
 		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
 	}
 	

@@ -230,12 +230,12 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.COUNTED_UNIT: {
-				CountedUnit countedUnit = (CountedUnit)theEObject;
-				T result = caseCountedUnit(countedUnit);
-				if (result == null) result = caseTransformationUnit(countedUnit);
-				if (result == null) result = caseDescribedElement(countedUnit);
-				if (result == null) result = caseNamedElement(countedUnit);
+			case HenshinPackage.LOOP_UNIT: {
+				LoopUnit loopUnit = (LoopUnit)theEObject;
+				T result = caseLoopUnit(loopUnit);
+				if (result == null) result = caseTransformationUnit(loopUnit);
+				if (result == null) result = caseDescribedElement(loopUnit);
+				if (result == null) result = caseNamedElement(loopUnit);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -579,17 +579,17 @@ public class HenshinSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Counted Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Loop Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Counted Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Loop Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCountedUnit(CountedUnit object) {
+	public T caseLoopUnit(LoopUnit object) {
 		return null;
 	}
 

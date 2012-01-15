@@ -255,7 +255,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__IF,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+				 HenshinFactory.eINSTANCE.createLoopUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -290,7 +290,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__THEN,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+				 HenshinFactory.eINSTANCE.createLoopUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -325,7 +325,7 @@ public class ConditionalUnitItemProvider extends TransformationUnitItemProvider 
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.CONDITIONAL_UNIT__ELSE,
-				 HenshinFactory.eINSTANCE.createCountedUnit()));
+				 HenshinFactory.eINSTANCE.createLoopUnit()));
 	}
 
 	/**

@@ -1217,14 +1217,14 @@ public interface HenshinPackage extends EPackage {
 	int AMALGAMATION_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.LoopUnitImpl <em>Loop Unit</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.CountedUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
+	 * @see org.eclipse.emf.henshin.model.impl.LoopUnitImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getLoopUnit()
 	 * @generated
 	 */
-	int COUNTED_UNIT = 18;
+	int LOOP_UNIT = 18;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1233,7 +1233,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int LOOP_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1242,7 +1242,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+	int LOOP_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1251,7 +1251,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int LOOP_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -1260,7 +1260,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+	int LOOP_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -1269,7 +1269,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+	int LOOP_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Sub Unit</b></em>' reference.
@@ -1278,25 +1278,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__SUB_UNIT = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int LOOP_UNIT__SUB_UNIT = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Count</b></em>' attribute.
+	 * The number of structural features of the '<em>Loop Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COUNTED_UNIT__COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Counted Unit</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
+	int LOOP_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.FormulaImpl <em>Formula</em>}' class.
@@ -2335,36 +2326,25 @@ public interface HenshinPackage extends EPackage {
 	EReference getAmalgamationUnit_RhsMappings();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.CountedUnit <em>Counted Unit</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.LoopUnit <em>Loop Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Counted Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit
+	 * @return the meta object for class '<em>Loop Unit</em>'.
+	 * @see org.eclipse.emf.henshin.model.LoopUnit
 	 * @generated
 	 */
-	EClass getCountedUnit();
+	EClass getLoopUnit();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.CountedUnit#getSubUnit <em>Sub Unit</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.LoopUnit#getSubUnit <em>Sub Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Sub Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit#getSubUnit()
-	 * @see #getCountedUnit()
+	 * @see org.eclipse.emf.henshin.model.LoopUnit#getSubUnit()
+	 * @see #getLoopUnit()
 	 * @generated
 	 */
-	EReference getCountedUnit_SubUnit();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.CountedUnit#getCount <em>Count</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Count</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit#getCount()
-	 * @see #getCountedUnit()
-	 * @generated
-	 */
-	EAttribute getCountedUnit_Count();
+	EReference getLoopUnit_SubUnit();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.NestedCondition <em>Nested Condition</em>}'.
@@ -3147,14 +3127,14 @@ public interface HenshinPackage extends EPackage {
 		EReference AMALGAMATION_UNIT__RHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_RhsMappings();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.LoopUnitImpl <em>Loop Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.CountedUnitImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
+		 * @see org.eclipse.emf.henshin.model.impl.LoopUnitImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getLoopUnit()
 		 * @generated
 		 */
-		EClass COUNTED_UNIT = eINSTANCE.getCountedUnit();
+		EClass LOOP_UNIT = eINSTANCE.getLoopUnit();
 
 		/**
 		 * The meta object literal for the '<em><b>Sub Unit</b></em>' reference feature.
@@ -3162,15 +3142,7 @@ public interface HenshinPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COUNTED_UNIT__SUB_UNIT = eINSTANCE.getCountedUnit_SubUnit();
-
-		/**
-		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COUNTED_UNIT__COUNT = eINSTANCE.getCountedUnit_Count();
+		EReference LOOP_UNIT__SUB_UNIT = eINSTANCE.getLoopUnit_SubUnit();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.NestedConditionImpl <em>Nested Condition</em>}' class.

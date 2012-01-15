@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="CP1252"?>
+<?xml version="1.0" encoding="Cp1252"?>
 <henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="transformationUnitTests">
   <rules description="" name="deleteChild">
     <lhs name="LHS">
@@ -696,7 +696,7 @@
     <mappings origin="//@rules.14/@lhs/@nodes.2" image="//@rules.14/@rhs/@nodes.2"/>
   </rules>
   <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
-  <transformationUnits xsi:type="henshin:LoopUnit" name="countedUnitTest" subUnit="//@rules.0"/>
+  <transformationUnits xsi:type="henshin:CountedUnit" name="countedUnitTest" subUnit="//@rules.0"/>
   <transformationUnits xsi:type="henshin:PriorityUnit" name="priorityUnitTest" subUnits="//@rules.2 //@rules.1"/>
   <transformationUnits xsi:type="henshin:SequentialUnit" name="sequentialUnitTest" subUnits="//@rules.1 //@rules.2 //@transformationUnits.4"/>
   <transformationUnits xsi:type="henshin:ConditionalUnit" name="conditionalUnitTest" if="//@rules.3" then="//@rules.5" else="//@rules.6">
@@ -712,7 +712,7 @@
   </transformationUnits>
   <transformationUnits xsi:type="henshin:SequentialUnit" name="subsequence" subUnits="//@rules.1"/>
   <transformationUnits xsi:type="henshin:IndependentUnit" name="independentUnitTest" subUnits="//@rules.7 //@rules.8"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" name="loop_amu_attributeInKernelNac" subUnits="//@rules.12 //@rules.12"/>
+  <transformationUnits xsi:type="henshin:CountedUnit" name="loop_amu_attributeInKernelNac" subUnit="//@rules.12" count="2"/>
   <transformationUnits xsi:type="henshin:ConditionalUnit" name="cu1" if="//@rules.3" else="//@rules.9">
     <parameters name="valname"/>
     <parameterMappings source="//@transformationUnits.7/@parameters.0" target="//@rules.3/@parameters.0"/>

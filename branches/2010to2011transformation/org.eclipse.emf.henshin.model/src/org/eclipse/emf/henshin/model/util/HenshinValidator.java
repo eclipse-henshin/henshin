@@ -214,8 +214,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static Constraint countedUnit_ValidCountRangeInvOCL;
-	
+	private static Constraint loopUnit_ValidCountRangeInvOCL;
+
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
@@ -298,8 +298,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validatePriorityUnit((PriorityUnit)value, diagnostics, context);
 			case HenshinPackage.AMALGAMATION_UNIT:
 				return validateAmalgamationUnit((AmalgamationUnit)value, diagnostics, context);
-			case HenshinPackage.COUNTED_UNIT:
-				return validateCountedUnit((CountedUnit)value, diagnostics, context);
+			case HenshinPackage.LOOP_UNIT:
+				return validateLoopUnit((LoopUnit)value, diagnostics, context);
 			case HenshinPackage.NESTED_CONDITION:
 				return validateNestedCondition((NestedCondition)value, diagnostics, context);
 			case HenshinPackage.FORMULA:
@@ -2184,52 +2184,51 @@ public class HenshinValidator extends EObjectValidator {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateCountedUnit(CountedUnit countedUnit, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(countedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateCountedUnit_ValidCountRange(countedUnit, diagnostics, context);
+	public boolean validateLoopUnit(LoopUnit loopUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateLoopUnit_ValidCountRange(loopUnit, diagnostics, context);
 		return result;
 	}
-	
+
 	/**
-	 * Validates the ValidCountRange constraint of '<em>Counted Unit</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Validates the ValidCountRange constraint of '<em>Loop Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validateCountedUnit_ValidCountRange(CountedUnit countedUnit,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-        if (countedUnit_ValidCountRangeInvOCL == null) {
+	public boolean validateLoopUnit_ValidCountRange(LoopUnit loopUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        if (loopUnit_ValidCountRangeInvOCL == null) {
 			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.COUNTED_UNIT);
+			helper.setContext(HenshinPackage.Literals.LOOP_UNIT);
 			
-			EAnnotation ocl = HenshinPackage.Literals.COUNTED_UNIT.getEAnnotation(OCL_ANNOTATION_SOURCE);
+			EAnnotation ocl = HenshinPackage.Literals.LOOP_UNIT.getEAnnotation(OCL_ANNOTATION_SOURCE);
 			String expr = ocl.getDetails().get("ValidCountRange");
 			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
 			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
 			
 			try {
-				countedUnit_ValidCountRangeInvOCL = helper.createInvariant(expr);
+				loopUnit_ValidCountRangeInvOCL = helper.createInvariant(expr);
 			}
 			catch (ParserException e) {
 				throw new UnsupportedOperationException(e.getLocalizedMessage());
 			}
 			
-			countedUnit_ValidCountRangeInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			loopUnit_ValidCountRangeInvOCL.getEAnnotations().add(henshinOclAnnotation);
 			
 			String msg = ocl.getDetails().get("ValidCountRange.Msg");
 			if (msg != null && msg.length() > 0) {
@@ -2246,12 +2245,12 @@ public class HenshinValidator extends EObjectValidator {
 			
 		}
 		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(countedUnit_ValidCountRangeInvOCL);
+		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(loopUnit_ValidCountRangeInvOCL);
 		
-		if (!query.check(countedUnit)) {
+		if (!query.check(loopUnit)) {
 			if (diagnostics != null) {
 			
-				EAnnotation henshinAnnotation = countedUnit_ValidCountRangeInvOCL
+				EAnnotation henshinAnnotation = loopUnit_ValidCountRangeInvOCL
 						.getEAnnotation(OCL_ANNOTATION_SOURCE);
 				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
 						.parseInt(henshinAnnotation.getDetails().get("Severity"))
@@ -2266,15 +2265,15 @@ public class HenshinValidator extends EObjectValidator {
 						 DIAGNOSTIC_SOURCE,
 						 0,
 						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "ValidCountRange", getObjectLabel(countedUnit, context) },
-						 new Object[] { countedUnit },
+						 new Object[] { "ValidCountRange", getObjectLabel(loopUnit, context) },
+						 new Object[] { loopUnit },
 						 context, addMsg));
 			}
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

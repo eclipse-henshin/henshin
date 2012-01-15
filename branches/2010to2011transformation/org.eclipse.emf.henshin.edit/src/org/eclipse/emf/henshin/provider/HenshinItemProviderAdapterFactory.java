@@ -434,29 +434,28 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
-	 * This keeps track of the one adapter used for all
-	 * {@link org.eclipse.emf.henshin.model.CountedUnit} instances. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.LoopUnit} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CountedUnitItemProvider countedUnitItemProvider;
-	
+	protected LoopUnitItemProvider loopUnitItemProvider;
+
 	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.CountedUnit}.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.LoopUnit}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createCountedUnitAdapter() {
-		if (countedUnitItemProvider == null) {
-			countedUnitItemProvider = new CountedUnitItemProvider(this);
+	public Adapter createLoopUnitAdapter() {
+		if (loopUnitItemProvider == null) {
+			loopUnitItemProvider = new LoopUnitItemProvider(this);
 		}
 
-		return countedUnitItemProvider;
+		return loopUnitItemProvider;
 	}
-	
+
 	/**
 	 * This keeps track of the one adapter used for all
 	 * {@link org.eclipse.emf.henshin.model.NestedCondition} instances. <!--
@@ -704,7 +703,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		if (conditionalUnitItemProvider != null) conditionalUnitItemProvider.dispose();
 		if (priorityUnitItemProvider != null) priorityUnitItemProvider.dispose();
 		if (amalgamationUnitItemProvider != null) amalgamationUnitItemProvider.dispose();
-		if (countedUnitItemProvider != null) countedUnitItemProvider.dispose();
+		if (loopUnitItemProvider != null) loopUnitItemProvider.dispose();
 		if (nestedConditionItemProvider != null) nestedConditionItemProvider.dispose();
 		if (andItemProvider != null) andItemProvider.dispose();
 		if (orItemProvider != null) orItemProvider.dispose();
