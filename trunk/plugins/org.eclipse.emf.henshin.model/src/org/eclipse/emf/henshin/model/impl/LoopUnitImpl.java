@@ -6,6 +6,8 @@
  */
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.Collections;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -106,7 +108,7 @@ public class LoopUnitImpl extends TransformationUnitImpl implements LoopUnit {
 	 */
 	public EList<TransformationUnit> getSubUnits() {
 		if (subUnit!=null) {
-			return (EList<TransformationUnit>) ECollections.singletonEList(subUnit);
+			return (EList<TransformationUnit>) Collections.singletonList(subUnit);
 		} else {
 			return ECollections.emptyEList();
 		}
