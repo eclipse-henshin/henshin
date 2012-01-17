@@ -14,10 +14,8 @@ package org.eclipse.emf.henshin.editor.menuContributors;
 import java.util.List;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.editor.commands.CopyKernelToMultiRulesAndCreateMappingCommand;
 import org.eclipse.emf.henshin.editor.commands.CreateMappedNodeCommand;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.jface.action.IMenuManager;
 
@@ -35,12 +33,9 @@ public class SimpleCommandMenuContributor extends MenuContributor {
 	
 	private static final String COMMAND_LABEL_MAPPED_NODE = "CreateMappedNode";
 	
-	private static final String COMMAND_LABEL_COPY_KERNEL = "CopyKernelToMultiRulesAndCreateMapping";
-	
 	@Override
 	public void contributeActions(IMenuManager menuManager, List<?> selection) {
 		buildCreateMappedNode(menuManager, selection, domain);
-		buildCopyKernelRuleToMultiRules(menuManager, selection, domain);
 	}
 	
 	/**
@@ -57,26 +52,6 @@ public class SimpleCommandMenuContributor extends MenuContributor {
 		if ((selection.size() == 1) && (selection.get(0) instanceof Rule)) {
 			menuManager.add(createAction(getLabel(COMMAND_LABEL_MAPPED_NODE),
 					new CreateMappedNodeCommand((Rule) selection.get(0))));
-		}
-	}
-	
-	/**
-	 * Contribute if {@link CopyKernelToMultiRulesAndCreateMappingCommand} is
-	 * applicable.
-	 * 
-	 * @param menuManager
-	 * @param selection
-	 * @param domain
-	 */
-	private void buildCopyKernelRuleToMultiRules(IMenuManager menuManager, List<?> selection,
-			EditingDomain domain) {
-		// selection is one AmalgamationUnit with referenced kernelRule
-		//
-		if ((selection.size() == 1) && (selection.get(0) instanceof AmalgamationUnit)
-				&& (((AmalgamationUnit) selection.get(0)).getKernelRule() != null)) {
-			menuManager.add(createAction(getLabel(COMMAND_LABEL_COPY_KERNEL),
-					new CopyKernelToMultiRulesAndCreateMappingCommand(domain,
-							(AmalgamationUnit) selection.get(0))));
 		}
 	}
 	
