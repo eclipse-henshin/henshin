@@ -46,7 +46,7 @@ public interface HenshinPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/emf/2010/Henshin";
+	String eNS_URI = "http://www.eclipse.org/emf/2011/Henshin";
 
 	/**
 	 * The package namespace name.

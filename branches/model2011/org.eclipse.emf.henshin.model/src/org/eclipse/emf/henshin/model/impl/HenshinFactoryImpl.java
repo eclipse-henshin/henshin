@@ -50,7 +50,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public static HenshinFactory init() {
 		try {
-			HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2010/Henshin"); 
+			HenshinFactory theHenshinFactory = (HenshinFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2011/Henshin"); 
 			if (theHenshinFactory != null) {
 				return theHenshinFactory;
 			}
