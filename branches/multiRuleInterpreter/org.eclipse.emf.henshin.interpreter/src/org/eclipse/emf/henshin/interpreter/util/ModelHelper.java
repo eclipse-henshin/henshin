@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
@@ -277,8 +276,6 @@ public class ModelHelper {
 		Rule rule = null;
 		if (unit instanceof Rule)
 			rule = (Rule) unit;
-		else if (unit instanceof AmalgamationUnit)
-			rule = ((AmalgamationUnit) unit).getKernelRule();
 		
 		if (rule != null) {
 			for (Parameter parameter : unit.getParameters()) {

@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ConditionInfo;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
@@ -54,7 +53,6 @@ import org.eclipse.emf.henshin.matching.constraints.Matchfinder;
 import org.eclipse.emf.henshin.matching.constraints.Solution;
 import org.eclipse.emf.henshin.matching.constraints.Variable;
 import org.eclipse.emf.henshin.matching.util.TransformationOptions;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
@@ -341,16 +339,6 @@ public class EmfEngine implements InterpreterEngine {
 		}
 		
 		return matches;
-	}
-	
-	@Override
-	public RuleApplication generateAmalgamationRule(final AmalgamationUnit amalgamationUnit,
-			final Map<Parameter, Object> parameterValues) {
-		
-		AmalgamationInfo amalgamationWrapper = new AmalgamationInfo(this, amalgamationUnit,
-				parameterValues);
-		
-		return amalgamationWrapper.getAmalgamationRule();
 	}
 	
 	@Override
