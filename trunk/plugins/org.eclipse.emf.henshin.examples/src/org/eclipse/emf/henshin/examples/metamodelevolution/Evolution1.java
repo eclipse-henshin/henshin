@@ -28,10 +28,10 @@ import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -293,8 +293,7 @@ public class Evolution1 {
 		 * rule in a <code>while</code> block until transformation returns
 		 * <code>false</code>.
 		 */
-		CountedUnit c_unit = hFac.createCountedUnit();
-		c_unit.setCount(-1);
+		LoopUnit c_unit = hFac.createLoopUnit();		
 		tsI.getTransformationUnits().add(c_unit);
 		c_unit.setName("MigrationUnit");
 		c_unit.setSubUnit(i_rule1);
