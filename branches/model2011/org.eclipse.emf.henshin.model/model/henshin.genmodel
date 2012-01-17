@@ -49,6 +49,10 @@
         <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/sourceNode"/>
         <genParameters ecoreParameter="henshin.ecore#//Rule/containsMapping/targetNode"/>
       </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Rule/containsMultiMapping">
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMultiMapping/sourceNode"/>
+        <genParameters ecoreParameter="henshin.ecore#//Rule/containsMultiMapping/targetNode"/>
+      </genOperations>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getTransformationSystem"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getKernelRule"/>
       <genOperations ecoreOperation="henshin.ecore#//Rule/getMultiRuleByName">
@@ -158,18 +162,10 @@
     <genClasses ecoreClass="henshin.ecore#//PriorityUnit">
       <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//PriorityUnit/subUnits"/>
     </genClasses>
-    <genClasses provider="Stateful" ecoreClass="henshin.ecore#//AmalgamationUnit">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/kernelRule"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/multiRules"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/lhsMappings"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//AmalgamationUnit/rhsMappings"/>
-    </genClasses>
-    <genClasses ecoreClass="henshin.ecore#//CountedUnit">
-      <genFeatures property="None" children="true" createChild="false" ecoreFeature="ecore:EReference henshin.ecore#//CountedUnit/subUnit"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//CountedUnit/count"/>
+    <genClasses ecoreClass="henshin.ecore#//LoopUnit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//LoopUnit/subUnit"/>
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//NestedCondition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//NestedCondition/negated"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/conclusion"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//NestedCondition/mappings"/>
     </genClasses>

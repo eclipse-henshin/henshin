@@ -259,48 +259,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
         upperBound="-1" eType="#//TransformationUnit"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="kernelLhsNodesMapped &#xD;&#xA;kernelRhsNodesMapped &#xD;&#xA;kernelLhsEdgesMapped &#xD;&#xA;kernelRhsEdgesMapped&#xD;&#xA;lhsMappingsFromKernelToMulti&#xD;&#xA;rhsMappingsFromKernelToMulti&#xD;&#xA;noAdditionalMappingsFromMappedKernel"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
-      <details key="kernelLhsNodesMapped" value="kernelRule.lhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKL : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule &#xD;&#xA;&#x9;&#x9;| lhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;lhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| lhsMapping.origin = nodeKL &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.lhs.nodes->includes(lhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
-      <details key="kernelLhsNodesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelLhsNodesMapped"/>
-      <details key="kernelRhsNodesMapped" value="kernelRule.rhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKR : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule  &#xD;&#xA;&#x9;&#x9;| rhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;rhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| rhsMapping.origin = nodeKR &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.rhs.nodes->includes(rhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
-      <details key="kernelRhsNodesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelRhsNodesMapped"/>
-      <details key="kernelLhsEdgesMapped" value="kernelRule.lhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.lhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
-      <details key="kernelLhsEdgesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelLhsEdgesMapped"/>
-      <details key="kernelRhsEdgesMapped" value="kernelRule.rhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.rhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
-      <details key="kernelRhsEdgesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelRhsEdgesMapped"/>
-      <details key="lhsMappingsFromKernelToMulti" value="lhsMappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;kernelRule.lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;multiRules->exists(mRule : Rule |&#xD;&#xA;&#x9;&#x9;mRule.lhs.nodes->includes(mapping.image)&#xD;&#xA;&#x9; )&#xD;&#xA;&#x9;&#xD;&#xA;)"/>
-      <details key="lhsMappingsFromKernelToMulti.Msg" value="_Ocl_Msg_AmalgamationUnit_lhsMappingsFromKernelToMulti"/>
-      <details key="rhsMappingsFromKernelToMulti" value="rhsMappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;kernelRule.rhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;multiRules->exists(mRule : Rule |&#xD;&#xA;&#x9;&#x9;mRule.rhs.nodes->includes(mapping.image)&#xD;&#xA;&#x9; )&#xD;&#xA;&#x9;&#xD;&#xA;)"/>
-      <details key="rhsMappingsFromKernelToMulti.Msg" value="_Ocl_Msg_AmalgamationUnit_rhsMappingsFromKernelToMulti"/>
-      <details key="noAdditionalMappingsFromMappedKernel" value="multiRules->forAll( mRule : Rule | &#xD;&#xA;&#x9;mRule.mappings->forAll(mMapping : Mapping | &#xD;&#xA;&#x9;&#x9;lhsMappings->forAll(lMapping : Mapping| &#xD;&#xA;&#x9;&#x9;&#x9;mMapping.origin = lMapping.image &#xD;&#xA;&#x9;&#x9;&#x9;implies&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists(rMapping :Mapping |&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;rMapping.image = mMapping.image&#xD;&#xA; &#x9;&#x9;&#x9;&#x9;and&#x9;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;kernelRule.mappings->exists(kMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.origin = lMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.image = rMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;rhsMappings->forAll(rMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;mMapping.image = rMapping.image &#xD;&#xA;&#x9;&#x9;&#x9;implies&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists(lMapping :Mapping |&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;lMapping.image = mMapping.origin&#xD;&#xA; &#x9;&#x9;&#x9;&#x9;and&#x9;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;kernelRule.mappings->exists(kMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.origin = lMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.image = rMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)&#xD;&#xA;)"/>
-      <details key="noAdditionalMappingsFromMappedKernel.Msg" value="_Ocl_Msg_AmalgamationUnit_noAdditionalMappingsFromMappedKernel"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" lowerBound="1"
-        eType="#//Rule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" lowerBound="1"
-        upperBound="-1" eType="#//Rule"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
-        eType="#//Mapping" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rhsMappings" upperBound="-1"
-        eType="#//Mapping" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="ValidCountRange"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
-      <details key="ValidCountRange" value="count=-1 or count>0"/>
-      <details key="ValidCountRange.Msg" value="_Ocl_Msg_CountedUnit_ValidCountRange"/>
-      <details key="ValidCountRange.Severity" value="Error"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
-        eType="#//TransformationUnit"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LoopUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
         eType="#//TransformationUnit"/>
@@ -309,7 +267,6 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="mappingOriginContainedInParentCondition mappingImageContainedInCurrent"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="conclusion" lowerBound="1"
         eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"

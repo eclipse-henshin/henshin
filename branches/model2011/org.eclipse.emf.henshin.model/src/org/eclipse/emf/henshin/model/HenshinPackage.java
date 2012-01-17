@@ -1117,188 +1117,6 @@ public interface HenshinPackage extends EPackage {
 	int PRIORITY_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl <em>Amalgamation Unit</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamationUnit()
-	 * @generated
-	 */
-	int AMALGAMATION_UNIT = 17;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Activated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
-
-	/**
-	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
-
-	/**
-	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
-
-	/**
-	 * The feature id for the '<em><b>Kernel Rule</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__KERNEL_RULE = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Multi Rules</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Lhs Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__LHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Rhs Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT__RHS_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Amalgamation Unit</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int AMALGAMATION_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.CountedUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
-	 * @generated
-	 */
-	int COUNTED_UNIT = 18;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Activated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
-
-	/**
-	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
-
-	/**
-	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
-
-	/**
-	 * The feature id for the '<em><b>Sub Unit</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__SUB_UNIT = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Count</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT__COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Counted Unit</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COUNTED_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.LoopUnitImpl <em>Loop Unit</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1306,7 +1124,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getLoopUnit()
 	 * @generated
 	 */
-	int LOOP_UNIT = 19;
+	int LOOP_UNIT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1379,7 +1197,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getFormula()
 	 * @generated
 	 */
-	int FORMULA = 21;
+	int FORMULA = 19;
 
 	/**
 	 * The number of structural features of the '<em>Formula</em>' class.
@@ -1398,16 +1216,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNestedCondition()
 	 * @generated
 	 */
-	int NESTED_CONDITION = 20;
-
-	/**
-	 * The feature id for the '<em><b>Negated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NESTED_CONDITION__NEGATED = FORMULA_FEATURE_COUNT + 0;
+	int NESTED_CONDITION = 18;
 
 	/**
 	 * The feature id for the '<em><b>Conclusion</b></em>' containment reference.
@@ -1416,7 +1225,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NESTED_CONDITION__CONCLUSION = FORMULA_FEATURE_COUNT + 1;
+	int NESTED_CONDITION__CONCLUSION = FORMULA_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
@@ -1425,7 +1234,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NESTED_CONDITION__MAPPINGS = FORMULA_FEATURE_COUNT + 2;
+	int NESTED_CONDITION__MAPPINGS = FORMULA_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Nested Condition</em>' class.
@@ -1434,7 +1243,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NESTED_CONDITION_FEATURE_COUNT = FORMULA_FEATURE_COUNT + 3;
+	int NESTED_CONDITION_FEATURE_COUNT = FORMULA_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.UnaryFormulaImpl <em>Unary Formula</em>}' class.
@@ -1444,7 +1253,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnaryFormula()
 	 * @generated
 	 */
-	int UNARY_FORMULA = 22;
+	int UNARY_FORMULA = 20;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1472,7 +1281,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getBinaryFormula()
 	 * @generated
 	 */
-	int BINARY_FORMULA = 23;
+	int BINARY_FORMULA = 21;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1509,7 +1318,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAnd()
 	 * @generated
 	 */
-	int AND = 24;
+	int AND = 22;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1546,7 +1355,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getOr()
 	 * @generated
 	 */
-	int OR = 25;
+	int OR = 23;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1583,7 +1392,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNot()
 	 * @generated
 	 */
-	int NOT = 27;
+	int NOT = 25;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.XorImpl <em>Xor</em>}' class.
@@ -1593,7 +1402,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getXor()
 	 * @generated
 	 */
-	int XOR = 26;
+	int XOR = 24;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1648,7 +1457,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 	 * @generated
 	 */
-	int PARAMETER_MAPPING = 28;
+	int PARAMETER_MAPPING = 26;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -2354,92 +2163,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getPriorityUnit_SubUnits();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.AmalgamationUnit <em>Amalgamation Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Amalgamation Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit
-	 * @generated
-	 */
-	EClass getAmalgamationUnit();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getKernelRule <em>Kernel Rule</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Kernel Rule</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getKernelRule()
-	 * @see #getAmalgamationUnit()
-	 * @generated
-	 */
-	EReference getAmalgamationUnit_KernelRule();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getMultiRules <em>Multi Rules</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Multi Rules</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getMultiRules()
-	 * @see #getAmalgamationUnit()
-	 * @generated
-	 */
-	EReference getAmalgamationUnit_MultiRules();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings <em>Lhs Mappings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Lhs Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getLhsMappings()
-	 * @see #getAmalgamationUnit()
-	 * @generated
-	 */
-	EReference getAmalgamationUnit_LhsMappings();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings <em>Rhs Mappings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rhs Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit#getRhsMappings()
-	 * @see #getAmalgamationUnit()
-	 * @generated
-	 */
-	EReference getAmalgamationUnit_RhsMappings();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.CountedUnit <em>Counted Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Counted Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit
-	 * @generated
-	 */
-	EClass getCountedUnit();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.emf.henshin.model.CountedUnit#getSubUnit <em>Sub Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Sub Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit#getSubUnit()
-	 * @see #getCountedUnit()
-	 * @generated
-	 */
-	EReference getCountedUnit_SubUnit();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.CountedUnit#getCount <em>Count</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Count</em>'.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit#getCount()
-	 * @see #getCountedUnit()
-	 * @generated
-	 */
-	EAttribute getCountedUnit_Count();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.LoopUnit <em>Loop Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2469,17 +2192,6 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNestedCondition();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.NestedCondition#isNegated <em>Negated</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Negated</em>'.
-	 * @see org.eclipse.emf.henshin.model.NestedCondition#isNegated()
-	 * @see #getNestedCondition()
-	 * @generated
-	 */
-	EAttribute getNestedCondition_Negated();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.emf.henshin.model.NestedCondition#getConclusion <em>Conclusion</em>}'.
@@ -3199,74 +2911,6 @@ public interface HenshinPackage extends EPackage {
 		EReference PRIORITY_UNIT__SUB_UNITS = eINSTANCE.getPriorityUnit_SubUnits();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl <em>Amalgamation Unit</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.AmalgamationUnitImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAmalgamationUnit()
-		 * @generated
-		 */
-		EClass AMALGAMATION_UNIT = eINSTANCE.getAmalgamationUnit();
-
-		/**
-		 * The meta object literal for the '<em><b>Kernel Rule</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference AMALGAMATION_UNIT__KERNEL_RULE = eINSTANCE.getAmalgamationUnit_KernelRule();
-
-		/**
-		 * The meta object literal for the '<em><b>Multi Rules</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference AMALGAMATION_UNIT__MULTI_RULES = eINSTANCE.getAmalgamationUnit_MultiRules();
-
-		/**
-		 * The meta object literal for the '<em><b>Lhs Mappings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference AMALGAMATION_UNIT__LHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_LhsMappings();
-
-		/**
-		 * The meta object literal for the '<em><b>Rhs Mappings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference AMALGAMATION_UNIT__RHS_MAPPINGS = eINSTANCE.getAmalgamationUnit_RhsMappings();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.CountedUnitImpl <em>Counted Unit</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.CountedUnitImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getCountedUnit()
-		 * @generated
-		 */
-		EClass COUNTED_UNIT = eINSTANCE.getCountedUnit();
-
-		/**
-		 * The meta object literal for the '<em><b>Sub Unit</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COUNTED_UNIT__SUB_UNIT = eINSTANCE.getCountedUnit_SubUnit();
-
-		/**
-		 * The meta object literal for the '<em><b>Count</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COUNTED_UNIT__COUNT = eINSTANCE.getCountedUnit_Count();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.LoopUnitImpl <em>Loop Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3293,14 +2937,6 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NESTED_CONDITION = eINSTANCE.getNestedCondition();
-
-		/**
-		 * The meta object literal for the '<em><b>Negated</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute NESTED_CONDITION__NEGATED = eINSTANCE.getNestedCondition_Negated();
 
 		/**
 		 * The meta object literal for the '<em><b>Conclusion</b></em>' containment reference feature.

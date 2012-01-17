@@ -32,10 +32,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
- * Common utility function for accessing and modifying
- * positive and negative application conditions of rules (PACs and NACs). 
- * Application conditions are {@link NestedCondition}s
- * that are associated to the LHS of a rule.
+ * Common utility function for accessing and modifying positive and negative
+ * application conditions of rules (PACs and NACs). Application conditions are
+ * {@link NestedCondition}s that are associated to the LHS of a rule.
  * 
  * @author Christian Krause, Felix Rieger
  */
@@ -43,8 +42,10 @@ public class HenshinACUtil {
 	
 	/**
 	 * Find all positive and negative application conditions of a Rule.
-	 * @param rule		Rule.
-	 * @return			List of PACs and NACs.
+	 * 
+	 * @param rule
+	 *            Rule.
+	 * @return List of PACs and NACs.
 	 */
 	public static List<NestedCondition> getAllACs(Rule rule) {
 		List<NestedCondition> acs = new ArrayList<NestedCondition>();
@@ -52,12 +53,16 @@ public class HenshinACUtil {
 		addACs(rule.getLhs().getFormula(), acs, false);
 		return acs;
 	}
-
+	
 	/**
 	 * Find all positive or negative application conditions of a Rule.
-	 * @param rule		Rule.
-	 * @param positive	<code>true</code> if PACs should be found, <code>false</code> if NACs should be found.
-	 * @return			List of nested conditions.
+	 * 
+	 * @param rule
+	 *            Rule.
+	 * @param positive
+	 *            <code>true</code> if PACs should be found, <code>false</code>
+	 *            if NACs should be found.
+	 * @return List of nested conditions.
 	 */
 	public static List<NestedCondition> getAllACs(Rule rule, boolean positive) {
 		List<NestedCondition> acs = new ArrayList<NestedCondition>();
@@ -67,9 +72,14 @@ public class HenshinACUtil {
 	
 	/**
 	 * Find a positive or a negative application condition by its name.
-	 * @param rule		Rule.
-	 * @param name		Name of the PAC/NAC.
-	 * @param positive	<code>true</code> if PACs should be found, <code>false</code> if NACs should be found.
+	 * 
+	 * @param rule
+	 *            Rule.
+	 * @param name
+	 *            Name of the PAC/NAC.
+	 * @param positive
+	 *            <code>true</code> if PACs should be found, <code>false</code>
+	 *            if NACs should be found.
 	 * @return the nested condition if found.
 	 */
 	public static NestedCondition getAC(Rule rule, String name, boolean positive) {
@@ -83,40 +93,37 @@ public class HenshinACUtil {
 	
 	/**
 	 * Collect all nested conditions of a Rule recursively
+	 * 
 	 * @param formula
 	 * @param acs
-	 * @param positive	<code>true</code> if PACs should be collected, <code>false</code> if NACs should be collected
+	 * @param positive
+	 *            <code>true</code> if PACs should be collected,
+	 *            <code>false</code> if NACs should be collected
 	 */
 	private static void addACs(Formula formula, List<NestedCondition> acs, boolean positive) {
 		// Conjunction (And):
 		if (formula instanceof And) {
 			addACs(((And) formula).getLeft(), acs, positive);
 			addACs(((And) formula).getRight(), acs, positive);
-		} 
-		// XXX: This part will be removed --v
-		else if (formula instanceof NestedCondition) {
-			NestedCondition nested = (NestedCondition) formula;
-			if (nested.isNegated() != positive) {
-				acs.add(nested);
-			}
-		}
-		// XXX: End of removal part --^
-		else if (formula instanceof Not) {
+		} else if (formula instanceof Not) {
 			Formula child = ((Not) formula).getChild();
 			if (child instanceof NestedCondition) {
 				NestedCondition nested = (NestedCondition) child;
-				if (nested.isNegated() == positive) {	// check will be removed
-					acs.add(nested);
-				}
+				acs.add(nested);
 			}
 		}
 	}
-		
+	
 	/**
 	 * Create a new positive or negative application condition (PAC or NAC).
-	 * @param rule		Rule.
-	 * @param name		Name of the application condition.
-	 * @param positive	<code>true</code> if a PAC should be created, <code>false</code> if a NAC should be created
+	 * 
+	 * @param rule
+	 *            Rule.
+	 * @param name
+	 *            Name of the application condition.
+	 * @param positive
+	 *            <code>true</code> if a PAC should be created,
+	 *            <code>false</code> if a NAC should be created
 	 * @return the created application condition
 	 */
 	public static NestedCondition createAC(Rule rule, String name, boolean positive) {
@@ -150,13 +157,16 @@ public class HenshinACUtil {
 		
 		// Done.
 		return ac;
-	
+		
 	}
 	
 	/**
 	 * Remove an application condition from a rule.
-	 * @param rule	Rule to be modified.
-	 * @param ac	application condition to be removed.
+	 * 
+	 * @param rule
+	 *            Rule to be modified.
+	 * @param ac
+	 *            application condition to be removed.
 	 */
 	public static void removeAC(Rule rule, NestedCondition ac) {
 		
@@ -168,7 +178,7 @@ public class HenshinACUtil {
 		while (container instanceof UnaryFormula) {
 			EObject dummy = container;
 			container = container.eContainer();
-			EcoreUtil.remove(dummy);			
+			EcoreUtil.remove(dummy);
 		}
 		
 		// Check if the container was a binary formula:
@@ -176,7 +186,7 @@ public class HenshinACUtil {
 			BinaryFormula binary = (BinaryFormula) container;
 			
 			// Replace the formula by the remaining sub-formula:
-			Formula remainder = (binary.getLeft()!=null) ? binary.getLeft() : binary.getRight();
+			Formula remainder = (binary.getLeft() != null) ? binary.getLeft() : binary.getRight();
 			EcoreUtil.replace(binary, remainder);
 		}
 		
@@ -184,8 +194,11 @@ public class HenshinACUtil {
 	
 	/**
 	 * Check whether a nested condition is a PAC or a NAC.
-	 * @param ac Nested condition.
-	 * @param positive Whether you want to check for PACs or NACs.
+	 * 
+	 * @param ac
+	 *            Nested condition.
+	 * @param positive
+	 *            Whether you want to check for PACs or NACs.
 	 * @return <code>true</code> if it is a PAC/NAC.
 	 */
 	public static boolean isAC(NestedCondition ac, boolean positive) {
@@ -196,10 +209,13 @@ public class HenshinACUtil {
 	}
 	
 	/**
-	 * Check whether a AC is trivial. A trivial AC is one that
-	 * can always be matched.
-	 * @param ac Application condition.
-	 * @return <code>true</code> if the application condition can always be matched.
+	 * Check whether a AC is trivial. A trivial AC is one that can always be
+	 * matched.
+	 * 
+	 * @param ac
+	 *            Application condition.
+	 * @return <code>true</code> if the application condition can always be
+	 *         matched.
 	 */
 	public static boolean isTrivialAC(NestedCondition ac) {
 		
@@ -209,20 +225,24 @@ public class HenshinACUtil {
 		
 		// Check if any of the nodes is not the image of a mapping.
 		for (Node node : graph.getNodes()) {
-			if (HenshinMappingUtil.getNodeOrigin(node, mappings)==null) return false;
+			if (HenshinMappingUtil.getNodeOrigin(node, mappings) == null)
+				return false;
 			
 			// Check the attributes of this node as well.
 			for (Attribute attribute : node.getAttributes()) {
 				Attribute origin = HenshinMappingUtil.getAttributeOrigin(attribute, mappings);
-				if (origin==null || !HenshinRuleAnalysisUtil.valueEquals(attribute.getValue(), origin.getValue())) {
+				if (origin == null
+						|| !HenshinRuleAnalysisUtil.valueEquals(attribute.getValue(),
+								origin.getValue())) {
 					return false;
 				}
 			}
 		}
-
+		
 		// Check if any of the edges is not the image of a mapping.
 		for (Edge edge : graph.getEdges()) {
-			if (HenshinMappingUtil.getEdgeOrigin(edge, mappings)==null) return false;
+			if (HenshinMappingUtil.getEdgeOrigin(edge, mappings) == null)
+				return false;
 		}
 		
 		// Otherwise it is trivial:
@@ -232,7 +252,9 @@ public class HenshinACUtil {
 	
 	/**
 	 * Remove all trivial application conditions from a rule.
-	 * @param rule Rule.
+	 * 
+	 * @param rule
+	 *            Rule.
 	 */
 	public static void removeTrivialACs(Rule rule) {
 		for (NestedCondition ac : getAllACs(rule, false)) {

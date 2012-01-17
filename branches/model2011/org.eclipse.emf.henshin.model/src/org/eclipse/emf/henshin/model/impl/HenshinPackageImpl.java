@@ -21,13 +21,11 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.DescribedElement;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -179,20 +177,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass priorityUnitEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass amalgamationUnitEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass countedUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -906,78 +890,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAmalgamationUnit() {
-		return amalgamationUnitEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAmalgamationUnit_KernelRule() {
-		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAmalgamationUnit_MultiRules() {
-		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAmalgamationUnit_LhsMappings() {
-		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAmalgamationUnit_RhsMappings() {
-		return (EReference)amalgamationUnitEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getCountedUnit() {
-		return countedUnitEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCountedUnit_SubUnit() {
-		return (EReference)countedUnitEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getCountedUnit_Count() {
-		return (EAttribute)countedUnitEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getLoopUnit() {
 		return loopUnitEClass;
 	}
@@ -1005,17 +917,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNestedCondition_Negated() {
-		return (EAttribute)nestedConditionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getNestedCondition_Conclusion() {
-		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(1);
+		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1024,7 +927,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	public EReference getNestedCondition_Mappings() {
-		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(2);
+		return (EReference)nestedConditionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1252,21 +1155,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		priorityUnitEClass = createEClass(PRIORITY_UNIT);
 		createEReference(priorityUnitEClass, PRIORITY_UNIT__SUB_UNITS);
 
-		amalgamationUnitEClass = createEClass(AMALGAMATION_UNIT);
-		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__KERNEL_RULE);
-		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__MULTI_RULES);
-		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__LHS_MAPPINGS);
-		createEReference(amalgamationUnitEClass, AMALGAMATION_UNIT__RHS_MAPPINGS);
-
-		countedUnitEClass = createEClass(COUNTED_UNIT);
-		createEReference(countedUnitEClass, COUNTED_UNIT__SUB_UNIT);
-		createEAttribute(countedUnitEClass, COUNTED_UNIT__COUNT);
-
 		loopUnitEClass = createEClass(LOOP_UNIT);
 		createEReference(loopUnitEClass, LOOP_UNIT__SUB_UNIT);
 
 		nestedConditionEClass = createEClass(NESTED_CONDITION);
-		createEAttribute(nestedConditionEClass, NESTED_CONDITION__NEGATED);
 		createEReference(nestedConditionEClass, NESTED_CONDITION__CONCLUSION);
 		createEReference(nestedConditionEClass, NESTED_CONDITION__MAPPINGS);
 
@@ -1337,8 +1229,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		sequentialUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		conditionalUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		priorityUnitEClass.getESuperTypes().add(this.getTransformationUnit());
-		amalgamationUnitEClass.getESuperTypes().add(this.getTransformationUnit());
-		countedUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		loopUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		nestedConditionEClass.getESuperTypes().add(this.getFormula());
 		unaryFormulaEClass.getESuperTypes().add(this.getFormula());
@@ -1510,21 +1400,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(priorityUnitEClass, PriorityUnit.class, "PriorityUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPriorityUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, PriorityUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(amalgamationUnitEClass, AmalgamationUnit.class, "AmalgamationUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAmalgamationUnit_KernelRule(), this.getRule(), null, "kernelRule", null, 1, 1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamationUnit_MultiRules(), this.getRule(), null, "multiRules", null, 1, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamationUnit_LhsMappings(), this.getMapping(), null, "lhsMappings", null, 0, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAmalgamationUnit_RhsMappings(), this.getMapping(), null, "rhsMappings", null, 0, -1, AmalgamationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(countedUnitEClass, CountedUnit.class, "CountedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCountedUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, CountedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCountedUnit_Count(), ecorePackage.getEInt(), "count", null, 0, 1, CountedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(loopUnitEClass, LoopUnit.class, "LoopUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLoopUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, LoopUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nestedConditionEClass, NestedCondition.class, "NestedCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNestedCondition_Negated(), ecorePackage.getEBoolean(), "negated", null, 0, 1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNestedCondition_Conclusion(), this.getGraph(), null, "conclusion", null, 1, 1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNestedCondition_Mappings(), this.getMapping(), null, "mappings", null, 0, -1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1625,18 +1504,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "uniqueParameterNames parameterMappingsPointToDirectSubUnit"
 		   });			
 		addAnnotation
-		  (amalgamationUnitEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "kernelLhsNodesMapped \r\nkernelRhsNodesMapped \r\nkernelLhsEdgesMapped \r\nkernelRhsEdgesMapped\r\nlhsMappingsFromKernelToMulti\r\nrhsMappingsFromKernelToMulti\r\nnoAdditionalMappingsFromMappedKernel"
-		   });			
-		addAnnotation
-		  (countedUnitEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "ValidCountRange"
-		   });			
-		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 
 		   new String[] {
@@ -1717,33 +1584,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		   new String[] {
 			 "uniqueParameterNames", "parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)",
 			 "uniqueParameterNames.Msg", "_Ocl_Msg_TransformationUnit_uniqueParameterNames"
-		   });			
-		addAnnotation
-		  (amalgamationUnitEClass, 
-		   source, 
-		   new String[] {
-			 "kernelLhsNodesMapped", "kernelRule.lhs.nodes->forAll(\r\n\tnodeKL : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule \r\n\t\t| lhsMappings->one(\r\n\t\t\tlhsMapping: Mapping \r\n\t\t\t| lhsMapping.origin = nodeKL \r\n\t\t\tand ruleM.lhs.nodes->includes(lhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
-			 "kernelLhsNodesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelLhsNodesMapped",
-			 "kernelRhsNodesMapped", "kernelRule.rhs.nodes->forAll(\r\n\tnodeKR : Node\t\r\n\t| multiRules->forAll( \r\n\t\truleM : Rule  \r\n\t\t| rhsMappings->one(\r\n\t\t\trhsMapping: Mapping \r\n\t\t\t| rhsMapping.origin = nodeKR \r\n\t\t\tand ruleM.rhs.nodes->includes(rhsMapping.image)\r\n\t\t\t)\r\n\t\t)\r\n\t)",
-			 "kernelRhsNodesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelRhsNodesMapped",
-			 "kernelLhsEdgesMapped", "kernelRule.lhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.lhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\tlhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)",
-			 "kernelLhsEdgesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelLhsEdgesMapped",
-			 "kernelRhsEdgesMapped", "kernelRule.rhs.edges->forAll( kernelEdge : Edge | \r\n\tmultiRules->forAll( multiRule : Rule| \r\n\t\tmultiRule.rhs.edges->exists( multiEdge : Edge | \r\n\r\n\t\t\tmultiEdge.type = kernelEdge.type \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( sourceMapping : Mapping | \r\n\t\t\t\tsourceMapping.origin = kernelEdge.source \r\n\t\t\t\tand \r\n\t\t\t\tsourceMapping.image = multiEdge.source \r\n\t\t\t\t) \r\n\t\t\tand \r\n\t\t\trhsMappings->exists( targetMapping : Mapping | \r\n\t\t\t\ttargetMapping.origin = kernelEdge.target \r\n\t\t\t\tand \r\n\t\t\t\ttargetMapping.image = multiEdge.target \r\n\t\t\t\t)\r\n\r\n\t\t\t)\r\n\t\t)\r\n\t)",
-			 "kernelRhsEdgesMapped.Msg", "_Ocl_Msg_AmalgamationUnit_kernelRhsEdgesMapped",
-			 "lhsMappingsFromKernelToMulti", "lhsMappings->forAll(mapping : Mapping | \r\n\tkernelRule.lhs.nodes->includes(mapping.origin)\r\n\tand\r\n\tmultiRules->exists(mRule : Rule |\r\n\t\tmRule.lhs.nodes->includes(mapping.image)\r\n\t )\r\n\t\r\n)",
-			 "lhsMappingsFromKernelToMulti.Msg", "_Ocl_Msg_AmalgamationUnit_lhsMappingsFromKernelToMulti",
-			 "rhsMappingsFromKernelToMulti", "rhsMappings->forAll(mapping : Mapping | \r\n\tkernelRule.rhs.nodes->includes(mapping.origin)\r\n\tand\r\n\tmultiRules->exists(mRule : Rule |\r\n\t\tmRule.rhs.nodes->includes(mapping.image)\r\n\t )\r\n\t\r\n)",
-			 "rhsMappingsFromKernelToMulti.Msg", "_Ocl_Msg_AmalgamationUnit_rhsMappingsFromKernelToMulti",
-			 "noAdditionalMappingsFromMappedKernel", "multiRules->forAll( mRule : Rule | \r\n\tmRule.mappings->forAll(mMapping : Mapping | \r\n\t\tlhsMappings->forAll(lMapping : Mapping| \r\n\t\t\tmMapping.origin = lMapping.image \r\n\t\t\timplies\t\r\n\t\t\trhsMappings->exists(rMapping :Mapping |\r\n\t\t\t\trMapping.image = mMapping.image\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t\tand\r\n\t\trhsMappings->forAll(rMapping : Mapping | \r\n\t\t\tmMapping.image = rMapping.image \r\n\t\t\timplies\t\r\n\t\t\tlhsMappings->exists(lMapping :Mapping |\r\n\t\t\t\tlMapping.image = mMapping.origin\r\n \t\t\t\tand\t\t\t\t\r\n\t\t\t\tkernelRule.mappings->exists(kMapping : Mapping | \r\n\t\t\t\t\tkMapping.origin = lMapping.origin\r\n\t\t\t\t\tand\r\n\t\t\t\t\tkMapping.image = rMapping.origin\r\n\t\t\t\t)\r\n\t\t\t)\r\n\t\t)\r\n\t)\r\n)",
-			 "noAdditionalMappingsFromMappedKernel.Msg", "_Ocl_Msg_AmalgamationUnit_noAdditionalMappingsFromMappedKernel"
-		   });			
-		addAnnotation
-		  (countedUnitEClass, 
-		   source, 
-		   new String[] {
-			 "ValidCountRange", "count=-1 or count>0",
-			 "ValidCountRange.Msg", "_Ocl_Msg_CountedUnit_ValidCountRange",
-			 "ValidCountRange.Severity", "Error"
 		   });	
 	}
 
