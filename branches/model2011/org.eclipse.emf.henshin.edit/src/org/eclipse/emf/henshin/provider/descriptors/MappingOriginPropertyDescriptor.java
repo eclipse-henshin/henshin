@@ -23,7 +23,6 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -116,21 +115,7 @@ public class MappingOriginPropertyDescriptor extends ItemPropertyDescriptor {
 				
 				Graph graph = (Graph) f.eContainer();
 				result = graph.getNodes();
-			} else if (eobject instanceof AmalgamationUnit) {
-				/*
-				 * Origin in an amalgamation unit depends on the reference the
-				 * mapping is contained in. Either the kernel rule's LHS nodes
-				 * or RHS nodes may be the origins.
-				 */
-				AmalgamationUnit au = (AmalgamationUnit) eobject;
-				EStructuralFeature sf = mapping.eContainingFeature();
-				
-				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
-					result = au.getKernelRule().getLhs().getNodes();
-				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
-					result = au.getKernelRule().getRhs().getNodes();
-				}// if else if
-			}// if else if
+			}
 		}// if
 		
 		if (result != null) {
