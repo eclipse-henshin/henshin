@@ -42,38 +42,25 @@ public class HenshinPaletteFactory {
 	 * @generated NOT
 	 */
 	private PaletteContainer createHenshin1Group() {
-		
+
 		// Main palette group:
 		PaletteGroup paletteContainer = new PaletteGroup(
 				Messages.Henshin1Group_title);
 		paletteContainer.setId("createHenshin1Group"); //$NON-NLS-1$
-		
+
 		// Rules:
 		paletteContainer.add(createRule1CreationTool());
 		paletteContainer.add(createNodeCreationTool());
 		paletteContainer.add(createEdge2CreationTool());
 		paletteContainer.add(createAttribute3CreationTool());
-		
+
 		paletteContainer.add(new PaletteSeparator());
-		
+
 		// Transformation units:
 		paletteContainer.add(createUnit5CreationTool());
 		paletteContainer.add(createInvocation6CreationTool());
-		
-		return paletteContainer;
-	}
 
-	/**
-	 * @generated
-	 */
-	private ToolEntry createNodeCreationToolGen() {
-		NodeToolEntry entry = new NodeToolEntry(Messages.NodeCreationTool_title,
-				Messages.NodeCreationTool_desc,
-				Collections.singletonList(HenshinElementTypes.Node_3001));
-		entry.setId("createNodeCreationTool"); //$NON-NLS-1$
-		entry.setSmallIcon(HenshinElementTypes.getImageDescriptor(HenshinElementTypes.Node_3001));
-		entry.setLargeIcon(entry.getSmallIcon());
-		return entry;
+		return paletteContainer;
 	}
 
 	/**
@@ -81,7 +68,11 @@ public class HenshinPaletteFactory {
 	 */
 	private ToolEntry createNodeCreationTool() {
 		// Override the default image:
-		NodeToolEntry entry = (NodeToolEntry) createNodeCreationToolGen();
+		NodeToolEntry entry = new NodeToolEntry(
+				Messages.NodeCreationTool_title,
+				Messages.NodeCreationTool_desc,
+				Collections.singletonList(HenshinElementTypes.Node_3001));
+		entry.setId("createNodeCreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinDiagramEditorPlugin
 				.getBundledImageDescriptor("icons/obj16/Node.png"));
 		entry.setLargeIcon(entry.getSmallIcon());
@@ -246,5 +237,5 @@ public class HenshinPaletteFactory {
 			return tool;
 		}
 	}
-	
+
 }
