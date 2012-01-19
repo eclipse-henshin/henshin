@@ -15,7 +15,7 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://www.eclipse.org/emf/2010/Henshin"
+            uri="http://www.eclipse.org/emf/2011/Henshin"
             class="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
