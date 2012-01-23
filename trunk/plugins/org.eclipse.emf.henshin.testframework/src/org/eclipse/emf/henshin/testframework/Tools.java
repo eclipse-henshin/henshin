@@ -31,7 +31,6 @@ import org.eclipse.emf.henshin.interpreter.HenshinGraph;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -85,6 +84,7 @@ public class Tools {
 	}
 	
 	/**
+	 * <strong>DEPRECATED</strong>. Use a cast.
 	 * Creates a {@link TransformationUnit} containing only the specified rule<br>
 	 * (Actually, a {@link CountedUnit} with count = 1 will be created)
 	 * 
@@ -92,16 +92,9 @@ public class Tools {
 	 *            {@link Rule}
 	 * @return {@link TransformationUnit}
 	 */
+	@Deprecated
 	public static TransformationUnit createTUFromRule(Rule r) {
-		HenshinFactory hf = new HenshinFactoryImpl();
-		CountedUnit cu = hf.createCountedUnit();
-		cu.setCount(1);
-		cu.setActivated(true);
-		cu.setName("__CREATED_from_" + r.getName());
-		cu.setDescription("automatically created from Rule " + r.getName() + "   [do not change]");
-		cu.setSubUnit(r);
-		
-		return cu;
+		return (TransformationUnit) r;
 	}
 	
 	/**
@@ -177,6 +170,7 @@ public class Tools {
 		ModelUtils.save(rootObject, filename);
 	}
 	
+	@Deprecated
 	public static void persistAllEmbeddedGraphs(TransformationSystem ts, String path, String fileExt)
 			throws IOException {
 		for (Graph g : ts.getInstances()) {

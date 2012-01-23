@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.interpreter.HenshinGraph;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.resource.HenshinResource;
 
 /**
  * Methods for loading henshin files, models and graphs.
@@ -31,8 +32,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * 
  */
 public class HenshinLoaders {
-	public final static String HENSHIN_FILE_EXTENSION = "henshin";
-	
+	public final static String HENSHIN_FILE_EXTENSION = HenshinResource.FILE_EXTENSION;
 	/*--------------------------------------
 	 * LOADERS
 	 * ------------------------------------- */
