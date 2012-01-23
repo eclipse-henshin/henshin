@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin">
+  <rules name="left">
+    <lhs name="LHS">
+      <nodes name="table" outgoing="//@rules.0/@lhs/@edges.2 //@rules.0/@lhs/@edges.3">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes name="phil" incoming="//@rules.0/@lhs/@edges.2" outgoing="//@rules.0/@lhs/@edges.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+      </nodes>
+      <nodes name="fork" incoming="//@rules.0/@lhs/@edges.0 //@rules.0/@lhs/@edges.3">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <nodes name="plate" incoming="//@rules.0/@lhs/@edges.1" outgoing="//@rules.0/@lhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges source="//@rules.0/@lhs/@nodes.3" target="//@rules.0/@lhs/@nodes.2">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.1" target="//@rules.0/@lhs/@nodes.3">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.0" target="//@rules.0/@lhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/philosophers"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.0" target="//@rules.0/@lhs/@nodes.2">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/forks"/>
+      </edges>
+      <formula xsi:type="henshin:And">
+        <left xsi:type="henshin:Not">
+          <child xsi:type="henshin:NestedCondition">
+            <conclusion name="ncGraph">
+              <nodes name="myNode" incoming="//@rules.0/@lhs/@formula/@left/@child/@conclusion/@edges.0">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+              </nodes>
+              <nodes name="myPhil" outgoing="//@rules.0/@lhs/@formula/@left/@child/@conclusion/@edges.0">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+              </nodes>
+              <edges source="//@rules.0/@lhs/@formula/@left/@child/@conclusion/@nodes.1" target="//@rules.0/@lhs/@formula/@left/@child/@conclusion/@nodes.0">
+                <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/left"/>
+              </edges>
+            </conclusion>
+            <mappings origin="//@rules.0/@lhs/@nodes.1" image="//@rules.0/@lhs/@formula/@left/@child/@conclusion/@nodes.1"/>
+          </child>
+        </left>
+        <right xsi:type="henshin:Or">
+          <left xsi:type="henshin:Not">
+            <child xsi:type="henshin:NestedCondition">
+              <conclusion name="nc2graph">
+                <nodes name="nc2gPlate" incoming="//@rules.0/@lhs/@formula/@right/@left/@child/@conclusion/@edges.0">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+                </nodes>
+                <nodes name="nc2gPhil" outgoing="//@rules.0/@lhs/@formula/@right/@left/@child/@conclusion/@edges.0">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+                </nodes>
+                <edges source="//@rules.0/@lhs/@formula/@right/@left/@child/@conclusion/@nodes.1" target="//@rules.0/@lhs/@formula/@right/@left/@child/@conclusion/@nodes.0">
+                  <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+                </edges>
+              </conclusion>
+            </child>
+          </left>
+          <right xsi:type="henshin:Not">
+            <child xsi:type="henshin:Not">
+              <child xsi:type="henshin:NestedCondition">
+                <conclusion name="nc3graph">
+                  <nodes name="nc3gTable" outgoing="//@rules.0/@lhs/@formula/@right/@right/@child/@child/@conclusion/@edges.0">
+                    <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+                  </nodes>
+                  <nodes name="nc3gFork" incoming="//@rules.0/@lhs/@formula/@right/@right/@child/@child/@conclusion/@edges.0">
+                    <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+                  </nodes>
+                  <edges source="//@rules.0/@lhs/@formula/@right/@right/@child/@child/@conclusion/@nodes.0" target="//@rules.0/@lhs/@formula/@right/@right/@child/@child/@conclusion/@nodes.1">
+                    <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/forks"/>
+                  </edges>
+                </conclusion>
+              </child>
+            </child>
+          </right>
+        </right>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="phil" incoming="//@rules.0/@rhs/@edges.3" outgoing="//@rules.0/@rhs/@edges.1 //@rules.0/@rhs/@edges.2">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher"/>
+      </nodes>
+      <nodes name="fork" incoming="//@rules.0/@rhs/@edges.0 //@rules.0/@rhs/@edges.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <nodes name="plate" incoming="//@rules.0/@rhs/@edges.2" outgoing="//@rules.0/@rhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <nodes name="table" outgoing="//@rules.0/@rhs/@edges.3">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <edges source="//@rules.0/@rhs/@nodes.2" target="//@rules.0/@rhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/left"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.2">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Philosopher/plate"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.3" target="//@rules.0/@rhs/@nodes.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/philosophers"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.0/@lhs/@nodes.1" image="//@rules.0/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.0/@lhs/@nodes.2" image="//@rules.0/@rhs/@nodes.1"/>
+    <mappings origin="//@rules.0/@lhs/@nodes.3" image="//@rules.0/@rhs/@nodes.2"/>
+    <mappings origin="//@rules.0/@lhs/@nodes.0" image="//@rules.0/@rhs/@nodes.3"/>
+  </rules>
+  <rules description="amalgamationUnitKernelRule" name="amu_krl_amUkrl">
+    <lhs name="LHS">
+      <nodes name="someNode">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.1/@lhs/@nodes.1" image="//@rules.1/@rhs/@nodes.0"/>
+    <multiRules name="amu_mul_amUmul1">
+      <lhs name="LHS">
+        <nodes name="node_1" outgoing="//@rules.1/@multiRules.0/@lhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+        </nodes>
+        <nodes name="node_2" incoming="//@rules.1/@multiRules.0/@lhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+        </nodes>
+        <edges source="//@rules.1/@multiRules.0/@lhs/@nodes.0" target="//@rules.1/@multiRules.0/@lhs/@nodes.1">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+        </edges>
+      </lhs>
+      <rhs name="RHS">
+        <nodes name="node_1" outgoing="//@rules.1/@multiRules.0/@rhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+        </nodes>
+        <nodes name="node_2" incoming="//@rules.1/@multiRules.0/@rhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+        </nodes>
+        <edges source="//@rules.1/@multiRules.0/@rhs/@nodes.0" target="//@rules.1/@multiRules.0/@rhs/@nodes.1">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+        </edges>
+      </rhs>
+      <mappings origin="//@rules.1/@multiRules.0/@lhs/@nodes.0" image="//@rules.1/@multiRules.0/@rhs/@nodes.0"/>
+      <mappings origin="//@rules.1/@multiRules.0/@lhs/@nodes.1" image="//@rules.1/@multiRules.0/@rhs/@nodes.1"/>
+      <multiMappings origin="//@rules.1/@lhs/@nodes.1" image="//@rules.1/@multiRules.0/@lhs/@nodes.1"/>
+      <multiMappings origin="//@rules.1/@rhs/@nodes.0" image="//@rules.1/@multiRules.0/@rhs/@nodes.1"/>
+    </multiRules>
+    <multiRules name="amu_mul_amUmul2">
+      <lhs name="LHS">
+        <nodes name="plate">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+        </nodes>
+      </lhs>
+      <rhs name="RHS">
+        <nodes name="plate" outgoing="//@rules.1/@multiRules.1/@rhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+        </nodes>
+        <nodes name="fork" incoming="//@rules.1/@multiRules.1/@rhs/@edges.0">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+        </nodes>
+        <edges source="//@rules.1/@multiRules.1/@rhs/@nodes.0" target="//@rules.1/@multiRules.1/@rhs/@nodes.1">
+          <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+        </edges>
+      </rhs>
+      <mappings origin="//@rules.1/@multiRules.1/@lhs/@nodes.0" image="//@rules.1/@multiRules.1/@rhs/@nodes.0"/>
+      <multiMappings origin="//@rules.1/@lhs/@nodes.1" image="//@rules.1/@multiRules.1/@lhs/@nodes.0"/>
+      <multiMappings origin="//@rules.1/@rhs/@nodes.0" image="//@rules.1/@multiRules.1/@rhs/@nodes.1"/>
+    </multiRules>
+  </rules>
+  <rules name="amUmul1">
+    <lhs name="LHS">
+      <nodes name="node_1" outgoing="//@rules.2/@lhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes name="node_2" incoming="//@rules.2/@lhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges source="//@rules.2/@lhs/@nodes.0" target="//@rules.2/@lhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="node_1" outgoing="//@rules.2/@rhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes name="node_2" incoming="//@rules.2/@rhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <edges source="//@rules.2/@rhs/@nodes.0" target="//@rules.2/@rhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table/plates"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.2/@lhs/@nodes.0" image="//@rules.2/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.2/@lhs/@nodes.1" image="//@rules.2/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="amUmul2">
+    <lhs name="LHS">
+      <nodes name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="plate" outgoing="//@rules.3/@rhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+      <nodes name="fork" incoming="//@rules.3/@rhs/@edges.0">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Fork"/>
+      </nodes>
+      <edges source="//@rules.3/@rhs/@nodes.0" target="//@rules.3/@rhs/@nodes.1">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate/left"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.3/@lhs/@nodes.0" image="//@rules.3/@rhs/@nodes.0"/>
+  </rules>
+  <rules description="amalgamationUnitKernelRule" name="amUkrl">
+    <lhs name="LHS">
+      <nodes name="someNode">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Table"/>
+      </nodes>
+      <nodes name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="plate">
+        <type href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#//Plate"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.4/@lhs/@nodes.1" image="//@rules.4/@rhs/@nodes.0"/>
+  </rules>
+  <imports href="../../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/philosophers/model/philosophers.ecore#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" name="mySq" subUnits="//@rules.0 //@rules.1 //@transformationUnits.1"/>
+  <transformationUnits xsi:type="henshin:PriorityUnit" subUnits="//@transformationUnits.0"/>
+</henshin:TransformationSystem>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.6"?>
+<plugin>
+
+<extension
+      point="org.eclipse.ui.popupMenus">
+   <objectContribution
+         id="org.eclipse.emf.henshin.migration1011.contribution1"
+         objectClass="org.eclipse.core.resources.IFile">
+      <menu
+            id="org.eclipse.emf.henshin.migration1011.menu1"
+            label="Henshin"
+            path="additions">
+         <separator
+               name="group1">
+         </separator>
+      </menu>
+      <action
+            class="org.eclipse.emf.henshin.migration.wizard.NewAction"
+            enablesFor="1"
+            id="org.eclipse.emf.henshin.migration1011.newAction"
+            label="Migrate to new version"
+            menubarPath="org.eclipse.emf.henshin.menu/additions">
+            
+      </action>
+   </objectContribution>
+</extension>
+
+
+</plugin>
