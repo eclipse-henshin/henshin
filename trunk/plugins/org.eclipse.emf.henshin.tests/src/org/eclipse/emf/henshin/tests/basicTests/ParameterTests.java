@@ -175,7 +175,10 @@ public class ParameterTests extends HenshinTest {
 		htRuleApp.setParameterValue("p1", 20);
 		htRuleApp.setParameterValue("p2", 30);
 		Rules.assertRuleCanBeApplied(htRuleApp);
-		junit.framework.Assert.assertEquals("50", vl.getValname());
+		
+		double compositionResult = Double.valueOf(vl.getValname());
+		junit.framework.Assert.assertEquals(50.0, compositionResult);
+		//junit.framework.Assert.assertEquals("50", vl.getValname());
 	}
 	
 	@Test

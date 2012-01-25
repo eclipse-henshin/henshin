@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
@@ -41,89 +40,92 @@ public class TransformationUnitTests extends HenshinTest {
 	@Test
 	public void amalgamationUnitTest() {
 		loadGraph("graphBefore_amalgamationUnit");
-		loadTu("amalgamationUnitTest", "ndname", "R");		
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
+		loadRule("amalgamationUnitTest_krl_findNode", "ndname", "R");		
+		GraphTransformations.assertTransformsGraph(htRuleApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
+		//GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_amalgamationUnit")), 0.9);
 	}
 	
 	// -------- counted unit ---------
 	@Test
-	public void countedUnitTest1() {
+	public void loopUnitTest() {
 		/**
-		 * counted unit runs until no match can be found
+		 * loop unit runs until no match can be found
 		 * (count = -1)
 		 */
-		System.out.println("countedUnitTest1");
+		System.out.println("loopUnitTest");
 		loadGraph("graphBefore_countedUnit");
 		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-1);
+		//((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-1);
 		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
 	}
 	
-	@Test
-	public void countedUnitTest2() {
-		/**
-		 * counted unit runs 8 iterations, removing all child nodes in the graph
-		 * (count = 8)
-		 */
-		System.out.println("countedUnitTest2");
-		loadGraph("graphBefore_countedUnit");
-		loadTu("countedUnitTest");
-		Tools.printGraph(htEmfGraph);
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(8);
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
-	}
 	
-	@Test(expected=AssertionError.class)
-	public void countedUnitTest3() {
-		/**
-		 * counted unit runs 10 iterations, and should therefore fail to transform the graph
-		 * (count = 10)
-		 */
-		System.out.println("countedUnitTest3--should fail");
-		loadGraph("graphBefore_countedUnit");
-		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
-	}
-	
-	@Test
-	public void countedUnitTest3ReturnValue() {
-		/**
-		 * counted unit runs 10 iterations, which is not possible with the loaded graph, and should therefore return "false"
-		 */
-		loadGraph("graphBefore_countedUnit");
-		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
-		Assert.assertFalse(htUnitApp.execute());
-	}
-	
-	@Test
-	public void countedUnitTest3Undo() {
-		/**
-		 * counted unit runs 10 iterations, which is not possible with the loaded graph,
-		 * so the RuleApplications are undone. This means the graph should be
-		 * identical before and after running the counted unit.
-		 */
-		System.out.println("countedUnitTest3Undo");
-		loadGraph("graphBefore_countedUnit");
-		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphBefore_countedUnit")), 0.9);
-	}
-	
-	@Test(expected=AssertionError.class)
-	public void countedUnitTest4() {
-		/**
-		 * counted unit runs -2 iterations, and should therefore fail
-		 * (count = -2)
-		 */
-		System.out.println("countedUnitTest4--should fail");
-		loadGraph("graphBefore_countedUnit");
-		loadTu("countedUnitTest");
-		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-2);
-		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
-	}
-	
+	//TODO: Figure out which tests are needed when using LoopUnits
+//	@Test
+//	public void countedUnitTest2() {
+//		/**
+//		 * counted unit runs 8 iterations, removing all child nodes in the graph
+//		 * (count = 8)
+//		 */
+//		System.out.println("countedUnitTest2");
+//		loadGraph("graphBefore_countedUnit");
+//		loadTu("countedUnitTest");
+//		Tools.printGraph(htEmfGraph);
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(8);
+//		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
+//	}
+//	
+//	@Test(expected=AssertionError.class)
+//	public void countedUnitTest3() {
+//		/**
+//		 * counted unit runs 10 iterations, and should therefore fail to transform the graph
+//		 * (count = 10)
+//		 */
+//		System.out.println("countedUnitTest3--should fail");
+//		loadGraph("graphBefore_countedUnit");
+//		loadTu("countedUnitTest");
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
+//		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
+//	}
+//	
+//	@Test
+//	public void countedUnitTest3ReturnValue() {
+//		/**
+//		 * counted unit runs 10 iterations, which is not possible with the loaded graph, and should therefore return "false"
+//		 */
+//		loadGraph("graphBefore_countedUnit");
+//		loadTu("countedUnitTest");
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
+//		Assert.assertFalse(htUnitApp.execute());
+//	}
+//	
+//	@Test
+//	public void countedUnitTest3Undo() {
+//		/**
+//		 * counted unit runs 10 iterations, which is not possible with the loaded graph,
+//		 * so the RuleApplications are undone. This means the graph should be
+//		 * identical before and after running the counted unit.
+//		 */
+//		System.out.println("countedUnitTest3Undo");
+//		loadGraph("graphBefore_countedUnit");
+//		loadTu("countedUnitTest");
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(10);
+//		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphBefore_countedUnit")), 0.9);
+//	}
+//	
+//	@Test(expected=AssertionError.class)
+//	public void countedUnitTest4() {
+//		/**
+//		 * counted unit runs -2 iterations, and should therefore fail
+//		 * (count = -2)
+//		 */
+//		System.out.println("countedUnitTest4--should fail");
+//		loadGraph("graphBefore_countedUnit");
+//		loadTu("countedUnitTest");
+//		((CountedUnit) htUnitApp.getTransformationUnit()).setCount(-2);
+//		GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_countedUnit")), 0.9);
+//	}
+//	
 	// removed countedUnitTest4ReturnValue
 
 	
@@ -243,6 +245,7 @@ public class TransformationUnitTests extends HenshinTest {
 		//Tools.persist(Tools.getGraphRoot(htEmfGraph), "gt_amu2.testmodel");
 	}
 	
+	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyIndependentUnit() {
 		loadGraph("graphBefore_countedUnit");
@@ -260,7 +263,8 @@ public class TransformationUnitTests extends HenshinTest {
 		htUnitApp.undo();
 		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
-	
+
+	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyPriorityUnit() {
 		loadGraph("graphBefore_countedUnit");
