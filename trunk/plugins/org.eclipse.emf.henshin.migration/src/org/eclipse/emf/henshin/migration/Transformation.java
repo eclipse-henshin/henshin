@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -126,12 +127,12 @@ public class Transformation {
 	
 	private TransformationSystem newRoot;	// root object of the new Transformation System
 	
-	
+	/*
 	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException {
 		Transformation tr = new Transformation();
 		tr.migrate(new java.net.URI("dbg/cuTest.henshin"));
 	}
-	
+	*/
 	
 	/**
 	 * @param args
@@ -139,22 +140,17 @@ public class Transformation {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	public void migrate(java.net.URI fileUri) throws ClassNotFoundException, IOException, FileNotFoundException {		
+	public void migrate(java.net.URI fileUri, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
 		//String oldHenshinFilename = "dbg/philNew.henshin";
-
+		pm.beginTask("migrating to new model", 100);
 		URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
 
 		URI backupUri = eFileUri.appendFileExtension("bak");
 //		URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
 		URI newUri = eFileUri;
-		
 
-		HenshinPackageImpl.init();		
-		HenshinPackage.eINSTANCE.getClass();
-		
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-		
-		//TODO: Correct URI to use the platform plugin uri
+		HenshinPackageImpl.init();
+		HenshinPackage.eINSTANCE.getClass();		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());		
 //		URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
 		URI henshinUri = URI.createPlatformPluginURI("org.eclipse.emf.henshin.migration/model/henshin-080.ecore", false);
 		
@@ -165,39 +161,48 @@ public class Transformation {
 		EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
 
 		// --- Actual conversion starts here ---
-		
-		
+
+		pm.subTask("Analyzing transformation system");
 		addRootObjectToMap(graphRoot);			// fill map by creating new objects
+		pm.worked(20);
 		collectRuleReferences();				// collect references to rules so there will be no ambiguity when AmalgamationUnits are replaced by their kernel rules
+		pm.worked(10);
 		System.out.println("\n\n\n");
 		for (RuleReplacementHelper rrh : ruleReplacements) {
 			System.out.println(rrh);
 		}
-//		System.exit(0);
 		
+		pm.subTask("updating references");
 		updateAmalgamationUnitReferences();		// update references to AmalgamationUnits to point to the kernel rule
+		pm.worked(10);
 		processCountedUnits();					// replace counted units not already replaced by loop units by sequential units
-
+		pm.worked(10);
+		
 		System.out.println("\n ****** \n");
 		newRoot = (TransformationSystem) newElements.get(graphRoot);
-
 		updateReferences();						// update references between objects
+		pm.worked(20);
 		buildAmalgamationUnits();				// create copies of the rules used in AmalgamationUnits and modify existing kernel rules to contain the multi rules
+		pm.worked(10);
 		wrapNACs();								// wrap NACs
+		pm.worked(2);
 //		cleanUpNotFormulas();					// clean up not formulas (consolidate multiple negations)
+//		pm.worked(2);
 		moveRulesToRulesReference();			// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
-
+		pm.worked(2);
+		
 		for (TransformationUnit tu : newRoot.getTransformationUnits()) {
 			System.out.println("updating amalgamation unit references for " + tu.getName());
 			updateAmalgamationUnitReferences(tu);
 		}
+		pm.worked(10);
 		
 		
 		System.out.println("\n\n####################");
 		System.out.println(newRoot);
 		Tools.printCollection(newRoot.getRules());
-		//Tools.persist(newRoot, "dbg/newHenshin.henshin");
 		
+		pm.subTask("creating backup");
 		
 		// rename old file:
 		File oldHenshinFile = new File(fileUri);
@@ -205,6 +210,8 @@ public class Transformation {
 		if (!oldHenshinFile.renameTo(oldHenshinFileBackup)) { // renaming failed
 			throw new FileNotFoundException();
 		} 
+		pm.subTask("write new file");
+		
 		// write new file
 		Tools.persist(newRoot, newUri.toFileString());
 		
