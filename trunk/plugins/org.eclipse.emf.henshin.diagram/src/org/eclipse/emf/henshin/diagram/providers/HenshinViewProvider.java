@@ -579,20 +579,20 @@ public class HenshinViewProvider extends AbstractProvider implements
 	public Node createTransformationUnit_3003(EObject domainElement,
 			View containerView, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
-		
+
 		// Create the view:
-		Node node = createTransformationUnit_3003Gen(domainElement, containerView, index, persisted, preferencesHint);
-		
+		Node node = createTransformationUnit_3003Gen(domainElement,
+				containerView, index, persisted, preferencesHint);
+
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
 				NotationPackage.eINSTANCE.getFontStyle_Italic(), true);
-		
-		
+
 		// Create the required symbols and links:
 		View unitView = (View) containerView.eContainer();
 		new HenshinSymbolUpdater(preferencesHint, persisted).update(unitView);
 		new HenshinLinkUpdater(preferencesHint, persisted).update(unitView);
-		
+
 		// Done.
 		return node;
 	}
@@ -789,5 +789,5 @@ public class HenshinViewProvider extends AbstractProvider implements
 		}
 		return (IElementType) semanticAdapter.getAdapter(IElementType.class);
 	}
-	
+
 }

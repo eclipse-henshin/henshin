@@ -190,24 +190,6 @@ public interface HenshinFactory extends EFactory {
 	PriorityUnit createPriorityUnit();
 
 	/**
-	 * Returns a new object of class '<em>Amalgamation Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Amalgamation Unit</em>'.
-	 * @generated
-	 */
-	AmalgamationUnit createAmalgamationUnit();
-
-	/**
-	 * Returns a new object of class '<em>Counted Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Counted Unit</em>'.
-	 * @generated
-	 */
-	CountedUnit createCountedUnit();
-
-	/**
 	 * Returns a new object of class '<em>Loop Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

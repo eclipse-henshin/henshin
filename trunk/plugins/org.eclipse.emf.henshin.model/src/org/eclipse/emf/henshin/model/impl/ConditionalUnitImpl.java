@@ -27,15 +27,12 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getIf <em>
- * If</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getThen
- * <em>Then</em>}</li>
- * <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getElse
- * <em>Else</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getIf <em>If</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getThen <em>Then</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ConditionalUnitImpl#getElse <em>Else</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ConditionalUnitImpl extends TransformationUnitImpl implements ConditionalUnit {
@@ -52,7 +49,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	/**
 	 * The cached value of the '{@link #getThen() <em>Then</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getThen()
 	 * @generated
 	 * @ordered
@@ -62,7 +58,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	/**
 	 * The cached value of the '{@link #getElse() <em>Else</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getElse()
 	 * @generated
 	 * @ordered
@@ -71,7 +66,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ConditionalUnitImpl() {
@@ -80,7 +74,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -90,17 +83,15 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit getIf() {
 		if (if_ != null && if_.eIsProxy()) {
-			InternalEObject oldIf = (InternalEObject) if_;
-			if_ = (TransformationUnit) eResolveProxy(oldIf);
+			InternalEObject oldIf = (InternalEObject)if_;
+			if_ = (TransformationUnit)eResolveProxy(oldIf);
 			if (if_ != oldIf) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
 			}
 		}
 		return if_;
@@ -108,7 +99,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetIf() {
@@ -117,30 +107,26 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setIf(TransformationUnit newIf) {
 		TransformationUnit oldIf = if_;
 		if_ = newIf;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__IF, oldIf, if_));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit getThen() {
 		if (then != null && then.eIsProxy()) {
-			InternalEObject oldThen = (InternalEObject) then;
-			then = (TransformationUnit) eResolveProxy(oldThen);
+			InternalEObject oldThen = (InternalEObject)then;
+			then = (TransformationUnit)eResolveProxy(oldThen);
 			if (then != oldThen) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
 			}
 		}
 		return then;
@@ -148,7 +134,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetThen() {
@@ -157,30 +142,26 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setThen(TransformationUnit newThen) {
 		TransformationUnit oldThen = then;
 		then = newThen;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__THEN, oldThen, then));
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit getElse() {
 		if (else_ != null && else_.eIsProxy()) {
-			InternalEObject oldElse = (InternalEObject) else_;
-			else_ = (TransformationUnit) eResolveProxy(oldElse);
+			InternalEObject oldElse = (InternalEObject)else_;
+			else_ = (TransformationUnit)eResolveProxy(oldElse);
 			if (else_ != oldElse) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
 			}
 		}
 		return else_;
@@ -188,7 +169,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TransformationUnit basicGetElse() {
@@ -197,15 +177,13 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setElse(TransformationUnit newElse) {
 		TransformationUnit oldElse = else_;
 		else_ = newElse;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.CONDITIONAL_UNIT__ELSE, oldElse, else_));
 	}
 	
 	/**
@@ -229,23 +207,19 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				if (resolve)
-					return getIf();
+				if (resolve) return getIf();
 				return basicGetIf();
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				if (resolve)
-					return getThen();
+				if (resolve) return getThen();
 				return basicGetThen();
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				if (resolve)
-					return getElse();
+				if (resolve) return getElse();
 				return basicGetElse();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -253,20 +227,19 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				setIf((TransformationUnit) newValue);
+				setIf((TransformationUnit)newValue);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				setThen((TransformationUnit) newValue);
+				setThen((TransformationUnit)newValue);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				setElse((TransformationUnit) newValue);
+				setElse((TransformationUnit)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -274,20 +247,19 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.CONDITIONAL_UNIT__IF:
-				setIf((TransformationUnit) null);
+				setIf((TransformationUnit)null);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__THEN:
-				setThen((TransformationUnit) null);
+				setThen((TransformationUnit)null);
 				return;
 			case HenshinPackage.CONDITIONAL_UNIT__ELSE:
-				setElse((TransformationUnit) null);
+				setElse((TransformationUnit)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -295,7 +267,6 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.internal.interpreter.AmalgamationInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ChangeInfo;
 import org.eclipse.emf.henshin.internal.interpreter.ConditionInfo;
 import org.eclipse.emf.henshin.internal.interpreter.RuleInfo;
@@ -54,12 +53,12 @@ import org.eclipse.emf.henshin.matching.constraints.Matchfinder;
 import org.eclipse.emf.henshin.matching.constraints.Solution;
 import org.eclipse.emf.henshin.matching.constraints.Variable;
 import org.eclipse.emf.henshin.matching.util.TransformationOptions;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
@@ -104,24 +103,35 @@ public class EmfEngine implements InterpreterEngine {
 	 */
 	public EmfEngine(final EmfGraph emfGraph) {
 		this();
-		
 		this.emfGraph = emfGraph;
 	}
 	
-	private Matchfinder prepareMatchfinder(final RuleApplication ruleApplication) {
-		Rule rule = ruleApplication.getRule();
+	// private Matchfinder prepareMatchfinder(final RuleApplication
+	// ruleApplication) {
+	// return prepareMatchfinder(ruleApplication.getRule(),
+	// ruleApplication.getMatch()
+	// .getParameterValues(), ruleApplication.getMatch().getNodeMapping());
+	// }
+	
+	// private Matchfinder prepareMatchfinder(Rule rule, Map<Parameter, Object>
+	// parameterValues,
+	// Map<Node, EObject> rulePrematch) {
+	// return prepareMatchfinder(rule, parameterValues, rulePrematch, new
+	// HashSet<EObject>());
+	// }
+	
+	private Matchfinder prepareMatchfinder(Rule rule, Map<Parameter, Object> parameterValues,
+			Map<Node, EObject> rulePrematch, Collection<EObject> usedObjects) {
+		
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
 		VariableInfo variableInfo = ruleInfo.getVariableInfo();
-		
-		Map<Parameter, Object> parameterValues = ruleApplication.getMatch().getParameterValues();
-		
 		Map<Node, EObject> prematch = ModelHelper.createPrematch(rule, parameterValues);
-		Map<Node, EObject> rulePrematch = ruleApplication.getMatch().getNodeMapping();
 		
-		for (Node node : rulePrematch.keySet()) {
-			prematch.put(node, rulePrematch.get(node));
-		}
+		// for (Node node : rulePrematch.keySet()) {
+		// prematch.put(node, rulePrematch.get(node));
+		// }
+		prematch.putAll(rulePrematch);
 		
 		// evaluates attribute conditions of the rule
 		AttributeConditionHandler conditionHandler = new AttributeConditionHandler(
@@ -129,7 +139,7 @@ public class EmfEngine implements InterpreterEngine {
 		
 		// usedObjects ensures injective matching by removing already
 		// matched objects from other DomainSlots
-		Collection<EObject> usedObjects = new HashSet<EObject>();
+		// Collection<EObject> usedObjects = new HashSet<EObject>();
 		
 		// Creates a domain map where all variables are mapped to slots.
 		// Different variables may share one domain slot, if there is a mapping
@@ -243,63 +253,92 @@ public class EmfEngine implements InterpreterEngine {
 			ruleInfo = new RuleInfo(rule, scriptEngine);
 			ruleInformation.put(rule, ruleInfo);
 		}
-		
 		return ruleInfo;
 	}
 	
 	@Override
 	public List<Match> findAllMatches(final RuleApplication ruleApplication) {
-		if (emfGraph == null)
-			throw new IllegalArgumentException("no target graph was specified for the engine");
-		
 		Rule rule = ruleApplication.getRule();
-		RuleInfo ruleInfo = getRuleInformation(rule);
-		
-		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
-		// workaround for empty rules with attribute conditions
-		if (matchfinder == null)
-			return new ArrayList<Match>();
-		
-		List<Solution> solutions = matchfinder.getAllMatches();
-		List<Match> matches = new ArrayList<Match>();
-		for (Solution solution : solutions) {
-			Match match = new Match(rule, solution, ruleInfo.getVariableInfo().getNode2variable());
-			matches.add(match);
-		}
-		
-		return matches;
+		Collection<EObject> usedObjects = new HashSet<EObject>();
+		Map<Node, EObject> prematch = ruleApplication.getMatch().getNodeMapping();
+		Map<Parameter, Object> parameterValues = ruleApplication.getMatch().getParameterValues();
+		return findAllMultiMatches(rule, usedObjects, parameterValues, prematch);
 	}
 	
 	@Override
 	public Match findMatch(final RuleApplication ruleApplication) {
+		Rule rule = ruleApplication.getRule();
+		Collection<EObject> usedObjects = new HashSet<EObject>();
+		Map<Node, EObject> prematch = ruleApplication.getMatch().getNodeMapping();
+		Map<Parameter, Object> parameterValues = ruleApplication.getMatch().getParameterValues();
+		return findMatch(rule, usedObjects, parameterValues, prematch);
+	}
+	
+	private Match findMatch(Rule rule, Collection<EObject> usedObjects,
+			Map<Parameter, Object> parameterValues, Map<Node, EObject> prematch) {
 		if (emfGraph == null)
 			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
-		Rule rule = ruleApplication.getRule();
+		Matchfinder matchfinder = prepareMatchfinder(rule, parameterValues, prematch, usedObjects);
 		
-		RuleInfo ruleInfo = getRuleInformation(rule);
-		
-		Matchfinder matchfinder = prepareMatchfinder(ruleApplication);
 		// workaround for empty rules with attribute conditions
 		if (matchfinder == null)
 			return null;
 		
 		Solution solution = matchfinder.getNextMatch();
-		if (solution != null) {
-			Match match = new Match(rule, solution, ruleInfo.getVariableInfo().getNode2variable());
-			return match;
-		} else
+		if (solution == null)
 			return null;
+		
+		Match match = new Match(rule, solution, getRuleInformation(rule).getVariableInfo()
+				.getNode2variable());
+		for (Rule mRule : rule.getMultiRules()) {
+			Collection<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
+			usedKernelObjects.addAll(match.getNodeMapping().values());
+			Map<Node, EObject> multiPrematch = new HashMap<Node, EObject>();
+			for (Mapping multiMapping : mRule.getMultiMappings()) {
+				multiPrematch.put(multiMapping.getImage(),
+						match.getNodeMapping().get(multiMapping.getOrigin()));
+			}
+			
+			List<Match> multiMatches = findAllMultiMatches(mRule, usedKernelObjects,
+					parameterValues, multiPrematch);
+			match.getNestedMatchesFor(mRule).addAll(multiMatches);
+		}
+		return match;
 	}
 	
-	@Override
-	public RuleApplication generateAmalgamationRule(final AmalgamationUnit amalgamationUnit,
-			final Map<Parameter, Object> parameterValues) {
+	private List<Match> findAllMultiMatches(Rule rule, Collection<EObject> usedObjects,
+			Map<Parameter, Object> parameterValues, Map<Node, EObject> prematch) {
+		if (emfGraph == null)
+			throw new IllegalArgumentException("no target graph was specified for the engine");
 		
-		AmalgamationInfo amalgamationWrapper = new AmalgamationInfo(this, amalgamationUnit,
-				parameterValues);
+		Matchfinder matchfinder = prepareMatchfinder(rule, parameterValues, prematch, usedObjects);
 		
-		return amalgamationWrapper.getAmalgamationRule();
+		// workaround for empty rules with attribute conditions
+		if (matchfinder == null)
+			return new ArrayList<Match>();
+		
+		List<Solution> solutions = matchfinder.getAllMatches();
+		
+		List<Match> matches = new ArrayList<Match>();
+		for (Solution solution : solutions) {
+			Match match = new Match(rule, solution, getRuleInformation(rule).getVariableInfo()
+					.getNode2variable());
+			for (Rule mRule : rule.getMultiRules()) {
+				Collection<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
+				usedKernelObjects.addAll(match.getNodeMapping().values());
+				Map<Node, EObject> multiPrematch = new HashMap<Node, EObject>();
+				for (Mapping multiMapping : mRule.getMultiMappings())
+					multiPrematch.put(multiMapping.getImage(),
+							match.getNodeMapping().get(multiMapping.getOrigin()));
+				List<Match> multiMatches = findAllMultiMatches(mRule, usedKernelObjects,
+						parameterValues, multiPrematch);
+				match.getNestedMatchesFor(mRule).addAll(multiMatches);
+			}
+			matches.add(match);
+		}
+		
+		return matches;
 	}
 	
 	@Override
@@ -328,19 +367,51 @@ public class EmfEngine implements InterpreterEngine {
 	 */
 	private Match executeModelChanges(final RuleApplication ruleApplication) {
 		Rule rule = ruleApplication.getRule();
-		RuleInfo ruleInfo = getRuleInformation(rule);
-		
-		ChangeInfo changeInfo = ruleInfo.getChangeInfo();
-		
 		Match match = ruleApplication.getMatch();
 		
 		if (!match.isComplete())
 			return null;
-		
 		ModelChange modelChange = new ModelChange();
+		Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
+		Match comatch = accumulateModelChange(rule, match, modelChange, comatchNodeMapping);
+		modelChange.applyChanges();
+		ruleApplication.setModelChange(modelChange);
+		return comatch;
+	}
+	
+	private Match accumulateModelChange(Rule rule, Match match, ModelChange modelChange,
+			Map<Node, EObject> comatchNodeMapping) {
+		Match comatch = createModelChange(rule, match, modelChange, comatchNodeMapping);
+		for (Rule mRule : rule.getMultiRules()) {
+			for (Match multiMatch : match.getNestedMatchesFor(mRule)) {
+				Map<Node, EObject> multiComatchNodeMapping = new HashMap<Node, EObject>();
+				
+				for (Mapping comatchMapping : mRule.getMultiMappings()) {
+					if (comatchMapping.getImage().getGraph().isRhs()) {
+						multiComatchNodeMapping.put(comatchMapping.getImage(), comatch
+								.getNodeMapping().get(comatchMapping.getOrigin()));
+					}
+				}
+				Match multiComatch = accumulateModelChange(mRule, multiMatch, modelChange,
+						multiComatchNodeMapping);
+				comatch.addNestedMatch(mRule, multiComatch);
+			}
+		}
+		return comatch;
+	}
+	
+	protected Match createModelChange(Rule rule, Match match, ModelChange modelChange,
+			Map<Node, EObject> comatchNodeMapping) {
+		
+		ChangeInfo changeInfo = getRuleInformation(rule).getChangeInfo();
+		
+		if (!match.isComplete())
+			return null;
+		
+		// ModelChange modelChange = new ModelChange();
 		
 		Map<Node, EObject> matchNodeMapping = match.getNodeMapping();
-		Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
+		// Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
 		Map<Parameter, Object> comatchParameterValues = new HashMap<Parameter, Object>();
 		comatchParameterValues.putAll(match.getParameterValues());
 		
@@ -421,7 +492,7 @@ public class EmfEngine implements InterpreterEngine {
 			// workaround for Double conversion:
 			// javascript evaluated numbers are always shown in floating point
 			// notation. This leads to a NumberFormatException if the EAttribute
-			// has EDataType EInt or ELong. 
+			// has EDataType EInt or ELong.
 			//
 			if (value != null) {
 				valueString = value.toString();
@@ -441,10 +512,6 @@ public class EmfEngine implements InterpreterEngine {
 			// modelChange.addObjectChange(targetObject, attribute.getType(),
 			// value, false);
 		}
-		
-		modelChange.applyChanges();
-		ruleApplication.setModelChange(modelChange);
-		
 		return new Match(rule, comatchParameterValues, comatchNodeMapping);
 	}
 	

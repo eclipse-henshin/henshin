@@ -32,13 +32,15 @@ import org.eclipse.emf.henshin.model.Rule;
 public class Match {
 	// the rule which will be matched
 	private Rule rule;
-
+	
 	// mapping of LHS or RHS nodes
 	private Map<Node, EObject> nodeMapping;
-
+	
 	// variable assignments
 	private Map<Parameter, Object> parameterValues;
-
+	
+	private Map<Rule, List<Match>> nestedMatches;
+	
 	/**
 	 * 
 	 * @param rule
@@ -48,13 +50,28 @@ public class Match {
 	 * @param nodeMapping
 	 *            Mapping between rule nodes and EObjects
 	 */
-	public Match(Rule rule, Map<Parameter, Object> parameterValues,
-			Map<Node, EObject> nodeMapping) {
+	public Match(Rule rule, Map<Parameter, Object> parameterValues, Map<Node, EObject> nodeMapping) {
 		this.parameterValues = parameterValues;
 		this.nodeMapping = nodeMapping;
 		this.rule = rule;
 	}
-
+	
+	public Map<Rule, List<Match>> getNestedMatches() {
+		if (nestedMatches == null)
+			nestedMatches = new HashMap<Rule, List<Match>>();
+		return nestedMatches;
+	}
+	
+	public List<Match> getNestedMatchesFor(Rule rule) {
+		if (!getNestedMatches().containsKey(rule))
+			getNestedMatches().put(rule, new ArrayList<Match>());
+		return getNestedMatches().get(rule);
+	}
+	
+	public void addNestedMatch(Rule rule, Match match) {
+		getNestedMatchesFor(rule).add(match);
+	}
+	
 	/**
 	 * 
 	 * @param rule
@@ -71,13 +88,13 @@ public class Match {
 			for (String parameterName : solution.getParameterValues().keySet()) {
 				Parameter parameter = rule.getParameterByName(parameterName);
 				if (parameter != null) {
-					parameterValues.put(parameter, solution
-							.getParameterValues().get(parameterName));
+					parameterValues
+							.put(parameter, solution.getParameterValues().get(parameterName));
 				}
 			}
-
+			
 			this.nodeMapping = new HashMap<Node, EObject>();
-
+			
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			for (Node node : rule.getLhs().getNodes()) {
 				Variable var = node2variable.get(node);
@@ -85,10 +102,10 @@ public class Match {
 				nodeMapping.put(node, eObject);
 			}
 		}
-
+		
 		this.rule = rule;
 	}
-
+	
 	/**
 	 * The parameter values of the rule corresponding to this match.
 	 * 
@@ -97,7 +114,7 @@ public class Match {
 	public Map<Parameter, Object> getParameterValues() {
 		return parameterValues;
 	}
-
+	
 	/**
 	 * The node mapping of the rule corresponding to this match.
 	 * 
@@ -106,7 +123,7 @@ public class Match {
 	public Map<Node, EObject> getNodeMapping() {
 		return nodeMapping;
 	}
-
+	
 	/**
 	 * Checks whether this match overlaps with another. The second match can be
 	 * from a different rule.
@@ -117,19 +134,18 @@ public class Match {
 	 */
 	public boolean overlapsWith(Match match) {
 		List<EObject> thistargets = new ArrayList<EObject>(nodeMapping.values());
-		List<EObject> matchtargets = new ArrayList<EObject>(match
-				.getNodeMapping().values());
+		List<EObject> matchtargets = new ArrayList<EObject>(match.getNodeMapping().values());
 		thistargets.retainAll(matchtargets);
-
+		
 		if (thistargets.size() == 0)
 			return false;
-
+		
 		if (thistargets.size() == 0)
 			return false;
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * The rule this match belongs to.
 	 * 
@@ -138,7 +154,7 @@ public class Match {
 	public Rule getRule() {
 		return rule;
 	}
-
+	
 	/**
 	 * Checks if all LHS nodes have a target.
 	 * 
@@ -147,16 +163,16 @@ public class Match {
 	public boolean isComplete() {
 		if (nodeMapping == null && rule.getLhs().getNodes().size() > 0)
 			return false;
-
+		
 		for (Node node : rule.getLhs().getNodes()) {
-
+			
 			if (nodeMapping.get(node) == null)
 				return false;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Checks whether this match is complete and typing between rule nodes and
 	 * EObjects is valid.
@@ -168,24 +184,23 @@ public class Match {
 		// completeness
 		if (!isComplete())
 			return false;
-
+		
 		// properly typed
 		for (Node node : rule.getLhs().getNodes()) {
 			if (node.getType().isSuperTypeOf(nodeMapping.get(node).eClass()))
 				return false;
 		}
-
+		
 		// all edges are present
 		for (Node node : rule.getLhs().getNodes()) {
 			EObject source = nodeMapping.get(node);
-
+			
 			for (Edge edge : node.getOutgoing()) {
 				EReference edgeType = edge.getType();
 				EObject target = nodeMapping.get(edge.getTarget());
-
+				
 				if (edgeType.isMany()) {
-					List<EObject> targetObjects = (List<EObject>) source
-							.eGet(edgeType);
+					List<EObject> targetObjects = (List<EObject>) source.eGet(edgeType);
 					if (!targetObjects.contains(target))
 						return false;
 				} else {
@@ -194,10 +209,10 @@ public class Match {
 				}
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	@Override
 	public boolean equals(Object arg0) {
 		if (!(arg0 instanceof Match)) {
@@ -208,12 +223,12 @@ public class Match {
 		if (rule != match.getRule())
 			return false;
 		
-		for (Parameter param: getParameterValues().keySet()) {
+		for (Parameter param : getParameterValues().keySet()) {
 			if (getParameterValues().get(param) != match.getParameterValues().get(param))
 				return false;
 		}
 		
-		for (Node node: getNodeMapping().keySet()) {
+		for (Node node : getNodeMapping().keySet()) {
 			if (getNodeMapping().get(node) != match.getNodeMapping().get(node))
 				return false;
 		}

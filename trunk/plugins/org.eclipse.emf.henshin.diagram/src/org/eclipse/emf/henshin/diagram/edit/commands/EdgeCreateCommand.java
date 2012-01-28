@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinBaseItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
@@ -104,7 +105,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 			// Check the type as well:
 			EReference type = (EReference) getRequest().getParameter(
 					TYPE_PARAMETER_KEY);
-			return HenshinActionHelper.canCreateEdge(getSource(), getTarget(), type);
+			return HenshinActionHelper.canCreateEdge(getSource(), getTarget(),
+					type);
 		}
 		return true;
 	}
@@ -128,7 +130,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 		Rule rule = getSource().getGraph().getContainerRule();
 
 		// Create the edge:
-		Edge edge = HenshinActionHelper.createEdge(getSource(), getTarget(), type);
+		Edge edge = HenshinActionHelper.createEdge(getSource(), getTarget(),
+				type);
 
 		// Update the root containment is the edge is containment / container:
 		if (type.isContainment() || type.isContainer()) {

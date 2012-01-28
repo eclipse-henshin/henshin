@@ -46,13 +46,13 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 * @generated
 	 */
 	public static final int VISUAL_ID = 4002;
-	
+
 	// Arrow decoration:
 	private RotatableDecoration arrow;
-	
+
 	// Optional label:
 	private Label label;
-	
+
 	/**
 	 * @generated
 	 */
@@ -69,73 +69,78 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 				new ViewComponentEditPolicy());
 		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
 	}
-	
+
 	/*
 	 * Update the arrow of the line depending on the
 	 * type of transformation unit this link belongs to.
 	 */
 	private void updateArrow(LinkFigure figure) {
-		if (figure!=null) {
+		if (figure != null) {
 			TransformationUnit unit = getTransformationUnit();
-			figure.setTargetDecoration(null);	// must be done here because child is cached
-			if (arrow!=null) {
+			figure.setTargetDecoration(null); // must be done here because child is cached
+			if (arrow != null) {
 				if (figure.getChildren().contains(arrow)) {
 					figure.remove(arrow);
 				}
 				arrow = null;
 			}
 			if (unit instanceof PriorityUnit) {
-				figure.add(arrow = createArrowDecoration(4, 7), new MiddleLocator(figure));
+				figure.add(arrow = createArrowDecoration(4, 7),
+						new MiddleLocator(figure));
 			} else {
-				figure.setTargetDecoration(arrow = createArrowDecoration(7, 3));				
+				figure.setTargetDecoration(arrow = createArrowDecoration(7, 3));
 			}
 		}
 	}
-	
+
 	/*
 	 * Update the label of the link.
 	 */
 	private void updateLabel(LinkFigure figure) {
-		if (figure!=null) {
-			if (label!=null) {
+		if (figure != null) {
+			if (label != null) {
 				figure.remove(label);
 				label = null;
 			}
-			if (HenshinLinkUpdater.isIfLink(getTransformationUnit(), getNotationView())) {
-				figure.add(label = new Label("if"), new LabelLocator(figure, 0, -10));
-			}
-			else if (HenshinLinkUpdater.isThenLink(getTransformationUnit(), getNotationView())) {
-				figure.add(label = new Label("then"), new LabelLocator(figure, 10, -10));
-			}
-			else if (HenshinLinkUpdater.isElseLink(getTransformationUnit(), getNotationView())) {
-				figure.add(label = new Label("else"), new LabelLocator(figure, 10, 10));
+			if (HenshinLinkUpdater.isIfLink(getTransformationUnit(),
+					getNotationView())) {
+				figure.add(label = new Label("if"), new LabelLocator(figure, 0,
+						-10));
+			} else if (HenshinLinkUpdater.isThenLink(getTransformationUnit(),
+					getNotationView())) {
+				figure.add(label = new Label("then"), new LabelLocator(figure,
+						10, -10));
+			} else if (HenshinLinkUpdater.isElseLink(getTransformationUnit(),
+					getNotationView())) {
+				figure.add(label = new Label("else"), new LabelLocator(figure,
+						10, 10));
 			}
 		}
 	}
-	
+
 	/*
 	 * Get the transformation unit which this link belong to.
 	 */
 	private TransformationUnit getTransformationUnit() {
-		
+
 		// Get the source node of this link:
 		View sourceNode = ((Edge) getNotationView()).getSource();
-		if (sourceNode==null) {
+		if (sourceNode == null) {
 			return null;
 		}
-		
+
 		// Get the compartment where the node is contained in:
 		View compartment = (View) sourceNode.eContainer();
-		if (compartment==null) {
+		if (compartment == null) {
 			return null;
 		}
-		
+
 		// Get the view of the transformation unit:
 		View unitView = (View) compartment.eContainer();
-		if (unitView==null) {
+		if (unitView == null) {
 			return null;
 		}
-		
+
 		// Now we can access the unit:
 		if (unitView.getElement() instanceof TransformationUnit) {
 			return (TransformationUnit) unitView.getElement();
@@ -143,7 +148,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 			return null;
 		}
 	}
-	
+
 	/*
 	 * Create an arrow decoration.
 	 */
@@ -158,25 +163,25 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 		df.setScale(getMapMode().DPtoLP(length), getMapMode().DPtoLP(width));
 		return df;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#getCommand(org.eclipse.gef.Request)
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		
+
 		// We forbid to delete or reconnect links:
 		Object type = request.getType();
-		if (RequestConstants.REQ_DELETE.equals(type) ||
-			RequestConstants.REQ_RECONNECT_SOURCE.equals(type) ||
-			RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
+		if (RequestConstants.REQ_DELETE.equals(type)
+				|| RequestConstants.REQ_RECONNECT_SOURCE.equals(type)
+				|| RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
 			return UnexecutableCommand.INSTANCE;
 		}
-		
+
 		// Everything else should be ok:
 		return super.getCommand(request);
-		
+
 	}
 
 	/**
@@ -252,12 +257,12 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 		}
 
 	}
-	
+
 	/*
 	 * Private label locator class.
 	 */
 	private class LabelLocator extends ConnectionLocator {
-		
+
 		// Distance from the mid point.
 		private int x, y;
 

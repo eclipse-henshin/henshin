@@ -21,7 +21,6 @@ import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
@@ -31,10 +30,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
  * This command removes the given list of nodes. <br>
@@ -137,10 +133,6 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 			Rule rule = (Rule) graphContainer;
 			filterMappings(rule.getMappings(), mappingSet);
 			
-			if (rule.eContainer() != null) {
-				collectAmalgamationUnitRelatedMappings(mappingSet, rule);
-			}// if
-			
 			for (Rule mRule : rule.getMultiRules()) {
 				filterMappings(mRule.getMultiMappings(), mappingSet);
 			}
@@ -167,43 +159,11 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 		}// if
 		
 		// Do the removal
-		if (!mappingSet.isEmpty()){
+		if (!mappingSet.isEmpty()) {
 			this.appendAndExecute(new DeleteCommand(domain, mappingSet));
 		}
-			
+		
 	}// removeMappings
-	
-	/**
-	 * If the TransformationSystem is accessible through this <code>rule</code>,
-	 * this method iterates over all AmalgamationUnits and watches out if the
-	 * <code>rule</code>, consequently also <code>owningGraph</code>, is part of
-	 * them. If this is the case, it look if there are AU-mappings related to
-	 * our <code>nodes</code> to be deleted. Such mappings are put into
-	 * mappingSet.
-	 * 
-	 * @param mappingSet
-	 * @param rule
-	 */
-	private void collectAmalgamationUnitRelatedMappings(final Set<Mapping> mappingSet, Rule rule) {
-		if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem) {
-			TransformationSystem trafoSys = (TransformationSystem) rule.eContainer();
-			for (TransformationUnit unit : trafoSys.getTransformationUnits()) {
-				if (unit instanceof AmalgamationUnit) {
-					AmalgamationUnit au = (AmalgamationUnit) unit;
-					if (au.getKernelRule() == rule || au.getMultiRules().contains(rule)) {
-						/*
-						 * If the rule is part of an AU, then its graph is as
-						 * well ;-)
-						 */
-						if (HenshinRuleAnalysisUtil.isLHS(owningGraph))
-							filterMappings(au.getLhsMappings(), mappingSet);
-						else
-							filterMappings(au.getRhsMappings(), mappingSet); // rhs
-					}// if
-				}// if
-			}// for
-		}// if
-	}// collectAmalgamationUnitRelatedMappings
 	
 	/**
 	 * Finds directly nested NestedConditions and puts it into <code>list</code>
@@ -240,7 +200,8 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 				for (Node node : nodes) {
 					if (mapping.getImage() == node || mapping.getOrigin() == node) {
 						System.out.println("adding mapping: "
-								+ mapping.getOrigin().getGraph().getContainerRule().getName() + " -> "
+								+ mapping.getOrigin().getGraph().getContainerRule().getName()
+								+ " -> "
 								+ mapping.getImage().getGraph().getContainerRule().getName());
 						targetSet.add(mapping);
 						break;

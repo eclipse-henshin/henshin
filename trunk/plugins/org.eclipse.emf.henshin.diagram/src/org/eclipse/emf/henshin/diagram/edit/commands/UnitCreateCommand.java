@@ -109,19 +109,20 @@ public class UnitCreateCommand extends EditElementCommand {
 		// Create the transformation unit:
 		TransformationUnit unit = (TransformationUnit) HenshinFactory.eINSTANCE
 				.create(unitType);
-		
+
 		// Special cases:
 		List<TransformationUnit> targets = getTargetCandidates();
 		if (!targets.isEmpty()) {
 			if (unit instanceof ConditionalUnit) {
 				TransformationUnit ifUnit = targets.remove(0);
-				TransformationUnit thenUnit = targets.isEmpty() ? ifUnit : targets.remove(0);
-				TransformationUnit elseUnit = targets.isEmpty() ? thenUnit : targets.remove(0);
+				TransformationUnit thenUnit = targets.isEmpty() ? ifUnit
+						: targets.remove(0);
+				TransformationUnit elseUnit = targets.isEmpty() ? thenUnit
+						: targets.remove(0);
 				((ConditionalUnit) unit).setIf(ifUnit);
 				((ConditionalUnit) unit).setThen(thenUnit);
 				((ConditionalUnit) unit).setElse(elseUnit);
-			}
-			else if (unit instanceof LoopUnit) {
+			} else if (unit instanceof LoopUnit) {
 				((LoopUnit) unit).setSubUnit(targets.get(0));
 			}
 		}
@@ -177,7 +178,7 @@ public class UnitCreateCommand extends EditElementCommand {
 	 */
 	private TransformationSystem getTransformationSystem() {
 		EObject object = getElementToEdit();
-		while (object!=null) {
+		while (object != null) {
 			if (object instanceof TransformationSystem) {
 				return (TransformationSystem) object;
 			}
@@ -185,14 +186,14 @@ public class UnitCreateCommand extends EditElementCommand {
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Helper method: get a list of possible target candidate units.
 	 */
 	private List<TransformationUnit> getTargetCandidates() {
 		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
 		TransformationSystem system = getTransformationSystem();
-		if (system!=null) {
+		if (system != null) {
 			candidates.addAll(system.getRules());
 			candidates.addAll(system.getTransformationUnits());
 		}

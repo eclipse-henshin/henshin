@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
@@ -65,13 +66,13 @@ public class InvocationCreateCommand extends EditElementCommand {
 		// We need at least one target candidate:
 		return !getTargetCandidates().isEmpty();
 	}
-	
+
 	/*
 	 * Helper method: get the current transformation system.
 	 */
 	private TransformationSystem getTransformationSystem() {
 		EObject object = getElementToEdit();
-		while (object!=null) {
+		while (object != null) {
 			if (object instanceof TransformationSystem) {
 				return (TransformationSystem) object;
 			}
@@ -79,75 +80,70 @@ public class InvocationCreateCommand extends EditElementCommand {
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Helper method: get a list of possible target candidate units.
 	 */
 	private List<TransformationUnit> getTargetCandidates() {
 		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
 		TransformationSystem system = getTransformationSystem();
-		if (system!=null) {
+		if (system != null) {
 			candidates.addAll(system.getRules());
 			candidates.addAll(system.getTransformationUnits());
 		}
 		return candidates;
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,
 			IAdaptable info) throws ExecutionException {
-		
+
 		// Get the owner unit and the target candidate units:
 		TransformationUnit owner = (TransformationUnit) getElementToEdit();
 		List<TransformationUnit> candidates = getTargetCandidates();
-		
+
 		// Try to be smart: in most cases we don't want duplicate invocations:
 		for (TransformationUnit used : owner.getSubUnits(false)) {
-			if (candidates.size()>1) {
+			if (candidates.size() > 1) {
 				candidates.remove(used);
-			} else break;
+			} else
+				break;
 		}
-		
+
 		// Now we just take the first candidate:
 		TransformationUnit target = candidates.get(0);
 
 		// Add it to the parent unit:
 		if (owner instanceof SequentialUnit) {
 			((SequentialUnit) owner).getSubUnits().add(target);
-		}
-		else if (owner instanceof PriorityUnit) {
+		} else if (owner instanceof PriorityUnit) {
 			((PriorityUnit) owner).getSubUnits().add(target);
-		}
-		else if (owner instanceof IndependentUnit) {
+		} else if (owner instanceof IndependentUnit) {
 			((IndependentUnit) owner).getSubUnits().add(target);
-		}
-		else if (owner instanceof ConditionalUnit) {
+		} else if (owner instanceof ConditionalUnit) {
 			ConditionalUnit cond = (ConditionalUnit) owner;
-			if (cond.getIf()==null) {
+			if (cond.getIf() == null) {
 				cond.setIf(target);
-			}
-			else if (cond.getThen()==null) {
+			} else if (cond.getThen() == null) {
 				cond.setThen(target);
-			}
-			else if (cond.getElse()==null) {
+			} else if (cond.getElse() == null) {
 				cond.setElse(target);
 			}
-		}
-		else if (owner instanceof LoopUnit) {
-			if (((LoopUnit) owner).getSubUnit()==null) {
+		} else if (owner instanceof LoopUnit) {
+			if (((LoopUnit) owner).getSubUnit() == null) {
 				((LoopUnit) owner).setSubUnit(target);
 			}
 		}
 
 		// No need to configure.
 		// doConfigure(newElement, monitor, info);
-		
+
 		// Done.
 		((CreateElementRequest) getRequest()).setNewElement(target);
 		return CommandResult.newOKCommandResult(target);
-		
+
 	}
 
 	/**

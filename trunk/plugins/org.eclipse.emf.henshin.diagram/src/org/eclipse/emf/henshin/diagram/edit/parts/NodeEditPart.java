@@ -160,7 +160,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 				new NodeGraphicalEditPolicy());
-		
+
 		// Remove connection handles:
 		removeEditPolicy(EditPolicyRoles.CONNECTION_HANDLES_ROLE);
 

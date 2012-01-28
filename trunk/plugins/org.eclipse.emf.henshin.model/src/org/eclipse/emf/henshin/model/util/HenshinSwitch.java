@@ -221,24 +221,6 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.AMALGAMATION_UNIT: {
-				AmalgamationUnit amalgamationUnit = (AmalgamationUnit)theEObject;
-				T result = caseAmalgamationUnit(amalgamationUnit);
-				if (result == null) result = caseTransformationUnit(amalgamationUnit);
-				if (result == null) result = caseDescribedElement(amalgamationUnit);
-				if (result == null) result = caseNamedElement(amalgamationUnit);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.COUNTED_UNIT: {
-				CountedUnit countedUnit = (CountedUnit)theEObject;
-				T result = caseCountedUnit(countedUnit);
-				if (result == null) result = caseTransformationUnit(countedUnit);
-				if (result == null) result = caseDescribedElement(countedUnit);
-				if (result == null) result = caseNamedElement(countedUnit);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case HenshinPackage.LOOP_UNIT: {
 				LoopUnit loopUnit = (LoopUnit)theEObject;
 				T result = caseLoopUnit(loopUnit);
@@ -569,36 +551,6 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T casePriorityUnit(PriorityUnit object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Amalgamation Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Amalgamation Unit</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseAmalgamationUnit(AmalgamationUnit object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Counted Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Counted Unit</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseCountedUnit(CountedUnit object) {
 		return null;
 	}
 

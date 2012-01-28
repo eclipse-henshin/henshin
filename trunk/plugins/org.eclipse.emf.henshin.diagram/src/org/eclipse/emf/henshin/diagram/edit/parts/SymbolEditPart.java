@@ -117,16 +117,13 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	protected IFigure createNodeShape() {
 		SymbolType symbol = SymbolType.get(getNotationView());
-		if (symbol==SymbolType.UNIT_BEGIN) {
+		if (symbol == SymbolType.UNIT_BEGIN) {
 			primaryShape = new SymbolCircleFigure(true);
-		}
-		else if (symbol==SymbolType.UNIT_END) {
+		} else if (symbol == SymbolType.UNIT_END) {
 			primaryShape = new SymbolCircleFigure(false);
-		}
-		else if (symbol==SymbolType.INDEPENDENT_CHOICE) {
+		} else if (symbol == SymbolType.INDEPENDENT_CHOICE) {
 			primaryShape = new IndependentChoiceSymbolFigure();
-		}
-		else {
+		} else {
 			primaryShape = new InvalidSymbolFigure();
 		}
 		return primaryShape;
@@ -138,7 +135,7 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 */
 	@Override
 	public Command getCommand(Request request) {
-		
+
 		// We forbid deletion of symbols, unless it is corrupt:
 		Object type = request.getType();
 		if (RequestConstants.REQ_DELETE.equals(type)
@@ -147,11 +144,11 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 
 		// We also forbid to reconnect links:
-		if (RequestConstants.REQ_RECONNECT_SOURCE.equals(type) ||
-			RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
+		if (RequestConstants.REQ_RECONNECT_SOURCE.equals(type)
+				|| RequestConstants.REQ_RECONNECT_TARGET.equals(type)) {
 			return UnexecutableCommand.INSTANCE;
 		}
-		
+
 		// Everything else is ok:
 		return super.getCommand(request);
 	}
@@ -160,8 +157,8 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 	 * Get the primary shape of this edit part.
 	 * @generated
 	 */
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	public SymbolCircleFigure getPrimaryShape() {
+		return (SymbolCircleFigure) primaryShape;
 	}
 
 	/**
@@ -294,15 +291,15 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 		}
 
 	}
-	
+
 	/*
 	 * A figure for independent choices.
 	 */
 	public class IndependentChoiceSymbolFigure extends Figure {
-		
+
 		public IndependentChoiceSymbolFigure() {
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.draw2d.Figure#paint(org.eclipse.draw2d.Graphics)
@@ -317,10 +314,10 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 			Rectangle r = getBounds();
 
 			// We want to draw a diamond:
-			Point p1 = new Point(r.x, r.y + r.height/2);
-			Point p2 = new Point(r.x + r.width/2, r.y);
-			Point p3 = new Point(r.x + r.width - 1, r.y + r.height/2);
-			Point p4 = new Point(r.x + r.width/2, r.y + r.height - 1);
+			Point p1 = new Point(r.x, r.y + r.height / 2);
+			Point p2 = new Point(r.x + r.width / 2, r.y);
+			Point p3 = new Point(r.x + r.width - 1, r.y + r.height / 2);
+			Point p4 = new Point(r.x + r.width / 2, r.y + r.height - 1);
 
 			PointList pointList = new PointList();
 			pointList.addPoint(p1);
@@ -339,7 +336,6 @@ public class SymbolEditPart extends ShapeNodeEditPart {
 
 		}
 
-
 	}
-	
+
 }

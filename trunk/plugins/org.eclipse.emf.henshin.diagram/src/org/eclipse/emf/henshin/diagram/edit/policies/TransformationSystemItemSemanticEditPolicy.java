@@ -52,7 +52,7 @@ public class TransformationSystemItemSemanticEditPolicy extends
 	 * @generated NOT
 	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
-		
+
 		// We need to override the default implementation because
 		// the unit create command needs a shell:
 		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {

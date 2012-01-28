@@ -30,7 +30,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -44,9 +43,10 @@ import org.eclipse.emf.henshin.provider.descriptors.MappingImagePropertyDescript
 import org.eclipse.emf.henshin.provider.descriptors.MappingOriginPropertyDescriptor;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Mapping} object.
- * <!-- begin-user-doc -->
+ * This is the item provider adapter for a
+ * {@link org.eclipse.emf.henshin.model.Mapping} object. <!-- begin-user-doc -->
  * <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class MappingItemProvider extends HenshinItemProviderAdapter implements
@@ -77,7 +77,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
+			
 			addOriginPropertyDescriptor(object);
 			addImagePropertyDescriptor(object);
 		}
@@ -145,8 +145,8 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns Mapping.gif.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * This returns Mapping.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -189,16 +189,7 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	public Object getParent(Object object) {
 		
 		Object o = super.getParent(object);
-		if (o instanceof AmalgamationUnit) {
-			AmalgamationUnit au = (AmalgamationUnit) o;
-			AmalgamationUnitItemProvider auIp = (AmalgamationUnitItemProvider) adapterFactory
-					.adapt(au, IEditingDomainItemProvider.class);
-			if (au.getLhsMappings().contains(object)) {
-				return auIp != null ? auIp.getLhsMappingsItemProvider() : null;
-			} else {
-				return auIp != null ? auIp.getRhsMappingsItemProvider() : null;
-			}
-		} else if (o instanceof Rule) {
+		if (o instanceof Rule) {
 			Rule rule = (Rule) o;
 			Mapping mapping = (Mapping) object;
 			

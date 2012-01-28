@@ -22,11 +22,10 @@ import java.util.Stack;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.CountedUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
@@ -104,8 +103,6 @@ public class UnitApplication extends Observable {
 			switch (transformationUnit.eClass().getClassifierID()) {
 				case HenshinPackage.RULE:
 					return executeRule();
-				case HenshinPackage.AMALGAMATION_UNIT:
-					return executeAmalgamatedUnit();
 				case HenshinPackage.INDEPENDENT_UNIT:
 					return executeIndependentUnit();
 				case HenshinPackage.SEQUENTIAL_UNIT:
@@ -114,8 +111,8 @@ public class UnitApplication extends Observable {
 					return executeConditionalUnit();
 				case HenshinPackage.PRIORITY_UNIT:
 					return executePriorityUnit();
-				case HenshinPackage.COUNTED_UNIT:
-					return executeCountedUnit();
+				case HenshinPackage.LOOP_UNIT:
+					return executeLoopUnit();
 			}
 		}
 		
@@ -226,20 +223,6 @@ public class UnitApplication extends Observable {
 		}
 	}
 	
-	private boolean executeAmalgamatedUnit() {
-		AmalgamationUnit amalUnit = (AmalgamationUnit) transformationUnit;
-		RuleApplication amalgamationRule = engine.generateAmalgamationRule(amalUnit,
-				parameterValues);
-		
-		if (amalgamationRule != null) {
-			amalgamationRule.apply();
-			parameterValues = amalgamationRule.getComatch().getParameterValues();
-			appliedRules.push(amalgamationRule);
-			return true;
-		} else
-			return false;
-	}
-	
 	private boolean executeSequentialUnit() {
 		SequentialUnit sequentialUnit = (SequentialUnit) transformationUnit;
 		
@@ -338,23 +321,16 @@ public class UnitApplication extends Observable {
 		return false;
 	}
 	
-	private boolean executeCountedUnit() {
-		CountedUnit countedUnit = (CountedUnit) transformationUnit;
-		int count = countedUnit.getCount();
+	private boolean executeLoopUnit() {
 		
-		for (int i = 0; (i < count || count == -1) && !getApplicationMonitor().isCanceled(); i++) {
+		LoopUnit countedUnit = (LoopUnit) transformationUnit;
+		while (!getApplicationMonitor().isCanceled()) {
 			UnitApplication genericUnit = createApplicationFor(countedUnit.getSubUnit());
-			
 			if (genericUnit.execute()) {
 				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
 			} else {
-				if (count != -1) {
-					undo();
-					return false;
-				} else {
-					break;
-				}
+				break;
 			}
 		}
 		if (getApplicationMonitor().isUndo())
@@ -448,7 +424,7 @@ public class UnitApplication extends Observable {
 	 * Control-flag container.
 	 * 
 	 * @author Gregor Bonifer
-	 *
+	 * 
 	 */
 	public static class ApplicationMonitor {
 		

@@ -28,22 +28,22 @@ import org.eclipse.gmf.runtime.notation.View;
  * @generated NOT
  */
 public class UnitEditHelper extends HenshinBaseEditHelper {
-	
+
 	/**
 	 * An enum to refer to special invocation views (subUnits).
 	 */
 	public static enum InvocationViewKey {
-				
+
 		IF(0), THEN(1), ELSE(2), LOOP(0);
-		
+
 		private int index;
-		
+
 		private InvocationViewKey(int index) {
 			this.index = index;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Get the invocation views of a unit view. This is a list of all views
 	 * that correspond to subUnits of that unit.
@@ -52,22 +52,24 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	 * @return List of views.
 	 */
 	public static List<View> getInvocationViews(View unitView, boolean withNulls) {
-		
+
 		// Find the unit and the compartment view:
-		if (String.valueOf(UnitCompartmentEditPart.VISUAL_ID).equals(unitView.getType())) {
+		if (String.valueOf(UnitCompartmentEditPart.VISUAL_ID).equals(
+				unitView.getType())) {
 			unitView = (View) unitView.eContainer();
 		}
-		View unitCompartment = ViewUtil
-				.getChildBySemanticHint(unitView, String.valueOf(UnitCompartmentEditPart.VISUAL_ID));
-		
+		View unitCompartment = ViewUtil.getChildBySemanticHint(unitView,
+				String.valueOf(UnitCompartmentEditPart.VISUAL_ID));
+
 		// Get the transformation unit and its subunits including nulls:
 		TransformationUnit unit = (TransformationUnit) unitView.getElement();
 		List<TransformationUnit> subUnits = getSubUnitsWithNulls(unit);
-		
+
 		// Now search for the corresponding views:
 		List<View> invocations = new ArrayList<View>(subUnits.size());
 		for (TransformationUnit subUnit : subUnits) {
-			invocations.add(getInvocationView(unitCompartment, subUnit, invocations));
+			invocations.add(getInvocationView(unitCompartment, subUnit,
+					invocations));
 		}
 		return invocations;
 	}
@@ -79,40 +81,40 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	/*
 	 * Get the subUnits of a unit including nulls.
 	 */
-	private static List<TransformationUnit> getSubUnitsWithNulls(TransformationUnit unit) {
+	private static List<TransformationUnit> getSubUnitsWithNulls(
+			TransformationUnit unit) {
 		List<TransformationUnit> subUnits = new ArrayList<TransformationUnit>();
 		if (unit instanceof ConditionalUnit) {
 			subUnits.add(((ConditionalUnit) unit).getIf());
 			subUnits.add(((ConditionalUnit) unit).getThen());
 			subUnits.add(((ConditionalUnit) unit).getElse());
-		}
-		else if (unit instanceof LoopUnit) {
+		} else if (unit instanceof LoopUnit) {
 			subUnits.add(((LoopUnit) unit).getSubUnit());
-		}
-		else {
+		} else {
 			subUnits.addAll(unit.getSubUnits(false));
 		}
 		return subUnits;
 	}
-	
+
 	/*
 	 * Find an invocation view.
 	 */
-	private static View getInvocationView(View unitCompartment, TransformationUnit target, Collection<View> exclude) {
-		if (unitCompartment==null || target==null) {
+	private static View getInvocationView(View unitCompartment,
+			TransformationUnit target, Collection<View> exclude) {
+		if (unitCompartment == null || target == null) {
 			return null;
 		}
 		for (Object obj : unitCompartment.getChildren()) {
 			View view = (View) obj;
-			if (view.getElement()==target && 
-				String.valueOf(InvocationEditPart.VISUAL_ID).equals(view.getType()) &&
-				!exclude.contains(view)) {
+			if (view.getElement() == target
+					&& String.valueOf(InvocationEditPart.VISUAL_ID).equals(
+							view.getType()) && !exclude.contains(view)) {
 				return view;
 			}
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Get the compartment view of a unit view.
 	 */
@@ -127,6 +129,5 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 		// Otherwise search the compartment:
 		return ViewUtil.getChildBySemanticHint(view, type);
 	}
-
 
 }

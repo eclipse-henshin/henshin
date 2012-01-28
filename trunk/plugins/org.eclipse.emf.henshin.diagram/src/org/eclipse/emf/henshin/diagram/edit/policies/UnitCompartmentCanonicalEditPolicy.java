@@ -181,7 +181,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 
 		makeViewsImmutable(createdViews);
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -189,10 +189,12 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	protected boolean shouldDeleteView(View view) {
 		if (String.valueOf(InvocationEditPart.VISUAL_ID).equals(view.getType())) {
 			View unitView = (View) view.eContainer();
-			if (view.getElement() instanceof TransformationUnit &&
-				unitView.getElement() instanceof TransformationUnit) {
-				TransformationUnit unit = (TransformationUnit) unitView.getElement();
-				TransformationUnit subUnit = (TransformationUnit) view.getElement();
+			if (view.getElement() instanceof TransformationUnit
+					&& unitView.getElement() instanceof TransformationUnit) {
+				TransformationUnit unit = (TransformationUnit) unitView
+						.getElement();
+				TransformationUnit subUnit = (TransformationUnit) view
+						.getElement();
 				return !unit.getSubUnits(false).contains(subUnit);
 			}
 		}

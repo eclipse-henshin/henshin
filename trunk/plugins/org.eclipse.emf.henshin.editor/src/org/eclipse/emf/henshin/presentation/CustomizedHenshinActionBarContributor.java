@@ -18,16 +18,13 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
-import org.eclipse.emf.edit.ui.action.DeleteAction;
 import org.eclipse.emf.henshin.editor.commands.MenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CopySubgraphMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.CreateDynamicMC;
@@ -240,17 +237,6 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 		// currentSelection, domain);
 		
 		menuManager.update(true);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor#
-	 * createDeleteAction()
-	 */
-	@Override
-	protected DeleteAction createDeleteAction() {
-		return new org.eclipse.emf.henshin.editor.actions.DeleteAction(
-				removeAllReferencesOnDelete());
 	}
 	
 }

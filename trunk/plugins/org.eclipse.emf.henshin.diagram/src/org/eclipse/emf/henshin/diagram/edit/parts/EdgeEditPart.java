@@ -64,11 +64,14 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	protected void addSemanticListeners() {
 		super.addSemanticListeners();
 		View view = getNotationView();
-		if (view==null) return;
+		if (view == null)
+			return;
 		Edge edge = (Edge) (getNotationView().getElement());
-		if (edge==null) return;
+		if (edge == null)
+			return;
 		Rule rule = edge.getGraph().getContainerRule();
-		if (rule==null) return;
+		if (rule == null)
+			return;
 		TransformationSystem system = rule.getTransformationSystem();
 		transformationListener = new TransformationSystemListener(system,
 				new AdapterImpl() {

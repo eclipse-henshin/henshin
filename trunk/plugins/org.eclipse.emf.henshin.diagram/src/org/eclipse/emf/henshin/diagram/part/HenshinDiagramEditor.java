@@ -95,18 +95,20 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	 * @generated NOT
 	 */
 	@Override
-	public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
+	public void init(final IEditorSite site, final IEditorInput input)
+			throws PartInitException {
 		super.init(site, input);
-		
+
 		// Collect all packages which cannot be resolved:
-		TransformationSystem system = (TransformationSystem) getDiagram().getElement();
+		TransformationSystem system = (TransformationSystem) getDiagram()
+				.getElement();
 		List<EPackage> unresolved = new ArrayList<EPackage>();
 		for (EPackage epackage : system.getImports()) {
 			if (epackage.eIsProxy()) {
 				unresolved.add(epackage);
 			}
 		}
-		
+
 		// Throwing a PartInitException at this point seems to cause problem.
 		// So we just display an error message but throw no exception.
 		if (!unresolved.isEmpty()) {
@@ -114,12 +116,14 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 			for (EPackage epackage : unresolved) {
 				message = message + "  -  " + EcoreUtil.getURI(epackage) + "\n";
 			}
-			message = message + "\nIf no generated model code exists for these packages, try to register their " + 
-					"corresponding Ecore-files from the context menu using \"Henshin->Register EPackages\".";
-			MessageDialog.openError(getSite().getShell(), "Error opening Henshin file", message);
+			message = message
+					+ "\nIf no generated model code exists for these packages, try to register their "
+					+ "corresponding Ecore-files from the context menu using \"Henshin->Register EPackages\".";
+			MessageDialog.openError(getSite().getShell(),
+					"Error opening Henshin file", message);
 		}
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */

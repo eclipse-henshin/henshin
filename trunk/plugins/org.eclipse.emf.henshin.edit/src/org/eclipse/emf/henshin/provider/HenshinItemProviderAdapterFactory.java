@@ -387,45 +387,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
-	 * sjtuner: In case of Amalgamation Units, the Stateful pattern in terms of
-	 * item providers suits better than the Singleton pattern.
-	 * 
-	 * This creates an adapter for a
-	 * {@link org.eclipse.emf.henshin.model.AmalgamationUnit}. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public Adapter createAmalgamationUnitAdapter() {
-		return new AmalgamationUnitItemProvider(this);
-	}
-	
-	/**
-	 * This keeps track of the one adapter used for all
-	 * {@link org.eclipse.emf.henshin.model.CountedUnit} instances. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	protected CountedUnitItemProvider countedUnitItemProvider;
-	
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.CountedUnit}.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCountedUnitAdapter() {
-		if (countedUnitItemProvider == null) {
-			countedUnitItemProvider = new CountedUnitItemProvider(this);
-		}
-
-		return countedUnitItemProvider;
-	}
-	
-	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.LoopUnit} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

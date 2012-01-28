@@ -85,8 +85,7 @@ public class HenshinDiagramUpdater {
 
 		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
-		List<Node> actionNodes = HenshinActionHelper.getActionNodes(
-				rule, null);
+		List<Node> actionNodes = HenshinActionHelper.getActionNodes(rule, null);
 
 		// Check if we should exclude a root object:
 		Node root = RootObjectEditHelper.getRootObject(containerView);
@@ -126,8 +125,8 @@ public class HenshinDiagramUpdater {
 
 		// Get the node and compute the action attributes:
 		Node node = (Node) containerView.getElement();
-		List<Attribute> attributes = HenshinActionHelper
-				.getActionAttributes(node, null);
+		List<Attribute> attributes = HenshinActionHelper.getActionAttributes(
+				node, null);
 
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
@@ -139,7 +138,7 @@ public class HenshinDiagramUpdater {
 				continue;
 			}
 		}
-		
+
 		// Done.
 		return result;
 	}
@@ -205,7 +204,8 @@ public class HenshinDiagramUpdater {
 		// Iterate over all transformation units:
 		for (TransformationUnit unit : system.getTransformationUnits()) {
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
-			if (visualID == UnitEditPart.VISUAL_ID || visualID == RuleEditPart.VISUAL_ID) {
+			if (visualID == UnitEditPart.VISUAL_ID
+					|| visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(unit, visualID));
 			}
 		}
@@ -296,8 +296,7 @@ public class HenshinDiagramUpdater {
 
 		// Get the action edges:
 		Rule rule = (Rule) view.getElement();
-		List<Edge> edges = HenshinActionHelper.getActionEdges(rule,
-				null);
+		List<Edge> edges = HenshinActionHelper.getActionEdges(rule, null);
 
 		// Check if we should exclude a root object:
 		Node root = RootObjectEditHelper.getRootObject(view);
@@ -307,10 +306,8 @@ public class HenshinDiagramUpdater {
 		for (Edge edge : edges) {
 
 			// Get the proper source / target action nodes:
-			Node source = HenshinActionHelper.getActionNode(edge
-					.getSource());
-			Node target = HenshinActionHelper.getActionNode(edge
-					.getTarget());
+			Node source = HenshinActionHelper.getActionNode(edge.getSource());
+			Node target = HenshinActionHelper.getActionNode(edge.getTarget());
 
 			// Create the descriptor if the edge does not link to the root:
 			if (source != root && target != root) {
@@ -328,13 +325,13 @@ public class HenshinDiagramUpdater {
 	 */
 	public static List<HenshinLinkDescriptor> getTransformationUnit_2002ContainedLinks(
 			View view) {
-		
+
 		// Ideally, we want to return a list of all expected links
 		// inside the unit view here. Since this is not really nice
 		// to implement, we update the links only when something
 		// changed or when the unit view is being created.
 		return Collections.emptyList();
-		
+
 	}
 
 	/**
@@ -541,5 +538,5 @@ public class HenshinDiagramUpdater {
 		}
 		return result;
 	}
-	
+
 }

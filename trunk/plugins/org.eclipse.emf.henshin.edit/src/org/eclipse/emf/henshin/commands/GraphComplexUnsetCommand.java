@@ -21,15 +21,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
  * Command to unset a graph and to remove mappings appropriately as well.
@@ -88,38 +84,21 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 		final Set<Mapping> mappingSet = new HashSet<Mapping>();
 		
 		Graph graph = (Graph) owner.eGet(feature);
-		if (graph == null) return;
+		if (graph == null)
+			return;
 		
 		List<Node> nodes = graph.getNodes();
 		
 		if (owner instanceof Rule) {
 			Rule rule = (Rule) owner;
 			filterMappings(rule.getMappings(), mappingSet, nodes);
-			
-			if (rule.eContainer() != null && rule.eContainer() instanceof TransformationSystem) {
-				/*
-				 * If the TransformationSystem is accessible, iterate over all
-				 * AmalgamationUnits and watch out if our graph is part of one.
-				 */
-				TransformationSystem trafoSys = (TransformationSystem) rule.eContainer();
-				for (TransformationUnit unit : trafoSys.getTransformationUnits()) {
-					if (unit instanceof AmalgamationUnit) {
-						AmalgamationUnit au = (AmalgamationUnit) unit;
-						if (au.getKernelRule() == rule || au.getMultiRules().contains(rule)) {
-							if (HenshinRuleAnalysisUtil.isLHS(graph))
-								filterMappings(au.getLhsMappings(), mappingSet, nodes);
-							else
-								filterMappings(au.getRhsMappings(), mappingSet, nodes);
-						}// if
-					}// if
-				}// for
-			}// if
 		} else if (owner instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) owner;
 			filterMappings(nc.getMappings(), mappingSet, nodes);
 		}// if elseif
 		
-		if (!mappingSet.isEmpty()) this.appendAndExecute(new DeleteCommand(domain, mappingSet));
+		if (!mappingSet.isEmpty())
+			this.appendAndExecute(new DeleteCommand(domain, mappingSet));
 		
 	}// processMappings
 	

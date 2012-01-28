@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.henshin.model.AmalgamationUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -101,25 +100,7 @@ public class MappingImagePropertyDescriptor extends ItemPropertyDescriptor {
 				 */
 				NestedCondition ncond = (NestedCondition) eobject;
 				result = ncond.getConclusion().getNodes();
-				
-			} else if (eobject instanceof AmalgamationUnit) {
-				/*
-				 * The image of a mapping contained in a an amalgamation unit
-				 * may be any node in a LHS/RHS of a multi rule.
-				 */
-				AmalgamationUnit au = (AmalgamationUnit) eobject;
-				EStructuralFeature sf = mapping.eContainingFeature();
-				
-				if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__LHS_MAPPINGS) {
-					for (Rule rule : au.getMultiRules()) {
-						result.addAll(rule.getLhs().getNodes());
-					}// for
-				} else if (sf.getFeatureID() == HenshinPackage.AMALGAMATION_UNIT__RHS_MAPPINGS) {
-					for (Rule rule : au.getMultiRules()) {
-						result.addAll(rule.getRhs().getNodes());
-					}// for
-				}// if else if
-			}// if else if
+			}
 		}// if
 		
 		return result;

@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.NestedCondition#isNegated <em>Negated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.NestedCondition#getConclusion <em>Conclusion</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.NestedCondition#getMappings <em>Mappings</em>}</li>
  * </ul>
@@ -32,30 +31,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface NestedCondition extends Formula {
-	/**
-	 * Returns the value of the '<em><b>Negated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * @deprecated
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Negated</em>' attribute.
-	 * @see #setNegated(boolean)
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Negated()
-	 * @model
-	 * @generated
-	 */
-	boolean isNegated();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.NestedCondition#isNegated <em>Negated</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * @deprecated
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Negated</em>' attribute.
-	 * @see #isNegated()
-	 * @generated
-	 */
-	void setNegated(boolean value);
-
 	/**
 	 * Returns the value of the '<em><b>Conclusion</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

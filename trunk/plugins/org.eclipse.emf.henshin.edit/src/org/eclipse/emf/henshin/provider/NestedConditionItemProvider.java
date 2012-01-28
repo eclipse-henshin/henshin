@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -31,7 +30,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.GraphComplexUnsetCommand;
@@ -41,7 +39,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider;
-import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
  * This is the item provider adapter for a
@@ -80,39 +77,19 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-
-			addNegatedPropertyDescriptor(object);
+			
 		}
 		return itemPropertyDescriptors;
 	}
 	
 	/**
-	 * This adds a property descriptor for the Negated feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This specifies how to implement {@link #getChildren} and is used to
+	 * deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand},
+	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
+	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
-	 */
-	protected void addNegatedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NestedCondition_negated_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NestedCondition_negated_feature", "_UI_NestedCondition_type"),
-				 HenshinPackage.Literals.NESTED_CONDITION__NEGATED,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-	
-	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -127,13 +104,15 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
+		// Check the type of the specified child object and return the proper
+		// feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-
+		
 		return super.getChildFeature(object, child);
 	}
 	
@@ -146,14 +125,6 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	@Override
 	public Object getImage(Object object) {
 		Object defaultImage = getResourceLocator().getImage("full/obj16/NestedCondition");
-		
-		if (((NestedCondition) object).isNegated()) {
-			return defaultImage = IconUtil.getCompositeImage(defaultImage, getResourceLocator()
-					.getImage("full/ovr16/Del_ovr.png"));
-			// } else {
-			// return overlayImage(object, defaultImage);
-		}
-		
 		return defaultImage;
 	}// getImage
 	
@@ -176,15 +147,14 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
+	 * This returns the label text for the adapted class. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		NestedCondition nestedCondition = (NestedCondition)object;
-		return getString("_UI_NestedCondition_type") + " " + nestedCondition.isNegated();
+		return getString("_UI_NestedCondition_type");
 	}
 	
 	/**
@@ -200,10 +170,6 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 		updateChildren(notification);
 		
 		switch (notification.getFeatureID(NestedCondition.class)) {
-			case HenshinPackage.NESTED_CONDITION__NEGATED:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
-				return;
 			case HenshinPackage.NESTED_CONDITION__CONCLUSION:
 			case HenshinPackage.NESTED_CONDITION__MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
@@ -276,16 +242,14 @@ public class NestedConditionItemProvider extends FormulaItemProvider implements
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION,
-				 HenshinFactory.eINSTANCE.createGraph()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.NESTED_CONDITION__MAPPINGS,
-				 HenshinFactory.eINSTANCE.createMapping()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION,
+				HenshinFactory.eINSTANCE.createGraph()));
+		
+		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.NESTED_CONDITION__MAPPINGS,
+				HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
 	@Override

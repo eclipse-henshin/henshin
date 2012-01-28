@@ -145,14 +145,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createPriorityUnitAdapter();
 			}
 			@Override
-			public Adapter caseAmalgamationUnit(AmalgamationUnit object) {
-				return createAmalgamationUnitAdapter();
-			}
-			@Override
-			public Adapter caseCountedUnit(CountedUnit object) {
-				return createCountedUnitAdapter();
-			}
-			@Override
 			public Adapter caseLoopUnit(LoopUnit object) {
 				return createLoopUnitAdapter();
 			}
@@ -447,34 +439,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPriorityUnitAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.AmalgamationUnit <em>Amalgamation Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.AmalgamationUnit
-	 * @generated
-	 */
-	public Adapter createAmalgamationUnitAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.CountedUnit <em>Counted Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.CountedUnit
-	 * @generated
-	 */
-	public Adapter createCountedUnitAdapter() {
 		return null;
 	}
 
