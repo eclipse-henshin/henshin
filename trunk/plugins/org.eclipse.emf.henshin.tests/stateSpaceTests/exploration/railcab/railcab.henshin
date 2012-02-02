@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_jjLyYQYcEeGP-artqjgtHg">
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_jjLyYQYcEeGP-artqjgtHg">
   <rules xmi:id="_r02RIAYdEeGP-artqjgtHg" name="move">
     <parameters xmi:id="_TjrSYAbEEeGjz7-mBcc-pg" name="v"/>
     <lhs xmi:id="_r024MAYdEeGP-artqjgtHg" name="LHS">
