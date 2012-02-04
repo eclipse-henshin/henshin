@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
@@ -41,6 +43,9 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.testframework.Tools;
+import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.gmf.runtime.notation.View;
+
 
 /**
  * 
@@ -141,10 +146,22 @@ public class Transformation {
 	 * @throws FileNotFoundException
 	 */
 	public void migrate(java.net.URI fileUri, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
+		//TODO: check if both root objects are in the newelements map for the diagram migration
+		
 		//String oldHenshinFilename = "dbg/philNew.henshin";
+        ResourceSet resourceSet = new ResourceSetImpl();
+
+		
 		pm.beginTask("migrating to new model", 100);
 		URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
 
+		// TODO: This is just for testing; remove when wizard is ready
+		URI diagramUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString() + "_diagram");
+		System.out.println("diagram: " + diagramUri);
+		// -----------------------
+		
+		
+		
 		URI backupUri = eFileUri.appendFileExtension("bak");
 //		URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
 		URI newUri = eFileUri;
@@ -158,8 +175,12 @@ public class Transformation {
 		
 
 		ModelHelper.registerFileExtension("henshin");
-		EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
+		//EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
 
+		Resource oldHenshinResource = resourceSet.getResource(URI.createFileURI(eFileUri.toFileString()), true);
+		EObject graphRoot = oldHenshinResource.getContents().get(0);
+
+		
 		// --- Actual conversion starts here ---
 
 		pm.subTask("Analyzing transformation system");
@@ -197,6 +218,34 @@ public class Transformation {
 		}
 		pm.worked(10);
 		
+		// migration of the henshin file is done now
+		// now, migrate the diagram
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		newElements.put(graphRoot, newRoot);	// put the old and the new transformationSystem in the map
+		try {
+			boolean diagramTransformationSuccess = DiagramTransformation.transformDiagram(newElements, resourceSet, diagramUri);
+			System.out.println("Diagram transformation " + (diagramTransformationSuccess?"successful":"failed"));
+		} catch (Exception e) {
+			System.err.println("Problems during diagram migration:");
+			e.printStackTrace();
+		}
+		
+		// XXX: Debug code, remove
+		/*
+		 * 
+		EPackage henshinOld = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2010/Henshin");
+		for (Entry<EObject, EObject> entry : newElements.entrySet()) {
+			//				EClass ec = (EClass) henshinNew.getEClassifier(type); 
+
+			System.out.println(entry.getKey() + " -> " + entry.getValue() + "\t### " + entry.getKey().hashCode());
+		}*/
+		
+		
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+       
+		
 		
 		System.out.println("\n\n####################");
 		System.out.println(newRoot);
@@ -213,6 +262,7 @@ public class Transformation {
 		pm.subTask("write new file");
 		
 		// write new file
+		
 		Tools.persist(newRoot, newUri.toFileString());
 		
 		System.out.println("naclist:");
@@ -240,6 +290,9 @@ public class Transformation {
 		
 	}
 		
+	
+	
+
 	
 	/**
 	 * Save references to Rules in transformationUnits so that later, 
@@ -657,6 +710,7 @@ public class Transformation {
 			if ("AmalgamationUnit".equals(type)) {
 				// Handle AmalgamationUnit
 				EClass ec = (EClass) henshinNew.getEClassifier(type); 
+
 		
 				EObject amalgamationUnitKernelRule = (EObject) eo.eGet(getEReferenceByName("kernelRule", eo.eClass()));
 				
