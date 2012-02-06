@@ -3,16 +3,14 @@ package org.eclipse.emf.henshin.migration.wizard;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.henshin.migration.Transformation;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -22,18 +20,22 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.progress.ProgressManagerUtil;
 import org.eclipse.ui.progress.IProgressService;
 
-public class NewAction implements IObjectActionDelegate {
+/**
+ * 
+ * @author Felix Rieger, Christian Krause
+ *
+ */
+public class MigrateHenshinAction implements IObjectActionDelegate {
 
 	private Shell shell;
-	private URI fileUri = null;
+	private IFile file = null;
 	
 	/**
 	 * Constructor for Action1.
 	 */
-	public NewAction() {
+	public MigrateHenshinAction() {
 		super();
 	}
 
@@ -51,7 +53,7 @@ public class NewAction implements IObjectActionDelegate {
 	 */
 	public void run(IAction action) {
 
-		if (fileUri != null) {
+		if (file != null) {
 		   IWorkbench wb = PlatformUI.getWorkbench();
 		   IProgressService ps = wb.getProgressService();
 
@@ -62,8 +64,14 @@ public class NewAction implements IObjectActionDelegate {
 						try {
 							Transformation tr = new Transformation();
 							pm.worked(100);
-							tr.migrate(fileUri, pm);
+							tr.migrate(file.getLocationURI(), pm);
 							pm.done();
+							
+							// refresh:
+							try {
+								file.getParent().refreshLocal(2, new NullProgressMonitor());
+							} catch (CoreException e) {}
+							
 							//MessageDialog.openInformation(shell, "Conversion successful", "Conversion successful.");
 							return;
 						} catch (ClassNotFoundException e) {
@@ -98,12 +106,14 @@ public class NewAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		file = null;
 		if (selection != null) {
 			IFile myFile = ((IFile) (((IStructuredSelection) selection).getFirstElement()));
 			if (myFile != null) {
-				fileUri = myFile.getLocationURI();
+				file = myFile;
 			}
 		}
+		action.setEnabled(file!=null);
 	}
 
 }

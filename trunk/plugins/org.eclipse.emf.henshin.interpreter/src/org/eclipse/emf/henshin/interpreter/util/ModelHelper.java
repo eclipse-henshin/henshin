@@ -39,6 +39,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 
 public class ModelHelper {
 	
@@ -195,7 +196,7 @@ public class ModelHelper {
 	
 	public static void registerFileExtension(String extension) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
-				new XMIResourceFactoryImpl());
+				new HenshinResourceFactory());
 	}
 	
 	/**
