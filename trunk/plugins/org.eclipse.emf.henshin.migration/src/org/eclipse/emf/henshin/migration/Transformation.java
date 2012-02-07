@@ -3,7 +3,6 @@ package org.eclipse.emf.henshin.migration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,11 +26,11 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
@@ -43,8 +42,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.testframework.Tools;
-import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.gmf.runtime.notation.View;
 
 
 /**
@@ -138,6 +135,11 @@ public class Transformation {
 		tr.migrate(new java.net.URI("dbg/cuTest.henshin"));
 	}
 	*/
+		
+	
+	public void migrate(java.net.URI henshinFileUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {
+		migrate(henshinFileUri, null, optimizeNcs, pm);
+	}
 	
 	/**
 	 * @param args
@@ -145,7 +147,7 @@ public class Transformation {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	public void migrate(java.net.URI fileUri, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
+	public void migrate(java.net.URI fileUri, java.net.URI henshinDiagramUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
 		//TODO: check if both root objects are in the newelements map for the diagram migration
 		
 		//String oldHenshinFilename = "dbg/philNew.henshin";
@@ -154,9 +156,10 @@ public class Transformation {
 		
 		pm.beginTask("migrating to new model", 100);
 		URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
-
+		URI diagramUri = henshinDiagramUri!=null?org.eclipse.emf.common.util.URI.createURI(henshinDiagramUri.toString()):null;
+		
 		// TODO: This is just for testing; remove when wizard is ready
-		URI diagramUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString() + "_diagram");
+//		URI diagramUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString() + "_diagram");
 		System.out.println("diagram: " + diagramUri);
 		// -----------------------
 		
@@ -180,6 +183,10 @@ public class Transformation {
 		Resource oldHenshinResource = resourceSet.getResource(URI.createFileURI(eFileUri.toFileString()), true);
 		EObject graphRoot = oldHenshinResource.getContents().get(0);
 
+		// load diagram
+		if (diagramUri != null && diagramUri.isFile()) {
+			resourceSet.getResource(diagramUri, true);
+		}
 		
 		// --- Actual conversion starts here ---
 
@@ -207,8 +214,10 @@ public class Transformation {
 		pm.worked(10);
 		wrapNACs();								// wrap NACs
 		pm.worked(2);
-//		cleanUpNotFormulas();					// clean up not formulas (consolidate multiple negations)
-//		pm.worked(2);
+		if (optimizeNcs) {
+			cleanUpNotFormulas();				// clean up not formulas (consolidate multiple negations)
+			pm.worked(2);
+		}
 		moveRulesToRulesReference();			// move Rules (i.e. former amalgamation units) from "TransformationUnits" to "Rules" reference
 		pm.worked(2);
 		

@@ -64,7 +64,7 @@ public class MigrateHenshinAction implements IObjectActionDelegate {
 						try {
 							Transformation tr = new Transformation();
 							pm.worked(100);
-							tr.migrate(file.getLocationURI(), pm);
+							tr.migrate(file.getLocationURI(), false, pm);
 							pm.done();
 							
 							// refresh:

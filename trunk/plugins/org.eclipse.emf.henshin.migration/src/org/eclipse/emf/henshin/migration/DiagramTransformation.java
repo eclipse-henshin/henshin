@@ -13,13 +13,14 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
 public class DiagramTransformation {
+	
 	public static boolean transformDiagram(Map<EObject, EObject> correspondence, ResourceSet resourceSet, URI diagramUri) throws IOException {
 		URI diagramBackupUri = diagramUri.appendFileExtension("bak");
 
 		
-		if (diagramUri.isFile()) {	// if the diagram exists, process it.
+		/*if (diagramUri.isFile()) {	// if the diagram exists, process it.
 	        resourceSet.getResource(diagramUri, true);
-
+	*/
 	        for (Resource resource : resourceSet.getResources()) {
 	            for (EObject root : resource.getContents()) {
 	                if (root instanceof Diagram) {
@@ -43,7 +44,7 @@ public class DiagramTransformation {
 	    	        return true;
 	        	}
 	        }
-        }
+//        }
 		return false;
 	}
 	

@@ -25,6 +25,26 @@
       </action>
    </objectContribution>
 </extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <command
+         defaultHandler="org.eclipse.emf.henshin.migration.wizard.MigrationWizardHandler"
+         id="org.eclipse.emf.henshin.migration.command3"
+         name="name">
+   </command>
+</extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:org.eclipse.emf.henshin.menu">
+      <command
+            commandId="org.eclipse.emf.henshin.migration.command3"
+            label="Migration Wizard"
+            style="push">
+      </command>
+   </menuContribution>
+</extension>
 
 
 </plugin>
