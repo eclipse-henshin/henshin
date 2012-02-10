@@ -33,10 +33,10 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
- * PRISM state space validator.
+ * PRISM CTMC state space validator.
  * @author Christian Krause
  */
-public class PRISMStateSpaceValidator extends AbstractPRISMTool {
+public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 	
 	/*
 	 * English number format (used for parsing and printing).

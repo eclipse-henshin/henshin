@@ -23,10 +23,10 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
- * PRISM steady-state tool.
+ * PRISM CTMC steady-state tool.
  * @author Christian Krause
  */
-public class PRISMSteadyStateTool extends AbstractPRISMTool {
+public class CTMCSteadyStateTool extends AbstractPRISMTool {
 	
 	/*
 	 * (non-Javadoc)
@@ -111,7 +111,7 @@ public class PRISMSteadyStateTool extends AbstractPRISMTool {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM (steady-states)";
+		return "PRISM CTMC (steady-states)";
 	}
 	
 	/*

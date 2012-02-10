@@ -110,7 +110,7 @@ public abstract class AbstractPRISMTool extends AbstractFileBasedValidator {
 		URI uri = URI.createFileURI(tmp.getAbsolutePath());
 		
 		// Do the export:
-		PRISMStateSpaceExporter exporter = new PRISMStateSpaceExporter();
+		CTMCStateSpaceExporter exporter = new CTMCStateSpaceExporter();
 		exporter.export(stateSpace, uri, monitor);
 		return tmp;
 		

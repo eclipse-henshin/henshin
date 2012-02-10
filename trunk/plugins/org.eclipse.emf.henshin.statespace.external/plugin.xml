@@ -23,11 +23,11 @@
             id="org.eclipse.emf.henshin.statespace.validator.mcrl2">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMStateSpaceValidator"
+            class="org.eclipse.emf.henshin.statespace.external.prism.CTMCStateSpaceValidator"
             id="org.eclipse.emf.henshin.statespace.validator.prism">
       </validator>
       <validator
-            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMSteadyStateTool"
+            class="org.eclipse.emf.henshin.statespace.external.prism.CTMCSteadyStateTool"
             id="org.eclipse.emf.henshin.statespace.validator.prism.steadystate">
       </validator>
    </extension>
@@ -42,7 +42,7 @@
             id="org.eclipse.emf.henshin.statespace.external.tikz">
       </exporter>
       <exporter
-            class="org.eclipse.emf.henshin.statespace.external.prism.PRISMStateSpaceExporter"
+            class="org.eclipse.emf.henshin.statespace.external.prism.CTMCStateSpaceExporter"
             id="org.eclipse.emf.henshin.statespace.external.export.prism">
       </exporter>
    </extension>

@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  * Exporter for PRISM. This generates a CTMC model.
  * @author Christian Krause
  */
-public class PRISMStateSpaceExporter implements StateSpaceExporter {
+public class CTMCStateSpaceExporter implements StateSpaceExporter {
 
 	/*
 	 * (non-Javadoc)
@@ -96,7 +96,7 @@ public class PRISMStateSpaceExporter implements StateSpaceExporter {
 	 */
 	@Override
 	public String getName() {
-		return "PRISM";
+		return "PRISM CTMC";
 	}
 
 	/*

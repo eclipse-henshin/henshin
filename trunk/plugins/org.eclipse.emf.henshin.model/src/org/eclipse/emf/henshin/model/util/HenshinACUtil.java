@@ -101,16 +101,15 @@ public class HenshinACUtil {
 	 *            <code>false</code> if NACs should be collected
 	 */
 	private static void addACs(Formula formula, List<NestedCondition> acs, boolean positive) {
-		// Conjunction (And):
 		if (formula instanceof And) {
 			addACs(((And) formula).getLeft(), acs, positive);
 			addACs(((And) formula).getRight(), acs, positive);
-		} else if (formula instanceof Not) {
-			Formula child = ((Not) formula).getChild();
-			if (child instanceof NestedCondition) {
-				NestedCondition nested = (NestedCondition) child;
-				acs.add(nested);
-			}
+		}
+		else if (formula instanceof Not) {
+			addACs(((Not) formula).getChild(), acs, !positive);
+		}
+		else if (formula instanceof NestedCondition && positive) {
+			acs.add((NestedCondition) formula);
 		}
 	}
 	
