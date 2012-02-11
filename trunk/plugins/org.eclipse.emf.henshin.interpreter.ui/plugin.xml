@@ -112,6 +112,14 @@
                label="%_UI_Register_EPackages"
                menubarPath="org.eclipse.emf.henshin.menu/additions">
          </action>
+         <action
+               class="org.eclipse.emf.henshin.interpreter.ui.CreateDynamicInstance"
+               enablesFor="1"
+               icon="platform:/plugin/org.eclipse.emf.ecore.editor/icons/full/obj16/EcoreModelFile.gif"
+               id="org.eclipse.emf.henshin.interpreter.ui.createDynamicInstance"
+               label="%_UI_Create_Dynamic_Instance"
+               menubarPath="org.eclipse.emf.henshin.menu/additions">
+         </action>
       </objectContribution>
    </extension>
   <extension
