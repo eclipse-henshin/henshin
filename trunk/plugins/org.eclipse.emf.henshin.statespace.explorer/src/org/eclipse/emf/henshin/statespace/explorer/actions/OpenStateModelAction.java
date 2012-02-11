@@ -12,7 +12,9 @@
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -25,6 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -86,7 +89,9 @@ public class OpenStateModelAction extends AbstractStateSpaceAction {
 					ResourceSet resourceSet = new ResourceSetImpl();
 					Resource resource = resourceSet.createResource(target);
 					resource.getContents().addAll(EcoreUtil.copyAll(model.getResource().getContents()));
-					resource.save(null);
+					Map<Object,Object> options = new HashMap<Object,Object>();
+					options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+					resource.save(options);
 					
 					// Don't forget to refresh the folder contents:
 					IPath path = new Path(target.toPlatformString(true));

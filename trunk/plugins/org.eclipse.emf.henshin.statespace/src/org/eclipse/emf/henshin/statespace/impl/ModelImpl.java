@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
@@ -126,10 +127,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 
 		// Copy the match.
 		if (match != null) {
-			for (Node node : match.getRule().getLhs().getNodes()) {
-				EObject newImage = copier.get(match.getNodeMapping().get(node));
-				match.getNodeMapping().put(node, newImage);
-			}
+			updateMatch(match, copier);
 		}
 		
 		// Now create a new model.
@@ -150,6 +148,21 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 
 	}
 
+	/*
+	 * Helper method for updating a match when copying a model.
+	 */
+	private void updateMatch(Match match, Copier copier) {
+		for (Node node : match.getRule().getLhs().getNodes()) {
+			EObject newImage = copier.get(match.getNodeMapping().get(node));
+			match.getNodeMapping().put(node, newImage);
+		}
+		for (Rule rule : match.getNestedMatches().keySet()) {
+			for (Match nested : match.getNestedMatchesFor(rule)) {
+				updateMatch(nested, copier);
+			}
+		}
+	}
+	
 	/**
 	 * @generated NOT
 	 */
