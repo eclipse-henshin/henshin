@@ -34,14 +34,13 @@ public class ChangeInfo {
 		deletedEdges = new ArrayList<Edge>();
 		deletedNodes = new ArrayList<Node>();
 		attributeChanges = new ArrayList<Attribute>();
-		preservedNodes = new ArrayList<Node>();
+		preservedNodes = new ArrayList<Node>();		
 		
 		for (Node node : rule.getLhs().getNodes()) {
 			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
 				continue;
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
+			if (!ModelHelper.isNodeMapped(rule.getMappings(), node))
 				deletedNodes.add(node);
-			}
 		}
 		
 		for (Node node : rule.getRhs().getNodes()) {
@@ -59,12 +58,16 @@ public class ChangeInfo {
 		}
 		
 		for (Edge edge : rule.getLhs().getEdges()) {
+			if (ModelHelper.isEdgeMapped(rule.getMultiMappings(), edge))
+				continue;
 			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
 				deletedEdges.add(edge);
 			}
 		}
 		
 		for (Edge edge : rule.getRhs().getEdges()) {
+			if (ModelHelper.isEdgeMapped(rule.getMultiMappings(), edge))
+				continue;
 			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
 				createdEdges.add(edge);
 			}
