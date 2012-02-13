@@ -54,7 +54,7 @@ public interface StateEqualityHelper extends EObject {
 	 * @see #isUseObjectKeys()
 	 * @generated
 	 */
-	void setUseObjectKeys(boolean useObjectKeys);
+	void setUseObjectKeys(boolean value);
 
 	/**
 	 * Check whether this helper uses object attributes.

@@ -21,7 +21,7 @@ public class ExportStateSpaceFileAction extends AbstractStateSpaceFileAction {
 		// Create the wizard:
 		ExportStateSpaceWizard wizard = new ExportStateSpaceWizard();
 		IWorkbench workbench = getWorkbenchPart().getSite().getWorkbenchWindow().getWorkbench();
-		wizard.setStateSpace(getStateSpaceManager().getStateSpace());
+		wizard.setStateSpaceIndex(getStateSpaceManager());
 		wizard.init(workbench, (IStructuredSelection) getSelection());
 		
 		// Wizard dialog:

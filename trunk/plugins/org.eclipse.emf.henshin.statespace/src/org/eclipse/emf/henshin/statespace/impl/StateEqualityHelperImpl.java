@@ -167,24 +167,24 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isUseObjectKeys() <em>Use Object Identities</em>}' attribute.
+	 * The default value of the '{@link #isUseObjectKeys() <em>Use Object Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #isUseObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean USE_OBJECT_IDENTITIES_EDEFAULT = true;
+	protected static final boolean USE_OBJECT_KEYS_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUseObjectKeys() <em>Use Object Identities</em>}' attribute.
+	 * The cached value of the '{@link #isUseObjectKeys() <em>Use Object Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #isUseObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean useObjectKeys = USE_OBJECT_IDENTITIES_EDEFAULT;
+	protected boolean useObjectKeys = USE_OBJECT_KEYS_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
@@ -194,7 +194,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean USE_OBJECT_ATTRIBUTES_EDEFAULT = false;
+	protected static final boolean USE_OBJECT_ATTRIBUTES_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
@@ -249,11 +249,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	/**
 	 * @generated
 	 */
-	public void setUseObjectKeys(boolean newUseObjectIdentities) {
-		boolean oldUseObjectIdentities = useObjectKeys;
-		useObjectKeys = newUseObjectIdentities;
+	public void setUseObjectKeys(boolean newUseObjectKeys) {
+		boolean oldUseObjectKeys = useObjectKeys;
+		useObjectKeys = newUseObjectKeys;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES, oldUseObjectIdentities, useObjectKeys));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS, oldUseObjectKeys, useObjectKeys));
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return isUseGraphEquality();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
 				return isUseObjectKeys();
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return isUseObjectAttributes();
@@ -298,7 +298,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				setUseGraphEquality((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
 				setUseObjectKeys((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
@@ -317,8 +317,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				setUseObjectKeys(USE_OBJECT_IDENTITIES_EDEFAULT);
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+				setUseObjectKeys(USE_OBJECT_KEYS_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				setUseObjectAttributes(USE_OBJECT_ATTRIBUTES_EDEFAULT);
@@ -335,8 +335,8 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_IDENTITIES:
-				return useObjectKeys != USE_OBJECT_IDENTITIES_EDEFAULT;
+			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+				return useObjectKeys != USE_OBJECT_KEYS_EDEFAULT;
 			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return useObjectAttributes != USE_OBJECT_ATTRIBUTES_EDEFAULT;
 		}

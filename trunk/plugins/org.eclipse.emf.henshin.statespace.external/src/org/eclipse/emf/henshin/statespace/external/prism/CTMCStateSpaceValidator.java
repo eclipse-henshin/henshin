@@ -23,14 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
-import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
-import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * PRISM CTMC state space validator.
@@ -61,7 +57,7 @@ public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 		monitor.beginTask("Validating CSL property...", -1);
 		
 		// Generate the CSL file.
-		File cslFile = createTempFile("property", ".csl", preprocessProperty(property,stateSpace,monitor));
+		File cslFile = createTempFile("property", ".csl", PRISMLabelExpander.expandLabels(property, index));
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
@@ -183,64 +179,7 @@ public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 		}
 			
 	}	
-	
-	/*
-	 * Pre-process property.
-	 */
-	private String preprocessProperty(String property, StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
-		while (!monitor.isCanceled()) {
-			
-			// Find <<< ... >>>
-			int start = property.indexOf("<<<");
-			if (start<0) break;
-			int end = property.indexOf(">>>", start);
-			if (end<0) end = property.length();
-			else end = end + 3;
-			
-			// Get the type: <<<TYPE ... >>>
-			String toReplace = property.substring(start, end);
-			String type = "";
-			for (int i=3; i<toReplace.length(); i++) {
-				if (Character.isWhitespace(toReplace.charAt(i))) {
-					break;
-				}
-				type = type + toReplace.charAt(i);
-			}
-			
-			// Find the state validator:
-			StateValidator validator = null;
-			for (Validator v : StateSpacePlugin.INSTANCE.getValidators().values()) {
-				if (v.getName().startsWith(type) && v instanceof StateValidator) {
-					validator = (StateValidator) v;
-					break;
-				}
-			}
-			if (validator==null) {
-				throw new RuntimeException("Unknown validator \"" + type + "\"");
-			}
-			
-			// Find all states which satisfy the property:
-			String theProperty = toReplace.substring(3+type.length(), toReplace.length()-3).trim();
-			validator.setStateSpaceIndex(index);
-			validator.setProperty(theProperty);
-			String result = "";
-			IProgressMonitor nullMonitor = new NullProgressMonitor();
-			for (State state : stateSpace.getStates()) {
-				if (validator.validate(state, nullMonitor).isValid()) {
-					if (result.length()>0) result = result + " | ";
-					result = result + "s=" + state.getIndex();
-				}
-			}
-			if (result.length()==0) result = "false";
-			result = result + ";";
-			
-			// Replace the text with the result:
-			property = property.substring(0,start) + result + property.substring(end);
-			
-		}
-		return property;
-	}
-	
+		
 	/*
 	 * Parse the output of PRISM.
 	 */
@@ -317,5 +256,5 @@ public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 	public boolean usesProperty() {
 		return true;
 	}
-	
+
 }

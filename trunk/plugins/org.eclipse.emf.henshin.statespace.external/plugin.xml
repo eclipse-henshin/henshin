@@ -43,7 +43,11 @@
       </exporter>
       <exporter
             class="org.eclipse.emf.henshin.statespace.external.prism.CTMCStateSpaceExporter"
-            id="org.eclipse.emf.henshin.statespace.external.export.prism">
+            id="org.eclipse.emf.henshin.statespace.external.export.prismctmc">
+      </exporter>
+      <exporter
+            class="org.eclipse.emf.henshin.statespace.external.prism.MDPStateSpaceExporter"
+            id="org.eclipse.emf.henshin.statespace.external.export.prismmdp">
       </exporter>
    </extension>
    <extension

@@ -73,7 +73,8 @@ public class AttributeParser extends AbstractParser {
 		Node actionNode = HenshinActionHelper.getActionNode(attribute.getNode());
 		Action nodeAction = HenshinActionHelper.getAction(actionNode);
 		
-		if (action!=null && !action.equals(nodeAction)) {
+		// We show only FORBID actions:
+		if (action!=null && !action.equals(nodeAction) && action.getType()==ActionType.FORBID) {
 			result = "<<" + action + ">> " + result;
 		}
 		

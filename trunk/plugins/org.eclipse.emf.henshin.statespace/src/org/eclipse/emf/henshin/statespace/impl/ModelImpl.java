@@ -55,9 +55,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		private static final long serialVersionUID = 1L;
 
 		public ObjectKeyMap(ModelImpl model) {
-			super(StateSpacePackage.Literals.OBJECT_IDENTITY, 
+			super(StateSpacePackage.Literals.OBJECT_KEY, 
 				ObjectKeyImpl.class, model, 
-				StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP);
+				StateSpacePackage.MODEL__OBJECT_KEYS_MAP);
 		}
 
 		@Override
@@ -351,7 +351,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EmfGraph emfGraph = EMF_GRAPH_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getObjectKeysMap() <em>Object Identities Map</em>}' map.
+	 * The cached value of the '{@link #getObjectKeysMap() <em>Object Keys Map</em>}' map.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getObjectKeysMap()
 	 * @generated
@@ -360,14 +360,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EMap<EObject, Integer> objectKeysMap;
 
 	/**
-	 * The default value of the '{@link #getObjectKeys() <em>Object Identities</em>}' attribute.
+	 * The default value of the '{@link #getObjectKeys() <em>Object Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] OBJECT_IDENTITIES_EDEFAULT = null;
+	protected static final int[] OBJECT_KEYS_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getObjectCount() <em>Object Count</em>}' attribute.
@@ -410,7 +410,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				return ((InternalEList<?>)getObjectKeysMap()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -426,10 +426,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return getResource();
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return getEmfGraph();
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				if (coreType) return getObjectKeysMap();
 				else return getObjectKeysMap().map();
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+			case StateSpacePackage.MODEL__OBJECT_KEYS:
 				return getObjectKeys();
 			case StateSpacePackage.MODEL__OBJECT_COUNT:
 				return getObjectCount();
@@ -443,10 +443,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				((EStructuralFeature.Setting)getObjectKeysMap()).set(newValue);
 				return;
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
+			case StateSpacePackage.MODEL__OBJECT_KEYS:
 				setObjectKeys((int[])newValue);
 				return;
 		}
@@ -459,11 +459,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				getObjectKeysMap().clear();
 				return;
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				setObjectKeys(OBJECT_IDENTITIES_EDEFAULT);
+			case StateSpacePackage.MODEL__OBJECT_KEYS:
+				setObjectKeys(OBJECT_KEYS_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -479,10 +479,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
 			case StateSpacePackage.MODEL__EMF_GRAPH:
 				return EMF_GRAPH_EDEFAULT == null ? emfGraph != null : !EMF_GRAPH_EDEFAULT.equals(emfGraph);
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES_MAP:
+			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				return objectKeysMap != null && !objectKeysMap.isEmpty();
-			case StateSpacePackage.MODEL__OBJECT_IDENTITIES:
-				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectKeys());
+			case StateSpacePackage.MODEL__OBJECT_KEYS:
+				return OBJECT_KEYS_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_KEYS_EDEFAULT.equals(getObjectKeys());
 			case StateSpacePackage.MODEL__OBJECT_COUNT:
 				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
 		}

@@ -143,13 +143,13 @@ public class RatesPropertiesManager implements StateSpacePropertiesManager {
 	public void initialize(StateSpace stateSpace) {
 		
 		// Initialize rates:
-		for (Rule rule : stateSpace.getRules()) {
-			try {
-				if (getRate(stateSpace, rule)==null) {
-					setRate(stateSpace, rule, new Rate(1));
-				}
-			} catch (ParseException e) {}
-		}
+		//for (Rule rule : stateSpace.getRules()) {
+			//try {
+			//	if (getRate(stateSpace, rule)==null) {
+			//		setRate(stateSpace, rule, new Rate(1));
+			//	}
+			//} catch (ParseException e) {}
+		//}
 		
 		// Initialize default arguments:
 		if (getPRISMArgs(stateSpace)==null) {

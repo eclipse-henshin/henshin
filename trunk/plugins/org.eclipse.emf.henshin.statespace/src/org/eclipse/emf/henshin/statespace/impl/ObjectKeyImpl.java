@@ -67,7 +67,7 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackage.Literals.OBJECT_IDENTITY;
+		return StateSpacePackage.Literals.OBJECT_KEY;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 			key = eResolveProxy(oldKey);
 			if (key != oldKey) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.OBJECT_IDENTITY__KEY, oldKey, key));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.OBJECT_KEY__KEY, oldKey, key));
 			}
 		}
 		return key;
@@ -99,7 +99,7 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 		EObject oldKey = key;
 		key = newKey;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_IDENTITY__KEY, oldKey, key));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_KEY__KEY, oldKey, key));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 		Integer oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_IDENTITY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_KEY__VALUE, oldValue, value));
 	}
 
 	/**
@@ -125,10 +125,10 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_IDENTITY__KEY:
+			case StateSpacePackage.OBJECT_KEY__KEY:
 				if (resolve) return getTypedKey();
 				return basicGetTypedKey();
-			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
+			case StateSpacePackage.OBJECT_KEY__VALUE:
 				return getTypedValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -140,10 +140,10 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_IDENTITY__KEY:
+			case StateSpacePackage.OBJECT_KEY__KEY:
 				setTypedKey((EObject)newValue);
 				return;
-			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
+			case StateSpacePackage.OBJECT_KEY__VALUE:
 				setTypedValue((Integer)newValue);
 				return;
 		}
@@ -156,10 +156,10 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_IDENTITY__KEY:
+			case StateSpacePackage.OBJECT_KEY__KEY:
 				setTypedKey((EObject)null);
 				return;
-			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
+			case StateSpacePackage.OBJECT_KEY__VALUE:
 				setTypedValue(VALUE_EDEFAULT);
 				return;
 		}
@@ -172,9 +172,9 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_IDENTITY__KEY:
+			case StateSpacePackage.OBJECT_KEY__KEY:
 				return key != null;
-			case StateSpacePackage.OBJECT_IDENTITY__VALUE:
+			case StateSpacePackage.OBJECT_KEY__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);

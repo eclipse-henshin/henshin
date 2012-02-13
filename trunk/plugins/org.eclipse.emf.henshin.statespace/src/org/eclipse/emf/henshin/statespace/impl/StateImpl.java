@@ -206,14 +206,14 @@ public class StateImpl extends StorageImpl implements State {
 	protected static final int OBJECT_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getObjectKeys() <em>Object Identities</em>}' attribute.
+	 * The default value of the '{@link #getObjectKeys() <em>Object Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getObjectKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] OBJECT_IDENTITIES_EDEFAULT = null;
+	protected static final int[] OBJECT_KEYS_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getModel() <em>Model</em>}' attribute.
@@ -424,7 +424,7 @@ public class StateImpl extends StorageImpl implements State {
 				return getHashCode();
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount();
-			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+			case StateSpacePackage.STATE__OBJECT_KEYS:
 				return getObjectKeys();
 			case StateSpacePackage.STATE__MODEL:
 				return getModel();
@@ -465,7 +465,7 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				setObjectCount((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
+			case StateSpacePackage.STATE__OBJECT_KEYS:
 				setObjectKeys((int[])newValue);
 				return;
 			case StateSpacePackage.STATE__MODEL:
@@ -505,8 +505,8 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				setObjectCount(OBJECT_COUNT_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				setObjectKeys(OBJECT_IDENTITIES_EDEFAULT);
+			case StateSpacePackage.STATE__OBJECT_KEYS:
+				setObjectKeys(OBJECT_KEYS_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__MODEL:
 				setModel((Model)null);
@@ -537,8 +537,8 @@ public class StateImpl extends StorageImpl implements State {
 				return getHashCode() != HASH_CODE_EDEFAULT;
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
-			case StateSpacePackage.STATE__OBJECT_IDENTITIES:
-				return OBJECT_IDENTITIES_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_IDENTITIES_EDEFAULT.equals(getObjectKeys());
+			case StateSpacePackage.STATE__OBJECT_KEYS:
+				return OBJECT_KEYS_EDEFAULT == null ? getObjectKeys() != null : !OBJECT_KEYS_EDEFAULT.equals(getObjectKeys());
 			case StateSpacePackage.STATE__MODEL:
 				return model != null;
 		}

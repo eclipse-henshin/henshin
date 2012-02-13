@@ -436,7 +436,8 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	protected void refreshFontColor() {
 		Attribute attribute = (Attribute) getNotationView().getElement();
 		Action action = HenshinActionHelper.getAction(attribute);
-		if (action != null && action.getType() != ActionType.PRESERVE) {
+		// We highlight only FORBID attributes:
+		if (action != null && action.getType() == ActionType.FORBID) {
 			setFontColor(ActionColorProvider.getColor(action));
 		} else {
 			setFontColor(ColorConstants.black);

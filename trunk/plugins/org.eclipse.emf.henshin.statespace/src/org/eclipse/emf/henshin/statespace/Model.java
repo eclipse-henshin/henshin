@@ -72,7 +72,7 @@ public interface Model extends EObject {
 	 * @see #getObjectKeys()
 	 * @generated
 	 */
-	void setObjectKeys(int[] keys);
+	void setObjectKeys(int[] value);
 
 	/**
 	 * Get the number of objects in this model.

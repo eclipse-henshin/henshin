@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
@@ -58,12 +62,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	// A lock used when exploring states:
 	private final Object explorerLock = new Object();
 	
+	// JavaScript post-processor:
+	private PostProcessor postProcessor;
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
 	 */
 	public StateSpaceManagerImpl(StateSpace stateSpace) {
 		super(stateSpace);
+		postProcessor = new PostProcessor();
 	}
 	
 	/*
@@ -214,6 +222,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			Match match = matches.get(transition.getMatch());
 			application.setMatch(match);
 			application.apply();
+			postProcessor.process(model);
 			
 			// Collect the missing root objects:
 			model.collectMissingRootObjects();
@@ -402,6 +411,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				application = new RuleApplication(engine, rule);
 				application.setMatch(match);
 				application.apply();
+				postProcessor.process(transformed);
 				
 				// Collect newly created root objects:
 				transformed.collectMissingRootObjects();
@@ -513,15 +523,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * Clear the state model cache. Should be done every now and then.
 	 */
 	public void clearCache() {
-		int index = 0;
 		for (State state : getStateSpace().getStates()) {
-			// We leave a small rest amount of the state models.
-			if ((++index % 10 != 0) && !state.isInitial()) {
+			if (!state.isInitial()) {
 				state.setModel(null);
 			}
 		}
 		stateModelCache.clear();
 		getStateSpace().getEqualityHelper().clearCache();
+		postProcessor = new PostProcessor();
 		System.gc();
 	}
 
@@ -558,6 +567,44 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 	}
 	
+	/**
+	 * Post processor helper.
+	 * @author ckrause
+	 *
+	 */
+	class PostProcessor {
+		
+		private ScriptEngine engine;
+		private String script;
+		
+		PostProcessor() {
+			ScriptEngineManager manager = new ScriptEngineManager();
+		    engine = manager.getEngineByName("JavaScript");
+		    script = getStateSpace().getProperties().get("postProcessor");
+		    if (script!=null && script.trim().length()==0) {
+		    	script = null;
+		    }
+		    if (script!=null) {
+		    	String imports = "importPackage(java.lang);\n" +
+		    					 "importPackage(java.util);\n" +
+		    					 "importPackage(org.eclipse.emf.ecore);\n" ;
+			    script = imports + script;
+		    }
+		}
+		
+		public synchronized void process(Model model) throws StateSpaceException {
+			if (script!=null) {
+				EObject root = model.getResource().getContents().get(0);
+				engine.put("model", root);
+				try {
+					engine.eval(script);
+				} catch (ScriptException e) {
+					throw new StateSpaceException(e);
+				}
+			}
+		}
+		
+	}
 	
 	/**
 	 * A general-purpose cache.

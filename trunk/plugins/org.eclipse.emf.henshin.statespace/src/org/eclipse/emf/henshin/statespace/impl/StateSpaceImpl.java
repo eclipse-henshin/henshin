@@ -189,7 +189,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		
 		// Now we can update the state space attributes:
 		supportedTypes = types.toArray(new EClass[0]);
-		objectTypePrefixes = prefixes.toArray(new String[0]);
+		supportedTypePrefixes = prefixes.toArray(new String[0]);
 
 	}
 
@@ -451,56 +451,58 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected EMap<String, String> properties;
 
 	/**
-	 * The default value of the '{@link #getSupportedTypes() <em>Object Types</em>}' attribute.
+	 * The default value of the '{@link #getSupportedTypes() <em>Supported Types</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSupportedTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final EClass[] OBJECT_TYPES_EDEFAULT = null;
+	protected static final EClass[] SUPPORTED_TYPES_EDEFAULT = null;
 
 
 	/**
-	 * The cached value of the '{@link #getSupportedTypes() <em>Object Types</em>}' attribute.
+	 * The cached value of the '{@link #getSupportedTypes() <em>Supported Types</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSupportedTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EClass[] supportedTypes = OBJECT_TYPES_EDEFAULT;
+	protected EClass[] supportedTypes = SUPPORTED_TYPES_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getObjectTypePrefixes() <em>Object Type Prefixes</em>}' attribute.
+	 * The default value of the '{@link #getSupportedTypePrefixes() <em>Supported Type Prefixes</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectTypePrefixes()
+	 * @see #getSupportedTypePrefixes()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String[] OBJECT_TYPE_PREFIXES_EDEFAULT = null;
+	protected static final String[] SUPPORTED_TYPE_PREFIXES_EDEFAULT = null;
 
 
 	/**
-	 * The cached value of the '{@link #getObjectTypePrefixes() <em>Object Type Prefixes</em>}' attribute.
+	 * The cached value of the '{@link #getSupportedTypePrefixes() <em>Supported Type Prefixes</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getObjectTypePrefixes()
+	 * @see #getSupportedTypePrefixes()
 	 * @generated
 	 * @ordered
 	 */
-	protected String[] objectTypePrefixes = OBJECT_TYPE_PREFIXES_EDEFAULT;
+	protected String[] supportedTypePrefixes = SUPPORTED_TYPE_PREFIXES_EDEFAULT;
+
 
 	/**
-	 * The default value of the '{@link #getAllParameterKeys() <em>All Parameter Identities</em>}' attribute.
+	 * The default value of the '{@link #getAllParameterKeys() <em>All Parameter Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getAllParameterKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] ALL_PARAMETER_IDENTITIES_EDEFAULT = null;
+	protected static final int[] ALL_PARAMETER_KEYS_EDEFAULT = null;
+
 
 	/**
 	 * @generated
@@ -602,7 +604,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @generated
 	 */
 	public String[] getSupportedTypePrefixes() {
-		return objectTypePrefixes;
+		return supportedTypePrefixes;
 	}
 
 	/**
@@ -695,11 +697,11 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
-			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
+			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPES:
 				return getSupportedTypes();
-			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
+			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPE_PREFIXES:
 				return getSupportedTypePrefixes();
-			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
+			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_KEYS:
 				return getAllParameterKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -832,12 +834,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return isHideLabels() != HIDE_LABELS_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
-			case StateSpacePackage.STATE_SPACE__OBJECT_TYPES:
-				return OBJECT_TYPES_EDEFAULT == null ? supportedTypes != null : !OBJECT_TYPES_EDEFAULT.equals(supportedTypes);
-			case StateSpacePackage.STATE_SPACE__OBJECT_TYPE_PREFIXES:
-				return OBJECT_TYPE_PREFIXES_EDEFAULT == null ? objectTypePrefixes != null : !OBJECT_TYPE_PREFIXES_EDEFAULT.equals(objectTypePrefixes);
-			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_IDENTITIES:
-				return ALL_PARAMETER_IDENTITIES_EDEFAULT == null ? getAllParameterKeys() != null : !ALL_PARAMETER_IDENTITIES_EDEFAULT.equals(getAllParameterKeys());
+			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPES:
+				return SUPPORTED_TYPES_EDEFAULT == null ? supportedTypes != null : !SUPPORTED_TYPES_EDEFAULT.equals(supportedTypes);
+			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPE_PREFIXES:
+				return SUPPORTED_TYPE_PREFIXES_EDEFAULT == null ? supportedTypePrefixes != null : !SUPPORTED_TYPE_PREFIXES_EDEFAULT.equals(supportedTypePrefixes);
+			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_KEYS:
+				return ALL_PARAMETER_KEYS_EDEFAULT == null ? getAllParameterKeys() != null : !ALL_PARAMETER_KEYS_EDEFAULT.equals(getAllParameterKeys());
 		}
 		return super.eIsSet(featureID);
 	}
@@ -854,10 +856,10 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
-		result.append(", objectTypes: ");
+		result.append(", supportedTypes: ");
 		result.append(supportedTypes);
-		result.append(", objectTypePrefixes: ");
-		result.append(objectTypePrefixes);
+		result.append(", supportedTypePrefixes: ");
+		result.append(supportedTypePrefixes);
 		result.append(')');
 		return result.toString();
 	}

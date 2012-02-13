@@ -18,7 +18,7 @@ public interface StateSpaceExporter {
 	 * @param monitor Progress monitor.
 	 * @throws Exception On errors.
 	 */
-	void export(StateSpace stateSpace, URI uri, IProgressMonitor monitor) throws IOException;
+	void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException;
 	
 	/**
 	 * Get the name of this exported.
@@ -32,4 +32,10 @@ public interface StateSpaceExporter {
 	 */
 	String[] getFileExtensions();
 	
+	/**
+	 * Set the state space index to be used.
+	 * @param index State space index.
+	 */
+	void setStateSpaceIndex(StateSpaceIndex index);
+
 }

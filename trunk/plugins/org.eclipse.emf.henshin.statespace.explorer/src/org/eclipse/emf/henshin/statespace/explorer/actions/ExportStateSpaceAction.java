@@ -33,7 +33,7 @@ public class ExportStateSpaceAction extends AbstractStateSpaceAction {
 
 		// Create the wizard:
 		ExportStateSpaceWizard wizard = new ExportStateSpaceWizard();
-		wizard.setStateSpace(getExplorer().getStateSpaceManager().getStateSpace());
+		wizard.setStateSpaceIndex(getExplorer().getStateSpaceManager());
 		wizard.init(getExplorer().getEditorSite().getWorkbenchWindow().getWorkbench(), (IStructuredSelection) getSelection());
 		
 		// Wizard dialog:

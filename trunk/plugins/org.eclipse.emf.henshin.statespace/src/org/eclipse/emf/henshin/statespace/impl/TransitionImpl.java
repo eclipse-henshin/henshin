@@ -159,14 +159,14 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	protected static final int PARAMETER_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The default value of the '{@link #getParameterKeys() <em>Parameter Identities</em>}' attribute.
+	 * The default value of the '{@link #getParameterKeys() <em>Parameter Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParameterKeys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] PARAMETER_IDENTITIES_EDEFAULT = null;
+	protected static final int[] PARAMETER_KEYS_EDEFAULT = null;
 
 	/**
 	 * @generated
@@ -368,7 +368,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				return getMatch();
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount();
-			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+			case StateSpacePackage.TRANSITION__PARAMETER_KEYS:
 				return getParameterKeys();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -395,7 +395,7 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				setParameterCount((Integer)newValue);
 				return;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
+			case StateSpacePackage.TRANSITION__PARAMETER_KEYS:
 				setParameterKeys((int[])newValue);
 				return;
 		}
@@ -423,8 +423,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				setParameterCount(PARAMETER_COUNT_EDEFAULT);
 				return;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				setParameterKeys(PARAMETER_IDENTITIES_EDEFAULT);
+			case StateSpacePackage.TRANSITION__PARAMETER_KEYS:
+				setParameterKeys(PARAMETER_KEYS_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -446,8 +446,8 @@ public class TransitionImpl extends StorageImpl implements Transition {
 				return getMatch() != MATCH_EDEFAULT;
 			case StateSpacePackage.TRANSITION__PARAMETER_COUNT:
 				return getParameterCount() != PARAMETER_COUNT_EDEFAULT;
-			case StateSpacePackage.TRANSITION__PARAMETER_IDENTITIES:
-				return PARAMETER_IDENTITIES_EDEFAULT == null ? getParameterKeys() != null : !PARAMETER_IDENTITIES_EDEFAULT.equals(getParameterKeys());
+			case StateSpacePackage.TRANSITION__PARAMETER_KEYS:
+				return PARAMETER_KEYS_EDEFAULT == null ? getParameterKeys() != null : !PARAMETER_KEYS_EDEFAULT.equals(getParameterKeys());
 		}
 		return super.eIsSet(featureID);
 	}

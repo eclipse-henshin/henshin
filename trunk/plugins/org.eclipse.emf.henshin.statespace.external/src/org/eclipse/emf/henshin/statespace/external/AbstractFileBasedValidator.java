@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.external.cadp.AUTStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.validation.AbstractStateSpaceValidator;
 
@@ -134,7 +135,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 		// Do the export:
 		AUTStateSpaceExporter exporter = new AUTStateSpaceExporter();
-		exporter.export(stateSpace, uri, monitor);
+		exporter.export(stateSpace, uri, null, monitor);
 		
 		// We cache the file so that we don't have to generate it again:
 		addCachedFile(stateSpace, AUT_FILE_EXPORT_KEY, aut);
@@ -142,6 +143,20 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 	}
 
+	protected File export(StateSpace stateSpace, StateSpaceExporter exporter, String parameters, IProgressMonitor monitor) throws Exception {
+
+		// Temporary file.
+		String filename = stateSpace.eResource()!=null ? 
+				stateSpace.eResource().getURI().trimFileExtension().lastSegment() : "statespace";
+		File tmp = File.createTempFile(filename, exporter.getFileExtensions()[0]);
+		URI uri = URI.createFileURI(tmp.getAbsolutePath());
+		
+		// Do the export:
+		exporter.export(stateSpace, uri, parameters, monitor);
+		return tmp;
+		
+	}
+	
 	/**
 	 * Convert a file using a given command.
 	 * @param input Input file.

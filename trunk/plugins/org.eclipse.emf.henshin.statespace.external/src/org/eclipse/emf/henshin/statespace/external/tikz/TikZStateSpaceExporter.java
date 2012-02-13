@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.layout.TransitionBendpointHelper;
 
@@ -26,7 +27,7 @@ public class TikZStateSpaceExporter implements StateSpaceExporter {
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void export(StateSpace stateSpace, URI uri, IProgressMonitor monitor) throws IOException {
+	public void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
 		
 		// Export to file...
 		File file = new File(uri.toFileString());
@@ -134,6 +135,14 @@ public class TikZStateSpaceExporter implements StateSpaceExporter {
 	@Override
 	public String[] getFileExtensions() {
 		return new String[] { "tex" };
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceExporter#setStateSpaceIndex(org.eclipse.emf.henshin.statespace.StateSpaceIndex)
+	 */
+	@Override
+	public void setStateSpaceIndex(StateSpaceIndex index) {
 	}
 
 }

@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
+import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
@@ -40,11 +41,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -60,17 +64,17 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  */
 public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	
-	// File creation page:
-	private FileCreationPage fileCreationPage;
-
-	// Choose exporter page:
+	// Wizard pages:
 	private ChooseExporterPage chooseExporterPage;
+	private ParametersPage parametersPage;
+	private FileCreationPage fileCreationPage;
 	
 	// The workbench:
 	private IWorkbench workbench;
 	
 	// State space to be exported:
 	private StateSpace stateSpace;
+	private StateSpaceIndex index;
 	
 	// Selection:
 	private IStructuredSelection selection;
@@ -136,6 +140,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	@Override
 	public void addPages() {
 		addPage(chooseExporterPage = new ChooseExporterPage("exporter-selection"));
+		addPage(parametersPage = new ParametersPage("parameters"));
 		addPage(fileCreationPage = new FileCreationPage("file-creation", selection));
 	}
 
@@ -170,12 +175,9 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		return pretty;
 	}
 	
-	/**
-	 * Set the state space to be used.
-	 * @param stateSpace State space.
-	 */
-	public void setStateSpace(StateSpace stateSpace) {
-		this.stateSpace = stateSpace;
+	public void setStateSpaceIndex(StateSpaceIndex index) {
+		this.index = index;
+		this.stateSpace = index.getStateSpace();
 	}
 
 	/*
@@ -187,11 +189,12 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		try {
 			final IFile file = getFile();
 			final StateSpaceExporter exporter = getExporter();
+			final String parameters = parametersPage.parameters;
 			WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 				@Override
 				protected void execute(IProgressMonitor monitor) {
 					try {
-						performExport(exporter,file,monitor);
+						performExport(exporter, file, parameters, monitor);
 					} catch (Throwable t) {
 						StateSpaceExplorerPlugin.getInstance().logError("Error exporting state space", t);
 					} finally {
@@ -213,7 +216,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Perform the export operation.
 	 */
-	protected void performExport(StateSpaceExporter exporter, IFile file, IProgressMonitor monitor) throws Exception {
+	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Exception {
 		
 		// Export to a temporary file first:
 		String extension = file.getFileExtension();
@@ -223,7 +226,8 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		
 		// Now perform the export:
 		monitor.beginTask("Exporting state space...", 2);
-		exporter.export(stateSpace, fileURI, new SubProgressMonitor(monitor,1));
+		exporter.setStateSpaceIndex(index);
+		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,1));
 		
 		// Copy the file to the real location:
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(tmp), 65536);
@@ -317,7 +321,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					widgetSelected(e);
-					getContainer().showPage(fileCreationPage);
+					getContainer().showPage(parametersPage);
 				}
 			});
 			list.select(current);
@@ -338,6 +342,43 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 			return exporters.get(current);
 		}
 		
+	}
+
+	/*
+	 * Parameters page
+	 */
+	protected class ParametersPage extends WizardPage {
+		
+		String parameters;
+		
+		/*
+		 * Constructor.
+		 */
+		public ParametersPage(String pageId) {
+			super(pageId);
+			setDescription("Enter parameters (optional)");
+			if (wizban!=null) {
+				setImageDescriptor(wizban);
+			}
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+		 */
+		@Override
+		public void createControl(Composite parent) {
+			Composite container = new Composite(parent, SWT.NONE);
+			container.setLayout(new FillLayout());
+			final Text text = new Text(container, SWT.BORDER | SWT.MULTI);
+			text.addModifyListener(new ModifyListener() {
+				@Override
+				public void modifyText(ModifyEvent e) {
+					parameters = text.getText();
+				}
+			});
+			setControl(container);
+		}		
 	}
 
 	/*
