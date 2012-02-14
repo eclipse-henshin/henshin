@@ -592,14 +592,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		    }
 		}
 		
-		public synchronized void process(Model model) throws StateSpaceException {
+		public void process(Model model) throws StateSpaceException {
 			if (script!=null) {
 				EObject root = model.getResource().getContents().get(0);
-				engine.put("model", root);
-				try {
-					engine.eval(script);
-				} catch (ScriptException e) {
-					throw new StateSpaceException(e);
+				synchronized (engine) {
+					engine.put("model", root);
+					try {
+						engine.eval(script);
+					} catch (ScriptException e) {
+						throw new StateSpaceException(e);
+					}
 				}
 			}
 		}
