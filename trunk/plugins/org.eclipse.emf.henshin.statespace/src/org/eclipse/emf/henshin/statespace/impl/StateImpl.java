@@ -70,57 +70,71 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
+	public int getDerivedFrom() {
+		return getData(1);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setDerivedFrom(int derivedFrom) {
+		setData(1, derivedFrom);
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public boolean isOpen() {
-		return (getData(1)!=0);
+		return (getData(2)!=0);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setOpen(boolean open) {
-		setData(1, open ? 1 : 0);
+		setData(2, open ? 1 : 0);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public int getObjectCount() {
-		return getData(2);
+		return getData(3);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setObjectCount(int objectCount) {
-		setData(2, objectCount);
+		setData(3, objectCount);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public int[] getLocation() {
-		return getData(3, 6);
+		return getData(4, 7);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setLocation(int... newLocation) {
-		setData(3, 6, newLocation);
+	public void setLocation(int... location) {
+		setData(4, 7, location);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public int[] getObjectKeys() {
-		return getData(6, 6+getObjectCount());
+		return getData(7, 7+getObjectCount());
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	public void setObjectKeys(int[] objectKeys) {
-		setData(6, objectKeys);
+		setData(7, objectKeys);
 	}
 
 	/**
@@ -172,12 +186,22 @@ public class StateImpl extends StorageImpl implements State {
 	protected EList<Transition> outgoing;
 
 	/**
-	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
-	 * @see #getLocation()
+	 * The default value of the '{@link #getHashCode() <em>Hash Code</em>}' attribute.
+	 * @see #getHashCode()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int[] LOCATION_EDEFAULT = null;
+	protected static final int HASH_CODE_EDEFAULT = 0;
+
+	/**
+	 * The default value of the '{@link #getDerivedFrom() <em>Derived From</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDerivedFrom()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int DERIVED_FROM_EDEFAULT = 0;
 
 	/**
 	 * The default value of the '{@link #isOpen() <em>Open</em>}' attribute.
@@ -188,12 +212,12 @@ public class StateImpl extends StorageImpl implements State {
 	protected static final boolean OPEN_EDEFAULT = false;
 
 	/**
-	 * The default value of the '{@link #getHashCode() <em>Hash Code</em>}' attribute.
-	 * @see #getHashCode()
+	 * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
+	 * @see #getLocation()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int HASH_CODE_EDEFAULT = 0;
+	protected static final int[] LOCATION_EDEFAULT = null;
 
 	/**
 	 * The default value of the '{@link #getObjectCount() <em>Object Count</em>}' attribute.
@@ -416,12 +440,14 @@ public class StateImpl extends StorageImpl implements State {
 				return getOutgoing();
 			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace();
-			case StateSpacePackage.STATE__LOCATION:
-				return getLocation();
-			case StateSpacePackage.STATE__OPEN:
-				return isOpen();
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode();
+			case StateSpacePackage.STATE__DERIVED_FROM:
+				return getDerivedFrom();
+			case StateSpacePackage.STATE__OPEN:
+				return isOpen();
+			case StateSpacePackage.STATE__LOCATION:
+				return getLocation();
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount();
 			case StateSpacePackage.STATE__OBJECT_KEYS:
@@ -453,14 +479,17 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)newValue);
 				return;
-			case StateSpacePackage.STATE__LOCATION:
-				setLocation((int[])newValue);
+			case StateSpacePackage.STATE__HASH_CODE:
+				setHashCode((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE__DERIVED_FROM:
+				setDerivedFrom((Integer)newValue);
 				return;
 			case StateSpacePackage.STATE__OPEN:
 				setOpen((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE__HASH_CODE:
-				setHashCode((Integer)newValue);
+			case StateSpacePackage.STATE__LOCATION:
+				setLocation((int[])newValue);
 				return;
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				setObjectCount((Integer)newValue);
@@ -493,14 +522,17 @@ public class StateImpl extends StorageImpl implements State {
 			case StateSpacePackage.STATE__STATE_SPACE:
 				setStateSpace((StateSpace)null);
 				return;
-			case StateSpacePackage.STATE__LOCATION:
-				setLocation(LOCATION_EDEFAULT);
+			case StateSpacePackage.STATE__HASH_CODE:
+				setHashCode(HASH_CODE_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE__DERIVED_FROM:
+				setDerivedFrom(DERIVED_FROM_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__OPEN:
 				setOpen(OPEN_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE__HASH_CODE:
-				setHashCode(HASH_CODE_EDEFAULT);
+			case StateSpacePackage.STATE__LOCATION:
+				setLocation(LOCATION_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				setObjectCount(OBJECT_COUNT_EDEFAULT);
@@ -529,12 +561,14 @@ public class StateImpl extends StorageImpl implements State {
 				return outgoing != null && !outgoing.isEmpty();
 			case StateSpacePackage.STATE__STATE_SPACE:
 				return getStateSpace() != null;
-			case StateSpacePackage.STATE__LOCATION:
-				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
-			case StateSpacePackage.STATE__OPEN:
-				return isOpen() != OPEN_EDEFAULT;
 			case StateSpacePackage.STATE__HASH_CODE:
 				return getHashCode() != HASH_CODE_EDEFAULT;
+			case StateSpacePackage.STATE__DERIVED_FROM:
+				return getDerivedFrom() != DERIVED_FROM_EDEFAULT;
+			case StateSpacePackage.STATE__OPEN:
+				return isOpen() != OPEN_EDEFAULT;
+			case StateSpacePackage.STATE__LOCATION:
+				return LOCATION_EDEFAULT == null ? getLocation() != null : !LOCATION_EDEFAULT.equals(getLocation());
 			case StateSpacePackage.STATE__OBJECT_COUNT:
 				return getObjectCount() != OBJECT_COUNT_EDEFAULT;
 			case StateSpacePackage.STATE__OBJECT_KEYS:

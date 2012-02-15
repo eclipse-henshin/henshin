@@ -33,4 +33,8 @@ public class StateSpaceException extends Exception {
 		super(cause);
 	}
 
+	public StateSpaceException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 }

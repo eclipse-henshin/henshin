@@ -396,7 +396,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EReference getState_Model() {
-		return (EReference)stateEClass.getEStructuralFeatures().get(9);
+		return (EReference)stateEClass.getEStructuralFeatures().get(10);
 	}
 
 
@@ -476,36 +476,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getState_Location() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(4);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getState_Open() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(5);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getState_HashCode() {
-		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getState_ObjectCount() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -515,8 +485,48 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getState_ObjectKeys() {
+	public EAttribute getState_Open() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(6);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_HashCode() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(4);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_DerivedFrom() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(5);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_ObjectCount() {
 		return (EAttribute)stateEClass.getEStructuralFeatures().get(8);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getState_ObjectKeys() {
+		return (EAttribute)stateEClass.getEStructuralFeatures().get(9);
 	}
 
 
@@ -776,9 +786,10 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEReference(stateEClass, STATE__INCOMING);
 		createEReference(stateEClass, STATE__OUTGOING);
 		createEReference(stateEClass, STATE__STATE_SPACE);
-		createEAttribute(stateEClass, STATE__LOCATION);
-		createEAttribute(stateEClass, STATE__OPEN);
 		createEAttribute(stateEClass, STATE__HASH_CODE);
+		createEAttribute(stateEClass, STATE__DERIVED_FROM);
+		createEAttribute(stateEClass, STATE__OPEN);
+		createEAttribute(stateEClass, STATE__LOCATION);
 		createEAttribute(stateEClass, STATE__OBJECT_COUNT);
 		createEAttribute(stateEClass, STATE__OBJECT_KEYS);
 		createEReference(stateEClass, STATE__MODEL);
@@ -881,9 +892,10 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Outgoing(), this.getTransition(), this.getTransition_Source(), "outgoing", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_StateSpace(), this.getStateSpace(), this.getStateSpace_States(), "stateSpace", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getState_Location(), this.getIntegerArray(), "location", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getState_Open(), ecorePackage.getEBoolean(), "open", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_HashCode(), ecorePackage.getEInt(), "hashCode", "0", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_DerivedFrom(), ecorePackage.getEInt(), "derivedFrom", null, 0, 1, State.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Open(), ecorePackage.getEBoolean(), "open", "false", 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getState_Location(), this.getIntegerArray(), "location", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_ObjectKeys(), this.getIntegerArray(), "objectKeys", null, 0, 1, State.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Model(), this.getModel(), null, "model", null, 0, 1, State.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

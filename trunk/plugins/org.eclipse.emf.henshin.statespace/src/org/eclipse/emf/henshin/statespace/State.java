@@ -59,6 +59,32 @@ public interface State extends Storage {
 	void setIndex(int value);
 
 	/**
+	 * Returns the value of the '<em><b>Derived From</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Derived From</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Derived From</em>' attribute.
+	 * @see #setDerivedFrom(int)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getState_DerivedFrom()
+	 * @model volatile="true"
+	 * @generated
+	 */
+	int getDerivedFrom();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.State#getDerivedFrom <em>Derived From</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Derived From</em>' attribute.
+	 * @see #getDerivedFrom()
+	 * @generated
+	 */
+	void setDerivedFrom(int value);
+
+	/**
 	 * Get the list of incoming transitions of this state. 
 	 * @return list of incoming transitions.
 	 * @see org.eclipse.emf.henshin.statespace.Transition#getTarget

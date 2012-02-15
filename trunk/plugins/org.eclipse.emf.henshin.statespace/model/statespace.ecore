@@ -49,12 +49,14 @@
         eType="#//Transition" containment="true" eOpposite="#//Transition/source"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateSpace" eType="#//StateSpace"
         eOpposite="#//StateSpace/states"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//IntegerArray"
-        volatile="true" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="open" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        volatile="true" transient="true" defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivedFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        volatile="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="open" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true" defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="#//IntegerArray"
+        volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectKeys" eType="#//IntegerArray"

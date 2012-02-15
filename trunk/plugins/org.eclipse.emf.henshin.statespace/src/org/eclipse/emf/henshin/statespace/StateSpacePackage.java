@@ -312,13 +312,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE__STATE_SPACE = STORAGE_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * The feature id for the '<em><b>Hash Code</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__LOCATION = STORAGE_FEATURE_COUNT + 4;
+	int STATE__HASH_CODE = STORAGE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Derived From</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__DERIVED_FROM = STORAGE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Open</b></em>' attribute.
@@ -327,16 +336,16 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__OPEN = STORAGE_FEATURE_COUNT + 5;
+	int STATE__OPEN = STORAGE_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Hash Code</b></em>' attribute.
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__HASH_CODE = STORAGE_FEATURE_COUNT + 6;
+	int STATE__LOCATION = STORAGE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Object Count</b></em>' attribute.
@@ -345,7 +354,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__OBJECT_COUNT = STORAGE_FEATURE_COUNT + 7;
+	int STATE__OBJECT_COUNT = STORAGE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Object Keys</b></em>' attribute.
@@ -354,7 +363,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__OBJECT_KEYS = STORAGE_FEATURE_COUNT + 8;
+	int STATE__OBJECT_KEYS = STORAGE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Model</b></em>' containment reference.
@@ -363,7 +372,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE__MODEL = STORAGE_FEATURE_COUNT + 9;
+	int STATE__MODEL = STORAGE_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>State</em>' class.
@@ -372,7 +381,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 10;
+	int STATE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ModelImpl <em>Model</em>}' class.
@@ -847,6 +856,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getState_Index();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.State#getDerivedFrom <em>Derived From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Derived From</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.State#getDerivedFrom()
+	 * @see #getState()
+	 * @generated
+	 */
+	EAttribute getState_DerivedFrom();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.State#getIncoming <em>Incoming</em>}'.
@@ -1407,6 +1427,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE__INDEX = eINSTANCE.getState_Index();
+
+		/**
+		 * The meta object literal for the '<em><b>Derived From</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE__DERIVED_FROM = eINSTANCE.getState_DerivedFrom();
 
 		/**
 		 * The meta object literal for the '<em><b>Incoming</b></em>' reference list feature.

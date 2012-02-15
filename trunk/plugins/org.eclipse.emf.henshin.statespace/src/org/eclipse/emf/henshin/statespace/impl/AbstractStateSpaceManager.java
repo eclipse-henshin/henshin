@@ -227,8 +227,8 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 	}
 	
-	protected State createOpenState(Model model, int hash) {
-		return createOpenState(model, hash, null);
+	protected State createOpenState(Model model, int hash, State derivedFrom) {
+		return createOpenState(model, hash, derivedFrom, null);
 	}
 
 	/**
@@ -238,12 +238,13 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 * @param hash The model's hash code.
 	 * @return The newly created state.
 	 */
-	protected final State createOpenState(Model model, int hash, int[] location) {
+	protected final State createOpenState(Model model, int hash, State derivedFrom, int[] location) {
 		
 		// Create a new state instance:
 		State state = StateSpaceFactory.eINSTANCE.createState();
 		state.setIndex(getStateSpace().getStates().size());
 		state.setHashCode(hash);
+		state.setDerivedFrom(derivedFrom!=null ? derivedFrom.getIndex() : -1);
 		state.setModel(model);
 		state.setOpen(true);
 		
@@ -304,7 +305,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		if (state!=null) return state;
 		
 		// Otherwise create a new state:
-		State initial = createOpenState(model, hash);
+		State initial = createOpenState(model, hash, null);
 		synchronized (stateSpaceLock) {
 			change = true;
 			getStateSpace().getInitialStates().add(initial);
@@ -453,8 +454,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	 */
 	protected static Transition findTransition(State source, State target, Rule rule, int[] paramIDs) {
 		for (Transition transition : source.getOutgoing()) {
-			if (rule==transition.getRule() && target==transition.getTarget() &&
-				Arrays.equals(paramIDs, transition.getParameterKeys())) {
+			if (target==transition.getTarget() && 
+				(rule==null || rule==transition.getRule()) &&
+				(paramIDs==null || Arrays.equals(paramIDs, transition.getParameterKeys()))) {
 				return transition;
 			}
 		}

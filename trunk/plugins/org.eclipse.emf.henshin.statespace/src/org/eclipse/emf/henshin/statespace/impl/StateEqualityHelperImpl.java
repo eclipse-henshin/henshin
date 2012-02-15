@@ -55,6 +55,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 	public boolean equals(Model model1, Model model2) {
 		
+		// Models must be set!
+		if (model1==null || model2==null) {
+			throw new NullPointerException();
+		}
+		
 		// Graph equality?
 		if (useGraphEquality) {
 			

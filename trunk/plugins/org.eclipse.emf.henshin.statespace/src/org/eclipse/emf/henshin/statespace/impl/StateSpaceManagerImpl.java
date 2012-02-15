@@ -42,7 +42,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
  * Default state space manager implementation.
@@ -131,30 +130,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			return model;
 		}
 		
-		// Find a predecessor state that has a model.
-		// Careful: the model could be unset in between, so we use a bag: 
-		final Model[] bag = new Model[1];
-		StateSpaceSearch search = new StateSpaceSearch() {
-			@Override
-			protected boolean shouldStop(State current, Trace trace) {
-				Model model = current.getModel();
-				if (model==null) {
-					model = stateModelCache.get(current);
-				}
-				if (model!=null) {
-					bag[0] = model;
-					return true;
-				}
-				return false;
-			}
-		};
-		boolean found = search.depthFirst(state, true);
-		if (!found) {
-			throw new StateSpaceException("Unable to derive state model for state " + state.getIndex());
-		}
-		
-		// Derive the current model:
-		model = deriveModel(bag[0], search.getTrace());
+		model = deriveModel(state);
 		
 		// Store the state model:
 		storeModel(state, model);
@@ -197,7 +173,27 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
-	private Model deriveModel(Model start, Trace path) throws StateSpaceException {
+	private Model deriveModel(State state) throws StateSpaceException {
+
+		// Find a path from one of the states predecessors:
+		Trace trace = new Trace();
+		State source = state;
+		State target;
+		Model start = null;
+		List<State> states = getStateSpace().getStates();
+		try {
+			while (start==null) {
+				target = source;
+				source = states.get(target.getDerivedFrom());
+				trace.addFirst(findTransition(source, target, null, null));
+				start = source.getModel();
+				if (start==null) {
+					start = stateModelCache.get(source);
+				}
+			}
+		} catch (Throwable t) {
+			throw new StateSpaceException("Error deriving model for " + state, t);
+		}
 
 		// We copy the start model and create an engine for it:
 		Model model = start.getCopy(null);
@@ -205,7 +201,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		engine.setEmfGraph(model.getEmfGraph());
 
 		// Derive the model for the current state:
-		for (Transition transition : path) {
+		for (Transition transition : trace) {
 			
 			Rule rule = transition.getRule();
 			if (rule==null || !getStateSpace().getRules().contains(rule)) {
@@ -231,7 +227,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 
 		// Set the object keys if necessary:
 		if (getStateSpace().getEqualityHelper().isUseObjectKeys()) {
-			model.setObjectKeys(path.getTarget().getObjectKeys());
+			model.setObjectKeys(trace.getTarget().getObjectKeys());
 		}
 
 		// We can release the engine again:
@@ -332,18 +328,18 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				
 				// Ok, now we can create a new state if necessary.
 				if (target==null) {
-					target = createOpenState(transformed, hashCode, location);
+					target = createOpenState(transformed, hashCode, state, location);
 					monitor.getAddedStates().remove(target);
 					newState = true;
 				}
-				
+
+				// Find or create the transition.
+				if (newState || findTransition(state, target, rule, parameters)==null) {
+					createTransition(state, target, rule, match, parameters);
+				}
+
 			}
 			// END OF EXPLORER LOCK
-
-			// Find or create the transition.
-			if (newState || findTransition(state, target, rule, parameters)==null) {
-				createTransition(state, target, rule, match, parameters);
-			}
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
@@ -360,7 +356,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 		// END OF EXPLORER LOCK
 
-			
 		// Mark the state as closed:
 		setOpen(state, false);
 		
@@ -431,6 +426,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Now compute and set the hash code (after the node IDs have been updated!):
 				int newHashCode = getStateSpace().getEqualityHelper().hashCode(transformed);
 				newState.setHashCode(newHashCode);
+				newState.setDerivedFrom(state.getIndex());
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
