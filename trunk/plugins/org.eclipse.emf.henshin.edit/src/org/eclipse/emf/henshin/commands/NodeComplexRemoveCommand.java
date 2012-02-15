@@ -133,6 +133,8 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 			Rule rule = (Rule) graphContainer;
 			filterMappings(rule.getMappings(), mappingSet);
 			
+			filterMappings(rule.getMultiMappings(), mappingSet);
+			
 			for (Rule mRule : rule.getMultiRules()) {
 				filterMappings(mRule.getMultiMappings(), mappingSet);
 			}

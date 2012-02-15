@@ -163,7 +163,6 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 					Graph.class);
 			adapter.fireNotifyChanged(new ViewerNotification(notification, rhs, true, true));
 		} else if (graph.isRhs()) {
-			System.out.println("update lhs ");
 			Graph lhs = graph.getContainerRule().getLhs();
 			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(lhs,
 					Graph.class);

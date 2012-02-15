@@ -124,6 +124,10 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 */
 	@Override
 	public Object getImage(Object object) {
+		Edge kernelEdge = getKernelEdge((Edge) object);		
+		if(kernelEdge != null){
+			return getImage(kernelEdge);
+		}
 		Edge edge = (Edge) object;
 		
 		if (edge.eContainer() == null) {
@@ -200,6 +204,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
+		System.out.println(notification);
 		if (notification.getEventType() == Notification.SET) {
 			
 			Edge edge = (Edge) notification.getNotifier();
@@ -213,7 +218,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 				gip.notifyCorrespondingEdges(graph, notification);
 			}
 			
-		}// if
+		}// if		
 		
 		updateChildren(notification);
 		super.notifyChanged(notification);
@@ -243,14 +248,16 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	protected boolean isUserEditable(Object object) {
-		Edge edge = (Edge) object;
-		
+		return getKernelEdge((Edge)object) == null;
+	}
+	
+	protected Edge getKernelEdge(Edge edge){
 		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
 			Rule rule = edge.getGraph().getContainerRule();
-			return rule.getOriginInKernelRule(edge) == null;
+			return rule.getOriginInKernelRule(edge);
 		}
-		return true;
-	}
+		return null;
+	} 
 	
 	@Override
 	public Object getForeground(Object object) {

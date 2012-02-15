@@ -197,7 +197,10 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		
+		Node kernelNode = getKernelNode((Node)object);
+		if(kernelNode != null){
+			return getImage(kernelNode);
+		}
 		Node node = (Node) object;
 		Object defaultImage = overlayImage(object,
 				getResourceLocator().getImage("full/obj16/Node.png"));
@@ -348,13 +351,15 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	protected boolean isUserEditable(Object object) {
-		Node node = (Node) object;
-		
+		return getKernelNode((Node)object) == null;
+	}
+	
+	protected Node getKernelNode(Node node){
 		if (node.getGraph() != null && (node.getGraph().isLhs() || node.getGraph().isRhs())) {
 			Rule rule = node.getGraph().getContainerRule();
-			return rule.getOriginInKernelRule(node) == null;
+			return rule.getOriginInKernelRule(node);
 		}
-		return true;
+		return null;
 	}
 	
 	@Override
