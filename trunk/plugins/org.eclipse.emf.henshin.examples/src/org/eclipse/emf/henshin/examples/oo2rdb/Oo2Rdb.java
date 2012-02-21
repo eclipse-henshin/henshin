@@ -40,10 +40,8 @@ public class Oo2Rdb extends ATrafo {
 	public static final String HENSHIN_OO2RDB = PATH + "oo2rdb.henshin";
 	
 	// The OO model to be translated into an RDB schema
-	public static final String ECORE_PHIL = PATH + "../../philosophers/model/philosophers.ecore";
-	
-	public static final String ECORE_PETRI = PATH + "../../metamodelevolution/model/petri.ecore";
-	
+	public static final String ECORE_CARRENTAL = PATH + "/CarRental.ecore";
+		
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.examples.oo2rdb.ATrafo#start()
@@ -76,7 +74,7 @@ public class Oo2Rdb extends ATrafo {
 		 */
 
 		TransformationSystem ts = (TransformationSystem) loadModel(HENSHIN_OO2RDB);
-		EObject rootObject = loadModel(ECORE_PETRI);
+		EObject rootObject = loadModel(ECORE_CARRENTAL);
 		EmfGraph emfGraph = new EmfGraph();
 		emfGraph.addRoot(EcorePackageImpl.eINSTANCE);
 		emfGraph.addRoot(rootObject);
