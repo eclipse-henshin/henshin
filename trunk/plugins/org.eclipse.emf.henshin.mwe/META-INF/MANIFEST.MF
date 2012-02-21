@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mwe
+Bundle-SymbolicName: org.eclipse.emf.henshin.mwe
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.emf.mwe2.launch;bundle-version="1.0.2";visibility:=reexport,
+ org.eclipse.emf.mwe.core;bundle-version="1.0.2";visibility:=reexport,
+ org.eclipse.emf.henshin.interpreter;bundle-version="0.8.1";visibility:=reexport,
+ org.eclipse.emf.mwe.utils;bundle-version="1.0.2";visibility:=reexport
+Export-Package: org.eclipse.emf.henshin.mwe
