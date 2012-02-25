@@ -16,10 +16,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -56,33 +52,39 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		if (node.getGraph()==null) {
 			return CommandResult.newOKCommandResult();
 		}
-		
-		// Check if there is an action associated:
-		if (HenshinActionHelper.getAction(node)==null) {
-			node.getGraph().removeNode(node);
-			return CommandResult.newWarningCommandResult("Node seems to be illegal. Deleted anyway.", null); // done.
-		}
 
-		// We reset the action to DELETE, then we know where the node is:
-		HenshinActionHelper.setAction(node, new Action(ActionType.DELETE));
+		// Get the root kernel rule:
+		Rule rule = node.getGraph().getContainerRule();
+
+		// Remove the node:
+		rule.removeNode(node, true);
 		
-		// Check if there are images in multi-rules.
-		Rule kernel = node.getGraph().getContainerRule();
-		for (Rule multi : kernel.getMultiRules()) {
-			Node image = HenshinMappingUtil
-					.getNodeImage(node, multi.getLhs(), multi.getMultiMappings());
-			if (image!=null) {
-				image.getGraph().removeNode(image);
-				HenshinMappingUtil.removeMapping(node, image, multi.getMultiMappings());
-			}
-		}
-		
-		// Now we can delete the node.
-		node.getGraph().removeNode(node);
+//		// Check if there is an action associated:
+//		if (HenshinActionHelper.getAction(node)==null) {
+//			node.getGraph().removeNode(node);
+//			return CommandResult.newWarningCommandResult("Node seems to be illegal. Deleted anyway.", null); // done.
+//		}
+//
+//		// We reset the action to DELETE, then we know where the node is:
+//		HenshinActionHelper.setAction(node, new Action(ActionType.DELETE));
+//		
+//		// Check if there are images in multi-rules.
+//		Rule kernel = node.getGraph().getContainerRule();
+//		for (Rule multi : kernel.getMultiRules()) {
+//			Node image = HenshinMappingUtil
+//					.getNodeImage(node, multi.getLhs(), multi.getMultiMappings());
+//			if (image!=null) {
+//				image.getGraph().removeNode(image);
+//				HenshinMappingUtil.removeMapping(node, image, multi.getMultiMappings());
+//			}
+//		}
+//		
+//		// Now we can delete the node.
+//		node.getGraph().removeNode(node);
 		
 		// Clean up trivial NAC and multi-rules:
-		HenshinACUtil.removeTrivialACs(kernel);
-		HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
+		HenshinACUtil.removeTrivialACs(rule);
+		HenshinMultiRuleUtil.removeTrivialMultiRules(rule);
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

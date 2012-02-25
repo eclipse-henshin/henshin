@@ -17,12 +17,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -62,28 +58,29 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		}
 		Rule rule = edge.getGraph().getContainerRule();
 		
-		// Check if there is an action associated:
-		Action action = HenshinActionHelper.getAction(edge);
-		if (action==null) {
-			edge.getGraph().removeEdge(edge);
-			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
-		}
+//		// Check if there is an action associated:
+//		Action action = HenshinActionHelper.getAction(edge);
+//		if (action==null) {
+//			edge.getGraph().removeEdge(edge);
+//			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
+//		}
+//		
+//		// Remove the image in the RHS, if existing:
+//		doRemove(HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()));
+//		
+//		// Remove images in the PACs/NACs:
+//		for (NestedCondition nac : HenshinACUtil.getAllACs(rule)) {
+//			doRemove(HenshinMappingUtil.getEdgeImage(edge, nac.getConclusion(), nac.getMappings()));
+//		}
+//		
+//		// Check if there are images in multi-rules:
+//		for (Rule multiRule : rule.getMultiRules()) {
+//			doRemove(HenshinMappingUtil
+//					.getEdgeImage(edge, multiRule.getLhs(), multiRule.getMultiMappings()));
+//		}
+//		
 		
-		// Remove the image in the RHS, if existing:
-		doRemove(HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()));
-		
-		// Remove images in the PACs/NACs:
-		for (NestedCondition nac : HenshinACUtil.getAllACs(rule)) {
-			doRemove(HenshinMappingUtil.getEdgeImage(edge, nac.getConclusion(), nac.getMappings()));
-		}
-		
-		// Check if there are images in multi-rules:
-		for (Rule multiRule : rule.getMultiRules()) {
-			doRemove(HenshinMappingUtil
-					.getEdgeImage(edge, multiRule.getLhs(), multiRule.getMultiMappings()));
-		}
-		
-		// Now remove the edge.
+		// Remove the edge.
 		doRemove(edge);
 		
 		// Clean up trivial NAC and multi-rules:
@@ -106,7 +103,7 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		EReference type = edge.getType();
 		Rule rule = edge.getGraph().getContainerRule();
 
-		edge.getGraph().removeEdge(edge);
+		rule.removeEdge(edge, true);
 
 		// Update the root containment if the edge is containment / container:
 		if (type!=null && (type.isContainment() || type.isContainer())) {

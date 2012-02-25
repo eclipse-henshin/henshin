@@ -64,6 +64,7 @@
     </eOperations>
     <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getKernelRule" eType="#//Rule"/>
+    <eOperations name="getRootKernelRule" eType="#//Rule"/>
     <eOperations name="getMultiRuleByName" eType="#//Rule">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -75,6 +76,14 @@
       <eParameters name="element">
         <eGenericType eTypeParameter="#//Rule/getOriginInKernelRule/T"/>
       </eParameters>
+    </eOperations>
+    <eOperations name="removeEdge">
+      <eParameters name="edge" eType="#//Edge"/>
+      <eParameters name="removeMapped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="removeNode">
+      <eParameters name="node" eType="#//Node"/>
+      <eParameters name="removeMapped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
         containment="true"/>

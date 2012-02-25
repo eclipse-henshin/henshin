@@ -131,6 +131,14 @@ public interface Rule extends TransformationUnit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Rule getRootKernelRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
@@ -143,6 +151,22 @@ public interface Rule extends TransformationUnit {
 	 * @generated NOT
 	 */
 	<T extends GraphElement> T getOriginInKernelRule(T element);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void removeEdge(Edge edge, boolean removeMapped);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void removeNode(Node node, boolean removeMapped);
 
 	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.

@@ -11,20 +11,27 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AttributeCondition;
+import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -306,6 +313,22 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public Rule getRootKernelRule() {
+		Rule kernel = getKernelRule();
+		if (kernel==null) {
+			return null;
+		}
+		while (kernel.getKernelRule()!=null) {
+			kernel = kernel.getKernelRule();
+		}
+		return kernel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public Rule getMultiRuleByName(String name) {
 		for (Rule multiRule : getMultiRules()) {
 			if ((name==null && multiRule.getName()==null) || 
@@ -323,6 +346,128 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 */
 	public <T extends GraphElement> T getOriginInKernelRule(T element) {
 		return HenshinMappingUtil.getOrigin(element, getMultiMappings());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void removeNode(Node node, boolean removeMapped) {
+		
+		// Must be invoked from the root kernel rule:
+		if (getRootKernelRule()!=null) {
+			getRootKernelRule().removeNode(node, removeMapped);
+			return;
+		}
+		
+		// Collect all mappings and nodes to delete:
+		Set<Mapping> mappings = new HashSet<Mapping>();
+		Set<Node> nodes = new HashSet<Node>();
+		nodes.add(node);
+		
+		boolean changed;
+		do {
+			changed = false;
+			
+			// Add all mappings that refer to the nodes:
+			TreeIterator<EObject> it = eAllContents();
+			while (it.hasNext()) {
+				EObject obj = it.next();
+				if (obj instanceof Mapping) {
+					Mapping m = (Mapping) obj;
+					if (!mappings.contains(m)) {
+						for (Node n : nodes) {
+							if (m.getOrigin()==n || m.getImage()==n) {
+								mappings.add(m);
+								changed = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			// Add all mapped nodes if necessary:
+			if (changed && removeMapped) {
+				for (Mapping m : mappings) {
+					if (m.getOrigin()!=null) {
+						nodes.add(m.getOrigin());
+					}
+					if (m.getImage()!=null) {
+						nodes.add(m.getImage());
+					}
+				}
+			}
+		} while (changed);
+		
+		// Now remove the collected mappings and nodes:
+		for (Mapping m : mappings) {
+			m.setOrigin(null);
+			m.setImage(null);
+			EcoreUtil.remove(m);
+		}
+		for (Node n : nodes) {
+			n.getGraph().removeNode(n);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void removeEdge(Edge edge, boolean removeMapped) {
+		
+		// Must be invoked from the root kernel rule:
+		if (getRootKernelRule()!=null) {
+			getRootKernelRule().removeEdge(edge, removeMapped);
+			return;
+		}
+		
+		Set<Edge> edges = new HashSet<Edge>();
+		edges.add(edge);
+		
+		// Collect mapped edges if necessary:
+		if (removeMapped) {
+			
+			// Collect a list of ALL mappings:
+			List<Mapping> mappings = new ArrayList<Mapping>();
+			TreeIterator<EObject> it = eAllContents();
+			while (it.hasNext()) {
+				EObject obj = it.next();
+				if (obj instanceof Mapping) {
+					mappings.add((Mapping) obj);
+				}
+			}
+			
+			// Now collect edges to be removed:
+			boolean changed;
+			do {
+				changed = false;
+				it = eAllContents();
+				while (it.hasNext()) {
+					EObject obj = it.next();
+					if (obj instanceof Edge) {
+						Edge e = (Edge) obj;
+						if (edges.contains(e)) continue;
+						if ((HenshinMappingUtil.getMapping(edge.getSource(), e.getSource(), mappings)!=null &&
+							 HenshinMappingUtil.getMapping(edge.getTarget(), e.getTarget(), mappings)!=null) ||
+							(HenshinMappingUtil.getMapping(e.getSource(), edge.getSource(), mappings)!=null &&
+							 HenshinMappingUtil.getMapping(e.getTarget(), edge.getTarget(), mappings)!=null)) {
+							edges.add(e);
+							changed = true;
+						}						
+					}
+				}
+			} while (changed);
+		}
+		
+		// Now remove the collected edges:
+		for (Edge e : edges) {
+			e.getGraph().removeEdge(e);
+		}
+		
 	}
 
 	/**
