@@ -22,18 +22,20 @@ import java.util.Map;
  *
  */
 public class TransformationOptions {
+	
 	public final static String INJECTIVE = "injective";
 	public final static String DANGLING = "dangling";
-	public final static String DETERMINISTIC = "DETERMINISTIC";
+	public final static String DETERMINISTIC = "deterministic";
 	
 	private Map<String, Object> options;
 		
 	public TransformationOptions() {
 		options = new HashMap<String, Object>();
+		options.put(INJECTIVE, true);
+		options.put(DANGLING, true);
 		options.put(DETERMINISTIC, true);
 	}
 
-	@Deprecated
 	public boolean isInjective() {
 		return (Boolean) getOption(INJECTIVE);
 	}
@@ -42,7 +44,6 @@ public class TransformationOptions {
 		setOption(INJECTIVE, injective);
 	}
 
-	@Deprecated
 	public boolean isDeterministic() {
 		return (Boolean) getOption(DETERMINISTIC);
 	}
@@ -51,7 +52,6 @@ public class TransformationOptions {
 		setOption(DETERMINISTIC, deterministic);
 	}
 
-	@Deprecated
 	public boolean isDangling() {
 		return (Boolean) getOption(DANGLING);
 	}
