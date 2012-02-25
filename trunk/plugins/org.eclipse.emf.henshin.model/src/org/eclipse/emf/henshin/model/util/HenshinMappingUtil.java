@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.henshin.model.Attribute;
@@ -287,4 +289,87 @@ public class HenshinMappingUtil {
 		}
 	}
 	
+	/**
+	 * Checks whether the specified node is part of the mappings.
+	 * 
+	 * @param mappings
+	 *            A list of mappings.
+	 * @param node
+	 *            The node which should be checked for origin or image in one of
+	 *            the mappings.
+	 * @return true, if the node is mapped
+	 */
+	public static boolean isNodeMapped(Collection<Mapping> mappings, Node node) {
+		return getRemoteNode(mappings, node) != null;
+	}
+	
+	/**
+	 * Checks whether the specified edge is part of the mappings.
+	 * 
+	 * @param mappings
+	 *            A list of mappings.
+	 * @param node
+	 *            The edge which should be checked for origin or image.
+	 * @return true, if the edge is mapped
+	 */
+	public static boolean isEdgeMapped(List<Mapping> mappings, Edge edge) {
+		Node sourceNode = edge.getSource();
+		Node targetNode = edge.getTarget();
+		
+		Node remoteSourceNode = getRemoteNode(mappings, sourceNode);
+		Node remoteTargetNode = getRemoteNode(mappings, targetNode);
+		
+		if (remoteSourceNode != null && remoteTargetNode != null) {
+			for (Edge remoteEdge : remoteSourceNode.getOutgoing()) {
+				if (remoteEdge.getTarget() == remoteTargetNode
+						&& remoteEdge.getType() == edge.getType())
+					return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns the image or origin of the specified node. If the node is not
+	 * part of a mapping, null will be returned. If the node is part of multiple
+	 * mappings, only the first remote node is returned.
+	 * 
+	 * @param mappings
+	 * @param node
+	 * @return
+	 */
+	public static Node getRemoteNode(Collection<Mapping> mappings, Node node) {
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin() == node)
+				return mapping.getImage();
+			if (mapping.getImage() == node)
+				return mapping.getOrigin();
+		}
+		
+		return null;
+	}
+	
+	public static Collection<Node> getSourceNodes(Collection<Mapping> mappings, Node node) {
+		Collection<Node> result = new ArrayList<Node>();
+		
+		for (Mapping mapping : mappings) {
+			if (mapping.getImage() == node)
+				result.add(mapping.getOrigin());
+		}
+		
+		return result;
+	}
+	
+	public static Collection<Node> getTargetNodes(Collection<Mapping> mappings, Node node) {
+		Collection<Node> result = new ArrayList<Node>();
+		
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin() == node)
+				result.add(mapping.getImage());
+		}
+		
+		return result;
+	}
+
 }

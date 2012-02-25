@@ -21,7 +21,6 @@ import java.util.Stack;
 
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
@@ -207,7 +206,7 @@ public class UnitApplication extends Observable {
 	private boolean executeRule() {
 		Rule rule = (Rule) transformationUnit;
 		
-		Match match = new Match(rule, parameterValues, ModelHelper.createPrematch(rule,
+		Match match = new Match(rule, parameterValues, EmfEngine.createPrematch(rule,
 				parameterValues));
 		
 		RuleApplication ruleApplication = new RuleApplication(engine, rule);

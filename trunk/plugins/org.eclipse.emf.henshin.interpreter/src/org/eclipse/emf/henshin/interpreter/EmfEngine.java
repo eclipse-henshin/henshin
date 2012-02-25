@@ -38,7 +38,6 @@ import org.eclipse.emf.henshin.internal.interpreter.VariableInfo;
 import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
 import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.interpreter.util.ModelChange;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.matching.conditions.attribute.AttributeConditionHandler;
 import org.eclipse.emf.henshin.matching.conditions.nested.AndFormula;
@@ -65,7 +64,9 @@ import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.Xor;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * The default implementation of an interpreter engine.
@@ -126,7 +127,7 @@ public class EmfEngine implements InterpreterEngine {
 		RuleInfo ruleInfo = getRuleInformation(rule);
 		ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
 		VariableInfo variableInfo = ruleInfo.getVariableInfo();
-		Map<Node, EObject> prematch = ModelHelper.createPrematch(rule, parameterValues);
+		Map<Node, EObject> prematch = createPrematch(rule, parameterValues);
 		
 		// for (Node node : rulePrematch.keySet()) {
 		// prematch.put(node, rulePrematch.get(node));
@@ -452,7 +453,7 @@ public class EmfEngine implements InterpreterEngine {
 		}
 		
 		for (Node node : changeInfo.getPreservedNodes()) {
-			Node lhsNode = ModelHelper.getRemoteNode(rule.getMappings(), node);
+			Node lhsNode = HenshinMappingUtil.getRemoteNode(rule.getMappings(), node);
 			EObject targetObject = matchNodeMapping.get(lhsNode);
 			comatchNodeMapping.put(node, targetObject);
 			
@@ -606,4 +607,24 @@ public class EmfEngine implements InterpreterEngine {
 	public void setOptions(final TransformationOptions options) {
 		this.options = options;
 	}
+	
+	public static Map<Node, EObject> createPrematch(TransformationUnit unit,
+			Map<Parameter, Object> parameterValues) {
+		
+		Map<Node, EObject> prematch = new HashMap<Node, EObject>();
+		
+		Rule rule = null;
+		if (unit instanceof Rule)
+			rule = (Rule) unit;
+		
+		if (rule != null) {
+			for (Parameter parameter : unit.getParameters()) {
+				Node node = rule.getNodeByName(parameter.getName(), true);
+				if (node != null)
+					prematch.put(node, (EObject) parameterValues.get(parameter));
+			}
+		}
+		return prematch;
+	}
+
 }

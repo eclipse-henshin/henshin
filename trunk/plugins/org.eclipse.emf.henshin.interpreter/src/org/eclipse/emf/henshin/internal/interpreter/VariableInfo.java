@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.matching.constraints.DanglingConstraint;
@@ -29,8 +28,10 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 public class VariableInfo {
 	
@@ -69,7 +70,7 @@ public class VariableInfo {
 		createVariables(rule.getLhs(), null);
 		
 		for (Node node : rule.getLhs().getNodes()) {
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node))
+			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node))
 				createDanglingConstraints(node);
 		}
 		
@@ -138,7 +139,7 @@ public class VariableInfo {
 		}
 		
 		for (Attribute attribute : node.getAttributes()) {
-			if (ModelHelper.attributeIsParameter(rule, attribute)) {
+			if (attributeIsParameter(rule, attribute)) {
 				ParameterConstraint constraint = new ParameterConstraint(attribute.getValue(),
 						attribute.getType());
 				var.addConstraint(constraint);
@@ -163,7 +164,7 @@ public class VariableInfo {
 					} catch (ScriptException ex) {
 						throw new RuntimeException(ex.getMessage());
 					}
-					attributeValue = ModelHelper.castDown(attributeValue, attribute.getType()
+					attributeValue = castDown(attributeValue, attribute.getType()
 							.getEType().getInstanceClassName());
 				}// if
 				
@@ -265,4 +266,44 @@ public class VariableInfo {
 		// TODO: change Solution to get rid of this method
 		return node2variable;
 	}
+	
+	/**
+	 * Checks whether the value of the given attribute corresponds to a
+	 * parameter of the rule.
+	 * 
+	 * @param rule
+	 *            The rule which contains the parameters.
+	 * @param attribute
+	 *            The attribute, which value should be checked.
+	 * @return true, if the attribute value equals a parameter name.
+	 */
+	private static boolean attributeIsParameter(Rule rule, Attribute attribute) {
+		String potentialParameter = attribute.getValue();
+		boolean found = false;
+		for (Parameter parameter : rule.getParameters()) {
+			found = parameter.getName().equals(potentialParameter);
+			if (found)
+				break;
+		}
+		return found;
+	}
+
+	private static Object castDown(Object complexValue, String type) {
+		if (complexValue instanceof Double) {
+			if (type.equals("int")) {
+				return ((Double) complexValue).intValue();
+			} else if (type.equals("long")) {
+				return ((Double) complexValue).longValue();
+			} else if (type.equals("float")) {
+				return ((Double) complexValue).floatValue();
+			} else if (type.equals("short")) {
+				return ((Double) complexValue).shortValue();
+			} else if (type.equals("byte")) {
+				return ((Double) complexValue).byteValue();
+			}
+		}
+		
+		return complexValue;
+	}
+
 }

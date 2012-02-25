@@ -14,11 +14,11 @@ package org.eclipse.emf.henshin.internal.interpreter;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 public class ChangeInfo {
 	private Collection<Node> createdNodes;
@@ -37,16 +37,16 @@ public class ChangeInfo {
 		preservedNodes = new ArrayList<Node>();		
 		
 		for (Node node : rule.getLhs().getNodes()) {
-			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
+			if (HenshinMappingUtil.isNodeMapped(rule.getMultiMappings(), node))
 				continue;
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node))
+			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node))
 				deletedNodes.add(node);
 		}
 		
 		for (Node node : rule.getRhs().getNodes()) {
-			if (ModelHelper.isNodeMapped(rule.getMultiMappings(), node))
+			if (HenshinMappingUtil.isNodeMapped(rule.getMultiMappings(), node))
 				continue;
-			if (!ModelHelper.isNodeMapped(rule.getMappings(), node)) {
+			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node)) {
 				createdNodes.add(node);
 			} else {
 				preservedNodes.add(node);
@@ -58,17 +58,17 @@ public class ChangeInfo {
 		}
 		
 		for (Edge edge : rule.getLhs().getEdges()) {
-			if (ModelHelper.isEdgeMapped(rule.getMultiMappings(), edge))
+			if (HenshinMappingUtil.isEdgeMapped(rule.getMultiMappings(), edge))
 				continue;
-			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
+			if (!HenshinMappingUtil.isEdgeMapped(rule.getMappings(), edge)) {
 				deletedEdges.add(edge);
 			}
 		}
 		
 		for (Edge edge : rule.getRhs().getEdges()) {
-			if (ModelHelper.isEdgeMapped(rule.getMultiMappings(), edge))
+			if (HenshinMappingUtil.isEdgeMapped(rule.getMultiMappings(), edge))
 				continue;
-			if (!ModelHelper.isEdgeMapped(rule.getMappings(), edge)) {
+			if (!HenshinMappingUtil.isEdgeMapped(rule.getMappings(), edge)) {
 				createdEdges.add(edge);
 			}
 		}
