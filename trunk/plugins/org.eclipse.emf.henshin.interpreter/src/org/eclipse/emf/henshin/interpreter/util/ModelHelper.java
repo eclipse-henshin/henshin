@@ -27,10 +27,9 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 
 public class ModelHelper {
 	
-	public static void registerFileExtension(String extension) {
+	public static void registerXMIFileExtension(String extension) {
 		if (HenshinResource.FILE_EXTENSION.equals(extension)) {
-			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
-				new HenshinResourceFactory());
+			HenshinResourceFactory.registerFileExtension();
 		} else {
 			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
 					new XMIResourceFactoryImpl());
@@ -61,15 +60,12 @@ public class ModelHelper {
 	 * the given ResourceSet. If successful, the newly loaded EPackage is
 	 * registered in the local EPackage registry of the ResourceSet and
 	 * returned.
-	 * 
-	 * @param ecoreFileUri
-	 * @param rs
-	 * @return
 	 */
 	public static EPackage registerEPackageByEcoreFile(URI ecoreFileUri, ResourceSet rs) {
 		EPackage result = null;
-		if (rs == null)
+		if (rs == null) {
 			rs = new ResourceSetImpl();
+		}
 		Resource packageResource = rs.createResource(ecoreFileUri);
 		if (packageResource != null) {
 			try {
@@ -92,6 +88,13 @@ public class ModelHelper {
 		return result;
 	}// registerEPackageByEcoreFile
 	
+
+	public static EObject loadFile(String filename) {
+		ResourceSet resourceSet = new ResourceSetImpl();
+		Resource resource = resourceSet.getResource(URI.createFileURI(filename), true);
+		return resource.getContents().get(0);
+	}
+
 	public static void saveFile(String filename, EObject root) {
 		Resource resource = new XMLResourceImpl(URI.createFileURI(filename));
 		resource.getContents().add(root);
@@ -100,11 +103,5 @@ public class ModelHelper {
 		} catch (IOException e) {
 		}
 	}
-	
-	public static EObject loadFile(String filename) {
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.getResource(URI.createFileURI(filename), true);
-		return resource.getContents().get(0);
-	}
-	
+		
 }

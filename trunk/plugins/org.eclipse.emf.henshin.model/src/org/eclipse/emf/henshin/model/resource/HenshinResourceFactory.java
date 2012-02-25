@@ -21,6 +21,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
  */
 public class HenshinResourceFactory extends XMIResourceFactoryImpl {
 	
+	public static void registerFileExtension() {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(HenshinResource.FILE_EXTENSION,
+				new HenshinResourceFactory());
+	}
+	
 	/**
 	 * Default constructor.
 	 */
