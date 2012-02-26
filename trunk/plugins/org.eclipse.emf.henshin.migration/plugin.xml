@@ -6,6 +6,7 @@
       point="org.eclipse.ui.popupMenus">
    <objectContribution
          id="org.eclipse.emf.henshin.migration1011.contribution1"
+         nameFilter="*.henshin"
          objectClass="org.eclipse.core.resources.IFile">
       <menu
             id="org.eclipse.emf.henshin.menu"
@@ -19,7 +20,7 @@
             class="org.eclipse.emf.henshin.migration.wizard.MigrateHenshinAction"
             enablesFor="1"
             id="org.eclipse.emf.henshin.migration1011.newAction"
-            label="Migrate to new version"
+            label="Migrate to Henshin 0.9"
             menubarPath="org.eclipse.emf.henshin.menu/additions">
             
       </action>

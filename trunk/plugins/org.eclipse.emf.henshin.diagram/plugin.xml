@@ -63,7 +63,7 @@
    </extension>
 
    <extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
-      <?gmfgen generated="true"?>
+      <?gmfgen generated="false"?>
       <objectContribution
             id="org.eclipse.emf.henshin.diagram.InitDiagram"
             nameFilter="*.henshin"
@@ -71,7 +71,7 @@
          <action
                label="%initDiagramActionLabel"
                class="org.eclipse.emf.henshin.diagram.part.HenshinInitDiagramFileAction"
-               menubarPath="additions"
+               menubarPath="org.eclipse.emf.henshin.menu/additions"
                enablesFor="1"
                id="org.eclipse.emf.henshin.diagram.InitDiagramAction">
          </action>
