@@ -177,7 +177,7 @@ public class Transformation {
 		ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri));
 		
 
-		ModelHelper.registerXMIFileExtension("henshin");
+		ModelHelper.registerFileExtension("henshin");
 		//EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
 
 		Resource oldHenshinResource = resourceSet.getResource(URI.createFileURI(eFileUri.toFileString()), true);

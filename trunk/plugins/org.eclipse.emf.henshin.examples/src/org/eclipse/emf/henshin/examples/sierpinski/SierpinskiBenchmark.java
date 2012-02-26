@@ -35,9 +35,9 @@ public class SierpinskiBenchmark {
 
 		HenshinPackageImpl.init();
 
-		ModelHelper.registerXMIFileExtension("henshin");
-		ModelHelper.registerXMIFileExtension("sierpinski");
-		ModelHelper.registerXMIFileExtension("ecore");
+		ModelHelper.registerFileExtension("henshin");
+		ModelHelper.registerFileExtension("sierpinski");
+		ModelHelper.registerFileExtension("ecore");
 		
 		EPackage sierpinskiPackage = (EPackage) ModelHelper
 				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.ecore");

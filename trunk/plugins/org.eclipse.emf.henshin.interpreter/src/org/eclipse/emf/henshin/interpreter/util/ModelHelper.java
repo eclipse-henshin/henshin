@@ -24,10 +24,12 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 
-
+/**
+ * @deprecated Use the EMF functionalities directly and catch exceptions.
+ */
 public class ModelHelper {
 	
-	public static void registerXMIFileExtension(String extension) {
+	public static void registerFileExtension(String extension) {
 		if (HenshinResource.FILE_EXTENSION.equals(extension)) {
 			HenshinResourceFactory.registerFileExtension();
 		} else {

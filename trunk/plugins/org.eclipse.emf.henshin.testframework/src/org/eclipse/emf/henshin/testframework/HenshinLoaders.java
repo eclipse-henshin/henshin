@@ -45,7 +45,7 @@ public class HenshinLoaders {
 	 * @return EObject (TransformationSystem)
 	 */
 	public static TransformationSystem loadHenshin(String fileName) {
-		ModelHelper.registerXMIFileExtension(HENSHIN_FILE_EXTENSION);
+		ModelHelper.registerFileExtension(HENSHIN_FILE_EXTENSION);
 		return (TransformationSystem) (ModelHelper.loadFile(fileName));
 	}
 	
@@ -72,7 +72,7 @@ public class HenshinLoaders {
 	 * @return EmfGraph
 	 */
 	public static EmfGraph loadGraph(String modelFileName, String modelFileExt) {
-		ModelHelper.registerXMIFileExtension(modelFileExt);
+		ModelHelper.registerFileExtension(modelFileExt);
 		EObject graphRoot = ModelHelper.loadFile(modelFileName);
 		
 		EmfGraph graph = new EmfGraph();
