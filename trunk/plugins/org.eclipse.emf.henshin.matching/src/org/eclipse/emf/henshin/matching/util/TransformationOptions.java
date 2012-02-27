@@ -31,29 +31,14 @@ public class TransformationOptions {
 		
 	public TransformationOptions() {
 		options = new HashMap<String, Object>();
-		options.put(INJECTIVE, true);
-		options.put(DANGLING, true);
-		options.put(DETERMINISTIC, true);
-	}
-
-	public boolean isInjective() {
-		return (Boolean) getOption(INJECTIVE);
 	}
 
 	public void setInjective(boolean injective) {
 		setOption(INJECTIVE, injective);
 	}
 
-	public boolean isDeterministic() {
-		return (Boolean) getOption(DETERMINISTIC);
-	}
-
 	public void setDeterministic(boolean deterministic) {
 		setOption(DETERMINISTIC, deterministic);
-	}
-
-	public boolean isDangling() {
-		return (Boolean) getOption(DANGLING);
 	}
 
 	public void setDangling(boolean dangling) {

@@ -138,11 +138,15 @@ public class DomainSlot {
 			if (domain.isEmpty())
 				return false;
 			
-			if (!options.isDeterministic())
+			Boolean deterministic = (Boolean) options.getOption(TransformationOptions.DETERMINISTIC);
+			if (deterministic!=null && !deterministic) {
 				Collections.shuffle(domain);
+			}
 			
-			if (options.isInjective())
+			Boolean injective = (Boolean) options.getOption(TransformationOptions.INJECTIVE);
+			if (injective==null || injective) {
 				domain.removeAll(usedObjects);
+			}
 		}
 		
 		if (!locked) {
@@ -164,7 +168,8 @@ public class DomainSlot {
 					return false;
 			}
 			
-			if (options.isDangling()) {
+			Boolean dangling = (Boolean) options.getOption(TransformationOptions.DANGLING);
+			if (dangling==null || dangling) {
 				for (DanglingConstraint constraint : variable.getDanglingConstraints()) {
 					if (!constraint.check(value, graph))
 						return false;
