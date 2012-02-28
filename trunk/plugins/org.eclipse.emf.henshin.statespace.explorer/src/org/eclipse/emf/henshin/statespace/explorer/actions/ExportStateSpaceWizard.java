@@ -92,6 +92,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	public ExportStateSpaceWizard() {
 		wizban = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/export_wiz.png");
 		//icon = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "/icons/full/etool16/export_wiz.gif");
+		setNeedsProgressMonitor(true);
 	}
 	
 	/*

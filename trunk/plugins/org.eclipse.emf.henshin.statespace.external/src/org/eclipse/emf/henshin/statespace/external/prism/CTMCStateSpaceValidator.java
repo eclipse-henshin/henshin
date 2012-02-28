@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
@@ -57,7 +57,8 @@ public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 		monitor.beginTask("Validating CSL property...", -1);
 		
 		// Generate the CSL file.
-		File cslFile = createTempFile("property", ".csl", PRISMLabelExpander.expandLabels(property, index));
+		File cslFile = createTempFile("property", ".csl", PRISMLabelExpander.expandLabels(property, index,
+				new SubProgressMonitor(monitor, 1)));
 		
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
