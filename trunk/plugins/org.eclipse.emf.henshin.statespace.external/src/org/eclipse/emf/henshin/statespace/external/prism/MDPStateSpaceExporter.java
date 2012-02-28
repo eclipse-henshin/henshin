@@ -59,7 +59,8 @@ public class MDPStateSpaceExporter implements StateSpaceExporter {
 	@Override
 	public void export(StateSpace stateSpace, URI uri, String parameters, IProgressMonitor monitor) throws IOException {
 
-		monitor.beginTask("Exporting state space...", stateSpace.getStates().size()*2);
+		int stateCount = stateSpace.getStates().size();
+		monitor.beginTask("Exporting state space...", 2*stateCount);
 
 		// Determine probabilistic rules:
 		Map<String,List<Rule>> probRules = new LinkedHashMap<String,List<Rule>>();
@@ -127,13 +128,14 @@ public class MDPStateSpaceExporter implements StateSpaceExporter {
 					first = false;
 				}
 				writer.write(";\n");
-
-				// Update the monitor:
-				monitor.worked(1);
-				if (monitor.isCanceled()) {
-					break;
-				}
 			}
+			
+			// Update the monitor:
+			monitor.worked(1);
+			if (monitor.isCanceled()) {
+				break;
+			}
+
 		}
 		writer.write("\nendmodule\n\n");
 
@@ -147,8 +149,8 @@ public class MDPStateSpaceExporter implements StateSpaceExporter {
 
 		if (parameters!=null) {
 			try {
-				String expanded = PRISMLabelExpander.expandLabels(parameters, index, 
-						new SubProgressMonitor(monitor, stateSpace.getStates().size()));
+				String expanded = PRISMUtil.expandLabels(parameters, index, 
+						new SubProgressMonitor(monitor, stateCount));
 				writer.write("\n" + expanded + "\n");
 			} catch (Exception e) {
 				throw new IOException(e);

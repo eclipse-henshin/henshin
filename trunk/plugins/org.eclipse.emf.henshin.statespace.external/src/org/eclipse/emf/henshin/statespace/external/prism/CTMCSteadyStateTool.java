@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace.external.prism;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -20,13 +21,14 @@ import java.util.Locale;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
  * PRISM CTMC steady-state tool.
  * @author Christian Krause
  */
-public class CTMCSteadyStateTool extends AbstractPRISMTool {
+public class CTMCSteadyStateTool extends AbstractFileBasedValidator {
 	
 	/*
 	 * (non-Javadoc)
@@ -37,9 +39,12 @@ public class CTMCSteadyStateTool extends AbstractPRISMTool {
 		
 		monitor.beginTask("Computing steady-state probabilities...", -1);
 		
+		// Generate the model file.
+		File modelFile = export(stateSpace, new CTMCStateSpaceExporter(), null, monitor);
+
 		// Invoke the PRISM tool:
-		monitor.subTask("Invoking PRISM...");
-		Process process = invokePRISM(stateSpace, null, new String[] { "-steadystate" }, false, monitor);
+		monitor.subTask("Running PRISM...");
+		Process process = PRISMUtil.invokePRISM(stateSpace, modelFile, null, new String[] { "-steadystate" }, false, monitor);
 		
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

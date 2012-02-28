@@ -1,17 +1,100 @@
+/*******************************************************************************
+ * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
+ * Philipps-University Marburg and others. All rights reserved.
+ * This program and the accompanying materials are made 
+ * available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     CWI Amsterdam - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.external.prism;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
+import org.eclipse.emf.henshin.statespace.external.prism.RatesPropertiesManager.Rate;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
-
-public class PRISMLabelExpander {
-
+/**
+ * PRISM utils.
+ * @author Christian Krause
+ */
+public class PRISMUtil {
+	
+	/**
+	 * Invoke PRISM on a state space.
+	 * @param stateSpace State space.
+	 * @param args Arguments.
+	 * @param monitor Monitor.
+	 * @return Created process.
+	 * @throws Exception On errors.
+	 */
+	protected static Process invokePRISM(StateSpace stateSpace, File modelFile, File formulaFile, 
+			String[] args, boolean allowExperiments, IProgressMonitor monitor) throws Exception {
+				
+		// Get the executable, path and arguments.
+		File path = RatesPropertiesManager.getPRISMPath(stateSpace);
+		String baseArgs = RatesPropertiesManager.getPRISMArgs(stateSpace);
+		
+		// Create the command.
+		List<String> command = new ArrayList<String>();
+		command.add(path!=null ? new File(path.getAbsolutePath()+File.separator+"prism").getAbsolutePath() : "prism");
+		command.add(modelFile.getAbsolutePath());
+		if (formulaFile!=null) {
+			command.add(formulaFile.getAbsolutePath());
+		}
+		if (baseArgs!=null) {
+			for (String arg : baseArgs.split(" ")) {
+				command.add(arg.trim());
+			}
+		}
+		if (args!=null) {
+			for (String arg : args) {
+				command.add(arg.trim());
+			}
+		}
+		
+		// Now add the constants arguments:
+		String constants = "";
+		for (Rule rule : stateSpace.getRules()) {
+			Rate rate = RatesPropertiesManager.getRate(stateSpace,rule);
+			if (rate==null) {
+				throw new StateSpaceException("Rate for rule \"" + rule.getName() +
+						"\" not defined (set property \"" + RatesPropertiesManager.getRateKey(rule) + "\")");
+			}
+			if (!allowExperiments && !rate.isConstant()) {
+				throw new StateSpaceException("Rate for rule \"" + rule.getName() + "\" must be a constant");
+			}
+			if (constants.length()>0) {
+				constants = constants + ",";
+			}
+			constants = constants + RatesPropertiesManager.getRateKey(rule) + "=" + rate;
+			
+		}
+		if (constants.length()>0) {
+			command.add("-const");
+			command.add(constants);
+		}
+		
+		// Now we can invoke the PRISM tool:
+		System.out.println(command);
+		return Runtime.getRuntime().exec(command.toArray(new String[] {}), null, path);
+		
+	}
+	
 	/*
 	 * Expand labels.
 	 */
@@ -27,7 +110,7 @@ public class PRISMLabelExpander {
 			sections++;
 		} while (!dummy1.equals(dummy2));
 		
-		// Now do the replacement:
+		// Now do the expansion:
 		monitor.beginTask("Expanding labels...", sections);
 		for (int i=0; i<sections; i++) {
 			template = doExpand(template, index, new SubProgressMonitor(monitor,1));
@@ -36,7 +119,6 @@ public class PRISMLabelExpander {
 		return template;
 
 	}
-
 
 	private static String doExpand(String template, StateSpaceIndex index, IProgressMonitor monitor) throws Exception {
 		

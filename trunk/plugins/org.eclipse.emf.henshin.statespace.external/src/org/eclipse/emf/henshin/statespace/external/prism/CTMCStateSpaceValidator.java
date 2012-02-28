@@ -25,6 +25,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
@@ -32,7 +33,7 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
  * PRISM CTMC state space validator.
  * @author Christian Krause
  */
-public class CTMCStateSpaceValidator extends AbstractPRISMTool {
+public class CTMCStateSpaceValidator extends AbstractFileBasedValidator {
 	
 	/*
 	 * English number format (used for parsing and printing).
@@ -57,12 +58,16 @@ public class CTMCStateSpaceValidator extends AbstractPRISMTool {
 		monitor.beginTask("Validating CSL property...", -1);
 		
 		// Generate the CSL file.
-		File cslFile = createTempFile("property", ".csl", PRISMLabelExpander.expandLabels(property, index,
+		File cslFile = createTempFile("property", ".csl", PRISMUtil.expandLabels(property, index,
 				new SubProgressMonitor(monitor, 1)));
-		
+
+		// Generate the model file.
+		File modelFile = export(stateSpace, new CTMCStateSpaceExporter(), null, monitor);
+
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
-		Process process = invokePRISM(stateSpace, cslFile, null, true, monitor);
+
+		Process process = PRISMUtil.invokePRISM(stateSpace, modelFile, cslFile, null, true, monitor);
 		
 		// Parse the experiments:
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
