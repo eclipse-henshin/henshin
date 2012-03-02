@@ -208,7 +208,10 @@ public class AttributeParser extends AbstractParser {
 		attribute.setType(attr);
 		
 		// Set the action:
-		HenshinActionHelper.setAction(attribute, action);
+		Action currentAction = HenshinActionHelper.getAction(attribute);
+		if (currentAction!=null && !currentAction.equals(action)) {
+			HenshinActionHelper.setAction(attribute, action);
+		}
 		
 		// Done.
 		return CommandResult.newOKCommandResult();

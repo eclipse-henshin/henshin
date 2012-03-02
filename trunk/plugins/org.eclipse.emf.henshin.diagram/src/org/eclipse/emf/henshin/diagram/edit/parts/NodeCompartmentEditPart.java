@@ -83,14 +83,6 @@ public class NodeCompartmentEditPart extends ListCompartmentEditPart {
 		}
 	}
 
-	/**
-	 * @generated NOT
-	 */
-	@Override
-	public boolean isSelectable() {
-		return false;
-	}
-
 	/*
 	 * Helper method for determining whether a shadow should be drawn.
 	 */

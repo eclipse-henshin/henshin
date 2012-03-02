@@ -27,12 +27,16 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelp
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
+import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -43,8 +47,22 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
@@ -136,15 +154,14 @@ public class NodeCreateCommand extends EditElementCommand {
 		CreateElementRequest request = (CreateElementRequest) getRequest();
 		Object type = request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
 
+		TransformationSystem ts = rule.getTransformationSystem();
+		SingleEClassifierSelectionDialog dialog = null;
+
 		// if no type has been specified yet, let the user choose one
 		if (type == null) {
-			final TransformationSystem ts = rule.getTransformationSystem();
-
-			final SingleEClassifierSelectionDialog dialog = new SingleEClassifierSelectionDialog(
-					ts);
+			dialog = new SingleEClassifierSelectionDialog(ts);
 			type = dialog.openAndReturnSelection();
-
-		}// if
+		}
 
 		if (type != null && type instanceof EClass) {
 			EClass eclass = (EClass) type;
@@ -158,6 +175,11 @@ public class NodeCreateCommand extends EditElementCommand {
 		View ruleView = RootObjectEditHelper.findRuleView(rule);
 		RootObjectEditHelper.updateRootContainment(ruleView, lhsNode);
 
+		// Finally, we set the user-defined action:
+		if (dialog!=null) {
+			HenshinActionHelper.setAction(lhsNode, dialog.getAction());
+		}
+		
 		// This shouldn't do anything, but we call it to be sure:
 		doConfigure(lhsNode, monitor, info);
 
@@ -189,7 +211,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	 * Dialog for choosing an EClassifier in order to specify the node type to
 	 * be created.
 	 * 
-	 * @author Stefan Jurack (sjurack)
+	 * @author Stefan Jurack (sjurack), Christian Krause
 	 * 
 	 */
 	private final class SingleEClassifierSelectionDialog extends
@@ -197,6 +219,8 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		final TransformationSystem ts;
 
+		private Action action;
+		
 		/**
 		 * Constructor
 		 * 
@@ -209,6 +233,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			this.setTitle(Messages.SingleEClassifierSelectionDialog_title);
 			this.setMessage(Messages.SingleEClassifierSelectionDialog_msg);
 			this.ts = ts;
+			this.action = null;
 		}// constructor
 
 		/**
@@ -237,6 +262,98 @@ public class NodeCreateCommand extends EditElementCommand {
 			return result;
 		}// openAndReturnElement
 
-	}// inner class
+	    /*
+	     * @see Dialog#createDialogArea(Composite)
+	     */
+		@Override
+	    protected Control createDialogArea(Composite parent) {
+	        Composite contents = (Composite) super.createDialogArea(parent);
 
+	        // Action group:
+	    	Group group = new Group(contents, SWT.NONE);
+	        GridData data = new GridData();
+	        data.grabExcessHorizontalSpace = true;
+	        data.horizontalAlignment = GridData.FILL;
+	        data.verticalAlignment = GridData.END;
+
+	        group.setLayoutData(data);
+	        group.setFont(parent.getFont());
+	        group.setText("Action");
+	        group.setLayout(new GridLayout(2, false));
+	        
+	        createLabel("Action Type:", group);	        
+	        Composite buttons = new Composite(group, SWT.NONE);
+	        buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
+	        
+	        // Action types as radio buttons:
+	        boolean first = true;
+	        for (ActionType type : ActionType.values()) {
+	        	final Action current = new Action(type);
+		        Button button = new Button(buttons, SWT.RADIO);
+		        button.setText(type.toString());
+		        button.setForeground(ActionColorProvider.getColor(current));
+		        if (first) {
+		        	button.setSelection(true);
+		        	action = current;
+		        }
+		        button.addSelectionListener(new SelectionListener() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+			        	action = current;
+					}
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+						widgetSelected(e);
+					}
+		        });
+		        first = false;
+	        }
+	        
+	        // Amalgamated flag:
+	        createLabel("Amalgamated:", group);
+	        final Button amalgamated = new Button(group, SWT.CHECK);
+	        amalgamated.addSelectionListener(new SelectionListener() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					action = new Action(action.getType(), 
+							amalgamated.getSelection(), 
+							action.getArguments());
+				}
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					widgetSelected(e);
+				}
+	        });
+	        
+	        // Arguments:
+	        createLabel("Arguments:", group);
+	        final Text args = new Text(group, SWT.BORDER | SWT.SINGLE);
+	        args.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	        args.addModifyListener(new ModifyListener() {
+				@Override
+				public void modifyText(ModifyEvent e) {
+					String[] parsed = args.getText().split(",");
+					action = new Action(action.getType(), 
+							action.isAmalgamated(), 
+							parsed);
+				}
+	        });
+	        
+	        return contents;
+	    }
+		
+		private Label createLabel(String label, Composite grid) {
+	        Label l = new Label(grid, SWT.NONE);
+	        l.setText(label);
+	        l.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+			applyDialogFont(l);
+			return l;
+		}
+
+		public Action getAction() {
+			return action;
+		}
+
+	}// inner class
+	
 }

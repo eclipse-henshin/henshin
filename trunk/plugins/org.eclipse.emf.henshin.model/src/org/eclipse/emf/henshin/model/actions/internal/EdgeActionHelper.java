@@ -111,7 +111,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 				}
 				
 				if (trgAction.getType() == ActionType.CREATE
-						|| trgAction.getType() == ActionType.FORBID) {
+						|| trgAction.getType() == ActionType.FORBID
+						|| trgAction.getType() == ActionType.REQUIRE) {
 					source = new NodeMapEditor(target.getGraph()).copy(source);
 				}
 			} else {
@@ -196,8 +197,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 
 		// Different actions are only allowed if one is a preserve action:
 		if (!action1.equals(action2)
-				&& !isSimplePreserve(action1)
-				&& !isSimplePreserve(action2)) {
+				&& !(isSimplePreserve(action1) && !action2.isAmalgamated())
+				&& !(isSimplePreserve(action2) && !action1.isAmalgamated())) {
 			return false;
 		}
 
