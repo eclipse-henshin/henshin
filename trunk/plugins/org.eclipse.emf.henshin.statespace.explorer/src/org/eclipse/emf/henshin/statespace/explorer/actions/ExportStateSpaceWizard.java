@@ -226,9 +226,9 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		URI fileURI = URI.createFileURI(tmp.getAbsolutePath());
 		
 		// Now perform the export:
-		monitor.beginTask("Exporting state space...", 2);
+		monitor.beginTask("Exporting state space...", 20);
 		exporter.setStateSpaceIndex(index);
-		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,1));
+		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
 		
 		// Copy the file to the real location:
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(tmp), 65536);

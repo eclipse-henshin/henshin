@@ -29,27 +29,7 @@ import org.eclipse.emf.henshin.statespace.Transition;
  */
 public class MDPStateSpaceExporter implements StateSpaceExporter {
 
-	private class Label {
-
-		Transition tr;
-
-		Label(Transition tr) {
-			this.tr = tr;
-		}
-
-		@Override
-		public int hashCode() {
-			return tr.getRule().getName().hashCode() + tr.getMatch();
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			Label l = (Label) o;
-			return tr.getRule().getName().equals(l.tr.getRule().getName()) &&
-					tr.getMatch()==l.tr.getMatch();
-		}
-	}
-
+	// The state space index:
 	private StateSpaceIndex index;
 
 	/*
@@ -95,22 +75,13 @@ public class MDPStateSpaceExporter implements StateSpaceExporter {
 
 		// Output the transitions:
 		for (State s : stateSpace.getStates()) {
-
-			Map<Label,List<Transition>> trs = new LinkedHashMap<Label,List<Transition>>();
-			for (Transition t : s.getOutgoing()) {
-				Label l = new Label(t);
-				List<Transition> x = trs.get(l);
-				if (x==null) {
-					x = new ArrayList<Transition>();
-					trs.put(l, x);
-				}
-				x.add(t);
-			}
-
-			for (Label l : trs.keySet()) {
+			
+			// Sort transitions by labels:
+			Map<MDPLabel, List<Transition>> trs = MDPLabel.getTransitionsByLabel(s);
+			for (MDPLabel l : trs.keySet()) {
 
 				// Output the transition:
-				String name = l.tr.getRule().getName();
+				String name = l.getTransition().getRule().getName();
 				writer.write("\t[" + name + "] s=" + s.getIndex() + " -> ");
 
 				boolean first = true;
@@ -180,7 +151,7 @@ public class MDPStateSpaceExporter implements StateSpaceExporter {
 	 */
 	@Override
 	public String[] getFileExtensions() {
-		return new String[] { "nm" };
+		return new String[] { "nm", "tra" };
 	}
 
 	/*
