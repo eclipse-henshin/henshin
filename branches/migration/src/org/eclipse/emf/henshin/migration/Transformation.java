@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -36,6 +35,8 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -130,14 +131,7 @@ public class Transformation {
 	private ArrayList<CountedUnitHelper> cuList = new ArrayList<CountedUnitHelper>();	// List of counted units
 	
 	private TransformationSystem newRoot;	// root object of the new Transformation System
-	
-	/*
-	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException, URISyntaxException {
-		Transformation tr = new Transformation();
-		tr.migrate(new java.net.URI("dbg/cuTest.henshin"));
-	}
-	*/
-		
+			
 	
 	public void migrate(java.net.URI henshinFileUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {
 		migrate(henshinFileUri, null, optimizeNcs, pm);
@@ -150,55 +144,28 @@ public class Transformation {
 	 * @throws FileNotFoundException
 	 */
 	public void migrate(java.net.URI fileUri, java.net.URI henshinDiagramUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
-		//TODO: check if both root objects are in the newelements map for the diagram migration
-		
-		//String oldHenshinFilename = "dbg/philNew.henshin";
         ResourceSet resourceSet = new ResourceSetImpl();
-        
-//        Registry rfr = resourceSet.getResourceFactoryRegistry();
-        //rfr.getExtensionToFactoryMap().put(", value)
-        
-
-        
-//        Registry rfr = new ResourceFactoryRegistryImpl();
-
-        //resourceSet.setResourceFactoryRegistry(resourceFactoryRegistry)
         
 		pm.beginTask("migrating to new model", 100);
 		URI eFileUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString());
 		URI diagramUri = henshinDiagramUri!=null?org.eclipse.emf.common.util.URI.createURI(henshinDiagramUri.toString()):null;
 		
-		// TODO: This is just for testing; remove when wizard is ready
-//		URI diagramUri = org.eclipse.emf.common.util.URI.createURI(fileUri.toString() + "_diagram");
 		System.out.println("diagram: " + diagramUri);
-		// -----------------------
-		
-		
 		
 		URI backupUri = eFileUri.appendFileExtension("bak");
-//		URI newUri = eFileUri.appendFileExtension((System.currentTimeMillis() / 100) + "new.henshin");
 		URI newUri = eFileUri;
 
 		HenshinPackageImpl.init();
-		HenshinPackage.eINSTANCE.getClass();		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new HenshinResourceFactory());//new EcoreResourceFactoryImpl());		Resource.Factory.Registry.INSTANCE.getContentTypeToFactoryMap().put("org.eclipse.emf.ecore", new HenshinResourceFactory());
+		HenshinPackage.eINSTANCE.getClass();/*		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new HenshinResourceFactory());//new EcoreResourceFactoryImpl());		Resource.Factory.Registry.INSTANCE.getContentTypeToFactoryMap().put("org.eclipse.emf.ecore", new HenshinResourceFactory());
 		Resource.Factory.Registry.INSTANCE.getContentTypeToFactoryMap().put("org.eclipse.emf.henshin", new HenshinResourceFactory());
-//		URI henshinUri = URI.createFileURI(new File("model/henshin-080.ecore").getAbsolutePath());
+*/
 		URI henshinUri = URI.createPlatformPluginURI("org.eclipse.emf.henshin.migration/model/henshin-080.ecore", false);
 		
 		ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri), resourceSet);
-		
-		/*
-		public static void registerHenshinFileExtension(String extension) {
-			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension, new HenshinResourceFactory());
-		}*/
-
-		
-		//ModelHelper.registerFileExtension("henshin");
+				
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("henshin", new HenshinResourceFactory());
 		
-		//EObject graphRoot = ModelHelper.loadFile(eFileUri.toFileString());
 
-//		HenshinResource oldHenshinResource = (HenshinResource) resourceSet.getResource(URI.createFileURI(eFileUri.toFileString()), true);
 		Resource oldHenshinResource = resourceSet.getResource(URI.createFileURI(eFileUri.toFileString()), true);
 
 		EObject graphRoot = oldHenshinResource.getContents().get(0);
@@ -207,46 +174,7 @@ public class Transformation {
 		if (diagramUri != null && diagramUri.isFile()) {
 			resourceSet.getResource(diagramUri, true);
 		}
-		
-		// create new resource
-		
-		
-		Resource newHenshinResource = new HenshinResourceFactory().createResource(null);
-		newHenshinResource.getContents().add(newRoot);
-		resourceSet.getResources().add(newHenshinResource);
-		
-		// XXX: vvvv remove
-		
-        Registry rfr = Resource.Factory.Registry.INSTANCE;
-        System.out.println("----- content type to factory map -----");
-        for (Entry<String, Object> s : rfr.getContentTypeToFactoryMap().entrySet()) {
-        	System.out.println(s.getKey() + "\t -> " + s.getValue());
-        }
-		
-        
-        System.out.println("\n----- extension to factory map -----");
-        for (Entry<String, Object> s : rfr.getExtensionToFactoryMap().entrySet()) {
-        	System.out.println(s.getKey() + "\t -> " + s.getValue());
-        }
-        
-        System.out.println("\n----- protocol to factory map -----");
-        for (Entry<String, Object> s : rfr.getProtocolToFactoryMap().entrySet()) {
-        	System.out.println(s.getKey() + "\t -> " + s.getValue());
-        }
-        
-        System.out.println("\n\n\n\n");
-//        
-//        if (1+1 == 2) {
-//        	return;
-//		} 
-		
-		
-		
-		// XXX: ^^^^ remove
-		
-		
-		
-		
+			
 		
 		// --- Actual conversion starts here ---
 
@@ -268,6 +196,11 @@ public class Transformation {
 		
 		System.out.println("\n ****** \n");
 		newRoot = (TransformationSystem) newElements.get(graphRoot);
+		
+		Resource newHenshinResource = new HenshinResourceFactory().createResource(null);
+		newHenshinResource.getContents().add(newRoot);
+		resourceSet.getResources().add(newHenshinResource);
+		
 		updateReferences();						// update references between objects
 		pm.worked(20);
 		buildAmalgamationUnits();				// create copies of the rules used in AmalgamationUnits and modify existing kernel rules to contain the multi rules
@@ -292,30 +225,7 @@ public class Transformation {
 		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		newElements.put(graphRoot, newRoot);	// put the old and the new transformationSystem in the map
-		try {
-			boolean diagramTransformationSuccess = DiagramTransformation.transformDiagram(newElements, resourceSet, diagramUri);
-			System.out.println("Diagram transformation " + (diagramTransformationSuccess?"successful":"failed"));
-		} catch (Exception e) {
-			System.err.println("Problems during diagram migration:");
-			e.printStackTrace();
-		}
-		
-		// XXX: Debug code, remove
-		/*
-		 * 
-		EPackage henshinOld = EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2010/Henshin");
-		for (Entry<EObject, EObject> entry : newElements.entrySet()) {
-			//				EClass ec = (EClass) henshinNew.getEClassifier(type); 
 
-			System.out.println(entry.getKey() + " -> " + entry.getValue() + "\t### " + entry.getKey().hashCode());
-		}*/
-		
-		
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		
-       
-		
-		
 		System.out.println("\n\n####################");
 		System.out.println(newRoot);
 		Tools.printCollection(newRoot.getRules());
@@ -330,12 +240,19 @@ public class Transformation {
 		} 
 		pm.subTask("write new file");
 		
-		// write new file
-		
-		//Tools.persist(newRoot, newUri.toFileString());
-		
+		// write new file		
 		newHenshinResource.setURI(newUri);
 		newHenshinResource.save(null);
+		
+		try {
+			boolean diagramTransformationSuccess = DiagramTransformation.transformDiagram(newElements, amalgamationUnitRuleCopies, resourceSet, diagramUri);
+			System.out.println("Diagram transformation " + (diagramTransformationSuccess?"successful":"failed"));
+		} catch (Exception e) {
+			System.err.println("Problems during diagram migration:");
+			e.printStackTrace();
+		}
+		
+		
 		
 		
 		System.out.println("naclist:");
@@ -379,7 +296,6 @@ public class Transformation {
 				if (e.getValue() instanceof LoopUnit) {		
 					Object subUnit = e.getKey().eGet(getEReferenceByName("subUnit", e.getKey().eClass()));
 					if (newElements.get(subUnit) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subUnit), e.getValue(), 0);
 					}
 				} else if (e.getValue() instanceof ConditionalUnit) {
@@ -387,31 +303,26 @@ public class Transformation {
 					Object subThen = e.getKey().eGet(getEReferenceByName("then", e.getKey().eClass()));
 					Object subElse = e.getKey().eGet(getEReferenceByName("else", e.getKey().eClass()));
 					if (newElements.get(subIf) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subIf), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subIf), e.getValue(), 0);
 					}
 					
 					if (newElements.get(subThen) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subThen), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subThen), e.getValue(), 0);
 					}
 					
 					if (newElements.get(subElse) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subElse), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subElse), e.getValue(), 0);
 					}
 				} else if ("CountedUnit".equals(e.getKey().eClass().getName())) {
 					// special case for counted units
 					Object subUnit = e.getKey().eGet(getEReferenceByName("subUnit", e.getKey().eClass()));
 					if (newElements.get(subUnit) instanceof Rule) { // if the subunit is a Rule, add it to the list
-						//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnit), e.getValue(), 0));
 						addRuleReplacement(newElements.get(subUnit), e.getValue(), 0);
 					}
 				} else { // any other transformation unit
 					EList<TransformationUnit> subUnits = (EList<TransformationUnit>) e.getKey().eGet(getEReferenceByName("subUnits", e.getKey().eClass()));
 					for (int i = 0; i < subUnits.size(); i++) {
 						if (newElements.get(subUnits.get(i)) instanceof Rule) {
-							//ruleReplacements.add(new RuleReplacementHelper(newElements.get(subUnits.get(i)), e.getValue(), i));
 							addRuleReplacement(newElements.get(subUnits.get(i)), e.getValue(), i);
 						}
 					}
@@ -520,11 +431,13 @@ public class Transformation {
 	 * Note: Kernel and Multi Rules will be copied, although this will not be neccessary most of the time.
 	 */
 	private void buildAmalgamationUnits() {
+		// amalgamationUnitRuleCopies:    unmodifiedOriginalRule -> copiedRuleInAmalgamatioUnit 
+		
 		for (AmalgamationUnitHelper amu : amuList) {
 			// Copy the kernel rule
 			// New name will be AMALGAMATIONUNITNAME_KRL_KERNELRULENAME
 			Rule krlRuleTmp = (Rule) newElements.get(amu.kernelRule);
-			Rule krlRule = (Rule) EcoreUtil.copy(krlRuleTmp);
+			Rule krlRule = (Rule) EcoreUtil.copy(krlRuleTmp);		// <- this is the new AmalgamationUnit
 			krlRule.getMultiRules().clear();
 			amalgamationUnitRuleCopies.put(krlRuleTmp, krlRule);
 			krlRule.setName(amu.amalgamationUnitName + "_krl_" + krlRule.getName());
@@ -616,13 +529,8 @@ public class Transformation {
 					newMp.setImage(newImageNode);
 					imageNodeContainerRule.getMultiMappings().add(newMp);
 					System.out.println("mapping container:" + newMp.eContainer());
-					
-	
 				}
 			}
-			
-			
-			
 		}
 	}
 
@@ -632,10 +540,10 @@ public class Transformation {
 	 * traverse the newElements map and update all references between objects.
 	 */
 	private void updateReferences() {
-		for (Entry<EObject, EObject> e : newElements.entrySet()) {
-			System.out.println("\nREFERENCES FOR " + e.getKey());
+		for (Entry<EObject, EObject> e: newElements.entrySet()) {
+			System.out.println("\nREFERENCES FOR " + e.getKey() + "\t\t\t (new object: " + e.getValue() + ")");
 
-			for (EReference er : ((EObject) e.getKey()).eClass().getEAllReferences()) {	// XXX: remove
+			for (EReference er : ((EObject) e.getKey()).eClass().getEAllReferences()) {	// XXX: debug print, remove
 				System.out.println("\t" + er);
 			}
 			for (EReference er : ((EObject) e.getValue()).eClass().getEAllReferences()) {
@@ -644,7 +552,6 @@ public class Transformation {
 				if (er.isChangeable()) {
 					if (oldErefType != null) {
 						if (((EObject) e.getKey()).eGet(oldErefType) instanceof EList) {
-							// TODO: imports!
 							EList<EObject> oldReferencedObjects = (EList<EObject>) ((EObject) e.getKey()).eGet(oldErefType);
 							System.out.println("lst:: " + oldReferencedObjects);
 							if (oldReferencedObjects != null) { // reference is a list
@@ -666,10 +573,8 @@ public class Transformation {
 										convertObjectList(oldReferencedObjects, newReferencedObjects);
 									}
 								} else {
-									convertObjectList(oldReferencedObjects, newReferencedObjects);
+									convertObjectList(oldReferencedObjects, newReferencedObjects);	// set reference
 									System.out.println("NEW:: " + newReferencedObjects);
-									//((EObject) e.getValue()).eSet(er, newReferencedObjects);
-									// TODO: Set reference
 									System.out.println("new:: " + ((EObject) e.getValue()).eGet(er) + " // " + newReferencedObjects);
 									System.out.println("non-null");
 								}
@@ -770,11 +675,8 @@ public class Transformation {
 	 */
 	private void fillMap(EObject rootObject) {
 		EPackage henshinNew = HenshinPackageImpl.eINSTANCE;
-		//EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2011/Henshin");
 		
-		
-		for (EObject eo : rootObject.eContents()) {
-		
+		for (EObject eo : rootObject.eContents()) {		
 			boolean detectedNC = false;
 			
 			String type = eo.eClass().getName();
@@ -814,21 +716,6 @@ public class Transformation {
 					Mapping newRhsMapping = HenshinFactory.eINSTANCE.createMapping();
 					newElements.put(rhsMapping, newRhsMapping);
 				}
-
-				/*
-				EList<EObject> amalgamationUnitParameters = (EList<EObject>) eo.eGet(getEReferenceByName("parameters", eo.eClass()));
-				for (Iterator iter = amalgamationUnitParameters.iterator(); iter.hasNext(); ) {
-					EObject parameter = (EObject) iter.next();
-					Parameter newParameter = HenshinFactory.eINSTANCE.createParameter();
-					newElements.put(parameter, newParameter);
-				}
-				
-				EList<EObject> amalgamationUnitParameterMappings = (EList<EObject>) eo.eGet(getEReferenceByName("parameterMappings", eo.eClass()));
-				for (Iterator iter = amalgamationUnitParameterMappings.iterator(); iter.hasNext(); ) {
-					EObject parameterMapping = (EObject) iter.next();
-					ParameterMapping newParameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
-					//newElements.put(parameterMapping, newParameterMapping);
-				} */
 				
 				amuList.add(amu);
 				newElements.put(eo, amalgamationUnitKernelRule);
@@ -836,11 +723,27 @@ public class Transformation {
 				continue;
 			} else if ("NestedCondition".equals(type)) {
 				// Handle NestedCondition
-				// TODO: rewrite when model is correct?
 				detectedNC = true;
 			} else if ("CountedUnit".equals(type)) {
 				// handle counted unit: gets replaced by (a LoopUnit (containing a sequential unit (containing 'count' times the subunit)))
 
+				
+				// migrate parameters and parameterMappings
+				EList<EObject> countedUnitParameters = (EList<EObject>) eo.eGet(getEReferenceByName("parameters", eo.eClass()));
+				for (Iterator iter = countedUnitParameters.iterator(); iter.hasNext(); ) {
+					EObject parameter = (EObject) iter.next();
+					Parameter newParameter = HenshinFactory.eINSTANCE.createParameter();
+					newElements.put(parameter, newParameter);
+				}
+				
+				EList<EObject> countedUnitParameterMappings = (EList<EObject>) eo.eGet(getEReferenceByName("parameterMappings", eo.eClass()));
+				for (Iterator iter = countedUnitParameterMappings.iterator(); iter.hasNext(); ) {
+					EObject parameterMapping = (EObject) iter.next();
+					ParameterMapping newParameterMapping = HenshinFactory.eINSTANCE.createParameterMapping();
+					newElements.put(parameterMapping, newParameterMapping);
+				}
+				
+				
 				EAttribute attr = getEAttributeForName("count", eo.eClass());
 				int count = (Integer) eo.eGet(attr);
 				
@@ -865,10 +768,7 @@ public class Transformation {
 					countedUnitReplacementSeqUnit.setName((String) eo.eGet(getEAttributeForName("name", eo.eClass())));
 					countedUnitReplacementSeqUnit.setDescription((String) eo.eGet(getEAttributeForName("description", eo.eClass())));
 					countedUnitReplacementSeqUnit.setActivated((Boolean) eo.eGet(getEAttributeForName("activated", eo.eClass())));
-					
 					cuList.add(cuHelper);
-					
-					
 					cuReplacement = countedUnitReplacementSeqUnit;
 				}
 				
@@ -891,7 +791,6 @@ public class Transformation {
 				
 				// handler for NACs, put them in a List (nacList) 
 				if ((detectedNC) && (attr.getName().equals("negated"))) {
-					// TODO: rewrite when model is correct?
 					if (((Boolean) val) == true) {
 						nacList.add((NestedCondition) newObject); 
 					}
@@ -933,7 +832,6 @@ public class Transformation {
 	 */
 	private void addRootObjectToMap(EObject eo) {
 		EPackage henshinNew = HenshinPackageImpl.eINSTANCE;
-		//.EPackage.Registry.INSTANCE.getEPackage("http://www.eclipse.org/emf/2011/Henshin");
 		
 			
 		String type = eo.eClass().getName();
@@ -1171,5 +1069,6 @@ public class Transformation {
 			rrh.ruleInTuIndices.add(index);
 		}
 	}
+	
 	
 }
