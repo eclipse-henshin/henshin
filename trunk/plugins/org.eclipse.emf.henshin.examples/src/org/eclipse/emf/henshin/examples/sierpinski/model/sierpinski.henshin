@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="ASCII"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_co7DYAaFEd-zI5a8dcgd6w">
-  <rules xmi:id="_co7DYQaFEd-zI5a8dcgd6w" description="" name="AddTriangle" activated="true">
-    <lhs xmi:id="_co7DYgaFEd-zI5a8dcgd6w">
-      <nodes xmi:id="_co7DZAaFEd-zI5a8dcgd6w" outgoing="_co7DZwaFEd-zI5a8dcgd6w _co7DaAaFEd-zI5a8dcgd6w">
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_O4BkAGK4EeGEopi1QdEPhA">
+  <rules xmi:id="_O4jIcGK4EeGEopi1QdEPhA" description="" name="AddTriangle">
+    <lhs xmi:id="_O4jIcWK4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jIcmK4EeGEopi1QdEPhA" outgoing="_O4jIdWK4EeGEopi1QdEPhA _O4jIdGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DZQaFEd-zI5a8dcgd6w" incoming="_co7DZwaFEd-zI5a8dcgd6w" outgoing="_co7DaQaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4kWkGK4EeGEopi1QdEPhA" incoming="_O4jIdWK4EeGEopi1QdEPhA" outgoing="_O4jIc2K4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DZgaFEd-zI5a8dcgd6w" incoming="_co7DaAaFEd-zI5a8dcgd6w _co7DaQaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4kWkWK4EeGEopi1QdEPhA" incoming="_O4jIdGK4EeGEopi1QdEPhA _O4jIc2K4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <edges xmi:id="_co7DZwaFEd-zI5a8dcgd6w" source="_co7DZAaFEd-zI5a8dcgd6w" target="_co7DZQaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIdWK4EeGEopi1QdEPhA" source="_O4jIcmK4EeGEopi1QdEPhA" target="_O4kWkGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/left"/>
       </edges>
-      <edges xmi:id="_co7DaAaFEd-zI5a8dcgd6w" source="_co7DZAaFEd-zI5a8dcgd6w" target="_co7DZgaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIdGK4EeGEopi1QdEPhA" source="_O4jIcmK4EeGEopi1QdEPhA" target="_O4kWkWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/right"/>
       </edges>
-      <edges xmi:id="_co7DaQaFEd-zI5a8dcgd6w" source="_co7DZQaFEd-zI5a8dcgd6w" target="_co7DZgaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIc2K4EeGEopi1QdEPhA" source="_O4kWkGK4EeGEopi1QdEPhA" target="_O4kWkWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/conn"/>
       </edges>
     </lhs>
-    <rhs xmi:id="_co7DagaFEd-zI5a8dcgd6w">
-      <nodes xmi:id="_co7DawaFEd-zI5a8dcgd6w" outgoing="_co7DcgaFEd-zI5a8dcgd6w _co7DcwaFEd-zI5a8dcgd6w">
+    <rhs xmi:id="_O4jIdmK4EeGEopi1QdEPhA">
+      <nodes xmi:id="_O4jId2K4EeGEopi1QdEPhA" outgoing="_O4jIfWK4EeGEopi1QdEPhA _O4jIfmK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DbAaFEd-zI5a8dcgd6w" incoming="_co7DdQaFEd-zI5a8dcgd6w" outgoing="_co7DdAaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4jIeGK4EeGEopi1QdEPhA" incoming="_O4jIgGK4EeGEopi1QdEPhA" outgoing="_O4jIf2K4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DbQaFEd-zI5a8dcgd6w" incoming="_co7DeQaFEd-zI5a8dcgd6w _co7DegaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4jIeWK4EeGEopi1QdEPhA" incoming="_O4jIhGK4EeGEopi1QdEPhA _O4jIhWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DbgaFEd-zI5a8dcgd6w" incoming="_co7DcgaFEd-zI5a8dcgd6w" outgoing="_co7DdQaFEd-zI5a8dcgd6w _co7DdgaFEd-zI5a8dcgd6w _co7DdwaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4jIemK4EeGEopi1QdEPhA" incoming="_O4jIfWK4EeGEopi1QdEPhA" outgoing="_O4jIgGK4EeGEopi1QdEPhA _O4jIgWK4EeGEopi1QdEPhA _O4jIgmK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DbwaFEd-zI5a8dcgd6w" incoming="_co7DcwaFEd-zI5a8dcgd6w _co7DdgaFEd-zI5a8dcgd6w" outgoing="_co7DeAaFEd-zI5a8dcgd6w _co7DeQaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4jIe2K4EeGEopi1QdEPhA" incoming="_O4jIfmK4EeGEopi1QdEPhA _O4jIgWK4EeGEopi1QdEPhA" outgoing="_O4jIg2K4EeGEopi1QdEPhA _O4jIhGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <nodes xmi:id="_co7DcAaFEd-zI5a8dcgd6w" incoming="_co7DdAaFEd-zI5a8dcgd6w _co7DdwaFEd-zI5a8dcgd6w _co7DeAaFEd-zI5a8dcgd6w" outgoing="_co7DegaFEd-zI5a8dcgd6w">
+      <nodes xmi:id="_O4jIfGK4EeGEopi1QdEPhA" incoming="_O4jIf2K4EeGEopi1QdEPhA _O4jIgmK4EeGEopi1QdEPhA _O4jIg2K4EeGEopi1QdEPhA" outgoing="_O4jIhWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex"/>
       </nodes>
-      <edges xmi:id="_co7DcgaFEd-zI5a8dcgd6w" source="_co7DawaFEd-zI5a8dcgd6w" target="_co7DbgaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIfWK4EeGEopi1QdEPhA" source="_O4jId2K4EeGEopi1QdEPhA" target="_O4jIemK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/left"/>
       </edges>
-      <edges xmi:id="_co7DcwaFEd-zI5a8dcgd6w" source="_co7DawaFEd-zI5a8dcgd6w" target="_co7DbwaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIfmK4EeGEopi1QdEPhA" source="_O4jId2K4EeGEopi1QdEPhA" target="_O4jIe2K4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/right"/>
       </edges>
-      <edges xmi:id="_co7DdAaFEd-zI5a8dcgd6w" source="_co7DbAaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIf2K4EeGEopi1QdEPhA" source="_O4jIeGK4EeGEopi1QdEPhA" target="_O4jIfGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/conn"/>
       </edges>
-      <edges xmi:id="_co7DdQaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DbAaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIgGK4EeGEopi1QdEPhA" source="_O4jIemK4EeGEopi1QdEPhA" target="_O4jIeGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/left"/>
       </edges>
-      <edges xmi:id="_co7DdgaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DbwaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIgWK4EeGEopi1QdEPhA" source="_O4jIemK4EeGEopi1QdEPhA" target="_O4jIe2K4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/conn"/>
       </edges>
-      <edges xmi:id="_co7DdwaFEd-zI5a8dcgd6w" source="_co7DbgaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIgmK4EeGEopi1QdEPhA" source="_O4jIemK4EeGEopi1QdEPhA" target="_O4jIfGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/right"/>
       </edges>
-      <edges xmi:id="_co7DeAaFEd-zI5a8dcgd6w" source="_co7DbwaFEd-zI5a8dcgd6w" target="_co7DcAaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIg2K4EeGEopi1QdEPhA" source="_O4jIe2K4EeGEopi1QdEPhA" target="_O4jIfGK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/left"/>
       </edges>
-      <edges xmi:id="_co7DeQaFEd-zI5a8dcgd6w" source="_co7DbwaFEd-zI5a8dcgd6w" target="_co7DbQaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIhGK4EeGEopi1QdEPhA" source="_O4jIe2K4EeGEopi1QdEPhA" target="_O4jIeWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/right"/>
       </edges>
-      <edges xmi:id="_co7DegaFEd-zI5a8dcgd6w" source="_co7DcAaFEd-zI5a8dcgd6w" target="_co7DbQaFEd-zI5a8dcgd6w">
+      <edges xmi:id="_O4jIhWK4EeGEopi1QdEPhA" source="_O4jIfGK4EeGEopi1QdEPhA" target="_O4jIeWK4EeGEopi1QdEPhA">
         <type href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#//Vertex/conn"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_co7DfgaFEd-zI5a8dcgd6w" origin="_co7DZAaFEd-zI5a8dcgd6w" image="_co7DawaFEd-zI5a8dcgd6w"/>
-    <mappings xmi:id="_co7DfwaFEd-zI5a8dcgd6w" origin="_co7DZQaFEd-zI5a8dcgd6w" image="_co7DbAaFEd-zI5a8dcgd6w"/>
-    <mappings xmi:id="_co7DgAaFEd-zI5a8dcgd6w" origin="_co7DZgaFEd-zI5a8dcgd6w" image="_co7DbQaFEd-zI5a8dcgd6w"/>
+    <mappings xmi:id="_O4jIhmK4EeGEopi1QdEPhA" origin="_O4jIcmK4EeGEopi1QdEPhA" image="_O4jId2K4EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_O4jIh2K4EeGEopi1QdEPhA" origin="_O4kWkGK4EeGEopi1QdEPhA" image="_O4jIeGK4EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_O4jIiGK4EeGEopi1QdEPhA" origin="_O4kWkWK4EeGEopi1QdEPhA" image="_O4jIeWK4EeGEopi1QdEPhA"/>
   </rules>
   <imports href="http://www.eclipse.org/emf/2010/Henshin/Examples/Sierpinski#/"/>
 </henshin:TransformationSystem>

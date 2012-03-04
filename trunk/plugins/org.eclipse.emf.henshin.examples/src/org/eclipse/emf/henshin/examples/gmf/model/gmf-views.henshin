@@ -1,72 +1,74 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_QZMDwMV6Ed-Z2t7vpSnrvA">
-  <rules xmi:id="_qLQ6sMV6Ed-Z2t7vpSnrvA" name="CreateView" activated="true">
-    <lhs xmi:id="_qLQ6scV6Ed-Z2t7vpSnrvA" name="LHS">
-      <nodes xmi:id="_wFJfMMV6Ed-Z2t7vpSnrvA" outgoing="_kzOCgMV7Ed-Z2t7vpSnrvA">
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_2NhjsGK4EeGEopi1QdEPhA">
+  <rules xmi:id="_2NjY4GK4EeGEopi1QdEPhA" name="CreateView">
+    <lhs xmi:id="_2N3h8GK4EeGEopi1QdEPhA" name="LHS">
+      <nodes xmi:id="_2N3h8WK4EeGEopi1QdEPhA" outgoing="_2N3h9WK4EeGEopi1QdEPhA">
         <type href="descriptors.ecore#//NodeDescriptor"/>
-        <attributes xmi:id="_nXc50MV7Ed-Z2t7vpSnrvA" value="id">
+        <attributes xmi:id="_2N3h8mK4EeGEopi1QdEPhA" value="id">
           <type href="descriptors.ecore#//NodeDescriptor/visualID"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_QFzYQMV7Ed-Z2t7vpSnrvA" name="">
+      <nodes xmi:id="_2N3h82K4EeGEopi1QdEPhA" name="">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
       </nodes>
-      <nodes xmi:id="_eS7lUMV7Ed-Z2t7vpSnrvA" incoming="_kzOCgMV7Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_2N3h9GK4EeGEopi1QdEPhA" incoming="_2N3h9WK4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
       </nodes>
-      <edges xmi:id="_kzOCgMV7Ed-Z2t7vpSnrvA" source="_wFJfMMV6Ed-Z2t7vpSnrvA" target="_eS7lUMV7Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_2N3h9WK4EeGEopi1QdEPhA" source="_2N3h8WK4EeGEopi1QdEPhA" target="_2N3h9GK4EeGEopi1QdEPhA">
         <type href="descriptors.ecore#//NodeDescriptor/modelElement"/>
       </edges>
-      <formula xsi:type="henshin:NestedCondition" xmi:id="_RMNKMMV8Ed-Z2t7vpSnrvA" negated="true">
-        <conclusion xmi:id="_RMNKMcV8Ed-Z2t7vpSnrvA" name="default">
-          <nodes xmi:id="_RMNxQMV8Ed-Z2t7vpSnrvA" name="" outgoing="_QMQwIMV8Ed-Z2t7vpSnrvA">
-            <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
-          </nodes>
-          <nodes xmi:id="_RMO_YMV8Ed-Z2t7vpSnrvA" incoming="_OsCTgMV8Ed-Z2t7vpSnrvA">
-            <type href="../../../../../../../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
-          </nodes>
-          <nodes xmi:id="_M6Hp8MV8Ed-Z2t7vpSnrvA" incoming="_QMQwIMV8Ed-Z2t7vpSnrvA" outgoing="_OsCTgMV8Ed-Z2t7vpSnrvA">
-            <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node"/>
-          </nodes>
-          <edges xmi:id="_QMQwIMV8Ed-Z2t7vpSnrvA" source="_RMNxQMV8Ed-Z2t7vpSnrvA" target="_M6Hp8MV8Ed-Z2t7vpSnrvA">
-            <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/persistedChildren"/>
-          </edges>
-          <edges xmi:id="_OsCTgMV8Ed-Z2t7vpSnrvA" source="_M6Hp8MV8Ed-Z2t7vpSnrvA" target="_RMO_YMV8Ed-Z2t7vpSnrvA">
-            <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/element"/>
-          </edges>
-        </conclusion>
-        <mappings xmi:id="_RMOYUMV8Ed-Z2t7vpSnrvA" origin="_QFzYQMV7Ed-Z2t7vpSnrvA" image="_RMNxQMV8Ed-Z2t7vpSnrvA"/>
-        <mappings xmi:id="_RMO_YcV8Ed-Z2t7vpSnrvA" origin="_eS7lUMV7Ed-Z2t7vpSnrvA" image="_RMO_YMV8Ed-Z2t7vpSnrvA"/>
+      <formula xsi:type="henshin:Not" xmi:id="_2N4wEGK4EeGEopi1QdEPhA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_2N3h9mK4EeGEopi1QdEPhA">
+          <conclusion xmi:id="_2N3h92K4EeGEopi1QdEPhA" name="default">
+            <nodes xmi:id="_2N3h-GK4EeGEopi1QdEPhA" name="" outgoing="_2N3h-2K4EeGEopi1QdEPhA">
+              <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
+            </nodes>
+            <nodes xmi:id="_2N3h-WK4EeGEopi1QdEPhA" incoming="_2N3h_GK4EeGEopi1QdEPhA">
+              <type href="../../../../../../../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+            </nodes>
+            <nodes xmi:id="_2N3h-mK4EeGEopi1QdEPhA" incoming="_2N3h-2K4EeGEopi1QdEPhA" outgoing="_2N3h_GK4EeGEopi1QdEPhA">
+              <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node"/>
+            </nodes>
+            <edges xmi:id="_2N3h-2K4EeGEopi1QdEPhA" source="_2N3h-GK4EeGEopi1QdEPhA" target="_2N3h-mK4EeGEopi1QdEPhA">
+              <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/persistedChildren"/>
+            </edges>
+            <edges xmi:id="_2N3h_GK4EeGEopi1QdEPhA" source="_2N3h-mK4EeGEopi1QdEPhA" target="_2N3h-WK4EeGEopi1QdEPhA">
+              <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/element"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_2N3h_WK4EeGEopi1QdEPhA" origin="_2N3h82K4EeGEopi1QdEPhA" image="_2N3h-GK4EeGEopi1QdEPhA"/>
+          <mappings xmi:id="_2N3h_mK4EeGEopi1QdEPhA" origin="_2N3h9GK4EeGEopi1QdEPhA" image="_2N3h-WK4EeGEopi1QdEPhA"/>
+        </child>
       </formula>
     </lhs>
-    <rhs xmi:id="_qLQ6ssV6Ed-Z2t7vpSnrvA" name="RHS">
-      <nodes xmi:id="_QFz_UMV7Ed-Z2t7vpSnrvA" name="" outgoing="_AGqlkMV8Ed-Z2t7vpSnrvA">
+    <rhs xmi:id="_2N3h_2K4EeGEopi1QdEPhA" name="RHS">
+      <nodes xmi:id="_2N3iAGK4EeGEopi1QdEPhA" name="" outgoing="_2N3iBWK4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View"/>
       </nodes>
-      <nodes xmi:id="_UJ9xQMV7Ed-Z2t7vpSnrvA" incoming="_AGqlkMV8Ed-Z2t7vpSnrvA" outgoing="_ev2x4MV7Ed-Z2t7vpSnrvA _EOxqcMV8Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_2N3iAWK4EeGEopi1QdEPhA" incoming="_2N3iBWK4EeGEopi1QdEPhA" outgoing="_2N3iBmK4EeGEopi1QdEPhA _2N3iB2K4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node"/>
-        <attributes xmi:id="_x7C0YMV7Ed-Z2t7vpSnrvA" value="id">
+        <attributes xmi:id="_2N3iAmK4EeGEopi1QdEPhA" value="id">
           <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/type"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_eS7lUcV7Ed-Z2t7vpSnrvA" incoming="_ev2x4MV7Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_2N3iA2K4EeGEopi1QdEPhA" incoming="_2N3iBmK4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
       </nodes>
-      <nodes xmi:id="_DvLkYMV8Ed-Z2t7vpSnrvA" incoming="_EOxqcMV8Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_2N3iBGK4EeGEopi1QdEPhA" incoming="_2N3iB2K4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Bounds"/>
       </nodes>
-      <edges xmi:id="_AGqlkMV8Ed-Z2t7vpSnrvA" source="_QFz_UMV7Ed-Z2t7vpSnrvA" target="_UJ9xQMV7Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_2N3iBWK4EeGEopi1QdEPhA" source="_2N3iAGK4EeGEopi1QdEPhA" target="_2N3iAWK4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/persistedChildren"/>
       </edges>
-      <edges xmi:id="_ev2x4MV7Ed-Z2t7vpSnrvA" source="_UJ9xQMV7Ed-Z2t7vpSnrvA" target="_eS7lUcV7Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_2N3iBmK4EeGEopi1QdEPhA" source="_2N3iAWK4EeGEopi1QdEPhA" target="_2N3iA2K4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//View/element"/>
       </edges>
-      <edges xmi:id="_EOxqcMV8Ed-Z2t7vpSnrvA" source="_UJ9xQMV7Ed-Z2t7vpSnrvA" target="_DvLkYMV8Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_2N3iB2K4EeGEopi1QdEPhA" source="_2N3iAWK4EeGEopi1QdEPhA" target="_2N3iBGK4EeGEopi1QdEPhA">
         <type href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node/layoutConstraint"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_QF0mYMV7Ed-Z2t7vpSnrvA" origin="_QFzYQMV7Ed-Z2t7vpSnrvA" image="_QFz_UMV7Ed-Z2t7vpSnrvA"/>
-    <mappings xmi:id="_eS8MYMV7Ed-Z2t7vpSnrvA" origin="_eS7lUMV7Ed-Z2t7vpSnrvA" image="_eS7lUcV7Ed-Z2t7vpSnrvA"/>
+    <mappings xmi:id="_2N3iCGK4EeGEopi1QdEPhA" origin="_2N3h82K4EeGEopi1QdEPhA" image="_2N3iAGK4EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_2N3iCWK4EeGEopi1QdEPhA" origin="_2N3h9GK4EeGEopi1QdEPhA" image="_2N3iA2K4EeGEopi1QdEPhA"/>
   </rules>
   <imports href="../../../../../../../../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#/"/>
   <imports href="descriptors.ecore#/"/>

@@ -1,137 +1,139 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2010/Henshin" xmi:id="_pTn3IcVxEd-Z2t7vpSnrvA" name="">
-  <rules xmi:id="_Yzn9oMVzEd-Z2t7vpSnrvA" name="AddToToolBar" activated="true">
-    <lhs xmi:id="_Yzn9ocVzEd-Z2t7vpSnrvA" name="LHS">
-      <nodes xmi:id="_liy-8MVzEd-Z2t7vpSnrvA" name="" incoming="_gTDm0MV3Ed-Z2t7vpSnrvA" outgoing="_Myre0MV0Ed-Z2t7vpSnrvA _RsY_wMV0Ed-Z2t7vpSnrvA">
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZJ0HcGK5EeGEopi1QdEPhA" name="">
+  <rules xmi:id="_ZKh5IGK5EeGEopi1QdEPhA" name="AddToToolBar">
+    <lhs xmi:id="_ZKmKkGK5EeGEopi1QdEPhA" name="LHS">
+      <nodes xmi:id="_ZKmKkWK5EeGEopi1QdEPhA" name="" incoming="_ZKmKnGK5EeGEopi1QdEPhA" outgoing="_ZKmKm2K5EeGEopi1QdEPhA _ZKmKmmK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/basic/Window"/>
       </nodes>
-      <nodes xmi:id="_Kr1HEMV0Ed-Z2t7vpSnrvA" incoming="_Myre0MV0Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKmWK5EeGEopi1QdEPhA" incoming="_ZKmKm2K5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/ToolBar"/>
       </nodes>
-      <nodes xmi:id="_Qym4EMV0Ed-Z2t7vpSnrvA" incoming="_RsY_wMV0Ed-Z2t7vpSnrvA" outgoing="_BfwRsMV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKp08GK5EeGEopi1QdEPhA" incoming="_ZKmKmmK5EeGEopi1QdEPhA" outgoing="_ZKmKnWK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/Menu"/>
       </nodes>
-      <nodes xmi:id="_ZPiBEMV0Ed-Z2t7vpSnrvA" incoming="_BfwRsMV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKkmK5EeGEopi1QdEPhA" incoming="_ZKmKnWK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/DirectMenuItem"/>
-        <attributes xmi:id="_2xEMUMV0Ed-Z2t7vpSnrvA" value="handler">
+        <attributes xmi:id="_ZKmKk2K5EeGEopi1QdEPhA" value="handler">
           <type href="UIElements.ecore#//Contribution/contributionURI"/>
         </attributes>
-        <attributes xmi:id="_8V0Y4MV1Ed-Z2t7vpSnrvA" value="icon">
+        <attributes xmi:id="_ZKmKlGK5EeGEopi1QdEPhA" value="icon">
           <type href="UIElements.ecore#//ui/UILabel/iconURI"/>
         </attributes>
-        <attributes xmi:id="__yn28MV1Ed-Z2t7vpSnrvA" value="name">
+        <attributes xmi:id="_ZKmKlWK5EeGEopi1QdEPhA" value="name">
           <type href="UIElements.ecore#//ui/UILabel/label"/>
         </attributes>
-        <attributes xmi:id="_IwMO4MV2Ed-Z2t7vpSnrvA" value="description">
+        <attributes xmi:id="_ZKmKlmK5EeGEopi1QdEPhA" value="description">
           <type href="UIElements.ecore#//ui/UILabel/tooltip"/>
         </attributes>
-        <attributes xmi:id="_v7ABgMV2Ed-Z2t7vpSnrvA" value="id">
+        <attributes xmi:id="_ZKmKl2K5EeGEopi1QdEPhA" value="id">
           <type href="UIElements.ecore#//ApplicationElement/elementId"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_fUd3oMV3Ed-Z2t7vpSnrvA" outgoing="_gTDm0MV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKmGK5EeGEopi1QdEPhA" outgoing="_ZKmKnGK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//Application"/>
       </nodes>
-      <edges xmi:id="_Myre0MV0Ed-Z2t7vpSnrvA" source="_liy-8MVzEd-Z2t7vpSnrvA" target="_Kr1HEMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKm2K5EeGEopi1QdEPhA" source="_ZKmKkWK5EeGEopi1QdEPhA" target="_ZKmKmWK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/children"/>
       </edges>
-      <edges xmi:id="_RsY_wMV0Ed-Z2t7vpSnrvA" source="_liy-8MVzEd-Z2t7vpSnrvA" target="_Qym4EMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKmmK5EeGEopi1QdEPhA" source="_ZKmKkWK5EeGEopi1QdEPhA" target="_ZKp08GK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/basic/Window/mainMenu"/>
       </edges>
-      <edges xmi:id="_BfwRsMV3Ed-Z2t7vpSnrvA" source="_Qym4EMV0Ed-Z2t7vpSnrvA" target="_ZPiBEMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKnWK5EeGEopi1QdEPhA" source="_ZKp08GK5EeGEopi1QdEPhA" target="_ZKmKkmK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/selectedElement"/>
       </edges>
-      <edges xmi:id="_gTDm0MV3Ed-Z2t7vpSnrvA" source="_fUd3oMV3Ed-Z2t7vpSnrvA" target="_liy-8MVzEd-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKnGK5EeGEopi1QdEPhA" source="_ZKmKmGK5EeGEopi1QdEPhA" target="_ZKmKkWK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/children"/>
       </edges>
-      <formula xsi:type="henshin:NestedCondition" xmi:id="_OalwcMV3Ed-Z2t7vpSnrvA" negated="true">
-        <conclusion xmi:id="_OalwccV3Ed-Z2t7vpSnrvA" name="default">
-          <nodes xmi:id="_OanloMV3Ed-Z2t7vpSnrvA" outgoing="_Nh84QMV3Ed-Z2t7vpSnrvA">
-            <type href="UIElements.ecore#//ui/menu/ToolBar"/>
-          </nodes>
-          <nodes xmi:id="_JuZHEMV3Ed-Z2t7vpSnrvA" incoming="_Nh84QMV3Ed-Z2t7vpSnrvA">
-            <type href="UIElements.ecore#//ui/menu/DirectToolItem"/>
-            <attributes xmi:id="_K0gakMV3Ed-Z2t7vpSnrvA" value="id">
-              <type href="UIElements.ecore#//ApplicationElement/elementId"/>
-            </attributes>
-          </nodes>
-          <edges xmi:id="_Nh84QMV3Ed-Z2t7vpSnrvA" source="_OanloMV3Ed-Z2t7vpSnrvA" target="_JuZHEMV3Ed-Z2t7vpSnrvA">
-            <type href="UIElements.ecore#//ui/ElementContainer/children"/>
-          </edges>
-        </conclusion>
-        <mappings xmi:id="_OanlocV3Ed-Z2t7vpSnrvA" origin="_Kr1HEMV0Ed-Z2t7vpSnrvA" image="_OanloMV3Ed-Z2t7vpSnrvA"/>
+      <formula xsi:type="henshin:Not" xmi:id="_ZLs90GK5EeGEopi1QdEPhA">
+        <child xsi:type="henshin:NestedCondition" xmi:id="_ZKqcAGK5EeGEopi1QdEPhA">
+          <conclusion xmi:id="_ZKqcAWK5EeGEopi1QdEPhA" name="default">
+            <nodes xmi:id="_ZKqcAmK5EeGEopi1QdEPhA" outgoing="_ZKqcBWK5EeGEopi1QdEPhA">
+              <type href="UIElements.ecore#//ui/menu/ToolBar"/>
+            </nodes>
+            <nodes xmi:id="_ZKqcA2K5EeGEopi1QdEPhA" incoming="_ZKqcBWK5EeGEopi1QdEPhA">
+              <type href="UIElements.ecore#//ui/menu/DirectToolItem"/>
+              <attributes xmi:id="_ZKqcBGK5EeGEopi1QdEPhA" value="id">
+                <type href="UIElements.ecore#//ApplicationElement/elementId"/>
+              </attributes>
+            </nodes>
+            <edges xmi:id="_ZKqcBWK5EeGEopi1QdEPhA" source="_ZKqcAmK5EeGEopi1QdEPhA" target="_ZKqcA2K5EeGEopi1QdEPhA">
+              <type href="UIElements.ecore#//ui/ElementContainer/children"/>
+            </edges>
+          </conclusion>
+          <mappings xmi:id="_ZKqcBmK5EeGEopi1QdEPhA" origin="_ZKmKmWK5EeGEopi1QdEPhA" image="_ZKqcAmK5EeGEopi1QdEPhA"/>
+        </child>
       </formula>
     </lhs>
-    <rhs xmi:id="_Yzn9osVzEd-Z2t7vpSnrvA" name="RHS">
-      <nodes xmi:id="_liy-8cVzEd-Z2t7vpSnrvA" name="" incoming="_gTGqIMV3Ed-Z2t7vpSnrvA" outgoing="_MysF4MV0Ed-Z2t7vpSnrvA _RsaN4MV0Ed-Z2t7vpSnrvA">
+    <rhs xmi:id="_ZKmKnmK5EeGEopi1QdEPhA" name="RHS">
+      <nodes xmi:id="_ZKmKpWK5EeGEopi1QdEPhA" name="" incoming="_ZLTVMGK5EeGEopi1QdEPhA" outgoing="_ZKmKqWK5EeGEopi1QdEPhA _ZKmKqGK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/basic/Window"/>
       </nodes>
-      <nodes xmi:id="_Kr1HEcV0Ed-Z2t7vpSnrvA" incoming="_MysF4MV0Ed-Z2t7vpSnrvA" outgoing="_GHQBQMV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKpmK5EeGEopi1QdEPhA" incoming="_ZKmKqWK5EeGEopi1QdEPhA" outgoing="_ZKmKqmK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/ToolBar"/>
       </nodes>
-      <nodes xmi:id="_QynfIMV0Ed-Z2t7vpSnrvA" incoming="_RsaN4MV0Ed-Z2t7vpSnrvA" outgoing="_BfyG4MV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKp2K5EeGEopi1QdEPhA" incoming="_ZKmKqGK5EeGEopi1QdEPhA" outgoing="_ZKpN4GK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/Menu"/>
       </nodes>
-      <nodes xmi:id="_ZPjPMMV0Ed-Z2t7vpSnrvA" incoming="_BfyG4MV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZLUjUGK5EeGEopi1QdEPhA" incoming="_ZKpN4GK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/DirectMenuItem"/>
-        <attributes xmi:id="_2xEzYMV0Ed-Z2t7vpSnrvA" value="handler">
+        <attributes xmi:id="_ZLUjVGK5EeGEopi1QdEPhA" value="handler">
           <type href="UIElements.ecore#//Contribution/contributionURI"/>
         </attributes>
-        <attributes xmi:id="_8V1nAMV1Ed-Z2t7vpSnrvA" value="icon">
+        <attributes xmi:id="_ZLUjVWK5EeGEopi1QdEPhA" value="icon">
           <type href="UIElements.ecore#//ui/UILabel/iconURI"/>
         </attributes>
-        <attributes xmi:id="__yn28cV1Ed-Z2t7vpSnrvA" value="name">
+        <attributes xmi:id="_ZLUjUmK5EeGEopi1QdEPhA" value="name">
           <type href="UIElements.ecore#//ui/UILabel/label"/>
         </attributes>
-        <attributes xmi:id="_IwMO4cV2Ed-Z2t7vpSnrvA" value="description">
+        <attributes xmi:id="_ZLUjUWK5EeGEopi1QdEPhA" value="description">
           <type href="UIElements.ecore#//ui/UILabel/tooltip"/>
         </attributes>
-        <attributes xmi:id="_v7ABgcV2Ed-Z2t7vpSnrvA" value="id">
+        <attributes xmi:id="_ZLUjU2K5EeGEopi1QdEPhA" value="id">
           <type href="UIElements.ecore#//ApplicationElement/elementId"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_ZmkoEMV0Ed-Z2t7vpSnrvA" incoming="_GHQBQMV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKmKn2K5EeGEopi1QdEPhA" incoming="_ZKmKqmK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/menu/DirectToolItem"/>
-        <attributes xmi:id="_5_v5YMV1Ed-Z2t7vpSnrvA" value="handler">
+        <attributes xmi:id="_ZKmKoGK5EeGEopi1QdEPhA" value="handler">
           <type href="UIElements.ecore#//Contribution/contributionURI"/>
         </attributes>
-        <attributes xmi:id="_9zvIYMV1Ed-Z2t7vpSnrvA" value="icon">
+        <attributes xmi:id="_ZKmKoWK5EeGEopi1QdEPhA" value="icon">
           <type href="UIElements.ecore#//ui/UILabel/iconURI"/>
         </attributes>
-        <attributes xmi:id="_BmTbEMV2Ed-Z2t7vpSnrvA" value="name">
+        <attributes xmi:id="_ZKmKomK5EeGEopi1QdEPhA" value="name">
           <type href="UIElements.ecore#//ui/UILabel/label"/>
         </attributes>
-        <attributes xmi:id="_hibZcMV2Ed-Z2t7vpSnrvA" value="description">
+        <attributes xmi:id="_ZKmKo2K5EeGEopi1QdEPhA" value="description">
           <type href="UIElements.ecore#//ui/UILabel/tooltip"/>
         </attributes>
-        <attributes xmi:id="_zXuAAMV2Ed-Z2t7vpSnrvA" value="id">
+        <attributes xmi:id="_ZKmKpGK5EeGEopi1QdEPhA" value="id">
           <type href="UIElements.ecore#//ApplicationElement/elementId"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_fUfFwMV3Ed-Z2t7vpSnrvA" outgoing="_gTGqIMV3Ed-Z2t7vpSnrvA">
+      <nodes xmi:id="_ZKn_wGK5EeGEopi1QdEPhA" outgoing="_ZLTVMGK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//Application"/>
       </nodes>
-      <edges xmi:id="_MysF4MV0Ed-Z2t7vpSnrvA" source="_liy-8cVzEd-Z2t7vpSnrvA" target="_Kr1HEcV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKqWK5EeGEopi1QdEPhA" source="_ZKmKpWK5EeGEopi1QdEPhA" target="_ZKmKpmK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/children"/>
       </edges>
-      <edges xmi:id="_RsaN4MV0Ed-Z2t7vpSnrvA" source="_liy-8cVzEd-Z2t7vpSnrvA" target="_QynfIMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKqGK5EeGEopi1QdEPhA" source="_ZKmKpWK5EeGEopi1QdEPhA" target="_ZKmKp2K5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/basic/Window/mainMenu"/>
       </edges>
-      <edges xmi:id="_BfyG4MV3Ed-Z2t7vpSnrvA" source="_QynfIMV0Ed-Z2t7vpSnrvA" target="_ZPjPMMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKpN4GK5EeGEopi1QdEPhA" source="_ZKmKp2K5EeGEopi1QdEPhA" target="_ZLUjUGK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/selectedElement"/>
       </edges>
-      <edges xmi:id="_GHQBQMV3Ed-Z2t7vpSnrvA" source="_Kr1HEcV0Ed-Z2t7vpSnrvA" target="_ZmkoEMV0Ed-Z2t7vpSnrvA">
+      <edges xmi:id="_ZKmKqmK5EeGEopi1QdEPhA" source="_ZKmKpmK5EeGEopi1QdEPhA" target="_ZKmKn2K5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/children"/>
       </edges>
-      <edges xmi:id="_gTGqIMV3Ed-Z2t7vpSnrvA" source="_fUfFwMV3Ed-Z2t7vpSnrvA" target="_liy-8cVzEd-Z2t7vpSnrvA">
+      <edges xmi:id="_ZLTVMGK5EeGEopi1QdEPhA" source="_ZKn_wGK5EeGEopi1QdEPhA" target="_ZKmKpWK5EeGEopi1QdEPhA">
         <type href="UIElements.ecore#//ui/ElementContainer/children"/>
       </edges>
     </rhs>
-    <mappings xmi:id="_liy-8sVzEd-Z2t7vpSnrvA" origin="_liy-8MVzEd-Z2t7vpSnrvA" image="_liy-8cVzEd-Z2t7vpSnrvA"/>
-    <mappings xmi:id="_Kr1HEsV0Ed-Z2t7vpSnrvA" origin="_Kr1HEMV0Ed-Z2t7vpSnrvA" image="_Kr1HEcV0Ed-Z2t7vpSnrvA"/>
-    <mappings xmi:id="_QyoGMMV0Ed-Z2t7vpSnrvA" origin="_Qym4EMV0Ed-Z2t7vpSnrvA" image="_QynfIMV0Ed-Z2t7vpSnrvA"/>
-    <mappings xmi:id="_ZPj2QMV0Ed-Z2t7vpSnrvA" origin="_ZPiBEMV0Ed-Z2t7vpSnrvA" image="_ZPjPMMV0Ed-Z2t7vpSnrvA"/>
-    <mappings xmi:id="_fUg68MV3Ed-Z2t7vpSnrvA" origin="_fUd3oMV3Ed-Z2t7vpSnrvA" image="_fUfFwMV3Ed-Z2t7vpSnrvA"/>
+    <mappings xmi:id="_ZKmxoGK5EeGEopi1QdEPhA" origin="_ZKmKkWK5EeGEopi1QdEPhA" image="_ZKmKpWK5EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_ZKmxoWK5EeGEopi1QdEPhA" origin="_ZKmKmWK5EeGEopi1QdEPhA" image="_ZKmKpmK5EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_ZKmxomK5EeGEopi1QdEPhA" origin="_ZKp08GK5EeGEopi1QdEPhA" image="_ZKmKp2K5EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_ZKmxo2K5EeGEopi1QdEPhA" origin="_ZKmKkmK5EeGEopi1QdEPhA" image="_ZLUjUGK5EeGEopi1QdEPhA"/>
+    <mappings xmi:id="_ZKmxpGK5EeGEopi1QdEPhA" origin="_ZKmKmGK5EeGEopi1QdEPhA" image="_ZKn_wGK5EeGEopi1QdEPhA"/>
   </rules>
   <imports href="UIElements.ecore#/"/>
   <imports href="UIElements.ecore#//ui"/>
