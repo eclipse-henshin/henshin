@@ -171,7 +171,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @return Whether to draw a shadow or not.
 	 */
 	public boolean shouldDrawShadow() {
+		//Node node = getNode();
 		Action action = getNodeAction();
+		//return (node!=null) && (node.getAttributes().isEmpty()) && 
 		return (action != null) && (action.isAmalgamated());
 	}
 
@@ -180,14 +182,22 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @return Action.
 	 */
 	public Action getNodeAction() {
-		if (getNotationView().getElement() instanceof Node) {
-			Node node = (Node) getNotationView().getElement();
+		Node node = getNode();
+		if (node!=null) {
 			return HenshinActionHelper.getAction(node);
 		} else {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Get the node for this edit part (model element).
+	 * @return The node.
+	 */
+	public Node getNode() {
+		return (Node) getNotationView().getElement();
+	}
+	
 	/**
 	 * @generated
 	 */
