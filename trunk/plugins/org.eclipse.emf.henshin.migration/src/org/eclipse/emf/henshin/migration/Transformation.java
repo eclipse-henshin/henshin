@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.Formula;
@@ -161,8 +160,35 @@ public class Transformation {
 */
 		URI henshinUri = URI.createPlatformPluginURI("org.eclipse.emf.henshin.migration/model/henshin-080.ecore", false);
 		
-		ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri), resourceSet);
+		// copied directly from ModelHelper
+		//ModelHelper.registerEPackageByEcoreFile(CommonPlugin.resolve(henshinUri), resourceSet);
+			
+		EPackage result = null;
+		Resource packageResource = resourceSet.createResource(CommonPlugin.resolve(henshinUri));
+		if (packageResource != null) {
+			try {
+				packageResource.load(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+				result = null;
+			}
+			if ((packageResource.getContents() != null)
+					&& (packageResource.getContents().size() > 0)) {
+				EObject tmpR = packageResource.getContents().get(0);
+				if (tmpR != null && tmpR instanceof EPackage) {
+					result = (EPackage) tmpR;
+					resourceSet.getPackageRegistry().put(result.getNsURI(), result);
+				}
+			}
+		}
+		if (result != null) {
+			EPackage.Registry.INSTANCE.put(result.getNsURI(), result);
+		}
 				
+		// ---
+		
+		
+		
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("henshin", new HenshinResourceFactory());
 		
 
