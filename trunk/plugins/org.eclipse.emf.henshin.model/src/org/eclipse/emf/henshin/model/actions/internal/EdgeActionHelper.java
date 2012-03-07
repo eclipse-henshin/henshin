@@ -101,10 +101,14 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 			 * We look for the image of the PRESERVE node and use it to create the edge.
 			 * If the image does not exist yet (for a NAC for instance), we copy the node.
 			 */
+			boolean copyToRhs;
+			Graph multiRhs;
+			
 			if (isSimplePreserve(srcAction)) {
 				
 				if (trgAction.isAmalgamated()) {
-					Node realSource = HenshinMappingUtil.getNodeImage(source, target.getGraph(), target.getGraph().getContainerRule().getMultiMappings());
+					Rule multiRule = target.getGraph().getContainerRule();
+					Node realSource = HenshinMappingUtil.getNodeImage(source, multiRule.getLhs(), multiRule.getMultiMappings());
 					if (realSource!=null) {
 						source = realSource;
 					}
@@ -115,10 +119,16 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 						|| trgAction.getType() == ActionType.REQUIRE) {
 					source = new NodeMapEditor(target.getGraph()).copy(source);
 				}
+				
+				// Do we need to copy the edge to the Rhs of the multi-rule?
+				copyToRhs = (trgAction.isAmalgamated() && trgAction.getType()==ActionType.PRESERVE);
+				multiRhs = target.getGraph().getContainerRule().getRhs();
+				
 			} else {
 				
 				if (srcAction.isAmalgamated()) {
-					Node realTarget = HenshinMappingUtil.getNodeImage(target, source.getGraph(), source.getGraph().getContainerRule().getMultiMappings());
+					Rule multiRule = source.getGraph().getContainerRule();
+					Node realTarget = HenshinMappingUtil.getNodeImage(target, multiRule.getLhs(), multiRule.getMultiMappings());
 					if (realTarget!=null) {
 						target = realTarget;
 					}
@@ -128,11 +138,19 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 						|| srcAction.getType() == ActionType.FORBID) {
 					target = new NodeMapEditor(source.getGraph()).copy(target);
 				}
+				
+				// Do we need to copy the edge to the Rhs of the multi-rule?
+				copyToRhs = (srcAction.isAmalgamated() && srcAction.getType()==ActionType.PRESERVE);
+				multiRhs = source.getGraph().getContainerRule().getRhs();
+
 			}
 
 			// Now we can safely create the edge:
 			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
-
+			if (copyToRhs) {
+				new EdgeMapEditor(multiRhs).copy(edge);
+			}
+			
 		}
 		
 		return edge;
@@ -197,8 +215,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 
 		// Different actions are only allowed if one is a preserve action:
 		if (!action1.equals(action2)
-				&& !(isSimplePreserve(action1) && !action2.isAmalgamated())
-				&& !(isSimplePreserve(action2) && !action1.isAmalgamated())) {
+				&& !isSimplePreserve(action1)
+				&& !isSimplePreserve(action2)) {
 			return false;
 		}
 
