@@ -171,9 +171,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * @return Whether to draw a shadow or not.
 	 */
 	public boolean shouldDrawShadow() {
-		//Node node = getNode();
 		Action action = getNodeAction();
-		//return (node!=null) && (node.getAttributes().isEmpty()) && 
 		return (action != null) && (action.isAmalgamated());
 	}
 

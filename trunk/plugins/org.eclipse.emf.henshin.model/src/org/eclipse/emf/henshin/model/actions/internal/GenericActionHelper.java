@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -391,10 +392,16 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	 * should be amalgamated.
 	 */
 	private boolean isAmalgamated(E element) {
-		if (!(element instanceof GraphElement)) {
+		GraphElement elem;
+		if (element instanceof Attribute) {
+			elem = ((Attribute) element).getNode();
+		}
+		else if (element instanceof GraphElement) {
+			elem = (GraphElement) element;
+		}
+		else {
 			return false;
 		}
-		GraphElement elem = (GraphElement) element;
 		Graph graph = elem.getGraph();
 		if (elem.getGraph()==null) {
 			return false;

@@ -41,14 +41,6 @@ public class UnitCompartmentEditPart extends ShapeCompartmentEditPart {
 	}
 
 	/**
-	 * @generated NOT
-	 */
-	@Override
-	public boolean isSelectable() {
-		return false;
-	}
-
-	/**
 	 * @generated
 	 */
 	public String getCompartmentName() {
