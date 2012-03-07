@@ -115,7 +115,7 @@ public class Exploration extends StateSpaceTest {
 	 * Get the state space exploration test files.
 	 */
 	private List<File> getExplorationTestFiles() {
-		File dir = new File("stateSpaceTests" + File.separator + "exploration");
+		File dir = new File("stateSpaceTests");
 		List<File> files = findStateSpaceFiles(dir);
 		assertFalse("No state space exploration test files found", files.isEmpty());
 		return files;
