@@ -93,12 +93,14 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 				if (name.length()==0) {
 					throw new StateSpaceException("Illegal rule parameters for rule \"" + rule.getName() + "\"");
 				}
-				nodes.add(findNodeByName(name, rule));
+				Node node = findNodeByName(name, rule);
+				if (node!=null) nodes.add(node);
 			}
 		} else {
 			// Otherwise use the rule parameters...
 			for (Parameter param : rule.getParameters()) {
-				nodes.add(findNodeByName(param.getName(), rule));
+				Node node = findNodeByName(param.getName(), rule);
+				if (node!=null) nodes.add(node);
 			}
 		}
 		
@@ -157,9 +159,6 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		Node node = findNodeByName(name, rule.getLhs());
 		if (node==null) {
 			node = findNodeByName(name, rule.getRhs());
-		}
-		if (node==null) {
-			throw new StateSpaceException("Unknown node \"" + name + "\" for rule \"" + rule.getName() + "\"");
 		}
 		return node;
 	}

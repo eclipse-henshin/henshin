@@ -452,11 +452,12 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	/**
 	 * Find an outgoing transition.
 	 */
-	protected static Transition findTransition(State source, State target, Rule rule, int[] paramIDs) {
+	protected static Transition findTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
 		for (Transition transition : source.getOutgoing()) {
 			if (target==transition.getTarget() && 
 				(rule==null || rule==transition.getRule()) &&
-				(paramIDs==null || Arrays.equals(paramIDs, transition.getParameterKeys()))) {
+				(paramIDs==null || Arrays.equals(paramIDs, transition.getParameterKeys())) &&
+				(match<0 || transition.getMatch()==match)) {
 				return transition;
 			}
 		}

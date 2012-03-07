@@ -94,7 +94,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			}
 			
 			// Find the corresponding outgoing transition:
-			Transition transition = findTransition(state, target, current.getRule(), current.getParameterKeys());
+			Transition transition = findTransition(state, target, current.getRule(), current.getMatch(), current.getParameterKeys());
 			if (transition==null) {
 				return true;
 			}
@@ -185,7 +185,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			while (start==null) {
 				target = source;
 				source = states.get(target.getDerivedFrom());
-				trace.addFirst(findTransition(source, target, null, null));
+				trace.addFirst(findTransition(source, target, null, -1, null));
 				start = source.getModel();
 				if (start==null) {
 					start = stateModelCache.get(source);
@@ -334,7 +334,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				}
 
 				// Find or create the transition.
-				if (newState || findTransition(state, target, rule, parameters)==null) {
+				if (newState || findTransition(state, target, rule, current.getMatch(), parameters)==null) {
 					createTransition(state, target, rule, match, parameters);
 				}
 
@@ -377,6 +377,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Get the state model and create an engine for it:
 		Model model = getModel(state);
 		EmfEngine engine = acquireEngine();
+		engine.purgeCache();
 		
 		// Get some important state space parameters:
 		boolean useObjectKeys = getStateSpace().getEqualityHelper().isUseObjectKeys();
@@ -391,6 +392,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			engine.setEmfGraph(model.getEmfGraph());
 			RuleApplication application = new RuleApplication(engine, rule);
 			List<Match> matches = application.findAllMatches();
+//			System.out.println("Found " + matches.size() + " matches for rule " + rule.getName());
 			
 			// Get the parameters of the rule:
 			List<Node> parameters = useObjectKeys ? 

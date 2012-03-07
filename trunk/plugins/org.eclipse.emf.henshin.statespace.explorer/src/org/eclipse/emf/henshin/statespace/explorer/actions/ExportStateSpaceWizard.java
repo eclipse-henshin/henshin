@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.actions;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -218,25 +215,15 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	 * Perform the export operation.
 	 */
 	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Exception {
-		
-		// Export to a temporary file first:
-		String extension = file.getFileExtension();
-		extension = (extension!=null) ? "."+extension : "";
-		File tmp = File.createTempFile("export", extension);
-		URI fileURI = URI.createFileURI(tmp.getAbsolutePath());
-		
-		// Now perform the export:
+				
 		monitor.beginTask("Exporting state space...", 20);
+		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
+
 		exporter.setStateSpaceIndex(index);
 		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
 		
-		// Copy the file to the real location:
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(tmp), 65536);
-		file.create(in, true, new SubProgressMonitor(monitor,1));
-		
-		// Clean up:
-		in.close();
-		tmp.delete();
+		// Refresh:
+		file.getParent().refreshLocal(2, new SubProgressMonitor(monitor,1));
 		
 	}
 	
