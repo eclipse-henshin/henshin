@@ -39,8 +39,8 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
+import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 
 /**
@@ -396,7 +396,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Get the parameters of the rule:
 			List<Node> parameters = useObjectKeys ? 
-					ParametersPropertiesManager.getParameters(getStateSpace(), rule) : null;
+					ParameterUtil.getParameters(getStateSpace(), rule) : null;
 			
 			// Iterate over all matches:
 			for (int i=0; i<matches.size(); i++) {

@@ -30,8 +30,8 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
-import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
+import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
 /**
@@ -163,7 +163,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 			actions.append(rule.getName());
 			if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
 				actions.append(" : ");
-				List<Node> nodes = ParametersPropertiesManager.getParameters(stateSpace,rule);
+				List<Node> nodes = ParameterUtil.getParameters(stateSpace,rule);
 				for (int j=0; j<nodes.size(); j++) {
 					EClass type = superTypes.get(nodes.get(j).getType());
 					actions.append(type.getName());
@@ -215,7 +215,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		Set<EClass> types = new LinkedHashSet<EClass>();
 		types.addAll(Arrays.asList(stateSpace.getSupportedTypes()));
 		for (Rule rule : stateSpace.getRules()) {
-			List<Node> params = ParametersPropertiesManager.getParameters(stateSpace, rule);
+			List<Node> params = ParameterUtil.getParameters(stateSpace, rule);
 			for (Node param : params) {
 				types.add(param.getType());
 			}
@@ -229,7 +229,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Now check for super types used in rules:
 		for (Rule rule : stateSpace.getRules()) {
-			List<Node> params = ParametersPropertiesManager.getParameters(stateSpace, rule);
+			List<Node> params = ParameterUtil.getParameters(stateSpace, rule);
 			for (Node param : params) {
 				EClass superType2 = param.getType();
 				for (EClass type : types) {

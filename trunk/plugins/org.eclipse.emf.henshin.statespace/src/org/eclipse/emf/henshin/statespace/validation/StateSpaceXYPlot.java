@@ -117,5 +117,24 @@ public class StateSpaceXYPlot {
 			return null;
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String r = "";
+		for (int i=0; i<yValues[0].length; i++) {
+			for (int j=0; j<yValues.length; j++) {
+				r = r + yValues[j][i];
+				if (j<yValues.length-1) {
+					r = r + " ";
+				}
+			}
+			r = r + "\n";
+		}
+		return r;
+	}
 
 }

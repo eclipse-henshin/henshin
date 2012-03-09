@@ -42,7 +42,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager;
+import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
 /**
  * Concrete implementation of the {@link State} interface.
@@ -133,7 +133,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		Set<EClass> parameterTypes = new LinkedHashSet<EClass>();
 		for (Rule rule : rules) {
 			try {
-				parameterTypes.addAll(ParametersPropertiesManager.getParameterTypes(this, rule));
+				parameterTypes.addAll(ParameterUtil.getParameterTypes(this, rule));
 			} catch (StateSpaceException e) {
 				throw new RuntimeException(e);
 			}

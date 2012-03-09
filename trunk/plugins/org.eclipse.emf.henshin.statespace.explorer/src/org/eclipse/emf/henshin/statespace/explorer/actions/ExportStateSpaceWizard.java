@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -163,7 +164,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Pretty print allowed extensions.
 	 */
-	private String printAllowedExtensions(StateSpaceExporter exporter) {
+	private static String printAllowedExtensions(StateSpaceExporter exporter) {
 		String[] allowed = exporter.getFileExtensions();
 		String pretty = "";
 		for (int i=0; i<allowed.length; i++) {
@@ -194,6 +195,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 					try {
 						performExport(exporter, file, parameters, monitor);
 					} catch (Throwable t) {
+						MessageDialog.openError(getShell(), "Error exporting state space", t.getMessage());
 						StateSpaceExplorerPlugin.getInstance().logError("Error exporting state space", t);
 					} finally {
 						monitor.done();
@@ -201,8 +203,11 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 				}
 			};
 			getContainer().run(false, false, operation);
-			file.refreshLocal(1, new NullProgressMonitor());
-			selectExport(file);	
+			// Refresh:
+			file.getParent().refreshLocal(2, new NullProgressMonitor());
+			if (file.exists()) {
+				openExportedFile(file);
+			}
 			return true;
 		}
 		catch (Throwable t) {
@@ -214,24 +219,21 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Perform the export operation.
 	 */
-	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Exception {
-				
+	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Throwable {
+		
 		monitor.beginTask("Exporting state space...", 20);
 		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
 
 		exporter.setStateSpaceIndex(index);
 		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
-		
-		// Refresh:
-		file.getParent().refreshLocal(2, new SubProgressMonitor(monitor,1));
-		
+				
 	}
 	
 	
 	/* 
-	 * Select the new file resource in the current window.
+	 * Open the new file resource in the current window.
 	 */
-	protected void selectExport(IFile file) {
+	protected void openExportedFile(IFile file) {
 		try {
 			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 			IWorkbenchPage page = window.getActivePage();
@@ -379,7 +381,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		 */
 		public FileCreationPage(String pageId, IStructuredSelection selection) {
 			super(pageId, selection);
-			setDescription("Choose the file for the export");
+			setDescription("Choose the target file for the export (" + printAllowedExtensions(getExporter()) + ")");
 			if (wizban!=null) {
 				setImageDescriptor(wizban);
 			}

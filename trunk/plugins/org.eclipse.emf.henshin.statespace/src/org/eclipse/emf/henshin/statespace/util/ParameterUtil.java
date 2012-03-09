@@ -1,10 +1,8 @@
-package org.eclipse.emf.henshin.statespace.properties;
+package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
@@ -12,48 +10,17 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
- * Properties manager for rule parameters, as used in the state space tools.
+ * Parameter utility methods.
  * @author Christian Krause
  */
-public class ParametersPropertiesManager implements StateSpacePropertiesManager {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.properties.StateSpacePropertiesManager#initialize(org.eclipse.emf.henshin.statespace.StateSpace)
-	 */
-	@Override
-	public void initialize(StateSpace stateSpace) {
-//		for (Rule rule : stateSpace.getRules()) {
-//			String key = getParametersKey(rule);
-//			if (!stateSpace.getProperties().containsKey(key)) {
-//				stateSpace.getProperties().put(key,"");	// no parameters per default
-//			}
-//		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.properties.StateSpacePropertiesManager#validate(org.eclipse.emf.henshin.statespace.StateSpace)
-	 */
-	@Override
-	public IStatus validate(StateSpace stateSpace) {
-		for (Rule rule : stateSpace.getRules()) {
-			try {
-				getParameters(stateSpace, rule);
-			} catch (StateSpaceException e) {
-				return new Status(IStatus.ERROR, StateSpacePlugin.PLUGIN_ID, e.getMessage());
-			}
-		}
-		return Status.OK_STATUS;
-	}
+public class ParameterUtil {
 	
 	/*
 	 * Get the properties key for rule parameters.
 	 */
-	static String getParametersKey(Rule rule) {
+	public static String getParametersKey(Rule rule) {
 		
 		// Get the rule name:
 		String name = String.valueOf(rule.getName());
@@ -85,7 +52,7 @@ public class ParametersPropertiesManager implements StateSpacePropertiesManager 
 		List<Node> nodes = new ArrayList<Node>();
 		
 		// First check the "params..." properties:
-		String value = stateSpace.getProperties().get(ParametersPropertiesManager.getParametersKey(rule));
+		String value = stateSpace.getProperties().get(ParameterUtil.getParametersKey(rule));
 		if (value!=null && value.trim().length()>0) {
 			String[] names = value.split(",");
 			for (int i=0; i<names.length; i++) {

@@ -8,10 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -101,7 +99,6 @@ public class EditPropertiesPage extends WizardPage {
 		table = createTable(container);
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		updateTable();
-		validate();
 		
 		Composite buttons = new Composite(container, SWT.NONE);
 		buttons.setLayoutData(new GridData(GridData.BEGINNING));
@@ -204,7 +201,6 @@ public class EditPropertiesPage extends WizardPage {
 			values.set(row, text);
 		}
 		dirty = true;
-		validate();
 	}
 	
 	/*
@@ -234,7 +230,6 @@ public class EditPropertiesPage extends WizardPage {
 			values.remove(indices[i]);
 		}
 		dirty = true;
-		validate();
 	}
 
 	/*
@@ -246,39 +241,9 @@ public class EditPropertiesPage extends WizardPage {
 		dummyStateSpace.getProperties().clear();
 		dummyStateSpace.getProperties().putAll(getResult());
 		
-		// Initialize properties:
-		StateSpacePlugin.INSTANCE.getPropertiesManager().initialize(dummyStateSpace);
-		
 		// Update the table with the new values:
 		updateTable();
 		dirty = true;
-		
-	}
-
-	/*
-	 * Validate properties.
-	 */
-	public void validate() {
-		
-		// Sync the properties to the dummy state space:
-		dummyStateSpace.getProperties().clear();
-		dummyStateSpace.getProperties().putAll(getResult());
-		
-		// Validate the properties:
-		IStatus result = StateSpacePlugin.INSTANCE.getPropertiesManager().validate(dummyStateSpace);
-		if (result.getSeverity()==IStatus.OK) {
-			setMessage(null);
-			setErrorMessage(null);
-			setPageComplete(true);
-		} else if (result.getSeverity()==IStatus.ERROR) {
-			setMessage(null);
-			setErrorMessage(result.getMessage());
-			setPageComplete(false);			
-		} else {
-			setMessage(result.getMessage(), result.getSeverity());			
-			setErrorMessage(null);
-			setPageComplete(true);
-		}
 		
 	}
 	

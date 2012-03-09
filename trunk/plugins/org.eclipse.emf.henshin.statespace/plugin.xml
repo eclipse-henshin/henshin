@@ -21,7 +21,6 @@
    </extension>
    <extension-point id="validators" name="State Space Validators" schema="schema/validators.exsd"/>
    <extension-point id="exporters" name="State Space Exporters" schema="schema/exporters.exsd"/>
-   <extension-point id="properties" name="State Space Properties" schema="schema/properties.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
@@ -39,7 +38,7 @@
    <extension
          point="org.eclipse.emf.henshin.statespace.properties">
       <manager
-            class="org.eclipse.emf.henshin.statespace.properties.ParametersPropertiesManager"
+            class="org.eclipse.emf.henshin.statespace.util.ParameterUtil"
             id="org.eclipse.emf.henshin.statespace.properties.parameters">
       </manager>
    </extension>

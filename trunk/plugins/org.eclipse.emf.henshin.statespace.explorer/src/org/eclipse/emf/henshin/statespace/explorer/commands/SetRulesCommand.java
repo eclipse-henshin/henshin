@@ -17,7 +17,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 
 /**
  * @author Christian Krause
@@ -42,14 +41,9 @@ public class SetRulesCommand extends AbstractStateSpaceCommand {
 	 */
 	@Override
 	public void doExecute() throws StateSpaceException {
-		
 		StateSpace stateSpace = getStateSpaceManager().getStateSpace();
 		stateSpace.getRules().clear();
-		stateSpace.getRules().addAll(rules);
-		
-		// Initialize properties for the new rules.
-		StateSpacePlugin.INSTANCE.getPropertiesManager().initialize(stateSpace);	
-		
+		stateSpace.getRules().addAll(rules);		
 	}
 	
 	/*

@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.properties.StateSpacePropertiesManager;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
@@ -77,31 +76,5 @@ public class StateSpacePlatformHelper {
 		}
 		
 	}
-
 	
-	/**
-	 * Load the state space properties managers registered via the platform.
-	 * If the platform is not present, loading this class will throw an
-	 * exception.
-	 * @generated NOT
-	 */
-	public static void loadPropertiesManagers() throws Throwable {
-		
-		// Get the extension point:
-		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(StateSpacePlugin.PLUGIN_ID + ".properties");
-		
-		// Load the exporters:
-		for (IConfigurationElement element : point.getConfigurationElements()) {
-			if ("manager".equals(element.getName())) {
-				String id = element.getAttribute("id");
-				try {
-					StateSpacePropertiesManager manager = (StateSpacePropertiesManager) element.createExecutableExtension("class");
-					StateSpacePlugin.INSTANCE.getPropertiesManager().getManagers().add(manager);
-				} catch (Throwable t) {
-					StateSpacePlugin.INSTANCE.logError("Error loading state space properties manager with id " + id, t);
-				}
-			}
-		}
-		
-	}
 }

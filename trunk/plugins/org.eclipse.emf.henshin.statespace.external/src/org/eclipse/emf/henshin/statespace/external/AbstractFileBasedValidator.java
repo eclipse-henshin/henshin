@@ -143,12 +143,12 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		
 	}
 
-	protected File export(StateSpace stateSpace, StateSpaceExporter exporter, String parameters, IProgressMonitor monitor) throws Exception {
+	protected File export(StateSpace stateSpace, StateSpaceExporter exporter, String parameters, String fileext, IProgressMonitor monitor) throws Exception {
 
 		// Temporary file.
 		String filename = stateSpace.eResource()!=null ? 
 				stateSpace.eResource().getURI().trimFileExtension().lastSegment() : "statespace";
-		File tmp = File.createTempFile(filename, exporter.getFileExtensions()[0]);
+		File tmp = File.createTempFile(filename, "." + fileext);
 		URI uri = URI.createFileURI(tmp.getAbsolutePath());
 		
 		// Do the export:

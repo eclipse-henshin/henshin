@@ -24,11 +24,15 @@
       </validator>
       <validator
             class="org.eclipse.emf.henshin.statespace.external.prism.CTMCStateSpaceValidator"
-            id="org.eclipse.emf.henshin.statespace.validator.prism">
+            id="org.eclipse.emf.henshin.statespace.validator.prism.ctmc">
       </validator>
       <validator
             class="org.eclipse.emf.henshin.statespace.external.prism.CTMCSteadyStateTool"
-            id="org.eclipse.emf.henshin.statespace.validator.prism.steadystate">
+            id="org.eclipse.emf.henshin.statespace.validator.prism.ctmc.steadystates">
+      </validator>
+      <validator
+            class="org.eclipse.emf.henshin.statespace.external.prism.MDPStateSpaceValidator"
+            id="org.eclipse.emf.henshin.statespace.validator.prism.mdp">
       </validator>
    </extension>
    <extension
@@ -49,13 +53,6 @@
             class="org.eclipse.emf.henshin.statespace.external.prism.MDPStateSpaceExporter"
             id="org.eclipse.emf.henshin.statespace.external.export.prismmdp">
       </exporter>
-   </extension>
-   <extension
-         point="org.eclipse.emf.henshin.statespace.properties">
-      <manager
-            class="org.eclipse.emf.henshin.statespace.external.prism.RatesPropertiesManager"
-            id="org.eclipse.emf.henshin.statespace.external.properties.rates">
-      </manager>
    </extension>
 
 </plugin>

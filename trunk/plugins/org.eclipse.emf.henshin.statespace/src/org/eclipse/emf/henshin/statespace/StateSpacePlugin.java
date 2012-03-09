@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.properties.CompoundPropertiesManager;
 import org.eclipse.emf.henshin.statespace.util.StateSpacePlatformHelper;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
@@ -57,12 +56,6 @@ public final class StateSpacePlugin extends EMFPlugin {
 	 * @generated NOT
 	 */	
 	private Map<String,StateSpaceExporter> exporters;
-	
-	/**
-	 * Global properties manager.
-	 * @generated NOT
-	 */
-	private CompoundPropertiesManager propertiesManager;
 	
 	/**
 	 * Create the instance.
@@ -108,25 +101,6 @@ public final class StateSpacePlugin extends EMFPlugin {
 			}
 		}
 		return exporters;
-	}
-
-	/**
-	 * Get the global state space properties manager.
-	 * @return State space properties manager.
-	 * @generated NOT
-	 */
-	public CompoundPropertiesManager getPropertiesManager() {
-		if (propertiesManager==null) {
-			propertiesManager = new CompoundPropertiesManager();
-			try {
-				// Load the managers registered via the platform's extension point mechanism.
-				StateSpacePlatformHelper.loadPropertiesManagers();
-			}
-			catch (Throwable t) {
-				// Not critical. Happens if the platform is not present.
-			}
-		}
-		return propertiesManager;
 	}
 
 	/**

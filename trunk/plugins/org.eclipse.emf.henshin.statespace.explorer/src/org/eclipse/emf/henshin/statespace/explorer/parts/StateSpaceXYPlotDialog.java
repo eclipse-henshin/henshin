@@ -131,8 +131,8 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 	private void drawFigures(IFigure parent) {
 	    
 		// Create the bars...
-		int xSegs = Math.max(2,Math.min(plot.getXMaxSegments(),10));
-		int ySegs = Math.max(2,Math.min(plot.getYMaxSegments(),10));		
+		int xSegs = Math.max(3,Math.min(plot.getXMaxSegments(),11));
+		int ySegs = Math.max(3,Math.min(plot.getYMaxSegments(),11));		
 		xBar = new Bar(parent, plot.getXName(), plot.getXMax(), xSegs, false);
 		yBar = new Bar(parent, plot.getYName(), plot.getYMax(), ySegs, true);
 		
@@ -215,7 +215,23 @@ public class StateSpaceXYPlotDialog extends Dialog implements ControlListener {
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
+		/*Button showButton = createButton(parent, 23, "Show Data", true);
+		showButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				showData();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		*/
 		createButton(parent, IDialogConstants.OK_ID, "Close", true);
+	}
+
+	protected void showData() {
+		
 	}
 
 	/*
