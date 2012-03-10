@@ -35,12 +35,5 @@
             id="org.eclipse.emf.henshin.statespace.validators.singleRoot">
       </validator>
    </extension>
-   <extension
-         point="org.eclipse.emf.henshin.statespace.properties">
-      <manager
-            class="org.eclipse.emf.henshin.statespace.util.ParameterUtil"
-            id="org.eclipse.emf.henshin.statespace.properties.parameters">
-      </manager>
-   </extension>
 
 </plugin>

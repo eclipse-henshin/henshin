@@ -18,25 +18,12 @@ import static org.junit.Assert.*;
 public class Exploration extends StateSpaceTest {
 
 	/**
-	 * Single-threaded state space exploration test.
-	 * The method is synchronized so that it does not
-	 * run in parallel with the multi-threaded test.
-	 */
-	@Test
-	public synchronized void singleThreadedExploration() {
-		testAllFiles(1);
-		System.out.println("singleThreadedExploration[success]");
-	}
-
-	/**
-	 * Multi-threaded state space exploration test.
-	 * The method is synchronized so that it does not
-	 * run in parallel with the single-threaded test.
+	 * State space exploration test.
 	 */
 	@Test
 	public synchronized void multiThreadedExploration() {
-		testAllFiles(4);
-		System.out.println("multiThreadedExploration[success]");
+		testAllFiles(Runtime.getRuntime().availableProcessors());
+		System.out.println("stateSpaceExploration[success]");
 	}
 	
 	/*
@@ -55,7 +42,7 @@ public class Exploration extends StateSpaceTest {
 	private void doExplorationTest(File stateSpaceFile, int numThreads) {
 		
 		// Some debug output:
-		System.out.print("Exploring " + stateSpaceFile.getName() + " with " + numThreads + " worker threads");
+		System.out.print("Exploring " + stateSpaceFile.getName());
 		
 		// Load the state space:
 		StateSpace stateSpace = loadStateSpace(stateSpaceFile);
