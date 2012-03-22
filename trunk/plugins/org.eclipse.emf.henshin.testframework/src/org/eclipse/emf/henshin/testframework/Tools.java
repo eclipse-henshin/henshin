@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.util.ModelUtils;
@@ -105,12 +106,40 @@ public class Tools {
 	public static void printMatches(List<Match> ma) {
 		System.out.println("matches:");
 		for (Match m : ma) {
-			for (EObject eo : m.getNodeMapping().values()) {
-				System.out.println("\t" + eo);
-			}
-			System.out.println("--");
+			printSubmatchesRec(m, 1);
+			System.out.println("===");
 		}
 	}
+	
+	public static void printSubmatchesRec(Match m, int ident) {
+		
+		for (EObject eo : m.getNodeMapping().values()) {
+			System.out.println(getTabs(ident) + eo);
+		}
+		
+		
+		if (m.getNestedMatches().size() == 0) {
+			System.out.println(getTabs(ident) + "--");
+			return;
+		}
+
+		for (Entry<Rule, List<Match>> e : m.getNestedMatches().entrySet()) {
+			System.out.println(getTabs(ident+1) + "Rule: " + e.getKey());
+			for (Match ma : e.getValue()) {
+				printSubmatchesRec(ma, ident+1);
+			}
+		}
+	}
+	
+	private static String getTabs(int i) {
+		String tmp = "";
+		while(i-- > 0) {
+			tmp = tmp + "\t";
+		}
+		
+		return tmp;
+	}
+	
 	
 	/**
 	 * print match

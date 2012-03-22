@@ -163,4 +163,10 @@ public class TransformationUnits {
 		}
 	}
 	
+	public static void assertTuCanNotBeExecuted(UnitApplication ua) throws AssertionError {
+		if (ua.execute()) {
+			throw new AssertionError("expected: UnitApplication can not be executed.");
+		}
+	}
+	
 }
