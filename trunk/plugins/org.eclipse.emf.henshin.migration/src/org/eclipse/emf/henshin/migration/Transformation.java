@@ -63,6 +63,8 @@ public class Transformation {
 	private Map<Rule, Rule> amalgamationUnitRuleCopies = new HashMap<Rule, Rule>();  // Map from (Rules used in AmalgamationUnits) to (Copies of Rules)
 	private ArrayList<RuleReplacementHelper> ruleReplacements = new ArrayList<RuleReplacementHelper>();	// List containing Rules and their indices in TransformationUnits
 	
+	private boolean retainKernelAndMultiRules;
+	
 	private class AmalgamationUnitHelper {
 		/**
 		 * Data structure for storing information related to amalgamationUnits
@@ -132,8 +134,8 @@ public class Transformation {
 	private TransformationSystem newRoot;	// root object of the new Transformation System
 			
 	
-	public void migrate(java.net.URI henshinFileUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {
-		migrate(henshinFileUri, null, optimizeNcs, pm);
+	public void migrate(java.net.URI henshinFileUri, boolean optimizeNcs, boolean retainRules, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {
+		migrate(henshinFileUri, null, optimizeNcs, retainRules, pm);
 	}
 	
 	/**
@@ -142,7 +144,7 @@ public class Transformation {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	public void migrate(java.net.URI fileUri, java.net.URI henshinDiagramUri, boolean optimizeNcs, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
+	public void migrate(java.net.URI fileUri, java.net.URI henshinDiagramUri, boolean optimizeNcs, boolean retainRules, IProgressMonitor pm) throws ClassNotFoundException, IOException, FileNotFoundException {		
         ResourceSet resourceSet = new ResourceSetImpl();
         
 		pm.beginTask("migrating to new model", 100);
@@ -186,6 +188,8 @@ public class Transformation {
 		}
 				
 		// ---
+		
+		retainKernelAndMultiRules = retainRules;
 		
 		
 		
@@ -270,14 +274,23 @@ public class Transformation {
 		newHenshinResource.setURI(newUri);
 		newHenshinResource.save(null);
 		
-		try {
-			boolean diagramTransformationSuccess = DiagramTransformation.transformDiagram(newElements, amalgamationUnitRuleCopies, resourceSet, diagramUri);
-			System.out.println("Diagram transformation " + (diagramTransformationSuccess?"successful":"failed"));
-		} catch (Exception e) {
-			System.err.println("Problems during diagram migration:");
-			e.printStackTrace();
+		
+		if (diagramUri != null) {
+			try {
+				boolean diagramTransformationSuccess = DiagramTransformation.transformDiagram(newElements, amalgamationUnitRuleCopies, resourceSet, diagramUri);
+				System.out.println("Diagram transformation " + (diagramTransformationSuccess?"successful":"failed"));
+			} catch (Exception e) {
+				System.err.println("Problems during diagram migration:");
+				e.printStackTrace();
+			}
 		}
 		
+		// now, delete kernel and multi rules from the henshin file and save again (if the corresponding option was selected)
+		if (!retainRules) {
+			System.out.println("Deleting rules and saving ...");
+			deleteKernelAndMultiRules();
+			newHenshinResource.save(null);
+		}
 		
 		
 		
@@ -466,7 +479,8 @@ public class Transformation {
 			Rule krlRule = (Rule) EcoreUtil.copy(krlRuleTmp);		// <- this is the new AmalgamationUnit
 			krlRule.getMultiRules().clear();
 			amalgamationUnitRuleCopies.put(krlRuleTmp, krlRule);
-			krlRule.setName(amu.amalgamationUnitName + "_krl_" + krlRule.getName());
+			//krlRule.setName(amu.amalgamationUnitName + "_krl_" + krlRule.getName());
+			krlRule.setName(amu.amalgamationUnitName);
 			System.out.println("\n\n\n\nKERNEL RULE: " + krlRule);
 			newRoot.getRules().add(krlRule);
 			
@@ -476,7 +490,7 @@ public class Transformation {
 				Rule multiRuleTmp = (Rule) newElements.get(mr);
 				Rule multiRule = (Rule) EcoreUtil.copy(multiRuleTmp);
 				amalgamationUnitRuleCopies.put(multiRuleTmp, multiRule);
-				multiRule.setName(amu.amalgamationUnitName + "_mul_" + multiRule.getName());
+				// multiRule.setName(amu.amalgamationUnitName + "_mul_" + multiRule.getName());
 				System.out.println("multi rule: " + multiRule);
 				System.out.println("######################## " + krlRule.getMultiRules().remove(multiRuleTmp));
 				newRoot.getRules().add(multiRuleTmp);
@@ -556,6 +570,16 @@ public class Transformation {
 					imageNodeContainerRule.getMultiMappings().add(newMp);
 					System.out.println("mapping container:" + newMp.eContainer());
 				}
+			}
+		}
+	}
+	
+	
+	private void deleteKernelAndMultiRules() {
+		for (AmalgamationUnitHelper amu : amuList) {
+			System.out.println("§§§§§§§removing kernel rule from transformation system " + newElements.get(amu.kernelRule) + " §§§ " + newRoot.getRules().remove(newElements.get(amu.kernelRule)));
+			for (EObject mr : amu.multiRules) {
+				System.out.println("§§§§§§§ \tremoving multi-rule from transformation system " + newElements.get(mr) + " §§§ " + newRoot.getRules().remove(newElements.get(mr)));
 			}
 		}
 	}

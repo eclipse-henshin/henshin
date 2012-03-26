@@ -18,6 +18,9 @@ import org.eclipse.gmf.runtime.notation.View;
 public class DiagramTransformation {
 	
 	public static boolean transformDiagram(Map<EObject, EObject> correspondence, Map<Rule, Rule> amalgamationCorrespondence, ResourceSet resourceSet, URI diagramUri) throws IOException {
+		if (diagramUri == null) {
+			return false;
+		}
 		URI diagramBackupUri = diagramUri.appendFileExtension("bak");
 
 		

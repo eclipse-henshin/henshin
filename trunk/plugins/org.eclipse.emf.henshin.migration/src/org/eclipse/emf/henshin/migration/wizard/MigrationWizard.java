@@ -45,12 +45,12 @@ public class MigrationWizard extends Wizard {
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,	InterruptedException {
 					try {
 						if (migrationPage.selectedDiagramFile != null && migrationPage.migrateDiagramFile) {
-							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), migrationPage.selectedDiagramFile.getLocationURI(), migrationPage.optimizeNestedConditions, monitor);
+							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), migrationPage.selectedDiagramFile.getLocationURI(), migrationPage.optimizeNestedConditions, migrationPage.retainKernelAndMultiRules, monitor);
 							try {
 								migrationPage.selectedDiagramFile.getParent().refreshLocal(2, new NullProgressMonitor());
 							} catch (CoreException e) {}
 						} else {
-							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), null, migrationPage.optimizeNestedConditions, monitor);
+							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), null, migrationPage.optimizeNestedConditions, migrationPage.retainKernelAndMultiRules, monitor);
 						}
 						try {
 							migrationPage.selectedHenshinFile.getParent().refreshLocal(2, new NullProgressMonitor());
