@@ -58,6 +58,7 @@ public class MigrationWizardPage extends WizardPage {
 		Label lblHenshinFileTo = new Label(container, SWT.NONE);
 		fd_MigrateDiagramFileCheck.left = new FormAttachment(lblHenshinFileTo, 0, SWT.LEFT);
 		FormData fd_lblHenshinFileTo = new FormData();
+		fd_lblHenshinFileTo.left = new FormAttachment(0,10);
 		fd_lblHenshinFileTo.top = new FormAttachment(0, 13);
 		lblHenshinFileTo.setLayoutData(fd_lblHenshinFileTo);
 		lblHenshinFileTo.setText("henshin file to migrate");
@@ -97,13 +98,11 @@ public class MigrationWizardPage extends WizardPage {
 		
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		FormData fd_lblNewLabel = new FormData();
-		fd_lblNewLabel.left = new FormAttachment(OptimizeNestedConditionsCheck, 0, SWT.LEFT);
-		lblNewLabel.setLayoutData(fd_lblNewLabel);
 		lblNewLabel.setText("diagram file to migrate");
 		
 		final Button changeDiagramFileButton = new Button(container, SWT.NONE);
 		fd_changeHenshinFileButton.left = new FormAttachment(changeDiagramFileButton, 0, SWT.LEFT);
-		fd_lblNewLabel.top = new FormAttachment(changeDiagramFileButton, 5, SWT.TOP);
+		fd_lblNewLabel.left = new FormAttachment(0, 10);
 		FormData fd_changeDiagramFileButton = new FormData();
 		fd_changeDiagramFileButton.right = new FormAttachment(100, -10);
 		changeDiagramFileButton.setLayoutData(fd_changeDiagramFileButton);		
@@ -114,21 +113,26 @@ public class MigrationWizardPage extends WizardPage {
 		henshinDiagramFileText = new Text(container, SWT.BORDER);
 		fd_changeDiagramFileButton.bottom = new FormAttachment(henshinDiagramFileText, 0, SWT.BOTTOM);
 		FormData fd_henshinDiagramFileText = new FormData();
-		fd_henshinDiagramFileText.left = new FormAttachment(0, 135);
+		fd_henshinDiagramFileText.left = new FormAttachment(lblNewLabel, 10);
 		fd_henshinDiagramFileText.right = new FormAttachment(100, -60);
 		fd_henshinDiagramFileText.top = new FormAttachment(MigrateDiagramFileCheck, 4);
-		fd_henshinDiagramFileText.bottom = new FormAttachment(100, -85);
+		//fd_henshinDiagramFileText.bottom = new FormAttachment(100, -85);
+		fd_henshinDiagramFileText.height = 16;
 		henshinDiagramFileText.setLayoutData(fd_henshinDiagramFileText);
 		henshinDiagramFileText.setEnabled(false);
 		henshinDiagramFileText.setEditable(false);
+		
+		fd_lblNewLabel.top = new FormAttachment(henshinDiagramFileText, -18);
+		lblNewLabel.setLayoutData(fd_lblNewLabel);
+
 		
 		henshinFileText = new Text(container, SWT.BORDER);
 		fd_changeHenshinFileButton.bottom = new FormAttachment(henshinFileText, 0, SWT.BOTTOM);
 		fd_OptimizeNestedConditionsCheck.top = new FormAttachment(henshinFileText, 10);
 		fd_lblHenshinFileTo.right = new FormAttachment(henshinFileText, -4);
 		FormData fd_henshinFileText = new FormData();
-		fd_henshinFileText.right = new FormAttachment(100, -58);
-		fd_henshinFileText.left = new FormAttachment(0, 135);
+		fd_henshinFileText.right = new FormAttachment(changeHenshinFileButton, -10);
+		fd_henshinFileText.left = new FormAttachment(lblHenshinFileTo, 25);
 		fd_henshinFileText.bottom = new FormAttachment(100, -247);
 		fd_henshinFileText.top = new FormAttachment(0, 10);
 		henshinFileText.setLayoutData(fd_henshinFileText);
@@ -137,6 +141,11 @@ public class MigrationWizardPage extends WizardPage {
 		
 
 		
+		FormData fd_migrateDiagramFileCheck = new FormData();
+		fd_migrateDiagramFileCheck.top = new FormAttachment(label, 50);
+		fd_migrateDiagramFileCheck.left = new FormAttachment(0, 10);
+		fd_migrateDiagramFileCheck.height = 25;
+		MigrateDiagramFileCheck.setLayoutData(fd_migrateDiagramFileCheck);
 		
 		
 		

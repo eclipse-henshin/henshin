@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.migration.wizard;
 
 import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -8,12 +9,15 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.henshin.migration.Transformation;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.progress.IProgressService;
+import org.osgi.framework.Bundle;
 
 public class MigrationWizard extends Wizard {
 
@@ -46,16 +50,11 @@ public class MigrationWizard extends Wizard {
 					try {
 						if (migrationPage.selectedDiagramFile != null && migrationPage.migrateDiagramFile) {
 							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), migrationPage.selectedDiagramFile.getLocationURI(), migrationPage.optimizeNestedConditions, migrationPage.retainKernelAndMultiRules, monitor);
-							try {
-								migrationPage.selectedDiagramFile.getParent().refreshLocal(2, new NullProgressMonitor());
-							} catch (CoreException e) {}
+							migrationPage.selectedDiagramFile.getParent().refreshLocal(2, new NullProgressMonitor());
 						} else {
 							tr.migrate(migrationPage.selectedHenshinFile.getLocationURI(), null, migrationPage.optimizeNestedConditions, migrationPage.retainKernelAndMultiRules, monitor);
 						}
-						try {
-							migrationPage.selectedHenshinFile.getParent().refreshLocal(2, new NullProgressMonitor());
-						} catch (CoreException e) {}
-						
+						migrationPage.selectedHenshinFile.getParent().refreshLocal(2, new NullProgressMonitor());
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -64,6 +63,10 @@ public class MigrationWizard extends Wizard {
 						e.printStackTrace();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
+					} catch (CoreException e) {
+						// TODO: print to error log
+						e.printStackTrace();
+						WorkbenchPlugin.getDefault().getLog().log(e.getStatus());
 					}
 				}
 			});
