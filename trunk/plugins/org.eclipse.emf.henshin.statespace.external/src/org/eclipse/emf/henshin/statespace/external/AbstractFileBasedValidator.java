@@ -152,6 +152,7 @@ public abstract class AbstractFileBasedValidator extends AbstractStateSpaceValid
 		URI uri = URI.createFileURI(tmp.getAbsolutePath());
 		
 		// Do the export:
+		exporter.setStateSpaceIndex(index);
 		exporter.export(stateSpace, uri, parameters, monitor);
 		return tmp;
 		

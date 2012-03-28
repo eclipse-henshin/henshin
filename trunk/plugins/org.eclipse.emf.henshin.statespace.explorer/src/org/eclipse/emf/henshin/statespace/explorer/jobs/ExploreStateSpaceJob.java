@@ -132,13 +132,13 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 		clearCache(monitor);
 		
 		// Save the state space:
-		if (saveInterval>=0) {
+		if (saveInterval>=0 && !isAborted()) {
 			monitor.subTask("Saving state space...");
 			saveStateSpace();
 		}
 		
 		// Final message:
-		if (logInfo) {
+		if (logInfo && !isAborted()) {
 			int finalClosedStateCount = stateSpace.getStates().size() - stateSpace.getOpenStates().size();
 			int explored = finalClosedStateCount - initialClosedStateCount;
 			String statesPerSec = "";

@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
+import org.eclipse.emf.henshin.statespace.explorer.jobs.AbstractStateSpaceJob;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -83,7 +84,11 @@ public abstract class AbstractStateSpaceCommand extends Command {
 		} catch (Throwable e) {
 			StateSpaceExplorerPlugin.getInstance().logError("Error while trying to " + getLabel(), e);
 			if (job!=null) {
-				job.cancel();
+				if (job instanceof AbstractStateSpaceJob) {
+					((AbstractStateSpaceJob) job).abort();
+				} else {
+					job.cancel();
+				}
 			}
 			this.exception = e;
 		}

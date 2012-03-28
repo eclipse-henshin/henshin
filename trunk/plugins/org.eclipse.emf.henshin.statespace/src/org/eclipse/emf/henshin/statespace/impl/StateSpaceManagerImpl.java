@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -130,7 +129,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			return model;
 		}
 		
-		model = deriveModel(state);
+		// Derive the model:
+		model = deriveModel(state, false, false);
 		
 		// Store the state model:
 		storeModel(state, model);
@@ -148,20 +148,27 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Never lose initial state models!!!
 		if (state.isInitial()) return;
 		
-		// Cache the model in any case:
-		stateModelCache.put(state, model);
-		
-		// Number of states: rounded up for more stability:
-		int states = getStateSpace().getStates().size();
-		states = states - (states % 1000) + 1000;			// always greater than 1000
-		
-		// Decide whether the current model should be kept in memory.
-		int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 9-10
-		int index = state.getIndex() + 1;					// always greater or equal 1
-		//System.out.println(stored);
-		
-		// Unset the model by chance:
-		if (index % stored != 0) {
+		// Decide whether to cache the model:
+		if (StateSpaceDebug.NORMAL_CACHING) {
+			
+			// Add the model to the cache:
+			stateModelCache.put(state, model);
+			
+			// Number of states: rounded up for more stability:
+			int states = getStateSpace().getStates().size();
+			states = states - (states % 1000) + 1000;			// always greater than 1000
+			
+			// Decide whether the current model should be kept in memory.
+			int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 9-10
+			int index = state.getIndex() + 1;					// always greater or equal 1
+			//System.out.println(stored);
+			
+			// Unset the model by chance:
+			if (index % stored != 0) {
+				model = null;
+			}
+			
+		} else if (StateSpaceDebug.NO_CACHING) {
 			model = null;
 		}
 		
@@ -173,8 +180,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
-	private Model deriveModel(State state) throws StateSpaceException {
-
+	private Model deriveModel(State state, boolean startFromInitial, boolean validateModels) throws StateSpaceException {
+		
 		// Find a path from one of the states predecessors:
 		Trace trace = new Trace();
 		State source = state;
@@ -190,6 +197,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				if (start==null) {
 					start = stateModelCache.get(source);
 				}
+				if (startFromInitial && !source.isInitial()) {
+					start = null;
+				}
 			}
 		} catch (Throwable t) {
 			throw new StateSpaceException("Error deriving model for " + state, t);
@@ -203,15 +213,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Derive the model for the current state:
 		for (Transition transition : trace) {
 			
-			Rule rule = transition.getRule();
-			if (rule==null || !getStateSpace().getRules().contains(rule)) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
-			}
-			
-			RuleApplication application = new RuleApplication(engine, rule);
+			RuleApplication application = new RuleApplication(engine, transition.getRule());
 			List<Match> matches = application.findAllMatches();
 			if (matches.size()<=transition.getMatch()) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
+				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
 			// Apply the rule with the found match:
@@ -219,9 +224,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			application.setMatch(match);
 			application.apply();
 			postProcessor.process(model);
-			
-			// Collect the missing root objects:
 			model.collectMissingRootObjects();
+			
+			// Validate model if necessary:
+			if (validateModels) {
+				int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
+				if (transition.getTarget().getHashCode()!=hashCode) {
+					throw new StateSpaceException("Error constructing model for state " +
+						transition.getTarget().getIndex() + " in path " + trace);
+				}
+			}
 			
 		}
 
@@ -237,34 +249,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		return model;
 		
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#exploreStates(java.util.List, boolean)
+	 * @see org.eclipse.emf.henshin.statespace.impl.AbstractStateSpaceManager#exploreState(org.eclipse.emf.henshin.statespace.State, boolean)
 	 */
-	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
-		List<State> result = new ArrayList<State>();
-		try {
-			for (State state : states) {
-				result.addAll(exploreState(state, generateLocation));
-			}
-		} catch (Throwable t) {
-			if (t instanceof StateSpaceException) {
-				throw (StateSpaceException) t;
-			} else {
-				throw new StateSpaceException(t);
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * Explore a given state.
-	 * @param state State to be explored.
-	 * @param generateLocation Whether to generate locations for the new state.
-	 * @return List of newly created successor states.
-	 * @throws StateSpaceException On errors.
-	 */
+	@Override
 	protected List<State> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Check if we exceeded the maximum state distance:
@@ -273,8 +263,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			return Collections.emptyList();
 		}
 		
-		// For testing only:
-		// performExplorationSanityCheck(state);
+		// For debugging purposes:
+		if (StateSpaceDebug.CHECK_ENGINE_DETERMINISM) {
+			checkEngineDeterminism(state);
+		}
 		
 		// Explore the state without changing the state space.
 		// This can take some time. So no lock here.
@@ -304,7 +296,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			// Get the hash and model of the new target state:
 			int hashCode = current.getTarget().getHashCode();
 			Model transformed = current.getTarget().getModel();
-			
+					
 			// The target state and some of its properties:
 			State target;
 			boolean newState = false;
@@ -332,9 +324,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					monitor.getAddedStates().remove(target);
 					newState = true;
 				}
+				
+				//System.out.println(newState ? "Creating state" : "Found state");
 
 				// Find or create the transition.
-				if (newState || findTransition(state, target, rule, current.getMatch(), parameters)==null) {
+				if (newState || findTransition(state, target, rule, match, parameters)==null) {
 					createTransition(state, target, rule, match, parameters);
 				}
 
@@ -345,6 +339,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			if (newState) {
 				storeModel(target, transformed);
 				result.add(target);
+				
+				// Validate generated state:
+				if (StateSpaceDebug.VALIDATE_NEW_STATES) {
+					deriveModel(target, true, true);
+				}
 			}
 			
 		}
@@ -362,7 +361,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Done: return the new transitions.
 		return result;
 		
-	}
+	}	
 	
 	/**
 	 * Explore a state without actually changing the state space.
@@ -376,9 +375,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		
 		// Get the state model and create an engine for it:
 		Model model = getModel(state);
-		EmfEngine engine = acquireEngine();
-		engine.purgeCache();
 		
+		// We need a couple of engines:
+		EmfEngine matchEngine = acquireEngine();
+		EmfEngine transformEngine = acquireEngine();
+		//EmfEngine testEngine = StateSpaceDebug.VALIDATE_NEW_STATES ? acquireEngine() : null;
+
+		// Initialize the match engine:
+		matchEngine.setEmfGraph(model.getEmfGraph());
+
 		// Get some important state space parameters:
 		boolean useObjectKeys = getStateSpace().getEqualityHelper().isUseObjectKeys();
 		
@@ -389,8 +394,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		for (Rule rule : getStateSpace().getRules()) {
 			
 			// Compute matches:
-			engine.setEmfGraph(model.getEmfGraph());
-			RuleApplication application = new RuleApplication(engine, rule);
+			RuleApplication application = new RuleApplication(matchEngine, rule);
 			List<Match> matches = application.findAllMatches();
 //			System.out.println("Found " + matches.size() + " matches for rule " + rule.getName());
 			
@@ -404,13 +408,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Transform the model:
 				Match match = matches.get(i);
 				Model transformed = model.getCopy(match);
-				engine.setEmfGraph(transformed.getEmfGraph());
-				application = new RuleApplication(engine, rule);
+				transformEngine.setEmfGraph(transformed.getEmfGraph());
+				application = new RuleApplication(transformEngine, rule);
 				application.setMatch(match);
 				application.apply();
 				postProcessor.process(transformed);
-				
-				// Collect newly created root objects:
 				transformed.collectMissingRootObjects();
 				
 				// Create a new state:
@@ -456,30 +458,40 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Remember the transition:
 				transitions.add(newTransition);
 				
+				// Optionally test the generated state:
+				/*if (StateSpaceDebug.VALIDATE_NEW_STATES) {
+					
+					Model testModel = model.getCopy(null);
+					testEngine.setEmfGraph(testModel.getEmfGraph());
+					RuleApplication testApp = new RuleApplication(testEngine, rule);
+					List<Match> testMatches = testApp.findAllMatches();
+					if (matches.size()!=testMatches.size()) {
+						throw new StateSpaceException("Newly created state is invalid");
+					}
+					testApp.setMatch(testMatches.get(newTransition.getMatch()));
+					testApp.apply();
+					postProcessor.process(testModel);
+					testModel.collectMissingRootObjects();
+					int hashCode = getStateSpace().getEqualityHelper().hashCode(testModel);
+					if (newState.getHashCode()!=hashCode ||
+						!getStateSpace().getEqualityHelper().equals(newState.getModel(),testModel)) {
+						throw new StateSpaceException("Newly created state is invalid");
+					}
+					
+				}*/
+				
 			}
 		}
 		
-		// Now we can release the engine again:
-		releaseEngine(engine);
+		// Now we can release the engines again:
+		releaseEngine(matchEngine);
+		releaseEngine(transformEngine);
 		
 		// And we are done:
 		return transitions;
 
 	}
-	
-	/*
-	 * Helper method for finding a state in a list.
-	 */
-	private State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
-		for (State state : states) {
-			if (hashCode==state.getHashCode() && 
-				getStateSpace().getEqualityHelper().equals(model,getModel(state))) {
-				return state;
-			}
-		}
-		return null;
-	}
-	
+		
 	/*
 	 * Acquire a transformation engine.
 	 */
@@ -537,7 +549,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * This check if doExplore() really yields equal results when invoked
 	 * more than once on the same state.
 	 */
-	protected void performExplorationSanityCheck(State state) throws StateSpaceException {
+	protected void checkEngineDeterminism(State state) throws StateSpaceException {
 		
 		// Explore the state without changing the state space:
 		List<Transition> transitions = doExplore(state);
@@ -554,10 +566,12 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
 					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
 				}
-				if (!getStateSpace().getEqualityHelper().equals(t1.getTarget().getModel(),t2.getTarget().getModel())) {
+				State s1 = t1.getTarget();
+				State s2 = t2.getTarget();
+				if (s1.getHashCode()!=s2.getHashCode()) {
 					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
 				}
-				if (t1.getTarget().getHashCode()!=t2.getTarget().getHashCode()) {
+				if (!getStateSpace().getEqualityHelper().equals(s1.getModel(),s2.getModel())) {
 					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
 				}
 			}

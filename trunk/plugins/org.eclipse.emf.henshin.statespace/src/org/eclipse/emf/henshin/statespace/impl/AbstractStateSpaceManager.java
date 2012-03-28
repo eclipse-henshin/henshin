@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -199,6 +200,48 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#exploreStates(java.util.List, boolean)
+	 */
+	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
+		List<State> result = new ArrayList<State>();
+		try {
+			for (State state : states) {
+				result.addAll(exploreState(state, generateLocation));
+			}
+		} catch (Throwable t) {
+			if (t instanceof StateSpaceException) {
+				throw (StateSpaceException) t;
+			} else {
+				throw new StateSpaceException(t);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Explore a given state.
+	 * @param state State to be explored.
+	 * @param generateLocation Whether to generate locations for the new state.
+	 * @return List of newly created successor states.
+	 * @throws StateSpaceException On errors.
+	 */
+	protected abstract List<State> exploreState(State state, boolean generateLocation) throws StateSpaceException;
+
+	/*
+	 * Helper method for finding a state in a list.
+	 */
+	protected State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
+		for (State state : states) {
+			if (hashCode==state.getHashCode() && 
+				getStateSpace().getEqualityHelper().equals(model,getModel(state))) {
+				return state;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Decide whether a state is open.
 	 * @param state State state.

@@ -110,11 +110,9 @@ public class TransitionImpl extends StorageImpl implements Transition {
 	 */
 	@Override
 	public String toString() {
-		if (getSource()!=null && target!=null && rule!=null) {
-			return getSource().getIndex() + " -- " + getLabel() + " -> " + target.getIndex();
-		} else {
-			return super.toString();
-		}
+		String s = (getSource()!=null) ? String.valueOf(getSource().getIndex()) : "_";
+		String t = (target!=null) ? String.valueOf(target.getIndex()) : "_";
+		return s + " --" + getLabel() + "--> " + t;
 	}
 
 

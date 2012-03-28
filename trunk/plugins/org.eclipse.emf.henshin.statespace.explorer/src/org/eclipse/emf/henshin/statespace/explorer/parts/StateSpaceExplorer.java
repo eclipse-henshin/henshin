@@ -166,7 +166,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	private void updateGraphicalViewer(boolean force) {
 		
 		// Decide whether to display the content based on the number of states:
-		boolean newDisplayContent = stateSpaceManager.getStateSpace().getStates().size()<2000;
+		boolean newDisplayContent = stateSpaceManager.getStateSpace().getStates().size()<3000;
 		
 		// Update the graphical viewer if necessary:
 		if (newDisplayContent!=displayContent || force) {

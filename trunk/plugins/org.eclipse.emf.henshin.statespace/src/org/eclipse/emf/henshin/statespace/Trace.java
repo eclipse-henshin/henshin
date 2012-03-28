@@ -63,4 +63,26 @@ public class Trace extends ArrayDeque<Transition> {
 		this.state = state;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.AbstractCollection#toString()
+	 */
+	@Override
+	public String toString() {
+		if (isEmpty()) {
+			return "empty";
+		} else {
+			String result = "";
+			boolean first = true;
+			for (Transition t : this) {
+				if (first) {
+					result = t.getSource().getIndex() + "";
+				}
+				result = result + " --" + t.getLabel() + "--> " + t.getTarget().getIndex();
+				first = false;
+			}
+			return result;
+		}
+	}
+	
 }

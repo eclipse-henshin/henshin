@@ -381,7 +381,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		 */
 		public FileCreationPage(String pageId, IStructuredSelection selection) {
 			super(pageId, selection);
-			setDescription("Choose the target file for the export (" + printAllowedExtensions(getExporter()) + ")");
+			setDescription("Choose the target file for the export ");
 			if (wizban!=null) {
 				setImageDescriptor(wizban);
 			}

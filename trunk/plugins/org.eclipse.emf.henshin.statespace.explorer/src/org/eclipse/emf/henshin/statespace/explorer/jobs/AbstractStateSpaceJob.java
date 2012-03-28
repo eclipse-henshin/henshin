@@ -29,6 +29,7 @@ public abstract class AbstractStateSpaceJob extends Job {
 	
 	// State space manager:
 	private StateSpaceManager manager;
+	private boolean abort;
 	
 	/**
 	 * Default constructor.
@@ -70,5 +71,21 @@ public abstract class AbstractStateSpaceJob extends Job {
 	 */
 	public void setStateSpaceManager(StateSpaceManager manager) {
 		this.manager = manager;
+	}
+	
+	/**
+	 * Abort this job.
+	 */
+	public void abort() {
+		abort = true;
+		cancel();
+	}
+	
+	/**
+	 * Check whether this job has been aborted.
+	 * @return <code>true</code> if it has been aborted.
+	 */
+	public boolean isAborted() {
+		return abort;
 	}
 }

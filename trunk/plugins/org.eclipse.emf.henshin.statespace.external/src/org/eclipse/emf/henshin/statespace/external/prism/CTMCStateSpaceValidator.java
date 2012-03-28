@@ -34,13 +34,15 @@ public class CTMCStateSpaceValidator extends AbstractFileBasedValidator {
 	public ValidationResult validate(StateSpace stateSpace, IProgressMonitor monitor) throws Exception {
 		
 		monitor.beginTask("Checking CSL property...", 4);
-		
-		// Generate the CSL file.
-		File cslFile = createTempFile("property", ".csl", 
-				PRISMUtil.expandLabels(property, index, new SubProgressMonitor(monitor, 1)));
 
 		// Generate the model file.
-		File modelFile = export(stateSpace, new CTMCStateSpaceExporter(), null, "sm", new SubProgressMonitor(monitor, 1));
+		CTMCStateSpaceExporter exporter = new CTMCStateSpaceExporter();
+		File modelFile = export(stateSpace, exporter, null, "sm", new SubProgressMonitor(monitor, 1));
+
+		// Generate the CSL file.
+		String expanded = PRISMUtil.expandLabels(property, index, exporter.getTuples(), new SubProgressMonitor(monitor, 1));
+		File cslFile = createTempFile("property", ".csl", expanded);
+
 
 		// Invoke the PRISM tool:
 		monitor.subTask("Running PRISM...");
