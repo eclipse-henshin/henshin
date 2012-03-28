@@ -33,6 +33,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
+import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -228,8 +229,11 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Validate model if necessary:
 			if (validateModels) {
-				int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
-				if (transition.getTarget().getHashCode()!=hashCode) {
+				StateEqualityHelper helper = getStateSpace().getEqualityHelper();
+				int hashCode = helper.hashCode(model);
+				Model targetModel = transition.getTarget().getModel();
+				if (transition.getTarget().getHashCode()!=hashCode ||
+					(targetModel!=null && !helper.equals(targetModel,model))) {
 					throw new StateSpaceException("Error constructing model for state " +
 						transition.getTarget().getIndex() + " in path " + trace);
 				}
@@ -379,7 +383,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// We need a couple of engines:
 		EmfEngine matchEngine = acquireEngine();
 		EmfEngine transformEngine = acquireEngine();
-		//EmfEngine testEngine = StateSpaceDebug.VALIDATE_NEW_STATES ? acquireEngine() : null;
 
 		// Initialize the match engine:
 		matchEngine.setEmfGraph(model.getEmfGraph());
@@ -457,29 +460,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				
 				// Remember the transition:
 				transitions.add(newTransition);
-				
-				// Optionally test the generated state:
-				/*if (StateSpaceDebug.VALIDATE_NEW_STATES) {
-					
-					Model testModel = model.getCopy(null);
-					testEngine.setEmfGraph(testModel.getEmfGraph());
-					RuleApplication testApp = new RuleApplication(testEngine, rule);
-					List<Match> testMatches = testApp.findAllMatches();
-					if (matches.size()!=testMatches.size()) {
-						throw new StateSpaceException("Newly created state is invalid");
-					}
-					testApp.setMatch(testMatches.get(newTransition.getMatch()));
-					testApp.apply();
-					postProcessor.process(testModel);
-					testModel.collectMissingRootObjects();
-					int hashCode = getStateSpace().getEqualityHelper().hashCode(testModel);
-					if (newState.getHashCode()!=hashCode ||
-						!getStateSpace().getEqualityHelper().equals(newState.getModel(),testModel)) {
-						throw new StateSpaceException("Newly created state is invalid");
-					}
-					
-				}*/
-				
+								
 			}
 		}
 		

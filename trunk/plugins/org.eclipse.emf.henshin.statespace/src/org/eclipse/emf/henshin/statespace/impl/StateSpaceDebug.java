@@ -3,7 +3,7 @@ package org.eclipse.emf.henshin.statespace.impl;
 @SuppressWarnings("all")
 public class StateSpaceDebug {
 
-	public static final boolean ALLOW_MULTI_THREADING = true;
+	public static final boolean ENFORCE_DETERMINISTIC_EXPLORATION = false;
 
 	public static final int CACHING_LEVEL = 1;
 	

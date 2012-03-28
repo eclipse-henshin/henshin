@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebug;
 
 /**
  * An exploration helper class.
@@ -61,7 +62,9 @@ public class StateSpaceExplorationHelper {
 		
 		// Adjust the number of states to be explored in one step:
 		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.25, 4);
-		blockSize = rangeCheck((int) ((double) blockSize * speedChange), 2, 2000);
+		if (!StateSpaceDebug.ENFORCE_DETERMINISTIC_EXPLORATION) {
+			blockSize = rangeCheck((int) ((double) blockSize * speedChange), 2, 2000);
+		}
 		
 		/* Update the list of next states to be explored. */
 		
