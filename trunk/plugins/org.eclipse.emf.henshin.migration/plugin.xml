@@ -16,14 +16,6 @@
                name="group1">
          </separator>
       </menu>
-      <action
-            class="org.eclipse.emf.henshin.migration.wizard.MigrateHenshinAction"
-            enablesFor="1"
-            id="org.eclipse.emf.henshin.migration1011.newAction"
-            label="Migrate to Henshin 0.9"
-            menubarPath="org.eclipse.emf.henshin.menu/additions">
-            
-      </action>
    </objectContribution>
 </extension>
 <extension
