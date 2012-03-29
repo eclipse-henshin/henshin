@@ -13,8 +13,7 @@ package org.eclipse.emf.henshin.matching;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,78 +24,97 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 /**
  * This is a graph-like representation of a set of EObjects. Only objects known
  * to this class will be used for matching.
  */
 public class EmfGraph {
+	
 	/**
 	 * All objects (instances) in this graph.
 	 */
 	protected final Collection<EObject> eObjects;
+	
 	/**
 	 * All EPackages involved.
 	 */
 	protected final Collection<EPackage> ePackages;
+	
 	/**
 	 * Mappings from each type to all its instances.
 	 */
 	final Map<EClass, Collection<EObject>> domainMap;
+	
 	/**
 	 * Mappings from each type to all its extending subtypes.
 	 */
 	final Map<EClass, Collection<EClass>> inheritanceMap;
+	
 	/**
 	 * Determines cross references for registered objects
 	 */
 	final ECrossReferenceAdapter crossReferenceAdapter;
 	
 	/**
-	 * Constructor
+	 * Default constructor.
 	 */
 	public EmfGraph() {
 		eObjects = new LinkedHashSet<EObject>();
-		ePackages = new HashSet<EPackage>();
-		domainMap = new HashMap<EClass, Collection<EObject>>();
-		inheritanceMap = new HashMap<EClass, Collection<EClass>>();
+		ePackages = new LinkedHashSet<EPackage>();
+		domainMap = new LinkedHashMap<EClass, Collection<EObject>>();
+		inheritanceMap = new LinkedHashMap<EClass, Collection<EClass>>();
 		crossReferenceAdapter = new ECrossReferenceAdapter();
 	}
 	
 	/**
-	 * Constructor which adds the given roots ({@link #addRoot(EObject)}) to
-	 * <code>this</code> EmfGraph in addition.
-	 * 
-	 * @param roots
+	 * Constructor which adds the given roots ({@link #addRoot(EObject)}) to this EmfGraph.
+	 * @param roots List of root objects.
 	 */
 	public EmfGraph(final EObject... roots) {
 		this();
 		for (EObject r : roots) {
 			addRoot(r);
 		}
-	}// constructor
+	}
+	
+	/**
+	 * Constructor which creates an exact copy of the given argument graph.
+	 * @param graph A graph.
+	 */
+	public EmfGraph(EmfGraph graph, Copier copier) {
+		this();
+		for (EObject eObject : graph.eObjects) {
+			eObjects.add(copier.get(eObject));
+		}
+		for (EClass type : graph.domainMap.keySet()) {
+			Collection<EObject> domain = new ArrayList<EObject>();
+			for (EObject eObject : graph.domainMap.get(type)) {
+				domain.add(copier.get(eObject));
+			}
+			domainMap.put(type, domain);
+		}
+		ePackages.addAll(graph.ePackages);
+		inheritanceMap.putAll(graph.inheritanceMap);
+		for (EObject eObject : eObjects) {
+			eObject.eAdapters().add(crossReferenceAdapter);
+		}
+	}
 	
 	/**
 	 * Adds a new eObject to this graph.
-	 * 
-	 * @param eObject
-	 *            The eObject which will be added to the graph.
-	 * 
-	 * @return true, if the object was added. false, if it is already contained
-	 *         in the graph.
+	 * @param eObject The eObject which will be added to the graph.
+	 * @return true, if the object was added. false, if it is already contained in the graph.
 	 */
 	public boolean addEObject(EObject eObject) {
 		return addEObjectToGraph(eObject);
 	}
 	
 	/**
-	 * Removes an eObject to this graph.
-	 * 
-	 * @param eObject
-	 *            The eObject which will be removed from the graph.
-	 * 
-	 * @return true, if the object was removed. false, if it wasn't contained in
-	 *         the graph.
+	 * Removes an eObject from this graph.
+	 * @param eObject The eObject which will be removed from the graph.
+	 * @return true, if the object was removed. false, if it wasn't contained in the graph.
 	 */
 	public boolean removeEObject(EObject eObject) {
 		return removeEObjectFromGraph(eObject);
@@ -104,10 +122,7 @@ public class EmfGraph {
 	
 	/**
 	 * Adds a new containment tree to this graph.
-	 * 
-	 * @param root
-	 *            The eObject which is the root of the containment tree.
-	 * 
+	 * @param root The eObject which is the root of the containment tree.
 	 * @return true, if any eObject was added.
 	 */
 	public boolean addRoot(EObject root) {
@@ -123,10 +138,7 @@ public class EmfGraph {
 	
 	/**
 	 * Removes a containment tree from this graph.
-	 * 
-	 * @param root
-	 *            The eObject which is the root of the containment tree.
-	 * 
+	 * @param root The eObject which is the root of the containment tree.
 	 * @return true, if any eObject was removed.
 	 */
 	public boolean removeRoot(EObject root) {
@@ -141,20 +153,15 @@ public class EmfGraph {
 	}
 	
 	/**
-	 * Returns all possible EObjects of this graph which are compatible with the
-	 * given type.
-	 * 
-	 * @param type
-	 *            The type of the eObjects.
-	 * @param strict
-	 *            Whether subTypes are excluded from the result.
-	 * 
+	 * Returns all possible EObjects of this graph which are compatible with the given type.
+	 * @param type The type of the eObjects.
+	 * @param strict Whether subTypes are excluded from the result.
 	 * @return A collection of eObjects compatible with the type.
 	 */
 	public List<EObject> getDomainForType(EClass type, boolean strict) {
-		if (strict)
+		if (strict) {
 			return new ArrayList<EObject>(getDomain(type));
-		
+		}
 		final List<EObject> domain = new ArrayList<EObject>();
 		Collection<EClass> inhMap = inheritanceMap.get(type);
 		if (inhMap != null) {
@@ -166,30 +173,29 @@ public class EmfGraph {
 	}
 	
 	/**
-	 * Returns whether {@link EmfGraph#getDomainForType(EClass)} will give an
-	 * empty List.
+	 * Returns whether {@link EmfGraph#getDomainForType(EClass)} will give an empty List.
 	 * 
-	 * @param type
-	 * @param strict
-	 *            Whether subTypes are regarded for the result.
-	 * @return
+	 * @param type Type.
+	 * @param strict Whether subTypes are regarded for the result.
+	 * @return <code>true</code> if the domain is empty.
 	 */
 	public boolean isDomainEmpty(EClass type, boolean strict) {
-		if (strict)
+		if (strict) {
 			return getDomain(type).isEmpty();
+		}
 		Collection<EClass> inhMap = inheritanceMap.get(type);
 		if (inhMap != null) {
 			for (EClass child : inhMap) {
-				if (!getDomain(child).isEmpty())
+				if (!getDomain(child).isEmpty()) {
 					return false;
+				}
 			}
 		}
 		return true;
 	}
 	
-	/**
-	 * @param eObject
-	 * @return
+	/*
+	 * Add an EObject to the graph.
 	 */
 	protected boolean addEObjectToGraph(EObject eObject) {
 		boolean isNew = eObjects.add(eObject);
@@ -212,9 +218,8 @@ public class EmfGraph {
 		return isNew;
 	}
 	
-	/**
-	 * @param eObject
-	 * @return
+	/*
+	 * Remove an EObject from the graph.
 	 */
 	protected boolean removeEObjectFromGraph(EObject eObject) {
 		boolean wasRemoved = eObjects.remove(eObject);
@@ -229,9 +234,8 @@ public class EmfGraph {
 		return wasRemoved;
 	}
 	
-	/**
-	 * @param ePackage
-	 * @return
+	/*
+	 * Add an EPackage.
 	 */
 	protected boolean addEPackage(EPackage ePackage) {
 		boolean isNew = ePackages.add(ePackage);
@@ -250,22 +254,20 @@ public class EmfGraph {
 		return isNew;
 	}
 	
-	/**
-	 * @param child
-	 * @param parent
+	/*
+	 * Update the inheritance map.
 	 */
 	protected void addChildParentRelation(EClass child, EClass parent) {
 		Collection<EClass> children = inheritanceMap.get(parent);
 		if (children == null) {
-			children = new HashSet<EClass>();
+			children = new LinkedHashSet<EClass>();
 			inheritanceMap.put(parent, children);
 		}
 		children.add(child);
 	}
 	
-	/**
-	 * @param type
-	 * @return
+	/*
+	 * Get the domain for a given type.
 	 */
 	protected Collection<EObject> getDomain(EClass type) {
 		Collection<EObject> domain = domainMap.get(type);
@@ -279,13 +281,12 @@ public class EmfGraph {
 	}
 	
 	/**
-	 * Returns all eobject contained in this graph (@see {@link #geteObjects()})
-	 * which are container, i.e. which are not contained by other eobjects.
-	 * 
-	 * @return
+	 * Returns all EObjects contained in this graph (@see {@link #geteObjects()})
+	 * which are a root container, i.e. which are not contained by other EObjects.
+	 * @return All root objects.
 	 */
 	public Collection<EObject> getRootObjects() {
-		final Collection<EObject> rootObjects = new HashSet<EObject>();
+		final Collection<EObject> rootObjects = new LinkedHashSet<EObject>();
 		for (EObject eObject : geteObjects()) {
 			if (eObject.eContainer() == null)
 				rootObjects.add(eObject);
@@ -296,14 +297,18 @@ public class EmfGraph {
 	
 	/**
 	 * Returns all eObjects contained in this graph.
-	 * 
 	 * @return A collection of all eObjects.
 	 */
 	public Collection<EObject> geteObjects() {
 		return eObjects;
 	}
 	
+	/**
+	 * Get the cross reference adapter of this graph.
+	 * @return The cross reference adapter.
+	 */
 	public ECrossReferenceAdapter getCrossReferenceAdapter() {
 		return crossReferenceAdapter;
 	}
+
 }

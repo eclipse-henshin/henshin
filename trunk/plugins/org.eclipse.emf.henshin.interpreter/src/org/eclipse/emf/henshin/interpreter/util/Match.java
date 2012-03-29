@@ -12,7 +12,7 @@
 package org.eclipse.emf.henshin.interpreter.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class Match {
 	
 	public Map<Rule, List<Match>> getNestedMatches() {
 		if (nestedMatches == null)
-			nestedMatches = new HashMap<Rule, List<Match>>();
+			nestedMatches = new LinkedHashMap<Rule, List<Match>>();
 		return nestedMatches;
 	}
 	
@@ -84,7 +84,7 @@ public class Match {
 	 */
 	public Match(Rule rule, Solution solution, Map<Node, Variable> node2variable) {
 		if (solution != null) {
-			this.parameterValues = new HashMap<Parameter, Object>();
+			this.parameterValues = new LinkedHashMap<Parameter, Object>();
 			for (String parameterName : solution.getParameterValues().keySet()) {
 				Parameter parameter = rule.getParameterByName(parameterName);
 				if (parameter != null) {
@@ -93,7 +93,7 @@ public class Match {
 				}
 			}
 			
-			this.nodeMapping = new HashMap<Node, EObject>();
+			this.nodeMapping = new LinkedHashMap<Node, EObject>();
 			
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			for (Node node : rule.getLhs().getNodes()) {

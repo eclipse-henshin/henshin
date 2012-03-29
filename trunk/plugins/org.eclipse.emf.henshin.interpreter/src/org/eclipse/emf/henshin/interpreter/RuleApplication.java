@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class RuleApplication {
 		this.rule = rule;
 		this.interpreterEngine = engine;
 		
-		this.match = new Match(rule, new HashMap<Parameter, Object>(), new HashMap<Node, EObject>());
+		this.match = new Match(rule, new LinkedHashMap<Parameter, Object>(), new LinkedHashMap<Node, EObject>());
 	}
 	
 	/**
