@@ -17,6 +17,8 @@ import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.tuples.EcoreColumnSorter.ColumnInfo;
+import org.eclipse.emf.henshin.statespace.tuples.EcoreColumnSorter.ColumnType;
 
 /**
  * Ecore-based tuple generator.
@@ -71,43 +73,48 @@ public class EcoreTupleGenerator implements TupleGenerator {
 		Arrays.fill(cachedLayers[0], null);
 		System.arraycopy(rootLayer, 0, cachedLayers[0], 0, rootLayer.length);
 		
-		for (int i=1; i<cachedLayers.length; i++) {
-			Arrays.fill(cachedLayers[i], null);
-			for (int j=0; j<cachedLayers[i-1].length; j++) {
-				EObject obj = cachedLayers[i-1][j];
+		for (int y=1; y<cachedLayers.length; y++) {
+			Arrays.fill(cachedLayers[y], null);
+			for (int x=0; x<cachedLayers[y-1].length; x++) {
+				EObject obj = cachedLayers[y-1][x];
 				if (obj!=null) {
 					Object[] children = obj.eContents().toArray();
-					int pos = j * maxLocalWidths[i];
-					System.arraycopy(children, 0, cachedLayers[i], pos, children.length);
+					int pos = x * maxLocalWidths[y];
+					System.arraycopy(children, 0, cachedLayers[y], pos, children.length);
 				}
 			}
 		}
 		
 		// We need the objects also as a sorted list:
 		List<EObject> objects = new ArrayList<EObject>(maxObjects);
-		for (int i=0; i<cachedLayers.length; i++) {
-			for (int j=0; j<cachedLayers[i].length; j++) {
-				objects.add(cachedLayers[i][j]);
+		for (int y=0; y<cachedLayers.length; y++) {
+			for (int x=0; x<cachedLayers[y].length; x++) {
+				objects.add(cachedLayers[y][x]);
 			}
 		}
 		
+		// Column sorter:
+		EcoreColumnSorter sorter = new EcoreColumnSorter();
+		
 		// Now we can construct the tuple:
 		Tuple tuple = new Tuple(tupleSize);
+		int[] data = tuple.data();
 		int node = 0;
-		for (int i=0; i<cachedLayers.length; i++) {
-			for (int j=0; j<cachedLayers[i].length; j++) {
+		for (int y=0; y<cachedLayers.length; y++) {
+			for (int x=0; x<cachedLayers[y].length; x++) {
 				
 				// The next object:
-				EObject obj = cachedLayers[i][j];
+				EObject obj = cachedLayers[y][x];
 				if (obj==null) continue;
 				EClass type = obj.eClass();
 				
 				// Paste its data into the tuple:
-				int pos = node * maxObjectSize;				
-				int[] data = tuple.data();
+				int pos = node * maxObjectSize;
 				
 				// Object type:
-				data[pos++] = usedTypes.indexOf(type);
+				data[pos] = usedTypes.indexOf(type);
+				sorter.setColumnInfo(pos, new ColumnInfo(ColumnType.TYPE, y, x, 0));
+				pos++;
 				
 				// Attributes:
 				for (EAttribute att : type.getEAllAttributes()) {
@@ -116,10 +123,12 @@ public class EcoreTupleGenerator implements TupleGenerator {
 					}
 					Object value = obj.eGet(att);
 					if (value instanceof Integer) {
-						data[pos++] = (Integer) value;
+						data[pos] = (Integer) value;
 					} else {
-						data[pos++] = ((Boolean) value) ? 1 : 0;						
+						data[pos] = ((Boolean) value) ? 1 : 0;						
 					}
+					sorter.setColumnInfo(pos, new ColumnInfo(ColumnType.ATTRIBUTE, y, x, 0));
+					pos++;
 				}
 				
 				// Links:

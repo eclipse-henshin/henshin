@@ -33,7 +33,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -118,23 +117,17 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	public Model getModel(State state) throws StateSpaceException {
 		
-		// Model already set?
-		Model model = state.getModel();
-		if (model!=null) {
-			return model;
+		// Model cached?
+		Model model = getCachedModel(state);
+		
+		// Otherwise derive and store the model:
+		if (model==null) {	
+			model = deriveModel(state, false);
+			storeModel(state, model);
 		}
-		
-		// Cached?
-		model = stateModelCache.get(state);
-		if (model!=null) {
-			return model;
+		else if (StateSpaceDebug.VALIDATE_STATES) {
+			storeModel(state, model);
 		}
-		
-		// Derive the model:
-		model = deriveModel(state, false, false);
-		
-		// Store the state model:
-		storeModel(state, model);
 		
 		// Done.
 		return model;
@@ -142,12 +135,37 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	}
 	
 	/*
+	 * Try to get a cached model for a state.
+	 */
+	private Model getCachedModel(State state) {
+		Model model = state.getModel();
+		if (model!=null) {
+			return model;
+		}
+		return stateModelCache.get(state);
+	}
+	
+	/*
 	 * Store or discard a state model probabilistically.
 	 */
-	private void storeModel(State state, Model model) {
+	private void storeModel(State state, Model model) throws StateSpaceException {
 		
 		// Never lose initial state models!!!
 		if (state.isInitial()) return;
+		
+		// Debug:
+		if (StateSpaceDebug.VALIDATE_STATES) {
+			
+			// Compare real hash code with state hash code: 
+			Model derived = deriveModel(state, true);
+			int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
+			int hashCode2 = getStateSpace().getEqualityHelper().hashCode(derived);
+			
+			if (hashCode!=state.getHashCode() || hashCode!=hashCode2) {
+				throw new StateSpaceException("Attempted to store an invalid model for state " + state.getIndex());
+			}
+			
+		}
 		
 		// Decide whether to cache the model:
 		if (StateSpaceDebug.NORMAL_CACHING) {
@@ -181,7 +199,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	/*
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
-	private Model deriveModel(State state, boolean startFromInitial, boolean validateModels) throws StateSpaceException {
+	private Model deriveModel(State state, boolean startFromInitial) throws StateSpaceException {
 		
 		// Find a path from one of the states predecessors:
 		Trace trace = new Trace();
@@ -194,10 +212,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				target = source;
 				source = states.get(target.getDerivedFrom());
 				trace.addFirst(findTransition(source, target, null, -1, null));
-				start = source.getModel();
-				if (start==null) {
-					start = stateModelCache.get(source);
-				}
+				start = getCachedModel(source);
 				if (startFromInitial && !source.isInitial()) {
 					start = null;
 				}
@@ -210,7 +225,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		Model model = start.getCopy(null);
 		EmfEngine engine = acquireEngine();
 		engine.setEmfGraph(model.getEmfGraph());
-
+		
 		// Derive the model for the current state:
 		for (Transition transition : trace) {
 			
@@ -228,12 +243,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			model.collectMissingRootObjects();
 			
 			// Validate model if necessary:
-			if (validateModels) {
-				StateEqualityHelper helper = getStateSpace().getEqualityHelper();
-				int hashCode = helper.hashCode(model);
-				Model targetModel = transition.getTarget().getModel();
-				if (transition.getTarget().getHashCode()!=hashCode ||
-					(targetModel!=null && !helper.equals(targetModel,model))) {
+			if (StateSpaceDebug.VALIDATE_STATES) {
+				int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
+				if (transition.getTarget().getHashCode()!=hashCode) {
 					throw new StateSpaceException("Error constructing model for state " +
 						transition.getTarget().getIndex() + " in path " + trace);
 				}
@@ -290,16 +302,16 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// END OF EXPLORER LOCK
 		
 		// No check which states / transitions need to be added.
-		for (Transition current : transitions) {
+		for (Transition transition : transitions) {
 			
 			// Transition label details:
-			Rule rule = current.getRule();
-			int match = current.getMatch();
-			int[] parameters = current.getParameterKeys();
+			Rule rule = transition.getRule();
+			int match = transition.getMatch();
+			int[] parameters = transition.getParameterKeys();
 			
 			// Get the hash and model of the new target state:
-			int hashCode = current.getTarget().getHashCode();
-			Model transformed = current.getTarget().getModel();
+			int hashCode = transition.getTarget().getHashCode();
+			Model transformed = transition.getTarget().getModel();
 					
 			// The target state and some of its properties:
 			State target;
@@ -343,11 +355,6 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			if (newState) {
 				storeModel(target, transformed);
 				result.add(target);
-				
-				// Validate generated state:
-				if (StateSpaceDebug.VALIDATE_NEW_STATES) {
-					deriveModel(target, true, true);
-				}
 			}
 			
 		}
@@ -380,9 +387,10 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		// Get the state model and create an engine for it:
 		Model model = getModel(state);
 		
-		// We need a couple of engines:
+		// We need a couple of engines and rule applications:
 		EmfEngine matchEngine = acquireEngine();
 		EmfEngine transformEngine = acquireEngine();
+		RuleApplication matchApp, transformApp;
 
 		// Initialize the match engine:
 		matchEngine.setEmfGraph(model.getEmfGraph());
@@ -397,8 +405,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		for (Rule rule : getStateSpace().getRules()) {
 			
 			// Compute matches:
-			RuleApplication application = new RuleApplication(matchEngine, rule);
-			List<Match> matches = application.findAllMatches();
+			matchApp = new RuleApplication(matchEngine, rule);
+			List<Match> matches = matchApp.findAllMatches();
 //			System.out.println("Found " + matches.size() + " matches for rule " + rule.getName());
 			
 			// Get the parameters of the rule:
@@ -406,15 +414,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					ParameterUtil.getParameters(getStateSpace(), rule) : null;
 			
 			// Iterate over all matches:
-			for (int i=0; i<matches.size(); i++) {
+			for (int matchIndex=0; matchIndex<matches.size(); matchIndex++) {
 				
 				// Transform the model:
-				Match match = matches.get(i);
+				Match match = matches.get(matchIndex);
 				Model transformed = model.getCopy(match);
 				transformEngine.setEmfGraph(transformed.getEmfGraph());
-				application = new RuleApplication(transformEngine, rule);
-				application.setMatch(match);
-				application.apply();
+				transformApp = new RuleApplication(transformEngine, rule);
+				transformApp.setMatch(match);
+				transformApp.apply();
 				postProcessor.process(transformed);
 				transformed.collectMissingRootObjects();
 				
@@ -438,7 +446,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
 				newTransition.setRule(rule);
-				newTransition.setMatch(i);
+				newTransition.setMatch(matchIndex);
 				newTransition.setTarget(newState);
 				
 				// Set the parameters if necessary:
@@ -448,7 +456,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 						Node node = parameters.get(p);
 						EObject matched = match.getNodeMapping().get(node);
 						if (matched==null) {
-							matched = application.getComatch().getNodeMapping().get(node);
+							matched = matchApp.getComatch().getNodeMapping().get(node);
 						}
 						int objectKey = transformed.getObjectKeysMap().get(matched);
 						params[p] = ObjectKeyHelper.createObjectKey(

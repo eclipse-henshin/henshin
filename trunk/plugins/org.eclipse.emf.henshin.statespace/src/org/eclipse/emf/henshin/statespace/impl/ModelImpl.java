@@ -130,8 +130,14 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			updateMatch(match, copier);
 		}
 		
+		// Copy the graph:
+		EmfGraph copiedGraph = null;
+		if (emfGraph!=null) {
+			copiedGraph = new EmfGraph(emfGraph, copier);
+		}
+		
 		// Now create a new model.
-		ModelImpl copy = new ModelImpl(copiedResource);
+		ModelImpl copy = new ModelImpl(copiedResource, copiedGraph);
 
 		// Copy the object keys.
 		if (objectKeysMap != null) {
@@ -152,7 +158,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * Helper method for updating a match when copying a model.
 	 */
 	private void updateMatch(Match match, Copier copier) {
-		for (Node node : match.getRule().getLhs().getNodes()) {
+		for (Node node : match.getNodeMapping().keySet()) {
 			EObject newImage = copier.get(match.getNodeMapping().get(node));
 			match.getNodeMapping().put(node, newImage);
 		}
@@ -245,6 +251,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		if (emfGraph!=null) {
 			for (EObject root : emfGraph.getRootObjects()) {
 				if (!resource.getContents().contains(root)) {
+					System.out.println("Warning: collected missing root object");
 					resource.getContents().add(root);
 				}
 			}

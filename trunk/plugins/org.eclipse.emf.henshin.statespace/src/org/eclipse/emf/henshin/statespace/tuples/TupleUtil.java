@@ -8,7 +8,75 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 
+/**
+ * Utility methods for working with tuples.
+ * @author Christian Krause
+ */
 public class TupleUtil {
+
+	/**
+	 * Generate tuples for all states in a given state space.
+	 * @param generator Tuple generator.
+	 * @param index State space index.
+	 * @param simplify Whether to simplify the tuples.
+	 * @param monitor Progress monitor.
+	 * @return List of tuples.
+	 */
+	public static List<Tuple> generateTuples(TupleGenerator generator, StateSpaceIndex index, 
+			boolean simplify, IProgressMonitor monitor) {
+		
+		int stateCount = index.getStateSpace().getStates().size();
+		monitor.beginTask("Generating tuples", stateCount*2+1);
+		
+		List<Tuple> tuples = new ArrayList<Tuple>();
+		try {
+			generator.initialize(index, new SubProgressMonitor(monitor,stateCount));
+			for (State state : index.getStateSpace().getStates()) {
+				tuples.add(generator.createTuple(state));
+				monitor.worked(1);
+			}
+		} catch (Throwable t) {
+			throw new RuntimeException(t);
+		}
+		
+		if (simplify) {
+			removeConstantColumns(tuples);
+			simplifyColumns(tuples);
+		}
+		monitor.worked(1);
+		monitor.done();
+		return tuples;
+	}
+
+	/**
+	 * Simplify the values in all columns.
+	 * @param tuples List of tuples.
+	 */
+	private static void simplifyColumns(List<Tuple> tuples) {
+		
+		// At least one entry:
+		if (tuples.isEmpty()) {
+			return;
+		}
+		
+		// Simplify all columns.
+		int tupleSize = tuples.get(0).size();
+		int tupleCount = tuples.size();
+		for (int j=0; j<tupleSize; j++) {
+			List<Integer> values = new ArrayList<Integer>();
+			for (int i=0; i<tupleCount; i++) {
+				Integer val = tuples.get(i).data[j];
+				if (!values.contains(val)) {
+					values.add(val);
+				}
+			}
+			for (int i=0; i<tupleCount; i++) {
+				Tuple tuple = tuples.get(i);
+				tuple.data[j] = values.indexOf(tuple.data[j]);
+			}
+		}
+		
+	}
 
 	/**
 	 * Remove all columns with constant values.
@@ -95,31 +163,6 @@ public class TupleUtil {
 			s = s + t + "\n";
 		}
 		return s;
-	}
-
-	public static List<Tuple> generateTuples(TupleGenerator generator, StateSpaceIndex index, 
-			boolean removeConstantColumns, IProgressMonitor monitor) {
-		
-		int stateCount = index.getStateSpace().getStates().size();
-		monitor.beginTask("Generating tuples", stateCount*2+1);
-		
-		List<Tuple> tuples = new ArrayList<Tuple>();
-		try {
-			generator.initialize(index, new SubProgressMonitor(monitor,stateCount));
-			for (State state : index.getStateSpace().getStates()) {
-				tuples.add(generator.createTuple(state));
-				monitor.worked(1);
-			}
-		} catch (Throwable t) {
-			throw new RuntimeException(t);
-		}
-		
-		if (removeConstantColumns) {
-			removeConstantColumns(tuples);
-		}
-		monitor.worked(1);
-		monitor.done();
-		return tuples;
 	}
 	
 	
