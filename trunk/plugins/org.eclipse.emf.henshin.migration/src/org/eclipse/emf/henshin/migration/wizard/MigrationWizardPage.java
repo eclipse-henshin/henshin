@@ -80,6 +80,7 @@ public class MigrationWizardPage extends WizardPage {
 			IResource diagramFile = selectedHenshinFile.getParent().findMember(diagramName);
 			if (diagramFile instanceof IFile && diagramFile.exists()) {
 				selectedDiagramFile = (IFile) diagramFile;
+				migrateDiagramFile = true;
 			}
 		}
 
