@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.tuples.Tuple;
-import org.eclipse.emf.henshin.statespace.tuples.TupleUtil;
+import org.eclipse.emf.henshin.statespace.tuples.TupleList;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
@@ -185,7 +185,7 @@ public class PRISMUtil {
 	/*
 	 * Expand labels.
 	 */
-	public static String expandLabels(String template, StateSpaceIndex index, List<Tuple> tuples, IProgressMonitor monitor) throws Exception {
+	public static String expandLabels(String template, StateSpaceIndex index, TupleList tuples, IProgressMonitor monitor) throws Exception {
 
 		// Find out how many sections need to be replaced:
 		int sections = -1;
@@ -210,7 +210,7 @@ public class PRISMUtil {
 	/*
 	 * Expand the first occurrence of <<<...>>>.
 	 */
-	private static String doExpandLabels(String template, StateSpaceIndex index, List<Tuple> tuples, IProgressMonitor monitor) throws Exception {
+	private static String doExpandLabels(String template, StateSpaceIndex index, TupleList tuples, IProgressMonitor monitor) throws Exception {
 		
 		// Find <<< ... >>>
 		int start = template.indexOf("<<<");
@@ -435,11 +435,11 @@ public class PRISMUtil {
 		}
 	}
 	
-	public static String getVariableDeclarations(List<Tuple> tuples, boolean explicit) {
+	public static String getVariableDeclarations(TupleList tuples, boolean explicit) {
 		if (tuples.isEmpty()) {
 			return "";
 		}
-		String[] vars = getVariables(tuples.get(0).size());
+		String[] vars = getVariables(tuples.get(0).width());
 		if (explicit) {
 			String v = "(";
 			for (int i=0; i<vars.length; i++) {
@@ -450,11 +450,11 @@ public class PRISMUtil {
 			}
 			return v + ")";
 		} else {
-			List<Tuple> ranges = TupleUtil.getRanges(tuples);
+			TupleList minmax = tuples.getMinMax();
 			String v = "";
 			for (int i=0; i<vars.length; i++) {
 				v = v + "\t" + vars[i] + " : [" + 
-						ranges.get(0).data()[i] + ".." + ranges.get(1).data()[i] + "];\n";
+						minmax.get(0).data()[i] + ".." + minmax.get(1).data()[i] + "];\n";
 			}
 			return v;
 		}
@@ -487,11 +487,11 @@ public class PRISMUtil {
 	}
 	
 	public static String getPRISMState(Tuple t, boolean successor) {
-		if (t.size()==0) {
+		if (t.width()==0) {
 			return "true";
 		}
 		String s = "";
-		String[] vars = getVariables(t.size());
+		String[] vars = getVariables(t.width());
 		for (int i=0; i<vars.length; i++) {
 			s = s + "(" + vars[i];
 			if (successor) s = s + "'";
@@ -501,7 +501,7 @@ public class PRISMUtil {
 		return s;
 	}
 	
-	public static String getPRISMStates(List<Tuple> tuples) {
+	public static String getPRISMStates(TupleList tuples) {
 		String r = "";
 		int count = tuples.size();
 		for (int i=0; i<count; i++) {

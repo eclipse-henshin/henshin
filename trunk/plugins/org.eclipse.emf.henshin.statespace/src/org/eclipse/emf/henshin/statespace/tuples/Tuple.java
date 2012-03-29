@@ -13,10 +13,10 @@ public class Tuple implements Cloneable {
 	
 	/**
 	 * Default constructor
-	 * @param size Size of the tuple.
+	 * @param width Width of the tuple.
 	 */
-	public Tuple(int size) {
-		data = new int[size];
+	public Tuple(int width) {
+		data = new int[width];
 	}
 	
 	/**
@@ -28,10 +28,10 @@ public class Tuple implements Cloneable {
 	}
 	
 	/**
-	 * Return the size of this tuple.
-	 * @return The size.
+	 * Return the width of this tuple.
+	 * @return The width.
 	 */
-	public int size() {
+	public int width() {
 		return data.length;
 	}
 	

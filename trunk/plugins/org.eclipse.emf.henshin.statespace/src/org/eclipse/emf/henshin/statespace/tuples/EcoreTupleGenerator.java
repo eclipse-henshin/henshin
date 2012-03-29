@@ -108,6 +108,13 @@ public class EcoreTupleGenerator implements TupleGenerator {
 				if (obj==null) continue;
 				EClass type = obj.eClass();
 				
+				// -----------------------------------------
+				//if (!type.getName().startsWith("Phil")) {
+				//	node++;
+				//	continue;
+				//}
+				// -----------------------------------------
+				
 				// Paste its data into the tuple:
 				int pos = node * maxObjectSize;
 				
