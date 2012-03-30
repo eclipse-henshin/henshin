@@ -98,7 +98,12 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 	public void init(final IEditorSite site, final IEditorInput input)
 			throws PartInitException {
 		super.init(site, input);
-
+		
+		// Check if everything is there:
+		if (getDiagram()==null || !(getDiagram().getElement() instanceof TransformationSystem)) {
+			return;
+		}
+		
 		// Collect all packages which cannot be resolved:
 		TransformationSystem system = (TransformationSystem) getDiagram()
 				.getElement();

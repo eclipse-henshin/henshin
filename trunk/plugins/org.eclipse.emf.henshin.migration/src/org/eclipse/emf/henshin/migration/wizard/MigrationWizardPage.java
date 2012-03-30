@@ -24,7 +24,7 @@ public class MigrationWizardPage extends WizardPage {
 	protected IFile selectedDiagramFile = null;
 	
 	protected boolean optimizeNestedConditions = true;
-	protected boolean retainKernelAndMultiRules = true;
+	protected boolean retainKernelAndMultiRules = false;
 	protected boolean migrateDiagramFile = false;
 	
 	/**
@@ -66,12 +66,12 @@ public class MigrationWizardPage extends WizardPage {
 		data.horizontalSpan = 3;
 
 		final Button OptimizeNestedConditionsCheck = new Button(container, SWT.CHECK);
-		OptimizeNestedConditionsCheck.setSelection(true);
+		OptimizeNestedConditionsCheck.setSelection(optimizeNestedConditions);
 		OptimizeNestedConditionsCheck.setLayoutData(data);
 		OptimizeNestedConditionsCheck.setText("Optimize nested conditions");
 		
 		final Button btnRetainSeparateKernel = new Button(container, SWT.CHECK);
-		btnRetainSeparateKernel.setSelection(true);
+		btnRetainSeparateKernel.setSelection(retainKernelAndMultiRules);
 		btnRetainSeparateKernel.setLayoutData(data);
 		btnRetainSeparateKernel.setText("Keep separate kernel and multi-rules");
 
@@ -99,6 +99,9 @@ public class MigrationWizardPage extends WizardPage {
 		henshinDiagramFileText.setEnabled(selectedDiagramFile!=null);
 		if (selectedDiagramFile!=null) {
 			henshinDiagramFileText.setText(selectedDiagramFile.getFullPath().toString());
+			migrateDiagramFile = true;
+		} else {
+			migrateDiagramFile = false;			
 		}
 
 		final Button changeDiagramFileButton = new Button(container, SWT.NONE);
