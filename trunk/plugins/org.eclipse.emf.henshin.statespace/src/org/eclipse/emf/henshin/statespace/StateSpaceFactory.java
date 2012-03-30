@@ -87,13 +87,13 @@ public interface StateSpaceFactory extends EFactory {
 	Transition createTransition();
 
 	/**
-	 * Returns a new object of class '<em>State Equality Helper</em>'.
+	 * Returns a new object of class '<em>Equality Helper</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>State Equality Helper</em>'.
+	 * @return a new object of class '<em>Equality Helper</em>'.
 	 * @generated
 	 */
-	StateEqualityHelper createStateEqualityHelper();
+	EqualityHelper createEqualityHelper();
 
 	/**
 	 * Returns a new object of class '<em>Storage</em>'.

@@ -188,7 +188,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void refreshVisuals() {
-		refreshLabelAndLocation(getState().getStateSpace().isHideLabels());
+		refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels());
 		refreshColor();
 	}
 	
@@ -338,11 +338,11 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		
 		case StateSpacePackage.STATE__DATA: 
 			refreshColor();
-			refreshLabelAndLocation(getState().getStateSpace().isHideLabels());
+			refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels());
 			break;
 		
 		case StateSpacePackage.STATE__INDEX: 
-			refreshLabelAndLocation(getState().getStateSpace().isHideLabels()); 
+			refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels()); 
 			break;
 			
 		case StateSpacePackage.STATE__OUTGOING: 

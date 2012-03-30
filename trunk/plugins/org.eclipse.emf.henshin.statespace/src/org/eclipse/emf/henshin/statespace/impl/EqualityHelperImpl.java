@@ -24,19 +24,19 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
 import org.eclipse.emf.henshin.statespace.Model;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
 
 /**
- * Default implementation of {@link StateEqualityHelper}.
+ * Default implementation of {@link EqualityHelper}.
  * 
  * @generated
  */
-public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
-		implements StateEqualityHelper {
+public class EqualityHelperImpl extends MinimalEObjectImpl.Container
+		implements EqualityHelper {
 
 	// Graph isomorphy-checker cache:
 	private final Map<Model,GraphIsomorphyChecker> isomorphyCheckerCache = 
@@ -215,7 +215,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * Default constructor.
 	 * @generated
 	 */
-	protected StateEqualityHelperImpl() {
+	protected EqualityHelperImpl() {
 		super();
 	}
 
@@ -224,7 +224,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackage.Literals.STATE_EQUALITY_HELPER;
+		return StateSpacePackage.Literals.EQUALITY_HELPER;
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		boolean oldUseGraphEquality = useGraphEquality;
 		useGraphEquality = newUseGraphEquality;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		boolean oldUseObjectKeys = useObjectKeys;
 		useObjectKeys = newUseObjectKeys;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS, oldUseObjectKeys, useObjectKeys));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS, oldUseObjectKeys, useObjectKeys));
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 		boolean oldUseObjectAttributes = useObjectAttributes;
 		useObjectAttributes = newUseObjectAttributes;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES, oldUseObjectAttributes, useObjectAttributes));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES, oldUseObjectAttributes, useObjectAttributes));
 	}
 
 	/**
@@ -284,11 +284,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return isUseGraphEquality();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
 				return isUseObjectKeys();
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return isUseObjectAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -300,13 +300,13 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				setUseGraphEquality((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
 				setUseObjectKeys((Boolean)newValue);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				setUseObjectAttributes((Boolean)newValue);
 				return;
 		}
@@ -319,13 +319,13 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
 				setUseObjectKeys(USE_OBJECT_KEYS_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				setUseObjectAttributes(USE_OBJECT_ATTRIBUTES_EDEFAULT);
 				return;
 		}
@@ -338,11 +338,11 @@ public class StateEqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY:
+			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
 				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_KEYS:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
 				return useObjectKeys != USE_OBJECT_KEYS_EDEFAULT;
-			case StateSpacePackage.STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
+			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
 				return useObjectAttributes != USE_OBJECT_ATTRIBUTES_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

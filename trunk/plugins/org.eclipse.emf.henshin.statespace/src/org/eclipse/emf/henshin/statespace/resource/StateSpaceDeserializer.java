@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.Transition;
@@ -55,7 +55,7 @@ public class StateSpaceDeserializer {
 		if (version<0 || version>2) throw new IOException("Unsupported format version: " + version);
 		
 		int equalityType = readShort(); // Equality type
-		StateEqualityHelper helper = StateSpaceFactory.eINSTANCE.createStateEqualityHelper();
+		EqualityHelper helper = StateSpaceFactory.eINSTANCE.createEqualityHelper();
 		helper.setUseGraphEquality((equalityType & 1)==1);
 		
 		// In version 2, "ignore" attributes changed to "use":

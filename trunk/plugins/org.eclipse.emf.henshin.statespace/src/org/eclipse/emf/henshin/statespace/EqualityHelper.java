@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface StateEqualityHelper extends EObject {
+public interface EqualityHelper extends EObject {
 	
 	/**
 	 * Check whether graph equality should be used.
@@ -34,7 +34,7 @@ public interface StateEqualityHelper extends EObject {
 	boolean isUseGraphEquality();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}' attribute.
 	 * @param value the new value of the '<em>Use Graph Equality</em>' attribute.
 	 * @see #isUseGraphEquality()
 	 * @generated

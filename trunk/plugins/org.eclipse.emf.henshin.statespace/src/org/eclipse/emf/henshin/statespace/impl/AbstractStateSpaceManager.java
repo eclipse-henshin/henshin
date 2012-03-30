@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -132,7 +132,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		
 		// We need some info:
 		StateSpace stateSpace = getStateSpace();
-		StateEqualityHelper equalityHelper = stateSpace.getEqualityHelper();
+		EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
 		boolean useObjectKeys = equalityHelper.isUseObjectKeys();
 
 		// Update the object types:

@@ -78,7 +78,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 			case StateSpacePackage.STATE: return createState();
 			case StateSpacePackage.MODEL: return createModel();
 			case StateSpacePackage.TRANSITION: return createTransition();
-			case StateSpacePackage.STATE_EQUALITY_HELPER: return createStateEqualityHelper();
+			case StateSpacePackage.EQUALITY_HELPER: return createEqualityHelper();
 			case StateSpacePackage.STORAGE: return createStorage();
 			case StateSpacePackage.OBJECT_KEY: return (EObject)createObjectKey();
 			default:
@@ -200,9 +200,9 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StateEqualityHelper createStateEqualityHelper() {
-		StateEqualityHelperImpl stateEqualityHelper = new StateEqualityHelperImpl();
-		return stateEqualityHelper;
+	public EqualityHelper createEqualityHelper() {
+		EqualityHelperImpl equalityHelper = new EqualityHelperImpl();
+		return equalityHelper;
 	}
 
 	/**

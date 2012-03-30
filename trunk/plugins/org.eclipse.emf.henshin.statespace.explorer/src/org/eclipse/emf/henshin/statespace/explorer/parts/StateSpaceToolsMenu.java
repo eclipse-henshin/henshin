@@ -25,7 +25,7 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
@@ -297,11 +297,11 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
 		
 		// Set basic properties:
-		layouter.setStateRepulsion(((double) stateSpace.getStateRepulsion()+10) * REPULSION_FACTOR);
-		layouter.setTransitionAttraction(((double) stateSpace.getTransitionAttraction()+40) * ATTRACTION_FACTOR);
+		layouter.setStateRepulsion(((double) stateSpace.getLayoutStateRepulsion()+10) * REPULSION_FACTOR);
+		layouter.setTransitionAttraction(((double) stateSpace.getLayoutTransitionAttraction()+40) * ATTRACTION_FACTOR);
 		layouter.setNaturalTransitionLength(NATURAL_LENGTH);
 
-		double zoom = ZOOM_LEVELS[stateSpace.getZoomLevel() * (ZOOM_LEVELS.length-1) / 100];
+		double zoom = ZOOM_LEVELS[stateSpace.getLayoutZoomLevel() * (ZOOM_LEVELS.length-1) / 100];
 		if (zoomManager!=null) {
 			zoomManager.setZoom(zoom);
 		}
@@ -320,10 +320,10 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	private void commitMetadata() {
 		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
-		stateSpace.setZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
-		stateSpace.setStateRepulsion(repulsionScale.getSelection());
-		stateSpace.setTransitionAttraction(attractionScale.getSelection());
-		stateSpace.setHideLabels(hideLabelsButton.getSelection());
+		stateSpace.setLayoutZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
+		stateSpace.setLayoutStateRepulsion(repulsionScale.getSelection());
+		stateSpace.setLayoutTransitionAttraction(attractionScale.getSelection());
+		stateSpace.setLayoutHideLabels(hideLabelsButton.getSelection());
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class StateSpaceToolsMenu extends Composite {
 			rulesLabel.setText("0");
 		} else {
 			StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
-			StateEqualityHelper helper = stateSpace.getEqualityHelper();
+			EqualityHelper helper = stateSpace.getEqualityHelper();
 			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
@@ -345,15 +345,15 @@ public class StateSpaceToolsMenu extends Composite {
 			ecoreButton.setSelection(!helper.isUseGraphEquality());
 			useObjectKeysCheckbox.setSelection(helper.isUseObjectKeys());
 			useObjectAttributesCheckbox.setSelection(helper.isUseObjectAttributes());
-			hideLabelsButton.setSelection(stateSpace.isHideLabels());
+			hideLabelsButton.setSelection(stateSpace.isLayoutHideLabels());
 		}
 	}
 	
 	private void updateScales() {
 		StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
-		zoomScale.setSelection(stateSpace.getZoomLevel() * ZOOM_LEVELS.length / 100);
-		repulsionScale.setSelection(stateSpace.getStateRepulsion());
-		attractionScale.setSelection(stateSpace.getTransitionAttraction());		
+		zoomScale.setSelection(stateSpace.getLayoutZoomLevel() * ZOOM_LEVELS.length / 100);
+		repulsionScale.setSelection(stateSpace.getLayoutStateRepulsion());
+		attractionScale.setSelection(stateSpace.getLayoutTransitionAttraction());		
 	}
 	
 	/**
@@ -430,7 +430,7 @@ public class StateSpaceToolsMenu extends Composite {
 	private void setEqualityType(boolean useGraphEquality, boolean useObjectKeys, boolean useObjectAttributes) {
 		
 		StateSpaceManager manager = jobManager.getStateSpaceManager();
-		StateEqualityHelper helper = manager.getStateSpace().getEqualityHelper();
+		EqualityHelper helper = manager.getStateSpace().getEqualityHelper();
 		
 		if (useGraphEquality!=helper.isUseGraphEquality() || 
 			useObjectAttributes!=helper.isUseObjectAttributes() ||

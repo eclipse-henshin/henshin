@@ -63,6 +63,15 @@ public interface StateSpace extends Storage {
 	Set<State> getOpenStates();
 
 	/**
+	 * Get the number of states in this state space.
+	 * @return the state count
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_StateCount()
+	 * @model transient="true" changeable="false" volatile="true"
+	 * @generated
+	 */
+	int getStateCount();
+
+	/**
 	 * Get the total number of transitions in this state space.
 	 * @see #setTransitionCount(int)
 	 * @model
@@ -107,11 +116,11 @@ public interface StateSpace extends Storage {
 
 	/**
 	 * Get the equality helper for this state space.
-	 * @see #setEqualityHelper(StateEqualityHelper)
+	 * @see #setEqualityHelper(EqualityHelper)
 	 * @model containment="true"
 	 * @generated
 	 */
-	StateEqualityHelper getEqualityHelper();
+	EqualityHelper getEqualityHelper();
 
 	/**
 	 * Set the equality helper for this state space.
@@ -119,61 +128,79 @@ public interface StateSpace extends Storage {
 	 * @see #getEqualityHelper()
 	 * @generated
 	 */
-	void setEqualityHelper(StateEqualityHelper value);
+	void setEqualityHelper(EqualityHelper value);
 
 	/**
 	 * Get the zoom level to be used when this state space is displayed.
 	 * @return the value of the '<em>Zoom Level</em>' attribute.
-	 * @see #setZoomLevel(int)
+	 * @see #setLayoutZoomLevel(int)
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
-	int getZoomLevel();
+	int getLayoutZoomLevel();
 
 	/**
 	 * Set the zoom level for this state space.
 	 * @param value the new value of the '<em>Zoom Level</em>' attribute.
-	 * @see #getZoomLevel()
+	 * @see #getLayoutZoomLevel()
 	 * @generated
 	 */
-	void setZoomLevel(int value);
+	void setLayoutZoomLevel(int value);
 
 	/**
 	 * Get the state repulsion to be used when layouting this state space.
 	 * The value is between 0..100.
 	 * @return the value of the '<em>State Repulsion</em>' attribute.
-	 * @see #setStateRepulsion(int)
+	 * @see #setLayoutStateRepulsion(int)
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
-	int getStateRepulsion();
+	int getLayoutStateRepulsion();
 
 	/**
 	 * Set the state repulsion to be used when layouting this state space.
 	 * @param value the new value of the '<em>State Repulsion</em>' attribute.
-	 * @see #getStateRepulsion()
+	 * @see #getLayoutStateRepulsion()
 	 * @generated
 	 */
-	void setStateRepulsion(int value);
+	void setLayoutStateRepulsion(int value);
 
 	/**
 	 * Get the transition attraction to be used when layouting this state space.
 	 * The value is between 0..100.
 	 * @return the value of the '<em>Transition Attraction</em>' attribute.
-	 * @see #setTransitionAttraction(int)
+	 * @see #setLayoutTransitionAttraction(int)
 	 * @model transient="true" volatile="true"
 	 * @generated
 	 */
-	int getTransitionAttraction();
+	int getLayoutTransitionAttraction();
 
 	/**
 	 * Set the transition attraction to be used when layouting this state space.
 	 * The value is between 0..100.
 	 * @param value the new value of the '<em>Transition Attraction</em>' attribute.
-	 * @see #getTransitionAttraction()
+	 * @see #getLayoutTransitionAttraction()
 	 * @generated
 	 */
-	void setTransitionAttraction(int value);
+	void setLayoutTransitionAttraction(int value);
+
+	/**
+	 * Check whether labels should be hidden.
+	 * @return the value of the '<em>Hide Labels</em>' attribute.
+	 * @see #setLayoutHideLabels(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_HideLabels()
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	boolean isLayoutHideLabels();
+
+	/**
+	 * Set the hide-labels flag.
+	 * @param value the new value of the '<em>Hide Labels</em>' attribute.
+	 * @see #isLayoutHideLabels()
+	 * @generated
+	 */
+	void setLayoutHideLabels(boolean value);
 
 	/**
 	 * Get the maximum distance of states from the initial states.
@@ -192,24 +219,6 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	void setMaxStateDistance(int value);
-
-	/**
-	 * Check whether labels should be hidden.
-	 * @return the value of the '<em>Hide Labels</em>' attribute.
-	 * @see #setHideLabels(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_HideLabels()
-	 * @model transient="true" volatile="true"
-	 * @generated
-	 */
-	boolean isHideLabels();
-
-	/**
-	 * Set the hide-labels flag.
-	 * @param value the new value of the '<em>Hide Labels</em>' attribute.
-	 * @see #isHideLabels()
-	 * @generated
-	 */
-	void setHideLabels(boolean value);
 
 	/**
 	 * Get the properties for this state space.

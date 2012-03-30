@@ -118,7 +118,7 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 		if (source!=null) {
 			StateSpace stateSpace = source.getStateSpace();
 			if (stateSpace!=null) {
-				refreshLabel(stateSpace.isHideLabels());
+				refreshLabel(stateSpace.isLayoutHideLabels());
 			}
 		}
 		

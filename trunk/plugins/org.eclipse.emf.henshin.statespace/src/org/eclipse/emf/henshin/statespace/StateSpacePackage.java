@@ -149,13 +149,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__OPEN_STATES = STORAGE_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>State Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__STATE_COUNT = STORAGE_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Transition Count</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__TRANSITION_COUNT = STORAGE_FEATURE_COUNT + 4;
+	int STATE_SPACE__TRANSITION_COUNT = STORAGE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Equality Helper</b></em>' containment reference.
@@ -164,34 +173,43 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__EQUALITY_HELPER = STORAGE_FEATURE_COUNT + 5;
+	int STATE_SPACE__EQUALITY_HELPER = STORAGE_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Zoom Level</b></em>' attribute.
+	 * The feature id for the '<em><b>Layout Zoom Level</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__ZOOM_LEVEL = STORAGE_FEATURE_COUNT + 6;
+	int STATE_SPACE__LAYOUT_ZOOM_LEVEL = STORAGE_FEATURE_COUNT + 7;
 
 	/**
-	 * The feature id for the '<em><b>State Repulsion</b></em>' attribute.
+	 * The feature id for the '<em><b>Layout State Repulsion</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__STATE_REPULSION = STORAGE_FEATURE_COUNT + 7;
+	int STATE_SPACE__LAYOUT_STATE_REPULSION = STORAGE_FEATURE_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Transition Attraction</b></em>' attribute.
+	 * The feature id for the '<em><b>Layout Transition Attraction</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__TRANSITION_ATTRACTION = STORAGE_FEATURE_COUNT + 8;
+	int STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION = STORAGE_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Layout Hide Labels</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__LAYOUT_HIDE_LABELS = STORAGE_FEATURE_COUNT + 10;
 
 	/**
 	 * The feature id for the '<em><b>Max State Distance</b></em>' attribute.
@@ -200,16 +218,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Hide Labels</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE__HIDE_LABELS = STORAGE_FEATURE_COUNT + 10;
+	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 11;
 
 	/**
 	 * The feature id for the '<em><b>Properties</b></em>' map.
@@ -218,7 +227,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 11;
+	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Supported Types</b></em>' attribute.
@@ -227,7 +236,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__SUPPORTED_TYPES = STORAGE_FEATURE_COUNT + 12;
+	int STATE_SPACE__SUPPORTED_TYPES = STORAGE_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>Supported Type Prefixes</b></em>' attribute.
@@ -236,7 +245,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__SUPPORTED_TYPE_PREFIXES = STORAGE_FEATURE_COUNT + 13;
+	int STATE_SPACE__SUPPORTED_TYPE_PREFIXES = STORAGE_FEATURE_COUNT + 14;
 
 	/**
 	 * The feature id for the '<em><b>All Parameter Keys</b></em>' attribute.
@@ -245,7 +254,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 14;
+	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 15;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -254,7 +263,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 15;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 16;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -530,14 +539,14 @@ public interface StateSpacePackage extends EPackage {
 	int TRANSITION_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.EqualityHelperImpl <em>Equality Helper</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateEqualityHelper()
+	 * @see org.eclipse.emf.henshin.statespace.impl.EqualityHelperImpl
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEqualityHelper()
 	 * @generated
 	 */
-	int STATE_EQUALITY_HELPER = 4;
+	int EQUALITY_HELPER = 4;
 
 	/**
 	 * The feature id for the '<em><b>Use Graph Equality</b></em>' attribute.
@@ -546,7 +555,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY = 0;
+	int EQUALITY_HELPER__USE_GRAPH_EQUALITY = 0;
 
 	/**
 	 * The feature id for the '<em><b>Use Object Keys</b></em>' attribute.
@@ -555,7 +564,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__USE_OBJECT_KEYS = 1;
+	int EQUALITY_HELPER__USE_OBJECT_KEYS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Use Object Attributes</b></em>' attribute.
@@ -564,16 +573,16 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = 2;
+	int EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = 2;
 
 	/**
-	 * The number of structural features of the '<em>State Equality Helper</em>' class.
+	 * The number of structural features of the '<em>Equality Helper</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_EQUALITY_HELPER_FEATURE_COUNT = 3;
+	int EQUALITY_HELPER_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl <em>Object Key</em>}' class.
@@ -705,6 +714,17 @@ public interface StateSpacePackage extends EPackage {
 	EReference getStateSpace_OpenStates();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStateCount <em>State Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>State Count</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStateCount()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_StateCount();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionCount <em>Transition Count</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -727,37 +747,48 @@ public interface StateSpacePackage extends EPackage {
 	EReference getStateSpace_EqualityHelper();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getZoomLevel <em>Zoom Level</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getLayoutZoomLevel <em>Layout Zoom Level</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Zoom Level</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getZoomLevel()
+	 * @return the meta object for the attribute '<em>Layout Zoom Level</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getLayoutZoomLevel()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
-	EAttribute getStateSpace_ZoomLevel();
+	EAttribute getStateSpace_LayoutZoomLevel();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getStateRepulsion <em>State Repulsion</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getLayoutStateRepulsion <em>Layout State Repulsion</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>State Repulsion</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getStateRepulsion()
+	 * @return the meta object for the attribute '<em>Layout State Repulsion</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getLayoutStateRepulsion()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
-	EAttribute getStateSpace_StateRepulsion();
+	EAttribute getStateSpace_LayoutStateRepulsion();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getTransitionAttraction <em>Transition Attraction</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getLayoutTransitionAttraction <em>Layout Transition Attraction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Transition Attraction</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getTransitionAttraction()
+	 * @return the meta object for the attribute '<em>Layout Transition Attraction</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getLayoutTransitionAttraction()
 	 * @see #getStateSpace()
 	 * @generated
 	 */
-	EAttribute getStateSpace_TransitionAttraction();
+	EAttribute getStateSpace_LayoutTransitionAttraction();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideLabels <em>Layout Hide Labels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Layout Hide Labels</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideLabels()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_LayoutHideLabels();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getMaxStateDistance <em>Max State Distance</em>}'.
@@ -769,17 +800,6 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_MaxStateDistance();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isHideLabels <em>Hide Labels</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Hide Labels</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isHideLabels()
-	 * @see #getStateSpace()
-	 * @generated
-	 */
-	EAttribute getStateSpace_HideLabels();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.StateSpace#getProperties <em>Properties</em>}'.
@@ -1076,49 +1096,6 @@ public interface StateSpacePackage extends EPackage {
 	EReference getTransition_Rule();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper <em>State Equality Helper</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>State Equality Helper</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper
-	 * @generated
-	 */
-	EClass getStateEqualityHelper();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseGraphEquality()
-	 * @see #getStateEqualityHelper()
-	 * @generated
-	 */
-	EAttribute getStateEqualityHelper_UseGraphEquality();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectKeys <em>Use Object Keys</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Object Keys</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectKeys()
-	 * @see #getStateEqualityHelper()
-	 * @generated
-	 */
-	EAttribute getStateEqualityHelper_UseObjectKeys();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectAttributes <em>Use Object Attributes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Object Attributes</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper#isUseObjectAttributes()
-	 * @see #getStateEqualityHelper()
-	 * @generated
-	 */
-	EAttribute getStateEqualityHelper_UseObjectAttributes();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Transition#getMatch <em>Match</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1150,6 +1127,49 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTransition_ParameterKeys();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.EqualityHelper <em>Equality Helper</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Equality Helper</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper
+	 * @generated
+	 */
+	EClass getEqualityHelper();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality()
+	 * @see #getEqualityHelper()
+	 * @generated
+	 */
+	EAttribute getEqualityHelper_UseGraphEquality();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectKeys <em>Use Object Keys</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Use Object Keys</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectKeys()
+	 * @see #getEqualityHelper()
+	 * @generated
+	 */
+	EAttribute getEqualityHelper_UseObjectKeys();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectAttributes <em>Use Object Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Use Object Attributes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectAttributes()
+	 * @see #getEqualityHelper()
+	 * @generated
+	 */
+	EAttribute getEqualityHelper_UseObjectAttributes();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Storage <em>Storage</em>}'.
@@ -1315,6 +1335,14 @@ public interface StateSpacePackage extends EPackage {
 		EReference STATE_SPACE__OPEN_STATES = eINSTANCE.getStateSpace_OpenStates();
 
 		/**
+		 * The meta object literal for the '<em><b>State Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__STATE_COUNT = eINSTANCE.getStateSpace_StateCount();
+
+		/**
 		 * The meta object literal for the '<em><b>Transition Count</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1331,28 +1359,36 @@ public interface StateSpacePackage extends EPackage {
 		EReference STATE_SPACE__EQUALITY_HELPER = eINSTANCE.getStateSpace_EqualityHelper();
 
 		/**
-		 * The meta object literal for the '<em><b>Zoom Level</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Layout Zoom Level</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_SPACE__ZOOM_LEVEL = eINSTANCE.getStateSpace_ZoomLevel();
+		EAttribute STATE_SPACE__LAYOUT_ZOOM_LEVEL = eINSTANCE.getStateSpace_LayoutZoomLevel();
 
 		/**
-		 * The meta object literal for the '<em><b>State Repulsion</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Layout State Repulsion</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_SPACE__STATE_REPULSION = eINSTANCE.getStateSpace_StateRepulsion();
+		EAttribute STATE_SPACE__LAYOUT_STATE_REPULSION = eINSTANCE.getStateSpace_LayoutStateRepulsion();
 
 		/**
-		 * The meta object literal for the '<em><b>Transition Attraction</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Layout Transition Attraction</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STATE_SPACE__TRANSITION_ATTRACTION = eINSTANCE.getStateSpace_TransitionAttraction();
+		EAttribute STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION = eINSTANCE.getStateSpace_LayoutTransitionAttraction();
+
+		/**
+		 * The meta object literal for the '<em><b>Layout Hide Labels</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__LAYOUT_HIDE_LABELS = eINSTANCE.getStateSpace_LayoutHideLabels();
 
 		/**
 		 * The meta object literal for the '<em><b>Max State Distance</b></em>' attribute feature.
@@ -1361,14 +1397,6 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__MAX_STATE_DISTANCE = eINSTANCE.getStateSpace_MaxStateDistance();
-
-		/**
-		 * The meta object literal for the '<em><b>Hide Labels</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_SPACE__HIDE_LABELS = eINSTANCE.getStateSpace_HideLabels();
 
 		/**
 		 * The meta object literal for the '<em><b>Properties</b></em>' map feature.
@@ -1593,40 +1621,6 @@ public interface StateSpacePackage extends EPackage {
 		EReference TRANSITION__RULE = eINSTANCE.getTransition_Rule();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl <em>State Equality Helper</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateEqualityHelperImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getStateEqualityHelper()
-		 * @generated
-		 */
-		EClass STATE_EQUALITY_HELPER = eINSTANCE.getStateEqualityHelper();
-
-		/**
-		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_EQUALITY_HELPER__USE_GRAPH_EQUALITY = eINSTANCE.getStateEqualityHelper_UseGraphEquality();
-
-		/**
-		 * The meta object literal for the '<em><b>Use Object Keys</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_EQUALITY_HELPER__USE_OBJECT_KEYS = eINSTANCE.getStateEqualityHelper_UseObjectKeys();
-
-		/**
-		 * The meta object literal for the '<em><b>Use Object Attributes</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = eINSTANCE.getStateEqualityHelper_UseObjectAttributes();
-
-		/**
 		 * The meta object literal for the '<em><b>Match</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1649,6 +1643,40 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRANSITION__PARAMETER_KEYS = eINSTANCE.getTransition_ParameterKeys();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.EqualityHelperImpl <em>Equality Helper</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.statespace.impl.EqualityHelperImpl
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEqualityHelper()
+		 * @generated
+		 */
+		EClass EQUALITY_HELPER = eINSTANCE.getEqualityHelper();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EQUALITY_HELPER__USE_GRAPH_EQUALITY = eINSTANCE.getEqualityHelper_UseGraphEquality();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Object Keys</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EQUALITY_HELPER__USE_OBJECT_KEYS = eINSTANCE.getEqualityHelper_UseObjectKeys();
+
+		/**
+		 * The meta object literal for the '<em><b>Use Object Attributes</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = eINSTANCE.getEqualityHelper_UseObjectAttributes();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.

@@ -119,9 +119,9 @@ public class StateSpaceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackage.STATE_EQUALITY_HELPER: {
-				StateEqualityHelper stateEqualityHelper = (StateEqualityHelper)theEObject;
-				T result = caseStateEqualityHelper(stateEqualityHelper);
+			case StateSpacePackage.EQUALITY_HELPER: {
+				EqualityHelper equalityHelper = (EqualityHelper)theEObject;
+				T result = caseEqualityHelper(equalityHelper);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -202,17 +202,17 @@ public class StateSpaceSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>State Equality Helper</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equality Helper</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>State Equality Helper</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equality Helper</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseStateEqualityHelper(StateEqualityHelper object) {
+	public T caseEqualityHelper(EqualityHelper object) {
 		return null;
 	}
 

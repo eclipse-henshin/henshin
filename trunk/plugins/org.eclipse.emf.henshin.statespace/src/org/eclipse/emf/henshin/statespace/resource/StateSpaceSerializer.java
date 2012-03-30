@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.Transition;
 
@@ -57,7 +57,7 @@ public class StateSpaceSerializer {
 		writeShort(MARKER); // Marker
 		writeShort(2); // Version
 		
-		StateEqualityHelper helper = stateSpace.getEqualityHelper(); // Equality type
+		EqualityHelper helper = stateSpace.getEqualityHelper(); // Equality type
 		int equalityType = 0;
 		if (helper.isUseGraphEquality()) equalityType = equalityType | 1;
 		if (helper.isUseObjectAttributes()) equalityType = equalityType | 2;

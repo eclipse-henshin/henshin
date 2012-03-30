@@ -91,8 +91,8 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 				return createTransitionAdapter();
 			}
 			@Override
-			public Adapter caseStateEqualityHelper(StateEqualityHelper object) {
-				return createStateEqualityHelperAdapter();
+			public Adapter caseEqualityHelper(EqualityHelper object) {
+				return createEqualityHelperAdapter();
 			}
 			@Override
 			public Adapter caseStorage(Storage object) {
@@ -179,16 +179,16 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.statespace.StateEqualityHelper <em>State Equality Helper</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.statespace.EqualityHelper <em>Equality Helper</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.statespace.StateEqualityHelper
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper
 	 * @generated
 	 */
-	public Adapter createStateEqualityHelperAdapter() {
+	public Adapter createEqualityHelperAdapter() {
 		return null;
 	}
 

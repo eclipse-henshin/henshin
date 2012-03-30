@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.explorer.commands;
 
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 
@@ -46,7 +46,7 @@ public class SetGraphEqualityCommand extends ResetStateSpaceCommand {
 	@Override
 	public void doExecute() throws StateSpaceException { 
 		
-		StateEqualityHelper helper = getStateSpaceManager().getStateSpace().getEqualityHelper();
+		EqualityHelper helper = getStateSpaceManager().getStateSpace().getEqualityHelper();
 		
 		// Set the graph-equality property:
 		helper.setUseGraphEquality(useGraphEquality);

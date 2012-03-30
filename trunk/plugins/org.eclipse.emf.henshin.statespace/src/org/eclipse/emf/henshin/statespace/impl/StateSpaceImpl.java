@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateEqualityHelper;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -58,7 +58,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		super();
 		
 		// Create a default equality helper:
-		setEqualityHelper(StateSpaceFactory.eINSTANCE.createStateEqualityHelper());
+		setEqualityHelper(StateSpaceFactory.eINSTANCE.createEqualityHelper());
 		
 		// Already initialize the set of open states here:
 		openStates = new LinkedHashSet<State>();
@@ -73,6 +73,13 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		return openStates;
 	}
 	
+	/**
+	 * @generated NOT
+	 */
+	public int getStateCount() {
+		return getStates().size();
+	}
+
 	/**
 	 * Remove a state and detach its transitions from the other states.
 	 * The transitions are still connected to the removed node afterwards.
@@ -248,42 +255,42 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
-	public int getZoomLevel() {
+	public int getLayoutZoomLevel() {
 		return getPercent(0, 100);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setZoomLevel(int zoomLevel) {
+	public void setLayoutZoomLevel(int zoomLevel) {
 		setPercent(0, zoomLevel);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public int getStateRepulsion() {
+	public int getLayoutStateRepulsion() {
 		return getPercent(1, 50);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setStateRepulsion(int repulsion) {
+	public void setLayoutStateRepulsion(int repulsion) {
 		setPercent(1, repulsion);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public int getTransitionAttraction() {
+	public int getLayoutTransitionAttraction() {
 		return getPercent(2, 50);
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setTransitionAttraction(int attraction) {
+	public void setLayoutTransitionAttraction(int attraction) {
 		setPercent(2, attraction);
 	}
 
@@ -306,14 +313,14 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
-	public boolean isHideLabels() {
+	public boolean isLayoutHideLabels() {
 		return getData(4)!=0;
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	public void setHideLabels(boolean hideLabels) {
+	public void setLayoutHideLabels(boolean hideLabels) {
 		setData(4, hideLabels ? 1 : 0);
 	}
 
@@ -357,6 +364,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected Set<State> openStates;
 
 	/**
+	 * The default value of the '{@link #getStateCount() <em>State Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStateCount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int STATE_COUNT_EDEFAULT = 0;
+
+
+	/**
 	 * The default value of the '{@link #getTransitionCount() <em>Transition Count</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -384,39 +402,51 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @generated
 	 * @ordered
 	 */
-	protected StateEqualityHelper equalityHelper;
+	protected EqualityHelper equalityHelper;
 
 	/**
-	 * The default value of the '{@link #getZoomLevel() <em>Zoom Level</em>}' attribute.
+	 * The default value of the '{@link #getLayoutZoomLevel() <em>Layout Zoom Level</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getZoomLevel()
+	 * @see #getLayoutZoomLevel()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ZOOM_LEVEL_EDEFAULT = 0;
+	protected static final int LAYOUT_ZOOM_LEVEL_EDEFAULT = 0;
 
 
 	/**
-	 * The default value of the '{@link #getStateRepulsion() <em>State Repulsion</em>}' attribute.
+	 * The default value of the '{@link #getLayoutStateRepulsion() <em>Layout State Repulsion</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStateRepulsion()
+	 * @see #getLayoutStateRepulsion()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int STATE_REPULSION_EDEFAULT = 0;
+	protected static final int LAYOUT_STATE_REPULSION_EDEFAULT = 0;
 
 
 	/**
-	 * The default value of the '{@link #getTransitionAttraction() <em>Transition Attraction</em>}' attribute.
+	 * The default value of the '{@link #getLayoutTransitionAttraction() <em>Layout Transition Attraction</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTransitionAttraction()
+	 * @see #getLayoutTransitionAttraction()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int TRANSITION_ATTRACTION_EDEFAULT = 0;
+	protected static final int LAYOUT_TRANSITION_ATTRACTION_EDEFAULT = 0;
+
+
+	/**
+	 * The default value of the '{@link #isLayoutHideLabels() <em>Layout Hide Labels</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLayoutHideLabels()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LAYOUT_HIDE_LABELS_EDEFAULT = false;
+
 
 	/**
 	 * The default value of the '{@link #getMaxStateDistance() <em>Max State Distance</em>}' attribute.
@@ -427,17 +457,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected static final int MAX_STATE_DISTANCE_EDEFAULT = -1;
-
-
-	/**
-	 * The default value of the '{@link #isHideLabels() <em>Hide Labels</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isHideLabels()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean HIDE_LABELS_EDEFAULT = false;
 
 
 	/**
@@ -573,7 +592,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public StateEqualityHelper getEqualityHelper() {
+	public EqualityHelper getEqualityHelper() {
 		return equalityHelper;
 	}
 
@@ -610,8 +629,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated
 	 */
-	public NotificationChain basicSetEqualityHelper(StateEqualityHelper newEqualityHelper, NotificationChain msgs) {
-		StateEqualityHelper oldEqualityHelper = equalityHelper;
+	public NotificationChain basicSetEqualityHelper(EqualityHelper newEqualityHelper, NotificationChain msgs) {
+		EqualityHelper oldEqualityHelper = equalityHelper;
 		equalityHelper = newEqualityHelper;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, StateSpacePackage.STATE_SPACE__EQUALITY_HELPER, oldEqualityHelper, newEqualityHelper);
@@ -623,7 +642,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated
 	 */
-	public void setEqualityHelper(StateEqualityHelper newEqualityHelper) {
+	public void setEqualityHelper(EqualityHelper newEqualityHelper) {
 		if (newEqualityHelper != equalityHelper) {
 			NotificationChain msgs = null;
 			if (equalityHelper != null)
@@ -680,20 +699,22 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getInitialStates();
 			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
 				return getOpenStates();
+			case StateSpacePackage.STATE_SPACE__STATE_COUNT:
+				return getStateCount();
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return getTransitionCount();
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				return getEqualityHelper();
-			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
-				return getZoomLevel();
-			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
-				return getStateRepulsion();
-			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
-				return getTransitionAttraction();
+			case StateSpacePackage.STATE_SPACE__LAYOUT_ZOOM_LEVEL:
+				return getLayoutZoomLevel();
+			case StateSpacePackage.STATE_SPACE__LAYOUT_STATE_REPULSION:
+				return getLayoutStateRepulsion();
+			case StateSpacePackage.STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION:
+				return getLayoutTransitionAttraction();
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
+				return isLayoutHideLabels();
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance();
-			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
-				return isHideLabels();
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
@@ -734,22 +755,22 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				setTransitionCount((Integer)newValue);
 				return;
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
-				setEqualityHelper((StateEqualityHelper)newValue);
+				setEqualityHelper((EqualityHelper)newValue);
 				return;
-			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
-				setZoomLevel((Integer)newValue);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_ZOOM_LEVEL:
+				setLayoutZoomLevel((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
-				setStateRepulsion((Integer)newValue);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_STATE_REPULSION:
+				setLayoutStateRepulsion((Integer)newValue);
 				return;
-			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
-				setTransitionAttraction((Integer)newValue);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION:
+				setLayoutTransitionAttraction((Integer)newValue);
+				return;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
+				setLayoutHideLabels((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance((Integer)newValue);
-				return;
-			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
-				setHideLabels((Boolean)newValue);
 				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				((EStructuralFeature.Setting)getProperties()).set(newValue);
@@ -780,22 +801,22 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				setTransitionCount(TRANSITION_COUNT_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
-				setEqualityHelper((StateEqualityHelper)null);
+				setEqualityHelper((EqualityHelper)null);
 				return;
-			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
-				setZoomLevel(ZOOM_LEVEL_EDEFAULT);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_ZOOM_LEVEL:
+				setLayoutZoomLevel(LAYOUT_ZOOM_LEVEL_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
-				setStateRepulsion(STATE_REPULSION_EDEFAULT);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_STATE_REPULSION:
+				setLayoutStateRepulsion(LAYOUT_STATE_REPULSION_EDEFAULT);
 				return;
-			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
-				setTransitionAttraction(TRANSITION_ATTRACTION_EDEFAULT);
+			case StateSpacePackage.STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION:
+				setLayoutTransitionAttraction(LAYOUT_TRANSITION_ATTRACTION_EDEFAULT);
+				return;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
+				setLayoutHideLabels(LAYOUT_HIDE_LABELS_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance(MAX_STATE_DISTANCE_EDEFAULT);
-				return;
-			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
-				setHideLabels(HIDE_LABELS_EDEFAULT);
 				return;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				getProperties().clear();
@@ -818,20 +839,22 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return initialStates != null && !initialStates.isEmpty();
 			case StateSpacePackage.STATE_SPACE__OPEN_STATES:
 				return openStates != null && !openStates.isEmpty();
+			case StateSpacePackage.STATE_SPACE__STATE_COUNT:
+				return getStateCount() != STATE_COUNT_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__TRANSITION_COUNT:
 				return transitionCount != TRANSITION_COUNT_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__EQUALITY_HELPER:
 				return equalityHelper != null;
-			case StateSpacePackage.STATE_SPACE__ZOOM_LEVEL:
-				return getZoomLevel() != ZOOM_LEVEL_EDEFAULT;
-			case StateSpacePackage.STATE_SPACE__STATE_REPULSION:
-				return getStateRepulsion() != STATE_REPULSION_EDEFAULT;
-			case StateSpacePackage.STATE_SPACE__TRANSITION_ATTRACTION:
-				return getTransitionAttraction() != TRANSITION_ATTRACTION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_ZOOM_LEVEL:
+				return getLayoutZoomLevel() != LAYOUT_ZOOM_LEVEL_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_STATE_REPULSION:
+				return getLayoutStateRepulsion() != LAYOUT_STATE_REPULSION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION:
+				return getLayoutTransitionAttraction() != LAYOUT_TRANSITION_ATTRACTION_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
+				return isLayoutHideLabels() != LAYOUT_HIDE_LABELS_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance() != MAX_STATE_DISTANCE_EDEFAULT;
-			case StateSpacePackage.STATE_SPACE__HIDE_LABELS:
-				return isHideLabels() != HIDE_LABELS_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
 			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPES:
