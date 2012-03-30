@@ -15,7 +15,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -45,6 +44,14 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	boolean removeState(State state);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	void updateEqualityHelper();
 
 	/**
 	 * Get the initial states in this state space.
@@ -78,27 +85,6 @@ public interface StateSpace extends Storage {
 	 * @generated
 	 */
 	int getTransitionCount();
-
-	/**
-	 * Update the supported object types for this state space.
-	 * @model
-	 * @generated
-	 */
-	void updateSupportedTypes();
-
-	/**
-	 * Get the supported object types of this state space.
-	 * @model dataType="org.eclipse.emf.henshin.statespace.EClassArray" transient="true"
-	 * @generated
-	 */
-	EClass[] getSupportedTypes();
-
-	/**
-	 * Get the supported object type prefixes of this state space.
-	 * @model dataType="org.eclipse.emf.henshin.statespace.StringArray" transient="true"
-	 * @generated
-	 */
-	String[] getSupportedTypePrefixes();
 
 	/**
 	 * Get all object keys used as parameters in transitions in this state space.

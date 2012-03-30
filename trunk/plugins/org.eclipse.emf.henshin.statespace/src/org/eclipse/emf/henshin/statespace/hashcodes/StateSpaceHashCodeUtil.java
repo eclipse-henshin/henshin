@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.statespace.hashcodes;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -28,15 +29,9 @@ public class StateSpaceHashCodeUtil {
 	/**
 	 * Compute the hash code of a model.
 	 * @param model The model.
-	 * @param useGraphEquality Whether to use graph equality.
-	 * @param useObjectKeys Whether to use object keys.
-	 * @param useObjectAttributes Whether to use object attributes.
 	 * @return The model's hash code.
 	 */
-	public static int computeHashCode(Model model,
-			boolean useGraphEquality, 
-			boolean useObjectKeys, 
-			boolean useObjectAttributes) {
+	public static int computeHashCode(Model model, EqualityHelper equalityHelper) {
 
 		// Do some basic checks first:
 		if (model==null) {
@@ -47,10 +42,8 @@ public class StateSpaceHashCodeUtil {
 		}
 		
 		// Compute the total hash code of the model:
-		TotalHashCodeHelper helper = new TotalHashCodeHelper(
-				useGraphEquality, useObjectKeys, useObjectAttributes);
-		
-		return helper.hashCode(model);
+		TotalHashCodeHelper hashCodeHelper = new TotalHashCodeHelper(equalityHelper);
+		return hashCodeHelper.hashCode(model);
 		
 	}
 	

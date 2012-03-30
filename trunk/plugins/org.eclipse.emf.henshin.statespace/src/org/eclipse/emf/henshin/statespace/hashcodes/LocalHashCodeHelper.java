@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 
 /**
  * Helper class for computing local hash codes of objects.
@@ -21,10 +22,9 @@ class LocalHashCodeHelper {
 	 * 
 	 * @param object Object for which the local hash code shall be computed.
 	 * @param objectId The Id of the object.
-	 * @param useObjectAttributes Flag indicating whether attributes should be used.
 	 * @return The object's local hash code.
 	 */
-	static int hashCode(EObject object, int objectId, boolean useObjectAttributes) {
+	static int hashCode(EObject object, int objectId, EqualityHelper equalityHelper) {
 		
 		// Class and its features:
 		EClass eclass = object.eClass();
@@ -52,7 +52,7 @@ class LocalHashCodeHelper {
 				if (feature instanceof EReference) {
 					value = list.size();
 				} else if (feature instanceof EAttribute) {
-					value = useObjectAttributes ? list.hashCode() : 0;
+					value = equalityHelper.getIgnoredAttributes().contains(feature) ? 0 : list.hashCode();
 				}
 			} else {
 				Object single = object.eGet(feature);
@@ -61,7 +61,7 @@ class LocalHashCodeHelper {
 				} else if (feature instanceof EReference) {
 					value = 1;
 				} else if (feature instanceof EAttribute) {
-					value = useObjectAttributes ? single.hashCode() : 0;
+					value = equalityHelper.getIgnoredAttributes().contains(feature) ? 0 : single.hashCode();
 				}
 			}
 			hashCode = (hashCode * 31) + value;

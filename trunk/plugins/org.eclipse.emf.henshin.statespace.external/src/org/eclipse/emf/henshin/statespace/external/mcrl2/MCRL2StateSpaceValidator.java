@@ -14,7 +14,6 @@ package org.eclipse.emf.henshin.statespace.external.mcrl2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -24,6 +23,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -142,7 +142,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		Map<EClass,Set<String>> basicTypeParams = getUsedParameterNamesByType(stateSpace, null);
 		
 		// Create the data types if required:
-		if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
+		if (!stateSpace.getEqualityHelper().getIdentityTypes().isEmpty()) {
 			for (Map.Entry<EClass,Set<String>> entry : superTypeParams.entrySet()) {				
 				actions.append("sort " + entry.getKey().getName() + " = struct ");
 				Iterator<String> it = entry.getValue().iterator();
@@ -161,7 +161,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		for (int i=0; i<stateSpace.getRules().size(); i++) {
 			Rule rule = stateSpace.getRules().get(i);
 			actions.append(rule.getName());
-			if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
+			if (!stateSpace.getEqualityHelper().getIdentityTypes().isEmpty()) {
 				actions.append(" : ");
 				List<Node> nodes = ParameterUtil.getParameters(stateSpace,rule);
 				for (int j=0; j<nodes.size(); j++) {
@@ -176,7 +176,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Create type functions:
 		int var=1;
-		if (stateSpace.getEqualityHelper().isUseObjectKeys()) {
+		if (!stateSpace.getEqualityHelper().getIdentityTypes().isEmpty()) {
 			for (Map.Entry<EClass,Set<String>> entry : basicTypeParams.entrySet()) {	
 				
 				String variable = "xyz" + (var++); 
@@ -213,7 +213,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		
 		// Get all relevant types:
 		Set<EClass> types = new LinkedHashSet<EClass>();
-		types.addAll(Arrays.asList(stateSpace.getSupportedTypes()));
+		types.addAll(stateSpace.getEqualityHelper().getIdentityTypes());
 		for (Rule rule : stateSpace.getRules()) {
 			List<Node> params = ParameterUtil.getParameters(stateSpace, rule);
 			for (Node param : params) {
@@ -257,8 +257,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 		int[] params = stateSpace.getAllParameterKeys();
 		
 		// Get the object types and prefixes:
-		EClass[] types = stateSpace.getSupportedTypes();
-		String[] prefixes = stateSpace.getSupportedTypePrefixes();
+		EList<EClass> types = stateSpace.getEqualityHelper().getIdentityTypes();
 		
 		// Now we build the map:
 		Map<EClass,Set<String>> result = new HashMap<EClass,Set<String>>();
@@ -271,7 +270,7 @@ public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 			}
 			
 			// Get the type prefix and the object id:
-			String prefix = ObjectKeyHelper.getObjectTypePrefix(params[i], prefixes);
+			String prefix = ObjectKeyHelper.getObjectTypePrefix(params[i]);
 			int id = ObjectKeyHelper.getObjectID(params[i]);
 			
 			// Construct the name and store it:

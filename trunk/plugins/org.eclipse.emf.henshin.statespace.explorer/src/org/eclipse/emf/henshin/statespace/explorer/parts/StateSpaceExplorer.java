@@ -118,7 +118,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		FigureCanvas canvas = (FigureCanvas) viewer.getControl();
 		
 		// Add the tools menu:
-		toolsMenu = new StateSpaceToolsMenu(sashForm, getEditDomain());
+		toolsMenu = new StateSpaceToolsMenu(sashForm);
 		toolsMenu.setZoomManager(root.getZoomManager());
 		toolsMenu.setCanvas(canvas);
 		if (jobManager!=null) {

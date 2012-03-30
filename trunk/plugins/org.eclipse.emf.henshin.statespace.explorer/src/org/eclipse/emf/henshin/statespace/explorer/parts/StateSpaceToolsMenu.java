@@ -25,9 +25,7 @@ import org.eclipse.draw2d.Viewport;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
@@ -36,7 +34,6 @@ import org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ImportRulesAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.ResetStateSpaceAction;
-import org.eclipse.emf.henshin.statespace.explorer.commands.SetGraphEqualityCommand;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
@@ -47,9 +44,7 @@ import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
-import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -60,7 +55,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -88,9 +82,6 @@ public class StateSpaceToolsMenu extends Composite {
 	
 	public static final int NATURAL_LENGTH = 25;
 	
-	// Edit domain:
-	private EditDomain editDomain;
-	
 	// State space job manager:
 	private StateSpaceJobManager jobManager;
 
@@ -113,10 +104,6 @@ public class StateSpaceToolsMenu extends Composite {
 	private Scale repulsionScale;
 	private Scale attractionScale;
 	
-	// Check boxes:
-	private Button useObjectKeysCheckbox;
-	private Button useObjectAttributesCheckbox;
-
 	// Links:
 	private Link layouterLink;
 	private Link explorerLink;
@@ -126,10 +113,6 @@ public class StateSpaceToolsMenu extends Composite {
 	private Link exportLink;
 	private Link propertiesLink;
 	
-	// Radio-buttons:
-	private Button ecoreButton;
-	private Button graphButton;
-
 	// Normal buttons:
 	private Button validateButton;
 	
@@ -150,9 +133,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 * Default constructor
 	 * @param parent Parent composite.
 	 */
-	public StateSpaceToolsMenu(Composite parent, EditDomain editDomain) {
+	public StateSpaceToolsMenu(Composite parent) {
 		super(parent, SWT.NONE);
-		this.editDomain = editDomain;
 		init();
 	}
 	
@@ -171,35 +153,17 @@ public class StateSpaceToolsMenu extends Composite {
 		statesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "States:", "0");
 		transitionsLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Transitions:", "0");
 		rulesLabel = StateSpaceToolsMenuFactory.newDoubleLabel(details, "Rules:", "0");
-		StateSpaceToolsMenuFactory.newLabel(details, "Models:", GridData.HORIZONTAL_ALIGN_END);
-		Composite radioButtons = new Composite(details, SWT.NONE);
-		radioButtons.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout layout = new GridLayout(2,false);
-		layout.marginHeight = layout.marginWidth = 0;
-		radioButtons.setLayout(layout);
-		ecoreButton = new Button(radioButtons, SWT.RADIO);
-		ecoreButton.setText("Ecore");
-		graphButton = new Button(radioButtons, SWT.RADIO);
-		graphButton.setText("Graph");
-		StateSpaceToolsMenuFactory.newLabel(details, "Objects:", GridData.HORIZONTAL_ALIGN_END);
-		Composite checkBoxes = new Composite(details, SWT.NONE);
-		checkBoxes.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		checkBoxes.setLayout(layout);
-		useObjectAttributesCheckbox = new Button(checkBoxes, SWT.CHECK);
-		useObjectAttributesCheckbox.setText("Attributes");
-		useObjectKeysCheckbox = new Button(checkBoxes, SWT.CHECK);
-		useObjectKeysCheckbox.setText("Keys");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, details, "Details", 0);
 		
 		// The tasks group:
 		Composite tasks = StateSpaceToolsMenuFactory.newExpandItemComposite(bar,2);
-		layouterLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start layouter</a>");
+		layouterLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Start layouter</a>");
 		initialStateLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>New initial state</a>");
-		explorerLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Start explorer</a>");
+		explorerLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Start explorer</a>");
 		importLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Import rules</a>");
 		resetLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Reset state space</a>");
 		exportLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Export state space</a>");		
-		propertiesLink = StateSpaceToolsMenuFactory.newLink(tasks, "  <a>Edit properties</a>");
+		propertiesLink = StateSpaceToolsMenuFactory.newLink(tasks, "<a>Edit properties</a>");
 		StateSpaceToolsMenuFactory.newExpandItem(bar, tasks, "Tasks", 1);
 
 		// The display group:
@@ -337,14 +301,9 @@ public class StateSpaceToolsMenu extends Composite {
 			rulesLabel.setText("0");
 		} else {
 			StateSpace stateSpace = jobManager.getStateSpaceManager().getStateSpace();
-			EqualityHelper helper = stateSpace.getEqualityHelper();
-			statesLabel.setText(stateSpace.getStates().size() + " (" + stateSpace.getOpenStates().size() + " open)");
+			statesLabel.setText(stateSpace.getStateCount() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
-			graphButton.setSelection(helper.isUseGraphEquality());
-			ecoreButton.setSelection(!helper.isUseGraphEquality());
-			useObjectKeysCheckbox.setSelection(helper.isUseObjectKeys());
-			useObjectAttributesCheckbox.setSelection(helper.isUseObjectAttributes());
 			hideLabelsButton.setSelection(stateSpace.isLayoutHideLabels());
 		}
 	}
@@ -382,13 +341,9 @@ public class StateSpaceToolsMenu extends Composite {
 		exportLink.setEnabled(enabled);
 		repulsionScale.setEnabled(enabled);
 		attractionScale.setEnabled(enabled);
-		graphButton.setEnabled(enabled);
-		ecoreButton.setEnabled(enabled);
 		validateButton.setEnabled(enabled);
 		validatorCombo.setEnabled(enabled);
 		validationText.setEnabled(enabled);
-		useObjectKeysCheckbox.setEnabled(enabled);
-		useObjectAttributesCheckbox.setEnabled(enabled);
 		hideLabelsButton.setEnabled(enabled);
 	}
 	
@@ -422,34 +377,6 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	public void setExplorer(StateSpaceExplorer explorer) {
 		this.explorer = explorer;
-	}
-	
-	/*
-	 * Change the graph-equality property.
-	 */
-	private void setEqualityType(boolean useGraphEquality, boolean useObjectKeys, boolean useObjectAttributes) {
-		
-		StateSpaceManager manager = jobManager.getStateSpaceManager();
-		EqualityHelper helper = manager.getStateSpace().getEqualityHelper();
-		
-		if (useGraphEquality!=helper.isUseGraphEquality() || 
-			useObjectAttributes!=helper.isUseObjectAttributes() ||
-			useObjectKeys!=helper.isUseObjectKeys()) {
-			
-			StateSpace stateSpace = manager.getStateSpace();
-			boolean confirmed = stateSpace.getStates().size()==stateSpace.getInitialStates().size() ||
-								MessageDialog.openConfirm(getShell(), "Reset required", 
-								"Changing the equality type requires a reset of the state space. Continue?");
-			
-			if (confirmed) {
-				// Execute as command:
-				Command command = new SetGraphEqualityCommand(manager, 
-						useGraphEquality, useObjectKeys, useObjectAttributes);
-				editDomain.getCommandStack().execute(command);
-			}
-			refresh();
-		}
-		
 	}
 	
 	/*
@@ -502,9 +429,6 @@ public class StateSpaceToolsMenu extends Composite {
 		exportLink.addSelectionListener(exportListener);
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
-		graphButton.addSelectionListener(equalityTypeListener);
-		useObjectKeysCheckbox.addSelectionListener(equalityTypeListener);
-		useObjectAttributesCheckbox.addSelectionListener(equalityTypeListener);
 		validateButton.addSelectionListener(validateListener);
 		validationText.addModifyListener(validationTextListener);
 		validatorCombo.addSelectionListener(validatorComboListener);
@@ -534,9 +458,6 @@ public class StateSpaceToolsMenu extends Composite {
 		repulsionScale.removeSelectionListener(layouterScaleListener);
 		attractionScale.removeSelectionListener(layouterScaleListener);
 		zoomScale.removeSelectionListener(zoomListener);
-		graphButton.removeSelectionListener(equalityTypeListener);
-		useObjectKeysCheckbox.removeSelectionListener(equalityTypeListener);
-		useObjectAttributesCheckbox.removeSelectionListener(equalityTypeListener);
 		initialStateLink.removeSelectionListener(initialStateListener);
 		importLink.removeSelectionListener(importListener);
 		exportLink.removeSelectionListener(exportListener);
@@ -596,20 +517,6 @@ public class StateSpaceToolsMenu extends Composite {
 		}
 	};
 	
-	/*
-	 * Selection listener for graph equality radio buttons.
-	 */
-	private SelectionListener equalityTypeListener = new SelectionListener() {
-		public void widgetSelected(SelectionEvent e) {
-			setEqualityType(graphButton.getSelection(), 
-					useObjectKeysCheckbox.getSelection(),
-					useObjectAttributesCheckbox.getSelection());
-		}
-		public void widgetDefaultSelected(SelectionEvent e) {
-			widgetSelected(e);
-		}
-	};
-
 	/*
 	 * Zoom listener.
 	 */

@@ -13,6 +13,9 @@
  */
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -24,61 +27,40 @@ import org.eclipse.emf.ecore.EObject;
 public interface EqualityHelper extends EObject {
 	
 	/**
-	 * Check whether graph equality should be used.
-	 * @return the value of the '<em>Use Graph Equality</em>' attribute.
-	 * @see #setUseGraphEquality(boolean)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateEqualityHelper_UseGraphEquality()
-	 * @model default="true"
-	 * @generated
-	 */
-	boolean isUseGraphEquality();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}' attribute.
-	 * @param value the new value of the '<em>Use Graph Equality</em>' attribute.
-	 * @see #isUseGraphEquality()
-	 * @generated
-	 */
-	void setUseGraphEquality(boolean value);
-
-	/**
-	 * Check whether object keys should be used.
-	 * @model default="false"
-	 * @generated
-	 */
-	boolean isUseObjectKeys();
-
-	/**
-	 * Set whether object keys should be used.
-	 * @param useObjectKeys the new value of the '<em>Use Object Keys</em>' attribute.
-	 * @see #isUseObjectKeys()
-	 * @generated
-	 */
-	void setUseObjectKeys(boolean value);
-
-	/**
-	 * Check whether this helper uses object attributes.
-	 * @return <code>true</code> if it uses attributes.
-	 * @see #setUseObjectAttributes(boolean)
+	 * Returns the value of the '<em><b>Check Link Order</b></em>' attribute.
+	 * @return the value of the '<em>Check Link Order</em>' attribute.
+	 * @see #setCheckLinkOrder(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getEqualityHelper_CheckLinkOrder()
 	 * @model
 	 * @generated
 	 */
-	boolean isUseObjectAttributes();
+	boolean isCheckLinkOrder();
 
 	/**
-	 * Set the ignore-attributes flag.
-	 * @param useObjectAttributes the new value of the '<em>Use Object Attributes</em>' attribute.
-	 * @see #isUseObjectAttributes()
+	 * Returns the value of the '<em><b>Ignored Attributes</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
+	 * @return the value of the '<em>Ignored Attributes</em>' reference list.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getEqualityHelper_IgnoredAttributes()
+	 * @model required="true" transient="true" changeable="false"
 	 * @generated
 	 */
-	void setUseObjectAttributes(boolean value);
+	EList<EAttribute> getIgnoredAttributes();
 
 	/**
-	 * Generate a hash code of a state model.
+	 * Returns the value of the '<em><b>Identity Types</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EClass}.
+	 * @return the value of the '<em>Identity Types</em>' reference list.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getEqualityHelper_IdentityTypes()
+	 * @model required="true" transient="true" changeable="false"
+	 * @generated
+	 */
+	EList<EClass> getIdentityTypes();
+
+	/**
 	 * @model
 	 * @generated
 	 */
-	int hashCode(Model model);
+	void setStateSpace(StateSpace stateSpace);
 
 	/**
 	 * Clear all caches.
@@ -86,6 +68,13 @@ public interface EqualityHelper extends EObject {
 	 * @generated
 	 */
 	void clearCache();
+
+	/**
+	 * Generate a hash code of a state model.
+	 * @model
+	 * @generated
+	 */
+	int hashCode(Model model);
 
 	/**
 	 * Check whether two state models are equal.

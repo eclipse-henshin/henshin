@@ -19,9 +19,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.impl.ModelImpl;
 
@@ -52,21 +52,18 @@ public class StateSpaceDeserializer {
 		if (marker!=StateSpaceSerializer.MARKER) throw new IOException("State space file marker not found"); // Marker
 		
 		int version = readShort(); // Version number
-		if (version<0 || version>2) throw new IOException("Unsupported format version: " + version);
+		if (version<0 || version>3) {
+			throw new IOException("Unsupported format version: " + version);
+		}
 		
-		int equalityType = readShort(); // Equality type
-		EqualityHelper helper = StateSpaceFactory.eINSTANCE.createEqualityHelper();
-		helper.setUseGraphEquality((equalityType & 1)==1);
-		
-		// In version 2, "ignore" attributes changed to "use":
-		if (version>=2) {
-			helper.setUseObjectAttributes((equalityType & 2)==2);
-			helper.setUseObjectKeys((equalityType & 4)==4);	
-		} else {
-			helper.setUseObjectAttributes((equalityType & 2)==0);
-			helper.setUseObjectKeys((equalityType & 4)==0);
-		}		
-		stateSpace.setEqualityHelper(helper);
+		// Before version 3, the equality type was set here:
+		if (version<3) {
+			int equalityType = readShort(); // Equality type
+			boolean useGraphEquality = (equalityType & 1)==1;
+			if (!useGraphEquality) {
+				stateSpace.getProperties().put(StateSpaceProperties.CHECK_LINK_ORDER, "true");
+			}			
+		}
 		
 		int ruleCount = readShort(); // Rule count
 		int stateCount = readInt(); // State count
@@ -111,9 +108,7 @@ public class StateSpaceDeserializer {
 				Resource contents = resource.getResourceSet().getResource(resolved,true);
 				contents.setURI(uri);
 				Model model = new ModelImpl(contents);
-				if (helper.isUseObjectKeys()) {
-					model.setObjectKeys(state.getObjectKeys());
-				}
+				model.setObjectKeys(state.getObjectKeys());
 				state.setModel(model);
 				
 				// Add it to the list of initial states:
@@ -145,8 +140,8 @@ public class StateSpaceDeserializer {
 		// Update transition count:
 		stateSpace.setTransitionCount(transitionCount);
 		
-		// Update the object types:
-		stateSpace.updateSupportedTypes();
+		// Update the equality helper:
+		stateSpace.updateEqualityHelper();
 		
 		// We expect EOF now:
 		if (in.read()>=0) {

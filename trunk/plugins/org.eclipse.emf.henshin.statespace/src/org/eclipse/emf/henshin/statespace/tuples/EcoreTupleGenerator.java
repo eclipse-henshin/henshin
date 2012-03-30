@@ -13,12 +13,11 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.tuples.EcoreColumnSorter.ColumnInfo;
-import org.eclipse.emf.henshin.statespace.tuples.EcoreColumnSorter.ColumnType;
 
 /**
  * Ecore-based tuple generator.
@@ -67,6 +66,7 @@ public class EcoreTupleGenerator implements TupleGenerator {
 	public Tuple createTuple(State state) throws StateSpaceException {
 		
 		Model model = stateSpaceIndex.getModel(state);
+		EqualityHelper equalityHelper = stateSpaceIndex.getStateSpace().getEqualityHelper();
 		
 		// Paste the model contents into the cached layers:
 		Object[] rootLayer = model.getResource().getContents().toArray();
@@ -93,9 +93,6 @@ public class EcoreTupleGenerator implements TupleGenerator {
 			}
 		}
 		
-		// Column sorter:
-		EcoreColumnSorter sorter = new EcoreColumnSorter();
-		
 		// Now we can construct the tuple:
 		Tuple tuple = new Tuple(tupleSize);
 		int[] data = tuple.data();
@@ -108,34 +105,26 @@ public class EcoreTupleGenerator implements TupleGenerator {
 				if (obj==null) continue;
 				EClass type = obj.eClass();
 				
-				// -----------------------------------------
-				//if (!type.getName().startsWith("Phil")) {
-				//	node++;
-				//	continue;
-				//}
-				// -----------------------------------------
-				
 				// Paste its data into the tuple:
 				int pos = node * maxObjectSize;
 				
 				// Object type:
-				data[pos] = usedTypes.indexOf(type);
-				sorter.setColumnInfo(pos, new ColumnInfo(ColumnType.TYPE, y, x, 0));
-				pos++;
+				data[pos++] = usedTypes.indexOf(type);
 				
 				// Attributes:
 				for (EAttribute att : type.getEAllAttributes()) {
+					if (equalityHelper.getIgnoredAttributes().contains(att)) {
+						continue;
+					}
 					if (att.isMany() || !SUPPORTED_ATTRIBUTE_TYPES.contains(att.getEAttributeType())) {
 						throw new StateSpaceException("Unsupported attribute: " + att.getName());
 					}
 					Object value = obj.eGet(att);
 					if (value instanceof Integer) {
-						data[pos] = (Integer) value;
+						data[pos++] = (Integer) value;
 					} else {
-						data[pos] = ((Boolean) value) ? 1 : 0;						
+						data[pos++] = ((Boolean) value) ? 1 : 0;						
 					}
-					sorter.setColumnInfo(pos, new ColumnInfo(ColumnType.ATTRIBUTE, y, x, 0));
-					pos++;
 				}
 				
 				// Links:
@@ -174,6 +163,8 @@ public class EcoreTupleGenerator implements TupleGenerator {
 		
 		monitor.beginTask("Initialize tuple generator", index.getStateSpace().getStates().size());
 		stateSpaceIndex = index;
+		EqualityHelper equalityHelper = index.getStateSpace().getEqualityHelper();
+
 		usedTypes = new ArrayList<EClass>();
 		maxLocalWidths = new int[0];
 		maxLinks = new HashMap<EReference,Integer>();
@@ -197,8 +188,15 @@ public class EcoreTupleGenerator implements TupleGenerator {
 		maxObjectSize = 0;
 		for (EClass type : usedTypes) {
 			
-			// 1 to store the type, and 1 for each attribute:
-			int space = 1 + type.getEAllAttributes().size();
+			// 1 to store the type:, and 1 for each attribute:
+			int space = 1;
+			
+			// One for every attribute that is not ignored:
+			for (EAttribute attribute : type.getEAllAttributes()) {
+				if (!equalityHelper.getIgnoredAttributes().contains(attribute)) {
+					space++;
+				}
+			}
 			
 			// Add maximum link counts for all references:
 			for (EReference ref : type.getEAllReferences()) {

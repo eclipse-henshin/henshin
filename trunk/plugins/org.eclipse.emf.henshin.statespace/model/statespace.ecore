@@ -7,7 +7,7 @@
     <eOperations name="removeState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="state" eType="#//State"/>
     </eOperations>
-    <eOperations name="updateSupportedTypes"/>
+    <eOperations name="updateEqualityHelper"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
@@ -35,10 +35,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supportedTypes" eType="#//EClassArray"
-        changeable="false" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supportedTypePrefixes"
-        eType="#//StringArray" changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="allParameterKeys" eType="#//IntegerArray"
         changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
@@ -72,7 +68,7 @@
       <eParameters name="match" eType="#//Match"/>
     </eOperations>
     <eOperations name="updateObjectKeys" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="supportedTypes" eType="#//EClassArray"/>
+      <eParameters name="identityTypes" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eOperations>
     <eOperations name="collectMissingRootObjects"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
@@ -108,13 +104,18 @@
     <eOperations name="hashCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eParameters name="model" eType="#//Model"/>
     </eOperations>
+    <eOperations name="setStateSpace">
+      <eParameters name="stateSpace" eType="#//StateSpace"/>
+    </eOperations>
     <eOperations name="clearCache"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useGraphEquality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useObjectKeys" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useObjectAttributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkLinkOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ignoredAttributes" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"
+        changeable="false" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="identityTypes" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"
+        changeable="false" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Storage">
     <eOperations name="getData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
@@ -145,7 +146,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
   <eClassifiers xsi:type="ecore:EDataType" name="StringArray" instanceClassName="java.lang.String[]"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="EClassArray" instanceClassName="org.eclipse.emf.ecore.EClass[]"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.util.Match"/>
   <eClassifiers xsi:type="ecore:EDataType" name="EmfGraph" instanceClassName="org.eclipse.emf.henshin.matching.EmfGraph"/>
 </ecore:EPackage>

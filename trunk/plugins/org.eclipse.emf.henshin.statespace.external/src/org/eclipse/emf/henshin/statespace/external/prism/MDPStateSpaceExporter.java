@@ -17,7 +17,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.external.AbstractStateSpaceExporter;
 import org.eclipse.emf.henshin.statespace.external.prism.PRISMUtil.Range;
 import org.eclipse.emf.henshin.statespace.tuples.EcoreTupleGenerator;
-import org.eclipse.emf.henshin.statespace.tuples.SimpleTupleGenerator;
 import org.eclipse.emf.henshin.statespace.tuples.Tuple;
 import org.eclipse.emf.henshin.statespace.tuples.TupleUtil;
 
@@ -41,7 +40,7 @@ public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 		boolean explicit = "tra".equalsIgnoreCase(uri.fileExtension());
 		
 		// Generate the tuples:
-		tuples = TupleUtil.generateTuples(new SimpleTupleGenerator(), index, true, new SubProgressMonitor(monitor,stateCount));
+		tuples = TupleUtil.generateTuples(new EcoreTupleGenerator(), index, true, new SubProgressMonitor(monitor,stateCount));
 
 		// Get the probabilistic rules:
 		Map<String, List<Rule>> probRules = PRISMUtil.getProbabilisticRules(stateSpace);

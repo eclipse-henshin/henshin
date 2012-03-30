@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 
 /**
@@ -16,28 +17,17 @@ class TotalHashCodeHelper {
 	// The first 10 prime numbers.
 	private static final int[] PRIMES = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
 
-	// Flags:
-	private boolean useGraphEquality;
-	private boolean useObjectKeys;
-	private boolean useObjectAttributes;
+	// Equality helper:
+	private EqualityHelper equalityHelper;
 	
 	// Cached context hash codes:
 	private ContextHashCodeHelper contextHashCodes;
 	
 	/**
 	 * Default constructor.
-	 * @param useGraphEquality 
-	 * @param useObjectKeys
-	 * @param useObjectAttributes
 	 */
-	TotalHashCodeHelper(
-			boolean useGraphEquality,
-			boolean useObjectKeys, 
-			boolean useObjectAttributes) {
-		
-		this.useGraphEquality = useGraphEquality;
-		this.useObjectKeys = useObjectKeys;
-		this.useObjectAttributes = useObjectAttributes;
+	TotalHashCodeHelper(EqualityHelper helper) {
+		this.equalityHelper = helper;
 	}
 	
 	/**
@@ -46,8 +36,7 @@ class TotalHashCodeHelper {
 	public int hashCode(Model model) {
 
 		// Compute the context hash codes:
-		contextHashCodes = new ContextHashCodeHelper(model,
-				useGraphEquality, useObjectKeys, useObjectAttributes);
+		contextHashCodes = new ContextHashCodeHelper(model, equalityHelper);
 		
 		// Compute the total hash code:
 		int result = totalHashCode(null, model.getResource().getContents(), 0);
@@ -109,7 +98,7 @@ class TotalHashCodeHelper {
 	protected int listHashCode(int[] hashCodes, int depth) {
 		int hash = 0;
 		for (int i=0; i<hashCodes.length; i++) {
-			if (!useGraphEquality) {
+			if (equalityHelper.isCheckLinkOrder()) {
 				hash *= PRIMES[depth % PRIMES.length];
 			}
 			hash += hashCodes[i];

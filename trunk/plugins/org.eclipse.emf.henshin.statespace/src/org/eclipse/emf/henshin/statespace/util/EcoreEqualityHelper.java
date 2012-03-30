@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.statespace.util;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 
 /**
@@ -16,25 +17,17 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	// Default serial ID:
 	private static final long serialVersionUID = 1L;
 
-	// Whether object keys should be used:
-	private boolean useObjectKeys;
-
-	// Whether attributes should be used:
-	private boolean useObjectAttributes;
+	// State equality helper:
+	private EqualityHelper equalityHelper;
 
 	// Cached models to be compared.
 	private Model model1, model2;
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param useObjectKeys Whether object keys should be used.
-	 * @param useObjectAttributes Whether attributes should be used.
 	 */
-	public EcoreEqualityHelper(boolean useObjectKeys,
-			boolean useObjectAttributes) {
-		this.useObjectKeys = useObjectKeys;
-		this.useObjectAttributes = useObjectAttributes;
+	public EcoreEqualityHelper(EqualityHelper equalityHelper) {
+		this.equalityHelper = equalityHelper;
 	}
 
 	/**
@@ -69,7 +62,7 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	 */
 	@Override
 	public boolean equals(EObject o1, EObject o2) {
-		if (useObjectKeys) {
+		if (o1!=null && equalityHelper.getIdentityTypes().contains(o1.eClass())) {
 			int key1 = model1.getObjectKeysMap().get(o1);
 			int key2 = model2.getObjectKeysMap().get(o2);
 			if (key1!=key2) {
@@ -85,7 +78,8 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	 */
 	@Override
 	protected boolean haveEqualAttribute(EObject o1, EObject o2, EAttribute attribute) {
-		return (!useObjectAttributes || super.haveEqualAttribute(o1, o2, attribute));
+		return (equalityHelper.getIgnoredAttributes().contains(attribute) ||
+				super.haveEqualAttribute(o1, o2, attribute));
 	}
 
 }

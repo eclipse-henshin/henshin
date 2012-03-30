@@ -254,7 +254,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		}
 
 		// Set the object keys if necessary:
-		if (getStateSpace().getEqualityHelper().isUseObjectKeys()) {
+		if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
 			model.setObjectKeys(trace.getTarget().getObjectKeys());
 		}
 
@@ -396,7 +396,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		matchEngine.setEmfGraph(model.getEmfGraph());
 
 		// Get some important state space parameters:
-		boolean useObjectKeys = getStateSpace().getEqualityHelper().isUseObjectKeys();
+		boolean useObjectKeys = !getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty();
 		
 		// List of explored transitions.
 		List<Transition> transitions = new ArrayList<Transition>();
@@ -432,7 +432,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 				
 				// Update object keys if necessary:
 				if (useObjectKeys) {
-					transformed.updateObjectKeys(getStateSpace().getSupportedTypes());
+					transformed.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
 					int[] objectKeys = transformed.getObjectKeys();
 					newState.setObjectKeys(objectKeys);
 					newState.setObjectCount(objectKeys.length);
@@ -460,7 +460,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 						}
 						int objectKey = transformed.getObjectKeysMap().get(matched);
 						params[p] = ObjectKeyHelper.createObjectKey(
-								matched.eClass(), objectKey, getStateSpace().getSupportedTypes());
+								matched.eClass(), 
+								objectKey, 
+								getStateSpace().getEqualityHelper().getIdentityTypes());
 					}
 					newTransition.setParameterKeys(params);
 					newTransition.setParameterCount(params.length);

@@ -56,8 +56,8 @@ public class GraphIsomorphyChecker {
 	// Number of links in the source graph:
 	private int linkCount;
 	
-	// Flag indicating whether attribute values should be used:
-	private final boolean useAttributes;
+	// Ignored attributes:
+	private final List<EAttribute> ignoredAttributes;
 	
 	// Object variables map:
 	private Map<EObject, Variable> variablesMap;
@@ -70,9 +70,9 @@ public class GraphIsomorphyChecker {
 	 * @param source Source graph.
 	 * @param useAttributes Flag indicating whether attribute values should be used.
 	 */
-	public GraphIsomorphyChecker(final EmfGraph source, boolean useAttributes) {
+	public GraphIsomorphyChecker(final EmfGraph source, List<EAttribute> ignoredAttributes) {
 		this.source = source;
-		this.useAttributes = useAttributes;
+		this.ignoredAttributes = ignoredAttributes;
 		this.linkCount = computeLinkCount(source);
 		initVariables();
 	}
@@ -100,8 +100,8 @@ public class GraphIsomorphyChecker {
 			Variable variable = entry.getValue();
 			
 			// Create attribute constraints if necessary:
-			if (useAttributes) {
-				for (EAttribute attr : object.eClass().getEAllAttributes()) {
+			for (EAttribute attr : object.eClass().getEAllAttributes()) {
+				if (!ignoredAttributes.contains(attr)) {
 					variable.addConstraint(new AttributeConstraint(attr, object.eGet(attr)));
 				}
 			}

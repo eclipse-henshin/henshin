@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
@@ -172,7 +173,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public boolean updateObjectKeys(EClass[] supportedTypes) {
+	public boolean updateObjectKeys(EList<EClass> identityTypes) {
 
 		// Make sure the object keys map is not null.
 		getObjectKeysMap();
@@ -188,27 +189,17 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		while (iterator.hasNext()) {
 			EObject object = iterator.next();
 				
-			// Check if the current object type is supported:
-			EClass type = object.eClass();
-			boolean isSupported = false;
-			for (int i=0; i<supportedTypes.length; i++) {
-				if (supportedTypes[i]==type) {
-					isSupported = true;
-					break;
-				}
-			}
-			
 			// Get the current Id:
 			int currentId = ObjectKeyHelper.getObjectID(objectKeysMap.get(object));
 			
 			// Check if we need to create or change the key:
-			if (currentId==0 && isSupported) {
+			if (currentId==0 && identityTypes.contains(object.eClass())) {
 				//System.out.println("Creating object id " + nextFreeId + " for object of type " + object.eClass().getName());
-				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeId++, supportedTypes);
+				int objectKey = ObjectKeyHelper.createObjectKey(object.eClass(), nextFreeId++, identityTypes);
 				objectKeysMap.put(object, objectKey);
 				changed = true;
 			}
-			else if (currentId!=0 && !isSupported) {
+			else if (currentId!=0 && !identityTypes.contains(object.eClass())) {
 				//System.out.println("Removing illegal object id for object of type " + object.eClass().getName());
 				objectKeysMap.remove(object);
 				changed = true;

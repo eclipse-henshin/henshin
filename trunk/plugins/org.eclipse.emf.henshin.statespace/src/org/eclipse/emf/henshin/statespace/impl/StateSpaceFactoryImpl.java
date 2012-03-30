@@ -98,8 +98,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return createIntegerArrayFromString(eDataType, initialValue);
 			case StateSpacePackage.STRING_ARRAY:
 				return createStringArrayFromString(eDataType, initialValue);
-			case StateSpacePackage.ECLASS_ARRAY:
-				return createEClassArrayFromString(eDataType, initialValue);
 			case StateSpacePackage.MATCH:
 				return createMatchFromString(eDataType, initialValue);
 			case StateSpacePackage.EMF_GRAPH:
@@ -121,8 +119,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return convertIntegerArrayToString(eDataType, instanceValue);
 			case StateSpacePackage.STRING_ARRAY:
 				return convertStringArrayToString(eDataType, instanceValue);
-			case StateSpacePackage.ECLASS_ARRAY:
-				return convertEClassArrayToString(eDataType, instanceValue);
 			case StateSpacePackage.MATCH:
 				return convertMatchToString(eDataType, instanceValue);
 			case StateSpacePackage.EMF_GRAPH:
@@ -265,24 +261,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * @generated
 	 */
 	public String convertStringArrayToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass[] createEClassArrayFromString(EDataType eDataType, String initialValue) {
-		return (EClass[])super.createFromString(initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertEClassArrayToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(instanceValue);
 	}
 

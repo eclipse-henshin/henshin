@@ -11,10 +11,8 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -22,8 +20,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -34,15 +30,13 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
+import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
 /**
  * Concrete implementation of the {@link State} interface.
@@ -56,6 +50,11 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 */
 	protected StateSpaceImpl() {
 		super();
+		
+		// Default properties:
+		getProperties().put(StateSpaceProperties.CHECK_LINK_ORDER, "false");
+		getProperties().put(StateSpaceProperties.IDENTITY_TYPES, "");
+		getProperties().put(StateSpaceProperties.IGNORED_ATTRIBUTES, "");
 		
 		// Create a default equality helper:
 		setEqualityHelper(StateSpaceFactory.eINSTANCE.createEqualityHelper());
@@ -131,73 +130,12 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
-	public void updateSupportedTypes() {
-		
-		// Get the list of supported rules:
-		List<Rule> rules = getRules();
-		
-		// Get all relevant parameter types:
-		Set<EClass> parameterTypes = new LinkedHashSet<EClass>();
-		for (Rule rule : rules) {
-			try {
-				parameterTypes.addAll(ParameterUtil.getParameterTypes(this, rule));
-			} catch (StateSpaceException e) {
-				throw new RuntimeException(e);
-			}
-		}		
-		
-		// Compute the list of supported object types:
-		List<EClass> types = new ArrayList<EClass>();
-		for (Rule rule : rules) {
-			
-			// Get the transformation system:
-			TransformationSystem system = rule.getTransformationSystem();
-			if (system==null) {
-				continue;
-			}
-			
-			// Get the imported packages and their classes:
-			for (EPackage epackage : system.getImports()) {
-				for (EClassifier eclassifier : epackage.getEClassifiers()) {
-					if (eclassifier instanceof EClass) {
-						EClass eclass = (EClass) eclassifier;
-						
-						// Check if it is a parameter type:
-						boolean isParameterType = false;
-						for (EClass paramType : parameterTypes) {
-							if (paramType.isSuperTypeOf(eclass) || eclass.isSuperTypeOf(paramType)) {
-								isParameterType = true;
-								break;
-							}
-						}
-						
-						// Abstract classes and interfaces are not supported as object types!
-						if (isParameterType && !eclass.isAbstract() && !eclass.isInterface() && !types.contains(eclass)) {
-							types.add(eclass);
-						}
-					}
-				}
-			}
+	public void updateEqualityHelper() {
+		if (equalityHelper==null) {
+			equalityHelper = new EqualityHelperImpl();
 		}
-		
-		// Compute the prefixes for these types:
-		List<String> prefixes = new ArrayList<String>(types.size());
-		for (EClass type : types) {
-			char prefix = Character.toLowerCase(type.getName().charAt(0));
-			while (prefixes.contains(String.valueOf(prefix))) {
-				if (prefix=='z') {
-					prefix = 'a';
-				} else {
-					prefix++;
-				}
-			}
-			prefixes.add(String.valueOf(prefix));
-		}
-		
-		// Now we can update the state space attributes:
-		supportedTypes = types.toArray(new EClass[0]);
-		supportedTypePrefixes = prefixes.toArray(new String[0]);
-
+		equalityHelper.setStateSpace(this);
+		equalityHelper.clearCache();
 	}
 
 	/**
@@ -470,49 +408,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	protected EMap<String, String> properties;
 
 	/**
-	 * The default value of the '{@link #getSupportedTypes() <em>Supported Types</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSupportedTypes()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final EClass[] SUPPORTED_TYPES_EDEFAULT = null;
-
-
-	/**
-	 * The cached value of the '{@link #getSupportedTypes() <em>Supported Types</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSupportedTypes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EClass[] supportedTypes = SUPPORTED_TYPES_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getSupportedTypePrefixes() <em>Supported Type Prefixes</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSupportedTypePrefixes()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String[] SUPPORTED_TYPE_PREFIXES_EDEFAULT = null;
-
-
-	/**
-	 * The cached value of the '{@link #getSupportedTypePrefixes() <em>Supported Type Prefixes</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSupportedTypePrefixes()
-	 * @generated
-	 * @ordered
-	 */
-	protected String[] supportedTypePrefixes = SUPPORTED_TYPE_PREFIXES_EDEFAULT;
-
-
-	/**
 	 * The default value of the '{@link #getAllParameterKeys() <em>All Parameter Keys</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -609,24 +504,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass[] getSupportedTypes() {
-		return supportedTypes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String[] getSupportedTypePrefixes() {
-		return supportedTypePrefixes;
-	}
-
-	/**
 	 * @generated
 	 */
 	public NotificationChain basicSetEqualityHelper(EqualityHelper newEqualityHelper, NotificationChain msgs) {
@@ -718,10 +595,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				if (coreType) return getProperties();
 				else return getProperties().map();
-			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPES:
-				return getSupportedTypes();
-			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPE_PREFIXES:
-				return getSupportedTypePrefixes();
 			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_KEYS:
 				return getAllParameterKeys();
 		}
@@ -857,10 +730,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getMaxStateDistance() != MAX_STATE_DISTANCE_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
 				return properties != null && !properties.isEmpty();
-			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPES:
-				return SUPPORTED_TYPES_EDEFAULT == null ? supportedTypes != null : !SUPPORTED_TYPES_EDEFAULT.equals(supportedTypes);
-			case StateSpacePackage.STATE_SPACE__SUPPORTED_TYPE_PREFIXES:
-				return SUPPORTED_TYPE_PREFIXES_EDEFAULT == null ? supportedTypePrefixes != null : !SUPPORTED_TYPE_PREFIXES_EDEFAULT.equals(supportedTypePrefixes);
 			case StateSpacePackage.STATE_SPACE__ALL_PARAMETER_KEYS:
 				return ALL_PARAMETER_KEYS_EDEFAULT == null ? getAllParameterKeys() != null : !ALL_PARAMETER_KEYS_EDEFAULT.equals(getAllParameterKeys());
 		}
@@ -879,10 +748,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (transitionCount: ");
 		result.append(transitionCount);
-		result.append(", supportedTypes: ");
-		result.append(supportedTypes);
-		result.append(", supportedTypePrefixes: ");
-		result.append(supportedTypePrefixes);
 		result.append(')');
 		return result.toString();
 	}

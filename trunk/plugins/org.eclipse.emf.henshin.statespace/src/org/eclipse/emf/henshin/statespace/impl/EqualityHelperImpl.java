@@ -17,22 +17,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
-import org.eclipse.emf.henshin.statespace.Model;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
+import org.eclipse.emf.henshin.statespace.Model;
+import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
 
 /**
  * Default implementation of {@link EqualityHelper}.
- * 
  * @generated
  */
 public class EqualityHelperImpl extends MinimalEObjectImpl.Container
@@ -46,8 +51,61 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated NOT
 	 */
 	public int hashCode(Model model) {
-		return StateSpaceHashCodeUtil.computeHashCode(model, 
-				useGraphEquality, useObjectKeys, useObjectAttributes);
+		return StateSpaceHashCodeUtil.computeHashCode(model, this);
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setStateSpace(StateSpace stateSpace) {
+		
+		// Check link order?
+		String linkOrder = stateSpace.getProperties().get(StateSpaceProperties.CHECK_LINK_ORDER);
+		checkLinkOrder = "true".equalsIgnoreCase(linkOrder) || "yes".equalsIgnoreCase(linkOrder);
+		
+		// Gather all known types and attributes:
+		Map<String,EClass> allTypes = new HashMap<String,EClass>();
+		Map<String,EAttribute> allAttrs = new HashMap<String,EAttribute>();
+		for (Rule rule : stateSpace.getRules()) {
+			for (EPackage pack : rule.getTransformationSystem().getImports()) {
+				for (EClassifier type : pack.getEClassifiers()) {
+					if (type instanceof EClass) {
+						allTypes.put(type.getName(), (EClass) type);
+						for (EAttribute att : ((EClass) type).getEAllAttributes()) {
+							allAttrs.put(type.getName() + "." + att.getName(), att);
+						}
+					}
+				}
+			}
+		}
+		
+		// Identity types:
+		getIdentityTypes().clear();
+		String typeNames = stateSpace.getProperties().get(StateSpaceProperties.IDENTITY_TYPES);
+		if (typeNames!=null) {
+			for (String name : typeNames.split(",")) {
+				EClass type = allTypes.get(name.trim());
+				if (type!=null) {
+					identityTypes.add(type);
+				}
+			}
+		}
+		
+		// Ignored attributes:
+		getIgnoredAttributes().clear();
+		String attrNames = stateSpace.getProperties().get(StateSpaceProperties.IGNORED_ATTRIBUTES);
+		if (attrNames!=null) {
+			for (String name : attrNames.split(",")) {
+				EAttribute attr = allAttrs.get(name.trim());
+				if (attr!=null) {
+					ignoredAttributes.add(attr);
+				}
+			}
+		}
+		
+		// Clear the cache!!!
+		clearCache();
+		
 	}
 
 	/**
@@ -61,7 +119,12 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 		}
 		
 		// Graph equality?
-		if (useGraphEquality) {
+		if (checkLinkOrder) {
+			
+			// Use standard Ecore equality checker:
+			return new EcoreEqualityHelper(this).equals(model1, model2);
+
+		} else {
 			
 			// Get the isomorphy checker for the first model:
 			GraphIsomorphyChecker checker1 = isomorphyCheckerCache.get(model1);
@@ -79,17 +142,20 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 			// Create a new isomorphy checker if required:
 			if (checker1==null) {
-				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), useObjectAttributes);
+				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), getIgnoredAttributes());
 				isomorphyCheckerCache.put(model1, checker1);
 			}
 			
-			// Do we need to compute a match for the node IDs?
+			// Do we need to compute a match for the object identities?
 			Map<EObject,EObject> match = null;
-			if (useObjectKeys) {
+			if (!getIdentityTypes().isEmpty()) {
 				
 				// Precompute a partial match:
 				match = new HashMap<EObject,EObject>();
 				for (Map.Entry<EObject, Integer> entry1 : model1.getObjectKeysMap().entrySet()) {
+					if (!identityTypes.contains(entry1.getKey().eClass())) {
+						continue;
+					}
 					int objectKey = entry1.getValue();
 					if (objectKey!=0) {
 						boolean found = false;
@@ -110,33 +176,10 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 			// Now we can invoke the checker:
 			return checker1.isIsomorphicTo(model2.getEmfGraph(), match);
 
-		} else {
-			
-			// Use standard Ecore equality checker:
-			return new EcoreEqualityHelper(
-					useObjectKeys, 
-					useObjectAttributes).equals(model1, model2);
-			
 		}
 		
 	}
 	
-	/**
-	 * @generated NOT
-	 */
-	public void setUseGraphEquality(boolean useGraphEquality) {
-		setUseGraphEqualityGen(useGraphEquality);
-		isomorphyCheckerCache.clear();
-	}
-
-	/**
-	 * @generated NOT
-	 */
-	public void setUseObjectAttributes(boolean useObjectAttributes) {
-		setUseObjectAttributesGen(useObjectAttributes);
-		isomorphyCheckerCache.clear();
-	}
-
 	/**
 	 * @generated NOT
 	 */
@@ -152,64 +195,44 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	 */
 
 	/**
-	 * The default value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * The default value of the '{@link #isCheckLinkOrder() <em>Check Link Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseGraphEquality()
+	 * @see #isCheckLinkOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean USE_GRAPH_EQUALITY_EDEFAULT = true;
+	protected static final boolean CHECK_LINK_ORDER_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUseGraphEquality() <em>Use Graph Equality</em>}' attribute.
+	 * The cached value of the '{@link #isCheckLinkOrder() <em>Check Link Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseGraphEquality()
+	 * @see #isCheckLinkOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean useGraphEquality = USE_GRAPH_EQUALITY_EDEFAULT;
+	protected boolean checkLinkOrder = CHECK_LINK_ORDER_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isUseObjectKeys() <em>Use Object Keys</em>}' attribute.
+	 * The cached value of the '{@link #getIgnoredAttributes() <em>Ignored Attributes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseObjectKeys()
+	 * @see #getIgnoredAttributes()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean USE_OBJECT_KEYS_EDEFAULT = false;
+	protected EList<EAttribute> ignoredAttributes;
 
 	/**
-	 * The cached value of the '{@link #isUseObjectKeys() <em>Use Object Keys</em>}' attribute.
+	 * The cached value of the '{@link #getIdentityTypes() <em>Identity Types</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isUseObjectKeys()
+	 * @see #getIdentityTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean useObjectKeys = USE_OBJECT_KEYS_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isUseObjectAttributes()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean USE_OBJECT_ATTRIBUTES_EDEFAULT = true;
-
-	/**
-	 * The cached value of the '{@link #isUseObjectAttributes() <em>Use Object Attributes</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isUseObjectAttributes()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean useObjectAttributes = USE_OBJECT_ATTRIBUTES_EDEFAULT;
+	protected EList<EClass> identityTypes;
 
 	/**
 	 * Default constructor.
@@ -228,54 +251,36 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isUseGraphEquality() {
-		return useGraphEquality;
+	public boolean isCheckLinkOrder() {
+		return checkLinkOrder;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUseGraphEqualityGen(boolean newUseGraphEquality) {
-		boolean oldUseGraphEquality = useGraphEquality;
-		useGraphEquality = newUseGraphEquality;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY, oldUseGraphEquality, useGraphEquality));
+	public EList<EAttribute> getIgnoredAttributes() {
+		if (ignoredAttributes == null) {
+			ignoredAttributes = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, StateSpacePackage.EQUALITY_HELPER__IGNORED_ATTRIBUTES);
+		}
+		return ignoredAttributes;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isUseObjectKeys() {
-		return useObjectKeys;
-	}
-
-	/**
-	 * @generated
-	 */
-	public void setUseObjectKeys(boolean newUseObjectKeys) {
-		boolean oldUseObjectKeys = useObjectKeys;
-		useObjectKeys = newUseObjectKeys;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS, oldUseObjectKeys, useObjectKeys));
-	}
-
-	/**
-	 * @generated
-	 */
-	public boolean isUseObjectAttributes() {
-		return useObjectAttributes;
-	}
-
-	/**
-	 * @generated
-	 */
-	public void setUseObjectAttributesGen(boolean newUseObjectAttributes) {
-		boolean oldUseObjectAttributes = useObjectAttributes;
-		useObjectAttributes = newUseObjectAttributes;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES, oldUseObjectAttributes, useObjectAttributes));
+	public EList<EClass> getIdentityTypes() {
+		if (identityTypes == null) {
+			identityTypes = new EObjectResolvingEList<EClass>(EClass.class, this, StateSpacePackage.EQUALITY_HELPER__IDENTITY_TYPES);
+		}
+		return identityTypes;
 	}
 
 	/**
@@ -284,12 +289,12 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
-				return isUseGraphEquality();
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
-				return isUseObjectKeys();
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
-				return isUseObjectAttributes();
+			case StateSpacePackage.EQUALITY_HELPER__CHECK_LINK_ORDER:
+				return isCheckLinkOrder();
+			case StateSpacePackage.EQUALITY_HELPER__IGNORED_ATTRIBUTES:
+				return getIgnoredAttributes();
+			case StateSpacePackage.EQUALITY_HELPER__IDENTITY_TYPES:
+				return getIdentityTypes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -298,52 +303,14 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
-				setUseGraphEquality((Boolean)newValue);
-				return;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
-				setUseObjectKeys((Boolean)newValue);
-				return;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
-				setUseObjectAttributes((Boolean)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
-
-	/**
-	 * @generated
-	 */
-	@Override
-	public void eUnset(int featureID) {
-		switch (featureID) {
-			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
-				setUseGraphEquality(USE_GRAPH_EQUALITY_EDEFAULT);
-				return;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
-				setUseObjectKeys(USE_OBJECT_KEYS_EDEFAULT);
-				return;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
-				setUseObjectAttributes(USE_OBJECT_ATTRIBUTES_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
-
-	/**
-	 * @generated
-	 */
-	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.EQUALITY_HELPER__USE_GRAPH_EQUALITY:
-				return useGraphEquality != USE_GRAPH_EQUALITY_EDEFAULT;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_KEYS:
-				return useObjectKeys != USE_OBJECT_KEYS_EDEFAULT;
-			case StateSpacePackage.EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES:
-				return useObjectAttributes != USE_OBJECT_ATTRIBUTES_EDEFAULT;
+			case StateSpacePackage.EQUALITY_HELPER__CHECK_LINK_ORDER:
+				return checkLinkOrder != CHECK_LINK_ORDER_EDEFAULT;
+			case StateSpacePackage.EQUALITY_HELPER__IGNORED_ATTRIBUTES:
+				return ignoredAttributes != null && !ignoredAttributes.isEmpty();
+			case StateSpacePackage.EQUALITY_HELPER__IDENTITY_TYPES:
+				return identityTypes != null && !identityTypes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -356,12 +323,8 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (useGraphEquality: ");
-		result.append(useGraphEquality);
-		result.append(", useObjectKeys: ");
-		result.append(useObjectKeys);
-		result.append(", useObjectAttributes: ");
-		result.append(useObjectAttributes);
+		result.append(" (checkLinkOrder: ");
+		result.append(checkLinkOrder);
 		result.append(')');
 		return result.toString();
 	}

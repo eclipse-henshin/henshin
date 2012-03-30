@@ -104,8 +104,8 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		// Reset the state distance monitor:
 		resetStateDistanceMonitor();
 		
-		// Update the support object types:
-		stateSpace.updateSupportedTypes();
+		// Update the equality manager:
+		stateSpace.updateEqualityHelper();
 		
 	}
 	
@@ -133,10 +133,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		// We need some info:
 		StateSpace stateSpace = getStateSpace();
 		EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
-		boolean useObjectKeys = equalityHelper.isUseObjectKeys();
 
-		// Update the object types:
-		stateSpace.updateSupportedTypes();
+		// Update the equality helper
+		stateSpace.updateEqualityHelper();
 		
 		// Clear the cache:
 		clearCache();
@@ -155,7 +154,10 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				}
 			}
 			monitor.worked(1);
-			
+
+			// Whether we need to compute keys:
+			boolean useObjectKeys = !equalityHelper.getIdentityTypes().isEmpty();
+
 			// Compute state models, update the hash code and the index:
 			for (State state : stateSpace.getStates()) {
 				
@@ -164,7 +166,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 				
 				// Update the object keys if necessary:
 				if (useObjectKeys) {
-					model.updateObjectKeys(stateSpace.getSupportedTypes());
+					model.updateObjectKeys(equalityHelper.getIdentityTypes());
 					state.setObjectKeys(model.getObjectKeys());
 				}
 				
@@ -297,7 +299,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		}
 		
 		// Set the object keys, if required:
-		if (getStateSpace().getEqualityHelper().isUseObjectKeys()) {
+		if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
 			int[] objectKeys = model.getObjectKeys();
 			state.setObjectKeys(objectKeys);
 			state.setObjectCount(objectKeys.length);
@@ -336,8 +338,8 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 		EcoreUtil.resolveAll(model);
 		
 		// Make sure the objects keys are set:
-		if (getStateSpace().getEqualityHelper().isUseObjectKeys()) {
-			model.updateObjectKeys(getStateSpace().getSupportedTypes());
+		if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
+			model.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
 		}
 		
 		// Compute the hash code of the model:
@@ -424,7 +426,7 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			change = true;
 			
 			// Recompute the supported types:
-			getStateSpace().updateSupportedTypes();
+			getStateSpace().updateEqualityHelper();
 			
 			// Remove all states except the initial ones:
 			getStateSpace().getStates().clear();
@@ -442,7 +444,9 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			for (State initial : getStateSpace().getStates()) {
 				Model model = initial.getModel();
 				model.setObjectKeys(StorageImpl.EMPTY_DATA);
-				model.updateObjectKeys(getStateSpace().getSupportedTypes());
+				if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
+					model.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
+				}
 				initial.setObjectKeys(model.getObjectKeys());
 			}
 

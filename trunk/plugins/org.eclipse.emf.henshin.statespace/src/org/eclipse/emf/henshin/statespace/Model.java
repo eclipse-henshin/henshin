@@ -11,6 +11,8 @@
  */
 package org.eclipse.emf.henshin.statespace;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.common.util.EMap;
 
 import org.eclipse.emf.ecore.EClass;
@@ -93,11 +95,12 @@ public interface Model extends EObject {
 	Model getCopy(Match match);
 
 	/**
-	 * Update the object keys in this model.
-	 * @model
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model identityTypesMany="true"
 	 * @generated
 	 */
-	boolean updateObjectKeys(EClass[] supportedTypes);
+	boolean updateObjectKeys(EList<EClass> identityTypes);
 
 	/**
 	 * Collect missing root objects from the {@link EmfGraph} of this model.

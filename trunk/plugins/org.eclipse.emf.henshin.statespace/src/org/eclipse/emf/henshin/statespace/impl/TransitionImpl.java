@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
-import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
@@ -43,14 +42,12 @@ public class TransitionImpl extends StorageImpl implements Transition {
 		String label = rule.getName();
 		
 		// Any parameters?
-		StateSpace stateSpace = getSource().getStateSpace();
-		if (getParameterCount()>0 && stateSpace!=null) {
+		if (getParameterCount()>0) {
 			label = label + "(";
 			int[] keys = getParameterKeys();
 			for (int i=0; i<keys.length; i++) {
 				label = label + 
-						ObjectKeyHelper.getObjectTypePrefix(keys[i], 
-								stateSpace.getSupportedTypePrefixes()) + 
+						ObjectKeyHelper.getObjectTypePrefix(keys[i]) + 
 						ObjectKeyHelper.getObjectID(keys[i]);
 				if (i<keys.length-1) {
 					label = label + ",";

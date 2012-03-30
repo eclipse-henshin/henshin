@@ -114,13 +114,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType eClassArrayEDataType = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EDataType matchEDataType = null;
 
 	/**
@@ -328,28 +321,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStateSpace_SupportedTypes() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(13);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getStateSpace_SupportedTypePrefixes() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(14);
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getStateSpace_AllParameterKeys() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(15);
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(13);
 	}
 
 
@@ -621,7 +594,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEqualityHelper_UseGraphEquality() {
+	public EAttribute getEqualityHelper_CheckLinkOrder() {
 		return (EAttribute)equalityHelperEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -631,8 +604,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEqualityHelper_UseObjectKeys() {
-		return (EAttribute)equalityHelperEClass.getEStructuralFeatures().get(1);
+	public EReference getEqualityHelper_IgnoredAttributes() {
+		return (EReference)equalityHelperEClass.getEStructuralFeatures().get(1);
 	}
 
 
@@ -641,8 +614,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEqualityHelper_UseObjectAttributes() {
-		return (EAttribute)equalityHelperEClass.getEStructuralFeatures().get(2);
+	public EReference getEqualityHelper_IdentityTypes() {
+		return (EReference)equalityHelperEClass.getEStructuralFeatures().get(2);
 	}
 
 
@@ -721,16 +694,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getEClassArray() {
-		return eClassArrayEDataType;
-	}
-
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EDataType getMatch() {
 		return matchEDataType;
 	}
@@ -788,8 +751,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(stateSpaceEClass, STATE_SPACE__LAYOUT_HIDE_LABELS);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__MAX_STATE_DISTANCE);
 		createEReference(stateSpaceEClass, STATE_SPACE__PROPERTIES);
-		createEAttribute(stateSpaceEClass, STATE_SPACE__SUPPORTED_TYPES);
-		createEAttribute(stateSpaceEClass, STATE_SPACE__SUPPORTED_TYPE_PREFIXES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__ALL_PARAMETER_KEYS);
 
 		stateEClass = createEClass(STATE);
@@ -821,9 +782,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(transitionEClass, TRANSITION__PARAMETER_KEYS);
 
 		equalityHelperEClass = createEClass(EQUALITY_HELPER);
-		createEAttribute(equalityHelperEClass, EQUALITY_HELPER__USE_GRAPH_EQUALITY);
-		createEAttribute(equalityHelperEClass, EQUALITY_HELPER__USE_OBJECT_KEYS);
-		createEAttribute(equalityHelperEClass, EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES);
+		createEAttribute(equalityHelperEClass, EQUALITY_HELPER__CHECK_LINK_ORDER);
+		createEReference(equalityHelperEClass, EQUALITY_HELPER__IGNORED_ATTRIBUTES);
+		createEReference(equalityHelperEClass, EQUALITY_HELPER__IDENTITY_TYPES);
 
 		storageEClass = createEClass(STORAGE);
 		createEAttribute(storageEClass, STORAGE__DATA);
@@ -835,7 +796,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Create data types
 		integerArrayEDataType = createEDataType(INTEGER_ARRAY);
 		stringArrayEDataType = createEDataType(STRING_ARRAY);
-		eClassArrayEDataType = createEDataType(ECLASS_ARRAY);
 		matchEDataType = createEDataType(MATCH);
 		emfGraphEDataType = createEDataType(EMF_GRAPH);
 	}
@@ -890,14 +850,12 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEAttribute(getStateSpace_LayoutHideLabels(), ecorePackage.getEBoolean(), "layoutHideLabels", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_MaxStateDistance(), ecorePackage.getEInt(), "maxStateDistance", "-1", 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_Properties(), ecorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_SupportedTypes(), this.getEClassArray(), "supportedTypes", null, 0, 1, StateSpace.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStateSpace_SupportedTypePrefixes(), this.getStringArray(), "supportedTypePrefixes", null, 0, 1, StateSpace.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_AllParameterKeys(), this.getIntegerArray(), "allParameterKeys", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		EOperation op = addEOperation(stateSpaceEClass, ecorePackage.getEBoolean(), "removeState", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "state", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(stateSpaceEClass, null, "updateSupportedTypes", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(stateSpaceEClass, null, "updateEqualityHelper", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Index(), ecorePackage.getEInt(), "index", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -927,7 +885,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		addEParameter(op, this.getMatch(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(modelEClass, ecorePackage.getEBoolean(), "updateObjectKeys", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEClassArray(), "supportedTypes", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEClass(), "identityTypes", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(modelEClass, null, "collectMissingRootObjects", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -942,9 +900,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		addEOperation(transitionEClass, ecorePackage.getEString(), "getLabel", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(equalityHelperEClass, EqualityHelper.class, "EqualityHelper", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEqualityHelper_UseGraphEquality(), ecorePackage.getEBoolean(), "useGraphEquality", "true", 0, 1, EqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEqualityHelper_UseObjectKeys(), ecorePackage.getEBoolean(), "useObjectKeys", "false", 0, 1, EqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEqualityHelper_UseObjectAttributes(), ecorePackage.getEBoolean(), "useObjectAttributes", "true", 0, 1, EqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEqualityHelper_CheckLinkOrder(), ecorePackage.getEBoolean(), "checkLinkOrder", null, 0, 1, EqualityHelper.class, !IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEqualityHelper_IgnoredAttributes(), ecorePackage.getEAttribute(), null, "ignoredAttributes", null, 1, -1, EqualityHelper.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEqualityHelper_IdentityTypes(), ecorePackage.getEClass(), null, "identityTypes", null, 1, -1, EqualityHelper.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = addEOperation(equalityHelperEClass, ecorePackage.getEBoolean(), "equals", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getModel(), "model1", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -952,6 +910,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		op = addEOperation(equalityHelperEClass, ecorePackage.getEInt(), "hashCode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getModel(), "model", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(equalityHelperEClass, null, "setStateSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getStateSpace(), "stateSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(equalityHelperEClass, null, "clearCache", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -985,7 +946,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		// Initialize data types
 		initEDataType(integerArrayEDataType, int[].class, "IntegerArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(stringArrayEDataType, String[].class, "StringArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(eClassArrayEDataType, EClass[].class, "EClassArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(matchEDataType, Match.class, "Match", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(emfGraphEDataType, EmfGraph.class, "EmfGraph", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 

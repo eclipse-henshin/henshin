@@ -230,31 +230,13 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 12;
 
 	/**
-	 * The feature id for the '<em><b>Supported Types</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE__SUPPORTED_TYPES = STORAGE_FEATURE_COUNT + 13;
-
-	/**
-	 * The feature id for the '<em><b>Supported Type Prefixes</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STATE_SPACE__SUPPORTED_TYPE_PREFIXES = STORAGE_FEATURE_COUNT + 14;
-
-	/**
 	 * The feature id for the '<em><b>All Parameter Keys</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 15;
+	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 13;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -263,7 +245,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 16;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -549,31 +531,31 @@ public interface StateSpacePackage extends EPackage {
 	int EQUALITY_HELPER = 4;
 
 	/**
-	 * The feature id for the '<em><b>Use Graph Equality</b></em>' attribute.
+	 * The feature id for the '<em><b>Check Link Order</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUALITY_HELPER__USE_GRAPH_EQUALITY = 0;
+	int EQUALITY_HELPER__CHECK_LINK_ORDER = 0;
 
 	/**
-	 * The feature id for the '<em><b>Use Object Keys</b></em>' attribute.
+	 * The feature id for the '<em><b>Ignored Attributes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUALITY_HELPER__USE_OBJECT_KEYS = 1;
+	int EQUALITY_HELPER__IGNORED_ATTRIBUTES = 1;
 
 	/**
-	 * The feature id for the '<em><b>Use Object Attributes</b></em>' attribute.
+	 * The feature id for the '<em><b>Identity Types</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = 2;
+	int EQUALITY_HELPER__IDENTITY_TYPES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Equality Helper</em>' class.
@@ -641,15 +623,6 @@ public interface StateSpacePackage extends EPackage {
 	int STRING_ARRAY = 8;
 
 	/**
-	 * The meta object id for the '<em>EClass Array</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEClassArray()
-	 * @generated
-	 */
-	int ECLASS_ARRAY = 9;
-
-	/**
 	 * The meta object id for the '<em>Match</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -657,7 +630,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getMatch()
 	 * @generated
 	 */
-	int MATCH = 10;
+	int MATCH = 9;
 
 
 	/**
@@ -668,7 +641,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
 	 * @generated
 	 */
-	int EMF_GRAPH = 11;
+	int EMF_GRAPH = 10;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
@@ -811,28 +784,6 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStateSpace_Properties();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getSupportedTypes <em>Supported Types</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Supported Types</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getSupportedTypes()
-	 * @see #getStateSpace()
-	 * @generated
-	 */
-	EAttribute getStateSpace_SupportedTypes();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getSupportedTypePrefixes <em>Supported Type Prefixes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Supported Type Prefixes</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.StateSpace#getSupportedTypePrefixes()
-	 * @see #getStateSpace()
-	 * @generated
-	 */
-	EAttribute getStateSpace_SupportedTypePrefixes();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getAllParameterKeys <em>All Parameter Keys</em>}'.
@@ -1139,37 +1090,37 @@ public interface StateSpacePackage extends EPackage {
 	EClass getEqualityHelper();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality <em>Use Graph Equality</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isCheckLinkOrder <em>Check Link Order</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Graph Equality</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseGraphEquality()
+	 * @return the meta object for the attribute '<em>Check Link Order</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isCheckLinkOrder()
 	 * @see #getEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getEqualityHelper_UseGraphEquality();
+	EAttribute getEqualityHelper_CheckLinkOrder();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectKeys <em>Use Object Keys</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#getIgnoredAttributes <em>Ignored Attributes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Object Keys</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectKeys()
+	 * @return the meta object for the reference list '<em>Ignored Attributes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#getIgnoredAttributes()
 	 * @see #getEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getEqualityHelper_UseObjectKeys();
+	EReference getEqualityHelper_IgnoredAttributes();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectAttributes <em>Use Object Attributes</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.statespace.EqualityHelper#getIdentityTypes <em>Identity Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Use Object Attributes</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#isUseObjectAttributes()
+	 * @return the meta object for the reference list '<em>Identity Types</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.EqualityHelper#getIdentityTypes()
 	 * @see #getEqualityHelper()
 	 * @generated
 	 */
-	EAttribute getEqualityHelper_UseObjectAttributes();
+	EReference getEqualityHelper_IdentityTypes();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.Storage <em>Storage</em>}'.
@@ -1245,16 +1196,6 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getStringArray();
-
-	/**
-	 * Returns the meta object for data type '<em>EClass Array</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>EClass Array</em>'.
-	 * @model instanceClass="org.eclipse.emf.ecore.EClass[]"
-	 * @generated
-	 */
-	EDataType getEClassArray();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.interpreter.util.Match <em>Match</em>}'.
@@ -1405,22 +1346,6 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EReference STATE_SPACE__PROPERTIES = eINSTANCE.getStateSpace_Properties();
-
-		/**
-		 * The meta object literal for the '<em><b>Supported Types</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_SPACE__SUPPORTED_TYPES = eINSTANCE.getStateSpace_SupportedTypes();
-
-		/**
-		 * The meta object literal for the '<em><b>Supported Type Prefixes</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STATE_SPACE__SUPPORTED_TYPE_PREFIXES = eINSTANCE.getStateSpace_SupportedTypePrefixes();
 
 		/**
 		 * The meta object literal for the '<em><b>All Parameter Keys</b></em>' attribute feature.
@@ -1655,28 +1580,28 @@ public interface StateSpacePackage extends EPackage {
 		EClass EQUALITY_HELPER = eINSTANCE.getEqualityHelper();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Graph Equality</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Check Link Order</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EQUALITY_HELPER__USE_GRAPH_EQUALITY = eINSTANCE.getEqualityHelper_UseGraphEquality();
+		EAttribute EQUALITY_HELPER__CHECK_LINK_ORDER = eINSTANCE.getEqualityHelper_CheckLinkOrder();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Object Keys</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Ignored Attributes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EQUALITY_HELPER__USE_OBJECT_KEYS = eINSTANCE.getEqualityHelper_UseObjectKeys();
+		EReference EQUALITY_HELPER__IGNORED_ATTRIBUTES = eINSTANCE.getEqualityHelper_IgnoredAttributes();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Object Attributes</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Identity Types</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute EQUALITY_HELPER__USE_OBJECT_ATTRIBUTES = eINSTANCE.getEqualityHelper_UseObjectAttributes();
+		EReference EQUALITY_HELPER__IDENTITY_TYPES = eINSTANCE.getEqualityHelper_IdentityTypes();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.StorageImpl <em>Storage</em>}' class.
@@ -1739,15 +1664,6 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EDataType STRING_ARRAY = eINSTANCE.getStringArray();
-
-		/**
-		 * The meta object literal for the '<em>EClass Array</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEClassArray()
-		 * @generated
-		 */
-		EDataType ECLASS_ARRAY = eINSTANCE.getEClassArray();
 
 		/**
 		 * The meta object literal for the '<em>Match</em>' data type.

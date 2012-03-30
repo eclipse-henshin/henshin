@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 
 /**
@@ -36,10 +37,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	/**
 	 * Default constructor. Computes all context hash codes.
 	 */
-	ContextHashCodeHelper(Model model, 
-			boolean useGraphEquality,
-			boolean useObjectKeys, 
-			boolean useObjectAttributes) {
+	ContextHashCodeHelper(Model model, EqualityHelper equalityHelper) {
 		
 		super(model.getObjectCount());
 		
@@ -48,11 +46,11 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 		extractCrossReferences();
 
 		// Initialize the context hash codes with the local hash codes:
-		initContextHashCodes(model, useObjectKeys, useObjectAttributes);
+		initContextHashCodes(model, equalityHelper);
 
 		// Update the context hash codes a fixed number of times:
 		for (int i=0; i<CONTEXT_UPDATES; i++) {
-			updateContextHashCodes(useGraphEquality);
+			updateContextHashCodes();
 		}
 		
 		// Now we can store them in the map:
@@ -91,14 +89,9 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	
 	/**
 	 * Initialize the hash codes arrays with the local hash codes.
-	 * 
 	 * @param model Model to be analyzed.
-	 * @param useObjectKeys Whether to use the object keys.
-	 * @param useObjectAttributes Whether to use the object attributes.
 	 */
-	protected void initContextHashCodes(Model model,
-			boolean useObjectKeys, 
-			boolean useObjectAttributes) {
+	protected void initContextHashCodes(Model model, EqualityHelper equalityHelper) {
 		
 		// We store the hash codes in two arrays:
 		hashCodes    = new int[objects.length];
@@ -109,7 +102,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 			
 			// Do we need he object key?
 			int objectKey = 0;
-			if (useObjectKeys) {
+			if (equalityHelper.getIdentityTypes().contains(objects[i].eClass())) {
 				Integer key = model.getObjectKeysMap().get(objects[i]);
 				if (key==null) {
 					throw new RuntimeException("Missing object key for " + objects[i]);
@@ -118,7 +111,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 			}
 			
 			// Now compute the local hash code:
-			hashCodes[i] = LocalHashCodeHelper.hashCode(objects[i], objectKey, useObjectAttributes);	
+			hashCodes[i] = LocalHashCodeHelper.hashCode(objects[i], objectKey, equalityHelper);
 		}
 	}
 	
@@ -170,7 +163,7 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	/**
 	 * Update the hash codes based on the objects contexts.
 	 */
-	protected void updateContextHashCodes(boolean useGraphEquality) {
+	protected void updateContextHashCodes() {
 		
 		// Compute the new context hash codes based on the old ones:
 		for (int index=0; index<objects.length; index++) {
@@ -180,9 +173,6 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 			
 			// Check outgoing references:
 			for (int column=0; column<objects.length; column++) {
-				if (!useGraphEquality) {
-				//	newHashCodes[index] *= 17;
-				}
 				int outgoingRefs = crossReferences[index * objects.length + column];
 				newHashCodes[index] += (hashCodes[column] * outgoingRefs);
 			}
@@ -192,9 +182,6 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 
 			// Check incoming references:
 			for (int row=0; row<objects.length; row++) {
-				if (!useGraphEquality) {
-				//	newHashCodes[index] *= 17;
-				}
 				int incomingRefs = crossReferences[row * objects.length + index];
 				newHashCodes[index] += (hashCodes[row] * incomingRefs);
 			}

@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.statespace.util;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -11,10 +12,10 @@ public class ObjectKeyHelper {
 	/**
 	 * Extract the object type of an object key. 
 	 */
-	public static EClass getObjectType(int objectKey, EClass[] supportedTypes) {
+	public static EClass getObjectType(int objectKey, EList<EClass> identityTypes) {
 		int index = ((objectKey >>> 24) & 0xFF)-1;
-		if (index>=0 && index<supportedTypes.length) {
-			return supportedTypes[index];			
+		if (index>=0 && index<identityTypes.size()) {
+			return identityTypes.get(index);
 		}
 		return null;
 	}
@@ -22,12 +23,9 @@ public class ObjectKeyHelper {
 	/**
 	 * Extract the supported type prefix of an object key. 
 	 */
-	public static String getObjectTypePrefix(int objectKey, String[] supportedTypePrefixes) {
+	public static String getObjectTypePrefix(int objectKey) {
 		int index = ((objectKey >>> 24) & 0xFF)-1;
-		if (index>=0 && index<supportedTypePrefixes.length) {
-			return supportedTypePrefixes[index];
-		}
-		return null;
+		return String.valueOf((char) ('a'+index));
 	}
 
 	/**
@@ -40,21 +38,10 @@ public class ObjectKeyHelper {
 	/**
 	 * Extract the object type of an object key. 
 	 */
-	public static int createObjectKey(EClass type, int id, EClass[] supportedTypes) {
-		
-		// Should not be null:
-		if (supportedTypes==null) {
-			throw new NullPointerException("Missing object types");
-		}
+	public static int createObjectKey(EClass type, int id, EList<EClass> identityTypes) {
 		
 		// Find out the type id:
-		int typeId = 0;
-		for (int i=0; i<supportedTypes.length; i++) {
-			if (supportedTypes[i]==type) {
-				typeId = i+1;
-				break;
-			}
-		}
+		int typeId = identityTypes.indexOf(type) + 1;
 		
 		// If the type is unknown, the id also does not matter:
 		if (typeId==0) {
