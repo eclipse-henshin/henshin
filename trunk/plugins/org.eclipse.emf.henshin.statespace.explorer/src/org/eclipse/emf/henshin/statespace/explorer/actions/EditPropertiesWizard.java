@@ -66,10 +66,9 @@ public class EditPropertiesWizard extends Wizard {
 			explorer.executeCommand(setProps);
 			
 			// Ask whether we should do a reset:
-			if (manager.getStateSpace().getTransitionCount()>0 && 
-				MessageDialog.openQuestion(getShell(), "Reset", 
+			if (MessageDialog.openQuestion(getShell(), "Reset", 
 					"Changing the properties may affect the state space generation. " +
-					"Therefore we recommend to reset the state space now. Should the state space be reset?")) {
+					"Therefore we highly recommend to reset the state space now. Should the state space be reset now?")) {
 				explorer.getJobManager().stopAllJobs();
 				explorer.executeCommand(new ResetStateSpaceCommand(manager));
 			}

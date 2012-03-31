@@ -149,8 +149,10 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 			
 			// Reset all derived state models:
 			for (State state : stateSpace.getStates()) {
-				if (!state.isInitial()) {
-					state.setModel(null);
+				if (state.isInitial()) {
+					state.setDerivedFrom(-1);
+				} else {
+					state.setModel(null);					
 				}
 			}
 			monitor.worked(1);

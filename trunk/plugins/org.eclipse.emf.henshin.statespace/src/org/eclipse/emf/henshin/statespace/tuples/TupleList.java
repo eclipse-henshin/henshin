@@ -88,7 +88,6 @@ public class TupleList extends ArrayList<Tuple> {
 		int size = size();
 		for (int j=0; j<width; j++) {
 			List<Integer> values = new ArrayList<Integer>();
-			values.add(0);
 			for (int i=0; i<size; i++) {
 				Integer val = get(i).data[j];
 				if (!values.contains(val)) {
@@ -102,6 +101,12 @@ public class TupleList extends ArrayList<Tuple> {
 		}
 	}
 
+	public void revertAll() {
+		for (Tuple tuple : this) {
+			tuple.revert();
+		}
+	}
+	
 	/**
 	 * Remove all columns with constant values.
 	 * @return Number of removed columns.

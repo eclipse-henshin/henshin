@@ -82,5 +82,14 @@ public class Tuple implements Cloneable {
 		System.arraycopy(data, 0, clone.data, 0, data.length);
 		return clone;
 	}
+
+	public void revert() {
+		int half = data.length / 2;
+		for (int i=0; i<half; i++) {
+			int d = data[i];
+			data[i] = data[data.length-i-1];
+			data[data.length-i-1] = d;
+		}
+	}
 	
 }
