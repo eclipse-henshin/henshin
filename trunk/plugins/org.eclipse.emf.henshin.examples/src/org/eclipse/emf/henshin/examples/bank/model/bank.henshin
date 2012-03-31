@@ -206,7 +206,7 @@
     <mappings xmi:id="_9sTQkng8EeGZMfr3Iy5Flw" origin="_9sSpgHg8EeGZMfr3Iy5Flw" image="_9sSpiHg8EeGZMfr3Iy5Flw"/>
     <multiRules xmi:id="_9sbMYHg8EeGZMfr3Iy5Flw" name="">
       <lhs xmi:id="_9sbMYXg8EeGZMfr3Iy5Flw" name="LHS">
-        <nodes xmi:id="_9sbMYng8EeGZMfr3Iy5Flw" name="client" incoming="_9sbzc3g8EeGZMfr3Iy5Flw _9sbzdHg8EeGZMfr3Iy5Flw" outgoing="_9sbzdng8EeGZMfr3Iy5Flw">
+        <nodes xmi:id="_9sbMYng8EeGZMfr3Iy5Flw" name="client" incoming="_9sbzc3g8EeGZMfr3Iy5Flw _9sbzdHg8EeGZMfr3Iy5Flw _3V4PsHseEeGvRuXq6ahpsw" outgoing="_9sbzdng8EeGZMfr3Iy5Flw">
           <type href="bank.ecore#//Client"/>
         </nodes>
         <nodes xmi:id="_9sbzcHg8EeGZMfr3Iy5Flw" outgoing="_9sbzc3g8EeGZMfr3Iy5Flw _9sbzdXg8EeGZMfr3Iy5Flw _9sbzd3g8EeGZMfr3Iy5Flw">
@@ -215,7 +215,7 @@
         <nodes xmi:id="_9sbzcXg8EeGZMfr3Iy5Flw" incoming="_9sbzdXg8EeGZMfr3Iy5Flw" outgoing="_9sbzdHg8EeGZMfr3Iy5Flw">
           <type href="bank.ecore#//Manager"/>
         </nodes>
-        <nodes xmi:id="_9sbzcng8EeGZMfr3Iy5Flw" incoming="_9sbzdng8EeGZMfr3Iy5Flw _9sbzd3g8EeGZMfr3Iy5Flw">
+        <nodes xmi:id="_9sbzcng8EeGZMfr3Iy5Flw" incoming="_9sbzdng8EeGZMfr3Iy5Flw _9sbzd3g8EeGZMfr3Iy5Flw" outgoing="_3V4PsHseEeGvRuXq6ahpsw">
           <type href="bank.ecore#//Account"/>
         </nodes>
         <edges xmi:id="_9sbzc3g8EeGZMfr3Iy5Flw" source="_9sbzcHg8EeGZMfr3Iy5Flw" target="_9sbMYng8EeGZMfr3Iy5Flw">
@@ -232,6 +232,9 @@
         </edges>
         <edges xmi:id="_9sbzd3g8EeGZMfr3Iy5Flw" source="_9sbzcHg8EeGZMfr3Iy5Flw" target="_9sbzcng8EeGZMfr3Iy5Flw">
           <type href="bank.ecore#//Bank/accounts"/>
+        </edges>
+        <edges xmi:id="_3V4PsHseEeGvRuXq6ahpsw" source="_9sbzcng8EeGZMfr3Iy5Flw" target="_9sbMYng8EeGZMfr3Iy5Flw">
+          <type href="bank.ecore#//Account/owner"/>
         </edges>
       </lhs>
       <rhs xmi:id="_9sbzeHg8EeGZMfr3Iy5Flw" name="RHS">
