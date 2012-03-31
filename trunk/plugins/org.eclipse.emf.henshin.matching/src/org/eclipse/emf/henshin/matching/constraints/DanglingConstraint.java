@@ -44,7 +44,7 @@ public class DanglingConstraint implements Constraint {
 		 
 		 if (incomingEdgeCount != null) {
 			 for (EReference ref: actualIncomingEdges.keySet()) {
-				 if (actualIncomingEdges.get(ref) > actualIncomingEdges.get(ref))
+				 if (actualIncomingEdges.get(ref) > incomingEdgeCount.get(ref))					 
 					 return false;
 			 }
 		 } else {

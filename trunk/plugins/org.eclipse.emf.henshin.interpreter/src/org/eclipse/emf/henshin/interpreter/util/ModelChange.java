@@ -55,7 +55,8 @@ public class ModelChange {
 		EList<FeatureChange> featureChanges = change.getObjectChanges().get(eObject);
 		
 		for (FeatureChange existingChange : featureChanges) {
-			if (existingChange.getFeature() == feature) return existingChange;
+			if (existingChange.getFeature() == feature)
+				return existingChange;
 		}
 		
 		FeatureChange featureChange = ChangeFactory.eINSTANCE.createFeatureChange();
@@ -72,7 +73,8 @@ public class ModelChange {
 	@SuppressWarnings("unused")
 	private ListChange getListChangeByKind(FeatureChange featureChange, ChangeKind kind) {
 		for (ListChange existingChange : featureChange.getListChanges()) {
-			if (existingChange.getKind() == kind) return existingChange;
+			if (existingChange.getKind() == kind)
+				return existingChange;
 		}
 		
 		ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
@@ -84,9 +86,9 @@ public class ModelChange {
 	
 	private boolean deletingChangeExists(FeatureChange featureChange, EObject value) {
 		for (ListChange existingChange : featureChange.getListChanges()) {
-			if (existingChange.getKind() == ChangeKind.REMOVE_LITERAL)
-				return existingChange.getReferenceValues().contains(value);
-			
+			if (existingChange.getKind() == ChangeKind.REMOVE_LITERAL
+					&& existingChange.getReferenceValues().contains(value))
+				return true;
 		}
 		return false;
 	}
@@ -96,7 +98,8 @@ public class ModelChange {
 		FeatureChange featureChange = getFeatureChange(eObject, reference);
 		
 		if (reference.isMany()) {
-			if (deletingChangeExists(featureChange, value)) return;
+			if (deletingChangeExists(featureChange, value))
+				return;
 			
 			ListChange listChange = ChangeFactory.eINSTANCE.createListChange();
 			listChange.setKind(deletion ? ChangeKind.REMOVE_LITERAL : ChangeKind.ADD_LITERAL);
@@ -108,12 +111,16 @@ public class ModelChange {
 				int idx = ((List<Object>) eObject.eGet(reference)).indexOf(value);
 				for (ListChange lChange : featureChange.getListChanges()) {
 					if (lChange.getKind() == ChangeKind.ADD_LITERAL) {
-						if (lChange.getIndex() < idx) idx++;
+						if (lChange.getIndex() < idx)
+							idx++;
 					} else if (lChange.getKind() == ChangeKind.REMOVE_LITERAL) {
-						if (lChange.getIndex() < idx) idx--;
+						if (lChange.getIndex() < idx)
+							idx--;
 					} else if (lChange.getKind() == ChangeKind.MOVE_LITERAL) {
-						if (lChange.getIndex() < idx && lChange.getMoveToIndex() > idx) idx--;
-						if (lChange.getIndex() > idx && lChange.getMoveToIndex() < idx) idx++;
+						if (lChange.getIndex() < idx && lChange.getMoveToIndex() > idx)
+							idx--;
+						if (lChange.getIndex() > idx && lChange.getMoveToIndex() < idx)
+							idx++;
 					}
 				}
 				listChange.setIndex(idx);

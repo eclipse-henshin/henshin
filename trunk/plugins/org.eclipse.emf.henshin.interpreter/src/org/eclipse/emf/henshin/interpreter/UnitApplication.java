@@ -322,9 +322,9 @@ public class UnitApplication extends Observable {
 	
 	private boolean executeLoopUnit() {
 		
-		LoopUnit countedUnit = (LoopUnit) transformationUnit;
+		LoopUnit loopUnit = (LoopUnit) transformationUnit;
 		while (!getApplicationMonitor().isCanceled()) {
-			UnitApplication genericUnit = createApplicationFor(countedUnit.getSubUnit());
+			UnitApplication genericUnit = createApplicationFor(loopUnit.getSubUnit());
 			if (genericUnit.execute()) {
 				updateParameterValues(genericUnit);
 				appliedRules.addAll(genericUnit.appliedRules);
