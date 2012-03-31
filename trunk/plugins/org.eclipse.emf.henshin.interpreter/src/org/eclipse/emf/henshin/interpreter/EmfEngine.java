@@ -415,6 +415,9 @@ public class EmfEngine implements InterpreterEngine {
 		// Map<Node, EObject> comatchNodeMapping = new HashMap<Node, EObject>();
 		Map<Parameter, Object> comatchParameterValues = new HashMap<Parameter, Object>();
 		comatchParameterValues.putAll(match.getParameterValues());
+		for (Parameter parameter : match.getParameterValues().keySet()) {
+			scriptEngine.put(parameter.getName(), match.getParameterValues().get(parameter));
+		}
 		
 		// create new EObjects with their attributes
 		for (Node node : changeInfo.getCreatedNodes()) {
@@ -487,7 +490,7 @@ public class EmfEngine implements InterpreterEngine {
 		
 		for (Attribute attribute : changeInfo.getAttributeChanges()) {
 			EObject targetObject = comatchNodeMapping.get(attribute.getNode());
-			Object value = evalAttributeExpression(match.getParameterValues(), attribute);
+			Object value = evalAttributeExpression(attribute);
 			
 			String valueString = null;
 			// workaround for Double conversion:
@@ -523,8 +526,7 @@ public class EmfEngine implements InterpreterEngine {
 	 *            An expression string.
 	 * @return The result of the computation.
 	 */
-	private Object evalAttributeExpression(final Map<Parameter, Object> parameterMapping,
-			final Attribute attribute) {
+	private Object evalAttributeExpression(final Attribute attribute) {
 		
 		/*
 		 * If the attribute's type is an Enumeration, its value shall be rather
@@ -538,9 +540,6 @@ public class EmfEngine implements InterpreterEngine {
 		}// if
 		
 		try {
-			for (Parameter parameter : parameterMapping.keySet()) {
-				scriptEngine.put(parameter.getName(), parameterMapping.get(parameter));
-			}
 			return scriptEngine.eval(attribute.getValue());
 		} catch (ScriptException e) {
 			throw new RuntimeException(e.getMessage());
@@ -626,5 +625,5 @@ public class EmfEngine implements InterpreterEngine {
 		}
 		return prematch;
 	}
-
+	
 }

@@ -165,11 +165,14 @@ public class Match {
 			return false;
 		
 		for (Node node : rule.getLhs().getNodes()) {
-			
 			if (nodeMapping.get(node) == null)
 				return false;
 		}
-		
+		for (Rule mRule : rule.getMultiRules()) {
+			for (Match mMatch : getNestedMatchesFor(mRule))
+				if (!mMatch.isComplete())
+					return false;
+		}
 		return true;
 	}
 	
