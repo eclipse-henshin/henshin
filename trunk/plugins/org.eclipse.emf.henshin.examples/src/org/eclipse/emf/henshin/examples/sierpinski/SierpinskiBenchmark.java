@@ -14,66 +14,64 @@ package org.eclipse.emf.henshin.examples.sierpinski;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.interpreter.EmfEngine;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
- * A benchmark constructing multiple levels of a sierpinski triangle.
+ * A benchmark constructing multiple levels of a Sierpinski triangle.
  * 
- * @see <a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinski
- *      Triangle</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinski Triangle</a>
  */
 public class SierpinskiBenchmark {
+	
 	public static void main(String[] args) {
 
-		HenshinPackageImpl.init();
-
-		ModelHelper.registerFileExtension("henshin");
-		ModelHelper.registerFileExtension("sierpinski");
-		ModelHelper.registerFileExtension("ecore");
+		// Create a resource set:
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
 		
-		EPackage sierpinskiPackage = (EPackage) ModelHelper
-				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.ecore");
-		EPackage.Registry.INSTANCE.put(sierpinskiPackage.getNsURI(), sierpinskiPackage);
+		// Register the dynamic package:
+		resourceSet.registerEPackages(
+				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.ecore");
 
-		// load the transformation rules
-		TransformationSystem ts = (TransformationSystem) ModelHelper
-				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.henshin");
+		// Load the transformation system:
+		TransformationSystem trasys = resourceSet.getTransformationSystem(
+				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.henshin");
 
-		// load a minimal first level sierpinski triangle
-		// VertexContainer container = (VertexContainer) ModelHelper
-		// .loadFile("src/sierpinski/instances/start.sierpinski");
-		EObject container = ModelHelper
-				.loadFile("src/org/eclipse/emf/henshin/examples/sierpinski/model/start.sierpinski");
-
-		// initialize the henshin interpreter
-		EmfGraph graph = new EmfGraph();
-		graph.addRoot(container);
+		// Load the first level of the Sierpinski triangle:
+		EObject container = resourceSet.getFirstRoot(
+				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski-start.xmi");
+		
+		// Initialize the Henshin interpreter:
+		EmfGraph graph = new EmfGraph(container);
 		graph.removeEObject(container);
 		EmfEngine engine = new EmfEngine(graph);
 
-		// load a rule
-		Rule addTriangleRule = ts.findRuleByName("AddTriangle");
+		// Load the rule:
+		Rule addTriangleRule = trasys.findRuleByName("AddTriangle");
 
-		// compute different sierpinski levels
-		int i = 0;
-		do {
-			i++;
+		System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory\n");
+		
+		// Iteratively compute the Sierpinski triangle:
+		int i = 1;
+		while (true) {
+			
+			// Find all matches:
 			long startTime = System.nanoTime();
 			RuleApplication addTriangle = new RuleApplication(engine,
 					addTriangleRule);
 			List<Match> matches = addTriangle.findAllMatches();
 			long matchingTime = (System.nanoTime() - startTime) / 1000000;
+			
 			System.out.println("Level: " + i);
 			System.out.println("Rule applications:" + matches.size());
 			System.out.println("Matching: " + matchingTime + "ms");
+
+			// Apply rule with all matches:
 			startTime = System.nanoTime();
 			for (Match match : matches) {
 				addTriangle = new RuleApplication(engine, addTriangleRule);
@@ -81,13 +79,15 @@ public class SierpinskiBenchmark {
 				addTriangle.apply();
 			}
 			long runtime = (System.nanoTime() - startTime) / 1000000;
-			// System.out.println("Rule applications: "+matches.size());
 
 			System.out.println("Application: " + runtime + "ms");
 			System.out.println("Total: " + (matchingTime + runtime) + "ms");
-
 			System.out.println("Nodes: " + graph.geteObjects().size());
 			System.out.println();
-		} while (true);
+			i++;
+			
+		}
+		
 	}
+	
 }

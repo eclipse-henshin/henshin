@@ -23,15 +23,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
- * @deprecated Use the EMF functionalities directly and catch exceptions.
+ * @deprecated Use the functionalities in {@link HenshinResourceSet} instead.
  */
 public class ModelHelper {
 	
 	public static void registerFileExtension(String extension) {
 		if (HenshinResource.FILE_EXTENSION.equals(extension)) {
-			HenshinResourceFactory.registerFileExtension();
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
+					new HenshinResourceFactory());
 		} else {
 			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension,
 					new XMIResourceFactoryImpl());
