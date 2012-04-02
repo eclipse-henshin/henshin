@@ -1,26 +1,67 @@
 package org.eclipse.emf.henshin.examples.diningphils;
 
-import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
+import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
+import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 public class DiningPhilsBenchmark {
 
 	public static void main(String[] args) {
 
-		StateSpaceResourceFactory.registerInRuntime();
+		// Create a resource set with a base directory:
+		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(
+				"src/org/eclipse/emf/henshin/examples/diningphils/model");
 		
-		// Create a resource set:
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		// Load the state space and create a state space manager:
+		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
+		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(
+				stateSpace, Runtime.getRuntime().availableProcessors());
 		
-		// Register the dynamic package:
-//		resourceSet.registerEPackages(
-//				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.ecore");
+		// Find the rule for adding a philosopher:
+		Rule createPhilRule = stateSpace.getRules().get(0).
+				getTransformationSystem().findRuleByName("createPhil");
 
-		// Load the state space:
-		StateSpace stateSpace = (StateSpace) resourceSet.getFirstRoot(
-				"src/org/eclipse/emf/henshin/examples/diningphils/model/8-phils.statespace");
-		System.out.println("loaded " + stateSpace);
+		// Now do the benchmark...
+		try {
+			for (int phils=3; true; phils++) {
+				
+				// First reset the state space:
+				manager.resetStateSpace();
+				
+				// Then explore it again:
+				long time = System.currentTimeMillis();
+				int expectedStates = (int) Math.pow(3, phils);
+				StateSpaceExplorationHelper.doExploration(manager, expectedStates, new NullProgressMonitor());
+				if (stateSpace.getStateCount()!=expectedStates || !stateSpace.getOpenStates().isEmpty()) {
+					throw new StateSpaceException("Unexpected number of states");
+				}
+				time = (System.currentTimeMillis() - time) / 1000;
+				
+				System.out.println("Philosophers: " + phils);
+				System.out.println("States: " + stateSpace.getStateCount());
+				System.out.println("Transitions: " + stateSpace.getTransitionCount());
+				System.out.println("Time: " + time + "s\n");
+				
+				// Add a philosopher:
+				EmfGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEmfGraph();
+				EmfEngine engine = new EmfEngine(initialStateGraph);
+				RuleApplication app = new RuleApplication(engine, createPhilRule);
+				app.apply();
+				
+			}
+			
+		} catch (StateSpaceException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

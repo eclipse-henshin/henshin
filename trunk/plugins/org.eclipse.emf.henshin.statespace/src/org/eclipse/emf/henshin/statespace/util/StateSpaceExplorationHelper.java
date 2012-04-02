@@ -3,6 +3,7 @@ package org.eclipse.emf.henshin.statespace.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
@@ -171,6 +172,22 @@ public class StateSpaceExplorationHelper {
 			}
 			return speed / (double) count;
 		}
+	}
+	
+	public static void doExploration(StateSpaceManager manager, int maxStates, IProgressMonitor monitor) throws StateSpaceException {
+		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager);
+		monitor.beginTask("Exploring state space...", maxStates);
+		int explored = manager.getStateSpace().getStateCount();
+		boolean changed = true;
+		monitor.worked(explored);
+		while (changed &&
+				!monitor.isCanceled() && 
+				manager.getStateSpace().getStateCount()<=maxStates) {
+			changed = helper.doExplorationStep();
+			monitor.worked(manager.getStateSpace().getStateCount() - explored);
+			explored = manager.getStateSpace().getStateCount();
+		}
+		monitor.done();
 	}
 	
 }

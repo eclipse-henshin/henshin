@@ -82,9 +82,8 @@ public class StateSpaceDeserializer {
 		
 		// Load rules:
 		for (int i=0; i<ruleCount; i++) {
-			URI uri = URI.createURI(readString());
-			URI resolved = uri.resolve(resource.getURI());
-			Rule rule = (Rule) resource.getResourceSet().getEObject(resolved,true);
+			URI uri = resolveURI(URI.createURI(readString()),resource);
+			Rule rule = (Rule) resource.getResourceSet().getEObject(uri,true);
 			rule.eResource().setURI(uri.trimFragment());
 			stateSpace.getRules().add(rule);
 		}
@@ -103,9 +102,8 @@ public class StateSpaceDeserializer {
 			if (modelUri!=null) {
 				
 				// Load the model:
-				URI uri = URI.createURI(modelUri);
-				URI resolved = uri.resolve(resource.getURI());
-				Resource contents = resource.getResourceSet().getResource(resolved,true);
+				URI uri = resolveURI(URI.createURI(modelUri),resource);
+				Resource contents = resource.getResourceSet().getResource(uri,true);
 				contents.setURI(uri);
 				Model model = new ModelImpl(contents);
 				model.setObjectKeys(state.getObjectKeys());
@@ -203,6 +201,16 @@ public class StateSpaceDeserializer {
 		int b1 = in.read();
 		if (b0<0 || b1<0) throw new IOException("Unexpected end of file");
 		return (b0 << 8) + (b1 & 0xFF);
+	}
+	
+	private URI resolveURI(URI uri, Resource resource) {
+		if (resource.getResourceSet()!=null) {
+			uri = resource.getResourceSet().getURIConverter().normalize(uri);
+		}
+		if (!resource.getURI().isRelative()) {
+			uri = uri.resolve(resource.getURI());
+		}
+		return uri;
 	}
 	
 }

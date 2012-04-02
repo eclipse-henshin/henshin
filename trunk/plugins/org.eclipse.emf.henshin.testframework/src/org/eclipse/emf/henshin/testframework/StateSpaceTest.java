@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceFactory;
+import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 /**
@@ -19,20 +18,14 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
  */
 public abstract class StateSpaceTest {
 	
-	/*
-	 * Register the state space resource factory.
-	 */
-	static {
-		StateSpaceResourceFactory.registerInRuntime();
-	}
-	
 	/**
 	 * Load a state space from a given file.
 	 * @param path Path of the state space file.
 	 * @return The loaded state space.
 	 */
 	protected StateSpace loadStateSpace(File file) {
-		return (StateSpace) ModelHelper.loadFile(file.getAbsolutePath());
+		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet();
+		return (StateSpace) resourceSet.getStateSpace(file.getAbsolutePath());
 	}
 
 	/**
