@@ -31,20 +31,15 @@ public class SierpinskiBenchmark {
 	
 	public static void main(String[] args) {
 
-		// Create a resource set:
-		HenshinResourceSet resourceSet = new HenshinResourceSet();
+		// Create a resource set with a base directory:
+		HenshinResourceSet resourceSet = new HenshinResourceSet(
+				"src/org/eclipse/emf/henshin/examples/sierpinski/model");
 		
-		// Register the dynamic package:
-		resourceSet.registerEPackages(
-				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.ecore");
-
 		// Load the transformation system:
-		TransformationSystem trasys = resourceSet.getTransformationSystem(
-				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski.henshin");
+		TransformationSystem trasys = resourceSet.getTransformationSystem("sierpinski.henshin");
 
 		// Load the first level of the Sierpinski triangle:
-		EObject container = resourceSet.getFirstRoot(
-				"src/org/eclipse/emf/henshin/examples/sierpinski/model/sierpinski-start.xmi");
+		EObject container = resourceSet.getFirstRoot("sierpinski-start.xmi");
 		
 		// Initialize the Henshin interpreter:
 		EmfGraph graph = new EmfGraph(container);
