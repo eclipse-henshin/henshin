@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -243,7 +245,13 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 					unitSelector.getControl().setLayoutData(data);
 				}
 				
-				modelSelector = new ModelSelector(container);
+				IResource selected = null;
+				if (transformationSystem!=null) {
+					String path = transformationSystem.eResource().getURI().toPlatformString(true);
+					selected = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
+				}
+				
+				modelSelector = new ModelSelector(container,selected);
 				{
 					FormData data = new FormData();
 					data.top = new FormAttachment(unitSelector.getControl(), CONTROL_OFFSET);

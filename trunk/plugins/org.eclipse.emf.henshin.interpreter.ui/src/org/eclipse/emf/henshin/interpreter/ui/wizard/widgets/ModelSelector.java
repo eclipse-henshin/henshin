@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
@@ -56,8 +57,8 @@ public class ModelSelector {
 	protected Button browseFileSystemButton;
 	
 	protected Combo uriField;
-	
-	public ModelSelector(Composite parent) {
+
+	public ModelSelector(Composite parent, final IResource baseDir) {
 		
 		container = new Group(parent, SWT.NONE);
 		container.setText(InterpreterUIPlugin.LL("_UI_SelectModel"));
@@ -157,9 +158,10 @@ public class ModelSelector {
 		browseWorkspaceButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
+				Object[] selection = baseDir==null ? new Object[0] : new Object[] { baseDir };
 				IFile[] files = WorkspaceResourceDialog.openFileSelection(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getShell(), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Title"), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Message"), false, null,
-						null);
+						.getActiveWorkbenchWindow().getShell(), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Title"), InterpreterUIPlugin.LL("_UI_BrowseWorkspace_Message"), 
+						false, selection, null);
 				if (files.length != 1)
 					return;
 				IFile file = files[0];
