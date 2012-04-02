@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.6"?>
+<plugin>
+
+<extension
+      point="org.eclipse.ui.popupMenus">
+   <objectContribution
+         id="org.eclipse.emf.henshin.migration1011.contribution1"
+         nameFilter="*.henshin"
+         objectClass="org.eclipse.core.resources.IFile">
+      <menu
+            id="org.eclipse.emf.henshin.menu"
+            label="Henshin"
+            path="additions">
+         <separator
+               name="group1">
+         </separator>
+      </menu>
+   </objectContribution>
+</extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <command
+         defaultHandler="org.eclipse.emf.henshin.migration.wizard.MigrationWizardHandler"
+         id="org.eclipse.emf.henshin.migration.command3"
+         name="name">
+   </command>
+</extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:org.eclipse.emf.henshin.menu">
+      <command
+            commandId="org.eclipse.emf.henshin.migration.command3"
+            label="Migration Wizard"
+            style="push">
+      </command>
+   </menuContribution>
+</extension>
+
+
+</plugin>
