@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Henshin Migration Wizard
 Bundle-SymbolicName: org.eclipse.emf.henshin.migration;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 0.9.1.qualifier
 Export-Package: .,
  org.eclipse.emf.henshin.migration,
  org.eclipse.emf.henshin.migration.wizard

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.henshin.sdk"
       label="%featureName"
-      version="0.9.0.qualifier"
+      version="0.9.1.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -75,105 +75,105 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.henshin.model"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.edit"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.editor"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.diagram"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.interpreter.ui"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.examples"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.explorer"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.external"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.statespace.ocl"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.trace"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.matching"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.testframework"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.henshin.migration"
          download-size="0"
          install-size="0"
-         version="0.9.0.qualifier"
+         version="0.9.1.qualifier"
          unpack="false"/>
 
 </feature>
