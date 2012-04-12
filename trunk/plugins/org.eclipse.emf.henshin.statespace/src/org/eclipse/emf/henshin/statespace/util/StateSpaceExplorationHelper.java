@@ -15,7 +15,10 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebug;
  * @author Christian Krause
  */
 public class StateSpaceExplorationHelper {
-
+	
+	// Minimum amount of free memory that should be available: 10%.
+	private static final double MIN_FREE_MEMORY = 0.1;
+	
 	// State space manager:
 	private final StateSpaceManager manager;
 
@@ -26,7 +29,7 @@ public class StateSpaceExplorationHelper {
 	private int lastDuration = expectedDuration;
 	
 	// Number of states to be explored at once:
-	private int blockSize = 10;
+	private int blockSize, minBlockSize, maxBlockSize;
 	
 	// Next states to be explored:
 	private List<State> nextStates;
@@ -50,6 +53,9 @@ public class StateSpaceExplorationHelper {
 		this.nextStates = new ArrayList<State>();
 		this.lastSpeeds = new double[10];
 		this.steps = 0;
+		this.blockSize = 10;
+		this.minBlockSize = Math.max((int) (manager.getNumThreads() * 1.5), 2);
+		this.maxBlockSize = 2000;
 	}
 	
 	/**
@@ -62,9 +68,9 @@ public class StateSpaceExplorationHelper {
 		long startTime = System.currentTimeMillis();
 		
 		// Adjust the number of states to be explored in one step:
-		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.25, 4);
+		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.5, 2);
 		if (!StateSpaceDebug.ENFORCE_DETERMINISTIC_EXPLORATION) {
-			blockSize = rangeCheck((int) ((double) blockSize * speedChange), 2, 2000);
+			blockSize = rangeCheck((int) ((double) blockSize * speedChange), minBlockSize, maxBlockSize);
 		}
 		
 		/* Update the list of next states to be explored. */
@@ -113,9 +119,25 @@ public class StateSpaceExplorationHelper {
 		
 		// Record the speed:
 		lastSpeeds[steps % lastSpeeds.length] = (1000.0d * (double) realSize) / (double) lastDuration;
-		
+
 		// Increase steps count:
 		steps++;
+		
+		// Regularly check whether we need to clear the caches:
+		if (steps % 20 == 0) {
+			System.gc();
+			double freeMem = ((double) Runtime.getRuntime().freeMemory()) / 
+							 ((double) Runtime.getRuntime().maxMemory());
+			// System.out.println(freeMem + "% free memory");
+			if (freeMem < MIN_FREE_MEMORY) {
+				System.out.println("Clearing cache...");
+				manager.clearCache();
+				System.gc();
+				freeMem = ((double) Runtime.getRuntime().freeMemory()) / 
+								 ((double) Runtime.getRuntime().maxMemory());
+			}
+			
+		}
 		
 		// Done for this cycle.
 		return true;
@@ -174,20 +196,39 @@ public class StateSpaceExplorationHelper {
 		}
 	}
 	
-	public static void doExploration(StateSpaceManager manager, int maxStates, IProgressMonitor monitor) throws StateSpaceException {
+	/**
+	 * Automatically do a state space exploration.
+	 * @param manager State space manager.
+	 * @param maxStates Maximum number of states.
+	 * @param monitor Progress monitor.
+	 * @throws StateSpaceException On errors.
+	 */
+	public static void doExploration(
+			StateSpaceManager manager, int maxStates, IProgressMonitor monitor) throws StateSpaceException {
+		
+		// Create an exploration helper instance:
 		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager);
 		monitor.beginTask("Exploring state space...", maxStates);
+		
+		// Number of explored states:
 		int explored = manager.getStateSpace().getStateCount();
 		boolean changed = true;
 		monitor.worked(explored);
+		
+		// Explore until finished, canceled or maximum state count is reached:
 		while (changed &&
 				!monitor.isCanceled() && 
 				manager.getStateSpace().getStateCount()<=maxStates) {
+			
+			// Do an exp0loration step:
 			changed = helper.doExplorationStep();
 			monitor.worked(manager.getStateSpace().getStateCount() - explored);
 			explored = manager.getStateSpace().getStateCount();
 		}
+		
+		// Done.
 		monitor.done();
+		
 	}
 	
 }

@@ -172,15 +172,22 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			
 			// Add the model to the cache:
 			stateModelCache.put(state, model);
+
+			// Number of states and index of the current state:
+			int states = getStateSpace().getStateCount();
+			int index = state.getIndex() + 1;	// always greater or equal 1
 			
-			// Number of states: rounded up for more stability:
-			int states = getStateSpace().getStates().size();
-			states = states - (states % 1000) + 1000;			// always greater than 1000
-			
-			// Decide whether the current model should be kept in memory.
-			int stored = (int) (Math.log10(states) * 1.5);		// ranges between 4 and 9-10
-			int index = state.getIndex() + 1;					// always greater or equal 1
-			//System.out.println(stored);
+			//      States:  Stored:
+			//     < 10,000     100%
+			//    >= 10,000      50%
+			//   >= 100,000      33%
+			// >= 1,000,000      25%
+			int threshold = 10000;
+			int stored = 1;
+			while (states>=threshold) {
+				threshold *= 10;
+				stored++;
+			}
 			
 			// Unset the model by chance:
 			if (index % stored != 0) {
@@ -200,6 +207,8 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 * Derive a model. The path is assumed to be non-empty.
 	 */
 	private Model deriveModel(State state, boolean startFromInitial) throws StateSpaceException {
+		
+		//System.out.println("Deriving model for state " + state.getIndex() + " (fromInital: " + startFromInitial + ")");
 		
 		// Find a path from one of the states predecessors:
 		Trace trace = new Trace();
@@ -617,9 +626,9 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 	 */
 	static class Cache<K,V> extends LinkedHashMap<K,V> {
 
-		// Cache size:
-		public static final int CACHE_SIZE = 1024;
-
+		// Cache size, estimated with maximum number of MB of free memory:
+		public static final int CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
+		
 		// Serial id:
 		private static final long serialVersionUID = 1L;
 
@@ -632,6 +641,15 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 			return size() > CACHE_SIZE;
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getNumThreads()
+	 */
+	@Override
+	public int getNumThreads() {
+		return 1;
 	}
 
 }

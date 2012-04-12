@@ -80,4 +80,10 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 */
 	void clearCache();
 	
+	/**
+	 * Get the number of threads used by this state manager.
+	 * @return The number of used threads.
+	 */
+	int getNumThreads();
+	
 }

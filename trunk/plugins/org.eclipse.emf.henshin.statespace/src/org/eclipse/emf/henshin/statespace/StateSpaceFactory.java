@@ -49,7 +49,15 @@ public interface StateSpaceFactory extends EFactory {
 	 * @generated NOT
 	 */
 	StateSpaceManager createStateSpaceManager(StateSpace stateSpace, int numThreads);
-	
+
+	/**
+	 * Returns a new state space manager. Uses multi-threading if more than one processor is available.
+	 * @param stateSpace The state space to be managed.
+	 * @return A new state space manager instance.
+	 * @generated NOT
+	 */
+	StateSpaceManager createStateSpaceManager(StateSpace stateSpace);
+
 	/**
 	 * Returns a new object of class '<em>State</em>'.
 	 * <!-- begin-user-doc -->

@@ -155,6 +155,16 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	}
 
 	/**
+	 * Returns a new state space manager.  Uses multi-threading if more than one processor is available.
+	 * @param stateSpace The state space to be managed.
+	 * @return A new state space manager instance.
+	 * @generated NOT
+	 */
+	public StateSpaceManager createStateSpaceManager(StateSpace stateSpace) {
+		return createStateSpaceManager(stateSpace, Runtime.getRuntime().availableProcessors());
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

@@ -153,4 +153,13 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getNumThreads()
+	 */
+	@Override
+	public int getNumThreads() {
+		return numWorkers;
+	}
+
 }

@@ -9,12 +9,17 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 public class DiningPhilsBenchmark {
 
-	public static void main(String[] args) {
+	public static void doBenchmark(int maxPhils, int numThreads) {
+
+		System.out.println("Starting benchmark...");
+		System.out.println("NumThreads: " + numThreads);
+		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB\n");
 
 		// Create a resource set with a base directory:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(
@@ -22,8 +27,10 @@ public class DiningPhilsBenchmark {
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
-		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(
-				stateSpace, Runtime.getRuntime().availableProcessors());
+		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
+		
+		// To improve the performance, we omit the identity types:
+		stateSpace.getProperties().remove(StateSpaceProperties.IDENTITY_TYPES);
 		
 		// Find the rule for adding a philosopher:
 		Rule createPhilRule = stateSpace.getRules().get(0).
@@ -31,10 +38,15 @@ public class DiningPhilsBenchmark {
 
 		// Now do the benchmark...
 		try {
-			for (int phils=3; true; phils++) {
+			System.out.println("Phils\tStates\tTrans\tTime");
+
+			for (int phils=3; phils<=maxPhils; phils++) {
 				
 				// First reset the state space:
 				manager.resetStateSpace();
+				for (int i=0; i<10; i++) {
+					System.gc();
+				}
 				
 				// Then explore it again:
 				long time = System.currentTimeMillis();
@@ -43,12 +55,12 @@ public class DiningPhilsBenchmark {
 				if (stateSpace.getStateCount()!=expectedStates || !stateSpace.getOpenStates().isEmpty()) {
 					throw new StateSpaceException("Unexpected number of states");
 				}
-				time = (System.currentTimeMillis() - time) / 1000;
+				time = (System.currentTimeMillis() - time);
 				
-				System.out.println("Philosophers: " + phils);
-				System.out.println("States: " + stateSpace.getStateCount());
-				System.out.println("Transitions: " + stateSpace.getTransitionCount());
-				System.out.println("Time: " + time + "s\n");
+				System.out.println(phils + "\t" + 
+								stateSpace.getStateCount() + "\t" + 
+								stateSpace.getTransitionCount() + "\t" + 
+								+ time);
 				
 				// Add a philosopher:
 				EmfGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEmfGraph();
@@ -62,6 +74,17 @@ public class DiningPhilsBenchmark {
 			e.printStackTrace();
 		}
 		
+		System.out.println();
+		
 	}
 	
+	public static void main(String[] args) {
+		int threads = Runtime.getRuntime().availableProcessors();
+		System.out.println("\n******* WARMUP PHASE ********\n");
+		doBenchmark(8, threads);
+		System.out.println("\n******* BENCHMARK ********\n");
+		doBenchmark(13, 1);
+		doBenchmark(13, threads);
+	}
+
 }
