@@ -27,7 +27,7 @@ public class DiningPhilsBenchmark {
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
-		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
+		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, numThreads);
 		
 		// To improve the performance, we omit the identity types:
 		stateSpace.getProperties().remove(StateSpaceProperties.IDENTITY_TYPES);
@@ -49,13 +49,15 @@ public class DiningPhilsBenchmark {
 				}
 				
 				// Then explore it again:
-				long time = System.currentTimeMillis();
 				int expectedStates = (int) Math.pow(3, phils);
+
+				long time = System.currentTimeMillis();
 				StateSpaceExplorationHelper.doExploration(manager, expectedStates, new NullProgressMonitor());
+				time = (System.currentTimeMillis() - time);
+
 				if (stateSpace.getStateCount()!=expectedStates || !stateSpace.getOpenStates().isEmpty()) {
 					throw new StateSpaceException("Unexpected number of states");
 				}
-				time = (System.currentTimeMillis() - time);
 				
 				System.out.println(phils + "\t" + 
 								stateSpace.getStateCount() + "\t" + 
@@ -68,23 +70,33 @@ public class DiningPhilsBenchmark {
 				RuleApplication app = new RuleApplication(engine, createPhilRule);
 				app.apply();
 				
-			}
-			
-		} catch (StateSpaceException e) {
+			}	
+		}
+		catch (StateSpaceException e) {
 			e.printStackTrace();
 		}
-		
+		finally {
+			manager.shutdown();
+			manager = null;
+			for (int i=0; i<10; i++) {
+				System.gc();
+			}
+		}
 		System.out.println();
 		
 	}
 	
 	public static void main(String[] args) {
+		
 		int threads = Runtime.getRuntime().availableProcessors();
-		System.out.println("\n******* WARMUP PHASE ********\n");
-		doBenchmark(8, threads);
+
+		//System.out.println("\n******* WARMUP PHASE ********\n");
+		//doBenchmark(7, 1);
+		
 		System.out.println("\n******* BENCHMARK ********\n");
-		doBenchmark(13, 1);
 		doBenchmark(13, threads);
+		doBenchmark(13, 1);
+		
 	}
 
 }

@@ -652,4 +652,14 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 		return 1;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#shutdown()
+	 */
+	@Override
+	public void shutdown() {
+		super.shutdown();
+		clearCache();
+	}
+
 }

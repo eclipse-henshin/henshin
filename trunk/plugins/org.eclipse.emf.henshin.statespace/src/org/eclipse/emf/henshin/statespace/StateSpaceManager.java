@@ -86,4 +86,9 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	 */
 	int getNumThreads();
 	
+	/**
+	 * Shutdown this state space manager.
+	 */
+	void shutdown();
+	
 }

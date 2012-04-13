@@ -1,7 +1,10 @@
 package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
@@ -16,14 +19,14 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebug;
  */
 public class StateSpaceExplorationHelper {
 	
-	// Minimum amount of free memory that should be available: 10%.
-	private static final double MIN_FREE_MEMORY = 0.1;
+	// Minimum amount of free memory that should be available: 15%.
+	private static final double MIN_FREE_MEMORY = 0.15;
 	
 	// State space manager:
 	private final StateSpaceManager manager;
 
 	// Expected duration of an exploration step in milliseconds:
-	private int expectedDuration = 1000;
+	private int expectedDuration = 2000;
 	
 	// Duration of the last exploration step:
 	private int lastDuration = expectedDuration;
@@ -32,7 +35,7 @@ public class StateSpaceExplorationHelper {
 	private int blockSize, minBlockSize, maxBlockSize;
 	
 	// Next states to be explored:
-	private List<State> nextStates;
+	private Set<State> nextStates;
 	
 	// Whether to generate locations:
 	private boolean generateLocations;
@@ -50,11 +53,11 @@ public class StateSpaceExplorationHelper {
 	public StateSpaceExplorationHelper(StateSpaceManager manager) {
 		this.manager = manager;
 		this.generateLocations = false;
-		this.nextStates = new ArrayList<State>();
+		this.nextStates = new LinkedHashSet<State>();
 		this.lastSpeeds = new double[10];
 		this.steps = 0;
 		this.blockSize = 10;
-		this.minBlockSize = Math.max((int) (manager.getNumThreads() * 1.5), 2);
+		this.minBlockSize = manager.getNumThreads() * 4;
 		this.maxBlockSize = 2000;
 	}
 	
@@ -74,27 +77,17 @@ public class StateSpaceExplorationHelper {
 		}
 		
 		/* Update the list of next states to be explored. */
+		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
 		
-		// Filter out irrelevant states:
-		filterNextStates();
-		
-		// Check if we have enough states in the list:
-		if (nextStates.size()<blockSize) {
-			for (State open : manager.getStateSpace().getOpenStates()) {
-				if (!nextStates.contains(open)) {
-					nextStates.add(open);
-				}
-				if (nextStates.size()>=2*blockSize) {
-					filterNextStates();
-					if (nextStates.size()>=blockSize) {
-						break;
-					}
-				}
+		// Add new states to be explored:
+		for (State open : manager.getStateSpace().getOpenStates()) {
+			if (nextStates.size()>=blockSize) {
+				break;
+			}
+			if (maxStateDistance<0 || maxStateDistance<=manager.getStateDistance(open)) {
+				nextStates.add(open);
 			}
 		}
-		
-		// Filter out distant states:
-		filterNextStates();
 		
 		// Nothing left to do?
 		if (nextStates.isEmpty()) {
@@ -102,17 +95,24 @@ public class StateSpaceExplorationHelper {
 		}
 		
 		// How many state we can really explore:
-		int realSize = Math.min(blockSize, nextStates.size());
+		int realSize = Math.min(blockSize, nextStates.size());	
 		
 		// States to be explored right now:
-		List<State> exploreNow = (nextStates.size()==realSize) ? 
-				nextStates : nextStates.subList(0, realSize);
+		List<State> exploreNow = new ArrayList<State>(realSize);
+		Iterator<State> it = nextStates.iterator();
+		for (int i=0; i<realSize; i++) {
+			exploreNow.add(it.next());
+			it.remove();
+		}
 		
 		// Explore the next states:
 		List<State> result = manager.exploreStates(exploreNow, generateLocations);
 		
 		// We want to use the new states in the next step:
-		nextStates.addAll(0, result);
+		Set<State> oldNextStates = nextStates;
+		nextStates = new LinkedHashSet<State>();
+		nextStates.addAll(result);
+		nextStates.addAll(oldNextStates);
 		
 		// Update the last duration value:
 		lastDuration = rangeCheck((int) (System.currentTimeMillis() - startTime), 1, 10*expectedDuration);
@@ -124,11 +124,11 @@ public class StateSpaceExplorationHelper {
 		steps++;
 		
 		// Regularly check whether we need to clear the caches:
-		if (steps % 20 == 0) {
+		if (steps % 15 == 0) {
 			System.gc();
 			double freeMem = ((double) Runtime.getRuntime().freeMemory()) / 
 							 ((double) Runtime.getRuntime().maxMemory());
-			// System.out.println(freeMem + "% free memory");
+			//System.out.println("Free memory: " + freeMem + "%");
 			if (freeMem < MIN_FREE_MEMORY) {
 				System.out.println("Clearing cache...");
 				manager.clearCache();
@@ -142,25 +142,6 @@ public class StateSpaceExplorationHelper {
 		// Done for this cycle.
 		return true;
 		
-	}
-	
-	private void filterNextStates() {
-		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
-		for (int i=0; i<nextStates.size(); i++) {
-
-			// Not open?
-			if (!nextStates.get(i).isOpen()) {
-				nextStates.remove(i--);
-				continue;
-			}
-
-			// To distant?
-			if (maxStateDistance>=0 && maxStateDistance<=manager.getStateDistance(nextStates.get(i))) {
-				nextStates.remove(i--);
-				continue;
-			}
-
-		}
 	}
 	
 	private int rangeCheck(int value, int min, int max) {

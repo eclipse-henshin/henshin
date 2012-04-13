@@ -543,5 +543,15 @@ public abstract class AbstractStateSpaceManager extends StateSpaceIndexImpl impl
 	protected void markTainted() {
 		tainted = true;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#shutdown()
+	 */
+	@Override
+	public void shutdown() {
+		getStateSpace().eAdapters().remove(adapter);
+		markTainted();
+	}
+	
 }

@@ -80,8 +80,9 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 			}
 			// Evaluate the results:
 			for (int i=0; i<numWorkers; i++) {
-				if (futures[i].get()!=null) {
-					throw futures[i].get();
+				StateSpaceException e = futures[i].get();
+				if (e!=null) {
+					throw e;
 				}
 			}
 		} catch (Throwable t) {
@@ -160,6 +161,16 @@ public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
 	@Override
 	public int getNumThreads() {
 		return numWorkers;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#shutdown()
+	 */
+	@Override
+	public void shutdown() {
+		super.shutdown();
+		executor.shutdownNow();
 	}
 
 }
