@@ -13,8 +13,16 @@ import java.util.Map;
 public class UniversalCache<K,V> extends LinkedHashMap<K,V> {
 
 	// Default cache size, estimated with maximum number of MB of free memory:
-	public static final int DEFAULT_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
-
+	public static final int DEFAULT_CACHE_SIZE;
+	
+	static {
+		if (StateSpaceDebug.ENFORCE_DETERMINISM) {
+			DEFAULT_CACHE_SIZE = 1024; 
+		} else {
+			DEFAULT_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
+		}
+	}
+	
 	// Serial id:
 	private static final long serialVersionUID = 1L;
 

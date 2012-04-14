@@ -41,4 +41,9 @@ public interface StateSpaceIndex {
 	 */
 	Model getModel(State state) throws StateSpaceException;
 
+	/**
+	 * Clear all caches of the state space index.
+	 */
+	void clearCache();
+	
 }

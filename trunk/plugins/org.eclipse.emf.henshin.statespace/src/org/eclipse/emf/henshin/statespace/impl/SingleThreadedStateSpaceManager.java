@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -54,10 +53,6 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  */
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
-	// State model cache:
-	private final Map<State,Model> stateModelCache = 
-			Collections.synchronizedMap(new UniversalCache<State,Model>());
-		
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
@@ -436,103 +431,13 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			return -1;
 		}
 	}
-			
+		
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#deriveModel(org.eclipse.emf.henshin.statespace.State, boolean)
 	 */
-	public Model getModel(State state) throws StateSpaceException {
-		
-		// Model cached?
-		Model model = getCachedModel(state);
-		
-		// Otherwise derive and store the model:
-		if (model==null) {	
-			model = deriveModel(state, false);
-			storeModel(state, model);
-		}
-		else if (StateSpaceDebug.VALIDATE_STATES) {
-			storeModel(state, model);
-		}
-		
-		// Done.
-		return model;
-		
-	}
-	
-	/*
-	 * Try to get a cached model for a state.
-	 */
-	private Model getCachedModel(State state) {
-		Model model = state.getModel();
-		if (model!=null) {
-			return model;
-		}
-		return stateModelCache.get(state);
-	}
-	
-	/*
-	 * Store or discard a state model probabilistically.
-	 */
-	private void storeModel(State state, Model model) throws StateSpaceException {
-		
-		// Never lose initial state models!!!
-		if (state.isInitial()) return;
-		
-		// Debug:
-		if (StateSpaceDebug.VALIDATE_STATES) {
-			
-			// Compare real hash code with state hash code: 
-			Model derived = deriveModel(state, true);
-			int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
-			int hashCode2 = getStateSpace().getEqualityHelper().hashCode(derived);
-			
-			if (hashCode!=state.getHashCode() || hashCode!=hashCode2) {
-				throw new StateSpaceException("Attempted to store an invalid model for state " + state.getIndex());
-			}
-			
-		}
-		
-		// Decide whether to cache the model:
-		if (StateSpaceDebug.NORMAL_CACHING) {
-			
-			// Add the model to the cache:
-			stateModelCache.put(state, model);
-
-			// Number of states and index of the current state:
-			int states = getStateSpace().getStateCount();
-			int index = state.getIndex() + 1;	// always greater or equal 1
-			
-			//      States:  Stored:
-			//     < 10,000     100%
-			//    >= 10,000      50%
-			//   >= 100,000      33%
-			// >= 1,000,000      25%
-			int threshold = 10000;
-			int stored = 1;
-			while (states>=threshold) {
-				threshold *= 10;
-				stored++;
-			}
-			
-			// Unset the model by chance:
-			if (index % stored != 0) {
-				model = null;
-			}
-			
-		} else if (StateSpaceDebug.NO_CACHING) {
-			model = null;
-		}
-		
-		// Update the state:
-		state.setModel(model);
-		
-	}
-	
-	/*
-	 * Derive a model. The path is assumed to be non-empty.
-	 */
-	private Model deriveModel(State state, boolean startFromInitial) throws StateSpaceException {
+	@Override
+	protected Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
 		
 		// Find a path from one of the states predecessors:
 		Trace trace = new Trace();
@@ -546,7 +451,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				source = states.get(target.getDerivedFrom());
 				trace.addFirst(source.findOutgoing(target, null, -1, null));
 				start = getCachedModel(source);
-				if (startFromInitial && !source.isInitial()) {
+				if (fromInitial && !source.isInitial()) {
 					start = null;
 				}
 			}
@@ -575,14 +480,12 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			postProcessor.process(model);
 			model.collectMissingRootObjects();
 			
-			// Validate model if necessary:
-			if (StateSpaceDebug.VALIDATE_STATES) {
-				int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
-				if (transition.getTarget().getHashCode()!=hashCode) {
-					throw new StateSpaceException("Error constructing model for state " +
-						transition.getTarget().getIndex() + " in path " + trace);
-				}
-			}
+			// Debug: Validate model if necessary:
+			//int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
+			//if (transition.getTarget().getHashCode()!=hashCode) {
+			//	throw new StateSpaceException("Error constructing model for state " +
+			//			transition.getTarget().getIndex() + " in path " + trace);
+			//}
 			
 		}
 
@@ -704,7 +607,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
-				storeModel(target, transformed);
+				cacheModel(target, transformed);
 				result.add(target);
 			}
 			
@@ -870,22 +773,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		return location;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#clearCache()
-	 */
-	@Override
-	public void clearCache() {
-		for (State state : getStateSpace().getStates()) {
-			if (!state.isInitial()) {
-				state.setModel(null);
-			}
-		}
-		stateModelCache.clear();
-		getStateSpace().getEqualityHelper().clearCache();
-		System.gc();
-	}
-
 	/*
 	 * Perform a sanity check for the exploration. For testing only.
 	 * This check if doExplore() really yields equal results when invoked

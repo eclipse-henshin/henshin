@@ -147,7 +147,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 */
 	@SuppressWarnings("all")
 	public StateSpaceManager createStateSpaceManager(StateSpace stateSpace, int numThreads) {
-		if (numThreads>1 && !StateSpaceDebug.ENFORCE_DETERMINISTIC_EXPLORATION) {
+		if (numThreads>1 && !StateSpaceDebug.ENFORCE_DETERMINISM) {
 			return new MultiThreadedStateSpaceManager(stateSpace, numThreads);
 		} else {
 			return new SingleThreadedStateSpaceManager(stateSpace);

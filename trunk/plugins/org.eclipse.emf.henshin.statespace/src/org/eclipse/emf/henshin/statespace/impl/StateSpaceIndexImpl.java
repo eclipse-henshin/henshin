@@ -12,6 +12,8 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
@@ -28,6 +30,10 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	
 	// Initial size of the index. We use a prime number.
 	private static final int INITIAL_INDEX_SIZE = 4093;
+	
+	// State model cache:
+	private final Map<State,Model> stateModelCache = 
+			Collections.synchronizedMap(new UniversalCache<State,Model>());
 	
 	// The state space index:
 	private State[][] index;
@@ -46,13 +52,10 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 			throw new NullPointerException();
 		}
 		this.stateSpace = stateSpace;
-		
-		// Initialize the index:
 		resetIndex();
 		for (State state : getStateSpace().getStates()) {
 			addToIndex(state);
 		}
-
 	}
 
 	/*
@@ -60,8 +63,78 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#getModel(org.eclipse.emf.henshin.statespace.State)
 	 */
 	public Model getModel(State state) throws StateSpaceException {
-		if (state.getModel()==null) throw new StateSpaceException("State without model");
-		return state.getModel();
+		Model model = getCachedModel(state);
+		if (model==null) {	
+			model = deriveModel(state, false);
+			if (model!=null) {
+				cacheModel(state, model);
+			}
+		}
+		return model;
+	}
+	
+	/*
+	 * Try to get a cached model for a state.
+	 */
+	protected Model getCachedModel(State state) {
+		Model model = state.getModel();
+		if (model!=null) {
+			return model;
+		}
+		return stateModelCache.get(state);
+	}
+	
+	/*
+	 * Store or discard a state model probabilistically.
+	 */
+	protected void cacheModel(State state, Model model) throws StateSpaceException {
+		
+		// Never lose initial state models!!!
+		if (state.isInitial()) return;
+		
+		// Debug:
+		// Compare real hash code with state hash code: 
+		//Model derived = deriveModel(state, true);
+		//int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
+		//int hashCode2 = getStateSpace().getEqualityHelper().hashCode(derived);	
+		//if (hashCode!=state.getHashCode() || hashCode!=hashCode2) {
+		//	throw new StateSpaceException("Attempted to store an invalid model for state " + state.getIndex());
+		//}
+
+		// Add the model to the cache:
+		stateModelCache.put(state, model);
+
+		// Number of states and index of the current state:
+		int states = getStateSpace().getStateCount();
+		int index = state.getIndex() + 1;	// always greater or equal 1
+
+		//      States:  Stored:
+		//     < 10,000     100%
+		//    >= 10,000      50%
+		//   >= 100,000      33%
+		// >= 1,000,000      25%
+		int threshold = 10000;
+		int stored = 1;
+		while (states>=threshold) {
+			threshold *= 10;
+			stored++;
+		}
+
+		// Unset the model by chance:
+		if (index % stored != 0) {
+			model = null;
+		}
+					
+		// Update the state:
+		state.setModel(model);
+		
+	}
+	
+	/*
+	 * Derive a model. Should be overridden by subclasses.
+	 */
+	protected Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
+		return null;
 	}
 
 	/*
@@ -214,9 +287,24 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	 * Compute the optimal size of the index.
 	 */
 	private int optimalSize() {
-		// We want it to be filled to 25%.
-		int size = (stateSpace.getStates().size() * 4) + 1;
+		int size = (stateSpace.getStates().size() * 4) + 1; // should be filled to 25%
 		return (size<INITIAL_INDEX_SIZE) ? INITIAL_INDEX_SIZE : size;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceIndex#clearCache()
+	 */
+	@Override
+	public void clearCache() {
+		for (State state : getStateSpace().getStates()) {
+			if (!state.isInitial()) {
+				state.setModel(null);
+			}
+		}
+		stateModelCache.clear();
+		getStateSpace().getEqualityHelper().clearCache();
+		System.gc();
+	}
+
 }

@@ -72,7 +72,7 @@ public class StateSpaceExplorationHelper {
 		
 		// Adjust the number of states to be explored in one step:
 		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.5, 2);
-		if (!StateSpaceDebug.ENFORCE_DETERMINISTIC_EXPLORATION) {
+		if (!StateSpaceDebug.ENFORCE_DETERMINISM) {
 			blockSize = rangeCheck((int) ((double) blockSize * speedChange), minBlockSize, maxBlockSize);
 		}
 		

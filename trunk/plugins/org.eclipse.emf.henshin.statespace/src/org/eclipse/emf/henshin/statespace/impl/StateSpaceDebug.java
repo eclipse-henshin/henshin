@@ -1,16 +1,13 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
-@SuppressWarnings("all")
+/**
+ * Debug flags for the state space classes.
+ */
 public class StateSpaceDebug {
 
-	public static final boolean ENFORCE_DETERMINISTIC_EXPLORATION = false;
+	/**
+	 * Whether to enforce deterministic execution of the state space tools.
+	 */
+	public static final boolean ENFORCE_DETERMINISM = false;
 
-	public static final boolean VALIDATE_STATES = false;
-
-	public static final int CACHING_LEVEL = 1;
-	
-	public static final boolean NO_CACHING = (CACHING_LEVEL==0);
-	public static final boolean NORMAL_CACHING = (CACHING_LEVEL==1);
-	public static final boolean FULL_CACHING = (CACHING_LEVEL==2);
-			
 }

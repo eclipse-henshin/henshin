@@ -87,16 +87,12 @@ public class DiningPhilsBenchmark {
 	}
 	
 	public static void main(String[] args) {
-		
 		int threads = Runtime.getRuntime().availableProcessors();
-
 		//System.out.println("\n******* WARMUP PHASE ********\n");
 		//doBenchmark(7, 1);
-		
 		System.out.println("\n******* BENCHMARK ********\n");
 		doBenchmark(8, threads);
 		//doBenchmark(8, 1);
-		
 	}
 
 }

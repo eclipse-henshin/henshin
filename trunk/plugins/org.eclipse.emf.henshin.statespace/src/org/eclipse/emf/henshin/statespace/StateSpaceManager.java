@@ -76,11 +76,6 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	void reload(IProgressMonitor monitor) throws StateSpaceException;
 
 	/**
-	 * Clear the cache of the state space manager.
-	 */
-	void clearCache();
-	
-	/**
 	 * Get the number of threads used by this state manager.
 	 * @return The number of used threads.
 	 */
