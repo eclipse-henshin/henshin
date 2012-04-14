@@ -27,7 +27,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
  * @author Christian Krause
  * @generated NOT
  */
-public class MultiThreadedStateSpaceManager extends StateSpaceManagerImpl {
+public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceManager {
 	
 	// Number of threads to be used.
 	private int numWorkers;

@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceManagerImpl.Cache;
+import org.eclipse.emf.henshin.statespace.impl.SingleThreadedStateSpaceManager.Cache;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
 
 /**
