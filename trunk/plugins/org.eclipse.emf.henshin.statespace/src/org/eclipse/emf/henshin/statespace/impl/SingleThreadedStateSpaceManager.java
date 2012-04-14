@@ -28,10 +28,6 @@ import javax.script.ScriptException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -48,7 +44,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
@@ -58,31 +53,19 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
- * Default state space manager implementation.
+ * Single-threaded state space manager implementation.
  * 
  * @author Christian Krause
  * @generated NOT
  */
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
-	// State space meta data feature. This is ignored when changed from outside.
-	private static final EAttribute METADATA_FEATURE = StateSpacePackage.eINSTANCE.getStorage_Data(); 
-	
 	// Tainted flag;
 	private boolean tainted;
-	
-	// Change flag:
-	private boolean change = false;
-
-	// A lock for the state space:
-	private final Object stateSpaceLock = new Object();
 
 	// State distance monitor:
 	private StateDistanceMonitor stateDistanceMonitor;
 	
-	// Cached maximum state distance:
-	private int chachedMaxStateDistance;
-
 	// State model cache:
 	private final Map<State,Model> stateModelCache = 
 			Collections.synchronizedMap(new Cache<State,Model>());
@@ -90,34 +73,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
-	// A lock used when exploring states:
-	private final Object explorerLock = new Object();
+	// A lock used when accessing te state space:
+	private final Object stateSpaceLock = new Object();
 	
 	// JavaScript post-processor:
 	private PostProcessor postProcessor;
-
-	// State space adapter:
-	private Adapter adapter = new AdapterImpl() {		
-		@Override
-		public void notifyChanged(Notification event) {
-			
-			// Get the changed feature:
-			Object feature = event.getFeature();
-			
-			// Check if the change is illegal:
-			if (!change && feature!=METADATA_FEATURE) {
-				tainted = true;
-			}
-			
-			// Check if we need to update the state distance monitor:
-			if (feature==METADATA_FEATURE) {
-				if (chachedMaxStateDistance!=getStateSpace().getMaxStateDistance()) {
-					resetStateDistanceMonitor();
-				}
-			}
-			
-		}
-	};
 
 	/**
 	 * Default constructor.
@@ -126,8 +86,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	public SingleThreadedStateSpaceManager(StateSpace stateSpace) {
 		super(stateSpace);
 		this.tainted = false;
-		stateSpace.eAdapters().add(adapter);
-		resetStateDistanceMonitor();
+		initStateDistanceMonitor();
 		stateSpace.updateEqualityHelper();
 		postProcessor = new PostProcessor();
 	}
@@ -136,7 +95,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 * Initialize the state distance monitor.
 	 * If it is not required, it is set to null.
 	 */
-	private void resetStateDistanceMonitor() {
+	protected void initStateDistanceMonitor() {
 		if (getStateSpace().getMaxStateDistance()>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
 		} else {
@@ -144,12 +103,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		}
 	}
 	
-	/**
-	 * Reload all models, update hash codes and update the object types.
-	 * @param monitor Progress monitor.
-	 * @exception StateSpaceException If the state space contains errors.
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#reload(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public final void reload(IProgressMonitor monitor) throws StateSpaceException {
+	public void reload(IProgressMonitor monitor) throws StateSpaceException {
 		
 		monitor.beginTask("Reload models", getStateSpace().getStates().size() + 3);
 		
@@ -157,11 +115,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		StateSpace stateSpace = getStateSpace();
 		EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
 
-		// Update the equality helper
+		// Refresh cached data:
 		stateSpace.updateEqualityHelper();
-		
-		// Clear the cache:
+		initStateDistanceMonitor();
 		clearCache();
+		
 		monitor.worked(1);
 		
 		try {
@@ -228,26 +186,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#exploreStates(java.util.List, boolean)
-	 */
-	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
-		List<State> result = new ArrayList<State>();
-		try {
-			for (State state : states) {
-				result.addAll(exploreState(state, generateLocation));
-			}
-		} catch (Throwable t) {
-			if (t instanceof StateSpaceException) {
-				throw (StateSpaceException) t;
-			} else {
-				throw new StateSpaceException(t);
-			}
-		}
-		return result;
-	}
-
-	/*
 	 * Helper method for finding a state in a list.
 	 */
 	protected State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
@@ -260,26 +198,16 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		return null;
 	}
 
-	/**
+	/*
 	 * Mark a state as open or closed.
-	 * @param state State.
-	 * @param open Open-flag.
 	 */
 	protected void setOpen(State state, boolean open) {
-		synchronized (stateSpaceLock) {
-			change = true;
-			state.setOpen(open);
-			if (open) {
-				getStateSpace().getOpenStates().add(state);
-			} else {
-				getStateSpace().getOpenStates().remove(state);
-			}			
-			change = false;
-		}
-	}
-	
-	protected State createOpenState(Model model, int hash, State derivedFrom) {
-		return createOpenState(model, hash, derivedFrom, null);
+		state.setOpen(open);
+		if (open) {
+			getStateSpace().getOpenStates().add(state);
+		} else {
+			getStateSpace().getOpenStates().remove(state);
+		}			
 	}
 
 	/**
@@ -312,14 +240,10 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		}
 		
 		// Add the state to the state space:
-		synchronized (stateSpaceLock) {
-			change = true;
-			getStateSpace().getStates().add(state);
-			getStateSpace().getOpenStates().add(state);
-			if (stateDistanceMonitor!=null) {
-				stateDistanceMonitor.updateDistance(state);
-			}
-			change = false;
+		getStateSpace().getStates().add(state);
+		getStateSpace().getOpenStates().add(state);
+		if (stateDistanceMonitor!=null) {
+			stateDistanceMonitor.updateDistance(state);
 		}
 		
 		// Add the state to the index:
@@ -356,14 +280,12 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		if (state!=null) return state;
 		
 		// Otherwise create a new state:
-		State initial = createOpenState(model, hash, null);
+		State initial = createOpenState(model, hash, null, null);
 		synchronized (stateSpaceLock) {
-			change = true;
 			getStateSpace().getInitialStates().add(initial);
 			if (stateDistanceMonitor!=null) {
 				stateDistanceMonitor.updateDistance(state);
 			}
-			change = false;
 		}
 		return initial;
 		
@@ -375,15 +297,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	public final List<State> removeState(State state) throws StateSpaceException {
 		
-		// Check if the state space is tainted:
-		if (tainted) throw new StateSpaceException();
-		
 		// List of removed states:
 		List<State> removed = new ArrayList<State>();
 		
 		// Remove state and all unreachable states:
 		synchronized (stateSpaceLock) {
-			change = true;
 			
 			// Remove the state and all reachable states:
 			if (getStateSpace().removeState(state)) {
@@ -412,8 +330,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			int number = getStateSpace().getTransitionCount() - transitions.size();
 			getStateSpace().setTransitionCount(number);
 			
-			// No need to update the state distance monitor here.
-			change = false;
 		}
 		
 		// Done.
@@ -429,7 +345,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
-			change = true;
 			
 			// Recompute the supported types:
 			getStateSpace().updateEqualityHelper();
@@ -456,32 +371,17 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				initial.setObjectKeys(model.getObjectKeys());
 			}
 
-			// Reset the state distance monitor:
-			resetStateDistanceMonitor();
-			
-			change = false;
+			// Reload the manager:
+			reload(new NullProgressMonitor());
+
 		}
 		
-		// Reload the manager:
-		try {
-			reload(new NullProgressMonitor());
-			tainted = false;
-		}
-		catch (StateSpaceException e) {
-			tainted = true;
-			throw e;
-		}
 	}
 	
-	/**
+	/*
 	 * Create a new outgoing transition. Note that the this does not check
 	 * if the same transition exists already (use {@link #getTransition(State, String, int, int[])}
 	 * for that). Moreover the created transition is dangling (the target is not set).
-	 * @param source Source state.
-	 * @param target Target state.
-	 * @param rule Rule to be used.
-	 * @param match Match to be used.
-	 * @return The newly created transition.
 	 */
 	protected Transition createTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
 		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
@@ -489,20 +389,16 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		transition.setMatch(match);
 		transition.setParameterKeys(paramIDs);
 		transition.setParameterCount(paramIDs.length);
-		synchronized (stateSpaceLock) {
-			change = true;
-			transition.setSource(source);
-			transition.setTarget(target);
-			getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
-			if (stateDistanceMonitor!=null) {
-				stateDistanceMonitor.updateDistance(transition.getTarget());
-			}
-			change = false;
+		transition.setSource(source);
+		transition.setTarget(target);
+		getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
+		if (stateDistanceMonitor!=null) {
+			stateDistanceMonitor.updateDistance(transition.getTarget());
 		}
 		return transition;
 	}
 	
-	/**
+	/*
 	 * Find an outgoing transition.
 	 */
 	protected static Transition findTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
@@ -751,7 +647,27 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		return model;
 		
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#exploreStates(java.util.List, boolean)
+	 */
+	public List<State> exploreStates(List<State> states, boolean generateLocation) throws StateSpaceException {
+		List<State> result = new ArrayList<State>();
+		try {
+			for (State state : states) {
+				result.addAll(exploreState(state, generateLocation));
+			}
+		} catch (Throwable t) {
+			if (t instanceof StateSpaceException) {
+				throw (StateSpaceException) t;
+			} else {
+				throw new StateSpaceException(t);
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Explore a given state.
 	 * @param state State to be explored.
@@ -784,7 +700,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
 		
 		// START OF EXPLORER LOCK
-		synchronized (explorerLock) {
+		synchronized (stateSpaceLock) {
 			monitor.setActive(true);	// Activate the monitor.
 		}
 		// END OF EXPLORER LOCK
@@ -810,7 +726,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			target = getState(transformed, hashCode);
 			
 			// START OF EXPLORER LOCK
-			synchronized (explorerLock) {
+			synchronized (stateSpaceLock) {
 				
 				if (target==null) {
 					// Check if an equivalent state has been added in the meantime.
@@ -846,7 +762,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		}
 		
 		// START OF EXPLORER LOCK
-		synchronized (explorerLock) {
+		synchronized (stateSpaceLock) {
 			// Deactivate the monitor so that it can be garbage collected.
 			monitor.setActive(false);
 		}
@@ -1135,7 +1051,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	@Override
 	public void shutdown() {
-		getStateSpace().eAdapters().remove(adapter);
 		markTainted();
 		clearCache();
 	}
