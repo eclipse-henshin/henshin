@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -172,19 +171,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	}
 	
 	/*
-	 * Helper method for finding a state in a list.
-	 */
-	protected State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
-		for (State state : states) {
-			if (hashCode==state.getHashCode() && 
-				getStateSpace().getEqualityHelper().equals(model,getModel(state))) {
-				return state;
-			}
-		}
-		return null;
-	}
-
-	/*
 	 * Mark a state as open or closed.
 	 */
 	protected void setOpen(State state, boolean open) {
@@ -215,7 +201,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			}
 			
 			// Find the corresponding outgoing transition:
-			Transition transition = findTransition(state, target, current.getRule(), current.getMatch(), current.getParameterKeys());
+			Transition transition = state.findOutgoing(target, current.getRule(), current.getMatch(), current.getParameterKeys());
 			if (transition==null) {
 				return true;
 			}
@@ -422,20 +408,18 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	}
 	
 	/*
-	 * Find an outgoing transition.
+	 * Helper method for finding a state in a list.
 	 */
-	protected static Transition findTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
-		for (Transition transition : source.getOutgoing()) {
-			if (target==transition.getTarget() && 
-				(rule==null || rule==transition.getRule()) &&
-				(paramIDs==null || Arrays.equals(paramIDs, transition.getParameterKeys())) &&
-				(match<0 || transition.getMatch()==match)) {
-				return transition;
+	protected State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
+		for (State state : states) {
+			if (hashCode==state.getHashCode() && 
+				getStateSpace().getEqualityHelper().equals(model,getModel(state))) {
+				return state;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the distance of a state to an initial state.
 	 * This returns the correct distance only if the
@@ -550,8 +534,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	private Model deriveModel(State state, boolean startFromInitial) throws StateSpaceException {
 		
-		//System.out.println("Deriving model for state " + state.getIndex() + " (fromInital: " + startFromInitial + ")");
-		
 		// Find a path from one of the states predecessors:
 		Trace trace = new Trace();
 		State source = state;
@@ -562,7 +544,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			while (start==null) {
 				target = source;
 				source = states.get(target.getDerivedFrom());
-				trace.addFirst(findTransition(source, target, null, -1, null));
+				trace.addFirst(source.findOutgoing(target, null, -1, null));
 				start = getCachedModel(source);
 				if (startFromInitial && !source.isInitial()) {
 					start = null;
@@ -653,9 +635,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		}
 		
 		// For debugging purposes:
-		if (StateSpaceDebug.CHECK_ENGINE_DETERMINISM) {
-			checkEngineDeterminism(state);
-		}
+		// checkEngineDeterminism(state);
 		
 		// Explore the state without changing the state space.
 		// This can take some time. So no lock here.
@@ -668,11 +648,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		// For performance we use a monitor to detect concurrently made changes.
 		StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
 		
-		// START OF EXPLORER LOCK
+		// START OF STATE SPACE LOCK
 		synchronized (stateSpaceLock) {
 			monitor.setActive(true);	// Activate the monitor.
 		}
-		// END OF EXPLORER LOCK
+		// END OF STATE SPACE LOCK
 		
 		// No check which states / transitions need to be added.
 		for (Transition transition : transitions) {
@@ -694,7 +674,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			// Try to find an equivalent state. This can take some time. Hence no lock here.
 			target = getState(transformed, hashCode);
 			
-			// START OF EXPLORER LOCK
+			// START OF STATE SPACE LOCK
 			synchronized (stateSpaceLock) {
 				
 				if (target==null) {
@@ -715,12 +695,12 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				}
 	
 				// Find or create the transition.
-				if (newState || findTransition(state, target, rule, match, parameters)==null) {
+				if (newState || state.findOutgoing(target, rule, match, parameters)==null) {
 					createTransition(state, target, rule, match, parameters);
 				}
 
 			}
-			// END OF EXPLORER LOCK
+			// END OF STATE SPACE LOCK
 			
 			// Now that the transition is there, we can decide whether to store the model.
 			if (newState) {
@@ -730,12 +710,12 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			
 		}
 		
-		// START OF EXPLORER LOCK
+		// START OF STATE SPACE LOCK
 		synchronized (stateSpaceLock) {
-			// Deactivate the monitor so that it can be garbage collected.
+			// Deactivate the monitor again.
 			monitor.setActive(false);
 		}
-		// END OF EXPLORER LOCK
+		// END OF STATE SPACE LOCK
 
 		// Mark the state as closed:
 		setOpen(state, false);

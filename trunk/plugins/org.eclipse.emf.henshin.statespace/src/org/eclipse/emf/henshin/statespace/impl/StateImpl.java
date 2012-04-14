@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.statespace.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -53,6 +55,21 @@ public class StateImpl extends StorageImpl implements State {
 		return !isOpen() && getOutgoing().isEmpty();
 	}
 	
+	/**
+	 * @generated NOT
+	 */
+	public Transition findOutgoing(State target, Rule rule, int match, int[] paramIDs) {
+		for (Transition transition : getOutgoing()) {
+			if (target==transition.getTarget() && 
+				(rule==null || rule==transition.getRule()) &&
+				(paramIDs==null || Arrays.equals(paramIDs, transition.getParameterKeys())) &&
+				(match<0 || transition.getMatch()==match)) {
+				return transition;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @generated NOT
 	 */

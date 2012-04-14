@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -237,5 +238,14 @@ public interface State extends Storage {
 	 * @generated
 	 */
 	boolean isTerminal();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return 
+	 * @model paramIDsDataType="org.eclipse.emf.henshin.statespace.IntegerArray"
+	 * @generated
+	 */
+	Transition findOutgoing(State target, Rule rule, int match, int[] paramIDs);
 		
 }

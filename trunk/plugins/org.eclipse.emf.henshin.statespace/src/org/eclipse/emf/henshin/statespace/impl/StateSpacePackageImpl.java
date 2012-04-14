@@ -874,6 +874,12 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isTerminal", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(stateEClass, null, "findOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getState(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, theHenshinPackage.getRule(), "rule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEInt(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIntegerArray(), "paramIDs", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Resource(), ecorePackage.getEResource(), "resource", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_EmfGraph(), this.getEmfGraph(), "emfGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
