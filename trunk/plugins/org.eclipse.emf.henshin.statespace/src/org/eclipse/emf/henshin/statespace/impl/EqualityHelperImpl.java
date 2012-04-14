@@ -33,7 +33,6 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
-import org.eclipse.emf.henshin.statespace.impl.SingleThreadedStateSpaceManager.Cache;
 import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
 
 /**
@@ -45,7 +44,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 
 	// Graph isomorphy-checker cache:
 	private final Map<Model,GraphIsomorphyChecker> isomorphyCheckerCache = 
-		Collections.synchronizedMap(new Cache<Model,GraphIsomorphyChecker>());
+		Collections.synchronizedMap(new UniversalCache<Model,GraphIsomorphyChecker>());
 
 	/**
 	 * @generated NOT

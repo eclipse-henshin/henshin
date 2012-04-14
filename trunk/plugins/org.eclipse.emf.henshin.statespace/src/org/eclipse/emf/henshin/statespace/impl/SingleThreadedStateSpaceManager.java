@@ -16,15 +16,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -60,24 +55,21 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  */
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
-	// Tainted flag;
-	private boolean tainted;
-
-	// State distance monitor:
-	private StateDistanceMonitor stateDistanceMonitor;
-	
 	// State model cache:
 	private final Map<State,Model> stateModelCache = 
-			Collections.synchronizedMap(new Cache<State,Model>());
+			Collections.synchronizedMap(new UniversalCache<State,Model>());
 		
 	// Transformation engines:
 	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
 	
 	// A lock used when accessing te state space:
 	private final Object stateSpaceLock = new Object();
+
+	// State distance monitor:
+	private StateDistanceMonitor stateDistanceMonitor;
 	
-	// JavaScript post-processor:
-	private PostProcessor postProcessor;
+	// Model post-processor:
+	private ModelPostProcessor postProcessor;
 
 	/**
 	 * Default constructor.
@@ -85,24 +77,23 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	public SingleThreadedStateSpaceManager(StateSpace stateSpace) {
 		super(stateSpace);
-		this.tainted = false;
-		initStateDistanceMonitor();
-		stateSpace.updateEqualityHelper();
-		postProcessor = new PostProcessor();
+		refreshHelpers();
 	}
 	
 	/*
-	 * Initialize the state distance monitor.
-	 * If it is not required, it is set to null.
+	 * Refresh the helpers.
 	 */
-	protected void initStateDistanceMonitor() {
+	protected void refreshHelpers() {
+		getStateSpace().updateEqualityHelper();
+		postProcessor = new ModelPostProcessor(getStateSpace());
 		if (getStateSpace().getMaxStateDistance()>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
 		} else {
 			stateDistanceMonitor = null;
 		}
+		clearCache();
 	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#reload(org.eclipse.core.runtime.IProgressMonitor)
@@ -115,11 +106,8 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		StateSpace stateSpace = getStateSpace();
 		EqualityHelper equalityHelper = stateSpace.getEqualityHelper();
 
-		// Refresh cached data:
-		stateSpace.updateEqualityHelper();
-		initStateDistanceMonitor();
-		clearCache();
-		
+		// Refresh helpers:
+		refreshHelpers();	
 		monitor.worked(1);
 		
 		try {
@@ -161,7 +149,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				
 				// Check if it exists already: 
 				if (getState(model,hash)!=null) {
-					markTainted();
 					throw new StateSpaceException("Duplicate state: " + state.getIndex());
 				}
 				
@@ -172,12 +159,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				setOpen(state,isOpen(state));
 				
 				// Add the state to the index:
-				addToIndex(state);				
+				addToIndex(state);
 				monitor.worked(1);
 				
 			}
 		} catch (Throwable t) {
-			markTainted();
 			throw new StateSpaceException(t);
 		} finally {
 			monitor.done();
@@ -207,7 +193,44 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			getStateSpace().getOpenStates().add(state);
 		} else {
 			getStateSpace().getOpenStates().remove(state);
-		}			
+		}
+	}
+
+	/*
+	 * Decide whether a state is open.
+	 */
+	protected boolean isOpen(State state) throws StateSpaceException {
+		
+		// Do a dry exploration of the state:
+		List<Transition> transitions = doExplore(state);
+		Set<Transition> matched = new HashSet<Transition>();
+		
+		for (Transition current : transitions) {
+			
+			// Find the corresponding target state in the state space.
+			State generated = current.getTarget();
+			State target = getState(generated.getModel(), generated.getHashCode());
+			if (target==null) {
+				return true;
+			}
+			
+			// Find the corresponding outgoing transition:
+			Transition transition = findTransition(state, target, current.getRule(), current.getMatch(), current.getParameterKeys());
+			if (transition==null) {
+				return true;
+			}
+			matched.add(transition);
+			
+		}
+		
+		// Check if there are extra transitions (illegal):
+		if (!matched.containsAll(state.getOutgoing())) {
+			throw new StateSpaceException("Illegal transition in state " + state.getIndex());
+		}
+		
+		// State is not open:
+		return false;
+		
 	}
 
 	/**
@@ -429,61 +452,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			return -1;
 		}
 	}
-	
-	/*
-	 * Check if the state space is tainted.
-	 */
-	protected boolean isTainted() {
-		return tainted;
-	}
-	
-	/*
-	 * Mark this state space as tainted.
-	 */
-	protected void markTainted() {
-		tainted = true;
-	}
-
-	
-	/**
-	 * Decide whether a state is open.
-	 * @param state State state.
-	 * @return <code>true</code> if it is open.
-	 */
-	protected boolean isOpen(State state) throws StateSpaceException {
-		
-		// Do a dry exploration of the state:
-		List<Transition> transitions = doExplore(state);
-		Set<Transition> matched = new HashSet<Transition>();
-		
-		for (Transition current : transitions) {
 			
-			// Find the corresponding target state in the state space.
-			State generated = current.getTarget();
-			State target = getState(generated.getModel(), generated.getHashCode());
-			if (target==null) {
-				return true;
-			}
-			
-			// Find the corresponding outgoing transition:
-			Transition transition = findTransition(state, target, current.getRule(), current.getMatch(), current.getParameterKeys());
-			if (transition==null) {
-				return true;
-			}
-			matched.add(transition);
-			
-		}
-		
-		// Check if there are extra transitions (illegal):
-		if (!matched.containsAll(state.getOutgoing())) {
-			throw new StateSpaceException("Illegal transition in state " + state.getIndex());
-		}
-		
-		// State is not open:
-		return false;
-		
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getModel(org.eclipse.emf.henshin.statespace.State)
@@ -809,7 +778,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			// Compute matches:
 			matchApp = new RuleApplication(matchEngine, rule);
 			List<Match> matches = matchApp.findAllMatches();
-//			System.out.println("Found " + matches.size() + " matches for rule " + rule.getName());
 			
 			// Get the parameters of the rule:
 			List<Node> parameters = useObjectKeys ? 
@@ -922,9 +890,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		return location;
 	}
 	
-	/**
-	 * Clear the state model cache. Should be done every now and then.
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#clearCache()
 	 */
+	@Override
 	public void clearCache() {
 		for (State state : getStateSpace().getStates()) {
 			if (!state.isInitial()) {
@@ -933,7 +903,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		}
 		stateModelCache.clear();
 		getStateSpace().getEqualityHelper().clearCache();
-		postProcessor = new PostProcessor();
 		System.gc();
 	}
 
@@ -951,91 +920,27 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		for (int i=0; i<25; i++) {
 			List<Transition> transitions2 = doExplore(state);
 			if (transitions.size()!=transitions2.size()) {
-				markTainted(); throw new StateSpaceException("Sanity check 1 failed!");
+				throw new StateSpaceException("Sanity check 1 failed!");
 			}
 			for (int j=0; j<transitions.size(); j++) {
 				Transition t1 = transitions.get(j);
 				Transition t2 = transitions2.get(j);
 				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
-					markTainted(); throw new StateSpaceException("Sanity check 2 failed!");
+					throw new StateSpaceException("Sanity check 2 failed!");
 				}
 				State s1 = t1.getTarget();
 				State s2 = t2.getTarget();
 				if (s1.getHashCode()!=s2.getHashCode()) {
-					markTainted(); throw new StateSpaceException("Sanity check 3 failed!");
+					throw new StateSpaceException("Sanity check 3 failed!");
 				}
 				if (!getStateSpace().getEqualityHelper().equals(s1.getModel(),s2.getModel())) {
-					markTainted(); throw new StateSpaceException("Sanity check 4 failed!");
+					throw new StateSpaceException("Sanity check 4 failed!");
 				}
 			}
 		}
 		
 	}
 	
-	/**
-	 * Post processor helper.
-	 * @author ckrause
-	 *
-	 */
-	class PostProcessor {
-		
-		private ScriptEngine engine;
-		private String script;
-		
-		PostProcessor() {
-			ScriptEngineManager manager = new ScriptEngineManager();
-		    engine = manager.getEngineByName("JavaScript");
-		    script = getStateSpace().getProperties().get("postProcessor");
-		    if (script!=null && script.trim().length()==0) {
-		    	script = null;
-		    }
-		    if (script!=null) {
-		    	String imports = "importPackage(java.lang);\n" +
-		    					 "importPackage(java.util);\n" +
-		    					 "importPackage(org.eclipse.emf.ecore);\n" ;
-			    script = imports + script;
-		    }
-		}
-		
-		public void process(Model model) throws StateSpaceException {
-			if (script!=null) {
-				EObject root = model.getResource().getContents().get(0);
-				synchronized (engine) {
-					engine.put("model", root);
-					try {
-						engine.eval(script);
-					} catch (ScriptException e) {
-						throw new StateSpaceException(e);
-					}
-				}
-			}
-		}
-		
-	}
-	
-	/**
-	 * A general-purpose cache.
-	 * @author Christian Krause
-	 */
-	static class Cache<K,V> extends LinkedHashMap<K,V> {
-
-		// Cache size, estimated with maximum number of MB of free memory:
-		public static final int CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
-		
-		// Serial id:
-		private static final long serialVersionUID = 1L;
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
-		 */
-		@Override
-		protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-			return size() > CACHE_SIZE;
-		}
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#getNumThreads()
@@ -1051,7 +956,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	@Override
 	public void shutdown() {
-		markTainted();
 		clearCache();
 	}
 
