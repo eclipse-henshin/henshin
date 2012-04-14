@@ -94,8 +94,8 @@ public class DiningPhilsBenchmark {
 		//doBenchmark(7, 1);
 		
 		System.out.println("\n******* BENCHMARK ********\n");
-		doBenchmark(13, threads);
-		doBenchmark(13, 1);
+		doBenchmark(8, threads);
+		//doBenchmark(8, 1);
 		
 	}
 

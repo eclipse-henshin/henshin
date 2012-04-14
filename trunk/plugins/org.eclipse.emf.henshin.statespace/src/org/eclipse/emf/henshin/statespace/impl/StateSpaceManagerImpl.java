@@ -349,9 +349,7 @@ public class StateSpaceManagerImpl extends AbstractStateSpaceManager {
 					monitor.getAddedStates().remove(target);
 					newState = true;
 				}
-				
-				//System.out.println(newState ? "Creating state" : "Found state");
-
+	
 				// Find or create the transition.
 				if (newState || findTransition(state, target, rule, match, parameters)==null) {
 					createTransition(state, target, rule, match, parameters);
