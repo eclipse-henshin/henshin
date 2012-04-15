@@ -605,9 +605,9 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			}
 			// END OF STATE SPACE LOCK
 			
-			// Now that the transition is there, we can decide whether to store the model.
+			// Now that the transition is there, we can decide whether to cache the model.
 			if (newState) {
-				cacheModel(target, transformed);
+				addToCache(target, transformed);
 				result.add(target);
 			}
 			
@@ -615,13 +615,15 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		
 		// START OF STATE SPACE LOCK
 		synchronized (stateSpaceLock) {
+			
 			// Deactivate the monitor again.
 			monitor.setActive(false);
+			
+			// Mark the state as closed:
+			setOpen(state, false);
+			
 		}
 		// END OF STATE SPACE LOCK
-
-		// Mark the state as closed:
-		setOpen(state, false);
 		
 		// Done: return the new transitions.
 		return result;

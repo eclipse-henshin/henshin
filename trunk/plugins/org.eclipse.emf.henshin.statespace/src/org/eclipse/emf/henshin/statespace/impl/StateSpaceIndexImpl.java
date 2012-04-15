@@ -67,7 +67,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		if (model==null) {	
 			model = deriveModel(state, false);
 			if (model!=null) {
-				cacheModel(state, model);
+				addToCache(state, model);
 			}
 		}
 		return model;
@@ -85,9 +85,9 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 	}
 	
 	/*
-	 * Store or discard a state model probabilistically.
+	 * Add a model to a cache.
 	 */
-	protected void cacheModel(State state, Model model) throws StateSpaceException {
+	protected void addToCache(State state, Model model) throws StateSpaceException {
 		
 		// Never lose initial state models!!!
 		if (state.isInitial()) return;

@@ -79,12 +79,21 @@ public class StateSpaceExplorationHelper {
 		/* Update the list of next states to be explored. */
 		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
 		
+		// Remove obsolete states:
+		Iterator<State> iterator = nextStates.iterator();
+		while (iterator.hasNext()) {
+			State state = iterator.next();
+			if (!state.isOpen() || (maxStateDistance>=0 && maxStateDistance<=manager.getStateDistance(state))) {
+				iterator.remove();
+			}
+		}
+		
 		// Add new states to be explored:
 		for (State open : manager.getStateSpace().getOpenStates()) {
 			if (nextStates.size()>=blockSize) {
 				break;
 			}
-			if (maxStateDistance<0 || maxStateDistance<=manager.getStateDistance(open)) {
+			if (maxStateDistance<0 || maxStateDistance>manager.getStateDistance(open)) {
 				nextStates.add(open);
 			}
 		}
@@ -122,6 +131,7 @@ public class StateSpaceExplorationHelper {
 
 		// Increase steps count:
 		steps++;
+		//System.out.println(steps);
 		
 		// Regularly check whether we need to clear the caches:
 		if (steps % 15 == 0) {
