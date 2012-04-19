@@ -857,6 +857,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		addEOperation(stateSpaceEClass, null, "updateEqualityHelper", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(stateSpaceEClass, ecorePackage.getEInt(), "incTransitionCount", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(stateEClass, State.class, "State", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Index(), ecorePackage.getEInt(), "index", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getState_Incoming(), this.getTransition(), this.getTransition_Target(), "incoming", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -874,7 +876,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isTerminal", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(stateEClass, null, "findOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(stateEClass, this.getTransition(), "findOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theHenshinPackage.getRule(), "rule", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEInt(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);

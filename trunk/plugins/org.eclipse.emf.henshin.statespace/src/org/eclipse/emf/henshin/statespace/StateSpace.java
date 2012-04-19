@@ -54,6 +54,14 @@ public interface StateSpace extends Storage {
 	void updateEqualityHelper();
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	int incTransitionCount();
+
+	/**
 	 * Get the initial states in this state space.
 	 * @model
 	 * @generated

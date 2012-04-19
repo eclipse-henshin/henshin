@@ -49,14 +49,16 @@ public class DiningPhilsBenchmark {
 				}
 				
 				// Then explore it again:
-				int expectedStates = (int) Math.pow(3, phils);
-
+				StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager);
 				long time = System.currentTimeMillis();
-				StateSpaceExplorationHelper.doExploration(manager, expectedStates, new NullProgressMonitor());
+				helper.doExploration(-1, new NullProgressMonitor());
 				time = (System.currentTimeMillis() - time);
 
+				int expectedStates = (int) Math.pow(3, phils);
 				if (stateSpace.getStateCount()!=expectedStates || !stateSpace.getOpenStates().isEmpty()) {
-					throw new StateSpaceException("Unexpected number of states");
+					throw new StateSpaceException("Unexpected number of states: " +
+							stateSpace.getStateCount() + "(" +
+							stateSpace.getOpenStates().size() + ")");
 				}
 				
 				System.out.println(phils + "\t" + 

@@ -36,7 +36,7 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 	 * @param editDomain Edit domain.
 	 */
 	public ExploreStateSpaceJobWithDisplay(StateSpaceManager manager, EditDomain editDomain) {
-		super(manager, editDomain);
+		super(manager, editDomain, 80);
 		
 		// Always run in background:
 		setUser(false);
@@ -49,9 +49,6 @@ public class ExploreStateSpaceJobWithDisplay extends ExploreStateSpaceJob {
 		
 		// We need to generate locations:
 		getExplorationHelper().setGenerateLocations(true);
-		
-		// We want to generate less states in one step:
-		getExplorationHelper().setStepDuration(80);		// 80 milliseconds
 		
 	}
 	

@@ -44,19 +44,26 @@ public class ExploreStateSpaceJob extends AbstractStateSpaceJob {
 	
 	// Whether to log some info after the exploration is finished.
 	protected boolean logInfo = true;
-	
+
+	/**
+	 * Default constructor.
+	 * @param manager State space manager.
+	 */
+	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain, int stepDuration) {
+		super("Exploring state space...", manager);
+		this.editDomain = editDomain;
+		this.helper = new StateSpaceExplorationHelper(manager, stepDuration);
+		this.helper.setGenerateLocations(false);
+		setUser(true);
+		setPriority(LONG);
+	}
+
 	/**
 	 * Default constructor.
 	 * @param manager State space manager.
 	 */
 	public ExploreStateSpaceJob(StateSpaceManager manager, EditDomain editDomain) {
-		super("Exploring state space...", manager);
-		this.editDomain = editDomain;
-		this.helper = new StateSpaceExplorationHelper(manager);
-		this.helper.setStepDuration(800); // 0.8 second update interval
-		this.helper.setGenerateLocations(false);
-		setUser(true);
-		setPriority(LONG);
+		this(manager, editDomain, 800);
 	}
 
 	/*

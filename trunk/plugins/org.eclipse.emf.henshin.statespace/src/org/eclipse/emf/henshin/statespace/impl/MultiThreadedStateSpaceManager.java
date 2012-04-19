@@ -68,7 +68,9 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	 */
 	@Override
 	public synchronized List<State> exploreStates(List<State> states, boolean generateLocations) throws StateSpaceException {
-
+		
+		//System.out.println();
+		
 		// We use a new list for the states:
 		List<State> queue = new Vector<State>(states);
 		List<State> result = new Vector<State>();
@@ -131,14 +133,17 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 		@Override
 		public StateSpaceException call() {
 			
-			while (true) {
+			//System.out.println(Thread.currentThread().getId() + " starts...");
 
+			while (true) {
+								
 				// Get the next state to be explored:
 				State next;
 				try {
 					next = states.remove(0);
 				}
 				catch (IndexOutOfBoundsException e) {
+					//System.out.println(Thread.currentThread().getId() + " stopped.");
 					return null; // We are done.
 				}
 

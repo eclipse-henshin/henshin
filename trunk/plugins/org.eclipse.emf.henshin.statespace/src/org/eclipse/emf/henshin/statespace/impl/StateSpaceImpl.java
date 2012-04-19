@@ -141,6 +141,13 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	/**
 	 * @generated NOT
 	 */
+	public int incTransitionCount() {
+		return transitionCount++;
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public int[] getAllParameterKeys() {
 		
 		// Use a set so we do not count duplicates:

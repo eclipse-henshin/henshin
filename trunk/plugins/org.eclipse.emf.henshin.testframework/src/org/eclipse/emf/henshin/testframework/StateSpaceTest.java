@@ -60,8 +60,7 @@ public abstract class StateSpaceTest {
 	 * @param manager State space manager.
 	 */
 	protected void doFullExploration(StateSpaceManager manager, boolean printProgress) {
-		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager);
-		helper.setStepDuration(5000); // five seconds
+		StateSpaceExplorationHelper helper = new StateSpaceExplorationHelper(manager,5000);
 		long start = System.currentTimeMillis();
 		try {
 			while (helper.doExplorationStep()) {

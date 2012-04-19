@@ -42,7 +42,6 @@ import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
-import org.eclipse.emf.henshin.statespace.util.StateSpaceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -383,26 +382,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	}
 	
 	/*
-	 * Create a new outgoing transition. Note that the this does not check
-	 * if the same transition exists already (use {@link #getTransition(State, String, int, int[])}
-	 * for that). Moreover the created transition is dangling (the target is not set).
-	 */
-	protected Transition createTransition(State source, State target, Rule rule, int match, int[] paramIDs) {
-		Transition transition = StateSpaceFactory.eINSTANCE.createTransition();
-		transition.setRule(rule);
-		transition.setMatch(match);
-		transition.setParameterKeys(paramIDs);
-		transition.setParameterCount(paramIDs.length);
-		transition.setSource(source);
-		transition.setTarget(target);
-		getStateSpace().setTransitionCount(getStateSpace().getTransitionCount()+1);
-		if (stateDistanceMonitor!=null) {
-			stateDistanceMonitor.updateDistance(transition.getTarget());
-		}
-		return transition;
-	}
-	
-	/*
 	 * Helper method for finding a state in a list.
 	 */
 	protected State findState(Model model, int hashCode, Collection<State> states) throws StateSpaceException {
@@ -532,8 +511,8 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	protected List<State> exploreState(State state, boolean generateLocation) throws StateSpaceException {
 		
 		// Check if we exceeded the maximum state distance:
-		int maxStateDistance = getStateSpace().getMaxStateDistance();
-		if (maxStateDistance>=0 && getStateDistance(state)>=maxStateDistance) {
+		int maxDistance = getStateSpace().getMaxStateDistance();
+		if (maxDistance>=0 && getStateDistance(state)>=maxDistance) {
 			return Collections.emptyList();
 		}
 		
@@ -544,87 +523,89 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		// This can take some time. So no lock here.
 		List<Transition> transitions = doExplore(state);
 		
+		if (transitions.isEmpty()) {
+			// START OF STATE SPACE LOCK
+			synchronized (stateSpaceLock) {
+				// Mark the state as closed:
+				setOpen(state, false);
+			}
+			// END OF STATE SPACE LOCK
+			return Collections.emptyList();
+		}
+
 		// Initialize the result.
 		int newStates = 0;
 		List<State> result = new ArrayList<State>(transitions.size());
 
-		// For performance we use a monitor to detect concurrently made changes.
-		StateSpaceMonitor monitor = new StateSpaceMonitor(getStateSpace());
-		
-		// START OF STATE SPACE LOCK
-		synchronized (stateSpaceLock) {
-			monitor.setActive(true);	// Activate the monitor.
-		}
-		// END OF STATE SPACE LOCK
-		
-		// No check which states / transitions need to be added.
-		for (Transition transition : transitions) {
-			
-			// Transition label details:
-			Rule rule = transition.getRule();
-			int match = transition.getMatch();
-			int[] parameters = transition.getParameterKeys();
-			
+		// Now check which states or transitions need to be added.
+		int count = transitions.size();
+		for (int i=0;i<count; i++) {
+
+			// Transition details:
+			Transition t = transitions.get(i);
+			Rule rule = t.getRule();
+			int match = t.getMatch();
+			int[] parameters = t.getParameterKeys();
+
 			// Get the hash and model of the new target state:
-			int hashCode = transition.getTarget().getHashCode();
-			Model transformed = transition.getTarget().getModel();
-					
-			// The target state and some of its properties:
-			State target;
+			int hashCode = t.getTarget().getHashCode();
+			Model transformed = t.getTarget().getModel();
+			
+			// New state? Generate location?
 			boolean newState = false;
 			int[] location = generateLocation ? shiftedLocation(state, newStates++) : null;
-			
-			// Try to find an equivalent state. This can take some time. Hence no lock here.
-			target = getState(transformed, hashCode);
-			
+
+			// Try to find the target state without locking the state space:
+			State target;
+			try {
+				target = getState(transformed, hashCode);
+			} catch (Throwable e) {
+				target = null;
+			}
+
 			// START OF STATE SPACE LOCK
 			synchronized (stateSpaceLock) {
-				
+
+				// Check if an equivalent state has been added in the meantime.
 				if (target==null) {
-					// Check if an equivalent state has been added in the meantime.
-					target = findState(transformed, hashCode, monitor.getAddedStates());
-				} else {
-					// Check if the found state has been removed in the meantime.
-					if (monitor.getRemovedStates().contains(target)) {
-						target = null;
-					}
+					target = getState(transformed, hashCode);
+				} 
+				// Check if the found state has been removed in the meantime.
+				else if (target.getStateSpace()==null) {
+					target = null;
 				}
-				
+
 				// Ok, now we can create a new state if necessary.
 				if (target==null) {
 					target = createOpenState(transformed, hashCode, state, location);
-					monitor.getAddedStates().remove(target);
 					newState = true;
 				}
-	
+
 				// Find or create the transition.
 				if (newState || state.findOutgoing(target, rule, match, parameters)==null) {
-					createTransition(state, target, rule, match, parameters);
+					t.setSource(state);
+					t.setTarget(target);
+					getStateSpace().incTransitionCount();
+					if (stateDistanceMonitor!=null) {
+						stateDistanceMonitor.updateDistance(target);
+					}
 				}
 
+				// Now that the transition is there, we can decide whether to cache the model.
+				if (newState) {
+					addToCache(target, transformed);
+					result.add(target);
+				}
+
+				if (i==count-1) {
+					// Mark the state as closed:
+					setOpen(state, false);
+				}
 			}
 			// END OF STATE SPACE LOCK
-			
-			// Now that the transition is there, we can decide whether to cache the model.
-			if (newState) {
-				addToCache(target, transformed);
-				result.add(target);
-			}
-			
+
 		}
-		
-		// START OF STATE SPACE LOCK
-		synchronized (stateSpaceLock) {
-			
-			// Deactivate the monitor again.
-			monitor.setActive(false);
-			
-			// Mark the state as closed:
-			setOpen(state, false);
-			
-		}
-		// END OF STATE SPACE LOCK
-		
+							
 		// Done: return the new transitions.
 		return result;
 		
