@@ -186,7 +186,7 @@ public class StateSpaceExplorationHelper {
 			// Now estimate the next time where we should check the free memory.
 			
 			// Percent of memory that we need to lose until we reach the threshold:
-			double percToLose = freeMemPerc - (MIN_FREE_MEMORY_PERC*0.75);
+			double percToLose = freeMemPerc - (MIN_FREE_MEMORY_PERC * 0.5);
 			
 			// Amount of seconds until we lose them:
 			long expectedSec = Math.min(Math.max((int) (percToLose / percPerSec), MIN_FREE_MEM_CHECK_INTERVAL), MAX_FREE_MEM_CHECK_INTERVAL);
