@@ -86,7 +86,7 @@ public class StateSpaceExplorationHelper {
 	 * @param manager State space manager.
 	 */
 	public StateSpaceExplorationHelper(StateSpaceManager manager) {
-		this(manager, 2000);
+		this(manager, 1000);
 	}
 
 	
@@ -106,17 +106,28 @@ public class StateSpaceExplorationHelper {
 		}
 		
 		/* Update the list of next states to be explored. */
-		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
 		
-		// Remove obsolete states:
+		// Remove explored states:
 		Iterator<State> iterator = nextStates.iterator();
 		while (iterator.hasNext()) {
 			State state = iterator.next();
-			if (!state.isOpen() || (maxStateDistance>=0 && maxStateDistance<=manager.getStateDistance(state))) {
+			if (!state.isOpen()) {
 				iterator.remove();
 			}
 		}
 		
+		// Remove too distant states if necessary:
+		int maxStateDistance = manager.getStateSpace().getMaxStateDistance();
+		if (maxStateDistance>=0) {
+			iterator = nextStates.iterator();
+			while (iterator.hasNext()) {
+				State state = iterator.next();
+				if (maxStateDistance<=manager.getStateDistance(state)) {
+					iterator.remove();
+				}
+			}
+		}
+
 		// Add new states to be explored:
 		for (State open : manager.getStateSpace().getOpenStates()) {
 			if (nextStates.size()>=blockSize) {
@@ -151,10 +162,10 @@ public class StateSpaceExplorationHelper {
 		nextStates = new LinkedHashSet<State>();
 		nextStates.addAll(result);
 		it = oldNextStates.iterator();
-		while (it.hasNext() && nextStates.size()<blockSize) {
+		int maxStates = 2 * blockSize;
+		while (it.hasNext() && nextStates.size()<maxStates) {
 			nextStates.add(it.next());
 		}
-		//nextStates.addAll(oldNextStates);
 		//System.out.println(nextStates.size());
 		
 		// Update the last duration value:
@@ -177,7 +188,7 @@ public class StateSpaceExplorationHelper {
 			// Check if we reached the threshold:
 			System.out.print("Free memory: " + freeMemPerc + "%");
 			if (freeMemPerc < MIN_FREE_MEMORY_PERC) {
-				System.out.println("Clearing cache...");
+				System.out.println(" Clearing cache.");
 				manager.clearCache();
 				System.gc();
 				freeMemPerc = getFreeMemPerc();

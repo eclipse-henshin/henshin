@@ -28,7 +28,6 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
@@ -38,6 +37,7 @@ import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.resource.StateSpaceResource;
+import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
@@ -307,7 +307,7 @@ public class StateSpaceExplorer extends GraphicalEditor {
 		
 		try {
 			// Load the state space:
-			ResourceSet resourceSet = new ResourceSetImpl();
+			ResourceSet resourceSet = new StateSpaceResourceSet();
 	    	URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
 			StateSpaceResource resource = (StateSpaceResource) resourceSet.getResource(uri, true);
 			StateSpace stateSpace = resource.getStateSpace();
