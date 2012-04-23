@@ -109,11 +109,11 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		int index = state.getIndex() + 1;	// always greater or equal 1
 
 		//      States:  Stored:
-		//     < 10,000     100%
-		//    >= 10,000      50%
-		//   >= 100,000      33%
-		// >= 1,000,000      25%
-		int threshold = 10000;
+		//      < 1,000     100%
+		//     >= 1,000      50%
+		//    >= 10,000      33%
+		//   >= 100,000      25%
+		int threshold = 1000;
 		int stored = 1;
 		while (states>=threshold) {
 			threshold *= 10;

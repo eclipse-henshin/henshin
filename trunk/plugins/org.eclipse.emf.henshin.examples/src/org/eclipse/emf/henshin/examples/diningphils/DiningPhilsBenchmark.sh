@@ -1,8 +1,69 @@
+#!/bin/sh
 
-HE=org.eclipse.emf.henshin
-EC=/home/christian/opt/eclipse
-WS=/home/christian/Dropbox/Workspaces/henshin
+# ECLIPSE_HOME:
+if [ -d "$HOME/eclipse" ]; then
+    ECLIPSE_HOME="$HOME/eclipse"
+elif [ -d "$HOME/opt/eclipse" ]; then
+    ECLIPSE_HOME="$HOME/opt/eclipse"
+elif [ -d "/usr/local/eclipse" ]; then
+    ECLIPSE_HOME="/usr/local/eclipse"
+else
+    ECLIPSE_HOME="/opt/eclipse"
+fi
 
-cd $WS/$HE.examples
-java -Xms7G -Xmx7G -Dfile.encoding=UTF-8 -classpath $WS/$HE.examples/bin:$EC/plugins/org.eclipse.core.runtime_3.6.0.v20100505.jar:$EC/plugins/org.eclipse.osgi_3.6.1.R36x_v20100806.jar:$EC/plugins/org.eclipse.equinox.common_3.6.0.v20100503.jar:$EC/plugins/org.eclipse.core.jobs_3.5.1.R36x_v20100824.jar:$EC/plugins/org.eclipse.core.runtime.compatibility.registry_3.3.0.v20100520/runtime_registry_compatibility.jar:$EC/plugins/org.eclipse.equinox.registry_3.5.0.v20100503.jar:$EC/plugins/org.eclipse.equinox.preferences_3.3.0.v20100503.jar:$EC/plugins/org.eclipse.core.contenttype_3.4.100.v20100505-1235.jar:$EC/plugins/org.eclipse.equinox.app_1.3.1.R36x_v20100803.jar:$EC/plugins/org.eclipse.core.resources_3.6.0.R36x_v20100825-0600.jar:$EC/plugins/org.eclipse.emf.ecore_2.6.1.v20100914-1218.jar:$EC/plugins/org.eclipse.emf.common_2.6.0.v20100914-1218.jar:$EC/plugins/org.eclipse.emf.ecore.xmi_2.5.0.v20100521-1846.jar:$EC/plugins/org.eclipse.emf.codegen.ecore_2.6.1.v20100914-1218.jar:$EC/plugins/org.eclipse.emf.codegen_2.6.0.v20100914-1218.jar:$EC/plugins/org.eclipse.emf.ecore.change_2.5.1.v20100907-1643.jar:$WS/$HE.matching/bin:$WS/$HE.model/bin:$EC/plugins/org.eclipse.ocl_3.0.2.R30x_v201101110610.jar:$EC/plugins/lpg.runtime.java_2.0.17.v201004271640.jar:$EC/plugins/org.eclipse.ocl.ecore_3.0.2.R30x_v201101110610.jar:$WS/$HE.interpreter/bin:$WS/$HE.trace/bin:$WS/$HE.statespace/bin $HE.examples.diningphils.DiningPhilsBenchmark
+# WORKSPACE:
+WORKSPACE=`cd ../../../../../../../..; pwd`
+
+# MAX_MEMORY:
+TOTAL_MEM=`free | grep Mem | awk '{print $2}'`
+TOTAL_MEM=$(($TOTAL_MEM / 1024))
+if [ "$TOTAL_MEM" -gt "2048" ]; then
+    MAX_MEMORY="$(($TOTAL_MEM - 768))M"
+else
+    MAX_MEMORY="$(($TOTAL_MEM - 384))M"
+fi
+
+echo "ECLIPSE_HOME : $ECLIPSE_HOME"
+echo "WORKSPACE    : $WORKSPACE"
+echo "MAX_MEMORY   : $MAX_MEMORY"
+
+DEPS="org.eclipse.core.contenttype
+org.eclipse.core.jobs
+org.eclipse.core.resources
+org.eclipse.core.runtime
+org.eclipse.osgi
+org.eclipse.equinox.common
+org.eclipse.equinox.registry
+org.eclipse.equinox.preferences
+org.eclipse.equinox.app
+org.eclipse.emf.ecore
+org.eclipse.emf.common
+org.eclipse.emf.ecore.xmi
+org.eclipse.emf.codegen.ecore
+org.eclipse.emf.codegen
+org.eclipse.emf.ecore.change
+org.eclipse.ocl
+lpg.runtime.java
+org.eclipse.ocl.ecore"
+
+HENSHIN="org.eclipse.emf.henshin.matching
+org.eclipse.emf.henshin.model
+org.eclipse.emf.henshin.examples
+org.eclipse.emf.henshin.interpreter
+org.eclipse.emf.henshin.statespace"
+
+# Classpath:
+CP=""
+for dep in $DEPS; do
+  NEXT=`ls $ECLIPSE_HOME/plugins/$dep*.jar | head -1`
+  CP="$CP:$NEXT"
+done
+for hen in $HENSHIN; do
+  NEXT="$WORKSPACE/$hen/bin"
+  CP="$CP:$NEXT"
+done
+
+sync
+cd $WORKSPACE/org.eclipse.emf.henshin.examples
+java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark
 cd - > /dev/null

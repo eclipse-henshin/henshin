@@ -21,14 +21,8 @@ import java.util.Stack;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.util.TransformationOptions;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -39,8 +33,6 @@ import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
-import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
-import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
@@ -53,17 +45,14 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
 	// Transformation engines:
-	private final Stack<EmfEngine> engines = new Stack<EmfEngine>();
+	private final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
 	
-	// A lock used when accessing te state space:
+	// A lock used when accessing the state space:
 	private final Object stateSpaceLock = new Object();
 
 	// State distance monitor:
 	private StateDistanceMonitor stateDistanceMonitor;
 	
-	// Model post-processor:
-	private ModelPostProcessor postProcessor;
-
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -78,7 +67,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	protected void refreshHelpers() {
 		getStateSpace().updateEqualityHelper();
-		postProcessor = new ModelPostProcessor(getStateSpace());
 		if (getStateSpace().getMaxStateDistance()>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
 		} else {
@@ -149,7 +137,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				state.setHashCode(hash);
 				
 				// Set the open-flag.
-				setOpen(state,isOpen(state));
+				state.setOpen(isOpen(state));
 				
 				// Add the state to the index:
 				addToIndex(state);
@@ -165,24 +153,13 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	}
 	
 	/*
-	 * Mark a state as open or closed.
-	 */
-	protected void setOpen(State state, boolean open) {
-		state.setOpen(open);
-		if (open) {
-			getStateSpace().getOpenStates().add(state);
-		} else {
-			getStateSpace().getOpenStates().remove(state);
-		}
-	}
-
-	/*
 	 * Decide whether a state is open.
 	 */
 	protected boolean isOpen(State state) throws StateSpaceException {
 		
 		// Do a dry exploration of the state:
-		List<Transition> transitions = doExplore(state);
+		StateExplorer explorer = acquireExplorer();
+		List<Transition> transitions = explorer.doExplore(state);
 		Set<Transition> matched = new HashSet<Transition>();
 		
 		for (Transition current : transitions) {
@@ -191,18 +168,21 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			State generated = current.getTarget();
 			State target = getState(generated.getModel(), generated.getHashCode());
 			if (target==null) {
+				releaseExplorer(explorer);
 				return true;
 			}
 			
 			// Find the corresponding outgoing transition:
 			Transition transition = state.findOutgoing(target, current.getRule(), current.getMatch(), current.getParameterKeys());
 			if (transition==null) {
+				releaseExplorer(explorer);
 				return true;
 			}
 			matched.add(transition);
 			
-		}
-		
+		}		
+		releaseExplorer(explorer);
+
 		// Check if there are extra transitions (illegal):
 		if (!matched.containsAll(state.getOutgoing())) {
 			throw new StateSpaceException("Illegal transition in state " + state.getIndex());
@@ -438,44 +418,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			throw new StateSpaceException("Error deriving model for " + state, t);
 		}
 
-		// We copy the start model and create an engine for it:
-		Model model = start.getCopy(null);
-		EmfEngine engine = acquireEngine();
-		engine.setEmfGraph(model.getEmfGraph());
-		
-		// Derive the model for the current state:
-		for (Transition transition : trace) {
-			
-			RuleApplication application = new RuleApplication(engine, transition.getRule());
-			List<Match> matches = application.findAllMatches();
-			if (matches.size()<=transition.getMatch()) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
-			}
-			
-			// Apply the rule with the found match:
-			Match match = matches.get(transition.getMatch());
-			application.setMatch(match);
-			application.apply();
-			postProcessor.process(model);
-			model.collectMissingRootObjects();
-			
-			// Debug: Validate model if necessary:
-			//int hashCode = getStateSpace().getEqualityHelper().hashCode(model);
-			//if (transition.getTarget().getHashCode()!=hashCode) {
-			//	throw new StateSpaceException("Error constructing model for state " +
-			//			transition.getTarget().getIndex() + " in path " + trace);
-			//}
-			
-		}
+		// Now derive the model:
+		StateExplorer explorer = acquireExplorer();
+		Model model = explorer.deriveModel(trace, start);
+		releaseExplorer(explorer);
 
-		// Set the object keys if necessary:
-		if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
-			model.setObjectKeys(trace.getTarget().getObjectKeys());
-		}
-
-		// We can release the engine again:
-		releaseEngine(engine);
-		
 		// Done.
 		return model;
 		
@@ -521,13 +468,16 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		
 		// Explore the state without changing the state space.
 		// This can take some time. So no lock here.
-		List<Transition> transitions = doExplore(state);
+		StateExplorer explorer = acquireExplorer();
+		List<Transition> transitions = explorer.doExplore(state);
 		
 		if (transitions.isEmpty()) {
+			releaseExplorer(explorer);
+			
 			// START OF STATE SPACE LOCK
 			synchronized (stateSpaceLock) {
 				// Mark the state as closed:
-				setOpen(state, false);
+				state.setOpen(false);
 			}
 			// END OF STATE SPACE LOCK
 			return Collections.emptyList();
@@ -599,149 +549,41 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 
 				if (i==count-1) {
 					// Mark the state as closed:
-					setOpen(state, false);
+					state.setOpen(false);
 				}
 			}
 			// END OF STATE SPACE LOCK
 
 		}
-							
-		// Done: return the new transitions.
+		
+		// Release the explorer again (not earlier).
+		releaseExplorer(explorer);
+
+		// Done: return the new states.
 		return result;
 		
 	}	
 	
-	/**
-	 * Explore a state without actually changing the state space.
-	 * This method does not check if the state is explored already
-	 * or whether any of the transitions or states exists already.
-	 * @param state State to be explored.
-	 * @return List of outgoing transition.
-	 * @throws StateSpaceException On explore errors.
-	 */
-	protected List<Transition> doExplore(State state) throws StateSpaceException {
-		
-		// Get the state model and create an engine for it:
-		Model model = getModel(state);
-		
-		// We need a couple of engines and rule applications:
-		EmfEngine matchEngine = acquireEngine();
-		EmfEngine transformEngine = acquireEngine();
-		RuleApplication matchApp, transformApp;
-
-		// Initialize the match engine:
-		matchEngine.setEmfGraph(model.getEmfGraph());
-
-		// Get some important state space parameters:
-		boolean useObjectKeys = !getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty();
-		
-		// List of explored transitions.
-		List<Transition> transitions = new ArrayList<Transition>();
-		
-		// Apply all rules:
-		for (Rule rule : getStateSpace().getRules()) {
-			
-			// Compute matches:
-			matchApp = new RuleApplication(matchEngine, rule);
-			List<Match> matches = matchApp.findAllMatches();
-			
-			// Get the parameters of the rule:
-			List<Node> parameters = useObjectKeys ? 
-					ParameterUtil.getParameters(getStateSpace(), rule) : null;
-			
-			// Iterate over all matches:
-			for (int matchIndex=0; matchIndex<matches.size(); matchIndex++) {
-				
-				// Transform the model:
-				Match match = matches.get(matchIndex);
-				Model transformed = model.getCopy(match);
-				transformEngine.setEmfGraph(transformed.getEmfGraph());
-				transformApp = new RuleApplication(transformEngine, rule);
-				transformApp.setMatch(match);
-				transformApp.apply();
-				postProcessor.process(transformed);
-				transformed.collectMissingRootObjects();
-				
-				// Create a new state:
-				State newState = StateSpaceFactory.eINSTANCE.createState();
-				newState.setModel(transformed);
-				
-				// Update object keys if necessary:
-				if (useObjectKeys) {
-					transformed.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
-					int[] objectKeys = transformed.getObjectKeys();
-					newState.setObjectKeys(objectKeys);
-					newState.setObjectCount(objectKeys.length);
-				}
-				
-				// Now compute and set the hash code (after the node IDs have been updated!):
-				int newHashCode = getStateSpace().getEqualityHelper().hashCode(transformed);
-				newState.setHashCode(newHashCode);
-				newState.setDerivedFrom(state.getIndex());
-				
-				// Create a new transition:
-				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
-				newTransition.setRule(rule);
-				newTransition.setMatch(matchIndex);
-				newTransition.setTarget(newState);
-				
-				// Set the parameters if necessary:
-				if (useObjectKeys) {
-					int[] params = new int[parameters.size()];
-					for (int p=0; p<params.length; p++) {
-						Node node = parameters.get(p);
-						EObject matched = match.getNodeMapping().get(node);
-						if (matched==null) {
-							matched = matchApp.getComatch().getNodeMapping().get(node);
-						}
-						int objectKey = transformed.getObjectKeysMap().get(matched);
-						params[p] = ObjectKeyHelper.createObjectKey(
-								matched.eClass(), 
-								objectKey, 
-								getStateSpace().getEqualityHelper().getIdentityTypes());
-					}
-					newTransition.setParameterKeys(params);
-					newTransition.setParameterCount(params.length);
-				}
-				
-				// Remember the transition:
-				transitions.add(newTransition);
-								
-			}
-		}
-		
-		// Now we can release the engines again:
-		releaseEngine(matchEngine);
-		releaseEngine(transformEngine);
-		
-		// And we are done:
-		return transitions;
-
-	}
 		
 	/*
-	 * Acquire a transformation engine.
+	 * Acquire a state explorer.
 	 */
-	private EmfEngine acquireEngine() {
-		synchronized (engines) {
-			if (!engines.isEmpty()) {
-				return engines.pop();
-			} else {
-				EmfEngine engine = new EmfEngine();
-				TransformationOptions options = new TransformationOptions();
-				options.setDeterministic(true);		// really make sure it is deterministic
-				engine.setOptions(options);
-				return engine;
+	private StateExplorer acquireExplorer() {
+		synchronized (explorers) {
+			try {
+				return explorers.pop();
+			} catch (Throwable t) {
+				return new StateExplorer(this);
 			}
 		}
 	}
 
 	/*
-	 * Release a transformation engine again.
+	 * Release a state explorer again.
 	 */
-	private void releaseEngine(EmfEngine engine) {
-		synchronized (engines) {
-			engines.push(engine);
+	private void releaseExplorer(StateExplorer explorer) {
+		synchronized (explorers) {
+			explorers.push(explorer);
 		}
 	}
 	
@@ -754,41 +596,6 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		location[0] += 60 * Math.cos(angle);
 		location[1] += 60 * Math.sin(angle);
 		return location;
-	}
-	
-	/*
-	 * Perform a sanity check for the exploration. For testing only.
-	 * This check if doExplore() really yields equal results when invoked
-	 * more than once on the same state.
-	 */
-	protected void checkEngineDeterminism(State state) throws StateSpaceException {
-		
-		// Explore the state without changing the state space:
-		List<Transition> transitions = doExplore(state);
-		
-		// Do it again and compare the results.
-		for (int i=0; i<25; i++) {
-			List<Transition> transitions2 = doExplore(state);
-			if (transitions.size()!=transitions2.size()) {
-				throw new StateSpaceException("Sanity check 1 failed!");
-			}
-			for (int j=0; j<transitions.size(); j++) {
-				Transition t1 = transitions.get(j);
-				Transition t2 = transitions2.get(j);
-				if (t1.getRule()!=t2.getRule() || t1.getMatch()!=t2.getMatch()) {
-					throw new StateSpaceException("Sanity check 2 failed!");
-				}
-				State s1 = t1.getTarget();
-				State s2 = t2.getTarget();
-				if (s1.getHashCode()!=s2.getHashCode()) {
-					throw new StateSpaceException("Sanity check 3 failed!");
-				}
-				if (!getStateSpace().getEqualityHelper().equals(s1.getModel(),s2.getModel())) {
-					throw new StateSpaceException("Sanity check 4 failed!");
-				}
-			}
-		}
-		
 	}
 	
 	/*

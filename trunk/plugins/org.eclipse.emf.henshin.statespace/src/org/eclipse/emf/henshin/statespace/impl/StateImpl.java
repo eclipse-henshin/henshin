@@ -110,6 +110,14 @@ public class StateImpl extends StorageImpl implements State {
 	 */
 	public void setOpen(boolean open) {
 		setData(2, open ? 1 : 0);
+		StateSpace stateSpace = getStateSpace();
+		if (stateSpace!=null) {
+			if (open) {
+				getStateSpace().getOpenStates().add(this);
+			} else {
+				getStateSpace().getOpenStates().remove(this);
+			}
+		}
 	}
 
 	/**

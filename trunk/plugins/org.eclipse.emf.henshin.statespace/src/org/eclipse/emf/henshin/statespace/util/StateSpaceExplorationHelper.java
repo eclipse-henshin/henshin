@@ -20,11 +20,11 @@ import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebug;
 public class StateSpaceExplorationHelper {
 	
 	// Minimum amount of free memory that should be available: approx. 20%.
-	private static final double MIN_FREE_MEMORY_PERC = 20;
+	private static final double MIN_FREE_MEMORY_PERC = 30;
 	
 	// Minimum and maximum intervals for the free memory checks (in seconds):
 	private static final int MIN_FREE_MEM_CHECK_INTERVAL = 10;
-	private static final int MAX_FREE_MEM_CHECK_INTERVAL = 600;
+	private static final int MAX_FREE_MEM_CHECK_INTERVAL = 900;
 	
 	// State space manager:
 	private final StateSpaceManager manager;
@@ -86,7 +86,7 @@ public class StateSpaceExplorationHelper {
 	 * @param manager State space manager.
 	 */
 	public StateSpaceExplorationHelper(StateSpaceManager manager) {
-		this(manager, 1000);
+		this(manager, 2000);
 	}
 
 	
