@@ -13,6 +13,7 @@ import org.eclipse.emf.henshin.interpreter.util.Match;
 import org.eclipse.emf.henshin.matching.util.TransformationOptions;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
@@ -26,7 +27,9 @@ import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
 /**
  * Helper class for exploring states. This forms the bridge between a {@link StateSpaceManager}
- * and an {@link InterpreterEngine}.
+ * and an {@link InterpreterEngine}. This class tries to minimize the number of created 
+ * short living objects to improve the performance. Instances of this class must not be 
+ * used concurrently!
  * 
  * @author Christian Krause
  *
@@ -38,6 +41,9 @@ public class StateExplorer {
 	
 	// Cached state space:
 	private StateSpace stateSpace;
+	
+	// Cached equality helper:
+	private EqualityHelper equalityHelper;
 	
 	// Cached engine:
 	private EmfEngine engine;
@@ -56,30 +62,30 @@ public class StateExplorer {
 	
 	// Cached post-processor:
 	private ModelPostProcessor postProcessor;
-
+	
 	/**
 	 * Default constructor.
 	 */
 	public StateExplorer(StateSpaceManager manager) {
 		
 		this.manager = manager;
-		this.stateSpace = manager.getStateSpace();
-		this.result = new ArrayList<Transition>();
 		
+		// Cache data:
+		stateSpace = manager.getStateSpace();
+		equalityHelper = stateSpace.getEqualityHelper();
+		result = new ArrayList<Transition>();
+		identityTypes = equalityHelper.getIdentityTypes();
+		useObjectKeys = !identityTypes.isEmpty();
+		rules = stateSpace.getRules().toArray(new Rule[0]);
+
 		// Set-up the engine:
 		engine = new EmfEngine();
 		TransformationOptions options = new TransformationOptions();
 		options.setDeterministic(true);		// really make sure it is deterministic
 		engine.setOptions(options);
 		
+		// Post-processor:
 		postProcessor = new ModelPostProcessor(stateSpace);
-		
-		// Use object keys?
-		identityTypes = stateSpace.getEqualityHelper().getIdentityTypes();
-		useObjectKeys = !identityTypes.isEmpty();
-		
-		// Cache rules:
-		rules = manager.getStateSpace().getRules().toArray(new Rule[0]);
 		
 	}
 	
@@ -100,28 +106,28 @@ public class StateExplorer {
 		Model model = manager.getModel(state);
 		
 		// Apply all rules:
-		for (int ruleIndex=0; ruleIndex<rules.length; ruleIndex++) {
+		for (int i=0; i<rules.length; i++) {
 
 			// Initialize the match engine:
 			engine.setEmfGraph(model.getEmfGraph());
 
 			// Compute matches:
-			RuleApplication app = new RuleApplication(engine, rules[ruleIndex]);
+			RuleApplication app = new RuleApplication(engine, rules[i]);
 			List<Match> matches = app.findAllMatches();
 			
 			// Get the parameters of the rule:
 			List<Node> parameters = useObjectKeys ? 
-					ParameterUtil.getParameters(stateSpace, rules[ruleIndex]) : null;
+					ParameterUtil.getParameters(stateSpace, rules[i]) : null;
 			
 			// Iterate over all matches:
-			int matchCount = matches.size();
-			for (int matchIndex=0; matchIndex<matchCount; matchIndex++) {
+			int count = matches.size();
+			for (int j=0; j<count; j++) {
 				
 				// Transform the model:
-				Match match = matches.get(matchIndex);
+				Match match = matches.get(j);
 				Model transformed = model.getCopy(match);
 				engine.setEmfGraph(transformed.getEmfGraph());
-				app = new RuleApplication(engine, rules[ruleIndex]);
+				app = new RuleApplication(engine, rules[i]);
 				app.setMatch(match);
 				app.apply();
 				postProcessor.process(transformed);
@@ -140,14 +146,14 @@ public class StateExplorer {
 				}
 				
 				// Now compute and set the hash code (after the node IDs have been updated!):
-				int newHashCode = stateSpace.getEqualityHelper().hashCode(transformed);
+				int newHashCode = equalityHelper.hashCode(transformed);
 				newState.setHashCode(newHashCode);
 				newState.setDerivedFrom(state.getIndex());
 				
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
-				newTransition.setRule(rules[ruleIndex]);
-				newTransition.setMatch(matchIndex);
+				newTransition.setRule(rules[i]);
+				newTransition.setMatch(j);
 				newTransition.setTarget(newState);
 				
 				// Set the parameters if necessary:
@@ -195,14 +201,17 @@ public class StateExplorer {
 		// Derive the model for the current state:
 		for (Transition transition : trace) {
 			
+			// Find the right match:
 			RuleApplication application = new RuleApplication(engine, transition.getRule());
 			List<Match> matches = application.findAllMatches();
-			if (matches.size()<=transition.getMatch()) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
+			Match match;
+			try {
+				match = matches.get(transition.getMatch());
+			} catch (Throwable t) {
+				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
 			}
 			
 			// Apply the rule with the found match:
-			Match match = matches.get(transition.getMatch());
 			application.setMatch(match);
 			application.apply();
 			postProcessor.process(model);

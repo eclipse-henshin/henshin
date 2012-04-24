@@ -616,4 +616,16 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		clearCache();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpaceIndexImpl#clearCache()
+	 */
+	@Override
+	public void clearCache() {
+		super.clearCache();
+		synchronized (explorers) {
+			explorers.clear();
+		}
+	}
+
 }

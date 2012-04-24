@@ -113,7 +113,7 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 		//     >= 1,000      50%
 		//    >= 10,000      33%
 		//   >= 100,000      25%
-		int threshold = 1000;
+		int threshold = 5000;
 		int stored = 1;
 		while (states>=threshold) {
 			threshold *= 10;

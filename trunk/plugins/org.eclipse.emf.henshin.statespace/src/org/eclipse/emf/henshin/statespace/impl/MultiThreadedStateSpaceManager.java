@@ -29,15 +29,24 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
  */
 public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceManager {
 	
-	// Number of threads to be used.
-	private int numWorkers;
-	
 	// Executor service.
 	private ExecutorService executor;
-	
+
+	// Workers.
+	private ExplorationWorker[] workers;
+
 	// Future objects.
 	private Future<StateSpaceException>[] futures;
+
+	// States to be explored:
+	private List<State> states;
 	
+	// Result list:
+	private List<State> result;
+	
+	// Whether to generate locations:
+	private boolean generateLocations;
+
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -46,9 +55,13 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	@SuppressWarnings("unchecked")
 	public MultiThreadedStateSpaceManager(StateSpace stateSpace, int numThreads) {
 		super(stateSpace);
-		this.numWorkers = Math.max(numThreads, 1);
-		this.executor = Executors.newFixedThreadPool(numWorkers);
-		this.futures = new Future[numWorkers];
+		numThreads = Math.max(numThreads, 1);
+		executor = Executors.newFixedThreadPool(numThreads);
+		futures = new Future[numThreads];
+		workers = new ExplorationWorker[numThreads];
+		for (int i=0; i<workers.length; i++) {
+			workers[i] = new ExplorationWorker();
+		}
 	}
 
 	/**
@@ -72,16 +85,17 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 		//System.out.println();
 		
 		// We use a new list for the states:
-		List<State> queue = new Vector<State>(states);
-		List<State> result = new Vector<State>();
+		this.generateLocations = generateLocations;
+		this.states = new Vector<State>(states);
+		this.result = new Vector<State>();
 		
 		try {
 			// Launch the workers:
-			for (int i=0; i<numWorkers; i++) {
-				futures[i] = executor.submit(new ExplorationWorker(queue, result, generateLocations));
+			for (int i=0; i<workers.length; i++) {
+				futures[i] = executor.submit(workers[i]);
 			}
 			// Evaluate the results:
-			for (int i=0; i<numWorkers; i++) {
+			for (int i=0; i<workers.length; i++) {
 				StateSpaceException e = futures[i].get();
 				if (e!=null) {
 					throw e;
@@ -107,24 +121,6 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	 * Private explorer worker class. Delegates to exploreState().
 	 */
 	private class ExplorationWorker implements Callable<StateSpaceException> {
-		
-		// States to be explored:
-		private List<State> states;
-		
-		// Result list:
-		private List<State> result;
-		
-		// Whether to generate locations:
-		private boolean generateLocations;
-		
-		/*
-		 * Default constructor.
-		 */
-		ExplorationWorker(List<State> states, List<State> result, boolean generateLocations) {
-			this.states = states;
-			this.result = result;
-			this.generateLocations = generateLocations;
-		}
 		
 		/*
 		 * (non-Javadoc)
@@ -165,7 +161,7 @@ public class MultiThreadedStateSpaceManager extends SingleThreadedStateSpaceMana
 	 */
 	@Override
 	public int getNumThreads() {
-		return numWorkers;
+		return workers.length;
 	}
 
 	/*
