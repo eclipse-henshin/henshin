@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="basicMatchingTests">
+  <rules name="matchAllNodes">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.0/@lhs/@nodes.0" image="//@rules.0/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="acMatchAllNodes">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="nd_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+        <mappings origin="//@rules.1/@lhs/@nodes.0" image="//@rules.1/@lhs/@formula/@conclusion/@nodes.0"/>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.1/@lhs/@nodes.0" image="//@rules.1/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="acMatchNoNode">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion>
+            <nodes name="nd_">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+          </conclusion>
+          <mappings origin="//@rules.2/@lhs/@nodes.0" image="//@rules.2/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.2/@lhs/@nodes.0" image="//@rules.2/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="matchNodesAndVals">
+    <lhs name="LHS">
+      <nodes name="nd" outgoing="//@rules.3/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="vl" incoming="//@rules.3/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <edges source="//@rules.3/@lhs/@nodes.0" target="//@rules.3/@lhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd" outgoing="//@rules.3/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="vl" incoming="//@rules.3/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <edges source="//@rules.3/@rhs/@nodes.0" target="//@rules.3/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.3/@lhs/@nodes.0" image="//@rules.3/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.3/@lhs/@nodes.1" image="//@rules.3/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="onlyPAC">
+    <lhs name="LHS">
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion name="pac_graph">
+          <nodes name="nd">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+        </conclusion>
+      </formula>
+    </lhs>
+    <rhs name="RHS"/>
+  </rules>
+  <rules name="onlyNAC">
+    <lhs name="LHS">
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion name="nac_graph">
+            <nodes name="nd">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+          </conclusion>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS"/>
+  </rules>
+  <rules name="emptyRule">
+    <lhs name="LHS"/>
+    <rhs name="RHS"/>
+  </rules>
+  <rules name="nestedAC_pac-pac">
+    <lhs name="LHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="nd" incoming="//@rules.7/@lhs/@formula/@conclusion/@edges.0" outgoing="//@rules.7/@lhs/@formula/@conclusion/@edges.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes name="nd2" incoming="//@rules.7/@lhs/@formula/@conclusion/@edges.1" outgoing="//@rules.7/@lhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges source="//@rules.7/@lhs/@formula/@conclusion/@nodes.1" target="//@rules.7/@lhs/@formula/@conclusion/@nodes.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges source="//@rules.7/@lhs/@formula/@conclusion/@nodes.0" target="//@rules.7/@lhs/@formula/@conclusion/@nodes.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:NestedCondition">
+            <conclusion>
+              <nodes name="nd2_" outgoing="//@rules.7/@lhs/@formula/@conclusion/@formula/@conclusion/@edges.0">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              </nodes>
+              <nodes name="vl" incoming="//@rules.7/@lhs/@formula/@conclusion/@formula/@conclusion/@edges.0">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+              </nodes>
+              <edges source="//@rules.7/@lhs/@formula/@conclusion/@formula/@conclusion/@nodes.0" target="//@rules.7/@lhs/@formula/@conclusion/@formula/@conclusion/@nodes.1">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+              </edges>
+            </conclusion>
+            <mappings origin="//@rules.7/@lhs/@formula/@conclusion/@nodes.1" image="//@rules.7/@lhs/@formula/@conclusion/@formula/@conclusion/@nodes.0"/>
+          </formula>
+        </conclusion>
+        <mappings origin="//@rules.7/@lhs/@nodes.0" image="//@rules.7/@lhs/@formula/@conclusion/@nodes.0"/>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.7/@lhs/@nodes.0" image="//@rules.7/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="nestedAC_pac-nac">
+    <lhs name="LHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="nd" incoming="//@rules.8/@lhs/@formula/@conclusion/@edges.0" outgoing="//@rules.8/@lhs/@formula/@conclusion/@edges.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes name="nd2" incoming="//@rules.8/@lhs/@formula/@conclusion/@edges.1" outgoing="//@rules.8/@lhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges source="//@rules.8/@lhs/@formula/@conclusion/@nodes.1" target="//@rules.8/@lhs/@formula/@conclusion/@nodes.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+          </edges>
+          <edges source="//@rules.8/@lhs/@formula/@conclusion/@nodes.0" target="//@rules.8/@lhs/@formula/@conclusion/@nodes.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:Not">
+            <child xsi:type="henshin:NestedCondition">
+              <conclusion>
+                <nodes name="nd2_" outgoing="//@rules.8/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+                </nodes>
+                <nodes name="vl" incoming="//@rules.8/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+                </nodes>
+                <edges source="//@rules.8/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.0" target="//@rules.8/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.1">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+                </edges>
+              </conclusion>
+              <mappings origin="//@rules.8/@lhs/@formula/@conclusion/@nodes.1" image="//@rules.8/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.0"/>
+            </child>
+          </formula>
+        </conclusion>
+        <mappings origin="//@rules.8/@lhs/@nodes.0" image="//@rules.8/@lhs/@formula/@conclusion/@nodes.0"/>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.8/@lhs/@nodes.0" image="//@rules.8/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="nestedAC_nac-pac">
+    <lhs name="LHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion>
+            <nodes name="nd" incoming="//@rules.9/@lhs/@formula/@child/@conclusion/@edges.0" outgoing="//@rules.9/@lhs/@formula/@child/@conclusion/@edges.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="nd2" incoming="//@rules.9/@lhs/@formula/@child/@conclusion/@edges.1" outgoing="//@rules.9/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.1" target="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+            <edges source="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+            <formula xsi:type="henshin:NestedCondition">
+              <conclusion>
+                <nodes name="nd2_" outgoing="//@rules.9/@lhs/@formula/@child/@conclusion/@formula/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+                </nodes>
+                <nodes name="vl" incoming="//@rules.9/@lhs/@formula/@child/@conclusion/@formula/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+                </nodes>
+                <edges source="//@rules.9/@lhs/@formula/@child/@conclusion/@formula/@conclusion/@nodes.0" target="//@rules.9/@lhs/@formula/@child/@conclusion/@formula/@conclusion/@nodes.1">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+                </edges>
+              </conclusion>
+              <mappings origin="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.1" image="//@rules.9/@lhs/@formula/@child/@conclusion/@formula/@conclusion/@nodes.0"/>
+            </formula>
+          </conclusion>
+          <mappings origin="//@rules.9/@lhs/@nodes.0" image="//@rules.9/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.9/@lhs/@nodes.0" image="//@rules.9/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="nestedAC_nac-nac">
+    <lhs name="LHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion>
+            <nodes name="nd" incoming="//@rules.10/@lhs/@formula/@child/@conclusion/@edges.0" outgoing="//@rules.10/@lhs/@formula/@child/@conclusion/@edges.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="nd2" incoming="//@rules.10/@lhs/@formula/@child/@conclusion/@edges.1" outgoing="//@rules.10/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.1" target="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+            <edges source="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+            <formula xsi:type="henshin:Not">
+              <child xsi:type="henshin:NestedCondition">
+                <conclusion>
+                  <nodes name="nd2_" outgoing="//@rules.10/@lhs/@formula/@child/@conclusion/@formula/@child/@conclusion/@edges.0">
+                    <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+                  </nodes>
+                  <nodes name="vl" incoming="//@rules.10/@lhs/@formula/@child/@conclusion/@formula/@child/@conclusion/@edges.0">
+                    <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+                  </nodes>
+                  <edges source="//@rules.10/@lhs/@formula/@child/@conclusion/@formula/@child/@conclusion/@nodes.0" target="//@rules.10/@lhs/@formula/@child/@conclusion/@formula/@child/@conclusion/@nodes.1">
+                    <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+                  </edges>
+                </conclusion>
+                <mappings origin="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.1" image="//@rules.10/@lhs/@formula/@child/@conclusion/@formula/@child/@conclusion/@nodes.0"/>
+              </child>
+            </formula>
+          </conclusion>
+          <mappings origin="//@rules.10/@lhs/@nodes.0" image="//@rules.10/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.10/@lhs/@nodes.0" image="//@rules.10/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="rule2">
+    <lhs name="LHS">
+      <nodes name="nl">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nr">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="nr_" outgoing="//@rules.11/@rhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes name="vl" incoming="//@rules.11/@rhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+            <attributes value="test">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/valname"/>
+            </attributes>
+          </nodes>
+          <edges source="//@rules.11/@rhs/@formula/@conclusion/@nodes.0" target="//@rules.11/@rhs/@formula/@conclusion/@nodes.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+          </edges>
+        </conclusion>
+        <mappings origin="//@rules.11/@rhs/@nodes.0" image="//@rules.11/@rhs/@formula/@conclusion/@nodes.0"/>
+      </formula>
+    </rhs>
+    <mappings origin="//@rules.11/@lhs/@nodes.0" image="//@rules.11/@rhs/@nodes.0"/>
+  </rules>
+  <rules description="match nodes having parent and child nodes" name="andNestedCondition">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:And">
+        <left xsi:type="henshin:NestedCondition">
+          <conclusion name="matchNodesWithParentNode">
+            <nodes name="nd" outgoing="//@rules.12/@lhs/@formula/@left/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="parent" incoming="//@rules.12/@lhs/@formula/@left/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.12/@lhs/@formula/@left/@conclusion/@nodes.0" target="//@rules.12/@lhs/@formula/@left/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@rules.12/@lhs/@nodes.0" image="//@rules.12/@lhs/@formula/@left/@conclusion/@nodes.0"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition">
+          <conclusion name="matchNodesWithChildNode">
+            <nodes name="nd" outgoing="//@rules.12/@lhs/@formula/@right/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="child" incoming="//@rules.12/@lhs/@formula/@right/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.12/@lhs/@formula/@right/@conclusion/@nodes.0" target="//@rules.12/@lhs/@formula/@right/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@rules.12/@lhs/@nodes.0" image="//@rules.12/@lhs/@formula/@right/@conclusion/@nodes.0"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.12/@lhs/@nodes.0" image="//@rules.12/@rhs/@nodes.0"/>
+  </rules>
+  <rules description="match nodes having parent or child nodes" name="orNestedCondition">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Or">
+        <left xsi:type="henshin:NestedCondition">
+          <conclusion name="matchNodesWithParentNode">
+            <nodes name="nd" outgoing="//@rules.13/@lhs/@formula/@left/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="parent" incoming="//@rules.13/@lhs/@formula/@left/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.13/@lhs/@formula/@left/@conclusion/@nodes.0" target="//@rules.13/@lhs/@formula/@left/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@rules.13/@lhs/@nodes.0" image="//@rules.13/@lhs/@formula/@left/@conclusion/@nodes.0"/>
+        </left>
+        <right xsi:type="henshin:NestedCondition">
+          <conclusion name="matchNodesWithChildNode">
+            <nodes name="nd" outgoing="//@rules.13/@lhs/@formula/@right/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="child" incoming="//@rules.13/@lhs/@formula/@right/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.13/@lhs/@formula/@right/@conclusion/@nodes.0" target="//@rules.13/@lhs/@formula/@right/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@rules.13/@lhs/@nodes.0" image="//@rules.13/@lhs/@formula/@right/@conclusion/@nodes.0"/>
+        </right>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.13/@lhs/@nodes.0" image="//@rules.13/@rhs/@nodes.0"/>
+  </rules>
+  <rules description="match nodes without a parent node" name="notNestedCondition">
+    <lhs name="LHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion name="matchNodesWithParentNode">
+            <nodes name="nd" outgoing="//@rules.14/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <nodes name="parent" incoming="//@rules.14/@lhs/@formula/@child/@conclusion/@edges.0">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            </nodes>
+            <edges source="//@rules.14/@lhs/@formula/@child/@conclusion/@nodes.0" target="//@rules.14/@lhs/@formula/@child/@conclusion/@nodes.1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+            </edges>
+          </conclusion>
+          <mappings origin="//@rules.14/@lhs/@nodes.0" image="//@rules.14/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.14/@lhs/@nodes.0" image="//@rules.14/@rhs/@nodes.0"/>
+  </rules>
+  <rules description="this will match nd1 to a node with a val which is the parent node of nd2, which doesn't have a val" name="nestedCondition_multipleMappings">
+    <lhs name="LHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="nd2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="n1" incoming="//@rules.15/@lhs/@formula/@conclusion/@edges.1" outgoing="//@rules.15/@lhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <nodes name="v1" incoming="//@rules.15/@lhs/@formula/@conclusion/@edges.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+          </nodes>
+          <nodes name="n2" outgoing="//@rules.15/@lhs/@formula/@conclusion/@edges.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+          </nodes>
+          <edges source="//@rules.15/@lhs/@formula/@conclusion/@nodes.0" target="//@rules.15/@lhs/@formula/@conclusion/@nodes.1">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+          </edges>
+          <edges source="//@rules.15/@lhs/@formula/@conclusion/@nodes.2" target="//@rules.15/@lhs/@formula/@conclusion/@nodes.0">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+          </edges>
+          <formula xsi:type="henshin:Not">
+            <child xsi:type="henshin:NestedCondition">
+              <conclusion>
+                <nodes name="vl" incoming="//@rules.15/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+                </nodes>
+                <nodes name="nd" outgoing="//@rules.15/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@edges.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+                </nodes>
+                <edges source="//@rules.15/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.1" target="//@rules.15/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.0">
+                  <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+                </edges>
+              </conclusion>
+              <mappings origin="//@rules.15/@lhs/@formula/@conclusion/@nodes.2" image="//@rules.15/@lhs/@formula/@conclusion/@formula/@child/@conclusion/@nodes.1"/>
+            </child>
+          </formula>
+        </conclusion>
+        <mappings origin="//@rules.15/@lhs/@nodes.0" image="//@rules.15/@lhs/@formula/@conclusion/@nodes.0"/>
+        <mappings origin="//@rules.15/@lhs/@nodes.1" image="//@rules.15/@lhs/@formula/@conclusion/@nodes.2"/>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="nd2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.15/@lhs/@nodes.0" image="//@rules.15/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.15/@lhs/@nodes.1" image="//@rules.15/@rhs/@nodes.1"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+</henshin:TransformationSystem>
