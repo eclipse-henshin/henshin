@@ -50,6 +50,6 @@ fix_incubation $DROPS
 
 # Report possible problems:
 if [ ! "$(ls --hide=index.php $DROPS/../../updates/$TARGET/plugins)" ]; then
-	echo "Check out https://hudson.eclipse.org/hudson/job/$JOB" | mail -s "Possible build problem for $JOB" henshin-dev@eclipse.org
+	echo "Check out https://hudson.eclipse.org/hudson/job/$JOB" | mail -s "Possible build problem for $JOB" henshin.ck@gmail.com
 fi
 
