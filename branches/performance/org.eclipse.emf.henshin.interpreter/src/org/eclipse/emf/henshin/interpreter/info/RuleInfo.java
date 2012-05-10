@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.interpreter;
+package org.eclipse.emf.henshin.interpreter.info;
 
 import javax.script.ScriptEngine;
 
@@ -19,7 +19,7 @@ public class RuleInfo {
 	private Rule rule;
 	
 	private VariableInfo variableInfo;
-	private ChangeInfo changeInfo;
+	private RuleChangeInfo changeInfo;
 	private ConditionInfo conditionInfo;
 
 	public RuleInfo(Rule rule, ScriptEngine scriptEngine) {
@@ -27,7 +27,7 @@ public class RuleInfo {
 		
 		this.conditionInfo = new ConditionInfo(rule, scriptEngine);
 		this.variableInfo = new VariableInfo(this, scriptEngine);
-		this.changeInfo = new ChangeInfo(rule);
+		this.changeInfo = new RuleChangeInfo(rule);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class RuleInfo {
 	/**
 	 * @return the changeInfo
 	 */
-	public ChangeInfo getChangeInfo() {
+	public RuleChangeInfo getChangeInfo() {
 		return changeInfo;
 	}
 

@@ -1,9 +1,11 @@
 package org.eclipse.emf.henshin.examples.diningphils;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -23,7 +25,7 @@ public class DiningPhilsBenchmark {
 
 		// Create a resource set with a base directory:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(
-				"src/org/eclipse/emf/henshin/examples/diningphils/model");
+				"src/org/eclipse/emf/henshin/examples/diningphils");
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
@@ -67,10 +69,15 @@ public class DiningPhilsBenchmark {
 								time);
 				
 				// Add a philosopher:
-				EmfGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEmfGraph();
-				EmfEngine engine = new EmfEngine(initialStateGraph);
-				RuleApplication app = new RuleApplication(engine, createPhilRule);
-				app.apply();
+				EGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEGraph();
+				Engine engine = InterpreterFactory.INSTANCE.createEngine();
+				RuleApplication app = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+				ApplicationMonitor monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
+				app.setEGraph(initialStateGraph);
+				app.setRule(createPhilRule);
+				if (!app.execute(monitor)) {
+					throw new RuntimeException("Error adding philosopher!");
+				}
 				
 			}	
 		}

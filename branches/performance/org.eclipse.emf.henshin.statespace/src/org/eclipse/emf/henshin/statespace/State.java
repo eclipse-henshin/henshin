@@ -242,7 +242,6 @@ public interface State extends Storage {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return 
 	 * @model paramIDsDataType="org.eclipse.emf.henshin.statespace.IntegerArray"
 	 * @generated
 	 */

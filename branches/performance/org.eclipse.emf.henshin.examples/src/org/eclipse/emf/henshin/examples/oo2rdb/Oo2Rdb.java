@@ -14,10 +14,11 @@ package org.eclipse.emf.henshin.examples.oo2rdb;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -75,15 +76,17 @@ public class Oo2Rdb extends ATrafo {
 
 		TransformationSystem ts = (TransformationSystem) loadModel(HENSHIN_OO2RDB);
 		EObject rootObject = loadModel(ECORE_CARRENTAL);
-		EmfGraph emfGraph = new EmfGraph();
-		emfGraph.addRoot(EcorePackageImpl.eINSTANCE);
-		emfGraph.addRoot(rootObject);
-		EmfEngine engine = new EmfEngine(emfGraph);
+		EGraph emfGraph = InterpreterFactory.INSTANCE.createEGraph();
+		emfGraph.addTree(EcorePackageImpl.eINSTANCE);
+		emfGraph.addTree(rootObject);
+		Engine engine = InterpreterFactory.INSTANCE.createEngine();
 		TransformationUnit unit = ts.findUnitByName("Start");
-		UnitApplication unitApp = new UnitApplication(engine, unit);
-		boolean success = unitApp.execute();
+		UnitApplication unitApp = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		unitApp.setUnit(unit);
+		unitApp.setEGraph(emfGraph);
+		boolean success = unitApp.execute(null);
 		if (success) {
-			EObject result = (EObject) unitApp.getParameterValue("schema");
+			EObject result = (EObject) unitApp.getResultParameterValue("schema");
 			System.out.println(result);
 			saveModel(PATH + "Result.xmi", result);
 		} else {

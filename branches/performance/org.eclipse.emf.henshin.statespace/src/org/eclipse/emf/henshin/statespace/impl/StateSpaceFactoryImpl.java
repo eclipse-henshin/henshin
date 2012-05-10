@@ -23,10 +23,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.statespace.*;
 
 /**
@@ -100,8 +99,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return createStringArrayFromString(eDataType, initialValue);
 			case StateSpacePackage.MATCH:
 				return createMatchFromString(eDataType, initialValue);
-			case StateSpacePackage.EMF_GRAPH:
-				return createEmfGraphFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -121,8 +118,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 				return convertStringArrayToString(eDataType, instanceValue);
 			case StateSpacePackage.MATCH:
 				return convertMatchToString(eDataType, instanceValue);
-			case StateSpacePackage.EMF_GRAPH:
-				return convertEmfGraphToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -289,24 +284,6 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * @generated
 	 */
 	public String convertMatchToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EmfGraph createEmfGraphFromString(EDataType eDataType, String initialValue) {
-		return (EmfGraph)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertEmfGraphToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

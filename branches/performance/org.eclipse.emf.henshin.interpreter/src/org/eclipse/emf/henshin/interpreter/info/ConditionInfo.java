@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.internal.interpreter;
+package org.eclipse.emf.henshin.interpreter.info;
 
 import java.util.ArrayList;
 import java.util.Collection;

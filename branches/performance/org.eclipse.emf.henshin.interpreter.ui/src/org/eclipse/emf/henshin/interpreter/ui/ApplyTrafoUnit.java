@@ -9,11 +9,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.impl.InterpreterEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.HenshinRegistry;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,11 +35,11 @@ public class ApplyTrafoUnit extends AbstractHandler {
 			ResourceSet resourceSet = new ResourceSetImpl();
 			Resource res = resourceSet.getResource(URI.createFileURI(filename), true);
 			
-			EmfGraph graph = new EmfGraph();
-			InterpreterEngine engine = new EmfEngine(graph);
+			EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
+			Engine engine = InterpreterFactory.INSTANCE.createEngine();
 			
 			for (EObject obj : res.getContents()) {
-				graph.addRoot(obj);
+				graph.addTree(obj);
 			}
 			
 			String unitName = event.getParameter("org.eclipse.emf.henshin.UnitParameter");
@@ -48,12 +48,14 @@ public class ApplyTrafoUnit extends AbstractHandler {
 			TransformationSystem trafoSystem = HenshinRegistry.instance.getTransformationSystemByName(trafoName);
 			TransformationUnit unit = trafoSystem.findUnitByName(unitName);
 			
-			UnitApplicationImpl unitApplication = new UnitApplicationImpl(engine, unit);
-			boolean result = unitApplication.execute();
+			UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+			unitApplication.setEGraph(graph);
+			unitApplication.setUnit(unit);
+			boolean result = unitApplication.execute(null);
 			
 			if (result) {
 				res.getContents().clear();
-				res.getContents().addAll(graph.getRootObjects());
+				res.getContents().addAll(graph.getRoots());
 			}
 			
 			try {

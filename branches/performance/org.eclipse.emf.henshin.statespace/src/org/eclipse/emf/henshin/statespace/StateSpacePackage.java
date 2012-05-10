@@ -394,13 +394,13 @@ public interface StateSpacePackage extends EPackage {
 	int MODEL__RESOURCE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Emf Graph</b></em>' attribute.
+	 * The feature id for the '<em><b>EGraph</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__EMF_GRAPH = 1;
+	int MODEL__EGRAPH = 1;
 
 	/**
 	 * The feature id for the '<em><b>Object Keys Map</b></em>' map.
@@ -626,7 +626,7 @@ public interface StateSpacePackage extends EPackage {
 	 * The meta object id for the '<em>Match</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.interpreter.util.Match
+	 * @see org.eclipse.emf.henshin.interpreter.Match
 	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getMatch()
 	 * @generated
 	 */
@@ -634,14 +634,14 @@ public interface StateSpacePackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '<em>Emf Graph</em>' data type.
+	 * The meta object id for the '<em>EGraph</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.matching.EmfGraph
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
+	 * @see org.eclipse.emf.henshin.interpreter.EGraph
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEGraph()
 	 * @generated
 	 */
-	int EMF_GRAPH = 10;
+	int EGRAPH = 10;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.statespace.StateSpace <em>State Space</em>}'.
@@ -894,15 +894,15 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getModel_Resource();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getEmfGraph <em>Emf Graph</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.Model#getEGraph <em>EGraph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Emf Graph</em>'.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getEmfGraph()
+	 * @return the meta object for the attribute '<em>EGraph</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getEGraph()
 	 * @see #getModel()
 	 * @generated
 	 */
-	EAttribute getModel_EmfGraph();
+	EAttribute getModel_EGraph();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getObjectKeysMap <em>Object Keys Map</em>}'.
@@ -1198,26 +1198,26 @@ public interface StateSpacePackage extends EPackage {
 	EDataType getStringArray();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.interpreter.util.Match <em>Match</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.interpreter.Match <em>Match</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Match</em>'.
-	 * @see org.eclipse.emf.henshin.interpreter.util.Match
-	 * @model instanceClass="org.eclipse.emf.henshin.interpreter.util.Match"
+	 * @see org.eclipse.emf.henshin.interpreter.Match
+	 * @model instanceClass="org.eclipse.emf.henshin.interpreter.Match"
 	 * @generated
 	 */
 	EDataType getMatch();
 
 	/**
-	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.matching.EmfGraph <em>Emf Graph</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.interpreter.EGraph <em>EGraph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Emf Graph</em>'.
-	 * @see org.eclipse.emf.henshin.matching.EmfGraph
-	 * @model instanceClass="org.eclipse.emf.henshin.matching.EmfGraph"
+	 * @return the meta object for data type '<em>EGraph</em>'.
+	 * @see org.eclipse.emf.henshin.interpreter.EGraph
+	 * @model instanceClass="org.eclipse.emf.henshin.interpreter.EGraph" serializeable="false"
 	 * @generated
 	 */
-	EDataType getEmfGraph();
+	EDataType getEGraph();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1432,12 +1432,12 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute MODEL__RESOURCE = eINSTANCE.getModel_Resource();
 
 		/**
-		 * The meta object literal for the '<em><b>Emf Graph</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>EGraph</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MODEL__EMF_GRAPH = eINSTANCE.getModel_EmfGraph();
+		EAttribute MODEL__EGRAPH = eINSTANCE.getModel_EGraph();
 
 		/**
 		 * The meta object literal for the '<em><b>Object Keys Map</b></em>' map feature.
@@ -1669,21 +1669,21 @@ public interface StateSpacePackage extends EPackage {
 		 * The meta object literal for the '<em>Match</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.interpreter.util.Match
+		 * @see org.eclipse.emf.henshin.interpreter.Match
 		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getMatch()
 		 * @generated
 		 */
 		EDataType MATCH = eINSTANCE.getMatch();
 
 		/**
-		 * The meta object literal for the '<em>Emf Graph</em>' data type.
+		 * The meta object literal for the '<em>EGraph</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.matching.EmfGraph
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEmfGraph()
+		 * @see org.eclipse.emf.henshin.interpreter.EGraph
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEGraph()
 		 * @generated
 		 */
-		EDataType EMF_GRAPH = eINSTANCE.getEmfGraph();
+		EDataType EGRAPH = eINSTANCE.getEGraph();
 
 	}
 

@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 
 /**
  * 
@@ -23,18 +23,18 @@ public class HenshinationResult {
 	
 	protected Henshination henshination;
 	
-	protected UnitApplicationImpl unitApplication;
+	protected UnitApplication unitApplication;
 	
 	protected boolean success;
 	
-	public HenshinationResult(Henshination henshination, UnitApplicationImpl unitApplication,boolean success) {
+	public HenshinationResult(Henshination henshination, UnitApplication unitApplication,boolean success) {
 		super();
 		this.henshination = henshination;
 		this.unitApplication = unitApplication;
 		this.success = success;
 	}
 	
-	public UnitApplicationImpl getUnitApplication() {
+	public UnitApplication getUnitApplication() {
 		return unitApplication;
 	}
 	

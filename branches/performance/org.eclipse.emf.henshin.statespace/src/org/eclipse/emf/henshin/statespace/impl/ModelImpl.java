@@ -28,8 +28,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -84,9 +85,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @param emfGraph EmfGraph for this model.
 	 * @generated NOT
 	 */
-	public ModelImpl(Resource resource, EmfGraph emfGraph) {
+	public ModelImpl(Resource resource, EGraph eGraph) {
 		this.resource = resource;
-		this.emfGraph = emfGraph;
+		this.eGraph = eGraph;
 	}
 
 	/**
@@ -102,19 +103,18 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public EmfGraph getEmfGraph() {
-		if (emfGraph==null) {
-			emfGraph = new EmfGraph();
+	public EGraph getEGraph() {
+		if (eGraph==null) {
+			eGraph = InterpreterFactory.INSTANCE.createEGraph();
 			for (EObject root : resource.getContents()) {
-				emfGraph.addRoot(root);
+				eGraph.addTree(root);
 			}
 		}
-		return emfGraph;
+		return eGraph;
 	}
 
 	/**
 	 * Get a copy of this model.
-	 * @see org.eclipse.emf.henshin.statespace.Model#getCopy(org.eclipse.emf.henshin.interpreter.util.Match)
 	 * @generated NOT
 	 */
 	public Model getCopy(Match match) {
@@ -132,9 +132,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		}
 		
 		// Copy the graph:
-		EmfGraph copiedGraph = null;
-		if (emfGraph!=null) {
-			copiedGraph = new EmfGraph(emfGraph, copier);
+		EGraph copiedGraph = null;
+		if (eGraph!=null) {
+			copiedGraph = eGraph.copy(copier);
 		}
 		
 		// Now create a new model.
@@ -159,12 +159,12 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * Helper method for updating a match when copying a model.
 	 */
 	private void updateMatch(Match match, Copier copier) {
-		for (Node node : match.getNodeMapping().keySet()) {
-			EObject newImage = copier.get(match.getNodeMapping().get(node));
-			match.getNodeMapping().put(node, newImage);
+		for (Node node : match.getRule().getLhs().getNodes()) {
+			EObject newImage = copier.get(match.getNodeTarget(node));
+			match.setNodeTarget(node, newImage);
 		}
-		for (Rule rule : match.getNestedMatches().keySet()) {
-			for (Match nested : match.getNestedMatchesFor(rule)) {
+		for (Rule rule : match.getRule().getMultiRules()) {
+			for (Match nested : match.getNestedMatches(rule)) {
 				updateMatch(nested, copier);
 			}
 		}
@@ -239,8 +239,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated NOT
 	 */
 	public void collectMissingRootObjects() {
-		if (emfGraph!=null) {
-			for (EObject root : emfGraph.getRootObjects()) {
+		if (eGraph!=null) {
+			for (EObject root : eGraph.getRoots()) {
 				if (!resource.getContents().contains(root)) {
 					System.out.println("Warning: collected missing root object");
 					resource.getContents().add(root);
@@ -295,10 +295,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated NOT
 	 */
 	public int getObjectCount() {
-		if (emfGraph==null) {
-			getEmfGraph();
+		if (eGraph==null) {
+			getEGraph();
 		}
-		return emfGraph.geteObjects().size();
+		return eGraph.size();
 	}
 
 	/*
@@ -329,24 +329,24 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected Resource resource = RESOURCE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getEmfGraph() <em>Emf Graph</em>}' attribute.
+	 * The default value of the '{@link #getEGraph() <em>EGraph</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEmfGraph()
+	 * @see #getEGraph()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final EmfGraph EMF_GRAPH_EDEFAULT = null;
+	protected static final EGraph EGRAPH_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getEmfGraph() <em>Emf Graph</em>}' attribute.
+	 * The cached value of the '{@link #getEGraph() <em>EGraph</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEmfGraph()
+	 * @see #getEGraph()
 	 * @generated
 	 * @ordered
 	 */
-	protected EmfGraph emfGraph = EMF_GRAPH_EDEFAULT;
+	protected EGraph eGraph = EGRAPH_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getObjectKeysMap() <em>Object Keys Map</em>}' map.
@@ -422,8 +422,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__RESOURCE:
 				return getResource();
-			case StateSpacePackage.MODEL__EMF_GRAPH:
-				return getEmfGraph();
+			case StateSpacePackage.MODEL__EGRAPH:
+				return getEGraph();
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				if (coreType) return getObjectKeysMap();
 				else return getObjectKeysMap().map();
@@ -475,8 +475,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 			case StateSpacePackage.MODEL__RESOURCE:
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
-			case StateSpacePackage.MODEL__EMF_GRAPH:
-				return EMF_GRAPH_EDEFAULT == null ? emfGraph != null : !EMF_GRAPH_EDEFAULT.equals(emfGraph);
+			case StateSpacePackage.MODEL__EGRAPH:
+				return EGRAPH_EDEFAULT == null ? eGraph != null : !EGRAPH_EDEFAULT.equals(eGraph);
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				return objectKeysMap != null && !objectKeysMap.isEmpty();
 			case StateSpacePackage.MODEL__OBJECT_KEYS:
@@ -497,8 +497,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (resource: ");
 		result.append(resource);
-		result.append(", emfGraph: ");
-		result.append(emfGraph);
+		result.append(", eGraph: ");
+		result.append(eGraph);
 		result.append(')');
 		return result.toString();
 	}

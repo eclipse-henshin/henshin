@@ -44,7 +44,7 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
  */
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
-	// Transformation engines:
+	// State exploration helpers:
 	private final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
 	
 	// A lock used when accessing the state space:
@@ -123,7 +123,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				}
 				
 				// Update object count:
-				state.setObjectCount(model.getEmfGraph().geteObjects().size());
+				state.setObjectCount(model.getEGraph().size());
 				
 				// Now compute the hash code:
 				int hash = equalityHelper.hashCode(model);

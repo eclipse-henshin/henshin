@@ -1,4 +1,4 @@
-package org.eclipse.emf.henshin.internal.interpreter;
+package org.eclipse.emf.henshin.interpreter.info;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,12 +14,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.henshin.matching.constraints.AttributeConstraint;
-import org.eclipse.emf.henshin.matching.constraints.ContainmentConstraint;
-import org.eclipse.emf.henshin.matching.constraints.DanglingConstraint;
-import org.eclipse.emf.henshin.matching.constraints.ParameterConstraint;
-import org.eclipse.emf.henshin.matching.constraints.ReferenceConstraint;
-import org.eclipse.emf.henshin.matching.constraints.Variable;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.ParameterConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;

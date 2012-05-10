@@ -12,7 +12,6 @@
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
@@ -189,18 +188,19 @@ public class HenshinationPreview implements HenshinationResultView {
 			@Override
 			public String getText(Object element) {
 				Parameter parameter = (Parameter) element;
-				Map<Parameter, Object> pValues = henshinationResult.getUnitApplication()
-						.getParameterValues();
-				Object value = "";
-				if (pValues.containsKey(parameter)) {
-					value = pValues.get((Parameter) element);
-					value = value == null ? "null" : value;
-				}
-				return value.toString();
+				Object value = henshinationResult.getUnitApplication()
+						.getResultParameterValue(parameter.getName());
+				//Object value = "";
+				//if (pValues.containsKey(parameter)) {
+				//	value = pValues.get((Parameter) element);
+				//	value = value == null ? "null" : value;
+				//}
+				//return value.toString();
+				return String.valueOf(value);
 			}
 		});
 		
-		tableViewer.setInput(henshinationResult.getUnitApplication().getTransformationUnit()
+		tableViewer.setInput(henshinationResult.getUnitApplication().getUnit()
 				.getParameters());
 		return tableViewer.getTable();
 	}

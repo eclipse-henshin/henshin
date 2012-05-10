@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.interpreter;
+package org.eclipse.emf.henshin.interpreter.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,25 +26,36 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 
-public class HenshinGraph extends EmfGraph implements Adapter {
-	private Graph henshinGraph;
+/**
+ * HenshinGraph-to-EGraph converter.
+ */
+public class HenshinEGraph extends EGraphImpl implements Adapter {
 	
-	private Map<Node, EObject> node2eObjectMap;
-	private Map<EObject, Node> eObject2nodeMap;
+	// Generated serial ID
+	private static final long serialVersionUID = -2408288653525326829L;
+
+	// The Henshin graph:
+	protected final Graph henshinGraph;
 	
-	public HenshinGraph(Graph graph) {
-		node2eObjectMap = new HashMap<Node, EObject>();
-		eObject2nodeMap = new HashMap<EObject, Node>();
-		
+	// Correspondence maps: 
+	protected Map<Node, EObject> node2object;
+	protected Map<EObject, Node> object2node;
+	
+	/**
+	 * Default constructor.
+	 * @param graph The Henshin graph.
+	 */
+	public HenshinEGraph(Graph graph) {
 		henshinGraph = graph;
-		
+		node2object = new HashMap<Node, EObject>();
+		object2node = new HashMap<EObject, Node>();
 		henshin2emfGraph();
 	}
 	
@@ -64,19 +75,20 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 	 */
 	@SuppressWarnings("unchecked")
 	private void henshin2emfGraph() {
-		eObjects.clear();
+		
+		clear();
 		// henshinGraph.eAdapters().clear();
-		eObject2nodeMap.clear();
-		node2eObjectMap.clear();
+		object2node.clear();
+		node2object.clear();
 		
 		for (Node node : henshinGraph.getNodes()) {
-			EObject eObject = node2eObjectMap.get(node);
+			EObject eObject = node2object.get(node);
 			
 			if (eObject == null) {
 				EClass nodeType = node.getType();
 				EFactory factory = nodeType.getEPackage().getEFactoryInstance();
 				eObject = factory.create(nodeType);
-				addEObjectToGraph(eObject);
+				add(eObject);
 				addSynchronizedPair(node, eObject);
 			}
 			
@@ -109,8 +121,8 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 			if (edgeType.isDerived())
 				continue;
 			
-			EObject ownerObject = node2eObjectMap.get(edge.getSource());
-			EObject targetObject = node2eObjectMap.get(edge.getTarget());
+			EObject ownerObject = node2object.get(edge.getSource());
+			EObject targetObject = node2object.get(edge.getTarget());
 			
 			/*
 			 * If the edgeType is not changeable but its opposite is, then we
@@ -145,16 +157,17 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.impl.EGraphImpl#add(org.eclipse.emf.ecore.EObject)
+	 */
 	@Override
-	public boolean addEObject(EObject eObject) {
-		boolean isNew = super.addEObject(eObject);
-		
+	public boolean add(EObject eObject) {
+		boolean isNew = super.add(eObject);
 		if (isNew) {
-			HenshinFactory factory = HenshinFactory.eINSTANCE;
-			
-			Node node = eObject2nodeMap.get(eObject);
+			Node node = object2node.get(eObject);
 			if (node == null) {
-				node = factory.createNode();
+				node = HenshinFactory.eINSTANCE.createNode();
 				node.setType(eObject.eClass());
 				henshinGraph.getNodes().add(node);
 				
@@ -164,17 +177,18 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 					henshinGraph.getNodes().add(node);
 			}
 		}
-		
 		return isNew;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.impl.EGraphImpl#remove(java.lang.Object)
+	 */
 	@Override
-	public boolean removeEObject(EObject eObject) {
-		boolean wasRemoved = super.removeEObject(eObject);
-		
-		if (wasRemoved) {
-			Node node = eObject2nodeMap.get(eObject);
-			
+	public boolean remove(Object object) {
+		boolean removed = super.remove(object);
+		if (removed) {
+			Node node = object2node.get(object);
 			if (node != null) {
 				henshinGraph.getNodes().remove(node);
 				List<Edge> list = new ArrayList<Edge>(node.getIncoming());
@@ -184,60 +198,71 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 					edge.setTarget(null);
 					edge.setGraph(null);
 				}
-				removeSynchronizedPair(node, eObject);
+				removeSynchronizedPair(node, (EObject) object);
 			}
 		}
-		
-		return wasRemoved;
-		
+		return removed;
 	}
 	
 	/**
 	 * This methods will update the EMF representation of the Henshin-Graph.
 	 */
-	public void updateEmfGraph() {
+	public void updateEGraph() {
 		henshin2emfGraph();
 	}
 	
+	/*
+	 * Add a synchronized pair of a node and an object.
+	 */
 	private void addSynchronizedPair(Node node, EObject eObject) {
-		node2eObjectMap.put(node, eObject);
-		eObject2nodeMap.put(eObject, node);
-		
+		node2object.put(node, eObject);
+		object2node.put(eObject, node);
 		eObject.eAdapters().add(this);
 	}
 	
+	/*
+	 * Remove a synchronized pair of a node and an object.
+	 */
 	private void removeSynchronizedPair(Node node, EObject eObject) {
 		// node2eObjectMap.remove(node);
 		// eObject2nodeMap.remove(eObject);
-		
 		// eObject.eAdapters().remove(this);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
 	@Override
 	public Notifier getTarget() {
 		return null;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
 	@Override
 	public boolean isAdapterForType(Object type) {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		EObject owner = (EObject) notification.getNotifier();
-		Node ownerNode = eObject2nodeMap.get(owner);
+		Node ownerNode = object2node.get(owner);
 		Object feature = notification.getFeature();
-		
 		Object oldValue = notification.getOldValue();
 		Object newValue = notification.getNewValue();
-		
 		if (feature instanceof EStructuralFeature && ownerNode != null) {
 			// remove all deleted structures from the henshin graph
 			if (oldValue != null && newValue != oldValue) {
 				removeFromHenshinGraph(ownerNode, (EStructuralFeature) feature, oldValue);
 			}
-			
 			// add new structures to henshin graph
 			if (newValue != null) {
 				addToHenshinGraph(owner, (EStructuralFeature) feature, newValue);
@@ -245,10 +270,17 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 		}
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
 	@Override
 	public void setTarget(Notifier newTarget) {
 	}
 	
+	/*
+	 * Remove an object from the Henshin graph.
+	 */
 	private void removeFromHenshinGraph(Node owner, EStructuralFeature feature, Object value) {
 		if (feature instanceof EAttribute) {
 			Attribute attribute = null;
@@ -258,22 +290,19 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 					break;
 				}
 			}
-			
 			if (attribute != null) {
 				attribute.setNode(null);
 			}
 		} else if (feature instanceof EReference) {
 			Edge edge = null;
-			
 			if (value instanceof EObject) {
-				Node targetNode = eObject2nodeMap.get(value);
+				Node targetNode = object2node.get(value);
 				for (Edge outgoingEdge : owner.getOutgoing()) {
 					if (outgoingEdge.getTarget() == targetNode && outgoingEdge.getType() == feature) {
 						edge = outgoingEdge;
 						break;
 					}
 				}
-				
 				if (edge != null) {
 					edge.setSource(null);
 					edge.setTarget(null);
@@ -283,9 +312,11 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 		}
 	}
 	
+	/*
+	 * Add an object to the Henshin graph.
+	 */
 	private void addToHenshinGraph(EObject owner, EStructuralFeature feature, Object value) {
-		Node node = eObject2nodeMap.get(owner);
-		
+		Node node = object2node.get(owner);
 		if (node != null && value != null) {
 			if (feature instanceof EAttribute) {
 				Attribute attribute = null;
@@ -295,7 +326,6 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 						break;
 					}
 				}
-				
 				if (attribute == null) {
 					attribute = HenshinFactory.eINSTANCE.createAttribute();
 					attribute.setType((EAttribute) feature);
@@ -305,9 +335,8 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 				
 			} else if (feature instanceof EReference) {
 				Edge edge = null;
-				
 				if (value instanceof EObject) {
-					Node targetNode = eObject2nodeMap.get(value);
+					Node targetNode = object2node.get(value);
 					for (Edge outgoingEdge : node.getOutgoing()) {
 						if (outgoingEdge.getTarget() == targetNode
 								&& outgoingEdge.getType() == feature) {
@@ -315,7 +344,6 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 							break;
 						}
 					}
-					
 					if (edge == null) {
 						edge = HenshinFactory.eINSTANCE.createEdge();
 						edge.setSource(node);
@@ -328,33 +356,20 @@ public class HenshinGraph extends EmfGraph implements Adapter {
 		}
 	}
 	
-	/**
-	 * @return the node2eObjectMap
-	 */
-	public Map<Node, EObject> getNode2eObjectMap() {
-		return node2eObjectMap;
+	public Map<Node, EObject> getNode2ObjectMap() {
+		return node2object;
 	}
 	
-	/**
-	 * @param node2eObjectMap
-	 *            the node2eObjectMap to set
-	 */
-	public void setNode2eObjectMap(Map<Node, EObject> node2eObjectMap) {
-		this.node2eObjectMap = node2eObjectMap;
+	public void setNode2ObjectMap(Map<Node,EObject> node2object) {
+		this.node2object = node2object;
 	}
 	
-	/**
-	 * @return the eObject2nodeMap
-	 */
-	public Map<EObject, Node> geteObject2nodeMap() {
-		return eObject2nodeMap;
+	public Map<EObject, Node> getObject2NodeMap() {
+		return object2node;
 	}
 	
-	/**
-	 * @param eObject2nodeMap
-	 *            the eObject2nodeMap to set
-	 */
-	public void seteObject2nodeMap(Map<EObject, Node> eObject2nodeMap) {
-		this.eObject2nodeMap = eObject2nodeMap;
+	public void setObject2NodeMap(Map<EObject, Node> object2node) {
+		this.object2node = object2node;
 	}
+	
 }

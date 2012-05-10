@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.henshin.matching.util.GraphIsomorphyChecker;
+import org.eclipse.emf.henshin.interpreter.util.GraphIsomorphyChecker;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
 import org.eclipse.emf.henshin.statespace.Model;
@@ -141,7 +141,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 			
 			// Create a new isomorphy checker if required:
 			if (checker1==null) {
-				checker1 = new GraphIsomorphyChecker(model1.getEmfGraph(), getIgnoredAttributes());
+				checker1 = new GraphIsomorphyChecker(model1.getEGraph(), getIgnoredAttributes());
 				isomorphyCheckerCache.put(model1, checker1);
 			}
 			
@@ -173,7 +173,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 			}
 
 			// Now we can invoke the checker:
-			return checker1.isIsomorphicTo(model2.getEmfGraph(), match);
+			return checker1.isIsomorphicTo(model2.getEGraph(), match);
 
 		}
 		

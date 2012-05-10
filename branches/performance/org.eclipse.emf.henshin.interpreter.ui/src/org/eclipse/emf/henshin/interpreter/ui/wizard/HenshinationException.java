@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 
 /**
  * 
@@ -23,9 +23,9 @@ public class HenshinationException extends Exception {
 	
 	private static final long serialVersionUID = 5379555793141985843L;
 	
-	protected UnitApplicationImpl unitApplication;
+	protected UnitApplication unitApplication;
 	
-	public HenshinationException(Exception e, UnitApplicationImpl unitApplication) {
+	public HenshinationException(Exception e, UnitApplication unitApplication) {
 		super(e);
 		this.unitApplication = unitApplication;
 	}

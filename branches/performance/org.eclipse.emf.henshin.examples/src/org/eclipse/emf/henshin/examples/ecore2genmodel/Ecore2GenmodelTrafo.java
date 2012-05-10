@@ -14,9 +14,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -45,7 +46,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 public class Ecore2GenmodelTrafo {
 
 	/** Definition of a number of file paths */
-	private static final String BASE = "src/org/eclipse/emf/henshin/examples/ecore2genmodel/model/";
+	private static final String BASE = "src/org/eclipse/emf/henshin/examples/ecore2genmodel";
 
 	/** Mapping model */
 	private static final String ECORE_E2G = "ecore2gen.ecore";
@@ -76,40 +77,42 @@ public class Ecore2GenmodelTrafo {
 		EPackage ecoreModel = (EPackage) loadModel(ECORE_SOURCE_FULL);
 
 		// Create Henshin interpreter objects
-		EmfGraph graphM = new EmfGraph();
-		graphM.addRoot(ecoreModel);
-		EmfEngine engineM = new EmfEngine(graphM);
+		EGraph graphM = InterpreterFactory.INSTANCE.createEGraph();
+		graphM.addTree(ecoreModel);
+		Engine engineM = InterpreterFactory.INSTANCE.createEngine();
 
 		// Generate genmodel from ecore model (without annotations).
 		TransformationUnit unit1 = ts.findUnitByName("translateGenModel");
-		UnitApplication unitApp1 = new UnitApplication(engineM, unit1);
+		UnitApplication unitApp1 = InterpreterFactory.INSTANCE.createUnitApplication(engineM);
+		unitApp1.setEGraph(graphM);
+		unitApp1.setUnit(unit1);
+		
 		// file name and plugin name cannot be reliably deduced by the model
 		// elements thus need to be set.
 		unitApp1.setParameterValue("modelFileName", ECORE_SOURCE);
 		unitApp1.setParameterValue("pluginName", ecoreModel.getName());
-		boolean result = unitApp1.execute();
+		boolean result = unitApp1.execute(null);
 
-		graphM.addRoot(ts);
-		graphM.addRoot(GenModelPackage.eINSTANCE);
-		graphM.addRoot(mappingModel);
+		graphM.addTree(ts);
+		graphM.addTree(GenModelPackage.eINSTANCE);
+		graphM.addTree(mappingModel);
 
 		// Process annotations and generate related Henshin rules.
 		TransformationUnit unit2 = ts
 				.findUnitByName("prepareCustomizationUnit");
-		UnitApplication unitApp2 = new UnitApplication(engineM, unit2);
-		unitApp2.execute();
+		unitApp1.setUnit(unit2);
+		unitApp1.execute(null);
 
 		// Apply generated rules to transfer annotations to the genmodel.
-		SequentialUnit customizationUnit = (SequentialUnit) unitApp2
-				.getParameterValue("seqUnit");
-		UnitApplication unitApp3 = new UnitApplication(engineM,
-				customizationUnit);
-		unitApp3.execute();
+		SequentialUnit customizationUnit = (SequentialUnit) unitApp1
+				.getResultParameterValue("seqUnit");
+		unitApp1.setUnit(customizationUnit);
+		unitApp1.execute(null);
 
 		// Save resulting genmodel.
 		if (result) {
 			System.out.println("Successful");
-			GenModel gm = (GenModel) unitApp1.getParameterValue("genModel");
+			GenModel gm = (GenModel) unitApp1.getResultParameterValue("genModel");
 			saveGenModel(gm);
 		} else {
 			System.out.println("Not successful");

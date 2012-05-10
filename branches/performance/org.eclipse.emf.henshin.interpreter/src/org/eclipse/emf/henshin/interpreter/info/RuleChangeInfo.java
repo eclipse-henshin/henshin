@@ -9,7 +9,7 @@
  * Contributors:
  *     Technical University Berlin - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.internal.interpreter;
+package org.eclipse.emf.henshin.interpreter.info;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
-public class ChangeInfo {
+public class RuleChangeInfo {
 	private Collection<Node> createdNodes;
 	private Collection<Node> deletedNodes;
 	private Collection<Node> preservedNodes;
@@ -28,7 +28,7 @@ public class ChangeInfo {
 	private Collection<Edge> deletedEdges;
 	private Collection<Attribute> attributeChanges;
 	
-	public ChangeInfo(Rule rule) {
+	public RuleChangeInfo(Rule rule) {
 		createdNodes = new ArrayList<Node>();
 		createdEdges = new ArrayList<Edge>();
 		deletedEdges = new ArrayList<Edge>();

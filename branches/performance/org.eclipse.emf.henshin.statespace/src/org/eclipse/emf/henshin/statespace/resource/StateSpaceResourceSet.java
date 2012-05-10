@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.statespace.resource;
 
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
@@ -37,10 +38,18 @@ public class StateSpaceResourceSet extends HenshinResourceSet {
 	 * Convenience method for loading a {@link StateSpace} from a 
 	 * file given as a path and file name.
 	 * @param path Possible relative path and file name of a state space resource.
-	 * @return The contained {@link TransformationSystem}.
+	 * @return The contained {@link StateSpace}.
 	 */
 	public StateSpace getStateSpace(String path) {
-		return (StateSpace) getFirstRoot(path);
+		Resource resource = getResource(path);
+		if (resource!=null) {
+			for (EObject object : resource.getContents()) {
+				if (object instanceof StateSpace) {
+					return (StateSpace) object;
+				}
+			}
+		}
+		return null;
 	}
 
 }
