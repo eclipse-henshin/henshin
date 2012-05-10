@@ -21,6 +21,7 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.trace.impl.TracePackageImpl;
 
 /**
  * This class triggers a transformation of an Ecore model into a relational
@@ -36,7 +37,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public class Oo2Rdb extends ATrafo {
 	
-	public static final String PATH = "src/org/eclipse/emf/henshin/examples/oo2rdb/model/";
+	public static final String PATH = "src/org/eclipse/emf/henshin/examples/oo2rdb/";
 	public static final String ECORE_RDB = PATH + "rdb.ecore";
 	public static final String HENSHIN_OO2RDB = PATH + "oo2rdb.henshin";
 	

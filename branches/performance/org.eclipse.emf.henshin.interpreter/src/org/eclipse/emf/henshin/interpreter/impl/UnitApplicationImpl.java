@@ -76,7 +76,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
-		resultAssignment = new AssignmentImpl(assignment);
+		resultAssignment = (assignment!=null) ? new AssignmentImpl(assignment) : new AssignmentImpl(unit);
 		if (unit.isActivated()) {
 			switch (unit.eClass().getClassifierID()) {
 				case HenshinPackage.RULE:
@@ -312,7 +312,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				Parameter param = subUnitApp.getUnit().getParameterByName(source.getName());
 				if (param!=null) {
 					resultAssignment.setParameterValue(target, 
-							subUnitApp.getAssignment().getParameterValue(param));
+							subUnitApp.getResultAssignment().getParameterValue(param));
 					break;
 				}
 			}
@@ -359,8 +359,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in transformation unit \"" + unit.getName() + "\" found" );
 		}
-		if (assignment!=null) {
-			return assignment.getParameterValue(param);
+		if (resultAssignment!=null) {
+			return resultAssignment.getParameterValue(param);
 		}
 		return null;
 	}
