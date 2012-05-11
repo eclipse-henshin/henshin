@@ -121,4 +121,28 @@ public class AssignmentImpl implements Assignment {
 		return false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
+	}
+	
+	/*
+	 * toString helper.
+	 */
+	protected String toStringWithIndent(String indent) {
+		if (unit.getParameters().isEmpty()) {
+			return indent + "- no parameters";
+		}
+		String result = "";
+		for (Parameter param : unit.getParameters()) {
+			result = result + indent + "- parameter '" + param.getName() + "' => " + getParameterValue(param) + "\n";
+		}
+		return result;
+		
+	}
+	
 }

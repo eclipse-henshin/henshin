@@ -269,4 +269,49 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		return isResultMatch;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		if (isResultMatch) {
+			return "Result match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");
+		} else {
+			return "Match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");			
+		}
+	}
+
+	/*
+	 * toString helper.
+	 */
+	@Override
+	protected String toStringWithIndent(String indent) {
+		if (nodes.isEmpty()) {
+			return indent + "- no nodes";
+		}
+		String result = "";
+		int index = 1;
+		for (Node node : nodes) {
+			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
+			result = result + indent + "- node " + name + " => " + getNodeTarget(node) + "\n";
+			index++;
+		}
+		for (Rule multiRule : ((Rule) unit).getMultiRules()) {
+			result = result + "\n" + indent + "  Multi-rule '" + multiRule.getName() + "':\n";
+			List<Match> matches = getNestedMatches(multiRule);
+			for (int i=0; i<matches.size(); i++) {
+				result = result + "\n" + indent + "  Match #" + i + ":\n";
+				Match match = matches.get(i);
+				if (match instanceof MatchImpl) {
+					result = result + ((MatchImpl) match).toStringWithIndent(indent + "  "); 
+				} else {
+					result = result + indent + "  " + match.toString();
+				}
+			}
+		}
+		return result;
+		
+	}
+
 }

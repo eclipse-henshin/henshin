@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +33,7 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Change;
+import org.eclipse.emf.henshin.interpreter.Change.ComplexChange;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
@@ -114,11 +114,20 @@ public class EngineImpl implements Engine {
 			resultMatch = new ResultMatchImpl(rule);
 		}
 
-		// Get the rule change info:
-		RuleChangeInfo ruleChange = getRuleInfo(rule).getChangeInfo();
-
-		// Create the object change info:
+		// Create the object changes:
 		ComplexChangeImpl complexChange = new ComplexChangeImpl(graph);
+		createChanges(rule, graph, completeMatch, resultMatch, complexChange);
+		return complexChange;
+
+	}
+
+	/*
+	 * Recursively create the changes and result matches.
+	 */
+	public void createChanges(Rule rule, EGraph graph, Match completeMatch, Match resultMatch, ComplexChange complexChange) {
+
+		// Get the rule change info and the object change list:
+		RuleChangeInfo ruleChange = getRuleInfo(rule).getChangeInfo();
 		List<Change> changes= complexChange.getChanges();
 
 		for (Parameter param : rule.getParameters()) {
@@ -129,24 +138,30 @@ public class EngineImpl implements Engine {
 
 		// Created objects:
 		for (Node node : ruleChange.getCreatedNodes()) {
-			EClass type = node.getType();
-			EObject createdObject = type.getEPackage().getEFactoryInstance().create(type);
-			changes.add(new ObjectChangeImpl(graph, createdObject, true));
-			resultMatch.setNodeTarget(node, createdObject);
+			// We should not create objects that are already created by the kernel rule:
+			if (rule.getOriginInKernelRule(node)==null) {
+				EClass type = node.getType();
+				EObject createdObject = type.getEPackage().getEFactoryInstance().create(type);
+				changes.add(new ObjectChangeImpl(graph, createdObject, true));
+				resultMatch.setNodeTarget(node, createdObject);
+			}
 		}
 
 		// Deleted objects:
-		for (Node node : ruleChange.getDeletedNodes()) {			
-			EObject deletedObject = completeMatch.getNodeTarget(node);
-			changes.add(new ObjectChangeImpl(graph, deletedObject, false));
-			// TODO: Shouldn't we check the rule options?
-			if (!rule.isCheckDangling()) {
-				// TODO: What about outgoing edges?
-				Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
-				for (Setting edge : removedEdges) {
-					changes.add(new ReferenceChangeImpl(graph, 
-							edge.getEObject(), deletedObject, 
-							(EReference) edge.getEStructuralFeature(), false));
+		for (Node node : ruleChange.getDeletedNodes()) {	
+			// We should not delete objects that are already deleted by the kernel rule:
+			if (rule.getOriginInKernelRule(node)==null) {
+				EObject deletedObject = completeMatch.getNodeTarget(node);
+				changes.add(new ObjectChangeImpl(graph, deletedObject, false));
+				// TODO: Shouldn't we check the rule options?
+				if (!rule.isCheckDangling()) {
+					// TODO: What about outgoing edges?
+					Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
+					for (Setting edge : removedEdges) {
+						changes.add(new ReferenceChangeImpl(graph, 
+								edge.getEObject(), deletedObject, 
+								(EReference) edge.getEStructuralFeature(), false));
+					}
 				}
 			}
 		}
@@ -159,20 +174,26 @@ public class EngineImpl implements Engine {
 
 		// Deleted edges:
 		for (Edge edge : ruleChange.getDeletedEdges()) {
-			changes.add(new ReferenceChangeImpl(graph,
-					completeMatch.getNodeTarget(edge.getSource()), 
-					completeMatch.getNodeTarget(edge.getTarget()), 
-					edge.getType(),
-					false));
+			// We should not delete edges that are already deleted by the kernel rule:
+			if (rule.getOriginInKernelRule(edge)==null) {			
+				changes.add(new ReferenceChangeImpl(graph,
+						completeMatch.getNodeTarget(edge.getSource()), 
+						completeMatch.getNodeTarget(edge.getTarget()), 
+						edge.getType(),
+						false));
+			}
 		}
 
 		// Created edges:
 		for (Edge edge : ruleChange.getCreatedEdges()) {
-			changes.add(new ReferenceChangeImpl(graph,
-					resultMatch.getNodeTarget(edge.getSource()),
-					resultMatch.getNodeTarget(edge.getTarget()), 
-					edge.getType(), 
-					true));
+			// We should not create edges that are already created by the kernel rule:
+			if (rule.getOriginInKernelRule(edge)==null) {
+				changes.add(new ReferenceChangeImpl(graph,
+						resultMatch.getNodeTarget(edge.getSource()),
+						resultMatch.getNodeTarget(edge.getTarget()), 
+						edge.getType(), 
+						true));
+			}
 		}
 
 		// Attribute changes:
@@ -183,10 +204,24 @@ public class EngineImpl implements Engine {
 			changes.add(new AttributeChangeImpl(graph, object, attribute.getType(), value));
 		}
 
-		return complexChange;
+		// Now recursively for the multi-rules:
+		for (Rule multiRule : rule.getMultiRules()) {
+			for (Match multiMatch : completeMatch.getNestedMatches(multiRule)) {
+				Match multiResultMatch = new ResultMatchImpl(multiRule);
+				for (Mapping mapping : multiRule.getMultiMappings()) {
+					if (mapping.getImage().getGraph().isRhs()) {
+						multiResultMatch.setNodeTarget(mapping.getImage(), 
+							 resultMatch.getNodeTarget(mapping.getOrigin()));
+					}
+				}
+				createChanges(multiRule, graph, multiMatch, multiResultMatch, complexChange);
+				resultMatch.getNestedMatches(multiRule).add(multiResultMatch);
+			}
+		}
 
 	}
 
+	
 	/*
 	 * Evaluates the given JavaScript-Expression.
 	 */
@@ -371,14 +406,14 @@ public class EngineImpl implements Engine {
 			nextMatch = InterpreterFactory.INSTANCE.createMatch(ruleInfo.getRule());
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
-			for (Node node : ruleInfo.getRule().getLhs().getNodes()) {
-				nextMatch.setNodeTarget(node, objectMatch.get(node2var.get(node)));
-			}
 			for (Entry<String,Object> entry : solution.getParameterValues().entrySet()) {
 				Parameter param = nextMatch.getUnit().getParameterByName(entry.getKey());
 				if (param!=null) {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
+			}
+			for (Node node : ruleInfo.getRule().getLhs().getNodes()) {
+				nextMatch.setNodeTarget(node, objectMatch.get(node2var.get(node)));
 			}
 
 			// Now handle the multi-rules:
@@ -390,6 +425,7 @@ public class EngineImpl implements Engine {
 		 * Add the multi-matches to a given kernel-match.
 		 */
 		private void addMultiMatches(Rule kernelRule, Match kernelMatch, Set<EObject> usedObjects) {
+			
 			for (Rule multiRule : kernelRule.getMultiRules()) {
 
 				// The used kernel objects:
@@ -411,16 +447,10 @@ public class EngineImpl implements Engine {
 
 				// Find all multi-matches:
 				MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
-				List<Match> multiMatches = new ArrayList<Match>();
+				List<Match> nestedMatches = kernelMatch.getNestedMatches(multiRule);
 				while (matchFinder.hasNext()) {
-					multiMatches.add(matchFinder.next());
+					nestedMatches.add(matchFinder.next());
 				}
-				for (Match match : multiMatches) {
-					Set<EObject> usedMultiObjects = new HashSet<EObject>(usedKernelObjects);
-					usedMultiObjects.addAll(match.getAllNodeTargets());
-					addMultiMatches(multiRule, match, usedMultiObjects);
-				}
-				kernelMatch.getNestedMatches(multiRule).addAll(multiMatches);
 
 			}
 		}

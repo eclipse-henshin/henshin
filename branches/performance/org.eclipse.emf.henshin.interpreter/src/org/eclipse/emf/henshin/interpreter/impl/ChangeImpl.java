@@ -150,32 +150,19 @@ public abstract class ChangeImpl implements Change {
 	public static final class ReferenceChangeImpl extends ChangeImpl implements ReferenceChange {
 		
 		private final EObject source;
-		private final EReference reference;
+		private EReference reference;
 		private int index;
 		private EObject target, oldTarget; 
 		private boolean create;
+		private boolean initialized;
 		
-		@SuppressWarnings("rawtypes")
 		public ReferenceChangeImpl(EGraph graph, EObject source, EObject target, EReference reference, boolean create) {
 			super(graph);
 			this.source = source;
 			this.target = target;
 			this.create = create;
-			if (reference.isMany()) {
-				index = ((List) source.eGet(reference)).indexOf(target);
-				if ((create && index<0) || (!create && index>=0)) {
-					this.reference = reference;
-				} else {
-					this.reference = null; // nothing to do
-				}
-			} else {
-				oldTarget = (EObject) source.eGet(reference);
-				if ((create && target!=oldTarget) || (!create && target==oldTarget)) {
-					this.reference = reference;
-				} else {
-					this.reference = null; // nothing to do
-				}
-			}
+			this.reference = reference;
+			this.initialized = false;
 		}
 
 		/*
@@ -185,9 +172,26 @@ public abstract class ChangeImpl implements Change {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public void applyAndReverse() {
+			// Need to initialize ?
+			if (!initialized) {
+				if (reference.isMany()) {
+					index = ((List) source.eGet(reference)).indexOf(target);
+					if ((create && index>=0) || (!create && index<0)) {
+						reference = null; // nothing to do
+					}
+				} else {
+					oldTarget = (EObject) source.eGet(reference);
+					if ((create && target==oldTarget) || (!create && target!=oldTarget)) {
+						reference = null; // nothing to do
+					}
+				}
+				initialized = true;
+			}
+			// Nothing to do?
 			if (reference==null) {
 				return;
 			}
+			// Otherwise do the change:
 			if (reference.isMany()) {
 				List values = (List) source.eGet(reference);
 				if (create) {
