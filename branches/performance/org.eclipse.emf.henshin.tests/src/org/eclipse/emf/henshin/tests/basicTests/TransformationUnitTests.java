@@ -177,11 +177,11 @@ public class TransformationUnitTests extends HenshinTest {
 		// execute tu and undo
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
 		htUnitApp.undo(null);
-		Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphBefore_priorityUnit")), 0.9);
+		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphBefore_priorityUnit")), 0.9);
 		// execute tu again
 		loadTu("sequentialUnitTest");
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_sequentialUnit")), 0.9);
+		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_sequentialUnit")), 0.9);
 	}
 	
 	// ---- conditional unit ----
@@ -209,13 +209,13 @@ public class TransformationUnitTests extends HenshinTest {
 			loadGraph("graphWithCont");
 			loadTu("independentUnitTest");
 			TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-			if (Graphs.graphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9)) {
-				Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
+			if (Graphs.graphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9)) {
+				Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
 				loadTu("independentUnitTest");
 				GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit2a")), 0.9);
 				rule1First = true;
 			} else {
-				Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1b")), 0.9);
+				Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1b")), 0.9);
 				loadTu("independentUnitTest");
 				GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit2b")), 0.9);
 				rule2First = true;

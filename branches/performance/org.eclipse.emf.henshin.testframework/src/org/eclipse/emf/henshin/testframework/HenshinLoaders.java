@@ -33,7 +33,9 @@ import org.eclipse.emf.henshin.model.resource.HenshinResource;
  * 
  */
 public class HenshinLoaders {
+	
 	public final static String HENSHIN_FILE_EXTENSION = HenshinResource.FILE_EXTENSION;
+	
 	/*--------------------------------------
 	 * LOADERS
 	 * ------------------------------------- */
@@ -48,19 +50,6 @@ public class HenshinLoaders {
 	public static TransformationSystem loadHenshin(String fileName) {
 		ModelHelper.registerFileExtension(HENSHIN_FILE_EXTENSION);
 		return (TransformationSystem) (ModelHelper.loadFile(fileName));
-	}
-	
-	/**
-	 * Load model from file and create an {@link Engine}
-	 * 
-	 * @param modelFileName
-	 *            Path to the model file
-	 * @param modelFileExt
-	 *            model file extension
-	 * @return EmfEngine
-	 */
-	public static Engine loadEngine(String modelFileName, String modelFileExt) {
-		return (new Engine(loadGraph(modelFileName, modelFileExt)));
 	}
 	
 	/**

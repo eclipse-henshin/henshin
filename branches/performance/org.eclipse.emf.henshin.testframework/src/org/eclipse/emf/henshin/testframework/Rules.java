@@ -13,8 +13,9 @@ package org.eclipse.emf.henshin.testframework;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -29,86 +30,35 @@ import org.eclipse.emf.henshin.model.Rule;
  * 
  */
 public class Rules {
-	// test number 1
-	/**
-	 * Asserts that a rule produces a match
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasMatch(Rule r, Engine engine) throws AssertionError {
-		RuleApplication ra = new RuleApplication(engine, r);
-		assertRuleHasMatch(ra);
-	}
 	
+	// test number 1
 	/**
 	 * Assert that a rule produces a match
 	 * 
-	 * @param r
+	 * @param rule
 	 *            {@link Rule}
 	 * @param graph
 	 *            {@link EGraph} the rule should be applied to
 	 * @throws AssertionError
 	 */
-	public static void assertRuleHasMatch(Rule r, EGraph graph) throws AssertionError {
-		RuleApplication ra = new RuleApplication(new Engine(graph), r);
-		assertRuleHasMatch(ra);
-	}
-	
-	/**
-	 * Assert that a {@link RuleApplication} produces a match
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasMatch(RuleApplication ra) throws AssertionError {
-		if (ra.findAllMatches().size() == 0) {
-			throw new AssertionError("expected: Rule " + ra.getRule().getName()
-					+ " has matches, but has none");
+	public static void assertRuleHasMatch(Rule rule, EGraph graph, Engine engine) throws AssertionError {
+		if (!engine.findMatches(rule, graph, null).iterator().hasNext()) {
+			throw new AssertionError("expected: Rule " + rule.getName() + " has matches, but has none");			
 		}
 	}
-	
+		
 	// test number 2
 	/**
-	 * Assert that a {@link Rule} produces no match
+	 * Assert that a {@link Rule} has no match
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @parem engine {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertRuleHasNoMatch(Rule r, Engine engine) throws AssertionError {
-		RuleApplication ra = new RuleApplication(engine, r);
-		assertRuleHasNoMatch(ra);
-	}
-	
-	/**
-	 * Assert that a {@link Rule} produces no match
-	 * 
-	 * @param r
-	 *            Rule
-	 * @param graph
-	 *            {@link EGraph} the {@link Rule} should be applied to
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasNoMatch(Rule r, EGraph graph) throws AssertionError {
-		RuleApplication ra = new RuleApplication(new Engine(graph), r);
-		assertRuleHasNoMatch(ra);
-	}
-	
-	/**
-	 * Assert that a {@link RuleApplication} produces no match
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasNoMatch(RuleApplication ra) throws AssertionError {
-		if (ra.findAllMatches().size() != 0) {
-			throw new AssertionError("expected: Rule " + ra.getRule().getName()
-					+ " has no matches, but has " + ra.findAllMatches().size());
+	public static void assertRuleHasNoMatch(Rule rule, EGraph graph, Engine engine) throws AssertionError {
+		if (engine.findMatches(rule, graph, null).iterator().hasNext()) {
+			throw new AssertionError("expected: Rule " + rule.getName() + " has no matches, but has one");			
 		}
 	}
 	
@@ -124,45 +74,19 @@ public class Rules {
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertRuleHasNMatches(Rule r, Engine engine, int n) throws AssertionError {
-		RuleApplication ra = new RuleApplication(engine, r);
-		assertRuleHasNMatches(ra, n);
-	}
-	
-	/**
-	 * Assert that a {@link Rule} produces exactly n matches
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param graph
-	 *            {@link EGraph} the rule should be applied to
-	 * @param n
-	 *            Number of expected matches
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasNMatches(Rule r, EGraph graph, int n) throws AssertionError {
-		RuleApplication ra = new RuleApplication(new Engine(graph), r);
-		assertRuleHasNMatches(ra, n);
-	}
-	
-	/**
-	 * Assert that a {@link RuleApplication} produces exactly n matches
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @param n
-	 *            Number of expected matches
-	 * @throws AssertionError
-	 */
-	public static void assertRuleHasNMatches(RuleApplication ra, int n) throws AssertionError {
-		if (ra.findAllMatches().size() != n) {
-			throw new AssertionError("expected: Rule " + ra.getRule().getName() + " has " + n
-					+ " matches, but has " + ra.findAllMatches().size());
+	@SuppressWarnings("unused")
+	public static void assertRuleHasNMatches(Rule rule, EGraph graph, Engine engine, int n) throws AssertionError {
+		int found = 0;
+		for (Match match : engine.findMatches(rule, graph, null)) {
+			found++;
+		}
+		if (found!=n) {
+			throw new AssertionError("expected: Rule " + rule.getName() + " has " + n
+					+ " matches, but has " + found);
 		}
 	}
 	
-	// test number 4
-	
+	// test number 4	
 	/**
 	 * Assert that a {@link Rule} can be applied multiple times
 	 * 
@@ -172,27 +96,14 @@ public class Rules {
 	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertRuleCanBeAppliedMultipleTimes(Rule r, Engine engine)
+	public static void assertRuleCanBeAppliedMultipleTimes(Rule rule, EGraph graph, Engine engine)
 			throws AssertionError {
-		RuleApplication ra = new RuleApplication(engine, r);
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setEGraph(graph);
+		ra.setRule(rule);
 		assertRuleCanBeAppliedMultipleTimes(ra);
 	}
-	
-	/**
-	 * Assert that a {@link Rule} can be applied multiple times
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param graph
-	 *            {@link EGraph} the rule should be applied to
-	 * @throws AssertionError
-	 */
-	public static void assertRuleCanBeAppliedMultipleTimes(Rule r, EGraph graph)
-			throws AssertionError {
-		RuleApplication ra = new RuleApplication(new Engine(graph), r);
-		assertRuleCanBeAppliedMultipleTimes(ra);
-	}
-	
+		
 	/**
 	 * Assert that a {@link RuleApplication} can be applied multiple times
 	 * 
@@ -202,16 +113,13 @@ public class Rules {
 	 */
 	public static void assertRuleCanBeAppliedMultipleTimes(RuleApplication ra)
 			throws AssertionError {
-		// TODO: maybe use createTUFromRule for this, as TUs can be run multiple
-		// times without problems
 		
-		// i. apply the rule
-		// ii. check if matches can still be found -> yes: rule can be applied
-		// multiple times; no -> throw assertion
-		Rule raRule = ra.getRule();
-		ra.execute();
-		RuleApplication ra2 = new RuleApplication(ra.getInterpreterEngine(), raRule);
-		if (ra2.findAllMatches().size() == 0) {
+		boolean success = ra.execute(null);
+		if (success) {
+			ra.setCompleteMatch(null);
+			success = ra.execute(null);
+		}
+		if (!success) {
 			throw new AssertionError("expected: Rule " + ra.getRule().getName()
 					+ " can be applied multiple times.");
 		}
@@ -225,25 +133,6 @@ public class Rules {
 	 * 
 	 * @param r
 	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param n
-	 *            Number of applications
-	 * @throws AssertionError
-	 * @throws Exception
-	 *             if n < 0
-	 */
-	public static void assertRuleCanBeAppliedNTimes(Rule r, Engine engine, int n)
-			throws AssertionError, Exception {
-		RuleApplication ra = new RuleApplication(engine, r);
-		assertRuleCanBeAppliedNTimes(ra, n);
-	}
-	
-	/**
-	 * Assert that a {@link Rule} can be applied at least n times
-	 * 
-	 * @param r
-	 *            {@link Rule}
 	 * @param graph
 	 *            {@link EGraph} the rule should be applied to
 	 * @param n
@@ -252,9 +141,11 @@ public class Rules {
 	 * @throws Exception
 	 *             if n < 0
 	 */
-	public static void assertRuleCanBeAppliedNTimes(Rule r, EGraph graph, int n)
+	public static void assertRuleCanBeAppliedNTimes(Rule r, EGraph graph, Engine engine, int n)
 			throws AssertionError, Exception {
-		RuleApplication ra = new RuleApplication(new Engine(graph), r);
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setEGraph(graph);
+		ra.setRule(r);
 		assertRuleCanBeAppliedNTimes(ra, n);
 	}
 	
@@ -271,97 +162,32 @@ public class Rules {
 	 */
 	public static void assertRuleCanBeAppliedNTimes(RuleApplication ra, int n)
 			throws AssertionError, Exception {
-		// i. apply the rule (n-1) times
-		// ii. check if matches can still be found -> yes: rule can be applied
-		// at least n times; no -> throw assertion
 		if (n < 0) {
 			throw new Exception("n needs to be positive.");
 		}
-		
-		Rule raRule = ra.getRule();
-		ra.execute();
-		
-		for (int i = 0; i < (n - 1); i++) {
-			RuleApplication ra2 = new RuleApplication(ra.getInterpreterEngine(), raRule);
-			ra2.execute();
+		boolean success = true;
+		for (int i=0; i<n; i++) {
+			success = ra.execute(null);
+			if (!success) {
+				break;
+			}
+			ra.setCompleteMatch(null);
 		}
-		
-		RuleApplication ra2 = new RuleApplication(ra.getInterpreterEngine(), raRule);
-		if (ra2.findAllMatches().size() == 0) {
+		if (!success) {
 			throw new AssertionError("expected: Rule " + ra.getRule().getName()
 					+ " can be applied at least " + n + " times");
 		}
 	}
-	
-	/**
-	 * Assert that the specified {@link Rule} is executed by the specified
-	 * {@link UnitApplication}
-	 * 
-	 * @param ua
-	 *            {@link UnitApplication}
-	 * @param r
-	 *            {@link Rule} to be executed
-	 * @throws AssertionError
-	 */
-	public static void assertRuleExecutedByUnitApplication(UnitApplication ua, Rule r)
-			throws AssertionError {
-		/*
-		 * if (!(ua.getAppliedRules().contains(r))) { throw new
-		 * AssertionError("expected: Rule " + r.getName() +
-		 * " executed by UnitApplication " +
-		 * ua.getTransformationUnit().getName() +", but wasn't."); }
-		 */
-		for (RuleApplication ra : ua.getAppliedRules()) {
-			if (ra.getRule().equals(r)) {
-				return;
-			}
-		}
 		
-		throw new AssertionError("expected: Rule " + r.getName() + " executed by UnitApplication "
-				+ ua.getUnit().getName() + ", but wasn't.");
-		
-	}
-	
-	/**
-	 * Asserts that a {@link Rule} was executed n times by the
-	 * {@link UnitApplication}
-	 * 
-	 * @param ua
-	 *            {@link UnitApplication}
-	 * @param r
-	 *            {@link Rule}
-	 * @param n
-	 *            number of times the {@link Rule} should have been executed
-	 * @throws AssertionError
-	 */
-	public static void assertRuleExecutedByUnitApplicationNTimes(UnitApplication ua, Rule r, int n)
-			throws AssertionError {
-		int ctr = n;
-		for (RuleApplication ra : ua.getAppliedRules()) {
-			if (ra.getRule().equals(r)) {
-				ctr--;
-			}
-		}
-		
-		if (ctr == 0) {
-			return;
-		} else {
-			throw new AssertionError("expected: Rule " + r.getName() + " executed " + n
-					+ " times by UnitApplication, but was executed " + (n - ctr) + " times.");
-		}
-	}
-	
-	public static void assertRuleCanBeApplied(Rule r, Engine engine) throws AssertionError {
-		assertRuleCanBeApplied(new RuleApplication(engine, r));
-	}
-	
-	public static void assertRuleCanBeApplied(Rule r, EGraph graph) throws AssertionError {
-		assertRuleCanBeApplied(new RuleApplication(new Engine(graph), r));
+	public static void assertRuleCanBeApplied(Rule r, EGraph graph, Engine engine) throws AssertionError {
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setEGraph(graph);
+		ra.setRule(r);
+		assertRuleCanBeApplied(ra);
 	}
 	
 	public static void assertRuleCanBeApplied(RuleApplication ra) throws AssertionError {
-		boolean result = ra.execute();
-		if (!result) {
+		if (!ra.execute(null)) {
 			throw new AssertionError("expected: Rule " + ra.getRule().getName()
 					+ " can be applied.");
 		}

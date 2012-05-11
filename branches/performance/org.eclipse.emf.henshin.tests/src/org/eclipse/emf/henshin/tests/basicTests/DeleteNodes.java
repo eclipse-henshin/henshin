@@ -44,21 +44,21 @@ public class DeleteNodes extends HenshinTest {
 	public void testDeleteNodeWithContainmentEdge() {
 		loadGraph("graphWithOneNode");
 		loadRule("deleteNodeWithContainmentEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), htEngine, 0.9);
 	}
 	
 	@Test
 	public void testDeleteNodeWithUnidirectionalEdge1() {
 		loadGraph("graphBefore_deleteNodeWithUnidirectionalEdge");
 		loadRule("deleteNodeWithUnidirectionalEdge1");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithUnidirectionalEdge1")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithUnidirectionalEdge1")), htEngine, 0.9);
 	}
 	
 	@Test
 	public void testDeleteNodeWithUnidirectionalEdge2() {
 		loadGraph("graphBefore_deleteNodeWithUnidirectionalEdge");
 		loadRule("deleteNodeWithUnidirectionalEdge2");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithUnidirectionalEdge2")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithUnidirectionalEdge2")), htEngine, 0.9);
 	}
 
 	// removed testDeleteNodeWithBidirectionalEdge1
@@ -69,7 +69,7 @@ public class DeleteNodes extends HenshinTest {
 	public void testDeleteNodeWithBidirectionalEdge3() {
 		loadGraph("graphBefore_deleteNodeWithBidirectionalEdge");
 		loadRule("deleteNodeWithBidirectionalEdge3");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithBidirectionalEdge")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_deleteNodeWithBidirectionalEdge")), htEngine, 0.9);
 	}
 	
 	// removed testDeleteNodeWithBidirectionalEdge4
@@ -101,11 +101,11 @@ public class DeleteNodes extends HenshinTest {
 		 */
 		loadGraph("graphBefore_deleteNodesEdgeOrder");
 		loadRule("deleteNodesEdgeOrder1");
-		Tools.printGraph(htEmfGraph);
-		Tools.printMatches(htRuleApp.findAllMatches());
+		Tools.printGraph(htEGraph);
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		//System.out.println(htRuleApp.apply());
 		//Tools.printGraph(htEmfGraph);
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), htEngine, 0.9);
 	}
 	
 	@Test
@@ -126,11 +126,11 @@ public class DeleteNodes extends HenshinTest {
 		 */
 		loadGraph("graphBefore_deleteNodesEdgeOrder");
 		loadRule("deleteNodesEdgeOrder2");
-		Tools.printGraph(htEmfGraph);
-		Tools.printMatches(htRuleApp.findAllMatches());
+		Tools.printGraph(htEGraph);
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		//System.out.println(htRuleApp.apply());
 		//Tools.printGraph(htEmfGraph);
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphWithCont")), htEngine, 0.9);
 	}
 	
 	// ----
@@ -143,7 +143,7 @@ public class DeleteNodes extends HenshinTest {
 		loadGraph("graphWithRootNode");
 		loadRule("deleteRootNode");
 		Rules.assertRuleCanBeApplied(htRuleApp);
-		if (Tools.getGraphRoot(htEmfGraph) != null) {
+		if (Tools.getGraphRoot(htEGraph) != null) {
 			throw new AssertionError("expected: Root node deleted, but a root node still exists.");
 		}
 	}

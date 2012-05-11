@@ -13,6 +13,7 @@ package org.eclipse.emf.henshin.testframework;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -24,6 +25,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @see Rules
  * @author Felix Rieger
  * @author Stefan Jurack (sjurack)
+ * @author Christian Krause
  * 
  */
 public class TransformationUnits {
@@ -39,24 +41,11 @@ public class TransformationUnits {
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu,
-			EGraph graph) throws AssertionError {
-		assertTransformationUnitCanBeExecutedMultipleTimes(tu, new Engine(graph));
-	}
-	
-	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed
-	 * multiple times.
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed
-	 * @param engine
-	 *            {@link Engine} the {@link TransformationUnit} should be
-	 *            executed by
-	 * @throws AssertionError
-	 */
-	public static void assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu,
-			Engine engine) throws AssertionError {
-		assertUnitApplicationCanBeExecutedMultipleTimes(new UnitApplication(engine, tu));
+			EGraph graph, Engine engine) throws AssertionError {
+		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ua.setUnit(tu);
+		ua.setEGraph(graph);
+		assertUnitApplicationCanBeExecutedMultipleTimes(ua);
 	}
 	
 	/**
@@ -69,24 +58,15 @@ public class TransformationUnits {
 	 */
 	public static void assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplication ua)
 			throws AssertionError {
-		TransformationUnit tu = ua.getUnit();
-		Engine engine = (Engine) ua.getInterpreterEngine();
 		
-		ua.execute();
-		if (ua.getAppliedRules().size() > 0) {
-			// first execution successful, now execute a second time
-			
-			UnitApplication ua2 = new UnitApplication(engine, tu);
-			ua2.execute();
-			if (ua2.getAppliedRules().size() > 0) {
-				// success!
-				return;
-			}
-			throw new AssertionError(
-					"expected: UnitApplication can be executed multiple times, but could just be executed once.");
+		boolean success = ua.execute(null);
+		if (success) {
+			success = ua.execute(null);
 		}
-		throw new AssertionError(
-				"expected: UnitApplication can be executed multiple times, but couldn't even be executed once.");
+		if (!success) {
+			throw new AssertionError(
+					"expected: UnitApplication can be executed multiple times, but could not.");
+		}
 		
 	}
 	
@@ -105,27 +85,11 @@ public class TransformationUnits {
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu,
-			EGraph graph, int n) throws AssertionError {
-		assertTransformationUnitCanBeExecutedNTimes(tu, new Engine(graph), n);
-	}
-	
-	/**
-	 * Assert that the specified {@link TransformationUnit} can be executed at
-	 * least n times.
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed
-	 * @param engine
-	 *            {@link Engine} the {@link TransformationUnit} should be
-	 *            executed by
-	 * @param n
-	 *            minimum number of times the {@link TransformationUnit} should
-	 *            be able to be executed
-	 * @throws AssertionError
-	 */
-	public static void assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu,
-			Engine engine, int n) throws AssertionError {
-		assertUnitApplicationCanBeExecutedNTimes(new UnitApplication(engine, tu), n);
+			EGraph graph, Engine engine, int n) throws AssertionError {
+		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ua.setUnit(tu);
+		ua.setEGraph(graph);
+		assertUnitApplicationCanBeExecutedNTimes(ua, n);
 	}
 	
 	/**
@@ -141,18 +105,18 @@ public class TransformationUnits {
 	 */
 	public static void assertUnitApplicationCanBeExecutedNTimes(UnitApplication ua, int n)
 			throws AssertionError {
-		TransformationUnit tu = ua.getUnit();
-		Engine engine = (Engine) ua.getInterpreterEngine();
 		
-		for (int i = 0; i < n; i++) {
-			UnitApplication ua2 = new UnitApplication(engine, tu);
-			ua2.execute();
-			if (ua2.getAppliedRules().size() > 0) {
-				// do nothing
-			} else {
-				throw new AssertionError("expected: UnitApplication can be executed at least " + n
-						+ " times, but could only be executed " + i + " times");
+		boolean success = true;
+		int i;
+		for (i=0; i<n; i++) {
+			success = ua.execute(null);
+			if (!success) {
+				break;
 			}
+		}
+		if (!success) {
+			throw new AssertionError("expected: UnitApplication can be executed at least " + n
+					+ " times, but could only be executed " + i + " times");
 		}
 		
 	}

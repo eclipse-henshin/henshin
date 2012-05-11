@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
@@ -44,23 +45,6 @@ public class GraphTransformations {
 	// test number 30
 	
 	/**
-	 * Assert that the number of objects in the engine's graph is identical
-	 * before and after application of the {@link Rule}
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @throws AssertionError
-	 */
-	public static void assertNumberOfObjectsIdentical(Rule r, Engine engine)
-			throws AssertionError {
-		TransformationUnit tu = createTUFromRule(r);
-		
-		assertNumberOfObjectsIdentical(tu, engine);
-	}
-	
-	/**
 	 * Assert that the number of objects in the given graph is identical before
 	 * and after application of the {@link Rule}
 	 * 
@@ -70,24 +54,13 @@ public class GraphTransformations {
 	 *            {@link EGraph}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsIdentical(Rule r, EGraph graph) throws AssertionError {
-		assertNumberOfObjectsIdentical(r, new Engine(graph));
+	public static void assertNumberOfObjectsIdentical(Rule r, EGraph graph, Engine engine) throws AssertionError {
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph);
+		assertNumberOfObjectsIdentical(ra);
 	}
 	
-	/**
-	 * Assert that the number of objects in the engine's graph is identical
-	 * before and after execution of the {@link TransformationUnit}
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit}
-	 * @param engine
-	 *            {@link Engine}
-	 * @throws AssertionError
-	 */
-	public static void assertNumberOfObjectsIdentical(TransformationUnit tu, Engine engine)
-			throws AssertionError {
-		assertNumberOfObjectsIdentical(new UnitApplication(engine, tu));
-	}
 	
 	/**
 	 * Assert that the number of objects in the {@link UnitApplication}'s graph
@@ -99,7 +72,6 @@ public class GraphTransformations {
 	 */
 	public static void assertNumberOfObjectsIdentical(UnitApplication ua) throws AssertionError {
 		int[] sizes = Tools.getGraphSizes(ua);
-		
 		if (sizes[0] != sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
 					+ ua.getUnit().getName() + " identical. Values: <" + sizes[0]
@@ -119,22 +91,11 @@ public class GraphTransformations {
 	 *            {@link EGraph}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(Rule r, EGraph graph) throws AssertionError {
-		assertNumberOfObjectsChanged(r, new Engine(graph));
-	}
-	
-	/**
-	 * Assert that the number of objects in the engine's graph is not identical
-	 * before and after application of the specified {@link Rule}
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @throws AssertionError
-	 */
-	public static void assertNumberOfObjectsChanged(Rule r, Engine engine) throws AssertionError {
-		assertNumberOfObjectsChanged(createTUFromRule(r), engine);
+	public static void assertNumberOfObjectsChanged(Rule r, EGraph graph, Engine engine) throws AssertionError {
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph);
+		assertNumberOfObjectsChanged(ra);
 	}
 	
 	/**
@@ -147,9 +108,12 @@ public class GraphTransformations {
 	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(TransformationUnit tu, Engine engine)
+	public static void assertNumberOfObjectsChanged(TransformationUnit tu, EGraph graph, Engine engine)
 			throws AssertionError {
-		assertNumberOfObjectsChanged(new UnitApplication(engine, tu));
+		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ua.setUnit(tu);
+		ua.setEGraph(graph);
+		assertNumberOfObjectsChanged(ua);
 	}
 	
 	/**
@@ -162,7 +126,6 @@ public class GraphTransformations {
 	 */
 	public static void assertNumberOfObjectsChanged(UnitApplication ua) throws AssertionError {
 		int[] sizes = getGraphSizes(ua);
-		
 		if (sizes[0] == sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
 					+ ua.getUnit().getName() + " different. Values: <" + sizes[0]
@@ -188,30 +151,12 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(Rule r, EGraph graph,
+	public static void assertGraphIsNotChanged(Rule r, EGraph graph, Engine engine,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertGraphIsNotChanged(createTUFromRule(r), new Engine(graph), matchSimilarityThreshold);
-	}
-	
-	/**
-	 * Assert that applying the {@link Rule} doesn't change the specified
-	 * engine's graph<br>
-	 * <strong><div style="background-color: red">Graphs with multiple root
-	 * objects are not supported yet.</div></strong>
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertGraphIsNotChanged(Rule r, Engine engine,
-			double matchSimilarityThreshold) throws AssertionError {
-		assertGraphIsNotChanged(createTUFromRule(r), engine, matchSimilarityThreshold);
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph);
+		assertGraphIsNotChanged(ra, matchSimilarityThreshold);
 	}
 	
 	/**
@@ -230,9 +175,12 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(TransformationUnit tu, Engine engine,
+	public static void assertGraphIsNotChanged(TransformationUnit tu, EGraph graph, Engine engine,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertGraphIsNotChanged(new UnitApplication(engine, tu), matchSimilarityThreshold);
+		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ua.setUnit(tu);
+		ua.setEGraph(graph);
+		assertGraphIsNotChanged(ua, matchSimilarityThreshold);
 	}
 	
 	/**
@@ -309,30 +257,12 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(Rule r, Engine engine, EGraph graph2,
+	public static void assertTransformsGraph(Rule r, EGraph graph1, EGraph graph2, Engine engine,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(createTUFromRule(r), engine, graph2, matchSimilarityThreshold);
-	}
-	
-	/**
-	 * Assert that both graphs are equal after applying the specified Rule on
-	 * graph
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param graph
-	 *            {@link EGraph}
-	 * @param graph2
-	 *            {@link EGraph} to compare graph with
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertTransformsGraph(Rule r, EGraph graph, EGraph graph2,
-			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(createTUFromRule(r), graph, graph2, matchSimilarityThreshold);
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph1);
+		assertTransformsGraph(ra, graph2, matchSimilarityThreshold);
 	}
 	
 	/**
@@ -351,30 +281,12 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(TransformationUnit tu, EGraph graph,
-			EGraph graph2, double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(tu, new Engine(graph), graph2, matchSimilarityThreshold);
-	}
-	
-	/**
-	 * Assert that the engine's graph and specified graph are equal after
-	 * executing the {@link TransformationUnit}
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed by the engine
-	 * @param engine
-	 *            {@link Engine}
-	 * @param graph2
-	 *            {@link EGraph} to compare engine's graph with
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertTransformsGraph(TransformationUnit tu, Engine engine,
-			EGraph graph2, double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(new UnitApplication(engine, tu), graph2, matchSimilarityThreshold);
+	public static void assertTransformsGraph(TransformationUnit tu, EGraph graph1,
+			EGraph graph2, Engine engine, double matchSimilarityThreshold) throws AssertionError {
+		UnitApplication ra = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ra.setUnit(tu);
+		ra.setEGraph(graph1);
+		assertTransformsGraph(ra, graph2, matchSimilarityThreshold);
 	}
 	
 	/**
@@ -433,24 +345,11 @@ public class GraphTransformations {
 	 *            number of elements that should be deleted after application
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(Rule r, EGraph graph, int n) throws AssertionError {
-		assertNObjectsDeleted(r, new Engine(graph), n);
-	}
-	
-	/**
-	 * Assert that n objects are deleted after applying the specified
-	 * {@link Rule} on the engine's graph
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param n
-	 *            number of elements that should be deleted after application
-	 * @throws AssertionError
-	 */
-	public static void assertNObjectsDeleted(Rule r, Engine engine, int n) throws AssertionError {
-		assertNObjectsDeleted(createTUFromRule(r), engine, n);
+	public static void assertNObjectsDeleted(Rule r, EGraph graph, Engine engine, int n) throws AssertionError {
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph);
+		assertNObjectsDeleted(ra, n);
 	}
 	
 	/**
@@ -465,26 +364,12 @@ public class GraphTransformations {
 	 *            number of elements that should be deleted after execution
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(TransformationUnit tu, EGraph graph, int n)
+	public static void assertNObjectsDeleted(TransformationUnit tu, EGraph graph, Engine engine, int n)
 			throws AssertionError {
-		assertNObjectsDeleted(tu, new Engine(graph), n);
-	}
-	
-	/**
-	 * Assert that n objects are deleted after executing the specified
-	 * {@link TransformationUnit} on the engine's graph
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param n
-	 *            number of elements that should be deleted after execution
-	 * @throws AssertionError
-	 */
-	public static void assertNObjectsDeleted(TransformationUnit tu, Engine engine, int n)
-			throws AssertionError {
-		assertNObjectsDeleted(new UnitApplication(engine, tu), n);
+		UnitApplication ra = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ra.setUnit(tu);
+		ra.setEGraph(graph);
+		assertNObjectsDeleted(ra, n);
 	}
 	
 	/**
@@ -547,24 +432,11 @@ public class GraphTransformations {
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(Rule r, EGraph graph, int n) throws AssertionError {
-		assertNObjectsCreated(r, new Engine(graph), n);
-	}
-	
-	/**
-	 * Asserts that n objects will be created by applying the {@link Rule} on
-	 * the engine's graph
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param n
-	 *            number of objects that should have been created
-	 * @throws AssertionError
-	 */
-	public static void assertNObjectsCreated(Rule r, Engine engine, int n) throws AssertionError {
-		assertNObjectsCreated(createTUFromRule(r), engine, n);
+	public static void assertNObjectsCreated(Rule r, EGraph graph, Engine engine, int n) throws AssertionError {
+		RuleApplication ra = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		ra.setRule(r);
+		ra.setEGraph(graph);
+		assertNObjectsCreated(ra, n);
 	}
 	
 	/**
@@ -579,28 +451,14 @@ public class GraphTransformations {
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(TransformationUnit tu, EGraph graph, int n)
+	public static void assertNObjectsCreated(TransformationUnit tu, EGraph graph, Engine engine, int n)
 			throws AssertionError {
-		assertNObjectsCreated(tu, new Engine(graph), n);
+		UnitApplication ra = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ra.setUnit(tu);
+		ra.setEGraph(graph);
+		assertNObjectsCreated(ra, n);
 	}
-	
-	/**
-	 * Asserts that n objects will be created by executing the specified
-	 * {@link TransformationUnit} on the engine's graph
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit}
-	 * @param engine
-	 *            {@link Engine}
-	 * @param n
-	 *            number of objects that should have been created
-	 * @throws AssertionError
-	 */
-	public static void assertNObjectsCreated(TransformationUnit tu, Engine engine, int n)
-			throws AssertionError {
-		assertNObjectsCreated(new UnitApplication(engine, tu), n);
-	}
-	
+		
 	/**
 	 * Asserts that n objects will be created by executing the specified
 	 * {@link UnitApplication}
@@ -645,85 +503,7 @@ public class GraphTransformations {
 			throw new AssertionError("expected: <" + n + "> elements created, but <" + ccount
 					+ "> elements were created.");
 		}
-	}
-	
-	// -----
-	// TODO: test
-	/**
-	 * Assert that the specified {@link Rule} is applied to the {@link EGraph}
-	 * so that:
-	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link EGraph} graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link EGraph} graph after the
-	 * {@link Rule} has been applied to it.</li>
-	 * <li>the {@link Rule} is actually applied.</li>
-	 * </ul>
-	 * 
-	 * @param r
-	 *            {@link Rule} to be applied to the {@link EGraph}
-	 * @param graph
-	 *            {@link EGraph} the {@link Rule} should be applied to
-	 * @param subgraphBefore
-	 *            {@link EGraph} that should be contained in the
-	 *            {@link EGraph} graph before applying the {@link Rule}
-	 * @param subgraphAfter
-	 *            {@link EGraph} that should be contianed in the
-	 *            {@link EGraph} graph after applying the {@link Rule}
-	 * @param ignoreChanges
-	 *            when deciding whether subgraphBefore and subgraphAfter are
-	 *            subgraphs, ignore value changes. Set this if only the
-	 *            structure of the subgraphs is ofinterest and not the actual
-	 *            values.
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertTransformsSubgraph(Rule r, EGraph graph, EGraph subgraphBefore,
-			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
-			throws AssertionError {
-		assertTransformsSubgraph(createTUFromRule(r), graph, subgraphBefore, subgraphAfter,
-				ignoreChanges, matchSimilarityThreshold);
-	}
-	
-	/**
-	 * Assert that the specified {@link Rule} is applied by the
-	 * {@link Engine} so that:
-	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link Engine}'s graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link Engine}'s graph after
-	 * the {@link Rule} has been applied.</li>
-	 * <li>the {@link Rule} is actually applied.</li>
-	 * </ul>
-	 * 
-	 * @param r
-	 *            {@link Rule} to be applied by the {@link Engine}.
-	 * @param engine
-	 *            {@link Engine} that should apply the {@link Rule}
-	 * @param subgraphBefore
-	 *            {@link EGraph} that should be contained in the
-	 *            {@link Engine}'s graph before applying the {@link Rule}
-	 * @param subgraphAfter
-	 *            {@link EGraph} that should be contained in the
-	 *            {@link Engine}'s graph after applying the {@link Rule}
-	 * @param ignoreChanges
-	 *            when deciding whether subgraphBefore and subgraphAfter are
-	 *            subgraphs, ignore value changes. Set this if only the
-	 *            structure of the subgraphs is of interest and not the actual
-	 *            values.
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertTransformsSubgraph(Rule r, Engine engine, EGraph subgraphBefore,
-			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
-			throws AssertionError {
-		assertTransformsSubgraph(createTUFromRule(r), engine, subgraphBefore, subgraphAfter,
-				ignoreChanges, matchSimilarityThreshold);
-	}
+	}	
 	
 	/**
 	 * Assert that the specified {@link TransformationUnit} is executed on the
@@ -761,52 +541,16 @@ public class GraphTransformations {
 	 * @throws AssertionError
 	 */
 	public static void assertTransformsSubgraph(TransformationUnit tu, EGraph graph,
-			EGraph subgraphBefore, EGraph subgraphAfter, boolean ignoreChanges,
+			EGraph subgraphBefore, EGraph subgraphAfter, Engine engine, boolean ignoreChanges,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsSubgraph(tu, new Engine(graph), subgraphBefore, subgraphAfter,
+		
+		UnitApplication ra = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		ra.setUnit(tu);
+		ra.setEGraph(graph);
+		assertTransformsSubgraph(ra, subgraphBefore, subgraphAfter,
 				ignoreChanges, matchSimilarityThreshold);
 	}
 	
-	/**
-	 * Assert that the specified {@TransformationUnit} is
-	 * executed so that:
-	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link Engine}'s graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link Engine}'s graph after
-	 * executing the {@link TransformationUnit}</lI>
-	 * <li>the {@link TransformationUnit} is actually executed</li>
-	 * </ul>
-	 * 
-	 * @param tu
-	 *            {@link TransformationUnit} to be executed
-	 * @param engine
-	 *            {@link Engine} the {@link TransformationUnit} should be
-	 *            executed by
-	 * @param subgraphBefore
-	 *            {@link EGraph} that should be contained in the
-	 *            {@link Engine}'s graph before executing the
-	 *            {@link TransformationUnit}
-	 * @param subgraphAfter
-	 *            {@link EGraph} that should be contained in the
-	 *            {@link Engine}'s graph after executing the
-	 *            {@link TransformationUnit}
-	 * @param ignoreChanges
-	 *            when deciding whether subgraphBefore and subgraphAfter are
-	 *            subgraphs, ignore value changes. Set this if only the
-	 *            structure of the subgraphs is of interest and not the actual
-	 *            values.
-	 * @param matchSimilarityThreshold
-	 *            similarity for EmfCompare's mapping. Values above (and
-	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
-	 *            a good value to start with, adjust if problems occur.
-	 * @throws AssertionError
-	 */
-	public static void assertTransformsSubgraph(TransformationUnit tu, Engine engine,
-			EGraph subgraphBefore, EGraph subgraphAfter, boolean ignoreChanges,
-			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsSubgraph(new UnitApplication(engine, tu), subgraphBefore, subgraphAfter,
-				ignoreChanges, matchSimilarityThreshold);
-	}
 	
 	/**
 	 * Assert that the specified {@link UnitApplication} is executed so that:
@@ -840,8 +584,9 @@ public class GraphTransformations {
 	public static void assertTransformsSubgraph(UnitApplication ua, EGraph subgraphBefore,
 			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
 			throws AssertionError {
+		
 		MatchModel matchM;
-		EGraph mainGraph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph mainGraph = ua.getEGraph();
 		
 		// first, check if subgraphBefore is actually a subgraph of the
 		// UnitApplication's graph
@@ -941,10 +686,6 @@ public class GraphTransformations {
 			}
 		}
 		
-	}
-	
-	private static TransformationUnit createTUFromRule(Rule r) {
-		return Tools.createTUFromRule(r);
 	}
 	
 	private static int[] getGraphSizes(UnitApplication ua) {

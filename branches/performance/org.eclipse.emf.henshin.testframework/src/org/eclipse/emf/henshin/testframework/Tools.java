@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.util.ModelUtils;
@@ -33,12 +32,10 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.HenshinEGraph;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.query.conditions.Condition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.ocl.conditions.BooleanOCLCondition;
@@ -75,11 +72,11 @@ public class Tools {
 	 *         [1] size after execution
 	 */
 	protected static int[] getGraphSizes(UnitApplication ua) {
-		EGraph graph = ((EngineImpl) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph graph = ua.getEGraph();
 		int[] sizes = new int[2];
-		sizes[0] = graph.getEObjects().size();
-		ua.execute();
-		sizes[1] = graph.getEObjects().size();
+		sizes[0] = graph.size();
+		ua.execute(null);
+		sizes[1] = graph.size();
 		return sizes;
 	}
 	
@@ -105,58 +102,9 @@ public class Tools {
 	public static void printMatches(List<Match> ma) {
 		System.out.println("matches:");
 		for (Match m : ma) {
-			printSubmatchesRec(m, 1);
+			System.out.println(m);
 			System.out.println("===");
 		}
-	}
-	
-	public static void printSubmatchesRec(Match m, int ident) {
-		
-		for (EObject eo : m.getNodeTargets()) {
-			System.out.println(getTabs(ident) + eo);
-		}
-		
-		
-		if (m.getNestedMatches().size() == 0) {
-			System.out.println(getTabs(ident) + "--");
-			return;
-		}
-
-		for (Entry<Rule, List<Match>> e : m.getNestedMatches().entrySet()) {
-			System.out.println(getTabs(ident+1) + "Rule: " + e.getKey());
-			for (Match ma : e.getValue()) {
-				printSubmatchesRec(ma, ident+1);
-			}
-		}
-	}
-	
-	private static String getTabs(int i) {
-		String tmp = "";
-		while(i-- > 0) {
-			tmp = tmp + "\t";
-		}
-		
-		return tmp;
-	}
-	
-	
-	/**
-	 * print match
-	 * 
-	 * @param ma
-	 */
-	public static void printMatch(Match ma) {
-		System.out.println(ma);
-		System.out.println("--");
-	}
-	
-	/**
-	 * print matches
-	 * 
-	 * @param ma
-	 */
-	public static void printMatches(Match ma) {
-		printMatch(ma);
 	}
 	
 	/**
@@ -303,12 +251,8 @@ public class Tools {
 	}
 	
 	public static void printParameterMappings(RuleApplication ra) {
-		for (Parameter p : ra.getMatch().getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t-> " + ra.getMatch().getParameterValues().get(p));
-		}
-		for (Parameter p : ra.getComatch().getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t<- " + ra.getComatch().getParameterValues().get(p));
-		}
+		System.out.println("Input parameters:\n" + ra.getAssignment());
+		System.out.println("Output parameters:\n" + ra.getResultAssignment());
 	}
 	
 	public static Map<Parameter, Object> createParameterMapping(Map<String, Object> mapping,
@@ -323,10 +267,7 @@ public class Tools {
 	}
 	
 	public static void printParameterMappings(UnitApplication ua) {
-		for (Parameter p : ua.getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t : " + ua.getParameterValues().get(p));
-		}
-		
+		System.out.println(ua.getAssignment());
 	}
 	
 }

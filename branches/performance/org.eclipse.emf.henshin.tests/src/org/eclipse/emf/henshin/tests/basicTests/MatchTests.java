@@ -48,7 +48,7 @@ public class MatchTests extends HenshinTest {
 		 */
 		loadGraph("manyNodes");
 		loadRule("acMatchNoNode");
-		Rules.assertRuleHasNoMatch(htRuleApp);
+		Rules.assertRuleHasNoMatch(htRule, htEGraph, htEngine);
 	}
 	
 	@Test
@@ -59,10 +59,10 @@ public class MatchTests extends HenshinTest {
 		loadGraph("manyNodes");
 		loadRule("matchAllNodes");
 		
-		Rules.assertRuleHasNMatches(htRule, htEmfGraph, 32);
+		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 32);
 		
 		Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults(
-				"self.oclIsKindOf(Node)", htEmfGraph);
+				"self.oclIsKindOf(Node)", htEGraph);
 		
 		Matches.assertGroupIsMatched(htRuleApp, nodesInGraph);
 	}
@@ -75,10 +75,10 @@ public class MatchTests extends HenshinTest {
 		 */
 		loadGraph("manyNodes");
 		loadRule("acMatchAllNodes");
-		Rules.assertRuleHasNMatches(htRule, htEmfGraph, 32);
+		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 32);
 		
 		Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults(
-				"self.oclIsKindOf(Node)", htEmfGraph);
+				"self.oclIsKindOf(Node)", htEGraph);
 		Matches.assertGroupIsMatched(htRuleApp, nodesInGraph);
 	}
 	
@@ -92,13 +92,13 @@ public class MatchTests extends HenshinTest {
 		loadRule("matchNodesAndVals");
 		
 		Collection<Node> foundNodes = (Collection<Node>) Tools.getOCLQueryResults(
-				"self.nodename = 'v1'", htEmfGraph);
+				"self.nodename = 'v1'", htEGraph);
 		foundNodes.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'v2'",
-				htEmfGraph));
+				htEGraph));
 		foundNodes.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'v3'",
-				htEmfGraph));
+				htEGraph));
 		Collection<Val> foundVals = (Collection<Val>) Tools.getOCLQueryResults(
-				"self.oclIsKindOf(Val)", htEmfGraph);
+				"self.oclIsKindOf(Val)", htEGraph);
 		
 		Collection<EObject> matchContents = new ArrayList<EObject>();
 		matchContents.addAll(foundNodes);
@@ -115,9 +115,9 @@ public class MatchTests extends HenshinTest {
 		 */
 		loadGraph("nodesAndVals");
 		loadRule("emptyRule");
-		Rules.assertRuleHasNMatches(htRuleApp, 1); // there should be exactly 1
+		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph);       // match
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEGraph);       // match
 																					    	// should
 																									// be
 																									// empty
@@ -131,7 +131,7 @@ public class MatchTests extends HenshinTest {
 		 */
 		loadGraph("nodesAndVals");
 		loadRule("onlyNAC");
-		Rules.assertRuleHasNoMatch(htRuleApp); // there should be no match
+		Rules.assertRuleHasNoMatch(htRule, htEGraph, htEngine); // there should be no match
 	}
 	
 	@Test
@@ -143,9 +143,9 @@ public class MatchTests extends HenshinTest {
 		 */
 		loadGraph("nodesAndVals");
 		loadRule("onlyPAC");
-		Rules.assertRuleHasNMatches(htRuleApp, 1); // there should be exactly 1
+		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph); // match
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEGraph); // match
 																									// should
 																									// be
 																									// empty
@@ -163,13 +163,13 @@ public class MatchTests extends HenshinTest {
 		// matches Nodes with a parent that has a Vals-reference
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_11'", htEmfGraph)); // parent is t_1, which
+				"self.nodename = 't_11'", htEGraph)); // parent is t_1, which
 														// has a vals reference
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_12'", htEmfGraph)); // parent is t_1, which
+				"self.nodename = 't_12'", htEGraph)); // parent is t_1, which
 														// has a vals reference
-		System.out.println("pac-pac:");
-		Tools.printMatches(htRuleApp.findAllMatches());
+		//System.out.println("pac-pac:");
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -183,16 +183,16 @@ public class MatchTests extends HenshinTest {
 		loadRule("nestedAC_pac-nac");
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_1'", htEmfGraph)); // parent is top, which
+				"self.nodename = 't_1'", htEGraph)); // parent is top, which
 														// doesn't have a vals
 														// reference
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_111'", htEmfGraph)); // parent is t_11,
+				"self.nodename = 't_111'", htEGraph)); // parent is t_11,
 															// which doesn't
 															// have a vals
 															// reference
-		System.out.println("pac-nac:");
-		Tools.printMatches(htRuleApp.findAllMatches());
+		//System.out.println("pac-nac:");
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -206,19 +206,19 @@ public class MatchTests extends HenshinTest {
 		// matches Nodes without (a parent that has a Vals-reference)
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 'unconnected'", htEmfGraph)); // no parent
+				"self.nodename = 'unconnected'", htEGraph)); // no parent
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 'top'", htEmfGraph)); // no parent
+				"self.nodename = 'top'", htEGraph)); // no parent
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_1'", htEmfGraph)); // parent is top, and top
+				"self.nodename = 't_1'", htEGraph)); // parent is top, and top
 														// doesn't have a vals
 														// reference
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_111'", htEmfGraph)); // parent is t_11, and
+				"self.nodename = 't_111'", htEGraph)); // parent is t_11, and
 															// t_11 doesn't have
 															// a vals reference
-		System.out.println("nac-pac:");
-		Tools.printMatches(htRuleApp.findAllMatches());
+		//System.out.println("nac-pac:");
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -232,23 +232,23 @@ public class MatchTests extends HenshinTest {
 		// matches Nodes without (a parent that (doesn't have a Vals-reference))
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 'unconnected'", htEmfGraph)); // no parent
+				"self.nodename = 'unconnected'", htEGraph)); // no parent
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 'top'", htEmfGraph)); // no parent
+				"self.nodename = 'top'", htEGraph)); // no parent
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_11'", htEmfGraph)); // no parent which
+				"self.nodename = 't_11'", htEGraph)); // no parent which
 														// doesn't have a vals
 														// reference (parent is
 														// t1, and t1 has a vals
 														// reference)
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename = 't_12'", htEmfGraph)); // no parent which
+				"self.nodename = 't_12'", htEGraph)); // no parent which
 														// doesn't have a vals
 														// reference (parent is
 														// t1, and t1 has a vals
 														// reference)
-		System.out.println("nac-nac:");
-		Tools.printMatches(htRuleApp.findAllMatches());
+		//System.out.println("nac-nac:");
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -258,10 +258,10 @@ public class MatchTests extends HenshinTest {
 		loadRule("andNestedCondition");
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename='t_1'", htEmfGraph));
+				"self.nodename='t_1'", htEGraph));
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename='t_11'", htEmfGraph));
-		Tools.printMatches(htRuleApp.findAllMatches());
+				"self.nodename='t_11'", htEGraph));
+		//Tools.printMatches(htRuleApp.findAllMatches());
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -270,9 +270,9 @@ public class MatchTests extends HenshinTest {
 		loadGraph("nestedACTests");
 		loadRule("orNestedCondition");
 		Collection<? extends EObject> anticipatedMatches = Tools.getOCLQueryResults(
-				"self.oclIsKindOf(Node)", htEmfGraph);
+				"self.oclIsKindOf(Node)", htEGraph);
 		anticipatedMatches.remove((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename='unconnected'", htEmfGraph));
+				"self.nodename='unconnected'", htEGraph));
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -282,9 +282,9 @@ public class MatchTests extends HenshinTest {
 		loadRule("notNestedCondition");
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename='unconnected'", htEmfGraph));
+				"self.nodename='unconnected'", htEGraph));
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
-				"self.nodename='top'", htEmfGraph));
+				"self.nodename='top'", htEGraph));
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 	}
 	
@@ -302,8 +302,8 @@ public class MatchTests extends HenshinTest {
 		loadGraph("nestedACTests");
 		loadRule("nestedCondition_multipleMappings");
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
-		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_11'", htEmfGraph));
-		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_1'", htEmfGraph));
+		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_11'", htEGraph));
+		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_1'", htEGraph));
 		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
 
 	}

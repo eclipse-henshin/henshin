@@ -52,53 +52,22 @@ public class Matches {
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAllMatches(Rule r, EGraph graph, EObject object)
+	public static void assertObjectContainedInAllMatches(Rule r, EGraph graph, Engine engine, EObject object)
 			throws AssertionError {
-		assertObjectContainedInAllMatches(r, new Engine(graph), object);
-	}
-	
-	/**
-	 * Assert that an object is contained in all of a {@link Rule}'s matches.
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine} by which the Rule will be executed
-	 * @param object
-	 *            {@link EObject}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInAllMatches(Rule r, Engine engine, EObject object)
-			throws AssertionError {
-		assertObjectContainedInAllMatches(new RuleApplication(engine, r), object);
-	}
-	
-	/**
-	 * Assert that an object is contained in all of a {@link RuleApplication}'s
-	 * matches
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @param object
-	 *            {@link EObject}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInAllMatches(RuleApplication ra, EObject object)
-			throws AssertionError {
-		boolean cMatch = false;
-		for (Match m : ra.findAllMatches()) {
-			cMatch = false;
-			if (m.getNodeTargets().contains(object)) {
-				cMatch = true;
-			}
-			if (cMatch == false) {
+		
+		boolean foundMatch = false;
+		for (Match match : engine.findMatches(r, graph, null)) {
+			foundMatch = true;
+			if (!match.getNodeTargets().contains(object)) {
 				throw new AssertionError("expected: Object contained in every match, but it's not");
 			}
+			
 		}
-		if (ra.findAllMatches().size() == 0) {
+		if (!foundMatch) {
 			throw new AssertionError(
 					"expected: Object contained in every match, but Rule produces no matches");
 		}
+		
 	}
 	
 	/**
@@ -112,44 +81,15 @@ public class Matches {
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNoMatch(Rule r, EGraph graph, EObject object)
+	public static void assertObjectContainedInNoMatch(Rule r, EGraph graph, Engine engine, EObject object)
 			throws AssertionError {
-		assertObjectContainedInNoMatch(r, new Engine(graph), object);
-	}
-	
-	/**
-	 * Assert that an object is contained in none of a {@link Rule}'s matches
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine} by which the {@link Rule} will be executed
-	 * @param object
-	 *            {@link EObject}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInNoMatch(Rule r, Engine engine, EObject object)
-			throws AssertionError {
-		assertObjectContainedInNoMatch(new RuleApplication(engine, r), object);
-	}
-	
-	/**
-	 * Assert that an object is contained in none of a {@link RuleApplication}'s
-	 * matches
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @param object
-	 *            {@link EObject}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInNoMatch(RuleApplication ra, EObject object)
-			throws AssertionError {
-		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeTargets().contains(object)) {
+
+		for (Match match : engine.findMatches(r, graph, null)) {
+			if (match.getNodeTargets().contains(object)) {
 				throw new AssertionError(
 						"expected: Object contained in no match, but contained in at least one");
 			}
+			
 		}
 	}
 	
@@ -167,57 +107,18 @@ public class Matches {
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNMatches(Rule r, EGraph graph, EObject object, int n)
+	public static void assertObjectContainedInNMatches(Rule r, EGraph graph, Engine engine, EObject object, int n)
 			throws AssertionError {
-		assertObjectContainedInNMatches(r, new Engine(graph), object, n);
-	}
-	
-	/**
-	 * Assert that an object is contained in exactly n of a {@link Rule}'s
-	 * matches
-	 * 
-	 * @param r
-	 *            {@link Rule}
-	 * @param engine
-	 *            {@link Engine} by which the {@link Rule} will be executed
-	 * @param object
-	 *            {@link EObject}
-	 * @param n
-	 *            Number of expected matches
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInNMatches(Rule r, Engine engine, EObject object,
-			int n) throws AssertionError {
-		assertObjectContainedInNMatches(new RuleApplication(engine, r), object, n);
-	}
-	
-	/**
-	 * Assert that an object is contained in exactly n of a
-	 * {@link RuleApplication}'s matches
-	 * 
-	 * @param ra
-	 *            {@link RuleApplication}
-	 * @param object
-	 *            {@link EObject}
-	 * @param n
-	 *            Number of expected matches
-	 * @throws AssertionError
-	 */
-	public static void assertObjectContainedInNMatches(RuleApplication ra, EObject object, int n)
-			throws AssertionError {
-		int num = n;
-		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeTargets().contains(object)) {
-				num--;
-			}
-			if (num < 0) {
-				throw new AssertionError("expected: Object contained in " + n
-						+ " matches, but contained in more");
+		
+		int num = 0;
+		for (Match match : engine.findMatches(r, graph, null)) {
+			if (match.getNodeTargets().contains(object)) {
+				num++;
 			}
 		}
-		if (num > 0) {
+		if (num != n) {
 			throw new AssertionError("expected: Object contained in " + n
-					+ " matches, but contained in less");
+					+ " matches, but contained in " + num);
 		}
 	}
 	

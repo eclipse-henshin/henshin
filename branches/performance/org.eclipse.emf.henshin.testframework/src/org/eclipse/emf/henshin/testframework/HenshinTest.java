@@ -55,34 +55,39 @@ public class HenshinTest {
 	 * you to use.
 	 */
 	protected TransformationSystem htTransformationSystem; // TransformationSystem
+	
 	/**
-	 * EmfEngine which has been automatically loaded and set-up for you to use.
+	 * Engine which has been automatically loaded and set-up for you to use.
 	 */
-	protected Engine htEngine; // EmfEngine
+	protected Engine htEngine; // Engine
+	
 	/**
-	 * engine's graph.
+	 * EGraph.
 	 */
-	protected EGraph htEmfGraph; // engine's EmfGraph
+	protected EGraph htEGraph; // EGraph
 	
 	/**
 	 * When calling loadRule(), this will be the loaded {@link Rule}.
 	 */
 	protected Rule htRule; // Rule
+	
 	/**
 	 * When calling loadRule(), this will be the {@link RuleApplication} created
 	 * from engine and the loaded {@link Rule}.
 	 */
 	protected RuleApplication htRuleApp; // corresponding RuleApplication
+	
 	/**
 	 * When calling loadTu(), this will be the loaded {@link TransformationUnit}
-	 * .
 	 */
 	protected TransformationUnit htTransUnit; // TransformationUnit
+	
 	/**
 	 * When calling loadTu(), this will be the {@link UnitApplication} created
 	 * from engine and the loaded {@link TransformationUnit}.
 	 */
 	protected UnitApplication htUnitApp; // corresponding UnitApplication
+	
 	/**
 	 * This gets prepended to the file name when loading a graph from file via
 	 * loadGraph
@@ -94,8 +99,7 @@ public class HenshinTest {
 	public void tearDown() {
 		htTransformationSystem = null;
 		htEngine = null;
-		htEmfGraph = null;
-		
+		htEGraph = null;	
 		htRule = null;
 		htRuleApp = null;
 		htTransUnit = null;
@@ -116,6 +120,7 @@ public class HenshinTest {
 	 */
 	protected void init(String henshinFile) throws Exception {
 		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 	/**
@@ -134,8 +139,8 @@ public class HenshinTest {
 
 	protected void init(String henshinFile, String modelFile, String modelFileExt) throws Exception {
 		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
-		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
-		htEmfGraph = htEngine.getEmfGraph();
+		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 	/**
@@ -156,10 +161,8 @@ public class HenshinTest {
 
 	protected void init(String henshinFile, String modelFile, String modelFileExt,
 			Map<String,Object> options) throws Exception {
-		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
-		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
+		init(henshinFile, modelFile, modelFileExt);
 		htEngine.getOptions().putAll(options);
-		htEmfGraph = htEngine.getEmfGraph();
 	}
 	
 	/**
@@ -178,8 +181,8 @@ public class HenshinTest {
 	 */
 
 	protected void init(String modelFile, String modelFileExt) throws Exception {
-		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
-		htEmfGraph = htEngine.getEmfGraph();
+		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 	/**
@@ -200,9 +203,9 @@ public class HenshinTest {
 	 */
 	protected void init(String modelFile, String modelFileExt, Map<String,Object> options)
 			throws Exception {
-		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
+		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
 		htEngine.getOptions().putAll(options);
-		htEmfGraph = htEngine.getEmfGraph();
 	}
 	
 	/**
@@ -216,7 +219,7 @@ public class HenshinTest {
 		htRule = htTransformationSystem.findRuleByName(ruleName);
 		htRuleApp = InterpreterFactory.INSTANCE.createRuleApplication(htEngine);
 		htRuleApp.setRule(htRule);
-		htRuleApp.setEGraph(htEmfGraph);
+		htRuleApp.setEGraph(htEGraph);
 	}
 	
 	/**
@@ -270,7 +273,7 @@ public class HenshinTest {
 		htTransUnit = htTransformationSystem.findUnitByName(unitName);
 		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
 		htUnitApp.setUnit(htTransUnit);
-		htUnitApp.setEGraph(htEmfGraph);
+		htUnitApp.setEGraph(htEGraph);
 	}
 	
 	/**
@@ -316,7 +319,7 @@ public class HenshinTest {
 	 * @param graph
 	 */
 	protected void loadGraph(EGraph graph) {
-		htEmfGraph = graph;
+		htEGraph = graph;
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
