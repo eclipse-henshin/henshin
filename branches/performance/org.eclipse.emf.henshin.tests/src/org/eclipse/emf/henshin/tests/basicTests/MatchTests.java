@@ -117,8 +117,8 @@ public class MatchTests extends HenshinTest {
 		loadRule("emptyRule");
 		Rules.assertRuleHasNMatches(htRuleApp, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph.geteObjects()); // match
-																									// should
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph);       // match
+																					    	// should
 																									// be
 																									// empty
 	}
@@ -145,7 +145,7 @@ public class MatchTests extends HenshinTest {
 		loadRule("onlyPAC");
 		Rules.assertRuleHasNMatches(htRuleApp, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph.geteObjects()); // match
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEmfGraph); // match
 																									// should
 																									// be
 																									// empty

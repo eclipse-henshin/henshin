@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.testframework;
 
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.Parameter;
 
 /**

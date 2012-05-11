@@ -18,11 +18,10 @@ import org.eclipse.emf.compare.match.metamodel.MatchElement;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 
 /**
- * Assertions for (static) {@link EmfGraph}s. For everything related to changes
+ * Assertions for (static) {@link EGraph}s. For everything related to changes
  * (caused by Rules/TransformationUnits) on graphs, see
  * {@link GraphTransformations}.
  * 
@@ -38,55 +37,29 @@ public class Graphs {
 	 * @param obj
 	 *            {@link EObject}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectInGraph(EObject obj, EmfGraph graph) throws AssertionError {
-		if (!(graph.geteObjects().contains(obj))) {
+	public static void assertObjectInGraph(EObject obj, EGraph graph) throws AssertionError {
+		if (!(graph.contains(obj))) {
 			throw new AssertionError("expected: Object " + obj.toString() + " contained in graph");
 		}
 	}
-	
-	/**
-	 * Assert that the specified object is contained in the engine's graph
-	 * 
-	 * @param obj
-	 *            {@link EObject}
-	 * @param engine
-	 *            {@link EmfEngine}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectInGraph(EObject obj, EmfEngine engine) throws AssertionError {
-		assertObjectInGraph(obj, engine.getEmfGraph());
-	}
-	
+		
 	/**
 	 * Assert that the specified object is not contained in the graph
 	 * 
 	 * @param obj
 	 *            {@link EObject}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectNotInGraph(EObject obj, EmfGraph graph) throws AssertionError {
-		if (graph.geteObjects().contains(obj)) {
+	public static void assertObjectNotInGraph(EObject obj, EGraph graph) throws AssertionError {
+		if (graph.contains(obj)) {
 			throw new AssertionError("expected: Object " + obj.toString()
 					+ " not contained in graph");
 		}
-	}
-	
-	/**
-	 * Assert that the specified object is not contained in the engine's graph
-	 * 
-	 * @param obj
-	 *            {@link EObject}
-	 * @param engine
-	 *            {@link EmfEngine}
-	 * @throws AssertionError
-	 */
-	public static void assertObjectNotInGraph(EObject obj, EmfEngine engine) throws AssertionError {
-		assertObjectNotInGraph(obj, engine.getEmfGraph());
 	}
 	
 	/**
@@ -98,21 +71,21 @@ public class Graphs {
 	 * </ul>
 	 * 
 	 * @param graph1
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @param graph2
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphsEqual(EmfGraph graph1, EmfGraph graph2,
+	public static void assertGraphsEqual(EGraph graph1, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		MatchModel matchM;
 		try {
-			matchM = MatchService.doMatch(graph1.getRootObjects().toArray(new EObject[1])[0],
-					graph2.getRootObjects().toArray(new EObject[1])[0], null);
+			matchM = MatchService.doMatch(graph1.getRoots().toArray(new EObject[1])[0],
+					graph2.getRoots().toArray(new EObject[1])[0], null);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			throw new AssertionError("!!!! execution interrupted.");
@@ -141,23 +114,23 @@ public class Graphs {
 	 * Check if two graphs are equal
 	 * 
 	 * @param graph1
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param graph2
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @return true - graphs equal; false - graphs unequal
 	 */
-	public static boolean graphsEqual(EmfGraph graph1, EmfGraph graph2,
+	public static boolean graphsEqual(EGraph graph1, EGraph graph2,
 			double matchSimilarityThreshold) {
 		MatchModel matchM;
 		
 		System.out.println("-----------");
 		try {
-			matchM = MatchService.doMatch(graph1.getRootObjects().toArray(new EObject[1])[0],
-					graph2.getRootObjects().toArray(new EObject[1])[0], null);
+			matchM = MatchService.doMatch(graph1.getRoots().toArray(new EObject[1])[0],
+					graph2.getRoots().toArray(new EObject[1])[0], null);
 		} catch (InterruptedException e) {
 			System.err.println("interrupted");
 			return false;

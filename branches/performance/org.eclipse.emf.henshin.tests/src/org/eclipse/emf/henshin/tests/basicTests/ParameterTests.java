@@ -11,13 +11,11 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.RuleApplicationImpl;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;

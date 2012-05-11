@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.eclipse.emf.henshin.testframework.Matches;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * tests several engine options
@@ -61,7 +61,7 @@ public class EngineOptionsTests extends HenshinTest {
 												// two child nodes, but the
 												// graph contains just a Node
 												// with one child node.
-		htEngine.getOptions().setInjective(false);
+		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
 		Rules.assertRuleHasNMatches(htRuleApp, 1); // Rule should have exactly 1
 													// match
@@ -114,7 +114,7 @@ public class EngineOptionsTests extends HenshinTest {
 		ninjObjGroup2
 				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph));
 		
-		htEngine.getOptions().setInjective(false);
+		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
 		Rules.assertRuleHasNMatches(htRuleApp, 4); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
@@ -122,9 +122,9 @@ public class EngineOptionsTests extends HenshinTest {
 													// n1 <-> (n3, n3)
 		
 		for (Match ma : htRuleApp.findAllMatches()) {
-			if (ma.getNodeMapping().containsValue(
+			if (ma.getAllNodeTargets().contains(
 					Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph))) {
-				if (ma.getNodeMapping().containsValue(
+				if (ma.getAllNodeTargets().contains(
 						Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph))) {
 					Matches.assertMatchIsGroup(ma, objGroup);
 				} else {

@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.testframework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Tests creating nodes
@@ -83,7 +82,7 @@ public class CreateNodes extends HenshinTest {
 		/**
 		 * Create a root node in an empty graph
 		 */
-		loadGraph(new EmfGraph());
+		loadGraph(InterpreterFactory.INSTANCE.createEGraph());
 		loadRule("createRootNode");
 		Rules.assertRuleCanBeApplied(htRuleApp);
 		try {

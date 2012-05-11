@@ -9,7 +9,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.emf.henshin.tests.actionTests,
  org.eclipse.emf.henshin.tests.basicTests,
- org.eclipse.emf.henshin.tests.stateSpaceTests,
  org.eclipse.emf.henshin.tests.testmodel,
  org.eclipse.emf.henshin.tests.testmodel.impl,
  org.eclipse.emf.henshin.tests.testmodel.util

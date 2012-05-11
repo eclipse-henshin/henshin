@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.eclipse.emf.henshin.interpreter.RuleApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
@@ -31,11 +31,11 @@ public class MultiruleTests extends HenshinTest {
 	public void testSeparateMatch() {
 		loadGraph("nested2initial");
 		loadRule("matchm-M-MM");
-		RuleApplicationImpl ruleApp = new RuleApplicationImpl(htEngine, htRule.getMultiRules().get(0));
+		RuleApplication ruleApp = new RuleApplication(htEngine, htRule.getMultiRules().get(0));
 		Rules.assertRuleHasNMatches(ruleApp, 2);	// will match (n1 ; n1-1) and (n1 ; n1-2)
 		
 		loadRule("matchm-M-MM");
-		RuleApplicationImpl ruleApp2 = new RuleApplicationImpl(htEngine, htRule.getMultiRules().get(0).getMultiRules().get(0));
+		RuleApplication ruleApp2 = new RuleApplication(htEngine, htRule.getMultiRules().get(0).getMultiRules().get(0));
 		Rules.assertRuleHasNMatches(ruleApp2, 4);	// will match (n1;n1-1;v1-1-1), (n1;n1-1;v1-1-2), (n1;n1-2;v1-2-1), (n1;n1-2;v1-2-2)
 	}
 	

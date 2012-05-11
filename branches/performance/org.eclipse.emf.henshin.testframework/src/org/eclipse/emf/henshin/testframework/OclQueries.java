@@ -16,7 +16,7 @@ import java.util.Collection;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.query.conditions.Condition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.ocl.conditions.BooleanOCLCondition;
@@ -28,7 +28,7 @@ import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.OCL;
 
 /**
- * Assertions for context-free OCL Queries on {@link EmfGraph}s.
+ * Assertions for context-free OCL Queries on {@link EGraph}s.
  * 
  * @see Tools
  * @author Felix Rieger
@@ -42,10 +42,10 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
-	public static void assertElementsInQueryResult(String contextFreeOclQuery, EmfGraph graph)
+	public static void assertElementsInQueryResult(String contextFreeOclQuery, EGraph graph)
 			throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
@@ -59,7 +59,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -79,11 +79,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertObjectInQueryResult(EObject eobj, String contextFreeOclQuery,
-			EmfGraph graph) throws AssertionError {
+			EGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -96,7 +96,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -115,11 +115,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertObjectNotInQueryResult(EObject eobj, String contextFreeOclQuery,
-			EmfGraph graph) throws AssertionError {
+			EGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -132,7 +132,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -150,11 +150,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertGroupInQueryResult(Collection<? extends EObject> group,
-			String contextFreeOclQuery, EmfGraph graph) throws AssertionError {
+			String contextFreeOclQuery, EGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -167,7 +167,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -186,11 +186,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertGroupNotInQueryResult(Collection<? extends EObject> group,
-			String contextFreeOclQuery, EmfGraph graph) throws AssertionError {
+			String contextFreeOclQuery, EGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -203,7 +203,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -223,11 +223,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertNoElementFromGroupInQueryResult(Collection<? extends EObject> group,
-			String contextFreeOclQuery, EmfGraph graph) throws AssertionError {
+			String contextFreeOclQuery, EGraph graph) throws AssertionError {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -240,7 +240,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -262,11 +262,11 @@ public class OclQueries {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query should be executed on
+	 *            {@link EGraph} the query should be executed on
 	 * @throws AssertionError
 	 */
 	public static void assertAtLeastOneElementFromGroupInQueryResult(
-			Collection<? extends EObject> group, String contextFreeOclQuery, EmfGraph graph)
+			Collection<? extends EObject> group, String contextFreeOclQuery, EGraph graph)
 			throws AssertionError {
 		if (group.size() == 0) {
 			throw new AssertionError("group is empty");
@@ -283,7 +283,7 @@ public class OclQueries {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();

@@ -17,18 +17,18 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.RuleApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
 
 //TODO: add more support for non-injective interpreters
 
 /**
  * Assertions for everything related to matches, e.g. matches produced by
- * {@link RuleApplicationImpl}s, {@link UnitApplicationImpl}s, (partial) matches on
+ * {@link RuleApplication}s, {@link UnitApplication}s, (partial) matches on
  * element groups, etc.
  * 
  * @see Rules
@@ -47,14 +47,14 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the Rule will be applied to
+	 *            {@link EGraph} the Rule will be applied to
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAllMatches(Rule r, EmfGraph graph, EObject object)
+	public static void assertObjectContainedInAllMatches(Rule r, EGraph graph, EObject object)
 			throws AssertionError {
-		assertObjectContainedInAllMatches(r, new EmfEngine(graph), object);
+		assertObjectContainedInAllMatches(r, new Engine(graph), object);
 	}
 	
 	/**
@@ -63,32 +63,32 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the Rule will be executed
+	 *            {@link Engine} by which the Rule will be executed
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAllMatches(Rule r, EmfEngine engine, EObject object)
+	public static void assertObjectContainedInAllMatches(Rule r, Engine engine, EObject object)
 			throws AssertionError {
-		assertObjectContainedInAllMatches(new RuleApplicationImpl(engine, r), object);
+		assertObjectContainedInAllMatches(new RuleApplication(engine, r), object);
 	}
 	
 	/**
-	 * Assert that an object is contained in all of a {@link RuleApplicationImpl}'s
+	 * Assert that an object is contained in all of a {@link RuleApplication}'s
 	 * matches
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAllMatches(RuleApplicationImpl ra, EObject object)
+	public static void assertObjectContainedInAllMatches(RuleApplication ra, EObject object)
 			throws AssertionError {
 		boolean cMatch = false;
 		for (Match m : ra.findAllMatches()) {
 			cMatch = false;
-			if (m.getNodeMapping().values().contains(object)) {
+			if (m.getAllNodeTargets().contains(object)) {
 				cMatch = true;
 			}
 			if (cMatch == false) {
@@ -107,14 +107,14 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNoMatch(Rule r, EmfGraph graph, EObject object)
+	public static void assertObjectContainedInNoMatch(Rule r, EGraph graph, EObject object)
 			throws AssertionError {
-		assertObjectContainedInNoMatch(r, new EmfEngine(graph), object);
+		assertObjectContainedInNoMatch(r, new Engine(graph), object);
 	}
 	
 	/**
@@ -123,30 +123,30 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNoMatch(Rule r, EmfEngine engine, EObject object)
+	public static void assertObjectContainedInNoMatch(Rule r, Engine engine, EObject object)
 			throws AssertionError {
-		assertObjectContainedInNoMatch(new RuleApplicationImpl(engine, r), object);
+		assertObjectContainedInNoMatch(new RuleApplication(engine, r), object);
 	}
 	
 	/**
-	 * Assert that an object is contained in none of a {@link RuleApplicationImpl}'s
+	 * Assert that an object is contained in none of a {@link RuleApplication}'s
 	 * matches
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNoMatch(RuleApplicationImpl ra, EObject object)
+	public static void assertObjectContainedInNoMatch(RuleApplication ra, EObject object)
 			throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeMapping().values().contains(object)) {
+			if (m.getAllNodeTargets().contains(object)) {
 				throw new AssertionError(
 						"expected: Object contained in no match, but contained in at least one");
 			}
@@ -160,16 +160,16 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param object
 	 *            {@link EObject}
 	 * @param n
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNMatches(Rule r, EmfGraph graph, EObject object, int n)
+	public static void assertObjectContainedInNMatches(Rule r, EGraph graph, EObject object, int n)
 			throws AssertionError {
-		assertObjectContainedInNMatches(r, new EmfEngine(graph), object, n);
+		assertObjectContainedInNMatches(r, new Engine(graph), object, n);
 	}
 	
 	/**
@@ -179,35 +179,35 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param object
 	 *            {@link EObject}
 	 * @param n
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNMatches(Rule r, EmfEngine engine, EObject object,
+	public static void assertObjectContainedInNMatches(Rule r, Engine engine, EObject object,
 			int n) throws AssertionError {
-		assertObjectContainedInNMatches(new RuleApplicationImpl(engine, r), object, n);
+		assertObjectContainedInNMatches(new RuleApplication(engine, r), object, n);
 	}
 	
 	/**
 	 * Assert that an object is contained in exactly n of a
-	 * {@link RuleApplicationImpl}'s matches
+	 * {@link RuleApplication}'s matches
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param object
 	 *            {@link EObject}
 	 * @param n
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNMatches(RuleApplicationImpl ra, EObject object, int n)
+	public static void assertObjectContainedInNMatches(RuleApplication ra, EObject object, int n)
 			throws AssertionError {
 		int num = n;
 		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeMapping().values().contains(object)) {
+			if (m.getAllNodeTargets().contains(object)) {
 				num--;
 			}
 			if (num < 0) {
@@ -228,14 +228,14 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAtLeastOneMatch(Rule r, EmfGraph graph, EObject object)
+	public static void assertObjectContainedInAtLeastOneMatch(Rule r, EGraph graph, EObject object)
 			throws AssertionError {
-		assertObjectContainedInAtLeastOneMatch(r, new EmfEngine(graph), object);
+		assertObjectContainedInAtLeastOneMatch(r, new Engine(graph), object);
 	}
 	
 	/**
@@ -245,30 +245,30 @@ public class Matches {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAtLeastOneMatch(Rule r, EmfEngine engine,
+	public static void assertObjectContainedInAtLeastOneMatch(Rule r, Engine engine,
 			EObject object) throws AssertionError {
-		assertObjectContainedInAtLeastOneMatch(new RuleApplicationImpl(engine, r), object);
+		assertObjectContainedInAtLeastOneMatch(new RuleApplication(engine, r), object);
 	}
 	
 	/**
 	 * Assert that an object is contained in at least one of a
-	 * {@link RuleApplicationImpl}'s matches
+	 * {@link RuleApplication}'s matches
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param object
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAtLeastOneMatch(RuleApplicationImpl ra, EObject object)
+	public static void assertObjectContainedInAtLeastOneMatch(RuleApplication ra, EObject object)
 			throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeMapping().values().contains(object)) {
+			if (m.getAllNodeTargets().contains(object)) {
 				return;
 			}
 		}
@@ -280,54 +280,54 @@ public class Matches {
 	/**
 	 * Assert that no element contained in the specified {@link Collection} is
 	 * contained in any {@link Match} produced by applying the specified
-	 * {@link Rule} on the {@link EmfGraph}
+	 * {@link Rule} on the {@link EGraph}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to.
+	 *            {@link EGraph} the {@link Rule} will be applied to.
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 */
-	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, EmfGraph graph,
+	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, EGraph graph,
 			Collection<? extends EObject> group) {
-		assertNoObjectFromGroupContainedInAnyMatch(r, new EmfEngine(graph), group);
+		assertNoObjectFromGroupContainedInAnyMatch(r, new Engine(graph), group);
 	}
 	
 	/**
 	 * Assert that no element contained in the specified {@link Collection} is
 	 * contained in any {@link Match} produced by executing the specified
-	 * {@link Rule} on the {@link EmfEngine}
+	 * {@link Rule} on the {@link Engine}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, EmfEngine engine,
+	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertNoObjectFromGroupContainedInAnyMatch(new RuleApplicationImpl(engine, r), group);
+		assertNoObjectFromGroupContainedInAnyMatch(new RuleApplication(engine, r), group);
 	}
 	
 	/**
 	 * Assert that no element contained in the specified {@link Collection} is
 	 * contained in any {@link Match} produced by the specified
-	 * {@link RuleApplicationImpl}
+	 * {@link RuleApplication}
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertNoObjectFromGroupContainedInAnyMatch(RuleApplicationImpl ra,
+	public static void assertNoObjectFromGroupContainedInAnyMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
 			for (EObject eo : group) {
-				if (m.getNodeMapping().values().contains(eo)) {
+				if (m.getAllNodeTargets().contains(eo)) {
 					throw new AssertionError(
 							"expected: No object from group is contained in any match, but at least "
 									+ eo + " is contained in at least one");
@@ -338,52 +338,52 @@ public class Matches {
 	
 	/**
 	 * Assert that the whole group is not contained in any {@link Match}
-	 * produced by applying the {@link Rule} on the {@link EmfGraph}
+	 * produced by applying the {@link Rule} on the {@link EGraph}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInNoMatch(Rule r, EmfGraph graph,
+	public static void assertGroupContainedInNoMatch(Rule r, EGraph graph,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertGroupContainedInNoMatch(r, new EmfEngine(graph), group);
+		assertGroupContainedInNoMatch(r, new Engine(graph), group);
 	}
 	
 	/**
 	 * Assert that the whole group is not contained in any {@link Match}
-	 * produced by executing the {@link Rule} on the {@link EmfEngine}
+	 * produced by executing the {@link Rule} on the {@link Engine}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInNoMatch(Rule r, EmfEngine engine,
+	public static void assertGroupContainedInNoMatch(Rule r, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertGroupContainedInNoMatch(new RuleApplicationImpl(engine, r), group);
+		assertGroupContainedInNoMatch(new RuleApplication(engine, r), group);
 	}
 	
 	/**
 	 * Assert that the whole group is not contained in any {@link Match}
-	 * produced by the {@link RuleApplicationImpl}
+	 * produced by the {@link RuleApplication}
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInNoMatch(RuleApplicationImpl ra,
+	public static void assertGroupContainedInNoMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeMapping().values().containsAll(group)) {
+			if (m.getAllNodeTargets().containsAll(group)) {
 				throw new AssertionError(
 						"expected: Group is contained in no match, but is contained in at least one");
 			}
@@ -392,53 +392,53 @@ public class Matches {
 	
 	/**
 	 * Assert that the whole group is contained in at least one {@link Match}
-	 * produced by applying the specified {@link Rule} to the {@link EmfGraph}
+	 * produced by applying the specified {@link Rule} to the {@link EGraph}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInAtLeastOneMatch(Rule r, EmfGraph graph,
+	public static void assertGroupContainedInAtLeastOneMatch(Rule r, EGraph graph,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertGroupContainedInAtLeastOneMatch(r, new EmfEngine(graph), group);
+		assertGroupContainedInAtLeastOneMatch(r, new Engine(graph), group);
 	}
 	
 	/**
 	 * Assert that the whole group is contained in at least one {@link Match}
 	 * produced by executing the specified {@link Rule} with the
-	 * {@link EmfEngine}
+	 * {@link Engine}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} will be executed
+	 *            {@link Engine} by which the {@link Rule} will be executed
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInAtLeastOneMatch(Rule r, EmfEngine engine,
+	public static void assertGroupContainedInAtLeastOneMatch(Rule r, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertGroupContainedInAtLeastOneMatch(new RuleApplicationImpl(engine, r), group);
+		assertGroupContainedInAtLeastOneMatch(new RuleApplication(engine, r), group);
 	}
 	
 	/**
 	 * Assert that the whole group is contained in at least one {@link Match}
-	 * produced by the {@link RuleApplicationImpl}
+	 * produced by the {@link RuleApplication}
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInAtLeastOneMatch(RuleApplicationImpl ra,
+	public static void assertGroupContainedInAtLeastOneMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getNodeMapping().values().containsAll(group)) {
+			if (m.getAllNodeTargets().containsAll(group)) {
 				return;
 			}
 		}
@@ -450,54 +450,54 @@ public class Matches {
 	/**
 	 * Assert that at least one object from the group is contained in at least
 	 * on {@link Match} produced by applying the specified {@link Rule} on the
-	 * {@link EmfGraph}
+	 * {@link EGraph}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} will be applied to
+	 *            {@link EGraph} the {@link Rule} will be applied to
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 */
-	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EmfGraph graph,
+	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EGraph graph,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertAnyObjectFromGroupContainedInAtLeastOneMatch(r, new EmfEngine(graph), group);
+		assertAnyObjectFromGroupContainedInAtLeastOneMatch(r, new Engine(graph), group);
 	}
 	
 	/**
 	 * Assert that at least one object from the group is contained in at least
 	 * one {@link Match} produced by executing the specified {@link Rule} with
-	 * the {@link EmfEngine}
+	 * the {@link Engine}
 	 * 
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine} by which the {@link Rule} is executed
+	 *            {@link Engine} by which the {@link Rule} is executed
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EmfEngine engine,
+	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
-		assertAnyObjectFromGroupContainedInAtLeastOneMatch(new RuleApplicationImpl(engine, r), group);
+		assertAnyObjectFromGroupContainedInAtLeastOneMatch(new RuleApplication(engine, r), group);
 	}
 	
 	/**
 	 * Assert that at least one object from the group is contained in at least
-	 * one {@link Match} produced by the {@link RuleApplicationImpl}
+	 * one {@link Match} produced by the {@link RuleApplication}
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(RuleApplicationImpl ra,
+	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		List<Match> matches = ra.findAllMatches();
 		for (Match m : matches) {
 			for (EObject eo : group) {
-				if (m.getNodeMapping().values().contains(eo)) {
+				if (m.getAllNodeTargets().contains(eo)) {
 					return;
 				}
 			}
@@ -509,18 +509,18 @@ public class Matches {
 	
 	/**
 	 * Asserts that an {@link EObject} is contained in at least one match
-	 * produced by the {@link RuleApplicationImpl}s created by executing the
-	 * {@link UnitApplicationImpl}.
+	 * produced by the {@link RuleApplication}s created by executing the
+	 * {@link UnitApplication}.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param element
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertElementMatchedByUnitApplication(UnitApplicationImpl ua, EObject element)
+	public static void assertElementMatchedByUnitApplication(UnitApplication ua, EObject element)
 			throws AssertionError {
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
 			if (ra.getMatch().getNodeMapping().containsValue(element)) {
 				return;
 			}
@@ -532,18 +532,18 @@ public class Matches {
 	
 	/**
 	 * Asserts that an {@link EObject} is not contained in any matches produced
-	 * by the {@link RuleApplicationImpl}s created by executing the
-	 * {@link UnitApplicationImpl}.
+	 * by the {@link RuleApplication}s created by executing the
+	 * {@link UnitApplication}.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param element
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertElementNotMatchedByUnitApplication(UnitApplicationImpl ua, EObject element)
+	public static void assertElementNotMatchedByUnitApplication(UnitApplication ua, EObject element)
 			throws AssertionError {
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
 			if (ra.getMatch().getNodeMapping().containsValue(element)) {
 				throw new AssertionError("expected: Element " + element
 						+ " not matched by a Rule in the UnitApplication, but was matched by "
@@ -554,21 +554,21 @@ public class Matches {
 	
 	/**
 	 * Asserts that an {@link EObject} is contained in n matches produced by the
-	 * {@link RuleApplicationImpl}s created by executing the {@link UnitApplicationImpl}
+	 * {@link RuleApplication}s created by executing the {@link UnitApplication}
 	 * .
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param element
 	 *            {@link EObject}
 	 * @param n
 	 *            number of times the element should be matched
 	 * @throws AssertionError
 	 */
-	public static void assertElementMatchedByUnitApplicationNTimes(UnitApplicationImpl ua,
+	public static void assertElementMatchedByUnitApplicationNTimes(UnitApplication ua,
 			EObject element, int n) throws AssertionError {
 		int ctr = n;
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
 			if (ra.getMatch().getNodeMapping().containsValue(element)) {
 				ctr--;
 			}
@@ -587,18 +587,18 @@ public class Matches {
 	
 	/**
 	 * Assert that the group (as a whole) is matched by the any
-	 * {@link RuleApplicationImpl} executed by the {@link UnitApplicationImpl}
+	 * {@link RuleApplication} executed by the {@link UnitApplication}
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupMatchedByUnitApplication(UnitApplicationImpl ua,
+	public static void assertGroupMatchedByUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
-			if (ra.getMatch().getNodeMapping().values().containsAll(group)) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
+			if (ra.getMatch().getAllNodeTargets().containsAll(group)) {
 				return;
 			}
 		}
@@ -608,18 +608,18 @@ public class Matches {
 	
 	/**
 	 * Assert that the group (as a whole) is not matched by any
-	 * {@link RuleApplicationImpl} executed by the {@link UnitApplicationImpl}
+	 * {@link RuleApplication} executed by the {@link UnitApplication}
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupNotMatchedByUnitApplication(UnitApplicationImpl ua,
+	public static void assertGroupNotMatchedByUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
-			if (ra.getMatch().getNodeMapping().values().containsAll(group)) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
+			if (ra.getMatch().getAllNodeTargets().containsAll(group)) {
 				throw new AssertionError("expected: Group not matched by unit application");
 			}
 		}
@@ -627,17 +627,17 @@ public class Matches {
 	
 	/**
 	 * Assert that no element in the specified group is matched by any
-	 * {@link RuleApplicationImpl} executed by the {@link UnitApplicationImpl}.
+	 * {@link RuleApplication} executed by the {@link UnitApplication}.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertNoElementInGroupMatchedByAnyRuleInUnitApplication(UnitApplicationImpl ua,
+	public static void assertNoElementInGroupMatchedByAnyRuleInUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
-		for (RuleApplicationImpl ra : ua.getAppliedRules()) {
+		for (RuleApplication ra : ua.getAppliedRules()) {
 			for (EObject eo : group) {
 				if (ra.getMatch().getNodeMapping().containsValue(eo)) {
 					throw new AssertionError(
@@ -650,16 +650,16 @@ public class Matches {
 	
 	/**
 	 * Assert that all elements contained in the specified group are matched by
-	 * the {@link UnitApplicationImpl}, i.e. each element is matched at least once
-	 * by at least one executed {@link RuleApplicationImpl}
+	 * the {@link UnitApplication}, i.e. each element is matched at least once
+	 * by at least one executed {@link RuleApplication}
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertAllElementsInGroupMatchedByUnitApplication(UnitApplicationImpl ua,
+	public static void assertAllElementsInGroupMatchedByUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
 		HashMap<EObject, Boolean> matchStatus = new HashMap<EObject, Boolean>(); // create
 																					// a
@@ -671,8 +671,8 @@ public class Matches {
 		}
 		
 		// iterate through the applied rules
-		for (RuleApplicationImpl ruleApp : ua.getAppliedRules()) {
-			for (EObject eo : ruleApp.getMatch().getNodeMapping().values()) {
+		for (RuleApplication ruleApp : ua.getAppliedRules()) {
+			for (EObject eo : ruleApp.getMatch().getAllNodeTargets()) {
 				if (matchStatus.containsKey(eo)) {
 					// if a matched object is contained in the group (and thus
 					// in the HashMap),
@@ -696,12 +696,12 @@ public class Matches {
 	 * {@link assertGroupContainedInAtLeastOneMatch})
 	 * 
 	 * @param ra
-	 *            {@link RuleApplicationImpl}
+	 *            {@link RuleApplication}
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupIsMatched(RuleApplicationImpl ra, Collection<? extends EObject> group)
+	public static void assertGroupIsMatched(RuleApplication ra, Collection<? extends EObject> group)
 			throws AssertionError {
 		HashMap<EObject, Boolean> matchContained = new HashMap<EObject, Boolean>();
 		for (EObject eo : group) {
@@ -709,7 +709,7 @@ public class Matches {
 		}
 		
 		for (Match m : ra.findAllMatches()) {
-			for (EObject eo2 : m.getNodeMapping().values()) {
+			for (EObject eo2 : m.getAllNodeTargets()) {
 				matchContained.put(eo2, true);
 			}
 		}
@@ -726,7 +726,7 @@ public class Matches {
 	}
 	
 	/**
-	 * Asserts that a {@link RuleApplicationImpl} matches all elements from the
+	 * Asserts that a {@link RuleApplication} matches all elements from the
 	 * group (not neccessarily in one match) and the match doesn't contain any
 	 * objects not in the group.
 	 * 
@@ -734,9 +734,9 @@ public class Matches {
 	 * @param group
 	 * @throws AssertionError
 	 */
-	public static void assertOnlyGroupIsMatched(RuleApplicationImpl ra,
+	public static void assertOnlyGroupIsMatched(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
-		if ((ra.getInterpreterEngine() instanceof EmfEngine) &&
+		if ((ra.getInterpreterEngine() instanceof Engine) &&
 				(!(ra.getRule().isInjectiveMatching()))) {
 //				&& (!(((EmfEngine) ra.getInterpreterEngine()).getOptions().isInjective()))) {
 			// non-injective mode
@@ -751,7 +751,7 @@ public class Matches {
 			}
 			
 			for (Match m : ra.findAllMatches()) {
-				for (EObject eo : m.getNodeMapping().values()) {
+				for (EObject eo : m.getAllNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, matchContents.get(eo) - 1);
 					} else {
@@ -776,7 +776,7 @@ public class Matches {
 			}
 			
 			for (Match m : ra.findAllMatches()) {
-				for (EObject eo : m.getNodeMapping().values()) {
+				for (EObject eo : m.getAllNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, true);
 					} else {
@@ -811,7 +811,7 @@ public class Matches {
 			}
 		}
 		
-		for (EObject eo : match.getNodeMapping().values()) {
+		for (EObject eo : match.getAllNodeTargets()) {
 			if (group.contains(eo)) {
 				matchContents.put(eo, matchContents.get(eo) - 1);
 			} else {

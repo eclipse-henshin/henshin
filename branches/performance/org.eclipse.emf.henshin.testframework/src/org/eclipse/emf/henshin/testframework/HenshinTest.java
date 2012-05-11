@@ -16,13 +16,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.matching.util.TransformationOptions;
-import org.eclipse.emf.henshin.interpreter.RuleApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -36,12 +37,12 @@ import org.junit.After;
  * variables:
  * <ul>
  * <li>htTransformationSystem	-- {@link TransformationSystem}</li>
- * <li>htEngine 				-- {@link EmfEngine}</li>
- * <li>htEmfGraph	 			-- engine's {@link EmfGraph}</li>
+ * <li>htEngine 				-- {@link Engine}</li>
+ * <li>htEmfGraph	 			-- {@link EGraph}</li>
  * <li>htRule	 				-- {@link Rule}</li>
- * <li>htRuleApp	 			-- corresponding {@link RuleApplicationImpl}</li>
+ * <li>htRuleApp	 			-- corresponding {@link RuleApplication}</li>
  * <li>htTransUnit	 			-- {@link TransformationUnit}</li>
- * <li>htUnitApp	 			-- corresponding {@link UnitApplicationImpl}</li>
+ * <li>htUnitApp	 			-- corresponding {@link UnitApplication}</li>
  * </ul>
  * 
  * @author Felix Rieger
@@ -57,31 +58,31 @@ public class HenshinTest {
 	/**
 	 * EmfEngine which has been automatically loaded and set-up for you to use.
 	 */
-	protected EmfEngine htEngine; // EmfEngine
+	protected Engine htEngine; // EmfEngine
 	/**
 	 * engine's graph.
 	 */
-	protected EmfGraph htEmfGraph; // engine's EmfGraph
+	protected EGraph htEmfGraph; // engine's EmfGraph
 	
 	/**
 	 * When calling loadRule(), this will be the loaded {@link Rule}.
 	 */
 	protected Rule htRule; // Rule
 	/**
-	 * When calling loadRule(), this will be the {@link RuleApplicationImpl} created
+	 * When calling loadRule(), this will be the {@link RuleApplication} created
 	 * from engine and the loaded {@link Rule}.
 	 */
-	protected RuleApplicationImpl htRuleApp; // corresponding RuleApplication
+	protected RuleApplication htRuleApp; // corresponding RuleApplication
 	/**
 	 * When calling loadTu(), this will be the loaded {@link TransformationUnit}
 	 * .
 	 */
 	protected TransformationUnit htTransUnit; // TransformationUnit
 	/**
-	 * When calling loadTu(), this will be the {@link UnitApplicationImpl} created
+	 * When calling loadTu(), this will be the {@link UnitApplication} created
 	 * from engine and the loaded {@link TransformationUnit}.
 	 */
-	protected UnitApplicationImpl htUnitApp; // corresponding UnitApplication
+	protected UnitApplication htUnitApp; // corresponding UnitApplication
 	/**
 	 * This gets prepended to the file name when loading a graph from file via
 	 * loadGraph
@@ -106,8 +107,8 @@ public class HenshinTest {
 	 * setUp() method.<br />
 	 * <strong>Attention:</strong> This method will not load a model, which has
 	 * to be loaded manually (don't forget to set <em>htEngine</em> and
-	 * <em>htEmfGraph</em> to the corresponding {@link EmfEngine} and its
-	 * {@link EmfGraph} as well). Otherwise, other methods will not work
+	 * <em>htEmfGraph</em> to the corresponding {@link Engine} and its
+	 * {@link EGraph} as well). Otherwise, other methods will not work
 	 * (especially loadRule and loadTu).<br />
 	 * 
 	 * @param henshinFile
@@ -149,15 +150,15 @@ public class HenshinTest {
 	 * @param modelFileExt
 	 *            model file extension
 	 * @param options
-	 *            {@link TransformationOptions} the {@link EmfEngine} should use
+	 *            Options for the engige
 	 * @throws Exception
 	 */
 
 	protected void init(String henshinFile, String modelFile, String modelFileExt,
-			TransformationOptions options) throws Exception {
+			Map<String,Object> options) throws Exception {
 		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
 		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
-		htEngine.setOptions(options);
+		htEngine.getOptions().putAll(options);
 		htEmfGraph = htEngine.getEmfGraph();
 	}
 	
@@ -194,13 +195,13 @@ public class HenshinTest {
 	 * @param modelFileExt
 	 *            model file extension
 	 * @param options
-	 *            {@link TransformationOptions} the {@link EmfEngine} should use
+	 *            {@link TransformationOptions} the {@link Engine} should use
 	 * @throws Exception
 	 */
-	protected void init(String modelFile, String modelFileExt, TransformationOptions options)
+	protected void init(String modelFile, String modelFileExt, Map<String,Object> options)
 			throws Exception {
 		htEngine = HenshinLoaders.loadEngine(modelFile, modelFileExt);
-		htEngine.setOptions(options);
+		htEngine.getOptions().putAll(options);
 		htEmfGraph = htEngine.getEmfGraph();
 	}
 	
@@ -213,7 +214,9 @@ public class HenshinTest {
 	 */
 	protected void loadRule(String ruleName) {
 		htRule = htTransformationSystem.findRuleByName(ruleName);
-		htRuleApp = new RuleApplicationImpl(htEngine, htRule);
+		htRuleApp = InterpreterFactory.INSTANCE.createRuleApplication(htEngine);
+		htRuleApp.setRule(htRule);
+		htRuleApp.setEGraph(htEmfGraph);
 	}
 	
 	/**
@@ -247,7 +250,11 @@ public class HenshinTest {
 	
 	protected void loadRule(String ruleName, Map<String, Object> paramMappings) {
 		loadRule(ruleName);
-		htRuleApp.setParameterValues(paramMappings);
+		if (paramMappings!=null) {
+			for (Entry<String,Object> entry : paramMappings.entrySet()) {
+				htRuleApp.setParameterValue(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 	
 	/**
@@ -261,7 +268,9 @@ public class HenshinTest {
 	 */
 	protected void loadTu(String unitName) {
 		htTransUnit = htTransformationSystem.findUnitByName(unitName);
-		htUnitApp = new UnitApplicationImpl(htEngine, htTransUnit);
+		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
+		htUnitApp.setUnit(htTransUnit);
+		htUnitApp.setEGraph(htEmfGraph);
 	}
 	
 	/**
@@ -295,16 +304,20 @@ public class HenshinTest {
 	 */
 	protected void loadTu(String unitName, Map<String, Object> paramMappings) {
 		loadTu(unitName);
-		htUnitApp.setParameterValues(paramMappings);
+		if (paramMappings!=null) {
+			for (Entry<String,Object> entry : paramMappings.entrySet()) {
+				htUnitApp.setParameterValue(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 	
 	/**
 	 * Load a graph and create a new EmfEngine for the graph (htEngine)
 	 * @param graph
 	 */
-	protected void loadGraph(EmfGraph graph) {
+	protected void loadGraph(EGraph graph) {
 		htEmfGraph = graph;
-		htEngine = new EmfEngine(htEmfGraph);
+		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
 	/**

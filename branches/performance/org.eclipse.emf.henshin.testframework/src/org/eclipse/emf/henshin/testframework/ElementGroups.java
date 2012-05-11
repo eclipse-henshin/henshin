@@ -14,15 +14,14 @@ package org.eclipse.emf.henshin.testframework;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 
 /**
  * Assertions for element groups, i.e. {@link Collection}s of {@link EObject}s.<br />
  * For everything related to matches, see {@link Matches}
  * 
  * @see Matches
- * @author Felix Rieger
- * @author Stefan Jurack (sjurack)
+ * @author Felix Rieger, Stefan Jurack, Christian Krause
  * 
  */
 public class ElementGroups {
@@ -37,12 +36,12 @@ public class ElementGroups {
 	 *            {@link Collection} of {@link EObject}s containing the elements
 	 *            to check
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @throws AssertionError
 	 */
-	public static void assertElementGroupDeleted(Collection<? extends EObject> group, EmfGraph graph)
+	public static void assertElementGroupDeleted(Collection<? extends EObject> group, EGraph graph)
 			throws AssertionError {
-		if (graph.geteObjects().containsAll(group)) {
+		if (graph.containsAll(group)) {
 			throw new AssertionError(
 					"expected: Any element in the specified element group deleted, but group still exists in its entirety.");
 		}
@@ -57,16 +56,15 @@ public class ElementGroups {
 	 *            {@link Collection} of {@link EObject}s containing the elements
 	 *            to check
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @throws AssertionError
 	 */
 	public static void assertAllElementsFromElementGroupDeleted(
-			Collection<? extends EObject> group, EmfGraph graph) throws AssertionError {
+			Collection<? extends EObject> group, EGraph graph) throws AssertionError {
 		assertElementGroupDeleted(group, graph);
 		
-		Collection<EObject> graphObjects = graph.geteObjects();
 		for (EObject eo : group) {
-			if (graphObjects.contains(eo)) {
+			if (graph.contains(eo)) {
 				throw new AssertionError(
 						"expected: All elements from the specified group deleted, but at least one element still exists in graph.");
 			}
@@ -82,15 +80,14 @@ public class ElementGroups {
 	 *            {@link Collection} of {@link EObject}s containing the elements
 	 *            to check
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraphImpl}
 	 * @throws AssertionError
 	 */
 	public static void assertNoElementFromElementGroupDeleted(Collection<? extends EObject> group,
-			EmfGraph graph) throws AssertionError {
-		Collection<EObject> graphObjects = graph.geteObjects();
+			EGraph graph) throws AssertionError {
 		
 		for (EObject eo : group) {
-			if (!(graphObjects.contains(eo))) {
+			if (!(graph.contains(eo))) {
 				throw new AssertionError(
 						"expected: No element from group deleted, but at least one element was deleted.");
 			}

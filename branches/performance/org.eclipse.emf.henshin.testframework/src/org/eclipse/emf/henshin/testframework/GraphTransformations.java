@@ -24,10 +24,10 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.RuleApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -50,10 +50,10 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsIdentical(Rule r, EmfEngine engine)
+	public static void assertNumberOfObjectsIdentical(Rule r, Engine engine)
 			throws AssertionError {
 		TransformationUnit tu = createTUFromRule(r);
 		
@@ -67,11 +67,11 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsIdentical(Rule r, EmfGraph graph) throws AssertionError {
-		assertNumberOfObjectsIdentical(r, new EmfEngine(graph));
+	public static void assertNumberOfObjectsIdentical(Rule r, EGraph graph) throws AssertionError {
+		assertNumberOfObjectsIdentical(r, new Engine(graph));
 	}
 	
 	/**
@@ -81,28 +81,28 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsIdentical(TransformationUnit tu, EmfEngine engine)
+	public static void assertNumberOfObjectsIdentical(TransformationUnit tu, Engine engine)
 			throws AssertionError {
-		assertNumberOfObjectsIdentical(new UnitApplicationImpl(engine, tu));
+		assertNumberOfObjectsIdentical(new UnitApplication(engine, tu));
 	}
 	
 	/**
-	 * Assert that the number of objects in the {@link UnitApplicationImpl}'s graph
+	 * Assert that the number of objects in the {@link UnitApplication}'s graph
 	 * is identical before and after its execution.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsIdentical(UnitApplicationImpl ua) throws AssertionError {
+	public static void assertNumberOfObjectsIdentical(UnitApplication ua) throws AssertionError {
 		int[] sizes = Tools.getGraphSizes(ua);
 		
 		if (sizes[0] != sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
-					+ ua.getTransformationUnit().getName() + " identical. Values: <" + sizes[0]
+					+ ua.getUnit().getName() + " identical. Values: <" + sizes[0]
 					+ "> -> <" + sizes[1] + ">");
 		}
 	}
@@ -116,11 +116,11 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(Rule r, EmfGraph graph) throws AssertionError {
-		assertNumberOfObjectsChanged(r, new EmfEngine(graph));
+	public static void assertNumberOfObjectsChanged(Rule r, EGraph graph) throws AssertionError {
+		assertNumberOfObjectsChanged(r, new Engine(graph));
 	}
 	
 	/**
@@ -130,10 +130,10 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(Rule r, EmfEngine engine) throws AssertionError {
+	public static void assertNumberOfObjectsChanged(Rule r, Engine engine) throws AssertionError {
 		assertNumberOfObjectsChanged(createTUFromRule(r), engine);
 	}
 	
@@ -144,28 +144,28 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(TransformationUnit tu, EmfEngine engine)
+	public static void assertNumberOfObjectsChanged(TransformationUnit tu, Engine engine)
 			throws AssertionError {
-		assertNumberOfObjectsChanged(new UnitApplicationImpl(engine, tu));
+		assertNumberOfObjectsChanged(new UnitApplication(engine, tu));
 	}
 	
 	/**
-	 * Assert that the number of objects in the {@link UnitApplicationImpl}'s graph
+	 * Assert that the number of objects in the {@link UnitApplication}'s graph
 	 * is not identical before and after its execution
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @throws AssertionError
 	 */
-	public static void assertNumberOfObjectsChanged(UnitApplicationImpl ua) throws AssertionError {
+	public static void assertNumberOfObjectsChanged(UnitApplication ua) throws AssertionError {
 		int[] sizes = getGraphSizes(ua);
 		
 		if (sizes[0] == sizes[1]) {
 			throw new AssertionError("expected: Number of elements before and after execution of "
-					+ ua.getTransformationUnit().getName() + " different. Values: <" + sizes[0]
+					+ ua.getUnit().getName() + " different. Values: <" + sizes[0]
 					+ "> -> <" + sizes[1] + ">");
 		}
 	}
@@ -181,16 +181,16 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(Rule r, EmfGraph graph,
+	public static void assertGraphIsNotChanged(Rule r, EGraph graph,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertGraphIsNotChanged(createTUFromRule(r), new EmfEngine(graph), matchSimilarityThreshold);
+		assertGraphIsNotChanged(createTUFromRule(r), new Engine(graph), matchSimilarityThreshold);
 	}
 	
 	/**
@@ -202,14 +202,14 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(Rule r, EmfEngine engine,
+	public static void assertGraphIsNotChanged(Rule r, Engine engine,
 			double matchSimilarityThreshold) throws AssertionError {
 		assertGraphIsNotChanged(createTUFromRule(r), engine, matchSimilarityThreshold);
 	}
@@ -223,47 +223,47 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfComare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(TransformationUnit tu, EmfEngine engine,
+	public static void assertGraphIsNotChanged(TransformationUnit tu, Engine engine,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertGraphIsNotChanged(new UnitApplicationImpl(engine, tu), matchSimilarityThreshold);
+		assertGraphIsNotChanged(new UnitApplication(engine, tu), matchSimilarityThreshold);
 	}
 	
 	/**
-	 * Assert that the {@link UnitApplicationImpl}'s graph is not changed by its
+	 * Assert that the {@link UnitApplication}'s graph is not changed by its
 	 * execution.<br>
 	 * <strong><div style="background-color: red">Graphs with multiple root
 	 * objects are not supported yet.</div></strong>
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertGraphIsNotChanged(UnitApplicationImpl ua, double matchSimilarityThreshold)
+	public static void assertGraphIsNotChanged(UnitApplication ua, double matchSimilarityThreshold)
 			throws AssertionError {
 		// TODO: support multiple root nodes
 		
-		if (((EmfEngine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
-		EmfGraph graph = ((EmfEngine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
 		Collection<EObject> rootObjects = graph.getRootObjects();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
 		EObject rootOrig = rootObjectArr[0];
 		
-		ua.execute();
+		ua.execute(null);
 		
 		MatchModel matchM;
 		try {
@@ -300,16 +300,16 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param graph2
-	 *            {@link EmfGraph} to compare the engine's graph with
+	 *            {@link EGraph} to compare the engine's graph with
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(Rule r, EmfEngine engine, EmfGraph graph2,
+	public static void assertTransformsGraph(Rule r, Engine engine, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		assertTransformsGraph(createTUFromRule(r), engine, graph2, matchSimilarityThreshold);
 	}
@@ -321,16 +321,16 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param graph2
-	 *            {@link EmfGraph} to compare graph with
+	 *            {@link EGraph} to compare graph with
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(Rule r, EmfGraph graph, EmfGraph graph2,
+	public static void assertTransformsGraph(Rule r, EGraph graph, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		assertTransformsGraph(createTUFromRule(r), graph, graph2, matchSimilarityThreshold);
 	}
@@ -342,18 +342,18 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param graph
-	 *            {@link EmfGraph} to execute {@link TransformationUnit} on
+	 *            {@link EGraph} to execute {@link TransformationUnit} on
 	 * @param graph2
-	 *            {@link EmfGraph} to compare graph with
+	 *            {@link EGraph} to compare graph with
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(TransformationUnit tu, EmfGraph graph,
-			EmfGraph graph2, double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(tu, new EmfEngine(graph), graph2, matchSimilarityThreshold);
+	public static void assertTransformsGraph(TransformationUnit tu, EGraph graph,
+			EGraph graph2, double matchSimilarityThreshold) throws AssertionError {
+		assertTransformsGraph(tu, new Engine(graph), graph2, matchSimilarityThreshold);
 	}
 	
 	/**
@@ -363,28 +363,28 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed by the engine
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param graph2
-	 *            {@link EmfGraph} to compare engine's graph with
+	 *            {@link EGraph} to compare engine's graph with
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
 	 *            including) this are considered as mapped. Range [0..1]. 0.9 is
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(TransformationUnit tu, EmfEngine engine,
-			EmfGraph graph2, double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsGraph(new UnitApplicationImpl(engine, tu), graph2, matchSimilarityThreshold);
+	public static void assertTransformsGraph(TransformationUnit tu, Engine engine,
+			EGraph graph2, double matchSimilarityThreshold) throws AssertionError {
+		assertTransformsGraph(new UnitApplication(engine, tu), graph2, matchSimilarityThreshold);
 	}
 	
 	/**
-	 * Assert that the {@link UnitApplicationImpl}'s graph and specified graph are
+	 * Assert that the {@link UnitApplication}'s graph and specified graph are
 	 * equal after execution.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl} to be executed
+	 *            {@link UnitApplication} to be executed
 	 * @param graph2
-	 *            {@link EmfGraph} to compare {@link UnitApplicationImpl}'s graph
+	 *            {@link EGraph} to compare {@link UnitApplication}'s graph
 	 *            with
 	 * @param matchSimilarityThreshold
 	 *            similarity for EmfCompare's mapping. Values above (and
@@ -392,14 +392,14 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsGraph(UnitApplicationImpl ua, EmfGraph graph2,
+	public static void assertTransformsGraph(UnitApplication ua, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		
-		ua.execute();
+		ua.execute(null);
 		
-		if (!(graphsEqual(((EmfEngine) ua.getInterpreterEngine()).getEmfGraph(), graph2,
+		if (!(graphsEqual(((Engine) ua.getInterpreterEngine()).getEmfGraph(), graph2,
 				matchSimilarityThreshold))) {
-			Tools.printGraph(((EmfEngine) ua.getInterpreterEngine()).getEmfGraph());
+			Tools.printGraph(((Engine) ua.getInterpreterEngine()).getEmfGraph());
 			throw new AssertionError("expected: Execution of "
 					+ ua.getTransformationUnit().getName()
 					+ " transforms graph into specified graph, but doesn't.");
@@ -407,14 +407,14 @@ public class GraphTransformations {
 		
 	}
 	
-	public static void assertTransformsGraph(RuleApplicationImpl ra, EmfGraph graph2,
+	public static void assertTransformsGraph(RuleApplication ra, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		
-		ra.apply();
+		ra.execute(null);
 		
-		if (!(graphsEqual(((EmfEngine) ra.getInterpreterEngine()).getEmfGraph(), graph2,
+		if (!(graphsEqual(((Engine) ra.getInterpreterEngine()).getEmfGraph(), graph2,
 				matchSimilarityThreshold))) {
-			Tools.printGraph(((EmfEngine) ra.getInterpreterEngine()).getEmfGraph());
+			Tools.printGraph(((Engine) ra.getInterpreterEngine()).getEmfGraph());
 			throw new AssertionError("expected: Execution of " + ra.getRule().getName()
 					+ " transforms graph into specified graph, but doesn't.");
 		}
@@ -428,13 +428,13 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param n
 	 *            number of elements that should be deleted after application
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(Rule r, EmfGraph graph, int n) throws AssertionError {
-		assertNObjectsDeleted(r, new EmfEngine(graph), n);
+	public static void assertNObjectsDeleted(Rule r, EGraph graph, int n) throws AssertionError {
+		assertNObjectsDeleted(r, new Engine(graph), n);
 	}
 	
 	/**
@@ -444,12 +444,12 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param n
 	 *            number of elements that should be deleted after application
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(Rule r, EmfEngine engine, int n) throws AssertionError {
+	public static void assertNObjectsDeleted(Rule r, Engine engine, int n) throws AssertionError {
 		assertNObjectsDeleted(createTUFromRule(r), engine, n);
 	}
 	
@@ -460,14 +460,14 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param n
 	 *            number of elements that should be deleted after execution
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(TransformationUnit tu, EmfGraph graph, int n)
+	public static void assertNObjectsDeleted(TransformationUnit tu, EGraph graph, int n)
 			throws AssertionError {
-		assertNObjectsDeleted(tu, new EmfEngine(graph), n);
+		assertNObjectsDeleted(tu, new Engine(graph), n);
 	}
 	
 	/**
@@ -477,35 +477,35 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param n
 	 *            number of elements that should be deleted after execution
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(TransformationUnit tu, EmfEngine engine, int n)
+	public static void assertNObjectsDeleted(TransformationUnit tu, Engine engine, int n)
 			throws AssertionError {
-		assertNObjectsDeleted(new UnitApplicationImpl(engine, tu), n);
+		assertNObjectsDeleted(new UnitApplication(engine, tu), n);
 	}
 	
 	/**
-	 * Asserts that n objects were deleted from the {@link UnitApplicationImpl}'s
+	 * Asserts that n objects were deleted from the {@link UnitApplication}'s
 	 * graph by its execution.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param n
 	 *            number of objects that should have been deleted
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsDeleted(UnitApplicationImpl ua, int n) throws AssertionError {
-		if (((EmfEngine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+	public static void assertNObjectsDeleted(UnitApplication ua, int n) throws AssertionError {
+		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
 		// copy root object
 		
-		EmfGraph graph = ((EmfEngine) ua.getInterpreterEngine()).getEmfGraph();
-		Collection<EObject> rootObjects = graph.getRootObjects();
+		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
+		Collection<EObject> rootObjects = graph.getRoots();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
 		EObject rootOrig = rootObjectArr[0];
@@ -542,13 +542,13 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param n
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(Rule r, EmfGraph graph, int n) throws AssertionError {
-		assertNObjectsCreated(r, new EmfEngine(graph), n);
+	public static void assertNObjectsCreated(Rule r, EGraph graph, int n) throws AssertionError {
+		assertNObjectsCreated(r, new Engine(graph), n);
 	}
 	
 	/**
@@ -558,12 +558,12 @@ public class GraphTransformations {
 	 * @param r
 	 *            {@link Rule}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param n
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(Rule r, EmfEngine engine, int n) throws AssertionError {
+	public static void assertNObjectsCreated(Rule r, Engine engine, int n) throws AssertionError {
 		assertNObjectsCreated(createTUFromRule(r), engine, n);
 	}
 	
@@ -574,14 +574,14 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param graph
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param n
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(TransformationUnit tu, EmfGraph graph, int n)
+	public static void assertNObjectsCreated(TransformationUnit tu, EGraph graph, int n)
 			throws AssertionError {
-		assertNObjectsCreated(tu, new EmfEngine(graph), n);
+		assertNObjectsCreated(tu, new Engine(graph), n);
 	}
 	
 	/**
@@ -591,32 +591,32 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit}
 	 * @param engine
-	 *            {@link EmfEngine}
+	 *            {@link Engine}
 	 * @param n
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(TransformationUnit tu, EmfEngine engine, int n)
+	public static void assertNObjectsCreated(TransformationUnit tu, Engine engine, int n)
 			throws AssertionError {
-		assertNObjectsCreated(new UnitApplicationImpl(engine, tu), n);
+		assertNObjectsCreated(new UnitApplication(engine, tu), n);
 	}
 	
 	/**
 	 * Asserts that n objects will be created by executing the specified
-	 * {@link UnitApplicationImpl}
+	 * {@link UnitApplication}
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl}
+	 *            {@link UnitApplication}
 	 * @param n
 	 *            number of objects that should have been created
 	 * @throws AssertionError
 	 */
-	public static void assertNObjectsCreated(UnitApplicationImpl ua, int n) throws AssertionError {
-		if (((EmfEngine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+	public static void assertNObjectsCreated(UnitApplication ua, int n) throws AssertionError {
+		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
-		EmfGraph graph = ((EmfEngine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
 		Collection<EObject> rootObjects = graph.getRootObjects();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
@@ -650,25 +650,25 @@ public class GraphTransformations {
 	// -----
 	// TODO: test
 	/**
-	 * Assert that the specified {@link Rule} is applied to the {@link EmfGraph}
+	 * Assert that the specified {@link Rule} is applied to the {@link EGraph}
 	 * so that:
 	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link EmfGraph} graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link EmfGraph} graph after the
+	 * <li>subgraphBefore is a subgraph of the {@link EGraph} graph</li>
+	 * <li>subgraphAfter is a subgraph of the {@link EGraph} graph after the
 	 * {@link Rule} has been applied to it.</li>
 	 * <li>the {@link Rule} is actually applied.</li>
 	 * </ul>
 	 * 
 	 * @param r
-	 *            {@link Rule} to be applied to the {@link EmfGraph}
+	 *            {@link Rule} to be applied to the {@link EGraph}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link Rule} should be applied to
+	 *            {@link EGraph} the {@link Rule} should be applied to
 	 * @param subgraphBefore
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfGraph} graph before applying the {@link Rule}
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link EGraph} graph before applying the {@link Rule}
 	 * @param subgraphAfter
-	 *            {@link EmfGraph} that should be contianed in the
-	 *            {@link EmfGraph} graph after applying the {@link Rule}
+	 *            {@link EGraph} that should be contianed in the
+	 *            {@link EGraph} graph after applying the {@link Rule}
 	 * @param ignoreChanges
 	 *            when deciding whether subgraphBefore and subgraphAfter are
 	 *            subgraphs, ignore value changes. Set this if only the
@@ -680,8 +680,8 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsSubgraph(Rule r, EmfGraph graph, EmfGraph subgraphBefore,
-			EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
+	public static void assertTransformsSubgraph(Rule r, EGraph graph, EGraph subgraphBefore,
+			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
 			throws AssertionError {
 		assertTransformsSubgraph(createTUFromRule(r), graph, subgraphBefore, subgraphAfter,
 				ignoreChanges, matchSimilarityThreshold);
@@ -689,24 +689,24 @@ public class GraphTransformations {
 	
 	/**
 	 * Assert that the specified {@link Rule} is applied by the
-	 * {@link EmfEngine} so that:
+	 * {@link Engine} so that:
 	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link EmfEngine}'s graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link EmfEngine}'s graph after
+	 * <li>subgraphBefore is a subgraph of the {@link Engine}'s graph</li>
+	 * <li>subgraphAfter is a subgraph of the {@link Engine}'s graph after
 	 * the {@link Rule} has been applied.</li>
 	 * <li>the {@link Rule} is actually applied.</li>
 	 * </ul>
 	 * 
 	 * @param r
-	 *            {@link Rule} to be applied by the {@link EmfEngine}.
+	 *            {@link Rule} to be applied by the {@link Engine}.
 	 * @param engine
-	 *            {@link EmfEngine} that should apply the {@link Rule}
+	 *            {@link Engine} that should apply the {@link Rule}
 	 * @param subgraphBefore
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfEngine}'s graph before applying the {@link Rule}
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link Engine}'s graph before applying the {@link Rule}
 	 * @param subgraphAfter
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfEngine}'s graph after applying the {@link Rule}
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link Engine}'s graph after applying the {@link Rule}
 	 * @param ignoreChanges
 	 *            when deciding whether subgraphBefore and subgraphAfter are
 	 *            subgraphs, ignore value changes. Set this if only the
@@ -718,8 +718,8 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsSubgraph(Rule r, EmfEngine engine, EmfGraph subgraphBefore,
-			EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
+	public static void assertTransformsSubgraph(Rule r, Engine engine, EGraph subgraphBefore,
+			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
 			throws AssertionError {
 		assertTransformsSubgraph(createTUFromRule(r), engine, subgraphBefore, subgraphAfter,
 				ignoreChanges, matchSimilarityThreshold);
@@ -727,7 +727,7 @@ public class GraphTransformations {
 	
 	/**
 	 * Assert that the specified {@link TransformationUnit} is executed on the
-	 * {@link EmfGraph} so that:
+	 * {@link EGraph} so that:
 	 * <ul>
 	 * <li>subgraphBefore is a subgraph of graph</li>
 	 * <li>subgraphAfter is a subgraph of graph after the
@@ -737,17 +737,17 @@ public class GraphTransformations {
 	 * 
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed on the
-	 *            {@link EmfGraph}
+	 *            {@link EGraph}
 	 * @param graph
-	 *            {@link EmfGraph} the {@link TransformationUnit} should be
+	 *            {@link EGraph} the {@link TransformationUnit} should be
 	 *            executed on
 	 * @param subgraphBefore
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfGraph} graph before executing the
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link EGraph} graph before executing the
 	 *            {@link TransformationUnit}
 	 * @param subgraphAfter
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfGraph} graph after executing the
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link EGraph} graph after executing the
 	 *            {@link TransformationUnit}
 	 * @param ignoreChanges
 	 *            when deciding whether subgraphBefore and subgraphAfter are
@@ -760,10 +760,10 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsSubgraph(TransformationUnit tu, EmfGraph graph,
-			EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges,
+	public static void assertTransformsSubgraph(TransformationUnit tu, EGraph graph,
+			EGraph subgraphBefore, EGraph subgraphAfter, boolean ignoreChanges,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsSubgraph(tu, new EmfEngine(graph), subgraphBefore, subgraphAfter,
+		assertTransformsSubgraph(tu, new Engine(graph), subgraphBefore, subgraphAfter,
 				ignoreChanges, matchSimilarityThreshold);
 	}
 	
@@ -771,8 +771,8 @@ public class GraphTransformations {
 	 * Assert that the specified {@TransformationUnit} is
 	 * executed so that:
 	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link EmfEngine}'s graph</li>
-	 * <li>subgraphAfter is a subgraph of the {@link EmfEngine}'s graph after
+	 * <li>subgraphBefore is a subgraph of the {@link Engine}'s graph</li>
+	 * <li>subgraphAfter is a subgraph of the {@link Engine}'s graph after
 	 * executing the {@link TransformationUnit}</lI>
 	 * <li>the {@link TransformationUnit} is actually executed</li>
 	 * </ul>
@@ -780,15 +780,15 @@ public class GraphTransformations {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed
 	 * @param engine
-	 *            {@link EmfEngine} the {@link TransformationUnit} should be
+	 *            {@link Engine} the {@link TransformationUnit} should be
 	 *            executed by
 	 * @param subgraphBefore
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfEngine}'s graph before executing the
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link Engine}'s graph before executing the
 	 *            {@link TransformationUnit}
 	 * @param subgraphAfter
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link EmfEngine}'s graph after executing the
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link Engine}'s graph after executing the
 	 *            {@link TransformationUnit}
 	 * @param ignoreChanges
 	 *            when deciding whether subgraphBefore and subgraphAfter are
@@ -801,31 +801,31 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsSubgraph(TransformationUnit tu, EmfEngine engine,
-			EmfGraph subgraphBefore, EmfGraph subgraphAfter, boolean ignoreChanges,
+	public static void assertTransformsSubgraph(TransformationUnit tu, Engine engine,
+			EGraph subgraphBefore, EGraph subgraphAfter, boolean ignoreChanges,
 			double matchSimilarityThreshold) throws AssertionError {
-		assertTransformsSubgraph(new UnitApplicationImpl(engine, tu), subgraphBefore, subgraphAfter,
+		assertTransformsSubgraph(new UnitApplication(engine, tu), subgraphBefore, subgraphAfter,
 				ignoreChanges, matchSimilarityThreshold);
 	}
 	
 	/**
-	 * Assert that the specified {@link UnitApplicationImpl} is executed so that:
+	 * Assert that the specified {@link UnitApplication} is executed so that:
 	 * <ul>
-	 * <li>subgraphBefore is a subgraph of the {@link UnitApplicationImpl}'s graph
+	 * <li>subgraphBefore is a subgraph of the {@link UnitApplication}'s graph
 	 * before execution.</li>
-	 * <li>subgraphAfter is a subgraph of the {@link UnitApplicationImpl}'s graph
+	 * <li>subgraphAfter is a subgraph of the {@link UnitApplication}'s graph
 	 * after execution.</li>
-	 * <li>{@link UnitApplicationImpl} is actually executed</li>
+	 * <li>{@link UnitApplication} is actually executed</li>
 	 * </ul>
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl} to be executed
+	 *            {@link UnitApplication} to be executed
 	 * @param subgraphBefore
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link UnitApplicationImpl}'s graph before its execution.
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link UnitApplication}'s graph before its execution.
 	 * @param subgraphAfter
-	 *            {@link EmfGraph} that should be contained in the
-	 *            {@link UnitApplicationImpl}'s graph after its execution.
+	 *            {@link EGraph} that should be contained in the
+	 *            {@link UnitApplication}'s graph after its execution.
 	 * @param ignoreChanges
 	 *            when deciding whether subgraphBefore and subgraphAfter are
 	 *            subgraphs, ignore value changes. Set this if only the
@@ -837,11 +837,11 @@ public class GraphTransformations {
 	 *            a good value to start with, adjust if problems occur.
 	 * @throws AssertionError
 	 */
-	public static void assertTransformsSubgraph(UnitApplicationImpl ua, EmfGraph subgraphBefore,
-			EmfGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
+	public static void assertTransformsSubgraph(UnitApplication ua, EGraph subgraphBefore,
+			EGraph subgraphAfter, boolean ignoreChanges, double matchSimilarityThreshold)
 			throws AssertionError {
 		MatchModel matchM;
-		EmfGraph mainGraph = ((EmfEngine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph mainGraph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
 		
 		// first, check if subgraphBefore is actually a subgraph of the
 		// UnitApplication's graph
@@ -947,16 +947,16 @@ public class GraphTransformations {
 		return Tools.createTUFromRule(r);
 	}
 	
-	private static int[] getGraphSizes(UnitApplicationImpl ua) {
+	private static int[] getGraphSizes(UnitApplication ua) {
 		return Tools.getGraphSizes(ua);
 	}
 	
-	private static boolean graphsEqual(EmfGraph graph1, EmfGraph graph2,
+	private static boolean graphsEqual(EGraph graph1, EGraph graph2,
 			double matchSimilarityThreshold) {
 		return Graphs.graphsEqual(graph1, graph2, matchSimilarityThreshold);
 	}
 	
-	private static EObject getGraphRoot(EmfGraph graph) {
+	private static EObject getGraphRoot(EGraph graph) {
 		return Tools.getGraphRoot(graph);
 	}
 }

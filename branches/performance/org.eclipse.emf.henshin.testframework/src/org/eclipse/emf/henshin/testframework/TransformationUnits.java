@@ -11,9 +11,9 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.testframework;
 
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.UnitApplicationImpl;
-import org.eclipse.emf.henshin.interpreter.impl.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -34,13 +34,13 @@ public class TransformationUnits {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed
 	 * @param graph
-	 *            {@link EmfGraph} the {@link TransformationUnit} should be
+	 *            {@link EGraph} the {@link TransformationUnit} should be
 	 *            executed on
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu,
-			EmfGraph graph) throws AssertionError {
-		assertTransformationUnitCanBeExecutedMultipleTimes(tu, new EmfEngine(graph));
+			EGraph graph) throws AssertionError {
+		assertTransformationUnitCanBeExecutedMultipleTimes(tu, new Engine(graph));
 	}
 	
 	/**
@@ -50,33 +50,33 @@ public class TransformationUnits {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed
 	 * @param engine
-	 *            {@link EmfEngine} the {@link TransformationUnit} should be
+	 *            {@link Engine} the {@link TransformationUnit} should be
 	 *            executed by
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu,
-			EmfEngine engine) throws AssertionError {
-		assertUnitApplicationCanBeExecutedMultipleTimes(new UnitApplicationImpl(engine, tu));
+			Engine engine) throws AssertionError {
+		assertUnitApplicationCanBeExecutedMultipleTimes(new UnitApplication(engine, tu));
 	}
 	
 	/**
-	 * Assert that the specified {@link UnitApplicationImpl} can be executed
+	 * Assert that the specified {@link UnitApplication} can be executed
 	 * multiple times.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl} to be executed
+	 *            {@link UnitApplication} to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplicationImpl ua)
+	public static void assertUnitApplicationCanBeExecutedMultipleTimes(UnitApplication ua)
 			throws AssertionError {
-		TransformationUnit tu = ua.getTransformationUnit();
-		EmfEngine engine = (EmfEngine) ua.getInterpreterEngine();
+		TransformationUnit tu = ua.getUnit();
+		Engine engine = (Engine) ua.getInterpreterEngine();
 		
 		ua.execute();
 		if (ua.getAppliedRules().size() > 0) {
 			// first execution successful, now execute a second time
 			
-			UnitApplicationImpl ua2 = new UnitApplicationImpl(engine, tu);
+			UnitApplication ua2 = new UnitApplication(engine, tu);
 			ua2.execute();
 			if (ua2.getAppliedRules().size() > 0) {
 				// success!
@@ -97,7 +97,7 @@ public class TransformationUnits {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed
 	 * @param graph
-	 *            {@link EmfGraph} the {@link TransformationUnit} should be
+	 *            {@link EGraph} the {@link TransformationUnit} should be
 	 *            executed on
 	 * @param n
 	 *            minimum number of times the {@link TransformationUnit} should
@@ -105,8 +105,8 @@ public class TransformationUnits {
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu,
-			EmfGraph graph, int n) throws AssertionError {
-		assertTransformationUnitCanBeExecutedNTimes(tu, new EmfEngine(graph), n);
+			EGraph graph, int n) throws AssertionError {
+		assertTransformationUnitCanBeExecutedNTimes(tu, new Engine(graph), n);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class TransformationUnits {
 	 * @param tu
 	 *            {@link TransformationUnit} to be executed
 	 * @param engine
-	 *            {@link EmfEngine} the {@link TransformationUnit} should be
+	 *            {@link Engine} the {@link TransformationUnit} should be
 	 *            executed by
 	 * @param n
 	 *            minimum number of times the {@link TransformationUnit} should
@@ -124,28 +124,28 @@ public class TransformationUnits {
 	 * @throws AssertionError
 	 */
 	public static void assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu,
-			EmfEngine engine, int n) throws AssertionError {
-		assertUnitApplicationCanBeExecutedNTimes(new UnitApplicationImpl(engine, tu), n);
+			Engine engine, int n) throws AssertionError {
+		assertUnitApplicationCanBeExecutedNTimes(new UnitApplication(engine, tu), n);
 	}
 	
 	/**
-	 * Assert that the specified {@link UnitApplicationImpl} can be executed at
+	 * Assert that the specified {@link UnitApplication} can be executed at
 	 * least n times.
 	 * 
 	 * @param ua
-	 *            {@link UnitApplicationImpl} to be executed
+	 *            {@link UnitApplication} to be executed
 	 * @param n
-	 *            minimum number of times the {@link UnitApplicationImpl} should be
+	 *            minimum number of times the {@link UnitApplication} should be
 	 *            able to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertUnitApplicationCanBeExecutedNTimes(UnitApplicationImpl ua, int n)
+	public static void assertUnitApplicationCanBeExecutedNTimes(UnitApplication ua, int n)
 			throws AssertionError {
-		TransformationUnit tu = ua.getTransformationUnit();
-		EmfEngine engine = (EmfEngine) ua.getInterpreterEngine();
+		TransformationUnit tu = ua.getUnit();
+		Engine engine = (Engine) ua.getInterpreterEngine();
 		
 		for (int i = 0; i < n; i++) {
-			UnitApplicationImpl ua2 = new UnitApplicationImpl(engine, tu);
+			UnitApplication ua2 = new UnitApplication(engine, tu);
 			ua2.execute();
 			if (ua2.getAppliedRules().size() > 0) {
 				// do nothing
@@ -157,14 +157,14 @@ public class TransformationUnits {
 		
 	}
 	
-	public static void assertTuCanBeExecuted(UnitApplicationImpl ua) throws AssertionError {
-		if (!(ua.execute())) {
+	public static void assertTuCanBeExecuted(UnitApplication ua) throws AssertionError {
+		if (!(ua.execute(null))) {
 			throw new AssertionError("expected: UnitApplication can be executed.");
 		}
 	}
 	
-	public static void assertTuCanNotBeExecuted(UnitApplicationImpl ua) throws AssertionError {
-		if (ua.execute()) {
+	public static void assertTuCanNotBeExecuted(UnitApplication ua) throws AssertionError {
+		if (ua.execute(null)) {
 			throw new AssertionError("expected: UnitApplication can not be executed.");
 		}
 	}
