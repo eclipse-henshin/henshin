@@ -56,6 +56,16 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		EcorePackage.eINSTANCE.getName();
 		HenshinPackage.eINSTANCE.getName();
 		
+		// Try to load the trace model too:
+		try {
+			Class<?> clazz = Class.forName("org.eclipse.emf.henshin.trace.impl.TracePackageImpl");
+			if (clazz!=null) {
+				clazz.getMethod("init").invoke(clazz);
+			}
+		} catch (Throwable t) {
+			// do nothing
+		}
+		
 		// Register XMI file resource factories:
 		registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");
 		
@@ -122,6 +132,22 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
+	 * Loads a resource for the given file name and returns the first
+	 * object contained in it. If the path is relative, it will be resolved 
+	 * using the base directory of this resource set.
+	 * 
+	 * @param path Possible relative path and file name.
+	 * @return The first contained object.
+	 */
+	public EObject getObject(String path) {
+		Resource resource = getResource(path);
+		if (resource!=null && !resource.getContents().isEmpty()) {
+			return resource.getContents().get(0);
+		}
+		return null;
+	}
+
+	/**
 	 * Convenience method for loading a {@link TransformationSystem} from a 
 	 * Henshin file given as a path and file name.
 	 * 
@@ -129,31 +155,21 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	 * @return The contained {@link TransformationSystem}.
 	 */
 	public TransformationSystem getTransformationSystem(String path) {
-		Resource resource = getResource(path);
-		if (resource!=null) {
-			for (EObject object : resource.getContents()) {
-				if (object instanceof TransformationSystem) {
-					return (TransformationSystem) object;
-				}
-			}
-		}
-		return null;
+		return (TransformationSystem) getObject(path);
 	}
 	
 	/**
-	 * Convenience method for saving a resource to a file.
-	 * If the path is relative, it will be resolved using the
-	 * base directory of this resource set. This method will
-	 * override the URI of the resource. If the resource is
-	 * an {@link XMIResource}, the schema locations will be saved.
-	 * This method will throw runtime exception on I/O errors.
+	 * Save an object at a given path. This creates a new resource
+	 * under the given path, adds the object to the resource and saves it.
 	 * 
-	 * @param resource The resource to save.
-	 * @param path The file path.
+	 * @param object Object to be saved.
+	 * @param path Possibly relative file path.
 	 */
-	public void saveResource(Resource resource, String path) {
+	public void saveObject(EObject object, String path) {
 		URI uri = URI.createFileURI(path);
-		resource.setURI(uri);
+		Resource resource = createResource(uri);
+		resource.getContents().clear();
+		resource.getContents().add(object);		
 		Map<Object,Object> options = new HashMap<Object,Object>();
 		options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 		try {
@@ -162,5 +178,5 @@ public class HenshinResourceSet extends ResourceSetImpl {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }
