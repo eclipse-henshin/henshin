@@ -138,7 +138,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 * @see org.eclipse.emf.henshin.interpreter.Match#getAllNodeTargets()
 	 */
 	@Override
-	public List<EObject> getAllNodeTargets() {
+	public List<EObject> getNodeTargets() {
 		List<EObject> targets = new ArrayList<EObject>();
 		if (nodes!=null) {
 			for (Node node : nodes) {
@@ -172,8 +172,8 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 */
 	@Override
 	public boolean overlapsWith(Match match) {
-		List<EObject> common = getAllNodeTargets();
-		common.retainAll(match.getAllNodeTargets());
+		List<EObject> common = getNodeTargets();
+		common.retainAll(match.getNodeTargets());
 		return !common.isEmpty();
 	}
 	

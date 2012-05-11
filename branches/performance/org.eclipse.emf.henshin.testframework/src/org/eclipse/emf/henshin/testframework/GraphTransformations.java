@@ -253,12 +253,12 @@ public class GraphTransformations {
 			throws AssertionError {
 		// TODO: support multiple root nodes
 		
-		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+		if (ua.getEGraph().getRoots().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
-		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
-		Collection<EObject> rootObjects = graph.getRootObjects();
+		EGraph graph = ua.getEGraph();
+		Collection<EObject> rootObjects = graph.getRoots();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
 		EObject rootOrig = rootObjectArr[0];
@@ -397,11 +397,11 @@ public class GraphTransformations {
 		
 		ua.execute(null);
 		
-		if (!(graphsEqual(((Engine) ua.getInterpreterEngine()).getEmfGraph(), graph2,
+		if (!(graphsEqual(ua.getEGraph(), graph2,
 				matchSimilarityThreshold))) {
-			Tools.printGraph(((Engine) ua.getInterpreterEngine()).getEmfGraph());
+			Tools.printGraph(ua.getEGraph());
 			throw new AssertionError("expected: Execution of "
-					+ ua.getTransformationUnit().getName()
+					+ ua.getUnit().getName()
 					+ " transforms graph into specified graph, but doesn't.");
 		}
 		
@@ -412,9 +412,9 @@ public class GraphTransformations {
 		
 		ra.execute(null);
 		
-		if (!(graphsEqual(((Engine) ra.getInterpreterEngine()).getEmfGraph(), graph2,
+		if (!(graphsEqual(ra.getEGraph(), graph2,
 				matchSimilarityThreshold))) {
-			Tools.printGraph(((Engine) ra.getInterpreterEngine()).getEmfGraph());
+			Tools.printGraph(ra.getEGraph());
 			throw new AssertionError("expected: Execution of " + ra.getRule().getName()
 					+ " transforms graph into specified graph, but doesn't.");
 		}
@@ -498,19 +498,19 @@ public class GraphTransformations {
 	 * @throws AssertionError
 	 */
 	public static void assertNObjectsDeleted(UnitApplication ua, int n) throws AssertionError {
-		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+		if (ua.getEGraph().getRoots().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
 		// copy root object
 		
-		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph graph = ua.getEGraph();
 		Collection<EObject> rootObjects = graph.getRoots();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
 		EObject rootOrig = rootObjectArr[0];
 		
-		ua.execute();
+		ua.execute(null);
 		
 		MatchModel matchM;
 		try {
@@ -612,17 +612,17 @@ public class GraphTransformations {
 	 * @throws AssertionError
 	 */
 	public static void assertNObjectsCreated(UnitApplication ua, int n) throws AssertionError {
-		if (((Engine) (ua.getInterpreterEngine())).getEmfGraph().getRootObjects().size() != 1) {
+		if (ua.getEGraph().getRoots().size() != 1) {
 			throw new AssertionError("!!!! graphs with multiple root objects not supported yet.");
 		}
 		
-		EGraph graph = ((Engine) ua.getInterpreterEngine()).getEmfGraph();
-		Collection<EObject> rootObjects = graph.getRootObjects();
+		EGraph graph = ua.getEGraph();
+		Collection<EObject> rootObjects = graph.getRoots();
 		EObject[] rootObjectArr = rootObjects.toArray(new EObject[1]);
 		EObject rootCopy = EcoreUtil.copy(rootObjectArr[0]);
 		EObject rootOrig = rootObjectArr[0];
 		
-		ua.execute();
+		ua.execute(null);
 		
 		MatchModel matchM;
 		try {
@@ -894,7 +894,7 @@ public class GraphTransformations {
 		// => graphBefore is a subgraph.
 		// execute UnitApplication
 		
-		if (!(ua.execute())) {
+		if (!(ua.execute(null))) {
 			throw new AssertionError(
 					"expected: UnitApplication transforms graph containing subgraphBefore to graph containing subgraphAfter, "
 							+ "but execution of UnitApplication failed.");

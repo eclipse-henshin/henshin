@@ -1,5 +1,7 @@
 package org.eclipse.emf.henshin.interpreter;
 
+import java.util.List;
+
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -28,6 +30,12 @@ public interface Assignment {
 	 * @param value The value to be assigned with the parameter.
 	 */
 	void setParameterValue(Parameter param, Object value);
+	
+	/**
+	 * Get all parameter values.
+	 * @return List of all parameter values.
+	 */
+	List<Object> getParameterValues();
 	
 	/**
 	 * Clear all values stored in this assignment.

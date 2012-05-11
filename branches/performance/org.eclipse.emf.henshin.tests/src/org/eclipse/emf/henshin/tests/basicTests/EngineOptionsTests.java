@@ -122,9 +122,9 @@ public class EngineOptionsTests extends HenshinTest {
 													// n1 <-> (n3, n3)
 		
 		for (Match ma : htRuleApp.findAllMatches()) {
-			if (ma.getAllNodeTargets().contains(
+			if (ma.getNodeTargets().contains(
 					Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph))) {
-				if (ma.getAllNodeTargets().contains(
+				if (ma.getNodeTargets().contains(
 						Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph))) {
 					Matches.assertMatchIsGroup(ma, objGroup);
 				} else {

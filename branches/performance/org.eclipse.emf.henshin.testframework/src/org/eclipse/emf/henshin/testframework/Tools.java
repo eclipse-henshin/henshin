@@ -112,7 +112,7 @@ public class Tools {
 	
 	public static void printSubmatchesRec(Match m, int ident) {
 		
-		for (EObject eo : m.getAllNodeTargets()) {
+		for (EObject eo : m.getNodeTargets()) {
 			System.out.println(getTabs(ident) + eo);
 		}
 		

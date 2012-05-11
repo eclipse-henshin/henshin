@@ -88,7 +88,7 @@ public class Matches {
 		boolean cMatch = false;
 		for (Match m : ra.findAllMatches()) {
 			cMatch = false;
-			if (m.getAllNodeTargets().contains(object)) {
+			if (m.getNodeTargets().contains(object)) {
 				cMatch = true;
 			}
 			if (cMatch == false) {
@@ -146,7 +146,7 @@ public class Matches {
 	public static void assertObjectContainedInNoMatch(RuleApplication ra, EObject object)
 			throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getAllNodeTargets().contains(object)) {
+			if (m.getNodeTargets().contains(object)) {
 				throw new AssertionError(
 						"expected: Object contained in no match, but contained in at least one");
 			}
@@ -207,7 +207,7 @@ public class Matches {
 			throws AssertionError {
 		int num = n;
 		for (Match m : ra.findAllMatches()) {
-			if (m.getAllNodeTargets().contains(object)) {
+			if (m.getNodeTargets().contains(object)) {
 				num--;
 			}
 			if (num < 0) {
@@ -268,7 +268,7 @@ public class Matches {
 	public static void assertObjectContainedInAtLeastOneMatch(RuleApplication ra, EObject object)
 			throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getAllNodeTargets().contains(object)) {
+			if (m.getNodeTargets().contains(object)) {
 				return;
 			}
 		}
@@ -327,7 +327,7 @@ public class Matches {
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
 			for (EObject eo : group) {
-				if (m.getAllNodeTargets().contains(eo)) {
+				if (m.getNodeTargets().contains(eo)) {
 					throw new AssertionError(
 							"expected: No object from group is contained in any match, but at least "
 									+ eo + " is contained in at least one");
@@ -383,7 +383,7 @@ public class Matches {
 	public static void assertGroupContainedInNoMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getAllNodeTargets().containsAll(group)) {
+			if (m.getNodeTargets().containsAll(group)) {
 				throw new AssertionError(
 						"expected: Group is contained in no match, but is contained in at least one");
 			}
@@ -438,7 +438,7 @@ public class Matches {
 	public static void assertGroupContainedInAtLeastOneMatch(RuleApplication ra,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (Match m : ra.findAllMatches()) {
-			if (m.getAllNodeTargets().containsAll(group)) {
+			if (m.getNodeTargets().containsAll(group)) {
 				return;
 			}
 		}
@@ -497,7 +497,7 @@ public class Matches {
 		List<Match> matches = ra.findAllMatches();
 		for (Match m : matches) {
 			for (EObject eo : group) {
-				if (m.getAllNodeTargets().contains(eo)) {
+				if (m.getNodeTargets().contains(eo)) {
 					return;
 				}
 			}
@@ -598,7 +598,7 @@ public class Matches {
 	public static void assertGroupMatchedByUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (RuleApplication ra : ua.getAppliedRules()) {
-			if (ra.getMatch().getAllNodeTargets().containsAll(group)) {
+			if (ra.getMatch().getNodeTargets().containsAll(group)) {
 				return;
 			}
 		}
@@ -619,7 +619,7 @@ public class Matches {
 	public static void assertGroupNotMatchedByUnitApplication(UnitApplication ua,
 			Collection<? extends EObject> group) throws AssertionError {
 		for (RuleApplication ra : ua.getAppliedRules()) {
-			if (ra.getMatch().getAllNodeTargets().containsAll(group)) {
+			if (ra.getMatch().getNodeTargets().containsAll(group)) {
 				throw new AssertionError("expected: Group not matched by unit application");
 			}
 		}
@@ -672,7 +672,7 @@ public class Matches {
 		
 		// iterate through the applied rules
 		for (RuleApplication ruleApp : ua.getAppliedRules()) {
-			for (EObject eo : ruleApp.getMatch().getAllNodeTargets()) {
+			for (EObject eo : ruleApp.getMatch().getNodeTargets()) {
 				if (matchStatus.containsKey(eo)) {
 					// if a matched object is contained in the group (and thus
 					// in the HashMap),
@@ -709,7 +709,7 @@ public class Matches {
 		}
 		
 		for (Match m : ra.findAllMatches()) {
-			for (EObject eo2 : m.getAllNodeTargets()) {
+			for (EObject eo2 : m.getNodeTargets()) {
 				matchContained.put(eo2, true);
 			}
 		}
@@ -751,7 +751,7 @@ public class Matches {
 			}
 			
 			for (Match m : ra.findAllMatches()) {
-				for (EObject eo : m.getAllNodeTargets()) {
+				for (EObject eo : m.getNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, matchContents.get(eo) - 1);
 					} else {
@@ -776,7 +776,7 @@ public class Matches {
 			}
 			
 			for (Match m : ra.findAllMatches()) {
-				for (EObject eo : m.getAllNodeTargets()) {
+				for (EObject eo : m.getNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, true);
 					} else {
@@ -811,7 +811,7 @@ public class Matches {
 			}
 		}
 		
-		for (EObject eo : match.getAllNodeTargets()) {
+		for (EObject eo : match.getNodeTargets()) {
 			if (group.contains(eo)) {
 				matchContents.put(eo, matchContents.get(eo) - 1);
 			} else {

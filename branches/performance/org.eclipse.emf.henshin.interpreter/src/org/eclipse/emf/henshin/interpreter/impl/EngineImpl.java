@@ -430,7 +430,7 @@ public class EngineImpl implements Engine {
 
 				// The used kernel objects:
 				Set<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
-				usedKernelObjects.addAll(kernelMatch.getAllNodeTargets());
+				usedKernelObjects.addAll(kernelMatch.getNodeTargets());
 
 				// Create the partial multi match:
 				Match partialMultiMatch = new MatchImpl(multiRule);

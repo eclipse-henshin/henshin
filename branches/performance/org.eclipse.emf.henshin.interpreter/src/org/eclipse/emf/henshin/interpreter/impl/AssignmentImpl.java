@@ -1,6 +1,8 @@
 package org.eclipse.emf.henshin.interpreter.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.henshin.interpreter.Assignment;
@@ -82,6 +84,22 @@ public class AssignmentImpl implements Assignment {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.Assignment#getParameterValues()
+	 */
+	@Override
+	public List<Object> getParameterValues() {
+		List<Object> paramValues = new ArrayList<Object>();
+		for (Parameter param : unit.getParameters()) {
+			if (values.containsKey(param)) {
+				paramValues.add(values.get(param));
+			}
+		}
+		return paramValues;
+	}
+	
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Assignment#clear()
 	 */
 	@Override
@@ -144,5 +162,5 @@ public class AssignmentImpl implements Assignment {
 		return result;
 		
 	}
-	
+
 }

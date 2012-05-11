@@ -37,7 +37,7 @@ public interface Match extends Assignment {
 	 * Get all node targets of this match.
 	 * @return All node targets.
 	 */
-	List<EObject> getAllNodeTargets();
+	List<EObject> getNodeTargets();
 
 	/**
 	 * Get the nested matches for a multi-rule.
@@ -49,7 +49,7 @@ public interface Match extends Assignment {
 	/**
 	 * Checks whether this match overlaps with another match. 
 	 * The second match can be from a different rule. Two matches
-	 * overlap if {@link #getAllNodeTargets()} contain shared elements.
+	 * overlap if {@link #getNodeTargets()} contain shared elements.
 	 * @param match A second match to check against.
 	 * @return <code>true</code> if both matches have common targets.
 	 */
