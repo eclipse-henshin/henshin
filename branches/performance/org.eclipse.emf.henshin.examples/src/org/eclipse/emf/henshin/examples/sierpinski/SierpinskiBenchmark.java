@@ -28,22 +28,24 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * A benchmark constructing multiple levels of a Sierpinski triangle.
- * 
  * @see <a href="http://en.wikipedia.org/wiki/Sierpinski_triangle">Sierpinski Triangle</a>
  */
 public class SierpinskiBenchmark {
-
-	public static void run(String examplesPath, int iterations) {
-		
-		// Find the correct path to the examples plug-in:
-		if (examplesPath==null) examplesPath = "";
-		if (examplesPath.length()>0 && !examplesPath.endsWith("/")) {
-			examplesPath = examplesPath + "/";
-		}
+	
+	/** 
+	 * Relative path to the Sierpinski model files.
+	 */
+	public static final String PATH = "src/org/eclipse/emf/henshin/examples/sierpinski";
+	
+	/**
+	 * Run the Sierpinski benchmark.
+	 * @param path Relative path to the model files.
+	 * @param iterations Number of iterations.
+	 */
+	public static void run(String path, int iterations) {
 		
 		// Create a resource set with a base directory:
-		HenshinResourceSet resourceSet = new HenshinResourceSet(
-				examplesPath + "src/org/eclipse/emf/henshin/examples/sierpinski");
+		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
 		// Load the transformation system and find the rule:
 		TransformationSystem trasys = resourceSet.getTransformationSystem("sierpinski.henshin");
@@ -94,7 +96,7 @@ public class SierpinskiBenchmark {
 			for (Match match : matches) {
 				application.setCompleteMatch(match);
 				if (!application.execute(monitor)) {
-					throw new RuntimeException("Error applying rule");
+					throw new RuntimeException("Error transforming Sierpinski model");
 				}
 			}
 			long runtime = (System.currentTimeMillis() - startTime);
@@ -109,7 +111,7 @@ public class SierpinskiBenchmark {
 	}
 	
 	public static void main(String[] args) {
-		run("", 13); // we assume the working direcory is the root of the examples plug-in
+		run(PATH, 13); // we assume the working direcory is the root of the examples plug-in
 	}
 	
 }

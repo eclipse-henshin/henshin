@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
@@ -92,7 +91,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
  */
 public class Evolution1 {
 
-	private static final String BASE = "src/org/eclipse/emf/henshin/examples/metamodelevolution/model/";
+	private static final String BASE = "src/org/eclipse/emf/henshin/examples/metamodelevolution/";
 	/**
 	 * Meta-model, instance model and rule files.
 	 */

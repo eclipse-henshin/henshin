@@ -17,15 +17,25 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 public class DiningPhilsBenchmark {
 
-	public static void doBenchmark(int maxPhils, int numThreads) {
+	/**
+	 * Relative path to the example files.
+	 */
+	public static final String PATH = "src/org/eclipse/emf/henshin/examples/diningphils";
+	
+	/**
+	 * Perform the benchmark.
+	 * @param path Relative path to the model files.
+	 * @param maxPhils Maximum number of philosophers.
+	 * @param numThreads Number of threads to use.
+	 */
+	public static void doBenchmark(String path, int maxPhils, int numThreads) {
 
 		System.out.println("Starting benchmark...");
 		System.out.println("NumThreads: " + numThreads);
 		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB\n");
 
 		// Create a resource set with a base directory:
-		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(
-				"src/org/eclipse/emf/henshin/examples/diningphils");
+		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
@@ -100,10 +110,10 @@ public class DiningPhilsBenchmark {
 		int threads = Runtime.getRuntime().availableProcessors();
 		
 		System.out.println("\n******* WARMUP PHASE ********\n");
-		doBenchmark(8, threads);
+		doBenchmark(PATH, 8, threads);
 		
 		System.out.println("\n******* BENCHMARK ********\n");
-		doBenchmark(13, threads);
+		doBenchmark(PATH, 13, threads);
 		
 	}
 
