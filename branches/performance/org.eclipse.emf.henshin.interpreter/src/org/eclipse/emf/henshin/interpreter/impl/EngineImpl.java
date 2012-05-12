@@ -564,10 +564,21 @@ public class EngineImpl implements Engine {
 		if (ruleInfo == null) {
 			ruleInfo = new RuleInfo(rule, scriptEngine);
 			ruleInfos.put(rule, ruleInfo);
+			// Check for missing factories:			
+			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
+				if (node.getType()==null) {
+					throw new RuntimeException("Missing type for " + node);
+				}
+				if (node.getType().getEPackage()==null || 
+					node.getType().getEPackage().getEFactoryInstance()==null) {
+					throw new RuntimeException("Missing factory for type '" + node.getType().getName() + 
+							"'. Register the corresponding package, e.g. using PackageName.eINSTANCE.getName().");
+				}
+			}
 		}
 		return ruleInfo;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#getOptions()

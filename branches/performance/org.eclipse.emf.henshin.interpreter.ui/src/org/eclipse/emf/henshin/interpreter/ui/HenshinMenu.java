@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.henshin.interpreter.util.HenshinRegistry;
+import org.eclipse.emf.henshin.model.HenshinRegistry;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.action.IContributionItem;
@@ -29,7 +29,7 @@ public class HenshinMenu extends CompoundContributionItem {
 		IServiceLocator serviceLocator = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		List<IContributionItem> items = new ArrayList<IContributionItem>();
 		
-		for (TransformationSystem trafoSystem : HenshinRegistry.instance.getTransformationSystems()) {
+		for (TransformationSystem trafoSystem : HenshinRegistry.INSTANCE.getTransformationSystems()) {
 			for (TransformationUnit unit : trafoSystem.getTransformationUnits()) {
 				Map commandParams = new HashMap<String, Object>();
 				commandParams.put("org.eclipse.emf.henshin.UnitParameter",

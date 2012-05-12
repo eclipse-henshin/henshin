@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
  * A graph isomorphy checker for {@link EGraphImpl}s.
  * @author Christian Krause
  */
-public class GraphIsomorphyChecker {
+public class EGraphIsomorphyChecker {
 	
 	// Engine options (used internally for the match finding):
 	private static final Map<String,Object> ENGINE_OPTIONS;
@@ -71,7 +71,7 @@ public class GraphIsomorphyChecker {
 	 * @param source Source graph.
 	 * @param useAttributes Flag indicating whether attribute values should be used.
 	 */
-	public GraphIsomorphyChecker(final EGraph source, List<EAttribute> ignoredAttributes) {
+	public EGraphIsomorphyChecker(final EGraph source, List<EAttribute> ignoredAttributes) {
 		this.source = source;
 		this.ignoredAttributes = ignoredAttributes;
 		this.linkCount = computeLinkCount(source);
