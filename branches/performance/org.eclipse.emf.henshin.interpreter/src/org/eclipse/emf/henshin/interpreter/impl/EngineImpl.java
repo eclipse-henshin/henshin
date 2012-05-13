@@ -33,13 +33,13 @@ import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.Change;
-import org.eclipse.emf.henshin.interpreter.Change.ComplexChange;
+import org.eclipse.emf.henshin.interpreter.Change.CompoundChange;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.AttributeChangeImpl;
-import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.ComplexChangeImpl;
+import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.CompoundChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.ObjectChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.ReferenceChangeImpl;
 import org.eclipse.emf.henshin.interpreter.info.ConditionInfo;
@@ -115,7 +115,7 @@ public class EngineImpl implements Engine {
 		}
 
 		// Create the object changes:
-		ComplexChangeImpl complexChange = new ComplexChangeImpl(graph);
+		CompoundChangeImpl complexChange = new CompoundChangeImpl(graph);
 		createChanges(rule, graph, completeMatch, resultMatch, complexChange);
 		return complexChange;
 
@@ -124,7 +124,7 @@ public class EngineImpl implements Engine {
 	/*
 	 * Recursively create the changes and result matches.
 	 */
-	public void createChanges(Rule rule, EGraph graph, Match completeMatch, Match resultMatch, ComplexChange complexChange) {
+	public void createChanges(Rule rule, EGraph graph, Match completeMatch, Match resultMatch, CompoundChange complexChange) {
 
 		// Get the rule change info and the object change list:
 		RuleChangeInfo ruleChange = getRuleInfo(rule).getChangeInfo();
@@ -334,6 +334,9 @@ public class EngineImpl implements Engine {
 		// Solution finder to be used
 		private final SolutionFinder solutionFinder;
 
+		// Rule to be matched:
+		private final Rule rule;
+		
 		// Cached rule info:
 		private final RuleInfo ruleInfo;
 
@@ -348,10 +351,11 @@ public class EngineImpl implements Engine {
 		 * @param usedObjects Used objects (for ensuring injectivity).
 		 */
 		public MatchFinder(Rule rule, EGraph graph, Match partialMatch, Set<EObject> usedObjects) {
-			this.graph = graph;
-			this.solutionFinder = createSolutionFinder(rule, graph, partialMatch, usedObjects);
+			this.rule = rule;
 			this.ruleInfo = getRuleInfo(rule);
+			this.graph = graph;
 			this.usedObjects = usedObjects;
+			this.solutionFinder = createSolutionFinder(partialMatch);
 			computeNextMatch(); // compute the first match
 		}
 
@@ -403,7 +407,7 @@ public class EngineImpl implements Engine {
 			}
 
 			// Create the new match:
-			nextMatch = InterpreterFactory.INSTANCE.createMatch(ruleInfo.getRule());
+			nextMatch = InterpreterFactory.INSTANCE.createMatch(rule);
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
 			for (Entry<String,Object> entry : solution.getParameterValues().entrySet()) {
@@ -412,42 +416,33 @@ public class EngineImpl implements Engine {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
 			}
-			for (Node node : ruleInfo.getRule().getLhs().getNodes()) {
+			for (Node node : rule.getLhs().getNodes()) {
 				nextMatch.setNodeTarget(node, objectMatch.get(node2var.get(node)));
 			}
 
 			// Now handle the multi-rules:
-			addMultiMatches(ruleInfo.getRule(), nextMatch, usedObjects);
-
-		}
-
-		/*
-		 * Add the multi-matches to a given kernel-match.
-		 */
-		private void addMultiMatches(Rule kernelRule, Match kernelMatch, Set<EObject> usedObjects) {
-			
-			for (Rule multiRule : kernelRule.getMultiRules()) {
+			for (Rule multiRule : rule.getMultiRules()) {
 
 				// The used kernel objects:
 				Set<EObject> usedKernelObjects = new HashSet<EObject>(usedObjects);
-				usedKernelObjects.addAll(kernelMatch.getNodeTargets());
+				usedKernelObjects.addAll(nextMatch.getNodeTargets());
 
 				// Create the partial multi match:
 				Match partialMultiMatch = new MatchImpl(multiRule);
-				for (Parameter param : kernelRule.getParameters()) {
+				for (Parameter param : rule.getParameters()) {
 					Parameter multiParam = multiRule.getParameterByName(param.getName());
 					if (multiParam!=null) {
-						partialMultiMatch.setParameterValue(multiParam, kernelMatch.getParameterValue(param));
+						partialMultiMatch.setParameterValue(multiParam, nextMatch.getParameterValue(param));
 					}
 				}
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					partialMultiMatch.setNodeTarget(mapping.getImage(),
-							kernelMatch.getNodeTarget(mapping.getOrigin()));
+							nextMatch.getNodeTarget(mapping.getOrigin()));
 				}
 
 				// Find all multi-matches:
 				MatchFinder matchFinder = new MatchFinder(multiRule, graph, partialMultiMatch, usedKernelObjects);
-				List<Match> nestedMatches = kernelMatch.getNestedMatches(multiRule);
+				List<Match> nestedMatches = nextMatch.getNestedMatches(multiRule);
 				while (matchFinder.hasNext()) {
 					nestedMatches.add(matchFinder.next());
 				}
@@ -458,7 +453,7 @@ public class EngineImpl implements Engine {
 		/*
 		 * Create a solution finder.
 		 */
-		protected SolutionFinder createSolutionFinder(Rule rule, EGraph graph, Match partialMatch, Set<EObject> usedObjects) {
+		protected SolutionFinder createSolutionFinder(Match partialMatch) {
 
 			// Get the required info objects:
 			RuleInfo ruleInfo = getRuleInfo(rule);
@@ -504,8 +499,8 @@ public class EngineImpl implements Engine {
 			// Now initialize the match finder:
 			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler);
 			Map<Graph,List<Variable>> graphMap = ruleInfo.getVariableInfo().getGraph2variables();
-			solutionFinder.setVariables(graphMap.get(ruleInfo.getRule().getLhs()));
-			solutionFinder.setFormula(initFormula(ruleInfo.getRule().getLhs().getFormula(), graph, graphMap, domainMap));
+			solutionFinder.setVariables(graphMap.get(rule.getLhs()));
+			solutionFinder.setFormula(initFormula(rule.getLhs().getFormula(), graph, graphMap, domainMap));
 			return solutionFinder;
 
 		}

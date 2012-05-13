@@ -6,7 +6,8 @@ import org.eclipse.emf.henshin.model.Rule;
  * Rule application interface for executing a {@link Rule}.
  * {@link RuleApplication}s are reusable. To reuse an instance
  * you must invoke {@link #setPartialMatch(Match)} or
- * {@link #setCompleteMatch(Match)} before every execution. 
+ * {@link #setCompleteMatch(Match)} or {@link #setRule(Rule)}
+ * before every execution. 
  * 
  * @author Christian Krause
  */
@@ -32,7 +33,7 @@ public interface RuleApplication extends UnitApplication {
 
 	/**
 	 * Set the partial match to be used.
-	 * @param partialMatch The partial match.
+	 * @param partialMatch The partial match (can be <code>null</code>).
 	 */
 	void setPartialMatch(Match partialMatch);
 
@@ -43,8 +44,9 @@ public interface RuleApplication extends UnitApplication {
 	Match getCompleteMatch();
 
 	/**
-	 * Set the complete match to be used.
-	 * @param completeMatch The complete match.
+	 * Set the complete match to be used. If it is set to <code>null</code>,
+	 * the complete match will be derived from the partial match.
+	 * @param completeMatch The complete match (can be <code>null</code>).
 	 */
 	void setCompleteMatch(Match completeMatch);
 

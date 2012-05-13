@@ -249,12 +249,12 @@ public abstract class ChangeImpl implements Change {
 		
 	}
 	
-	public static final class ComplexChangeImpl extends ChangeImpl implements ComplexChange {
+	public static final class CompoundChangeImpl extends ChangeImpl implements CompoundChange {
 
 		private final List<Change> changes;
 		private boolean reverse;
 		
-		public ComplexChangeImpl(EGraph graph) {
+		public CompoundChangeImpl(EGraph graph) {
 			super(graph);
 			changes = new ArrayList<Change>();
 			reverse = false;

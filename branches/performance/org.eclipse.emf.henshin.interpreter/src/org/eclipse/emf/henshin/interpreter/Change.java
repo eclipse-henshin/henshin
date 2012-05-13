@@ -6,8 +6,18 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
+/**
+ * Change model for Henshin. Stores information about changes and provides
+ * functionality to apply these changes to an {@link EGraph}.
+ * 
+ * @see Engine#createChange(org.eclipse.emf.henshin.model.Rule, EGraph, Match, Match)
+ * @author Christian Krause
+ */
 public interface Change {
 	
+	/**
+	 * Change for creating or deleting an object.
+	 */
 	public interface ObjectChange extends Change {
 		
 		EObject getObject();
@@ -16,6 +26,9 @@ public interface Change {
 		
 	}
 
+	/**
+	 * Change for modifying an attribute.
+	 */
 	public interface AttributeChange extends Change {
 		
 		EObject getObject();
@@ -28,6 +41,9 @@ public interface Change {
 		
 	}
 
+	/**
+	 * Change for creating or deleting a reference (link) between two objects.
+	 */
 	public interface ReferenceChange extends Change {
 		
 		EObject getSource();
@@ -40,14 +56,25 @@ public interface Change {
 		
 	}
 
-	public interface ComplexChange extends Change {
+	/**
+	 * Compound change (an ordered list of {@link Change}s).
+	 */
+	public interface CompoundChange extends Change {
 		
 		List<Change> getChanges();
 		
 	}
 	
+	/**
+	 * Get the {@link EGraph} to be changed.
+	 * @return The {@link EGraph}.
+	 */
 	EGraph getEGraph();
 	
+	/**
+	 * Apply this change description and reverse it so that
+	 * is can be undone / redone.
+	 */
 	void applyAndReverse();
 	
 }
