@@ -169,7 +169,12 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		}
 		if (this.unit!=unit){
 			this.unit = unit;
-			reset();
+			this.partialMatch = null;
+			this.completeMatch = null;
+			this.resultMatch = null;
+			this.change = null;
+			this.isExecuted = false;
+			this.isUndone = false;
 		}
 	}
 	
@@ -188,7 +193,6 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	 */
 	@Override
 	public void setAssignment(Assignment assignment) {
-		reset();
 		if (assignment==null) {
 			partialMatch = null;
 		}
@@ -198,6 +202,11 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		else {
 			partialMatch = new MatchImpl(assignment);
 		}
+		this.completeMatch = null;
+		this.resultMatch = null;
+		this.change = null;
+		this.isExecuted = false;
+		this.isUndone = false;
 	}
 
 	/*
@@ -254,6 +263,11 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	@Override
 	public void setPartialMatch(Match partialMatch) {
 		this.partialMatch = partialMatch; 
+		this.completeMatch = null;
+		this.resultMatch = null;
+		this.change = null;
+		this.isExecuted = false;
+		this.isUndone = false;
 	}
 
 	/*
@@ -271,8 +285,12 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	 */
 	@Override
 	public void setCompleteMatch(Match completeMatch) {
-		reset();
+		// don't change the partial match
 		this.completeMatch = completeMatch;
+		this.resultMatch = null;
+		this.change = null;
+		this.isExecuted = false;
+		this.isUndone = false;
 	}
 
 	/*
@@ -291,18 +309,6 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	@Override
 	public Assignment getResultAssignment() {
 		return resultMatch;
-	}
-
-	/*
-	 * Reset all matches, the change object and the execution flag.
-	 */
-	private void reset() {
-		partialMatch = null;
-		completeMatch = null;
-		resultMatch = null;
-		change = null;
-		isExecuted = false;
-		isUndone = false;
 	}
 	
 }
