@@ -9,7 +9,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * {@link #setCompleteMatch(Match)} or {@link #setRule(Rule)}
  * before every execution. 
  * 
- * @author Christian Krause
+ * @author Enrico Biermann, Christian Krause
  */
 public interface RuleApplication extends UnitApplication {
 

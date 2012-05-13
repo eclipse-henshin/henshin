@@ -10,7 +10,8 @@ import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 
 /**
  * EGraph interface for storing object graphs.
- * @author Christian Krause
+ * 
+ * @author Christian Krause, Enrico Biermann
  */
 public interface EGraph extends Collection<EObject> {
 	

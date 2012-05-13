@@ -9,7 +9,8 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * Match interface for mapping {@link Node}s to {@link EObject} and 
  * assigning parameter values by extending {@link Assignment}.
- * @author Christian Krause
+ * 
+ * @author Christian Krause, Gregor Bonifer, Enrico Biermann
  */
 public interface Match extends Assignment {
 	

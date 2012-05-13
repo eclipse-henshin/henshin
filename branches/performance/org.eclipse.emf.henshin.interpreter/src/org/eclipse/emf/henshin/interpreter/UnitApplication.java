@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * If you want to execute a transformation rule, you can also use 
  * {@link RuleApplication} instead.
  * 
- * @author Christian Krause
+ * @author Enrico Biermann, Christian Krause
  */
 public interface UnitApplication {
 

@@ -7,6 +7,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * Parameter assignment interface for storing parameter values.
+ * 
  * @author Christian Krause
  */
 public interface Assignment {

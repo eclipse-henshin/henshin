@@ -18,6 +18,8 @@ import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Engine interface for the Henshin interpreter.
+ * 
+ * @author Christian Krause, Enrico Biermann
  */
 public interface Engine {
 	
