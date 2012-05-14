@@ -64,7 +64,7 @@ public class MatchTests extends HenshinTest {
 		Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults(
 				"self.oclIsKindOf(Node)", htEGraph);
 		
-		Matches.assertGroupIsMatched(htRuleApp, nodesInGraph);
+		Matches.assertGroupIsMatched(htRule, htEGraph, htEngine, nodesInGraph);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class MatchTests extends HenshinTest {
 		
 		Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults(
 				"self.oclIsKindOf(Node)", htEGraph);
-		Matches.assertGroupIsMatched(htRuleApp, nodesInGraph);
+		Matches.assertGroupIsMatched(htRule, htEGraph, htEngine, nodesInGraph);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -104,7 +104,7 @@ public class MatchTests extends HenshinTest {
 		matchContents.addAll(foundNodes);
 		matchContents.addAll(foundVals);
 		
-		Matches.assertOnlyGroupIsMatched(htRuleApp, matchContents);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, matchContents);
 	}
 	
 	@Test
@@ -117,7 +117,7 @@ public class MatchTests extends HenshinTest {
 		loadRule("emptyRule");
 		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEGraph);       // match
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRule, htEGraph, htEngine, htEGraph);       // match
 																					    	// should
 																									// be
 																									// empty
@@ -145,7 +145,7 @@ public class MatchTests extends HenshinTest {
 		loadRule("onlyPAC");
 		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // there should be exactly 1
 													// match
-		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRuleApp, htEGraph); // match
+		Matches.assertNoObjectFromGroupContainedInAnyMatch(htRule, htEGraph, htEngine, htEGraph); // match
 																									// should
 																									// be
 																									// empty
@@ -170,7 +170,7 @@ public class MatchTests extends HenshinTest {
 														// has a vals reference
 		//System.out.println("pac-pac:");
 		//Tools.printMatches(htRuleApp.findAllMatches());
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -193,7 +193,7 @@ public class MatchTests extends HenshinTest {
 															// reference
 		//System.out.println("pac-nac:");
 		//Tools.printMatches(htRuleApp.findAllMatches());
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -219,7 +219,7 @@ public class MatchTests extends HenshinTest {
 															// a vals reference
 		//System.out.println("nac-pac:");
 		//Tools.printMatches(htRuleApp.findAllMatches());
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -249,7 +249,7 @@ public class MatchTests extends HenshinTest {
 														// reference)
 		//System.out.println("nac-nac:");
 		//Tools.printMatches(htRuleApp.findAllMatches());
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -262,7 +262,7 @@ public class MatchTests extends HenshinTest {
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
 				"self.nodename='t_11'", htEGraph));
 		//Tools.printMatches(htRuleApp.findAllMatches());
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -273,7 +273,7 @@ public class MatchTests extends HenshinTest {
 				"self.oclIsKindOf(Node)", htEGraph);
 		anticipatedMatches.remove((Node) Tools.getFirstElementFromOCLQueryResult(
 				"self.nodename='unconnected'", htEGraph));
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	@Test
@@ -285,7 +285,7 @@ public class MatchTests extends HenshinTest {
 				"self.nodename='unconnected'", htEGraph));
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult(
 				"self.nodename='top'", htEGraph));
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 	}
 	
 	// ----
@@ -304,7 +304,7 @@ public class MatchTests extends HenshinTest {
 		Collection<Node> anticipatedMatches = new ArrayList<Node>();
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_11'", htEGraph));
 		anticipatedMatches.add((Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='t_1'", htEGraph));
-		Matches.assertOnlyGroupIsMatched(htRuleApp, anticipatedMatches);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, anticipatedMatches);
 
 	}
 	

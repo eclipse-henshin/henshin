@@ -268,8 +268,8 @@ public class ParameterTests extends HenshinTest {
 		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd2'", htEGraph);
 		
-		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd1);
-		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd2);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htEngine, nd1);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htEngine, nd2);
 		
 		//Tools.printMatches(htRuleApp.findAllMatches());
 	}

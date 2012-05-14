@@ -65,7 +65,7 @@ public class EngineOptionsTests extends HenshinTest {
 		loadRule("non-injectiveMatching");
 		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // Rule should have exactly 1
 													// match
-		Matches.assertOnlyGroupIsMatched(htRuleApp, objGroup); // This match
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, objGroup); // This match
 																// should
 																// contain n1,
 																// n2, n2
@@ -94,7 +94,7 @@ public class EngineOptionsTests extends HenshinTest {
 		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 2); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
 													// n2)
-		Matches.assertOnlyGroupIsMatched(htRuleApp, objGroup);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, objGroup);
 		
 		// turn off injective matching and try again
 		
