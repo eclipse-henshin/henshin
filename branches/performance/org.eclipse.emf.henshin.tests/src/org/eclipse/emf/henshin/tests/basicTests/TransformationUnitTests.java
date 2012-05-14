@@ -243,14 +243,13 @@ public class TransformationUnitTests extends HenshinTest {
 		//Tools.persist(Tools.getGraphRoot(htEmfGraph), "gt_amu2.testmodel");
 	}
 	
-	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyIndependentUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyIndependentUnit");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo(null);
-		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		//htUnitApp.undo(null);
+		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 	
 	@Test
@@ -262,14 +261,13 @@ public class TransformationUnitTests extends HenshinTest {
 		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 
-	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyPriorityUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyPriorityUnit");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo(null);
-		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		//htUnitApp.undo(null);
+		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 	
 	// graphAfter_IndependentUnit1a
