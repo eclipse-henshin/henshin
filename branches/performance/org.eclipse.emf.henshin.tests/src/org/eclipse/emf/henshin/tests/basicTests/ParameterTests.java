@@ -136,7 +136,7 @@ public class ParameterTests extends HenshinTest {
 		
 		Rules.assertRuleCanBeApplied(htRuleApp);
 
-		String paramNdname = ((String) htRuleApp.getCompleteMatch().getParameterValues().toArray()[0]);
+		String paramNdname = (String) htRuleApp.getResultParameterValue("param_ndname");
 		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='" + paramNdname + "'", htEGraph);
 
 		System.out.println("------");
