@@ -287,10 +287,10 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 */
 	@Override
 	protected String toStringWithIndent(String indent) {
+		String result = super.toStringWithIndent(indent);
 		if (nodes.isEmpty()) {
 			return indent + "- no nodes";
 		}
-		String result = "";
 		int index = 1;
 		for (Node node : nodes) {
 			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
