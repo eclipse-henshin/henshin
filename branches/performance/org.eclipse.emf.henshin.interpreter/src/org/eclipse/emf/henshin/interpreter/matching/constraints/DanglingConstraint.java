@@ -44,10 +44,20 @@ public class DanglingConstraint implements Constraint {
 		 
 		 Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
 		 
+		 Integer expectedCount;
+		 
 		 if (incomingEdgeCount != null) {
 			 for (EReference ref: actualIncomingEdges.keySet()) {
-				 if (actualIncomingEdges.get(ref) > incomingEdgeCount.get(ref))					 
+					
+					if (incomingEdgeCount.containsKey(ref)) {
+						expectedCount = incomingEdgeCount.get(ref);
+					} else {
+						expectedCount = 0;
+					}
+				 
+				 if (actualIncomingEdges.get(ref) > expectedCount) {
 					 return false;
+				 }
 			 }
 		 } else {
 			 if (!actualIncomingEdges.isEmpty())
@@ -58,11 +68,12 @@ public class DanglingConstraint implements Constraint {
 		// outgoing references
 		for (EReference type : sourceValue.eClass().getEReferences()) {
 			if (!type.isDerived()) {
-				Integer expectedCount;
-				if (outgoingEdgeCount != null && outgoingEdgeCount.get(type) != null)
+
+				if (outgoingEdgeCount != null && outgoingEdgeCount.containsKey(type)) {
 					expectedCount = outgoingEdgeCount.get(type);
-				else
+				} else {
 					expectedCount = 0;
+				}
 				
 				if (type.isMany()) {
 					List<Object> outgoingEdges = (List<Object>) sourceValue.eGet(type);
@@ -98,4 +109,5 @@ public class DanglingConstraint implements Constraint {
 		
 		return result;
 	}
+		
 }

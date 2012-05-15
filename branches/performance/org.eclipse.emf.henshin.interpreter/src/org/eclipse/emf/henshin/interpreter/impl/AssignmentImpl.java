@@ -157,7 +157,10 @@ public class AssignmentImpl implements Assignment {
 		}
 		String result = "";
 		for (Parameter param : unit.getParameters()) {
-			result = result + indent + "- parameter '" + param.getName() + "' => " + getParameterValue(param) + "\n";
+			Object value = getParameterValue(param);
+			if (value!=null) {
+				result = result + indent + "- parameter '" + param.getName() + "' => " + value + "\n";
+			}
 		}
 		return result;
 		

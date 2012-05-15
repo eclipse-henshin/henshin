@@ -410,12 +410,16 @@ public class EngineImpl implements Engine {
 			nextMatch = InterpreterFactory.INSTANCE.createMatch(rule);
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
+			
+			// Parameter values:
 			for (Entry<String,Object> entry : solution.getParameterValues().entrySet()) {
 				Parameter param = nextMatch.getUnit().getParameterByName(entry.getKey());
 				if (param!=null) {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
 			}
+			
+			// LHS node targets:
 			for (Node node : rule.getLhs().getNodes()) {
 				nextMatch.setNodeTarget(node, objectMatch.get(node2var.get(node)));
 			}

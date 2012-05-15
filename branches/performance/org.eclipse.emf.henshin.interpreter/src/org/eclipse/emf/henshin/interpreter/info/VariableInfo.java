@@ -194,9 +194,10 @@ public class VariableInfo {
 			EReference type = edge.getType();
 			Integer count = edgeCount.get(type);
 			if (count == null) {
-				count = new Integer(0);
+				count = ONE;
+			} else {
+				count = count + 1;
 			}
-			count++;
 			edgeCount.put(type, count);
 		}
 		
@@ -212,9 +213,10 @@ public class VariableInfo {
 				if (remoteNode.findOutgoingEdgeByType(node, oppType) == null) {
 					Integer count = edgeCount.get(oppType);
 					if (count == null) {
-						count = new Integer(0);
+						count = ONE;
+					} else {
+						count = count + 1;
 					}
-					count++;
 					edgeCount.put(oppType, count);
 				}
 			} else {
@@ -223,9 +225,10 @@ public class VariableInfo {
 				if (node.findOutgoingEdgeByType(remoteNode, oppType) == null) {
 					Integer count = edgeCount.get(oppType);
 					if (count == null) {
-						count = new Integer(0);
+						count = ONE;
+					} else {
+						count = count + 1;
 					}
-					count++;
 					edgeCount.put(oppType, count);
 				}
 			}
@@ -305,5 +308,7 @@ public class VariableInfo {
 		
 		return complexValue;
 	}
-
+	
+	private static final Integer ONE = new Integer(1);
+	
 }

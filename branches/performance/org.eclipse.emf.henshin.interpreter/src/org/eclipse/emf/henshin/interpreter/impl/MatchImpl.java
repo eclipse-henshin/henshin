@@ -294,7 +294,10 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		int index = 1;
 		for (Node node : nodes) {
 			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
-			result = result + indent + "- node " + name + " => " + getNodeTarget(node) + "\n";
+			EObject target = getNodeTarget(node);
+			if (target!=null) {
+				result = result + indent + "- node " + name + " => " + target + "\n";
+			}
 			index++;
 		}
 		for (Rule multiRule : ((Rule) unit).getMultiRules()) {
