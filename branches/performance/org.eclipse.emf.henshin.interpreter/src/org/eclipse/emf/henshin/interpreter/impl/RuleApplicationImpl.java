@@ -222,8 +222,8 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in rule \"" + unit.getName() + "\" found" );
 		}
-		if (partialMatch!=null) {
-			return partialMatch.getParameterValue(param);
+		if (resultMatch!=null) {
+			return resultMatch.getParameterValue(param);
 		}
 		return null;
 	}
