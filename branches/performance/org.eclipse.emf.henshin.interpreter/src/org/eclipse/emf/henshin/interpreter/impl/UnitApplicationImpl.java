@@ -77,6 +77,13 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
 		resultAssignment = (assignment!=null) ? new AssignmentImpl(assignment) : new AssignmentImpl(unit);
+		return doExecute(monitor);
+	}
+
+	/*
+	 * Do execute a unit. Assumes that the monitor and the result assignment is set.
+	 */
+	protected boolean doExecute(ApplicationMonitor monitor) {
 		if (unit.isActivated()) {
 			switch (unit.eClass().getClassifierID()) {
 				case HenshinPackage.RULE:
@@ -95,7 +102,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		}
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.UnitApplication#undo(org.eclipse.emf.henshin.interpreter.ApplicationMonitor)
@@ -264,7 +271,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	/*
 	 * Execute a LoopUnit.
 	 */
-	private boolean executeLoopUnit(ApplicationMonitor monitor) {
+	protected boolean executeLoopUnit(ApplicationMonitor monitor) {
 		LoopUnit loopUnit = (LoopUnit) unit;
 		while (true) {
 			if (monitor.isCanceled()) {
@@ -284,7 +291,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	/*
 	 * Create an ApplicationUnit for a given TransformationUnit.
 	 */
-	private UnitApplicationImpl createApplicationFor(TransformationUnit subUnit) {
+	protected UnitApplicationImpl createApplicationFor(TransformationUnit subUnit) {
 		Assignment assign = new AssignmentImpl(subUnit);
 		if (resultAssignment!=null) {
 			for (ParameterMapping mapping : unit.getParameterMappings()) {
@@ -301,7 +308,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	/*
 	 * Update the parameter values.
 	 */
-	private void updateParameterValues(UnitApplicationImpl subUnitApp) {
+	protected void updateParameterValues(UnitApplicationImpl subUnitApp) {
 		if (resultAssignment==null) {
 			resultAssignment = new AssignmentImpl(unit);
 		}
@@ -313,7 +320,6 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				if (param!=null) {
 					resultAssignment.setParameterValue(target, 
 							subUnitApp.getResultAssignment().getParameterValue(param));
-					break;
 				}
 			}
 		}
