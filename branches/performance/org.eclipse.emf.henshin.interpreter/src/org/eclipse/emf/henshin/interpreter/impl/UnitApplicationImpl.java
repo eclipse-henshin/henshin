@@ -284,18 +284,18 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	/*
 	 * Create an ApplicationUnit for a given TransformationUnit.
 	 */
-	private UnitApplicationImpl createApplicationFor(TransformationUnit unit) {
-		Assignment assign = new AssignmentImpl(unit);
+	private UnitApplicationImpl createApplicationFor(TransformationUnit subUnit) {
+		Assignment assign = new AssignmentImpl(subUnit);
 		if (resultAssignment!=null) {
 			for (ParameterMapping mapping : unit.getParameterMappings()) {
 				Parameter source = mapping.getSource();
 				Parameter target = mapping.getTarget();
-				if (target.getUnit()==unit) {
+				if (target.getUnit()==subUnit) {
 					assign.setParameterValue(target, resultAssignment.getParameterValue(source));
 				}
 			}
 		}
-		return new UnitApplicationImpl(engine, graph, unit, assign);
+		return new UnitApplicationImpl(engine, graph, subUnit, assign);
 	}
 	
 	/*
