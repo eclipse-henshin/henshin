@@ -74,16 +74,17 @@ public abstract class ChangeImpl implements Change {
 	public static final class AttributeChangeImpl extends ChangeImpl implements AttributeChange {
 
 		private final EObject object;
-		private final EAttribute attribute;
+		private EAttribute attribute;
 		private Object oldValue;
 		private Object newValue;
+		private boolean initialized;
 
 		public AttributeChangeImpl(EGraph graph, EObject object, EAttribute attribute, Object newValue) {
 			super(graph);
 			this.object = object;
 			this.attribute = attribute;
-			this.oldValue = object.eGet(attribute);
 			this.newValue = newValue;
+			this.initialized = false;
 		}
 
 		/*
@@ -93,6 +94,18 @@ public abstract class ChangeImpl implements Change {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public void applyAndReverse() {
+			// Need to initialize?
+			if (!initialized) {
+				oldValue = object.eGet(attribute);
+				if ((oldValue==null && newValue==null) ||
+					(oldValue!=null && oldValue.equals(newValue))) {
+					attribute = null;
+				}
+			}
+			// Nothing to do?
+			if (attribute==null) {
+				return;
+			}
 			if (attribute.isMany()) {
 				List values = (List) object.eGet(attribute);
 				values.clear();
