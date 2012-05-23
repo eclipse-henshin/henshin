@@ -111,7 +111,7 @@ public class SierpinskiBenchmark {
 	}
 	
 	public static void main(String[] args) {
-		run(PATH, 13); // we assume the working direcory is the root of the examples plug-in
+		run(PATH, 15); // we assume the working direcory is the root of the examples plug-in
 	}
 	
 }

@@ -248,7 +248,7 @@ public class ParameterTests extends HenshinTest {
 		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
 		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEGraph);
 		
-		Matches.assertObjectContainedInAllMatches(htRule, htEGraph, htEngine, ndVal);
+		Matches.assertObjectContainedInAllMatches(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, ndVal);
 		//Tools.printMatches(htRuleApp.findAllMatches());
 	}
 	
@@ -263,13 +263,13 @@ public class ParameterTests extends HenshinTest {
 		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
 		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEGraph);
 		
-		Matches.assertObjectContainedInNoMatch(htRule, htEGraph, htEngine, ndVal);
+		Matches.assertObjectContainedInNoMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, ndVal);
 		
 		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd2'", htEGraph);
 		
-		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htEngine, nd1);
-		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htEngine, nd2);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, nd1);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, nd2);
 		
 		//Tools.printMatches(htRuleApp.findAllMatches());
 	}

@@ -13,7 +13,6 @@ package org.eclipse.emf.henshin.testframework;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
@@ -53,11 +52,11 @@ public class Matches {
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAllMatches(Rule r, EGraph graph, Engine engine, EObject object)
+	public static void assertObjectContainedInAllMatches(Rule r, EGraph graph, Match partialMatch, Engine engine, EObject object)
 			throws AssertionError {
 		
 		boolean foundMatch = false;
-		for (Match match : engine.findMatches(r, graph, null)) {
+		for (Match match : engine.findMatches(r, graph, partialMatch)) {
 			foundMatch = true;
 			if (!match.getNodeTargets().contains(object)) {
 				throw new AssertionError("expected: Object contained in every match, but it's not");
@@ -82,10 +81,10 @@ public class Matches {
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNoMatch(Rule r, EGraph graph, Engine engine, EObject object)
+	public static void assertObjectContainedInNoMatch(Rule r, EGraph graph, Match partialMatch, Engine engine, EObject object)
 			throws AssertionError {
 
-		for (Match match : engine.findMatches(r, graph, null)) {
+		for (Match match : engine.findMatches(r, graph, partialMatch)) {
 			if (match.getNodeTargets().contains(object)) {
 				throw new AssertionError(
 						"expected: Object contained in no match, but contained in at least one");
@@ -108,11 +107,11 @@ public class Matches {
 	 *            Number of expected matches
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInNMatches(Rule r, EGraph graph, Engine engine, EObject object, int n)
+	public static void assertObjectContainedInNMatches(Rule r, EGraph graph, Match partialMatch, Engine engine, EObject object, int n)
 			throws AssertionError {
 		
 		int num = 0;
-		for (Match match : engine.findMatches(r, graph, null)) {
+		for (Match match : engine.findMatches(r, graph, partialMatch)) {
 			if (match.getNodeTargets().contains(object)) {
 				num++;
 			}
@@ -135,9 +134,9 @@ public class Matches {
 	 *            {@link EObject}
 	 * @throws AssertionError
 	 */
-	public static void assertObjectContainedInAtLeastOneMatch(Rule r, EGraph graph, Engine engine,
+	public static void assertObjectContainedInAtLeastOneMatch(Rule r, EGraph graph, Match partialMatch, Engine engine,
 			EObject object) throws AssertionError {
-		for (Match m : engine.findMatches(r, graph, null)) {
+		for (Match m : engine.findMatches(r, graph, partialMatch)) {
 			if (m.getNodeTargets().contains(object)) {
 				return;
 			}
@@ -159,10 +158,10 @@ public class Matches {
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, EGraph graph, Engine engine,
+	public static void assertNoObjectFromGroupContainedInAnyMatch(Rule r, EGraph graph, Match partialMatch, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
 		
-		for (Match m : engine.findMatches(r, graph, null)) {
+		for (Match m : engine.findMatches(r, graph, partialMatch)) {
 			for (EObject eo : group) {
 				if (m.getNodeTargets().contains(eo)) {
 					throw new AssertionError(
@@ -185,10 +184,10 @@ public class Matches {
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInNoMatch(Rule r, EGraph graph, Engine engine,
+	public static void assertGroupContainedInNoMatch(Rule r, EGraph graph, Match partialMatch, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
 		
-		for (Match m : engine.findMatches(r, graph, null)) {
+		for (Match m : engine.findMatches(r, graph, partialMatch)) {
 			if (m.getNodeTargets().containsAll(group)) {
 				throw new AssertionError(
 						"expected: Group is contained in no match, but is contained in at least one");
@@ -209,10 +208,10 @@ public class Matches {
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupContainedInAtLeastOneMatch(Rule r, EGraph graph, Engine engine, 
+	public static void assertGroupContainedInAtLeastOneMatch(Rule r, EGraph graph, Match partialMatch, Engine engine, 
 			Collection<? extends EObject> group) throws AssertionError {
 		
-		for (Match m : engine.findMatches(r, graph, null)) {
+		for (Match m : engine.findMatches(r, graph, partialMatch)) {
 			if (m.getNodeTargets().containsAll(group)) {
 				return;
 			}
@@ -234,10 +233,10 @@ public class Matches {
 	 * @param group
 	 *            {@link Collection} of {@link EObject}s
 	 */
-	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EGraph graph, Engine engine,
+	public static void assertAnyObjectFromGroupContainedInAtLeastOneMatch(Rule r, EGraph graph, Match partialMatch, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
 		
-		for (Match m : engine.findMatches(r, graph, null)) {
+		for (Match m : engine.findMatches(r, graph, partialMatch)) {
 			for (EObject eo : group) {
 				if (m.getNodeTargets().contains(eo)) {
 					return;
@@ -443,14 +442,14 @@ public class Matches {
 	 *            {@link Collection} of {@link EObject}s
 	 * @throws AssertionError
 	 */
-	public static void assertGroupIsMatched(Rule rule, EGraph graph, Engine engine, Collection<? extends EObject> group)
+	public static void assertGroupIsMatched(Rule rule, EGraph graph, Match partialMatch, Engine engine, Collection<? extends EObject> group)
 			throws AssertionError {
 		HashMap<EObject, Boolean> matchContained = new HashMap<EObject, Boolean>();
 		for (EObject eo : group) {
 			matchContained.put(eo, false);
 		}
 		
-		for (Match m : engine.findMatches(rule, graph, null)) {
+		for (Match m : engine.findMatches(rule, graph, partialMatch)) {
 			for (EObject eo2 : m.getNodeTargets()) {
 				matchContained.put(eo2, true);
 			}
@@ -476,13 +475,19 @@ public class Matches {
 	 * @param group
 	 * @throws AssertionError
 	 */
-	public static void assertOnlyGroupIsMatched(Rule rule, EGraph graph, Engine engine,
+	public static void assertOnlyGroupIsMatched(Rule rule, EGraph graph, Match partialMatch, Engine engine,
 			Collection<? extends EObject> group) throws AssertionError {
-		if (rule.isInjectiveMatching()) {
-//				&& (!(((EmfEngine) ra.getInterpreterEngine()).getOptions().isInjective()))) {
-			// non-injective mode
-			HashMap<EObject, Integer> matchContents = new HashMap<EObject, Integer>();
-			
+		
+		// Use injective matching?
+		boolean injective = rule.isInjectiveMatching();
+		Boolean inj = (Boolean) engine.getOptions().get(Engine.OPTION_INJECTIVE_MATCHING);
+		if (inj!=null) {
+			injective = inj;
+		}
+		
+		if (!injective) {
+			// non-injective mode:
+			HashMap<EObject, Integer> matchContents = new HashMap<EObject, Integer>();	
 			for (EObject eo : group) {
 				if (matchContents.containsKey(eo)) {
 					matchContents.put(eo, matchContents.get(eo) + 1);
@@ -491,7 +496,7 @@ public class Matches {
 				}
 			}
 			
-			for (Match m : engine.findMatches(rule, graph, null)) {
+			for (Match m : engine.findMatches(rule, graph, partialMatch)) {
 				for (EObject eo : m.getNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, matchContents.get(eo) - 1);
@@ -510,13 +515,13 @@ public class Matches {
 			}
 			
 		} else {
+			// injective mode:
 			HashMap<EObject, Boolean> matchContents = new HashMap<EObject, Boolean>();
-			
 			for (EObject eo : group) {
 				matchContents.put(eo, false);
 			}
 			
-			for (Match m : engine.findMatches(rule, graph, null)) {
+			for (Match m : engine.findMatches(rule, graph, partialMatch)) {
 				for (EObject eo : m.getNodeTargets()) {
 					if (group.contains(eo)) {
 						matchContents.put(eo, true);

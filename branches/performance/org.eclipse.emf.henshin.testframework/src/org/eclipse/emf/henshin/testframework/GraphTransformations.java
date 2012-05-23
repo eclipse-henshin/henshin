@@ -307,9 +307,7 @@ public class GraphTransformations {
 	public static void assertTransformsGraph(UnitApplication ua, EGraph graph2,
 			double matchSimilarityThreshold) throws AssertionError {
 		
-		if (!ua.execute(null)) {
-			throw new AssertionError("expected: unit can be applied to graph, but is not");
-		}
+		ua.execute(null);
 		
 		if (!(graphsEqual(ua.getEGraph(), graph2,
 				matchSimilarityThreshold))) {

@@ -16,21 +16,25 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public class AssignmentImpl implements Assignment {
 
-	// The target transformation unit: 
-	protected final TransformationUnit unit;
+	// The target transformation unit (is actually final): 
+	protected TransformationUnit unit;
 	
 	// Map for storing the assigned values:
 	protected final Map<Object,Object> values;
-	
+
+	/*
+	 * Internal constructor. Used by subclasses.
+	 */
+	protected AssignmentImpl() {
+		this.values = new HashMap<Object,Object>();
+	}
+
 	/**
 	 * Default constructor.
 	 */
 	public AssignmentImpl(TransformationUnit unit) {
-		if (unit==null) {
-			throw new NullPointerException("Transformation unit cannot be null");
-		}
-		this.unit = unit;
-		this.values = new HashMap<Object,Object>();
+		this();
+		setUnit(unit);
 	}
 	
 	/**
@@ -38,12 +42,30 @@ public class AssignmentImpl implements Assignment {
 	 * @param assignment Assignment to be copied.
 	 */
 	public AssignmentImpl(Assignment assignment) {
-		this(assignment.getUnit());
+		this();
+		setUnit(assignment.getUnit());
+		copyParameterValues(assignment);
+	}
+	
+	/*
+	 * Set the internal unit for this unit application.
+	 */
+	protected void setUnit(TransformationUnit unit) {
+		if (unit==null) {
+			throw new NullPointerException("Transformation unit cannot be null");
+		}
+		this.unit = unit;
+	}
+	
+	/*
+	 * Copy the parameter values from an assignment into this assignment.
+	 */
+	protected void copyParameterValues(Assignment assignment) {
 		for (Parameter param : unit.getParameters()) {
 			setParameterValue(param, assignment.getParameterValue(param));
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Assignment#getUnit()
@@ -158,6 +180,9 @@ public class AssignmentImpl implements Assignment {
 		String result = "";
 		for (Parameter param : unit.getParameters()) {
 			Object value = getParameterValue(param);
+			if (value instanceof String) {
+				value = "'" + value + "'";
+			}
 			if (value!=null) {
 				result = result + indent + "- parameter '" + param.getName() + "' => " + value + "\n";
 			}

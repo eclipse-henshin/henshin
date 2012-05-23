@@ -98,9 +98,11 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 					return executePriorityUnit(monitor);
 				case HenshinPackage.LOOP_UNIT:
 					return executeLoopUnit(monitor);
+				default:
+					return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	/*

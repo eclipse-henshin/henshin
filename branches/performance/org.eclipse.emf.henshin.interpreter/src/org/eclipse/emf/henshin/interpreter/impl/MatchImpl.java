@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * Default {@link Match} implementation. For result matches, use {@link ResultMatchImpl}.
@@ -30,7 +31,7 @@ import org.eclipse.emf.henshin.model.Rule;
 public class MatchImpl extends AssignmentImpl implements Match {
 	
 	// Nodes to be matched:
-	protected final List<Node> nodes;
+	protected List<Node> nodes;
 	
 	// Flag indicating whether this is a result match:
 	protected final boolean isResultMatch;
@@ -56,9 +57,8 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 * @param rule The rule that this match is used for.
 	 */
 	protected MatchImpl(Rule rule, boolean isResultMatch) {
-		super(rule);
 		this.isResultMatch = isResultMatch;
-		this.nodes = isResultMatch ? rule.getRhs().getNodes() : rule.getLhs().getNodes(); 
+		setUnit(rule);
 	}
 
 	/*
@@ -66,12 +66,9 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 * @param assignment The assignment or match to be copied.
 	 */
 	protected MatchImpl(Assignment assignment, boolean isResultMatch) {
-		super(assignment);
-		if (!(unit instanceof Rule)) {
-			throw new IllegalArgumentException("Argument assignment does not refer to a rule");
-		}
 		this.isResultMatch = isResultMatch;
-		this.nodes = isResultMatch ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
+		setUnit(assignment.getUnit());
+		copyParameterValues(assignment);
 		if (assignment instanceof Match) {
 			Match match = (Match) assignment;
 			for (Node node : nodes) {
@@ -80,6 +77,20 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl#setUnit(org.eclipse.emf.henshin.model.TransformationUnit)
+	 */
+	@Override
+	protected void setUnit(TransformationUnit unit) {
+		if (!(unit instanceof Rule)) {
+			throw new IllegalArgumentException("Transformation unit must be a rule");
+		}
+		this.unit = unit;
+		// LHS or RHS nodes?
+		this.nodes = isResultMatch ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Match#getRule()

@@ -56,16 +56,16 @@ public class EngineOptionsTests extends HenshinTest {
 		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
 		
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNoMatch(htRule, htEGraph, htEngine); // Rule should have no match, as
+		Rules.assertRuleHasNoMatch(htRule, htEGraph, null, htEngine); // Rule should have no match, as
 												// we're looking for a Node with
 												// two child nodes, but the
 												// graph contains just a Node
 												// with one child node.
 		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 1); // Rule should have exactly 1
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 1); // Rule should have exactly 1
 													// match
-		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, objGroup); // This match
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, null, htEngine, objGroup); // This match
 																// should
 																// contain n1,
 																// n2, n2
@@ -91,10 +91,10 @@ public class EngineOptionsTests extends HenshinTest {
 		
 		// assert Rule is correct for injective matching
 		
-		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 2); // expected matches: n1 <->
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 2); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
 													// n2)
-		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, htEngine, objGroup);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, null, htEngine, objGroup);
 		
 		// turn off injective matching and try again
 		
@@ -116,7 +116,7 @@ public class EngineOptionsTests extends HenshinTest {
 		
 		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 4); // expected matches: n1 <->
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 4); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
 													// n2) ; n1 <-> (n2, n2) ;
 													// n1 <-> (n3, n3)

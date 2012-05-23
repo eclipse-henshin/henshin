@@ -41,8 +41,8 @@ public class Rules {
 	 *            {@link EGraph} the rule should be applied to
 	 * @throws AssertionError
 	 */
-	public static void assertRuleHasMatch(Rule rule, EGraph graph, Engine engine) throws AssertionError {
-		if (!engine.findMatches(rule, graph, null).iterator().hasNext()) {
+	public static void assertRuleHasMatch(Rule rule, EGraph graph, Match partialMatch, Engine engine) throws AssertionError {
+		if (!engine.findMatches(rule, graph, partialMatch).iterator().hasNext()) {
 			throw new AssertionError("expected: Rule " + rule.getName() + " has matches, but has none");			
 		}
 	}
@@ -56,8 +56,8 @@ public class Rules {
 	 * @parem engine {@link Engine}
 	 * @throws AssertionError
 	 */
-	public static void assertRuleHasNoMatch(Rule rule, EGraph graph, Engine engine) throws AssertionError {
-		if (engine.findMatches(rule, graph, null).iterator().hasNext()) {
+	public static void assertRuleHasNoMatch(Rule rule, EGraph graph, Match partialMatch, Engine engine) throws AssertionError {
+		if (engine.findMatches(rule, graph, partialMatch).iterator().hasNext()) {
 			throw new AssertionError("expected: Rule " + rule.getName() + " has no matches, but has one");			
 		}
 	}
@@ -75,9 +75,9 @@ public class Rules {
 	 * @throws AssertionError
 	 */
 	@SuppressWarnings("unused")
-	public static void assertRuleHasNMatches(Rule rule, EGraph graph, Engine engine, int n) throws AssertionError {
+	public static void assertRuleHasNMatches(Rule rule, EGraph graph, Match partialMatch, Engine engine, int n) throws AssertionError {
 		int found = 0;
-		for (Match match : engine.findMatches(rule, graph, null)) {
+		for (Match match : engine.findMatches(rule, graph, partialMatch)) {
 			found++;
 		}
 		if (found!=n) {

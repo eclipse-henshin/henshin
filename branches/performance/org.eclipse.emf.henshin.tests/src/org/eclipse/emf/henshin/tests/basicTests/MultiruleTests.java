@@ -22,11 +22,11 @@ public class MultiruleTests extends HenshinTest {
 		loadGraph("nested2initial");
 		loadRule("matchm-M-MM");
 		Rule rule1 = htRule.getMultiRules().get(0);
-		Rules.assertRuleHasNMatches(rule1, htEGraph, htEngine, 2);	// will match (n1 ; n1-1) and (n1 ; n1-2)
+		Rules.assertRuleHasNMatches(rule1, htEGraph, null, htEngine, 2);	// will match (n1 ; n1-1) and (n1 ; n1-2)
 		
 		loadRule("matchm-M-MM");
 		Rule rule2 = htRule.getMultiRules().get(0).getMultiRules().get(0);
-		Rules.assertRuleHasNMatches(rule2, htEGraph, htEngine, 4);	// will match (n1;n1-1;v1-1-1), (n1;n1-1;v1-1-2), (n1;n1-2;v1-2-1), (n1;n1-2;v1-2-2)
+		Rules.assertRuleHasNMatches(rule2, htEGraph, null, htEngine, 4);	// will match (n1;n1-1;v1-1-1), (n1;n1-1;v1-1-2), (n1;n1-2;v1-2-1), (n1;n1-2;v1-2-2)
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class MultiruleTests extends HenshinTest {
 	public void testForallSemantics() {
 		loadGraph("nested2initial");
 		loadRule("matchm-M-MM");
-		Rules.assertRuleHasNMatches(htRule, htEGraph, htEngine, 3);	// 3 matches: n1 (full match w/ all nested rules), n1-1 (no subrules matched), n1-2 (no subrules matched)
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 3);	// 3 matches: n1 (full match w/ all nested rules), n1-1 (no subrules matched), n1-2 (no subrules matched)
 	}
 	
 	/**
