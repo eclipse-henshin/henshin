@@ -80,7 +80,7 @@
     <eOperations name="collectMissingRootObjects"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EResource"
         changeable="false" transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="emfGraph" eType="#//EmfGraph"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="eGraph" eType="#//EGraph"
         changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectKeysMap" upperBound="-1"
         eType="#//ObjectKey" containment="true"/>
@@ -153,6 +153,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="IntegerArray" instanceClassName="int[]"/>
   <eClassifiers xsi:type="ecore:EDataType" name="StringArray" instanceClassName="java.lang.String[]"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.util.Match"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="EmfGraph" instanceClassName="org.eclipse.emf.henshin.matching.EmfGraph"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Match" instanceClassName="org.eclipse.emf.henshin.interpreter.Match"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="EGraph" instanceClassName="org.eclipse.emf.henshin.interpreter.EGraph"
+      serializable="false"/>
 </ecore:EPackage>

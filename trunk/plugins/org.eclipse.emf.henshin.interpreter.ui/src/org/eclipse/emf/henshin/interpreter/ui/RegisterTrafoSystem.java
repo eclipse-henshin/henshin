@@ -8,7 +8,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.interpreter.util.HenshinRegistry;
+import org.eclipse.emf.henshin.model.HenshinRegistry;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -33,7 +33,7 @@ public class RegisterTrafoSystem extends AbstractHandler {
 			
 			for (Object obj: res.getContents()) {
 				if (obj instanceof TransformationSystem) {
-					HenshinRegistry.instance.registerTransformationSystem((TransformationSystem) obj);
+					HenshinRegistry.INSTANCE.getTransformationSystems().add((TransformationSystem) obj);
 				}
 			}
 		}

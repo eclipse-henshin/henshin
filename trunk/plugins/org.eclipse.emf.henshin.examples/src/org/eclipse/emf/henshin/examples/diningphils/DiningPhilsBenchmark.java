@@ -1,9 +1,11 @@
 package org.eclipse.emf.henshin.examples.diningphils;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
@@ -15,15 +17,25 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceExplorationHelper;
 
 public class DiningPhilsBenchmark {
 
-	public static void doBenchmark(int maxPhils, int numThreads) {
+	/**
+	 * Relative path to the example files.
+	 */
+	public static final String PATH = "src/org/eclipse/emf/henshin/examples/diningphils";
+	
+	/**
+	 * Perform the benchmark.
+	 * @param path Relative path to the model files.
+	 * @param maxPhils Maximum number of philosophers.
+	 * @param numThreads Number of threads to use.
+	 */
+	public static void doBenchmark(String path, int maxPhils, int numThreads) {
 
 		System.out.println("Starting benchmark...");
 		System.out.println("NumThreads: " + numThreads);
 		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB\n");
 
 		// Create a resource set with a base directory:
-		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(
-				"src/org/eclipse/emf/henshin/examples/diningphils/model");
+		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);
 		
 		// Load the state space and create a state space manager:
 		StateSpace stateSpace = resourceSet.getStateSpace("3-phils.statespace");
@@ -67,10 +79,15 @@ public class DiningPhilsBenchmark {
 								time);
 				
 				// Add a philosopher:
-				EmfGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEmfGraph();
-				EmfEngine engine = new EmfEngine(initialStateGraph);
-				RuleApplication app = new RuleApplication(engine, createPhilRule);
-				app.apply();
+				EGraph initialStateGraph = manager.getModel(stateSpace.getInitialStates().get(0)).getEGraph();
+				Engine engine = InterpreterFactory.INSTANCE.createEngine();
+				RuleApplication app = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+				ApplicationMonitor monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
+				app.setEGraph(initialStateGraph);
+				app.setRule(createPhilRule);
+				if (!app.execute(monitor)) {
+					throw new RuntimeException("Error adding philosopher!");
+				}
 				
 			}	
 		}
@@ -93,10 +110,10 @@ public class DiningPhilsBenchmark {
 		int threads = Runtime.getRuntime().availableProcessors();
 		
 		System.out.println("\n******* WARMUP PHASE ********\n");
-		doBenchmark(8, threads);
+		doBenchmark(PATH, 8, threads);
 		
 		System.out.println("\n******* BENCHMARK ********\n");
-		doBenchmark(13, threads);
+		doBenchmark(PATH, 13, threads);
 		
 	}
 

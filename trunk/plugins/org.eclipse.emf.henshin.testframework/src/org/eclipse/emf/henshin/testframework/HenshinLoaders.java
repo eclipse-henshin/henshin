@@ -15,9 +15,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.HenshinGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.util.HenshinEGraph;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -32,7 +33,9 @@ import org.eclipse.emf.henshin.model.resource.HenshinResource;
  * 
  */
 public class HenshinLoaders {
+	
 	public final static String HENSHIN_FILE_EXTENSION = HenshinResource.FILE_EXTENSION;
+	
 	/*--------------------------------------
 	 * LOADERS
 	 * ------------------------------------- */
@@ -50,20 +53,7 @@ public class HenshinLoaders {
 	}
 	
 	/**
-	 * Load model from file and create an {@link EmfEngine}
-	 * 
-	 * @param modelFileName
-	 *            Path to the model file
-	 * @param modelFileExt
-	 *            model file extension
-	 * @return EmfEngine
-	 */
-	public static EmfEngine loadEngine(String modelFileName, String modelFileExt) {
-		return (new EmfEngine(loadGraph(modelFileName, modelFileExt)));
-	}
-	
-	/**
-	 * Load model from file and create an {@link EmfGraph}
+	 * Load model from file and create an {@link EGraph}
 	 * 
 	 * @param modelFileName
 	 *            Path to the model file
@@ -71,12 +61,12 @@ public class HenshinLoaders {
 	 *            model file extension
 	 * @return EmfGraph
 	 */
-	public static EmfGraph loadGraph(String modelFileName, String modelFileExt) {
+	public static EGraph loadGraph(String modelFileName, String modelFileExt) {
 		ModelHelper.registerFileExtension(modelFileExt);
 		EObject graphRoot = ModelHelper.loadFile(modelFileName);
 		
-		EmfGraph graph = new EmfGraph();
-		graph.addRoot(graphRoot);
+		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
+		graph.addTree(graphRoot);
 		
 		return graph;
 	}
@@ -90,12 +80,12 @@ public class HenshinLoaders {
 	 *            {@link TransformationSystem}
 	 * @return
 	 */
-	public static EmfGraph loadEmbeddedGraph(String embeddedGraphName, TransformationSystem ts)
+	public static EGraph loadEmbeddedGraph(String embeddedGraphName, TransformationSystem ts)
 			throws NullPointerException {
-		HenshinGraph hgr = null;
+		HenshinEGraph hgr = null;
 		for (Graph g : ts.getInstances()) {
 			if (g.getName().equals(embeddedGraphName)) {
-				hgr = new HenshinGraph(g);
+				hgr = new HenshinEGraph(g);
 				break;
 			}
 		}
@@ -103,7 +93,7 @@ public class HenshinLoaders {
 		if (hgr == null) {
 			throw new NullPointerException("couldn't find embedded graph " + embeddedGraphName);
 		}
-		return (EmfGraph) hgr;
+		return (EGraph) hgr;
 	}
 	
 	/**
@@ -115,16 +105,16 @@ public class HenshinLoaders {
 	 *            {@link TransformationSystem}
 	 * @return
 	 */
-	public static EmfGraph loadGraph(String embeddedGraphName, TransformationSystem ts) {
+	public static EGraph loadGraph(String embeddedGraphName, TransformationSystem ts) {
 		// this method is just for having similar method names for loading
 		// graphs
 		return loadEmbeddedGraph(embeddedGraphName, ts);
 	}
 	
-	public static EmfGraph loadGraph(URI graphUri) {
+	public static EGraph loadGraph(URI graphUri) {
 		Resource resourceModel = new ResourceSetImpl().getResource(graphUri, true);
-		EmfGraph egr = new EmfGraph();
-		egr.addRoot(resourceModel.getContents().get(0));
+		EGraph egr = InterpreterFactory.INSTANCE.createEGraph();
+		egr.addTree(resourceModel.getContents().get(0));
 		return egr;
 	}
 	

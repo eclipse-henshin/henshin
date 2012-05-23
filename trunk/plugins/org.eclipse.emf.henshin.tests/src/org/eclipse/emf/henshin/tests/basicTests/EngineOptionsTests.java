@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.eclipse.emf.henshin.testframework.Matches;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * tests several engine options
@@ -51,21 +51,21 @@ public class EngineOptionsTests extends HenshinTest {
 		loadGraph("nonInjective1");
 		
 		Collection<EObject> objGroup = new ArrayList<EObject>();
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEmfGraph));
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph));
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
 		
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNoMatch(htRuleApp); // Rule should have no match, as
+		Rules.assertRuleHasNoMatch(htRule, htEGraph, null, htEngine); // Rule should have no match, as
 												// we're looking for a Node with
 												// two child nodes, but the
 												// graph contains just a Node
 												// with one child node.
-		htEngine.getOptions().setInjective(false);
+		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNMatches(htRuleApp, 1); // Rule should have exactly 1
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 1); // Rule should have exactly 1
 													// match
-		Matches.assertOnlyGroupIsMatched(htRuleApp, objGroup); // This match
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, null, htEngine, objGroup); // This match
 																// should
 																// contain n1,
 																// n2, n2
@@ -83,49 +83,49 @@ public class EngineOptionsTests extends HenshinTest {
 		loadGraph("nonInjective2");
 		
 		Collection<EObject> objGroup = new ArrayList<EObject>();
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEmfGraph));
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph));
-		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
+		objGroup.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEGraph));
 		
 		loadRule("non-injectiveMatching");
 		
 		// assert Rule is correct for injective matching
 		
-		Rules.assertRuleHasNMatches(htRuleApp, 2); // expected matches: n1 <->
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 2); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
 													// n2)
-		Matches.assertOnlyGroupIsMatched(htRuleApp, objGroup);
+		Matches.assertOnlyGroupIsMatched(htRule, htEGraph, null, htEngine, objGroup);
 		
 		// turn off injective matching and try again
 		
 		Collection<EObject> ninjObjGroup1 = new ArrayList<EObject>();
 		ninjObjGroup1
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEGraph));
 		ninjObjGroup1
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
 		ninjObjGroup1
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph));
 		
 		Collection<EObject> ninjObjGroup2 = new ArrayList<EObject>();
 		ninjObjGroup2
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n1'", htEGraph));
 		ninjObjGroup2
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEGraph));
 		ninjObjGroup2
-				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph));
+				.add(Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEGraph));
 		
-		htEngine.getOptions().setInjective(false);
+		htEngine.getOptions().put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.FALSE);
 		loadRule("non-injectiveMatching");
-		Rules.assertRuleHasNMatches(htRuleApp, 4); // expected matches: n1 <->
+		Rules.assertRuleHasNMatches(htRule, htEGraph, null, htEngine, 4); // expected matches: n1 <->
 													// (n2, n3) ; n1 <-> (n3,
 													// n2) ; n1 <-> (n2, n2) ;
 													// n1 <-> (n3, n3)
 		
-		for (Match ma : htRuleApp.findAllMatches()) {
-			if (ma.getNodeMapping().containsValue(
-					Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEmfGraph))) {
-				if (ma.getNodeMapping().containsValue(
-						Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEmfGraph))) {
+		for (Match ma : htEngine.findMatches(htRule, htEGraph, null)) {
+			if (ma.getNodeTargets().contains(
+					Tools.getFirstElementFromOCLQueryResult("self.nodename='n2'", htEGraph))) {
+				if (ma.getNodeTargets().contains(
+						Tools.getFirstElementFromOCLQueryResult("self.nodename='n3'", htEGraph))) {
 					Matches.assertMatchIsGroup(ma, objGroup);
 				} else {
 					Matches.assertMatchIsGroup(ma, ninjObjGroup1);

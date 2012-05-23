@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.testframework.Tools;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Tests creating nodes
@@ -50,8 +49,8 @@ public class CreateNodes extends HenshinTest {
 		 */
 		loadGraph("graphWithCont");
 		loadRule("createNodeWithContainmentEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph,
-				HenshinLoaders.loadGraph(getGraphURI("graphWithOneNode")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
+				HenshinLoaders.loadGraph(getGraphURI("graphWithOneNode")), htEngine, 0.9);
 	}
 	
 	@Test
@@ -63,8 +62,8 @@ public class CreateNodes extends HenshinTest {
 		 * Node --(hasVals)--> Vals
 		 */
 		loadRule("createNodeWithUnidirectionalEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders
-				.loadGraph(getGraphURI("graphAfter_createNodeWithUnidirectionalEdge")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders
+				.loadGraph(getGraphURI("graphAfter_createNodeWithUnidirectionalEdge")), htEngine, 0.9);
 	}
 	
 	// removed testCreateNodeWithContainmentEdgeAndBidirectionalEdge1
@@ -74,8 +73,8 @@ public class CreateNodes extends HenshinTest {
 	public void testCreateNodeWithContainmentEdgeAndBidirectionalEdge3() {
 		loadRule("createNodeWithBidirectionalEdge3");
 		GraphTransformations
-				.assertTransformsGraph(htRule, htEngine, HenshinLoaders
-						.loadGraph(getGraphURI("graphAfter_createNodeWithBidirectionalEdge")), 0.9);
+				.assertTransformsGraph(htRule, htEGraph, HenshinLoaders
+						.loadGraph(getGraphURI("graphAfter_createNodeWithBidirectionalEdge")), htEngine, 0.9);
 	}
 	
 	@Test
@@ -83,11 +82,11 @@ public class CreateNodes extends HenshinTest {
 		/**
 		 * Create a root node in an empty graph
 		 */
-		loadGraph(new EmfGraph());
+		loadGraph(InterpreterFactory.INSTANCE.createEGraph());
 		loadRule("createRootNode");
 		Rules.assertRuleCanBeApplied(htRuleApp);
 		try {
-			Node createdRootNode = (Node) Tools.getGraphRoot(htEmfGraph);
+			Node createdRootNode = (Node) Tools.getGraphRoot(htEGraph);
 			junit.framework.Assert.assertNotNull(createdRootNode);
 			System.out.println(createdRootNode);
 		} catch (Exception e) {
@@ -101,6 +100,6 @@ public class CreateNodes extends HenshinTest {
 	public void edgeCTest() {
 		loadGraph("graphWithCont");
 		loadRule("edgeCtest");
-		GraphTransformations.assertTransformsGraph(htRule, htEngine, HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgeCtest")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgeCtest")), htEngine, 0.9);
 	}
 }

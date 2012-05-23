@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.AbstractOperation;
@@ -41,13 +42,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -155,14 +158,14 @@ public class Henshination {
 	 */
 	protected Tuple<Boolean, Boolean> runUnitApplication(final UnitApplication ua,
 			final boolean undoOnCancel) {
-		final UnitApplication.ApplicationMonitor appMon = ua.getApplicationMonitor();
+		final ApplicationMonitor appMon = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		final Capsule<Boolean> result = new Capsule<Boolean>(false);
 		IRunnableWithProgress unitApplicationMonitor = new IRunnableWithProgress() {
 			@Override
 			public synchronized void run(IProgressMonitor progMon) {
 				Thread unitAppThread = new Thread(new Runnable() {
 					public void run() {
-						result.setValue(ua.execute());
+						result.setValue(ua.execute(appMon));
 					}
 				});
 				unitAppThread.start();
@@ -199,11 +202,15 @@ public class Henshination {
 	}
 	
 	protected UnitApplication createUnitApplication(EObject model) {
-		EmfGraph context = new EmfGraph();
-		context.addRoot(model);
-		EmfEngine engine = new EmfEngine(context);
-		UnitApplication unitApplication = new UnitApplication(engine, transformationUnit);
-		unitApplication.setParameterValues(prepareParameterValues());
+		EGraph context = InterpreterFactory.INSTANCE.createEGraph();
+		context.addTree(model);
+		Engine engine = InterpreterFactory.INSTANCE.createEngine();
+		UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		unitApplication.setEGraph(context);
+		unitApplication.setUnit(transformationUnit);
+		for (Entry<String,Object> entry : prepareParameterValues().entrySet()) {
+			unitApplication.setParameterValue(entry.getKey(), entry.getValue());
+		}
 		return unitApplication;
 	}
 	
@@ -329,7 +336,7 @@ public class Henshination {
 			public IStatus redo(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				try {
-					unitApplication.redo();
+					unitApplication.redo(null);
 					resource.save(null);
 				} catch (Exception e) {
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());
@@ -341,7 +348,7 @@ public class Henshination {
 			public IStatus undo(IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
 				try {
-					unitApplication.undo();
+					unitApplication.undo(null);
 					resource.save(null);
 				} catch (Exception e) {
 					return new Status(Status.ERROR, InterpreterUIPlugin.ID, e.getMessage());

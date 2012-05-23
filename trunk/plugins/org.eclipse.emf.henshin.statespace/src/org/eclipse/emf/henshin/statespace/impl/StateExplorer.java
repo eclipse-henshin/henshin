@@ -1,16 +1,18 @@
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
-import org.eclipse.emf.henshin.interpreter.interfaces.InterpreterEngine;
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.util.TransformationOptions;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
@@ -20,6 +22,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Trace;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
@@ -27,7 +30,7 @@ import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
 /**
  * Helper class for exploring states. This forms the bridge between a {@link StateSpaceManager}
- * and an {@link InterpreterEngine}. This class tries to minimize the number of created 
+ * and an {@link Engine}. This class tries to minimize the number of created 
  * short living objects to improve the performance. Instances of this class must not be 
  * used concurrently!
  * 
@@ -37,31 +40,40 @@ import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 public class StateExplorer {
 	
 	// State space manager:
-	private StateSpaceManager manager;
+	private final StateSpaceManager manager;
 	
 	// Cached state space:
-	private StateSpace stateSpace;
+	private final StateSpace stateSpace;
 	
 	// Cached equality helper:
-	private EqualityHelper equalityHelper;
+	private final EqualityHelper equalityHelper;
 	
 	// Cached engine:
-	private EmfEngine engine;
+	private Engine engine;
 	
 	// Cached result:
-	private List<Transition> result;
+	private final List<Transition> result;
 	
 	// Whether to use object keys:
-	private boolean useObjectKeys;
+	private final boolean useObjectKeys;
 	
 	// Cached rules:
-	private Rule[] rules;
+	private final Rule[] rules;
+	
+	// Cached rule parameters:
+	private final Map<Rule,List<Node>> ruleParameters;
+	
+	// Cached rule application:
+	private final RuleApplication application;
 	
 	// Cached identity types:
-	private EList<EClass> identityTypes;
+	private final EList<EClass> identityTypes;
 	
 	// Cached post-processor:
-	private ModelPostProcessor postProcessor;
+	private final ModelPostProcessor postProcessor;
+	
+	// Cached flag determining whether to collect miossing roots:
+	private final boolean collectMissingRoots;
 	
 	/**
 	 * Default constructor.
@@ -77,12 +89,25 @@ public class StateExplorer {
 		identityTypes = equalityHelper.getIdentityTypes();
 		useObjectKeys = !identityTypes.isEmpty();
 		rules = stateSpace.getRules().toArray(new Rule[0]);
-
+		ruleParameters = new HashMap<Rule,List<Node>>();
+		if (useObjectKeys) {
+			for (Rule rule : rules) {
+				try {
+					ruleParameters.put(rule, ParameterUtil.getParameters(stateSpace, rule));
+				} catch (StateSpaceException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		String collect = stateSpace.getProperties().get(StateSpaceProperties.COLLECT_MISSING_ROOTS);
+		collectMissingRoots = (collect!=null) && ("true".equalsIgnoreCase(collect) || "yes".equalsIgnoreCase(collect));
+		
 		// Set-up the engine:
-		engine = new EmfEngine();
-		TransformationOptions options = new TransformationOptions();
-		options.setDeterministic(true);		// really make sure it is deterministic
-		engine.setOptions(options);
+		engine = InterpreterFactory.INSTANCE.createEngine();
+		engine.getOptions().put(Engine.OPTION_DETERMINISTIC, Boolean.TRUE); // really make sure it is deterministic
+
+		// Create a rule application:
+		application = InterpreterFactory.INSTANCE.createRuleApplication(engine);
 		
 		// Post-processor:
 		postProcessor = new ModelPostProcessor(stateSpace);
@@ -104,34 +129,30 @@ public class StateExplorer {
 		
 		// Get the state model and create an engine for it:
 		Model model = manager.getModel(state);
+		EGraph graph = model.getEGraph();
 		
 		// Apply all rules:
 		for (int i=0; i<rules.length; i++) {
 
-			// Initialize the match engine:
-			engine.setEmfGraph(model.getEmfGraph());
-
-			// Compute matches:
-			RuleApplication app = new RuleApplication(engine, rules[i]);
-			List<Match> matches = app.findAllMatches();
-			
 			// Get the parameters of the rule:
-			List<Node> parameters = useObjectKeys ? 
-					ParameterUtil.getParameters(stateSpace, rules[i]) : null;
-			
+			List<Node> parameters = ruleParameters.get(rules[i]);
+
 			// Iterate over all matches:
-			int count = matches.size();
-			for (int j=0; j<count; j++) {
+			int matchIndex = 0;
+			for (Match match : engine.findMatches(rules[i], graph, null)) {
 				
 				// Transform the model:
-				Match match = matches.get(j);
 				Model transformed = model.getCopy(match);
-				engine.setEmfGraph(transformed.getEmfGraph());
-				app = new RuleApplication(engine, rules[i]);
-				app.setMatch(match);
-				app.apply();
+				application.setRule(rules[i]);
+				application.setEGraph(transformed.getEGraph());
+				application.setCompleteMatch(match);
+				if (!application.execute(null)) {
+					throw new StateSpaceException("Error applying rule \"" + rules[i].getName() + "\" to found match in state " + state.getIndex());
+				}
 				postProcessor.process(transformed);
-				transformed.collectMissingRootObjects();
+				if (collectMissingRoots) {
+					transformed.collectMissingRootObjects();
+				}
 				
 				// Create a new state:
 				State newState = StateSpaceFactory.eINSTANCE.createState();
@@ -153,7 +174,7 @@ public class StateExplorer {
 				// Create a new transition:
 				Transition newTransition = StateSpaceFactory.eINSTANCE.createTransition();
 				newTransition.setRule(rules[i]);
-				newTransition.setMatch(j);
+				newTransition.setMatch(matchIndex);
 				newTransition.setTarget(newState);
 				
 				// Set the parameters if necessary:
@@ -161,9 +182,9 @@ public class StateExplorer {
 					int[] params = new int[parameters.size()];
 					for (int p=0; p<params.length; p++) {
 						Node node = parameters.get(p);
-						EObject matched = match.getNodeMapping().get(node);
+						EObject matched = match.getNodeTarget(node);
 						if (matched==null) {
-							matched = app.getComatch().getNodeMapping().get(node);
+							matched = application.getResultMatch().getNodeTarget(node);
 						}
 						int objectKey = transformed.getObjectKeysMap().get(matched);
 						params[p] = ObjectKeyHelper.createObjectKey(
@@ -177,6 +198,9 @@ public class StateExplorer {
 				
 				// Remember the transition:
 				result.add(newTransition);
+				
+				// Increase the match index:
+				matchIndex++;
 								
 			}
 		}
@@ -188,34 +212,43 @@ public class StateExplorer {
 	/**
 	 * Derive a model using a trace and a given start model.
 	 * @param trace Trace.
-	 * @param start Start model.
+	 * @param model Start model.
 	 * @return The derived model.
 	 * @throws StateSpaceException On errors.
 	 */
-	public Model deriveModel(Trace trace, Model start) throws StateSpaceException {
+	public Model deriveModel(Trace trace, Model model) throws StateSpaceException {
 		
-		// We copy the start model:
-		Model model = start.getCopy(null);
-		engine.setEmfGraph(model.getEmfGraph());
+		// We need to copy the start model!!!
+		model = model.getCopy(null);
+		EGraph graph = model.getEGraph();
+		application.setEGraph(graph);
 		
 		// Derive the model for the current state:
 		for (Transition transition : trace) {
 			
 			// Find the right match:
-			RuleApplication application = new RuleApplication(engine, transition.getRule());
-			List<Match> matches = application.findAllMatches();
-			Match match;
-			try {
-				match = matches.get(transition.getMatch());
-			} catch (Throwable t) {
-				throw new StateSpaceException("Illegal transition in state " + transition.getSource());				
+			application.setRule(transition.getRule());
+			int targetMatch = transition.getMatch();
+			int currentMatch = 0;
+			Match match = null;
+			for (Match foundMatch : engine.findMatches(transition.getRule(), graph, null)) {
+				if (currentMatch++ == targetMatch) {
+					match = foundMatch;
+				}
+			}
+			if (match==null) {
+				throw new StateSpaceException("Illegal transition in state " + transition.getSource());
 			}
 			
 			// Apply the rule with the found match:
-			application.setMatch(match);
-			application.apply();
+			application.setCompleteMatch(match);
+			if (!application.execute(null)) {
+				throw new StateSpaceException("Error deriving model");				
+			}
 			postProcessor.process(model);
-			model.collectMissingRootObjects();
+			if (collectMissingRoots) {
+				model.collectMissingRootObjects();
+			}
 			
 			// Debug: Validate model if necessary:
 			//int hashCode = getStateSpace().getEqualityHelper().hashCode(model);

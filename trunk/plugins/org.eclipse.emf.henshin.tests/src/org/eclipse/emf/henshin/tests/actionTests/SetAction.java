@@ -68,6 +68,9 @@ public class SetAction extends HenshinTest {
 			TransformationSystem system = (TransformationSystem) 
 					ModelHelper.loadFile(file.getAbsolutePath());
 			rules.addAll(system.getRules());
+			if (rules.size()>10) {
+				break;
+			}
 		}
 		
 		// Parse the actions:

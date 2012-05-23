@@ -20,8 +20,8 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
@@ -121,7 +121,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EDataType emfGraphEDataType = null;
+	private EDataType eGraphEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -408,7 +408,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getModel_EmfGraph() {
+	public EAttribute getModel_EGraph() {
 		return (EAttribute)modelEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -704,8 +704,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EDataType getEmfGraph() {
-		return emfGraphEDataType;
+	public EDataType getEGraph() {
+		return eGraphEDataType;
 	}
 
 
@@ -768,7 +768,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		modelEClass = createEClass(MODEL);
 		createEAttribute(modelEClass, MODEL__RESOURCE);
-		createEAttribute(modelEClass, MODEL__EMF_GRAPH);
+		createEAttribute(modelEClass, MODEL__EGRAPH);
 		createEReference(modelEClass, MODEL__OBJECT_KEYS_MAP);
 		createEAttribute(modelEClass, MODEL__OBJECT_KEYS);
 		createEAttribute(modelEClass, MODEL__OBJECT_COUNT);
@@ -797,7 +797,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		integerArrayEDataType = createEDataType(INTEGER_ARRAY);
 		stringArrayEDataType = createEDataType(STRING_ARRAY);
 		matchEDataType = createEDataType(MATCH);
-		emfGraphEDataType = createEDataType(EMF_GRAPH);
+		eGraphEDataType = createEDataType(EGRAPH);
 	}
 
 	/**
@@ -884,7 +884,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Resource(), ecorePackage.getEResource(), "resource", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getModel_EmfGraph(), this.getEmfGraph(), "emfGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModel_EGraph(), this.getEGraph(), "eGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_ObjectKeysMap(), this.getObjectKey(), null, "objectKeysMap", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectKeys(), this.getIntegerArray(), "objectKeys", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -955,7 +955,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEDataType(integerArrayEDataType, int[].class, "IntegerArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(stringArrayEDataType, String[].class, "StringArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(matchEDataType, Match.class, "Match", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-		initEDataType(emfGraphEDataType, EmfGraph.class, "EmfGraph", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(eGraphEDataType, EGraph.class, "EGraph", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

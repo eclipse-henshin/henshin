@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.commands.IParameterValues;
-import org.eclipse.emf.henshin.interpreter.util.HenshinRegistry;
+import org.eclipse.emf.henshin.model.HenshinRegistry;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -14,7 +14,7 @@ public class UnitParameterValues implements IParameterValues {
 	public Map<String, TransformationUnit> getParameterValues() {
 		Map<String, TransformationUnit> trafoUnits = new HashMap<String, TransformationUnit>();
 		
-		for (TransformationSystem trafoSystem : HenshinRegistry.instance.getTransformationSystems()) {
+		for (TransformationSystem trafoSystem : HenshinRegistry.INSTANCE.getTransformationSystems()) {
 			for (TransformationUnit unit : trafoSystem.getTransformationUnits()) {
 				trafoUnits.put(trafoSystem.getName() + "." + unit.getName(), unit);
 			}

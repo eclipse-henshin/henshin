@@ -24,10 +24,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
-import org.eclipse.emf.henshin.matching.EmfGraph;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -90,7 +91,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
  */
 public class Evolution1 {
 
-	private static final String BASE = "src/org/eclipse/emf/henshin/examples/metamodelevolution/model/";
+	private static final String BASE = "src/org/eclipse/emf/henshin/examples/metamodelevolution/";
 	/**
 	 * Meta-model, instance model and rule files.
 	 */
@@ -129,14 +130,14 @@ public class Evolution1 {
 		 * classes in the meta-model. They are needed to perform a migration of
 		 * the instance model.
 		 */
-		EClass srcType = (EClass) mm_unit1App.getParameterValue("objSource");
-		EClass trgType = (EClass) mm_unit1App.getParameterValue("objTarget");
-		EClass refclassType = (EClass) mm_unit1App.getParameterValue("objRefclass");
-		EReference refType = (EReference) mm_unit1App.getParameterValue("objRef");
+		EClass srcType = (EClass) mm_unit1App.getResultParameterValue("objSource");
+		EClass trgType = (EClass) mm_unit1App.getResultParameterValue("objTarget");
+		EClass refclassType = (EClass) mm_unit1App.getResultParameterValue("objRefclass");
+		EReference refType = (EReference) mm_unit1App.getResultParameterValue("objRef");
 		EReference refSrcTrg = (EReference) mm_unit1App
-				.getParameterValue("objRefSrcTrg");
+				.getResultParameterValue("objRefSrcTrg");
 		EReference refTrgSrc = (EReference) mm_unit1App
-				.getParameterValue("objRefTrgSrc");
+				.getResultParameterValue("objRefTrgSrc");
 
 		/**
 		 * STEP 2: Migrate instance model i.e. create instance of new classes
@@ -171,7 +172,7 @@ public class Evolution1 {
 		TransformationSystem tsM = loadPetriTrafoSystemM();
 
 		// instantiate Henshin interpreter objects
-		EmfGraph graphM = new EmfGraph();
+		EGraph graphM = InterpreterFactory.INSTANCE.createEGraph();
 
 		/*
 		 * If the left-hand side of a rule contains EDataType instances (e.g.
@@ -182,8 +183,8 @@ public class Evolution1 {
 		 */
 		// EObject ecoreRoot = EcorePackage.eINSTANCE;
 		// graphM.addRoot(ecoreRoot);
-		graphM.addRoot(petri);
-		EmfEngine engineM = new EmfEngine(graphM);
+		graphM.addTree(petri);
+		Engine engineM = InterpreterFactory.INSTANCE.createEngine();
 
 		// select rule
 		Rule mm_rule1 = tsM.findRuleByName("MM_CreateRefClass");
@@ -193,13 +194,15 @@ public class Evolution1 {
 		 * a transformation unit. It allows furthermore to set parameters which are either
 		 * values (see below) or objects.
 		 */
-		UnitApplication mm_unit1App = new UnitApplication(engineM, mm_rule1);
+		UnitApplication mm_unit1App = InterpreterFactory.INSTANCE.createUnitApplication(engineM);
+		mm_unit1App.setUnit(mm_rule1);
+		mm_unit1App.setEGraph(graphM);
 		mm_unit1App.setParameterValue("srcName", srcNodeName);
 		mm_unit1App.setParameterValue("trgName", trgNodeName);
 		mm_unit1App.setParameterValue("refclassName", refclassName);
 
 		// perform the transformation
-		boolean resultM = mm_unit1App.execute();
+		boolean resultM = mm_unit1App.execute(null);
 
 		if (resultM) {
 			System.out.println("\"MM_CreateRefClass\" applied.");
@@ -305,13 +308,15 @@ public class Evolution1 {
 		EObject net = loadPetriInstanceModel();
 
 		// Instantiate Henshin interpreter objects
-		EmfGraph graphI = new EmfGraph();
-		graphI.addRoot(net);
-		EmfEngine engineI = new EmfEngine(graphI);
+		EGraph graphI = InterpreterFactory.INSTANCE.createEGraph();
+		graphI.addTree(net);
+		Engine engineI = InterpreterFactory.INSTANCE.createEngine();
+				
+		UnitApplication i_unit1App = InterpreterFactory.INSTANCE.createUnitApplication(engineI);
+		i_unit1App.setEGraph(graphI);
+		i_unit1App.setUnit(c_unit);
 
-		UnitApplication i_unit1App = new UnitApplication(engineI, c_unit);
-
-		boolean resultI = i_unit1App.execute();
+		boolean resultI = i_unit1App.execute(null);
 
 		if (resultI) {
 			System.out.println("Co-Evolution of instance model successful.");
@@ -349,9 +354,9 @@ public class Evolution1 {
 		TransformationSystem tsM = loadPetriTrafoSystemM();
 
 		// instantiate Henshin interpreter objects
-		EmfGraph graphM = new EmfGraph();
-		graphM.addRoot(petri);
-		EmfEngine engineM = new EmfEngine(graphM);
+		EGraph graphM = InterpreterFactory.INSTANCE.createEGraph();
+		graphM.addTree(petri);
+		Engine engineM = InterpreterFactory.INSTANCE.createEngine();
 
 		// select rule
 		Rule mm_rule2 = tsM.findRuleByName("MM_DeleteOldRefs");
@@ -362,11 +367,13 @@ public class Evolution1 {
 		 * parameter values or objects (see below). Setting input port objects
 		 * provide a partial match to the rule into the graph.
 		 */
-		UnitApplication mm_unit2App = new UnitApplication(engineM, mm_rule2);
+		UnitApplication mm_unit2App = InterpreterFactory.INSTANCE.createUnitApplication(engineM);
+		mm_unit2App.setEGraph(graphM);
+		mm_unit2App.setUnit(mm_rule2);
 		mm_unit2App.setParameterValue("objDelRef", refType);
 
 		// perform the transformation
-		boolean resultM = mm_unit2App.execute();
+		boolean resultM = mm_unit2App.execute(null);
 
 		if (resultM) {
 			System.out.println("\"MM_DeleteOldRefs\" applied.");

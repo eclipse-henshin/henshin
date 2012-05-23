@@ -43,9 +43,9 @@ public class CreateDeleteEdges extends HenshinTest {
 		loadGraph("graphBefore_edgesCreateUnidirectionalEdge");
 		loadRule("edgesCreateUnidirectionalEdge");
 		
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph,
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
 				HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgesCreateUnidirectionalEdge")),
-				0.9);
+				htEngine, 0.9);
 	}
 	
 	// removed testCreateBidirectionalEdge1
@@ -55,18 +55,18 @@ public class CreateDeleteEdges extends HenshinTest {
 	public void testCreateBidirectionalEdge3() {
 		loadGraph("graphBefore_edgesCreateBidirectionalEdge");
 		loadRule("edgesCreateBidirectionalEdge3");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph,
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
 				HenshinLoaders.loadGraph(getGraphURI("graphAfter_edgesCreateBidirectionalEdge")),
-				0.7);
+				htEngine, 0.7);
 	}
 	
 	@Test
 	public void testRemoveUnidirectionalEdge() {
 		loadGraph("graphAfter_edgesCreateUnidirectionalEdge");
 		loadRule("edgesRemoveUnidirectionalEdge");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph,
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
 				HenshinLoaders.loadGraph(getGraphURI("graphBefore_edgesCreateUnidirectionalEdge")),
-				0.9);
+				htEngine, 0.9);
 	}
 	
 	// removed testRemoveBidirectionalEdge1
@@ -76,9 +76,9 @@ public class CreateDeleteEdges extends HenshinTest {
 	public void testRemoveBidirectonalEdge3() {
 		loadGraph("graphAfter_edgesCreateBidirectionalEdge");
 		loadRule("edgesRemoveBidirectionalEdge3");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph,
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph,
 				HenshinLoaders.loadGraph(getGraphURI("graphBefore_edgesCreateBidirectionalEdge")),
-				0.7);
+				htEngine, 0.7);
 	}
 	
 }

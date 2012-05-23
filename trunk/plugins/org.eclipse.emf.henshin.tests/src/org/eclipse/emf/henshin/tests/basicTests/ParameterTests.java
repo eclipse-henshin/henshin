@@ -11,19 +11,14 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.tests.basicTests;
 
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.eclipse.emf.henshin.testframework.Matches;
-import org.eclipse.emf.henshin.testframework.OclQueries;
 import org.eclipse.emf.henshin.testframework.Parameters;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
@@ -53,19 +48,19 @@ public class ParameterTests extends HenshinTest {
 		 * Tests if passing a parameter and using it as an attribute in the LHS works
 		 */
 		loadGraph("paramTest");
-		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd1'", htEmfGraph);
-		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd2'", htEmfGraph);
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd1'", htEGraph);
+		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd2'", htEGraph);
 		System.out.println(nd1 + "..." + nd2);
 		loadRule("parameterAttribute", "param_Nodename", "nd1");
 		System.out.println(htRuleApp);
 		System.out.println("--->" + htRuleApp.getRule().getName());
-		Tools.printMatches(htRuleApp.findAllMatches());
-		Tools.printGraph(htEmfGraph);
+		//Tools.printMatches(htRuleApp.findAllMatches());
+		//Tools.printGraph(htEGraph);
 		//loadRule("parameterAttribute", "param_Nodename", nd1.getNodename());	// pass the Nodename
 		
 		Rules.assertRuleCanBeApplied(htRuleApp);				// apply the rule
-		Graphs.assertObjectNotInGraph(nd1, htEmfGraph);			// assert that nd1 has been removed
-		Graphs.assertObjectInGraph(nd2, htEmfGraph);			// assert that nd2 is still there
+		Graphs.assertObjectNotInGraph(nd1, htEGraph);			// assert that nd1 has been removed
+		Graphs.assertObjectInGraph(nd2, htEGraph);			// assert that nd2 is still there
 	}
 	
 	@Test
@@ -74,18 +69,18 @@ public class ParameterTests extends HenshinTest {
 		 * Tests if passing a parameter and using it as an object in the LHS works
 		 */
 		loadGraph("paramTest");
-		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd1'", htEmfGraph);
-		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd2'", htEmfGraph);
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd1'", htEGraph);
+		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename = 'nd2'", htEGraph);
 		loadRule("parameterObject", "param_nd", nd1);		// pass the Node directly
 		
 		System.out.println(htRuleApp);
 		System.out.println("--->" + htRuleApp.getRule().getName());
-		Tools.printMatches(htRuleApp.findAllMatches());
-		Tools.printGraph(htEmfGraph);
+		//Tools.printMatches(htRuleApp.findAllMatches());
+		//Tools.printGraph(htEGraph);
 		
 		Rules.assertRuleCanBeApplied(htRuleApp);
-		Graphs.assertObjectNotInGraph(nd1, htEmfGraph);
-		Graphs.assertObjectInGraph(nd2, htEmfGraph);
+		Graphs.assertObjectNotInGraph(nd1, htEGraph);
+		Graphs.assertObjectInGraph(nd2, htEGraph);
 	}
 
 	@Test
@@ -95,7 +90,7 @@ public class ParameterTests extends HenshinTest {
 		 */
 		loadGraph("paramTest");
 		
-		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEmfGraph);
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("param_ndname", "nd1");
@@ -105,7 +100,7 @@ public class ParameterTests extends HenshinTest {
 
 		Tools.printParameterMappings(htRuleApp);
 		
-		Parameters.assertParameterMappingEquals(htRuleApp.getComatch(), "param_node", nd1);
+		Parameters.assertParameterMappingEquals(htRuleApp.getResultMatch(), "param_node", nd1);
 	}
 	
 	@Test
@@ -116,7 +111,7 @@ public class ParameterTests extends HenshinTest {
 		loadGraph("paramTest");
 		loadRule("parameterInOut");
 		
-		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEmfGraph);
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("param_node", nd1);
@@ -127,8 +122,8 @@ public class ParameterTests extends HenshinTest {
 		System.out.println("----");
 		Tools.printParameterMappings(htRuleApp);
 		
-		Parameters.assertParameterMappingEquals(htRuleApp.getMatch(), "param_ndname", "nd1");
-		Parameters.assertParameterMappingEquals(htRuleApp.getComatch(), "param_ndname", "nd1");
+		Parameters.assertParameterMappingEquals(htRuleApp.getCompleteMatch(), "param_ndname", "nd1");
+		Parameters.assertParameterMappingEquals(htRuleApp.getResultMatch(), "param_ndname", "nd1");
 	}
 	
 	@Test
@@ -141,14 +136,14 @@ public class ParameterTests extends HenshinTest {
 		
 		Rules.assertRuleCanBeApplied(htRuleApp);
 
-		String paramNdname = ((String) htRuleApp.getMatch().getParameterValues().values().toArray()[0]);
-		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='" + paramNdname + "'", htEmfGraph);
+		String paramNdname = (String) htRuleApp.getResultParameterValue("param_ndname");
+		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='" + paramNdname + "'", htEGraph);
 
 		System.out.println("------");
 		Tools.printParameterMappings(htRuleApp);
 		
-		Parameters.assertParameterMappingEquals(htRuleApp.getComatch(), "param_node", matchedNode);
-		Parameters.assertParameterMappingEquals(htRuleApp.getComatch(), "param_ndname", matchedNode.getNodename());
+		Parameters.assertParameterMappingEquals(htRuleApp.getResultMatch(), "param_node", matchedNode);
+		Parameters.assertParameterMappingEquals(htRuleApp.getResultMatch(), "param_ndname", matchedNode.getNodename());
 		
 	}
 	
@@ -159,10 +154,10 @@ public class ParameterTests extends HenshinTest {
 		 */
 		loadGraph("paramTest");
 		loadTu("parameterUnit", "tu_param_in", "nd1");
-		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEmfGraph);
+		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 				
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		Graphs.assertObjectNotInGraph(matchedNode, htEmfGraph);
+		Graphs.assertObjectNotInGraph(matchedNode, htEGraph);
 	}
 	
 	
@@ -170,7 +165,7 @@ public class ParameterTests extends HenshinTest {
 	public void testParameterComposition2() {
 		loadGraph("paramTest");
 		loadRule("parameterComposition2");
-		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEmfGraph);
+		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEGraph);
 		htRuleApp.setParameterValue("vl", vl);
 		htRuleApp.setParameterValue("p1", 20);
 		htRuleApp.setParameterValue("p2", 30);
@@ -185,7 +180,7 @@ public class ParameterTests extends HenshinTest {
 	public void testParameterComposition3() {
 		loadGraph("paramTest");
 		loadRule("parameterComposition2");
-		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEmfGraph);
+		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEGraph);
 		htRuleApp.setParameterValue("vl", vl);
 		htRuleApp.setParameterValue("p1", "20");
 		htRuleApp.setParameterValue("p2", "30");
@@ -197,7 +192,7 @@ public class ParameterTests extends HenshinTest {
 	public void testParameterComposition1() {
 		loadGraph("paramTest");
 		loadRule("parameterComposition1");
-		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEmfGraph);
+		Val vl = (Val) Tools.getFirstElementFromOCLQueryResult("self.valname='vl1'", htEGraph);
 		htRuleApp.setParameterValue("vl", vl);
 		htRuleApp.setParameterValue("p1", 20);
 		htRuleApp.setParameterValue("p2", 30);
@@ -209,7 +204,7 @@ public class ParameterTests extends HenshinTest {
 	public void testAttributeCondition1() {
 		loadGraph("paramTest");
 		loadRule("attribCond1");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_attribCond1")), 0.9);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_attribCond1")), htEngine, 0.9);
 	}
 	
 	// ----
@@ -230,16 +225,16 @@ public class ParameterTests extends HenshinTest {
 	public void testMultipleAttributeConditions1() {
 		loadGraph("paramTest");
 		loadRule("multipleAttributeConditions");
-		GraphTransformations.assertTransformsGraph(htRule, htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_multipleAttribCond2")), 0.9);
-		Tools.printGraph(htEmfGraph);
+		GraphTransformations.assertTransformsGraph(htRule, htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_multipleAttribCond2")), htEngine, 0.9);
+		Tools.printGraph(htEGraph);
 	}
 	
 	@Test
 	public void testMultipleAttributeConditions2() {
 		loadGraph("graphBefore_multipleAttribCond1");
 		loadRule("multipleAttributeConditions");
-		GraphTransformations.assertGraphIsNotChanged(htRule, htEmfGraph, 0.9);
-		Tools.printGraph(htEmfGraph);
+		GraphTransformations.assertGraphIsNotChanged(htRule, htEGraph, htEngine, 0.9);
+		Tools.printGraph(htEGraph);
 	}
 
 	// tests a parameter in a nested condition (PAC). If the test succeeds, one Node should be matched
@@ -251,10 +246,10 @@ public class ParameterTests extends HenshinTest {
 		htRuleApp.setParameterValue("p1", "ndVal");
 		
 		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
-		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEmfGraph);
+		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEGraph);
 		
-		Matches.assertObjectContainedInAllMatches(htRuleApp, ndVal);
-		Tools.printMatches(htRuleApp.findAllMatches());
+		Matches.assertObjectContainedInAllMatches(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, ndVal);
+		//Tools.printMatches(htRuleApp.findAllMatches());
 	}
 	
 	// tests a parameter in a nested condition (NAC). If the test succeeds, nd1 and nd2 should be matched
@@ -266,17 +261,17 @@ public class ParameterTests extends HenshinTest {
 		htRuleApp.setParameterValue("p1", "ndVal");
 		
 		//Collection<? extends EObject> nodesInGraph = Tools.getOCLQueryResults("self.oclIsKindOf(Node)", htEmfGraph);
-		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEmfGraph);
+		Node ndVal = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='ndVal'", htEGraph);
 		
-		Matches.assertObjectContainedInNoMatch(htRuleApp, ndVal);
+		Matches.assertObjectContainedInNoMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, ndVal);
 		
-		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEmfGraph);
-		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd2'", htEmfGraph);
+		Node nd1 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
+		Node nd2 = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd2'", htEGraph);
 		
-		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd1);
-		Matches.assertObjectContainedInAtLeastOneMatch(htRuleApp, nd2);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, nd1);
+		Matches.assertObjectContainedInAtLeastOneMatch(htRule, htEGraph, htRuleApp.getPartialMatch(), htEngine, nd2);
 		
-		Tools.printMatches(htRuleApp.findAllMatches());
+		//Tools.printMatches(htRuleApp.findAllMatches());
 	}
 	
 }

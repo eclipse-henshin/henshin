@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.util.ModelUtils;
@@ -26,20 +25,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.matching.EmfGraph;
-import org.eclipse.emf.henshin.interpreter.EmfEngine;
-import org.eclipse.emf.henshin.interpreter.HenshinGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.util.HenshinEGraph;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.query.conditions.Condition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.ocl.conditions.BooleanOCLCondition;
@@ -76,11 +72,11 @@ public class Tools {
 	 *         [1] size after execution
 	 */
 	protected static int[] getGraphSizes(UnitApplication ua) {
-		EmfGraph graph = ((EmfEngine) ua.getInterpreterEngine()).getEmfGraph();
+		EGraph graph = ua.getEGraph();
 		int[] sizes = new int[2];
-		sizes[0] = graph.geteObjects().size();
-		ua.execute();
-		sizes[1] = graph.geteObjects().size();
+		sizes[0] = graph.size();
+		ua.execute(null);
+		sizes[1] = graph.size();
 		return sizes;
 	}
 	
@@ -106,61 +102,9 @@ public class Tools {
 	public static void printMatches(List<Match> ma) {
 		System.out.println("matches:");
 		for (Match m : ma) {
-			printSubmatchesRec(m, 1);
+			System.out.println(m);
 			System.out.println("===");
 		}
-	}
-	
-	public static void printSubmatchesRec(Match m, int ident) {
-		
-		for (EObject eo : m.getNodeMapping().values()) {
-			System.out.println(getTabs(ident) + eo);
-		}
-		
-		
-		if (m.getNestedMatches().size() == 0) {
-			System.out.println(getTabs(ident) + "--");
-			return;
-		}
-
-		for (Entry<Rule, List<Match>> e : m.getNestedMatches().entrySet()) {
-			System.out.println(getTabs(ident+1) + "Rule: " + e.getKey());
-			for (Match ma : e.getValue()) {
-				printSubmatchesRec(ma, ident+1);
-			}
-		}
-	}
-	
-	private static String getTabs(int i) {
-		String tmp = "";
-		while(i-- > 0) {
-			tmp = tmp + "\t";
-		}
-		
-		return tmp;
-	}
-	
-	
-	/**
-	 * print match
-	 * 
-	 * @param ma
-	 */
-	public static void printMatch(Match ma) {
-		System.out.println("match:");
-		for (EObject eo : ma.getNodeMapping().values()) {
-			System.out.println("\t" + eo);
-		}
-		System.out.println("--");
-	}
-	
-	/**
-	 * print matches
-	 * 
-	 * @param ma
-	 */
-	public static void printMatches(Match ma) {
-		printMatch(ma);
 	}
 	
 	/**
@@ -168,8 +112,8 @@ public class Tools {
 	 * 
 	 * @param graph
 	 */
-	public static void printGraph(EmfGraph graph) {
-		for (EObject eo : graph.geteObjects()) {
+	public static void printGraph(EGraph graph) {
+		for (EObject eo : graph) {
 			System.out.println(eo);
 		}
 	}
@@ -203,7 +147,7 @@ public class Tools {
 	public static void persistAllEmbeddedGraphs(TransformationSystem ts, String path, String fileExt)
 			throws IOException {
 		for (Graph g : ts.getInstances()) {
-			HenshinGraph hgr = new HenshinGraph(g);
+			HenshinEGraph hgr = new HenshinEGraph(g);
 			System.out.println("saving " + path + g.getName() + "." + fileExt);
 			persist(getGraphRoot(hgr), path + g.getName() + "." + fileExt);
 		}
@@ -232,11 +176,11 @@ public class Tools {
 	 * @param contextFreeOclQuery
 	 *            context-free OCL query
 	 * @param graph
-	 *            {@link EmfGraph} the query is executed on
+	 *            {@link EGraph} the query is executed on
 	 * @return
 	 */
 	public static Collection<? extends EObject> getOCLQueryResults(String contextFreeOclQuery,
-			EmfGraph graph) {
+			EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -249,7 +193,7 @@ public class Tools {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -264,7 +208,7 @@ public class Tools {
 	 * @return
 	 */
 	public static EObject getFirstElementFromOCLQueryResult(String contextFreeOclQuery,
-			EmfGraph graph) {
+			EGraph graph) {
 		OCL ocl = org.eclipse.ocl.ecore.OCL.newInstance();
 		
 		Condition oclQueryCondition;
@@ -278,7 +222,7 @@ public class Tools {
 		}
 		
 		WHERE wr = new WHERE((EObjectCondition) oclQueryCondition);
-		FROM fm = new FROM(graph.geteObjects());
+		FROM fm = new FROM(graph);
 		SELECT st = new SELECT(fm, wr);
 		
 		IQueryResult result = st.execute();
@@ -289,13 +233,13 @@ public class Tools {
 	}
 	
 	/**
-	 * get the {@link EmfGraph}'s first root
+	 * get the {@link EGraph}'s first root
 	 * 
 	 * @param graph
 	 * @return
 	 */
-	public static EObject getGraphRoot(EmfGraph graph) {
-		return graph.getRootObjects().toArray(new EObject[1])[0];
+	public static EObject getGraphRoot(EGraph graph) {
+		return graph.getRoots().toArray(new EObject[1])[0];
 	}
 	
 	public static void printCollection(Collection<? extends EObject> coll) {
@@ -307,12 +251,8 @@ public class Tools {
 	}
 	
 	public static void printParameterMappings(RuleApplication ra) {
-		for (Parameter p : ra.getMatch().getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t-> " + ra.getMatch().getParameterValues().get(p));
-		}
-		for (Parameter p : ra.getComatch().getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t<- " + ra.getComatch().getParameterValues().get(p));
-		}
+		System.out.println("Input parameters:\n" + ra.getAssignment());
+		System.out.println("Output parameters:\n" + ra.getResultAssignment());
 	}
 	
 	public static Map<Parameter, Object> createParameterMapping(Map<String, Object> mapping,
@@ -327,10 +267,7 @@ public class Tools {
 	}
 	
 	public static void printParameterMappings(UnitApplication ua) {
-		for (Parameter p : ua.getParameterValues().keySet()) {
-			System.out.println(p.getName() + "\t : " + ua.getParameterValues().get(p));
-		}
-		
+		System.out.println(ua.getAssignment());
 	}
 	
 }

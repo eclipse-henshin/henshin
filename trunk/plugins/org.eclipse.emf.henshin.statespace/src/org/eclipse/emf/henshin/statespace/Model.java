@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.interpreter.util.Match;
-import org.eclipse.emf.henshin.matching.EmfGraph;
+import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Match;
 
 /**
  * Container class for state models.
@@ -42,13 +42,13 @@ public interface Model extends EObject {
 	Resource getResource();
 	
 	/**
-	 * Get the associated {@link EmfGraph} instance for this model.
-	 * @return the value of the '<em>Emf Graph</em>' attribute.
+	 * Get the associated {@link EGraph} instance for this model.
+	 * @return the value of the '<em>EGraph</em>' attribute.
 	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_EmfGraph()
 	 * @model dataType="org.eclipse.emf.henshin.statespace.EmfGraph" transient="true" changeable="false"
 	 * @generated
 	 */
-	EmfGraph getEmfGraph();
+	EGraph getEGraph();
 
 	/**
 	 * Get the object keys map for this state model.
@@ -103,7 +103,7 @@ public interface Model extends EObject {
 	boolean updateObjectKeys(EList<EClass> identityTypes);
 
 	/**
-	 * Collect missing root objects from the {@link EmfGraph} of this model.
+	 * Collect missing root objects from the {@link EGraphImpl} of this model.
 	 * New root objects will be added to this objects resource.
 	 * @model
 	 * @generated

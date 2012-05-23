@@ -15,9 +15,7 @@ import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
-import org.eclipse.emf.henshin.testframework.Tools;
 import org.eclipse.emf.henshin.testframework.TransformationUnits;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -178,12 +176,12 @@ public class TransformationUnitTests extends HenshinTest {
 		loadTu("sequentialUnitTest");
 		// execute tu and undo
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo();
-		Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphBefore_priorityUnit")), 0.9);
+		htUnitApp.undo(null);
+		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphBefore_priorityUnit")), 0.9);
 		// execute tu again
 		loadTu("sequentialUnitTest");
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_sequentialUnit")), 0.9);
+		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_sequentialUnit")), 0.9);
 	}
 	
 	// ---- conditional unit ----
@@ -211,13 +209,13 @@ public class TransformationUnitTests extends HenshinTest {
 			loadGraph("graphWithCont");
 			loadTu("independentUnitTest");
 			TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-			if (Graphs.graphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9)) {
-				Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
+			if (Graphs.graphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9)) {
+				Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
 				loadTu("independentUnitTest");
 				GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit2a")), 0.9);
 				rule1First = true;
 			} else {
-				Graphs.assertGraphsEqual(htEmfGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1b")), 0.9);
+				Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1b")), 0.9);
 				loadTu("independentUnitTest");
 				GraphTransformations.assertTransformsGraph(htUnitApp, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit2b")), 0.9);
 				rule2First = true;
@@ -245,14 +243,13 @@ public class TransformationUnitTests extends HenshinTest {
 		//Tools.persist(Tools.getGraphRoot(htEmfGraph), "gt_amu2.testmodel");
 	}
 	
-	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyIndependentUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyIndependentUnit");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo();
-		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		//htUnitApp.undo(null);
+		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 	
 	@Test
@@ -260,18 +257,17 @@ public class TransformationUnitTests extends HenshinTest {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptySequentialUnit");
 		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo();
+		htUnitApp.undo(null);
 		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 
-	// TODO: Reconsider this test after model change
 	@Test
 	public void testEmptyPriorityUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyPriorityUnit");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
-		htUnitApp.undo();
-		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
+		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		//htUnitApp.undo(null);
+		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
 	
 	// graphAfter_IndependentUnit1a

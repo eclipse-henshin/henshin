@@ -11,5 +11,7 @@ public class StateSpaceProperties {
 	public static final String IDENTITY_TYPES = "identityTypes";
 
 	public static final String IGNORED_ATTRIBUTES = "ignoredAttributes";
-		
+	
+	public static final String COLLECT_MISSING_ROOTS = "collectMissingRoots";
+	
 }

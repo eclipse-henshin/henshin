@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.testframework;
 
-import org.eclipse.emf.henshin.interpreter.util.Match;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.model.Parameter;
 
 /**
@@ -19,9 +19,9 @@ import org.eclipse.emf.henshin.model.Parameter;
  * 
  * @author Felix Rieger
  * @author Stefan Jurack (sjurack)
+ * @author Christian Krause
  * 
  */
-
 public class Parameters {
 	
 	/**
@@ -34,7 +34,7 @@ public class Parameters {
 	 */
 	public static void assertParameterMappingContainsObject(Match ma, Object obj)
 			throws AssertionError {
-		if (!(ma.getParameterValues().containsValue(obj))) {
+		if (!(ma.getParameterValues().contains(obj))) {
 			throw new AssertionError("expected: Parameter Mapping contains " + obj);
 		}
 	}
@@ -50,20 +50,17 @@ public class Parameters {
 	 */
 	public static void assertParameterMappingEquals(Match ma, String parameterName, Object obj)
 			throws AssertionError {
-		for (Parameter p : ma.getParameterValues().keySet()) {
-			if (p.getName().equals(parameterName)) {
-				if (ma.getParameterValues().get(p).equals(obj)) {
-					return;
-				} else {
-					throw new AssertionError("expected: Parameter \"" + parameterName
-							+ "\" equals " + obj + "; (actual value: "
-							+ ma.getParameterValues().get(p) + ")");
-				}
-			}
-		}
 		
-		throw new AssertionError("expected: Parameter \"" + parameterName
-				+ "\" exists in parameter mapping.");
+		Parameter param = ma.getUnit().getParameterByName(parameterName);
+		if (param==null) {
+			throw new AssertionError("expected: Parameter \"" + parameterName + "\" exists in unit \"" + ma.getUnit() + "\"");
+		}
+		Object realValue = ma.getParameterValue(param);
+		if ((obj==null && realValue!=null) || (obj!=null && !obj.equals(realValue))) {
+			throw new AssertionError("expected: Parameter \"" + parameterName
+					+ "\" equals " + obj + "; (actual value: "
+					+ realValue + ")");
+		}
 		
 	}
 	
