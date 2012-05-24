@@ -782,6 +782,8 @@ public class Transformation {
 				for (Iterator iter = countedUnitParameters.iterator(); iter.hasNext(); ) {
 					EObject parameter = (EObject) iter.next();
 					Parameter newParameter = HenshinFactory.eINSTANCE.createParameter();
+					newParameter.setName((String) getEAttributeValue(parameter, "name"));
+					newParameter.setDescription((String) getEAttributeValue(parameter, "description"));
 					newElements.put(parameter, newParameter);
 				}
 				
@@ -925,6 +927,14 @@ public class Transformation {
 	}
 	
 
+	private Object getEAttributeValue(EObject object, String name) {
+		EAttribute attr = getEAttributeForName(name, object.eClass());
+		if (attr!=null)
+			return object.eGet(attr);
+		else
+			return null;
+	}
+	
 	/**
 	 * Get the eClasse's EAttribute with the specified name 
 	 * @param name
