@@ -2,11 +2,15 @@ package org.eclipse.emf.henshin.model.resource;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
@@ -66,7 +70,7 @@ public class HenshinResourceSet extends ResourceSetImpl {
 			// do nothing
 		}
 		
-		// Register XMI file resource factories:
+		// Register common XMI file resource factories:
 		registerXMIResourceFactories(HenshinResource.FILE_EXTENSION, "ecore", "xmi");
 		
 		// Set the base directory:
@@ -120,6 +124,32 @@ public class HenshinResourceSet extends ResourceSetImpl {
 		}
 	}
 
+	/**
+	 * Tries to open the Ecore file at the given location. 
+	 * If successful, all {@link EPackage}s in the model are
+	 * registered in the local package registry of this resource set.
+	 * 
+	 * @param ecorePath The relative path to an Ecore file.
+	 * @return List of loaded and registered {@link EPackage}s.
+	 */
+	public List<EPackage> registerDynamicEPackages(String ecorePath) {
+		List<EPackage> result = new ArrayList<EPackage>();
+		try {
+			Resource resource = getResource(ecorePath);
+			Iterator<EObject> it = resource.getAllContents();
+			while (it.hasNext()) {
+				EObject next = it.next();
+				if (next instanceof EPackage) {
+					result.add((EPackage) next);
+					getPackageRegistry().put(((EPackage) next).getNsURI(), next);
+				}
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return result;
+	}
+	
 	/**
 	 * Loads a resource for the given file name. If the path is relative, 
 	 * it will be resolved using the base directory of this resource set.

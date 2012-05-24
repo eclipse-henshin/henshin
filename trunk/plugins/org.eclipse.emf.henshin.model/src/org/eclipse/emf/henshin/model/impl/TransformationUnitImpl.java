@@ -30,8 +30,9 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Transformation Unit</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * An implementation of the model object '<em><b>Transformation Unit</b></em>'. 
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -46,9 +47,11 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public abstract class TransformationUnitImpl extends DescribedElementImpl implements
 		TransformationUnit {
+	
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -57,7 +60,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -66,7 +70,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
@@ -75,7 +80,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #isActivated()
 	 * @generated
 	 * @ordered
@@ -84,7 +90,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getParameters()
 	 * @generated
 	 * @ordered
@@ -94,7 +101,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	/**
 	 * The cached value of the '{@link #getParameterMappings()
 	 * <em>Parameter Mappings</em>}' containment reference list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @see #getParameterMappings()
 	 * @generated
@@ -103,7 +111,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	protected EList<ParameterMapping> parameterMappings;
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TransformationUnitImpl() {
@@ -111,7 +120,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -120,7 +130,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getName() {
@@ -128,7 +139,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setName(String newName) {
@@ -139,7 +151,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isActivated() {
@@ -147,7 +160,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setActivated(boolean newActivated) {
@@ -158,7 +172,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Parameter> getParameters() {
@@ -169,7 +184,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<ParameterMapping> getParameterMappings() {
@@ -215,24 +231,28 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Parameter getParameterByName(String parametername) {
-		if (this.parameters != null) {
-			
-			for (Parameter parameter : this.parameters) {
-				if (parameter.getName().equals(parametername)) return parameter;
-			}// for
-			
-		}// if
-		
+	public Parameter getParameterByName(String parameterName) {
+		for (Parameter parameter : getParameters()) {
+			if (parameterName==null) {
+				if (parameter.getName()==null) {
+					return parameter;
+				}
+			} else {
+				if (parameterName.equals(parameter.getName())) {
+					return parameter;
+				}
+			}
+		}
 		return null;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -247,7 +267,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -263,7 +284,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -282,7 +304,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -308,7 +331,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -331,7 +355,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -350,7 +375,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -365,7 +391,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -380,7 +407,8 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

@@ -320,8 +320,10 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			if (source.getUnit()==subUnitApp.getUnit()) {
 				Parameter param = subUnitApp.getUnit().getParameterByName(source.getName());
 				if (param!=null) {
-					resultAssignment.setParameterValue(target, 
-							subUnitApp.getResultAssignment().getParameterValue(param));
+					Object value = subUnitApp.getResultAssignment().getParameterValue(param);
+					if (value!=null) {
+						resultAssignment.setParameterValue(target, value);
+					}
 				}
 			}
 		}
