@@ -28,9 +28,9 @@ public class DiningPhilsBenchmark {
 	 * @param maxPhils Maximum number of philosophers.
 	 * @param numThreads Number of threads to use.
 	 */
-	public static void doBenchmark(String path, int maxPhils, int numThreads) {
+	public static void run(String path, int maxPhils, int numThreads) {
 
-		System.out.println("Starting benchmark...");
+		System.out.println("Starting dining philosophers benchmark...");
 		System.out.println("NumThreads: " + numThreads);
 		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB\n");
 
@@ -110,10 +110,10 @@ public class DiningPhilsBenchmark {
 		int threads = Runtime.getRuntime().availableProcessors();
 		
 		System.out.println("\n******* WARMUP PHASE ********\n");
-		doBenchmark(PATH, 8, threads);
+		run(PATH, 8, threads);
 		
 		System.out.println("\n******* BENCHMARK ********\n");
-		doBenchmark(PATH, 13, threads);
+		run(PATH, 13, threads);
 		
 	}
 

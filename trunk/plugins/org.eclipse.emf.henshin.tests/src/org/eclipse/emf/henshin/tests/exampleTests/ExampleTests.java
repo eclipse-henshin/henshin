@@ -1,5 +1,6 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
+import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.junit.Test;
 
@@ -19,5 +20,14 @@ public class ExampleTests {
 	public void testSierpinski() {
 		SierpinskiBenchmark.run(EXAMPLES_PATH + SierpinskiBenchmark.PATH, 10);
 	}
-	
+
+	/**
+	 * Dining philosophers example (state space generation).
+	 */
+	@Test
+	public void testDiningPhils() {
+		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 8, 
+				Runtime.getRuntime().availableProcessors());
+	}
+
 }

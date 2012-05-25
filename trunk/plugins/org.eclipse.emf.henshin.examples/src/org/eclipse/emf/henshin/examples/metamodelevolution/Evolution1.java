@@ -20,15 +20,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -39,7 +34,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
-import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * This meta-model evolution example is a proof-of-concept showing how such a
@@ -92,6 +87,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 public class Evolution1 {
 
 	private static final String BASE = "src/org/eclipse/emf/henshin/examples/metamodelevolution/";
+	
 	/**
 	 * Meta-model, instance model and rule files.
 	 */
@@ -104,14 +100,12 @@ public class Evolution1 {
 	 * Meta-model and instance model need to be in the same resource set, in
 	 * order to use the same (!!, not only equal) types.
 	 */
-	ResourceSet resourceSet = new ResourceSetImpl();
+	HenshinResourceSet resourceSet = new HenshinResourceSet();
 
 	/**
 	 * Implements the control flow for the whol meta-model evolution.
 	 */
 	private void start() {
-
-		initializeResourceFactories();
 
 		/*
 		 * Load the petri net meta-model which Henshin rules and instance models
@@ -419,8 +413,7 @@ public class Evolution1 {
 	 */
 	private TransformationSystem loadPetriTrafoSystemM() {
 		HenshinPackageImpl.init();
-		TransformationSystem tsM = (TransformationSystem) ModelHelper
-				.loadFile(HENSHIN_PETRI_META);
+		TransformationSystem tsM = resourceSet.getTransformationSystem(HENSHIN_PETRI_META);
 		return tsM;
 	}// loadPetriTrafoSystemM
 
@@ -474,20 +467,6 @@ public class Evolution1 {
 
 		return resourceInstance.getContents().get(0);
 	}// loadPetriInstanceModel
-
-	/**
-	 * Assigns to each file extensions of the Ecore meta-model (.ecore),
-	 * instance models (.xmi) and Henshin rules (.henshin) an appropriate
-	 * resource factory. This is necessary in order to load such files.
-	 */
-	private void initializeResourceFactories() {
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"ecore", new EcoreResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"xmi", new XMIResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"henshin", new HenshinResourceFactory());
-	}// initializeResourceFactories
 
 	/**
 	 * @param args

@@ -67,8 +67,13 @@ public class SierpinskiBenchmark {
 		application.setEGraph(graph);
 		
 		// Check how much memory is available:
+		System.out.println("Starting Sierpinski benchmark...");
 		System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory\n");
-		
+
+		// For computing the expected number of nodes:
+		int expectedNodes = 3;
+		int pow3 = 1;
+
 		// Iteratively compute the Sierpinski triangle:
 		List<Match> matches = new ArrayList<Match>();
 		for (int i=0; i<iterations; i++) {
@@ -85,7 +90,7 @@ public class SierpinskiBenchmark {
 			long matchingTime = (System.currentTimeMillis() - startTime);
 			
 			System.out.println("Level: " + (i+1));
-			System.out.println("Matches:" + matches.size());
+			System.out.println("Matches: " + matches.size());
 			System.out.println("Matching time: " + matchingTime + "ms");
 
 			// Apply rule with all found matches:
@@ -106,12 +111,19 @@ public class SierpinskiBenchmark {
 			System.out.println("Nodes: " + graph.size());
 			System.out.println();
 			
+			// Check whether the number of nodes is correct:
+			pow3 *= 3;
+			expectedNodes += pow3;
+			if (graph.size()!=expectedNodes) {
+				throw new RuntimeException("Expected " + expectedNodes + " nodes instead of " + graph.size());
+			}
+						
 		}
 		
 	}
 	
 	public static void main(String[] args) {
-		run(PATH, 15); // we assume the working direcory is the root of the examples plug-in
+		run(PATH, 15); // we assume the working directory is the root of the examples plug-in
 	}
 	
 }
