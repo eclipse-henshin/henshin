@@ -29,29 +29,20 @@ public class InterpreterFactoryImpl implements InterpreterFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createAssignment(org.eclipse.emf.henshin.model.TransformationUnit)
+	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createAssignment(org.eclipse.emf.henshin.model.TransformationUnit, boolean)
 	 */
 	@Override
-	public Assignment createAssignment(TransformationUnit unit) {
-		return new AssignmentImpl(unit);
+	public Assignment createAssignment(TransformationUnit unit, boolean isResultAssignment) {
+		return new AssignmentImpl(unit, isResultAssignment);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createMatch(org.eclipse.emf.henshin.model.Rule)
+	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createMatch(org.eclipse.emf.henshin.model.Rule, boolean)
 	 */
 	@Override
-	public Match createMatch(Rule rule) {
-		return new MatchImpl(rule);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createResultMatch(org.eclipse.emf.henshin.model.Rule)
-	 */
-	@Override
-	public Match createResultMatch(Rule rule) {
-		return new ResultMatchImpl(rule);
+	public Match createMatch(Rule rule, boolean isResultMatch) {
+		return new MatchImpl(rule, isResultMatch);
 	}
 
 	/*

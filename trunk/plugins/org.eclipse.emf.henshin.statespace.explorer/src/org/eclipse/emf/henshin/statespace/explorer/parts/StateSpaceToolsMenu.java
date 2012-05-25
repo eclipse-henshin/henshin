@@ -27,7 +27,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.actions.CreateInitialStateAction;
 import org.eclipse.emf.henshin.statespace.explorer.actions.EditPropertiesAction;
@@ -384,8 +384,8 @@ public class StateSpaceToolsMenu extends Composite {
 	 */
 	private void validationFinished(ValidationResult result, IStatus status) {
 		if (status.isOK() && result!=null) {
-			if (result.getResult() instanceof Trace && explorer!=null) {
-				explorer.selectTrace((Trace) result.getResult());
+			if (result.getResult() instanceof Path && explorer!=null) {
+				explorer.selectPath((Path) result.getResult());
 			}
 			if (result.isValid()) {
 				if (result.getResult() instanceof StateSpaceXYPlot) {

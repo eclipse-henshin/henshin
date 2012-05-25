@@ -24,23 +24,18 @@ public interface InterpreterFactory {
 	/**
 	 * Create an {@link Assignment} object.
 	 * @param unit Target {@link TransformationUnit}.
+	 * @param isResultAssignment Determines whether this is a result assignment.
 	 * @return A new {@link Assignment}.
 	 */
-	Assignment createAssignment(TransformationUnit unit);
+	Assignment createAssignment(TransformationUnit unit, boolean isResultAssignment);
 	
 	/**
 	 * Create a {@link Match}.
 	 * @param Rule to be matched.
+	 * @param isResultMatch Determines whether this is a result match.
 	 * @return A new {@link Match}.
 	 */
-	Match createMatch(Rule rule);
-
-	/**
-	 * Create a result {@link Match}.
-	 * @param Rule to be matched.
-	 * @return A new result {@link Match}.
-	 */
-	Match createResultMatch(Rule rule);
+	Match createMatch(Rule rule, boolean isResultMatch);
 
 	/**
 	 * Create an {@link Engine} object.

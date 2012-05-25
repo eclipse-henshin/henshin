@@ -97,7 +97,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 		// Parse the output
 		BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		Boolean result = null;
-		boolean parseTrace = false;
+		boolean parsePath = false;
 		List<String> path = new ArrayList<String>();
 		monitor.worked(1);														// 80%
 		
@@ -106,9 +106,9 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 			line = line.trim();
 			System.out.println(line);
 			if (line.length()==0) continue;
-			if (parseTrace) {
+			if (parsePath) {
 				if (line.indexOf("<goal state>")>=0) {
-					parseTrace = false;
+					parsePath = false;
 				} else {
 					path.add(line.startsWith("\"") ? line.substring(1, line.length()-1) : line);
 				}
@@ -120,7 +120,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 					result = Boolean.FALSE;
 				}
 				else if (line.indexOf("<initial state>")>=0) {
-					parseTrace = true;
+					parsePath = true;
 				}
 			}
 			if (monitor.isCanceled()) {
@@ -146,7 +146,7 @@ public class CADPStateSpaceValidator extends AbstractFileBasedValidator {
 			if (!path.isEmpty()) {
 				return new ValidationResult(false,
 						"Property not satisfied. See the explorer for a counterexample.",
-						StateSpaceSearch.findTrace(stateSpace, path));
+						StateSpaceSearch.findPath(stateSpace, path));
 			}
 			return ValidationResult.INVALID;			
 		}

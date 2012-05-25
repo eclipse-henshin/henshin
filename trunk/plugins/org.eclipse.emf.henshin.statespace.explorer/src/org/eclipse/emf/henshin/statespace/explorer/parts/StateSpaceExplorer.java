@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
 import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPartFactory;
@@ -358,15 +358,15 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	}
 
 	/**
-	 * Select a trace in this explorer instance.
-	 * @param trace Trace to be shown.
+	 * Select a path in this explorer instance.
+	 * @param path Path to be shown.
 	 */
-	public void selectTrace(Trace trace) {
+	public void selectPath(Path path) {
 		Map<?,?> registry = getGraphicalViewer().getEditPartRegistry();
 		List<EditPart> editparts = new ArrayList<EditPart>();
-		if (registry.containsKey(trace.getSource())) {
-			editparts.add((EditPart) registry.get(trace.getSource()));
-			for (Transition transition : trace) {
+		if (registry.containsKey(path.getSource())) {
+			editparts.add((EditPart) registry.get(path.getSource()));
+			for (Transition transition : path) {
 				editparts.add((EditPart) registry.get(transition));
 				editparts.add((EditPart) registry.get(transition.getTarget()));
 			}

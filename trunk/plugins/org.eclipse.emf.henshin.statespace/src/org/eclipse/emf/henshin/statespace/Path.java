@@ -14,28 +14,28 @@ package org.eclipse.emf.henshin.statespace;
 import java.util.ArrayDeque;
 
 /**
- * Data type for traces.
+ * Data type for paths in state spaces.
  * @generated NOT
  */
-public class Trace extends ArrayDeque<Transition> {
+public class Path extends ArrayDeque<Transition> {
 	
 	// Default serial ID:
 	private static final long serialVersionUID = 1L;
 	
-	// Source / target state, for empty traces:
+	// Source / target state, for empty paths:
 	private State state;
 	
 	/**
 	 * Default constructor.
 	 */
-	public Trace() {
+	public Path() {
 		super();
 	}
 	
 	/**
 	 * Alternative constructor.
 	 */
-	public Trace(State state) {
+	public Path(State state) {
 		super();
 		setState(state);
 	}
@@ -44,7 +44,7 @@ public class Trace extends ArrayDeque<Transition> {
 	 * Alternative constructor.
 	 * @param transitions Transitions.
 	 */
-	public Trace(Transition... transitions) {
+	public Path(Transition... transitions) {
 		super();
 		for (Transition transition : transitions) {
 			addLast(transition);

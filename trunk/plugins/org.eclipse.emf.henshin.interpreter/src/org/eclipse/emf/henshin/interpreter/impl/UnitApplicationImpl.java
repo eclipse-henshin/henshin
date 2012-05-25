@@ -76,7 +76,9 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
-		resultAssignment = (assignment!=null) ? new AssignmentImpl(assignment) : new AssignmentImpl(unit);
+		resultAssignment = (assignment!=null) ? 
+				new AssignmentImpl(assignment, true) : 
+				new AssignmentImpl(unit, true);
 		return doExecute(monitor);
 	}
 
@@ -117,15 +119,22 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
+		boolean success = true;
 		while (!appliedRules.isEmpty()) {
 			RuleApplication ruleApplication = appliedRules.pop();
-			ruleApplication.undo(monitor);
+			if (!ruleApplication.undo(monitor)) {
+				success = false;
+				break;
+			}
 			undoneRules.push(ruleApplication);
 		}
-		Assignment dummy = assignment;
-		assignment = resultAssignment;
-		resultAssignment = dummy;
-		return true;
+		if (success) {
+			Assignment dummy = assignment;
+			assignment = resultAssignment;
+			resultAssignment = dummy;
+		}
+		monitor.notifyUndo(this, success);
+		return success;
 	}
 	
 	/*
@@ -140,15 +149,22 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
+		boolean success = true;
 		while (!undoneRules.isEmpty()) {
 			RuleApplication ruleApplication = undoneRules.pop();
-			ruleApplication.redo(monitor);
+			if (!ruleApplication.redo(monitor)) {
+				success = false;
+				break;
+			}
 			appliedRules.push(ruleApplication);
 		}
-		Assignment dummy = assignment;
-		assignment = resultAssignment;
-		resultAssignment = dummy;
-		return true;
+		if (success) {
+			Assignment dummy = assignment;
+			assignment = resultAssignment;
+			resultAssignment = dummy;
+		}
+		monitor.notifyRedo(this, success);
+		return success;
 	}
 	
 	/*
@@ -158,9 +174,9 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		Rule rule = (Rule) unit;
 		RuleApplication ruleApp = new RuleApplicationImpl(engine, graph, rule, resultAssignment);
 		if (ruleApp.execute(monitor)) {
-			resultAssignment = new AssignmentImpl(ruleApp.getResultMatch());
+			resultAssignment = new AssignmentImpl(ruleApp.getResultMatch(), true);
 			appliedRules.push(ruleApp);
-			return true;
+			return true;  // notification is done in the rule application
 		} else {
 			return false;
 		}
@@ -172,20 +188,23 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	protected boolean executeIndependentUnit(ApplicationMonitor monitor) {
 		IndependentUnit indepUnit = (IndependentUnit) unit;
 		List<TransformationUnit> subUnits = new ArrayList<TransformationUnit>(indepUnit.getSubUnits());
+		boolean success = false;
 		while (!subUnits.isEmpty()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
-				return false;
+				break;
 			}
 			int index = new Random().nextInt(subUnits.size());
 			UnitApplicationImpl unitApp = createApplicationFor(subUnits.remove(index));
 			if (unitApp.execute(monitor)) {
 				updateParameterValues(unitApp);
 				appliedRules.addAll(unitApp.appliedRules);
-				return true;
+				success = true;
+				break;
 			}
 		}
-		return false;
+		monitor.notifyExecute(this, success);
+		return success;
 	}
 	
 	/*
@@ -193,10 +212,12 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeSequentialUnit(ApplicationMonitor monitor) {
 		SequentialUnit seqUnit = (SequentialUnit) unit;
+		boolean success = true;
 		for (TransformationUnit subUnit : seqUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
-				return false;
+				success = false;
+				break;
 			}
 			UnitApplicationImpl unitApp = createApplicationFor(subUnit);
 			if (unitApp.execute(monitor)) {
@@ -204,14 +225,16 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 				appliedRules.addAll(unitApp.appliedRules);
 			} else {
 				if (seqUnit.isStrict()) {
+					success = false;
 					if (seqUnit.isRollback()) {
 						undo(monitor);
 					}
-					return false;
 				}
+				break;
 			}
 		}
-		return true;
+		monitor.notifyExecute(this, success);
+		return success;
 	}
 	
 	/*
@@ -242,11 +265,13 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		}
 		if (monitor.isCanceled()) {
 			if (monitor.isUndo()) undo(monitor);
+			monitor.notifyExecute(this, false);
 			return false;
 		}
 		if (!success) {
 			undo(monitor);
 		}
+		monitor.notifyExecute(this, success);
 		return success;
 	}
 	
@@ -255,19 +280,22 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executePriorityUnit(ApplicationMonitor monitor) {
 		PriorityUnit priUnit = (PriorityUnit) unit;
+		boolean success = false;
 		for (TransformationUnit subUnit : priUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);				
-				return false;
+				break;
 			}
 			UnitApplicationImpl unitApp = createApplicationFor(subUnit);
 			if (unitApp.execute(monitor)) {
 				updateParameterValues(unitApp);
 				appliedRules.addAll(unitApp.appliedRules);
-				return true;
+				success = true;
+				break;
 			}
 		}
-		return false;
+		monitor.notifyExecute(this, success);
+		return success;
 	}
 	
 	/*
@@ -275,19 +303,23 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeLoopUnit(ApplicationMonitor monitor) {
 		LoopUnit loopUnit = (LoopUnit) unit;
+		boolean success = true;
 		while (true) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
-				return false;
+				success = false;
+				break;
 			}
 			UnitApplicationImpl unitApp = createApplicationFor(loopUnit.getSubUnit());
 			if (unitApp.execute(monitor)) {
 				updateParameterValues(unitApp);
 				appliedRules.addAll(unitApp.appliedRules);
 			} else {
-				return true;
+				break;
 			}
 		}
+		monitor.notifyExecute(this, success);
+		return success;
 	}
 	
 	/*
@@ -389,9 +421,25 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in transformation unit \"" + unit.getName() + "\" found" );
 		}
 		if (assignment==null) {
-			assignment = InterpreterFactory.INSTANCE.createAssignment(unit);
+			assignment = new AssignmentImpl(unit);
 		}
 		assignment.setParameterValue(param, value);
 	}
+	
+	/**
+	 * Get the applied rules of this unit application.
+	 * @return List of applied rules.
+	 */
+	public List<RuleApplication> getAppliedRules() {
+		return new ArrayList<RuleApplication>(appliedRules);
+	}
 
+	/**
+	 * Get the undone rules of this unit application.
+	 * @return List of undone rules.
+	 */
+	public List<RuleApplication> getUndoneRules() {
+		return new ArrayList<RuleApplication>(undoneRules);
+	}
+	
 }

@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
@@ -216,7 +216,7 @@ public class StateExplorer {
 	 * @return The derived model.
 	 * @throws StateSpaceException On errors.
 	 */
-	public Model deriveModel(Trace trace, Model model) throws StateSpaceException {
+	public Model deriveModel(Path trace, Model model) throws StateSpaceException {
 		
 		// We need to copy the start model!!!
 		model = model.getCopy(null);

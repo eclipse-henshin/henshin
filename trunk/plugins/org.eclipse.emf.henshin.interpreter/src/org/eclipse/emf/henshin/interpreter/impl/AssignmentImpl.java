@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -16,24 +20,28 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public class AssignmentImpl implements Assignment {
 
-	// The target transformation unit (is actually final): 
+	// The target transformation unit (actually final):
 	protected TransformationUnit unit;
 	
 	// Map for storing the assigned values:
-	protected final Map<Object,Object> values;
-
-	/*
-	 * Internal constructor. Used by subclasses.
+	protected final Map<Object,Object> values = new HashMap<Object,Object>();
+	
+	// Whether this is a result assignment:
+	protected final boolean isResultAssignment; 
+	
+	/**
+	 * Default constructor.
+	 * @param rule Rule to be matched.
 	 */
-	protected AssignmentImpl() {
-		this.values = new HashMap<Object,Object>();
+	public AssignmentImpl(TransformationUnit unit) {
+		this (unit, false);
 	}
 
 	/**
-	 * Default constructor.
+	 * Constructor.
 	 */
-	public AssignmentImpl(TransformationUnit unit) {
-		this();
+	public AssignmentImpl(TransformationUnit unit, boolean isResultAssignment) {
+		this.isResultAssignment = isResultAssignment;
 		setUnit(unit);
 	}
 	
@@ -41,8 +49,8 @@ public class AssignmentImpl implements Assignment {
 	 * Constructor which copies an assignment.
 	 * @param assignment Assignment to be copied.
 	 */
-	public AssignmentImpl(Assignment assignment) {
-		this();
+	public AssignmentImpl(Assignment assignment, boolean isResultAssignment) {
+		this.isResultAssignment = isResultAssignment;
 		setUnit(assignment.getUnit());
 		copyParameterValues(assignment);
 	}
@@ -131,6 +139,15 @@ public class AssignmentImpl implements Assignment {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.Assignment#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		return values.isEmpty();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -167,7 +184,11 @@ public class AssignmentImpl implements Assignment {
 	 */
 	@Override
 	public String toString() {
-		return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
+		if (isResultAssignment) {
+			return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
+		} else {
+			return "Result assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");			
+		}
 	}
 	
 	/*
@@ -180,15 +201,49 @@ public class AssignmentImpl implements Assignment {
 		String result = "";
 		for (Parameter param : unit.getParameters()) {
 			Object value = getParameterValue(param);
-			if (value instanceof String) {
-				value = "'" + value + "'";
-			}
 			if (value!=null) {
-				result = result + indent + "- parameter '" + param.getName() + "' => " + value + "\n";
+				result = result + indent + "- parameter '" + param.getName() + "' => " + objectToString(value) + "\n";
 			}
 		}
 		return result;
 		
+	}
+	
+	/*
+	 * Get a string representation of an object.
+	 */
+	protected String objectToString(Object object) {
+		if (object instanceof String) {
+			return "'" + object + "'";
+			
+		}
+		if (object instanceof DynamicEObjectImpl) {
+			EClass eclass = ((DynamicEObjectImpl) object).eClass();
+			if (eclass!=null) {
+				String type = eclass.getName();
+				EPackage epackage = eclass.getEPackage();
+				while (epackage!=null) {
+					type = epackage.getName() + "." + type;
+					epackage = epackage.getESuperPackage();
+				}
+				String args = "";
+				for (EAttribute att : eclass.getEAllAttributes()) {
+					args = args + ", " + att.getName() + "=" + objectToString(((DynamicEObjectImpl) object).eGet(att));
+				}
+				
+				return type + "@" + Integer.toHexString(object.hashCode()) + " (dynamic" + args + ")";
+			}
+		}
+		return String.valueOf(object); // object could be null
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.Assignment#isResultAssignment()
+	 */
+	@Override
+	public boolean isResultAssignment() {
+		return isResultAssignment;
 	}
 
 }

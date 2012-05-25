@@ -18,7 +18,7 @@ import java.util.Set;
 
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -31,8 +31,8 @@ public class StateSpaceSearch {
 	// Visited states.
 	private final Set<State> visited = new HashSet<State>();
 	
-	// Current trace.
-	private Trace trace;
+	// Current path.
+	private Path path;
 	
 	// Current state.
 	private State current;
@@ -40,10 +40,10 @@ public class StateSpaceSearch {
 	/**
 	 * Visit a state and check whether the search should be stopped.
 	 * @param current Current state.
-	 * @param trace Trace from one of the start states to the current state.
+	 * @param path Path from one of the start states to the current state.
 	 * @return <code>true</code> if the search should stop.
 	 */
-	protected boolean shouldStop(State current, Trace trace) {
+	protected boolean shouldStop(State current, Path path) {
 		// By default we never stop searching.
 		return false;
 	}
@@ -77,7 +77,7 @@ public class StateSpaceSearch {
 	 */
 	public boolean depthFirst(State state, boolean reverse) {
 		this.current = state;
-		this.trace = new Trace(state);
+		this.path = new Path(state);
 		return depthFirst(reverse);
 	}
 	
@@ -88,20 +88,20 @@ public class StateSpaceSearch {
 		
 		// Visited already or finished?
 		if (visited(current)) return false;
-		if (shouldStop(current,trace)) return true;
+		if (shouldStop(current,path)) return true;
 		
 		// Get the next transitions:
 		List<Transition> transitions = getNextTransitions(current, reverse);
 		
 		// Nowhere to go from here? Otherwise add the first transition to the empty path:
 		if (transitions.isEmpty()) return false;
-		trace.add(transitions.get(0));
+		path.add(transitions.get(0));
 		
 		// Search until the path is empty:
-		while (!trace.isEmpty()) {
+		while (!path.isEmpty()) {
 			
 			// Transition, current and next state:
-			Transition transition = reverse ? trace.getFirst() : trace.getLast();
+			Transition transition = reverse ? path.getFirst() : path.getLast();
 			State previous = reverse ? transition.getTarget() : transition.getSource();
 			current = reverse ? transition.getSource() : transition.getTarget();
 			
@@ -112,8 +112,8 @@ public class StateSpaceSearch {
 			if (visited(current)) {
 				
 				// Remove the current transition from the path:
-				if (reverse) trace.removeFirst();
-				else trace.removeLast();
+				if (reverse) path.removeFirst();
+				else path.removeLast();
 				
 				// Index of the current transition:
 				transitions = getNextTransitions(previous, reverse);
@@ -127,7 +127,7 @@ public class StateSpaceSearch {
 			}
 			
 			// Should we stop here because the search was successful?
-			else if (shouldStop(current,trace)) {
+			else if (shouldStop(current,path)) {
 				return true;
 			}
 			
@@ -144,8 +144,8 @@ public class StateSpaceSearch {
 
 			// Add the next transition to the path:
 			if (nextTransition!=null) {				
-				if (reverse) trace.addFirst(nextTransition);
-				else trace.addLast(nextTransition);
+				if (reverse) path.addFirst(nextTransition);
+				else path.addLast(nextTransition);
 			}
 			
 		}
@@ -219,17 +219,17 @@ public class StateSpaceSearch {
 		
 	}
 	
-	public static Trace findTrace(StateSpace stateSpace, final List<String> path) {
+	public static Path findPath(StateSpace stateSpace, final List<String> trace) {
 		
-		// TODO: make findTrace() efficient
-		final int length = path.size();
+		// TODO: make findPath() efficient
+		final int length = trace.size();
 		StateSpaceSearch search = new StateSpaceSearch() {
 			@Override
-			protected boolean shouldStop(State current, Trace trace) {				
-				if (trace.size()==length) {
-					List<Transition> transitions = new ArrayList<Transition>(trace);
+			protected boolean shouldStop(State current, Path path) {				
+				if (path.size()==length) {
+					List<Transition> transitions = new ArrayList<Transition>(path);
 					for (int i=0; i<length; i++) {
-						if (!path.get(i).equals(transitions.get(i).getLabel())) return false;
+						if (!trace.get(i).equals(transitions.get(i).getLabel())) return false;
 					}
 					return true;
 				}
@@ -240,7 +240,7 @@ public class StateSpaceSearch {
 		if (!search.depthFirst(stateSpace, false)) {
 			return null;
 		} else {
-			return search.getTrace();
+			return search.getPath();
 		}
 		
 	}
@@ -262,10 +262,10 @@ public class StateSpaceSearch {
 	}
 	
 	/**
-	 * Get the current trace.
-	 * @return Current trace.
+	 * Get the current path.
+	 * @return Current path.
 	 */
-	public Trace getTrace() {
-		return trace;
+	public Path getPath() {
+		return path;
 	}
 }

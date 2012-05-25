@@ -80,7 +80,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 				}
 				return false;
 			}
-			resultMatch = new ResultMatchImpl((Rule) unit);
+			resultMatch = new MatchImpl((Rule) unit, true);
 			change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
 			if (change==null) {
 				if (monitor!=null) {
@@ -200,7 +200,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 			partialMatch = (Match) assignment;
 		}
 		else {
-			partialMatch = new MatchImpl(assignment);
+			partialMatch = new MatchImpl(assignment, false);
 		}
 		this.completeMatch = null;
 		this.resultMatch = null;

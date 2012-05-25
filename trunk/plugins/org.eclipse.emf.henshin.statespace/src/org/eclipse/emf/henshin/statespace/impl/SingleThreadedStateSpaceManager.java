@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -399,7 +399,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	protected Model deriveModel(State state, boolean fromInitial) throws StateSpaceException {
 		
 		// Find a path from one of the states predecessors:
-		Trace trace = new Trace();
+		Path trace = new Path();
 		State source = state;
 		State target;
 		Model start = null;

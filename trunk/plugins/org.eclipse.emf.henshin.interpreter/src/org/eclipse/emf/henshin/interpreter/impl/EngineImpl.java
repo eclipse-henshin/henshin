@@ -36,7 +36,6 @@ import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.Change.CompoundChange;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.AttributeChangeImpl;
 import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl.CompoundChangeImpl;
@@ -111,7 +110,7 @@ public class EngineImpl implements Engine {
 
 		// We need a result match:
 		if (resultMatch==null) {
-			resultMatch = new ResultMatchImpl(rule);
+			resultMatch = new MatchImpl(rule, true);
 		}
 
 		// Create the object changes:
@@ -207,7 +206,7 @@ public class EngineImpl implements Engine {
 		// Now recursively for the multi-rules:
 		for (Rule multiRule : rule.getMultiRules()) {
 			for (Match multiMatch : completeMatch.getNestedMatches(multiRule)) {
-				Match multiResultMatch = new ResultMatchImpl(multiRule);
+				Match multiResultMatch = new MatchImpl(multiRule, true);
 				for (Mapping mapping : multiRule.getMultiMappings()) {
 					if (mapping.getImage().getGraph().isRhs()) {
 						multiResultMatch.setNodeTarget(mapping.getImage(), 
@@ -407,7 +406,7 @@ public class EngineImpl implements Engine {
 			}
 
 			// Create the new match:
-			nextMatch = InterpreterFactory.INSTANCE.createMatch(rule);
+			nextMatch = new MatchImpl(rule);
 			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
 			

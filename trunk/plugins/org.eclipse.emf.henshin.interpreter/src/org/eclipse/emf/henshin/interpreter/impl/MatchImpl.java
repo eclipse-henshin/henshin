@@ -32,42 +32,31 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	
 	// Nodes to be matched:
 	protected List<Node> nodes;
-	
-	// Flag indicating whether this is a result match:
-	protected final boolean isResultMatch;
-	
+
 	/**
 	 * Default constructor.
-	 * @param rule The rule that this match is used for.
+	 * @param rule Rule to be matched.
 	 */
 	public MatchImpl(Rule rule) {
-		this(rule, false);
+		this (rule, false);
 	}
 
 	/**
-	 * Constructor which copies an assignment or a match.
-	 * @param assignment Assignment or match to be copied.
-	 */
-	public MatchImpl(Assignment assignment) {
-		this(assignment, false);
-	}
-
-	/*
-	 * Internal constructor.
+	 * Constructor.
 	 * @param rule The rule that this match is used for.
+	 * @param isResultMatch Determines whether this is a result match.
 	 */
-	protected MatchImpl(Rule rule, boolean isResultMatch) {
-		this.isResultMatch = isResultMatch;
-		setUnit(rule);
+	public MatchImpl(Rule rule, boolean isResultMatch) {
+		super(rule, isResultMatch);
 	}
 
-	/*
-	 * Internal constructor.
+	/**
+	 * Constructor.
 	 * @param assignment The assignment or match to be copied.
+	 * @param isResultMatch Determines whether this is a result match.
 	 */
-	protected MatchImpl(Assignment assignment, boolean isResultMatch) {
-		this.isResultMatch = isResultMatch;
-		setUnit(assignment.getUnit());
+	public MatchImpl(Assignment assignment, boolean isResultMatch) {
+		super(assignment.getUnit(), isResultMatch);
 		copyParameterValues(assignment);
 		if (assignment instanceof Match) {
 			Match match = (Match) assignment;
@@ -88,7 +77,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		}
 		this.unit = unit;
 		// LHS or RHS nodes?
-		this.nodes = isResultMatch ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
+		this.nodes = isResultAssignment ? ((Rule) unit).getRhs().getNodes() : ((Rule) unit).getLhs().getNodes(); 
 	}
 	
 	/*
@@ -258,7 +247,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			return false;
 		}
 		Match match = (Match) obj;
-		if (isResultMatch!=match.isResultMatch()) {
+		if (isResultAssignment!=match.isResultAssignment()) {
 			return false;
 		}
 		if (nodes!=null) {
@@ -277,7 +266,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 */
 	@Override
 	public boolean isResultMatch() {
-		return isResultMatch;
+		return isResultAssignment;
 	}
 
 	/*
@@ -286,7 +275,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	 */
 	@Override
 	public String toString() {
-		if (isResultMatch) {
+		if (isResultAssignment) {
 			return "Result match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");
 		} else {
 			return "Match for rule '" + unit.getName() + "':\n" + toStringWithIndent("");			
@@ -307,7 +296,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
 			EObject target = getNodeTarget(node);
 			if (target!=null) {
-				result = result + indent + "- node " + name + " => " + target + "\n";
+				result = result + indent + "- node " + name + " => " + objectToString(target) + "\n";
 			}
 			index++;
 		}

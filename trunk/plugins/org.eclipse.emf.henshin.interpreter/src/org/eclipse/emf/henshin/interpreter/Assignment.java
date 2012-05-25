@@ -39,8 +39,20 @@ public interface Assignment {
 	List<Object> getParameterValues();
 	
 	/**
+	 * Check whether this assignment is empty.
+	 * @return <code>true</code> of no values are assigned.
+	 */
+	boolean isEmpty();
+
+	/**
 	 * Clear all values stored in this assignment.
 	 */
 	void clear();
-	
+
+	/**
+	 * Checks whether this is an assignment for a result of a unit application. 
+	 * @return <code>true</code> if it is a result assignment.
+	 */
+	boolean isResultAssignment();
+
 }

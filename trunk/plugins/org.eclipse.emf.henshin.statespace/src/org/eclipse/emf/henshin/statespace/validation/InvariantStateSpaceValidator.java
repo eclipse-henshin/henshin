@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.Trace;
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 
 /**
@@ -82,10 +82,10 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 		if (valid) {
 			return new ValidationResult(true, "Invariant satisfied.");
 		} else {
-			// Trace leads to the error state.
-			Trace trace = getTrace();
-			int error = trace.getTarget().getIndex();
-			return new ValidationResult(false, "Invariant not satisfied in state " + error + ".", getTrace());	
+			// Path leads to the error state.
+			Path path = getPath();
+			int error = path.getTarget().getIndex();
+			return new ValidationResult(false, "Invariant not satisfied in state " + error + ".", getPath());	
 		}
 		
 	}
@@ -103,10 +103,10 @@ public class InvariantStateSpaceValidator extends StateSpaceSearch implements St
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.util.StateSpaceSearch#shouldStop(org.eclipse.emf.henshin.statespace.State, org.eclipse.emf.henshin.statespace.Trace)
+	 * @see org.eclipse.emf.henshin.statespace.util.StateSpaceSearch#shouldStop(org.eclipse.emf.henshin.statespace.State, org.eclipse.emf.henshin.statespace.Path)
 	 */
 	@Override
-	protected boolean shouldStop(State current, Trace trace) {
+	protected boolean shouldStop(State current, Path path) {
 		
 		// Canceled?
 		if (monitor.isCanceled()) {
