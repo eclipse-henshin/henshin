@@ -28,7 +28,7 @@ public class ExampleTests {
 	@Test
 	public void testJava2StateMachine() {
 		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, 
-				Java2StateMachine.JAVA_MODEL_SMALL, Java2StateMachine.REFERENCE_STATE_MACHINE);
+				Java2StateMachine.JAVA_MODEL_SMALL, Java2StateMachine.REFERENCE_STATE_MACHINE, false);
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
@@ -44,9 +45,10 @@ public class Java2StateMachine {
 	 * @param path Relative path to the working directory. 
 	 * @param javaModel The file name of the input java model.
 	 * @param referenceModel The file name of the reference state machine model.
+	 * @param saveResult Whether to save the result.
 	 */
 	@SuppressWarnings("unchecked")
-	public static void run(String path, String javaModel, String referenceModel) {
+	public static void run(String path, String javaModel, String referenceModel, boolean saveResult) {
 		
 		// Create the resource set:
 		System.out.println("\nLoading Java2StateMachine transformation system...");
@@ -98,10 +100,17 @@ public class Java2StateMachine {
 			System.err.println("Error transforming model");
 		}
 
-		// Save the generated state machine:
+		// The generated state machine:
 		EObject statemachine = (EObject) unitApp.getResultParameterValue("sm");
-		resourceSet.saveObject(statemachine, "generated-statemachine.xmi");
-		System.out.println("Saved generated state machine in 'generated-statemachine.xmi'");
+
+		// Save the generated state machine:
+		if (saveResult) {
+			resourceSet.saveObject(statemachine, "generated-statemachine.xmi");
+			System.out.println("Saved generated state machine in 'generated-statemachine.xmi'");
+		} else {
+			Resource dummyResource = new ResourceImpl(); // dump it into a dummy resource
+			dummyResource.getContents().add(statemachine);
+		}
 		
 		// Compare it with the reference:
 		if (referenceModel!=null) {
@@ -117,7 +126,7 @@ public class Java2StateMachine {
 	}
 	
 	public static void main(final String[] args) {
-		run(PATH, JAVA_MODEL_SMALL, REFERENCE_STATE_MACHINE);
+		run(PATH, JAVA_MODEL_SMALL, REFERENCE_STATE_MACHINE, true);
 		//run(PATH, JAVA_MODEL_MEDIUM, REFERENCE_STATE_MACHINE);
 	}
 
