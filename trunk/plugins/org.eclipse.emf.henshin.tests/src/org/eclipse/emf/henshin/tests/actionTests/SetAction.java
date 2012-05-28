@@ -11,7 +11,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.emf.henshin.interpreter.util.ModelHelper;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -20,6 +19,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,10 +63,10 @@ public class SetAction extends HenshinTest {
 		// Load rules:
 		List<File> files = findHenshinFiles(new File("basicTestRules"));
 		assertFalse("No Henshin files found", files.isEmpty());
+		HenshinResourceSet resourceSet = new HenshinResourceSet();
 		rules = new ArrayList<Rule>();
 		for (File file : files) {
-			TransformationSystem system = (TransformationSystem) 
-					ModelHelper.loadFile(file.getAbsolutePath());
+			TransformationSystem system = resourceSet.getTransformationSystem(file.getAbsolutePath());
 			rules.addAll(system.getRules());
 			if (rules.size()>10) {
 				break;
@@ -101,13 +101,12 @@ public class SetAction extends HenshinTest {
 	}
 
 	private void doSetActionsTest(EClass elementType) {
-		
+
+		System.out.println("Testing " + elementType.getName().toLowerCase() + " actions...");
+
 		// Check all rules:
 		for (Rule rule : rules) {
-			System.out.println("Testing " + elementType.getName().toLowerCase() + 
-							   " actions for rule " + rule.getName() + "...");
-			
-			// Set node actions for all action elements:
+			// Set actions for all action elements:
 			for (Object element : getActionElements(rule, elementType)) {
 				element = copyRule(element);
 				for (Action action1 : actions) {

@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
+import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.junit.Test;
 
@@ -19,6 +20,15 @@ public class ExampleTests {
 	@Test
 	public void testSierpinski() {
 		SierpinskiBenchmark.run(EXAMPLES_PATH + SierpinskiBenchmark.PATH, 10);
+	}
+
+	/**
+	 * Java2StateMachine example from TTC 2011.
+	 */
+	@Test
+	public void testJava2StateMachine() {
+		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, 
+				Java2StateMachine.JAVA_MODEL_SMALL, Java2StateMachine.REFERENCE_STATE_MACHINE);
 	}
 
 	/**

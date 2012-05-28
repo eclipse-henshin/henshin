@@ -621,7 +621,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_eHYwpKWUEeGjVP6k_rKtyg"/>
         </children>
         <element xmi:type="henshin:Node" href="java2statemachine.henshin#_sI_R-6MdEeGKmOPbc3bMpQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eHYJmKWUEeGjVP6k_rKtyg" x="186" y="343"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eHYJmKWUEeGjVP6k_rKtyg" x="158" y="340"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_eHYwpaWUEeGjVP6k_rKtyg" type="3001" fontName="Ubuntu">
         <children xmi:type="notation:DecorationNode" xmi:id="_eHYwp6WUEeGjVP6k_rKtyg" type="5002"/>

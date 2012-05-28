@@ -127,20 +127,20 @@ public class Graphs {
 			double matchSimilarityThreshold) {
 		MatchModel matchM;
 		
-		System.out.println("-----------");
+		//System.out.println("-----------");
 		try {
 			matchM = MatchService.doMatch(graph1.getRoots().toArray(new EObject[1])[0],
 					graph2.getRoots().toArray(new EObject[1])[0], null);
 		} catch (InterruptedException e) {
-			System.err.println("interrupted");
+			//System.err.println("interrupted");
 			return false;
 		}
 		
 		for (MatchElement ma : matchM.getMatchedElements()) {
-			System.out.println("-> " + ma);
-			for (MatchElement sma : ma.getSubMatchElements()) {
-				System.out.println("   -> " + sma);
-			}
+			//System.out.println("-> " + ma);
+			//for (MatchElement sma : ma.getSubMatchElements()) {
+			//	System.out.println("   -> " + sma);
+			//}
 			if (ma.getSimilarity() < matchSimilarityThreshold) {
 				System.out.println("graphs not equal->similarity threshold too high");
 				return false;

@@ -74,7 +74,7 @@ public abstract class AbstractApplicationImpl implements UnitApplication {
 	 */
 	@Override
 	public String toString() {
-		return unit.getName() + "Application";
+		return "'" + unit.getName() + "'"  + " application";
 	}
 
 }

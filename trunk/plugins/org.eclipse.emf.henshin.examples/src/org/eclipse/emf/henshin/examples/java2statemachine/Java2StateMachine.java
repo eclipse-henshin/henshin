@@ -90,8 +90,8 @@ public class Java2StateMachine {
 		unitApp.setUnit(system.findUnitByName("Start"));
 
 		// Execute the transformation:
-		LoggingApplicationMonitorImpl monitor = null; 
-		//new LoggingApplicationMonitorImpl();
+		LoggingApplicationMonitorImpl monitor = null;
+		// new LoggingApplicationMonitorImpl();
 		//monitor.setOnlyUnitApplications(true);
 		//monitor.setOnlyFailures(true);
 		if (!unitApp.execute(monitor)) {
@@ -109,9 +109,10 @@ public class Java2StateMachine {
 			if (EGraphIsomorphyChecker.resourcesAreIsomorphic(reference, statemachine.eResource())) {
 				System.out.println("Generated state machine is correct.");
 			} else {
-				System.err.println("Generated state machine is not correct!");
+				throw new RuntimeException("Generated state machine is not correct!");
 			}
 		}
+		System.out.println();
 		
 	}
 	

@@ -70,9 +70,11 @@ public class SierpinskiBenchmark {
 		System.out.println("Starting Sierpinski benchmark...");
 		System.out.println(Runtime.getRuntime().maxMemory() / (1024 * 1024) + "MB available memory\n");
 
+		System.out.println("Level\tMatches\tNodes\tMatTime\tAppTime\tTotTime");
+
 		// For computing the expected number of nodes:
 		int expectedNodes = 3;
-		int pow3 = 1;
+		int expectedMatches = 1;
 
 		// Iteratively compute the Sierpinski triangle:
 		List<Match> matches = new ArrayList<Match>();
@@ -89,10 +91,6 @@ public class SierpinskiBenchmark {
 			}
 			long matchingTime = (System.currentTimeMillis() - startTime);
 			
-			System.out.println("Level: " + (i+1));
-			System.out.println("Matches: " + matches.size());
-			System.out.println("Matching time: " + matchingTime + "ms");
-
 			// Apply rule with all found matches:
 			ApplicationMonitor monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 			System.gc();
@@ -106,14 +104,16 @@ public class SierpinskiBenchmark {
 			}
 			long runtime = (System.currentTimeMillis() - startTime);
 
-			System.out.println("Application time: " + runtime + "ms");
-			System.out.println("Total time: " + (matchingTime + runtime) + "ms");
-			System.out.println("Nodes: " + graph.size());
-			System.out.println();
+			// Print info:
+			System.out.println((i+1) + "\t" + matches.size() + "\t" +  graph.size() + "\t" + 
+							matchingTime + "\t" + runtime  + "\t" + (matchingTime + runtime));
 			
-			// Check whether the number of nodes is correct:
-			pow3 *= 3;
-			expectedNodes += pow3;
+			// Check whether the number of matches and nodes is correct:
+			if (matches.size()!=expectedMatches) {
+				throw new RuntimeException("Expected " + expectedMatches + " matches instead of " + matches.size());				
+			}
+			expectedMatches *= 3;
+			expectedNodes += expectedMatches;
 			if (graph.size()!=expectedNodes) {
 				throw new RuntimeException("Expected " + expectedNodes + " nodes instead of " + graph.size());
 			}
