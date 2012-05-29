@@ -12,6 +12,7 @@
 package org.eclipse.emf.henshin.diagram.parsers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -23,9 +24,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.UnitEditHelper.InvocationViewKey;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
+import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -59,12 +63,54 @@ public class InvocationNameParser extends AbstractParser {
 	 * @see org.eclipse.gmf.runtime.common.ui.services.parser.IParser#getPrintString(org.eclipse.core.runtime.IAdaptable, int)
 	 */
 	public String getPrintString(IAdaptable element, int flags) {		
+		
+		// Get the invoked unit:
 		TransformationUnit invocation = (TransformationUnit) element.getAdapter(EObject.class);
 		if (invocation==null || invocation.getName()==null) {
 			return "null";
-		} else {
-			return invocation.getName();
 		}
+		
+		// We use the name of the target unit:
+		String result = invocation.getName();
+		
+		// Any parameters?
+		if (!invocation.getParameters().isEmpty()) {
+			
+			// Get the parent transformation unit:
+			View view = (View) element.getAdapter(View.class);
+			View invocationView = (View) view.eContainer();
+			View compartmentView = (View) invocationView.eContainer();
+			View unitView = (View) compartmentView.eContainer();
+			TransformationUnit unit = (TransformationUnit) unitView.getElement();
+			
+			result = result + "(";
+			boolean first = true;
+			for (Parameter param1 : invocation.getParameters()) {
+				boolean found1 = false, found2 = false;
+				Parameter param2 = null;
+				for (ParameterMapping m : unit.getParameterMappings()) {
+					if (m.getSource()==param1 && m.getTarget()!=null && m.getTarget().getUnit()==unit) {
+						found1 = true;
+						param2 = m.getTarget();
+					}
+					if (m.getTarget()==param1 && m.getSource()!=null && m.getSource().getUnit()==unit) {
+						found2 = true;
+						param2 = m.getSource();
+					}					
+				}
+				if (!first) {
+					result = result + ", ";
+				}
+				if (found1 || found2) {
+					result = result + param2.getName();
+				} else {
+					result = result + "?";
+				}
+				first = false;
+			}
+			result = result + ")";
+		}
+		return result;
 	}
 	
 	/*
@@ -167,6 +213,50 @@ public class InvocationNameParser extends AbstractParser {
 				// Update the views:
 				invocationView.setElement(target);
 				nameView.setElement(target);
+				
+				// Update the parameter mappings:
+				for (int i=1; i<parsed.length; i++) {
+					if (target.getParameters().size()<=(i-1)) {
+						break;
+					}
+					Parameter targetParam = target.getParameters().get(i-1);
+					
+					// Remove all old parameter mappings:
+					ParameterMapping mapping;
+					Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
+					while (mappings.hasNext()) {
+						mapping = mappings.next();
+						if (mapping.getSource()==targetParam || mapping.getTarget()==targetParam) {
+							mappings.remove();
+						}
+					}
+					
+					// Find the used parameter in the parent unit:
+					Parameter unitParam = unit.getParameterByName(parsed[i]);
+					if (unitParam!=null) {
+						
+						// Now add the right parameter mappings:
+						mapping = HenshinFactory.eINSTANCE.createParameterMapping();
+						mapping.setSource(unitParam);
+						mapping.setTarget(targetParam);
+						unit.getParameterMappings().add(mapping);
+						
+						mapping = HenshinFactory.eINSTANCE.createParameterMapping();
+						mapping.setSource(targetParam);
+						mapping.setTarget(unitParam);
+						unit.getParameterMappings().add(mapping);
+						
+					}
+				}
+				
+				// Delete all parameter mappings with orphaned parameters:
+				Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
+				while (mappings.hasNext()) {
+					ParameterMapping mapping = mappings.next();
+					if (mapping.getSource().getUnit()==null || mapping.getTarget().getUnit()==null) {
+						mappings.remove();
+					}
+				}		
 				
 				// Done:
 				return CommandResult.newOKCommandResult();

@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
+import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -236,6 +237,15 @@ public class UnitNameParser extends AbstractParser {
 			
 		} else {
 			unit.getParameters().clear();
+		}
+		
+		// Delete all parameter mappings with orphaned parameters:
+		Iterator<ParameterMapping> mappings = unit.getParameterMappings().iterator();
+		while (mappings.hasNext()) {
+			ParameterMapping mapping = mappings.next();
+			if (mapping.getSource().getUnit()==null || mapping.getTarget().getUnit()==null) {
+				mappings.remove();
+			}
 		}
 		
 		// Now set the name:

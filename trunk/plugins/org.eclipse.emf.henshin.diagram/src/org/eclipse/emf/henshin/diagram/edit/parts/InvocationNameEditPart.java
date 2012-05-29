@@ -42,6 +42,7 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ISemanticParser;
 import org.eclipse.gmf.runtime.notation.FontStyle;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
@@ -190,15 +191,23 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected String getLabelText() {
 		String text = null;
 		EObject parserElement = getParserElement();
 		if (parserElement != null && getParser() != null) {
-			text = getParser().getPrintString(
-					new EObjectAdapter(parserElement),
-					getParserOptions().intValue());
+			// We provide an adapter that include the view!!! (as required by the parser)
+			EObjectAdapter adapter = new EObjectAdapter(parserElement) {
+				@Override
+				public Object getAdapter(Class adapter) {
+					if (View.class.equals(adapter)) {
+						return getNotationView();
+					}
+					return super.getAdapter(adapter);
+				}
+			};
+			text = getParser().getPrintString(adapter,getParserOptions().intValue());			
 		}
 		if (text == null || text.length() == 0) {
 			text = defaultText;
