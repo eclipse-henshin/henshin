@@ -247,9 +247,6 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			return false;
 		}
 		Match match = (Match) obj;
-		if (isResultAssignment!=match.isResultAssignment()) {
-			return false;
-		}
 		if (nodes!=null) {
 			for (Node node : nodes) {
 				if (values.get(node)!=match.getNodeTarget(node)) {
@@ -289,7 +286,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 	protected String toStringWithIndent(String indent) {
 		String result = super.toStringWithIndent(indent);
 		if (nodes.isEmpty()) {
-			return indent + "- no nodes";
+			return indent + "- no nodes\n";
 		}
 		int index = 1;
 		for (Node node : nodes) {
@@ -300,8 +297,10 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			}
 			index++;
 		}
+		index = 1;
 		for (Rule multiRule : ((Rule) unit).getMultiRules()) {
-			result = result + "\n" + indent + "  Multi-rule '" + multiRule.getName() + "':\n";
+			String name = multiRule.getName()!=null ? "'" + multiRule.getName() + "'" : "#" + index;
+			result = result + "\n" + indent + "  Multi-rule " + name + ":\n";
 			List<Match> matches = getNestedMatches(multiRule);
 			for (int i=0; i<matches.size(); i++) {
 				result = result + "\n" + indent + "  Match #" + i + ":\n";
@@ -312,6 +311,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 					result = result + indent + "  " + match.toString();
 				}
 			}
+			index++;
 		}
 		return result;
 		

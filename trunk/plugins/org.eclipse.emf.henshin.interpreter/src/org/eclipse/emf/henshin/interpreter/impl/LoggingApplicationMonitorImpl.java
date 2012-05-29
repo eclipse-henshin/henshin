@@ -109,7 +109,7 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 			RuleApplication ruleApp = (RuleApplication) application;
 			if (success) {
 				logStream.println(ruleApp.getCompleteMatch());
-				logStream.println(ruleApp.getResultMatch());
+				logStream.println(ruleApp.getResultMatch());					
 			} else {
 				Match match = ruleApp.getPartialMatch();
 				if (match!=null && !match.isEmpty()) {
@@ -118,14 +118,12 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 			}
 		} else {
 			Assignment assignment = application.getAssignment();
+			Assignment resultAssignment = application.getResultAssignment();
 			if (assignment!=null && !assignment.isEmpty()) {
 				logStream.println(assignment);
 			}
-			if (success) {
-				assignment = application.getResultAssignment();
-				if (assignment!=null && !assignment.isEmpty()) {
-					logStream.println("Result " + assignment.toString().replaceFirst("Assign", "assign"));
-				}
+			if (success && resultAssignment!=null && !resultAssignment.isEmpty()) {
+				logStream.println(resultAssignment);			
 			}
 		}
 	}

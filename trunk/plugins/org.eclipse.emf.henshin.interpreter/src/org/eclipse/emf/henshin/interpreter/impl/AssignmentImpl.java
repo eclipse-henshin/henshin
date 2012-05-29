@@ -166,6 +166,9 @@ public class AssignmentImpl implements Assignment {
 			if (unit!=a.getUnit()) {
 				return false;
 			}
+			if (isResultAssignment!=a.isResultAssignment()) {
+				return false;
+			}
 			for (Parameter param : unit.getParameters()) {
 				Object v1 = values.get(param);
 				Object v2 = a.getParameterValue(param);
@@ -196,7 +199,7 @@ public class AssignmentImpl implements Assignment {
 	 */
 	protected String toStringWithIndent(String indent) {
 		if (unit.getParameters().isEmpty()) {
-			return indent + "- no parameters";
+			return indent + "- no parameters\n";
 		}
 		String result = "";
 		for (Parameter param : unit.getParameters()) {

@@ -188,14 +188,21 @@ public abstract class ChangeImpl implements Change {
 			// Need to initialize ?
 			if (!initialized) {
 				if (reference.isMany()) {
-					index = ((List) source.eGet(reference)).indexOf(target);
+					List values = (List) source.eGet(reference);
+					index = values.indexOf(target);
 					if ((create && index>=0) || (!create && index<0)) {
 						reference = null; // nothing to do
+					}
+					if (create && index<0) {
+						index = values.size(); // append the new element at the end
 					}
 				} else {
 					oldTarget = (EObject) source.eGet(reference);
 					if ((create && target==oldTarget) || (!create && target!=oldTarget)) {
 						reference = null; // nothing to do
+					}
+					if (!create) {
+						target = null; // we want to remove it
 					}
 				}
 				initialized = true;
@@ -208,17 +215,14 @@ public abstract class ChangeImpl implements Change {
 			if (reference.isMany()) {
 				List values = (List) source.eGet(reference);
 				if (create) {
-					if (index<0) {
-						index = values.size();
-					}
 					values.add(index, target);
 				} else {
 					values.remove(index);
 				}
 				create = !create;
 			} else {
-				source.eSet(reference, target);
-				EObject dummy = target;
+				source.eSet(reference, target); // set the new target
+				EObject dummy = target; // switch target and old target
 				target = oldTarget;
 				oldTarget = dummy;
 			}
