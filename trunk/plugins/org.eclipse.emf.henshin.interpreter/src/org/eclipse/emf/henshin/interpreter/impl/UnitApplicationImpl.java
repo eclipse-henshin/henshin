@@ -76,6 +76,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (monitor==null) {
 			monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
 		}
+		appliedRules.clear();
+		undoneRules.clear();
 		resultAssignment = (assignment!=null) ? 
 				new AssignmentImpl(assignment, true) : 
 				new AssignmentImpl(unit, true);
@@ -128,11 +130,6 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			}
 			undoneRules.push(ruleApplication);
 		}
-		if (success) {
-			Assignment dummy = assignment;
-			assignment = resultAssignment;
-			resultAssignment = dummy;
-		}
 		monitor.notifyUndo(this, success);
 		return success;
 	}
@@ -158,11 +155,6 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			}
 			appliedRules.push(ruleApplication);
 		}
-		if (success) {
-			Assignment dummy = assignment;
-			assignment = resultAssignment;
-			resultAssignment = dummy;
-		}
 		monitor.notifyRedo(this, success);
 		return success;
 	}
@@ -170,7 +162,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	/*
 	 * Execute a Rule.
 	 */
-	private boolean executeRule(ApplicationMonitor monitor) {
+	protected boolean executeRule(ApplicationMonitor monitor) {
 		Rule rule = (Rule) unit;
 		RuleApplication ruleApp = new RuleApplicationImpl(engine, graph, rule, resultAssignment);
 		if (ruleApp.execute(monitor)) {
@@ -326,14 +318,15 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 * Create an ApplicationUnit for a given TransformationUnit.
 	 */
 	protected UnitApplicationImpl createApplicationFor(TransformationUnit subUnit) {
+		if (resultAssignment==null) {
+			resultAssignment = new AssignmentImpl(unit);
+		}
 		Assignment assign = new AssignmentImpl(subUnit);
-		if (resultAssignment!=null) {
-			for (ParameterMapping mapping : unit.getParameterMappings()) {
-				Parameter source = mapping.getSource();
-				Parameter target = mapping.getTarget();
-				if (target.getUnit()==subUnit) {
-					assign.setParameterValue(target, resultAssignment.getParameterValue(source));
-				}
+		for (ParameterMapping mapping : unit.getParameterMappings()) {
+			Parameter source = mapping.getSource();
+			Parameter target = mapping.getTarget();
+			if (target.getUnit()==subUnit) {
+				assign.setParameterValue(target, resultAssignment.getParameterValue(source));
 			}
 		}
 		return new UnitApplicationImpl(engine, graph, subUnit, assign);

@@ -31,6 +31,9 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	// Used matches:
 	protected Match partialMatch, completeMatch, resultMatch;
 	
+	// Whether the complete match was derived from the partial match:
+	protected boolean isCompleteMatchDerived;
+	
 	// Used change object:
 	protected Change change;
 	
@@ -45,6 +48,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		super(engine);
 		isExecuted = false;
 		isUndone = false;
+		isCompleteMatchDerived = false;
 	}
 
 	/**
@@ -70,35 +74,42 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (unit==null) {
 			throw new NullPointerException("No transformation unit set");
 		}
-		if (!isExecuted) {
-			if (completeMatch==null) {
-				completeMatch = engine.findMatches((Rule) unit, graph, partialMatch).iterator().next();
+		// Already executed?
+		if (isExecuted) {
+			if (isCompleteMatchDerived) {
+				completeMatch = null;  // reset the complete match if it was derived
+				isCompleteMatchDerived = false;				
 			}
-			if (completeMatch==null) {
-				if (monitor!=null) {
-					monitor.notifyExecute(this, false);
-				}
-				return false;
-			}
-			resultMatch = new MatchImpl((Rule) unit, true);
-			change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
-			if (change==null) {
-				if (monitor!=null) {
-					monitor.notifyExecute(this, false);
-				}
-				return false;
-			}
-			change.applyAndReverse();
-			isExecuted = true;
+			isExecuted = false;
+			isUndone = false;
+			change = null;
+			resultMatch = null;
+		}
+		// Do we need to derive a complete match?
+		if (completeMatch==null) {
+			completeMatch = engine.findMatches((Rule) unit, graph, partialMatch).iterator().next();
+			isCompleteMatchDerived = true;
+		}
+		if (completeMatch==null) {
 			if (monitor!=null) {
-				monitor.notifyExecute(this, true);
+				monitor.notifyExecute(this, false);
 			}
-			return true;
+			return false;
 		}
+		resultMatch = new MatchImpl((Rule) unit, true);
+		change = engine.createChange((Rule) unit, graph, completeMatch, resultMatch);
+		if (change==null) {
+			if (monitor!=null) {
+				monitor.notifyExecute(this, false);
+			}
+			return false;
+		}
+		change.applyAndReverse();
+		isExecuted = true;
 		if (monitor!=null) {
-			monitor.notifyExecute(this, false);
+			monitor.notifyExecute(this, true);
 		}
-		return false;
+		return true;
 	}
 	
 	/*
@@ -107,18 +118,16 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	 */
 	@Override
 	public boolean undo(ApplicationMonitor monitor) {
+		boolean success = false;
 		if (isExecuted && !isUndone) {
 			change.applyAndReverse();
 			isUndone = true;
-			if (monitor!=null) {
-				monitor.notifyUndo(this, true);
-			}
-			return true;
+			success = true;
 		}
 		if (monitor!=null) {
-			monitor.notifyUndo(this, false);
+			monitor.notifyUndo(this, success);
 		}
-		return false;
+		return success;
 	}
 	
 	/*
@@ -126,18 +135,16 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 	 * @see org.eclipse.emf.henshin.interpreter.UnitApplication#redo(org.eclipse.emf.henshin.interpreter.ApplicationMonitor)
 	 */
 	public boolean redo(ApplicationMonitor monitor) {
+		boolean success = false;
 		if (isExecuted && isUndone) {
 			change.applyAndReverse();
 			isUndone = false;
-			if (monitor!=null) {
-				monitor.notifyRedo(this, true);
-			}
-			return true;
+			success = true;
 		}
 		if (monitor!=null) {
-			monitor.notifyUndo(this, false);
+			monitor.notifyUndo(this, success);
 		}
-		return false;
+		return success;
 	}
 	
 	/*
@@ -175,6 +182,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 			this.change = null;
 			this.isExecuted = false;
 			this.isUndone = false;
+			this.isCompleteMatchDerived = false;
 		}
 	}
 	
@@ -207,6 +215,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		this.change = null;
 		this.isExecuted = false;
 		this.isUndone = false;
+		this.isCompleteMatchDerived = false;
 	}
 
 	/*
@@ -245,6 +254,8 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 			partialMatch = new MatchImpl((Rule) unit);
 		}
 		partialMatch.setParameterValue(param, value);
+		completeMatch = null;
+		isCompleteMatchDerived = false;
 	}
 
 	/*
@@ -268,6 +279,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		this.change = null;
 		this.isExecuted = false;
 		this.isUndone = false;
+		this.isCompleteMatchDerived = false;
 	}
 
 	/*
@@ -291,6 +303,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		this.change = null;
 		this.isExecuted = false;
 		this.isUndone = false;
+		this.isCompleteMatchDerived = false;
 	}
 
 	/*
