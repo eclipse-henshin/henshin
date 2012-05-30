@@ -118,7 +118,7 @@
       </edges>
       <formula xsi:type="henshin:Not" xmi:id="_sKqs46MdEeGKmOPbc3bMpQ">
         <child xsi:type="henshin:NestedCondition" xmi:id="_sI9c1qMdEeGKmOPbc3bMpQ">
-          <conclusion xmi:id="_sI9c16MdEeGKmOPbc3bMpQ" name="Visited">
+          <conclusion xmi:id="_sI9c16MdEeGKmOPbc3bMpQ" name="">
             <nodes xmi:id="_sI9c2KMdEeGKmOPbc3bMpQ" incoming="_sI9c2qMdEeGKmOPbc3bMpQ">
               <type href="java.ecore#/2/Class"/>
             </nodes>
