@@ -63,7 +63,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		// Get the node and its name:
 		Node node = (Node) element.getAdapter(EObject.class);
-		String name = node.getName()!=null ? node.getName() : "";
+		String name = node.getName()!=null ? node.getName().trim() : "";
 		
 		// For <<preserve>>-nodes we offer an arrow notation:
 		Action action = HenshinActionHelper.getAction(node);
@@ -72,10 +72,16 @@ public class NodeTypeParser extends AbstractParser {
 			// Get the RHS-node and its name:
 			Rule rule = node.getGraph().getContainerRule();
 			Node rhsNode = HenshinMappingUtil.getNodeImage(node, rule.getRhs(), rule.getMappings());
-			String rhsName = rhsNode.getName()!=null ? rhsNode.getName() : "";
+			String rhsName = rhsNode.getName()!=null ? rhsNode.getName().trim() : "";
 			
 			// Adapt the label:
 			if (!name.equals(rhsName)) {
+				if (name.length()==0) {
+					name = "?";
+				}
+				if (rhsName.length()==0) {
+					rhsName = "?";
+				}
 				name = name + "->" + rhsName;
 			}
 		}
@@ -151,8 +157,8 @@ public class NodeTypeParser extends AbstractParser {
 		int arrow = name.indexOf("->");
 		String name2 = name;
 		if (arrow>=0) {
-			name2 = name.substring(arrow+2);
-			name = name.substring(0, arrow);
+			name2 = name.substring(arrow+2).trim();
+			name = name.substring(0, arrow).trim();
 		}
 		
 		// Find the node type:
@@ -170,6 +176,9 @@ public class NodeTypeParser extends AbstractParser {
 		if (action!=null && action.getType()==ActionType.PRESERVE) { 
 			Node rhsNode = HenshinMappingUtil.getNodeImage(node, rule.getRhs(), rule.getMappings());
 			if (rhsNode!=null) {
+				if (name2.length()==0 || name2.equals("?")) {
+					name2 = null;
+				}
 				rhsNode.setName(name2);
 				if (nodeType!=null) {
 					rhsNode.setType(nodeType);
@@ -179,10 +188,13 @@ public class NodeTypeParser extends AbstractParser {
 			}
 		}
 		
-		// Set the name and the tye of the primary node:
+		// Set the name and the type of the primary node:
+		if (name.length()==0 || name.equals("?")) {
+			name = null;
+		}
 		node.setName(name);
 		if (nodeType!=null) {
-			node.setType(nodeType);			
+			node.setType(nodeType);
 		}
 		
 		// Done.
