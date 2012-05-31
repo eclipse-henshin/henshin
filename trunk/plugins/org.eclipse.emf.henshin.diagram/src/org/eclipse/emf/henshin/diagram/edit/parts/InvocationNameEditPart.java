@@ -14,6 +14,7 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
@@ -42,7 +43,6 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
-import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ISemanticParser;
 import org.eclipse.gmf.runtime.notation.FontStyle;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
@@ -190,15 +190,14 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 		return null;
 	}
 
-	/**
-	 * @generated NOT
+	/*
+	 * We provide an adapter that includes the view!!! 
+	 * (as required by the parser)
 	 */
-	protected String getLabelText() {
-		String text = null;
-		EObject parserElement = getParserElement();
-		if (parserElement != null && getParser() != null) {
-			// We provide an adapter that include the view!!! (as required by the parser)
-			EObjectAdapter adapter = new EObjectAdapter(parserElement) {
+	private IAdaptable getViewAdapter() {
+		EObject element = getParserElement();
+		if (element!=null) {
+			return new EObjectAdapter(element) {
 				@Override
 				public Object getAdapter(Class adapter) {
 					if (View.class.equals(adapter)) {
@@ -207,7 +206,19 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 					return super.getAdapter(adapter);
 				}
 			};
-			text = getParser().getPrintString(adapter,getParserOptions().intValue());			
+		}
+		return null;
+	}
+	
+	/**
+	 * @generated NOT
+	 */
+	protected String getLabelText() {
+		String text = null;
+		EObject parserElement = getParserElement();
+		if (parserElement != null && getParser() != null) {
+			// We provide an adapter that include the view!!! (as required by the parser)
+			text = getParser().getPrintString(getViewAdapter(), getParserOptions().intValue());			
 		}
 		if (text == null || text.length() == 0) {
 			text = defaultText;
@@ -231,14 +242,15 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getEditText() {
 		if (getParserElement() == null || getParser() == null) {
 			return ""; //$NON-NLS-1$
 		}
+		// We provide an adapter that include the view!!! (as required by the parser)
 		return getParser().getEditString(
-				new EObjectAdapter(getParserElement()),
+				getViewAdapter(),
 				getParserOptions().intValue());
 	}
 
@@ -250,14 +262,13 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public ICellEditorValidator getEditTextValidator() {
 		return new ICellEditorValidator() {
 
 			public String isValid(final Object value) {
 				if (value instanceof String) {
-					final EObject element = getParserElement();
 					final IParser parser = getParser();
 					try {
 						IParserEditStatus valid = (IParserEditStatus) getEditingDomain()
@@ -265,10 +276,10 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 										new RunnableWithResult.Impl<IParserEditStatus>() {
 
 											public void run() {
+												// We provide an adapter that include the view!!! (as required by the parser)
 												setResult(parser
 														.isValidEditString(
-																new EObjectAdapter(
-																		element),
+																getViewAdapter(),
 																(String) value));
 											}
 										});
@@ -286,14 +297,14 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public IContentAssistProcessor getCompletionProcessor() {
 		if (getParserElement() == null || getParser() == null) {
 			return null;
 		}
-		return getParser().getCompletionProcessor(
-				new EObjectAdapter(getParserElement()));
+		// We provide an adapter that include the view!!! (as required by the parser)
+		return getParser().getCompletionProcessor(getViewAdapter());
 	}
 
 	/**

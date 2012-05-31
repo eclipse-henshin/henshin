@@ -74,7 +74,7 @@ public class InvocationNameParser extends AbstractParser {
 		String result = invocation.getName();
 		
 		// Any parameters?
-		if (!invocation.getParameters().isEmpty()) {
+		if (!invocation.getParameters().isEmpty() && element.getAdapter(View.class)!=null) {
 			
 			// Get the parent transformation unit:
 			View view = (View) element.getAdapter(View.class);
@@ -110,6 +110,7 @@ public class InvocationNameParser extends AbstractParser {
 			}
 			result = result + ")";
 		}
+		
 		return result;
 	}
 	
