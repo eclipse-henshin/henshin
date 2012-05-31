@@ -155,7 +155,7 @@ public class EngineImpl implements Engine {
 			return new MatchFinder(rule, graph, partialMatch, new HashSet<EObject>());
 		}
 
-	}
+	} // MatchGenerator
 
 	/**
 	 * Match finder. Uses {@link SolutionFinder} to find matches.
@@ -298,7 +298,7 @@ public class EngineImpl implements Engine {
 			// Get the required info objects:
 			final RuleInfo ruleInfo = getRuleInfo(rule);
 			final ConditionInfo conditionInfo = ruleInfo.getConditionInfo();
-			final VariableInfo variableInfo = ruleInfo.getVariableInfo();
+			final VariableInfo varInfo = ruleInfo.getVariableInfo();
 
 			// Evaluates attribute conditions of the rule:
 			AttributeConditionHandler conditionHandler = new AttributeConditionHandler(
@@ -312,25 +312,20 @@ public class EngineImpl implements Engine {
 			 * mapping between the nodes of the variables.                  */
 
 			Map<Variable,DomainSlot> domainMap = new HashMap<Variable,DomainSlot>();
-			final Set<Variable> fixedVariables = new HashSet<Variable>();
 			
-			for (Variable mainVariable : variableInfo.getMainVariables()) {
-				Node node = variableInfo.getVariableForNode(mainVariable);
+			for (Variable mainVariable : varInfo.getMainVariables()) {
+				Node node = varInfo.getVariableForNode(mainVariable);
 				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, getGraphOptions(node.getGraph()));
 
 				// Fix this slot?
 				EObject target = partialMatch.getNodeTarget(node);
 				if (target!=null) {
 					domainSlot.fixInstantiation(target);
-					fixedVariables.add(mainVariable);
 				}
 
 				// Add the dependent variables to the domain map:
-				for (Variable dependendVariable : variableInfo.getDependendVariables(mainVariable)) {
+				for (Variable dependendVariable : varInfo.getDependendVariables(mainVariable)) {
 					domainMap.put(dependendVariable, domainSlot);
-					if (target!=null) {
-						fixedVariables.add(dependendVariable);
-					}
 				}
 			}
 
@@ -343,20 +338,10 @@ public class EngineImpl implements Engine {
 			}
 
 			// Sort the main variables based on the size of their domains:
-			Comparator<Variable> variableComparator = new Comparator<Variable>() {
-				@Override
-				public int compare(Variable v1, Variable v2) {
-					if (fixedVariables.contains(v1)) return -1;
-					if (fixedVariables.contains(v2)) return 1;
-					TypeConstraint t1 = v1.getTypeConstraint();
-					TypeConstraint t2 = v2.getTypeConstraint();
-					return graph.getDomainSize(t1.getType(), t1.isStrictTyping()) - graph.getDomainSize(t2.getType(), t2.isStrictTyping()); 
-				}
-			};			
 			Map<Graph,List<Variable>> sortedGraphMap = new HashMap<Graph, List<Variable>>();
 			for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
 				List<Variable> sorted = new ArrayList<Variable>(entry.getValue());
-				Collections.sort(sorted, variableComparator);  // sorting the variables
+				Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
 				sortedGraphMap.put(entry.getKey(), sorted);
 			}
 
@@ -412,8 +397,74 @@ public class EngineImpl implements Engine {
 			return ac;
 		}
 
-	}
+	} // MatchFinder
+	
+	/**
+	 * Comparator for variables. Used to sort variables for optimal matching order.
+	 */
+	private class VariableComparator implements Comparator<Variable> {
+		
+		// Target graph:
+		private final EGraph graph;
+		
+		// Variable info:
+		private final VariableInfo varInfo;
+		
+		// Partial match:
+		private final Match partialMatch;
+		
+		/**
+		 * Constructor.
+		 * @param graph Target graph
+		 * @param varInfo Variable info.
+		 * @param partialMatch Partial match.
+		 */
+		public VariableComparator(EGraph graph, VariableInfo varInfo, Match partialMatch) {
+			this.graph = graph;
+			this.varInfo = varInfo;
+			this.partialMatch = partialMatch;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		@Override
+		public int compare(Variable v1, Variable v2) {
+			
+			// Get the corresponding nodes:
+			Node n1 = varInfo.getVariableForNode(v1);
+			if (n1==null) return 1;
+			Node n2 = varInfo.getVariableForNode(v2);
+			if (n2==null) return -1;
 
+			// One of the nodes already matched?
+			if (partialMatch!=null) {
+				if (partialMatch.getNodeTarget(n1)!=null) return -1;
+				if (partialMatch.getNodeTarget(n2)!=null) return 1;
+			}
+			
+			// Get the type constraints:
+			TypeConstraint t1 = v1.getTypeConstraint();
+			TypeConstraint t2 = v2.getTypeConstraint();
+			
+			// Get the domain sizes (smaller number wins):
+			int s = (graph.getDomainSize(t1.getType(), t1.isStrictTyping()) - 
+					 graph.getDomainSize(t2.getType(), t2.isStrictTyping()));
+			if (s!=0) return s;
+			
+			// Attribute count (larger number wins):
+			int a = (n2.getAttributes().size() - n1.getAttributes().size());
+			if (a!=0) return a;
+			
+			// Outgoing edge count (larger number wins):
+			return n2.getOutgoing().size() - n1.getOutgoing().size();
+			
+		}
+		
+	} // VariableComparator
+
+	
 	/*
 	 * Get the cached rule info for a given rule.
 	 */
