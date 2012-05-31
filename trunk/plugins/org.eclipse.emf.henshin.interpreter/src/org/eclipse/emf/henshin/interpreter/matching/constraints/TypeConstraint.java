@@ -31,6 +31,10 @@ public class TypeConstraint implements UnaryConstraint {
 		this.strictTyping = strictTyping;
 	}
 	
+	public EClass getType() {
+		return type;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint#check(org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot)
@@ -88,7 +92,7 @@ public class TypeConstraint implements UnaryConstraint {
 	}
 	
 	public boolean instantiationPossible(DomainSlot slot, EGraph graph) {
-		return slot.locked ? isValid(slot) : !graph.isDomainEmpty(type, strictTyping);
+		return slot.locked ? isValid(slot) : graph.getDomainSize(type, strictTyping)>0;
 	}
 	
 }

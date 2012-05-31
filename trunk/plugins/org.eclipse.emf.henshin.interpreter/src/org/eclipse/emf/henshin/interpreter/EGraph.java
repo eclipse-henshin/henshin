@@ -49,13 +49,14 @@ public interface EGraph extends Collection<EObject> {
 	List<EObject> getDomain(EClass type, boolean strict);
 	
 	/**
-	 * Check whether the domain for a type is empty. This is the case if and only
-	 * if {@link #getDomain(EClass, boolean)} returns an empty list.
+	 * Returns the size of the domain for a type. The returned number
+	 * equals the size of the list returned by {@link #getDomain(EClass, boolean)}.
+	 * This method should be used whenever the actual objects are not needed.
 	 * @param type The type.
 	 * @param strict Whether subtypes are excluded.
-	 * @return <code>true</code> if the domain is empty.
+	 * @return The size of the domain.
 	 */
-	boolean isDomainEmpty(EClass type, boolean strict);
+	int getDomainSize(EClass type, boolean strict);
 	
 	/**
 	 * Get the root objects in this graph. This returns a fresh and modifiable list.

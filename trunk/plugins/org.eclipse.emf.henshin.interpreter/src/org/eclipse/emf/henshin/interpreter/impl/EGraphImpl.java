@@ -223,22 +223,21 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.EGraph#isDomainEmpty(org.eclipse.emf.ecore.EClass, boolean)
+	 * @see org.eclipse.emf.henshin.interpreter.EGraph#getDomainSize(org.eclipse.emf.ecore.EClass, boolean)
 	 */
 	@Override
-	public boolean isDomainEmpty(EClass type, boolean strict) {
+	public int getDomainSize(EClass type, boolean strict) {
 		if (strict) {
-			return getDomain(type).isEmpty();
+			return getDomain(type).size();
 		}
 		Set<EClass> inhMap = inheritanceMap.get(type);
+		int size = 0;
 		if (inhMap != null) {
 			for (EClass child : inhMap) {
-				if (!getDomain(child).isEmpty()) {
-					return false;
-				}
+				size += getDomain(child).size();
 			}
 		}
-		return true;
+		return size;
 	}
 
 	/*
