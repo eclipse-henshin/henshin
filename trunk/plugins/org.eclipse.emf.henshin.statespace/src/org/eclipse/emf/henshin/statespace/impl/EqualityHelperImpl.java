@@ -41,10 +41,40 @@ import org.eclipse.emf.henshin.statespace.util.EcoreEqualityHelper;
  */
 public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 		implements EqualityHelper {
-
+	
+	// Threshold after which we will evaluate whether it makes sense to do quick checks or not:
+	private final int QUICK_CHECKS_THRESHOLD = 5000;
+	
 	// Graph isomorphy-checker cache:
-	private final Map<Model,EGraphIsomorphyChecker> isomorphyCheckerCache = 
-		Collections.synchronizedMap(new UniversalCache<Model,EGraphIsomorphyChecker>());
+	private final Map<Model,EGraphIsomorphyChecker> isomorphyCheckerCache;
+
+	// Number of successful "quick checks":
+	private int successfullQuickChecks;
+
+	// Number of failed "quick checks":
+	private int failedQuickChecks;
+	
+	// Flag indicating whether to do quick checks:
+	private boolean doQuickChecks;
+	
+	/**
+	 * Default constructor.
+	 * @generated NOT
+	 */
+	public EqualityHelperImpl() {
+		isomorphyCheckerCache = Collections.synchronizedMap(new UniversalCache<Model,EGraphIsomorphyChecker>());
+		clearCache();
+	}
+		
+	/**
+	 * @generated NOT
+	 */
+	public void clearCache() {
+		isomorphyCheckerCache.clear();
+		failedQuickChecks = 0;
+		successfullQuickChecks = 0;
+		doQuickChecks = true;
+	}
 
 	/**
 	 * @generated NOT
@@ -125,6 +155,22 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 
 		} else {
 			
+			// Do quick checks...
+			if (doQuickChecks) {
+				boolean equal = new EcoreEqualityHelper(this).equals(model1, model2);
+				if (equal) {
+					successfullQuickChecks++;
+				} else {
+					failedQuickChecks++;
+				}
+				if (successfullQuickChecks + failedQuickChecks > QUICK_CHECKS_THRESHOLD) {
+					if (successfullQuickChecks < failedQuickChecks / 2) {
+						doQuickChecks = false;
+						System.out.println("INFO: switching off quick equality checking");
+					}
+				}
+			}
+			
 			// Get the isomorphy checker for the first model:
 			EGraphIsomorphyChecker checker1 = isomorphyCheckerCache.get(model1);
 			
@@ -178,13 +224,6 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 		}
 		
 	}
-	
-	/**
-	 * @generated NOT
-	 */
-	public void clearCache() {
-		isomorphyCheckerCache.clear();
-	}
 
 	/*
 	 * ----------------------------------------------------------------------- *
@@ -232,14 +271,6 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected EList<EClass> identityTypes;
-
-	/**
-	 * Default constructor.
-	 * @generated
-	 */
-	protected EqualityHelperImpl() {
-		super();
-	}
 
 	/**
 	 * @generated

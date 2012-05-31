@@ -45,13 +45,13 @@ import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
 public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl implements StateSpaceManager {
 
 	// State exploration helpers:
-	private final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
+	protected final Stack<StateExplorer> explorers = new Stack<StateExplorer>();
 	
 	// A lock used when accessing the state space:
-	private final Object stateSpaceLock = new Object();
+	protected final Object stateSpaceLock = new Object();
 
 	// State distance monitor:
-	private StateDistanceMonitor stateDistanceMonitor;
+	protected StateDistanceMonitor stateDistanceMonitor;
 	
 	/**
 	 * Default constructor.
@@ -563,12 +563,11 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 		return result;
 		
 	}	
-	
 		
 	/*
 	 * Acquire a state explorer.
 	 */
-	private StateExplorer acquireExplorer() {
+	protected StateExplorer acquireExplorer() {
 		synchronized (explorers) {
 			try {
 				return explorers.pop();
@@ -581,7 +580,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	/*
 	 * Release a state explorer again.
 	 */
-	private void releaseExplorer(StateExplorer explorer) {
+	protected void releaseExplorer(StateExplorer explorer) {
 		synchronized (explorers) {
 			explorers.push(explorer);
 		}
@@ -590,7 +589,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	/*
 	 * Create a shifted location.
 	 */
-	private static int[] shiftedLocation(State base, int index) {
+	protected static int[] shiftedLocation(State base, int index) {
 		int[] location = base.getLocation();
 		double angle = (Math.PI * index * 0.17d);
 		location[0] += 60 * Math.cos(angle);
