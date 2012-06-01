@@ -99,8 +99,8 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 				return createStorageAdapter();
 			}
 			@Override
-			public Adapter caseObjectKey(Map.Entry<EObject, Integer> object) {
-				return createObjectKeyAdapter();
+			public Adapter caseEObjectIntegerMapEntry(Map.Entry<EObject, Integer> object) {
+				return createEObjectIntegerMapEntryAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -207,7 +207,7 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Object Key</em>}'.
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EObject Integer Map Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
@@ -216,7 +216,7 @@ public class StateSpaceAdapterFactory extends AdapterFactoryImpl {
 	 * @see java.util.Map.Entry
 	 * @generated
 	 */
-	public Adapter createObjectKeyAdapter() {
+	public Adapter createEObjectIntegerMapEntryAdapter() {
 		return null;
 	}
 

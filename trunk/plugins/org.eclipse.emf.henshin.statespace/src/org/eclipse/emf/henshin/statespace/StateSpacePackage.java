@@ -567,14 +567,14 @@ public interface StateSpacePackage extends EPackage {
 	int EQUALITY_HELPER_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl <em>Object Key</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl <em>EObject Integer Map Entry</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl
-	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectKey()
+	 * @see org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl
+	 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectIntegerMapEntry()
 	 * @generated
 	 */
-	int OBJECT_KEY = 6;
+	int EOBJECT_INTEGER_MAP_ENTRY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
@@ -583,7 +583,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_KEY__KEY = 0;
+	int EOBJECT_INTEGER_MAP_ENTRY__KEY = 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -592,16 +592,16 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_KEY__VALUE = 1;
+	int EOBJECT_INTEGER_MAP_ENTRY__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Object Key</em>' class.
+	 * The number of structural features of the '<em>EObject Integer Map Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OBJECT_KEY_FEATURE_COUNT = 2;
+	int EOBJECT_INTEGER_MAP_ENTRY_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '<em>Integer Array</em>' data type.
@@ -1144,16 +1144,16 @@ public interface StateSpacePackage extends EPackage {
 	EAttribute getStorage_Data();
 
 	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Object Key</em>}'.
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EObject Integer Map Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Object Key</em>'.
+	 * @return the meta object for class '<em>EObject Integer Map Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject"
 	 *        valueDataType="org.eclipse.emf.ecore.EIntegerObject"
 	 * @generated
 	 */
-	EClass getObjectKey();
+	EClass getEObjectIntegerMapEntry();
 
 	/**
 	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
@@ -1161,10 +1161,10 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
-	 * @see #getObjectKey()
+	 * @see #getEObjectIntegerMapEntry()
 	 * @generated
 	 */
-	EReference getObjectKey_Key();
+	EReference getEObjectIntegerMapEntry_Key();
 
 	/**
 	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
@@ -1172,10 +1172,10 @@ public interface StateSpacePackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see java.util.Map.Entry
-	 * @see #getObjectKey()
+	 * @see #getEObjectIntegerMapEntry()
 	 * @generated
 	 */
-	EAttribute getObjectKey_Value();
+	EAttribute getEObjectIntegerMapEntry_Value();
 
 	/**
 	 * Returns the meta object for data type '<em>Integer Array</em>'.
@@ -1622,14 +1622,14 @@ public interface StateSpacePackage extends EPackage {
 		EAttribute STORAGE__DATA = eINSTANCE.getStorage_Data();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl <em>Object Key</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl <em>EObject Integer Map Entry</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.statespace.impl.ObjectKeyImpl
-		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getObjectKey()
+		 * @see org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl
+		 * @see org.eclipse.emf.henshin.statespace.impl.StateSpacePackageImpl#getEObjectIntegerMapEntry()
 		 * @generated
 		 */
-		EClass OBJECT_KEY = eINSTANCE.getObjectKey();
+		EClass EOBJECT_INTEGER_MAP_ENTRY = eINSTANCE.getEObjectIntegerMapEntry();
 
 		/**
 		 * The meta object literal for the '<em><b>Key</b></em>' reference feature.
@@ -1637,7 +1637,7 @@ public interface StateSpacePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference OBJECT_KEY__KEY = eINSTANCE.getObjectKey_Key();
+		EReference EOBJECT_INTEGER_MAP_ENTRY__KEY = eINSTANCE.getEObjectIntegerMapEntry_Key();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -1645,7 +1645,7 @@ public interface StateSpacePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute OBJECT_KEY__VALUE = eINSTANCE.getObjectKey_Value();
+		EAttribute EOBJECT_INTEGER_MAP_ENTRY__VALUE = eINSTANCE.getEObjectIntegerMapEntry_Value();
 
 		/**
 		 * The meta object literal for the '<em>Integer Array</em>' data type.

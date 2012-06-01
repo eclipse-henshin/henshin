@@ -131,9 +131,9 @@ public class StateSpaceSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case StateSpacePackage.OBJECT_KEY: {
-				@SuppressWarnings("unchecked") Map.Entry<EObject, Integer> objectKey = (Map.Entry<EObject, Integer>)theEObject;
-				T result = caseObjectKey(objectKey);
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY: {
+				@SuppressWarnings("unchecked") Map.Entry<EObject, Integer> eObjectIntegerMapEntry = (Map.Entry<EObject, Integer>)theEObject;
+				T result = caseEObjectIntegerMapEntry(eObjectIntegerMapEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -232,17 +232,17 @@ public class StateSpaceSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Object Key</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject Integer Map Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Object Key</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject Integer Map Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseObjectKey(Map.Entry<EObject, Integer> object) {
+	public T caseEObjectIntegerMapEntry(Map.Entry<EObject, Integer> object) {
 		return null;
 	}
 

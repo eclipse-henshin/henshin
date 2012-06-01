@@ -1,13 +1,14 @@
 /**
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
+ * Copyright (c) 2010 Hasso Plattner Institute Potsdam, 
+ * Technical University Berlin, Philipps-University Marburg 
+ * and others.  All rights reserved. 
  * This program and the accompanying materials are made 
  * available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     CWI Amsterdam - initial API and implementation
+ *     Hasso Plattner Institute - initial API and implementation
  */
 package org.eclipse.emf.henshin.statespace.impl;
 
@@ -26,13 +27,24 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
- * A map entry implementation for object keys.
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>EObject Integer Map Entry</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl#getTypedKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.statespace.impl.EObjectIntegerMapEntryImpl#getTypedValue <em>Value</em>}</li>
+ * </ul>
+ * </p>
+ *
  * @generated
  */
-public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
-	
+public class EObjectIntegerMapEntryImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<EObject,Integer> {
 	/**
 	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getTypedKey()
 	 * @generated
 	 * @ordered
@@ -41,6 +53,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 
 	/**
 	 * The default value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getTypedValue()
 	 * @generated
 	 * @ordered
@@ -49,6 +63,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 
 	/**
 	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getTypedValue()
 	 * @generated
 	 * @ordered
@@ -56,21 +72,27 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	protected Integer value = VALUE_EDEFAULT;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ObjectKeyImpl() {
+	protected EObjectIntegerMapEntryImpl() {
 		super();
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return StateSpacePackage.Literals.OBJECT_KEY;
+		return StateSpacePackage.Literals.EOBJECT_INTEGER_MAP_ENTRY;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject getTypedKey() {
@@ -79,13 +101,15 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 			key = eResolveProxy(oldKey);
 			if (key != oldKey) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.OBJECT_KEY__KEY, oldKey, key));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY, oldKey, key));
 			}
 		}
 		return key;
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject basicGetTypedKey() {
@@ -93,16 +117,20 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTypedKey(EObject newKey) {
 		EObject oldKey = key;
 		key = newKey;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_KEY__KEY, oldKey, key));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY, oldKey, key));
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Integer getTypedValue() {
@@ -110,40 +138,46 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTypedValue(Integer newValue) {
 		Integer oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.OBJECT_KEY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__VALUE, oldValue, value));
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_KEY__KEY:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY:
 				if (resolve) return getTypedKey();
 				return basicGetTypedKey();
-			case StateSpacePackage.OBJECT_KEY__VALUE:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__VALUE:
 				return getTypedValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_KEY__KEY:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY:
 				setTypedKey((EObject)newValue);
 				return;
-			case StateSpacePackage.OBJECT_KEY__VALUE:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__VALUE:
 				setTypedValue((Integer)newValue);
 				return;
 		}
@@ -151,15 +185,17 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_KEY__KEY:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY:
 				setTypedKey((EObject)null);
 				return;
-			case StateSpacePackage.OBJECT_KEY__VALUE:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__VALUE:
 				setTypedValue(VALUE_EDEFAULT);
 				return;
 		}
@@ -167,33 +203,47 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case StateSpacePackage.OBJECT_KEY__KEY:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__KEY:
 				return key != null;
-			case StateSpacePackage.OBJECT_KEY__VALUE:
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY__VALUE:
 				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * @generated NOT
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public String toString() {
-		return getKey() + " -> " + getValue();
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (value: ");
+		result.append(value);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected int hash = -1;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getHash() {
@@ -205,6 +255,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setHash(int hash) {
@@ -212,6 +264,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject getKey() {
@@ -219,6 +273,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setKey(EObject key) {
@@ -226,6 +282,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Integer getValue() {
@@ -233,6 +291,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Integer setValue(Integer value) {
@@ -242,6 +302,8 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -250,4 +312,4 @@ public class ObjectKeyImpl extends MinimalEObjectImpl.Container implements Basic
 		return container == null ? null : (EMap<EObject, Integer>)container.eGet(eContainmentFeature());
 	}
 
-} //ObjectIdentityImpl
+} //EObjectIntegerMapEntryImpl

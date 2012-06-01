@@ -79,7 +79,7 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 			case StateSpacePackage.TRANSITION: return createTransition();
 			case StateSpacePackage.EQUALITY_HELPER: return createEqualityHelper();
 			case StateSpacePackage.STORAGE: return createStorage();
-			case StateSpacePackage.OBJECT_KEY: return (EObject)createObjectKey();
+			case StateSpacePackage.EOBJECT_INTEGER_MAP_ENTRY: return (EObject)createEObjectIntegerMapEntry();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -221,9 +221,9 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<EObject, Integer> createObjectKey() {
-		ObjectKeyImpl objectKey = new ObjectKeyImpl();
-		return objectKey;
+	public Map.Entry<EObject, Integer> createEObjectIntegerMapEntry() {
+		EObjectIntegerMapEntryImpl eObjectIntegerMapEntry = new EObjectIntegerMapEntryImpl();
+		return eObjectIntegerMapEntry;
 	}
 
 	/**

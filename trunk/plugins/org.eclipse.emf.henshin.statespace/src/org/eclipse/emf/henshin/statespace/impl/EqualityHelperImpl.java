@@ -62,7 +62,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container
 	 * @generated NOT
 	 */
 	public EqualityHelperImpl() {
-		isomorphyCheckerCache = Collections.synchronizedMap(new UniversalCache<Model,EGraphIsomorphyChecker>());
+		isomorphyCheckerCache = Collections.synchronizedMap(new CacheImpl<Model,EGraphIsomorphyChecker>());
 		clearCache();
 	}
 		

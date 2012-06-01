@@ -93,7 +93,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass objectKeyEClass = null;
+	private EClass eObjectIntegerMapEntryEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -644,8 +644,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObjectKey() {
-		return objectKeyEClass;
+	public EClass getEObjectIntegerMapEntry() {
+		return eObjectIntegerMapEntryEClass;
 	}
 
 
@@ -654,8 +654,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getObjectKey_Key() {
-		return (EReference)objectKeyEClass.getEStructuralFeatures().get(0);
+	public EReference getEObjectIntegerMapEntry_Key() {
+		return (EReference)eObjectIntegerMapEntryEClass.getEStructuralFeatures().get(0);
 	}
 
 
@@ -664,8 +664,8 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getObjectKey_Value() {
-		return (EAttribute)objectKeyEClass.getEStructuralFeatures().get(1);
+	public EAttribute getEObjectIntegerMapEntry_Value() {
+		return (EAttribute)eObjectIntegerMapEntryEClass.getEStructuralFeatures().get(1);
 	}
 
 
@@ -789,9 +789,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		storageEClass = createEClass(STORAGE);
 		createEAttribute(storageEClass, STORAGE__DATA);
 
-		objectKeyEClass = createEClass(OBJECT_KEY);
-		createEReference(objectKeyEClass, OBJECT_KEY__KEY);
-		createEAttribute(objectKeyEClass, OBJECT_KEY__VALUE);
+		eObjectIntegerMapEntryEClass = createEClass(EOBJECT_INTEGER_MAP_ENTRY);
+		createEReference(eObjectIntegerMapEntryEClass, EOBJECT_INTEGER_MAP_ENTRY__KEY);
+		createEAttribute(eObjectIntegerMapEntryEClass, EOBJECT_INTEGER_MAP_ENTRY__VALUE);
 
 		// Create data types
 		integerArrayEDataType = createEDataType(INTEGER_ARRAY);
@@ -885,7 +885,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Resource(), ecorePackage.getEResource(), "resource", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_EGraph(), this.getEGraph(), "eGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModel_ObjectKeysMap(), this.getObjectKey(), null, "objectKeysMap", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_ObjectKeysMap(), this.getEObjectIntegerMapEntry(), null, "objectKeysMap", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectKeys(), this.getIntegerArray(), "objectKeys", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
@@ -947,9 +947,9 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		addEParameter(op, ecorePackage.getEInt(), "endIndex", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getIntegerArray(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(objectKeyEClass, Map.Entry.class, "ObjectKey", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getObjectKey_Key(), ecorePackage.getEObject(), null, "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getObjectKey_Value(), ecorePackage.getEIntegerObject(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(eObjectIntegerMapEntryEClass, Map.Entry.class, "EObjectIntegerMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getEObjectIntegerMapEntry_Key(), ecorePackage.getEObject(), null, "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEObjectIntegerMapEntry_Value(), ecorePackage.getEIntegerObject(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(integerArrayEDataType, int[].class, "IntegerArray", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

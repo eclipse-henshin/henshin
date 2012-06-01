@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -42,33 +41,6 @@ import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
  * @generated
  */
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
-	
-	/*
-	 * Default implementation of an object key map.
-	 * This implementation returns 0 for all objects
-	 * that do not have a key.
-	 */
-	private static class ObjectKeyMap extends EcoreEMap<EObject,Integer> {
-
-		// Static zero integer object:
-		private static final Integer ZERO = new Integer(0);
-
-		// Serial Id:
-		private static final long serialVersionUID = 1L;
-
-		public ObjectKeyMap(ModelImpl model) {
-			super(StateSpacePackage.Literals.OBJECT_KEY, 
-				ObjectKeyImpl.class, model, 
-				StateSpacePackage.MODEL__OBJECT_KEYS_MAP);
-		}
-
-		@Override
-		public Integer get(Object object) {
-			Integer key = super.get(object);
-			return (key!=null) ? key : ZERO;
-		}
-	};
-	
 	
 	/**
 	 * Constructor.
@@ -93,16 +65,6 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
-	public EMap<EObject, Integer> getObjectKeysMap() {
-		if (objectKeysMap == null) {
-			objectKeysMap = new ObjectKeyMap(this);
-		}
-		return objectKeysMap;
-	}
-
-	/**
-	 * @generated NOT
-	 */
 	public EGraph getEGraph() {
 		if (eGraph==null) {
 			eGraph = InterpreterFactory.INSTANCE.createEGraph();
@@ -111,6 +73,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			}
 		}
 		return eGraph;
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public EMap<EObject, Integer> getObjectKeysMap() {
+		if (objectKeysMap == null) {
+			objectKeysMap = new EObjectIntegerMapImpl(StateSpacePackage.Literals.EOBJECT_INTEGER_MAP_ENTRY, EObjectIntegerMapEntryImpl.class, this, StateSpacePackage.MODEL__OBJECT_KEYS_MAP);
+		}
+		return objectKeysMap;
 	}
 
 	/**

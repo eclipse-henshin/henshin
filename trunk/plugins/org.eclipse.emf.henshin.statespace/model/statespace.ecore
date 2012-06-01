@@ -83,7 +83,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="eGraph" eType="#//EGraph"
         changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectKeysMap" upperBound="-1"
-        eType="#//ObjectKey" containment="true"/>
+        eType="#//EObjectIntegerMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectKeys" eType="#//IntegerArray"
         volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
@@ -147,7 +147,7 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" eType="#//IntegerArray"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectKey" instanceClassName="java.util.Map$Entry">
+  <eClassifiers xsi:type="ecore:EClass" name="EObjectIntegerMapEntry" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
   </eClassifiers>
