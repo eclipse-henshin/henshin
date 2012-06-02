@@ -104,7 +104,8 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 		}
 		logStream.println("=== " + stepKind +  
 				((application instanceof RuleApplication) ? " RULE " : " UNIT ") + 
-				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===\n");
+				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===");
+		logStream.println("- graph size: " + application.getEGraph().size() + "\n");
 		if (application instanceof RuleApplication) {
 			RuleApplication ruleApp = (RuleApplication) application;
 			if (success) {
