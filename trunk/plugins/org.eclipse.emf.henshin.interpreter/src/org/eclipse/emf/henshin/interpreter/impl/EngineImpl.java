@@ -340,14 +340,14 @@ public class EngineImpl implements Engine {
 			// Sort the main variables based on the size of their domains:
 			Map<Graph,List<Variable>> sortedGraphMap = 
 					
-					ruleInfo.getVariableInfo().getGraph2variables();   // should be sorted for optimal performance
-/*					new HashMap<Graph, List<Variable>>();
+			//		ruleInfo.getVariableInfo().getGraph2variables();   // should be sorted for optimal performance
+					new HashMap<Graph, List<Variable>>();
 			for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
 				List<Variable> sorted = new ArrayList<Variable>(entry.getValue());
-				Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
+			//	Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
 				sortedGraphMap.put(entry.getKey(), sorted);
 			}
-*/
+
 			// Now initialize the match finder:
 			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler);
 			solutionFinder.setVariables(sortedGraphMap.get(rule.getLhs()));

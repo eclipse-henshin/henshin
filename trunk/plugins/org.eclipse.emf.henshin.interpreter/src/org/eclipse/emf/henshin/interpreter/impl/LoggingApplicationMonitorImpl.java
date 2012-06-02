@@ -2,7 +2,11 @@ package org.eclipse.emf.henshin.interpreter.impl;
 
 import java.io.PrintStream;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.Assignment;
+import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
@@ -102,10 +106,11 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 		if (onlyFailures && success) {
 			return;
 		}
+		EGraph graph = application.getEGraph();
 		logStream.println("=== " + stepKind +  
 				((application instanceof RuleApplication) ? " RULE " : " UNIT ") + 
-				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===");
-		logStream.println("- graph size: " + application.getEGraph().size() + "\n");
+				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===\n");
+		logStream.println("Graph size: " + graph.size() + " nodes, " + computeLinkCount(graph) + " edges\n");
 		if (application instanceof RuleApplication) {
 			RuleApplication ruleApp = (RuleApplication) application;
 			if (success) {
@@ -148,5 +153,22 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 	public void setOnlyFailures(boolean onlyFailures) {
 		this.onlyFailures = onlyFailures;
 	}
-	
+
+	/*
+	 * Compute the number of links in a graph.
+	 */
+	private static int computeLinkCount(EGraph graph) {
+		int links = 0;
+		for (EObject object : graph) {
+			for (EReference ref : object.eClass().getEAllReferences()) {
+				if (ref.isMany()) {
+					links += ((EList<?>) object.eGet(ref)).size();
+				} else {
+					if (object.eGet(ref)!=null) links++;
+				}
+			}
+		}
+		return links;
+	}
+
 }
