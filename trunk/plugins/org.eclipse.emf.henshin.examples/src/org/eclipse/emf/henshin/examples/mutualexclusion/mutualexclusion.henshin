@@ -152,11 +152,11 @@
   </rules>
   <rules xmi:id="_ARAU0JPPEeGo6JryyuuVRA" name="takeRule">
     <lhs xmi:id="_ARAU0ZPPEeGo6JryyuuVRA" name="LHS">
-      <nodes xmi:id="_JNu_QJPPEeGo6JryyuuVRA" incoming="_MLcGgJPPEeGo6JryyuuVRA" outgoing="_UAGVoJPPEeGo6JryyuuVRA">
-        <type href="mutualexclusion.ecore#//Resource"/>
-      </nodes>
       <nodes xmi:id="_I4S6wJPPEeGo6JryyuuVRA" incoming="_UAGVoJPPEeGo6JryyuuVRA" outgoing="_MLcGgJPPEeGo6JryyuuVRA">
         <type href="mutualexclusion.ecore#//Process"/>
+      </nodes>
+      <nodes xmi:id="_JNu_QJPPEeGo6JryyuuVRA" incoming="_MLcGgJPPEeGo6JryyuuVRA" outgoing="_UAGVoJPPEeGo6JryyuuVRA">
+        <type href="mutualexclusion.ecore#//Resource"/>
       </nodes>
       <edges xmi:id="_MLcGgJPPEeGo6JryyuuVRA" source="_I4S6wJPPEeGo6JryyuuVRA" target="_JNu_QJPPEeGo6JryyuuVRA">
         <type href="mutualexclusion.ecore#//Process/request"/>
