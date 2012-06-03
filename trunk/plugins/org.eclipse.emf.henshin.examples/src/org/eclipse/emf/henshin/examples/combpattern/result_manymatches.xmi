@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<comb:Grid xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:comb="http://www.eclipse.org/emf/henshin/examples/comb" xsi:schemaLocation="http://www.eclipse.org/emf/henshin/examples/comb comb.ecore">
+  <nodes hor="//@nodes.5" ver="//@nodes.2"/>
+  <nodes hor="//@nodes.9"/>
+  <nodes hor="//@nodes.6" ver="//@nodes.3"/>
+  <nodes hor="//@nodes.7" ver="//@nodes.4"/>
+  <nodes hor="//@nodes.8" ver="//@nodes.1"/>
+  <nodes hor="//@nodes.10" ver="//@nodes.6"/>
+  <nodes hor="//@nodes.11" ver="//@nodes.7"/>
+  <nodes hor="//@nodes.12" ver="//@nodes.8"/>
+  <nodes hor="//@nodes.13" ver="//@nodes.9"/>
+  <nodes hor="//@nodes.14"/>
+  <nodes hor="//@nodes.15" ver="//@nodes.11"/>
+  <nodes hor="//@nodes.16" ver="//@nodes.12"/>
+  <nodes hor="//@nodes.17" ver="//@nodes.13"/>
+  <nodes hor="//@nodes.18" ver="//@nodes.14"/>
+  <nodes hor="//@nodes.19"/>
+  <nodes hor="//@nodes.20" ver="//@nodes.16"/>
+  <nodes hor="//@nodes.21" ver="//@nodes.17"/>
+  <nodes hor="//@nodes.22" ver="//@nodes.18"/>
+  <nodes hor="//@nodes.23" ver="//@nodes.19"/>
+  <nodes hor="//@nodes.24"/>
+  <nodes ver="//@nodes.21"/>
+  <nodes ver="//@nodes.22"/>
+  <nodes ver="//@nodes.23"/>
+  <nodes ver="//@nodes.24"/>
+  <nodes/>
+</comb:Grid>

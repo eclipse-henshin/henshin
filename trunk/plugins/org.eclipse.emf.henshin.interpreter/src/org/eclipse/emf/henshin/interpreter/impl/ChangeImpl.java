@@ -218,8 +218,9 @@ public abstract class ChangeImpl implements Change {
 						reference = null; // nothing to do
 					}
 					if (create && oldTarget!=null && reference!=null && PRINT_WARNINGS) {
-						System.out.println("Warning: deleting '" + reference.getName() + "'-edge to " +
-											InterpreterUtil.objectToString(oldTarget) + " as a side effect");
+						System.out.println("Side effect warning: deleting '" + reference.getName() + "'-edge from " +
+											InterpreterUtil.objectToString(source) + " to " +
+											InterpreterUtil.objectToString(oldTarget));
 					}
 					if (!create) {
 						target = null; // we want to remove it

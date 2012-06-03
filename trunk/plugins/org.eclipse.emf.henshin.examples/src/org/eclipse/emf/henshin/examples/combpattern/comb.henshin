@@ -43,7 +43,7 @@
       </edges>
     </lhs>
     <rhs xmi:id="_sHWKYqo0EeGWmNM0TiX1dQ" name="RHS">
-      <nodes xmi:id="_vSa_Qao0EeGWmNM0TiX1dQ" name="&quot;&quot;" incoming="_x9Xikao0EeGWmNM0TiX1dQ" outgoing="_5F8u0Ko0EeGWmNM0TiX1dQ">
+      <nodes xmi:id="_vSa_Qao0EeGWmNM0TiX1dQ" name="" incoming="_x9Xikao0EeGWmNM0TiX1dQ" outgoing="_5F8u0Ko0EeGWmNM0TiX1dQ">
         <type href="comb.ecore#//Node"/>
       </nodes>
       <nodes xmi:id="_vu-_cKo0EeGWmNM0TiX1dQ" name="first" incoming="_x9Xikqo0EeGWmNM0TiX1dQ _5F8u0Ko0EeGWmNM0TiX1dQ">
@@ -151,19 +151,19 @@
       <formula xsi:type="henshin:Not" xmi:id="_yyzV8KpZEeGWmNM0TiX1dQ">
         <child xsi:type="henshin:NestedCondition" xmi:id="_yyzV8apZEeGWmNM0TiX1dQ">
           <conclusion xmi:id="_yyzV8qpZEeGWmNM0TiX1dQ" name="default">
+            <nodes xmi:id="_zsTJwKpZEeGWmNM0TiX1dQ" name="root" outgoing="_xcTdEKpZEeGWmNM0TiX1dQ _sfjVkKphEeGWmNM0TiX1dQ">
+              <type href="comb.ecore#//Grid"/>
+            </nodes>
             <nodes xmi:id="_yyz9AKpZEeGWmNM0TiX1dQ" outgoing="_x4XG8KpZEeGWmNM0TiX1dQ">
               <type href="comb.ecore#//Node"/>
             </nodes>
-            <nodes xmi:id="_xcRn4KpZEeGWmNM0TiX1dQ" incoming="_xcTdEKpZEeGWmNM0TiX1dQ _x4XG8KpZEeGWmNM0TiX1dQ _HLfmwKrxEeGrSuUOoDQ5Sw">
+            <nodes xmi:id="_sfj8oKphEeGWmNM0TiX1dQ" outgoing="_sflx0KphEeGWmNM0TiX1dQ">
               <type href="comb.ecore#//Node"/>
-            </nodes>
-            <nodes xmi:id="_zsTJwKpZEeGWmNM0TiX1dQ" name="root" outgoing="_xcTdEKpZEeGWmNM0TiX1dQ _sfjVkKphEeGWmNM0TiX1dQ">
-              <type href="comb.ecore#//Grid"/>
             </nodes>
             <nodes xmi:id="_sfhgYKphEeGWmNM0TiX1dQ" incoming="_sfjVkKphEeGWmNM0TiX1dQ _sflx0KphEeGWmNM0TiX1dQ" outgoing="_HLfmwKrxEeGrSuUOoDQ5Sw">
               <type href="comb.ecore#//Node"/>
             </nodes>
-            <nodes xmi:id="_sfj8oKphEeGWmNM0TiX1dQ" outgoing="_sflx0KphEeGWmNM0TiX1dQ">
+            <nodes xmi:id="_xcRn4KpZEeGWmNM0TiX1dQ" incoming="_xcTdEKpZEeGWmNM0TiX1dQ _x4XG8KpZEeGWmNM0TiX1dQ _HLfmwKrxEeGrSuUOoDQ5Sw">
               <type href="comb.ecore#//Node"/>
             </nodes>
             <edges xmi:id="_x4XG8KpZEeGWmNM0TiX1dQ" source="_yyz9AKpZEeGWmNM0TiX1dQ" target="_xcRn4KpZEeGWmNM0TiX1dQ">
