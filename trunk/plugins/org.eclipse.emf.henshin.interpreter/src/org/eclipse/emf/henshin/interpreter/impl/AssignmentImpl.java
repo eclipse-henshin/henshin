@@ -5,11 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.henshin.interpreter.Assignment;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -205,40 +202,14 @@ public class AssignmentImpl implements Assignment {
 		for (Parameter param : unit.getParameters()) {
 			Object value = getParameterValue(param);
 			if (value!=null) {
-				result = result + indent + "- parameter '" + param.getName() + "' => " + objectToString(value) + "\n";
+				result = result + indent + "- parameter '" + param.getName() + "' => " + 
+							InterpreterUtil.objectToString(value) + "\n";
 			}
 		}
 		return result;
 		
 	}
 	
-	/*
-	 * Get a string representation of an object.
-	 */
-	protected String objectToString(Object object) {
-		if (object instanceof String) {
-			return "'" + object + "'";
-			
-		}
-		if (object instanceof DynamicEObjectImpl) {
-			EClass eclass = ((DynamicEObjectImpl) object).eClass();
-			if (eclass!=null) {
-				String type = eclass.getName();
-				EPackage epackage = eclass.getEPackage();
-				while (epackage!=null) {
-					type = epackage.getName() + "." + type;
-					epackage = epackage.getESuperPackage();
-				}
-				String args = "";
-				for (EAttribute att : eclass.getEAllAttributes()) {
-					args = args + ", " + att.getName() + "=" + objectToString(((DynamicEObjectImpl) object).eGet(att));
-				}
-				
-				return type + "@" + Integer.toHexString(object.hashCode()) + " (dynamic" + args + ")";
-			}
-		}
-		return String.valueOf(object); // object could be null
-	}
 
 	/*
 	 * (non-Javadoc)

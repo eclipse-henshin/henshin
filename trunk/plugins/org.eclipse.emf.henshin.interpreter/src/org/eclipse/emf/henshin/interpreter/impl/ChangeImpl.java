@@ -8,11 +8,26 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.Change;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 
+/**
+ * Default implementation of {@link Change} and its sub-interfaces.
+ * @author Christian Krause
+ */
 public abstract class ChangeImpl implements Change {
+
+	/**
+	 * Flag indicating whether warnings should be printed:
+	 */
+	public static boolean PRINT_WARNINGS = true;
 	
+	// EGraph to be changed:
 	protected final EGraph graph;
 
+	/**
+	 * Default constructor.
+	 * @param graph EGraph to be changed.
+	 */
 	public ChangeImpl(EGraph graph) {
 		this.graph = graph;
 	}
@@ -196,10 +211,15 @@ public abstract class ChangeImpl implements Change {
 					if (create && index<0) {
 						index = values.size(); // append the new element at the end
 					}
+					// TODO: add a warning for containment side effects
 				} else {
 					oldTarget = (EObject) source.eGet(reference);
 					if ((create && target==oldTarget) || (!create && target!=oldTarget)) {
 						reference = null; // nothing to do
+					}
+					if (create && oldTarget!=null && reference!=null && PRINT_WARNINGS) {
+						System.out.println("Warning: deleting '" + reference.getName() + "'-edge to " +
+											InterpreterUtil.objectToString(oldTarget) + " as a side effect");
 					}
 					if (!create) {
 						target = null; // we want to remove it

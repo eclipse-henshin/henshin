@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
@@ -293,7 +294,8 @@ public class MatchImpl extends AssignmentImpl implements Match {
 			String name = node.getName()!=null ? "'" + node.getName() + "'" : "#" + index;
 			EObject target = getNodeTarget(node);
 			if (target!=null) {
-				result = result + indent + "- node " + name + " => " + objectToString(target) + "\n";
+				result = result + indent + "- node " + name + " => " + 
+							InterpreterUtil.objectToString(target) + "\n";
 			}
 			index++;
 		}

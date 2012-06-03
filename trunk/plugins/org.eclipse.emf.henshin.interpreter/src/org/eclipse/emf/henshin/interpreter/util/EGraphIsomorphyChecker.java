@@ -76,7 +76,7 @@ public class EGraphIsomorphyChecker {
 	public EGraphIsomorphyChecker(final EGraph source, List<EAttribute> ignoredAttributes) {
 		this.source = source;
 		this.ignoredAttributes = ignoredAttributes;
-		this.linkCount = computeLinkCount(source);
+		this.linkCount = InterpreterUtil.countEdges(source);
 		initVariables();
 	}
 	
@@ -167,7 +167,7 @@ public class EGraphIsomorphyChecker {
 		}
 		
 		// We still need to verify that the link count is the same:
-		if (linkCount!=computeLinkCount(graph)) {
+		if (linkCount!=InterpreterUtil.countEdges(graph)) {
 			return false;
 		}
 		
@@ -175,24 +175,7 @@ public class EGraphIsomorphyChecker {
 		return true;
 		
 	}
-	
-	/*
-	 * Compute the number of links in a graph.
-	 */
-	private static int computeLinkCount(EGraph graph) {
-		int links = 0;
-		for (EObject object : graph) {
-			for (EReference ref : object.eClass().getEAllReferences()) {
-				if (ref.isMany()) {
-					links += ((EList<?>) object.eGet(ref)).size();
-				} else {
-					if (object.eGet(ref)!=null) links++;
-				}
-			}
-		}
-		return links;
-	}
-	
+		
 	/**
 	 * Check whether the contents of two resources are isomorphic.
 	 * @param r1 First resource.

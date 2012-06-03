@@ -344,7 +344,7 @@ public class EngineImpl implements Engine {
 					new HashMap<Graph, List<Variable>>();
 			for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
 				List<Variable> sorted = new ArrayList<Variable>(entry.getValue());
-			//	Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
+				Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
 				sortedGraphMap.put(entry.getKey(), sorted);
 			}
 
