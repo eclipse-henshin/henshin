@@ -1,13 +1,23 @@
 package org.eclipse.emf.henshin.interpreter.impl;
 
+import java.io.IOException;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
  * An application monitor with logging capabilities.
@@ -30,6 +40,15 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 	
 	// Whether to print logs only for failed unit applications:
 	protected boolean onlyFailures = false;
+	
+	// URI for saving intermediate models:
+	protected URI autoSaveURI;
+	
+	// Execution step:
+	protected int step = 0;
+	
+	// Maximum number of execution steps:
+	protected int maxSteps = -1;
 	
 	/*
 	 * (non-Javadoc)
@@ -104,8 +123,13 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 		if (onlyFailures && success) {
 			return;
 		}
+		if (maxSteps>=0 && step>=maxSteps) {
+			System.out.println("Terminated after " + step + " steps by logging application monitor.");
+			System.exit(1);
+		}
+		step++;
 		EGraph graph = application.getEGraph();
-		logStream.println("=== " + stepKind +  
+		logStream.println("=== (" + step + ") " + stepKind +  
 				((application instanceof RuleApplication) ? " RULE " : " UNIT ") + 
 				"'" + application.getUnit().getName() + "' [" + String.valueOf(success).toUpperCase() + "] ===\n");
 		logStream.println("Graph size: " + graph.size() + " nodes, " + InterpreterUtil.countEdges(graph) + " edges\n");
@@ -130,6 +154,34 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 				logStream.println(resultAssignment);			
 			}
 		}
+		// Save intermediate result?
+		if (autoSaveURI!=null) {
+			String basename = autoSaveURI.lastSegment();
+			String realname = autoSaveURI.trimFileExtension().lastSegment() + 
+					"-" + new DecimalFormat("0000").format(step) + "." + autoSaveURI.fileExtension();
+			URI uri = URI.createURI(autoSaveURI.toString().replaceFirst(basename, realname));
+			ResourceSet resourceSet = null;
+			for (EObject root : graph.getRoots()) {
+				if (root.eResource()!=null && root.eResource().getResourceSet()!=null) {
+					resourceSet = root.eResource().getResourceSet();
+					break;
+				}
+			}
+			if (resourceSet==null) {
+				resourceSet = new HenshinResourceSet();
+			}
+			EGraph copy = graph.copy(null);
+			Resource resource = resourceSet.createResource(uri);
+			resource.getContents().addAll(copy.getRoots());
+			Map<Object,Object> options = new HashMap<Object,Object>();
+			options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+			try {
+				System.out.println("Saving intermediate result to " + uri);
+				resource.save(options);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	public void setLogStream(PrintStream logStream) {
@@ -152,4 +204,12 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 		this.onlyFailures = onlyFailures;
 	}
 
+	public void setAutoSaveURI(URI autoSaveURI) {
+		this.autoSaveURI = autoSaveURI;
+	}
+	
+	public void setMaxSteps(int maxSteps) {
+		this.maxSteps = maxSteps;
+	}
+	
 }
