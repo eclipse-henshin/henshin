@@ -1,5 +1,8 @@
 package org.eclipse.emf.henshin.interpreter.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -8,6 +11,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
+import org.eclipse.emf.henshin.interpreter.Engine;
+import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.model.Rule;
 
 public class InterpreterUtil {
 
@@ -30,6 +36,22 @@ public class InterpreterUtil {
 		return links;
 	}
 
+	/**
+	 * Find all matches for a rule.
+	 * @param engine Engine.
+	 * @param rule Rule to be matched.
+	 * @param graph Target graph.
+	 * @param partialMatch Partial match or <code>null</code>.
+	 * @return List of found matches.
+	 */
+	public static List<Match> findAllMatches(Engine engine, Rule rule, EGraph graph, Match partialMatch) {
+		List<Match> matches = new ArrayList<Match>();
+		for (Match match : engine.findMatches(rule, graph, partialMatch)) {
+			matches.add(match);
+		}
+		return matches;
+	}
+	
 	/**
 	 * Get a string representation of an object.
 	 * @param object An object.

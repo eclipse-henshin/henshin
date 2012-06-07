@@ -1,12 +1,13 @@
 package org.eclipse.emf.henshin.examples.combpattern;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
-import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.LoggingApplicationMonitorImpl;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -19,7 +20,7 @@ public class CombBenchmarkManyMatches {
 	 */
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/combpattern";
 
-	public static final int GRID_SIZE = 5; // Number of nodes is - 	GRID_SIZE^2
+	public static final int GRID_SIZE = 3; // Number of nodes is - 	GRID_SIZE^2
 	
 	public static final int PATTERN_SIZE = 5;
 	
@@ -44,6 +45,8 @@ public class CombBenchmarkManyMatches {
 		TransformationSystem trasys = resourceSet.getTransformationSystem("comb.henshin");
 		
 		LoggingApplicationMonitorImpl monitor = new LoggingApplicationMonitorImpl();
+		monitor.setMaxSteps(7);
+		monitor.setAutoSaveURI(URI.createFileURI("xxx/save.xmi"));
 		
 		// Load the rules:
 		Rule createGrid = trasys.findRuleByName("createGrid");
@@ -96,7 +99,7 @@ public class CombBenchmarkManyMatches {
 				// grid,
 				// next to first node, reassign first node to this
 				ruleAppl.setParameterValue("first", firstNode);
-				ruleAppl.execute(null);
+				ruleAppl.execute(monitor);
 				firstNode = ruleAppl.getResultParameterValue("first");
 				ruleAppl.setCompleteMatch(null);
 				// populate the new column with the rest of the nodes.
@@ -104,11 +107,8 @@ public class CombBenchmarkManyMatches {
 			}
 
 			// execute comb Pattern
-			int i = 0;
-			for (Match match : engine.findMatches(combPattern, graph, null)) {
-				// System.out.println(match);
-				i++;
-			}
+			int i = InterpreterUtil.findAllMatches(engine, combPattern, graph, null).size();
+			
 			//get finish time
 			long finishTime = System.currentTimeMillis();
 			
