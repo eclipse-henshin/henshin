@@ -176,7 +176,7 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 			Map<Object,Object> options = new HashMap<Object,Object>();
 			options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
 			try {
-				System.out.println("Saving intermediate result to " + uri);
+				System.out.println("Saving intermediate result to " + uri + "\n");
 				resource.save(options);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
