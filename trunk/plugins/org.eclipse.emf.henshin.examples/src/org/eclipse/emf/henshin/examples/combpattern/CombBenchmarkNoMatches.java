@@ -3,10 +3,9 @@ package org.eclipse.emf.henshin.examples.combpattern;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
-import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.impl.LoggingApplicationMonitorImpl;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
@@ -93,11 +92,8 @@ public class CombBenchmarkNoMatches {
 			}
 
 			// execute comb Pattern
-			int i = 0;
-			for (Match match : engine.findMatches(combPattern, graph, null)) {
-				// System.out.println(match);
-				i++;
-			}
+			int i = InterpreterUtil.findAllMatches(engine, combPattern, graph, null).size();
+			
 			// get finish time
 			long finishTime = System.currentTimeMillis();
 
