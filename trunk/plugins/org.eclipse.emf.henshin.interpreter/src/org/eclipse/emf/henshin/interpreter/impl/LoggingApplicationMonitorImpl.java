@@ -123,10 +123,6 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 		if (onlyFailures && success) {
 			return;
 		}
-		if (maxSteps>=0 && step>=maxSteps) {
-			System.out.println("Terminated after " + step + " steps by logging application monitor.");
-			System.exit(1);
-		}
 		step++;
 		EGraph graph = application.getEGraph();
 		logStream.println("=== (" + step + ") " + stepKind +  
@@ -181,6 +177,10 @@ public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
+		}
+		if (maxSteps>=0 && step>=maxSteps) {
+			System.out.println("Terminated after " + step + " steps by logging application monitor.");
+			System.exit(1);
 		}
 	}
 
