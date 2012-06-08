@@ -153,8 +153,7 @@ public class DomainSlot {
 			if (domain.isEmpty())
 				return false;
 			
-			value = domain.get(domain.size() - 1);
-			domain.remove(domain.size() - 1);
+			value = domain.remove(domain.size() - 1);
 			usedObjects.add(value);
 			locked = true;
 		}
