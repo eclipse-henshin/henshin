@@ -78,6 +78,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	/**
 	 * @generated NOT
 	 */
+	public EMap<EObject, Integer> getObjectHashCodes() {
+		if (objectHashCodes == null) {
+			objectHashCodes = new EObjectIntegerMapImpl(StateSpacePackage.Literals.EOBJECT_INTEGER_MAP_ENTRY, EObjectIntegerMapEntryImpl.class, this, StateSpacePackage.MODEL__OBJECT_HASH_CODES);
+		}
+		return objectHashCodes;
+	}
+
+	/**
+	 * @generated NOT
+	 */
 	public EMap<EObject, Integer> getObjectKeysMap() {
 		if (objectKeysMap == null) {
 			objectKeysMap = new EObjectIntegerMapImpl(StateSpacePackage.Literals.EOBJECT_INTEGER_MAP_ENTRY, EObjectIntegerMapEntryImpl.class, this, StateSpacePackage.MODEL__OBJECT_KEYS_MAP);
@@ -112,7 +122,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		// Now create a new model.
 		ModelImpl copy = new ModelImpl(copiedResource, copiedGraph);
 
-		// Copy the object keys.
+		// Copy the object keys and hash codes.
 		if (objectKeysMap != null) {
 			TreeIterator<EObject> iterator = resource.getAllContents();
 			while (iterator.hasNext()) {
@@ -121,7 +131,15 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 						objectKeysMap.get(object));
 			}
 		}
-
+		if (objectHashCodes != null) {
+			TreeIterator<EObject> iterator = resource.getAllContents();
+			while (iterator.hasNext()) {
+				EObject object = iterator.next();
+				copy.getObjectHashCodes().put(copier.get(object),
+						objectHashCodes.get(object));
+			}
+		}
+		
 		// Done.
 		return copy;
 
@@ -321,6 +339,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	protected EGraph eGraph = EGRAPH_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getObjectHashCodes() <em>Object Hash Codes</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectHashCodes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<EObject, Integer> objectHashCodes;
+
+	/**
 	 * The cached value of the '{@link #getObjectKeysMap() <em>Object Keys Map</em>}' map.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getObjectKeysMap()
@@ -380,6 +408,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case StateSpacePackage.MODEL__OBJECT_HASH_CODES:
+				return ((InternalEList<?>)getObjectHashCodes()).basicRemove(otherEnd, msgs);
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				return ((InternalEList<?>)getObjectKeysMap()).basicRemove(otherEnd, msgs);
 		}
@@ -396,6 +426,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return getResource();
 			case StateSpacePackage.MODEL__EGRAPH:
 				return getEGraph();
+			case StateSpacePackage.MODEL__OBJECT_HASH_CODES:
+				if (coreType) return getObjectHashCodes();
+				else return getObjectHashCodes().map();
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				if (coreType) return getObjectKeysMap();
 				else return getObjectKeysMap().map();
@@ -413,6 +446,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case StateSpacePackage.MODEL__OBJECT_HASH_CODES:
+				((EStructuralFeature.Setting)getObjectHashCodes()).set(newValue);
+				return;
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				((EStructuralFeature.Setting)getObjectKeysMap()).set(newValue);
 				return;
@@ -429,6 +465,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case StateSpacePackage.MODEL__OBJECT_HASH_CODES:
+				getObjectHashCodes().clear();
+				return;
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				getObjectKeysMap().clear();
 				return;
@@ -449,6 +488,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 				return RESOURCE_EDEFAULT == null ? resource != null : !RESOURCE_EDEFAULT.equals(resource);
 			case StateSpacePackage.MODEL__EGRAPH:
 				return EGRAPH_EDEFAULT == null ? eGraph != null : !EGRAPH_EDEFAULT.equals(eGraph);
+			case StateSpacePackage.MODEL__OBJECT_HASH_CODES:
+				return objectHashCodes != null && !objectHashCodes.isEmpty();
 			case StateSpacePackage.MODEL__OBJECT_KEYS_MAP:
 				return objectKeysMap != null && !objectKeysMap.isEmpty();
 			case StateSpacePackage.MODEL__OBJECT_KEYS:

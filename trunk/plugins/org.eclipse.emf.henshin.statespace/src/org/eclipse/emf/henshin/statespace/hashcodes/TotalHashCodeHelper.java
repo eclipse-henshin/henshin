@@ -16,12 +16,12 @@ class TotalHashCodeHelper {
 
 	// The first 10 prime numbers.
 	private static final int[] PRIMES = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
-
-	// Equality helper:
-	private EqualityHelper equalityHelper;
 	
-	// Cached context hash codes:
-	private ContextHashCodeHelper contextHashCodes;
+	// Equality helper:
+	private final EqualityHelper equalityHelper;
+	
+	// Cached model:
+	private Model model;
 	
 	/**
 	 * Default constructor.
@@ -34,15 +34,18 @@ class TotalHashCodeHelper {
 	 * Compute the hash code for a given model.
 	 */
 	public int hashCode(Model model) {
-
+		
+		// Remember the model:
+		this.model = model;
+		
 		// Compute the context hash codes:
-		contextHashCodes = new ContextHashCodeHelper(model, equalityHelper);
+		new ContextHashCodeHelper(model, equalityHelper).computeContextHashCodes();
 		
 		// Compute the total hash code:
-		int result = totalHashCode(null, model.getResource().getContents(), 0);
+		int result = totalHashCode(model.getResource().getContents(), 0);
 		
 		// Cleanup:
-		contextHashCodes = null;
+		this.model = null;
 		
 		// Done.
 		return result;
@@ -53,7 +56,7 @@ class TotalHashCodeHelper {
 	 * Compute the total hash code of a list of EObjects.
 	 * This delegates to #totalhashCode() for a single EObject.
 	 */
-	protected int totalHashCode(EObject container, EList<EObject> nodes, int depth) {
+	protected int totalHashCode(EList<EObject> nodes, int depth) {
 		int[] hashcodes = new int[nodes.size()];
 		for (int i=0; i<hashcodes.length; i++) {
 			hashcodes[i] = totalHashCode(nodes.get(i), depth);
@@ -71,7 +74,7 @@ class TotalHashCodeHelper {
 	protected int totalHashCode(EObject object, int depth) {
 		
 		// Context-aware hash code of the current object:
-		int hash = contextHashCodes.get(object);
+		int hash = model.getObjectHashCodes().get(object);
 		
 		// Now add the children:
 		for (EReference reference : object.eClass().getEAllContainments()) {
@@ -85,9 +88,13 @@ class TotalHashCodeHelper {
 					children.add(child);
 				}
 			}
-			hash = (hash * 31) + totalHashCode(object, children, depth+1);
+			hash = (hash * 31) + totalHashCode(children, depth+1);
 		}
-		return hash;		
+		
+		// Update the object hash code in the model:
+		model.getObjectHashCodes().put(object, hash);
+		return hash;
+		
 	}
 	
 	/**

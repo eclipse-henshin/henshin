@@ -51,6 +51,15 @@ public interface Model extends EObject {
 	EGraph getEGraph();
 
 	/**
+	 * Get the object hash codes of this state model
+	 * @return the value of the '<em>Object Hash Codes</em>' map.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getModel_ObjectHashCodes()
+	 * @model mapType="org.eclipse.emf.henshin.statespace.EObjectIntegerMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"
+	 * @generated
+	 */
+	EMap<EObject, Integer> getObjectHashCodes();
+
+	/**
 	 * Get the object keys map for this state model.
 	 * @return the value of the '<em>Object Keys</em>' map.
 	 * @model mapType="org.eclipse.emf.henshin.statespace.ObjectKey<org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EIntegerObject>"

@@ -25,6 +25,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
+import org.eclipse.emf.henshin.statespace.hashcodes.StateSpaceHashCodeUtil;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
 
@@ -263,7 +264,10 @@ public class StateExplorer {
 		if (useObjectKeys) {
 			model.setObjectKeys(trace.getTarget().getObjectKeys());
 		}
-
+		
+		// Update the object hash codes:
+		StateSpaceHashCodeUtil.computeHashCode(model, equalityHelper);
+		
 		// Done.
 		return model;
 		

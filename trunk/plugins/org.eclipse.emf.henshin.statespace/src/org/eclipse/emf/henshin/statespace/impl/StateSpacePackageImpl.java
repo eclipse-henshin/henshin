@@ -418,7 +418,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_ObjectKeysMap() {
+	public EReference getModel_ObjectHashCodes() {
 		return (EReference)modelEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -428,8 +428,18 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getModel_ObjectKeysMap() {
+		return (EReference)modelEClass.getEStructuralFeatures().get(3);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getModel_ObjectKeys() {
-		return (EAttribute)modelEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)modelEClass.getEStructuralFeatures().get(4);
 	}
 
 
@@ -439,7 +449,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getModel_ObjectCount() {
-		return (EAttribute)modelEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)modelEClass.getEStructuralFeatures().get(5);
 	}
 
 
@@ -769,6 +779,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		modelEClass = createEClass(MODEL);
 		createEAttribute(modelEClass, MODEL__RESOURCE);
 		createEAttribute(modelEClass, MODEL__EGRAPH);
+		createEReference(modelEClass, MODEL__OBJECT_HASH_CODES);
 		createEReference(modelEClass, MODEL__OBJECT_KEYS_MAP);
 		createEAttribute(modelEClass, MODEL__OBJECT_KEYS);
 		createEAttribute(modelEClass, MODEL__OBJECT_COUNT);
@@ -885,6 +896,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Resource(), ecorePackage.getEResource(), "resource", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_EGraph(), this.getEGraph(), "eGraph", null, 0, 1, Model.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_ObjectHashCodes(), this.getEObjectIntegerMapEntry(), null, "objectHashCodes", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_ObjectKeysMap(), this.getEObjectIntegerMapEntry(), null, "objectKeysMap", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectKeys(), this.getIntegerArray(), "objectKeys", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModel_ObjectCount(), ecorePackage.getEInt(), "objectCount", null, 0, 1, Model.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

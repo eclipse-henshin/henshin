@@ -82,6 +82,8 @@
         changeable="false" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="eGraph" eType="#//EGraph"
         changeable="false" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectHashCodes" upperBound="-1"
+        eType="#//EObjectIntegerMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectKeysMap" upperBound="-1"
         eType="#//EObjectIntegerMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectKeys" eType="#//IntegerArray"

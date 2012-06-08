@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.statespace.EqualityHelper;
@@ -14,13 +15,16 @@ import org.eclipse.emf.henshin.statespace.Model;
  * Helper class for computing context hash codes.
  * @author Christian Krause
  */
-class ContextHashCodeHelper extends HashMap<EObject,Integer> {
+class ContextHashCodeHelper {
 
-	// Serial Id, not really relevant here:
-	private static final long serialVersionUID = 1L;
-		
 	// Number of context updates to be done:
 	private static final int CONTEXT_UPDATES = 8;
+	
+	// Target model:
+	private final Model model;
+	
+	// Eauality helper:
+	private final EqualityHelper equalityHelper;
 	
 	// The objects in the model:
 	private EObject[] objects;
@@ -35,11 +39,17 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 	private int[] crossReferences;
 	
 	/**
-	 * Default constructor. Computes all context hash codes.
+	 * Default constructor.
 	 */
 	ContextHashCodeHelper(Model model, EqualityHelper equalityHelper) {
-		
-		super(model.getObjectCount());
+		this.model = model;
+		this.equalityHelper = equalityHelper;
+	}
+	
+	/**
+	 * Computes the context hash codes and stores them in {@link Model#getObjectHashCodes()}.
+	 */
+	void computeContextHashCodes() {
 		
 		// Extract all relevant information:
 		extractObjects(model);
@@ -54,8 +64,10 @@ class ContextHashCodeHelper extends HashMap<EObject,Integer> {
 		}
 		
 		// Now we can store them in the map:
+		EMap<EObject,Integer> map = model.getObjectHashCodes();
+		map.clear();
 		for (int i=0; i<objects.length; i++) {
-			put(objects[i], hashCodes[i]);
+			map.put(objects[i], hashCodes[i]);
 		}
 		
 		// Cleanup:

@@ -125,7 +125,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				// Update object count:
 				state.setObjectCount(model.getEGraph().size());
 				
-				// Now compute the hash code:
+				// Now compute the total hash code (also updates the object hash codes):
 				int hash = equalityHelper.hashCode(model);
 				
 				// Check if it exists already: 

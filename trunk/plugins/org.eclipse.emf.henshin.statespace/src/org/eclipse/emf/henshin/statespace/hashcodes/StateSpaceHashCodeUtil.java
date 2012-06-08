@@ -27,7 +27,8 @@ import org.eclipse.emf.henshin.statespace.StateSpace;
 public class StateSpaceHashCodeUtil {
 	
 	/**
-	 * Compute the hash code of a model.
+	 * Compute the hash code of a model. This also updates the object hash codes
+	 * as also provides by {@link #updateObjectHashCodes(Model, EqualityHelper)}.
 	 * @param model The model.
 	 * @return The model's hash code.
 	 */
@@ -41,7 +42,7 @@ public class StateSpaceHashCodeUtil {
 			throw new NullPointerException("Cannot compute hashcode for without model resource");
 		}
 		
-		// Compute the total hash code of the model:
+		// Compute the total hash code of the model (updates the object hash codes too):
 		TotalHashCodeHelper hashCodeHelper = new TotalHashCodeHelper(equalityHelper);
 		return hashCodeHelper.hashCode(model);
 		

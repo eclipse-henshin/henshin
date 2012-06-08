@@ -403,13 +403,22 @@ public interface StateSpacePackage extends EPackage {
 	int MODEL__EGRAPH = 1;
 
 	/**
+	 * The feature id for the '<em><b>Object Hash Codes</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__OBJECT_HASH_CODES = 2;
+
+	/**
 	 * The feature id for the '<em><b>Object Keys Map</b></em>' map.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__OBJECT_KEYS_MAP = 2;
+	int MODEL__OBJECT_KEYS_MAP = 3;
 
 	/**
 	 * The feature id for the '<em><b>Object Keys</b></em>' attribute.
@@ -418,7 +427,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__OBJECT_KEYS = 3;
+	int MODEL__OBJECT_KEYS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Object Count</b></em>' attribute.
@@ -427,7 +436,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__OBJECT_COUNT = 4;
+	int MODEL__OBJECT_COUNT = 5;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -436,7 +445,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 5;
+	int MODEL_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.TransitionImpl <em>Transition</em>}' class.
@@ -903,6 +912,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getModel_EGraph();
+
+	/**
+	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getObjectHashCodes <em>Object Hash Codes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Object Hash Codes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.Model#getObjectHashCodes()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_ObjectHashCodes();
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.emf.henshin.statespace.Model#getObjectKeysMap <em>Object Keys Map</em>}'.
@@ -1438,6 +1458,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL__EGRAPH = eINSTANCE.getModel_EGraph();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Hash Codes</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__OBJECT_HASH_CODES = eINSTANCE.getModel_ObjectHashCodes();
 
 		/**
 		 * The meta object literal for the '<em><b>Object Keys Map</b></em>' map feature.

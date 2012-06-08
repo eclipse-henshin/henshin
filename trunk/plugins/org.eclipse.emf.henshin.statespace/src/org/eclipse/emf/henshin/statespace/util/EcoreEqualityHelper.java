@@ -18,7 +18,7 @@ public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 	private static final long serialVersionUID = 1L;
 
 	// State equality helper:
-	private EqualityHelper equalityHelper;
+	private final EqualityHelper equalityHelper;
 
 	// Cached models to be compared.
 	private Model model1, model2;
