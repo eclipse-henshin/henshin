@@ -934,8 +934,6 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		op = addEOperation(equalityHelperEClass, null, "setStateSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getStateSpace(), "stateSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(equalityHelperEClass, null, "clearCache", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(storageEClass, Storage.class, "Storage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStorage_Data(), this.getIntegerArray(), "data", null, 0, 1, Storage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

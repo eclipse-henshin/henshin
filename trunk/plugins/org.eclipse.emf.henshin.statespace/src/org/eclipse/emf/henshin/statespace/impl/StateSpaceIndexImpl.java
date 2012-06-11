@@ -303,7 +303,6 @@ public class StateSpaceIndexImpl implements StateSpaceIndex {
 			}
 		}
 		stateModelCache.clear();
-		getStateSpace().getEqualityHelper().clearCache();
 		System.gc();
 	}
 

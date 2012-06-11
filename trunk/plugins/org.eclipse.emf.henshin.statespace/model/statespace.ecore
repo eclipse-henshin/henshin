@@ -116,7 +116,6 @@
     <eOperations name="setStateSpace">
       <eParameters name="stateSpace" eType="#//StateSpace"/>
     </eOperations>
-    <eOperations name="clearCache"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkLinkOrder" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ignoredAttributes" lowerBound="1"

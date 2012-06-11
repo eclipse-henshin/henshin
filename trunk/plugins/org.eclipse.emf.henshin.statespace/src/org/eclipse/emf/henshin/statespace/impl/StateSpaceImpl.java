@@ -135,7 +135,6 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			equalityHelper = new EqualityHelperImpl();
 		}
 		equalityHelper.setStateSpace(this);
-		equalityHelper.clearCache();
 	}
 
 	/**

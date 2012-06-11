@@ -11,11 +11,12 @@ import org.eclipse.emf.henshin.statespace.Model;
  * 
  * @generated NOT
  * @author Christian Krause
+ * @see GraphEqualityChecker
  */
 public class EcoreEqualityHelper extends EcoreUtil.EqualityHelper {
 
-	// Default serial ID:
-	private static final long serialVersionUID = 1L;
+	// Generated serial ID:
+	private static final long serialVersionUID = 4308762416556925391L;
 
 	// State equality helper:
 	private final EqualityHelper equalityHelper;

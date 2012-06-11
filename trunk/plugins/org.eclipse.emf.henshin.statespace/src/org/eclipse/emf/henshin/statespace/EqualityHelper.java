@@ -63,13 +63,6 @@ public interface EqualityHelper extends EObject {
 	void setStateSpace(StateSpace stateSpace);
 
 	/**
-	 * Clear all caches.
-	 * @model
-	 * @generated
-	 */
-	void clearCache();
-
-	/**
 	 * Generate a hash code of a state model.
 	 * @model
 	 * @generated
