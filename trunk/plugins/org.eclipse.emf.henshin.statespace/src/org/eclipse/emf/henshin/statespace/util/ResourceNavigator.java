@@ -1,12 +1,11 @@
 package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -32,7 +31,7 @@ public class ResourceNavigator {
 		EReference reference;
 		
 		// Target objects:
-		EList<EObject> targets;
+		List<EObject> targets;
 		
 		// Index of the currently selected target object:
 		int index;
@@ -310,7 +309,7 @@ public class ResourceNavigator {
 		Link link = null;
 		if (reference.isMany()) {
 			@SuppressWarnings("unchecked")
-			EList<EObject> values = (EList<EObject>) source.eGet(reference);
+			List<EObject> values = (List<EObject>) source.eGet(reference);
 			if (index < values.size()) {
 				link = new Link();
 				link.reference = reference;
@@ -325,7 +324,7 @@ public class ResourceNavigator {
 				link.reference = reference;
 				link.index = index;
 				link.source = source;
-				link.targets = (EList<EObject>) ECollections.singletonEList(value);
+				link.targets = (List<EObject>) Collections.singletonList(value);
 			}
 		}
 		return link;

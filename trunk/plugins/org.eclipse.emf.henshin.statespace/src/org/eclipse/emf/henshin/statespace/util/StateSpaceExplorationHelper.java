@@ -188,7 +188,7 @@ public class StateSpaceExplorationHelper {
 			// Check if we reached the threshold:
 			System.out.print("Free memory: " + freeMemPerc + "%");
 			if (freeMemPerc < MIN_FREE_MEMORY_PERC) {
-				System.out.println(" Clearing cache.");
+				System.out.print(" Clearing cache.");
 				manager.clearCache();
 				System.gc();
 				freeMemPerc = getFreeMemPerc();
