@@ -185,9 +185,9 @@ public class AssignmentImpl implements Assignment {
 	@Override
 	public String toString() {
 		if (isResultAssignment) {
-			return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
+			return "Result assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");
 		} else {
-			return "Result assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");			
+			return "Assignment for unit '" + unit.getName() + "':\n" + toStringWithIndent("");			
 		}
 	}
 	
