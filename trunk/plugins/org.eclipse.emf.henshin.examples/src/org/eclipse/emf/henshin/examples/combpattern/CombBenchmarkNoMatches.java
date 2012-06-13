@@ -47,7 +47,7 @@ public class CombBenchmarkNoMatches {
 		Rule addNodesToColumnForNoMatching = trasys.findRuleByName("addNodesToColumnForNoMatching");	
 
 		//create pattern for matching of Size N
-		Rule combPattern = CombPatternCreator.create(PATTERN_SIZE, resourceSet);
+		Rule combPattern = CombPatternCreator.createPattern(PATTERN_SIZE, resourceSet);
 
 		long sum = 0;
 		// Repeat execution for obtaining mean value

@@ -5,6 +5,7 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -12,12 +13,10 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class CombPatternCreator {
 		
-	//public final static int PATTER_SIZE = 3; // should be at least 2
-	
-	public static Rule create(final int PATTER_SIZE, HenshinResourceSet resourceSet) {
+	public static Rule createPattern(int size, HenshinResourceSet resourceSet) {
 		
-		// Create a resource set with a base directory:
-		//HenshinResourceSet resourceSet = new HenshinResourceSet("models");
+		// Turn off warnings:
+		ChangeImpl.PRINT_WARNINGS = false;
 
 		// Load the transformation system:
 		TransformationSystem trasys = resourceSet.getTransformationSystem("comb-pattern-creator.henshin");
@@ -37,23 +36,25 @@ public class CombPatternCreator {
 		RuleApplication ruleAppl = InterpreterFactory.INSTANCE.createRuleApplication(engine);
 		ruleAppl.setEGraph(graph);
 		
-		//create Initial Nodes
+		// Create the initial nodes:
 		ruleAppl.setRule(createBasicPatternRule);
 		ruleAppl.setParameterValue("system", system);
 		ruleAppl.execute(null);
 		
 		Rule rule = null;
 
-		//extend Rule to the given size
+		// Extend the rule to the given size:
 		ruleAppl.setRule(extendPatternRule);
-		for(int i = 0; i < PATTER_SIZE - 1 ; i++){
+		for (int i=0; i<size-1 ; i++){
 			ruleAppl.execute(null);
 			rule = (Rule) ruleAppl.getResultParameterValue("rule");
-			ruleAppl.setCompleteMatch(null);
 		}
-		System.out.println("Pattern of size "+ PATTER_SIZE +" has been created.");
+		
+		// Turn on warnings:
+		ChangeImpl.PRINT_WARNINGS = true;
+
 		return rule;
-		//resourceSet.saveObject(system, "result.henshin");
+		
 	}
 
 }
