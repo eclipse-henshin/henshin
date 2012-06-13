@@ -164,7 +164,11 @@ public class EngineImpl implements Engine {
 
 		// The next match:
 		private Match nextMatch;
-
+		
+		// Flag indicating whether the next match was computed:
+		private boolean computedNextMatch;
+		
+		// Target graph:
 		private final EGraph graph;
 
 		// Solution finder to be used
@@ -192,7 +196,6 @@ public class EngineImpl implements Engine {
 			this.graph = graph;
 			this.usedObjects = usedObjects;
 			this.solutionFinder = createSolutionFinder(partialMatch);
-			computeNextMatch(); // compute the first match
 		}
 
 		/*
@@ -201,6 +204,10 @@ public class EngineImpl implements Engine {
 		 */
 		@Override
 		public boolean hasNext() {
+			if (!computedNextMatch) {
+				computeNextMatch();
+				computedNextMatch = true;
+			}
 			return (nextMatch!=null);
 		}
 
@@ -210,9 +217,9 @@ public class EngineImpl implements Engine {
 		 */
 		@Override
 		public Match next() {
-			Match result = nextMatch;
-			computeNextMatch();
-			return result;
+			hasNext();
+			computedNextMatch = false;
+			return nextMatch;
 		}
 
 		/*
