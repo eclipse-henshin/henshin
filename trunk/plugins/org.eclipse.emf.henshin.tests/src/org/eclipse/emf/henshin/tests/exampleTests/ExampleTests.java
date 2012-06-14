@@ -1,17 +1,21 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
+import org.eclipse.emf.henshin.examples.combpattern.CombBenchmarkManyMatches;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.junit.Test;
 
 /**
- * Tests implemented in examples (see the examples plug-in)
+ * Tests implemented in examples (see the examples plug-in).
  * @author Christian Krause
  *
  */
 public class ExampleTests {
 	
+	/**
+	 * Relative path to the examples plug-in.
+	 */
 	public static final String EXAMPLES_PATH = "../org.eclipse.emf.henshin.examples/";
 	
 	/**
@@ -19,6 +23,7 @@ public class ExampleTests {
 	 */
 	@Test
 	public void testSierpinski() {
+		System.out.println();
 		SierpinskiBenchmark.run(EXAMPLES_PATH + SierpinskiBenchmark.PATH, 10);
 	}
 
@@ -27,8 +32,18 @@ public class ExampleTests {
 	 */
 	@Test
 	public void testJava2StateMachine() {
+		System.out.println();
 		Java2StateMachine.run(EXAMPLES_PATH + Java2StateMachine.PATH, 
 				Java2StateMachine.JAVA_MODEL_SMALL, Java2StateMachine.REFERENCE_STATE_MACHINE, false);
+	}
+
+	/**
+	 * Comb-pattern example.
+	 */
+	@Test
+	public void testCombPattern() {
+		System.out.println();
+		CombBenchmarkManyMatches.runDefault(EXAMPLES_PATH + CombBenchmarkManyMatches.PATH);
 	}
 
 	/**
@@ -36,6 +51,7 @@ public class ExampleTests {
 	 */
 	@Test
 	public void testDiningPhils() {
+		System.out.println();
 		DiningPhilsBenchmark.run(EXAMPLES_PATH + DiningPhilsBenchmark.PATH, 8, 
 				Runtime.getRuntime().availableProcessors());
 	}

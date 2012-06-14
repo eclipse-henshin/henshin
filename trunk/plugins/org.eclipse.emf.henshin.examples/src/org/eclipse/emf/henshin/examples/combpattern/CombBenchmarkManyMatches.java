@@ -19,12 +19,6 @@ public class CombBenchmarkManyMatches {
 	 */
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/combpattern";
 
-	/**
-	 * Number of iterations used for the benchmark:
-	 */
-	public static final int ITERATIONS = 4;	
-
-
 	public static void run(String path, int gridSize, int patternSize) {
 
 		// Create a resource set with a base directory:
@@ -110,16 +104,14 @@ public class CombBenchmarkManyMatches {
 	}
 	
 	public static void runDefault(String path) {
-		
 		System.out.println("Starting comb pattern benchmark for multiple matches...");
 		System.out.println("MaxMemory: " + Runtime.getRuntime().maxMemory()/1024/1024 + "M\n");
 		System.out.println("Grid\tPattern\tMatches\tConTime\tMatTime\tTotTime");
-		for (int g=10; g<=50; g=g+10) {
+		for (int g=10; g<=30; g=g+10) {
 			for (int p=10; p<=g; p=p+10) {
-				run(PATH, g, p);			
+				run(path, g, p);			
 			}
 		}
-		
 	}
 
 	public static void main(String[] args) {
