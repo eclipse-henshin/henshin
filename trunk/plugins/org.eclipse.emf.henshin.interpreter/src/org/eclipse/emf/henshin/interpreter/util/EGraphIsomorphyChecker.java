@@ -105,7 +105,7 @@ public class EGraphIsomorphyChecker {
 			// Create attribute constraints if necessary:
 			for (EAttribute attr : object.eClass().getEAllAttributes()) {
 				if (ignoredAttributes==null || !ignoredAttributes.contains(attr)) {
-					variable.addConstraint(new AttributeConstraint(attr, object.eGet(attr)));
+					variable.attributeConstraints.add(new AttributeConstraint(attr, object.eGet(attr)));
 				}
 			}
 			
@@ -115,12 +115,12 @@ public class EGraphIsomorphyChecker {
 					@SuppressWarnings("unchecked")
 					EList<EObject> targets = (EList<EObject>) object.eGet(ref);
 					for (EObject target : targets) {
-						variable.addConstraint(new ReferenceConstraint(variablesMap.get(target), ref));
+						variable.referenceConstraints.add(new ReferenceConstraint(variablesMap.get(target), ref));
 					}
 				} else {
 					EObject target = (EObject) object.eGet(ref);
 					if (target!=null) {
-						variable.addConstraint(new ReferenceConstraint(variablesMap.get(target), ref));
+						variable.referenceConstraints.add(new ReferenceConstraint(variablesMap.get(target), ref));
 					}
 				}
 			}	

@@ -127,14 +127,14 @@ public class VariableInfo {
 		for (Edge edge : node.getOutgoing()) {
 			Variable targetVariable = node2variable.get(edge.getTarget());
 			ReferenceConstraint constraint = new ReferenceConstraint(targetVariable, edge.getType());
-			var.addConstraint(constraint);
+			var.referenceConstraints.add(constraint);
 		}
 		
 		for (Edge edge : node.getIncoming()) {
 			if (edge.getType().isContainment()) {
 				Variable targetVariable = node2variable.get(edge.getSource());
 				ContainmentConstraint constraint = new ContainmentConstraint(targetVariable);
-				var.addConstraint(constraint);
+				var.containmentConstraints.add(constraint);
 			}
 		}
 		
@@ -142,7 +142,7 @@ public class VariableInfo {
 			if (attributeIsParameter(rule, attribute)) {
 				ParameterConstraint constraint = new ParameterConstraint(attribute.getValue(),
 						attribute.getType());
-				var.addConstraint(constraint);
+				var.parameterConstraints.add(constraint);
 			} else {
 				Object attributeValue = null;
 				
@@ -170,7 +170,7 @@ public class VariableInfo {
 				
 				AttributeConstraint constraint = new AttributeConstraint(attribute.getType(),
 						attributeValue);
-				var.addConstraint(constraint);
+				var.attributeConstraints.add(constraint);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public class VariableInfo {
 		Variable var = node2variable.get(node);
 		DanglingConstraint constraint = new DanglingConstraint(getEdgeCounts(node, false),
 				getEdgeCounts(node, true));
-		var.addConstraint(constraint);
+		var.danglingConstraints.add(constraint);
 	}
 	
 	private Map<EReference, Integer> getEdgeCounts(Node node, boolean incoming) {

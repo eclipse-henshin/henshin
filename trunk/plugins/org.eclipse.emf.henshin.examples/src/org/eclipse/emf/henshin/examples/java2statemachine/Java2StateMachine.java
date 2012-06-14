@@ -34,7 +34,7 @@ public class Java2StateMachine {
 	// The input Java models:
 	public static final String JAVA_MODEL_SMALL = "1-java-model-small.xmi";
 	public static final String JAVA_MODEL_MEDIUM = "2-java-model-medium.xmi";
-	//public static final String JAVA_MODEL_BIG = "3-java-model-big.xmi";
+	public static final String JAVA_MODEL_BIG = "3-java-model-big.xmi"; // unpack this first
 	
 	// The reference result for the default Java model:
 	public static final String REFERENCE_STATE_MACHINE = "reference-statemachine.xmi";
@@ -123,8 +123,8 @@ public class Java2StateMachine {
 	}
 	
 	public static void main(final String[] args) {
-		run(PATH, JAVA_MODEL_SMALL, REFERENCE_STATE_MACHINE, true);
-		//run(PATH, JAVA_MODEL_MEDIUM, REFERENCE_STATE_MACHINE);
+		run(PATH, JAVA_MODEL_SMALL, REFERENCE_STATE_MACHINE, false);
+		//run(PATH, JAVA_MODEL_MEDIUM, REFERENCE_STATE_MACHINE, false);
 	}
 
 }

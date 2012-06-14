@@ -134,7 +134,7 @@ public class DomainSlot {
 				domain = new ArrayList<EObject>(temporaryDomain);
 			}
 			
-			variable.getTypeConstraint().initDomain(this, graph);
+			variable.typeConstraint.initDomain(this, graph);
 			if (domain.isEmpty())
 				return false;
 			
@@ -159,37 +159,37 @@ public class DomainSlot {
 		}
 		
 		if (!checkedVariables.contains(variable)) {
-			if (!variable.getTypeConstraint().check(this))
+			if (!variable.typeConstraint.check(this))
 				return false;
 			
-			for (AttributeConstraint constraint : variable.getAttributeConstraints()) {
+			for (AttributeConstraint constraint : variable.attributeConstraints) {
 				if (!constraint.check(this))
 					return false;
 			}
 			
 			Boolean dangling = (Boolean) options.get(Engine.OPTION_CHECK_DANGLING);
 			if (dangling==null || dangling) {
-				for (DanglingConstraint constraint : variable.getDanglingConstraints()) {
+				for (DanglingConstraint constraint : variable.danglingConstraints) {
 					if (!constraint.check(value, graph))
 						return false;
 				}
 			}
 			
-			for (ParameterConstraint constraint : variable.getParameterConstraints()) {
+			for (ParameterConstraint constraint : variable.parameterConstraints) {
 				if (!conditionHandler.isSet(constraint.parameterName))
 					initializedParameters.add(constraint.parameterName);
 				if (!constraint.check(this))
 					return false;
 			}
 			
-			for (ContainmentConstraint constraint : variable.getContainmentConstraints()) {
+			for (ContainmentConstraint constraint : variable.containmentConstraints) {
 				DomainSlot targetSlot = domainMap.get(constraint.getTargetVariable());
 				
 				if (!constraint.check(this, targetSlot))
 					return false;
 			}
 			
-			for (ReferenceConstraint constraint : variable.getReferenceConstraints()) {
+			for (ReferenceConstraint constraint : variable.referenceConstraints) {
 				DomainSlot target = domainMap.get(constraint.getTarget());
 				
 				if (!constraint.check(this, target)) {
@@ -217,15 +217,12 @@ public class DomainSlot {
 	 */
 	public boolean unlock(Variable sender) {
 		
-		List<BinaryConstraint> reverseBinaryConstraints = new ArrayList<BinaryConstraint>(sender
-				.getReferenceConstraints().size() + sender.getContainmentConstraints().size());
-		// add constraints in the order they are checked. 
-		//
-		reverseBinaryConstraints.addAll(sender.getContainmentConstraints());
-		reverseBinaryConstraints.addAll(sender.getReferenceConstraints());
-		Collections.reverse(reverseBinaryConstraints);
-		
-		for (BinaryConstraint constraint : reverseBinaryConstraints) {
+		int refCount = sender.referenceConstraints.size();
+		int conCount = sender.containmentConstraints.size();
+		for (int i=refCount+conCount-1; i>=0; i--) {
+			BinaryConstraint constraint = (i>=refCount) ?
+					sender.containmentConstraints.get(i-refCount) :
+					sender.referenceConstraints.get(i);
 			DomainChange change = remoteChangeMap.get(constraint);
 			if (change != null) {
 				change.slot.temporaryDomain = change.originalValues;
@@ -236,19 +233,16 @@ public class DomainSlot {
 		if (locked && sender == owner) {
 			locked = false;
 			usedObjects.remove(value);
-			
 			for (String parameterName : initializedParameters) {
 				conditionHandler.unsetParameter(parameterName);
 			}
 			initializedParameters.clear();
-			checkedVariables.clear();
+			checkedVariables.clear();	
 			
 			return !(domain == null || domain.isEmpty());
 		} else {
 			checkedVariables.remove(sender);
 		}
-		
-		
 		return false;
 	}
 	
@@ -262,7 +256,6 @@ public class DomainSlot {
 	 */
 	public void clear(Variable sender) {
 		unlock(sender);
-		
 		if (sender == owner) {
 			initialized = false;			
 			remoteChangeMap = new HashMap<BinaryConstraint, DomainChange>();
@@ -286,12 +279,12 @@ public class DomainSlot {
 	 * @return true, if instantiation might be possible.
 	 */
 	public boolean instantiationPossible() {
-		if (domain == null)
+		if (domain == null) {
 			return false;
-		
-		if (!locked)
+		}
+		if (!locked) {
 			return domain.size() > 0;
-		
+		}
 		return false;
 	}
 	

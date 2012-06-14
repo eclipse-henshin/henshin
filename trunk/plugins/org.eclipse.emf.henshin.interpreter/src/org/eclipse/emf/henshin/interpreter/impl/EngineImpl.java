@@ -59,7 +59,6 @@ import org.eclipse.emf.henshin.interpreter.matching.conditions.XorFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.TypeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -452,13 +451,9 @@ public class EngineImpl implements Engine {
 				if (partialMatch.getNodeTarget(n2)!=null) return 1;
 			}
 			
-			// Get the type constraints:
-			TypeConstraint t1 = v1.getTypeConstraint();
-			TypeConstraint t2 = v2.getTypeConstraint();
-			
 			// Get the domain sizes (smaller number wins):
-			int s = (graph.getDomainSize(t1.getType(), t1.isStrictTyping()) - 
-					 graph.getDomainSize(t2.getType(), t2.isStrictTyping()));
+			int s = (graph.getDomainSize(v1.typeConstraint.getType(), v1.typeConstraint.isStrictTyping()) - 
+					 graph.getDomainSize(v2.typeConstraint.getType(), v2.typeConstraint.isStrictTyping()));
 			if (s!=0) return s;
 			
 			// Attribute count (larger number wins):

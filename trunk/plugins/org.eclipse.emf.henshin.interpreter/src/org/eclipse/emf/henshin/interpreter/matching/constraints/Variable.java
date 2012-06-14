@@ -11,18 +11,24 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 
+/**
+ * Match finder variables.
+ * 
+ * @author Enrico Biermann, Christian Krause
+ */
 public class Variable {
-	private TypeConstraint typeConstraint;
-	private Collection<AttributeConstraint> attributeConstraints;
-	private Collection<DanglingConstraint> danglingConstraints;
-	private Collection<ReferenceConstraint> referenceConstraints;
-	private Collection<ParameterConstraint> parameterConstraints;
-	private Collection<ContainmentConstraint> containmentConstraints;
+	
+	public final TypeConstraint typeConstraint;
+	public final List<AttributeConstraint> attributeConstraints;
+	public final List<DanglingConstraint> danglingConstraints;
+	public final List<ReferenceConstraint> referenceConstraints;
+	public final List<ParameterConstraint> parameterConstraints;
+	public final List<ContainmentConstraint> containmentConstraints;
 	
 	/**
 	 * Constructor<br>
@@ -42,88 +48,11 @@ public class Variable {
 	 */
 	public Variable(EClass type, boolean strictTyping) {
 		typeConstraint = new TypeConstraint(type, strictTyping);
-		
-		attributeConstraints = new HashSet<AttributeConstraint>();
-		danglingConstraints = new HashSet<DanglingConstraint>();
-		referenceConstraints = new HashSet<ReferenceConstraint>();
-		parameterConstraints = new HashSet<ParameterConstraint>();
-		containmentConstraints = new HashSet<ContainmentConstraint>();
+		attributeConstraints = new ArrayList<AttributeConstraint>();
+		danglingConstraints = new ArrayList<DanglingConstraint>();
+		referenceConstraints = new ArrayList<ReferenceConstraint>();
+		parameterConstraints = new ArrayList<ParameterConstraint>();
+		containmentConstraints = new ArrayList<ContainmentConstraint>();
 	}
 	
-	/**
-	 * @param constraint
-	 */
-	public void addConstraint(AttributeConstraint constraint) {
-		attributeConstraints.add((AttributeConstraint) constraint);
-	}
-	
-	/**
-	 * @param constraint
-	 */
-	public void addConstraint(DanglingConstraint constraint) {
-		danglingConstraints.add((DanglingConstraint) constraint);
-	}
-	
-	/**
-	 * @param constraint
-	 */
-	public void addConstraint(ReferenceConstraint constraint) {
-		referenceConstraints.add((ReferenceConstraint) constraint);
-	}
-	
-	/**
-	 * @param constraint
-	 */
-	public void addConstraint(ParameterConstraint constraint) {
-		parameterConstraints.add((ParameterConstraint) constraint);
-	}
-	
-	/**
-	 * @param constraint
-	 */
-	public void addConstraint(ContainmentConstraint constraint) {
-		containmentConstraints.add((ContainmentConstraint) constraint);
-	}
-	
-	/**
-	 * @return
-	 */
-	public TypeConstraint getTypeConstraint() {
-		return typeConstraint;
-	}
-	
-	/**
-	 * @return the attributeConstraints
-	 */
-	public Collection<AttributeConstraint> getAttributeConstraints() {
-		return attributeConstraints;
-	}
-	
-	/**
-	 * @return the danglingConstraints
-	 */
-	public Collection<DanglingConstraint> getDanglingConstraints() {
-		return danglingConstraints;
-	}
-	
-	/**
-	 * @return the referenceConstraints
-	 */
-	public Collection<ReferenceConstraint> getReferenceConstraints() {
-		return referenceConstraints;
-	}
-	
-	/**
-	 * @return the parameterConstraints
-	 */
-	public Collection<ParameterConstraint> getParameterConstraints() {
-		return parameterConstraints;
-	}
-	
-	/**
-	 * @return the containmentConstraints
-	 */
-	public Collection<ContainmentConstraint> getContainmentConstraints() {
-		return containmentConstraints;
-	}
 }

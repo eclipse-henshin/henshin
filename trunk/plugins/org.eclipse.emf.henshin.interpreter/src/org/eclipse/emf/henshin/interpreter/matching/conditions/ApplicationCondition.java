@@ -38,7 +38,7 @@ public class ApplicationCondition implements IFormula {
 	
 	public boolean findGraph() {
 		for (Variable var : variables) {
-			if (!var.getTypeConstraint().instantiationPossible(domainMap.get(var), graph))
+			if (!var.typeConstraint.instantiationPossible(domainMap.get(var), graph))
 				return false;
 		}
 		return findMatch(0);
