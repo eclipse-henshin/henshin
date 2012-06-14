@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
 
-public class ProfilingApplicationMonitorImpl extends ApplicationMonitorImpl {
+public class ProfilingApplicationMonitor extends BasicApplicationMonitor {
 
 	// Start time:
 	protected long startTime = 0;

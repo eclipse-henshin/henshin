@@ -8,7 +8,7 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
  * 
  * @author Gregor Bonifer, Christian Krause
  */
-public class ApplicationMonitorImpl implements ApplicationMonitor {
+public class BasicApplicationMonitor implements ApplicationMonitor {
 	
 	// Canceled flag:
 	protected boolean canceled = false;

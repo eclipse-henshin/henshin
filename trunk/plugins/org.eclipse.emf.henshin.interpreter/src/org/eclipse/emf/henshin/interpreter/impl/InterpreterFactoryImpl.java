@@ -78,7 +78,7 @@ public class InterpreterFactoryImpl implements InterpreterFactory {
 	 */
 	@Override
 	public ApplicationMonitor createApplicationMonitor() {
-		return new ApplicationMonitorImpl();
+		return new BasicApplicationMonitor();
 	}
 
 }

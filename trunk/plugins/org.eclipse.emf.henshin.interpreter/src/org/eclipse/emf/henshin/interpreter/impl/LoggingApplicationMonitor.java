@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
  * @author Christian Krause
  *
  */
-public class LoggingApplicationMonitorImpl extends ApplicationMonitorImpl {
+public class LoggingApplicationMonitor extends BasicApplicationMonitor {
 	
 	// Print stream to be used for logging:
 	protected PrintStream logStream = System.out;
