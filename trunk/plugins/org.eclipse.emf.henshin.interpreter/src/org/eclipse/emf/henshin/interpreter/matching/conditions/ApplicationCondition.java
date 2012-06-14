@@ -98,7 +98,7 @@ public class ApplicationCondition implements IFormula {
 	
 	private void resetVariables() {
 		for (Variable var : variables) {
-			domainMap.get(var).clear(var);
+			domainMap.get(var).reset(var);
 		}
 	}
 	

@@ -248,6 +248,7 @@ public class DomainSlot {
 			checkedVariables.remove(sender);
 		}
 		
+		
 		return false;
 	}
 	
@@ -263,13 +264,19 @@ public class DomainSlot {
 		unlock(sender);
 		
 		if (sender == owner) {
-			initialized = false;
-			
+			initialized = false;			
+			remoteChangeMap = new HashMap<BinaryConstraint, DomainChange>();
 			owner = null;
 			value = null;
 			domain = null;
-			remoteChangeMap = new HashMap<BinaryConstraint, DomainChange>();
 		}
+	}
+	
+	public void reset(Variable sender) {
+		if (sender == owner) {
+			temporaryDomain = null;
+		}
+		clear(sender);		
 	}
 	
 	/**
