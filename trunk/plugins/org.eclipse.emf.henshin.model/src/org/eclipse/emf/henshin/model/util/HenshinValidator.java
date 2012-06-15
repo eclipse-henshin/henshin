@@ -229,6 +229,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateConditionalUnit((ConditionalUnit)value, diagnostics, context);
 			case HenshinPackage.PRIORITY_UNIT:
 				return validatePriorityUnit((PriorityUnit)value, diagnostics, context);
+			case HenshinPackage.ITERATED_UNIT:
+				return validateIteratedUnit((IteratedUnit)value, diagnostics, context);
 			case HenshinPackage.LOOP_UNIT:
 				return validateLoopUnit((LoopUnit)value, diagnostics, context);
 			case HenshinPackage.NESTED_CONDITION:
@@ -1586,6 +1588,27 @@ public class HenshinValidator extends EObjectValidator {
 		return result;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateIteratedUnit(IteratedUnit iteratedUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

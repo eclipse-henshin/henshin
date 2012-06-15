@@ -16,38 +16,43 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
 
+/**
+ * Solution class. A solution is an internal representation of a {@link Match}.
+ * 
+ * @author Enrico Biermann, Christian Krause
+ */
 public class Solution {
-	Map<Variable, EObject> objectMatches;
-	Map<String, Object> parameterValues;
+	
+	// Map associating variables to matched objects:
+	public final Map<Variable, EObject> objectMatches;
+	
+	// Map associating parameter names to values:
+	public final Map<String, Object> parameterValues;
 
+	/**
+	 * Default constructor.
+	 * @param variables List of variables.
+	 * @param domainMap Domain map.
+	 * @param conditionHandler Attribute condition handler.
+	 */
 	public Solution(List<Variable> variables,
 			Map<Variable, DomainSlot> domainMap,
 			AttributeConditionHandler conditionHandler) {
-		Map<Variable, EObject> match = new HashMap<Variable, EObject>();
-
+		
+		// Collect the object matches:
+		objectMatches = new HashMap<Variable, EObject>();
 		for (Variable variable : variables) {
 			DomainSlot slot = domainMap.get(variable);
-			match.put(variable, slot.value);
+			objectMatches.put(variable, slot.value);
 		}
-
-		this.objectMatches = match;
-		this.parameterValues = new HashMap<String, Object>(conditionHandler
-				.getParameterValues());
+		
+		// Collect the parameter values:
+		parameterValues = new HashMap<String, Object>(
+				conditionHandler.getParameterValues());
+		
 	}
 
-	/**
-	 * @return the objectMatches
-	 */
-	public Map<Variable, EObject> getObjectMatches() {
-		return objectMatches;
-	}
-
-	/**
-	 * @return the parameterValues
-	 */
-	public Map<String, Object> getParameterValues() {
-		return parameterValues;
-	}
 }

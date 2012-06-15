@@ -11,16 +11,21 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
-
 public class NotFormula implements IFormula {
-	private IFormula child;
+	
+	private final IFormula child;
 	
 	public NotFormula(IFormula child) {
 		this.child = child;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula#eval()
+	 */
 	@Override
 	public boolean eval() {
 		return !child.eval();
 	}
+	
 }

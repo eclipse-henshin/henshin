@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -24,6 +27,7 @@ import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
@@ -100,6 +104,8 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 					return executeConditionalUnit(monitor);
 				case HenshinPackage.PRIORITY_UNIT:
 					return executePriorityUnit(monitor);
+				case HenshinPackage.ITERATED_UNIT:
+					return executeIteratedUnit(monitor);
 				case HenshinPackage.LOOP_UNIT:
 					return executeLoopUnit(monitor);
 				default:
@@ -291,6 +297,53 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	}
 	
 	/*
+	 * Execute an IteratedUnit.
+	 */
+	protected boolean executeIteratedUnit(ApplicationMonitor monitor) {
+		IteratedUnit iteratedUnit = (IteratedUnit) unit;
+		ScriptEngine scriptEngine = engine.getScriptEngine();
+		for (Parameter param : unit.getParameters()) {
+			scriptEngine.put(param.getName(), resultAssignment.getParameterValue(param));
+		}
+		// Determine the number of iterations:
+		int iterations;
+		try {
+			Object value = scriptEngine.eval(iteratedUnit.getIterations());
+			if (value==null) {
+				throw new RuntimeException("Error determining number of iterations for unit '" + iteratedUnit.getName() + "'");
+			}
+			String valueString = value.toString();
+			int index = valueString.indexOf('.');
+			if (index==0) {
+				valueString = "0";
+			} else if (index>0) {
+				valueString = valueString.substring(0, index);
+			}
+			iterations = Integer.parseInt(valueString);
+		} catch (ScriptException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		boolean success = true;
+		for (int i=0; i<iterations; i++) {
+			if (monitor.isCanceled()) {
+				if (monitor.isUndo()) undo(monitor);
+				success = false;
+				break;
+			}
+			UnitApplicationImpl unitApp = createApplicationFor(iteratedUnit.getSubUnit());
+			if (unitApp.execute(monitor)) {
+				updateParameterValues(unitApp);
+				appliedRules.addAll(unitApp.appliedRules);
+			} else {
+				success = false;
+				break;
+			}
+		}
+		monitor.notifyExecute(this, success);
+		return success;
+	}
+
+	/*
 	 * Execute a LoopUnit.
 	 */
 	protected boolean executeLoopUnit(ApplicationMonitor monitor) {
@@ -313,7 +366,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		monitor.notifyExecute(this, success);
 		return success;
 	}
-	
+
 	/*
 	 * Create an ApplicationUnit for a given TransformationUnit.
 	 */

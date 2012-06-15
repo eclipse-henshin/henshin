@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -107,13 +108,19 @@ public class UnitNameParser extends AbstractParser {
 			sb.append("(").append(pList.get(0).getName());
 			for (int i = 1; i < paramCount; i++) {
 				sb.append(", ").append(pList.get(i).getName());
-			}// for
+			}
 			sb.append(")");
-		}// if
+		}
+		
+		if (unit instanceof IteratedUnit) {
+			String it = ((IteratedUnit) unit).getIterations();
+			if (it==null || it.trim().length()==0) it = "?"; 
+			sb.append(" [" + it + "]");
+		}
 		
 		// Compile the title:
 		return sb.toString();
-	}// getPrintString
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -162,6 +169,21 @@ public class UnitNameParser extends AbstractParser {
 		
 		// We need the unit:
 		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		
+		// Iterated unit? Try to parse the number of iterations:
+		if (unit instanceof IteratedUnit) {
+			int index = value.indexOf('[');
+			if (index>=0) {
+				String it = value.substring(index+1);
+				value = value.substring(0, index);
+				index = it.indexOf(']');
+				if (index>=0) {
+					it = it.substring(0, index).trim();
+					if (it.length()==0 || it.equals("?")) it = null;
+					((IteratedUnit) unit).setIterations(it);
+				}
+			}
+		}
 		
 		final Matcher matcher = UNIT_NAME_PATTERN.matcher(value);
 		

@@ -11,17 +11,23 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
-
 public class XorFormula implements IFormula {
-	private IFormula left;
-	private IFormula right;
+	
+	private final IFormula left;
+	private final IFormula right;
 	
 	public XorFormula(IFormula left, IFormula right) {
 		this.left = left;
 		this.right = right;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula#eval()
+	 */
+	@Override
 	public boolean eval() {
 		return left.eval() ^ right.eval();
 	}
+	
 }

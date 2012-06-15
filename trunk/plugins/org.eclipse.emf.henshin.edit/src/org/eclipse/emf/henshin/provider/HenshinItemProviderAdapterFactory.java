@@ -387,6 +387,29 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.IteratedUnit} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected IteratedUnitItemProvider iteratedUnitItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.IteratedUnit}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createIteratedUnitAdapter() {
+		if (iteratedUnitItemProvider == null) {
+			iteratedUnitItemProvider = new IteratedUnitItemProvider(this);
+		}
+
+		return iteratedUnitItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.LoopUnit} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

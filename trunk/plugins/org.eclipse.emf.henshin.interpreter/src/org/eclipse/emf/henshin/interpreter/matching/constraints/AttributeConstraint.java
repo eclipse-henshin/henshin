@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
@@ -20,35 +18,54 @@ import org.eclipse.emf.ecore.EObject;
  * This constraint checks whether an attribute has a specific value.
  */
 public class AttributeConstraint implements UnaryConstraint {
-	EAttribute attribute;
-	Object attributeValue;
 	
-	public AttributeConstraint(final EAttribute attribute, final Object value) {
+	// Target attribute:
+	final EAttribute attribute;
+	
+	// Attribute value:
+	final Object attributeValue;
+	
+	/**
+	 * Default constructor.
+	 * @param attribute Target attribute.
+	 * @param value Attribute value.
+	 */
+	public AttributeConstraint(EAttribute attribute, Object value) {
 		this.attribute = attribute;
-		attributeValue = value;
+		this.attributeValue = value;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.matching.constraints.UnaryConstraint#check(org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot)
+	 */
 	@Override
-	public boolean check(final DomainSlot slot) {
+	public boolean check(DomainSlot slot) {
 		
-		if (slot.locked)
-			return attributeValue == null ? slot.value.eGet(attribute) == null : slot.value
-					.eGet(attribute) != null && slot.value.eGet(attribute).equals(attributeValue);
+		// Slot locked already?
+		if (slot.locked) {
+			return (attributeValue == null) ? 
+					(slot.value.eGet(attribute) == null) : 
+					(slot.value.eGet(attribute) != null && slot.value.eGet(attribute).equals(attributeValue));
+		}
 		
-		List<EObject> domain = slot.domain;
-		for (int i = domain.size() - 1; i >= 0; i--) {
-			EObject domainObject = domain.get(i);
-			
+		// Remove illegal objects from the slot:
+		int size = slot.domain.size();
+		for (int i=size-1; i>=0; i--) {
+			EObject domainObject = slot.domain.get(i);
 			if (attributeValue == null) {
 				if (domainObject.eGet(attribute) != null) {
-					domain.remove(i);
+					slot.domain.remove(i);
 				}
 			} else {
 				if (!attributeValue.equals(domainObject.eGet(attribute))) {
-					domain.remove(i);
+					slot.domain.remove(i);
 				}
 			}
 		}
-		return !domain.isEmpty();
+		
+		// Slot should not be empty:
+		return !slot.domain.isEmpty();
+		
 	}
 }

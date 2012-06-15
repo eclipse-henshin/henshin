@@ -66,7 +66,7 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
 			addNamePropertyDescriptor(object);
 			addImportsPropertyDescriptor(object);
 		}
@@ -74,19 +74,25 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 	}
 	
 	/**
-	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_NamedElement_name_feature"),
-				getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature",
-						"_UI_NamedElement_type"), HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_NamedElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
+				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 	
 	/**
@@ -96,26 +102,26 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 	 * @generated
 	 */
 	protected void addImportsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(
-						((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(),
-						getString("_UI_TransformationSystem_imports_feature"),
-						getString("_UI_PropertyDescriptor_description",
-								"_UI_TransformationSystem_imports_feature",
-								"_UI_TransformationSystem_type"),
-						HenshinPackage.Literals.TRANSFORMATION_SYSTEM__IMPORTS, true, false, true,
-						null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TransformationSystem_imports_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationSystem_imports_feature", "_UI_TransformationSystem_type"),
+				 HenshinPackage.Literals.TRANSFORMATION_SYSTEM__IMPORTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -124,73 +130,67 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES);
-			childrenFeatures
-					.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
 		}
 		return childrenFeatures;
 	}
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
-		
+
 		return super.getChildFeature(object, child);
 	}
 	
 	/**
-	 * This returns TransformationSystem.gif. <!-- begin-user-doc --> <!--
+	 * This returns TransformationSystem.gif.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator()
-				.getImage("full/obj16/TransformationSystem"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/TransformationSystem"));
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TransformationSystem) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_TransformationSystem_type")
-				: getString("_UI_TransformationSystem_type") + " " + label;
+		String label = ((TransformationSystem)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_TransformationSystem_type") :
+			getString("_UI_TransformationSystem_type") + " " + label;
 	}
 	
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
+
 		switch (notification.getFeatureID(TransformationSystem.class)) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-						true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -253,13 +253,15 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 			Collection<?> selection) {
 		Object childFeature = feature;
 		Object childObject = child;
-		
-		boolean qualify = childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES
-				|| childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS;
-		
+
+		boolean qualify =
+			childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES ||
+			childFeature == HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS;
+
 		if (qualify) {
-			return getString("_UI_CreateChild_text2", new Object[] { getTypeText(childObject),
-					getFeatureText(childFeature), getTypeText(owner) });
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
 	}

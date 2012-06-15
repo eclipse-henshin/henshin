@@ -14,6 +14,8 @@ package org.eclipse.emf.henshin.interpreter;
 
 import java.util.Map;
 
+import javax.script.ScriptEngine;
+
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -37,6 +39,11 @@ public interface Engine {
 	 * Option for general deterministic engine behavior.
 	 */
 	String OPTION_DETERMINISTIC = "DETERMINISTIC";
+	
+	/**
+	 * Option for enabling / disabling automatic variable sorting. 
+	 */
+	String OPTION_SORT_VARIABLES = "SORT_VARIABLES";
 
 	/**
 	 * Find matches for a {@link Rule} in an {@link EGraph}.
@@ -56,6 +63,12 @@ public interface Engine {
 	 * @return An {@link Change} object that can be used to apply the rule
 	 */
 	Change createChange(Rule rule, EGraph graph, Match completeMatch, Match resultMatch);
+	
+	/**
+	 * Get the used script engine.
+	 * @return Script engine.
+	 */
+	ScriptEngine getScriptEngine();
 	
 	/**
 	 * Get or set the options for this engine.

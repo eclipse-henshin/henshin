@@ -18,54 +18,68 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
+/**
+ * Application condition.
+ * @author Enrico Biermann, Christian Krause
+ */
 public class ApplicationCondition implements IFormula {
 	
-	protected boolean negated;
+	// Target graph:
+	public final EGraph graph;
+
+	// Domain map:
+	public final Map<Variable, DomainSlot> domainMap;
+
+	// Formula:
+	public IFormula formula;
+
+	// Variables:
+	public List<Variable> variables;
 	
-	protected IFormula formula;
-	
-	protected EGraph graph;
-	
-	protected List<Variable> variables;
-	
-	protected Map<Variable, DomainSlot> domainMap;
-	
-	public ApplicationCondition(EGraph graph, Map<Variable, DomainSlot> domainMap, boolean negated) {
+	/**
+	 * Default constructor.
+	 * @param graph Target graph.
+	 * @param domainMap Domain map.
+	 */
+	public ApplicationCondition(EGraph graph, Map<Variable, DomainSlot> domainMap) {
 		this.domainMap = domainMap;
 		this.graph = graph;
-		this.negated = negated;
 	}
 	
+	/**
+	 * Find a graph.
+	 * @return <code>true</code> if a graph was found.
+	 */
 	public boolean findGraph() {
 		for (Variable var : variables) {
-			if (!var.typeConstraint.instantiationPossible(domainMap.get(var), graph))
+			if (!var.typeConstraint.instantiationPossible(domainMap.get(var), graph)) {
 				return false;
+			}
 		}
 		return findMatch(0);
 	}
 	
 	/**
-	 * Finds a match for the variable at the given index in the lhsVariables
-	 * vector.
+	 * Finds a match for the variable at the given index in the LHS-variables vector.
 	 */
 	protected boolean findMatch(int index) {
-		if (index == variables.size()) {
+		
+		// Matched all variables?
+		if (index==variables.size()) {
 			return formula.eval();
 		}
 		
+		// Otherwise try to match the last variable:
 		Variable variable = variables.get(index);
 		DomainSlot slot = domainMap.get(variable);
 		
-		boolean validAssignment = false;
-		
-		while (!validAssignment) {
-			validAssignment = slot.instantiate(variable, domainMap, graph);
-			
-			if (validAssignment) {
-				validAssignment = findMatch(index + 1);
+		boolean valid = false;
+		while (!valid) {
+			valid = slot.instantiate(variable, domainMap, graph);
+			if (valid) {
+				valid = findMatch(index + 1);  // recursion
 			}
-			
-			if (!validAssignment) {
+			if (!valid) {
 				slot.unlock(variable);
 				if (!slot.instantiationPossible()) {
 					slot.clear(variable);
@@ -74,41 +88,29 @@ public class ApplicationCondition implements IFormula {
 			}
 		}
 		
+		// Found a match.
 		return true;
+		
 	}
 	
-	public List<Variable> getVariables() {
-		return variables;
-	}
-	
-	public void setVariables(List<Variable> variables) {
-		this.variables = variables;
-	}
-	
-	/**
-	 * @return the formula
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula#eval()
 	 */
-	public IFormula getFormula() {
-		return formula;
-	}
-	
-	public void setFormula(IFormula formula) {
-		this.formula = formula;
-	}
-	
-	private void resetVariables() {
+	@Override
+	public boolean eval() {
+		
+		// Find a graph:
+		boolean result = findGraph();
+		
+		// Reset the variables:
 		for (Variable var : variables) {
 			domainMap.get(var).reset(var);
 		}
+		
+		// Done.
+		return result;
+		
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean eval() {
-		boolean result = findGraph();
-		resetVariables();
-		
-		return (result) ? !negated : negated;
-	}
 }

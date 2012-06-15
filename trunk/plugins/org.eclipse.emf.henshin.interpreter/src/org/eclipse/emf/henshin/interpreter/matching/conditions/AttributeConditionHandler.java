@@ -19,94 +19,121 @@ import java.util.Map;
 
 import javax.script.ScriptEngine;
 
+/**
+ * Attribute condition handler.
+ * 
+ * @author Enrico Biermann, Christian Krause
+ */
 public class AttributeConditionHandler {
-	Collection<AttributeCondition> attributeConditions;
-	Map<String, Collection<AttributeCondition>> involvedConditions;
-	Collection<String> assignedParameters;
+	
+	// Attribute conditions:
+	final Collection<AttributeCondition> attributeConditions;
+	
+	// Involved conditions:
+	final Map<String, Collection<AttributeCondition>> involvedConditions;
+	
+	// Assigned parameters:
+	final Collection<String> assignedParameters;
 
-	ScriptEngine scriptEngine;
+	// Used script engine:
+	final ScriptEngine scriptEngine;
 
+	/**
+	 * Default constructor.
+	 * @param conditionParameters Condition parameters.
+	 * @param scriptEngine Script engine-
+	 */
 	public AttributeConditionHandler(
 			Map<String, Collection<String>> conditionParameters,
 			ScriptEngine scriptEngine) {
+		
 		this.attributeConditions = new ArrayList<AttributeCondition>();
 		this.involvedConditions = new HashMap<String, Collection<AttributeCondition>>();
 		this.assignedParameters = new HashSet<String>();
 		this.scriptEngine = scriptEngine;
 
-		for (String conditionString : conditionParameters.keySet()) {
-			Collection<String> usedParameters = conditionParameters
-					.get(conditionString);
+		for (String condition : conditionParameters.keySet()) {
+			Collection<String> usedParameters = conditionParameters.get(condition);
+			AttributeCondition attCondition = new AttributeCondition(condition, usedParameters, scriptEngine);
+			attributeConditions.add(attCondition);
 
-			AttributeCondition attributeCondition = new AttributeCondition(
-					conditionString, usedParameters, scriptEngine);
-			attributeConditions.add(attributeCondition);
-
-			// create a map for easy lookup of conditions a parameter is
-			// involved in
+			// Create a map for easy lookup of conditions a parameter is involved in:
 			for (String usedParameter : usedParameters) {
-				Collection<AttributeCondition> conditionList = involvedConditions
-						.get(usedParameter);
+				Collection<AttributeCondition> conditionList = involvedConditions.get(usedParameter);
 				if (conditionList == null) {
 					conditionList = new ArrayList<AttributeCondition>();
 					involvedConditions.put(usedParameter, conditionList);
 				}
-
-				conditionList.add(attributeCondition);
+				conditionList.add(attCondition);
 			}
 		}
 	}
 
-	public boolean setParameter(String parameterName, Object value) {
+	/**
+	 * Set the value for a parameter.
+	 * @param paramName Parameter name.
+	 * @param value Value.
+	 * @return <code>true</code> if it was set.
+	 */
+	public boolean setParameter(String paramName, Object value) {
 		boolean result = true;
-
-		if (!assignedParameters.contains(parameterName)) {
-			assignedParameters.add(parameterName);
-			scriptEngine.put(parameterName, value);
-
-			Collection<AttributeCondition> conditionList = involvedConditions
-					.get(parameterName);
-
+		if (!assignedParameters.contains(paramName)) {
+			assignedParameters.add(paramName);
+			scriptEngine.put(paramName, value);
+			Collection<AttributeCondition> conditionList = involvedConditions.get(paramName);
 			if (conditionList != null) {
 				for (AttributeCondition condition : conditionList) {
-					condition.removeParameter(parameterName);
+					condition.parameters.remove(paramName);
 					result = result && condition.eval();
 				}
 			}
 		}
-
 		return result;
 	}
 
-	public void unsetParameter(String parameterName) {
-		if (assignedParameters.contains(parameterName)) {
-			assignedParameters.remove(parameterName);
-
-			Collection<AttributeCondition> conditionList = involvedConditions
-					.get(parameterName);
-
+	/**
+	 * Unset a parameter value.
+	 * @param paramName Parameter name.
+	 */
+	public void unsetParameter(String paramName) {
+		if (assignedParameters.contains(paramName)) {
+			assignedParameters.remove(paramName);
+			Collection<AttributeCondition> conditionList = involvedConditions.get(paramName);
 			if (conditionList != null) {
-				for (AttributeCondition condition : involvedConditions
-						.get(parameterName)) {
-					condition.addParameter(parameterName);
+				for (AttributeCondition condition : involvedConditions.get(paramName)) {
+					condition.parameters.add(paramName);
 				}
 			}
 		}
 	}
 
-	public boolean isSet(String parameterName) {
-		return assignedParameters.contains(parameterName);
+	/**
+	 * Check whether a parameter is set.
+	 * @param paramName Parameter name.
+	 * @return <code>true</code> if it is set.
+	 */
+	public boolean isSet(String paramName) {
+		return assignedParameters.contains(paramName);
 	}
 
-	public Object getParameter(String parameterName) {
-		return scriptEngine.get(parameterName);
+	/**
+	 * Get the value for a parameter.
+	 * @param paramName Name of the parameter.
+	 * @return The value.
+	 */
+	public Object getParameter(String paramName) {
+		return scriptEngine.get(paramName);
 	}
 
+	/**
+	 * Get all parameter values.
+	 * @return Map with all parameter values.
+	 */
 	public Map<String, Object> getParameterValues() {
-		Map<String, Object> parameterValues = new HashMap<String, Object>();
-		for (String parameterName : assignedParameters) {
-			parameterValues.put(parameterName, scriptEngine.get(parameterName));
+		Map<String, Object> paramValues = new HashMap<String, Object>();
+		for (String paramName : assignedParameters) {
+			paramValues.put(paramName, scriptEngine.get(paramName));
 		}
-		return parameterValues;
+		return paramValues;
 	}
 }

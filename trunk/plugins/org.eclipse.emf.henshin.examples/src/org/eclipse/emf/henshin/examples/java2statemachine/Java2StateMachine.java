@@ -85,6 +85,8 @@ public class Java2StateMachine {
 
 		// Prepare the transformation engine: 
 		Engine engine = InterpreterFactory.INSTANCE.createEngine();
+		engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
+		
 		UnitApplication unitApp = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		unitApp.setEGraph(graph);
 		unitApp.setUnit(system.findUnitByName("Start"));

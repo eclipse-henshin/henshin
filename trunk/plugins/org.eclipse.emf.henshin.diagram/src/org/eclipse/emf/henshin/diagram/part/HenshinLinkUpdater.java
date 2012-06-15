@@ -13,6 +13,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -144,9 +145,10 @@ public class HenshinLinkUpdater {
 			}
 		}
 		
-		// Loop units:
-		if (unit instanceof LoopUnit) {
-			View subUnitView = UnitEditHelper.getInvocationView(unitView, InvocationViewKey.LOOP);
+		// Loop and Iterated units:
+		if (unit instanceof LoopUnit || unit instanceof IteratedUnit) {
+			InvocationViewKey key = (unit instanceof LoopUnit) ? InvocationViewKey.LOOP : InvocationViewKey.ITERATE;
+			View subUnitView = UnitEditHelper.getInvocationView(unitView, key);
 			if (subUnitView!=null) {
 				knownLinks.add(updateLink(unit, begin, subUnitView));
 				knownLinks.add(updateLink(unit, subUnitView, end));

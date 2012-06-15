@@ -17,34 +17,42 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 
 /**
- * Match finder variables.
+ * Match finder variable. Internal representation of nodes.
  * 
  * @author Enrico Biermann, Christian Krause
  */
 public class Variable {
 	
+	// Type constraint:
 	public final TypeConstraint typeConstraint;
+	
+	// Attribute constraints:
 	public final List<AttributeConstraint> attributeConstraints;
+	
+	// Dangling constraints:
 	public final List<DanglingConstraint> danglingConstraints;
+	
+	// Reference constraints:
 	public final List<ReferenceConstraint> referenceConstraints;
+	
+	// Parameter constraints:
 	public final List<ParameterConstraint> parameterConstraints;
+	
+	// Containment constraints:
 	public final List<ContainmentConstraint> containmentConstraints;
 	
 	/**
-	 * Constructor<br>
-	 * Creates the related {@link TypeConstraint} already.
-	 * 
-	 * @param type
+	 * Constructor. Creates the related {@link TypeConstraint} already.
+	 * @param type Type of the node to be matched.
 	 */
 	public Variable(EClass type) {
 		this(type, false);
 	}
 	
 	/**
-	 * Constructor<br>
-	 * Creates the related {@link TypeConstraint} already.
-	 * 
-	 * @param type
+	 * Constructor. Creates the related {@link TypeConstraint} already.
+	 * @param type Type of the node to be matched.
+	 * @param strictTyping Whether to use strict typing.
 	 */
 	public Variable(EClass type, boolean strictTyping) {
 		typeConstraint = new TypeConstraint(type, strictTyping);

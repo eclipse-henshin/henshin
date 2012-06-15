@@ -12,5 +12,29 @@
 package org.eclipse.emf.henshin.interpreter.matching.conditions;
 
 public interface IFormula {
-	public boolean eval();
+	
+	/**
+	 * Formula which always evaluates to <code>true</code>.
+	 */
+	public final IFormula TRUE = new IFormula() {
+		public boolean eval() {
+			return true;
+		}
+	};
+
+	/**
+	 * Formula which always evaluates to <code>false</code>.
+	 */
+	public final IFormula FALSE = new IFormula() {
+		public boolean eval() {
+			return false;
+		}
+	};
+
+	/**
+	 * Evaluate this formula.
+	 * @return Result of the evaluation.
+	 */
+	boolean eval();
+	
 }

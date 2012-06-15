@@ -16,15 +16,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.TrueFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
-import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ReferenceConstraint;
+import org.eclipse.emf.henshin.interpreter.matching.constraints.SolutionFinder;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
 
 /**
@@ -33,24 +32,13 @@ import org.eclipse.emf.henshin.interpreter.matching.constraints.Variable;
  */
 public class EGraphIsomorphyChecker {
 	
-	// Engine options (used internally for the match finding):
-	private static final Map<String,Object> ENGINE_OPTIONS;
-	
 	// Attribute condition handles (used internally for the match finding):
 	private static final AttributeConditionHandler ATTRIBUTE_CONDITION_HANDLER;
 
-	// True formula:
-	private static final IFormula TRUE_FORMULA;
-
 	// Initialize static members:
 	static {
-		ENGINE_OPTIONS = new HashMap<String,Object>();
-		ENGINE_OPTIONS.put(Engine.OPTION_INJECTIVE_MATCHING, Boolean.TRUE);
-		ENGINE_OPTIONS.put(Engine.OPTION_DETERMINISTIC, Boolean.TRUE);
-		ENGINE_OPTIONS.put(Engine.OPTION_CHECK_DANGLING, Boolean.FALSE);
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 		ATTRIBUTE_CONDITION_HANDLER = new AttributeConditionHandler(new HashMap<String, Collection<String>>(), engine);
-		TRUE_FORMULA = new TrueFormula();
 	}
 	
 	// The source graph:
@@ -146,7 +134,7 @@ public class EGraphIsomorphyChecker {
 		
 		// Create the domain slots:
 		for (Map.Entry<EObject, Variable> entry : variablesMap.entrySet()) {
-			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), ENGINE_OPTIONS);
+			DomainSlot domainSlot = new DomainSlot(ATTRIBUTE_CONDITION_HANDLER, new HashSet<EObject>(), true, false, true);
 			if (partialMatch!=null) {
 				EObject match = partialMatch.get(entry.getKey());
 				if (match!=null) {
@@ -158,8 +146,8 @@ public class EGraphIsomorphyChecker {
 
 		// Create the match finder:
 		SolutionFinder matchFinder = new SolutionFinder(graph, domainMap, ATTRIBUTE_CONDITION_HANDLER);
-		matchFinder.setVariables(variablesList);
-		matchFinder.setFormula(TRUE_FORMULA);
+		matchFinder.variables = variablesList;
+		matchFinder.formula = IFormula.TRUE;
 		
 		// Try to find a match:
 		if (!matchFinder.findSolution()) {

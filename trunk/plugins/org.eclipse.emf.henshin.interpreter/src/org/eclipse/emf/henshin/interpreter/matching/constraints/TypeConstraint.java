@@ -17,22 +17,25 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 
 /**
  * This constraint checks whether an node has a specific value.
+ * 
+ * @author Enrico Biermann, Christian Krause
  */
 public class TypeConstraint implements UnaryConstraint {
 	
 	// Type to be matched:
-	protected EClass type;
+	public final EClass type;
 	
 	// Whether to use strict typing:
-	protected boolean strictTyping;
+	public final boolean strictTyping;
 	
+	/**
+	 * Default constructor.
+	 * @param type Type to be matched.
+	 * @param strictTyping Whether to use strict typing.
+	 */
 	public TypeConstraint(EClass type, boolean strictTyping) {
 		this.type = type;
 		this.strictTyping = strictTyping;
-	}
-	
-	public EClass getType() {
-		return type;
 	}
 	
 	/*
@@ -41,38 +44,41 @@ public class TypeConstraint implements UnaryConstraint {
 	 */
 	@Override
 	public boolean check(DomainSlot slot) {
-		return !slot.locked || isValid(slot);
-	}
-	
-	protected boolean isValid(DomainSlot slot) {
-		return isValid(slot.value);
+		return !slot.locked || isValid(slot.value);
 	}
 	
 	protected boolean isValid(EObject value) {
-		return strictTyping ? type == value.eClass() : type.isSuperTypeOf(value.eClass());
+		return strictTyping ? (type==value.eClass()) : type.isSuperTypeOf(value.eClass());
 	}
 	
+	/**
+	 * Initialize a domain slot.
+	 * @param slot Domain slot to be initialized.
+	 * @param graph Target graph.
+	 * @return <code>true</code> if it was initialized.
+	 */
 	public boolean initDomain(DomainSlot slot, EGraph graph) {
 		
-		if (slot.domain == null) {
+		// Already initialized:
+		if (slot.domain==null) {
 			slot.domain = graph.getDomain(type, strictTyping);
 			return !slot.domain.isEmpty();
 		}
 		
-		// slot.domain != null
-		//
-		if (slot.domain.isEmpty())
+		// Domain empty?
+		if (slot.domain.isEmpty()) {
 			return false;
-		// TODO: Find solution to prevent referenced Objects outside the
-		// EmfGraph.
-		else {
-			for (int i = slot.domain.size() - 1; i >= 0; i--) {
-				EObject eObject = slot.domain.get(i);
-				if (eObject == null || !isValid(eObject))
+		} else {
+			int size = slot.domain.size();
+			for (int i = size-1; i>=0; i--) {
+				EObject object = slot.domain.get(i);
+				if (object==null || !isValid(object)) {
 					slot.domain.remove(i);
+				}
 			}
 			return !slot.domain.isEmpty();
 		}
+		
 		// List<EObject> graphDomain = graph.getDomainForType(type,
 		// strictTyping);
 		//
@@ -87,12 +93,14 @@ public class TypeConstraint implements UnaryConstraint {
 		// return !slot.domain.isEmpty();
 	}
 	
-	public boolean isStrictTyping() {
-		return strictTyping;
-	}
-	
+	/**
+	 * Check whether an instantiation could be possible.
+	 * @param slot Domain slot.
+	 * @param graph Target graph.
+	 * @return <code>true</code> if an instantiation might be possible.
+	 */
 	public boolean instantiationPossible(DomainSlot slot, EGraph graph) {
-		return slot.locked ? isValid(slot) : graph.getDomainSize(type, strictTyping)>0;
+		return slot.locked ? isValid(slot.value) : graph.getDomainSize(type, strictTyping)>0;
 	}
 	
 }

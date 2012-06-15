@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
@@ -191,6 +192,9 @@ public class InvocationNameParser extends AbstractParser {
 				}
 				else if (unit instanceof LoopUnit) {
 					((LoopUnit) unit).setSubUnit(target);
+				}
+				else if (unit instanceof IteratedUnit) {
+					((IteratedUnit) unit).setSubUnit(target);
 				}
 				else if (unit instanceof ConditionalUnit) {
 					if (invocationView==UnitEditHelper

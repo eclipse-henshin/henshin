@@ -145,6 +145,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createPriorityUnitAdapter();
 			}
 			@Override
+			public Adapter caseIteratedUnit(IteratedUnit object) {
+				return createIteratedUnitAdapter();
+			}
+			@Override
 			public Adapter caseLoopUnit(LoopUnit object) {
 				return createLoopUnitAdapter();
 			}
@@ -439,6 +443,20 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPriorityUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.IteratedUnit <em>Iterated Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.IteratedUnit
+	 * @generated
+	 */
+	public Adapter createIteratedUnitAdapter() {
 		return null;
 	}
 

@@ -92,6 +92,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
 			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();
 			case HenshinPackage.PRIORITY_UNIT: return createPriorityUnit();
+			case HenshinPackage.ITERATED_UNIT: return createIteratedUnit();
 			case HenshinPackage.LOOP_UNIT: return createLoopUnit();
 			case HenshinPackage.NESTED_CONDITION: return createNestedCondition();
 			case HenshinPackage.AND: return createAnd();
@@ -298,6 +299,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public PriorityUnit createPriorityUnit() {
 		PriorityUnitImpl priorityUnit = new PriorityUnitImpl();
 		return priorityUnit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IteratedUnit createIteratedUnit() {
+		IteratedUnitImpl iteratedUnit = new IteratedUnitImpl();
+		return iteratedUnit;
 	}
 
 	/**

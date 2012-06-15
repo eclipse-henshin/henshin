@@ -190,6 +190,15 @@ public interface HenshinFactory extends EFactory {
 	PriorityUnit createPriorityUnit();
 
 	/**
+	 * Returns a new object of class '<em>Iterated Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Iterated Unit</em>'.
+	 * @generated
+	 */
+	IteratedUnit createIteratedUnit();
+
+	/**
 	 * Returns a new object of class '<em>Loop Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

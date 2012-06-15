@@ -1,5 +1,8 @@
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
-public interface Constraint {
-	
+/**
+ * Marker interface for constraints.
+ * @author Enrico Biermann
+ */
+public interface Constraint {	
 }

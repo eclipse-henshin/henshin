@@ -54,7 +54,6 @@ import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditio
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.NotFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.OrFormula;
-import org.eclipse.emf.henshin.interpreter.matching.conditions.TrueFormula;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.XorFormula;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.Solution;
@@ -92,15 +91,19 @@ public class EngineImpl implements Engine {
 	protected final Map<Rule,RuleInfo> ruleInfos;
 
 	// Cached graph options:
-	protected final Map<Graph,Map<String,Object>> graphOptions;
+	protected final Map<Graph,MatchingOptions> graphOptions;
+	
+	// Whether to sort variables.
+	protected boolean sortVariables;
 
 	/**
 	 * Default constructor.
 	 */
 	public EngineImpl() {
 		ruleInfos = new HashMap<Rule, RuleInfo>();
-		graphOptions = new HashMap<Graph,Map<String,Object>>();
+		graphOptions = new HashMap<Graph,MatchingOptions>();
 		options = new EngineOptions();
+		sortVariables = true;
 		scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
 	}
 
@@ -250,11 +253,10 @@ public class EngineImpl implements Engine {
 
 			// Create the new match:
 			nextMatch = new MatchImpl(rule);
-			Map<Variable, EObject> objectMatch = solution.getObjectMatches();
 			Map<Node, Variable> node2var = ruleInfo.getVariableInfo().getNode2variable();
 			
 			// Parameter values:
-			for (Entry<String,Object> entry : solution.getParameterValues().entrySet()) {
+			for (Entry<String,Object> entry : solution.parameterValues.entrySet()) {
 				Parameter param = nextMatch.getUnit().getParameterByName(entry.getKey());
 				if (param!=null) {
 					nextMatch.setParameterValue(param, entry.getValue());
@@ -263,7 +265,7 @@ public class EngineImpl implements Engine {
 			
 			// LHS node targets:
 			for (Node node : rule.getLhs().getNodes()) {
-				nextMatch.setNodeTarget(node, objectMatch.get(node2var.get(node)));
+				nextMatch.setNodeTarget(node, solution.objectMatches.get(node2var.get(node)));
 			}
 
 			// Now handle the multi-rules:
@@ -307,8 +309,7 @@ public class EngineImpl implements Engine {
 			final VariableInfo varInfo = ruleInfo.getVariableInfo();
 
 			// Evaluates attribute conditions of the rule:
-			AttributeConditionHandler conditionHandler = new AttributeConditionHandler(
-					conditionInfo.getConditionParameters(), scriptEngine);
+			AttributeConditionHandler conditionHandler = new AttributeConditionHandler(conditionInfo.getConditionParameters(), scriptEngine);
 
 			/* The set "usedObjects" ensures injective matching by removing *
 			 * already matched objects from other DomainSlots               */
@@ -321,7 +322,8 @@ public class EngineImpl implements Engine {
 			
 			for (Variable mainVariable : varInfo.getMainVariables()) {
 				Node node = varInfo.getVariableForNode(mainVariable);
-				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, getGraphOptions(node.getGraph()));
+				MatchingOptions opt = getGraphOptions(node.getGraph());
+				DomainSlot domainSlot = new DomainSlot(conditionHandler, usedObjects, opt.injective, opt.dangling, opt.deterministic);
 
 				// Fix this slot?
 				EObject target = partialMatch.getNodeTarget(node);
@@ -344,18 +346,22 @@ public class EngineImpl implements Engine {
 			}
 
 			// Sort the main variables based on the size of their domains:
-			Map<Graph,List<Variable>> sortedGraphMap = new HashMap<Graph, List<Variable>>();
-			for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
-				List<Variable> sorted = new ArrayList<Variable>(entry.getValue());
-// COMMENT THE FOLLOWING LINE TO DIABLE SORTING OPTIMIZATION:
-				Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
-				sortedGraphMap.put(entry.getKey(), sorted);
+			Map<Graph,List<Variable>> graphMap;
+			if (sortVariables) {
+				graphMap = new HashMap<Graph, List<Variable>>();
+				for (Entry<Graph,List<Variable>> entry : ruleInfo.getVariableInfo().getGraph2variables().entrySet()) {
+					List<Variable> sorted = new ArrayList<Variable>(entry.getValue());
+					Collections.sort(sorted, new VariableComparator(graph, varInfo, partialMatch));  // sorting the variables
+					graphMap.put(entry.getKey(), sorted);
+				}
+			} else {
+				graphMap = ruleInfo.getVariableInfo().getGraph2variables();
 			}
 
 			// Now initialize the match finder:
 			SolutionFinder solutionFinder = new SolutionFinder(graph, domainMap, conditionHandler);
-			solutionFinder.setVariables(sortedGraphMap.get(rule.getLhs()));
-			solutionFinder.setFormula(initFormula(rule.getLhs().getFormula(), graph, sortedGraphMap, domainMap));
+			solutionFinder.variables = graphMap.get(rule.getLhs());
+			solutionFinder.formula = initFormula(rule.getLhs().getFormula(), graph, graphMap, domainMap);
 			return solutionFinder;
 
 		}
@@ -391,16 +397,16 @@ public class EngineImpl implements Engine {
 				NestedCondition nc = (NestedCondition) formula;
 				return initApplicationCondition(nc, graph, graphMap, domainMap);
 			}
-			return new TrueFormula();
+			return IFormula.TRUE;
 		}
 
 		/*
 		 * Initialize an application condition.
 		 */
 		private ApplicationCondition initApplicationCondition(NestedCondition nc, EGraph graph, Map<Graph, List<Variable>> graphMap, Map<Variable,DomainSlot> domainMap) {
-			ApplicationCondition ac = new ApplicationCondition(graph, domainMap, false);
-			ac.setVariables(graphMap.get(nc.getConclusion()));
-			ac.setFormula(initFormula(nc.getConclusion().getFormula(), graph, graphMap, domainMap));
+			ApplicationCondition ac = new ApplicationCondition(graph, domainMap);
+			ac.variables = graphMap.get(nc.getConclusion());
+			ac.formula = initFormula(nc.getConclusion().getFormula(), graph, graphMap, domainMap);
 			return ac;
 		}
 
@@ -445,15 +451,15 @@ public class EngineImpl implements Engine {
 			Node n2 = varInfo.getVariableForNode(v2);
 			if (n2==null) return -1;
 
-			// One of the nodes already matched?
+			// One of the nodes already matched or an attribute given as a parameter?
 			if (partialMatch!=null) {
-				if (partialMatch.getNodeTarget(n1)!=null) return -1;
-				if (partialMatch.getNodeTarget(n2)!=null) return 1;
+				if (isNodeMatched(n1)) return -1;
+				if (isNodeMatched(n2)) return 1;
 			}
 			
 			// Get the domain sizes (smaller number wins):
-			int s = (graph.getDomainSize(v1.typeConstraint.getType(), v1.typeConstraint.isStrictTyping()) - 
-					 graph.getDomainSize(v2.typeConstraint.getType(), v2.typeConstraint.isStrictTyping()));
+			int s = (graph.getDomainSize(v1.typeConstraint.type, v1.typeConstraint.strictTyping) - 
+					 graph.getDomainSize(v2.typeConstraint.type, v2.typeConstraint.strictTyping));
 			if (s!=0) return s;
 			
 			// Attribute count (larger number wins):
@@ -463,6 +469,22 @@ public class EngineImpl implements Engine {
 			// Outgoing edge count (larger number wins):
 			return n2.getOutgoing().size() - n1.getOutgoing().size();
 			
+		}
+		
+		private boolean isNodeMatched(Node node) {
+			if (partialMatch.getNodeTarget(node)!=null) {
+				return true;
+			}
+			for (Attribute attribute : node.getAttributes()) {
+				String value = attribute.getValue();
+				if (value!=null) {
+					Parameter param = node.getGraph().getContainerRule().getParameterByName(value);
+					if (param!=null && partialMatch.getParameterValue(param)!=null) {
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 		
 	} // VariableComparator
@@ -666,43 +688,41 @@ public class EngineImpl implements Engine {
 	public Map<String,Object> getOptions() {
 		return options;
 	}
-
+	
+	/*
+	 * Data class for storing matching options.
+	 */
+	private static class MatchingOptions {
+		boolean injective;
+		boolean dangling;
+		boolean deterministic;
+	}
+	
 	/*
 	 * Get the options for a specific rule graph.
 	 * The graph should be either the LHS or a nested condition.
 	 */
-	protected Map<String,Object> getGraphOptions(Graph graph) {
-
-		// Already defined?
-		Map<String,Object> options = graphOptions.get(graph);
+	protected MatchingOptions getGraphOptions(Graph graph) {
+		MatchingOptions options = graphOptions.get(graph);
 		if (options==null) {
-
 			// Use the base options:
-			options = new HashMap<String,Object>(this.options);
+			options = new MatchingOptions();
 			Rule rule = graph.getContainerRule();
-
-			// Refine...
-			if (!options.containsKey(OPTION_DETERMINISTIC)) {
-				options.put(OPTION_DETERMINISTIC, Boolean.TRUE);
-			}
-			if (!options.containsKey(OPTION_INJECTIVE_MATCHING)) {
-				options.put(OPTION_INJECTIVE_MATCHING, rule.isInjectiveMatching());
-			}
-			if (!options.containsKey(OPTION_CHECK_DANGLING)) {
-				options.put(OPTION_CHECK_DANGLING, rule.isCheckDangling());
-			}
-
+			Boolean injective = (Boolean) this.options.get(OPTION_INJECTIVE_MATCHING);
+			Boolean dangling = (Boolean) this.options.get(OPTION_CHECK_DANGLING);
+			Boolean determistic = (Boolean) this.options.get(OPTION_DETERMINISTIC);
+			options.injective = (injective!=null) ? injective.booleanValue() : rule.isInjectiveMatching();
+			options.dangling = (dangling!=null) ? dangling.booleanValue() : rule.isCheckDangling();
+			options.deterministic = (determistic==null || determistic.booleanValue());
 			// Always use default values for nested conditions:
 			if (graph!=rule.getLhs()) {
-				options.put(OPTION_DETERMINISTIC, Boolean.TRUE);
-				options.put(OPTION_INJECTIVE_MATCHING, Boolean.TRUE);
-				options.put(OPTION_CHECK_DANGLING, Boolean.FALSE);
+				options.injective = true;
+				options.dangling = false;
+				options.deterministic = true;
 			}
 			graphOptions.put(graph, options);
-
 		}
 		return options;
-
 	}
 
 	/**
@@ -720,6 +740,7 @@ public class EngineImpl implements Engine {
 		public Object put(String key, Object value) {
 			Object result = super.put(key, value);
 			graphOptions.clear();
+			updateSortVariablsFlag();
 			return result;
 		}
 
@@ -731,8 +752,21 @@ public class EngineImpl implements Engine {
 		public void putAll(Map<? extends String,? extends Object> map) {
 			super.putAll(map);
 			graphOptions.clear();
+			updateSortVariablsFlag();
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see java.util.HashMap#remove(java.lang.Object)
+		 */
+		@Override
+		public Object remove(Object key) {
+			Object result = super.remove(key);
+			graphOptions.clear();
+			updateSortVariablsFlag();			
+			return result;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * @see java.util.HashMap#clear()
@@ -741,8 +775,23 @@ public class EngineImpl implements Engine {
 		public void clear() {
 			super.clear();
 			graphOptions.clear();
+			updateSortVariablsFlag();
+		}
+		
+		private void updateSortVariablsFlag() {
+			Boolean sort = (Boolean) get(OPTION_SORT_VARIABLES);
+			sortVariables = (sort!=null) ? sort.booleanValue() : true;
 		}
 
-	};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.Engine#getScriptEngine()
+	 */
+	@Override
+	public ScriptEngine getScriptEngine() {
+		return scriptEngine;
+	}
 
 }

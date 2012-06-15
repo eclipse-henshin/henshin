@@ -16,56 +16,63 @@ import java.util.ArrayList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * {@link ContainmentConstraint} checks
+ * Binary interface for containment constraints. 
  * 
  * @author Gregor Bonifer
- * 
  */
 public class ContainmentConstraint implements BinaryConstraint {
-		
-	private Variable target;
 	
+	// Target variable:
+	final Variable targetVariable;
+	
+	/**
+	 * Default constructor.
+	 * @param target Target variable.
+	 */
 	public ContainmentConstraint(Variable target) {	
-		this.target = target;
+		this.targetVariable = target;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.interpreter.matching.constraints.BinaryConstraint#check(org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot, org.eclipse.emf.henshin.interpreter.matching.constraints.DomainSlot)
+	 */
 	@Override
 	public boolean check(DomainSlot containedSlot, DomainSlot containerSlot) {
 		
-		// only locked slots may be valid.
-		//
-		if (!containedSlot.locked)
+		// Only locked slots may be valid.
+		if (!containedSlot.locked) {
 			return false;
+		}
 		
-		// containedSlot.value must be an element of the temporaryDomain
+		// The value of the contained slot must be an element of the temporaryDomain
 		// specified by the containment reference.
-		//
-		if (containerSlot.locked)
+		if (containerSlot.locked) {
 			return true;
+		}
 		
-		// the source value must have a container
-		//
+		// The source value must have a container.
 		EObject container = containedSlot.value.eContainer();
-		if (container == null)
+		if (container == null) {
 			return false;
+		}
 		
 		// Constraint is fulfilled if the containerSlot's temporaryDomain is
 		// unrestricted or contains the required container.
-		//
-		boolean result = containerSlot.temporaryDomain == null
+		boolean result = (containerSlot.temporaryDomain == null)
 				|| containerSlot.temporaryDomain.contains(container);
 		
+		// Create a domain change:
 		if (result) {
 			DomainChange change = new DomainChange(containerSlot, containerSlot.temporaryDomain);
 			containedSlot.remoteChangeMap.put(this, change);
 			containerSlot.temporaryDomain = new ArrayList<EObject>(1);
 			containerSlot.temporaryDomain.add(container);
 		}
-		return result;
-		// }
-	}
 		
-	public Variable getTargetVariable() {
-		return target;
+		// Done.
+		return result;
+		
 	}
+	
 }

@@ -11,15 +11,16 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.matching.constraints;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
 public class DomainChange {
-	DomainSlot slot;
-	Collection<EObject> originalValues;
 	
-	public DomainChange(DomainSlot slot, Collection<EObject> originalValues) {
+	DomainSlot slot;
+	List<EObject> originalValues;
+	
+	public DomainChange(DomainSlot slot, List<EObject> originalValues) {
 		this.slot = slot;
 		this.originalValues = originalValues;
 	}

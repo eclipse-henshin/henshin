@@ -20,15 +20,13 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.LoopUnit;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.LoopUnit} object. <!-- begin-user-doc
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.LoopUnit} object.
+ * <!-- begin-user-doc
  * --> <!-- end-user-doc -->
- * 
  * @generated
  */
 public class LoopUnitItemProvider extends TransformationUnitItemProvider
@@ -68,15 +66,19 @@ public class LoopUnitItemProvider extends TransformationUnitItemProvider
 	 * @generated
 	 */
 	protected void addSubUnitPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_LoopUnit_subUnit_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_LoopUnit_subUnit_feature", "_UI_LoopUnit_type"),
-				HenshinPackage.Literals.LOOP_UNIT__SUB_UNIT, true, false, true,
-				null, null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_LoopUnit_subUnit_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_LoopUnit_subUnit_feature", "_UI_LoopUnit_type"),
+				 HenshinPackage.Literals.LOOP_UNIT__SUB_UNIT,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
 	}
 
 	/**
@@ -91,35 +93,29 @@ public class LoopUnitItemProvider extends TransformationUnitItemProvider
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((LoopUnit) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_LoopUnit_type")
-				: getString("_UI_LoopUnit_type") + " " + label;
+		String label = ((LoopUnit)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_LoopUnit_type") :
+			getString("_UI_LoopUnit_type") + " " + label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		switch (notification.getFeatureID(LoopUnit.class)) {
-		case HenshinPackage.LOOP_UNIT__SUB_UNIT:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
-		}
 		super.notifyChanged(notification);
 	}
 

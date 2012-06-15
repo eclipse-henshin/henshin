@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -124,6 +125,8 @@ public class UnitCreateCommand extends EditElementCommand {
 				((ConditionalUnit) unit).setElse(elseUnit);
 			} else if (unit instanceof LoopUnit) {
 				((LoopUnit) unit).setSubUnit(targets.get(0));
+			} else if (unit instanceof IteratedUnit) {
+				((IteratedUnit) unit).setSubUnit(targets.get(0));
 			}
 		}
 
@@ -151,6 +154,7 @@ public class UnitCreateCommand extends EditElementCommand {
 		List<EClass> unitTypes = new ArrayList<EClass>();
 		unitTypes.add(HenshinPackage.eINSTANCE.getConditionalUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getIndependentUnit());
+		unitTypes.add(HenshinPackage.eINSTANCE.getIteratedUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getLoopUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getPriorityUnit());
 		unitTypes.add(HenshinPackage.eINSTANCE.getSequentialUnit());

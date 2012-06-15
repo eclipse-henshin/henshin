@@ -221,6 +221,15 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.ITERATED_UNIT: {
+				IteratedUnit iteratedUnit = (IteratedUnit)theEObject;
+				T result = caseIteratedUnit(iteratedUnit);
+				if (result == null) result = caseTransformationUnit(iteratedUnit);
+				if (result == null) result = caseDescribedElement(iteratedUnit);
+				if (result == null) result = caseNamedElement(iteratedUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.LOOP_UNIT: {
 				LoopUnit loopUnit = (LoopUnit)theEObject;
 				T result = caseLoopUnit(loopUnit);
@@ -551,6 +560,21 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T casePriorityUnit(PriorityUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Iterated Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Iterated Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIteratedUnit(IteratedUnit object) {
 		return null;
 	}
 

@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NamedElement;
@@ -177,6 +178,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass priorityUnitEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iteratedUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -890,6 +898,33 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIteratedUnit() {
+		return iteratedUnitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIteratedUnit_SubUnit() {
+		return (EReference)iteratedUnitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIteratedUnit_Iterations() {
+		return (EAttribute)iteratedUnitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLoopUnit() {
 		return loopUnitEClass;
 	}
@@ -1155,6 +1190,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		priorityUnitEClass = createEClass(PRIORITY_UNIT);
 		createEReference(priorityUnitEClass, PRIORITY_UNIT__SUB_UNITS);
 
+		iteratedUnitEClass = createEClass(ITERATED_UNIT);
+		createEReference(iteratedUnitEClass, ITERATED_UNIT__SUB_UNIT);
+		createEAttribute(iteratedUnitEClass, ITERATED_UNIT__ITERATIONS);
+
 		loopUnitEClass = createEClass(LOOP_UNIT);
 		createEReference(loopUnitEClass, LOOP_UNIT__SUB_UNIT);
 
@@ -1229,6 +1268,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		sequentialUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		conditionalUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		priorityUnitEClass.getESuperTypes().add(this.getTransformationUnit());
+		iteratedUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		loopUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		nestedConditionEClass.getESuperTypes().add(this.getFormula());
 		unaryFormulaEClass.getESuperTypes().add(this.getFormula());
@@ -1409,6 +1449,10 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(priorityUnitEClass, PriorityUnit.class, "PriorityUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPriorityUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, PriorityUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iteratedUnitEClass, IteratedUnit.class, "IteratedUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIteratedUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, IteratedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIteratedUnit_Iterations(), ecorePackage.getEString(), "iterations", null, 0, 1, IteratedUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(loopUnitEClass, LoopUnit.class, "LoopUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLoopUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 1, 1, LoopUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

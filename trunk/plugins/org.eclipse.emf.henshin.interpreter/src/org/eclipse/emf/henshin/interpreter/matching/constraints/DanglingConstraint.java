@@ -24,79 +24,93 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 /**
  * This constraint checks whether the value of an EReference contains objects
  * from the target domain.
+ * 
+ * @authot Enrico Biermann, Christian Krause
  */
 public class DanglingConstraint implements Constraint {
-	
-	private Map<EReference, Integer> outgoingEdgeCount;
-	private Map<EReference, Integer> incomingEdgeCount;
-	
-	public DanglingConstraint(Map<EReference, Integer> outgoingEdgeCount,
+
+	// Outgoing edge count:
+	private final Map<EReference, Integer> outgoingEdgeCount;
+
+	// Incoming edge count:
+	private final Map<EReference, Integer> incomingEdgeCount;
+
+	/**
+	 * Default constructor.
+	 * @param outgoingEdgeCount Outgoing edge count.
+	 * @param incomingEdgeCount Incoming edge count.
+	 */
+	public DanglingConstraint(
+			Map<EReference, Integer> outgoingEdgeCount,
 			Map<EReference, Integer> incomingEdgeCount) {
 		this.outgoingEdgeCount = outgoingEdgeCount;
 		this.incomingEdgeCount = incomingEdgeCount;
 	}
-	
-		
+
+	/*
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean check(EObject sourceValue, EGraph graph) {
 		
-		 Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
-		 
-		 Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
-		 
-		 Integer expectedCount;
-		 
-		 if (incomingEdgeCount != null) {
-			 for (EReference ref: actualIncomingEdges.keySet()) {
-					
-					if (incomingEdgeCount.containsKey(ref)) {
-						expectedCount = incomingEdgeCount.get(ref);
-					} else {
-						expectedCount = 0;
-					}
-				 
-				 if (actualIncomingEdges.get(ref) > expectedCount) {
-					 return false;
-				 }
-			 }
-		 } else {
-			 if (!actualIncomingEdges.isEmpty())
-				 return false;
-		 }
-		 
-		
-		// outgoing references
+		// Compute the actual number of incoming edges:
+		Collection<Setting> settings = graph.getCrossReferenceAdapter().getInverseReferences(sourceValue);
+		Map<EReference, Integer> actualIncomingEdges = createMapFromSettings(settings);
+		Integer expectedCount;
+
+		if (incomingEdgeCount != null) {
+			for (EReference ref: actualIncomingEdges.keySet()) {
+				if (incomingEdgeCount.containsKey(ref)) {
+					expectedCount = incomingEdgeCount.get(ref);
+				} else {
+					expectedCount = 0;
+				}
+				if (actualIncomingEdges.get(ref) > expectedCount) {
+					return false;
+				}
+			}
+		} else {
+			if (!actualIncomingEdges.isEmpty()) {
+				return false;
+			}
+		}
+
+		// Outgoing references
 		for (EReference type : sourceValue.eClass().getEReferences()) {
 			if (!type.isDerived()) {
-
 				if (outgoingEdgeCount != null && outgoingEdgeCount.containsKey(type)) {
 					expectedCount = outgoingEdgeCount.get(type);
 				} else {
 					expectedCount = 0;
 				}
-				
 				if (type.isMany()) {
 					List<Object> outgoingEdges = (List<Object>) sourceValue.eGet(type);
-					
-					// TODO: test how slow this is
 					outgoingEdges.retainAll(graph);
-					
-					if (expectedCount != null)
-						if (expectedCount != outgoingEdges.size())
+					if (expectedCount!=null) {
+						if (expectedCount!=outgoingEdges.size()) {
 							return false;
+						}
+					}
 				} else {
-					if (sourceValue.eGet(type) != null && expectedCount != 1
-							&& graph.contains(sourceValue.eGet(type)))
+					if (sourceValue.eGet(type)!=null 
+							&& expectedCount!=1
+							&& graph.contains(sourceValue.eGet(type))) {
 						return false;
+					}
 				}
 			}
-		}		
+		}
+		
+		// Ok.
 		return true;
+		
 	}
-	
+
+	/*
+	 * Count edges.
+	 */
 	private Map<EReference, Integer> createMapFromSettings(Collection<Setting> settings) {
 		Map<EReference, Integer> result = new HashMap<EReference, Integer>();
-		
 		for (Setting setting: settings) {
 			Integer count = result.get(setting.getEStructuralFeature());
 			if (count == null) {
@@ -106,8 +120,7 @@ public class DanglingConstraint implements Constraint {
 				count++;
 			}
 		}
-		
 		return result;
 	}
-		
+
 }

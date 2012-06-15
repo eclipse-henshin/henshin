@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.IndependentUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
@@ -134,6 +135,10 @@ public class InvocationCreateCommand extends EditElementCommand {
 		} else if (owner instanceof LoopUnit) {
 			if (((LoopUnit) owner).getSubUnit() == null) {
 				((LoopUnit) owner).setSubUnit(target);
+			}
+		} else if (owner instanceof IteratedUnit) {
+			if (((IteratedUnit) owner).getSubUnit() == null) {
+				((IteratedUnit) owner).setSubUnit(target);
 			}
 		}
 

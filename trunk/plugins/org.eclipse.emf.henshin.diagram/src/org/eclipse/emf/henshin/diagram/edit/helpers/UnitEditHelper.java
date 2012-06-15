@@ -19,6 +19,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -34,7 +35,7 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	 */
 	public static enum InvocationViewKey {
 
-		IF(0), THEN(1), ELSE(2), LOOP(0);
+		IF(0), THEN(1), ELSE(2), LOOP(0), ITERATE(0);
 
 		private int index;
 
@@ -90,6 +91,8 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 			subUnits.add(((ConditionalUnit) unit).getElse());
 		} else if (unit instanceof LoopUnit) {
 			subUnits.add(((LoopUnit) unit).getSubUnit());
+		} else if (unit instanceof IteratedUnit) {
+			subUnits.add(((IteratedUnit) unit).getSubUnit());
 		} else {
 			subUnits.addAll(unit.getSubUnits(false));
 		}
