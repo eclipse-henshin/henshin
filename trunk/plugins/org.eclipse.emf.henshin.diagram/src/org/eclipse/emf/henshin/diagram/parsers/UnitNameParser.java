@@ -185,6 +185,7 @@ public class UnitNameParser extends AbstractParser {
 			}
 		}
 		
+		value = value.trim();
 		final Matcher matcher = UNIT_NAME_PATTERN.matcher(value);
 		
 		if (!matcher.matches()) // check for valid type and parameters
@@ -288,6 +289,7 @@ public class UnitNameParser extends AbstractParser {
 	protected boolean isAffectingFeature(Object feature) {
 		if (feature == HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
 		if (feature == HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()) return true;
+		if (feature == HenshinPackage.eINSTANCE.getIteratedUnit_Iterations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEAnnotation_References()) return true;
 		return false;

@@ -1,6 +1,6 @@
 package org.eclipse.emf.henshin.tests.exampleTests;
 
-import org.eclipse.emf.henshin.examples.combpattern.CombBenchmarkManyMatches;
+import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
@@ -43,7 +43,7 @@ public class ExampleTests {
 	@Test
 	public void testCombPattern() {
 		System.out.println();
-		CombBenchmarkManyMatches.runDefault(EXAMPLES_PATH + CombBenchmarkManyMatches.PATH);
+		CombBenchmark.run(EXAMPLES_PATH + CombBenchmark.PATH);
 	}
 
 	/**
