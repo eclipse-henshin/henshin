@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,8 +16,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -25,7 +28,11 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class CreateDynamicInstance implements IObjectActionDelegate {
 	
+	// Ecore file:
 	private IFile file;
+	
+	// Shell:
+	private Shell shell;
 	
 	@Override
 	public void run(IAction action) {
@@ -39,8 +46,21 @@ public class CreateDynamicInstance implements IObjectActionDelegate {
 		EPackage epackage = (EPackage) modelResource.getContents().get(0);
 		
 		// Choose class and create an instance:
-		EClass eclass = (EClass) epackage.getEClassifiers().get(0);
-		EObject instance = EcoreUtil.create(eclass);
+		EObject instance = null;
+		for (EClassifier eclassifier : epackage.getEClassifiers()) {
+			if (eclassifier instanceof EClass) {
+				EClass eclass = (EClass) eclassifier;
+				if (!eclass.isAbstract() && !eclass.isInterface()) {
+					instance = EcoreUtil.create(eclass);
+				}
+			}
+		}
+		
+		// No valid EClass found?
+		if (instance==null) {
+			MessageDialog.openError(shell, "Error", "No instantiable EClass found.");
+			return;
+		}
 		
 		// Save and refresh folder:
 		try {
@@ -58,6 +78,10 @@ public class CreateDynamicInstance implements IObjectActionDelegate {
 		
 	}
 		
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 */
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		file = null;
@@ -68,8 +92,13 @@ public class CreateDynamicInstance implements IObjectActionDelegate {
 		action.setEnabled(file != null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction, org.eclipse.ui.IWorkbenchPart)
+	 */
 	@Override
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+		shell = targetPart.getSite().getShell();
 	}
 	
 }

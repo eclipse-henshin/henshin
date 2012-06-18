@@ -14,6 +14,13 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
+/**
+ * Comb pattern example for Henshin. This class implements several benchmarks and consistency checks
+ * for constructing grid structures and matching comb patterns. This class contains no transformation
+ * logic. All transformation logic is specified in the Henshin transformation.
+ * 
+ * @author Christian Krause
+ */
 public class CombBenchmark {
 
 	/**
@@ -127,13 +134,21 @@ public class CombBenchmark {
 		time = System.currentTimeMillis() - time;
 
 		// Check whether the number of matches is correct:
-		int expectedMatches = sparse ? 0 : (gridWidth-patternWidth+1) * (gridWidth-1);
+		int expectedMatches = expectedCombMatchCount(gridWidth, gridHeight, sparse, patternWidth);
 		if (expectedMatches!=foundMatches) {
 			throw new AssertionError("Expected " + expectedMatches + " for the comb pattern, but found " + foundMatches);
 		}
 		return time;
 
 	}
+
+	/**
+	 * Compute the expected number of matches for the comb pattern.
+	 */
+	public static int expectedCombMatchCount(int gridWidth, int gridHeight, boolean sparse, int patternWidth) {
+		return sparse ? 0 : (gridWidth-patternWidth+1) * (gridWidth-1);
+	}
+
 	
 	/**
 	 * Run the complete benchmark.
@@ -148,32 +163,47 @@ public class CombBenchmark {
 		benchmark.engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
 		EGraph grid = new EGraphImpl();
 		
+		int maxFullLen = 60;
+		int maxSparseLen = 100;
+		
 		// Benchmark for full grid:
 		System.out.println("Benchmark for generating sparse grid...");
-		System.out.println("Nodes\tTime");
-		for (int i=10; i<=100; i+=10) {
-			System.out.println((i*i) + "\t" + benchmark.buildGrid(grid, i, i, true));
+		System.out.println("Length\tNodes\tTime");
+		for (int i=10; i<=maxSparseLen; i+=10) {
+			System.out.println(i + "\t" + (i*i) + "\t" + benchmark.buildGrid(grid, i, i, true));
 			grid.clear();
 		}
 		
 		// Benchmark for generating sparse grid:
 		System.out.println("\nBenchmark for generating full grid...");
-		System.out.println("Nodes\tTime");
-		for (int i=10; i<=60; i+=10) {
-			System.out.println((i*i) + "\t" + benchmark.buildGrid(grid, i, i, false));
+		System.out.println("Length\tNodes\tTime");
+		for (int i=10; i<=maxFullLen; i+=10) {
+			System.out.println(i + "\t" + (i*i) + "\t" + benchmark.buildGrid(grid, i, i, false));
 			grid.clear();
 		}
 		
-		// Benchmark for matching comb pattern:
-/*		System.out.println("\nBenchmark for matching comb pattern...");
-		System.out.println("Nodes\tTime");
-		for (int i=10; i<=60; i+=10) {
-			System.out.println((i*i) + "\t" + benchmark.buildGrid(grid, i, i, false));
-			grid.clear();
+		// Benchmark for matching comb pattern in the full grid:
+		System.out.println("\nBenchmark for matching comb pattern in full grid...");
+		System.out.println("GridLen\tPatLen\tMatches\tTime");
+		benchmark.buildGrid(grid, maxFullLen, maxFullLen, false);
+		for (int j=10; j<=maxFullLen; j+=10) {
+			Rule pattern = benchmark.buildCombPattern(j);
+			System.out.println(maxFullLen + "\t" + j + 
+					"\t" + expectedCombMatchCount(maxFullLen, maxFullLen, false, j) + 
+					"\t" + benchmark.matchCombPattern(grid, maxFullLen, maxFullLen, false, j, pattern));
 		}
-*/		
-		// Build the comb pattern:
-		//Rule rule = benchmark.buildCombPattern(10);
+		grid.clear();
+
+		// Benchmark for matching comb pattern in the sparse grid (no matches):
+		System.out.println("\nBenchmark for matching comb pattern in sparse grid (no matches)...");
+		System.out.println("GridLen\tPatLen\tTime");
+		benchmark.buildGrid(grid, maxSparseLen, maxSparseLen, true);
+		for (int j=10; j<=maxSparseLen; j+=10) {
+			Rule pattern = benchmark.buildCombPattern(j);
+			System.out.println(maxSparseLen + "\t" + j + 
+					"\t" + benchmark.matchCombPattern(grid, maxSparseLen, maxSparseLen, true, j, pattern));
+		}
+		grid.clear();
 
 	}
 		

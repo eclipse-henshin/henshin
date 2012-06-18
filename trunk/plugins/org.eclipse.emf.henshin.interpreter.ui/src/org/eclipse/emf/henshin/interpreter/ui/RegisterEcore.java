@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * @author Stefan Jurack (sjurack)
  */
+@Deprecated
 public class RegisterEcore implements IObjectActionDelegate {
 	
 	private final List<IFile> list = new ArrayList<IFile>();

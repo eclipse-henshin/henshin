@@ -289,7 +289,7 @@
   <rules xmi:id="_SzUUgLfhEeGgKfdtjnLQtA" name="combPattern">
     <lhs xmi:id="_SzUUgbfhEeGgKfdtjnLQtA" name="LHS">
       <nodes xmi:id="_zmvHQLfhEeGgKfdtjnLQtA" name="last" outgoing="_2fmKwLfhEeGgKfdtjnLQtA">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
+        <type href="grid.ecore#//Node"/>
       </nodes>
       <nodes xmi:id="_0sDJgLfhEeGgKfdtjnLQtA" incoming="_2fmKwLfhEeGgKfdtjnLQtA">
         <type href="grid.ecore#//Node"/>
@@ -300,7 +300,7 @@
     </lhs>
     <rhs xmi:id="_SzUUgrfhEeGgKfdtjnLQtA" name="RHS">
       <nodes xmi:id="_zmvuULfhEeGgKfdtjnLQtA" name="last" outgoing="_2fonALfhEeGgKfdtjnLQtA">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
+        <type href="grid.ecore#//Node"/>
       </nodes>
       <nodes xmi:id="_0sDwkLfhEeGgKfdtjnLQtA" incoming="_2fonALfhEeGgKfdtjnLQtA">
         <type href="grid.ecore#//Node"/>
