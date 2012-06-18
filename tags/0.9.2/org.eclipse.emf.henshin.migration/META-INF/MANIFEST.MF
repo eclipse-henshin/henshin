@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Henshin Migration Wizard
+Bundle-SymbolicName: org.eclipse.emf.henshin.migration;singleton:=true
+Bundle-Version: 0.9.2.qualifier
+Export-Package: .,
+ org.eclipse.emf.henshin.migration,
+ org.eclipse.emf.henshin.migration.wizard
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.ui;bundle-version="3.6.0",
+ org.eclipse.ui.ide;bundle-version="3.6.0",
+ org.eclipse.emf.common;bundle-version="2.6.0",
+ org.eclipse.emf.common.ui;bundle-version="2.6.0",
+ org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
+ org.eclipse.emf.henshin.model;bundle-version="0.9.0",
+ org.eclipse.emf.henshin.testframework;bundle-version="0.9.0",
+ org.eclipse.gmf.runtime.notation;bundle-version="1.4.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse Modeling

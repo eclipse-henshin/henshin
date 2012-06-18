@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="henshin"
+    nsURI="http://www.eclipse.org/emf/2010/Henshin" nsPrefix="henshin">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ValidName" value="not self.name.oclIsUndefined() implies self.name&lt;>''"/>
+      <details key="ValidName.Msg" value="_Ocl_Msg_NamedElement_ValidName"/>
+      <details key="ValidName.Severity" value="Warning"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DescribedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="uniqueUnitNames noCyclicUnits parameterNamesNotTypeName"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="uniqueUnitNames" value="transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 &lt;> unit2 implies unit1.name &lt;> unit2.name)"/>
+      <details key="uniqueUnitNames.Msg" value="_Ocl_Msg_TransformationSystem_uniqueUnitNames"/>
+    </eAnnotations>
+    <eOperations name="findUnitByName" eType="#//TransformationUnit">
+      <eParameters name="unitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="findRuleByName" eType="#//Rule">
+      <eParameters name="ruleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true" eOpposite="#//Rule/transformationSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instances" upperBound="-1"
+        eType="#//Graph" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationUnits" upperBound="-1"
+        eType="#//TransformationUnit" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="lhsAndRhsNotNull mappingsFromLeft2Right createdNodesNotAbstract createdEdgesNotDerived deletedEdgesNotDerived"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="lhsAndRhsNotNull" value="not lhs->isEmpty() and not rhs->isEmpty()"/>
+      <details key="lhsAndRhsNotNull.Msg" value="_Ocl_Msg_Rule_lhsAndRhsNotNull"/>
+      <details key="mappingsFromLeft2Right" value="mappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;rhs.nodes->includes(mapping.image)&#xD;&#xA;)"/>
+      <details key="mappingsFromLeft2Right.Msg" value="_Ocl_Msg_Rule_mappingsFromLeft2Right"/>
+    </eAnnotations>
+    <eOperations name="getNodeByName" eType="#//Node">
+      <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="containsMapping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="sourceNode" eType="#//Node"/>
+      <eParameters name="targetNode" eType="#//Node"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" lowerBound="1" eType="#//Graph"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" lowerBound="1" eType="#//Graph"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributeConditions" upperBound="-1"
+        eType="#//AttributeCondition" containment="true" eOpposite="#//AttributeCondition/rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transformationSystem" eType="#//TransformationSystem"
+        eOpposite="#//TransformationSystem/rules"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
+        eOpposite="#//Rule/attributeConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//DescribedElement #//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="nameRequired"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="nameRequired" value="not name.oclIsUndefined() and name.size() > 0"/>
+      <details key="nameRequired.Msg" value="_Ocl_Msg_Parameter_nameRequired"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" lowerBound="1" eType="#//TransformationUnit"
+        eOpposite="#//TransformationUnit/parameters"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="uniqueNodeNames"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="uniqueNodeNames" value="nodes->forAll( node1, node2 : Node | (node1 &lt;> node2 and not node1.name.oclIsUndefined() ) implies node1.name &lt;> node2.name)"/>
+      <details key="uniqueNodeNames.Msg" value="_Ocl_Msg_Graph_uniqueNodeNames"/>
+    </eAnnotations>
+    <eOperations name="removeEdge">
+      <eParameters name="edge" lowerBound="1" eType="#//Edge"/>
+    </eOperations>
+    <eOperations name="removeNode">
+      <eParameters name="node" eType="#//Node"/>
+    </eOperations>
+    <eOperations name="getContainerRule" eType="#//Rule"/>
+    <eOperations name="findNodesByType" ordered="false" upperBound="-1" eType="#//Node">
+      <eParameters name="nodeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eOperations>
+    <eOperations name="findEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node" containment="true" eOpposite="#//Node/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//Edge" containment="true" eOpposite="#//Edge/graph"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="formula" eType="#//Formula"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GraphElement" abstract="true" interface="true">
+    <eOperations name="getGraph" eType="#//Graph"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ruleMapping_TypeEquality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ruleMapping_TypeEquality" value="Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"/>
+      <details key="ruleMapping_TypeEquality.Msg" value="_Ocl_Msg_Mapping_ruleMapping_TypeEquality"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//NamedElement #//GraphElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="uniqueAttributeTypes"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="uniqueAttributeTypes" value="attributes->forAll(attr1,attr2 : Attribute| attr1&lt;>attr2 implies attr1.type &lt;> attr2.type)"/>
+      <details key="uniqueAttributeTypes.Msg" value="_Ocl_Msg_Node_uniqueAttributeTypes"/>
+    </eAnnotations>
+    <eOperations name="findOutgoingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eOperations name="findIncomingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eOperations name="findAttributeByType" eType="#//Attribute">
+      <eParameters name="attributeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    </eOperations>
+    <eOperations name="findOutgoingEdgeByType" eType="#//Edge">
+      <eParameters name="targetNode" lowerBound="1" eType="#//Node"/>
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eOperations name="findIncomingEdgeByType" eType="#//Edge">
+      <eParameters name="sourceNode" lowerBound="1" eType="#//Node"/>
+      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true" eOpposite="#//Attribute/node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
+        eOpposite="#//Graph/nodes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
+        eType="#//Edge" eOpposite="#//Edge/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
+        eType="#//Edge" eOpposite="#//Edge/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="allEdges" ordered="false"
+        upperBound="-1" eType="#//Edge" changeable="false" volatile="true" transient="true"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//Node"
+        eOpposite="#//Node/attributes"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="equalParentGraphs"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="equalParentGraphs" value="source.graph=target.graph"/>
+      <details key="equalParentGraphs.Msg" value="_Ocl_Msg_Edge_equalParentGraphs"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Node" eOpposite="#//Node/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Node" eOpposite="#//Node/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
+        eOpposite="#//Graph/edges"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
+      eSuperTypes="#//DescribedElement #//NamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="uniqueParameterNames parameterMappingsPointToDirectSubUnit"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="uniqueParameterNames" value="parameters->forAll( param1, param2 : Parameter | param1 &lt;> param2 implies param1.name &lt;> param2.name)"/>
+      <details key="uniqueParameterNames.Msg" value="_Ocl_Msg_TransformationUnit_uniqueParameterNames"/>
+    </eAnnotations>
+    <eOperations name="getSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit">
+      <eParameters name="deep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+    <eOperations name="getParameterByName" eType="#//Parameter">
+      <eParameters name="parametername" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true" eOpposite="#//Parameter/unit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameterMappings" upperBound="-1"
+        eType="#//ParameterMapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SequentialUnit" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="strict" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rollback" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConditionalUnit" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="if" lowerBound="1" eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" lowerBound="1" eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//TransformationUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PriorityUnit" eSuperTypes="#//TransformationUnit">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
+        upperBound="-1" eType="#//TransformationUnit"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AmalgamationUnit" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="kernelLhsNodesMapped &#xD;&#xA;kernelRhsNodesMapped &#xD;&#xA;kernelLhsEdgesMapped &#xD;&#xA;kernelRhsEdgesMapped&#xD;&#xA;lhsMappingsFromKernelToMulti&#xD;&#xA;rhsMappingsFromKernelToMulti&#xD;&#xA;noAdditionalMappingsFromMappedKernel"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="kernelLhsNodesMapped" value="kernelRule.lhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKL : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule &#xD;&#xA;&#x9;&#x9;| lhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;lhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| lhsMapping.origin = nodeKL &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.lhs.nodes->includes(lhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelLhsNodesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelLhsNodesMapped"/>
+      <details key="kernelRhsNodesMapped" value="kernelRule.rhs.nodes->forAll(&#xD;&#xA;&#x9;nodeKR : Node&#x9;&#xD;&#xA;&#x9;| multiRules->forAll( &#xD;&#xA;&#x9;&#x9;ruleM : Rule  &#xD;&#xA;&#x9;&#x9;| rhsMappings->one(&#xD;&#xA;&#x9;&#x9;&#x9;rhsMapping: Mapping &#xD;&#xA;&#x9;&#x9;&#x9;| rhsMapping.origin = nodeKR &#xD;&#xA;&#x9;&#x9;&#x9;and ruleM.rhs.nodes->includes(rhsMapping.image)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelRhsNodesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelRhsNodesMapped"/>
+      <details key="kernelLhsEdgesMapped" value="kernelRule.lhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.lhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelLhsEdgesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelLhsEdgesMapped"/>
+      <details key="kernelRhsEdgesMapped" value="kernelRule.rhs.edges->forAll( kernelEdge : Edge | &#xD;&#xA;&#x9;multiRules->forAll( multiRule : Rule| &#xD;&#xA;&#x9;&#x9;multiRule.rhs.edges->exists( multiEdge : Edge | &#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;multiEdge.type = kernelEdge.type &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( sourceMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.origin = kernelEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;sourceMapping.image = multiEdge.source &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;) &#xD;&#xA;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists( targetMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.origin = kernelEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;and &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;targetMapping.image = multiEdge.target &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)"/>
+      <details key="kernelRhsEdgesMapped.Msg" value="_Ocl_Msg_AmalgamationUnit_kernelRhsEdgesMapped"/>
+      <details key="lhsMappingsFromKernelToMulti" value="lhsMappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;kernelRule.lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;multiRules->exists(mRule : Rule |&#xD;&#xA;&#x9;&#x9;mRule.lhs.nodes->includes(mapping.image)&#xD;&#xA;&#x9; )&#xD;&#xA;&#x9;&#xD;&#xA;)"/>
+      <details key="lhsMappingsFromKernelToMulti.Msg" value="_Ocl_Msg_AmalgamationUnit_lhsMappingsFromKernelToMulti"/>
+      <details key="rhsMappingsFromKernelToMulti" value="rhsMappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;kernelRule.rhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;multiRules->exists(mRule : Rule |&#xD;&#xA;&#x9;&#x9;mRule.rhs.nodes->includes(mapping.image)&#xD;&#xA;&#x9; )&#xD;&#xA;&#x9;&#xD;&#xA;)"/>
+      <details key="rhsMappingsFromKernelToMulti.Msg" value="_Ocl_Msg_AmalgamationUnit_rhsMappingsFromKernelToMulti"/>
+      <details key="noAdditionalMappingsFromMappedKernel" value="multiRules->forAll( mRule : Rule | &#xD;&#xA;&#x9;mRule.mappings->forAll(mMapping : Mapping | &#xD;&#xA;&#x9;&#x9;lhsMappings->forAll(lMapping : Mapping| &#xD;&#xA;&#x9;&#x9;&#x9;mMapping.origin = lMapping.image &#xD;&#xA;&#x9;&#x9;&#x9;implies&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;rhsMappings->exists(rMapping :Mapping |&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;rMapping.image = mMapping.image&#xD;&#xA; &#x9;&#x9;&#x9;&#x9;and&#x9;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;kernelRule.mappings->exists(kMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.origin = lMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.image = rMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;rhsMappings->forAll(rMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;mMapping.image = rMapping.image &#xD;&#xA;&#x9;&#x9;&#x9;implies&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;lhsMappings->exists(lMapping :Mapping |&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;lMapping.image = mMapping.origin&#xD;&#xA; &#x9;&#x9;&#x9;&#x9;and&#x9;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;kernelRule.mappings->exists(kMapping : Mapping | &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.origin = lMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;kMapping.image = rMapping.origin&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;&#x9;)&#xD;&#xA;&#x9;)&#xD;&#xA;)"/>
+      <details key="noAdditionalMappingsFromMappedKernel.Msg" value="_Ocl_Msg_AmalgamationUnit_noAdditionalMappingsFromMappedKernel"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kernelRule" lowerBound="1"
+        eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiRules" lowerBound="1"
+        upperBound="-1" eType="#//Rule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhsMappings" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhsMappings" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CountedUnit" eSuperTypes="#//TransformationUnit">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidCountRange"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ValidCountRange" value="count=-1 or count>0"/>
+      <details key="ValidCountRange.Msg" value="_Ocl_Msg_CountedUnit_ValidCountRange"/>
+      <details key="ValidCountRange.Severity" value="Error"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
+        eType="#//TransformationUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NestedCondition" eSuperTypes="#//Formula">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="mappingOriginContainedInParentCondition mappingImageContainedInCurrent"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conclusion" lowerBound="1"
+        eType="#//Graph" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true">
+    <eOperations name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="recursive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" abstract="true" eSuperTypes="#//Formula">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//Formula"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryFormula" abstract="true" eSuperTypes="#//Formula">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Formula"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Formula"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//BinaryFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinaryFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//BinaryFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Parameter"/>
+  </eClassifiers>
+</ecore:EPackage>
