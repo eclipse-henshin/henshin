@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" name="paramTest">
+  <rules name="parameterAttribute">
+    <parameters name="param_Nodename"/>
+    <lhs name="LHS">
+      <nodes name="nd" incoming="//@rules.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="param_Nodename">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.0/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges source="//@rules.0/@lhs/@nodes.1" target="//@rules.0/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.0/@lhs/@nodes.1" image="//@rules.0/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="parameterObject">
+    <parameters name="param_nd"/>
+    <lhs name="LHS">
+      <nodes name="param_nd" incoming="//@rules.1/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.1/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges source="//@rules.1/@lhs/@nodes.1" target="//@rules.1/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.1/@lhs/@nodes.1" image="//@rules.1/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="parameterComposition2">
+    <parameters name="p1"/>
+    <parameters name="p2"/>
+    <parameters name="vl"/>
+    <lhs name="LHS">
+      <nodes name="vl" incoming="//@rules.2/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.2/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges source="//@rules.2/@lhs/@nodes.1" target="//@rules.2/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont" outgoing="//@rules.2/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="vl_" incoming="//@rules.2/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="p1 + p2">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/valname"/>
+        </attributes>
+      </nodes>
+      <edges source="//@rules.2/@rhs/@nodes.0" target="//@rules.2/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.2/@lhs/@nodes.1" image="//@rules.2/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.2/@lhs/@nodes.0" image="//@rules.2/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="parameterInOut">
+    <parameters name="param_node"/>
+    <parameters name="param_ndname"/>
+    <lhs name="LHS">
+      <nodes name="param_node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="param_ndname">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="param_node">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="param_ndname">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.3/@lhs/@nodes.0" image="//@rules.3/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="parameterOperations">
+    <parameters description="" name="nd"/>
+    <parameters name="param_string"/>
+    <parameters name="param_int"/>
+    <lhs name="LHS">
+      <nodes name="nd" incoming="//@rules.4/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.4/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges source="//@rules.4/@lhs/@nodes.1" target="//@rules.4/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd" incoming="//@rules.4/@rhs/@edges.0" outgoing="//@rules.4/@rhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.4/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="vl" incoming="//@rules.4/@rhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="param_string + param_string">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/valname"/>
+        </attributes>
+        <attributes value="param_int + param_int">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <edges source="//@rules.4/@rhs/@nodes.1" target="//@rules.4/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+      <edges source="//@rules.4/@rhs/@nodes.0" target="//@rules.4/@rhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.4/@lhs/@nodes.1" image="//@rules.4/@rhs/@nodes.1"/>
+    <mappings origin="//@rules.4/@lhs/@nodes.0" image="//@rules.4/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="parameterComposition1">
+    <parameters name="p1"/>
+    <parameters name="p2"/>
+    <parameters name="vl"/>
+    <lhs name="LHS">
+      <nodes name="vl" incoming="//@rules.5/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+      </nodes>
+      <nodes name="cont" outgoing="//@rules.5/@lhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <edges source="//@rules.5/@lhs/@nodes.1" target="//@rules.5/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont" outgoing="//@rules.5/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="vl_" incoming="//@rules.5/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="p1 + p2">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <edges source="//@rules.5/@rhs/@nodes.0" target="//@rules.5/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.5/@lhs/@nodes.1" image="//@rules.5/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.5/@lhs/@nodes.0" image="//@rules.5/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="attribCond1">
+    <parameters name="p3"/>
+    <lhs name="LHS">
+      <nodes name="cont" outgoing="//@rules.6/@lhs/@edges.0 //@rules.6/@lhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="nd" incoming="//@rules.6/@lhs/@edges.0" outgoing="//@rules.6/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="vl" incoming="//@rules.6/@lhs/@edges.1 //@rules.6/@lhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="p3">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <edges source="//@rules.6/@lhs/@nodes.0" target="//@rules.6/@lhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+      <edges source="//@rules.6/@lhs/@nodes.1" target="//@rules.6/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+      <edges source="//@rules.6/@lhs/@nodes.0" target="//@rules.6/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont" outgoing="//@rules.6/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="nd" incoming="//@rules.6/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges source="//@rules.6/@rhs/@nodes.0" target="//@rules.6/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </rhs>
+    <attributeConditions description="" name="p3_greater_than_20" conditionText="p3 > 20"/>
+    <mappings origin="//@rules.6/@lhs/@nodes.0" image="//@rules.6/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.6/@lhs/@nodes.1" image="//@rules.6/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="attribCond2">
+    <parameters name="p3"/>
+    <parameters name="p1"/>
+    <parameters name="p2"/>
+    <lhs name="LHS">
+      <nodes name="cont" outgoing="//@rules.7/@lhs/@edges.0 //@rules.7/@lhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="nd" incoming="//@rules.7/@lhs/@edges.0" outgoing="//@rules.7/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="vl" incoming="//@rules.7/@lhs/@edges.1 //@rules.7/@lhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="p3">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <edges source="//@rules.7/@lhs/@nodes.0" target="//@rules.7/@lhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+      <edges source="//@rules.7/@lhs/@nodes.1" target="//@rules.7/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/hasVals"/>
+      </edges>
+      <edges source="//@rules.7/@lhs/@nodes.0" target="//@rules.7/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsVal"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="cont" outgoing="//@rules.7/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont"/>
+      </nodes>
+      <nodes name="nd" incoming="//@rules.7/@rhs/@edges.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges source="//@rules.7/@rhs/@nodes.0" target="//@rules.7/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//cont/containsNode"/>
+      </edges>
+    </rhs>
+    <attributeConditions description="" name="p3 = p1+p2" conditionText="p3 == (p1 + p2)"/>
+    <mappings origin="//@rules.7/@lhs/@nodes.0" image="//@rules.7/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.7/@lhs/@nodes.1" image="//@rules.7/@rhs/@nodes.1"/>
+  </rules>
+  <rules description="empty rule with attribute conditions" name="emptyRuleWithAttribCond">
+    <parameters name="p1"/>
+    <parameters name="p2"/>
+    <parameters name="p3"/>
+    <lhs name="LHS"/>
+    <rhs name="RHS"/>
+    <attributeConditions name="p3 = p1+p2" conditionText="p3 == (p1 + p2)"/>
+  </rules>
+  <rules description="if the minimum of both values is even, set both values to the miniumum. else, fail" name="multipleAttributeConditions">
+    <parameters name="vl1_val"/>
+    <parameters name="vl2_val"/>
+    <lhs name="LHS">
+      <nodes name="vl1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="vl1_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <nodes name="vl2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="vl1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+      <nodes name="vl2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val"/>
+        <attributes value="vl2_val">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Val/intvl"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <attributeConditions name="vl1 greater than vl2" conditionText="vl1_val > vl2_val"/>
+    <attributeConditions name="vl2 is even" conditionText="(vl2_val % 2) == 0"/>
+    <mappings origin="//@rules.9/@lhs/@nodes.0" image="//@rules.9/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.9/@lhs/@nodes.1" image="//@rules.9/@rhs/@nodes.1"/>
+  </rules>
+  <rules name="parameterInNestedCondition1">
+    <parameters name="p1"/>
+    <lhs name="LHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+      <formula xsi:type="henshin:NestedCondition">
+        <conclusion>
+          <nodes name="nd1_">
+            <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+            <attributes value="p1">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+            </attributes>
+          </nodes>
+        </conclusion>
+        <mappings origin="//@rules.10/@lhs/@nodes.0" image="//@rules.10/@lhs/@formula/@conclusion/@nodes.0"/>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.10/@lhs/@nodes.0" image="//@rules.10/@rhs/@nodes.0"/>
+  </rules>
+  <rules name="parameterInNestedCondition2">
+    <parameters name="p1"/>
+    <lhs name="LHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <formula xsi:type="henshin:Not">
+        <child xsi:type="henshin:NestedCondition">
+          <conclusion>
+            <nodes name="nd1_">
+              <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+              <attributes value="p1">
+                <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+              </attributes>
+            </nodes>
+          </conclusion>
+          <mappings origin="//@rules.11/@lhs/@nodes.0" image="//@rules.11/@lhs/@formula/@child/@conclusion/@nodes.0"/>
+        </child>
+      </formula>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="nd1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+        <attributes value="p1">
+          <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/nodename"/>
+        </attributes>
+      </nodes>
+    </rhs>
+    <mappings origin="//@rules.11/@lhs/@nodes.0" image="//@rules.11/@rhs/@nodes.0"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+  <transformationUnits xsi:type="henshin:SequentialUnit" name="parameterUnit" subUnits="//@rules.3 //@rules.1">
+    <parameters name="tu_param_in"/>
+    <parameters name="p2"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.0" target="//@rules.3/@parameters.1"/>
+    <parameterMappings source="//@rules.3/@parameters.0" target="//@transformationUnits.0/@parameters.1"/>
+    <parameterMappings source="//@transformationUnits.0/@parameters.1" target="//@rules.1/@parameters.0"/>
+  </transformationUnits>
+</henshin:TransformationSystem>

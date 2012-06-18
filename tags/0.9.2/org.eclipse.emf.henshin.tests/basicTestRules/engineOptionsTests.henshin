@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin">
+  <rules name="non-injectiveMatching">
+    <parameters name="p_nd"/>
+    <lhs name="LHS">
+      <nodes name="p_nd" incoming="//@rules.0/@lhs/@edges.2 //@rules.0/@lhs/@edges.3" outgoing="//@rules.0/@lhs/@edges.0 //@rules.0/@lhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="ch_nd_1" incoming="//@rules.0/@lhs/@edges.0" outgoing="//@rules.0/@lhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="ch_nd_2" incoming="//@rules.0/@lhs/@edges.1" outgoing="//@rules.0/@lhs/@edges.3">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges source="//@rules.0/@lhs/@nodes.0" target="//@rules.0/@lhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.0" target="//@rules.0/@lhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.1" target="//@rules.0/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+      <edges source="//@rules.0/@lhs/@nodes.2" target="//@rules.0/@lhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+    </lhs>
+    <rhs name="RHS">
+      <nodes name="p_nd" incoming="//@rules.0/@rhs/@edges.2 //@rules.0/@rhs/@edges.3" outgoing="//@rules.0/@rhs/@edges.0 //@rules.0/@rhs/@edges.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="ch_nd_1" incoming="//@rules.0/@rhs/@edges.0" outgoing="//@rules.0/@rhs/@edges.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <nodes name="ch_nd_2" incoming="//@rules.0/@rhs/@edges.1" outgoing="//@rules.0/@rhs/@edges.3">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node"/>
+      </nodes>
+      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.1">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.0" target="//@rules.0/@rhs/@nodes.2">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/childNodes"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.1" target="//@rules.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+      <edges source="//@rules.0/@rhs/@nodes.2" target="//@rules.0/@rhs/@nodes.0">
+        <type href="http://www.eclipse.org/emf/2010/Henshin/Tests#//Node/parentNode"/>
+      </edges>
+    </rhs>
+    <mappings origin="//@rules.0/@lhs/@nodes.1" image="//@rules.0/@rhs/@nodes.1"/>
+    <mappings origin="//@rules.0/@lhs/@nodes.0" image="//@rules.0/@rhs/@nodes.0"/>
+    <mappings origin="//@rules.0/@lhs/@nodes.2" image="//@rules.0/@rhs/@nodes.2"/>
+  </rules>
+  <imports href="http://www.eclipse.org/emf/2010/Henshin/Tests#/"/>
+</henshin:TransformationSystem>
