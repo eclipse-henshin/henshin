@@ -237,7 +237,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="comb.henshin#_1Ge5gKo9EeGWmNM0TiX1dQ"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_a4QqZapDEeGWmNM0TiX1dQ" x="38" y="277" width="749" height="785"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_a4QqZapDEeGWmNM0TiX1dQ" x="370" y="31" width="749" height="785"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_SzodkLfhEeGgKfdtjnLQtA" type="2001" fontName="Ubuntu" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_SzprsLfhEeGgKfdtjnLQtA" type="5001"/>
@@ -250,7 +250,7 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_znFsk7fhEeGgKfdtjnLQtA"/>
         </children>
         <element xmi:type="henshin:Node" href="comb.henshin#_zmvHQLfhEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_znEecbfhEeGgKfdtjnLQtA" x="43" y="16"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_znEecbfhEeGgKfdtjnLQtA" x="99" y="15"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_0sZu0LfhEeGgKfdtjnLQtA" type="3001" fontName="Ubuntu">
         <children xmi:type="notation:DecorationNode" xmi:id="_0saV4LfhEeGgKfdtjnLQtA" type="5002"/>
@@ -260,11 +260,11 @@
           <styles xmi:type="notation:FilteringStyle" xmi:id="_0sa88rfhEeGgKfdtjnLQtA"/>
         </children>
         <element xmi:type="henshin:Node" href="comb.henshin#_0sDJgLfhEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0sZu0bfhEeGgKfdtjnLQtA" x="43" y="114"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0sZu0bfhEeGgKfdtjnLQtA" x="99" y="115"/>
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="comb.henshin#_SzUUgLfhEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SzpEoLfhEeGgKfdtjnLQtA" x="38" y="31" width="149" height="211"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SzpEoLfhEeGgKfdtjnLQtA" x="38" y="31" width="297" height="211"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_nI77ELfnEeGgKfdtjnLQtA" type="2002" fontName="Ubuntu" italic="true" fillColor="14808535" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_nI8iILfnEeGgKfdtjnLQtA" type="5004"/>
@@ -276,7 +276,7 @@
         <styles xmi:type="notation:DescriptionStyle" xmi:id="_nI9JMrfnEeGgKfdtjnLQtA"/>
         <styles xmi:type="notation:FontStyle" xmi:id="_nI9JM7fnEeGgKfdtjnLQtA" fontName="Ubuntu"/>
         <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_nI-XUrfnEeGgKfdtjnLQtA" x="102" y="13"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_nI-XUrfnEeGgKfdtjnLQtA" x="133" y="11"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_nI-XU7fnEeGgKfdtjnLQtA" type="3004">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nI_lcLfnEeGgKfdtjnLQtA" source="symbol">
@@ -285,16 +285,16 @@
         <styles xmi:type="notation:DescriptionStyle" xmi:id="_nI--YLfnEeGgKfdtjnLQtA"/>
         <styles xmi:type="notation:FontStyle" xmi:id="_nI--YbfnEeGgKfdtjnLQtA" fontName="Ubuntu"/>
         <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_nI_lcrfnEeGgKfdtjnLQtA" x="102" y="140"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_nI_lcrfnEeGgKfdtjnLQtA" x="133" y="141"/>
       </children>
       <children xmi:type="notation:Shape" xmi:id="_nJMZwLfnEeGgKfdtjnLQtA" type="3003" fontName="Ubuntu" italic="true" lineColor="0">
         <children xmi:type="notation:DecorationNode" xmi:id="_nJNA0LfnEeGgKfdtjnLQtA" type="5005"/>
         <element xmi:type="henshin:Rule" href="comb.henshin#_1Ge5gKo9EeGWmNM0TiX1dQ"/>
-        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nJMZwbfnEeGgKfdtjnLQtA" x="56" y="69"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nJMZwbfnEeGgKfdtjnLQtA" x="80" y="68"/>
       </children>
     </children>
     <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nI77EbfnEeGgKfdtjnLQtA" x="222" y="31" width="263" height="211"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nI77EbfnEeGgKfdtjnLQtA" x="38" y="266" width="297" height="211"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_avMN8apDEeGWmNM0TiX1dQ"/>
   <element xmi:type="henshin:TransformationSystem" href="comb.henshin#_q2mewKo1EeGWmNM0TiX1dQ"/>
@@ -759,12 +759,12 @@
     <styles xmi:type="notation:RoutingStyle" xmi:id="_nJQEIbfnEeGgKfdtjnLQtA" routing="Rectilinear"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_nJQEIrfnEeGgKfdtjnLQtA" fontName="Ubuntu"/>
     <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_nJQEI7fnEeGgKfdtjnLQtA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_nJQEI7fnEeGgKfdtjnLQtA" points="[-1, 14, -1, -56]$[-1, 60, -1, -10]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_nJRSQLfnEeGgKfdtjnLQtA" type="4002" source="_nJMZwLfnEeGgKfdtjnLQtA" target="_nJMZwLfnEeGgKfdtjnLQtA">
     <styles xmi:type="notation:RoutingStyle" xmi:id="_nJR5ULfnEeGgKfdtjnLQtA" routing="Rectilinear"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_nJR5UbfnEeGgKfdtjnLQtA" fontName="Ubuntu"/>
     <element xmi:type="henshin:IteratedUnit" href="comb.henshin#_nIrcYLfnEeGgKfdtjnLQtA"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_nJR5UrfnEeGgKfdtjnLQtA" points="[0, 13, 0, 13]$[0, 29, 0, 29]$[85, 29, 85, 29]$[85, -1, 85, -1]$[56, -1, 56, -1]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_nJR5UrfnEeGgKfdtjnLQtA" points="[-1, 14, -1, 14]$[-1, 29, -1, 29]$[85, 29, 85, 29]$[85, -1, 85, -1]$[63, -1, 63, -1]"/>
   </edges>
 </notation:Diagram>
