@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.script.ScriptEngine;
-
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
@@ -19,7 +17,7 @@ public class ConditionInfo {
 	
 	private Map<String, Collection<String>> conditionParameters;
 	
-	public ConditionInfo(Rule rule, ScriptEngine scriptEngine) {
+	public ConditionInfo(Rule rule) {
 		this.conditionParameters = new HashMap<String, Collection<String>>();
 		
 		Collection<String> parameterNames = new ArrayList<String>();

@@ -60,11 +60,13 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	}
 
 	/**
-	 * Default constructor.
+	 * Convenience constructor.
 	 * @param engine Engine to be used.
+	 * @param graph Target graph.
 	 * @param unit Unit to be used.
+	 * @param assignment Assignment.
 	 */
-	protected UnitApplicationImpl(Engine engine, EGraph graph, TransformationUnit unit, Assignment assignment) {
+	public UnitApplicationImpl(Engine engine, EGraph graph, TransformationUnit unit, Assignment assignment) {
 		this(engine);
 		setEGraph(graph);
 		setUnit(unit);

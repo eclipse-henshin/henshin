@@ -19,9 +19,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.impl.BasicApplicationMonitor;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
@@ -51,18 +54,17 @@ public class SierpinskiBenchmark {
 		TransformationSystem trasys = resourceSet.getTransformationSystem("sierpinski.henshin");
 		Rule rule = trasys.findRuleByName("AddTriangle");
 
-		// Load the first level of the Sierpinski triangle:
+		// Load the first level of the Sierpinski triangle into a graph:
 		Resource resource = resourceSet.getResource("sierpinski-start.xmi");
-		EObject container = resource.getContents().get(0);
+		EGraph graph = new EGraphImpl(resource);
 		
-		// Create the graph representation:
-		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
-		graph.addTree(container);
+		// Remove the container object:
+		EObject container = resource.getContents().get(0);
 		graph.remove(container);
 		
 		// Create an engine and a rule application:
-		Engine engine = InterpreterFactory.INSTANCE.createEngine();
-		RuleApplication application = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+		Engine engine = new EngineImpl();
+		RuleApplication application = new RuleApplicationImpl(engine);
 		application.setRule(rule);
 		application.setEGraph(graph);
 		
@@ -92,7 +94,7 @@ public class SierpinskiBenchmark {
 			long matchingTime = (System.currentTimeMillis() - startTime);
 			
 			// Apply rule with all found matches:
-			ApplicationMonitor monitor = InterpreterFactory.INSTANCE.createApplicationMonitor();
+			ApplicationMonitor monitor = new BasicApplicationMonitor();
 			System.gc();
 
 			startTime = System.currentTimeMillis();

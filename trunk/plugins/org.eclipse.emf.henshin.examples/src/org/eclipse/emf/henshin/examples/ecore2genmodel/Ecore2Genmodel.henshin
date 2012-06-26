@@ -421,6 +421,9 @@
       </nodes>
       <nodes xmi:id="_DJXJEWRbEeGG0NrfTXvizQ" name="seqUnit">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
+        <attributes xmi:id="_aIQ1EL9xEeGVpJhnGUJrLg" value="&quot;CustomizationUnit&quot;">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_DHWW4GRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -456,14 +459,17 @@
     <rhs xmi:id="_Cy04aGRbEeGG0NrfTXvizQ" name="RHS">
       <nodes xmi:id="_DHwmkGRbEeGG0NrfTXvizQ" incoming="_C4gCkGRbEeGG0NrfTXvizQ _DIhbkWRbEeGG0NrfTXvizQ" outgoing="_Cy04cGRbEeGG0NrfTXvizQ _C7XJUGRbEeGG0NrfTXvizQ _DDzToGRbEeGG0NrfTXvizQ _Cy04dGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule"/>
+        <attributes xmi:id="_iwymkL9wEeGVpJhnGUJrLg" value="&quot;CustomizationRule&quot;">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Cy04aWRbEeGG0NrfTXvizQ" outgoing="_C4gCkGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem"/>
       </nodes>
-      <nodes xmi:id="_DIKPMGRbEeGG0NrfTXvizQ" incoming="_Cy04cGRbEeGG0NrfTXvizQ" outgoing="_Cy04c2RbEeGG0NrfTXvizQ">
+      <nodes xmi:id="_DIKPMGRbEeGG0NrfTXvizQ" incoming="_Cy04cGRbEeGG0NrfTXvizQ" outgoing="_Cy04c2RbEeGG0NrfTXvizQ _SqkmYL9vEeGVpJhnGUJrLg _Ty_nAL9vEeGVpJhnGUJrLg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
       </nodes>
-      <nodes xmi:id="_C_qagGRbEeGG0NrfTXvizQ" incoming="_C7XJUGRbEeGG0NrfTXvizQ" outgoing="_DGrogGRbEeGG0NrfTXvizQ">
+      <nodes xmi:id="_C_qagGRbEeGG0NrfTXvizQ" incoming="_C7XJUGRbEeGG0NrfTXvizQ" outgoing="_DGrogGRbEeGG0NrfTXvizQ _RSQvoL9vEeGVpJhnGUJrLg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
       </nodes>
       <nodes xmi:id="_Cy04bWRbEeGG0NrfTXvizQ" incoming="_Cy04c2RbEeGG0NrfTXvizQ _DGhQcGRbEeGG0NrfTXvizQ _DBdKQGRbEeGG0NrfTXvizQ" outgoing="_C3-eIGRbEeGG0NrfTXvizQ">
@@ -489,8 +495,11 @@
       </nodes>
       <nodes xmi:id="_C56X0GRbEeGG0NrfTXvizQ" name="seqUnit" outgoing="_DIhbkWRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
+        <attributes xmi:id="_aIZX8L9xEeGVpJhnGUJrLg" value="&quot;CustomizationUnit&quot;">
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>
+        </attributes>
       </nodes>
-      <nodes xmi:id="_C6HzMGRbEeGG0NrfTXvizQ" incoming="_C_BhUGRbEeGG0NrfTXvizQ _Cy04cWRbEeGG0NrfTXvizQ" outgoing="_Cy04bmRbEeGG0NrfTXvizQ _C7Jt8GRbEeGG0NrfTXvizQ">
+      <nodes xmi:id="_C6HzMGRbEeGG0NrfTXvizQ" incoming="_C_BhUGRbEeGG0NrfTXvizQ _Cy04cWRbEeGG0NrfTXvizQ _Ty_nAL9vEeGVpJhnGUJrLg" outgoing="_Cy04bmRbEeGG0NrfTXvizQ _C7Jt8GRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
       </nodes>
       <nodes xmi:id="_DIK2QGRbEeGG0NrfTXvizQ" incoming="_Cy04bmRbEeGG0NrfTXvizQ" outgoing="_DGW4YGRbEeGG0NrfTXvizQ">
@@ -499,7 +508,7 @@
           <type href="http://www.eclipse.org/emf/2011/Henshin#//Attribute/value"/>
         </attributes>
       </nodes>
-      <nodes xmi:id="_DILdUGRbEeGG0NrfTXvizQ" incoming="_Cy04dWRbEeGG0NrfTXvizQ">
+      <nodes xmi:id="_DILdUGRbEeGG0NrfTXvizQ" incoming="_Cy04dWRbEeGG0NrfTXvizQ _RSQvoL9vEeGVpJhnGUJrLg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node"/>
       </nodes>
       <nodes xmi:id="_C7KVAGRbEeGG0NrfTXvizQ" incoming="_Cy04dGRbEeGG0NrfTXvizQ" outgoing="_C_BhUGRbEeGG0NrfTXvizQ _Cy04dWRbEeGG0NrfTXvizQ">
@@ -508,7 +517,7 @@
       <nodes xmi:id="_C8g_4GRbEeGG0NrfTXvizQ" incoming="_DGW4YGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
       </nodes>
-      <nodes xmi:id="_C5uKkGRbEeGG0NrfTXvizQ" outgoing="_Cy04cWRbEeGG0NrfTXvizQ _DBdKQGRbEeGG0NrfTXvizQ _Cy04dmRbEeGG0NrfTXvizQ">
+      <nodes xmi:id="_C5uKkGRbEeGG0NrfTXvizQ" incoming="_SqkmYL9vEeGVpJhnGUJrLg" outgoing="_Cy04cWRbEeGG0NrfTXvizQ _DBdKQGRbEeGG0NrfTXvizQ _Cy04dmRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
       </nodes>
       <nodes xmi:id="_CzBFoGRbEeGG0NrfTXvizQ" incoming="_C7Jt8GRbEeGG0NrfTXvizQ">
@@ -582,6 +591,15 @@
       </edges>
       <edges xmi:id="_Cy04b2RbEeGG0NrfTXvizQ" source="_Cy04bGRbEeGG0NrfTXvizQ" target="_DIKPMmRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/type"/>
+      </edges>
+      <edges xmi:id="_RSQvoL9vEeGVpJhnGUJrLg" source="_C_qagGRbEeGG0NrfTXvizQ" target="_DILdUGRbEeGG0NrfTXvizQ">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/nodes"/>
+      </edges>
+      <edges xmi:id="_SqkmYL9vEeGVpJhnGUJrLg" source="_DIKPMGRbEeGG0NrfTXvizQ" target="_C5uKkGRbEeGG0NrfTXvizQ">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/edges"/>
+      </edges>
+      <edges xmi:id="_Ty_nAL9vEeGVpJhnGUJrLg" source="_DIKPMGRbEeGG0NrfTXvizQ" target="_C6HzMGRbEeGG0NrfTXvizQ">
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph/nodes"/>
       </edges>
     </rhs>
     <mappings xmi:id="_Cy04d2RbEeGG0NrfTXvizQ" origin="_DJXJEGRbEeGG0NrfTXvizQ" image="_Cy04aWRbEeGG0NrfTXvizQ"/>

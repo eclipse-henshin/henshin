@@ -11,8 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.interpreter.info;
 
-import javax.script.ScriptEngine;
-
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.model.Rule;
 
 public class RuleInfo {
@@ -22,11 +21,11 @@ public class RuleInfo {
 	private RuleChangeInfo changeInfo;
 	private ConditionInfo conditionInfo;
 
-	public RuleInfo(Rule rule, ScriptEngine scriptEngine) {
+	public RuleInfo(Rule rule, EngineImpl engine) {
 		this.rule = rule;
 		
-		this.conditionInfo = new ConditionInfo(rule, scriptEngine);
-		this.variableInfo = new VariableInfo(this, scriptEngine);
+		this.conditionInfo = new ConditionInfo(rule);
+		this.variableInfo = new VariableInfo(this, engine);
 		this.changeInfo = new RuleChangeInfo(rule);
 	}
 

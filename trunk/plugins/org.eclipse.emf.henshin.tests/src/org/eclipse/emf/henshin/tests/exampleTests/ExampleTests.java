@@ -2,7 +2,9 @@ package org.eclipse.emf.henshin.tests.exampleTests;
 
 import org.eclipse.emf.henshin.examples.combpattern.CombBenchmark;
 import org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark;
+import org.eclipse.emf.henshin.examples.ecore2genmodel.Ecore2GenmodelTrafo;
 import org.eclipse.emf.henshin.examples.java2statemachine.Java2StateMachine;
+import org.eclipse.emf.henshin.examples.oo2rdb.Oo2Rdb;
 import org.eclipse.emf.henshin.examples.sierpinski.SierpinskiBenchmark;
 import org.junit.Test;
 
@@ -44,6 +46,24 @@ public class ExampleTests {
 	public void testCombPattern() {
 		System.out.println();
 		CombBenchmark.run(EXAMPLES_PATH + CombBenchmark.PATH);
+	}
+
+	/**
+	 * Ecore2GenModel example.
+	 */
+	@Test
+	public void testEcore2GenModel() {
+		System.out.println();
+		Ecore2GenmodelTrafo.runEcore2GenmodelExample(EXAMPLES_PATH + Ecore2GenmodelTrafo.PATH, false);
+	}
+
+	/**
+	 * Oo2Rdb example.
+	 */
+	@Test
+	public void testOo2Rdb() {
+		System.out.println();
+		Oo2Rdb.run(EXAMPLES_PATH + Oo2Rdb.PATH, Oo2Rdb.EXAMPLE_OO_MODEL, Oo2Rdb.EXAMPLE_RDB_MODEL, false);
 	}
 
 	/**

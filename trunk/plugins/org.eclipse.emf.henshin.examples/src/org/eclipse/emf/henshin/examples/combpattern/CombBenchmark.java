@@ -66,7 +66,7 @@ public class CombBenchmark {
 		application.setParameterValue("height", height);
 		
 		long time = System.currentTimeMillis();
-		application.execute(null);
+		InterpreterUtil.executeOrDie(application, null);
 		time = System.currentTimeMillis() - time;
 		
 		// Sanity check whether to make sure the grid is correct:

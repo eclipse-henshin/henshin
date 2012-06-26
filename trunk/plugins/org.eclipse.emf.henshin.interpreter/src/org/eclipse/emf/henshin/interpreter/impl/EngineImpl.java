@@ -28,8 +28,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
@@ -496,7 +496,7 @@ public class EngineImpl implements Engine {
 	protected RuleInfo getRuleInfo(Rule rule) {
 		RuleInfo ruleInfo = ruleInfos.get(rule);
 		if (ruleInfo == null) {
-			ruleInfo = new RuleInfo(rule, scriptEngine);
+			ruleInfo = new RuleInfo(rule, this);
 			ruleInfos.put(rule, ruleInfo);
 			// Check for missing factories:			
 			for (Node node : ruleInfo.getChangeInfo().getCreatedNodes()) {
@@ -610,8 +610,7 @@ public class EngineImpl implements Engine {
 		// Attribute changes:
 		for (Attribute attribute : ruleChange.getAttributeChanges()) {
 			EObject object = resultMatch.getNodeTarget(attribute.getNode());
-			String valueString = evalAttributeExpression(attribute);
-			Object value = (valueString!=null) ? EcoreUtil.createFromString(attribute.getType().getEAttributeType(), valueString) : null;
+			Object value = evalAttributeExpression(attribute);
 			changes.add(new AttributeChangeImpl(graph, object, attribute.getType(), value));
 		}
 
@@ -631,21 +630,17 @@ public class EngineImpl implements Engine {
 		}
 
 	}
-
 	
 	/*
-	 * Evaluates the given JavaScript-Expression.
+	 * Evaluates a given JavaScript-Expression.
 	 */
-	protected String evalAttributeExpression(Attribute attribute) {
+	public Object evalAttributeExpression(Attribute attribute) {
 
 		/* If the attribute's type is an Enumeration, its value shall be rather
 		 * checked against the Ecore model than against the JavaScript machine. */
 		if ((attribute.getType()!=null) && (attribute.getType().getEType() instanceof EEnum)) {
 			EEnum eenum = (EEnum) attribute.getType().getEType();
-			EEnumLiteral eelit = eenum.getEEnumLiteral(attribute.getValue());
-			if (eelit!=null) {
-				return eelit.toString();
-			}
+			return eenum.getEEnumLiteral(attribute.getValue());
 		}
 
 		// Try to evaluate the expression:
@@ -654,32 +649,35 @@ public class EngineImpl implements Engine {
 			if (value==null) {
 				return null;
 			}
-			String valueString = value.toString();
-
-			// Workaround for Double conversion:
-			// Javascript evaluated numbers are always shown in floating point
-			// notation. This leads to a NumberFormatException if the EAttribute
-			// has EDataType EInt or ELong.
-			switch (attribute.getType().getEAttributeType().getClassifierID()) {
-			case EcorePackage.EBYTE:
-			case EcorePackage.EINT:
-			case EcorePackage.ELONG:
-				int index = valueString.indexOf('.');
-				if (index==0) {
-					valueString = "0";
-				} else if (index>0) {
-					valueString = valueString.substring(0, index);
+			// Number format conversions:
+			if (value instanceof Number) {
+				EDataType type = attribute.getType().getEAttributeType();
+				EcorePackage P = EcorePackage.eINSTANCE;
+				if (type==P.getEByte() || type==P.getEByteObject()) {
+					return ((Number) value).byteValue();
 				}
-				break;
+				else if (type==P.getEInt() || type==P.getEIntegerObject()) {
+					return ((Number) value).intValue();
+				}
+				else if (type==P.getELong() || type==P.getELongObject()) {
+					return ((Number) value).longValue();
+				}
+				else if (type==P.getEFloat() || type==P.getEFloatObject()) {
+					return ((Number) value).floatValue();
+				}
+				else if (type==P.getEDouble() || type==P.getEDoubleObject()) {
+					return ((Number) value).doubleValue();
+				}
 			}
-			return valueString;
+			// Generic attribute value creation:
+			return EcoreUtil.createFromString(attribute.getType().getEAttributeType(), value.toString());
 		}
 		catch (ScriptException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.interpreter.Engine#getOptions()

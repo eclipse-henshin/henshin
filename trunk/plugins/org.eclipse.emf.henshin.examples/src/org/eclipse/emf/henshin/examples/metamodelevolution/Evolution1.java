@@ -22,8 +22,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -166,7 +168,7 @@ public class Evolution1 {
 		TransformationSystem tsM = loadPetriTrafoSystemM();
 
 		// instantiate Henshin interpreter objects
-		EGraph graphM = InterpreterFactory.INSTANCE.createEGraph();
+		EGraph graphM = new EGraphImpl();
 
 		/*
 		 * If the left-hand side of a rule contains EDataType instances (e.g.
@@ -178,7 +180,7 @@ public class Evolution1 {
 		// EObject ecoreRoot = EcorePackage.eINSTANCE;
 		// graphM.addRoot(ecoreRoot);
 		graphM.addTree(petri);
-		Engine engineM = InterpreterFactory.INSTANCE.createEngine();
+		Engine engineM = new EngineImpl();
 
 		// select rule
 		Rule mm_rule1 = tsM.findRuleByName("MM_CreateRefClass");
@@ -188,7 +190,7 @@ public class Evolution1 {
 		 * a transformation unit. It allows furthermore to set parameters which are either
 		 * values (see below) or objects.
 		 */
-		UnitApplication mm_unit1App = InterpreterFactory.INSTANCE.createUnitApplication(engineM);
+		UnitApplication mm_unit1App = new UnitApplicationImpl(engineM);
 		mm_unit1App.setUnit(mm_rule1);
 		mm_unit1App.setEGraph(graphM);
 		mm_unit1App.setParameterValue("srcName", srcNodeName);
@@ -302,11 +304,11 @@ public class Evolution1 {
 		EObject net = loadPetriInstanceModel();
 
 		// Instantiate Henshin interpreter objects
-		EGraph graphI = InterpreterFactory.INSTANCE.createEGraph();
+		EGraph graphI = new EGraphImpl();
 		graphI.addTree(net);
-		Engine engineI = InterpreterFactory.INSTANCE.createEngine();
+		Engine engineI = new EngineImpl();
 				
-		UnitApplication i_unit1App = InterpreterFactory.INSTANCE.createUnitApplication(engineI);
+		UnitApplication i_unit1App = new UnitApplicationImpl(engineI);
 		i_unit1App.setEGraph(graphI);
 		i_unit1App.setUnit(c_unit);
 
@@ -348,9 +350,9 @@ public class Evolution1 {
 		TransformationSystem tsM = loadPetriTrafoSystemM();
 
 		// instantiate Henshin interpreter objects
-		EGraph graphM = InterpreterFactory.INSTANCE.createEGraph();
+		EGraph graphM = new EGraphImpl();
 		graphM.addTree(petri);
-		Engine engineM = InterpreterFactory.INSTANCE.createEngine();
+		Engine engineM = new EngineImpl();
 
 		// select rule
 		Rule mm_rule2 = tsM.findRuleByName("MM_DeleteOldRefs");
@@ -361,7 +363,7 @@ public class Evolution1 {
 		 * parameter values or objects (see below). Setting input port objects
 		 * provide a partial match to the rule into the graph.
 		 */
-		UnitApplication mm_unit2App = InterpreterFactory.INSTANCE.createUnitApplication(engineM);
+		UnitApplication mm_unit2App = new UnitApplicationImpl(engineM);
 		mm_unit2App.setEGraph(graphM);
 		mm_unit2App.setUnit(mm_rule2);
 		mm_unit2App.setParameterValue("objDelRef", refType);

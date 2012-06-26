@@ -10,11 +10,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.model.Rule;
 
+/**
+ * Common utility methods for the Henshin interpreter.
+
+ * @author Christian Krause
+ */
 public class InterpreterUtil {
 
 	/**
@@ -81,5 +91,43 @@ public class InterpreterUtil {
 		}
 		return String.valueOf(object); // object could be null
 	}
+	
+	/**
+	 * Execute the given unit application and throws an {@link AssertionError} if it could
+	 * not be successfully applied (if {@link UnitApplication#execute(ApplicationMonitor)}
+	 * returns <code>false</code>). This is just a convenience method.
+	 * 
+	 * @param application A unit application.
+	 * @param monitor An application monitor or <code>null</code>.
+	 */
+	public static void executeOrDie(UnitApplication application, ApplicationMonitor monitor) {
+		if (!application.execute(null)) {
+			if (application instanceof RuleApplication) {
+				throw new AssertionError("Error executing transformation rule '" + application.getUnit().getName() + "'");								
+			} else {
+				throw new AssertionError("Error executing transformation unit '" + application.getUnit().getName() + "'");				
+			}
+		}
+	}
 
+	/**
+	 * Check whether two {@link EGraph}s are isomorphic.
+	 * @param graph1 First graph.
+	 * @param graph2 Second graph.
+	 * @return <code>true</code> if they are isomorphic.
+	 */
+	public static boolean areIsomorphic(EGraph graph1, EGraph graph2) {
+		return new EGraphIsomorphyChecker(graph1, null).isIsomorphicTo(graph2, null);
+	}
+
+	
+	/**
+	 * Check whether the contents of two resources are isomorphic.
+	 * @param resource1 First resource.
+	 * @param resource2 Second resource.
+	 * @return <code>true</code> if they are isomorphic.
+	 */
+	public static boolean areIsomorphic(Resource resource1, Resource resource2) {
+		return areIsomorphic(new EGraphImpl(resource1), new EGraphImpl(resource2));
+	}
 }

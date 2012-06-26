@@ -5,8 +5,12 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.ChangeImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
@@ -37,9 +41,11 @@ public class Ecore2GenmodelTrafo {
 	public static final String PATH = "src/org/eclipse/emf/henshin/examples/ecore2genmodel";
 
 	/**
-	 * Method comprising the main control flow for the transformation.
+	 * Example transformation that translates an Ecore model for flow charts to a GenModel. 
 	 */
-	public static void generateEcore2Genmodel(String path) {
+	public static void runEcore2GenmodelExample(String path, boolean save) {
+		
+		System.out.println("Generating GenModel for flowchartdsl.ecore...");
 		
 		// Create a resource set:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
@@ -56,12 +62,12 @@ public class Ecore2GenmodelTrafo {
 		EPackage ecoreModel = (EPackage) resourceSet.getObject("flowchartdsl.ecore");
 
 		// Create the object graph:
-		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
-		graph.addTree(ecoreModel);
+		EGraph graph = new EGraphImpl(ecoreModel);
 		
 		// Prepare the interpreter engine:
-		Engine engine = InterpreterFactory.INSTANCE.createEngine();
-		UnitApplication unitApp = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		Engine engine = new EngineImpl();
+		ChangeImpl.PRINT_WARNINGS = false; // we can ignore the warnings
+		UnitApplication unitApp = new UnitApplicationImpl(engine);
 
 		// Generate genmodel from ecore model (without annotations).
 		unitApp.setEGraph(graph);
@@ -72,12 +78,10 @@ public class Ecore2GenmodelTrafo {
 		unitApp.setParameterValue("pluginName", ecoreModel.getName());
 		
 		// Execute the transformation unit:
-		if (!unitApp.execute(null)) {
-			System.err.println("Error generating Genmodel");
-		}
+		InterpreterUtil.executeOrDie(unitApp, null);
 		
 		// Get the generated Genmodel:
-		GenModel gm = (GenModel) unitApp.getResultParameterValue("genModel");
+		GenModel genModel = (GenModel) unitApp.getResultParameterValue("genModel");
 		
 		graph.addTree(system);
 		graph.addTree(GenModelPackage.eINSTANCE);
@@ -85,20 +89,24 @@ public class Ecore2GenmodelTrafo {
 
 		// Process annotations and generate related Henshin rules:
 		unitApp.setUnit(system.findUnitByName("prepareCustomizationUnit"));
-		unitApp.execute(null);
+		InterpreterUtil.executeOrDie(unitApp, null);
 
 		// Apply generated rules to transfer annotations to the genmodel.
-		unitApp.setUnit((TransformationUnit) unitApp.getResultParameterValue("seqUnit"));
-		unitApp.execute(null);
+		TransformationUnit customizationUnit = (TransformationUnit) unitApp.getResultParameterValue("seqUnit");
+		unitApp.setUnit(customizationUnit);
+		InterpreterUtil.executeOrDie(unitApp, null);
 
-		// Save the generated Genmodel:
-		resourceSet.saveObject(gm, "flowchartdsl2.genmodel");
-		System.out.println("Saved the result to flowchartdsl2.genmodel");
+		System.out.println("Successfully generated GenModel.");
+		
+		if (save) {
+			resourceSet.saveObject(genModel, "flowchartdsl-generated.genmodel");
+			System.out.println("Saved the result to flowchartdsl-generated.genmodel");
+		}
 
 	}
 
 	public static void main(String[] args) {
-		generateEcore2Genmodel(PATH);
+		runEcore2GenmodelExample(PATH, false);
 	}
 	
 }

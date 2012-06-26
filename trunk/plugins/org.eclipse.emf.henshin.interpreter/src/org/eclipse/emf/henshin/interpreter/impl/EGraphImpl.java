@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.henshin.interpreter.EGraph;
@@ -56,6 +57,26 @@ public class EGraphImpl extends LinkedHashSet<EObject> implements EGraph {
 		this(32);
 	}
 
+	/**
+	 * Convenience constructor. Adds a containment tree to this graph. 
+	 * @param root A root object.
+	 */
+	public EGraphImpl(EObject root) {
+		this();
+		addTree(root);
+	}
+
+	/**
+	 * Convenience constructor. Adds the contents of a resource to this graph.
+	 * @param resource Some resource.
+	 */
+	public EGraphImpl(Resource resource) {
+		this();
+		for (EObject root : resource.getContents()) {
+			addTree(root);
+		}
+	}
+	
 	/**
 	 * Constructor.
 	 * @param initialSize Initial size of the graph.

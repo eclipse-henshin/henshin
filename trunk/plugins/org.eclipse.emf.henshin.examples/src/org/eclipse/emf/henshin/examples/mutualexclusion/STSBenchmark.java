@@ -4,9 +4,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -60,13 +63,12 @@ public class STSBenchmark {
 				EObject container2 = EcoreUtil.copy(container);
 				
 				// Initialize the Henshin interpreter:
-				EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
-				graph.addTree(container2);
-				Engine engine = InterpreterFactory.INSTANCE.createEngine();
+				EGraph graph = new EGraphImpl(container2);
+				Engine engine = new EngineImpl();
 				
-				RuleApplication ruleAppl = InterpreterFactory.INSTANCE.createRuleApplication(engine);
+				RuleApplication ruleAppl = new RuleApplicationImpl(engine);
 				ruleAppl.setEGraph(graph);
-				UnitApplication unitAppl = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+				UnitApplication unitAppl = new UnitApplicationImpl(engine);
 				unitAppl.setEGraph(graph);
 				
 				// get Starting Time

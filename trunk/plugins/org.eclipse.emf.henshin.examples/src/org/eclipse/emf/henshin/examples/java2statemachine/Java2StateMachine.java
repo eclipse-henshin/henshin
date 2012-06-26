@@ -10,9 +10,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.interpreter.util.EGraphIsomorphyChecker;
+import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -79,24 +81,21 @@ public class Java2StateMachine {
 		}
 
 		// Create a graph representation of the model:
-		EGraph graph = InterpreterFactory.INSTANCE.createEGraph();
-		graph.addTree(rootPackage);
+		EGraph graph = new EGraphImpl(rootPackage);
 		System.out.println("Model has " + graph.size() + " objects");
 
 		// Prepare the transformation engine: 
-		Engine engine = InterpreterFactory.INSTANCE.createEngine();
+		Engine engine = new EngineImpl();
 		engine.getOptions().put(Engine.OPTION_SORT_VARIABLES, false);
 		
-		UnitApplication unitApp = InterpreterFactory.INSTANCE.createUnitApplication(engine);
+		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setEGraph(graph);
 		unitApp.setUnit(system.findUnitByName("Start"));
 
 		// Execute the transformation:
 		System.out.println("Generating state machine...");
 		long time = System.currentTimeMillis();
-		if (!unitApp.execute(null)) {
-			throw new AssertionError("Error transforming model");
-		}
+		InterpreterUtil.executeOrDie(unitApp, null);
 		time = System.currentTimeMillis() - time;
 		System.out.println("Generation took " + time + "ms.");
 		
@@ -115,7 +114,7 @@ public class Java2StateMachine {
 		// Compare it with the reference:
 		if (referenceModel!=null) {
 			Resource reference = resourceSet.getResource("reference-statemachine.xmi");
-			if (EGraphIsomorphyChecker.resourcesAreIsomorphic(reference, statemachine.eResource())) {
+			if (InterpreterUtil.areIsomorphic(reference, statemachine.eResource())) {
 				System.out.println("Generated state machine is correct.");
 			} else {
 				throw new AssertionError("Generated state machine is not correct!");
@@ -127,6 +126,7 @@ public class Java2StateMachine {
 	public static void main(final String[] args) {
 		run(PATH, JAVA_MODEL_SMALL, REFERENCE_STATE_MACHINE, false);
 		//run(PATH, JAVA_MODEL_MEDIUM, REFERENCE_STATE_MACHINE, false);
+		//run(PATH, JAVA_MODEL_BIG, REFERENCE_STATE_MACHINE, false);
 	}
 
 }

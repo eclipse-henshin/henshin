@@ -7,13 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.AttributeConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.ContainmentConstraint;
 import org.eclipse.emf.henshin.interpreter.matching.constraints.DanglingConstraint;
@@ -55,11 +51,11 @@ public class VariableInfo {
 	private Map<Variable, Variable> variable2mainVariable;
 	
 	private Rule rule;
-	private ScriptEngine scriptEngine;
+	private EngineImpl engine;
 	
-	public VariableInfo(RuleInfo ruleInfo, ScriptEngine scriptEngine) {
+	public VariableInfo(RuleInfo ruleInfo, EngineImpl engine) {
 		this.rule = ruleInfo.getRule();
-		this.scriptEngine = scriptEngine;
+		this.engine = engine;
 		
 		this.node2variable = new HashMap<Node, Variable>();
 		this.variable2node = new HashMap<Variable, Node>();
@@ -144,32 +140,8 @@ public class VariableInfo {
 						attribute.getType());
 				var.parameterConstraints.add(constraint);
 			} else {
-				Object attributeValue = null;
-				
-				/*
-				 * If the attribute's type is an Enumeration, its value shall be
-				 * rather checked against the ecore model than agains the
-				 * javascript machine.
-				 */
-				if ((attribute.getType() != null)
-						&& (attribute.getType().getEType() instanceof EEnum)) {
-					EEnum eenum = (EEnum) attribute.getType().getEType();
-					EEnumLiteral eelit = eenum.getEEnumLiteral(attribute.getValue());
-					attributeValue = (eelit == null) ? null : eelit;
-				}// if
-				
-				if (attributeValue == null) {
-					try {
-						attributeValue = scriptEngine.eval(attribute.getValue());
-					} catch (ScriptException ex) {
-						throw new RuntimeException(ex.getMessage());
-					}
-					attributeValue = castDown(attributeValue, attribute.getType()
-							.getEType().getInstanceClassName());
-				}// if
-				
-				AttributeConstraint constraint = new AttributeConstraint(attribute.getType(),
-						attributeValue);
+				Object value = engine.evalAttributeExpression(attribute);
+				AttributeConstraint constraint = new AttributeConstraint(attribute.getType(), value);
 				var.attributeConstraints.add(constraint);
 			}
 		}
@@ -289,24 +261,6 @@ public class VariableInfo {
 				break;
 		}
 		return found;
-	}
-
-	private static Object castDown(Object complexValue, String type) {
-		if (complexValue instanceof Double) {
-			if (type.equals("int")) {
-				return ((Double) complexValue).intValue();
-			} else if (type.equals("long")) {
-				return ((Double) complexValue).longValue();
-			} else if (type.equals("float")) {
-				return ((Double) complexValue).floatValue();
-			} else if (type.equals("short")) {
-				return ((Double) complexValue).shortValue();
-			} else if (type.equals("byte")) {
-				return ((Double) complexValue).byteValue();
-			}
-		}
-		
-		return complexValue;
 	}
 	
 	private static final Integer ONE = new Integer(1);

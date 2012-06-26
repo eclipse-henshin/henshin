@@ -14,9 +14,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.interpreter.EGraph;
-import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.AttributeConditionHandler;
 import org.eclipse.emf.henshin.interpreter.matching.conditions.IFormula;
@@ -161,29 +159,6 @@ public class EGraphIsomorphyChecker {
 		
 		// No reason why they shouldn't be isomorphic:
 		return true;
-		
-	}
-		
-	/**
-	 * Check whether the contents of two resources are isomorphic.
-	 * @param r1 First resource.
-	 * @param r2 Second resource.
-	 * @return <code>true</code> if they are isomorphic.
-	 */
-	public static boolean resourcesAreIsomorphic(Resource r1, Resource r2) {
-		
-		// Create EGraphs:
-		EGraph g1 = InterpreterFactory.INSTANCE.createEGraph();
-		for (EObject root : r1.getContents()) {
-			g1.addTree(root);
-		}
-		EGraph g2 = InterpreterFactory.INSTANCE.createEGraph();
-		for (EObject root : r2.getContents()) {
-			g2.addTree(root);
-		}
-
-		// Check isomorphy:
-		return new EGraphIsomorphyChecker(g1, null).isIsomorphicTo(g2, null);
 		
 	}
 	
