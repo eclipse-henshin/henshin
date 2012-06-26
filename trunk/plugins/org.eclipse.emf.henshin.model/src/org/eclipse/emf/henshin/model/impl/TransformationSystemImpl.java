@@ -202,14 +202,18 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * @generated NOT
 	 */
 	public TransformationUnit findUnitByName(String unitName) {
-		for (TransformationUnit unit : this.getTransformationUnits()) {
+		for (TransformationUnit unit : getTransformationUnits()) {
 			if (unitName.equals(unit.getName())) {
 				return unit;
-			}// if equal
-		}// for units
-
+			}
+		}
+		for (Rule rule : getRules()) {
+			if (unitName.equals(rule.getName())) {
+				return rule;
+			}
+		}
 		return null;
-	}// findUnitByName
+	}
 
 
 	/**
@@ -218,13 +222,18 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * @generated NOT
 	 */
 	public Rule findRuleByName(String ruleName) {
-
-		for (Rule rule : this.getRules()) {
-			if (ruleName.equals(rule.getName()))
+		for (Rule rule : getRules()) {
+			if (ruleName.equals(rule.getName())) {
 				return rule;
-		}// for
+			}
+		}
+		for (TransformationUnit unit : getTransformationUnits()) {
+			if (unit instanceof Rule && ruleName.equals(unit.getName())) {
+				return (Rule) unit;
+			}
+		}
 		return null;
-	}// findRuleByName
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
