@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -417,6 +418,24 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public EList<Rule> getAllMultiRules() {
+		EList<Rule> allMultiRules = new BasicEList<Rule>();
+		allMultiRules.addAll(getMultiRules());
+		boolean changed;
+		do {
+			changed = false;
+			for (Rule rule : allMultiRules) {
+				changed = changed || allMultiRules.addAll(rule.getMultiRules());
+			}
+		} while (changed);
+		return ECollections.unmodifiableEList(allMultiRules);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public void removeEdge(Edge edge, boolean removeMapped) {
 		
 		// Must be invoked from the root kernel rule:
@@ -450,7 +469,9 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 					EObject obj = it.next();
 					if (obj instanceof Edge) {
 						Edge e = (Edge) obj;
-						if (edges.contains(e)) continue;
+						if (e.getType()!=edge.getType() || edges.contains(e)) {
+							continue;
+						}
 						if ((HenshinMappingUtil.getMapping(edge.getSource(), e.getSource(), mappings)!=null &&
 							 HenshinMappingUtil.getMapping(edge.getTarget(), e.getTarget(), mappings)!=null) ||
 							(HenshinMappingUtil.getMapping(e.getSource(), edge.getSource(), mappings)!=null &&

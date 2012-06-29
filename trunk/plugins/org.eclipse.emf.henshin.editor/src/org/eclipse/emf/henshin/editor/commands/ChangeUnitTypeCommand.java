@@ -53,7 +53,6 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	
 	@Override
 	public void execute() {
-		System.out.println("exec");
 		// save the old unit's type for undo
 		if (unit instanceof IndependentUnit) {
 			oldUnitType = 1;

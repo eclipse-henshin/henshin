@@ -111,9 +111,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				// If it has an origin in the LHS, it is a NAC-action:
 				if (origin==null) {
 					if (ActionACUtil.DEFAULT_AC_NAME.equals(graph.getName())) {
-						return new Action(type);
+						return new Action(type, isAmalgamated);
 					} else {
-						return new Action(type, graph.getName());					
+						return new Action(type, isAmalgamated, graph.getName());
 					}
 				}
 			}
@@ -281,24 +281,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				kernel = rule.getKernelRule();
 				multi = rule;
 			}
-			
-			// First make sure the multi-rule is complete.
-			sanitizeMultiRule(multi);
-			
-			// Move the element(s).
-			if (action.getType()==ActionType.CREATE) {
-				getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
-			}
-			else if (action.getType()==ActionType.DELETE) {
-				getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
-			}
-			else if (action.getType()==ActionType.PRESERVE) {
-				MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
-				mappingEditor.moveMappedElement(element);
-			}
-			
-			// Remove trivial multi-rules from the amalgamation:
-			HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
+			updateMultiElement(kernel, multi, action.getType(), element);
 			
 		}
 		
@@ -306,32 +289,35 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// The only thing that can be different now is the name of the multi-rule:
 		if (current.isAmalgamated() && action.isAmalgamated()) {
-			
 			Rule kernelRule = rule.getKernelRule();
 			Rule newMulti = getOrCreateMultiRule(kernelRule, action.getArguments());
-			
 			if (newMulti!=rule) {
-				
-				sanitizeMultiRule(newMulti);
-				
-				// Move the element(s).
-				if (action.getType()==ActionType.CREATE) {
-					getMapEditor(rule.getRhs(), newMulti.getRhs(), null).move(element);
-				}
-				else if (action.getType()==ActionType.DELETE) {
-					getMapEditor(rule.getLhs(), newMulti.getLhs(), null).move(element);
-				}
-				else if (action.getType()==ActionType.PRESERVE) {
-					MappingMapEditor mappingEditor = new MappingMapEditor(rule, newMulti, null);
-					mappingEditor.moveMappedElement(element);
-				}
-				
-				// Remove trivial multi-rules from the amalgamation:
-				HenshinMultiRuleUtil.removeTrivialMultiRules(kernelRule);
-				
+				updateMultiElement(rule, newMulti, action.getType(), element);
 			}
 		}
 			
+	}
+	
+	private void updateMultiElement(Rule kernel, Rule multi, ActionType actionType, E element) {
+		
+		// First make sure the multi-rule is complete.
+		sanitizeMultiRule(multi);
+
+		// Move the element(s).
+		if (actionType==ActionType.CREATE) {
+			getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
+		}
+		else if (actionType==ActionType.DELETE) {
+			getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
+		}
+		else if (actionType==ActionType.PRESERVE) {
+			MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
+			mappingEditor.moveMappedElement(element);
+		}
+		
+		// Remove trivial multi-rules from the amalgamation:
+		HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
+		
 	}
 	
 	private void sanitizeMultiRule(Rule multi) {

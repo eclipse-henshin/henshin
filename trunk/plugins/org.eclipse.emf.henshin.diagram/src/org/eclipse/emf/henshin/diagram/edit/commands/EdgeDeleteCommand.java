@@ -58,28 +58,6 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		}
 		Rule rule = edge.getGraph().getContainerRule();
 		
-//		// Check if there is an action associated:
-//		Action action = HenshinActionHelper.getAction(edge);
-//		if (action==null) {
-//			edge.getGraph().removeEdge(edge);
-//			return CommandResult.newWarningCommandResult("Edge seems to be illegal. Deleted anyway.", null); // done.
-//		}
-//		
-//		// Remove the image in the RHS, if existing:
-//		doRemove(HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings()));
-//		
-//		// Remove images in the PACs/NACs:
-//		for (NestedCondition nac : HenshinACUtil.getAllACs(rule)) {
-//			doRemove(HenshinMappingUtil.getEdgeImage(edge, nac.getConclusion(), nac.getMappings()));
-//		}
-//		
-//		// Check if there are images in multi-rules:
-//		for (Rule multiRule : rule.getMultiRules()) {
-//			doRemove(HenshinMappingUtil
-//					.getEdgeImage(edge, multiRule.getLhs(), multiRule.getMultiMappings()));
-//		}
-//		
-		
 		// Remove the edge.
 		doRemove(edge);
 		
@@ -92,6 +70,9 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		
 	}
 	
+	/*
+	 * Remove the edge.
+	 */
 	private void doRemove(Edge edge) throws ExecutionException {
 
 		// Can be null.

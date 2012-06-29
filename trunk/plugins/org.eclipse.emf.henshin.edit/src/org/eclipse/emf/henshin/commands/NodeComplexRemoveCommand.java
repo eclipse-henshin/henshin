@@ -201,10 +201,10 @@ public class NodeComplexRemoveCommand extends CompoundCommand {
 			if (mapping.eContainer() != null) {
 				for (Node node : nodes) {
 					if (mapping.getImage() == node || mapping.getOrigin() == node) {
-						System.out.println("adding mapping: "
-								+ mapping.getOrigin().getGraph().getContainerRule().getName()
-								+ " -> "
-								+ mapping.getImage().getGraph().getContainerRule().getName());
+						//System.out.println("adding mapping: "
+						//		+ mapping.getOrigin().getGraph().getContainerRule().getName()
+						//		+ " -> "
+						//		+ mapping.getImage().getGraph().getContainerRule().getName());
 						targetSet.add(mapping);
 						break;
 					}// if

@@ -204,7 +204,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-		System.out.println(notification);
+		// System.out.println(notification);
 		if (notification.getEventType() == Notification.SET) {
 			
 			Edge edge = (Edge) notification.getNotifier();

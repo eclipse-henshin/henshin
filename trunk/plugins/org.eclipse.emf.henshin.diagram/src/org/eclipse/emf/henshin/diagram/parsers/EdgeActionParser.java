@@ -105,11 +105,11 @@ public class EdgeActionParser extends AbstractParser {
 			// The source and the target node must have either the same
 			// action as the edge, or PRESERVE.			
 			if (!srcAction.equals(action) && 
-				!(srcAction.getType()==ActionType.PRESERVE && !srcAction.isAmalgamated())) {
+				!(srcAction.getType()==ActionType.PRESERVE /* && !srcAction.isAmalgamated() */)) {
 				HenshinActionHelper.setAction(src, action);
 			}
 			if (!trgAction.equals(action) && 
-				!(trgAction.getType()==ActionType.PRESERVE && !trgAction.isAmalgamated())) {
+				!(trgAction.getType()==ActionType.PRESERVE /* && !trgAction.isAmalgamated() */)) {
 				HenshinActionHelper.setAction(trg, action);
 			}
 			

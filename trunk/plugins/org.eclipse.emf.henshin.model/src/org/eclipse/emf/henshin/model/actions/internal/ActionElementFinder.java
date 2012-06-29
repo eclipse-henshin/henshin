@@ -36,7 +36,7 @@ class ActionElementFinder {
 			rules.add(kernel);
 		}
 		if (action==null || action.isAmalgamated()) {
-			rules.addAll(kernel.getMultiRules());
+			rules.addAll(kernel.getAllMultiRules());
 		}
 		
 		// Add LHS elements:
@@ -55,15 +55,19 @@ class ActionElementFinder {
 
 		// Add PAC elements:
 		if (action==null || action.getType()==ActionType.REQUIRE) {
-			for (NestedCondition pac : HenshinACUtil.getAllACs(kernel, true)) {
-				candidates.addAll((List<E>) pac.getConclusion().eGet(containment));
+			for (Rule rule : rules) {
+				for (NestedCondition pac : HenshinACUtil.getAllACs(rule, true)) {
+					candidates.addAll((List<E>) pac.getConclusion().eGet(containment));
+				}
 			}
 		}
 
 		// Add NAC elements:
 		if (action==null || action.getType()==ActionType.FORBID) {
-			for (NestedCondition nac : HenshinACUtil.getAllACs(kernel, false)) {
-				candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
+			for (Rule rule : rules) {
+				for (NestedCondition nac : HenshinACUtil.getAllACs(rule, false)) {
+					candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
+				}
 			}
 		}
 		

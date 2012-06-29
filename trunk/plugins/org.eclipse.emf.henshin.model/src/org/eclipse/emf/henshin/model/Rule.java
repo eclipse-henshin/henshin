@@ -169,6 +169,14 @@ public interface Rule extends TransformationUnit {
 	void removeNode(Node node, boolean removeMapped);
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<Rule> getAllMultiRules();
+
+	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.
 	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->

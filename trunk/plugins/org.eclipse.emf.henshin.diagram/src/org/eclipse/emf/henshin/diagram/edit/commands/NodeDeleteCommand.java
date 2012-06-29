@@ -59,29 +59,6 @@ public class NodeDeleteCommand extends AbstractTransactionalCommand {
 		// Remove the node:
 		rule.removeNode(node, true);
 		
-//		// Check if there is an action associated:
-//		if (HenshinActionHelper.getAction(node)==null) {
-//			node.getGraph().removeNode(node);
-//			return CommandResult.newWarningCommandResult("Node seems to be illegal. Deleted anyway.", null); // done.
-//		}
-//
-//		// We reset the action to DELETE, then we know where the node is:
-//		HenshinActionHelper.setAction(node, new Action(ActionType.DELETE));
-//		
-//		// Check if there are images in multi-rules.
-//		Rule kernel = node.getGraph().getContainerRule();
-//		for (Rule multi : kernel.getMultiRules()) {
-//			Node image = HenshinMappingUtil
-//					.getNodeImage(node, multi.getLhs(), multi.getMultiMappings());
-//			if (image!=null) {
-//				image.getGraph().removeNode(image);
-//				HenshinMappingUtil.removeMapping(node, image, multi.getMultiMappings());
-//			}
-//		}
-//		
-//		// Now we can delete the node.
-//		node.getGraph().removeNode(node);
-		
 		// Clean up trivial NAC and multi-rules:
 		HenshinACUtil.removeTrivialACs(rule);
 		HenshinMultiRuleUtil.removeTrivialMultiRules(rule);
