@@ -110,10 +110,12 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 
 				// If it has an origin in the LHS, it is a NAC-action:
 				if (origin==null) {
-					if (ActionACUtil.DEFAULT_AC_NAME.equals(graph.getName())) {
+					String name = graph.getName();
+					if (name==null || name.trim().length()==0 || 
+						ActionACUtil.DEFAULT_AC_NAME.equals(graph.getName())) {
 						return new Action(type, isAmalgamated);
 					} else {
-						return new Action(type, isAmalgamated, graph.getName());
+						return new Action(type, isAmalgamated, name.trim());
 					}
 				}
 			}

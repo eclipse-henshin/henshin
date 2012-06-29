@@ -101,7 +101,7 @@ public class Action {
 	/**
 	 * Default constructor.
 	 * @param type Action type. Must not be <code>null</code>!
-	 * @param amalgamated Amlgamation flag.
+	 * @param amalgamated Amalgamation flag.
 	 * @param arguments Optional arguments.
 	 */
 	public Action(ActionType type, boolean amalgamated, String... arguments) {
