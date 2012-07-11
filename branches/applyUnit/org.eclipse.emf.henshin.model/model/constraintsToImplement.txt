@@ -1,0 +1,53 @@
+The following constraints shall be implemented either in OCL or via code. The former is preferred. 
+Feel free to add new constraints or to implement one of them! 
+Note: If a constraint below has been implemented, please mark it with a leading <done>.
+
+* Rule
+<done> [error] <<create>> nodes (in the RHS) must not be abstract
+<done> [error] <<create>> edges (in the RHS) must not be derived
+<done> [error] <<delete>> edges (in the LHS) must not be derived 
+<done> [error] Mappings in a rule have as origin a node in this rule's lhs graph and as image a node in this rule's rhs graph
+<done> [error] Lhs graph has to exist
+<done> [error] Rhs graph has to exist
+
+* TransformationSystem
+<done> [warn] units (incl. rules) within a transformation system shall have unique names, if a name is given at all
+<done> [warn] be aware of cyclic transformation units. 
+<done> [error] no parameter name shall be equal to the name of an EClassifier in the underlying ecore models
+
+* AttributeCondition
+[warn] unique names within an attribute condition, if a name is given at all
+
+* Parameter
+<done> [error] name is required
+
+* Graph
+<done> [error] unique names of nodes within a graph, if node name is given
+
+* Edge
+<done> [error] source *and* target of an edge belong to the same graph as the edge itself
+
+* Node
+<done> [error] there are no two attributes within a node with equal types
+
+* TransformationUnit
+<done> [error] unique names of parameters
+<done> [error] for contained parameter mappings: if source parameter is contained in *this* unit, then the target parameter is contained in a direct subunit 
+<done> [error] for contained parameter mappings: if target parameter is contained in *this* unit, then the source parameter is contained in a direct subunit 
+
+* CountedUnit
+<done> [error] count =-1 or count>0
+
+* AmalgamationUnit
+<done> [error] each node in the lhs of "kernel rule" has a lhsMappings:mapping to one node in each's "multi rule" lhs
+<done> [error] each node in the rhs of "kernel rule" has a rhsMappings:mapping to one node in each's "multi rule" rhs
+<done> [error] each edge in the lhs of "kernel rule" there is an edge between the edge's source image and the edge's target image in each multiRule's lhs
+<done> [error] each edge in the rhs of "kernel rule" there is an edge between the edge's source image and the edge's target image in each multiRule's rhs         
+<done> [error] lhsMappings must contain mappings between the lhs of the kernel rule (origin) and a multirule lhs only
+<done> [error] rhsMappings must contain mappings between the rhs of the kernel rule (origin) and a multirule rhs only
+<done> [error] in multirules, mappings between elements mapped by the kernel rule must correspond to mappings of the kernel rule itself
+
+* Nested Condition
+<done> [error] the origin node of a mapping is contained in a direct parent nested condition 
+<done> [error] the image node of a mapping is contained in *this* nested condition
+ 
