@@ -16,7 +16,9 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
 Export-Package: org.eclipse.emf.henshin,
  org.eclipse.emf.henshin.model,
  org.eclipse.emf.henshin.model.actions,
+ org.eclipse.emf.henshin.model.exporters,
  org.eclipse.emf.henshin.model.impl,
+ org.eclipse.emf.henshin.model.importers,
  org.eclipse.emf.henshin.model.resource,
  org.eclipse.emf.henshin.model.util
 Bundle-Activator: org.eclipse.emf.henshin.HenshinModelPlugin$Implementation

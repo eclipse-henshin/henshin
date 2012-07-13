@@ -9,13 +9,11 @@
  * Contributors:
  *     CWI Amsterdam - initial API and implementation
  *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.util;
+package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
@@ -23,7 +21,7 @@ import org.eclipse.emf.henshin.statespace.validation.Validator;
  * @author Christian Krause
  * @generated NOT
  */
-public class StateSpacePlatformHelper {
+class StateSpacePluginInitializer {
 	
 	/**
 	 * Load the state space validators registered via the platform.

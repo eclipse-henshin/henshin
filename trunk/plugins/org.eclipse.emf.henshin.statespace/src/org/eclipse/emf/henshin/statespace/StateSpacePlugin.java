@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.henshin.statespace.util.StateSpacePlatformHelper;
 import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
@@ -75,7 +74,7 @@ public final class StateSpacePlugin extends EMFPlugin {
 			validators = new HashMap<String,Validator>();
 			try {
 				// Load the validators registered via the platform's extension point mechanism.
-				StateSpacePlatformHelper.loadValidators();
+				StateSpacePluginInitializer.loadValidators();
 			}
 			catch (Throwable t) {
 				// Not critical. Happens if the platform is not present.
@@ -94,7 +93,7 @@ public final class StateSpacePlugin extends EMFPlugin {
 			exporters = new HashMap<String,StateSpaceExporter>();
 			try {
 				// Load the exporters registered via the platform's extension point mechanism.
-				StateSpacePlatformHelper.loadExporters();
+				StateSpacePluginInitializer.loadExporters();
 			}
 			catch (Throwable t) {
 				// Not critical. Happens if the platform is not present.
