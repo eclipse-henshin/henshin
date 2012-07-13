@@ -20,6 +20,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -27,6 +28,7 @@ import org.eclipse.emf.henshin.model.Rule;
 /**
  * Common utility methods for Henshin {@link Mapping}s.
  * @author Christian Krause
+ * @deprecated Use {@link MappingList}
  */
 public class HenshinMappingUtil {
 	
