@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Rule;
@@ -40,7 +39,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getImports <em>Imports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getInstances <em>Instances</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getTransformationUnits <em>Transformation Units</em>}</li>
  * </ul>
  * </p>
@@ -87,16 +85,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * @ordered
 	 */
 	protected EList<EPackage> imports;
-
-	/**
-	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getInstances()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Graph> instances;
 
 	/**
 	 * The cached value of the '{@link #getTransformationUnits() <em>Transformation Units</em>}' containment reference list.
@@ -177,18 +165,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Graph> getInstances() {
-		if (instances == null) {
-			instances = new EObjectContainmentEList<Graph>(Graph.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES);
-		}
-		return instances;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<TransformationUnit> getTransformationUnits() {
 		if (transformationUnits == null) {
 			transformationUnits = new EObjectContainmentEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
@@ -245,8 +221,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 		switch (featureID) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return ((InternalEList<?>)getTransformationUnits()).basicRemove(otherEnd, msgs);
 		}
@@ -267,8 +241,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				return getRules();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				return getImports();
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-				return getInstances();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return getTransformationUnits();
 		}
@@ -295,10 +267,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				getImports().clear();
 				getImports().addAll((Collection<? extends EPackage>)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-				getInstances().clear();
-				getInstances().addAll((Collection<? extends Graph>)newValue);
-				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				getTransformationUnits().clear();
 				getTransformationUnits().addAll((Collection<? extends TransformationUnit>)newValue);
@@ -324,9 +292,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				getImports().clear();
 				return;
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-				getInstances().clear();
-				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				getTransformationUnits().clear();
 				return;
@@ -348,8 +313,6 @@ public class TransformationSystemImpl extends DescribedElementImpl implements Tr
 				return rules != null && !rules.isEmpty();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS:
 				return imports != null && !imports.isEmpty();
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
-				return instances != null && !instances.isEmpty();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return transformationUnits != null && !transformationUnits.isEmpty();
 		}

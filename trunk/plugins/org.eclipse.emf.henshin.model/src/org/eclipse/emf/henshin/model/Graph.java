@@ -168,14 +168,6 @@ public interface Graph extends NamedElement {
 	 * @model kind="operation"
 	 * @generated
 	 */
-	boolean isHost();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
 	boolean isNestedCondition();
 
 } // Graph

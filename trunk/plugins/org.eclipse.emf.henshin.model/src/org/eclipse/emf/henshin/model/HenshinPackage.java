@@ -167,22 +167,13 @@ public interface HenshinPackage extends EPackage {
 	int TRANSFORMATION_SYSTEM__IMPORTS = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_SYSTEM__INSTANCES = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Transformation Units</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = DESCRIBED_ELEMENT_FEATURE_COUNT + 4;
+	int TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Transformation System</em>' class.
@@ -191,7 +182,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 5;
+	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
@@ -1643,17 +1634,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getTransformationSystem_Imports();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getInstances <em>Instances</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Instances</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getInstances()
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	EReference getTransformationSystem_Instances();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits <em>Transformation Units</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2547,14 +2527,6 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRANSFORMATION_SYSTEM__IMPORTS = eINSTANCE.getTransformationSystem_Imports();
-
-		/**
-		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_SYSTEM__INSTANCES = eINSTANCE.getTransformationSystem_Instances();
 
 		/**
 		 * The meta object literal for the '<em><b>Transformation Units</b></em>' containment reference list feature.

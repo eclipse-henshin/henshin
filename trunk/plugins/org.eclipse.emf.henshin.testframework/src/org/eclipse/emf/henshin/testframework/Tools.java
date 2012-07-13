@@ -143,16 +143,6 @@ public class Tools {
 		ModelUtils.save(rootObject, filename);
 	}
 	
-	@Deprecated
-	public static void persistAllEmbeddedGraphs(TransformationSystem ts, String path, String fileExt)
-			throws IOException {
-		for (Graph g : ts.getInstances()) {
-			HenshinEGraph hgr = new HenshinEGraph(g);
-			System.out.println("saving " + path + g.getName() + "." + fileExt);
-			persist(getGraphRoot(hgr), path + g.getName() + "." + fileExt);
-		}
-	}
-	
 	/**
 	 * store a rule to disk for analyzing
 	 * 

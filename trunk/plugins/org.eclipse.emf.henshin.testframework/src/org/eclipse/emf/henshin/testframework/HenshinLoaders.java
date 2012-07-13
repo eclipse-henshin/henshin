@@ -71,46 +71,6 @@ public class HenshinLoaders {
 		return graph;
 	}
 	
-	/**
-	 * Load embedded graph from a henshin file
-	 * 
-	 * @param embeddedGraphName
-	 *            Name of the embedded graph
-	 * @param ts
-	 *            {@link TransformationSystem}
-	 * @return
-	 */
-	public static EGraph loadEmbeddedGraph(String embeddedGraphName, TransformationSystem ts)
-			throws NullPointerException {
-		HenshinEGraph hgr = null;
-		for (Graph g : ts.getInstances()) {
-			if (g.getName().equals(embeddedGraphName)) {
-				hgr = new HenshinEGraph(g);
-				break;
-			}
-		}
-		
-		if (hgr == null) {
-			throw new NullPointerException("couldn't find embedded graph " + embeddedGraphName);
-		}
-		return (EGraph) hgr;
-	}
-	
-	/**
-	 * Load embedded graph from a henshin file
-	 * 
-	 * @param embeddedGraphName
-	 *            Name of the embedded graph
-	 * @param ts
-	 *            {@link TransformationSystem}
-	 * @return
-	 */
-	public static EGraph loadGraph(String embeddedGraphName, TransformationSystem ts) {
-		// this method is just for having similar method names for loading
-		// graphs
-		return loadEmbeddedGraph(embeddedGraphName, ts);
-	}
-	
 	public static EGraph loadGraph(URI graphUri) {
 		Resource resourceModel = new ResourceSetImpl().getResource(graphUri, true);
 		EGraph egr = InterpreterFactory.INSTANCE.createEGraph();

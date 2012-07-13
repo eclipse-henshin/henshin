@@ -129,7 +129,6 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
 		}
 		return childrenFeatures;
@@ -188,7 +187,6 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
-			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -210,10 +208,6 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 		newChildDescriptors.add(createChildParameter(
 				HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES,
 				HenshinFactory.eINSTANCE.createRule()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES,
-				HenshinFactory.eINSTANCE.createGraph()));
 		
 		// newChildDescriptors.add
 		// (createChildParameter

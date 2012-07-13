@@ -322,16 +322,7 @@ public class HenshinTest {
 		htEGraph = graph;
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
-	
-	/**
-	 * Load a graph embedded in the currently loaded TransformationSystem. 
-	 * <strong>This method should not be used and may be removed in the future.</strong>
-	 * @param embeddedGraphName
-	 */
-	protected void loadEmbeddedGraph(String embeddedGraphName) {
-		loadGraph(HenshinLoaders.loadEmbeddedGraph(embeddedGraphName, htTransformationSystem));
-	}
-	
+		
 	/**
 	 * Load a graph and create a new EmfEngine for the graph (htEngine)
 	 * @param graphName		name of the graph. Loaded graph is 
