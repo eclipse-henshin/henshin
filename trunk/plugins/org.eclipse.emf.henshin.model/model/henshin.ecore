@@ -25,10 +25,10 @@
       <details key="uniqueUnitNames" value="transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 &lt;> unit2 implies unit1.name &lt;> unit2.name)"/>
       <details key="uniqueUnitNames.Msg" value="_Ocl_Msg_TransformationSystem_uniqueUnitNames"/>
     </eAnnotations>
-    <eOperations name="findUnitByName" eType="#//TransformationUnit">
+    <eOperations name="getTransformationUnit" eType="#//TransformationUnit">
       <eParameters name="unitName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eOperations name="findRuleByName" eType="#//Rule">
+    <eOperations name="getRule" eType="#//Rule">
       <eParameters name="ruleName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
@@ -50,7 +50,7 @@
       <details key="mappingsFromLeft2Right" value="mappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;rhs.nodes->includes(mapping.image)&#xD;&#xA;)"/>
       <details key="mappingsFromLeft2Right.Msg" value="_Ocl_Msg_Rule_mappingsFromLeft2Right"/>
     </eAnnotations>
-    <eOperations name="getNodeByName" eType="#//Node">
+    <eOperations name="getNode" eType="#//Node">
       <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
@@ -65,7 +65,7 @@
     <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getKernelRule" eType="#//Rule"/>
     <eOperations name="getRootKernelRule" eType="#//Rule"/>
-    <eOperations name="getMultiRuleByName" eType="#//Rule">
+    <eOperations name="getMultiRule" eType="#//Rule">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="getOriginInKernelRule">
@@ -134,10 +134,10 @@
       <eParameters name="node" eType="#//Node"/>
     </eOperations>
     <eOperations name="getContainerRule" eType="#//Rule"/>
-    <eOperations name="findNodesByType" ordered="false" upperBound="-1" eType="#//Node">
+    <eOperations name="getNodes" ordered="false" upperBound="-1" eType="#//Node">
       <eParameters name="nodeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eOperations>
-    <eOperations name="findEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
+    <eOperations name="getEdges" ordered="false" upperBound="-1" eType="#//Edge">
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
     <eOperations name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -174,22 +174,22 @@
       <details key="uniqueAttributeTypes" value="attributes->forAll(attr1,attr2 : Attribute| attr1&lt;>attr2 implies attr1.type &lt;> attr2.type)"/>
       <details key="uniqueAttributeTypes.Msg" value="_Ocl_Msg_Node_uniqueAttributeTypes"/>
     </eAnnotations>
-    <eOperations name="findOutgoingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
-      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eOperations name="getOutgoing" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="findIncomingEdgesByType" ordered="false" upperBound="-1" eType="#//Edge">
-      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eOperations name="getIncoming" ordered="false" upperBound="-1" eType="#//Edge">
+      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="findAttributeByType" eType="#//Attribute">
-      <eParameters name="attributeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eOperations name="getOutgoing" eType="#//Edge">
+      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      <eParameters name="target" lowerBound="1" eType="#//Node"/>
     </eOperations>
-    <eOperations name="findOutgoingEdgeByType" eType="#//Edge">
-      <eParameters name="targetNode" lowerBound="1" eType="#//Node"/>
-      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eOperations name="getIncoming" eType="#//Edge">
+      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+      <eParameters name="source" lowerBound="1" eType="#//Node"/>
     </eOperations>
-    <eOperations name="findIncomingEdgeByType" eType="#//Edge">
-      <eParameters name="sourceNode" lowerBound="1" eType="#//Node"/>
-      <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eOperations name="getAttribute" eType="#//Attribute">
+      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
@@ -238,8 +238,8 @@
     <eOperations name="getSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit">
       <eParameters name="deep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
-    <eOperations name="getParameterByName" eType="#//Parameter">
-      <eParameters name="parametername" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eOperations name="getParameter" eType="#//Parameter">
+      <eParameters name="parameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>

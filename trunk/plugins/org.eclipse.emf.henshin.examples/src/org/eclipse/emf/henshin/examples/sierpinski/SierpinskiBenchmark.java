@@ -52,7 +52,7 @@ public class SierpinskiBenchmark {
 		
 		// Load the transformation system and find the rule:
 		TransformationSystem trasys = resourceSet.getTransformationSystem("sierpinski.henshin");
-		Rule rule = trasys.findRuleByName("AddTriangle");
+		Rule rule = trasys.getRule("AddTriangle");
 
 		// Load the first level of the Sierpinski triangle into a graph:
 		Resource resource = resourceSet.getResource("sierpinski-start.xmi");

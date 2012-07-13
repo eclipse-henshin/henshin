@@ -142,7 +142,7 @@ public interface Rule extends TransformationUnit {
 	 * @model
 	 * @generated
 	 */
-	Rule getMultiRuleByName(String name);
+	Rule getMultiRule(String name);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -252,7 +252,7 @@ public interface Rule extends TransformationUnit {
 	 * @model
 	 * @generated
 	 */
-	Node getNodeByName(String nodename, boolean isLhs);
+	Node getNode(String nodename, boolean isLhs);
 
 	/**
 	 * <!-- begin-user-doc -->

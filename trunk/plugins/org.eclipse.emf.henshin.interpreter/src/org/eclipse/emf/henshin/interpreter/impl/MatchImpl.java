@@ -108,7 +108,7 @@ public class MatchImpl extends AssignmentImpl implements Match {
 		setValue(node, target);
 		// Check whether there is a parameter with the same name:
 		if (unit!=null && node.getName()!=null) {
-			Parameter param = unit.getParameterByName(node.getName());
+			Parameter param = unit.getParameter(node.getName());
 			if (param!=null) {
 				setValue(param, target);
 			}

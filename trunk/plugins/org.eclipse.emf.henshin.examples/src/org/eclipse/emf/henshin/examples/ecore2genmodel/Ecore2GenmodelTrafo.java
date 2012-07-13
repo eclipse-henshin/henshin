@@ -71,7 +71,7 @@ public class Ecore2GenmodelTrafo {
 
 		// Generate genmodel from ecore model (without annotations).
 		unitApp.setEGraph(graph);
-		unitApp.setUnit(system.findUnitByName("translateGenModel"));
+		unitApp.setUnit(system.getTransformationUnit("translateGenModel"));
 		
 		// File name and plug-in name cannot be reliably deduced by the model elements, thus need to be set:
 		unitApp.setParameterValue("modelFileName", "flowchartdsl.ecore");
@@ -88,7 +88,7 @@ public class Ecore2GenmodelTrafo {
 		graph.addTree(mappingModel);
 
 		// Process annotations and generate related Henshin rules:
-		unitApp.setUnit(system.findUnitByName("prepareCustomizationUnit"));
+		unitApp.setUnit(system.getTransformationUnit("prepareCustomizationUnit"));
 		InterpreterUtil.executeOrDie(unitApp, null);
 
 		// Apply generated rules to transfer annotations to the genmodel.

@@ -398,7 +398,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 			Parameter source = mapping.getSource();
 			Parameter target = mapping.getTarget();
 			if (source.getUnit()==subUnitApp.getUnit()) {
-				Parameter param = subUnitApp.getUnit().getParameterByName(source.getName());
+				Parameter param = subUnitApp.getUnit().getParameter(source.getName());
 				if (param!=null) {
 					Object value = subUnitApp.getResultAssignment().getParameterValue(param);
 					if (value!=null) {
@@ -445,7 +445,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (unit==null) {
 			throw new RuntimeException("Transformation unit not set");
 		}
-		Parameter param = unit.getParameterByName(paramName);
+		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in transformation unit \"" + unit.getName() + "\" found" );
 		}
@@ -464,7 +464,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 		if (unit==null) {
 			throw new RuntimeException("Transformation unit not set");
 		}
-		Parameter param = unit.getParameterByName(paramName);
+		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in transformation unit \"" + unit.getName() + "\" found" );
 		}

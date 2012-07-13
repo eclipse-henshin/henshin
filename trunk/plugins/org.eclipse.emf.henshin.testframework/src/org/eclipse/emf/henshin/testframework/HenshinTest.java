@@ -216,7 +216,7 @@ public class HenshinTest {
 	 * @param ruleName
 	 */
 	protected void loadRule(String ruleName) {
-		htRule = htTransformationSystem.findRuleByName(ruleName);
+		htRule = htTransformationSystem.getRule(ruleName);
 		htRuleApp = InterpreterFactory.INSTANCE.createRuleApplication(htEngine);
 		htRuleApp.setRule(htRule);
 		htRuleApp.setEGraph(htEGraph);
@@ -270,7 +270,7 @@ public class HenshinTest {
 	 *            {@link TransformationUnit} to be loaded
 	 */
 	protected void loadTu(String unitName) {
-		htTransUnit = htTransformationSystem.findUnitByName(unitName);
+		htTransUnit = htTransformationSystem.getTransformationUnit(unitName);
 		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
 		htUnitApp.setUnit(htTransUnit);
 		htUnitApp.setEGraph(htEGraph);

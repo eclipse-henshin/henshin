@@ -237,7 +237,7 @@ public class InvocationNameParser extends AbstractParser {
 					}
 					
 					// Find the used parameter in the parent unit:
-					Parameter unitParam = unit.getParameterByName(parsed[i]);
+					Parameter unitParam = unit.getParameter(parsed[i]);
 					if (unitParam!=null) {
 						
 						// Now add the right parameter mappings:

@@ -189,7 +189,7 @@ public class HenshinMappingUtil {
 		Node target = getNodeImage(edge.getTarget(), targetGraph, mappings);
 		if (source == null || target == null)
 			return null;
-		return source.findOutgoingEdgeByType(target, edge.getType());
+		return source.getOutgoing(edge.getType(), target);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class HenshinMappingUtil {
 		Node target = getNodeOrigin(edge.getTarget(), mappings);
 		if (source == null || target == null)
 			return null;
-		return source.findOutgoingEdgeByType(target, edge.getType());
+		return source.getOutgoing(edge.getType(), target);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class HenshinMappingUtil {
 		Node nodeImage = getNodeImage(attribute.getNode(), targetGraph, mappings);
 		if (nodeImage==null)
 			return null;
-		return nodeImage.findAttributeByType(attribute.getType());
+		return nodeImage.getAttribute(attribute.getType());
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class HenshinMappingUtil {
 		Node nodeOrigin = getNodeOrigin(attribute.getNode(), mappings);
 		if (nodeOrigin==null)
 			return null;
-		return nodeOrigin.findAttributeByType(attribute.getType());
+		return nodeOrigin.getAttribute(attribute.getType());
 	}
 
 	/**

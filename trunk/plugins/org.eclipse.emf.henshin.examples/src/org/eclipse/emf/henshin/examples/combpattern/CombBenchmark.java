@@ -56,7 +56,7 @@ public class CombBenchmark {
 		
 		// Load the transformation system and unit:
 		TransformationSystem system = resourceSet.getTransformationSystem(sparse ? "grid-sparse.henshin" : "grid-full.henshin");
-		TransformationUnit unit = system.findUnitByName("buildGrid");
+		TransformationUnit unit = system.getTransformationUnit("buildGrid");
 		
 		// Apply the unit:
 		UnitApplication application = new UnitApplicationImpl(engine);
@@ -90,10 +90,10 @@ public class CombBenchmark {
 		
 		// Load the transformation system and unit for building the rule:
 		TransformationSystem system = resourceSet.getTransformationSystem("comb.henshin");
-		TransformationUnit unit = system.findUnitByName("buildCombPattern");
+		TransformationUnit unit = system.getTransformationUnit("buildCombPattern");
 		
 		// Create a copy of the initial rule and prepare the EGraph:
-		Rule rule = EcoreUtil.copy(system.findRuleByName("combPattern"));
+		Rule rule = EcoreUtil.copy(system.getRule("combPattern"));
 		EGraph graph = new EGraphImpl();
 		graph.addTree(rule);
 		for (EPackage epackage : system.getImports()) {

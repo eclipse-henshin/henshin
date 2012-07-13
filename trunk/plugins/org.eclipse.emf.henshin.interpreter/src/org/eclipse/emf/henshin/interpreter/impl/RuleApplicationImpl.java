@@ -227,7 +227,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (unit==null) {
 			throw new RuntimeException("Rule not set");
 		}
-		Parameter param = unit.getParameterByName(paramName);
+		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in rule \"" + unit.getName() + "\" found" );
 		}
@@ -246,7 +246,7 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 		if (unit==null) {
 			throw new RuntimeException("Rule not set");
 		}
-		Parameter param = unit.getParameterByName(paramName);
+		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
 			throw new RuntimeException("No parameter \"" + paramName + "\" in rule \"" + unit.getName() + "\" found" );
 		}

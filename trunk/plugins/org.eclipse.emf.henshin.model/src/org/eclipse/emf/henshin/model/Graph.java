@@ -136,7 +136,7 @@ public interface Graph extends NamedElement {
 	 * @model ordered="false" nodeTypeRequired="true"
 	 * @generated
 	 */
-	EList<Node> findNodesByType(EClass nodeType);
+	EList<Node> getNodes(EClass nodeType);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,7 +144,7 @@ public interface Graph extends NamedElement {
 	 * @model ordered="false" edgeTypeRequired="true"
 	 * @generated
 	 */
-	EList<Edge> findEdgesByType(EReference edgeType);
+	EList<Edge> getEdges(EReference edgeType);
 
 	/**
 	 * <!-- begin-user-doc -->

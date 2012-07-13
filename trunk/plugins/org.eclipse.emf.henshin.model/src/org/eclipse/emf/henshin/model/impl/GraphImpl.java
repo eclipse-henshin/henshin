@@ -207,7 +207,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * 
 	 * @generated NOT
 	 */
-	public EList<Node> findNodesByType(EClass nodeType) {
+	public EList<Node> getNodes(EClass nodeType) {
 		
 		List<Node> result = new ArrayList<Node>();
 		for (Node node : this.getNodes()) {
@@ -223,7 +223,7 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * 
 	 * @generated NOT
 	 */
-	public EList<Edge> findEdgesByType(EReference edgeType) {
+	public EList<Edge> getEdges(EReference edgeType) {
 		
 		List<Edge> result = new ArrayList<Edge>();
 		for (Edge edge : this.getEdges()) {

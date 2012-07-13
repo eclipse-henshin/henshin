@@ -46,7 +46,7 @@ public class DiningPhilsBenchmark {
 		
 		// Find the rule for adding a philosopher:
 		Rule createPhilRule = stateSpace.getRules().get(0).
-				getTransformationSystem().findRuleByName("createPhil");
+				getTransformationSystem().getRule("createPhil");
 
 		// Now do the benchmark...
 		try {

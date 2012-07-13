@@ -235,7 +235,7 @@ public abstract class TransformationUnitImpl extends DescribedElementImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Parameter getParameterByName(String parameterName) {
+	public Parameter getParameter(String parameterName) {
 		for (Parameter parameter : getParameters()) {
 			if (parameterName==null) {
 				if (parameter.getName()==null) {

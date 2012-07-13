@@ -51,7 +51,7 @@ public class Parameters {
 	public static void assertParameterMappingEquals(Match ma, String parameterName, Object obj)
 			throws AssertionError {
 		
-		Parameter param = ma.getUnit().getParameterByName(parameterName);
+		Parameter param = ma.getUnit().getParameter(parameterName);
 		if (param==null) {
 			throw new AssertionError("expected: Parameter \"" + parameterName + "\" exists in unit \"" + ma.getUnit() + "\"");
 		}

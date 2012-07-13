@@ -46,7 +46,7 @@ public class ApplyTrafoUnit extends AbstractHandler {
 			String trafoName = event.getParameter("org.eclipse.emf.henshin.TrafoSystemParameter");
 			
 			TransformationSystem trafoSystem = HenshinRegistry.INSTANCE.getTransformationSystemByName(trafoName);
-			TransformationUnit unit = trafoSystem.findUnitByName(unitName);
+			TransformationUnit unit = trafoSystem.getTransformationUnit(unitName);
 			
 			UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 			unitApplication.setEGraph(graph);

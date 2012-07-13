@@ -48,9 +48,9 @@ public class STSBenchmark {
 		EObject container = resourceSet.getObject("initialgraph.xmi");
 
 		// Load the rules:
-		Rule newRule = trasys.findRuleByName("newRule");
-		TransformationUnit stsUnit = trasys.findUnitByName("sts");
-		TransformationUnit loopStsUnit = trasys.findUnitByName("loopSts");
+		Rule newRule = trasys.getRule("newRule");
+		TransformationUnit stsUnit = trasys.getTransformationUnit("sts");
+		TransformationUnit loopStsUnit = trasys.getTransformationUnit("loopSts");
 
 		
 		//Perform benchmark for several graph sizes

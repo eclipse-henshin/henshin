@@ -45,7 +45,7 @@ public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
 		if (node==null) {
 			node = nodeMapEditor.copy(attribute.getNode());
 		}
-		Attribute old = node.findAttributeByType(attribute.getType());
+		Attribute old = node.getAttribute(attribute.getType());
 		if (old!=null) {
 			node.getAttributes().remove(old);	// remove the old one
 		}

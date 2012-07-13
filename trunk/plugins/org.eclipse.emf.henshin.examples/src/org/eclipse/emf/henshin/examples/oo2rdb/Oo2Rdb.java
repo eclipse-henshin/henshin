@@ -79,7 +79,7 @@ public class Oo2Rdb {
 		
 		// Initialize the interpreter:
 		Engine engine = new EngineImpl();
-		TransformationUnit unit = trafo.findUnitByName("Start");
+		TransformationUnit unit = trafo.getTransformationUnit("Start");
 		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setUnit(unit);
 		unitApp.setEGraph(graph);

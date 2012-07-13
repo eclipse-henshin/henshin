@@ -33,31 +33,25 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface TransformationUnit extends DescribedElement, NamedElement {
+	
 	/**
-	 * Returns the value of the '<em><b>Activated</b></em>' attribute. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Activated</em>' attribute isn't clear, there
-	 * really should be more of a description here...
-	 * </p>
+	 * Returns the value of the '<em><b>Activated</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Activated</em>' attribute.
 	 * @see #setActivated(boolean)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_Activated()
-	 * @model
+	 * @model default="true"
 	 * @generated
 	 */
 	boolean isActivated();
 
 	/**
-	 * Sets the value of the '
-	 * {@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated
-	 * <em>Activated</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Activated</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc-->
+	 * @param value the new value of the '<em>Activated</em>' attribute.
 	 * @see #isActivated()
 	 * @generated
 	 */
@@ -68,10 +62,6 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Parameter}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_Parameters()
@@ -82,13 +72,17 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 	EList<Parameter> getParameters();
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Parameter getParameter(String parameter);
+
+	/**
 	 * Returns the value of the '<em><b>Parameter Mappings</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.ParameterMapping}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameter Mappings</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameter Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationUnit_ParameterMappings()
@@ -118,13 +112,5 @@ public interface TransformationUnit extends DescribedElement, NamedElement {
 	 * @generated
 	 */
 	EList<TransformationUnit> getSubUnits(boolean deep);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	Parameter getParameterByName(String parametername);
 
 } // TransformationUnit

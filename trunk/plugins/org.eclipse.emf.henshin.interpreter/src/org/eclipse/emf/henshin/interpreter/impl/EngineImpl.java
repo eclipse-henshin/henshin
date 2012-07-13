@@ -257,7 +257,7 @@ public class EngineImpl implements Engine {
 			
 			// Parameter values:
 			for (Entry<String,Object> entry : solution.parameterValues.entrySet()) {
-				Parameter param = nextMatch.getUnit().getParameterByName(entry.getKey());
+				Parameter param = nextMatch.getUnit().getParameter(entry.getKey());
 				if (param!=null) {
 					nextMatch.setParameterValue(param, entry.getValue());
 				}
@@ -278,7 +278,7 @@ public class EngineImpl implements Engine {
 				// Create the partial multi match:
 				Match partialMultiMatch = new MatchImpl(multiRule);
 				for (Parameter param : rule.getParameters()) {
-					Parameter multiParam = multiRule.getParameterByName(param.getName());
+					Parameter multiParam = multiRule.getParameter(param.getName());
 					if (multiParam!=null) {
 						partialMultiMatch.setParameterValue(multiParam, nextMatch.getParameterValue(param));
 					}
@@ -478,7 +478,7 @@ public class EngineImpl implements Engine {
 			for (Attribute attribute : node.getAttributes()) {
 				String value = attribute.getValue();
 				if (value!=null) {
-					Parameter param = node.getGraph().getContainerRule().getParameterByName(value);
+					Parameter param = node.getGraph().getContainerRule().getParameter(value);
 					if (param!=null && partialMatch.getParameterValue(param)!=null) {
 						return true;
 					}

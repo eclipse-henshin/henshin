@@ -51,8 +51,8 @@ public class ALAPBenchmark {
 		EObject container = resourceSet.getObject("initialgraph.xmi");
 		
 		// Load the rules:
-		Rule newRule = trasys.findRuleByName("newRule");
-		TransformationUnit alap2Unit = trasys.findUnitByName("alap2");
+		Rule newRule = trasys.getRule("newRule");
+		TransformationUnit alap2Unit = trasys.getTransformationUnit("alap2");
 //		LoggingApplicationMonitorImpl monitor = new LoggingApplicationMonitorImpl();
 
 		

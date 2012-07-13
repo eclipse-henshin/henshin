@@ -430,7 +430,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		
 		// Get or create the multi-rule:
-		Rule multiRule = kernel.getMultiRuleByName(name);
+		Rule multiRule = kernel.getMultiRule(name);
 		if (multiRule==null) {
 			multiRule = HenshinFactory.eINSTANCE.createRule();
 			multiRule.setName(name);

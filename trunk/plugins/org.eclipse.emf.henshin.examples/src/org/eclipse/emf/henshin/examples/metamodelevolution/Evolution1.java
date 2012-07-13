@@ -183,7 +183,7 @@ public class Evolution1 {
 		Engine engineM = new EngineImpl();
 
 		// select rule
-		Rule mm_rule1 = tsM.findRuleByName("MM_CreateRefClass");
+		Rule mm_rule1 = tsM.getRule("MM_CreateRefClass");
 
 		/*
 		 * UnitApplication encapsulates a transformation basing on an engine and
@@ -355,7 +355,7 @@ public class Evolution1 {
 		Engine engineM = new EngineImpl();
 
 		// select rule
-		Rule mm_rule2 = tsM.findRuleByName("MM_DeleteOldRefs");
+		Rule mm_rule2 = tsM.getRule("MM_DeleteOldRefs");
 
 		/*
 		 * UnitApplication encapsulates a transformation basing on an engine and

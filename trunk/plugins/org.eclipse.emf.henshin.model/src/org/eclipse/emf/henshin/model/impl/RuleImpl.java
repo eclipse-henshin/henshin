@@ -330,7 +330,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Rule getMultiRuleByName(String name) {
+	public Rule getMultiRule(String name) {
 		for (Rule multiRule : getMultiRules()) {
 			if ((name==null && multiRule.getName()==null) || 
 				(name!=null && name.equals(multiRule.getName()))) {
@@ -562,7 +562,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * 
 	 * @generated NOT
 	 */
-	public Node getNodeByName(String nodename, boolean isLhs) {
+	public Node getNode(String nodename, boolean isLhs) {
 		for (Node node : (isLhs) ? lhs.getNodes() : rhs.getNodes()) {
 			if (nodename.equals(node.getName())) return node;
 		}

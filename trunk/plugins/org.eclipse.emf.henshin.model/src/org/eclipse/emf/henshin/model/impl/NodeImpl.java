@@ -254,7 +254,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Edge> findOutgoingEdgesByType(EReference edgeType) {
+	public EList<Edge> getOutgoing(EReference edgeType) {
 		
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Edge edge : this.getOutgoing()) {
@@ -271,7 +271,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public EList<Edge> findIncomingEdgesByType(EReference edgeType) {
+	public EList<Edge> getIncoming(EReference edgeType) {
 
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Edge edge : this.getIncoming()) {
@@ -288,7 +288,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Attribute findAttributeByType(EAttribute attributeType) {
+	public Attribute getAttribute(EAttribute attributeType) {
 
 		for (Attribute attribute : this.getAttributes()) {
 			if (attribute.getType() == attributeType)
@@ -302,7 +302,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge findOutgoingEdgeByType(Node targetNode, EReference edgeType) {
+	public Edge getOutgoing(EReference edgeType, Node targetNode) {
 
 		for (Edge edge : this.getOutgoing()) {
 			if (edgeType == edge.getType() && targetNode == edge.getTarget())
@@ -316,7 +316,7 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge findIncomingEdgeByType(Node sourceNode, EReference edgeType) {
+	public Edge getIncoming(EReference edgeType, Node sourceNode) {
 
 		for (Edge edge : this.getIncoming()) {
 			if (edgeType == edge.getType() && sourceNode == edge.getSource())

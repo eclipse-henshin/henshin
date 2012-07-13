@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @generated
  */
 public interface TransformationSystem extends DescribedElement, NamedElement {
+	
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
@@ -112,13 +113,13 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * only. Otherwise, all subunits are also considered. If no appropriate unit
 	 * is found <code>null</code> is returned.<br>
 	 * Please note, while rules are transformations units as well, please use
-	 * {@link #findRuleByName(String)} for such cases.
+	 * {@link #getRule(String)} for such cases.
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
-	TransformationUnit findUnitByName(String unitName);
+	TransformationUnit getTransformationUnit(String unitName);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -131,6 +132,6 @@ public interface TransformationSystem extends DescribedElement, NamedElement {
 	 * @model
 	 * @generated
 	 */
-	Rule findRuleByName(String ruleName);
+	Rule getRule(String ruleName);
 
 } // TransformationSystem

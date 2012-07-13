@@ -53,11 +53,11 @@ public class LTSBenchmark {
 		EObject container = resourceSet.getObject("initialgraph.xmi");
 
 		// Load the rules:
-		Rule newRule = trasys.findRuleByName("newRule");
-		Rule mountAllRule = trasys.findRuleByName("mountAllRule");
-		TransformationUnit ltsUnit = trasys.findUnitByName("lts2");
-		TransformationUnit loopStsUnit = trasys.findUnitByName("loopLts");
-		TransformationUnit finalStsUnit = trasys.findUnitByName("finalLts");
+		Rule newRule = trasys.getRule("newRule");
+		Rule mountAllRule = trasys.getRule("mountAllRule");
+		TransformationUnit ltsUnit = trasys.getTransformationUnit("lts2");
+		TransformationUnit loopStsUnit = trasys.getTransformationUnit("loopLts");
+		TransformationUnit finalStsUnit = trasys.getTransformationUnit("finalLts");
 
 		// Perform benchmark for several graph sizes
 		for (int graphSize = GRAPH_SIZE_MIN; graphSize <= GRAPH_SIZE_MAX; graphSize += STEP) {

@@ -40,13 +40,10 @@ import org.eclipse.emf.ecore.EReference;
  * @generated
  */
 public interface Node extends NamedElement, GraphElement {
+	
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
@@ -71,10 +68,6 @@ public interface Node extends NamedElement, GraphElement {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Attribute}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Attribute#getNode <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Attributes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributes</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Attributes()
@@ -88,10 +81,6 @@ public interface Node extends NamedElement, GraphElement {
 	 * Returns the value of the '<em><b>Graph</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Graph#getNodes <em>Nodes</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Graph</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Graph</em>' container reference.
 	 * @see #setGraph(Graph)
@@ -117,10 +106,6 @@ public interface Node extends NamedElement, GraphElement {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Edge#getTarget <em>Target</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Incoming</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Incoming</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Incoming()
@@ -135,10 +120,6 @@ public interface Node extends NamedElement, GraphElement {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Edge#getSource <em>Source</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Outgoing</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Outgoing</em>' reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Outgoing()
@@ -178,10 +159,10 @@ public interface Node extends NamedElement, GraphElement {
 	 * updated list of edges.
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @model ordered="false" edgeTypeRequired="true"
+	 * @model ordered="false" typeRequired="true"
 	 * @generated
 	 */
-	EList<Edge> findOutgoingEdgesByType(EReference edgeType);
+	EList<Edge> getOutgoing(EReference type);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,22 +175,10 @@ public interface Node extends NamedElement, GraphElement {
 	 * updated list of edges.
 	 * </p> 
 	 * <!-- end-user-doc -->
-	 * @model ordered="false" edgeTypeRequired="true"
+	 * @model ordered="false" typeRequired="true"
 	 * @generated
 	 */
-	EList<Edge> findIncomingEdgesByType(EReference edgeType);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Returns an {@link Attribute} instance according to the give attribute
-	 * type. If no such instance can be found, <code>null</code> is returned
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @model attributeTypeRequired="true"
-	 * @generated
-	 */
-	Attribute findAttributeByType(EAttribute attributeType);
+	EList<Edge> getIncoming(EReference type);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -219,10 +188,10 @@ public interface Node extends NamedElement, GraphElement {
 	 * <code>null</code> is returned
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @model targetNodeRequired="true" edgeTypeRequired="true"
+	 * @model typeRequired="true" targetRequired="true"
 	 * @generated
 	 */
-	Edge findOutgoingEdgeByType(Node targetNode, EReference edgeType);
+	Edge getOutgoing(EReference type, Node target);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -232,9 +201,21 @@ public interface Node extends NamedElement, GraphElement {
 	 * <code>null</code> is returned
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @model sourceNodeRequired="true" edgeTypeRequired="true"
+	 * @model typeRequired="true" sourceRequired="true"
 	 * @generated
 	 */
-	Edge findIncomingEdgeByType(Node sourceNode, EReference edgeType);
+	Edge getIncoming(EReference type, Node source);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * Returns an {@link Attribute} instance according to the give attribute
+	 * type. If no such instance can be found, <code>null</code> is returned
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @model typeRequired="true"
+	 * @generated
+	 */
+	Attribute getAttribute(EAttribute type);
 
 } // Node

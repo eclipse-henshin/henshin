@@ -90,7 +90,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		// Initialize the attribute type and value (guessing):
 		if (node.getType() != null) {
 			for (EAttribute type : node.getType().getEAllAttributes()) {
-				if (node.findAttributeByType(type) == null) {
+				if (node.getAttribute(type) == null) {
 					attribute.setType(type);
 					attribute.setValue(String.valueOf(type.getDefaultValue()));
 					break;
@@ -124,7 +124,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 	}
 
 	private void addAttribute(Node node, Attribute attribute) {
-		Attribute old = node.findAttributeByType(attribute.getType());
+		Attribute old = node.getAttribute(attribute.getType());
 		if (old != null) {
 			node.getAttributes().set(node.getAttributes().indexOf(old),
 					attribute);

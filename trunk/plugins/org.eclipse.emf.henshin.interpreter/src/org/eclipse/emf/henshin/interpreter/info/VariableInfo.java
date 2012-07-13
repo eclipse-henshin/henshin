@@ -182,7 +182,7 @@ public class VariableInfo {
 			if (incoming) {
 				// opposite edges are outgoing from the PoV of the node
 				Node remoteNode = edge.getTarget();
-				if (remoteNode.findOutgoingEdgeByType(node, oppType) == null) {
+				if (remoteNode.getOutgoing(oppType, node) == null) {
 					Integer count = edgeCount.get(oppType);
 					if (count == null) {
 						count = ONE;
@@ -194,7 +194,7 @@ public class VariableInfo {
 			} else {
 				// opposite edges are incoming from the PoV of the node
 				Node remoteNode = edge.getSource();
-				if (node.findOutgoingEdgeByType(remoteNode, oppType) == null) {
+				if (node.getOutgoing(oppType, remoteNode) == null) {
 					Integer count = edgeCount.get(oppType);
 					if (count == null) {
 						count = ONE;
