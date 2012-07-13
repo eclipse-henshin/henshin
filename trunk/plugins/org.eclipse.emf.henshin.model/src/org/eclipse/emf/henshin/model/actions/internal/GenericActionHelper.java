@@ -94,13 +94,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			// Find out whether it is a PAC, a NAC or something else:
 			NestedCondition nc = (NestedCondition) graph.eContainer();
 			ActionType type = null;
-			if (HenshinACUtil.isAC(nc, true)) {
+			if (nc.isPAC()) {
 				type = ActionType.REQUIRE;
 			}
-			else if (HenshinACUtil.isAC(nc, false)) {
+			else if (nc.isNAC()) {
 				type = ActionType.FORBID;
 			}
-			
+
 			// If we know the type, we can continue:
 			if (type!=null) {
 				

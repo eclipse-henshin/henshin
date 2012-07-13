@@ -65,4 +65,20 @@ public interface NestedCondition extends Formula {
 	 */
 	EList<Mapping> getMappings();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isPAC();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isNAC();
+
 } // NestedCondition

@@ -192,22 +192,6 @@ public class HenshinACUtil {
 	}
 	
 	/**
-	 * Check whether a nested condition is a PAC or a NAC.
-	 * 
-	 * @param ac
-	 *            Nested condition.
-	 * @param positive
-	 *            Whether you want to check for PACs or NACs.
-	 * @return <code>true</code> if it is a PAC/NAC.
-	 */
-	public static boolean isAC(NestedCondition ac, boolean positive) {
-		// TODO: this can be done more efficiently:
-		Rule rule = ac.getConclusion().getContainerRule();
-		List<NestedCondition> conditions = getAllACs(rule, positive);
-		return conditions.contains(ac);
-	}
-	
-	/**
 	 * Check whether a AC is trivial. A trivial AC is one that can always be
 	 * matched.
 	 * 
