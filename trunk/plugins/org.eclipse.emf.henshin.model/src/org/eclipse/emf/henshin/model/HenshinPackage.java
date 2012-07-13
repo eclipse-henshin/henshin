@@ -84,41 +84,22 @@ public interface HenshinPackage extends EPackage {
 	int NAMED_ELEMENT__NAME = 0;
 
 	/**
-	 * The number of structural features of the '<em>Named Element</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAMED_ELEMENT_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.DescribedElementImpl <em>Described Element</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.DescribedElementImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getDescribedElement()
-	 * @generated
-	 */
-	int DESCRIBED_ELEMENT = 1;
-
-	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIBED_ELEMENT__DESCRIPTION = 0;
+	int NAMED_ELEMENT__DESCRIPTION = 1;
 
 	/**
-	 * The number of structural features of the '<em>Described Element</em>' class.
+	 * The number of structural features of the '<em>Named Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DESCRIBED_ELEMENT_FEATURE_COUNT = 1;
+	int NAMED_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl <em>Transformation System</em>}' class.
@@ -128,16 +109,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationSystem()
 	 * @generated
 	 */
-	int TRANSFORMATION_SYSTEM = 2;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_SYSTEM__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
+	int TRANSFORMATION_SYSTEM = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -146,7 +118,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
+	int TRANSFORMATION_SYSTEM__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSFORMATION_SYSTEM__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
@@ -155,7 +136,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__RULES = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
+	int TRANSFORMATION_SYSTEM__RULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Imports</b></em>' reference list.
@@ -164,7 +145,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__IMPORTS = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int TRANSFORMATION_SYSTEM__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Transformation Units</b></em>' containment reference list.
@@ -173,7 +154,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
+	int TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Transformation System</em>' class.
@@ -182,7 +163,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 4;
+	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
@@ -192,7 +173,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getRule()
 	 * @generated
 	 */
-	int RULE = 3;
+	int RULE = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
@@ -202,7 +183,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttributeCondition()
 	 * @generated
 	 */
-	int ATTRIBUTE_CONDITION = 4;
+	int ATTRIBUTE_CONDITION = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
@@ -212,7 +193,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraph()
 	 * @generated
 	 */
-	int GRAPH = 6;
+	int GRAPH = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
@@ -222,7 +203,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
 	 * @generated
 	 */
-	int GRAPH_ELEMENT = 7;
+	int GRAPH_ELEMENT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
@@ -232,7 +213,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
 	 * @generated
 	 */
-	int MAPPING = 8;
+	int MAPPING = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.NodeImpl <em>Node</em>}' class.
@@ -242,7 +223,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 9;
+	int NODE = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -252,7 +233,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
 	 * @generated
 	 */
-	int ATTRIBUTE = 10;
+	int ATTRIBUTE = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.
@@ -262,7 +243,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 11;
+	int EDGE = 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
@@ -272,16 +253,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
 	 * @generated
 	 */
-	int TRANSFORMATION_UNIT = 12;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_UNIT__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
+	int TRANSFORMATION_UNIT = 11;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -290,43 +262,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Activated</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_UNIT__ACTIVATED = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_UNIT__PARAMETERS = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Transformation Unit</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSFORMATION_UNIT_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 4;
+	int TRANSFORMATION_UNIT__NAME = NAMED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -335,7 +271,43 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int TRANSFORMATION_UNIT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Activated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSFORMATION_UNIT__ACTIVATED = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSFORMATION_UNIT__PARAMETERS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Transformation Unit</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSFORMATION_UNIT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -345,6 +317,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -455,22 +436,22 @@ public interface HenshinPackage extends EPackage {
 	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_CONDITION__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDITION__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
+	int ATTRIBUTE_CONDITION__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' container reference.
@@ -479,7 +460,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDITION__RULE = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
+	int ATTRIBUTE_CONDITION__RULE = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Condition Text</b></em>' attribute.
@@ -488,7 +469,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDITION__CONDITION_TEXT = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int ATTRIBUTE_CONDITION__CONDITION_TEXT = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Attribute Condition</em>' class.
@@ -497,7 +478,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDITION_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 3;
+	int ATTRIBUTE_CONDITION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
@@ -507,16 +488,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 5;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PARAMETER__DESCRIPTION = DESCRIBED_ELEMENT__DESCRIPTION;
+	int PARAMETER = 4;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -525,7 +497,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER__NAME = DESCRIBED_ELEMENT_FEATURE_COUNT + 0;
+	int PARAMETER__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -534,7 +515,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER__UNIT = DESCRIBED_ELEMENT_FEATURE_COUNT + 1;
+	int PARAMETER__UNIT = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Parameter</em>' class.
@@ -543,7 +524,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PARAMETER_FEATURE_COUNT = DESCRIBED_ELEMENT_FEATURE_COUNT + 2;
+	int PARAMETER_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -553,6 +534,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int GRAPH__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRAPH__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -634,6 +624,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int NODE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -787,16 +786,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getIndependentUnit()
 	 * @generated
 	 */
-	int INDEPENDENT_UNIT = 13;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INDEPENDENT_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int INDEPENDENT_UNIT = 12;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -806,6 +796,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int INDEPENDENT_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INDEPENDENT_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -860,16 +859,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getSequentialUnit()
 	 * @generated
 	 */
-	int SEQUENTIAL_UNIT = 14;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SEQUENTIAL_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int SEQUENTIAL_UNIT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -879,6 +869,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENTIAL_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENTIAL_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -951,16 +950,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getConditionalUnit()
 	 * @generated
 	 */
-	int CONDITIONAL_UNIT = 15;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONDITIONAL_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int CONDITIONAL_UNIT = 14;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -970,6 +960,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONDITIONAL_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITIONAL_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1042,16 +1041,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getPriorityUnit()
 	 * @generated
 	 */
-	int PRIORITY_UNIT = 16;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PRIORITY_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int PRIORITY_UNIT = 15;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1061,6 +1051,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIORITY_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIORITY_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1115,16 +1114,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getIteratedUnit()
 	 * @generated
 	 */
-	int ITERATED_UNIT = 17;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ITERATED_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int ITERATED_UNIT = 16;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1134,6 +1124,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATED_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATED_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1197,16 +1196,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getLoopUnit()
 	 * @generated
 	 */
-	int LOOP_UNIT = 18;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOOP_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int LOOP_UNIT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1216,6 +1206,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int LOOP_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1270,7 +1269,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getFormula()
 	 * @generated
 	 */
-	int FORMULA = 20;
+	int FORMULA = 19;
 
 	/**
 	 * The number of structural features of the '<em>Formula</em>' class.
@@ -1289,7 +1288,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNestedCondition()
 	 * @generated
 	 */
-	int NESTED_CONDITION = 19;
+	int NESTED_CONDITION = 18;
 
 	/**
 	 * The feature id for the '<em><b>Conclusion</b></em>' containment reference.
@@ -1326,7 +1325,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnaryFormula()
 	 * @generated
 	 */
-	int UNARY_FORMULA = 21;
+	int UNARY_FORMULA = 20;
 
 	/**
 	 * The feature id for the '<em><b>Child</b></em>' containment reference.
@@ -1354,7 +1353,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getBinaryFormula()
 	 * @generated
 	 */
-	int BINARY_FORMULA = 22;
+	int BINARY_FORMULA = 21;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1391,7 +1390,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAnd()
 	 * @generated
 	 */
-	int AND = 23;
+	int AND = 22;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1428,7 +1427,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getOr()
 	 * @generated
 	 */
-	int OR = 24;
+	int OR = 23;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1465,7 +1464,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNot()
 	 * @generated
 	 */
-	int NOT = 26;
+	int NOT = 25;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.XorImpl <em>Xor</em>}' class.
@@ -1475,7 +1474,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getXor()
 	 * @generated
 	 */
-	int XOR = 25;
+	int XOR = 24;
 
 	/**
 	 * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1530,7 +1529,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 	 * @generated
 	 */
-	int PARAMETER_MAPPING = 27;
+	int PARAMETER_MAPPING = 26;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1581,25 +1580,15 @@ public interface HenshinPackage extends EPackage {
 	EAttribute getNamedElement_Name();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.DescribedElement <em>Described Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Described Element</em>'.
-	 * @see org.eclipse.emf.henshin.model.DescribedElement
-	 * @generated
-	 */
-	EClass getDescribedElement();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.DescribedElement#getDescription <em>Description</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.NamedElement#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see org.eclipse.emf.henshin.model.DescribedElement#getDescription()
-	 * @see #getDescribedElement()
+	 * @see org.eclipse.emf.henshin.model.NamedElement#getDescription()
+	 * @see #getNamedElement()
 	 * @generated
 	 */
-	EAttribute getDescribedElement_Description();
+	EAttribute getNamedElement_Description();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.TransformationSystem <em>Transformation System</em>}'.
@@ -2485,22 +2474,12 @@ public interface HenshinPackage extends EPackage {
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.DescribedElementImpl <em>Described Element</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.DescribedElementImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getDescribedElement()
-		 * @generated
-		 */
-		EClass DESCRIBED_ELEMENT = eINSTANCE.getDescribedElement();
-
-		/**
 		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute DESCRIBED_ELEMENT__DESCRIPTION = eINSTANCE.getDescribedElement_Description();
+		EAttribute NAMED_ELEMENT__DESCRIPTION = eINSTANCE.getNamedElement_Description();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl <em>Transformation System</em>}' class.

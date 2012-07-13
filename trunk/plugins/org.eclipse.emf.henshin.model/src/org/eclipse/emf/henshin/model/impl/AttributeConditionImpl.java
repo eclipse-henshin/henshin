@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.NamedElement;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
@@ -33,7 +32,6 @@ import org.eclipse.emf.henshin.model.Rule;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl#getConditionText <em>Condition Text</em>}</li>
  * </ul>
@@ -41,27 +39,7 @@ import org.eclipse.emf.henshin.model.Rule;
  *
  * @generated
  */
-public class AttributeConditionImpl extends DescribedElementImpl implements AttributeCondition {
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
+public class AttributeConditionImpl extends NamedElementImpl implements AttributeCondition {
 	/**
 	 * The default value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -99,27 +77,6 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.ATTRIBUTE_CONDITION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.ATTRIBUTE_CONDITION__NAME, oldName, name));
 	}
 
 	/**
@@ -236,8 +193,6 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-				return getName();
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
 				return getRule();
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
@@ -254,9 +209,6 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-				setName((String)newValue);
-				return;
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
 				setRule((Rule)newValue);
 				return;
@@ -275,9 +227,6 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
 				setRule((Rule)null);
 				return;
@@ -296,8 +245,6 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case HenshinPackage.ATTRIBUTE_CONDITION__RULE:
 				return getRule() != null;
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
@@ -312,45 +259,11 @@ public class AttributeConditionImpl extends DescribedElementImpl implements Attr
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
-			switch (derivedFeatureID) {
-				case HenshinPackage.ATTRIBUTE_CONDITION__NAME: return HenshinPackage.NAMED_ELEMENT__NAME;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == NamedElement.class) {
-			switch (baseFeatureID) {
-				case HenshinPackage.NAMED_ELEMENT__NAME: return HenshinPackage.ATTRIBUTE_CONDITION__NAME;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", conditionText: ");
+		result.append(" (conditionText: ");
 		result.append(conditionText);
 		result.append(')');
 		return result.toString();

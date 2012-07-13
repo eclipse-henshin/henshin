@@ -26,7 +26,6 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.DescribedElement;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -66,13 +65,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass namedElementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass describedElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -349,17 +341,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getDescribedElement() {
-		return describedElementEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getDescribedElement_Description() {
-		return (EAttribute)describedElementEClass.getEStructuralFeatures().get(0);
+	public EAttribute getNamedElement_Description() {
+		return (EAttribute)namedElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1103,9 +1086,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Create classes and their features
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
-
-		describedElementEClass = createEClass(DESCRIBED_ELEMENT);
-		createEAttribute(describedElementEClass, DESCRIBED_ELEMENT__DESCRIPTION);
+		createEAttribute(namedElementEClass, NAMED_ELEMENT__DESCRIPTION);
 
 		transformationSystemEClass = createEClass(TRANSFORMATION_SYSTEM);
 		createEReference(transformationSystemEClass, TRANSFORMATION_SYSTEM__RULES);
@@ -1241,18 +1222,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		transformationSystemEClass.getESuperTypes().add(this.getDescribedElement());
 		transformationSystemEClass.getESuperTypes().add(this.getNamedElement());
 		ruleEClass.getESuperTypes().add(this.getTransformationUnit());
-		attributeConditionEClass.getESuperTypes().add(this.getDescribedElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
-		parameterEClass.getESuperTypes().add(this.getDescribedElement());
 		parameterEClass.getESuperTypes().add(this.getNamedElement());
 		graphEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getGraphElement());
 		edgeEClass.getESuperTypes().add(this.getGraphElement());
-		transformationUnitEClass.getESuperTypes().add(this.getDescribedElement());
 		transformationUnitEClass.getESuperTypes().add(this.getNamedElement());
 		independentUnitEClass.getESuperTypes().add(this.getTransformationUnit());
 		sequentialUnitEClass.getESuperTypes().add(this.getTransformationUnit());
@@ -1271,9 +1248,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(describedElementEClass, DescribedElement.class, "DescribedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDescribedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, DescribedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNamedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(transformationSystemEClass, TransformationSystem.class, "TransformationSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransformationSystem_Rules(), this.getRule(), null, "rules", null, 0, -1, TransformationSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

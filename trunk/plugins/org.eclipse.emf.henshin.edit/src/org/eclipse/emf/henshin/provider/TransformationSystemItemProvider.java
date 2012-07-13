@@ -28,7 +28,6 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.commands.AddRuleCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -43,7 +42,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * 
  * @generated
  */
-public class TransformationSystemItemProvider extends DescribedElementItemProvider implements
+public class TransformationSystemItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
@@ -67,32 +66,9 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addImportsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-	
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 	
 	/**
@@ -183,9 +159,6 @@ public class TransformationSystemItemProvider extends DescribedElementItemProvid
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TransformationSystem.class)) {
-			case HenshinPackage.TRANSFORMATION_SYSTEM__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

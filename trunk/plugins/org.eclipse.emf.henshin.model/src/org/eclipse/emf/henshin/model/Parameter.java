@@ -24,7 +24,7 @@ package org.eclipse.emf.henshin.model;
  *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL nameRequired='not name.oclIsUndefined() and name.size() > 0' nameRequired.Msg='_Ocl_Msg_Parameter_nameRequired'"
  * @generated
  */
-public interface Parameter extends DescribedElement, NamedElement {
+public interface Parameter extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Unit</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}'.

@@ -197,8 +197,6 @@ public class HenshinValidator extends EObjectValidator {
 		switch (classifierID) {
 			case HenshinPackage.NAMED_ELEMENT:
 				return validateNamedElement((NamedElement)value, diagnostics, context);
-			case HenshinPackage.DESCRIBED_ELEMENT:
-				return validateDescribedElement((DescribedElement)value, diagnostics, context);
 			case HenshinPackage.TRANSFORMATION_SYSTEM:
 				return validateTransformationSystem((TransformationSystem)value, diagnostics, context);
 			case HenshinPackage.RULE:
@@ -343,15 +341,6 @@ public class HenshinValidator extends EObjectValidator {
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateDescribedElement(DescribedElement describedElement,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(describedElement, diagnostics, context);
 	}
 	
 	/**

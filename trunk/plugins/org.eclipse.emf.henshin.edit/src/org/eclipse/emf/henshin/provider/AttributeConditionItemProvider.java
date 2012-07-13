@@ -36,7 +36,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * 
  * @generated
  */
-public class AttributeConditionItemProvider extends DescribedElementItemProvider implements
+public class AttributeConditionItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
@@ -60,32 +60,9 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addConditionTextPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-	
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_NamedElement_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_NamedElement_name_feature", "_UI_NamedElement_type"),
-				 HenshinPackage.Literals.NAMED_ELEMENT__NAME,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 	
 	/**
@@ -147,7 +124,6 @@ public class AttributeConditionItemProvider extends DescribedElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AttributeCondition.class)) {
-			case HenshinPackage.ATTRIBUTE_CONDITION__NAME:
 			case HenshinPackage.ATTRIBUTE_CONDITION__CONDITION_TEXT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

@@ -29,7 +29,7 @@ package org.eclipse.emf.henshin.model;
  * @model
  * @generated
  */
-public interface AttributeCondition extends DescribedElement, NamedElement {
+public interface AttributeCondition extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Rule</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Rule#getAttributeConditions <em>Attribute Conditions</em>}'.

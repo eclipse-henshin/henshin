@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.EPackage;
  *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueUnitNames='transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)' uniqueUnitNames.Msg='_Ocl_Msg_TransformationSystem_uniqueUnitNames'"
  * @generated
  */
-public interface TransformationSystem extends DescribedElement, NamedElement {
+public interface TransformationSystem extends NamedElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.

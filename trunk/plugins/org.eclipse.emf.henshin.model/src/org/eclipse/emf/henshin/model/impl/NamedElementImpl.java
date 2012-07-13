@@ -29,6 +29,7 @@ import org.eclipse.emf.henshin.model.NamedElement;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NamedElementImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NamedElementImpl#getDescription <em>Description</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,6 +55,26 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,11 +121,34 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.NAMED_ELEMENT__DESCRIPTION, oldDescription, description));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				return getName();
+			case HenshinPackage.NAMED_ELEMENT__DESCRIPTION:
+				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -119,6 +163,9 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 		switch (featureID) {
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				setName((String)newValue);
+				return;
+			case HenshinPackage.NAMED_ELEMENT__DESCRIPTION:
+				setDescription((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -135,6 +182,9 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case HenshinPackage.NAMED_ELEMENT__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -149,6 +199,8 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 		switch (featureID) {
 			case HenshinPackage.NAMED_ELEMENT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case HenshinPackage.NAMED_ELEMENT__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,6 +217,8 @@ public abstract class NamedElementImpl extends EObjectImpl implements NamedEleme
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", description: ");
+		result.append(description);
 		result.append(')');
 		return result.toString();
 	}

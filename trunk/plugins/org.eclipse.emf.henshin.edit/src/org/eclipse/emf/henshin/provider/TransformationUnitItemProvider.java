@@ -43,7 +43,7 @@ import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvi
  * 
  * @generated
  */
-public class TransformationUnitItemProvider extends DescribedElementItemProvider implements
+public class TransformationUnitItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
@@ -80,7 +80,6 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 			addActivatedPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -235,7 +234,6 @@ public class TransformationUnitItemProvider extends DescribedElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TransformationUnit.class)) {
-			case HenshinPackage.TRANSFORMATION_UNIT__NAME:
 			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
