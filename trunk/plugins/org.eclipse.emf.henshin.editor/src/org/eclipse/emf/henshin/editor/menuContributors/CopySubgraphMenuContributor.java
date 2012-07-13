@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 
@@ -57,7 +56,7 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 		
 		Graph sourceGraph = ((Node) selection.get(0)).getGraph();
 		
-		if (HenshinRuleAnalysisUtil.isLHS(sourceGraph)) {
+		if (sourceGraph.isLhs()) {
 			
 			CopySubgraphCommand cmd = new CopySubgraphCommand();
 			cmd.setDomain(domain);
@@ -74,7 +73,7 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			menuManager.add(new Separator());
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 			
-		} else if (HenshinRuleAnalysisUtil.isRHS(sourceGraph)) {
+		} else if (sourceGraph.isRhs()) {
 			CopySubgraphCommand cmd = new CopySubgraphCommand();
 			cmd.setDomain(domain);
 			cmd.setMappingOrigin(false);
@@ -87,7 +86,7 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			if (cmd.canExecute())
 				menuManager.add(createAction("Copy to LHS", cmd));
 			
-		} else if (HenshinRuleAnalysisUtil.isConclusion(sourceGraph)) {
+		} else if (sourceGraph.isNestedCondition()) {
 			walkNC(menuManager, sourceGraph.getFormula(), sourceGraph, (Collection<Node>) selection);
 		}
 		

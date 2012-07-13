@@ -14,7 +14,6 @@ package org.eclipse.emf.henshin.model.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.And;
@@ -24,7 +23,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
@@ -204,19 +203,18 @@ public class HenshinACUtil {
 		
 		// AC Details:
 		Graph graph = ac.getConclusion();
-		EList<Mapping> mappings = ac.getMappings();
+		MappingList mappings = ac.getMappings();
 		
 		// Check if any of the nodes is not the image of a mapping.
 		for (Node node : graph.getNodes()) {
-			if (HenshinMappingUtil.getNodeOrigin(node, mappings) == null)
+			if (mappings.getOrigin(node) == null)
 				return false;
 			
 			// Check the attributes of this node as well.
 			for (Attribute attribute : node.getAttributes()) {
-				Attribute origin = HenshinMappingUtil.getAttributeOrigin(attribute, mappings);
+				Attribute origin = mappings.getOrigin(attribute);
 				if (origin == null
-						|| !HenshinRuleAnalysisUtil.valueEquals(attribute.getValue(),
-								origin.getValue())) {
+						|| !valueEquals(attribute.getValue(), origin.getValue())) {
 					return false;
 				}
 			}
@@ -224,7 +222,7 @@ public class HenshinACUtil {
 		
 		// Check if any of the edges is not the image of a mapping.
 		for (Edge edge : graph.getEdges()) {
-			if (HenshinMappingUtil.getEdgeOrigin(edge, mappings) == null)
+			if (mappings.getOrigin(edge) == null)
 				return false;
 		}
 		
@@ -233,6 +231,17 @@ public class HenshinACUtil {
 		
 	}
 	
+	/*
+	 * Check if to attribute values are equal.
+	 */
+	static boolean valueEquals(String v1, String v2) {
+		if (v1 == null)
+			return (v2 == null);
+		if (v2 == null)
+			return false;
+		return v1.trim().equals(v2.trim());
+	}
+
 	/**
 	 * Remove all trivial application conditions from a rule.
 	 * 

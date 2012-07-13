@@ -72,7 +72,6 @@ import org.eclipse.emf.henshin.model.Or;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Xor;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * The default implementation of {@link Engine}.
@@ -550,7 +549,7 @@ public class EngineImpl implements Engine {
 		// Created objects:
 		for (Node node : ruleChange.getCreatedNodes()) {
 			// We should not create objects that are already created by the kernel rule:
-			if (rule.getOriginInKernelRule(node)==null) {
+			if (rule.getMultiMappings().getOrigin(node)==null) {
 				EClass type = node.getType();
 				EObject createdObject = type.getEPackage().getEFactoryInstance().create(type);
 				changes.add(new ObjectChangeImpl(graph, createdObject, true));
@@ -561,7 +560,7 @@ public class EngineImpl implements Engine {
 		// Deleted objects:
 		for (Node node : ruleChange.getDeletedNodes()) {	
 			// We should not delete objects that are already deleted by the kernel rule:
-			if (rule.getOriginInKernelRule(node)==null) {
+			if (rule.getMultiMappings().getOrigin(node)==null) {
 				EObject deletedObject = completeMatch.getNodeTarget(node);
 				changes.add(new ObjectChangeImpl(graph, deletedObject, false));
 				// TODO: Shouldn't we check the rule options?
@@ -579,14 +578,14 @@ public class EngineImpl implements Engine {
 
 		// Preserved objects:
 		for (Node node : ruleChange.getPreservedNodes()) {
-			Node lhsNode = HenshinMappingUtil.getRemoteNode(rule.getMappings(), node);
+			Node lhsNode = rule.getMappings().getOrigin(node);
 			resultMatch.setNodeTarget(node, completeMatch.getNodeTarget(lhsNode));
 		}
 
 		// Deleted edges:
 		for (Edge edge : ruleChange.getDeletedEdges()) {
 			// We should not delete edges that are already deleted by the kernel rule:
-			if (rule.getOriginInKernelRule(edge)==null) {			
+			if (rule.getMultiMappings().getOrigin(edge)==null) {			
 				changes.add(new ReferenceChangeImpl(graph,
 						completeMatch.getNodeTarget(edge.getSource()), 
 						completeMatch.getNodeTarget(edge.getTarget()), 
@@ -598,7 +597,7 @@ public class EngineImpl implements Engine {
 		// Created edges:
 		for (Edge edge : ruleChange.getCreatedEdges()) {
 			// We should not create edges that are already created by the kernel rule:
-			if (rule.getOriginInKernelRule(edge)==null) {
+			if (rule.getMultiMappings().getOrigin(edge)==null) {
 				changes.add(new ReferenceChangeImpl(graph,
 						resultMatch.getNodeTarget(edge.getSource()),
 						resultMatch.getNodeTarget(edge.getTarget()), 

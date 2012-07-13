@@ -36,7 +36,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Graph} object.
@@ -191,8 +190,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		 * If this graph is contained in TransformationSystem directly, it
 		 * represents a host graph which has no Formulas
 		 */
-		if (HenshinRuleAnalysisUtil.isLHS((Graph) object)
-				|| HenshinRuleAnalysisUtil.isConclusion((Graph) object)) {
+		if (((Graph) object).isLhs() || ((Graph) object).isNestedCondition()) {
 			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 					HenshinFactory.eINSTANCE.createNestedCondition()));
 			

@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -116,10 +115,10 @@ public class EdgeTypeParser extends AbstractParser {
 		List<Edge> edges = new ArrayList<Edge>();
 		edges.add(edge);
 		
-		Edge image = HenshinMappingUtil.getEdgeImage(edge, rule.getRhs(), rule.getMappings());
+		Edge image = rule.getMappings().getImage(edge, rule.getRhs());
 		if (image!=null) edges.add(image);
 		
-		Edge origin = HenshinMappingUtil.getEdgeOrigin(edge, rule.getMappings());
+		Edge origin = rule.getMappings().getOrigin(edge);
 		if (origin!=null) edges.add(origin);
 		
 		// Set the type:

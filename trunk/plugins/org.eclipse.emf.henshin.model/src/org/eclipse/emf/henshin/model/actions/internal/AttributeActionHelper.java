@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
@@ -73,7 +73,7 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.henshin.model.Graph, java.util.List)
 	 */
 	@Override
-	protected MapEditor<Attribute> getMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	protected MapEditor<Attribute> getMapEditor(Graph source, Graph target, MappingList mappings) {
 		return new AttributeMapEditor(source, target, mappings);
 	}
 

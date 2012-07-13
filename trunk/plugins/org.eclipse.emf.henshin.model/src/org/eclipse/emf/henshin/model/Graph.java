@@ -35,15 +35,12 @@ import org.eclipse.emf.ecore.EReference;
  * @generated
  */
 public interface Graph extends NamedElement {
+	
 	/**
 	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Node}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Node#getGraph <em>Graph</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Nodes</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Nodes</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph_Nodes()
@@ -58,10 +55,6 @@ public interface Graph extends NamedElement {
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Edge}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Edge#getGraph <em>Graph</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Edges</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Edges</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getGraph_Edges()
@@ -74,10 +67,6 @@ public interface Graph extends NamedElement {
 	/**
 	 * Returns the value of the '<em><b>Formula</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Formula</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Formula</em>' containment reference.
 	 * @see #setFormula(Formula)

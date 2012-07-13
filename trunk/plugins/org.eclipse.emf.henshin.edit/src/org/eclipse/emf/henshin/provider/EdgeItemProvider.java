@@ -31,7 +31,6 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
@@ -156,10 +155,10 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 			edgeImage = getResourceLocator().getImage("full/obj16/Edge");
 		}// if
 		
-		if (HenshinRuleAnalysisUtil.isDeletionEdge(edge)) {
+		if (isDeletionEdge(edge)) {
 			Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, deleteOverlay);
-		} else if (HenshinRuleAnalysisUtil.isCreationEdge(edge)) {
+		} else if (isCreationEdge(edge)) {
 			Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
 			edgeImage = IconUtil.getCompositeImage(edgeImage, createOverlay);
 		}// if
@@ -171,6 +170,43 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		
 		return edgeImage;
 	}
+	
+	/**
+	 * Checks if the given edge represents a 'deletion' edge. This is the case,
+	 * if it is contained in a LHS and if there is no corresponding image edge
+	 * in the RHS.<br>
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'deletion' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isDeletionEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getContainerRule() != null) {
+			Rule rule = edge.getGraph().getContainerRule();
+			return edge.getGraph().isLhs() && (rule.getMappings().getImage(edge, rule.getRhs()) == null);
+		} else
+			return false;
+	}// isDeletionEdge
+	
+	/**
+	 * Checks if the given edge represents a 'creation' edge. This is the case,
+	 * if it is contained in a RHS and if there is no corresponding origin edge
+	 * in the LHS.
+	 * 
+	 * @param edge
+	 * @return true if the edge could be identified to be a 'creation' edge. In
+	 *         every other case this method returns false.
+	 */
+	public static boolean isCreationEdge(Edge edge) {
+		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
+				&& edge.getGraph().getContainerRule() != null) {
+			Rule rule = edge.getGraph().getContainerRule();
+			return edge.getGraph().isRhs() && (rule.getMappings().getOrigin(edge) == null);
+		} else
+			return false;
+	}// isCreationEdge
+
 	
 	/**
 	 * This returns the label text for the adapted class. <!-- begin-user-doc
@@ -254,7 +290,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	protected Edge getKernelEdge(Edge edge){
 		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
 			Rule rule = edge.getGraph().getContainerRule();
-			return rule.getOriginInKernelRule(edge);
+			return rule.getMultiMappings().getOrigin(edge);
 		}
 		return null;
 	} 

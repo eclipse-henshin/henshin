@@ -28,7 +28,6 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * Copies a subgraph which is defined by a set of nodes into another given graph
@@ -221,12 +220,10 @@ public class CopySubgraphCommand extends CompoundCommand {
 			Rule rule = sourceGraph.getContainerRule();
 			if (rule.getKernelRule() != null) {
 				Rule kernelRule = rule.getKernelRule();
-				Node kernelOrig = rule.getOriginInKernelRule(origNode);
+				Node kernelOrig = rule.getMultiMappings().getOrigin(origNode);
 				if (kernelOrig != null) {
 					if (sourceGraph.isLhs()) {
-						Node kernelImage = HenshinMappingUtil.getImage(
-								kernelOrig, kernelRule.getRhs(),
-								kernelRule.getMappings());
+						Node kernelImage = kernelRule.getMappings().getImage(kernelOrig, kernelRule.getRhs());
 						if (kernelImage != null) {
 							Mapping m = HenshinFactory.eINSTANCE.createMapping(
 									kernelImage, newNode);
@@ -237,8 +234,7 @@ public class CopySubgraphCommand extends CompoundCommand {
 							orthoMappings.get(rule.getMultiMappings()).add(m);
 						}
 					} else {
-						Node kernelOrigin = HenshinMappingUtil.getOrigin(
-								kernelOrig, kernelRule.getMappings());
+						Node kernelOrigin = kernelRule.getMappings().getOrigin(kernelOrig);
 						if (kernelOrigin != null) {
 							Mapping m = HenshinFactory.eINSTANCE.createMapping(
 									kernelOrigin, newNode);
@@ -261,11 +257,9 @@ public class CopySubgraphCommand extends CompoundCommand {
 			Rule rule = sourceGraph.getContainerRule();
 			Rule multiRule = targetGraph.getContainerRule();
 			if (sourceGraph.isLhs()) {
-				Node kernelImage = HenshinMappingUtil.getImage(origNode,
-						rule.getRhs(), rule.getMappings());
+				Node kernelImage = rule.getMappings().getImage(origNode, rule.getRhs());
 				if (kernelImage != null) {
-					Node multiImage = HenshinMappingUtil.getImage(kernelImage,
-							multiRule.getRhs(), multiRule.getMultiMappings());
+					Node multiImage = multiRule.getMultiMappings().getImage(kernelImage, multiRule.getRhs());
 					if (multiImage != null) {
 						Collection<Mapping> mTarget = multiRule.getMappings();
 						Mapping m = HenshinFactory.eINSTANCE.createMapping(
@@ -277,12 +271,9 @@ public class CopySubgraphCommand extends CompoundCommand {
 					}
 				}
 			} else {// sourceGraph.isRHS()				
-				Node kernelOrigin = HenshinMappingUtil.getOrigin(origNode,
-						rule.getMappings());
+				Node kernelOrigin = rule.getMappings().getOrigin(origNode);
 				if (kernelOrigin != null) {
-					Node multiOrigin = HenshinMappingUtil.getImage(
-							kernelOrigin, multiRule.getLhs(),
-							multiRule.getMultiMappings());
+					Node multiOrigin = multiRule.getMultiMappings().getImage(kernelOrigin, multiRule.getLhs());
 					if (multiOrigin != null) {
 						Collection<Mapping> mTarget = multiRule.getMappings();
 						Mapping m = HenshinFactory.eINSTANCE.createMapping(

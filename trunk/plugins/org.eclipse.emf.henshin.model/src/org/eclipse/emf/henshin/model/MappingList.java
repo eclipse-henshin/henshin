@@ -33,29 +33,13 @@ public interface MappingList extends EList<Mapping> {
 	 * @return The removed mapping.
 	 */
 	Mapping remove(Node origin, Node image);
-	
-	/**
-	 * Find the image of a node in a given target graph.
-	 * @param origin Origin node.
-	 * @param targetGraph Target graph.
-	 * @return The image of the node.
-	 */
-	Node getImage(Node origin, Graph targetGraph);
-	
+		
 	/**
 	 * Find the origin of a node.
 	 * @param image Image node.
 	 * @return The origin of the node.
 	 */
 	Node getOrigin(Node image);
-	
-	/**
-	 * Find the image of an edge.
-	 * @param origin Origin edge.
-	 * @param targetGraph Graph the sought image is contained in.
-	 * @return Edge image.
-	 */
-	Edge getImage(Edge origin, Graph targetGraph);
 
 	/**
 	 * Find the origin of an edge.
@@ -65,19 +49,58 @@ public interface MappingList extends EList<Mapping> {
 	Edge getOrigin(Edge image);
 
 	/**
-	 * Get the image of an attribute.
-	 * @param attribute Origin attribute.
-	 * @param targetGraph Target graph.
-	 * @return The image attribute.
-	 */
-	Attribute getImage(Attribute attribute, Graph targetGraph);
-
-	/**
 	 * Get the origin of an attribute.
-	 * @param attribute Image attribute.
+	 * @param image Image attribute.
 	 * @return The origin attribute.
 	 */
-	Attribute getOrigin(Attribute attribute);
+	Attribute getOrigin(Attribute image);
+
+	/**
+	 * Get the origin of an untyped object. This delegates to
+	 * {@link #getOrigin(Node)}, {@link #getOrigin(Edge)} or
+	 * {@link #getOrigin(Attribute)}. It throws an 
+	 * {@link IllegalArgumentException} if the type of the
+	 * object is unknown.
+	 * @param object Image.
+	 * @return The origin.
+	 */
+	<T> T getOrigin(T object);
+
+	/**
+	 * Find the image of a node in a given target graph.
+	 * @param origin Origin node.
+	 * @param imageGraph Image graph.
+	 * @return The image of the node.
+	 */
+	Node getImage(Node origin, Graph imageGraph);
+
+	/**
+	 * Find the image of an edge.
+	 * @param origin Origin edge.
+	 * @param imageGraph Image graph.
+	 * @return Edge image.
+	 */
+	Edge getImage(Edge origin, Graph imageGraph);
+
+	/**
+	 * Get the image of an attribute.
+	 * @param origin Origin attribute.
+	 * @param imageGraph Image graph.
+	 * @return The image attribute.
+	 */
+	Attribute getImage(Attribute origin, Graph imageGraph);
+
+	/**
+	 * Get the image of an untyped object. This delegates to
+	 * {@link #getImage(Node)}, {@link #getImage(Edge)} or
+	 * {@link #getImage(Attribute)}. It throws an 
+	 * {@link IllegalArgumentException} if the type of the
+	 * object is unknown.
+	 * @param origin Origin.
+	 * @param imageGraph Image graph.
+	 * @return The image.
+	 */
+	<T> T getImage(T origin, Graph imageGraph);
 
 	/**
 	 * Remove all invalid mappings.

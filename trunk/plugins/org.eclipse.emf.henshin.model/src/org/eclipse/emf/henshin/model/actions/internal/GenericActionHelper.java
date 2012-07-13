@@ -8,7 +8,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
@@ -351,7 +351,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	/*
 	 * Create a new map editor for a given source, target graph and mappings.
 	 */
-	protected abstract MapEditor<E> getMapEditor(Graph source, Graph target, List<Mapping> mappings);
+	protected abstract MapEditor<E> getMapEditor(Graph source, Graph target, MappingList mappings);
 
 	/*
 	 * Returns a list of all elements of <code>elements</code>, which are
@@ -398,7 +398,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (rule==null || rule.getKernelRule()==null) {
 			return false;
 		}
-		if (rule.getOriginInKernelRule(elem)!=null) {
+		if (rule.getMultiMappings().getOrigin(elem)!=null) {
 			return false;
 		}
 		return true;

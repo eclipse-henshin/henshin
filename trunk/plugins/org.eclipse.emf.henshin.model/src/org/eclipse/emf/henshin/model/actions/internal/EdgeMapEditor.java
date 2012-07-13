@@ -1,11 +1,9 @@
 package org.eclipse.emf.henshin.model.actions.internal;
 
-import java.util.List;
-
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 
 public class EdgeMapEditor extends AbstractMapEditor<Edge> {
@@ -16,7 +14,7 @@ public class EdgeMapEditor extends AbstractMapEditor<Edge> {
 	/**
 	 * Default constructor.
 	 */
-	public EdgeMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	public EdgeMapEditor(Graph source, Graph target, MappingList mappings) {
 		super(source, target, mappings);
 		nodeMapEditor = new NodeMapEditor(this);
 	}

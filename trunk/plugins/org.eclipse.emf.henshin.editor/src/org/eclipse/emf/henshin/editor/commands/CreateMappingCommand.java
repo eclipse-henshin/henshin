@@ -25,7 +25,6 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 
 /**
  * Creates a {@link Mapping} between two given {@link Node}s.
@@ -155,8 +154,8 @@ public class CreateMappingCommand extends CompoundCommand {
 	 * @return
 	 */
 	protected boolean isUnmappedLhsRhsPairFromSameRule(Node source, Node target) {
-		return HenshinRuleAnalysisUtil.isLHS(source.getGraph())
-				&& HenshinRuleAnalysisUtil.isRHS(target.getGraph())
+		return source.getGraph().isLhs()
+				&& target.getGraph().isRhs()
 				&& (source.getGraph().getContainerRule() == target.getGraph().getContainerRule())
 				&& isUnmapped(source, target, source.getGraph().getContainerRule().getMappings());
 	}// isLhsRhsPairFromSameRule

@@ -43,7 +43,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
@@ -204,7 +203,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		if (!isFiltered(HenshinPackage.eINSTANCE.getRule_Mappings()))
 			childrenList.add(getLrMappingContainer(rule));
 		
-		if (HenshinRuleAnalysisUtil.isMultiRule(rule)
+		if (rule.getKernelRule()!=null
 				&& !isFiltered(HenshinPackage.eINSTANCE.getRule_MultiMappings()))
 			childrenList.add(getMultiMappingContainer(rule));
 		

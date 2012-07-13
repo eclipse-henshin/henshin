@@ -627,7 +627,7 @@
           <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationUnit/activated"/>
         </attributes>
         <attributes xmi:id="_DJOmNWRbEeGG0NrfTXvizQ" value="&quot;Adds custom changes to genmodel&quot;">
-          <type href="http://www.eclipse.org/emf/2011/Henshin#//DescribedElement/description"/>
+          <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
         </attributes>
         <attributes xmi:id="_DJOmNmRbEeGG0NrfTXvizQ" value="&quot;CustomizationUnit&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/name"/>

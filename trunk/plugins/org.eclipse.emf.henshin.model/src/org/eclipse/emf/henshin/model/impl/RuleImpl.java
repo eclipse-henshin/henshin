@@ -34,14 +34,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -270,14 +269,15 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public EList<Mapping> getMappings() {
+	public MappingList getMappings() {
 		if (mappings == null) {
-			mappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.RULE__MAPPINGS);
+			mappings = new MappingListImpl(this, HenshinPackage.RULE__MAPPINGS);
 		}
-		return mappings;
+		return (MappingList) mappings;
 	}
 	
 	/**
@@ -338,15 +338,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public <T extends GraphElement> T getOriginInKernelRule(T element) {
-		return HenshinMappingUtil.getOrigin(element, getMultiMappings());
 	}
 
 	/**
@@ -472,13 +463,13 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 						if (e.getType()!=edge.getType() || edges.contains(e)) {
 							continue;
 						}
-						if ((HenshinMappingUtil.getMapping(edge.getSource(), e.getSource(), mappings)!=null &&
-							 HenshinMappingUtil.getMapping(edge.getTarget(), e.getTarget(), mappings)!=null) ||
-							(HenshinMappingUtil.getMapping(e.getSource(), edge.getSource(), mappings)!=null &&
-							 HenshinMappingUtil.getMapping(e.getTarget(), edge.getTarget(), mappings)!=null)) {
+						if ((getMapping(edge.getSource(), e.getSource(), mappings)!=null &&
+							 getMapping(edge.getTarget(), e.getTarget(), mappings)!=null) ||
+							(getMapping(e.getSource(), edge.getSource(), mappings)!=null &&
+							 getMapping(e.getTarget(), edge.getTarget(), mappings)!=null)) {
 							edges.add(e);
 							changed = true;
-						}						
+						}
 					}
 				}
 			} while (changed);
@@ -489,6 +480,18 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			e.getGraph().removeEdge(e);
 		}
 		
+	}
+
+	/*
+	 * Private helper for finding mappings.
+	 */
+	private static Mapping getMapping(Node origin, Node image, List<Mapping> mappings) {
+		for (Mapping mapping : mappings) {
+			if (mapping.getOrigin()==origin && mapping.getImage()==image) {
+				return mapping;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -548,13 +551,13 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public EList<Mapping> getMultiMappings() {
+	public MappingList getMultiMappings() {
 		if (multiMappings == null) {
-			multiMappings = new EObjectContainmentEList<Mapping>(Mapping.class, this, HenshinPackage.RULE__MULTI_MAPPINGS);
+			multiMappings = new MappingListImpl(this, HenshinPackage.RULE__MULTI_MAPPINGS);
 		}
-		return multiMappings;
+		return (MappingList) multiMappings;
 	}
 
 	/**

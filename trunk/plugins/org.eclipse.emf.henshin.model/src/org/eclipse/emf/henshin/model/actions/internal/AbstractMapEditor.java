@@ -1,14 +1,10 @@
 package org.eclipse.emf.henshin.model.actions.internal;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
-
 
 public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	
@@ -19,7 +15,7 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	private Graph target;
 	
 	// Mappings: source to target.
-	private List<Mapping> mappings;
+	private MappingList mappings;
 	
 	/**
 	 * Default constructor.
@@ -27,7 +23,7 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * @param target Target graph.
 	 * @param mappings Mappings from source to target.
 	 */
-	public AbstractMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	public AbstractMapEditor(Graph source, Graph target, MappingList mappings) {
 		setSourceAndTarget(source, target);
 		this.mappings = mappings;		
 	}
@@ -97,7 +93,7 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.maps.MapEditor#getMappings()
 	 */
-	public final List<Mapping> getMappings() {
+	public final MappingList getMappings() {
 		return mappings;
 	}
 	
@@ -114,9 +110,9 @@ public abstract class AbstractMapEditor<E> implements MapEditor<E> {
 			throw new IllegalArgumentException("Illegal element container: " + graph);
 		}
 		if (graph==source) {
-			return HenshinMappingUtil.getImage(e, target, mappings);
+			return mappings.getImage(e, target);
 		} else {
-			return HenshinMappingUtil.getOrigin(e, mappings);			
+			return mappings.getOrigin(e);			
 		}
 	}
 	

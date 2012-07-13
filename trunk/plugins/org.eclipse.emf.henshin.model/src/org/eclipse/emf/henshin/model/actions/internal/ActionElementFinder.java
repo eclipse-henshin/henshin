@@ -3,16 +3,13 @@ package org.eclipse.emf.henshin.model.actions.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.model.GraphElement;
-import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
@@ -92,11 +89,11 @@ class ActionElementFinder {
 			if (container instanceof Rule) {
 				
 				Rule rule = (Rule) container;
-				E origin = HenshinMappingUtil.getOrigin(element, rule.getMappings());
+				E origin = rule.getMappings().getOrigin(element);
 				if (origin==null) origin = element;
 				
 				// Multi-rule of an amalgamation?
-				E originInKernel = rule.getOriginInKernelRule(origin);
+				E originInKernel = rule.getMultiMappings().getOrigin(origin);
 				if (originInKernel!=null) {
 					return originInKernel;
 				}
@@ -104,8 +101,7 @@ class ActionElementFinder {
 			}
 			else if (container instanceof NestedCondition) {
 				// Find the origin in the LHS:
-				EList<Mapping> mappings = ((NestedCondition) container).getMappings();
-				return HenshinMappingUtil.getOrigin(element, mappings);
+				return ((NestedCondition) container).getMappings().getOrigin(element);
 			}
 			else {
 				throw new RuntimeException("Graph neither contained in a Rule nor in a NestedCondition");

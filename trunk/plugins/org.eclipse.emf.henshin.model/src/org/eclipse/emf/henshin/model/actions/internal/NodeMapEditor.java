@@ -12,14 +12,12 @@
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * A helper class for editing node maps, e.g. for copying and 
@@ -36,7 +34,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 	/**
 	 * Default constructor.
 	 */
-	public NodeMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	public NodeMapEditor(Graph source, Graph target, MappingList mappings) {
 		super(source, target, mappings);
 		edgeMapEditor = new EdgeMapEditor(this);
 	}
@@ -190,7 +188,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 	 */
 	@Override
 	protected void doRemoveMapping(Node origin, Node image) {
-		HenshinMappingUtil.removeMapping(origin, image, getMappings());
+		getMappings().remove(origin, image);
 	}
 	
 	/*
@@ -199,7 +197,7 @@ public class NodeMapEditor extends AbstractMapEditor<Node> {
 	 */
 	@Override
 	protected void doCreateMapping(Node origin, Node image) {
-		HenshinMappingUtil.createMapping(origin, image, getMappings());
+		getMappings().add(origin, image);
 	}
 	
 }

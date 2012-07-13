@@ -5,9 +5,9 @@ import java.util.List;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * A map editor for mappings. Used for amalgamations.
@@ -25,7 +25,7 @@ public class MappingMapEditor {
 	// Edge map editors:
 	private EdgeMapEditor lhsEdgeMapEditor, rhsEdgeMapEditor;
 
-	public MappingMapEditor(Rule source, Rule target, List<Mapping> mappings) {
+	public MappingMapEditor(Rule source, Rule target, MappingList mappings) {
 		
 		// Source and target:
 		this.source = source;
@@ -67,8 +67,18 @@ public class MappingMapEditor {
 		}
 		
 		// It could be that we left an old mapping instance in the multi-rule.
-		HenshinMappingUtil.removeInvalidMappings(target.getMappings(), target.getLhs(), target.getRhs());
+		removeInvalidMappings(target.getMappings(), target.getLhs(), target.getRhs());
 		
+	}
+
+	private static void removeInvalidMappings(List<Mapping> mappings, Graph source, Graph target) {
+		for (int i=0; i<mappings.size(); i++) {
+			Mapping mapping = mappings.get(i);
+			if (mapping.getOrigin().getGraph()!=source ||
+				mapping.getImage().getGraph()!=target) {
+				mappings.remove(i--);
+			}
+		}
 	}
 
 	/**
@@ -222,18 +232,18 @@ public class MappingMapEditor {
 	
 	// Get the LHS-RHS mapping for two nodes.
 	private Mapping getLhsRhsMapping(Node n1, Node n2) {
-		Mapping mapping = HenshinMappingUtil.getMapping(n1, n2, source.getMappings());
+		Mapping mapping = source.getMappings().get(n1, n2);
 		if (mapping==null) {
-			mapping = HenshinMappingUtil.getMapping(n1, n2, target.getMappings());
+			mapping = target.getMappings().get(n1, n2);
 		}
 		return mapping;
 	}
 	
 	private void copyMapping(Mapping mapping, Node old1, Node old2, Node new1, Node new2, Rule rule) {
 		if (mapping.getOrigin()==old1 && mapping.getImage()==old2) {
-			HenshinMappingUtil.createMapping(new1, new2, rule.getMappings());
+			rule.getMappings().add(new1, new2);
 		} else if (mapping.getOrigin()==old2 && mapping.getImage()==old1) {
-			HenshinMappingUtil.createMapping(new2, new1, rule.getMappings());
+			rule.getMappings().add(new2, new1);
 		}
 	}
 	

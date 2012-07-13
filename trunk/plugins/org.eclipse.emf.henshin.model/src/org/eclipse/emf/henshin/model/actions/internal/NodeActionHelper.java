@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
@@ -42,7 +42,7 @@ public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.henshin.model.Graph, java.util.List)
 	 */
 	@Override
-	protected MapEditor<Node> getMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	protected MapEditor<Node> getMapEditor(Graph source, Graph target, MappingList mappings) {
 		return new NodeMapEditor(source, target, mappings);
 	}
 

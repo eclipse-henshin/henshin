@@ -18,9 +18,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 public class RuleChangeInfo {
+	
 	private Collection<Node> createdNodes;
 	private Collection<Node> deletedNodes;
 	private Collection<Node> preservedNodes;
@@ -37,38 +37,37 @@ public class RuleChangeInfo {
 		preservedNodes = new ArrayList<Node>();		
 		
 		for (Node node : rule.getLhs().getNodes()) {
-			if (HenshinMappingUtil.isNodeMapped(rule.getMultiMappings(), node))
+			if (rule.getMultiMappings().getOrigin(node)!=null)
 				continue;
-			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node))
+			if (rule.getMappings().getImage(node, rule.getRhs())==null)
 				deletedNodes.add(node);
 		}
 		
 		for (Node node : rule.getRhs().getNodes()) {
-			if (HenshinMappingUtil.isNodeMapped(rule.getMultiMappings(), node))
+			if (rule.getMultiMappings().getOrigin(node)!=null)
 				continue;
-			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node)) {
+			if (rule.getMappings().getOrigin(node)==null) {
 				createdNodes.add(node);
 			} else {
 				preservedNodes.add(node);
-			}
-			
+			}			
 			for (Attribute attribute : node.getAttributes()) {
 				attributeChanges.add(attribute);
 			}
 		}
 		
 		for (Edge edge : rule.getLhs().getEdges()) {
-			if (HenshinMappingUtil.isEdgeMapped(rule.getMultiMappings(), edge))
+			if (rule.getMultiMappings().getOrigin(edge)!=null)
 				continue;
-			if (!HenshinMappingUtil.isEdgeMapped(rule.getMappings(), edge)) {
+			if (rule.getMappings().getImage(edge, rule.getRhs())==null) {
 				deletedEdges.add(edge);
 			}
 		}
 		
 		for (Edge edge : rule.getRhs().getEdges()) {
-			if (HenshinMappingUtil.isEdgeMapped(rule.getMultiMappings(), edge))
+			if (rule.getMultiMappings().getOrigin(edge)!=null)
 				continue;
-			if (!HenshinMappingUtil.isEdgeMapped(rule.getMappings(), edge)) {
+			if (rule.getMappings().getOrigin(edge)==null) {
 				createdEdges.add(edge);
 			}
 		}

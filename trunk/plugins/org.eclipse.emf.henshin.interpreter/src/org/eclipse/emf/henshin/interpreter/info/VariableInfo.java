@@ -27,7 +27,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 public class VariableInfo {
 	
@@ -66,7 +65,7 @@ public class VariableInfo {
 		createVariables(rule.getLhs(), null);
 		
 		for (Node node : rule.getLhs().getNodes()) {
-			if (!HenshinMappingUtil.isNodeMapped(rule.getMappings(), node))
+			if (rule.getMappings().getImage(node,rule.getRhs())==null)
 				createDanglingConstraints(node);
 		}
 		

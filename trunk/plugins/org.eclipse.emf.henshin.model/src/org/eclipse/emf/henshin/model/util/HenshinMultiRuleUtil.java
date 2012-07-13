@@ -18,10 +18,10 @@ import java.util.List;
 
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+
 /**
  * Provides static helper methods for retrieving nodes and edges related via multiMappings.
  * 
@@ -100,15 +100,22 @@ public class HenshinMultiRuleUtil {
 	public static boolean isTrivialMultiRule(Rule multi) {
 		
 		// Create a list of all elements in the multi-rule:
-		List<GraphElement> elements = new ArrayList<GraphElement>();
-		elements.addAll(multi.getLhs().getNodes());
-		elements.addAll(multi.getLhs().getEdges());
-		elements.addAll(multi.getRhs().getNodes());
-		elements.addAll(multi.getRhs().getEdges());
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.addAll(multi.getLhs().getNodes());
+		nodes.addAll(multi.getRhs().getNodes());
+		
+		List<Edge> edges = new ArrayList<Edge>();
+		edges.addAll(multi.getLhs().getEdges());
+		edges.addAll(multi.getRhs().getEdges());
 		
 		// Check if there have origins.
-		for (GraphElement element : elements) {
-			if (multi.getOriginInKernelRule(element)==null) {
+		for (Node node : nodes) {
+			if (multi.getMultiMappings().getOrigin(node)==null) {
+				return false;
+			}
+		}
+		for (Edge edge : edges) {
+			if (multi.getMultiMappings().getOrigin(edge)==null) {
 				return false;
 			}
 		}

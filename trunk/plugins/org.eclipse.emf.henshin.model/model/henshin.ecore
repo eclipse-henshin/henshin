@@ -64,15 +64,6 @@
     <eOperations name="getMultiRule" eType="#//Rule">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eOperations name="getOriginInKernelRule">
-      <eGenericType eTypeParameter="#//Rule/getOriginInKernelRule/T"/>
-      <eTypeParameters name="T">
-        <eBounds eClassifier="#//GraphElement"/>
-      </eTypeParameters>
-      <eParameters name="element">
-        <eGenericType eTypeParameter="#//Rule/getOriginInKernelRule/T"/>
-      </eParameters>
-    </eOperations>
     <eOperations name="removeEdge">
       <eParameters name="edge" eType="#//Edge"/>
       <eParameters name="removeMapped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

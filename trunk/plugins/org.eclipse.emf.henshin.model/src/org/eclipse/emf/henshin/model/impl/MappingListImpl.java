@@ -77,9 +77,9 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 * @see org.eclipse.emf.henshin.model.MappingList#getImage(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Graph)
 	 */
 	@Override
-	public Node getImage(Node origin, Graph targetGraph) {
+	public Node getImage(Node origin, Graph imageGraph) {
 		for (Mapping m : this) {
-			if (m.getOrigin()==origin && m.getImage()!=null && m.getImage().getGraph()==targetGraph) {
+			if (m.getOrigin()==origin && m.getImage()!=null && m.getImage().getGraph()==imageGraph) {
 				return m.getImage();
 			}
 		}
@@ -105,12 +105,12 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 * @see org.eclipse.emf.henshin.model.MappingList#getImage(org.eclipse.emf.henshin.model.Edge, org.eclipse.emf.henshin.model.Graph)
 	 */
 	@Override
-	public Edge getImage(Edge origin, Graph targetGraph) {
+	public Edge getImage(Edge origin, Graph imageGraph) {
 		if (origin.getSource()==null || origin.getTarget()==null) {
 			return null;
 		}
-		Node source = getImage(origin.getSource(), targetGraph);
-		Node target = getImage(origin.getTarget(), targetGraph);
+		Node source = getImage(origin.getSource(), imageGraph);
+		Node target = getImage(origin.getTarget(), imageGraph);
 		if (source==null || target==null) {
 			return null;
 		}
@@ -139,15 +139,15 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 * @see org.eclipse.emf.henshin.model.MappingList#getImage(org.eclipse.emf.henshin.model.Attribute, org.eclipse.emf.henshin.model.Graph)
 	 */
 	@Override
-	public Attribute getImage(Attribute attribute, Graph targetGraph) {
-		if (attribute.getNode()==null) {
+	public Attribute getImage(Attribute origin, Graph imageGraph) {
+		if (origin.getNode()==null) {
 			return null;
 		}
-		Node nodeImage = getImage(attribute.getNode(), targetGraph);
+		Node nodeImage = getImage(origin.getNode(), imageGraph);
 		if (nodeImage==null) {
 			return null;
 		}
-		return nodeImage.getAttribute(attribute.getType());
+		return nodeImage.getAttribute(origin.getType());
 	}
 
 	/*
@@ -155,15 +155,53 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 	 * @see org.eclipse.emf.henshin.model.MappingList#getOrigin(org.eclipse.emf.henshin.model.Attribute)
 	 */
 	@Override
-	public Attribute getOrigin(Attribute attribute) {
-		if (attribute.getNode()==null) {
+	public Attribute getOrigin(Attribute image) {
+		if (image.getNode()==null) {
 			return null;
 		}
-		Node nodeOrigin = getOrigin(attribute.getNode());
+		Node nodeOrigin = getOrigin(image.getNode());
 		if (nodeOrigin==null) {
 			return null;
 		}
-		return nodeOrigin.getAttribute(attribute.getType());
+		return nodeOrigin.getAttribute(image.getType());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#getOrigin(java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getOrigin(T image) {
+		if (image instanceof Node) {
+			return (T) getOrigin((Node) image);
+		}
+		if (image instanceof Edge) {
+			return (T) getOrigin((Edge) image);
+		}
+		if (image instanceof Attribute) {
+			return (T) getOrigin((Attribute) image);
+		}
+		throw new IllegalArgumentException("Object of unknown type: " + image);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#getImage(java.lang.Object, org.eclipse.emf.henshin.model.Graph)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getImage(T origin, Graph imageGraph) {
+		if (origin instanceof Node) {
+			return (T) getImage((Node) origin, imageGraph);
+		}
+		if (origin instanceof Edge) {
+			return (T) getImage((Edge) origin, imageGraph);
+		}
+		if (origin instanceof Attribute) {
+			return (T) getImage((Attribute) origin, imageGraph);
+		}
+		throw new IllegalArgumentException("Object of unknown type: " + origin);
 	}
 
 	/*

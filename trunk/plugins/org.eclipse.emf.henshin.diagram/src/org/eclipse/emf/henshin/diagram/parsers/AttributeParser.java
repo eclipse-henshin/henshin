@@ -25,7 +25,6 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -81,7 +80,7 @@ public class AttributeParser extends AbstractParser {
 		// Changing attribute?
 		if (nodeAction.getType()==ActionType.PRESERVE) {
 			Rule rule = attribute.getNode().getGraph().getContainerRule();
-			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null && !String.valueOf(attribute.getValue()).equals(String.valueOf(image.getValue()))) {
 				result = result + "->" + image.getValue();
 			}
@@ -195,7 +194,7 @@ public class AttributeParser extends AbstractParser {
 		// Check if there is are image in the RHS that we need to updated:
 		if (action.getType()==ActionType.PRESERVE) {
 			Rule rule = node.getGraph().getContainerRule();
-			Attribute image = HenshinMappingUtil.getAttributeImage(attribute, rule.getRhs(), rule.getMappings());
+			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null) {
 				image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);
 				image.setType(attr);

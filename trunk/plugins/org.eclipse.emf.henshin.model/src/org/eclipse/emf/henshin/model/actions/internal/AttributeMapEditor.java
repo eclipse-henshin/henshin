@@ -1,11 +1,9 @@
 package org.eclipse.emf.henshin.model.actions.internal;
 
-import java.util.List;
-
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 
 public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
@@ -16,7 +14,7 @@ public class AttributeMapEditor extends AbstractMapEditor<Attribute> {
 	/**
 	 * Default constructor.
 	 */
-	public AttributeMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	public AttributeMapEditor(Graph source, Graph target, MappingList mappings) {
 		super(source, target, mappings);
 		nodeMapEditor = new NodeMapEditor(source, target, mappings);
 	}

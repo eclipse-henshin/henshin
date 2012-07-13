@@ -9,13 +9,12 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
-import org.eclipse.emf.henshin.model.util.HenshinMappingUtil;
 
 /**
  * @generated NOT
@@ -50,7 +49,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.henshin.model.Graph, java.util.List)
 	 */
 	@Override
-	protected MapEditor<Edge> getMapEditor(Graph source, Graph target, List<Mapping> mappings) {
+	protected MapEditor<Edge> getMapEditor(Graph source, Graph target, MappingList mappings) {
 		return new EdgeMapEditor(source, target, mappings);
 	}
 
@@ -87,10 +86,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 
 			// For PRESERVE actions we need to create an image in the RHS as well:
 			if (srcAction.getType() == ActionType.PRESERVE) {
-				Node srcImage = HenshinMappingUtil.getNodeImage(source,
-						rule.getRhs(), rule.getMappings());
-				Node trgImage = HenshinMappingUtil.getNodeImage(target,
-						rule.getRhs(), rule.getMappings());
+				Node srcImage = rule.getMappings().getImage(source, rule.getRhs());
+				Node trgImage = rule.getMappings().getImage(target, rule.getRhs());
 				HenshinFactory.eINSTANCE.createEdge(srcImage, trgImage, type);
 			}
 
@@ -108,7 +105,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 				
 				if (trgAction.isAmalgamated()) {
 					Rule multiRule = target.getGraph().getContainerRule();
-					Node realSource = HenshinMappingUtil.getNodeImage(source, multiRule.getLhs(), multiRule.getMultiMappings());
+					Node realSource = multiRule.getMultiMappings().getImage(source, multiRule.getLhs());
 					if (realSource!=null) {
 						source = realSource;
 					}
@@ -128,7 +125,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 				
 				if (srcAction.isAmalgamated()) {
 					Rule multiRule = source.getGraph().getContainerRule();
-					Node realTarget = HenshinMappingUtil.getNodeImage(target, multiRule.getLhs(), multiRule.getMultiMappings());
+					Node realTarget = multiRule.getMultiMappings().getImage(target, multiRule.getLhs());
 					if (realTarget!=null) {
 						target = realTarget;
 					}

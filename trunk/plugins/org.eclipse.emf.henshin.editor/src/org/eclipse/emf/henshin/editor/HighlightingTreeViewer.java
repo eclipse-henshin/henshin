@@ -26,7 +26,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.UnaryFormula;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -114,7 +113,7 @@ public class HighlightingTreeViewer extends TreeViewer {
 			
 			Graph graph = n.getGraph();
 			
-			if (HenshinRuleAnalysisUtil.isLHS(graph)) {
+			if (graph.isLhs()) {
 				Rule rule = n.getGraph().getContainerRule();
 				if (rule != null) {
 					for (Mapping m : rule.getMappings()) {
@@ -128,7 +127,7 @@ public class HighlightingTreeViewer extends TreeViewer {
 				}
 				colorNodeAssociatesInFormula(n, graph.getFormula());
 				
-			} else if (HenshinRuleAnalysisUtil.isRHS(graph)) {
+			} else if (graph.isRhs()) {
 				Rule rule = n.getGraph().getContainerRule();
 				if (rule != null) {
 					for (Mapping m : rule.getMappings()) {
@@ -140,7 +139,7 @@ public class HighlightingTreeViewer extends TreeViewer {
 						}
 					}
 				}
-			} else if (HenshinRuleAnalysisUtil.isConclusion(graph)) {
+			} else if (graph.isNestedCondition()) {
 				
 			}
 		}

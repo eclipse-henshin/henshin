@@ -1,9 +1,7 @@
 package org.eclipse.emf.henshin.model.actions.internal;
 
-import java.util.List;
-
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
 
 public interface MapEditor<E> {
 	
@@ -23,7 +21,7 @@ public interface MapEditor<E> {
 	 * Get the list of mappings from source to target.
 	 * @return List of mappings.
 	 */
-	List<Mapping> getMappings();
+	MappingList getMappings();
 	
 	/**
 	 * Get the opposite of an element.

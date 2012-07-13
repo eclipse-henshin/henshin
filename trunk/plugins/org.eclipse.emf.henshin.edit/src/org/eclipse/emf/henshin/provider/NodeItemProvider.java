@@ -371,7 +371,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	protected Node getKernelNode(Node node){
 		if (node.getGraph() != null && (node.getGraph().isLhs() || node.getGraph().isRhs())) {
 			Rule rule = node.getGraph().getContainerRule();
-			return rule.getOriginInKernelRule(node);
+			return rule.getMultiMappings().getOrigin(node);
 		}
 		return null;
 	}

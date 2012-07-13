@@ -105,9 +105,9 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Mappings()
 	 * @model containment="true"
-	 * @generated
+	 * @generated NOT
 	 */
-	EList<Mapping> getMappings();
+	MappingList getMappings();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -143,14 +143,6 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	Rule getMultiRule(String name);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated NOT
-	 */
-	<T extends GraphElement> T getOriginInKernelRule(T element);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -242,9 +234,9 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Multi Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_MultiMappings()
 	 * @model containment="true"
-	 * @generated
+	 * @generated NOT
 	 */
-	EList<Mapping> getMultiMappings();
+	MappingList getMultiMappings();
 
 	/**
 	 * <!-- begin-user-doc -->

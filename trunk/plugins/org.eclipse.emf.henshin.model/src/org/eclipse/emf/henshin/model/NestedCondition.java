@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin.model;
 
-import org.eclipse.emf.common.util.EList;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Nested Condition</b></em>'.
@@ -31,6 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface NestedCondition extends Formula {
+	
 	/**
 	 * Returns the value of the '<em><b>Conclusion</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -61,9 +60,9 @@ public interface NestedCondition extends Formula {
 	 * @return the value of the '<em>Mappings</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNestedCondition_Mappings()
 	 * @model containment="true"
-	 * @generated
+	 * @generated NOT
 	 */
-	EList<Mapping> getMappings();
+	MappingList getMappings();
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -24,7 +24,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinRuleAnalysisUtil;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -71,8 +70,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		MenuManager subMenu = new MenuManager(getLabel(COMMAND_LABEL_IMAGE));
 		
 		Collection<Mapping> mappings;
-		if (HenshinRuleAnalysisUtil.isLHS(node.getGraph())
-				|| HenshinRuleAnalysisUtil.isRHS(node.getGraph())) {
+		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
 			mappings = node.getGraph().getContainerRule().getMappings();
 		} else if (node.getGraph().eContainer() instanceof NestedCondition) {
 			mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
@@ -85,10 +83,10 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		Collection<Mapping> conditionMappings = new ArrayList<Mapping>();
 		for (Mapping mapping : mappings) {
 			if ((mapping.getOrigin() == node) && (mapping.getImage() != null)) {
-				if (HenshinRuleAnalysisUtil.isRHS(mapping.getImage().getGraph())) {
+				if (mapping.getImage().getGraph().isRhs()) {
 					ruleMappings.add(mapping);
 				}
-				if (HenshinRuleAnalysisUtil.isConclusion(mapping.getImage().getGraph())) {
+				if (mapping.getImage().getGraph().isNestedCondition()) {
 					conditionMappings.add(mapping);
 				}
 			}
@@ -145,9 +143,9 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		
 		// Nodes in lhs cannot be image of a mapping.
 		//
-		if (HenshinRuleAnalysisUtil.isLHS(node.getGraph())) return;
+		if (node.getGraph().isLhs()) return;
 		
-		if (HenshinRuleAnalysisUtil.isRHS(node.getGraph())) {
+		if (node.getGraph().isRhs()) {
 			for (Mapping mapping : node.getGraph().getContainerRule().getMappings()) {
 				if (mapping.getImage() == node && mapping.getOrigin() != null) {
 					menuManager.add(createAction(getLabel(COMMAND_LABEL_ORIGIN) + ": "
@@ -158,7 +156,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 			}
 		}
 		
-		if (HenshinRuleAnalysisUtil.isConclusion(node.getGraph())) {
+		if (node.getGraph().isNestedCondition()) {
 			NestedCondition nc = (NestedCondition) node.getGraph().eContainer();
 			for (Mapping mapping : getMappingsToFormula(nc)) {
 				if (mapping.getImage() == node) {
@@ -181,9 +179,9 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 			return getMappingsToFormula((Formula) formula.eContainer());
 		else if (formula.eContainer() instanceof Graph) {
 			Graph graph = (Graph) formula.eContainer();
-			if (HenshinRuleAnalysisUtil.isConclusion(graph))
+			if (graph.isNestedCondition())
 				return ((NestedCondition) graph.eContainer()).getMappings();
-			else if (HenshinRuleAnalysisUtil.isLHS(graph) || HenshinRuleAnalysisUtil.isRHS(graph))
+			else if (graph.isLhs() || graph.isRhs())
 				return graph.getContainerRule().getMappings();
 			else
 				throw new IllegalArgumentException("Forumla not properly connected to model!");
