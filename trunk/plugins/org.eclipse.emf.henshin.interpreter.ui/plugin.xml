@@ -133,5 +133,19 @@
          </command>
       </menuContribution>
    </extension>
+  <extension
+        point="org.eclipse.ui.exportWizards">
+     <category
+           id="org.eclipse.emf.henshin"
+           name="Henshin">
+     </category>
+     <wizard
+           category="org.eclipse.emf.henshin"
+           class="org.eclipse.emf.henshin.interpreter.ui.wizard.HenshinModelExportWizard"
+           icon="icons/HenshinModelFile.gif"
+           id="org.eclipse.emf.henshin.exportTransformationModel"
+           name="Transformation Model">
+     </wizard>
+  </extension>
 
 </plugin>

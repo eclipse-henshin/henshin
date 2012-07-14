@@ -11,11 +11,7 @@
  *******************************************************************************/
 package org.eclipse.emf.henshin;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
@@ -23,10 +19,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
+/**
+ * Henshin model plug-in.
+ * @author Christian Krause
+ */
 public class HenshinModelPlugin extends EMFPlugin {
 
 	/**
-	 * Plug-in ID.
+	 * Henshin model plug-in ID.
 	 */
 	public static final String PLUGIN_ID = "org.eclipse.emf.henshin.model";
 
@@ -85,93 +85,23 @@ public class HenshinModelPlugin extends EMFPlugin {
 			}
 		}
 	}
-	
+
 	/**
-	 * Add an importer to the plug-in registry.
-	 * @param importer Importer.
+	 * Get the map of registered importers.
+	 * @return Map of importers.
 	 */
-	public void addImporter(HenshinModelImporter importer) {
+	public Map<String,HenshinModelImporter> getImporters() {
 		loadAdapters();
-		String name = importer.getImporterName();
-		if (name==null) {
-			throw new NullPointerException("Missing importer name");
-		}
-		importers.put(name, importer);
+		return importers;
 	}
 
 	/**
-	 * Add an exporter to the plug-in registry.
-	 * @param exporter Exporter.
+	 * Get the map of registered exporters.
+	 * @return Map of exporters.
 	 */
-	public void addExporter(HenshinModelExporter exporter) {
+	public Map<String,HenshinModelExporter> getExporters() {
 		loadAdapters();
-		String name = exporter.getExporterName();
-		if (name==null) {
-			throw new NullPointerException("Missing exporter name");
-		}
-		exporters.put(name, exporter);
-	}
-
-	/**
-	 * Get a registered importer.
-	 * @param name Name of the importer.
-	 * @return The importer if found.
-	 */
-	public HenshinModelImporter getImporter(String name) {
-		loadAdapters();
-		if (name==null) {
-			throw new NullPointerException("Missing importer name");
-		}
-		return importers.get(name);
-	}
-
-	/**
-	 * Get a registered exporter.
-	 * @param name Name of the exporter.
-	 * @return The exporter if found.
-	 */
-	public HenshinModelExporter getExporter(String name) {
-		loadAdapters();
-		if (name==null) {
-			throw new NullPointerException("Missing exporter name");
-		}
-		return exporters.get(name);
-	}
-
-	/**
-	 * Get the list of registered importers.
-	 * @return List of importers.
-	 */
-	public List<HenshinModelImporter> getImporters() {
-		loadAdapters();
-		List<HenshinModelImporter> result = new ArrayList<HenshinModelImporter>(importers.values());
-		Collections.sort(result, new Comparator<HenshinModelImporter>() {
-			@Override
-			public int compare(HenshinModelImporter o1, HenshinModelImporter o2) {
-				String n1 = o1.getImporterName();
-				if (n1==null) return -1;
-				return n1.compareTo(o2.getImporterName());
-			}
-		});
-		return result;
-	}
-
-	/**
-	 * Get the list of registered exporters.
-	 * @return List of exporters.
-	 */
-	public List<HenshinModelExporter> getExporters() {
-		loadAdapters();
-		List<HenshinModelExporter> result = new ArrayList<HenshinModelExporter>(exporters.values());
-		Collections.sort(result, new Comparator<HenshinModelExporter>() {
-			@Override
-			public int compare(HenshinModelExporter o1, HenshinModelExporter o2) {
-				String n1 = o1.getExporterName();
-				if (n1==null) return -1;
-				return n1.compareTo(o2.getExporterName());
-			}
-		});
-		return result;
+		return exporters;
 	}
 
 	/**

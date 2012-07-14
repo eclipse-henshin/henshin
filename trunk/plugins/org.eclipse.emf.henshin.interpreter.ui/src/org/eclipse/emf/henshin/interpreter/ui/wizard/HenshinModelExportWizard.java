@@ -1,15 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
-package org.eclipse.emf.henshin.statespace.explorer.actions;
+package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,31 +9,26 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.StateSpaceExporter;
-import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
-import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.explorer.StateSpaceExplorerPlugin;
-import org.eclipse.emf.henshin.statespace.explorer.edit.StateSpaceEditPart;
-import org.eclipse.emf.henshin.statespace.resource.StateSpaceResourceSet;
+import org.eclipse.emf.henshin.HenshinModelExporter;
+import org.eclipse.emf.henshin.HenshinModelPlugin;
+import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -55,22 +39,20 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * Wizard for exporting state spaces.
+ * Wizard for exporting Henshin models.
  * @author Christian Krause
  */
-public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
+public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 	
 	// Wizard pages:
 	private ChooseExporterPage chooseExporterPage;
-	private ParametersPage parametersPage;
 	private FileCreationPage fileCreationPage;
 	
 	// The workbench:
 	private IWorkbench workbench;
 	
-	// State space to be exported:
-	private StateSpace stateSpace;
-	private StateSpaceIndex index;
+	// Transformation system to be exported:
+	private TransformationSystem system;
 	
 	// Selection:
 	private IStructuredSelection selection;
@@ -80,14 +62,12 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 
 	// Image for the wizard:
 	private ImageDescriptor wizban;//, icon;
-	
-	
+		
 	/**
 	 * Default constructor.
 	 */
-	public ExportStateSpaceWizard() {
+	public HenshinModelExportWizard() {
 		wizban = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/wizban/export_wiz.png");
-		//icon = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "/icons/full/etool16/export_wiz.gif");
 		setNeedsProgressMonitor(true);
 	}
 	
@@ -97,36 +77,36 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		
-		setWindowTitle("Export State Space");
+		setWindowTitle("Export Transformation Model");
 		this.workbench = workbench;
 		this.selection = selection;
 		
 		// Try to extract the state space out of the selection:
 		if (selection!=null) {
 			Iterator<?> iterator = selection.iterator();
-			while (iterator.hasNext() && stateSpace==null) {
+			while (iterator.hasNext() && system==null) {
 				Object current = iterator.next();
-				if (current instanceof StateSpaceEditPart) {
-					stateSpace = ((StateSpaceEditPart) current).getStateSpace();
+				if (current instanceof TransformationSystem) {
+					system = (TransformationSystem) current;
 				} else if (current instanceof IFile) {
+					HenshinResourceSet resourceSet = new HenshinResourceSet();
 					URI fileURI = URI.createPlatformResourceURI(((IFile) current).getFullPath().toString(), true);
 					try {
-						StateSpaceResourceSet resourceSet = new StateSpaceResourceSet();
-						stateSpace = (StateSpace) resourceSet.getResource(fileURI, true).getContents().get(0);
+						system = (TransformationSystem) resourceSet.getResource(fileURI, true).getContents().get(0);
 					} catch (Throwable t) {
-						StateSpaceExplorerPlugin.getInstance().logError("Error loading state space from file " + fileURI.toFileString(), t);
+						HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading transformation model from file " + fileURI.toFileString(), t);
 					}
 				}
 			}
 		}
 		
-		// State space must be set by now.
-		if (stateSpace==null) {
-			throw new RuntimeException("State space not found");
+		// Transformation system must be set by now.
+		if (system==null) {
+			throw new RuntimeException("Transformation system not set");
 		}
 		
 		// Initialize the default file name for the export:
-		baseName = stateSpace.eResource().getURI().trimFileExtension().lastSegment();
+		baseName = system.eResource().getURI().trimFileExtension().lastSegment();
 		
 	}
 	
@@ -137,7 +117,6 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	@Override
 	public void addPages() {
 		addPage(chooseExporterPage = new ChooseExporterPage("exporter-selection"));
-		addPage(parametersPage = new ParametersPage("parameters"));
 		addPage(fileCreationPage = new FileCreationPage("file-creation", selection));
 	}
 
@@ -146,7 +125,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	 */
 	private void updateFileName(String ext) {
 		
-		String directory = stateSpace.eResource().getURI().trimSegments(1).toPlatformString(true);
+		String directory = system.eResource().getURI().trimSegments(1).toPlatformString(true);
 		IContainer container = (IContainer) ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(directory));
 		fileCreationPage.setContainerFullPath(container.getFullPath());
 		
@@ -162,8 +141,8 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Pretty print allowed extensions.
 	 */
-	private static String printAllowedExtensions(StateSpaceExporter exporter) {
-		String[] allowed = exporter.getFileExtensions();
+	private static String printAllowedExtensions(HenshinModelExporter exporter) {
+		String[] allowed = exporter.getExportFileExtensions();
 		String pretty = "";
 		for (int i=0; i<allowed.length; i++) {
 			pretty = pretty + "*." + allowed[i];
@@ -172,9 +151,8 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		return pretty;
 	}
 	
-	public void setStateSpaceIndex(StateSpaceIndex index) {
-		this.index = index;
-		this.stateSpace = index.getStateSpace();
+	public void setTransformationSystem(TransformationSystem system) {
+		this.system = system;
 	}
 
 	/*
@@ -185,18 +163,18 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	public boolean performFinish() {
 		try {
 			final IFile file = getFile();
-			final StateSpaceExporter exporter = getExporter();
-			final String parameters = parametersPage.parameters;
+			final HenshinModelExporter exporter = getExporter();
 			WorkspaceModifyOperation operation = new WorkspaceModifyOperation() {
 				@Override
 				protected void execute(IProgressMonitor monitor) {
-					try {
-						performExport(exporter, file, parameters, monitor);
-					} catch (Throwable t) {
-						MessageDialog.openError(getShell(), "Error exporting state space", t.getMessage());
-						StateSpaceExplorerPlugin.getInstance().logError("Error exporting state space", t);
-					} finally {
-						monitor.done();
+					IStatus status = performExport(exporter, file, monitor);
+					if (status.getSeverity()==IStatus.ERROR) {
+						MessageDialog.openError(getShell(), "Export Transformation Model", status.getMessage());
+						HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error exporting transformation model: " + status.getMessage(), status.getException());
+					}
+					if (status.getSeverity()==IStatus.WARNING) {
+						MessageDialog.openWarning(getShell(), "Export Transformation Model", status.getMessage());
+						HenshinModelPlugin.INSTANCE.log(IStatus.WARNING, status.getMessage(), status.getException());
 					}
 				}
 			};
@@ -209,7 +187,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 			return true;
 		}
 		catch (Throwable t) {
-			StateSpaceExplorerPlugin.getInstance().logError("Error exporting state space", t);
+			HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error exporting transformation model", t);
 			return false;
 		}
 	}
@@ -217,14 +195,18 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	/*
 	 * Perform the export operation.
 	 */
-	protected void performExport(StateSpaceExporter exporter, IFile file, String parameters, IProgressMonitor monitor) throws Throwable {
-		
-		monitor.beginTask("Exporting state space...", 20);
+	protected IStatus performExport(HenshinModelExporter exporter, IFile file, IProgressMonitor monitor) {
+		monitor.beginTask("Exporting transformation model...", -1);
 		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
-
-		exporter.setStateSpaceIndex(index);
-		exporter.export(stateSpace, fileURI, parameters, new SubProgressMonitor(monitor,19));
-				
+		IStatus status;
+		try {
+			status = exporter.doExport(system, fileURI);
+		} catch (Throwable t) {
+			status = new Status(IStatus.ERROR, HenshinModelPlugin.PLUGIN_ID, "Error running exporter", t);
+		} finally {
+			monitor.done();
+		}
+		return status;
 	}
 	
 	
@@ -238,7 +220,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 			IDE.openEditor(page, file, true);
 		}
 		catch (Throwable t) {
-			StateSpaceExplorerPlugin.getInstance().logError("Error opening exported file.", t);
+			HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error opening exported file.", t);
 		}
 	}
 		
@@ -254,7 +236,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	 * Get the exporter to be used.
 	 * @return The exporter.
 	 */
-	public StateSpaceExporter getExporter() {
+	public HenshinModelExporter getExporter() {
 		return chooseExporterPage.getExporter();
 	}
 	
@@ -264,7 +246,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 	protected class ChooseExporterPage extends WizardPage {
 		
 		// List of registered exporters.
-		private java.util.List<StateSpaceExporter> exporters;
+		private java.util.List<HenshinModelExporter> exporters;
 		
 		// Currently selected exporter.
 		private int current = 0;
@@ -274,15 +256,15 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		 */
 		public ChooseExporterPage(String pageId) {
 			super(pageId);
-			setDescription("Choose a state space exporter");
+			setDescription("Choose an exporter");
 			if (wizban!=null) {
 				setImageDescriptor(wizban);
 			}
-			exporters = new ArrayList<StateSpaceExporter>(StateSpacePlugin.INSTANCE.getExporters().values());
-			Collections.sort(exporters, new Comparator<StateSpaceExporter>() {
+			exporters = new ArrayList<HenshinModelExporter>(HenshinModelPlugin.INSTANCE.getExporters().values());
+			Collections.sort(exporters, new Comparator<HenshinModelExporter>() {
 				@Override
-				public int compare(StateSpaceExporter o1, StateSpaceExporter o2) {
-					return String.valueOf(o1.getName()).compareTo(String.valueOf(o2.getName()));
+				public int compare(HenshinModelExporter o1, HenshinModelExporter o2) {
+					return String.valueOf(o1.getExporterName()).compareTo(String.valueOf(o2.getExporterName()));
 				}
 			});
 		}
@@ -297,8 +279,8 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 			Composite container = new Composite(parent, SWT.NONE);
 			container.setLayout(new FillLayout());			
 			final List list = new List(container, SWT.BORDER);
-			for (StateSpaceExporter exporter : exporters) {
-				list.add(exporter.getName() + " (" + printAllowedExtensions(exporter) + ")");
+			for (HenshinModelExporter exporter : exporters) {
+				list.add(exporter.getExporterName() + " (" + printAllowedExtensions(exporter) + ")");
 			}
 			list.addSelectionListener(new SelectionListener() {
 				@Override
@@ -309,7 +291,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					widgetSelected(e);
-					getContainer().showPage(parametersPage);
+					getContainer().showPage(fileCreationPage);
 				}
 			});
 			list.select(current);
@@ -319,54 +301,17 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		
 		private void updateFilePage() {
 			if (fileCreationPage!=null && current<exporters.size()) {
-				String[] fileExts = exporters.get(current).getFileExtensions();
+				String[] fileExts = exporters.get(current).getExportFileExtensions();
 				if (fileExts.length>0) {
 					updateFileName(fileExts[0]);
 				}
 			}
 		}
 		
-		public StateSpaceExporter getExporter() {
+		public HenshinModelExporter getExporter() {
 			return exporters.get(current);
 		}
 		
-	}
-
-	/*
-	 * Parameters page
-	 */
-	protected class ParametersPage extends WizardPage {
-		
-		String parameters;
-		
-		/*
-		 * Constructor.
-		 */
-		public ParametersPage(String pageId) {
-			super(pageId);
-			setDescription("Enter parameters (optional)");
-			if (wizban!=null) {
-				setImageDescriptor(wizban);
-			}
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
-		 */
-		@Override
-		public void createControl(Composite parent) {
-			Composite container = new Composite(parent, SWT.NONE);
-			container.setLayout(new FillLayout());
-			final Text text = new Text(container, SWT.BORDER | SWT.MULTI);
-			text.addModifyListener(new ModifyListener() {
-				@Override
-				public void modifyText(ModifyEvent e) {
-					parameters = text.getText();
-				}
-			});
-			setControl(container);
-		}		
 	}
 
 	/*
@@ -393,7 +338,7 @@ public class ExportStateSpaceWizard extends Wizard implements IExportWizard {
 		protected boolean validatePage() {
 			if (!super.validatePage()) return false;
 			String extension = new Path(getFileName()).getFileExtension();
-			String[] allowed = getExporter().getFileExtensions();
+			String[] allowed = getExporter().getExportFileExtensions();
 			boolean ok = false;
 			for (int i=0; i<allowed.length; i++) {
 				if (String.valueOf(allowed[i]).equals(extension)) ok = true;

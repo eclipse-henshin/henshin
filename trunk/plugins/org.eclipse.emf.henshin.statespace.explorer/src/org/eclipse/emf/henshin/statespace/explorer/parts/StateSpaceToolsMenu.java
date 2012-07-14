@@ -47,10 +47,7 @@ import org.eclipse.emf.henshin.statespace.validation.Validator;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -200,10 +197,6 @@ public class StateSpaceToolsMenu extends Composite {
 		
 	}
 	
-	// Some preference keys:
-	private static final String VALIDATOR_KEY = "validator";
-	private static final String VALIDATION_PROPERTY_KEY = "validationProperty";
-	
 	/*
 	 * Initialize the controls with their required data.
 	 */
@@ -211,7 +204,7 @@ public class StateSpaceToolsMenu extends Composite {
 		
 		// Load the validators. We make new instances.
 		validators = new ArrayList<Validator>();
-		String lastId = getPreferenceStore().getString(VALIDATOR_KEY);
+		String lastId = null; // getPreferenceStore().getString(VALIDATOR_KEY);
 		Validator lastValidator = null;
 		for (Validator validator : StateSpacePlugin.INSTANCE.getValidators().values()) {
 			if (lastId!=null && StateSpacePlugin.INSTANCE.getValidators().get(lastId)==validator) {
@@ -243,7 +236,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validatorCombo.select((lastValidator!=null) ? validators.indexOf(lastValidator) : 0);
 		
 		// Validation property:
-		String property = getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
+		String property = ""; // getPreferenceStore().getString(VALIDATION_PROPERTY_KEY);
 		validationText.setText(property!=null ? property : "");
 		validationText.setEnabled(getActiveValidator().usesProperty());
 		
@@ -406,10 +399,6 @@ public class StateSpaceToolsMenu extends Composite {
 		return (index>=0) ? validators.get(index) : null;
 	}
 
-	private IPreferenceStore getPreferenceStore() {
-		return StateSpaceExplorerPlugin.getInstance().getPreferenceStore();
-	}
-	
 	// ------------------- //
 	// ---- LISTENERS ---- // 
 	// ------------------- //
@@ -430,8 +419,6 @@ public class StateSpaceToolsMenu extends Composite {
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
 		validateButton.addSelectionListener(validateListener);
-		validationText.addModifyListener(validationTextListener);
-		validatorCombo.addSelectionListener(validatorComboListener);
 		hideLabelsButton.addSelectionListener(hideLabelsListener);
 		
 		addLinkJobListener(jobManager.getLayoutJob(), layouterLink);
@@ -466,8 +453,6 @@ public class StateSpaceToolsMenu extends Composite {
 		explorerLink.removeSelectionListener(explorerListener);
 		layouterLink.removeSelectionListener(layouterListener);
 		validateButton.removeSelectionListener(validateListener);
-		validationText.removeModifyListener(validationTextListener);
-		validatorCombo.removeSelectionListener(validatorComboListener);
 		hideLabelsButton.removeSelectionListener(hideLabelsListener);
 	}
 	
@@ -715,39 +700,5 @@ public class StateSpaceToolsMenu extends Composite {
 			}
 		});		
 	}
-
-	/*
-	 * Modify listener for the validation property.
-	 */
-	private ModifyListener validationTextListener = new ModifyListener() {
-		public void modifyText(ModifyEvent e) {
-			getPreferenceStore().setValue(VALIDATION_PROPERTY_KEY, validationText.getText());
-			Validator validator = getActiveValidator();
-			for (String id : StateSpacePlugin.INSTANCE.getValidators().keySet()) {
-				if (StateSpacePlugin.INSTANCE.getValidators().get(id)==validator) {
-					getPreferenceStore().setValue(VALIDATOR_KEY, id);
-					break;
-				}
-			}
-		}
-	};
-	
-	/*
-	 * Selection listener for the validator combo.
-	 */
-	private SelectionListener validatorComboListener = new SelectionListener() {
-		public void widgetDefaultSelected(SelectionEvent e) {
-		}
-		public void widgetSelected(SelectionEvent e) {
-			Validator validator = getActiveValidator();
-			validationText.setEnabled(validator.usesProperty());
-			for (String id : StateSpacePlugin.INSTANCE.getValidators().keySet()) {
-				if (StateSpacePlugin.INSTANCE.getValidators().get(id)==validator) {
-					getPreferenceStore().setValue(VALIDATOR_KEY, id);
-					break;
-				}
-			}
-		}
-	};
 
 }

@@ -1,25 +1,21 @@
 package org.eclipse.emf.henshin;
 
-import java.io.IOException;
-
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
- * Interface for Henshin model exporters. Exporters are identified by their name.
- * 
+ * Interface for Henshin model exporters.
  * @author Christian Krause
  */
 public interface HenshinModelExporter {
 
 	/**
 	 * Perform an export operation.
-	 * 
 	 * @param system Transformation system to be exported.
 	 * @param uri URI where the transformation system should be exported to.
-	 * @throws Exception On errors.
 	 */
-	void export(TransformationSystem system, URI uri) throws IOException;
+	IStatus doExport(TransformationSystem system, URI uri);
 	
 	/**
 	 * Get the name of this exporter.

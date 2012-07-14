@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.Platform;
 
 /**
  * Henshin model plug-in initializer.
- * 
  * @author Christian Krause
  */
 class HenshinModelPluginInitializer {
@@ -35,19 +34,21 @@ class HenshinModelPluginInitializer {
 		// Load the importers and exporters:
 		for (IConfigurationElement element : point.getConfigurationElements()) {
 			if ("exporter".equals(element.getName())) {
+				String id = element.getAttribute("id");
 				try {
 					HenshinModelExporter exporter = (HenshinModelExporter) element.createExecutableExtension("class");
-					HenshinModelPlugin.INSTANCE.addExporter(exporter);
+					HenshinModelPlugin.INSTANCE.getExporters().put(id, exporter);
 				} catch (Throwable t) {
-					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Loading exporter failed", t);
+					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading exporter " + id, t);
 				}
 			}
 			if ("importer".equals(element.getName())) {
+				String id = element.getAttribute("id");
 				try {
 					HenshinModelImporter importer = (HenshinModelImporter) element.createExecutableExtension("class");
-					HenshinModelPlugin.INSTANCE.addImporter(importer);
+					HenshinModelPlugin.INSTANCE.getImporters().put(id, importer);
 				} catch (Throwable t) {
-					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Loading importer failed", t);
+					HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading importer " + id, t);
 				}
 			}
 		}

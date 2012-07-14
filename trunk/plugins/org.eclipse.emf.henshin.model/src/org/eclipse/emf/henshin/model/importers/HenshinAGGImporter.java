@@ -1,8 +1,9 @@
 package org.eclipse.emf.henshin.model.importers;
 
-import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.HenshinModelImporter;
@@ -14,13 +15,18 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  */
 public class HenshinAGGImporter implements HenshinModelImporter {
 
+	/**
+	 * ID of this model importer.
+	 */
+	public static final String EXPORTER_ID = "org.eclipse.emf.henshin.agg2henshin";
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.HenshinModelImporter#export(org.eclipse.emf.common.util.URI, java.util.List)
+	 * @see org.eclipse.emf.henshin.HenshinModelImporter#doImport(org.eclipse.emf.henshin.model.TransformationSystem, org.eclipse.emf.common.util.URI, java.util.List)
 	 */
 	@Override
-	public TransformationSystem export(URI uri, List<EPackage> packages) throws IOException {
-		return null;
+	public IStatus doImport(TransformationSystem system, URI uri, List<EPackage> packages) {
+		return Status.OK_STATUS;
 	}
 
 	/*

@@ -1,28 +1,25 @@
 package org.eclipse.emf.henshin;
 
-import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
- * Interface for Henshin model importers. Importers are identified by their name.
- * 
+ * Interface for Henshin model importers.
  * @author Christian Krause
  */
 public interface HenshinModelImporter {
 
 	/**
 	 * Perform an import operation.
-	 * 
+	 * @param The target transformation system.
 	 * @param uri URI where the transformation system should be imported from.
 	 * @param packages List of packages to be used for the import.
-	 * @return The imported transformation system.
-	 * @throws IOException On errors.
 	 */
-	TransformationSystem export(URI uri, List<EPackage> packages) throws IOException;
+	IStatus doImport(TransformationSystem system, URI uri, List<EPackage> packages);
 	
 	/**
 	 * Get the name of this importer.

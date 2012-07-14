@@ -155,4 +155,18 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <category
+            id="org.eclipse.emf.henshin"
+            name="Henshin">
+      </category>
+      <wizard
+            category="org.eclipse.emf.henshin"
+            class="org.eclipse.emf.henshin.statespace.explorer.actions.ExportStateSpaceWizard"
+            icon="icons/HenshinDiagramFile.gif"
+            id="org.eclipse.emf.henshin.exsportStateSpace"
+            name="State Space">
+      </wizard>
+   </extension>
 </plugin>

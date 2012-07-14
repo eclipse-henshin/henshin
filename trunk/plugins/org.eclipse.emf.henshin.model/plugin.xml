@@ -30,10 +30,12 @@
  <extension
        point="org.eclipse.emf.henshin.model.adapters">
     <importer
-          class="org.eclipse.emf.henshin.model.importers.HenshinAGGImporter">
+          class="org.eclipse.emf.henshin.model.importers.HenshinAGGImporter"
+          id="org.eclipse.emf.henshin.agg2henshin">
     </importer>
     <exporter
-          class="org.eclipse.emf.henshin.model.exporters.HenshinAGGExporter">
+          class="org.eclipse.emf.henshin.model.exporters.HenshinAGGExporter"
+          id="org.eclipse.emf.henshin.henshin2agg">
     </exporter>
  </extension>
 
