@@ -31,11 +31,17 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.HenshinModelExporter;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,6 +56,9 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	 * ID of this model exporter.
 	 */
 	public static final String EXPORTER_ID = "org.eclipse.emf.henshin.henshin2agg";
+
+	// Ecore package:
+	private static final EcorePackage ECORE = EcorePackage.eINSTANCE;
 	
 	// Colors for node types:
 	private static int[][] COLORS = { 
@@ -163,17 +172,15 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 						
 						// Attributes:
 						for (EAttribute attribute : eclass.getEAttributes()) {
-							EDataType t = attribute.getEAttributeType();
-							EcorePackage p = EcorePackage.eINSTANCE;
-							if (t==p.getEInt() || t==p.getEBoolean() || t==p.getEString()) {
+							if (hasSupportedType(attribute)) {
 								Element attrElem = newElement("AttrType", nodeTypeElem);
 								attrElem.setAttribute("attrname", attribute.getName());
-								attrElem.setAttribute("typename", t.getInstanceClassName());
+								attrElem.setAttribute("typename", getAttributeType(attribute));
 								attrElem.setAttribute("visible", "true");
 								attrTypeIDs.put(attribute, attrElem.getAttribute("ID"));
 							} else {
 								warnings.add(" - Attribute " + eclass.getName() + "." + attribute.getName() + 
-										" of type " + t.getName() + " not supported");
+										" of type " + attribute.getEAttributeType().getName() + " not supported");
 							}
 						}
 					}
@@ -218,9 +225,44 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				Element ruleElem = newElement("Rule", systemElem);
 				ruleElem.setAttribute("name", rule.getName());
 				
-				// LHS and RHS:
+				// Parameters:
+				for (Parameter param : rule.getParameters()) {
+					Element paramElem = newElement("Parameter", ruleElem);
+					paramElem.setAttribute("name", param.getName());
+					// TODO: set parameter type
+				}
+				
+				// LHS, RHS and morphism:
 				convertGraph(rule.getLhs(), ruleElem, "LHS", "Left");
-				convertGraph(rule.getLhs(), ruleElem, "RHS", "Right");	
+				convertGraph(rule.getRhs(), ruleElem, "RHS", "Right");	
+				convertMorphism(rule.getName(), rule.getMappings(), rule.getLhs(), rule.getRhs(), ruleElem);
+		
+				// Application conditions:
+				Element applCondElem = newElement("ApplCondition", ruleElem);
+				
+				// Attribute conditions:
+				if (!rule.getAttributeConditions().isEmpty()) {
+					Element attrCondElem = newElement("AttrCondition", applCondElem);
+					for (AttributeCondition cond : rule.getAttributeConditions()) {
+						Element condElem = newElement("Condition", attrCondElem);
+						javaValueElement(cond.getConditionText(), condElem);
+					}
+				}
+				
+				// NACs:
+				for (NestedCondition nac : HenshinACUtil.getAllACs(rule, false)) {
+					Element nacElem = newElement("NAC", applCondElem);
+					convertGraph(nac.getConclusion(), nacElem, "NAC", "Graph");
+					convertMorphism(nac.getConclusion().getName(), nac.getMappings(), rule.getLhs(), nac.getConclusion(), nacElem);
+				}
+
+				// PACs:
+				for (NestedCondition pac : HenshinACUtil.getAllACs(rule, true)) {
+					Element pacElem = newElement("PAC", applCondElem);
+					convertGraph(pac.getConclusion(), pacElem, "PAC", "Graph");
+					convertMorphism(pac.getConclusion().getName(), pac.getMappings(), rule.getLhs(), pac.getConclusion(), pacElem);
+				}
+
 			}
 			
 			// Save the XML file:
@@ -230,13 +272,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			File file = new File(uri.toFileString());
 			StreamResult result = new StreamResult(file);
 			DOMSource source = new DOMSource(document);
-			trans.transform(source, result);
-
-			// Clean up:
-			reset();
-			
+			trans.transform(source, result);			
 		}
 		catch (Throwable t) {
+			reset();
 			return new Status(IStatus.ERROR, HenshinModelPlugin.PLUGIN_ID, "Error exporting to AGG", t);
 		}
 		if (!warnings.isEmpty()) {
@@ -244,8 +283,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			for (String warning : warnings) {
 				message = message + "\n" + warning;
 			}
+			reset();
 			return new Status(IStatus.WARNING, HenshinModelPlugin.PLUGIN_ID, message);
 		}
+		reset();
 		return Status.OK_STATUS;
 	}
 
@@ -267,15 +308,70 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			for (Attribute attribute : node.getAttributes()) {
 				if (translatedAttributes.contains(attribute.getType())) {
 					EDataType t = attribute.getType().getEAttributeType();
-					EcorePackage p = EcorePackage.eINSTANCE;
 					Element attrElem = newElement("Attribute", nodeElem);
-					attrElem.setAttribute("constant", "true");
 					attrElem.setAttribute("type", attrTypeIDs.get(attribute.getType()));
-					Element valueElem = newElement("Value", attrElem);
-					if (t==p.getEInt()) {
-						// TODO
+					
+					String constValue = getConstant(attribute);
+					Element valueElem = null;
+					if (constValue!=null) {
+						attrElem.setAttribute("constant", "true");
+						if (t==ECORE.getEInt()) {		// integers
+							valueElem = newElement("Value", attrElem);
+							Element intElem = newElement("int", valueElem);
+							intElem.setTextContent(attribute.getValue());
+						}
+						if (t==ECORE.getEDouble()) {		// integers
+							valueElem = newElement("Value", attrElem);
+							Element doubleElem = newElement("double", valueElem);
+							doubleElem.setTextContent(attribute.getValue());
+						}
+						else if (t==ECORE.getEBoolean()) {	// booleans
+							valueElem = newElement("Value", attrElem);
+							Element booleanElem = newElement("boolean", valueElem);
+							booleanElem.setTextContent(attribute.getValue());
+						}
+					}
+					if (valueElem==null) {
+						javaValueElement(constValue!=null ? constValue : attribute.getValue(), attrElem);
 					}
 				}
+			}
+		}
+		
+		// Edges:
+		for (Edge edge : graph.getEdges()) {
+			Element edgeElem = newElement("Edge", graphElem);
+			graphEdgeIDs.put(edge, edgeElem.getAttribute("ID"));
+			edgeElem.setAttribute("type", edgeTypeIDs.get(edge.getType()));
+			edgeElem.setAttribute("source", graphNodeIDs.get(edge.getSource()));
+			edgeElem.setAttribute("target", graphNodeIDs.get(edge.getTarget()));
+		}
+		
+	}
+
+	/*
+	 * Convert a morphism.
+	 */
+	private void convertMorphism(String name, MappingList mappings, Graph source, Graph target, Element parent) {
+		Element morphismElem = newElement("Morphism", parent);
+		morphismElem.setAttribute("name", name);
+		
+		// Node mappings:
+		for (Mapping mapping : mappings) {
+			if (mapping.getImage().getGraph()==target) {
+				Element mappingElem = newElement("Mapping", morphismElem);
+				mappingElem.setAttribute("origin", graphNodeIDs.get(mapping.getOrigin()));
+				mappingElem.setAttribute("image", graphNodeIDs.get(mapping.getImage()));
+			}
+		}
+		
+		// Edge mappings:
+		for (Edge edge : source.getEdges()) {
+			Edge image = mappings.getImage(edge, target);
+			if (image!=null) {
+				Element mappingElem = newElement("Mapping", morphismElem);
+				mappingElem.setAttribute("origin", graphEdgeIDs.get(edge));
+				mappingElem.setAttribute("image", graphEdgeIDs.get(image));				
 			}
 		}
 		
@@ -337,6 +433,82 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 		warnings = new ArrayList<String>();
 		elementID = 0;
 		color = 0;
+	}
+	
+	/*
+	 * Check whether an attribute has a supported type.
+	 */
+	private boolean hasSupportedType(EAttribute attribute) {
+		EDataType type = attribute.getEAttributeType();
+		return (type==ECORE.getEInt() || type==ECORE.getEDouble() || 
+				type==ECORE.getEBoolean() || type==ECORE.getEString());
+	}
+	
+	/*
+	 * Get the string representation of an attribute type.
+	 */
+	private String getAttributeType(EAttribute attribute) {
+		EDataType type = attribute.getEAttributeType();
+		if (type==ECORE.getEString()) {
+			return "String";
+		}
+		return type.getInstanceClassName();
+	}
+	
+	/*
+	 * Create a java value element (for attributes and attribute conditions).
+	 */
+	private Element javaValueElement(String value, Element parent) {
+		Element valueElem = newElement("Value", parent);
+		Element javaElem = newElement("java", valueElem);
+		javaElem.setAttribute("class", "java.beans.XMLDecoder");
+		javaElem.setAttribute("version", "1.6.0_03");
+		Element stringElem = newElement("string", javaElem);
+		stringElem.setTextContent(value);
+		return valueElem;
+	}
+	
+	/*
+	 * Check whether an attribute has an constant value.
+	 * Returns the string representation of the constant
+	 * if yes. Otherwise null.
+	 */
+	private String getConstant(Attribute attribute) {
+		String val = String.valueOf(attribute.getValue()).trim();
+		EDataType type = attribute.getType().getEAttributeType();
+		if (type==ECORE.getEInt()) {
+			try {
+				int intVal = Integer.parseInt(val);
+				return String.valueOf(intVal);
+			} catch (Throwable t) {
+				return null;
+			}
+		}
+		if (type==ECORE.getEDouble()) {
+			try {
+				double doubleVal = Double.parseDouble(val);
+				return String.valueOf(doubleVal);
+			} catch (Throwable t) {
+				return null;
+			}
+		}
+		if (type==ECORE.getEBoolean()) {
+			try {
+				boolean boolVal = Boolean.parseBoolean(val);
+				return String.valueOf(boolVal);
+			} catch (Throwable t) {
+				return null;
+			}
+		}
+		if (type==ECORE.getEString()) {
+			if ((val.startsWith("\"") && val.endsWith("\"")) ||
+				(val.startsWith("'") && val.endsWith("'"))) {
+				return val.substring(1, val.length()-1);
+			} else {
+				return null;
+			}
+		}
+		return null;
 	}
 	
 	/*
