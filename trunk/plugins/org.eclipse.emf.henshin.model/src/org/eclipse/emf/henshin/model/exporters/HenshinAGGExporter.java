@@ -38,7 +38,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
@@ -68,6 +67,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 		{ 128,   0, 128 },  // purple
 		{ 128, 128,   0 },  // yellow
 		{ 128, 128, 128 }	// grey
+		// add more colors...
 	};
 	
 	// XML document:
@@ -225,12 +225,12 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				Element ruleElem = newElement("Rule", systemElem);
 				ruleElem.setAttribute("name", rule.getName());
 				
-				// Parameters:
-				for (Parameter param : rule.getParameters()) {
-					Element paramElem = newElement("Parameter", ruleElem);
-					paramElem.setAttribute("name", param.getName());
-					// TODO: set parameter type
-				}
+				// Parameters: (REQUIRES PARAMETER TYPES!)
+				//for (Parameter param : rule.getParameters()) {
+				//	Element paramElem = newElement("Parameter", ruleElem);
+				//	paramElem.setAttribute("name", param.getName());
+				//  paramElem.setAttribute("type", ...);
+				//}
 				
 				// LHS, RHS and morphism:
 				convertGraph(rule.getLhs(), ruleElem, "LHS", "Left");
@@ -360,7 +360,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 		for (Mapping mapping : mappings) {
 			if (mapping.getImage().getGraph()==target) {
 				Element mappingElem = newElement("Mapping", morphismElem);
-				mappingElem.setAttribute("origin", graphNodeIDs.get(mapping.getOrigin()));
+				mappingElem.setAttribute("orig", graphNodeIDs.get(mapping.getOrigin()));  // "orig" (not "origin")
 				mappingElem.setAttribute("image", graphNodeIDs.get(mapping.getImage()));
 			}
 		}
@@ -370,7 +370,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			Edge image = mappings.getImage(edge, target);
 			if (image!=null) {
 				Element mappingElem = newElement("Mapping", morphismElem);
-				mappingElem.setAttribute("origin", graphEdgeIDs.get(edge));
+				mappingElem.setAttribute("orig", graphEdgeIDs.get(edge));   // "orig" (not "origin")
 				mappingElem.setAttribute("image", graphEdgeIDs.get(image));				
 			}
 		}
