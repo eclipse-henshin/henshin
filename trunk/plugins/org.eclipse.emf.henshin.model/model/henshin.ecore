@@ -103,8 +103,9 @@
       <details key="nameRequired" value="not name.oclIsUndefined() and name.size() > 0"/>
       <details key="nameRequired.Msg" value="_Ocl_Msg_Parameter_nameRequired"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" lowerBound="1" eType="#//TransformationUnit"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unit" eType="#//TransformationUnit"
         eOpposite="#//TransformationUnit/parameters"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">

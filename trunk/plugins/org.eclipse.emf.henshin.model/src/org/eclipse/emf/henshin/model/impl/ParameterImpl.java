@@ -9,6 +9,7 @@ package org.eclipse.emf.henshin.model.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -24,12 +25,23 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ParameterImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ParameterImpl extends NamedElementImpl implements Parameter {
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected EClassifier type;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -95,6 +107,44 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClassifier getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (EClassifier)eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.PARAMETER__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClassifier basicGetType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(EClassifier newType) {
+		EClassifier oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.PARAMETER__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -144,6 +194,9 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 		switch (featureID) {
 			case HenshinPackage.PARAMETER__UNIT:
 				return getUnit();
+			case HenshinPackage.PARAMETER__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -158,6 +211,9 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 		switch (featureID) {
 			case HenshinPackage.PARAMETER__UNIT:
 				setUnit((TransformationUnit)newValue);
+				return;
+			case HenshinPackage.PARAMETER__TYPE:
+				setType((EClassifier)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -174,6 +230,9 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 			case HenshinPackage.PARAMETER__UNIT:
 				setUnit((TransformationUnit)null);
 				return;
+			case HenshinPackage.PARAMETER__TYPE:
+				setType((EClassifier)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -188,6 +247,8 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 		switch (featureID) {
 			case HenshinPackage.PARAMETER__UNIT:
 				return getUnit() != null;
+			case HenshinPackage.PARAMETER__TYPE:
+				return type != null;
 		}
 		return super.eIsSet(featureID);
 	}

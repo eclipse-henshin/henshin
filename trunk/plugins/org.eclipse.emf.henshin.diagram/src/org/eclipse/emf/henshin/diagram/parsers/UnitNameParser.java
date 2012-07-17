@@ -22,6 +22,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -102,12 +103,17 @@ public class UnitNameParser extends AbstractParser {
 		sb.append((name == null) ? "" : name);
 		
 		// Compute the parameters:
-		final List<Parameter> pList = unit.getParameters();
-		final int paramCount = pList.size();
+		final List<Parameter> params = unit.getParameters();
+		final int paramCount = params.size();
 		if (paramCount > 0) {
-			sb.append("(").append(pList.get(0).getName());
-			for (int i = 1; i < paramCount; i++) {
-				sb.append(", ").append(pList.get(i).getName());
+			sb.append("(");
+			for (int i=0; i<paramCount; i++) {
+				if (i>0) sb.append(", ");
+				sb.append(params.get(i).getName());
+				if (params.get(i).getType()!=null) {
+					EClassifier type = params.get(i).getType();
+					sb.append(":" + type.getName());
+				}
 			}
 			sb.append(")");
 		}
@@ -184,6 +190,8 @@ public class UnitNameParser extends AbstractParser {
 				}
 			}
 		}
+		
+		// TODO Support parsing of parameter types
 		
 		value = value.trim();
 		final Matcher matcher = UNIT_NAME_PATTERN.matcher(value);

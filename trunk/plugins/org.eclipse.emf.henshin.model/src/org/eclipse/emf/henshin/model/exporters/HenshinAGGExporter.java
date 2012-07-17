@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.util.HenshinACUtil;
@@ -172,10 +173,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 						
 						// Attributes:
 						for (EAttribute attribute : eclass.getEAttributes()) {
-							if (hasSupportedType(attribute)) {
+							if (isSupportedPrimitiveType(attribute.getEAttributeType())) {
 								Element attrElem = newElement("AttrType", nodeTypeElem);
 								attrElem.setAttribute("attrname", attribute.getName());
-								attrElem.setAttribute("typename", getAttributeType(attribute));
+								attrElem.setAttribute("typename", getPrimitiveType(attribute.getEType()));
 								attrElem.setAttribute("visible", "true");
 								attrTypeIDs.put(attribute, attrElem.getAttribute("ID"));
 							} else {
@@ -187,6 +188,9 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				}
 			}
 
+			// Check whether the reference names are unique:
+			boolean hasUniqureRefNames = hasUniqueEReferenceNames(system);
+			
 			// Edge types:
 			for (EPackage epackage : system.getImports()) {
 				for (EClassifier eclassifier : epackage.getEClassifiers()) {
@@ -199,7 +203,8 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 							// Edge type:
 							Element edgeTypeElem = newElement("EdgeType", typesElem);
 							edgeTypeElem.setAttribute("abstract", "false");
-							edgeTypeElem.setAttribute("name", getReferenceName(reference) + "%:SOLID_LINE:java.awt.Color[r=0,g=0,b=0]:[EDGE]:");
+							String refName = hasUniqureRefNames ? reference.getName() : getUniqueReferenceName(reference);
+							edgeTypeElem.setAttribute("name", refName + "%:SOLID_LINE:java.awt.Color[r=0,g=0,b=0]:[EDGE]:");
 							edgeTypeIDs.put(reference, edgeTypeElem.getAttribute("ID"));
 							
 							// Edge in type graph:
@@ -225,12 +230,17 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				Element ruleElem = newElement("Rule", systemElem);
 				ruleElem.setAttribute("name", rule.getName());
 				
-				// Parameters: (REQUIRES PARAMETER TYPES!)
-				//for (Parameter param : rule.getParameters()) {
-				//	Element paramElem = newElement("Parameter", ruleElem);
-				//	paramElem.setAttribute("name", param.getName());
-				//  paramElem.setAttribute("type", ...);
-				//}
+				// Parameters:
+				for (Parameter param : rule.getParameters()) {
+					if (isSupportedPrimitiveType(param.getType())) {
+						Element paramElem = newElement("Parameter", ruleElem);
+						paramElem.setAttribute("name", param.getName());
+						paramElem.setAttribute("type", getPrimitiveType(param.getType()));
+					} else {
+						String type = param.getType()!=null ? param.getType().getName() : "null";
+						warnings.add(" - Parameter " + rule.getName() + "." + param.getName() + " of type " + type + " not supported");
+					}
+				}
 				
 				// LHS, RHS and morphism:
 				convertGraph(rule.getLhs(), ruleElem, "LHS", "Left");
@@ -380,7 +390,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	/*
 	 * Get the name of a reference.
 	 */
-	private String getReferenceName(EReference reference) {
+	private String getUniqueReferenceName(EReference reference) {
 		String srcName = ((EClass) reference.eContainer()).getName();
 		srcName = Character.toLowerCase(srcName.charAt(0)) + srcName.substring(1);
 		String refName = reference.getName();
@@ -436,23 +446,24 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	}
 	
 	/*
-	 * Check whether an attribute has a supported type.
+	 * Check whether a type is a supported primitive type.
 	 */
-	private boolean hasSupportedType(EAttribute attribute) {
-		EDataType type = attribute.getEAttributeType();
+	private boolean isSupportedPrimitiveType(EClassifier type) {
 		return (type==ECORE.getEInt() || type==ECORE.getEDouble() || 
 				type==ECORE.getEBoolean() || type==ECORE.getEString());
 	}
 	
 	/*
-	 * Get the string representation of an attribute type.
+	 * Get the string representation of a primitive type.
 	 */
-	private String getAttributeType(EAttribute attribute) {
-		EDataType type = attribute.getEAttributeType();
-		if (type==ECORE.getEString()) {
-			return "String";
+	private String getPrimitiveType(EClassifier type) {
+		if (isSupportedPrimitiveType(type)) {
+			if (type==ECORE.getEString()) {
+				return "String";
+			}
+			return type.getInstanceClassName();			
 		}
-		return type.getInstanceClassName();
+		return "null";
 	}
 	
 	/*
@@ -509,6 +520,24 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			}
 		}
 		return null;
+	}
+	
+	/*
+	 * Check whether all used EReferences in a transformation systems have a unique name.
+	 */
+	private static boolean hasUniqueEReferenceNames(TransformationSystem system) {
+		Set<String> refNames = new HashSet<String>(); 
+		for (EPackage epackage : system.getImports()) {
+			for (EClassifier classifier : epackage.getEClassifiers()) {
+				if (classifier instanceof EClass) {
+					for (EReference ref : ((EClass) classifier).getEReferences()) {
+						if (refNames.contains(ref.getName())) return false;
+						refNames.add(ref.getName());
+					}
+				}
+			}
+		}
+		return true;
 	}
 	
 	/*

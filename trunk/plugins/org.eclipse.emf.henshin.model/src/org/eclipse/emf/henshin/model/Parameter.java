@@ -6,6 +6,7 @@
  */
 package org.eclipse.emf.henshin.model;
 
+import org.eclipse.emf.ecore.EClassifier;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,6 +17,7 @@ package org.eclipse.emf.henshin.model;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Parameter#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,20 +27,17 @@ package org.eclipse.emf.henshin.model;
  * @generated
  */
 public interface Parameter extends NamedElement {
+	
 	/**
 	 * Returns the value of the '<em><b>Unit</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Unit</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Unit</em>' container reference.
 	 * @see #setUnit(TransformationUnit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter_Unit()
 	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameters
-	 * @model opposite="parameters" required="true" transient="false"
+	 * @model opposite="parameters" transient="false"
 	 * @generated
 	 */
 	TransformationUnit getUnit();
@@ -52,5 +51,27 @@ public interface Parameter extends NamedElement {
 	 * @generated
 	 */
 	void setUnit(TransformationUnit value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(EClassifier)
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter_Type()
+	 * @model
+	 * @generated
+	 */
+	EClassifier getType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Parameter#getType <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(EClassifier value);
 
 } // Parameter
