@@ -571,6 +571,29 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	}
 	
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Applicator} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ApplicatorItemProvider applicatorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Applicator}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createApplicatorAdapter() {
+		if (applicatorItemProvider == null) {
+			applicatorItemProvider = new ApplicatorItemProvider(this);
+		}
+
+		return applicatorItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 

@@ -262,6 +262,15 @@ public interface HenshinFactory extends EFactory {
 	ParameterMapping createParameterMapping();
 
 	/**
+	 * Returns a new object of class '<em>Applicator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Applicator</em>'.
+	 * @generated
+	 */
+	Applicator createApplicator();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

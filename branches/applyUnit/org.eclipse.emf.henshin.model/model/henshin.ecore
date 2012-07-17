@@ -312,4 +312,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
         eType="#//Parameter"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Applicator" eSuperTypes="#//TransformationUnit"/>
 </ecore:EPackage>

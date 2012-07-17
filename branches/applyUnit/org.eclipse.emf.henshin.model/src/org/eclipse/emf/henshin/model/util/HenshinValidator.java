@@ -251,6 +251,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateNot((Not)value, diagnostics, context);
 			case HenshinPackage.PARAMETER_MAPPING:
 				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
+			case HenshinPackage.APPLICATOR:
+				return validateApplicator((Applicator)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -1795,6 +1797,27 @@ public class HenshinValidator extends EObjectValidator {
 		return validate_EveryDefaultConstraint(parameterMapping, diagnostics, context);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateApplicator(Applicator applicator, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(applicator, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(applicator, diagnostics, context);
+		return result;
+	}
+
 	/**
 	 * Returns the resource locator that will be used to fetch messages for this validator's diagnostics.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

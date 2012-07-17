@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.Applicator;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -255,6 +256,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass parameterMappingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass applicatorEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1087,6 +1095,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getApplicator() {
+		return applicatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public HenshinFactory getHenshinFactory() {
 		return (HenshinFactory)getEFactoryInstance();
 	}
@@ -1221,6 +1238,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		parameterMappingEClass = createEClass(PARAMETER_MAPPING);
 		createEReference(parameterMappingEClass, PARAMETER_MAPPING__SOURCE);
 		createEReference(parameterMappingEClass, PARAMETER_MAPPING__TARGET);
+
+		applicatorEClass = createEClass(APPLICATOR);
 	}
 
 	/**
@@ -1277,6 +1296,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		orEClass.getESuperTypes().add(this.getBinaryFormula());
 		xorEClass.getESuperTypes().add(this.getBinaryFormula());
 		notEClass.getESuperTypes().add(this.getUnaryFormula());
+		applicatorEClass.getESuperTypes().add(this.getTransformationUnit());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1486,6 +1506,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(parameterMappingEClass, ParameterMapping.class, "ParameterMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameterMapping_Source(), this.getParameter(), null, "source", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParameterMapping_Target(), this.getParameter(), null, "target", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(applicatorEClass, Applicator.class, "Applicator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

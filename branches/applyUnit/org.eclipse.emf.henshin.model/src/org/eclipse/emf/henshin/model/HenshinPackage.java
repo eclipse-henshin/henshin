@@ -1569,6 +1569,70 @@ public interface HenshinPackage extends EPackage {
 	int PARAMETER_MAPPING_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ApplicatorImpl <em>Applicator</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.ApplicatorImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getApplicator()
+	 * @generated
+	 */
+	int APPLICATOR = 28;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR__NAME = TRANSFORMATION_UNIT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Activated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+
+	/**
+	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+
+	/**
+	 * The number of structural features of the '<em>Applicator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int APPLICATOR_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2465,6 +2529,16 @@ public interface HenshinPackage extends EPackage {
 	EReference getParameterMapping_Target();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Applicator <em>Applicator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Applicator</em>'.
+	 * @see org.eclipse.emf.henshin.model.Applicator
+	 * @generated
+	 */
+	EClass getApplicator();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3213,6 +3287,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PARAMETER_MAPPING__TARGET = eINSTANCE.getParameterMapping_Target();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ApplicatorImpl <em>Applicator</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.ApplicatorImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getApplicator()
+		 * @generated
+		 */
+		EClass APPLICATOR = eINSTANCE.getApplicator();
 
 	}
 

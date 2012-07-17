@@ -100,6 +100,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.XOR: return createXor();
 			case HenshinPackage.NOT: return createNot();
 			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
+			case HenshinPackage.APPLICATOR: return createApplicator();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -379,6 +380,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	public ParameterMapping createParameterMapping() {
 		ParameterMappingImpl parameterMapping = new ParameterMappingImpl();
 		return parameterMapping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Applicator createApplicator() {
+		ApplicatorImpl applicator = new ApplicatorImpl();
+		return applicator;
 	}
 
 	/**
