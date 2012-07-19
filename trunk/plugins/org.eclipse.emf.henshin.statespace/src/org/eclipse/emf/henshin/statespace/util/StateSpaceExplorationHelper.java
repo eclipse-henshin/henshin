@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
@@ -258,6 +259,9 @@ public class StateSpaceExplorationHelper {
 	 */
 	public void doExploration(int maxStates, IProgressMonitor monitor) throws StateSpaceException {
 		
+		if (monitor==null) {
+			monitor = new NullProgressMonitor();
+		}
 		monitor.beginTask("Exploring state space...", maxStates);
 		
 		// Number of explored states:

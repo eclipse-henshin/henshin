@@ -55,7 +55,7 @@ public class DiningPhilsBenchmark {
 			for (int phils=3; phils<=maxPhils; phils++) {
 				
 				// First reset the state space:
-				manager.resetStateSpace();
+				manager.resetStateSpace(false);
 				for (int i=0; i<10; i++) {
 					System.gc();
 				}

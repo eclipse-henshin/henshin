@@ -22,7 +22,7 @@ public class TupleUtil {
 	public static TupleList generateTuples(TupleGenerator generator, StateSpaceIndex index, 
 			boolean simplify, IProgressMonitor monitor) {
 		
-		int stateCount = index.getStateSpace().getStates().size();
+		int stateCount = index.getStateSpace().getStateCount();
 		monitor.beginTask("Generating tuples", stateCount*2+1);
 		
 		TupleList tuples = new TupleList();

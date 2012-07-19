@@ -322,9 +322,9 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace()
+	 * @see org.eclipse.emf.henshin.statespace.StateSpaceManager#resetStateSpace(boolean)
 	 */
-	public final void resetStateSpace() throws StateSpaceException {
+	public final void resetStateSpace(boolean removeInitial) throws StateSpaceException {
 		
 		// Remove derived states and all transitions:
 		synchronized (stateSpaceLock) {
@@ -335,23 +335,26 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			// Remove all states except the initial ones:
 			getStateSpace().getStates().clear();
 			getStateSpace().getOpenStates().clear();
-			getStateSpace().getStates().addAll(getStateSpace().getInitialStates());
-			
+			if (removeInitial) {
+				getStateSpace().getInitialStates().clear();
+			} else {
+				getStateSpace().getStates().addAll(getStateSpace().getInitialStates());
+			}
 			// Remove all transitions:
-			for (State initial : getStateSpace().getStates()) {
-				initial.getOutgoing().clear();
-				initial.getIncoming().clear();
+			for (State state : getStateSpace().getStates()) {
+				state.getOutgoing().clear();
+				state.getIncoming().clear();
 			}
 			getStateSpace().setTransitionCount(0);
 
 			// Reset the object keys for the initial states:
-			for (State initial : getStateSpace().getStates()) {
-				Model model = initial.getModel();
+			for (State state : getStateSpace().getStates()) {
+				Model model = state.getModel();
 				model.setObjectKeys(StorageImpl.EMPTY_DATA);
 				if (!getStateSpace().getEqualityHelper().getIdentityTypes().isEmpty()) {
 					model.updateObjectKeys(getStateSpace().getEqualityHelper().getIdentityTypes());
 				}
-				initial.setObjectKeys(model.getObjectKeys());
+				state.setObjectKeys(model.getObjectKeys());
 			}
 
 			// Reload the manager:

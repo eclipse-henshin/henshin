@@ -52,6 +52,29 @@ public abstract class AbstractStateSpaceFileAction implements IObjectActionDeleg
 	// Number of manager threads:
 	private final int numManagerThreads = Runtime.getRuntime().availableProcessors();
 	
+	/**
+	 * The main run method.
+	 */
+	protected abstract void doRun(IAction action);
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 */
+	public final void run(IAction action) {
+		try {
+			doRun(action);
+		} catch (Throwable t) {
+			throw new RuntimeException(t); 
+		}
+		finally {
+			// Don't forget to shutdown the manager!
+			if (manager!=null) {
+				manager.shutdown(); 
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)

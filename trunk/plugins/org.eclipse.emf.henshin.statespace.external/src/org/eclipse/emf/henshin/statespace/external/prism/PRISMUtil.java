@@ -177,7 +177,7 @@ public class PRISMUtil {
 		}
 		
 		// Now we can invoke the PRISM tool:
-		System.out.println(command);
+		//System.out.println(command);
 		return Runtime.getRuntime().exec(command.toArray(new String[] {}), null, path);
 		
 	}

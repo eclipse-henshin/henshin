@@ -46,11 +46,9 @@ org.eclipse.ocl
 lpg.runtime.java
 org.eclipse.ocl.ecore"
 
-HENSHIN="org.eclipse.emf.henshin.matching
-org.eclipse.emf.henshin.model
+HENSHIN="org.eclipse.emf.henshin.model
 org.eclipse.emf.henshin.examples
-org.eclipse.emf.henshin.interpreter
-org.eclipse.emf.henshin.statespace"
+org.eclipse.emf.henshin.interpreter"
 
 # Classpath:
 CP=""

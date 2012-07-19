@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
@@ -25,7 +26,19 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
  * @author Christian Krause
  */
 public class CTMCStateSpaceValidator extends AbstractFileBasedValidator {
-			
+	
+	/**
+	 * ID of this validator.
+	 */
+	public static final String VALIDATOR_ID = "org.eclipse.emf.henshin.statespace.validator.prism.ctmc";
+	
+	/**
+	 * Register this validator in the global validator registry in the state space plug-in.
+	 */
+	public static void register() {
+		StateSpacePlugin.INSTANCE.getValidators().put(VALIDATOR_ID, new CTMCStateSpaceValidator());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)

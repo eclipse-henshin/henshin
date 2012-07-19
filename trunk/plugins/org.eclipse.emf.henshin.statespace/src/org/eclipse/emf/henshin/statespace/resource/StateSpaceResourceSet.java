@@ -3,7 +3,9 @@ package org.eclipse.emf.henshin.statespace.resource;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
+import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpacePackage;
 
 /**
@@ -37,7 +39,7 @@ public class StateSpaceResourceSet extends HenshinResourceSet {
 	/**
 	 * Convenience method for loading a {@link StateSpace} from a 
 	 * file given as a path and file name.
-	 * @param path Possible relative path and file name of a state space resource.
+	 * @param path Possibly relative path and file name of a state space resource.
 	 * @return The contained {@link StateSpace}.
 	 */
 	public StateSpace getStateSpace(String path) {
@@ -50,6 +52,21 @@ public class StateSpaceResourceSet extends HenshinResourceSet {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Convenience method for loading a {@link Model} from a
+	 * file given as a path and file name.
+	 * @param path Possibly relative path and file name of a model resource.
+	 * @return The loaded model.
+	 */
+	public Model getModel(String path) {
+		Resource resource = getResource(path);
+		if (resource!=null) {
+			return StateSpaceFactory.eINSTANCE.createModel(resource);
+		} else {
+			return null;
+		}
 	}
 
 }

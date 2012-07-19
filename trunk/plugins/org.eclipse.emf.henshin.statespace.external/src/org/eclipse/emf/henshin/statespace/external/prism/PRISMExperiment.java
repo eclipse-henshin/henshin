@@ -88,7 +88,7 @@ public class PRISMExperiment {
 				parseError = true;
 			}
 			else if (line.startsWith("Model constants:") && experiment.getConstants().isEmpty()) {
-				System.out.println("\n" + line);
+				//System.out.println("\n" + line);
 				line = line.substring("Model constants:".length()).trim();
 				String[] constants = line.split(",");
 				for (String constant : constants) {
@@ -98,7 +98,7 @@ public class PRISMExperiment {
 				}
 			}
 			else if (line.startsWith("Result:")) {
-				System.out.println(line);
+				//System.out.println(line);
 				line = line.substring("Result:".length()).trim();
 				experiment.setResult(NUMBER_FORMAT.parse(line).doubleValue());
 				return experiment; // done!
@@ -237,7 +237,7 @@ public class PRISMExperiment {
 		
 		// Done:
 		StateSpaceXYPlot plot = new StateSpaceXYPlot(variable, "Result", xValues, yValues, legend);
-		System.out.println(plot);
+		//System.out.println(plot);
 		return plot;
 
 	}
@@ -262,7 +262,8 @@ public class PRISMExperiment {
 		
 		// Single result or a plot?
 		if (experiments.size()==1) {
-			return new ValidationResult(true, "Result: " + NUMBER_FORMAT.format(experiments.get(0).getResult()));
+			double value = experiments.get(0).getResult();
+			return new ValidationResult(true, "Result: " + NUMBER_FORMAT.format(value), value);
 		} else {
 			StateSpaceXYPlot plot = PRISMExperiment.generatePlot(stateSpace, experiments);
 			return new ValidationResult(true, null, plot);

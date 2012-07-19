@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.statespace.Model;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceIndex;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 import org.eclipse.ocl.OCL;
@@ -32,6 +33,18 @@ import org.eclipse.ocl.helper.OCLHelper;
  * @author Christian Krause
  */
 public class OCLStateValidator implements StateValidator {
+	
+	/**
+	 * ID of this validator.
+	 */
+	public static final String VALIDATOR_ID = "org.eclipse.emf.henshin.statespace.validators.ocl";
+	
+	/**
+	 * Register this validator in the global validator registry in the state space plug-in.
+	 */
+	public static void register() {
+		StateSpacePlugin.INSTANCE.getValidators().put(VALIDATOR_ID, new OCLStateValidator());
+	}
 	
 	// Property to be checked.
 	private String property;

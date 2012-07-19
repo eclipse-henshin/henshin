@@ -29,6 +29,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.util.ObjectKeyHelper;
 import org.eclipse.emf.henshin.statespace.util.ParameterUtil;
@@ -40,6 +41,18 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
  */
 public class MCRL2StateSpaceValidator extends AbstractFileBasedValidator {
 	
+	/**
+	 * ID of this validator.
+	 */
+	public static final String VALIDATOR_ID = "org.eclipse.emf.henshin.statespace.validator.mcrl2";
+	
+	/**
+	 * Register this validator in the global validator registry in the state space plug-in.
+	 */
+	public static void register() {
+		StateSpacePlugin.INSTANCE.getValidators().put(VALIDATOR_ID, new MCRL2StateSpaceValidator());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.StateSpaceValidator#validate(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.core.runtime.IProgressMonitor)

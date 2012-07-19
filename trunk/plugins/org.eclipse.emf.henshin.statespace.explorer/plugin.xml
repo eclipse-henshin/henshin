@@ -24,6 +24,10 @@
       </editor>
    </extension>
    <extension point="org.eclipse.ui.newWizards">
+         <category
+            id="org.eclipse.emf.henshin.wizards"
+            name="Henshin">
+      </category>
       <wizard name="Henshin State Space"
               icon="icons/HenshinDiagramFile.gif"
               category="org.eclipse.emf.henshin.wizards"

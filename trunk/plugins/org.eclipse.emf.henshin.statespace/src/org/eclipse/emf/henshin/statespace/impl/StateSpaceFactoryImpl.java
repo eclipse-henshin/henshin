@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.henshin.interpreter.Match;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import org.eclipse.emf.henshin.statespace.*;
@@ -130,6 +131,19 @@ public class StateSpaceFactoryImpl extends EFactoryImpl implements StateSpaceFac
 	 */
 	public StateSpace createStateSpace() {
 		StateSpaceImpl stateSpace = new StateSpaceImpl();
+		return stateSpace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public StateSpace createStateSpace(TransformationSystem system) {
+		StateSpace stateSpace = createStateSpace();
+		if (system!=null) {
+			stateSpace.getRules().addAll(system.getRules());
+		}
 		return stateSpace;
 	}
 

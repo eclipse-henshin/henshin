@@ -93,4 +93,14 @@ public final class ValidationResult {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		if (message!=null) return message;
+		return String.valueOf(valid);
+	}
+	
 }

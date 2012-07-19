@@ -312,6 +312,11 @@ public class StateSpaceExplorer extends GraphicalEditor {
 			StateSpaceResource resource = (StateSpaceResource) resourceSet.getResource(uri, true);
 			StateSpace stateSpace = resource.getStateSpace();
 			
+			// Shut down existing state space manager:
+			if (stateSpaceManager!=null) { 
+				stateSpaceManager.shutdown();
+			}
+
 			// Create a new state space manager. We cannot use multi-treaded managers in the explorer.
 			stateSpaceManager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace, 1); // no multi-threading!
 			jobManager = new StateSpaceJobManager(stateSpaceManager, getEditDomain());
@@ -337,6 +342,9 @@ public class StateSpaceExplorer extends GraphicalEditor {
 	public void dispose() {
 		jobManager.stopAllJobs(); // stop all jobs first.
 		toolsMenu.dispose(); // explicitly dispose tools menu.
+		if (stateSpaceManager!=null) { // shut down the state space manager
+			stateSpaceManager.shutdown();
+		}
 		super.dispose(); // and dispose.
 	}
 	

@@ -26,6 +26,11 @@ import org.eclipse.emf.henshin.statespace.tuples.TupleUtil;
  */
 public class MDPStateSpaceExporter extends AbstractStateSpaceExporter {
 
+	/**
+	 * ID of this exporter.
+	 */
+	public static final String EXPORTER_ID = "org.eclipse.emf.henshin.statespace.external.export.prismmdp";
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.statespace.export.StateSpaceExporter#export(org.eclipse.emf.henshin.statespace.StateSpace, org.eclipse.emf.common.util.URI, org.eclipse.core.runtime.IProgressMonitor)

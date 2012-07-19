@@ -33,7 +33,7 @@ public class ResetStateSpaceCommand extends AbstractStateSpaceCommand {
 	 */
 	@Override
 	public void doExecute() throws StateSpaceException { 
-		getStateSpaceManager().resetStateSpace();
+		getStateSpaceManager().resetStateSpace(false);
 	}
 	
 	/*

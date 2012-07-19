@@ -65,9 +65,10 @@ public interface StateSpaceManager extends StateSpaceIndex {
 	/**
 	 * Reset the state space managed by this instance.
 	 * This removes all derived states and all transitions.
+	 * @param remobeInitial Determines whether also initial states should be removed.
 	 * @throws StateSpaceException On errors.
 	 */
-	void resetStateSpace() throws StateSpaceException;
+	void resetStateSpace(boolean removeInitial) throws StateSpaceException;
 	
 	/**
 	 * Reload derived state space properties, such as hash codes.

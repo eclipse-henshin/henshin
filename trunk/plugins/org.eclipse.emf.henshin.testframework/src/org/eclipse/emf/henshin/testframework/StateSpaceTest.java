@@ -84,7 +84,7 @@ public abstract class StateSpaceTest {
 	 */
 	protected void doStateSpaceReset(StateSpaceManager manager) {
 		try {
-			manager.resetStateSpace();
+			manager.resetStateSpace(false);
 		} catch (StateSpaceException e) {
 			throw new RuntimeException(e);
 		}

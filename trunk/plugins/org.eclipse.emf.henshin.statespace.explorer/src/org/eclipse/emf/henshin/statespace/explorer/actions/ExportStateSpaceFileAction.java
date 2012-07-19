@@ -13,10 +13,10 @@ public class ExportStateSpaceFileAction extends AbstractStateSpaceFileAction {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.actions.AbstractStateSpaceFileAction#doRun(org.eclipse.jface.action.IAction)
 	 */
 	@Override
-	public void run(IAction action) {
+	public void doRun(IAction action) {
 
 		// Create the wizard:
 		ExportStateSpaceWizard wizard = new ExportStateSpaceWizard();

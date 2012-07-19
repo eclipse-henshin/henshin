@@ -52,7 +52,12 @@
 
    <extension point="org.eclipse.ui.newWizards" id="creation-wizard">
       <?gmfgen generated="false"?>
-  	  <wizard
+  	      <category
+            id="org.eclipse.emf.henshin.wizards"
+            name="Henshin">
+      </category>
+      <?gmfgen generated="false"?>
+     <wizard
   	     name="%newWizardName"
   	     icon="icons/obj16/HenshinDiagramFile.gif"
   	     category="org.eclipse.emf.henshin.wizards"

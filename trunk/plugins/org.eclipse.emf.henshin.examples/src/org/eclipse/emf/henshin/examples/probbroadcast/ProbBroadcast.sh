@@ -49,7 +49,9 @@ org.eclipse.ocl.ecore"
 HENSHIN="org.eclipse.emf.henshin.model
 org.eclipse.emf.henshin.examples
 org.eclipse.emf.henshin.interpreter
-org.eclipse.emf.henshin.statespace"
+org.eclipse.emf.henshin.statespace
+org.eclipse.emf.henshin.statespace.ocl
+org.eclipse.emf.henshin.statespace.external"
 
 # Classpath:
 CP=""
@@ -64,5 +66,5 @@ done
 
 sync
 cd $WORKSPACE/org.eclipse.emf.henshin.examples
-java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.diningphils.DiningPhilsBenchmark
+java -Xms$MAX_MEMORY -Xmx$MAX_MEMORY -Dfile.encoding=UTF-8 -classpath $CP org.eclipse.emf.henshin.examples.probbroadcast.ProbBroadcast
 cd - > /dev/null

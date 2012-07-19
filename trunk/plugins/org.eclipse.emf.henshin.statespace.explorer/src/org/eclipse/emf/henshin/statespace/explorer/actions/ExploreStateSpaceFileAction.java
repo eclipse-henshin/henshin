@@ -23,9 +23,9 @@ public class ExploreStateSpaceFileAction extends AbstractStateSpaceFileAction {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.actions.AbstractStateSpaceFileAction#doRun(org.eclipse.jface.action.IAction)
 	 */
-	public void run(IAction action) {
+	public void doRun(IAction action) {
 		
 		// Run exploration job.
 		ExploreStateSpaceJob job = new ExploreStateSpaceJob(getStateSpaceManager(), new EditDomain());

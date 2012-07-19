@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.statespace.StateSpace;
+import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
 import org.eclipse.emf.henshin.statespace.external.AbstractFileBasedValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
 
@@ -30,6 +31,18 @@ import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
  * @author Christian Krause
  */
 public class CTMCSteadyStateTool extends AbstractFileBasedValidator {
+	
+	/**
+	 * ID of this validator.
+	 */
+	public static final String VALIDATOR_ID = "org.eclipse.emf.henshin.statespace.validator.prism.ctmc.steadystates";
+	
+	/**
+	 * Register this validator in the global validator registry in the state space plug-in.
+	 */
+	public static void register() {
+		StateSpacePlugin.INSTANCE.getValidators().put(VALIDATOR_ID, new CTMCSteadyStateTool());
+	}
 	
 	/*
 	 * (non-Javadoc)

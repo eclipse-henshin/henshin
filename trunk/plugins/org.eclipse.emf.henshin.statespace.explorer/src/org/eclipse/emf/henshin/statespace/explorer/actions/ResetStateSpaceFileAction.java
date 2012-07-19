@@ -23,14 +23,15 @@ public class ResetStateSpaceFileAction extends AbstractStateSpaceFileAction {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 * @see org.eclipse.emf.henshin.statespace.explorer.actions.AbstractStateSpaceFileAction#doRun(org.eclipse.jface.action.IAction)
 	 */
-	public void run(IAction action) {
+	@Override
+	public void doRun(IAction action) {
 		
 		boolean confirmed = MessageDialog.openConfirm(getShell(), "Reset State Space", "All derived states will be deleted. Really continue?");
 		if (confirmed) {
 			try {
-				getStateSpaceManager().resetStateSpace();
+				getStateSpaceManager().resetStateSpace(false);
 				saveStateSpace();
 			} catch (Throwable t) {
 				StateSpaceExplorerPlugin.getInstance().logError("Error reseting state space", t);
