@@ -95,13 +95,13 @@ class ActionElementFinder {
 				// Multi-rule of an amalgamation?
 				E originInKernel = rule.getMultiMappings().getOrigin(origin);
 				if (originInKernel!=null) {
-					return originInKernel;
+					return getActionElement(originInKernel, helper);
 				}
 				return origin;
 			}
 			else if (container instanceof NestedCondition) {
 				// Find the origin in the LHS:
-				return ((NestedCondition) container).getMappings().getOrigin(element);
+				return getActionElement(((NestedCondition) container).getMappings().getOrigin(element), helper);
 			}
 			else {
 				throw new RuntimeException("Graph neither contained in a Rule nor in a NestedCondition");
