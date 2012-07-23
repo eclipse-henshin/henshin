@@ -16,11 +16,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.StateSpacePlugin;
-import org.eclipse.emf.henshin.statespace.validation.InvariantStateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
-import org.eclipse.emf.henshin.statespace.validation.StateValidator;
 import org.eclipse.emf.henshin.statespace.validation.ValidationResult;
-import org.eclipse.emf.henshin.statespace.validation.Validator;
 
 /**
  * Job for running a state space validator.
@@ -68,16 +65,8 @@ public class ValidateStateSpaceJob extends AbstractStateSpaceJob {
 		return result;
 	}
 
-	public void setValidator(Validator validator) {
-		if (validator instanceof StateSpaceValidator) {
-			this.validator = (StateSpaceValidator) validator;
-		} 
-		else if (validator instanceof StateValidator) {
-			this.validator = new InvariantStateSpaceValidator((StateValidator) validator);
-		}
-		else {
-			throw new IllegalArgumentException();
-		}
+	public void setValidator(StateSpaceValidator validator) {
+		this.validator = (StateSpaceValidator) validator;
 		setName("Running " + validator.getName() + "...");
 	}
 

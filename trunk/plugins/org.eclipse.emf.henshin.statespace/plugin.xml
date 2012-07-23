@@ -28,12 +28,5 @@
             type="statespace">
       </parser>
    </extension>
-   <extension
-         point="org.eclipse.emf.henshin.statespace.validators">
-      <validator
-            class="org.eclipse.emf.henshin.statespace.validation.SingleRootStateValidator"
-            id="org.eclipse.emf.henshin.statespace.validators.singleRoot">
-      </validator>
-   </extension>
 
 </plugin>

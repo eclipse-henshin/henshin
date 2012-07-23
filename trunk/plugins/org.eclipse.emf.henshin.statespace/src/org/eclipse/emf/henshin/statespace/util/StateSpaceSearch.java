@@ -16,9 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpace;
-import org.eclipse.emf.henshin.statespace.Path;
 import org.eclipse.emf.henshin.statespace.Transition;
 
 /**
@@ -55,7 +55,7 @@ public class StateSpaceSearch {
 	 * @param states Start states.
 	 * @param reverse Flag indicating if the traversal should be in reverse direction.
 	 */
-	public synchronized boolean depthFirst(List<State> states, boolean reverse) {
+	public boolean depthFirst(List<State> states, boolean reverse) {
 		reset();
 		for (State state : states) {
 			if (depthFirst(state, reverse)) return true;
@@ -219,6 +219,12 @@ public class StateSpaceSearch {
 		
 	}
 	
+	/**
+	 * Find a {@link Path} for a given trace.
+	 * @param stateSpace State space.
+	 * @param trace Trace (list of transition labels).
+	 * @return A path if found, <code>null</code> otherwise.
+	 */
 	public static Path findPath(StateSpace stateSpace, final List<String> trace) {
 		
 		// TODO: make findPath() efficient
@@ -244,6 +250,36 @@ public class StateSpaceSearch {
 		}
 		
 	}
+
+	/**
+	 * Find a {@link Path} for a given list of states.
+	 * @return A path if found, <code>null</code> otherwise.
+	 */
+	public static Path findPath(List<State> states) {
+		Path path = new Path();
+		if (states.isEmpty()) {
+			return path;
+		}
+		if (states.size()==1) {
+			path.setState(states.get(0));
+			return path;
+		}
+		for (int i=0; i<states.size()-1; i++) {
+			Transition next = null;
+			for (Transition t : states.get(i).getOutgoing()) {
+				if (t.getTarget()==states.get(i+1)) {
+					next = t;
+					break;
+				}
+			}
+			if (next!=null) {
+				path.add(next);
+			} else {
+				return null;
+			}
+		}
+		return path;
+	}
 	
 	/**
 	 * Get the set of visited states during the last search.
@@ -268,4 +304,5 @@ public class StateSpaceSearch {
 	public Path getPath() {
 		return path;
 	}
+
 }

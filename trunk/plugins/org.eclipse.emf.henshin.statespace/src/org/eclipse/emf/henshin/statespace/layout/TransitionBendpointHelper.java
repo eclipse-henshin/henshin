@@ -45,7 +45,8 @@ public class TransitionBendpointHelper {
 			return EMPTY;	// Illegal
 		}
 		else if (transition.getSource()==transition.getTarget()) {
-			return EMPTY; // Self loop transitions
+			int d = 30;
+			return new int[][] { new int[] { 0, d, 0, d }, new int[] { d, 0, d, 0 } }; // Self loop transitions
 		}
 		else {
 			int d = getBendpointDistance(transition);
