@@ -32,6 +32,7 @@ import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
 import org.eclipse.emf.henshin.statespace.Path;
+import org.eclipse.emf.henshin.statespace.StateSpaceProperties;
 import org.eclipse.emf.henshin.statespace.Transition;
 import org.eclipse.emf.henshin.statespace.util.StateDistanceMonitor;
 import org.eclipse.emf.henshin.statespace.util.StateSpaceSearch;
@@ -53,6 +54,9 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	// State distance monitor:
 	protected StateDistanceMonitor stateDistanceMonitor;
 	
+	// Flag indicating whether duplicate transitions with the same label should be ignored:
+	protected boolean ignoreDuplicateTransitions;
+	
 	/**
 	 * Default constructor.
 	 * @param stateSpace State space.
@@ -67,6 +71,8 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 	 */
 	protected void refreshHelpers() {
 		getStateSpace().updateEqualityHelper();
+		String ign = getStateSpace().getProperties().get(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS);
+		ignoreDuplicateTransitions = (ign!=null) && (ign.trim().equalsIgnoreCase("true") || ign.trim().equalsIgnoreCase("yes"));
 		if (getStateSpace().getMaxStateDistance()>=0) {
 			stateDistanceMonitor = new StateDistanceMonitor(getStateSpace());
 		} else {
@@ -173,7 +179,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			}
 			
 			// Find the corresponding outgoing transition:
-			Transition transition = state.findOutgoing(target, current.getRule(), current.getMatch(), current.getParameterKeys());
+			Transition transition = state.getOutgoing(target, current.getRule(), current.getMatch(), current.getParameterKeys());
 			if (transition==null) {
 				releaseExplorer(explorer);
 				return true;
@@ -411,7 +417,7 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 			while (start==null) {
 				target = source;
 				source = states.get(target.getDerivedFrom());
-				trace.addFirst(source.findOutgoing(target, null, -1, null));
+				trace.addFirst(source.getOutgoing(target, null, -1, null));
 				start = getCachedModel(source);
 				if (fromInitial && !source.isInitial()) {
 					start = null;
@@ -535,7 +541,8 @@ public class SingleThreadedStateSpaceManager extends StateSpaceIndexImpl impleme
 				}
 
 				// Find or create the transition.
-				if (newState || state.findOutgoing(target, rule, match, parameters)==null) {
+				int m = ignoreDuplicateTransitions ? -1 : match;
+				if (newState || state.getOutgoing(target, rule, m, parameters)==null) {
 					t.setSource(state);
 					t.setTarget(target);
 					getStateSpace().incTransitionCount();

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.statespace.State;
@@ -43,6 +44,7 @@ public class StateSpaceSerializer {
 	public void write(StateSpace stateSpace, OutputStream out) throws IOException {
 		
 		this.out = out;
+		URI baseURI = stateSpace.eResource().getURI();
 		
 		// Reset state indizes:
 		for (int i=0; i<stateSpace.getStates().size(); i++) {
@@ -63,14 +65,15 @@ public class StateSpaceSerializer {
 		
 		// Rules:
 		for (Rule rule : stateSpace.getRules()) {
-			writeString(EcoreUtil.getURI(rule).toString());
+			URI uri = EcoreUtil.getURI(rule).deresolve(baseURI);
+			writeString(uri.toString());
 		}
 		
 		// States:
 		for (State state : stateSpace.getStates()) {
 			
 			writeString(state.isInitial() ? 
-					state.getModel().getResource().getURI().toString() : null);
+					state.getModel().getResource().getURI().deresolve(baseURI).toString() : null);
 			writeData(state.getData());
 			
 			// Transitions:

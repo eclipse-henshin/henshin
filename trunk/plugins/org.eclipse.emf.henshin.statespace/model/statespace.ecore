@@ -42,7 +42,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//Storage">
     <eOperations name="isInitial" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isTerminal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eOperations name="findOutgoing" eType="#//Transition">
+    <eOperations name="getOutgoing" eType="#//Transition">
       <eParameters name="target" eType="#//State"/>
       <eParameters name="rule" eType="ecore:EClass ../../org.eclipse.emf.henshin.model/model/henshin.ecore#//Rule"/>
       <eParameters name="match" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

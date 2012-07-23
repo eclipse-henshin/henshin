@@ -245,6 +245,6 @@ public interface State extends Storage {
 	 * @model paramIDsDataType="org.eclipse.emf.henshin.statespace.IntegerArray"
 	 * @generated
 	 */
-	Transition findOutgoing(State target, Rule rule, int match, int[] paramIDs);
+	Transition getOutgoing(State target, Rule rule, int match, int[] paramIDs);
 		
 }

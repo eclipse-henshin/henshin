@@ -55,6 +55,7 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		getProperties().put(StateSpaceProperties.CHECK_LINK_ORDER, "false");
 		getProperties().put(StateSpaceProperties.IDENTITY_TYPES, "");
 		getProperties().put(StateSpaceProperties.IGNORED_ATTRIBUTES, "");
+		getProperties().put(StateSpaceProperties.IGNORE_DUPLICATE_TRANSITIONS, "false");
 		
 		// Create a default equality helper:
 		setEqualityHelper(StateSpaceFactory.eINSTANCE.createEqualityHelper());

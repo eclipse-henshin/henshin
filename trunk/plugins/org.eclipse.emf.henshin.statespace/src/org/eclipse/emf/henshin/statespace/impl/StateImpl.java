@@ -58,7 +58,7 @@ public class StateImpl extends StorageImpl implements State {
 	/**
 	 * @generated NOT
 	 */
-	public Transition findOutgoing(State target, Rule rule, int match, int[] paramIDs) {
+	public Transition getOutgoing(State target, Rule rule, int match, int[] paramIDs) {
 		for (Transition transition : getOutgoing()) {
 			if (target==transition.getTarget() && 
 				(rule==null || rule==transition.getRule()) &&
