@@ -100,7 +100,7 @@ public class GossipingGirls {
 		System.out.println("\n*** WARMUP PHASE ***\n");
 		run(PATH, 4);
 		System.out.println("\n*** BENCHMARKING ***\n");
-		run(PATH, 7);
+		run(PATH, 8);
 	}
 
 }
