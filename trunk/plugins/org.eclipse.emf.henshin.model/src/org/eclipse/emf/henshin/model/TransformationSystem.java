@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getRules <em>Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits <em>Transformation Units</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getInstances <em>Instances</em>}</li>
  * </ul>
  * </p>
  *
@@ -87,6 +88,23 @@ public interface TransformationSystem extends NamedElement {
 	 */
 	EList<TransformationUnit> getTransformationUnits();
 	
+	/**
+	 * Returns the value of the '<em><b>Instances</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Graph}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Instances</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Instances</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Instances()
+	 * @model containment="true"
+	 * @generated
+	 */
+	@Deprecated
+	EList<Graph> getInstances();
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <p>

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -36,6 +37,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getTransformationUnits <em>Transformation Units</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl#getInstances <em>Instances</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,6 +73,16 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 	 * @ordered
 	 */
 	protected EList<TransformationUnit> transformationUnits;
+
+	/**
+	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInstances()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Graph> instances;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -130,6 +142,18 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Graph> getInstances() {
+		if (instances == null) {
+			instances = new EObjectContainmentEList<Graph>(Graph.class, this, HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES);
+		}
+		return instances;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public TransformationUnit getTransformationUnit(String unitName) {
@@ -178,6 +202,8 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return ((InternalEList<?>)getTransformationUnits()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -196,6 +222,8 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 				return getImports();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return getTransformationUnits();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return getInstances();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -221,6 +249,10 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 				getTransformationUnits().clear();
 				getTransformationUnits().addAll((Collection<? extends TransformationUnit>)newValue);
 				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				getInstances().clear();
+				getInstances().addAll((Collection<? extends Graph>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -242,6 +274,9 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				getTransformationUnits().clear();
 				return;
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				getInstances().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -260,6 +295,8 @@ public class TransformationSystemImpl extends NamedElementImpl implements Transf
 				return imports != null && !imports.isEmpty();
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
 				return transformationUnits != null && !transformationUnits.isEmpty();
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
+				return instances != null && !instances.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
