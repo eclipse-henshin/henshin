@@ -31,6 +31,8 @@
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutHideLabels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         volatile="true" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutHideIndizes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        volatile="true" transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxStateDistance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         volatile="true" transient="true" defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"

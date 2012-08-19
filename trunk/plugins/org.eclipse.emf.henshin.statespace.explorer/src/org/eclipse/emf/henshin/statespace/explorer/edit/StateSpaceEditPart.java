@@ -89,10 +89,11 @@ public class StateSpaceEditPart extends AbstractGraphicalEditPart implements Ada
 	}
 	
 	public void refreshLabels() {
-		boolean hide = getStateSpace().isLayoutHideLabels();
+		boolean hideIndizes = getStateSpace().isLayoutHideIndizes();
+		boolean hideLabels = getStateSpace().isLayoutHideLabels();
 		for (Object child : getChildren()) {
 			if (child instanceof StateEditPart) {
-				((StateEditPart) child).refreshLabelAndLocation(hide);
+				((StateEditPart) child).refreshLabelAndLocation(hideIndizes, hideLabels);
 			}
 		}
 	}

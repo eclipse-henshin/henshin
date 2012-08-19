@@ -212,13 +212,22 @@ public interface StateSpacePackage extends EPackage {
 	int STATE_SPACE__LAYOUT_HIDE_LABELS = STORAGE_FEATURE_COUNT + 10;
 
 	/**
+	 * The feature id for the '<em><b>Layout Hide Indizes</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_SPACE__LAYOUT_HIDE_INDIZES = STORAGE_FEATURE_COUNT + 11;
+
+	/**
 	 * The feature id for the '<em><b>Max State Distance</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 11;
+	int STATE_SPACE__MAX_STATE_DISTANCE = STORAGE_FEATURE_COUNT + 12;
 
 	/**
 	 * The feature id for the '<em><b>Properties</b></em>' map.
@@ -227,7 +236,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 12;
+	int STATE_SPACE__PROPERTIES = STORAGE_FEATURE_COUNT + 13;
 
 	/**
 	 * The feature id for the '<em><b>All Parameter Keys</b></em>' attribute.
@@ -236,7 +245,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 13;
+	int STATE_SPACE__ALL_PARAMETER_KEYS = STORAGE_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of structural features of the '<em>State Space</em>' class.
@@ -245,7 +254,7 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 14;
+	int STATE_SPACE_FEATURE_COUNT = STORAGE_FEATURE_COUNT + 15;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.statespace.impl.StateImpl <em>State</em>}' class.
@@ -771,6 +780,17 @@ public interface StateSpacePackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStateSpace_LayoutHideLabels();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideIndizes <em>Layout Hide Indizes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Layout Hide Indizes</em>'.
+	 * @see org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideIndizes()
+	 * @see #getStateSpace()
+	 * @generated
+	 */
+	EAttribute getStateSpace_LayoutHideIndizes();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.statespace.StateSpace#getMaxStateDistance <em>Max State Distance</em>}'.
@@ -1350,6 +1370,14 @@ public interface StateSpacePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE_SPACE__LAYOUT_HIDE_LABELS = eINSTANCE.getStateSpace_LayoutHideLabels();
+
+		/**
+		 * The meta object literal for the '<em><b>Layout Hide Indizes</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STATE_SPACE__LAYOUT_HIDE_INDIZES = eINSTANCE.getStateSpace_LayoutHideIndizes();
 
 		/**
 		 * The meta object literal for the '<em><b>Max State Distance</b></em>' attribute feature.

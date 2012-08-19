@@ -188,28 +188,30 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 	 */
 	@Override
 	protected void refreshVisuals() {
-		refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels());
+		refreshLabelAndLocation(
+				getState().getStateSpace().isLayoutHideIndizes(),
+				getState().getStateSpace().isLayoutHideLabels());
 		refreshColor();
 	}
 	
 	
 	/**
-	 * Update the name label and the location.
+	 * Update the index label and the location.
 	 */
-	public void refreshLabelAndLocation(boolean hideLabel) {
+	public void refreshLabelAndLocation(boolean hideIndex, boolean hideLabels) {
 		
 		StateFigure figure = (StateFigure) getFigure();
 		
-		// Update label text:
-		figure.setHideLabel(hideLabel);
-		if (!hideLabel) {
+		// Update index text:
+		figure.setHideLabel(hideIndex);
+		if (!hideIndex) {
 			figure.getLabel().setText(" " + getState().getIndex() + " ");
 		}
 		
 		// Also refresh the labels of the outgoing transitions:
 		for (Object edge : getSourceConnections()) {
 			if (edge instanceof TransitionEditPart) {
-				((TransitionEditPart) edge).refreshLabel(hideLabel);
+				((TransitionEditPart) edge).refreshLabel(hideLabels);
 			}
 		}
 		
@@ -222,7 +224,7 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 
 		// Update the location:
 		int[] loc = getState().getLocation();
-		int w = (hideLabel || getState().getIndex()<10) ? SIZE : -1;
+		int w = (hideIndex || getState().getIndex()<10) ? SIZE : -1;
 		Rectangle bounds = new Rectangle(loc[0], loc[1], w, SIZE);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
@@ -338,11 +340,15 @@ public class StateEditPart extends AbstractGraphicalEditPart implements NodeEdit
 		
 		case StateSpacePackage.STATE__DATA: 
 			refreshColor();
-			refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels());
+			refreshLabelAndLocation(
+					getState().getStateSpace().isLayoutHideIndizes(),
+					getState().getStateSpace().isLayoutHideLabels());
 			break;
 		
 		case StateSpacePackage.STATE__INDEX: 
-			refreshLabelAndLocation(getState().getStateSpace().isLayoutHideLabels()); 
+			refreshLabelAndLocation(
+					getState().getStateSpace().isLayoutHideIndizes(),
+					getState().getStateSpace().isLayoutHideLabels()); 
 			break;
 			
 		case StateSpacePackage.STATE__OUTGOING: 

@@ -54,6 +54,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -116,6 +117,7 @@ public class StateSpaceToolsMenu extends Composite {
 	private Button validateButton;
 	
 	// Check buttons:
+	private Button hideIndizesButton;
 	private Button hideLabelsButton;
 	
 	// Text widget for validation property:
@@ -179,11 +181,15 @@ public class StateSpaceToolsMenu extends Composite {
 		StateSpaceToolsMenuFactory.newLabel(display, (int) (ZOOM_LEVELS[ZOOM_LEVELS.length-1]*100) + "%", GridData.HORIZONTAL_ALIGN_BEGINNING);
 		repulsionScale = StateSpaceToolsMenuFactory.newScale(display, "Repulsion:", 1, 100, 5, 10, false, null);
 		attractionScale = StateSpaceToolsMenuFactory.newScale(display, "Attraction:", 1, 100, 5, 10, false, null);
-		hideLabelsButton = new Button(display, SWT.CHECK);
+		Composite chks = new Composite(display, SWT.NONE);
+		chks.setLayout(new GridLayout(3, false));
+		hideIndizesButton = new Button(chks, SWT.CHECK);
+		hideIndizesButton.setText("Hide indizes");
+		hideLabelsButton = new Button(chks, SWT.CHECK);
 		hideLabelsButton.setText("Hide labels");
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		data.horizontalSpan = 3;
-		hideLabelsButton.setLayoutData(data);
+		chks.setLayoutData(data);
 		StateSpaceToolsMenuFactory.newExpandItem(bar, display, "Display", 2);
 
 		// The validation group:
@@ -282,11 +288,14 @@ public class StateSpaceToolsMenu extends Composite {
 	}
 	
 	private void commitMetadata() {
+		boolean hideIndizes = hideIndizesButton.getSelection();
+		boolean hideLabels = hideLabelsButton.getSelection();
 		StateSpace stateSpace = explorer.getStateSpaceManager().getStateSpace();
 		stateSpace.setLayoutZoomLevel((zoomScale.getSelection()+1) * 100 / ZOOM_LEVELS.length);
 		stateSpace.setLayoutStateRepulsion(repulsionScale.getSelection());
 		stateSpace.setLayoutTransitionAttraction(attractionScale.getSelection());
-		stateSpace.setLayoutHideLabels(hideLabelsButton.getSelection());
+		stateSpace.setLayoutHideIndizes(hideIndizes);
+		stateSpace.setLayoutHideLabels(hideLabels);
 	}
 
 	/**
@@ -303,6 +312,7 @@ public class StateSpaceToolsMenu extends Composite {
 			statesLabel.setText(stateSpace.getStateCount() + " (" + stateSpace.getOpenStates().size() + " open)");
 			transitionsLabel.setText(stateSpace.getTransitionCount() + "");
 			rulesLabel.setText(stateSpace.getRules().size() + "");
+			hideIndizesButton.setSelection(stateSpace.isLayoutHideIndizes());
 			hideLabelsButton.setSelection(stateSpace.isLayoutHideLabels());
 		}
 	}
@@ -343,6 +353,7 @@ public class StateSpaceToolsMenu extends Composite {
 		validateButton.setEnabled(enabled);
 		validatorCombo.setEnabled(enabled);
 		validationText.setEnabled(enabled);
+		hideIndizesButton.setEnabled(enabled);
 		hideLabelsButton.setEnabled(enabled);
 	}
 	
@@ -425,6 +436,7 @@ public class StateSpaceToolsMenu extends Composite {
 		resetLink.addSelectionListener(resetListener);
 		propertiesLink.addSelectionListener(propertiesListener);
 		validateButton.addSelectionListener(validateListener);
+		hideIndizesButton.addSelectionListener(hideLabelsListener);
 		hideLabelsButton.addSelectionListener(hideLabelsListener);
 		
 		addLinkJobListener(jobManager.getLayoutJob(), layouterLink);
@@ -459,6 +471,7 @@ public class StateSpaceToolsMenu extends Composite {
 		explorerLink.removeSelectionListener(explorerListener);
 		layouterLink.removeSelectionListener(layouterListener);
 		validateButton.removeSelectionListener(validateListener);
+		hideIndizesButton.removeSelectionListener(hideLabelsListener);
 		hideLabelsButton.removeSelectionListener(hideLabelsListener);
 	}
 	

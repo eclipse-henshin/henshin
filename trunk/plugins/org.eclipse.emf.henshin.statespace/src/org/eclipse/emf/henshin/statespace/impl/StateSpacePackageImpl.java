@@ -301,7 +301,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStateSpace_MaxStateDistance() {
+	public EAttribute getStateSpace_LayoutHideIndizes() {
 		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(11);
 	}
 
@@ -311,8 +311,18 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStateSpace_MaxStateDistance() {
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(12);
+	}
+
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getStateSpace_Properties() {
-		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(12);
+		return (EReference)stateSpaceEClass.getEStructuralFeatures().get(13);
 	}
 
 
@@ -322,7 +332,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 	 * @generated
 	 */
 	public EAttribute getStateSpace_AllParameterKeys() {
-		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(13);
+		return (EAttribute)stateSpaceEClass.getEStructuralFeatures().get(14);
 	}
 
 
@@ -759,6 +769,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		createEAttribute(stateSpaceEClass, STATE_SPACE__LAYOUT_STATE_REPULSION);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__LAYOUT_TRANSITION_ATTRACTION);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__LAYOUT_HIDE_LABELS);
+		createEAttribute(stateSpaceEClass, STATE_SPACE__LAYOUT_HIDE_INDIZES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__MAX_STATE_DISTANCE);
 		createEReference(stateSpaceEClass, STATE_SPACE__PROPERTIES);
 		createEAttribute(stateSpaceEClass, STATE_SPACE__ALL_PARAMETER_KEYS);
@@ -859,6 +870,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 		initEAttribute(getStateSpace_LayoutStateRepulsion(), ecorePackage.getEInt(), "layoutStateRepulsion", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_LayoutTransitionAttraction(), ecorePackage.getEInt(), "layoutTransitionAttraction", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_LayoutHideLabels(), ecorePackage.getEBoolean(), "layoutHideLabels", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStateSpace_LayoutHideIndizes(), ecorePackage.getEBoolean(), "layoutHideIndizes", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_MaxStateDistance(), ecorePackage.getEInt(), "maxStateDistance", "-1", 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStateSpace_Properties(), ecorePackage.getEStringToStringMapEntry(), null, "properties", null, 0, -1, StateSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStateSpace_AllParameterKeys(), this.getIntegerArray(), "allParameterKeys", null, 0, 1, StateSpace.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -887,7 +899,7 @@ public class StateSpacePackageImpl extends EPackageImpl implements StateSpacePac
 
 		addEOperation(stateEClass, ecorePackage.getEBoolean(), "isTerminal", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(stateEClass, this.getTransition(), "findOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(stateEClass, this.getTransition(), "getOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getState(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, theHenshinPackage.getRule(), "rule", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEInt(), "match", 0, 1, IS_UNIQUE, IS_ORDERED);

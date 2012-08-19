@@ -269,6 +269,20 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 		setData(4, hideLabels ? 1 : 0);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	public boolean isLayoutHideIndizes() {
+		return getData(5)!=0;
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	public void setLayoutHideIndizes(boolean hideIndizes) {
+		setData(5, hideIndizes ? 1 : 0);
+	}
+
 	/* ---------------------------------------------------------------- *
 	 * GENERATED CODE.                                                  *
 	 * Do not edit below this line. If you need to edit, move it above  *
@@ -391,6 +405,17 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 	 * @ordered
 	 */
 	protected static final boolean LAYOUT_HIDE_LABELS_EDEFAULT = false;
+
+
+	/**
+	 * The default value of the '{@link #isLayoutHideIndizes() <em>Layout Hide Indizes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLayoutHideIndizes()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LAYOUT_HIDE_INDIZES_EDEFAULT = false;
 
 
 	/**
@@ -597,6 +622,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getLayoutTransitionAttraction();
 			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
 				return isLayoutHideLabels();
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_INDIZES:
+				return isLayoutHideIndizes();
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance();
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:
@@ -649,6 +676,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
 				setLayoutHideLabels((Boolean)newValue);
 				return;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_INDIZES:
+				setLayoutHideIndizes((Boolean)newValue);
+				return;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance((Integer)newValue);
 				return;
@@ -695,6 +725,9 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
 				setLayoutHideLabels(LAYOUT_HIDE_LABELS_EDEFAULT);
 				return;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_INDIZES:
+				setLayoutHideIndizes(LAYOUT_HIDE_INDIZES_EDEFAULT);
+				return;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				setMaxStateDistance(MAX_STATE_DISTANCE_EDEFAULT);
 				return;
@@ -733,6 +766,8 @@ public class StateSpaceImpl extends StorageImpl implements StateSpace {
 				return getLayoutTransitionAttraction() != LAYOUT_TRANSITION_ATTRACTION_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_LABELS:
 				return isLayoutHideLabels() != LAYOUT_HIDE_LABELS_EDEFAULT;
+			case StateSpacePackage.STATE_SPACE__LAYOUT_HIDE_INDIZES:
+				return isLayoutHideIndizes() != LAYOUT_HIDE_INDIZES_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__MAX_STATE_DISTANCE:
 				return getMaxStateDistance() != MAX_STATE_DISTANCE_EDEFAULT;
 			case StateSpacePackage.STATE_SPACE__PROPERTIES:

@@ -197,6 +197,32 @@ public interface StateSpace extends Storage {
 	void setLayoutHideLabels(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Layout Hide Indizes</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Layout Hide Indizes</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Layout Hide Indizes</em>' attribute.
+	 * @see #setLayoutHideIndizes(boolean)
+	 * @see org.eclipse.emf.henshin.statespace.StateSpacePackage#getStateSpace_LayoutHideIndizes()
+	 * @model transient="true" volatile="true"
+	 * @generated
+	 */
+	boolean isLayoutHideIndizes();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.emf.henshin.statespace.StateSpace#isLayoutHideIndizes <em>Layout Hide Indizes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Layout Hide Indizes</em>' attribute.
+	 * @see #isLayoutHideIndizes()
+	 * @generated
+	 */
+	void setLayoutHideIndizes(boolean value);
+
+	/**
 	 * Get the maximum distance of states from the initial states.
 	 * @return the value of the '<em>Max State Distance</em>' attribute.
 	 * @see #setMaxStateDistance(int)
