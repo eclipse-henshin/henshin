@@ -38,6 +38,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public abstract class BinaryFormulaImpl extends FormulaImpl implements BinaryFormula {
+	
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -246,22 +247,5 @@ public abstract class BinaryFormulaImpl extends FormulaImpl implements BinaryFor
 		}
 		return super.eIsSet(featureID);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
-	 * , java.lang.String)
-	 */
-	protected void updateVariableName(String oldVariableName, String newVariableName) {
-
-		((FormulaImpl) getLeft()).updateVariableName(oldVariableName,
-				newVariableName);
-		((FormulaImpl) getRight()).updateVariableName(oldVariableName,
-				newVariableName);
-	}// updateVariableName
-
-
 
 } //BinaryFormulaImpl

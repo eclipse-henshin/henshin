@@ -81,13 +81,13 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		switch (eClass.getClassifierID()) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
 			case HenshinPackage.RULE: return createRule();
-			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
 			case HenshinPackage.PARAMETER: return createParameter();
 			case HenshinPackage.GRAPH: return createGraph();
-			case HenshinPackage.MAPPING: return createMapping();
 			case HenshinPackage.NODE: return createNode();
-			case HenshinPackage.ATTRIBUTE: return createAttribute();
 			case HenshinPackage.EDGE: return createEdge();
+			case HenshinPackage.ATTRIBUTE: return createAttribute();
+			case HenshinPackage.ATTRIBUTE_CONDITION: return createAttributeCondition();
+			case HenshinPackage.MAPPING: return createMapping();
 			case HenshinPackage.INDEPENDENT_UNIT: return createIndependentUnit();
 			case HenshinPackage.SEQUENTIAL_UNIT: return createSequentialUnit();
 			case HenshinPackage.CONDITIONAL_UNIT: return createConditionalUnit();

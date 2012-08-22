@@ -238,28 +238,4 @@ public interface Rule extends TransformationUnit {
 	 */
 	MappingList getMultiMappings();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	Node getNode(String nodename, boolean isLhs);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean containsMapping(Node sourceNode, Node targetNode);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean containsMultiMapping(Node sourceNode, Node targetNode);
-	
 } // Rule

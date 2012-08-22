@@ -197,26 +197,26 @@ public class HenshinValidator extends EObjectValidator {
 		switch (classifierID) {
 			case HenshinPackage.NAMED_ELEMENT:
 				return validateNamedElement((NamedElement)value, diagnostics, context);
+			case HenshinPackage.GRAPH_ELEMENT:
+				return validateGraphElement((GraphElement)value, diagnostics, context);
 			case HenshinPackage.TRANSFORMATION_SYSTEM:
 				return validateTransformationSystem((TransformationSystem)value, diagnostics, context);
 			case HenshinPackage.RULE:
 				return validateRule((Rule)value, diagnostics, context);
-			case HenshinPackage.ATTRIBUTE_CONDITION:
-				return validateAttributeCondition((AttributeCondition)value, diagnostics, context);
 			case HenshinPackage.PARAMETER:
 				return validateParameter((Parameter)value, diagnostics, context);
 			case HenshinPackage.GRAPH:
 				return validateGraph((Graph)value, diagnostics, context);
-			case HenshinPackage.GRAPH_ELEMENT:
-				return validateGraphElement((GraphElement)value, diagnostics, context);
-			case HenshinPackage.MAPPING:
-				return validateMapping((Mapping)value, diagnostics, context);
 			case HenshinPackage.NODE:
 				return validateNode((Node)value, diagnostics, context);
-			case HenshinPackage.ATTRIBUTE:
-				return validateAttribute((Attribute)value, diagnostics, context);
 			case HenshinPackage.EDGE:
 				return validateEdge((Edge)value, diagnostics, context);
+			case HenshinPackage.ATTRIBUTE:
+				return validateAttribute((Attribute)value, diagnostics, context);
+			case HenshinPackage.ATTRIBUTE_CONDITION:
+				return validateAttributeCondition((AttributeCondition)value, diagnostics, context);
+			case HenshinPackage.MAPPING:
+				return validateMapping((Mapping)value, diagnostics, context);
 			case HenshinPackage.TRANSFORMATION_UNIT:
 				return validateTransformationUnit((TransformationUnit)value, diagnostics, context);
 			case HenshinPackage.INDEPENDENT_UNIT:
@@ -231,10 +231,10 @@ public class HenshinValidator extends EObjectValidator {
 				return validateIteratedUnit((IteratedUnit)value, diagnostics, context);
 			case HenshinPackage.LOOP_UNIT:
 				return validateLoopUnit((LoopUnit)value, diagnostics, context);
-			case HenshinPackage.NESTED_CONDITION:
-				return validateNestedCondition((NestedCondition)value, diagnostics, context);
 			case HenshinPackage.FORMULA:
 				return validateFormula((Formula)value, diagnostics, context);
+			case HenshinPackage.NESTED_CONDITION:
+				return validateNestedCondition((NestedCondition)value, diagnostics, context);
 			case HenshinPackage.UNARY_FORMULA:
 				return validateUnaryFormula((UnaryFormula)value, diagnostics, context);
 			case HenshinPackage.BINARY_FORMULA:

@@ -98,6 +98,12 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.GRAPH_ELEMENT: {
+				GraphElement graphElement = (GraphElement)theEObject;
+				T result = caseGraphElement(graphElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.TRANSFORMATION_SYSTEM: {
 				TransformationSystem transformationSystem = (TransformationSystem)theEObject;
 				T result = caseTransformationSystem(transformationSystem);
@@ -110,13 +116,6 @@ public class HenshinSwitch<T> {
 				T result = caseRule(rule);
 				if (result == null) result = caseTransformationUnit(rule);
 				if (result == null) result = caseNamedElement(rule);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.ATTRIBUTE_CONDITION: {
-				AttributeCondition attributeCondition = (AttributeCondition)theEObject;
-				T result = caseAttributeCondition(attributeCondition);
-				if (result == null) result = caseNamedElement(attributeCondition);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -134,23 +133,18 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.GRAPH_ELEMENT: {
-				GraphElement graphElement = (GraphElement)theEObject;
-				T result = caseGraphElement(graphElement);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.MAPPING: {
-				Mapping mapping = (Mapping)theEObject;
-				T result = caseMapping(mapping);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case HenshinPackage.NODE: {
 				Node node = (Node)theEObject;
 				T result = caseNode(node);
 				if (result == null) result = caseNamedElement(node);
 				if (result == null) result = caseGraphElement(node);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.EDGE: {
+				Edge edge = (Edge)theEObject;
+				T result = caseEdge(edge);
+				if (result == null) result = caseGraphElement(edge);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -160,10 +154,16 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case HenshinPackage.EDGE: {
-				Edge edge = (Edge)theEObject;
-				T result = caseEdge(edge);
-				if (result == null) result = caseGraphElement(edge);
+			case HenshinPackage.ATTRIBUTE_CONDITION: {
+				AttributeCondition attributeCondition = (AttributeCondition)theEObject;
+				T result = caseAttributeCondition(attributeCondition);
+				if (result == null) result = caseNamedElement(attributeCondition);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.MAPPING: {
+				Mapping mapping = (Mapping)theEObject;
+				T result = caseMapping(mapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -222,16 +222,16 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.FORMULA: {
+				Formula formula = (Formula)theEObject;
+				T result = caseFormula(formula);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.NESTED_CONDITION: {
 				NestedCondition nestedCondition = (NestedCondition)theEObject;
 				T result = caseNestedCondition(nestedCondition);
 				if (result == null) result = caseFormula(nestedCondition);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.FORMULA: {
-				Formula formula = (Formula)theEObject;
-				T result = caseFormula(formula);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

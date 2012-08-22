@@ -37,6 +37,7 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * @generated
  */
 public abstract class UnaryFormulaImpl extends FormulaImpl implements UnaryFormula {
+	
 	/**
 	 * The cached value of the '{@link #getChild() <em>Child</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -180,18 +181,5 @@ public abstract class UnaryFormulaImpl extends FormulaImpl implements UnaryFormu
 		}
 		return super.eIsSet(featureID);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
-	 * , java.lang.String)
-	 */
-	protected void updateVariableName(String oldVariableName, String newVariableName) {
-
-		((FormulaImpl) getChild()).updateVariableName(oldVariableName,
-				newVariableName);
-	}// updateVariableName
 
 } //UnaryFormulaImpl

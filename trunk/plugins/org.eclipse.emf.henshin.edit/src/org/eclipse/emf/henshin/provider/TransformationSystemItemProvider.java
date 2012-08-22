@@ -106,6 +106,7 @@ public class TransformationSystemItemProvider extends NamedElementItemProvider i
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__RULES);
 			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS);
+			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_SYSTEM__INSTANCES);
 		}
 		return childrenFeatures;
 	}
@@ -161,6 +162,7 @@ public class TransformationSystemItemProvider extends NamedElementItemProvider i
 		switch (notification.getFeatureID(TransformationSystem.class)) {
 			case HenshinPackage.TRANSFORMATION_SYSTEM__RULES:
 			case HenshinPackage.TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS:
+			case HenshinPackage.TRANSFORMATION_SYSTEM__INSTANCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}

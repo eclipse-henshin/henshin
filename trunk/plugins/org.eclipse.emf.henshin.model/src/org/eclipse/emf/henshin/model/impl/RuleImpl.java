@@ -62,6 +62,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class RuleImpl extends TransformationUnitImpl implements Rule {
+	
 	/**
 	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -559,48 +560,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		}
 		return (MappingList) multiMappings;
 	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public Node getNode(String nodename, boolean isLhs) {
-		for (Node node : (isLhs) ? lhs.getNodes() : rhs.getNodes()) {
-			if (nodename.equals(node.getName())) return node;
-		}
-		return null;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * Checks whether the rule morphism maps the two specified nodes. NOTE: Will
-	 * check only rule mappings, not mappings in application conditions.
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public boolean containsMapping(Node sourceNode, Node targetNode) {
-		for (Mapping m : getMappings()) {
-			if (m.getOrigin() == sourceNode && m.getImage() == targetNode) return true;
-		}
-		return false;
-	}// containsMapping
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * Check whether the multi-mappings list of this rule contain a mapping
-	 * for the given source and target node.
-	 * <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public boolean containsMultiMapping(Node sourceNode, Node targetNode) {
-		for (Mapping m : getMultiMappings()) {
-			if (m.getOrigin() == sourceNode && m.getImage() == targetNode) return true;
-		}
-		return false;
-	}// containsMultiMapping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

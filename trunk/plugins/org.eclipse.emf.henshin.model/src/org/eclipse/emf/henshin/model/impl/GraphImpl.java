@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
@@ -381,27 +380,5 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		}
 		return super.eIsSet(featureID);
 	}
-	
-	/**
-	 * Updates all occurrences of the old variable name with the new variable
-	 * name. This is performed for all contained nodes and if available for
-	 * contained formulas.
-	 * 
-	 * @param oldVariableName
-	 * @param newVariableName
-	 */
-	protected void updateVariableName(String oldVariableName, String newVariableName) {
-		
-		for (Node node : this.getNodes()) {
-			for (Attribute attribute : node.getAttributes()) {
-				((AttributeImpl) attribute).updateVariableName(oldVariableName, newVariableName);
-			}// for
-		}// for
-		
-		if (this.getFormula() != null) {
-			((FormulaImpl) this.getFormula()).updateVariableName(oldVariableName, newVariableName);
-		}// if
-		
-	}// updateVariableName
 	
 } // GraphImpl

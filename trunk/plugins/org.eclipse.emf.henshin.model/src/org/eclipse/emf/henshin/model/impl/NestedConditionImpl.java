@@ -22,14 +22,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.And;
-import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 
 /**
@@ -46,6 +44,7 @@ import org.eclipse.emf.henshin.model.Not;
  * @generated
  */
 public class NestedConditionImpl extends FormulaImpl implements NestedCondition {
+	
 	/**
 	 * The cached value of the '{@link #getConclusion() <em>Conclusion</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -250,21 +249,6 @@ public class NestedConditionImpl extends FormulaImpl implements NestedCondition 
 		}
 		return super.eIsSet(featureID);
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.henshin.model.Formula#updateVariableNames(java.lang.String
-	 * , java.lang.String)
-	 */
-	public void updateVariableName(String oldVariableName, String newVariableName) {
-		
-		for (Node node : this.getConclusion().getNodes()) {
-			for (Attribute attribute : node.getAttributes()) {
-				((AttributeImpl) attribute).updateVariableName(oldVariableName, newVariableName);
-			}// for
-		}// for
-	}// updateVariableName
 	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

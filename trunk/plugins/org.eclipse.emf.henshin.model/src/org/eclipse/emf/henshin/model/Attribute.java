@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getNode <em>Node</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Attribute#getConstant <em>Constant</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Attribute#isNull <em>Null</em>}</li>
  * </ul>
  * </p>
  *
@@ -44,7 +46,7 @@ public interface Attribute extends EObject {
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EAttribute)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Type()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	EAttribute getType();
@@ -98,7 +100,7 @@ public interface Attribute extends EObject {
 	 * @see #setNode(Node)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Node()
 	 * @see org.eclipse.emf.henshin.model.Node#getAttributes
-	 * @model opposite="attributes" required="true" transient="false"
+	 * @model opposite="attributes" transient="false"
 	 * @generated
 	 */
 	Node getNode();
@@ -112,6 +114,38 @@ public interface Attribute extends EObject {
 	 * @generated
 	 */
 	void setNode(Node value);
+
+	/**
+	 * Returns the value of the '<em><b>Constant</b></em>' attribute.
+	 * The default value is <code>"ACED0005740000"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Constant</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Constant</em>' attribute.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Constant()
+	 * @model default="ACED0005740000" transient="true" changeable="false" derived="true"
+	 * @generated
+	 */
+	Object getConstant();
+
+	/**
+	 * Returns the value of the '<em><b>Null</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Null</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Null</em>' attribute.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Null()
+	 * @model default="false" transient="true" changeable="false" derived="true"
+	 * @generated
+	 */
+	boolean isNull();
 
 
 } // Attribute

@@ -81,16 +81,16 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createNamedElementAdapter();
 			}
 			@Override
+			public Adapter caseGraphElement(GraphElement object) {
+				return createGraphElementAdapter();
+			}
+			@Override
 			public Adapter caseTransformationSystem(TransformationSystem object) {
 				return createTransformationSystemAdapter();
 			}
 			@Override
 			public Adapter caseRule(Rule object) {
 				return createRuleAdapter();
-			}
-			@Override
-			public Adapter caseAttributeCondition(AttributeCondition object) {
-				return createAttributeConditionAdapter();
 			}
 			@Override
 			public Adapter caseParameter(Parameter object) {
@@ -101,24 +101,24 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createGraphAdapter();
 			}
 			@Override
-			public Adapter caseGraphElement(GraphElement object) {
-				return createGraphElementAdapter();
-			}
-			@Override
-			public Adapter caseMapping(Mapping object) {
-				return createMappingAdapter();
-			}
-			@Override
 			public Adapter caseNode(Node object) {
 				return createNodeAdapter();
+			}
+			@Override
+			public Adapter caseEdge(Edge object) {
+				return createEdgeAdapter();
 			}
 			@Override
 			public Adapter caseAttribute(Attribute object) {
 				return createAttributeAdapter();
 			}
 			@Override
-			public Adapter caseEdge(Edge object) {
-				return createEdgeAdapter();
+			public Adapter caseAttributeCondition(AttributeCondition object) {
+				return createAttributeConditionAdapter();
+			}
+			@Override
+			public Adapter caseMapping(Mapping object) {
+				return createMappingAdapter();
 			}
 			@Override
 			public Adapter caseTransformationUnit(TransformationUnit object) {
@@ -149,12 +149,12 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createLoopUnitAdapter();
 			}
 			@Override
-			public Adapter caseNestedCondition(NestedCondition object) {
-				return createNestedConditionAdapter();
-			}
-			@Override
 			public Adapter caseFormula(Formula object) {
 				return createFormulaAdapter();
+			}
+			@Override
+			public Adapter caseNestedCondition(NestedCondition object) {
+				return createNestedConditionAdapter();
 			}
 			@Override
 			public Adapter caseUnaryFormula(UnaryFormula object) {

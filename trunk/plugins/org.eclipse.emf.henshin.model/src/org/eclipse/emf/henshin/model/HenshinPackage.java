@@ -109,7 +109,116 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationSystem()
 	 * @generated
 	 */
-	int TRANSFORMATION_SYSTEM = 1;
+	int TRANSFORMATION_SYSTEM = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.RuleImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getRule()
+	 * @generated
+	 */
+	int RULE = 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.AttributeConditionImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttributeCondition()
+	 * @generated
+	 */
+	int ATTRIBUTE_CONDITION = 9;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.GraphImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraph()
+	 * @generated
+	 */
+	int GRAPH = 5;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.GraphElement
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
+	 * @generated
+	 */
+	int GRAPH_ELEMENT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.MappingImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
+	 * @generated
+	 */
+	int MAPPING = 10;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.NodeImpl <em>Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.NodeImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
+	 * @generated
+	 */
+	int NODE = 6;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.AttributeImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
+	 * @generated
+	 */
+	int ATTRIBUTE = 8;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.EdgeImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
+	 * @generated
+	 */
+	int EDGE = 7;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
+	 * @generated
+	 */
+	int TRANSFORMATION_UNIT = 11;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.ParameterImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
+	 * @generated
+	 */
+	int PARAMETER = 4;
+
+	/**
+	 * The number of structural features of the '<em>Graph Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRAPH_ELEMENT_FEATURE_COUNT = 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -173,96 +282,6 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.RuleImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getRule()
-	 * @generated
-	 */
-	int RULE = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.AttributeConditionImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttributeCondition()
-	 * @generated
-	 */
-	int ATTRIBUTE_CONDITION = 3;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.GraphImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraph()
-	 * @generated
-	 */
-	int GRAPH = 5;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.GraphElement
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraphElement()
-	 * @generated
-	 */
-	int GRAPH_ELEMENT = 6;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.MappingImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
-	 * @generated
-	 */
-	int MAPPING = 7;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.NodeImpl <em>Node</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.NodeImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
-	 * @generated
-	 */
-	int NODE = 8;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.AttributeImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
-	 * @generated
-	 */
-	int ATTRIBUTE = 9;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.EdgeImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
-	 * @generated
-	 */
-	int EDGE = 10;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
-	 * @generated
-	 */
-	int TRANSFORMATION_UNIT = 11;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -451,61 +470,6 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDITION__NAME = NAMED_ELEMENT__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_CONDITION__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Rule</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_CONDITION__RULE = NAMED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Condition Text</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_CONDITION__CONDITION_TEXT = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Attribute Condition</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_CONDITION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.ParameterImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
-	 * @generated
-	 */
-	int PARAMETER = 4;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
 	int PARAMETER__NAME = NAMED_ELEMENT__NAME;
 
 	/**
@@ -599,42 +563,6 @@ public interface HenshinPackage extends EPackage {
 	int GRAPH_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of structural features of the '<em>Graph Element</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GRAPH_ELEMENT_FEATURE_COUNT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Origin</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__ORIGIN = 0;
-
-	/**
-	 * The feature id for the '<em><b>Image</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING__IMAGE = 1;
-
-	/**
-	 * The number of structural features of the '<em>Mapping</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAPPING_FEATURE_COUNT = 2;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -716,42 +644,6 @@ public interface HenshinPackage extends EPackage {
 	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__TYPE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__VALUE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Node</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE__NODE = 2;
-
-	/**
-	 * The number of structural features of the '<em>Attribute</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ATTRIBUTE_FEATURE_COUNT = 3;
-
-	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -795,6 +687,132 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__TYPE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__VALUE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Node</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__NODE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Constant</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__CONSTANT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Null</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__NULL = 4;
+
+	/**
+	 * The number of structural features of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_FEATURE_COUNT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION__RULE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Condition Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION__CONDITION_TEXT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Attribute Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDITION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Origin</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__ORIGIN = 0;
+
+	/**
+	 * The feature id for the '<em><b>Image</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING__IMAGE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Mapping</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAPPING_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.IndependentUnitImpl <em>Independent Unit</em>}' class.
@@ -1287,7 +1305,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getFormula()
 	 * @generated
 	 */
-	int FORMULA = 19;
+	int FORMULA = 18;
 
 	/**
 	 * The number of structural features of the '<em>Formula</em>' class.
@@ -1306,7 +1324,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNestedCondition()
 	 * @generated
 	 */
-	int NESTED_CONDITION = 18;
+	int NESTED_CONDITION = 19;
 
 	/**
 	 * The feature id for the '<em><b>Conclusion</b></em>' containment reference.
@@ -2028,6 +2046,28 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAttribute_Node();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Attribute#getConstant <em>Constant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Constant</em>'.
+	 * @see org.eclipse.emf.henshin.model.Attribute#getConstant()
+	 * @see #getAttribute()
+	 * @generated
+	 */
+	EAttribute getAttribute_Constant();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Attribute#isNull <em>Null</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Null</em>'.
+	 * @see org.eclipse.emf.henshin.model.Attribute#isNull()
+	 * @see #getAttribute()
+	 * @generated
+	 */
+	EAttribute getAttribute_Null();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Edge <em>Edge</em>}'.
@@ -2852,6 +2892,22 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ATTRIBUTE__NODE = eINSTANCE.getAttribute_Node();
+
+		/**
+		 * The meta object literal for the '<em><b>Constant</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATTRIBUTE__CONSTANT = eINSTANCE.getAttribute_Constant();
+
+		/**
+		 * The meta object literal for the '<em><b>Null</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATTRIBUTE__NULL = eINSTANCE.getAttribute_Null();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.

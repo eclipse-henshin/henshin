@@ -15,6 +15,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GraphElement" abstract="true" interface="true">
+    <eOperations name="getGraph" eType="#//Graph"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="uniqueUnitNames noCyclicUnits parameterNamesNotTypeName"/>
@@ -48,18 +51,6 @@
       <details key="mappingsFromLeft2Right" value="mappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;rhs.nodes->includes(mapping.image)&#xD;&#xA;)"/>
       <details key="mappingsFromLeft2Right.Msg" value="_Ocl_Msg_Rule_mappingsFromLeft2Right"/>
     </eAnnotations>
-    <eOperations name="getNode" eType="#//Node">
-      <eParameters name="nodename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eOperations>
-    <eOperations name="containsMapping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="sourceNode" eType="#//Node"/>
-      <eParameters name="targetNode" eType="#//Node"/>
-    </eOperations>
-    <eOperations name="containsMultiMapping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="sourceNode" eType="#//Node"/>
-      <eParameters name="targetNode" eType="#//Node"/>
-    </eOperations>
     <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getKernelRule" eType="#//Rule"/>
     <eOperations name="getRootKernelRule" eType="#//Rule"/>
@@ -91,11 +82,6 @@
         eType="#//Rule" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="multiMappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
-        eOpposite="#//Rule/attributeConditions"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -140,21 +126,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="formula" eType="#//Formula"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GraphElement" abstract="true" interface="true">
-    <eOperations name="getGraph" eType="#//Graph"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-      <details key="constraints" value="ruleMapping_TypeEquality"/>
-    </eAnnotations>
-    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
-      <details key="ruleMapping_TypeEquality" value="Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"/>
-      <details key="ruleMapping_TypeEquality.Msg" value="_Ocl_Msg_Mapping_ruleMapping_TypeEquality"/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
-        eType="#//Node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Node"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//NamedElement #//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="uniqueAttributeTypes"/>
@@ -193,12 +164,6 @@
         upperBound="-1" eType="#//Edge" changeable="false" volatile="true" transient="true"
         derived="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//Node"
-        eOpposite="#//Node/attributes"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="#//GraphElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="equalParentGraphs"/>
@@ -215,6 +180,32 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
         eOpposite="#//Graph/edges"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="#//Node" eOpposite="#//Node/attributes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
+        changeable="false" transient="true" defaultValueLiteral="ACED0005740000" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="null" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        changeable="false" transient="true" defaultValueLiteral="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondition" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="#//Rule"
+        eOpposite="#//Rule/attributeConditions"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conditionText" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ruleMapping_TypeEquality"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2010/Henshin/OCL">
+      <details key="ruleMapping_TypeEquality" value="Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type"/>
+      <details key="ruleMapping_TypeEquality.Msg" value="_Ocl_Msg_Mapping_ruleMapping_TypeEquality"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="origin" lowerBound="1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="image" lowerBound="1" eType="#//Node"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationUnit" abstract="true"
       eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -230,12 +221,12 @@
     <eOperations name="getParameter" eType="#//Parameter">
       <eParameters name="parameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
         eType="#//Parameter" containment="true" eOpposite="#//Parameter/unit"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameterMappings" upperBound="-1"
         eType="#//ParameterMapping" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndependentUnit" eSuperTypes="#//TransformationUnit">
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnits" unique="false"
@@ -267,6 +258,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="subUnit" lowerBound="1"
         eType="#//TransformationUnit"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true">
+    <eOperations name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="recursive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eOperations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NestedCondition" eSuperTypes="#//Formula">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="mappingOriginContainedInParentCondition mappingImageContainedInCurrent"/>
@@ -277,11 +273,6 @@
         eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
         eType="#//Mapping" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Formula" abstract="true">
-    <eOperations name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eParameters name="recursive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnaryFormula" abstract="true" eSuperTypes="#//Formula">
     <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1" eType="#//Formula"
