@@ -29,7 +29,6 @@ import javax.script.ScriptException;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
@@ -218,8 +217,9 @@ public class EngineImpl implements Engine {
 		 */
 		@Override
 		public Match next() {
-			hasNext();
-			computedNextMatch = false;
+			if (hasNext()) {
+				computedNextMatch = false;
+			}
 			return nextMatch;
 		}
 
@@ -565,7 +565,6 @@ public class EngineImpl implements Engine {
 				changes.add(new ObjectChangeImpl(graph, deletedObject, false));
 				// TODO: Shouldn't we check the rule options?
 				if (!rule.isCheckDangling()) {
-					// TODO: What about outgoing edges?
 					Collection<Setting> removedEdges = graph.getCrossReferenceAdapter().getInverseReferences(deletedObject);
 					for (Setting edge : removedEdges) {
 						changes.add(new ReferenceChangeImpl(graph, 
@@ -635,13 +634,17 @@ public class EngineImpl implements Engine {
 	 */
 	public Object evalAttributeExpression(Attribute attribute) {
 
-		/* If the attribute's type is an Enumeration, its value shall be rather
-		 * checked against the Ecore model than against the JavaScript machine. */
-		if ((attribute.getType()!=null) && (attribute.getType().getEType() instanceof EEnum)) {
-			EEnum eenum = (EEnum) attribute.getType().getEType();
-			return eenum.getEEnumLiteral(attribute.getValue());
+		// Is it a constant?
+		Object constant = attribute.getConstant();
+		if (constant!=null) {
+			return constant;
 		}
-
+		
+		// Null?
+		if (attribute.isNull()) {
+			return null;
+		}
+		
 		// Try to evaluate the expression:
 		try {
 			Object value = scriptEngine.eval(attribute.getValue());

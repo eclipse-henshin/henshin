@@ -15,7 +15,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 
 import org.eclipse.emf.henshin.interpreter.ApplicationMonitor;
 import org.eclipse.emf.henshin.interpreter.Assignment;
@@ -303,28 +302,63 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeIteratedUnit(ApplicationMonitor monitor) {
 		IteratedUnit iteratedUnit = (IteratedUnit) unit;
-		ScriptEngine scriptEngine = engine.getScriptEngine();
-		for (Parameter param : unit.getParameters()) {
-			scriptEngine.put(param.getName(), resultAssignment.getParameterValue(param));
-		}
+		
 		// Determine the number of iterations:
-		int iterations;
-		try {
-			Object value = scriptEngine.eval(iteratedUnit.getIterations());
-			if (value==null) {
-				throw new RuntimeException("Error determining number of iterations for unit '" + iteratedUnit.getName() + "'");
-			}
-			String valueString = value.toString();
-			int index = valueString.indexOf('.');
-			if (index==0) {
-				valueString = "0";
-			} else if (index>0) {
-				valueString = valueString.substring(0, index);
-			}
-			iterations = Integer.parseInt(valueString);
-		} catch (ScriptException e) {
-			throw new RuntimeException(e.getMessage());
+		String itersString = iteratedUnit.getIterations();
+		if (itersString==null) {
+			return false;
 		}
+		itersString = itersString.trim();
+		int iterations = 0;
+		boolean ok = false;
+		
+		// Constant?
+		try {
+			iterations = Integer.parseInt(itersString);
+			ok = true;
+		} catch (NumberFormatException e) {}
+		
+		// Parameter?
+		if (!ok) {
+			for (Parameter param : unit.getParameters()) {
+				if (itersString.equals(param.getName())) {
+					Object v = resultAssignment.getParameterValue(param);
+					if (v instanceof Number) {
+						iterations = ((Number) v).intValue();
+						ok = true;
+						break;						
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		
+		// We need the script engine...
+		if (!ok) {
+			try {
+				ScriptEngine scriptEngine = engine.getScriptEngine();
+				for (Parameter param : unit.getParameters()) {
+					scriptEngine.put(param.getName(), resultAssignment.getParameterValue(param));
+				}
+				Object value = scriptEngine.eval(itersString);
+				if (value==null) {
+					throw new RuntimeException("Error determining number of iterations for unit '" + iteratedUnit.getName() + "'");
+				}
+				String valueString = value.toString();
+				int index = valueString.indexOf('.');
+				if (index==0) {
+					valueString = "0";
+				} else if (index>0) {
+					valueString = valueString.substring(0, index);
+				}
+				iterations = Integer.parseInt(valueString);
+			} catch (Exception e) {
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+		
+		// Now apply the subunit n times:
 		boolean success = true;
 		for (int i=0; i<iterations; i++) {
 			if (monitor.isCanceled()) {
