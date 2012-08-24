@@ -153,7 +153,7 @@ public class SetAction extends HenshinTest {
 	 * Set an element action and check if it went well.
 	 */
 	private void setAction(Object element, Action action) {
-		if (action.isAmalgamated() && 
+		if (action.isMulti() && 
 			(element instanceof Attribute || element instanceof Edge)) {
 			return;
 		}

@@ -332,7 +332,7 @@ public class NodeCreateCommand extends EditElementCommand {
 				public void modifyText(ModifyEvent e) {
 					String[] parsed = args.getText().split(",");
 					action = new Action(action.getType(), 
-							action.isAmalgamated(), 
+							action.isMulti(), 
 							parsed);
 				}
 	        });

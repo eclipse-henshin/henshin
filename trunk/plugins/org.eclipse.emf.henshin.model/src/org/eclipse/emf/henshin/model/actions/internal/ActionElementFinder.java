@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
+import static org.eclipse.emf.henshin.model.actions.ActionType.*;
 
 /**
  * Action element finder class.
@@ -37,22 +37,22 @@ class ActionElementFinder {
 		
 		// Determine the rules top be checked:
 		List<Rule> rules = new ArrayList<Rule>();
-		if (action==null || !action.isAmalgamated()) {
+		if (action==null || !action.isMulti()) {
 			rules.add(kernel);
 		}
-		if (action==null || action.isAmalgamated()) {
+		if (action==null || action.isMulti()) {
 			rules.addAll(kernel.getAllMultiRules());
 		}
 		
 		// Add LHS elements:
-		if (action==null || action.getType()==ActionType.DELETE || action.getType()==ActionType.PRESERVE) {
+		if (action==null || action.getType()==DELETE || action.getType()==PRESERVE) {
 			for (Rule rule : rules) {
 				candidates.addAll((List<E>) rule.getLhs().eGet(containment));
 			}
 		}
 		
 		// Add RHS elements:
-		if (action==null || action.getType()==ActionType.CREATE) {
+		if (action==null || action.getType()==CREATE) {
 			for (Rule rule : rules) {
 				candidates.addAll((List<E>) rule.getRhs().eGet(containment));				
 			}
@@ -62,8 +62,8 @@ class ActionElementFinder {
 		for (Rule rule : rules) {
 			for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
 				if (action==null || 
-					(action.getType()==ActionType.REQUIRE && nestedCond.isPAC()) || 
-					(action.getType()==ActionType.FORBID && nestedCond.isNAC())) {
+					(action.getType()==REQUIRE && nestedCond.isPAC()) || 
+					(action.getType()==FORBID && nestedCond.isNAC())) {
 					candidates.addAll((List<E>) nestedCond.getConclusion().eGet(containment));					
 				}			
 			}
@@ -93,7 +93,7 @@ class ActionElementFinder {
 				E origin = rule.getMappings().getOrigin(element);
 				if (origin==null) origin = element;
 				
-				// Multi-rule of an amalgamation?
+				// Multi-rule?
 				E originInKernel = rule.getMultiMappings().getOrigin(origin);
 				if (originInKernel!=null) {
 					return getActionElement(originInKernel, helper);

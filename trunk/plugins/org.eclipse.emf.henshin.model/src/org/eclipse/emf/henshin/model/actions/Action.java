@@ -36,9 +36,9 @@ public class Action {
 	private static final Pattern PATTERN_ARGS = Pattern.compile(SEPARATOR_ARGS);
 
 	/**
-	 * Amalgamation marker
+	 * Multi-marker
 	 */
-	private static final String MARKER_AMALGAMATION = "*";
+	private static final String MULTI_MARKER = "*";
 
 	/**
 	 * Empty string array
@@ -62,10 +62,10 @@ public class Action {
 		 */
 		String[] typeAndArgs = PATTERN_TYPE.split(value, 2);
 		
-		boolean amalgamated = false;
+		boolean isMulti = false;
 		String trimmedType = typeAndArgs[0].trim();
-		if (trimmedType.endsWith(MARKER_AMALGAMATION)) {
-			amalgamated = true;
+		if (trimmedType.endsWith(MULTI_MARKER)) {
+			isMulti = true;
 			trimmedType = trimmedType.substring(0, trimmedType.length()-1);
 		}
 		ActionType type = ActionType.parse(trimmedType);
@@ -82,15 +82,15 @@ public class Action {
 		}
 
 		// Create and return the new action:
-		return new Action(type, amalgamated, args);
+		return new Action(type, isMulti, args);
 
 	}
 
 	// Action type.
 	private ActionType type;
 
-	// Amalgamated flag.
-	private boolean amalgamated;
+	// Multi-flag.
+	private boolean isMulti;
 
 	// Optional arguments.
 	private String[] arguments;
@@ -99,15 +99,15 @@ public class Action {
 	/**
 	 * Default constructor.
 	 * @param type Action type. Must not be <code>null</code>!
-	 * @param amalgamated Amalgamation flag.
+	 * @param isMulti Multi-flag.
 	 * @param arguments Optional arguments.
 	 */
-	public Action(ActionType type, boolean amalgamated, String... arguments) {
+	public Action(ActionType type, boolean isMulti, String... arguments) {
 		if (type == null)
 			throw new IllegalArgumentException(
 					"Parameter type must not be null.");
 		this.type = type;
-		this.amalgamated = amalgamated;
+		this.isMulti = isMulti;
 		this.arguments = (arguments == null) ? EMPTY_STRING_ARRAY : arguments;
 	}
 
@@ -129,18 +129,18 @@ public class Action {
 		if (object instanceof Action) {
 			Action action = (Action) object;
 			return (type == action.getType() &&
-					amalgamated == action.isAmalgamated() &&
+					isMulti == action.isMulti() &&
 					Arrays.equals(arguments, action.getArguments()));
 		}
 		return false;
 	}
 
 	/**
-	 * Get the amalgamation flag. 
-	 * @return Amalgamation flag.
+	 * Get the multi-flag. 
+	 * @return Multi-flag.
 	 */
-	public boolean isAmalgamated() {
-		return amalgamated;
+	public boolean isMulti() {
+		return isMulti;
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class Action {
 		for (String argument : arguments) {
 			hash = (hash + argument.hashCode()) << 1;
 		}
-		if (amalgamated) {
+		if (isMulti) {
 			hash++;
 		}
 		return hash;
@@ -182,13 +182,11 @@ public class Action {
 	 */
 	@Override
 	public String toString() {
-		
 		StringBuffer result = new StringBuffer();
 		result.append(type.toString());
-		if (amalgamated){
-			result.append(MARKER_AMALGAMATION);
+		if (isMulti){
+			result.append(MULTI_MARKER);
 		}
-		
 		if (arguments.length > 0) {
 			result.append(SEPARATOR_TYPE);
 			result.append(arguments[0]);

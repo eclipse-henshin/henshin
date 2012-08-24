@@ -12,7 +12,7 @@ package org.eclipse.emf.henshin.model.actions.internal;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
+import static org.eclipse.emf.henshin.model.actions.ActionType.*;
 
 /**
  * Utility methods to access and modify application conditions
@@ -32,13 +32,13 @@ public class ActionACUtil {
 		
 		// Check if the action type is ok:
 		if (!((action != null) && 
-			((action.getType() == ActionType.FORBID) || 
-			 (action.getType() == ActionType.REQUIRE)))) {
+			((action.getType() == FORBID) || 
+			 (action.getType() == REQUIRE)))) {
 			throw new IllegalArgumentException("Application conditions can be created only for REQUIRE/FORBID actions");
 		}
 		
 		// Determine whether it is a PAC or a NAC:
-		boolean positive = (action.getType()==ActionType.REQUIRE);
+		boolean positive = (action.getType()==REQUIRE);
 		
 		// Get the name of the application condition:
 		String name = null;
@@ -50,7 +50,7 @@ public class ActionACUtil {
 		// Find or create the application condition:
 		NestedCondition ac = null;
 		for (NestedCondition cond : rule.getAllNestedConditions()) {
-			if (cond.getConclusion()==null) continue;
+			if (cond.getConclusion()==null || cond.getRule()!=rule) continue;
 			if ((name==null && cond.getConclusion().getName()==null) ||
 				(name!=null && name.equals(cond.getConclusion().getName()))) {
 				if ((positive && cond.isPAC()) || (!positive && cond.isNAC())) {

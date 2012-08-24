@@ -22,6 +22,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
+import static org.eclipse.emf.henshin.model.actions.ActionType.*;
 
 /**
  * @author Christian Krause
@@ -48,15 +49,14 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		Rule kernel = rule.getKernelRule();
 		
 		// Check if the element is amalgamated:
-		boolean isAmalgamated = isAmalgamated(element);
+		boolean isMulti = isMulti(element);
 		
 		// Get the amalgamation parameters:
-		String[] amalgamationParams = 
-			getAmalgamationParameters(element, rule);
+		String[] multiParams = getMultiParameters(element, rule);
 		
 		// If the rule is a multi-rule, but the action is not
 		// amalgamated, the element is not an action element.
-		if (kernel!=null && !isAmalgamated) {
+		if (kernel!=null && !isMulti) {
 			return null;
 		}
 		
@@ -71,13 +71,10 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// Check if it is mapped to the RHS:
 			if (image!=null) {
-				return new Action(ActionType.PRESERVE, 
-						isAmalgamated, amalgamationParams);
+				return new Action(PRESERVE, isMulti, multiParams);
 			} else {
-				return new Action(ActionType.DELETE,
-						isAmalgamated, amalgamationParams);
+				return new Action(DELETE, isMulti, multiParams);
 			}
-			
 		}
 		
 		// RHS element?
@@ -88,10 +85,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// If it has an origin in the LHS, it is a CREATE-action:
 			if (origin==null) {
-				return new Action(ActionType.CREATE,
-						isAmalgamated, amalgamationParams);
+				return new Action(CREATE, isMulti, multiParams);
 			}
-			
 		}
 		
 		// PAC/NAC element?
@@ -101,10 +96,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			NestedCondition nc = (NestedCondition) graph.eContainer();
 			ActionType type = null;
 			if (nc.isPAC()) {
-				type = ActionType.REQUIRE;
-			}
-			else if (nc.isNAC()) {
-				type = ActionType.FORBID;
+				type = REQUIRE;
+			} else if (nc.isNAC()) {
+				type = FORBID;
 			}
 
 			// If we know the type, we can continue:
@@ -114,13 +108,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				editor = getMapEditor(graph);
 				E origin = editor.getOpposite(element);
 
-				// If it has an origin in the LHS, it is a NAC-action:
+				// If it has an origin in the LHS, it is a PAC/NAC-action:
 				if (origin==null) {
 					String name = graph.getName();
 					if (name==null || name.trim().length()==0 || "default".equals(name)) {
-						return new Action(type, isAmalgamated);
+						return new Action(type, isMulti);
 					} else {
-						return new Action(type, isAmalgamated, name.trim());
+						return new Action(type, isMulti, name.trim());
 					}
 				}
 			}
@@ -152,25 +146,24 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		MapEditor<E> editor;
 		
 		// Current action type = PRESERVE?
-		if (current.getType()==ActionType.PRESERVE) {
+		if (current.getType()==PRESERVE) {
 			
 			// We know that the element is contained in the LHS and that it is mapped to a node in the RHS.
 			editor = getMapEditor(rule.getRhs());
 			E image = editor.getOpposite(element);
 			
 			// For DELETE actions, delete the image in the RHS:
-			if (action.getType()==ActionType.DELETE) {
+			if (action.getType()==DELETE) {
 				editor.remove(image);
 			}
 			
 			// For CREATE actions, replace the image in the RHS by the origin:
-			else if (action.getType()==ActionType.CREATE) {
+			else if (action.getType()==CREATE) {
 				editor.replace(image);
 			}
 			
 			// For REQUIRE / FORBID actions, delete the image in the RHS and move the node to the AC:
-			else if (action.getType()==ActionType.REQUIRE ||
-					 action.getType()==ActionType.FORBID) {
+			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
 				
 				// Remove the image in the RHS:
 				editor.remove(image);
@@ -185,25 +178,23 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		
 		// Current action type = CREATE?
-		else if (current.getType()==ActionType.CREATE) {
+		else if (current.getType()==CREATE) {
 			
 			// We know that the element is contained in the RHS and that it is not an image of a mapping.
 			editor = getMapEditor(rule.getRhs());
 			
 			// We move the element to the LHS if the action type has changed:
-			if (action.getType()!=ActionType.CREATE) {
+			if (action.getType()!=CREATE) {
 				editor.move(element);
 			}
 			
 			// For NONE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==ActionType.PRESERVE) {
+			if (action.getType()==PRESERVE) {
 				editor.copy(element);
 			}
 			
 			// For REQUIRE / FORBID actions, move the element further to the AC:
-			else if (action.getType()==ActionType.REQUIRE ||
-					action.getType()==ActionType.FORBID) {
-				
+			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
 				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
@@ -212,25 +203,23 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 
 		// Current action type = DELETE?
-		else if (current.getType()==ActionType.DELETE) {
+		else if (current.getType()==DELETE) {
 			
 			// We know that the element is contained in the LHS and that it has no image in the RHS.
 			editor = getMapEditor(rule.getRhs());
 			
 			// For PRESERVE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==ActionType.PRESERVE) {
+			if (action.getType()==PRESERVE) {
 				editor.copy(element);
 			}
 			
 			// For CREATE actions, move the element to the RHS:
-			else if (action.getType()==ActionType.CREATE) {
+			else if (action.getType()==CREATE) {
 				editor.move(element);
 			}
 			
 			// For FORBID actions, move the element to the NAC:
-			else if (action.getType()==ActionType.REQUIRE || 
-					 action.getType()==ActionType.FORBID) {
-				
+			else if (action.getType()==REQUIRE ||  action.getType()==FORBID) {
 				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
@@ -238,8 +227,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}		
 		
 		// Current action type = REQUIRE or FORBID?
-		else if (current.getType()==ActionType.REQUIRE || 
-				 current.getType()==ActionType.FORBID) {
+		else if (current.getType()==REQUIRE || current.getType()==FORBID) {
 			
 			// We know that the element is contained in a AC and that it has no origin in the LHS.
 			NestedCondition ac = (NestedCondition) graph.eContainer();
@@ -249,25 +237,23 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			editor.move(element);
 			
 			// For PRESERVE actions, create a copy in the RHS as well:
-			if (action.getType()==ActionType.PRESERVE) {
+			if (action.getType()==PRESERVE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
 			}
 			// For CREATE actions, move the element to the RHS:
-			else if (action.getType()==ActionType.CREATE) {
+			else if (action.getType()==CREATE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.move(element);
 			}			
 			// For REQUIRE and FORBID actions, move the element to the new AC:
-			else if (action.getType()==ActionType.REQUIRE ||
-					 action.getType()==ActionType.FORBID) {
-
+			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
 				NestedCondition newAc = ActionACUtil.getOrCreateAC(action, rule);
 				editor = getMapEditor(newAc.getConclusion());
 				editor.move(element);
 			}
 			
-			// Delete the NAC if it became empty or trivial due to the current change.
+			// Delete the PAC/NAC if it became empty or trivial due to the current change.
 			if (ac.isTrue()) {
 				rule.removeNestedCondition(ac);
 			}
@@ -277,11 +263,11 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// THE ACTION TYPE IS CORRECT NOW.
 		
 		// We check now whether the amalgamation parameters are different.
-		if (current.isAmalgamated()!=action.isAmalgamated()) {
+		if (current.isMulti()!=action.isMulti()) {
 			
 			// Find the amalgamation and the kernel / multi rule.
 			Rule multi, kernel;
-			if (action.isAmalgamated()) {
+			if (action.isMulti()) {
 				multi = getOrCreateMultiRule(rule, action.getArguments());
 				kernel = rule;
 			} else {
@@ -295,7 +281,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// THE ACTION TYPE AND THE AMALGAMATED FLAG ARE CORRECT NOW.
 		
 		// The only thing that can be different now is the name of the multi-rule:
-		if (current.isAmalgamated() && action.isAmalgamated()) {
+		if (current.isMulti() && action.isMulti()) {
 			Rule kernelRule = rule.getKernelRule();
 			Rule newMulti = getOrCreateMultiRule(kernelRule, action.getArguments());
 			if (newMulti!=rule) {
@@ -311,13 +297,13 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		sanitizeMultiRule(multi);
 
 		// Move the element(s).
-		if (actionType==ActionType.CREATE) {
+		if (actionType==CREATE) {
 			getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
 		}
-		else if (actionType==ActionType.DELETE) {
+		else if (actionType==DELETE) {
 			getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
 		}
-		else if (actionType==ActionType.PRESERVE) {
+		else if (actionType==PRESERVE) {
 			MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
 			mappingEditor.moveMappedElement(element);
 		}
@@ -382,9 +368,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	
 	/*
 	 * Helper method for checking whether the action of an element
-	 * should be amalgamated.
+	 * is a multi-action.
 	 */
-	private boolean isAmalgamated(E element) {
+	private boolean isMulti(E element) {
 		GraphElement elem;
 		if (element instanceof Attribute) {
 			elem = ((Attribute) element).getNode();
@@ -410,11 +396,11 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	}
 	
 	/*
-	 * If an element has an amalgamated action, this method
-	 * returns the proper parameters for the amalgamated action.
+	 * If an element has a multi-action, this method
+	 * returns the proper parameters for the multi-action.
 	 */
-	private String[] getAmalgamationParameters(E element, Rule multiRule) {
-		if (!isAmalgamated(element)) {
+	private String[] getMultiParameters(E element, Rule multiRule) {
+		if (!isMulti(element)) {
 			return new String[] {};
 		}
 		String name = multiRule.getName();

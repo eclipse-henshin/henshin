@@ -170,7 +170,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	public boolean shouldDrawShadow() {
 		Action action = getNodeAction();
-		return (action != null) && (action.isAmalgamated());
+		return (action != null) && (action.isMulti());
 	}
 
 	/**

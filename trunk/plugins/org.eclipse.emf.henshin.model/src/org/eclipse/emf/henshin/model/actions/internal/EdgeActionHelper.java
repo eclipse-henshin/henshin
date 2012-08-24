@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
+import static org.eclipse.emf.henshin.model.actions.ActionType.*;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 
 public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
@@ -91,7 +91,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 			edge = HenshinFactory.eINSTANCE.createEdge(source, target, type);
 
 			// For PRESERVE actions we need to create an image in the RHS as well:
-			if (srcAction.getType() == ActionType.PRESERVE) {
+			if (srcAction.getType() == PRESERVE) {
 				Node srcImage = rule.getMappings().getImage(source, rule.getRhs());
 				Node trgImage = rule.getMappings().getImage(target, rule.getRhs());
 				HenshinFactory.eINSTANCE.createEdge(srcImage, trgImage, type);
@@ -109,7 +109,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 			
 			if (isSimplePreserve(srcAction)) {
 				
-				if (trgAction.isAmalgamated()) {
+				if (trgAction.isMulti()) {
 					Rule multiRule = target.getGraph().getRule();
 					Node realSource = multiRule.getMultiMappings().getImage(source, multiRule.getLhs());
 					if (realSource!=null) {
@@ -117,19 +117,19 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 					}
 				}
 				
-				if (trgAction.getType() == ActionType.CREATE
-						|| trgAction.getType() == ActionType.FORBID
-						|| trgAction.getType() == ActionType.REQUIRE) {
+				if (trgAction.getType() == CREATE
+						|| trgAction.getType() == FORBID
+						|| trgAction.getType() == REQUIRE) {
 					source = new NodeMapEditor(target.getGraph()).copy(source);
 				}
 				
 				// Do we need to copy the edge to the Rhs of the multi-rule?
-				copyToRhs = (trgAction.isAmalgamated() && trgAction.getType()==ActionType.PRESERVE);
+				copyToRhs = (trgAction.isMulti() && trgAction.getType()==PRESERVE);
 				multiRhs = target.getGraph().getRule().getRhs();
 				
 			} else {
 				
-				if (srcAction.isAmalgamated()) {
+				if (srcAction.isMulti()) {
 					Rule multiRule = source.getGraph().getRule();
 					Node realTarget = multiRule.getMultiMappings().getImage(target, multiRule.getLhs());
 					if (realTarget!=null) {
@@ -137,13 +137,13 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 					}
 				}
 
-				if (srcAction.getType() == ActionType.CREATE
-						|| srcAction.getType() == ActionType.FORBID) {
+				if (srcAction.getType() == CREATE
+						|| srcAction.getType() == FORBID) {
 					target = new NodeMapEditor(source.getGraph()).copy(target);
 				}
 				
 				// Do we need to copy the edge to the Rhs of the multi-rule?
-				copyToRhs = (srcAction.isAmalgamated() && srcAction.getType()==ActionType.PRESERVE);
+				copyToRhs = (srcAction.isMulti() && srcAction.getType()==PRESERVE);
 				multiRhs = source.getGraph().getRule().getRhs();
 
 			}
@@ -229,8 +229,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 	}
 	
 	private static boolean isSimplePreserve(Action action) {
-		return action.getType()==ActionType.PRESERVE && 
-				!action.isAmalgamated() && 
+		return action.getType()==PRESERVE && 
+				!action.isMulti() && 
 				action.getArguments().length==0;
 	}
 
