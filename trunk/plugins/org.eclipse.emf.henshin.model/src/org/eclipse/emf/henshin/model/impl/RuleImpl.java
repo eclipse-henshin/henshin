@@ -12,6 +12,7 @@ package org.eclipse.emf.henshin.model.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -450,6 +451,24 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public EList<Rule> removeTrivialMultiRules() {
+		EList<Rule> removed = new BasicEList<Rule>();
+		Iterator<Rule> iterator = getMultiRules().iterator();
+		while (iterator.hasNext()) {
+			Rule multiRule = iterator.next();
+			if (multiRule.isTrivialMultiRule()) {
+				iterator.remove();
+				removed.add(multiRule);
+			}
+		}
+		return removed;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public EList<Rule> getAllMultiRules() {
 		EList<Rule> allMultiRules = new BasicEList<Rule>();
 		allMultiRules.addAll(getMultiRules());
@@ -489,6 +508,25 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 */
 	public boolean isMultiRule() {
 		return getKernelRule()!=null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isTrivialMultiRule() {
+		if (!isMultiRule()) {
+			return false;
+		}
+		for (Rule multiRule : getMultiRules()) {
+			if (!multiRule.isTrivialMultiRule());
+		}
+		Rule kernel = getKernelRule();
+		if (lhs==null || rhs==null || kernel.getLhs()==null || kernel.getRhs()==null) {
+			return false;
+		}
+		return getMultiMappings().isOnto(lhs) && getMultiMappings().isOnto(rhs);
 	}
 
 	/**

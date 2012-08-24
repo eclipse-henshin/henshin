@@ -1337,6 +1337,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		addEOperation(ruleEClass, ecorePackage.getEBoolean(), "isMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(ruleEClass, ecorePackage.getEBoolean(), "isTrivialMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(ruleEClass, this.getNestedCondition(), "createPAC", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1353,6 +1355,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		op = addEOperation(ruleEClass, ecorePackage.getEBoolean(), "removeNestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getNestedCondition(), "nestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ruleEClass, this.getRule(), "removeTrivialMultiRules", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameter_Unit(), this.getTransformationUnit(), this.getTransformationUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

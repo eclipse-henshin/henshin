@@ -22,7 +22,6 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 
 /**
  * @author Christian Krause
@@ -323,8 +322,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			mappingEditor.moveMappedElement(element);
 		}
 		
-		// Remove trivial multi-rules from the amalgamation:
-		HenshinMultiRuleUtil.removeTrivialMultiRules(kernel);
+		// Remove trivial multi-rules:
+		kernel.removeTrivialMultiRules();
 		
 	}
 	

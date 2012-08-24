@@ -21,15 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.And;
-import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
-import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -185,33 +182,11 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	 * @generated NOT
 	 */
 	public boolean isTrue() {
-		// Conclusion not set?
 		if (conclusion==null) {
 			return false;
+		} else {
+			return getMappings().isOnto(conclusion);			
 		}
-		for (Node node : conclusion.getNodes()) {
-			// Not the image of a mapping? Or a different type?
-			Node nodeOrigin = getMappings().getOrigin(node);
-			if (nodeOrigin==null || nodeOrigin.getType()!=node.getType()) {
-				return false;
-			}
-			// Check the attributes of this node as well.
-			for (Attribute attribute : node.getAttributes()) {
-				Attribute attOrigin = getMappings().getOrigin(attribute);
-				if (attOrigin==null || !valueEquals(attribute.getValue(), attOrigin.getValue())) {
-					return false;
-				}
-			}
-		}
-		for (Edge edge : conclusion.getEdges()) {
-			// Not the image of a mapping? Or a different type?
-			Edge edgeOrigin = getMappings().getOrigin(edge);
-			if (edgeOrigin==null || edgeOrigin.getType()!=edge.getType()) {
-				return false;
-			}
-		}
-		// Otherwise it is definitely always true:
-		return true;
 	}
 
 	/**
@@ -224,19 +199,6 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 		return false;
 	}
 	
-	/*
-	 * Check if to attribute values are equal.
-	 */
-	static boolean valueEquals(String v1, String v2) {
-		if (v1==null) {
-			return (v2==null);
-		}
-		if (v2==null) {
-			return false;
-		}
-		return v1.trim().equals(v2.trim());
-	}
-
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->

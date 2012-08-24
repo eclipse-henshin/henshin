@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -38,7 +39,6 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 import org.eclipse.emf.henshin.provider.descriptors.NodeTypePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 import org.eclipse.emf.henshin.provider.util.ItemPropertyDescriptorDecorator;
@@ -355,7 +355,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			EStructuralFeature feature, Object value, int index) {
 		Node node = (Node) owner;
 		CompoundCommand cmpCmd = new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
-		for (Node dependentNode : HenshinMultiRuleUtil.getDependentNodes(node)) {
+		for (Node dependentNode : getDependentNodes(node)) {
 			cmpCmd.append(createSetCommand(domain, dependentNode, feature, value, index));
 		}
 		cmpCmd.append(super.createSetCommand(domain, owner, feature, value, index));
@@ -380,4 +380,64 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				.createURI("color://rgb/0/0/255");
 	}
 	
+	public static Collection<Node> getDependentNodes(Node node) {
+		System.out.print("Dependent Nodes for " + node + ": ");
+		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
+			Collection<Node> result = new ArrayList<Node>();
+			Rule rule = node.getGraph().getRule();
+			for (Rule mRule : rule.getMultiRules()) {
+				Node imgNode = getDependentNodeInRule(node, mRule);
+				if (imgNode != null)
+					result.add(imgNode);
+			}
+			System.out.println(result);
+			return result;
+		}
+		System.out.println("none");
+		return Collections.emptyList();
+	}
+	
+	public static Node getDependentNodeInRule(Node node, Rule rule) {
+		for (Mapping m : rule.getMultiMappings())
+			if (m.getOrigin() == node)
+				return m.getImage();
+		return null;
+	}
+	
+	public static Collection<Graph> getDependentGraphs(Graph graph) {
+		Collection<Graph> result = new ArrayList<Graph>();
+		Rule rule = graph.getRule();
+		boolean isLeft = graph.isLhs();
+		if (rule == null)
+			return result;
+		for (Rule mRule : rule.getMultiRules())
+			result.add(isLeft ? mRule.getLhs() : mRule.getRhs());
+		return result;
+	}
+	
+	public static Collection<Edge> getDependentEdges(Edge edge) {
+		Collection<Edge> result = new ArrayList<Edge>();
+		if (edge.getGraph() == null || edge.getGraph().getRule() == null)
+			return result;
+		Rule rule = edge.getGraph().getRule();
+		for (Rule dependentRule : rule.getMultiRules()) {
+			Edge dependentEdge = getDependentEdgeInRule(edge, dependentRule);
+			if (dependentEdge != null)
+				result.add(dependentEdge);
+		}
+		return result;
+	}
+	
+	public static Edge getDependentEdgeInRule(Edge edge, Rule rule) {
+		Node dependentSource = getDependentNodeInRule(edge.getSource(), rule);
+		Node dependentTarget = getDependentNodeInRule(edge.getTarget(), rule);
+		for (Edge dependentEdgeCandidate : dependentSource.getOutgoing()) {
+			if (dependentEdgeCandidate.getTarget() == dependentTarget
+					&& dependentEdgeCandidate.getType() == edge.getType()) {
+				return dependentEdgeCandidate;
+			}
+		}
+		return null;
+	}
+
 }

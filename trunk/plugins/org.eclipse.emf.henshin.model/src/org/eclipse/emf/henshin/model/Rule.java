@@ -169,6 +169,14 @@ public interface Rule extends TransformationUnit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<Rule> removeTrivialMultiRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -189,6 +197,17 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	boolean isMultiRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Checks whether this is a trivial multirule. A multirule is trivial if it has no effect
+	 * on the transformation. This is the case if it can never be matched, or if it does perform
+	 * only those modifications that are already defined in the kernel rule.
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isTrivialMultiRule();
 
 	/**
 	 * <!-- begin-user-doc -->

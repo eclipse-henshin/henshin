@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="henshin" nsURI="http://www.eclipse.org/emf/2011/Henshin" nsPrefix="henshin">
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="henshin"
+    nsURI="http://www.eclipse.org/emf/2011/Henshin" nsPrefix="henshin">
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="ValidName"/>
@@ -58,6 +60,7 @@
     <eOperations name="getAllMultiRules" upperBound="-1" eType="#//Rule"/>
     <eOperations name="getAllNestedConditions" upperBound="-1" eType="#//NestedCondition"/>
     <eOperations name="isMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="isTrivialMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="createPAC" eType="#//NestedCondition">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -75,6 +78,7 @@
     <eOperations name="removeNestedCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="nestedCondition" eType="#//NestedCondition"/>
     </eOperations>
+    <eOperations name="removeTrivialMultiRules" upperBound="-1" eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributeConditions" upperBound="-1"

@@ -112,6 +112,16 @@ public interface MappingList extends EList<Mapping> {
 	<T> T getImage(T origin, Graph imageGraph);
 
 	/**
+	 * Check whether this map is 'onto' (surjective).
+	 * This also checks whether the types of the mapped
+	 * nodes and edge are strictly the same, and whether
+	 * the attribute values are the same too.
+	 * @param imageGraph The image graph.
+	 * @return <code>true</code> if the map is onto.
+	 */
+	boolean isOnto(Graph imageGraph);
+	
+	/**
 	 * Remove all invalid mappings.
 	 */
 	void removeInvalid();

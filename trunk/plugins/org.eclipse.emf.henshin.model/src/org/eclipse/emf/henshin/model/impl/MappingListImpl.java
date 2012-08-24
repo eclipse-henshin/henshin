@@ -226,4 +226,50 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.MappingList#isOnto(org.eclipse.emf.henshin.model.Graph)
+	 */
+	@Override
+	public boolean isOnto(Graph imageGraph) {
+		if (imageGraph==null) {
+			return false;
+		}
+		for (Node node : imageGraph.getNodes()) {
+			// Not the image of a mapping? Or a different type?
+			Node nodeOrigin = getOrigin(node);
+			if (nodeOrigin==null || nodeOrigin.getType()!=node.getType()) {
+				return false;
+			}
+			// Check the attributes of this node as well.
+			for (Attribute attribute : node.getAttributes()) {
+				Attribute attOrigin = getOrigin(attribute);
+				if (attOrigin==null || !valueEquals(attribute.getValue(), attOrigin.getValue())) {
+					return false;
+				}
+			}
+		}
+		for (Edge edge : imageGraph.getEdges()) {
+			// Not the image of a mapping? Or a different type?
+			Edge edgeOrigin = getOrigin(edge);
+			if (edgeOrigin==null || edgeOrigin.getType()!=edge.getType()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/*
+	 * Check if to attribute values are equal.
+	 */
+	static boolean valueEquals(String v1, String v2) {
+		if (v1==null) {
+			return (v2==null);
+		}
+		if (v2==null) {
+			return false;
+		}
+		return v1.trim().equals(v2.trim());
+	}
+
 }
