@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
@@ -10,11 +19,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
-/**
- * @generated NOT
- */
 public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	
 	/**
@@ -29,7 +34,7 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	public List<Attribute> getActionElements(Node node, Action action) {		
 		
 		// Compute list of candidates:
-		Rule rule = node.getGraph().getContainerRule();
+		Rule rule = node.getGraph().getRule();
 		List<Attribute> candidates = new ArrayList<Attribute>();
 		
 		// Attributes in the LHS:
@@ -44,8 +49,8 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 			}
 
 			// Attributes in the PACs and NACs:
-			for (NestedCondition nc : HenshinACUtil.getAllACs(rule)) {
-				Node ncNode = new NodeMapEditor(nc.getConclusion()).getOpposite(lhsNode);
+			for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
+				Node ncNode = new NodeMapEditor(nestedCond.getConclusion()).getOpposite(lhsNode);
 				if (ncNode!=null) {
 					candidates.addAll(ncNode.getAttributes());
 				}

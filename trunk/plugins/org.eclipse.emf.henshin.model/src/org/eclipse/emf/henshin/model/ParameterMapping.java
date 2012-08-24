@@ -1,8 +1,11 @@
 /**
  * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
- *
- * $Id$
  */
 package org.eclipse.emf.henshin.model;
 
@@ -26,18 +29,15 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ParameterMapping extends EObject {
+	
 	/**
 	 * Returns the value of the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(Parameter)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameterMapping_Source()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Parameter getSource();
@@ -55,15 +55,11 @@ public interface ParameterMapping extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Target</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(Parameter)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameterMapping_Target()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	Parameter getTarget();

@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -22,8 +20,9 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Conditional Unit</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * An implementation of the model object '<em><b>Conditional Unit</b></em>'. 
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -36,10 +35,11 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class ConditionalUnitImpl extends TransformationUnitImpl implements ConditionalUnit {
+	
 	/**
-	 * The cached value of the '{@link #getIf() <em>If</em>}' reference. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getIf() <em>If</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getIf()
 	 * @generated
 	 * @ordered
@@ -48,7 +48,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * The cached value of the '{@link #getThen() <em>Then</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getThen()
 	 * @generated
 	 * @ordered
@@ -57,7 +58,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	
 	/**
 	 * The cached value of the '{@link #getElse() <em>Else</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getElse()
 	 * @generated
 	 * @ordered
@@ -65,7 +67,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	protected TransformationUnit else_;
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ConditionalUnitImpl() {
@@ -73,7 +76,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -82,7 +86,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit getIf() {
@@ -98,7 +103,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit basicGetIf() {
@@ -106,7 +112,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setIf(TransformationUnit newIf) {
@@ -117,7 +124,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit getThen() {
@@ -133,7 +141,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit basicGetThen() {
@@ -141,7 +150,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setThen(TransformationUnit newThen) {
@@ -152,7 +162,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit getElse() {
@@ -168,7 +179,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TransformationUnit basicGetElse() {
@@ -176,7 +188,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setElse(TransformationUnit newElse) {
@@ -206,7 +219,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -226,7 +240,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -246,7 +261,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -266,7 +282,8 @@ public class ConditionalUnitImpl extends TransformationUnitImpl implements Condi
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

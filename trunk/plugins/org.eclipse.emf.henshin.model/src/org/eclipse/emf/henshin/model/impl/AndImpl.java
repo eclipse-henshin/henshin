@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.ecore.EClass;
@@ -26,6 +24,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
  * @generated
  */
 public class AndImpl extends BinaryFormulaImpl implements And {
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -51,11 +50,28 @@ public class AndImpl extends BinaryFormulaImpl implements And {
 	 * @generated NOT
 	 */
 	@Override
-	public String stringRepresentation(boolean recursive) {
-		if (left != null && right != null)
-			return "(" + left.stringRepresentation(recursive) + " and " + right.stringRepresentation(recursive) + ")";
-		
-		return "";
+	public String toString() {
+		return "(" + left + " && " + right + ")";
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean isTrue() {
+		return (left!=null && right!=null) && (left.isTrue() && right.isTrue());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public boolean isFalse() {
+		return (left!=null && right!=null) && (left.isFalse() || right.isFalse());
 	}
 
 } //AndImpl

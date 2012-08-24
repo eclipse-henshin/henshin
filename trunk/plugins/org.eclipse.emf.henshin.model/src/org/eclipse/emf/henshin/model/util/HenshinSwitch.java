@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.List;
@@ -32,6 +30,7 @@ import org.eclipse.emf.henshin.model.*;
  * @generated
  */
 public class HenshinSwitch<T> {
+	
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -126,6 +125,12 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.PARAMETER_MAPPING: {
+				ParameterMapping parameterMapping = (ParameterMapping)theEObject;
+				T result = caseParameterMapping(parameterMapping);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.GRAPH: {
 				Graph graph = (Graph)theEObject;
 				T result = caseGraph(graph);
@@ -174,9 +179,26 @@ public class HenshinSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case HenshinPackage.UNARY_UNIT: {
+				UnaryUnit unaryUnit = (UnaryUnit)theEObject;
+				T result = caseUnaryUnit(unaryUnit);
+				if (result == null) result = caseTransformationUnit(unaryUnit);
+				if (result == null) result = caseNamedElement(unaryUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HenshinPackage.MULTI_UNIT: {
+				MultiUnit multiUnit = (MultiUnit)theEObject;
+				T result = caseMultiUnit(multiUnit);
+				if (result == null) result = caseTransformationUnit(multiUnit);
+				if (result == null) result = caseNamedElement(multiUnit);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case HenshinPackage.INDEPENDENT_UNIT: {
 				IndependentUnit independentUnit = (IndependentUnit)theEObject;
 				T result = caseIndependentUnit(independentUnit);
+				if (result == null) result = caseMultiUnit(independentUnit);
 				if (result == null) result = caseTransformationUnit(independentUnit);
 				if (result == null) result = caseNamedElement(independentUnit);
 				if (result == null) result = defaultCase(theEObject);
@@ -185,6 +207,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.SEQUENTIAL_UNIT: {
 				SequentialUnit sequentialUnit = (SequentialUnit)theEObject;
 				T result = caseSequentialUnit(sequentialUnit);
+				if (result == null) result = caseMultiUnit(sequentialUnit);
 				if (result == null) result = caseTransformationUnit(sequentialUnit);
 				if (result == null) result = caseNamedElement(sequentialUnit);
 				if (result == null) result = defaultCase(theEObject);
@@ -201,6 +224,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.PRIORITY_UNIT: {
 				PriorityUnit priorityUnit = (PriorityUnit)theEObject;
 				T result = casePriorityUnit(priorityUnit);
+				if (result == null) result = caseMultiUnit(priorityUnit);
 				if (result == null) result = caseTransformationUnit(priorityUnit);
 				if (result == null) result = caseNamedElement(priorityUnit);
 				if (result == null) result = defaultCase(theEObject);
@@ -209,6 +233,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.ITERATED_UNIT: {
 				IteratedUnit iteratedUnit = (IteratedUnit)theEObject;
 				T result = caseIteratedUnit(iteratedUnit);
+				if (result == null) result = caseUnaryUnit(iteratedUnit);
 				if (result == null) result = caseTransformationUnit(iteratedUnit);
 				if (result == null) result = caseNamedElement(iteratedUnit);
 				if (result == null) result = defaultCase(theEObject);
@@ -217,6 +242,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.LOOP_UNIT: {
 				LoopUnit loopUnit = (LoopUnit)theEObject;
 				T result = caseLoopUnit(loopUnit);
+				if (result == null) result = caseUnaryUnit(loopUnit);
 				if (result == null) result = caseTransformationUnit(loopUnit);
 				if (result == null) result = caseNamedElement(loopUnit);
 				if (result == null) result = defaultCase(theEObject);
@@ -278,12 +304,6 @@ public class HenshinSwitch<T> {
 				T result = caseNot(not);
 				if (result == null) result = caseUnaryFormula(not);
 				if (result == null) result = caseFormula(not);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case HenshinPackage.PARAMETER_MAPPING: {
-				ParameterMapping parameterMapping = (ParameterMapping)theEObject;
-				T result = caseParameterMapping(parameterMapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -468,6 +488,36 @@ public class HenshinSwitch<T> {
 	 * @generated
 	 */
 	public T caseTransformationUnit(TransformationUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Unary Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Unary Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUnaryUnit(UnaryUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiUnit(MultiUnit object) {
 		return null;
 	}
 

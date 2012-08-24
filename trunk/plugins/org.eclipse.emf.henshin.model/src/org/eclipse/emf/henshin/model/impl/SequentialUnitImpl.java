@@ -1,26 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +22,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.SequentialUnitImpl#getSubUnits <em>Sub Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.SequentialUnitImpl#isStrict <em>Strict</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.SequentialUnitImpl#isRollback <em>Rollback</em>}</li>
  * </ul>
@@ -37,17 +29,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-public class SequentialUnitImpl extends TransformationUnitImpl implements SequentialUnit {
-	/**
-	 * The cached value of the '{@link #getSubUnits() <em>Sub Units</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSubUnits()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TransformationUnit> subUnits;
-
+public class SequentialUnitImpl extends MultiUnitImpl implements SequentialUnit {
+	
 	/**
 	 * The default value of the '{@link #isStrict() <em>Strict</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -57,6 +40,7 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	 * @ordered
 	 */
 	protected static final boolean STRICT_EDEFAULT = true;
+	
 	/**
 	 * The cached value of the '{@link #isStrict() <em>Strict</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -66,6 +50,7 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	 * @ordered
 	 */
 	protected boolean strict = STRICT_EDEFAULT;
+	
 	/**
 	 * The default value of the '{@link #isRollback() <em>Rollback</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -75,6 +60,7 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	 * @ordered
 	 */
 	protected static final boolean ROLLBACK_EDEFAULT = true;
+	
 	/**
 	 * The cached value of the '{@link #isRollback() <em>Rollback</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -102,25 +88,6 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.SEQUENTIAL_UNIT;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<TransformationUnit> getSubUnits() {
-		if (subUnits == null) {
-			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS) {
-				private static final long serialVersionUID = 1L;
-				@Override
-				public boolean isUnique() {
-					// We don't want uniqueness. See also bug #89325.
-					return false;
-				}
-			};
-		}
-		return subUnits;
 	}
 
 	/**
@@ -173,8 +140,6 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-				return getSubUnits();
 			case HenshinPackage.SEQUENTIAL_UNIT__STRICT:
 				return isStrict();
 			case HenshinPackage.SEQUENTIAL_UNIT__ROLLBACK:
@@ -188,14 +153,9 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-				getSubUnits().clear();
-				getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
-				return;
 			case HenshinPackage.SEQUENTIAL_UNIT__STRICT:
 				setStrict((Boolean)newValue);
 				return;
@@ -214,9 +174,6 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-				getSubUnits().clear();
-				return;
 			case HenshinPackage.SEQUENTIAL_UNIT__STRICT:
 				setStrict(STRICT_EDEFAULT);
 				return;
@@ -235,8 +192,6 @@ public class SequentialUnitImpl extends TransformationUnitImpl implements Sequen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.SEQUENTIAL_UNIT__SUB_UNITS:
-				return subUnits != null && !subUnits.isEmpty();
 			case HenshinPackage.SEQUENTIAL_UNIT__STRICT:
 				return strict != STRICT_EDEFAULT;
 			case HenshinPackage.SEQUENTIAL_UNIT__ROLLBACK:

@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -109,10 +107,10 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	@Override
 	public Object getImage(Object object) {
 		Graph graph = (Graph) object;
-		if (graph.getContainerRule() != null) {
-			if (graph == graph.getContainerRule().getLhs())
+		if (graph.getRule() != null) {
+			if (graph == graph.getRule().getLhs())
 				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_L.png"));
-			else if (graph == graph.getContainerRule().getRhs())
+			else if (graph == graph.getRule().getRhs())
 				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_R.png"));
 			
 		}// if
@@ -157,12 +155,12 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	
 	public void notifyCorrespondingEdges(Graph graph, Notification notification) {
 		if (graph.isLhs()) {
-			Graph rhs = graph.getContainerRule().getRhs();
+			Graph rhs = graph.getRule().getRhs();
 			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(rhs,
 					Graph.class);
 			adapter.fireNotifyChanged(new ViewerNotification(notification, rhs, true, true));
 		} else if (graph.isRhs()) {
-			Graph lhs = graph.getContainerRule().getLhs();
+			Graph lhs = graph.getRule().getLhs();
 			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(lhs,
 					Graph.class);
 			adapter.fireNotifyChanged(new ViewerNotification(notification, lhs, true, true));

@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.statespace.impl;
 
 import java.util.LinkedHashMap;
@@ -16,7 +25,7 @@ public class CacheImpl<K,V> extends LinkedHashMap<K,V> {
 	public static final int DEFAULT_CACHE_SIZE;
 	
 	static {
-		if (StateSpaceDebug.ENFORCE_DETERMINISM) {
+		if (StateSpaceDebugFlags.ENFORCE_DETERMINISM) {
 			DEFAULT_CACHE_SIZE = 1024; 
 		} else {
 			DEFAULT_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);

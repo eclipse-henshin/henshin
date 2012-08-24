@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -16,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -36,7 +35,7 @@ import org.eclipse.emf.henshin.model.UnaryFormula;
  * 
  * @generated
  */
-public class UnaryFormulaItemProvider extends FormulaItemProvider implements
+public class UnaryFormulaItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
@@ -168,6 +167,17 @@ public class UnaryFormulaItemProvider extends FormulaItemProvider implements
 			(createChildParameter
 				(HenshinPackage.Literals.UNARY_FORMULA__CHILD,
 				 HenshinFactory.eINSTANCE.createNot()));
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return HenshinEditPlugin.INSTANCE;
 	}
 	
 }

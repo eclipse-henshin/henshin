@@ -1,8 +1,11 @@
 /**
  * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
- *
- * $Id$
  */
 package org.eclipse.emf.henshin.provider;
 
@@ -26,8 +29,8 @@ import org.eclipse.emf.henshin.model.Parameter;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Parameter} object.
- * <!-- begin-user-doc
- * --> <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * <!-- end-user-doc -->
  * @generated
  */
 public class ParameterItemProvider extends NamedElementItemProvider implements

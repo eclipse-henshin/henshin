@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.editor.commands;
 
 import java.util.Collection;
@@ -28,7 +26,6 @@ import org.eclipse.emf.henshin.model.Node;
 
 /**
  * Creates a {@link Mapping} between two given {@link Node}s.
- * 
  * 
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
@@ -67,13 +64,13 @@ public class CreateMappingCommand extends CompoundCommand {
 		
 		if (isUnmappedLhsRhsPairFromSameRule(origin, image)) {
 			feature = HenshinPackage.eINSTANCE.getRule_Mappings();
-			owner = origin.getGraph().getContainerRule();
+			owner = origin.getGraph().getRule();
 		} else if (isMappableSourceAndNestedTargetNode(origin, image)) {
 			feature = HenshinPackage.eINSTANCE.getNestedCondition_Mappings();
 			owner = image.getGraph().eContainer();
 		} else if (isMappableSourceAndMultiRuleTargetNode(origin, image)) {
 			feature = HenshinPackage.eINSTANCE.getRule_MultiMappings();
-			owner = image.getGraph().getContainerRule();
+			owner = image.getGraph().getRule();
 		} else
 			return false;
 		
@@ -97,8 +94,8 @@ public class CreateMappingCommand extends CompoundCommand {
 		boolean result = false;
 		result |= origin.getGraph().isLhs() && image.getGraph().isLhs();
 		result |= origin.getGraph().isRhs() && image.getGraph().isRhs();
-		result &= origin.getGraph().getContainerRule().getMultiRules()
-				.contains(image.getGraph().getContainerRule());
+		result &= origin.getGraph().getRule().getMultiRules()
+				.contains(image.getGraph().getRule());
 		return result;
 	}
 	
@@ -156,8 +153,8 @@ public class CreateMappingCommand extends CompoundCommand {
 	protected boolean isUnmappedLhsRhsPairFromSameRule(Node source, Node target) {
 		return source.getGraph().isLhs()
 				&& target.getGraph().isRhs()
-				&& (source.getGraph().getContainerRule() == target.getGraph().getContainerRule())
-				&& isUnmapped(source, target, source.getGraph().getContainerRule().getMappings());
+				&& (source.getGraph().getRule() == target.getGraph().getRule())
+				&& isUnmapped(source, target, source.getGraph().getRule().getMappings());
 	}// isLhsRhsPairFromSameRule
 	
 	/**

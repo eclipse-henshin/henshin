@@ -1,8 +1,11 @@
 /**
  * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
- *
- * $Id$
  */
 package org.eclipse.emf.henshin.model.util;
 
@@ -30,23 +33,26 @@ import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.OCL;
 
 /**
- * <!-- begin-user-doc --> The <b>Validator</b> for the model. <!-- end-user-doc
- * -->
- * 
+ * <!-- begin-user-doc -->
+ * The <b>Validator</b> for the Henshin model. 
+ * <!-- end-user-doc -->
  * @see org.eclipse.emf.henshin.model.HenshinPackage
  * @generated
  */
 public class HenshinValidator extends EObjectValidator {
+	
 	/**
 	 * The cached model package
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final HenshinValidator INSTANCE = new HenshinValidator();
 	
 	/**
 	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * @see org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * @generated
@@ -63,8 +69,8 @@ public class HenshinValidator extends EObjectValidator {
 	
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
@@ -205,6 +211,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateRule((Rule)value, diagnostics, context);
 			case HenshinPackage.PARAMETER:
 				return validateParameter((Parameter)value, diagnostics, context);
+			case HenshinPackage.PARAMETER_MAPPING:
+				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
 			case HenshinPackage.GRAPH:
 				return validateGraph((Graph)value, diagnostics, context);
 			case HenshinPackage.NODE:
@@ -219,6 +227,10 @@ public class HenshinValidator extends EObjectValidator {
 				return validateMapping((Mapping)value, diagnostics, context);
 			case HenshinPackage.TRANSFORMATION_UNIT:
 				return validateTransformationUnit((TransformationUnit)value, diagnostics, context);
+			case HenshinPackage.UNARY_UNIT:
+				return validateUnaryUnit((UnaryUnit)value, diagnostics, context);
+			case HenshinPackage.MULTI_UNIT:
+				return validateMultiUnit((MultiUnit)value, diagnostics, context);
 			case HenshinPackage.INDEPENDENT_UNIT:
 				return validateIndependentUnit((IndependentUnit)value, diagnostics, context);
 			case HenshinPackage.SEQUENTIAL_UNIT:
@@ -247,8 +259,6 @@ public class HenshinValidator extends EObjectValidator {
 				return validateXor((Xor)value, diagnostics, context);
 			case HenshinPackage.NOT:
 				return validateNot((Not)value, diagnostics, context);
-			case HenshinPackage.PARAMETER_MAPPING:
-				return validateParameterMapping((ParameterMapping)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -1493,6 +1503,48 @@ public class HenshinValidator extends EObjectValidator {
 		return true;
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateUnaryUnit(UnaryUnit unaryUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateMultiUnit(MultiUnit multiUnit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
+		return result;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

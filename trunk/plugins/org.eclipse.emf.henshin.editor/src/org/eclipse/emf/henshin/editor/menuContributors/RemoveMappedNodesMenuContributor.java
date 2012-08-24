@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.editor.menuContributors;
 
 import java.util.ArrayList;
@@ -71,7 +69,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		
 		Collection<Mapping> mappings;
 		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
-			mappings = node.getGraph().getContainerRule().getMappings();
+			mappings = node.getGraph().getRule().getMappings();
 		} else if (node.getGraph().eContainer() instanceof NestedCondition) {
 			mappings = ((NestedCondition) node.getGraph().eContainer()).getMappings();
 		} else {
@@ -146,7 +144,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 		if (node.getGraph().isLhs()) return;
 		
 		if (node.getGraph().isRhs()) {
-			for (Mapping mapping : node.getGraph().getContainerRule().getMappings()) {
+			for (Mapping mapping : node.getGraph().getRule().getMappings()) {
 				if (mapping.getImage() == node && mapping.getOrigin() != null) {
 					menuManager.add(createAction(getLabel(COMMAND_LABEL_ORIGIN) + ": "
 							+ mapping.getOrigin().getName(),
@@ -182,7 +180,7 @@ public class RemoveMappedNodesMenuContributor extends MenuContributor {
 			if (graph.isNestedCondition())
 				return ((NestedCondition) graph.eContainer()).getMappings();
 			else if (graph.isLhs() || graph.isRhs())
-				return graph.getContainerRule().getMappings();
+				return graph.getRule().getMappings();
 			else
 				throw new IllegalArgumentException("Forumla not properly connected to model!");
 		} else

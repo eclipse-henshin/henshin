@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.statespace.util;
 
 import java.util.ArrayList;
@@ -11,7 +20,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.henshin.statespace.State;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceManager;
-import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebug;
+import org.eclipse.emf.henshin.statespace.impl.StateSpaceDebugFlags;
 
 /**
  * An exploration helper class.
@@ -102,7 +111,7 @@ public class StateSpaceExplorationHelper {
 		
 		// Adjust the number of states to be explored in one step:
 		double speedChange = rangeCheck((double) expectedDuration / (double) lastDuration, 0.5, 2);
-		if (!StateSpaceDebug.ENFORCE_DETERMINISM) {
+		if (!StateSpaceDebugFlags.ENFORCE_DETERMINISM) {
 			blockSize = rangeCheck((int) ((double) blockSize * speedChange), minBlockSize, maxBlockSize);
 		}
 		

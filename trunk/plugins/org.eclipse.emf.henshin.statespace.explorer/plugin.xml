@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?><!--
-    Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
-    Philipps-University Marburg and others. All rights reserved. 
-    This program and the accompanying materials are made 
-    available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-   
-    Contributors:
-        CWI Amsterdam - initial API and implementation
+  Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+  This program and the accompanying materials are made available 
+  under the terms of the Eclipse Public License v1.0 which 
+  accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
  -->
-
-<plugin>
+ <plugin>
 
      <extension point="org.eclipse.ui.editors">
       <editor name="State Space Explorer"
-              extensions="statespace"
+              extensions="henshin_statespace"
               icon="icons/HenshinDiagramFile.gif"
               default="true"
               class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpaceExplorer"
@@ -107,7 +102,7 @@
       <objectContribution
             adaptable="false"
             id="org.eclipse.emf.henshin.statespace.explorer.contributions.file"
-            nameFilter="*.statespace"
+            nameFilter="*.henshin_statespace"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
                id="statespaceFile"
@@ -151,7 +146,7 @@
             class="org.eclipse.emf.henshin.statespace.explorer.parts.StateSpacePropertyPage"
             id="org.eclipse.emf.henshin.statespace.properties"
             name="State Space"
-            nameFilter="*.statespace">
+            nameFilter="*.henshin_statespace">
          <enabledWhen>
             <instanceof
                   value="org.eclipse.core.resources.IFile">

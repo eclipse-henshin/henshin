@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.commands;
 
 import java.util.HashSet;
@@ -29,9 +27,7 @@ import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * Command to unset a graph and to remove mappings appropriately as well.
- * 
  * @author Stefan Jurack (sjurack)
- * 
  */
 public class GraphComplexUnsetCommand extends CompoundCommand {
 	
@@ -55,7 +51,7 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 		isPrepared = true;
 		isExecutable = true;
 		return true;
-	}// prepare
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -63,30 +59,23 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 	 */
 	@Override
 	public void execute() {
-		
 		processMappings();
-		
 		this.appendAndExecute(new SetCommand(domain, owner, feature, SetCommand.UNSET_VALUE));
-		
-	}// execute
+	}
 	
 	/**
-	 * Collects and removes all mappings which relate to the graph to be
-	 * deleted.
+	 * Collects and removes all mappings which relate to the graph to be  deleted.
 	 * <p>
 	 * Note that we do not have to look for mappings below (i.e. in contained
 	 * NestedConditions) as such mappings are disconnected from the tree
 	 * (indirectly) anyway.
 	 * <p>
-	 * Of course, AmalgamationUnit-related mappings are removed as well.
 	 */
 	private void processMappings() {
 		final Set<Mapping> mappingSet = new HashSet<Mapping>();
-		
 		Graph graph = (Graph) owner.eGet(feature);
 		if (graph == null)
 			return;
-		
 		List<Node> nodes = graph.getNodes();
 		
 		if (owner instanceof Rule) {
@@ -95,12 +84,11 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 		} else if (owner instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) owner;
 			filterMappings(nc.getMappings(), mappingSet, nodes);
-		}// if elseif
+		}
 		
 		if (!mappingSet.isEmpty())
 			this.appendAndExecute(new DeleteCommand(domain, mappingSet));
-		
-	}// processMappings
+	}
 	
 	/**
 	 * Iterates <code>unfilteredList</code> and put those mappings into
@@ -119,6 +107,6 @@ public class GraphComplexUnsetCommand extends CompoundCommand {
 				}// if
 			}// for
 		}// for
-	}// filterMappings
+	}
 	
-}// class
+}

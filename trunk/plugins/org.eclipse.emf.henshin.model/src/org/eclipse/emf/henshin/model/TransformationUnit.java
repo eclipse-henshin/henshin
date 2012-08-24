@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
@@ -20,9 +18,9 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings <em>Parameter Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,13 +99,7 @@ public interface TransformationUnit extends NamedElement {
 	 * the former method is created new with every call.<br>
 	 * Note furthermore, that rules are {@link TransformationUnit}s and are
 	 * therefore collected as well.
-	 * 
-	 * @param deep
-	 *            If <code>true</code> all subunits are accumulated
-	 *            transitively/recursively, otherwise only direct subunits are
-	 *            collected.
-	 * @return A list of subunits<br>
-	 *         <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model ordered="false"
 	 * @generated
 	 */

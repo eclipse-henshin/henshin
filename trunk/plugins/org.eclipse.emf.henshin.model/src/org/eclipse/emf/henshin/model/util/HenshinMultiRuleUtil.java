@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * Provides static helper methods for retrieving nodes and edges related via multiMappings.
  * 
  * @author Gregor Bonifer
+ * @deprecated
  *
  */
 public class HenshinMultiRuleUtil {
@@ -34,7 +33,7 @@ public class HenshinMultiRuleUtil {
 		System.out.print("Dependent Nodes for " + node + ": ");
 		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
 			Collection<Node> result = new ArrayList<Node>();
-			Rule rule = node.getGraph().getContainerRule();
+			Rule rule = node.getGraph().getRule();
 			for (Rule mRule : rule.getMultiRules()) {
 				Node imgNode = getDependentNodeInRule(node, mRule);
 				if (imgNode != null)
@@ -56,7 +55,7 @@ public class HenshinMultiRuleUtil {
 	
 	public static Collection<Graph> getDependentGraphs(Graph graph) {
 		Collection<Graph> result = new ArrayList<Graph>();
-		Rule rule = graph.getContainerRule();
+		Rule rule = graph.getRule();
 		boolean isLeft = graph.isLhs();
 		if (rule == null)
 			return result;
@@ -67,9 +66,9 @@ public class HenshinMultiRuleUtil {
 	
 	public static Collection<Edge> getDependentEdges(Edge edge) {
 		Collection<Edge> result = new ArrayList<Edge>();
-		if (edge.getGraph() == null || edge.getGraph().getContainerRule() == null)
+		if (edge.getGraph() == null || edge.getGraph().getRule() == null)
 			return result;
-		Rule rule = edge.getGraph().getContainerRule();
+		Rule rule = edge.getGraph().getRule();
 		for (Rule dependentRule : rule.getMultiRules()) {
 			Edge dependentEdge = getDependentEdgeInRule(edge, dependentRule);
 			if (dependentEdge != null)

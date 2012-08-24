@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.diagram.parsers;
 
 import java.text.ParseException;
@@ -63,7 +61,7 @@ public class AttributeParser extends AbstractParser {
 		String type = attribute.getType()!=null ? attribute.getType().getName() : null;
 		
 		String result = type + "=" + attribute.getValue();
-		if (attribute.getNode()==null || attribute.getNode().getGraph()==null || attribute.getNode().getGraph().getContainerRule()==null) {
+		if (attribute.getNode()==null || attribute.getNode().getGraph()==null || attribute.getNode().getGraph().getRule()==null) {
 			return result;
 		}
 		
@@ -79,7 +77,7 @@ public class AttributeParser extends AbstractParser {
 		
 		// Changing attribute?
 		if (nodeAction.getType()==ActionType.PRESERVE) {
-			Rule rule = attribute.getNode().getGraph().getContainerRule();
+			Rule rule = attribute.getNode().getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null && !String.valueOf(attribute.getValue()).equals(String.valueOf(image.getValue()))) {
 				result = result + "->" + image.getValue();
@@ -135,7 +133,7 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Check the graph and the rule:
-		if (node.getGraph()==null || node.getGraph().getContainerRule()==null) {
+		if (node.getGraph()==null || node.getGraph().getRule()==null) {
 			return CommandResult.newErrorCommandResult("Node is not properly contained in a graph/rule");			
 		}
 		
@@ -193,7 +191,7 @@ public class AttributeParser extends AbstractParser {
 		
 		// Check if there is are image in the RHS that we need to updated:
 		if (action.getType()==ActionType.PRESERVE) {
-			Rule rule = node.getGraph().getContainerRule();
+			Rule rule = node.getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null) {
 				image.setValue((newVal!=null && newVal.length()>0) ? newVal : val);

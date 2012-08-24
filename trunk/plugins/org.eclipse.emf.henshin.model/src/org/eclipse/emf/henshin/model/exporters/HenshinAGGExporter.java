@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.exporters;
 
 import java.io.File;
@@ -41,7 +50,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -263,20 +271,19 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 					}
 				}
 				
-				// NACs:
-				for (NestedCondition nac : HenshinACUtil.getAllACs(rule, false)) {
-					Element nacElem = newElement("NAC", applCondElem, false);
-					convertGraph(nac.getConclusion(), nacElem, "NAC", "Graph");
-					convertMorphism(nac.getConclusion().getName(), nac.getMappings(), rule.getLhs(), nac.getConclusion(), nacElem);
+				// PACs and NACs:
+				for (NestedCondition nested : rule.getAllNestedConditions()) {
+					if (nested.isNAC()) {
+						Element nacElem = newElement("NAC", applCondElem, false);
+						convertGraph(nested.getConclusion(), nacElem, "NAC", "Graph");
+						convertMorphism(nested.getConclusion().getName(), nested.getMappings(), rule.getLhs(), nested.getConclusion(), nacElem);
+					}
+					else if (nested.isPAC()) {
+						Element pacElem = newElement("PAC", applCondElem, false);
+						convertGraph(nested.getConclusion(), pacElem, "PAC", "Graph");
+						convertMorphism(nested.getConclusion().getName(), nested.getMappings(), rule.getLhs(), nested.getConclusion(), pacElem);
+					}
 				}
-
-				// PACs:
-				for (NestedCondition pac : HenshinACUtil.getAllACs(rule, true)) {
-					Element pacElem = newElement("PAC", applCondElem, false);
-					convertGraph(pac.getConclusion(), pacElem, "PAC", "Graph");
-					convertMorphism(pac.getConclusion().getName(), pac.getMappings(), rule.getLhs(), pac.getConclusion(), pacElem);
-				}
-
 			}
 			
 			// Save the XML file:

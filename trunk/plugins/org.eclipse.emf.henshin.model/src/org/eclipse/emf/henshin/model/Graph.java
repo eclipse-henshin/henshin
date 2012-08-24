@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
@@ -88,36 +86,12 @@ public interface Graph extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Detaches the given edge from its source and target node and removes it from this graph.
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @model edgeRequired="true"
-	 * @generated
-	 */
-	void removeEdge(Edge edge);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Detaches the given node from this graph i.e. all attached edges are removed implicitly.
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void removeNode(Node node);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Returns the rule this graph is contained in.
-	 * </p>
+	 * Returns the {@link Rule} this graph is contained in or <code>null</code> if it is not directly contained in a {@link Rule}.
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
-	Rule getContainerRule();
+	Rule getRule();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -158,5 +132,23 @@ public interface Graph extends NamedElement {
 	 * @generated
 	 */
 	boolean isNestedCondition();
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * Removes the given node from this graph. All attached edges are automatically removed.
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean removeNode(Node node);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Detaches the given edge from its source and target node and removes it from this graph.
+	 * <!-- end-user-doc -->
+	 * @model edgeRequired="true"
+	 * @generated
+	 */
+	boolean removeEdge(Edge edge);
 
 } // Graph

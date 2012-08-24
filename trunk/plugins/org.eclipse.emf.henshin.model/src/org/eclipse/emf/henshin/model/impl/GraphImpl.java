@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.ArrayList;
@@ -36,8 +34,9 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Graph</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * An implementation of the model object '<em><b>Graph</b></em>'. 
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -50,9 +49,11 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  * @generated
  */
 public class GraphImpl extends NamedElementImpl implements Graph {
+	
 	/**
 	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getNodes()
 	 * @generated
 	 * @ordered
@@ -61,7 +62,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getEdges()
 	 * @generated
 	 * @ordered
@@ -70,7 +72,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	
 	/**
 	 * The cached value of the '{@link #getFormula() <em>Formula</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @see #getFormula()
 	 * @generated
 	 * @ordered
@@ -78,7 +81,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	protected Formula formula;
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected GraphImpl() {
@@ -86,7 +90,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -95,7 +100,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Node> getNodes() {
@@ -106,7 +112,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Edge> getEdges() {
@@ -117,7 +124,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Formula getFormula() {
@@ -125,7 +133,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetFormula(Formula newFormula, NotificationChain msgs) {
@@ -139,7 +148,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setFormula(Formula newFormula) {
@@ -157,120 +167,119 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void removeEdge(Edge edge) {
-		
+	public boolean removeNode(Node node) {
+		if (!getNodes().contains(node)) {
+			return false;
+		}
+		for (Edge edge : node.getAllEdges()) {
+			removeEdge(edge);
+		}
+		getNodes().remove(node);
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean removeEdge(Edge edge) {	
+		if (!getEdges().contains(edge)) {
+			return false;
+		}
 		edge.setSource(null);
 		edge.setTarget(null);
-		edge.setGraph(null);
-	}// removeEdge
-	
+		getEdges().remove(edge);
+		return true;
+	}
+		
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void removeNode(Node node) {
-		
-		// Delete the edges first:
-		List<Edge> edges = node.getAllEdges();
-		for (Edge edge : edges) {
-			removeEdge(edge);
-		}// for
-		
-		node.setGraph(null);
-	}// removeNode
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	public Rule getContainerRule() {
-		
-		EObject container = this.eContainer();
-		while (container != null) {
-			if (container instanceof Rule)
+	public Rule getRule() {
+		EObject container = eContainer();
+		while (container!=null) {
+			if (container instanceof Rule) {
 				return (Rule) container;
+			}
 			container = container.eContainer();
-		}// while
-		
+		}
 		return null;
-	}// getContainerRule
+	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EList<Node> getNodes(EClass nodeType) {
-		
 		List<Node> result = new ArrayList<Node>();
 		for (Node node : this.getNodes()) {
 			if (nodeType.equals(node.getType()))
 				result.add(node);
-		}// for
-		
+		}
 		return new BasicEList<Node>(result);
-	}// findNodesByType
+	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public EList<Edge> getEdges(EReference edgeType) {
-		
 		List<Edge> result = new ArrayList<Edge>();
 		for (Edge edge : this.getEdges()) {
 			if (edgeType.equals(edge.getType()))
 				result.add(edge);
-		}// for
-		
+		}
 		return new BasicEList<Edge>(result);
-	}// findEdgesByType
+	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean isLhs() {
-		return (eContainer() instanceof Rule) && (((Rule) eContainer()).getLhs() == this);
+		return (eContainer() instanceof Rule) && (((Rule) eContainer()).getLhs()==this);
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean isRhs() {
-		return (eContainer() instanceof Rule) && (((Rule) eContainer()).getRhs() == this);
+		return (eContainer() instanceof Rule) && (((Rule) eContainer()).getRhs()==this);
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean isHost() {
-		return eContainer() instanceof TransformationSystem;
+		return (eContainer() instanceof TransformationSystem);
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean isNestedCondition() {
-		return eContainer() instanceof NestedCondition;
+		return (eContainer() instanceof NestedCondition);
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -287,7 +296,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -305,7 +315,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -322,7 +333,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -345,7 +357,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -365,7 +378,8 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

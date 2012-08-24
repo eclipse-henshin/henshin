@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -40,7 +38,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * The default name of RHS graphs.
 	 */
 	public static final String DEFAULT_RULE_RHS_NAME = "RHS";
-	
 	
 	/**
 	 * Creates the default factory implementation.
@@ -82,6 +79,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
 			case HenshinPackage.RULE: return createRule();
 			case HenshinPackage.PARAMETER: return createParameter();
+			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
 			case HenshinPackage.GRAPH: return createGraph();
 			case HenshinPackage.NODE: return createNode();
 			case HenshinPackage.EDGE: return createEdge();
@@ -99,7 +97,6 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 			case HenshinPackage.OR: return createOr();
 			case HenshinPackage.XOR: return createXor();
 			case HenshinPackage.NOT: return createNot();
-			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -183,17 +180,16 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	}
 
 	/**
-	 * Creates a mapping for a given node origin and image.
-	 * @param origin Origin node.
-	 * @param image Image node.
-	 * @return The created mapping.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	public Mapping createMapping(Node origin, Node image) {
 		Mapping mapping = createMapping();
 		mapping.setOrigin(origin);
 		mapping.setImage(image);
 		return mapping;
-	}// createMapping
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -205,16 +201,17 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		return node;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createNode(org.eclipse.emf.henshin.model.Graph, org.eclipse.emf.ecore.EClass)
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	public Node createNode(Graph graph, EClass type) {
 		Node node = createNode();
 		node.setType(type);
 		graph.getNodes().add(node);
 		return node;
-	}// createNode
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,9 +223,10 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		return attribute;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createAttribute(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EAttribute, java.lang.String)
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	public Attribute createAttribute(Node node, EAttribute type, String value) {
 		Attribute attribute = createAttribute();
@@ -248,9 +246,10 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 		return edge;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.model.HenshinFactory#createEdge(org.eclipse.emf.henshin.model.Node, org.eclipse.emf.henshin.model.Node, org.eclipse.emf.ecore.EReference)
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	public Edge createEdge(Node source, Node target, EReference type) {
 		Edge edge = createEdge();

@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.util;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -29,6 +27,7 @@ import org.eclipse.emf.henshin.model.*;
  * @generated
  */
 public class HenshinAdapterFactory extends AdapterFactoryImpl {
+	
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
@@ -97,6 +96,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createParameterAdapter();
 			}
 			@Override
+			public Adapter caseParameterMapping(ParameterMapping object) {
+				return createParameterMappingAdapter();
+			}
+			@Override
 			public Adapter caseGraph(Graph object) {
 				return createGraphAdapter();
 			}
@@ -123,6 +126,14 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseTransformationUnit(TransformationUnit object) {
 				return createTransformationUnitAdapter();
+			}
+			@Override
+			public Adapter caseUnaryUnit(UnaryUnit object) {
+				return createUnaryUnitAdapter();
+			}
+			@Override
+			public Adapter caseMultiUnit(MultiUnit object) {
+				return createMultiUnitAdapter();
 			}
 			@Override
 			public Adapter caseIndependentUnit(IndependentUnit object) {
@@ -179,10 +190,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseNot(Not object) {
 				return createNotAdapter();
-			}
-			@Override
-			public Adapter caseParameterMapping(ParameterMapping object) {
-				return createParameterMappingAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -369,6 +376,34 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTransformationUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.UnaryUnit <em>Unary Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.UnaryUnit
+	 * @generated
+	 */
+	public Adapter createUnaryUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.MultiUnit <em>Multi Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.MultiUnit
+	 * @generated
+	 */
+	public Adapter createMultiUnitAdapter() {
 		return null;
 	}
 

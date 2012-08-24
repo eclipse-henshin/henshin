@@ -1,23 +1,20 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -26,7 +23,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -54,6 +50,7 @@ import org.eclipse.emf.henshin.model.Node;
  * @generated
  */
 public class NodeImpl extends NamedElementImpl implements Node {
+	
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -231,23 +228,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	public EList<Edge> getAllEdges() {
-		/*
-		 * This implementation may be optimized by introducing a private global
-		 * variable for this return value. This variable should be set to "null"
-		 * only when outgoing/incoming change.
-		 */
-		List<Edge> allEdges = new ArrayList<Edge>();
-		allEdges.addAll(this.getIncoming());
-		allEdges.addAll(this.getOutgoing());
-		
-		return new EcoreEList.UnmodifiableEList<Edge>(this,
-				HenshinPackage.Literals.NODE__ALL_EDGES, allEdges.size(),
-				allEdges.toArray());
-	}// getAllEdges
+		EList<Edge> allEdges = new BasicEList<Edge>();
+		allEdges.addAll(getIncoming());
+		allEdges.addAll(getOutgoing());
+		return ECollections.unmodifiableEList(allEdges);
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -255,16 +243,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * @generated NOT
 	 */
 	public EList<Edge> getOutgoing(EReference edgeType) {
-		
-		List<Edge> edges = new ArrayList<Edge>();
-		for (Edge edge : this.getOutgoing()) {
-			if (edgeType == edge.getType())
+		EList<Edge> edges = new BasicEList<Edge>();
+		for (Edge edge : getOutgoing()) {
+			if (edgeType==edge.getType()) {
 				edges.add(edge);
-		}// for
-
-		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
-				.toArray());		
-	}// findOutgoingEdgesByType
+			}
+		}
+		return ECollections.unmodifiableEList(edges);		
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -272,16 +258,14 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * @generated NOT
 	 */
 	public EList<Edge> getIncoming(EReference edgeType) {
-
-		List<Edge> edges = new ArrayList<Edge>();
-		for (Edge edge : this.getIncoming()) {
-			if (edgeType == edge.getType())
+		EList<Edge> edges = new BasicEList<Edge>();
+		for (Edge edge : getIncoming()) {
+			if (edgeType==edge.getType()) {
 				edges.add(edge);
-		}// for
-		
-		return new BasicEList.UnmodifiableEList<Edge>(edges.size(), edges
-				.toArray());
-	}// findIncomingEdgesByType
+			}
+		}
+		return ECollections.unmodifiableEList(edges);
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -289,41 +273,41 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	 * @generated NOT
 	 */
 	public Attribute getAttribute(EAttribute attributeType) {
-
-		for (Attribute attribute : this.getAttributes()) {
-			if (attribute.getType() == attributeType)
+		for (Attribute attribute : getAttributes()) {
+			if (attribute.getType()==attributeType) {
 				return attribute;
-		}//for
+			}
+		}
 		return null;
-	}// findAttributeByType
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge getOutgoing(EReference edgeType, Node targetNode) {
-
-		for (Edge edge : this.getOutgoing()) {
-			if (edgeType == edge.getType() && targetNode == edge.getTarget())
+	public Edge getOutgoing(EReference type, Node target) {
+		for (Edge edge : getOutgoing()) {
+			if (type==edge.getType() && target==edge.getTarget()) {
 				return edge;
-		}// for
+			}
+		}
 		return null;
-	}// findOutgoingEdgeByType
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Edge getIncoming(EReference edgeType, Node sourceNode) {
-
-		for (Edge edge : this.getIncoming()) {
-			if (edgeType == edge.getType() && sourceNode == edge.getSource())
+	public Edge getIncoming(EReference type, Node source) {
+		for (Edge edge : getIncoming()) {
+			if (type==edge.getType() && source==edge.getSource()) {
 				return edge;
-		}// for
+			}
+		}
 		return null;
-	}// findIncomingEdgeByType
+	}
 
 	/**
 	 * <!-- begin-user-doc -->

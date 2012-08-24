@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
@@ -16,31 +14,32 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the Henshin edit plugin. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the central singleton for the Henshin edit plugin.
+ * <!-- begin-user-doc --> 
+ * <!-- end-user-doc -->
  * @generated
  */
 public final class HenshinEditPlugin extends EMFPlugin {
 	/**
-	 * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * Keep track of the singleton.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final HenshinEditPlugin INSTANCE = new HenshinEditPlugin();
 	
 	/**
-	 * Keep track of the singleton. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * Keep track of the singleton.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static Implementation plugin;
 	
 	/**
 	 * Create the instance.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public HenshinEditPlugin() {
@@ -51,8 +50,8 @@ public final class HenshinEditPlugin extends EMFPlugin {
 	
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
 	 * @generated
 	 */
@@ -63,8 +62,8 @@ public final class HenshinEditPlugin extends EMFPlugin {
 	
 	/**
 	 * Returns the singleton instance of the Eclipse plugin.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @return the singleton instance.
 	 * @generated
 	 */

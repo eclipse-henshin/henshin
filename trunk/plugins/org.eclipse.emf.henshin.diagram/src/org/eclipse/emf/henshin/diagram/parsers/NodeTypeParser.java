@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.diagram.parsers;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -69,7 +67,7 @@ public class NodeTypeParser extends AbstractParser {
 		if (action!=null && action.getType()==ActionType.PRESERVE) {
 			
 			// Get the RHS-node and its name:
-			Rule rule = node.getGraph().getContainerRule();
+			Rule rule = node.getGraph().getRule();
 			Node rhsNode = rule.getMappings().getImage(node, rule.getRhs());
 			String rhsName = rhsNode.getName()!=null ? rhsNode.getName().trim() : "";
 			
@@ -138,7 +136,7 @@ public class NodeTypeParser extends AbstractParser {
 	private CommandResult doParsing(String value, Node node) {
 
 		// We need the rule and the transformation system:
-		Rule rule = node.getGraph().getContainerRule();
+		Rule rule = node.getGraph().getRule();
 		TransformationSystem system = rule.getTransformationSystem();
 
 		// Separate name and type:

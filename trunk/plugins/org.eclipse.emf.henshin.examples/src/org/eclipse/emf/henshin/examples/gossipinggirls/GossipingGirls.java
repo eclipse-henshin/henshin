@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.examples.gossipinggirls;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -37,7 +46,7 @@ public class GossipingGirls {
 
 		// Load the state space and create a state space manager:
 		StateSpaceResourceSet resourceSet = new StateSpaceResourceSet(path);		
-		StateSpace stateSpace = resourceSet.getStateSpace("2-girls.statespace");
+		StateSpace stateSpace = resourceSet.getStateSpace("2-girls.henshin_statespace");
 		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
 		
 		// Find the rule for adding a girl and create an engine instance:

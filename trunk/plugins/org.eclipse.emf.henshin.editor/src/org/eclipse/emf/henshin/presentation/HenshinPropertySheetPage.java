@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.presentation;
 
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -10,7 +19,7 @@ import org.eclipse.ui.views.properties.PropertySheetSorter;
  * This property sheet page provide a specialised sorting according to property
  * sheet entries given by Henshin related item providers.
  * 
- * @author sjtuner
+ * @author Stefan Jurack
  * 
  */
 public class HenshinPropertySheetPage extends ExtendedPropertySheetPage {

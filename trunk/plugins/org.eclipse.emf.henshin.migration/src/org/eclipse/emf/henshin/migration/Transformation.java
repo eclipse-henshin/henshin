@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.migration;
 
 import java.io.File;
@@ -44,13 +53,9 @@ import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
 import org.eclipse.emf.henshin.testframework.Tools;
 
-
 /**
- * 
  * @author Felix Rieger
- *
  */
-
 public class Transformation {
 
 	private Map<EObject, EObject> newElements = new HashMap<EObject, EObject>();		// map from old element to new element
@@ -521,11 +526,11 @@ public class Transformation {
 				System.out.println("***!");
 				for (EObject mp : al) {
 					Mapping newMp = (Mapping) newElements.get(mp);
-					System.out.println("\tnew mapping:" + newMp + " : " + newMp.getOrigin().getGraph().getContainerRule().getName() + " -> " + newMp.getImage().getGraph().getContainerRule().getName());
+					System.out.println("\tnew mapping:" + newMp + " : " + newMp.getOrigin().getGraph().getRule().getName() + " -> " + newMp.getImage().getGraph().getRule().getName());
 					
 					// get the origin node and the rule containing the origin node
 					Node originNodeTmp = newMp.getOrigin();
-					Rule originNodeContainerRuleTmp = originNodeTmp.getGraph().getContainerRule();
+					Rule originNodeContainerRuleTmp = originNodeTmp.getGraph().getRule();
 					
 					// get the copied rule containing the new origin node
 					Rule originNodeContainerRule = amalgamationUnitRuleCopies.get(originNodeContainerRuleTmp);
@@ -547,7 +552,7 @@ public class Transformation {
 					newMp.setOrigin(newOriginNode);
 					
 					Node imageNodeTmp = newMp.getImage();
-					Rule imageNodeContainerRuleTmp = imageNodeTmp.getGraph().getContainerRule();
+					Rule imageNodeContainerRuleTmp = imageNodeTmp.getGraph().getRule();
 					
 					Rule imageNodeContainerRule = amalgamationUnitRuleCopies.get(imageNodeContainerRuleTmp);
 					

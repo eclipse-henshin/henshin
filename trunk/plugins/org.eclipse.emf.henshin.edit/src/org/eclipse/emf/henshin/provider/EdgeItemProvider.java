@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider;
 
 import java.util.Collection;
@@ -182,8 +180,8 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 */
 	public static boolean isDeletionEdge(Edge edge) {
 		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
-				&& edge.getGraph().getContainerRule() != null) {
-			Rule rule = edge.getGraph().getContainerRule();
+				&& edge.getGraph().getRule() != null) {
+			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isLhs() && (rule.getMappings().getImage(edge, rule.getRhs()) == null);
 		} else
 			return false;
@@ -200,8 +198,8 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	 */
 	public static boolean isCreationEdge(Edge edge) {
 		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
-				&& edge.getGraph().getContainerRule() != null) {
-			Rule rule = edge.getGraph().getContainerRule();
+				&& edge.getGraph().getRule() != null) {
+			Rule rule = edge.getGraph().getRule();
 			return edge.getGraph().isRhs() && (rule.getMappings().getOrigin(edge) == null);
 		} else
 			return false;
@@ -289,7 +287,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	
 	protected Edge getKernelEdge(Edge edge){
 		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
-			Rule rule = edge.getGraph().getContainerRule();
+			Rule rule = edge.getGraph().getRule();
 			return rule.getMultiMappings().getOrigin(edge);
 		}
 		return null;

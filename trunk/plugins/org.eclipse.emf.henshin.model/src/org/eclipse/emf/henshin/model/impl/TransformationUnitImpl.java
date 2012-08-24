@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
@@ -35,9 +33,9 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,26 +43,6 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public abstract class TransformationUnitImpl extends NamedElementImpl implements
 		TransformationUnit {
-	
-	/**
-	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * @see #isActivated()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ACTIVATED_EDEFAULT = true;
-	
-	/**
-	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * @see #isActivated()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean activated = ACTIVATED_EDEFAULT;
 	
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
@@ -77,16 +55,34 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	protected EList<Parameter> parameters;
 	
 	/**
-	 * The cached value of the '{@link #getParameterMappings()
-	 * <em>Parameter Mappings</em>}' containment reference list. <!--
-	 * begin-user-doc --> 
+	 * The cached value of the '{@link #getParameterMappings() <em>Parameter Mappings</em>}' containment reference list.
+	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #getParameterMappings()
 	 * @generated
 	 * @ordered
 	 */
 	protected EList<ParameterMapping> parameterMappings;
+
+	/**
+	 * The default value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @see #isActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean ACTIVATED_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isActivated() <em>Activated</em>}' attribute.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @see #isActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean activated = ACTIVATED_EDEFAULT;
 	
 	/**
 	 * <!-- begin-user-doc --> 
@@ -192,14 +188,14 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Parameter getParameter(String parameterName) {
+	public Parameter getParameter(String name) {
 		for (Parameter parameter : getParameters()) {
-			if (parameterName==null) {
+			if (name==null) {
 				if (parameter.getName()==null) {
 					return parameter;
 				}
 			} else {
-				if (parameterName.equals(parameter.getName())) {
+				if (name.equals(parameter.getName())) {
 					return parameter;
 				}
 			}
@@ -248,12 +244,12 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				return isActivated();
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				return getParameters();
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				return getParameterMappings();
+			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+				return isActivated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -267,9 +263,6 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				setActivated((Boolean)newValue);
-				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				getParameters().clear();
 				getParameters().addAll((Collection<? extends Parameter>)newValue);
@@ -277,6 +270,9 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
 				getParameterMappings().addAll((Collection<? extends ParameterMapping>)newValue);
+				return;
+			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+				setActivated((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -290,14 +286,14 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				setActivated(ACTIVATED_EDEFAULT);
-				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				getParameters().clear();
 				return;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
+				return;
+			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+				setActivated(ACTIVATED_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -311,12 +307,12 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
-				return activated != ACTIVATED_EDEFAULT;
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
 			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
 				return parameterMappings != null && !parameterMappings.isEmpty();
+			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+				return activated != ACTIVATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

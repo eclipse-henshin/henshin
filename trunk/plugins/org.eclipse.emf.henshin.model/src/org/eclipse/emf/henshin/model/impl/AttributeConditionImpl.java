@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -40,6 +38,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * @generated
  */
 public class AttributeConditionImpl extends NamedElementImpl implements AttributeCondition {
+	
 	/**
 	 * The default value of the '{@link #getConditionText() <em>Condition Text</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -268,26 +267,5 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 		result.append(')');
 		return result.toString();
 	}
-
-	
-
-	/**
-	 * Updates all occurrences of the old parameter name in this condition's text
-	 * with the new parameter name.
-	 * 
-	 * @param oldParameterName
-	 * @param newParameterName
-	 */
-	protected void updateParameterName(String oldParameterName,
-			String newParameterName) {
-
-		if (this.getConditionText() != null) {
-
-			String newConditionText = this.getConditionText().replaceAll(
-					"\\b" + oldParameterName + "\\b", newParameterName);
-			this.setConditionText(newConditionText);
-		}// if
-	}// updateVariableName
-	
 	
 } //AttributeConditionImpl

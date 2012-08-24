@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
@@ -46,7 +44,7 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Lhs</em>' containment reference.
 	 * @see #setLhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Lhs()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	Graph getLhs();
@@ -68,7 +66,7 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Rhs</em>' containment reference.
 	 * @see #setRhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Rhs()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	Graph getRhs();
@@ -150,7 +148,7 @@ public interface Rule extends TransformationUnit {
 	 * @model
 	 * @generated
 	 */
-	void removeEdge(Edge edge, boolean removeMapped);
+	boolean removeEdge(Edge edge, boolean removeMapped);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -158,7 +156,15 @@ public interface Rule extends TransformationUnit {
 	 * @model
 	 * @generated
 	 */
-	void removeNode(Node node, boolean removeMapped);
+	boolean removeNode(Node node, boolean removeMapped);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean removeNestedCondition(NestedCondition nestedCondition);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -167,6 +173,38 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	EList<Rule> getAllMultiRules();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	EList<NestedCondition> getAllNestedConditions();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isMultiRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition createPAC(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition createNAC(String name);
 
 	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.

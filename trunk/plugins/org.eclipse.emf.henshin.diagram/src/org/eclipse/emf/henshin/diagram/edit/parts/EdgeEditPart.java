@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import org.eclipse.draw2d.Connection;
@@ -69,7 +67,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		Edge edge = (Edge) (getNotationView().getElement());
 		if (edge == null)
 			return;
-		Rule rule = edge.getGraph().getContainerRule();
+		Rule rule = edge.getGraph().getRule();
 		if (rule == null)
 			return;
 		TransformationSystem system = rule.getTransformationSystem();

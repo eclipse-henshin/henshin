@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.List;
@@ -9,9 +18,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 
-/**
- * @generated NOT
- */
 public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 	
 	/**
@@ -61,7 +67,7 @@ public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 	 * @return The corresponding Lhs node.
 	 */
 	public Node getLhsNode(Node node) {
-		Graph lhs = node.getGraph().getContainerRule().getLhs();
+		Graph lhs = node.getGraph().getRule().getLhs();
 		if (node.getGraph()==lhs) {
 			return node;
 		}

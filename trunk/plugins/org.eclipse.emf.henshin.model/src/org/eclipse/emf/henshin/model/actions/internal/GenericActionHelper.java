@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
@@ -13,11 +22,9 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 import org.eclipse.emf.henshin.model.util.HenshinMultiRuleUtil;
 
 /**
- * @generated NOT
  * @author Christian Krause
  */
 public abstract class GenericActionHelper<E extends EObject,C extends EObject> implements ActionHelper<E,C> {
@@ -33,7 +40,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (graph==null) {
 			return null;
 		}
-		Rule rule = graph.getContainerRule();
+		Rule rule = graph.getRule();
 		if (rule==null) {
 			return null;
 		}
@@ -111,8 +118,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				// If it has an origin in the LHS, it is a NAC-action:
 				if (origin==null) {
 					String name = graph.getName();
-					if (name==null || name.trim().length()==0 || 
-						ActionACUtil.DEFAULT_AC_NAME.equals(graph.getName())) {
+					if (name==null || name.trim().length()==0 || "default".equals(name)) {
 						return new Action(type, isAmalgamated);
 					} else {
 						return new Action(type, isAmalgamated, name.trim());
@@ -141,7 +147,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// Get the container graph and rule.
 		Graph graph = getGraph(element);
-		Rule rule = graph.getContainerRule();
+		Rule rule = graph.getRule();
 
 		// Map editor.
 		MapEditor<E> editor;
@@ -262,9 +268,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				editor.move(element);
 			}
 			
-			// Delete the NAC is it became empty or trivial due to the current change.
-			if (HenshinACUtil.isTrivialAC(ac)) {
-				HenshinACUtil.removeAC(rule, ac);
+			// Delete the NAC if it became empty or trivial due to the current change.
+			if (ac.isTrue()) {
+				rule.removeNestedCondition(ac);
 			}
 			
 		}
@@ -394,7 +400,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (elem.getGraph()==null) {
 			return false;
 		}
-		Rule rule = graph.getContainerRule();
+		Rule rule = graph.getRule();
 		if (rule==null || rule.getKernelRule()==null) {
 			return false;
 		}

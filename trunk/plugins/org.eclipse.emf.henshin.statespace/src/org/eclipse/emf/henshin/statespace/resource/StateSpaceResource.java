@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.statespace.resource;
 
 import java.io.BufferedInputStream;
@@ -37,7 +35,7 @@ public class StateSpaceResource extends ResourceImpl {
 	/**
 	 * File extension for state space files.
 	 */
-	public static final String FILE_EXTENSION = "statespace";
+	public static final String FILE_EXTENSION = "henshin_statespace";
 	
 	// Buffer capacity to be used for loading and saving.
 	public static final int BUFFER_CAPACITY = 524288;	// 0.5 MB

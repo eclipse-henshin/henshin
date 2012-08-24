@@ -1,22 +1,21 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '
- * <em><b>Transformation System</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * A representation of the model object '<em><b>Transformation System</b></em>'. 
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
@@ -39,10 +38,6 @@ public interface TransformationSystem extends NamedElement {
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rules</em>' containment reference list isn't
-	 * clear, there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Rules()
@@ -55,10 +50,6 @@ public interface TransformationSystem extends NamedElement {
 	 * Returns the value of the '<em><b>Imports</b></em>' reference list. The
 	 * list contents are of type {@link org.eclipse.emf.ecore.EPackage}. <!--
 	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Imports</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * 
 	 * @return the value of the '<em>Imports</em>' reference list.
@@ -69,19 +60,11 @@ public interface TransformationSystem extends NamedElement {
 	EList<EPackage> getImports();
 
 	/**
-	 * Returns the value of the '<em><b>Transformation Units</b></em>'
-	 * containment reference list. The list contents are of type
-	 * {@link org.eclipse.emf.henshin.model.TransformationUnit}. <!--
-	 * begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transformation Units</em>' containment
-	 * reference list isn't clear, there really should be more of a description
-	 * here...
-	 * </p>
+	 * Returns the value of the '<em><b>Transformation Units</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Transformation Units</em>' containment
-	 *         reference list.
+	 * @return the value of the '<em>Transformation Units</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_TransformationUnits()
 	 * @model containment="true"
 	 * @generated
@@ -92,10 +75,6 @@ public interface TransformationSystem extends NamedElement {
 	 * Returns the value of the '<em><b>Instances</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Graph}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Instances</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instances</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Instances()
@@ -107,15 +86,10 @@ public interface TransformationSystem extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
 	 * Finds and returns the first occurrence of a transformation unit with the
-	 * given name. If <code>deep</code> is <code>false</code>, the name is
-	 * searched within all directly contained units of the transformation system
-	 * only. Otherwise, all subunits are also considered. If no appropriate unit
-	 * is found <code>null</code> is returned.<br>
+	 * given name. If no such unit is found <code>null</code> is returned.
 	 * Please note, while rules are transformations units as well, please use
-	 * {@link #getRule(String)} for such cases.
-	 * </p>
+	 * {@link #getRule(String)} in such cases.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -124,11 +98,9 @@ public interface TransformationSystem extends NamedElement {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Finds and returns the first occurrence of a rule with the given name in the rule-set of this
-	 * transformation system. If no appropriate rule is found <code>null</code>
-	 * is returned.
-	 * </p>
+	 * Finds and returns the first occurrence of a rule with the given name in 
+	 * the rule set of this transformation system. If no such rule is found 
+	 * <code>null</code> is returned.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated

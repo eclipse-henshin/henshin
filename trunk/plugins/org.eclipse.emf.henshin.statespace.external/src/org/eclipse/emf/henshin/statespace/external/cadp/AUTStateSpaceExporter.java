@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.statespace.external.cadp;
 
 import java.io.BufferedOutputStream;
@@ -38,7 +47,10 @@ public class AUTStateSpaceExporter implements StateSpaceExporter {
 		// Make sure that there is exactly one initial state.
 		if (stateSpace.getInitialStates().size()!=1) {
 			StateSpacePlugin.INSTANCE.logError("AUT format can encode only state spaces with exactly one initial state!", null);
-			if (stateSpace.getInitialStates().isEmpty()) throw new IOException();
+			if (stateSpace.getInitialStates().isEmpty()) {
+				writer.close();
+				throw new IOException();
+			}
 		}
 		
 		// States and transitions:

@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.statespace.explorer.parts;
 
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ import org.eclipse.emf.henshin.statespace.explorer.jobs.LayoutStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.StateSpaceJobManager;
 import org.eclipse.emf.henshin.statespace.explorer.jobs.ValidateStateSpaceJob;
 import org.eclipse.emf.henshin.statespace.layout.StateSpaceSpringLayouter;
-import org.eclipse.emf.henshin.statespace.validation.InvariantStateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.validation.ShortestPathStateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceValidator;
 import org.eclipse.emf.henshin.statespace.validation.StateSpaceXYPlot;
@@ -229,7 +226,6 @@ public class StateSpaceToolsMenu extends Composite {
 			if (validator instanceof StateSpaceValidator) {			
 				validators.add((StateSpaceValidator) validator);
 			} else {
-				validators.add(new InvariantStateSpaceValidator((StateValidator) validator));
 				validators.add(new ShortestPathStateSpaceValidator((StateValidator) validator));
 			}
 			

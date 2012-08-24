@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.provider.trans;
 
 import java.util.Collection;
@@ -33,7 +31,8 @@ import org.eclipse.emf.henshin.model.Rule;
  * This is the item provider for a {@link Mapping} object being referred to by
  * an {@link Rule}, in fact by its feature
  * {@link HenshinPackage#RULE__MAPPINGS}. <br>
- * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * <!-- end-user-doc -->
  * 
  * @author Stefan Jurack (sjurack)
  * 

@@ -1,13 +1,11 @@
-/*
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
+ * </copyright>
  */
 package org.eclipse.emf.henshin.diagram.edit.parts;
 
@@ -21,9 +19,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
 import org.eclipse.emf.henshin.diagram.parsers.UnitNameParser;
-import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;

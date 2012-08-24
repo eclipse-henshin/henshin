@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     CWI Amsterdam - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.commands;
 
 import java.util.Collection;
@@ -32,47 +30,24 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
  */
 public class AddRuleCommand extends AddCommand implements Command {
 	
-	/**
-	 * Constructor.
-	 * 
-	 * @param domain
-	 *            Editing domain.
-	 * @param system
-	 *            Transformation system.
-	 * @param rule
-	 *            Rule.
-	 * @param index
-	 *            Index.
-	 */
 	public AddRuleCommand(EditingDomain domain, TransformationSystem system, Rule rule, int index) {
 		this(domain, system, Collections.singleton(rule), index);
 	}
 	
-	/**
-	 * Constructor.
-	 * 
-	 * @param domain
-	 *            Editing domain.
-	 * @param system
-	 *            Transformation system.
-	 * @param rules
-	 *            Rules.
-	 * @param index
-	 *            Index.
-	 */
 	public AddRuleCommand(EditingDomain domain, TransformationSystem system,
 			Collection<Rule> rules, int index) {
 		super(domain, system, HenshinPackage.eINSTANCE.getTransformationSystem_Rules(), rules,
 				index);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.command.AddCommand#doExecute()
+	 */
 	@Override
 	public void doExecute() {
-		// int rules = ((TransformationSystem) owner).getRules().size();
-		
 		for (Object object : getCollection()) {
 			Rule rule = (Rule) object;
-			
 			// Initialize LHS and RHS:
 			if (rule.getLhs() == null) {
 				Graph lhs = HenshinFactory.eINSTANCE.createGraph();
@@ -84,7 +59,6 @@ public class AddRuleCommand extends AddCommand implements Command {
 				rhs.setName("RHS");
 				rule.setRhs(rhs);
 			}
-			
 			// Set the name:
 			if (rule.getName() == null) {
 				rule.setName(HenshinModelUtils.generateNewRuleName((TransformationSystem) owner));

@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Philipps-University Marburg - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.editor.menuContributors;
 
 import java.util.Collection;
@@ -32,7 +30,6 @@ import org.eclipse.jface.action.Separator;
  * 
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
- * 
  */
 public class CopySubgraphMenuContributor extends MenuContributor {
 	
@@ -63,9 +60,9 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			cmd.setMappingOrigin(true);
 			
 			cmd.setSourceGraph(sourceGraph);
-			cmd.setTargetGraph(sourceGraph.getContainerRule().getRhs());
+			cmd.setTargetGraph(sourceGraph.getRule().getRhs());
 			
-			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
+			cmd.setMappings(sourceGraph.getRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
 			
 			if (cmd.canExecute())
@@ -79,9 +76,9 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 			cmd.setMappingOrigin(false);
 			
 			cmd.setSourceGraph(sourceGraph);
-			cmd.setTargetGraph(sourceGraph.getContainerRule().getLhs());
+			cmd.setTargetGraph(sourceGraph.getRule().getLhs());
 			
-			cmd.setMappings(sourceGraph.getContainerRule().getMappings());
+			cmd.setMappings(sourceGraph.getRule().getMappings());
 			cmd.setNodes((Collection<Node>) selection);
 			if (cmd.canExecute())
 				menuManager.add(createAction("Copy to LHS", cmd));
@@ -92,7 +89,7 @@ public class CopySubgraphMenuContributor extends MenuContributor {
 		
 		if (sourceGraph.isLhs() || sourceGraph.isRhs()) {
 			menuManager.add(new Separator());
-			Rule rule = sourceGraph.getContainerRule();
+			Rule rule = sourceGraph.getRule();
 			int mRuleIndex = 0;
 			for (Rule mRule : rule.getMultiRules()) {
 				CopySubgraphCommand cmd = new CopySubgraphCommand();

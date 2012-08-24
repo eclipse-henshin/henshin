@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.interpreter.impl;
 
 import java.util.ArrayList;
@@ -477,7 +475,7 @@ public class EngineImpl implements Engine {
 			for (Attribute attribute : node.getAttributes()) {
 				String value = attribute.getValue();
 				if (value!=null) {
-					Parameter param = node.getGraph().getContainerRule().getParameter(value);
+					Parameter param = node.getGraph().getRule().getParameter(value);
 					if (param!=null && partialMatch.getParameterValue(param)!=null) {
 						return true;
 					}
@@ -707,7 +705,7 @@ public class EngineImpl implements Engine {
 		if (options==null) {
 			// Use the base options:
 			options = new MatchingOptions();
-			Rule rule = graph.getContainerRule();
+			Rule rule = graph.getRule();
 			Boolean injective = (Boolean) this.options.get(OPTION_INJECTIVE_MATCHING);
 			Boolean dangling = (Boolean) this.options.get(OPTION_CHECK_DANGLING);
 			Boolean determistic = (Boolean) this.options.get(OPTION_DETERMINISTIC);

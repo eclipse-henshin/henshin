@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.ArrayList;
@@ -31,20 +29,27 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.AttributeCondition;
+import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Rule</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * An implementation of the model object '<em><b>Rule</b></em>'. 
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -65,7 +70,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	
 	/**
 	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLhs()
 	 * @generated
 	 * @ordered
@@ -74,7 +80,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	
 	/**
 	 * The cached value of the '{@link #getRhs() <em>Rhs</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRhs()
 	 * @generated
 	 * @ordered
@@ -82,10 +89,9 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	protected Graph rhs;
 	
 	/**
-	 * The cached value of the '{@link #getAttributeConditions()
-	 * <em>Attribute Conditions</em>}' containment reference list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAttributeConditions() <em>Attribute Conditions</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getAttributeConditions()
 	 * @generated
 	 * @ordered
@@ -94,7 +100,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	
 	/**
 	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMappings()
 	 * @generated
 	 * @ordered
@@ -162,7 +169,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	protected EList<Mapping> multiMappings;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected RuleImpl() {
@@ -170,7 +178,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -179,7 +188,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Graph getLhs() {
@@ -187,7 +197,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetLhs(Graph newLhs, NotificationChain msgs) {
@@ -201,7 +212,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setLhs(Graph newLhs) {
@@ -219,7 +231,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Graph getRhs() {
@@ -227,7 +240,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NotificationChain basicSetRhs(Graph newRhs, NotificationChain msgs) {
@@ -241,7 +255,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setRhs(Graph newRhs) {
@@ -259,7 +274,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<AttributeCondition> getAttributeConditions() {
@@ -346,23 +362,18 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void removeNode(Node node, boolean removeMapped) {
-		
+	public boolean removeNode(Node node, boolean removeMapped) {
 		// Must be invoked from the root kernel rule:
 		if (getRootKernelRule()!=null) {
-			getRootKernelRule().removeNode(node, removeMapped);
-			return;
+			return getRootKernelRule().removeNode(node, removeMapped);
 		}
-		
 		// Collect all mappings and nodes to delete:
 		Set<Mapping> mappings = new HashSet<Mapping>();
 		Set<Node> nodes = new HashSet<Node>();
 		nodes.add(node);
-		
 		boolean changed;
 		do {
 			changed = false;
-			
 			// Add all mappings that refer to the nodes:
 			TreeIterator<EObject> it = eAllContents();
 			while (it.hasNext()) {
@@ -380,7 +391,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 					}
 				}
 			}
-			
 			// Add all mapped nodes if necessary:
 			if (changed && removeMapped) {
 				for (Mapping m : mappings) {
@@ -393,7 +403,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				}
 			}
 		} while (changed);
-		
 		// Now remove the collected mappings and nodes:
 		for (Mapping m : mappings) {
 			m.setOrigin(null);
@@ -403,6 +412,37 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		for (Node n : nodes) {
 			n.getGraph().removeNode(n);
 		}
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean removeNestedCondition(NestedCondition nestedCondition) {
+		// Nested condition must be contained in this rule:
+		if (!EcoreUtil.isAncestor(this, nestedCondition)) {
+			return false;
+		}
+		// Remember the container and destroy the object:
+		EObject container = nestedCondition.eContainer();
+		EcoreUtil.remove(nestedCondition);
+		// Destroy unary containers:
+		while (container instanceof UnaryFormula) {
+			EObject dummy = container;
+			container = container.eContainer();
+			EcoreUtil.remove(dummy);
+		}
+		// Check if the container was a binary formula:
+		if (container instanceof BinaryFormula) {
+			BinaryFormula binary = (BinaryFormula) container;
+			
+			// Replace the formula by the remaining sub-formula:
+			Formula remainder = (binary.getLeft() != null) ? binary.getLeft() : binary.getRight();
+			EcoreUtil.replace(binary, remainder);
+		}
+		return false;
 	}
 
 	/**
@@ -428,20 +468,91 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public void removeEdge(Edge edge, boolean removeMapped) {
-		
+	public EList<NestedCondition> getAllNestedConditions() {
+		EList<NestedCondition> result = new BasicEList<NestedCondition>();
+		if (lhs!=null) {
+			TreeIterator<EObject> contents = lhs.eAllContents();
+			while (contents.hasNext()) {
+				EObject next = contents.next();
+				if (next instanceof NestedCondition) {
+					result.add((NestedCondition) next);
+				}
+			}
+		}
+		return ECollections.unmodifiableEList(result);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isMultiRule() {
+		return getKernelRule()!=null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition createPAC(String name) {
+		// Create the application condition:
+		NestedCondition pac = new NestedConditionImpl();
+		Graph graph = new GraphImpl();
+		graph.setName(name);
+		pac.setConclusion(graph);
+		// Add it to this rule:
+		if (getLhs().getFormula()==null) {
+			getLhs().setFormula(pac);
+		} else {
+			And and = new AndImpl();
+			and.setLeft(getLhs().getFormula());
+			and.setRight(pac);
+			getLhs().setFormula(and);
+		}
+		return pac;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition createNAC(String name) {
+		// Create the application condition:
+		NestedCondition nac = new NestedConditionImpl();
+		Graph graph = new GraphImpl();
+		graph.setName(name);
+		nac.setConclusion(graph);
+		Not formula = new NotImpl();
+		formula.setChild(nac);
+		// Add it to this rule:
+		if (getLhs().getFormula()==null) {
+			getLhs().setFormula(formula);
+		} else {
+			And and = new AndImpl();
+			and.setLeft(getLhs().getFormula());
+			and.setRight(formula);
+			getLhs().setFormula(and);
+		}
+		return nac;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean removeEdge(Edge edge, boolean removeMapped) {		
 		// Must be invoked from the root kernel rule:
 		if (getRootKernelRule()!=null) {
-			getRootKernelRule().removeEdge(edge, removeMapped);
-			return;
+			return getRootKernelRule().removeEdge(edge, removeMapped);
 		}
-		
 		Set<Edge> edges = new HashSet<Edge>();
 		edges.add(edge);
-		
 		// Collect mapped edges if necessary:
 		if (removeMapped) {
-			
 			// Collect a list of ALL mappings:
 			List<Mapping> mappings = new ArrayList<Mapping>();
 			TreeIterator<EObject> it = eAllContents();
@@ -451,7 +562,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 					mappings.add((Mapping) obj);
 				}
 			}
-			
 			// Now collect edges to be removed:
 			boolean changed;
 			do {
@@ -464,10 +574,10 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 						if (e.getType()!=edge.getType() || edges.contains(e)) {
 							continue;
 						}
-						if ((getMapping(edge.getSource(), e.getSource(), mappings)!=null &&
-							 getMapping(edge.getTarget(), e.getTarget(), mappings)!=null) ||
-							(getMapping(e.getSource(), edge.getSource(), mappings)!=null &&
-							 getMapping(e.getTarget(), edge.getTarget(), mappings)!=null)) {
+						if ((getMappings().get(edge.getSource(), e.getSource())!=null &&
+							 getMappings().get(edge.getTarget(), e.getTarget())!=null) ||
+							(getMappings().get(e.getSource(), edge.getSource())!=null &&
+							 getMappings().get(e.getTarget(), edge.getTarget())!=null)) {
 							edges.add(e);
 							changed = true;
 						}
@@ -475,24 +585,11 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				}
 			} while (changed);
 		}
-		
 		// Now remove the collected edges:
 		for (Edge e : edges) {
 			e.getGraph().removeEdge(e);
 		}
-		
-	}
-
-	/*
-	 * Private helper for finding mappings.
-	 */
-	private static Mapping getMapping(Node origin, Node image, List<Mapping> mappings) {
-		for (Mapping mapping : mappings) {
-			if (mapping.getOrigin()==origin && mapping.getImage()==image) {
-				return mapping;
-			}
-		}
-		return null;
+		return true;
 	}
 
 	/**
@@ -562,7 +659,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -577,7 +675,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 *  <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -601,7 +700,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -628,7 +728,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -668,7 +769,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -703,7 +805,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -747,10 +850,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		return result.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getSubUnits()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public EList<TransformationUnit> getSubUnits() {
 		return (EList<TransformationUnit>) ECollections.EMPTY_ELIST;
-	}// getSubUnits
+	}
 	
 } // RuleImpl

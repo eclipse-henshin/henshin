@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.List;
@@ -16,9 +25,6 @@ import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
 import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
 
-/**
- * @generated NOT
- */
 public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 	
 	/**
@@ -71,7 +77,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 			return null;
 		}
 		
-		Rule rule = source.getGraph().getContainerRule();
+		Rule rule = source.getGraph().getRule();
 		Edge edge = null;
 
 		// Get the node actions:
@@ -104,7 +110,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 			if (isSimplePreserve(srcAction)) {
 				
 				if (trgAction.isAmalgamated()) {
-					Rule multiRule = target.getGraph().getContainerRule();
+					Rule multiRule = target.getGraph().getRule();
 					Node realSource = multiRule.getMultiMappings().getImage(source, multiRule.getLhs());
 					if (realSource!=null) {
 						source = realSource;
@@ -119,12 +125,12 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 				
 				// Do we need to copy the edge to the Rhs of the multi-rule?
 				copyToRhs = (trgAction.isAmalgamated() && trgAction.getType()==ActionType.PRESERVE);
-				multiRhs = target.getGraph().getContainerRule().getRhs();
+				multiRhs = target.getGraph().getRule().getRhs();
 				
 			} else {
 				
 				if (srcAction.isAmalgamated()) {
-					Rule multiRule = source.getGraph().getContainerRule();
+					Rule multiRule = source.getGraph().getRule();
 					Node realTarget = multiRule.getMultiMappings().getImage(target, multiRule.getLhs());
 					if (realTarget!=null) {
 						target = realTarget;
@@ -138,7 +144,7 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 				
 				// Do we need to copy the edge to the Rhs of the multi-rule?
 				copyToRhs = (srcAction.isAmalgamated() && srcAction.getType()==ActionType.PRESERVE);
-				multiRhs = source.getGraph().getContainerRule().getRhs();
+				multiRhs = source.getGraph().getRule().getRhs();
 
 			}
 
@@ -190,8 +196,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 		}
 
 		// Make sure the rules are found and compatible:
-		Rule sourceRule = sourceGraph.getContainerRule();
-		Rule targetRule = targetGraph.getContainerRule();
+		Rule sourceRule = sourceGraph.getRule();
+		Rule targetRule = targetGraph.getRule();
 		if (sourceRule == null || targetRule == null) {
 			return false;
 		}

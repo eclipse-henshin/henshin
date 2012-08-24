@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.List;
@@ -10,7 +19,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * A map editor for mappings. Used for amalgamations.
+ * A map editor for mappings. Used for multirules.
  * This does not implement {@link MapEditor}.
  * @author Christian Krause
  */
@@ -50,9 +59,9 @@ public class MappingMapEditor {
 		if (opposite==null || graph==null) return;
 		
 		// Move the mapping:
-		if (graph.getContainerRule()==source) {
+		if (graph.getRule()==source) {
 			target.getMappings().add( getLhsRhsMapping(node, opposite) );
-		} else if (graph.getContainerRule()==target) {
+		} else if (graph.getRule()==target) {
 			source.getMappings().add( getLhsRhsMapping(node, opposite) );
 		}
 
@@ -108,9 +117,9 @@ public class MappingMapEditor {
 		
 		// Create a copy of the mapping:
 		Mapping mapping = getLhsRhsMapping(node, opposite);
-		if (graph.getContainerRule()==source) {
+		if (graph.getRule()==source) {
 			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, target);
-		} else if (graph.getContainerRule()==target) {
+		} else if (graph.getRule()==target) {
 			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, source);
 		}
 	
@@ -208,9 +217,9 @@ public class MappingMapEditor {
 	 * Get the opposite node.
 	 */
 	private Node getOppositeNode(Node node) {
-		if (node.getGraph().getContainerRule()==source) {
+		if (node.getGraph().getRule()==source) {
 			return new NodeMapEditor(source.getRhs()).getOpposite(node);
-		} else if (node.getGraph().getContainerRule()==target) {
+		} else if (node.getGraph().getRule()==target) {
 			return new NodeMapEditor(target.getRhs()).getOpposite(node);
 		} else {
 			return null;
@@ -221,9 +230,9 @@ public class MappingMapEditor {
 	 * Get the opposite edge.
 	 */
 	private Edge getOppositeEdge(Edge edge) {
-		if (edge.getGraph().getContainerRule()==source) {
+		if (edge.getGraph().getRule()==source) {
 			return new EdgeMapEditor(source.getRhs()).getOpposite(edge);
-		} else if (edge.getGraph().getContainerRule()==target) {
+		} else if (edge.getGraph().getRule()==target) {
 			return new EdgeMapEditor(target.getRhs()).getOpposite(edge);
 		} else {
 			return null;

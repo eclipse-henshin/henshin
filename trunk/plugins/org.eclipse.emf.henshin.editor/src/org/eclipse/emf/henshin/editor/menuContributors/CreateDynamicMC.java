@@ -1,13 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2000, 2008 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.editor.menuContributors;
 
 import java.util.ArrayList;
@@ -90,7 +89,7 @@ public class CreateDynamicMC extends MenuContributor {
 	
 	protected Collection<EClass> findSubTypes(EClass superClass) {
 		Collection<EClass> result = new ArrayList<EClass>();
-		for (EPackage pack : graph.getContainerRule().getTransformationSystem().getImports()) {
+		for (EPackage pack : graph.getRule().getTransformationSystem().getImports()) {
 			for (EClassifier eClassifier : pack.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;
@@ -227,7 +226,7 @@ public class CreateDynamicMC extends MenuContributor {
 		
 		@Override
 		protected void populateMenu(IMenuManager manager) {
-			for (EPackage importedPackage : graph.getContainerRule().getTransformationSystem()
+			for (EPackage importedPackage : graph.getRule().getTransformationSystem()
 					.getImports()) {
 				manager.add(new DynamicClassSelectionMenu(importedPackage.getName(),
 						importedPackage));

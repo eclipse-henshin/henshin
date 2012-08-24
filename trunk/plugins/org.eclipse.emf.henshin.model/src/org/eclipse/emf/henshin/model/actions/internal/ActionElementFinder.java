@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import java.util.ArrayList;
@@ -10,7 +19,6 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
  * Action element finder class.
@@ -50,21 +58,14 @@ class ActionElementFinder {
 			}
 		}
 
-		// Add PAC elements:
-		if (action==null || action.getType()==ActionType.REQUIRE) {
-			for (Rule rule : rules) {
-				for (NestedCondition pac : HenshinACUtil.getAllACs(rule, true)) {
-					candidates.addAll((List<E>) pac.getConclusion().eGet(containment));
-				}
-			}
-		}
-
-		// Add NAC elements:
-		if (action==null || action.getType()==ActionType.FORBID) {
-			for (Rule rule : rules) {
-				for (NestedCondition nac : HenshinACUtil.getAllACs(rule, false)) {
-					candidates.addAll((List<E>) nac.getConclusion().eGet(containment));
-				}
+		// Add PAC and NAC elements:
+		for (Rule rule : rules) {
+			for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
+				if (action==null || 
+					(action.getType()==ActionType.REQUIRE && nestedCond.isPAC()) || 
+					(action.getType()==ActionType.FORBID && nestedCond.isNAC())) {
+					candidates.addAll((List<E>) nestedCond.getConclusion().eGet(containment));					
+				}			
 			}
 		}
 		

@@ -1,3 +1,12 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.commands;
 
 import org.eclipse.emf.common.command.Command;
@@ -21,19 +30,16 @@ public class SetNestedConditionCommand extends SetCommand implements Command {
 	public SetNestedConditionCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Object value) {
 		super(domain, owner, feature, value);
-		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.eclipse.emf.edit.command.SetCommand#doExecute()
 	 */
 	@Override
 	public void doExecute() {
-		// TODO Auto-generated method stub
-		//for (Object object : getValue()) {
 		if (getValue() instanceof NestedCondition) {
 			NestedCondition nc = (NestedCondition) getValue();
-
 			// create conclusion graph
 			if (nc.getConclusion() == null) {
 				Graph conclusion = HenshinFactory.eINSTANCE.createGraph();

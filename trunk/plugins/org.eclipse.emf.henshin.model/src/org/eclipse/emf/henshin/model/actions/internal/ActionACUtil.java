@@ -1,10 +1,18 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model.actions.internal;
 
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.actions.Action;
 import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.util.HenshinACUtil;
 
 /**
  * Utility methods to access and modify application conditions
@@ -14,11 +22,6 @@ import org.eclipse.emf.henshin.model.util.HenshinACUtil;
  */
 public class ActionACUtil {
 	
-	/**
-	 * Name of the default application condition.
-	 */
-	public static final String DEFAULT_AC_NAME = "default";
-		
 	/**
 	 * Find or create a positive or a negative application condition.
 	 * @param action	FORBID/REQUIRE action
@@ -38,16 +41,26 @@ public class ActionACUtil {
 		boolean positive = (action.getType()==ActionType.REQUIRE);
 		
 		// Get the name of the application condition:
-		String name = DEFAULT_AC_NAME;
+		String name = null;
 		String[] args = action.getArguments();
 		if (args != null && args.length > 0 && args[0] != null) {
 			name = args[0];
 		}
 		
 		// Find or create the application condition:
-		NestedCondition ac = HenshinACUtil.getAC(rule, name, positive);
-		if (ac == null) {
-			ac = HenshinACUtil.createAC(rule, name, positive);
+		NestedCondition ac = null;
+		for (NestedCondition cond : rule.getAllNestedConditions()) {
+			if (cond.getConclusion()==null) continue;
+			if ((name==null && cond.getConclusion().getName()==null) ||
+				(name!=null && name.equals(cond.getConclusion().getName()))) {
+				if ((positive && cond.isPAC()) || (!positive && cond.isNAC())) {
+					ac = cond;
+					break;
+				}
+			}
+		}
+		if (ac==null) {
+			ac = positive ? rule.createPAC(name) : rule.createNAC(name);
 		}
 		
 		// Done.

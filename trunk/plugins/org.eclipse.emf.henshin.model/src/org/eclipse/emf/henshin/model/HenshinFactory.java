@@ -1,14 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2010 CWI Amsterdam, Technical University Berlin, 
- * Philipps-University Marburg and others. All rights reserved. 
- * This program and the accompanying materials are made 
- * available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Technical University Berlin - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ */
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -18,13 +16,14 @@ import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
- * The <b>Factory</b> for the model.
+ * The <b>Factory</b> for the Henshin model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
  * @see org.eclipse.emf.henshin.model.HenshinPackage
  * @generated
  */
 public interface HenshinFactory extends EFactory {
+	
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->

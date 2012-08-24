@@ -1,19 +1,19 @@
 /**
  * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
- *
- * $Id$
  */
 package org.eclipse.emf.henshin.provider;
-
 
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -24,7 +24,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 
@@ -35,7 +34,7 @@ import org.eclipse.emf.henshin.model.IteratedUnit;
  * @generated
  */
 public class IteratedUnitItemProvider
-	extends TransformationUnitItemProvider
+	extends UnaryUnitItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -64,32 +63,9 @@ public class IteratedUnitItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addSubUnitPropertyDescriptor(object);
 			addIterationsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Sub Unit feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSubUnitPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_IteratedUnit_subUnit_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_IteratedUnit_subUnit_feature", "_UI_IteratedUnit_type"),
-				 HenshinPackage.Literals.ITERATED_UNIT__SUB_UNIT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -170,15 +146,4 @@ public class IteratedUnitItemProvider
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.ITERATED_UNIT__SUB_UNIT);
-		}
-		return childrenFeatures;
-
-	}
-	
 }
