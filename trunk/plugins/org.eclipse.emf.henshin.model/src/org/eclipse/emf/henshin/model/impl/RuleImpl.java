@@ -472,13 +472,9 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	public EList<Rule> getAllMultiRules() {
 		EList<Rule> allMultiRules = new BasicEList<Rule>();
 		allMultiRules.addAll(getMultiRules());
-		boolean changed;
-		do {
-			changed = false;
-			for (Rule rule : allMultiRules) {
-				changed = changed || allMultiRules.addAll(rule.getMultiRules());
-			}
-		} while (changed);
+		for (Rule multiRule : getMultiRules()) {
+			allMultiRules.addAll(multiRule.getAllMultiRules());
+		}
 		return ECollections.unmodifiableEList(allMultiRules);
 	}
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SZajsFwAEeG02funq3QXug" description="This transformation systems performs the common transformation of an object oriented structure to a relational (database) structure. " name="OO2RDB">
-  <rules xmi:id="_lqsnIFwAEeG02funq3QXug" description="Creates the inital Schema object and returns it. Furthermore, contained rule perform the actual transformation of the table structure." name="CreateTableStructure">
-    <parameters xmi:id="_DzsbAFwBEeG02funq3QXug" description="This parameter is particularly used as &quot;output&quot; parameter, i.e., after the application of this rule this parameter refers to the root object, the Schema object. It may then be used, e.g., to persist the newly created model." name="schema"/>
-    <parameters xmi:id="_A9qmoFyREeGNLar2WzN-hQ" description="Receives the name of the EPackage currently processed. Here, this parameter is used internally only." name="packageName"/>
+<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_SZajsFwAEeG02funq3QXug" name="OO2RDB" description="This transformation systems performs the common transformation of an object oriented structure to a relational (database) structure. ">
+  <rules xmi:id="_lqsnIFwAEeG02funq3QXug" name="CreateTableStructure" description="Creates the inital Schema object and returns it. Furthermore, contained rule perform the actual transformation of the table structure.">
+    <parameters xmi:id="_DzsbAFwBEeG02funq3QXug" name="schema" description="This parameter is particularly used as &quot;output&quot; parameter, i.e., after the application of this rule this parameter refers to the root object, the Schema object. It may then be used, e.g., to persist the newly created model."/>
+    <parameters xmi:id="_A9qmoFyREeGNLar2WzN-hQ" name="packageName" description="Receives the name of the EPackage currently processed. Here, this parameter is used internally only."/>
     <lhs xmi:id="_lqsnIVwAEeG02funq3QXug" name="LHS">
       <nodes xmi:id="_MVUiwFyOEeGNLar2WzN-hQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
@@ -23,8 +23,8 @@
       </nodes>
     </rhs>
     <mappings xmi:id="_NP4tkVyOEeGNLar2WzN-hQ" origin="_MVUiwFyOEeGNLar2WzN-hQ" image="_NP4tkFyOEeGNLar2WzN-hQ"/>
-    <multiRules xmi:id="_Zc-bIFwCEeG02funq3QXug" description="Creates a table corresponding to a class. However, columns are processed in multi rules &quot;below&quot;." name="CreateTable">
-      <parameters xmi:id="_FBOTMFwDEeG02funq3QXug" description="Receives the name of the current class which is then used as name of the created table." name="className"/>
+    <multiRules xmi:id="_Zc-bIFwCEeG02funq3QXug" name="CreateTable" description="Creates a table corresponding to a class. However, columns are processed in multi rules &quot;below&quot;.">
+      <parameters xmi:id="_FBOTMFwDEeG02funq3QXug" name="className" description="Receives the name of the current class which is then used as name of the created table."/>
       <lhs xmi:id="_Zc-bIVwCEeG02funq3QXug" name="LHS">
         <nodes xmi:id="_ygFTQFwCEeG02funq3QXug" incoming="_VCo4MFyOEeGNLar2WzN-hQ">
           <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -92,9 +92,9 @@
       </rhs>
       <mappings xmi:id="_0XdEkVwCEeG02funq3QXug" origin="_ygFTQFwCEeG02funq3QXug" image="_0XdEkFwCEeG02funq3QXug"/>
       <mappings xmi:id="_ZOChoFyOEeGNLar2WzN-hQ" origin="_QrxloFyOEeGNLar2WzN-hQ" image="_WqnioFyOEeGNLar2WzN-hQ"/>
-      <multiRules xmi:id="_fjWuEFwDEeG02funq3QXug" description="Translates attributes to table columns." name="CreateColumn">
+      <multiRules xmi:id="_fjWuEFwDEeG02funq3QXug" name="CreateColumn" description="Translates attributes to table columns.">
         <parameters xmi:id="_12_IMFwDEeG02funq3QXug" name="attrName"/>
-        <parameters xmi:id="_XU4dEFyNEeGNLar2WzN-hQ" description="" name="attrType"/>
+        <parameters xmi:id="_XU4dEFyNEeGNLar2WzN-hQ" name="attrType" description=""/>
         <lhs xmi:id="_fjWuEVwDEeG02funq3QXug" name="LHS">
           <nodes xmi:id="_dcyKEFx6EeGNLar2WzN-hQ" outgoing="_hc6-sFx6EeGNLar2WzN-hQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -165,7 +165,7 @@
         <mappings xmi:id="_FW4EkVx7EeGNLar2WzN-hQ" origin="_hc6-sVx6EeGNLar2WzN-hQ" image="_FW4EkFx7EeGNLar2WzN-hQ"/>
         <mappings xmi:id="_Jh0bAFx7EeGNLar2WzN-hQ" origin="_dcyKEFx6EeGNLar2WzN-hQ" image="_CvImQFx7EeGNLar2WzN-hQ"/>
         <mappings xmi:id="_lhyAo1yNEeGNLar2WzN-hQ" origin="_fcpOYVyNEeGNLar2WzN-hQ" image="_lhyAoVyNEeGNLar2WzN-hQ"/>
-        <multiRules xmi:id="_t0MNoFyLEeGNLar2WzN-hQ" description="If an attribute is marked as &quot;id=true&quot;, it is used as primary key of the current table." name="CreatePrimaryKey">
+        <multiRules xmi:id="_t0MNoFyLEeGNLar2WzN-hQ" name="CreatePrimaryKey" description="If an attribute is marked as &quot;id=true&quot;, it is used as primary key of the current table.">
           <lhs xmi:id="_t0MNoVyLEeGNLar2WzN-hQ" name="LHS">
             <nodes xmi:id="_wr1JIFyLEeGNLar2WzN-hQ">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
@@ -199,7 +199,7 @@
         <multiMappings xmi:id="_UCIYElx7EeGNLar2WzN-hQ" origin="_29J7gFwCEeG02funq3QXug" image="_UCIYEFx7EeGNLar2WzN-hQ"/>
         <multiMappings xmi:id="_SFYEkVyIEeGNLar2WzN-hQ" origin="_PVPfQVyIEeGNLar2WzN-hQ" image="_SFYEkFyIEeGNLar2WzN-hQ"/>
       </multiRules>
-      <multiRules xmi:id="_ReJakFyKEeGNLar2WzN-hQ" description="If no attribute of this class is marked with &quot;id=true&quot;, an artifical primary key is inserted in to the new table." name="CreateArtificalPrimaryKey">
+      <multiRules xmi:id="_ReJakFyKEeGNLar2WzN-hQ" name="CreateArtificalPrimaryKey" description="If no attribute of this class is marked with &quot;id=true&quot;, an artifical primary key is inserted in to the new table.">
         <lhs xmi:id="_ReJakVyKEeGNLar2WzN-hQ" name="LHS">
           <nodes xmi:id="_aBQrIFyKEeGNLar2WzN-hQ">
             <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -261,10 +261,10 @@
       <multiMappings xmi:id="_WqnioVyOEeGNLar2WzN-hQ" origin="_NP4tkFyOEeGNLar2WzN-hQ" image="_WqnioFyOEeGNLar2WzN-hQ"/>
     </multiRules>
   </rules>
-  <rules xmi:id="_7n5XoFyXEeGNLar2WzN-hQ" description="Create the interrelations between the new tables, i.e., foreign keys are added (or if required additional mapping tables are created). Note that the kernel rule part actually does nothing due to empty left- and right-hand sides. However, the work is done by the enclosed rules." name="CreateTableInterrelations">
+  <rules xmi:id="_7n5XoFyXEeGNLar2WzN-hQ" name="CreateTableInterrelations" description="Create the interrelations between the new tables, i.e., foreign keys are added (or if required additional mapping tables are created). Note that the kernel rule part actually does nothing due to empty left- and right-hand sides. However, the work is done by the enclosed rules.">
     <lhs xmi:id="_7n5XoVyXEeGNLar2WzN-hQ" name="LHS"/>
     <rhs xmi:id="_7n5XolyXEeGNLar2WzN-hQ" name="RHS"/>
-    <multiRules xmi:id="_3c4-gFyREeGNLar2WzN-hQ" description="Selects a table to be processed. Used as a multi rule, this rule iterates all available tables (exactly once) and translates outgoing references to appropriate foreign keys." name="SelectTable">
+    <multiRules xmi:id="_3c4-gFyREeGNLar2WzN-hQ" name="SelectTable" description="Selects a table to be processed. Used as a multi rule, this rule iterates all available tables (exactly once) and translates outgoing references to appropriate foreign keys.">
       <lhs xmi:id="_3c4-gVyREeGNLar2WzN-hQ" name="LHS">
         <nodes xmi:id="_gC0rUVySEeGNLar2WzN-hQ" incoming="_MVvAMFyTEeGNLar2WzN-hQ">
           <type href="rdb.ecore#//Table"/>
@@ -328,7 +328,7 @@
       <mappings xmi:id="_PTFiJVyTEeGNLar2WzN-hQ" origin="_gC0rUVySEeGNLar2WzN-hQ" image="_PTFiIFyTEeGNLar2WzN-hQ"/>
       <mappings xmi:id="_PTFiJlyTEeGNLar2WzN-hQ" origin="_F8yhIFyTEeGNLar2WzN-hQ" image="_PTFiIVyTEeGNLar2WzN-hQ"/>
       <mappings xmi:id="_PTFiJ1yTEeGNLar2WzN-hQ" origin="_JENlEFyTEeGNLar2WzN-hQ" image="_PTFiIlyTEeGNLar2WzN-hQ"/>
-      <multiRules xmi:id="_K1gRoFyVEeGNLar2WzN-hQ" description="Select an outgoing reference to be translated into the target relational structure. Again, all references are iterated once." name="SelectOutgoingRef">
+      <multiRules xmi:id="_K1gRoFyVEeGNLar2WzN-hQ" name="SelectOutgoingRef" description="Select an outgoing reference to be translated into the target relational structure. Again, all references are iterated once.">
         <lhs xmi:id="_K1gRoVyVEeGNLar2WzN-hQ" name="LHS">
           <nodes xmi:id="_P-BqoFyVEeGNLar2WzN-hQ">
             <type href="rdb.ecore#//Table"/>
@@ -399,8 +399,8 @@
         <mappings xmi:id="_bq2BpVyWEeGNLar2WzN-hQ" origin="_Z_Ki8lyWEeGNLar2WzN-hQ" image="_bq2BolyWEeGNLar2WzN-hQ"/>
         <mappings xmi:id="_OJNMJFyXEeGNLar2WzN-hQ" origin="_5vdr0FyWEeGNLar2WzN-hQ" image="_OJNMIFyXEeGNLar2WzN-hQ"/>
         <mappings xmi:id="_OJNMJVyXEeGNLar2WzN-hQ" origin="_JCE6QFyXEeGNLar2WzN-hQ" image="_OJNMIVyXEeGNLar2WzN-hQ"/>
-        <multiRules xmi:id="_eKI5IFyXEeGNLar2WzN-hQ" description="This rule deals with references with a [?..1] multiplicity. A corresponding column is inserted in the current table and a foreign key is created." name="MultiTo_1">
-          <parameters xmi:id="_oAUeoFyYEeGNLar2WzN-hQ" description="" name="pkName"/>
+        <multiRules xmi:id="_eKI5IFyXEeGNLar2WzN-hQ" name="MultiTo_1" description="This rule deals with references with a [?..1] multiplicity. A corresponding column is inserted in the current table and a foreign key is created.">
+          <parameters xmi:id="_oAUeoFyYEeGNLar2WzN-hQ" name="pkName" description=""/>
           <parameters xmi:id="_taAgIFyYEeGNLar2WzN-hQ" name="featureName"/>
           <parameters xmi:id="_Y73goFybEeGNLar2WzN-hQ" name="pkType"/>
           <lhs xmi:id="_eKI5IVyXEeGNLar2WzN-hQ" name="LHS">
@@ -497,13 +497,13 @@
           <multiMappings xmi:id="_dtuQoVycEeGNLar2WzN-hQ" origin="_Z_Ki8FyWEeGNLar2WzN-hQ" image="_dtuQoFycEeGNLar2WzN-hQ"/>
           <multiMappings xmi:id="_ei6MMVycEeGNLar2WzN-hQ" origin="_bq2BoVyWEeGNLar2WzN-hQ" image="_ei6MMFycEeGNLar2WzN-hQ"/>
         </multiRules>
-        <multiRules xmi:id="_iU7ekFyXEeGNLar2WzN-hQ" description="This rule deals with references with an upper bound not being 1. This leads to the creation of a mapping table which points to source and target tables by foreign keys." name="MultiTo_N">
+        <multiRules xmi:id="_iU7ekFyXEeGNLar2WzN-hQ" name="MultiTo_N" description="This rule deals with references with an upper bound not being 1. This leads to the creation of a mapping table which points to source and target tables by foreign keys.">
           <parameters xmi:id="_VYuCoFyeEeGNLar2WzN-hQ" name="ubound"/>
           <parameters xmi:id="_sZUQcFyeEeGNLar2WzN-hQ" name="featureName"/>
-          <parameters xmi:id="_uLZSEFyeEeGNLar2WzN-hQ" description="" name="pkSrcName"/>
+          <parameters xmi:id="_uLZSEFyeEeGNLar2WzN-hQ" name="pkSrcName" description=""/>
           <parameters xmi:id="_uLZSEVyeEeGNLar2WzN-hQ" name="pkSrcType"/>
           <parameters xmi:id="_BMrKoFyfEeGNLar2WzN-hQ" name="pkSrcTableName"/>
-          <parameters xmi:id="_ztKRgFyeEeGNLar2WzN-hQ" description="" name="pkTrgName"/>
+          <parameters xmi:id="_ztKRgFyeEeGNLar2WzN-hQ" name="pkTrgName" description=""/>
           <parameters xmi:id="_ztKRgVyeEeGNLar2WzN-hQ" name="pkTrgType"/>
           <parameters xmi:id="_GBIYIFyfEeGNLar2WzN-hQ" name="pkTrgTableName"/>
           <lhs xmi:id="_iU7ekVyXEeGNLar2WzN-hQ" name="LHS">
@@ -704,7 +704,7 @@
   <imports href="rdb.ecore#_wEs6IFv7EeG02funq3QXug"/>
   <imports href="http://www.eclipse.org/emf/2002/Ecore#/"/>
   <imports href="http://www.eclipse.org/emf/2011/Henshin/Trace#/"/>
-  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_PueK8FwBEeG02funq3QXug" description="Use this transformation unit to start the overall transformation process!" name="Start" subUnits="_lqsnIFwAEeG02funq3QXug _7n5XoFyXEeGNLar2WzN-hQ">
+  <transformationUnits xsi:type="henshin:SequentialUnit" xmi:id="_PueK8FwBEeG02funq3QXug" name="Start" description="Use this transformation unit to start the overall transformation process!" subUnits="_lqsnIFwAEeG02funq3QXug _7n5XoFyXEeGNLar2WzN-hQ">
     <parameters xmi:id="_ReiaYFwBEeG02funq3QXug" name="schema"/>
     <parameterMappings xmi:id="_VY6lQFwBEeG02funq3QXug" source="_DzsbAFwBEeG02funq3QXug" target="_ReiaYFwBEeG02funq3QXug"/>
   </transformationUnits>
