@@ -40,7 +40,7 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**

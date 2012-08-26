@@ -7,16 +7,16 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
 import java.util.List;
 
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
 
 public class NodeActionHelper extends GenericActionHelper<Node,Rule> {
 	

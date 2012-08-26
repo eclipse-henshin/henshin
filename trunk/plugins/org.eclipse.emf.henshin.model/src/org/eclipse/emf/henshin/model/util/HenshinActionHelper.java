@@ -7,22 +7,24 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions;
+package org.eclipse.emf.henshin.model.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.internal.AttributeActionHelper;
-import org.eclipse.emf.henshin.model.actions.internal.EdgeActionHelper;
-import org.eclipse.emf.henshin.model.actions.internal.NodeActionHelper;
+import org.eclipse.emf.henshin.model.actions.impl.AttributeActionHelper;
+import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
+import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
 /**
  * Helper class for editing actions.
  * @author Christian Krause
+ * @deprecated Will be supported directly by the model.
  */
 public class HenshinActionHelper {
 	

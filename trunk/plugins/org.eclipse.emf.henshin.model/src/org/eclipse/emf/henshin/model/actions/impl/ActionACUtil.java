@@ -7,12 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import static org.eclipse.emf.henshin.model.actions.ActionType.*;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
 
 /**
  * Utility methods to access and modify application conditions

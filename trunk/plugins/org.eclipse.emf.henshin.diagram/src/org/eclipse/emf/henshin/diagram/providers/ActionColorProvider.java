@@ -10,8 +10,10 @@
 package org.eclipse.emf.henshin.diagram.providers;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
+import org.eclipse.emf.henshin.model.Action;
+
+import static org.eclipse.emf.henshin.model.Action.Type;
+
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -27,7 +29,7 @@ public class ActionColorProvider {
 	private static Color COLOR_REQUIRE = new Color(null, 170, 68, 0);
 
 	public static Color getColor(Action action) {
-		ActionType type = action.getType();
+		Type type = action.getType();
 		switch (type) {
 		case PRESERVE: 
 			return COLOR_PRESERVE;

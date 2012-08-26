@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,14 +31,11 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Attribute extends EObject {
+public interface Attribute extends GraphElement {
+	
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EAttribute)
@@ -62,10 +58,6 @@ public interface Attribute extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Value</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(String)
@@ -89,10 +81,6 @@ public interface Attribute extends EObject {
 	 * Returns the value of the '<em><b>Node</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Node#getAttributes <em>Attributes</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Node</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Node</em>' container reference.
 	 * @see #setNode(Node)
@@ -115,16 +103,12 @@ public interface Attribute extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Constant</b></em>' attribute.
-	 * The default value is <code>"ACED0005740000"</code>.
+	 * The default value is <code>null</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constant</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constant</em>' attribute.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Constant()
-	 * @model default="ACED0005740000" transient="true" changeable="false" derived="true"
+	 * @model default="null" transient="true" changeable="false" derived="true"
 	 * @generated
 	 */
 	Object getConstant();
@@ -133,10 +117,6 @@ public interface Attribute extends EObject {
 	 * Returns the value of the '<em><b>Null</b></em>' attribute.
 	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Null</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Null</em>' attribute.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Null()
@@ -144,6 +124,5 @@ public interface Attribute extends EObject {
 	 * @generated
 	 */
 	boolean isNull();
-
 
 } // Attribute

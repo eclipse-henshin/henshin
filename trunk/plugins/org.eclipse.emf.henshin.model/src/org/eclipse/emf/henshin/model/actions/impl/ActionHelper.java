@@ -7,11 +7,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
 import java.util.List;
 
-import org.eclipse.emf.henshin.model.actions.Action;
+import org.eclipse.emf.henshin.model.Action;
 
 /**
  * Action helper.

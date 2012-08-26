@@ -7,13 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -21,9 +22,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import static org.eclipse.emf.henshin.model.actions.ActionType.*;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
 
 public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 	
@@ -81,8 +81,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 		Edge edge = null;
 
 		// Get the node actions:
-		Action srcAction = HenshinActionHelper.getAction(source);
-		Action trgAction = HenshinActionHelper.getAction(target);
+		Action srcAction = NodeActionHelper.INSTANCE.getAction(source);
+		Action trgAction = NodeActionHelper.INSTANCE.getAction(target);
 
 		// Check if the actions are the same:
 		if (srcAction.equals(trgAction)) {
@@ -208,8 +208,8 @@ public class EdgeActionHelper extends GenericActionHelper<Edge,Rule> {
 		}
 		
 		// Get the node actions:
-		Action action1 = HenshinActionHelper.getAction(source);
-		Action action2 = HenshinActionHelper.getAction(target);
+		Action action1 = NodeActionHelper.INSTANCE.getAction(source);
+		Action action2 = NodeActionHelper.INSTANCE.getAction(target);
 
 		// Sanity check:
 		if (action1 == null || action2 == null) {

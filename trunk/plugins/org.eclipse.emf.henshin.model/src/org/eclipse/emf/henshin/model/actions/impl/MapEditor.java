@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.MappingList;

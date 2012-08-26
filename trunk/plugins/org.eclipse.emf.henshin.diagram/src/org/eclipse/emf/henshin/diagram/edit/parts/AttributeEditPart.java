@@ -25,10 +25,12 @@ import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
@@ -435,7 +437,7 @@ public class AttributeEditPart extends CompartmentEditPart implements
 		Attribute attribute = (Attribute) getNotationView().getElement();
 		Action action = HenshinActionHelper.getAction(attribute);
 		// We highlight only FORBID attributes:
-		if (action != null && action.getType() == ActionType.FORBID) {
+		if (action != null && action.getType() == FORBID) {
 			setFontColor(ActionColorProvider.getColor(action));
 		} else {
 			setFontColor(ColorConstants.black);

@@ -26,15 +26,17 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -285,7 +287,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	        
 	        // Action types as radio buttons:
 	        boolean first = true;
-	        for (ActionType type : ActionType.values()) {
+	        for (Type type : Type.values()) {
 	        	final Action current = new Action(type);
 		        Button button = new Button(buttons, SWT.RADIO);
 		        button.setText(type.toString());

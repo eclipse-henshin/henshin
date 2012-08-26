@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions;
+package org.eclipse.emf.henshin.model;
 
 import java.text.ParseException;
 import java.util.Arrays;
@@ -15,14 +15,57 @@ import java.util.regex.Pattern;
 
 /**
  * This class represents an Action of a graph element. Actions consist of an
- * {@link ActionType} and a number of string arguments. Actions can be printed,
+ * {@link Type} and a number of string arguments. Actions can be printed,
  * parsed and compared using equals().
  * 
  * @author Christian Krause
  * @author Stefan Jurack
  */
-public class Action {
+public final class Action {
 
+	/**
+	 * An enum for action types.
+	 * @author Christian Krause
+	 */
+	public static enum Type {
+			
+		PRESERVE, CREATE, DELETE, FORBID, REQUIRE;
+		
+		/**
+		 * Parse an element action type.
+		 * @param value String representation.
+		 * @return The parsed action type.
+		 * @throws ParseException On parse errors.
+		 */
+		public static Type parse(String value) throws ParseException {
+			value = value.trim();
+			for (Type type : values()) {
+				if (type.name().equalsIgnoreCase(value)) return type;
+			}
+			// Some convenience...
+			if ("remove".equalsIgnoreCase(value)) {
+				return DELETE;
+			}
+			if ("new".equalsIgnoreCase(value)) {
+				return CREATE;
+			}
+			if ("none".equalsIgnoreCase(value)) {
+				return PRESERVE;
+			}
+			throw new ParseException("Unknown action type: " + value, 0);
+		}
+			
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
+		
+	}
+	
 	/**
 	 * Separator of the action type information
 	 */
@@ -68,7 +111,7 @@ public class Action {
 			isMulti = true;
 			trimmedType = trimmedType.substring(0, trimmedType.length()-1);
 		}
-		ActionType type = ActionType.parse(trimmedType);
+		Type type = Type.parse(trimmedType);
 
 		/*
 		 * Check for further arguments, which occur after the colon and which
@@ -87,7 +130,7 @@ public class Action {
 	}
 
 	// Action type.
-	private ActionType type;
+	private Type type;
 
 	// Multi-flag.
 	private boolean isMulti;
@@ -95,14 +138,13 @@ public class Action {
 	// Optional arguments.
 	private String[] arguments;
 
-
 	/**
 	 * Default constructor.
 	 * @param type Action type. Must not be <code>null</code>!
 	 * @param isMulti Multi-flag.
 	 * @param arguments Optional arguments.
 	 */
-	public Action(ActionType type, boolean isMulti, String... arguments) {
+	public Action(Type type, boolean isMulti, String... arguments) {
 		if (type == null)
 			throw new IllegalArgumentException(
 					"Parameter type must not be null.");
@@ -114,7 +156,7 @@ public class Action {
 	/*
 	 * Alternative constructor.
 	 */
-	public Action(ActionType type, String... arguments) {
+	public Action(Type type, String... arguments) {
 		this(type, false, arguments);
 	}
 
@@ -156,7 +198,7 @@ public class Action {
 	 * Returns the action type represented by this Action.
 	 * @return Action type.
 	 */
-	public ActionType getType() {
+	public Type getType() {
 		return type;
 	}
 

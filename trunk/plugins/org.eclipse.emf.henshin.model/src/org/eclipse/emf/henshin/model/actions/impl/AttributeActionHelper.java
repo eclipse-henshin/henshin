@@ -7,18 +7,20 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
 
 public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	
@@ -41,11 +43,13 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
 		if (lhsNode!=null) {
 			candidates.addAll(lhsNode.getAttributes());
+			addMultiRuleCandidates(lhsNode, candidates);
 
 			// Attributes in the RHS:
 			Node rhsNode = new NodeMapEditor(rule.getRhs()).getOpposite(lhsNode);
 			if (rhsNode!=null) {
 				candidates.addAll(rhsNode.getAttributes());
+				addMultiRuleCandidates(rhsNode, candidates);
 			}
 
 			// Attributes in the PACs and NACs:
@@ -57,13 +61,41 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 			}
 		} else {
 			candidates.addAll(node.getAttributes());
+			addMultiRuleCandidates(node, candidates);
 		}
 		
 		// Filter by action:
-		return filterElementsByAction(candidates, action);
+		List<Attribute> result = filterElementsByAction(candidates, action);
+		
+		// Sort:
+		Collections.sort(result, new Comparator<Attribute>() {
+			@Override
+			public int compare(Attribute a1, Attribute a2) {
+				if (a1.getType()==null) return -1;
+				if (a2.getType()==null) return 1;
+				String n1 = a1.getType().getName();
+				String n2 = a2.getType().getName();
+				if (n1==null) return -1;
+				return n1.compareTo(n2);
+			}
+		});
+		return result;
 		
 	}
-
+	
+	private void addMultiRuleCandidates(Node node, List<Attribute> candidates) {
+		for (Rule multiRule : node.getGraph().getRule().getMultiRules()) {
+			Node image = multiRule.getMultiMappings().getImage(node, multiRule.getLhs());
+			if (image==null) {
+				image = multiRule.getMultiMappings().getImage(node, multiRule.getRhs());
+			}
+			if (image!=null) {
+				candidates.addAll(image.getAttributes());
+				addMultiRuleCandidates(image, candidates);
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.AbstractActionHelper#getMapEditor(org.eclipse.emf.henshin.model.Graph)

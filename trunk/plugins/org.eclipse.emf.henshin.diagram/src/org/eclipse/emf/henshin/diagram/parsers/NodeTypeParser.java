@@ -17,13 +17,15 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -64,7 +66,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		// For <<preserve>>-nodes we offer an arrow notation:
 		Action action = HenshinActionHelper.getAction(node);
-		if (action!=null && action.getType()==ActionType.PRESERVE) {
+		if (action!=null && action.getType()==PRESERVE) {
 			
 			// Get the RHS-node and its name:
 			Rule rule = node.getGraph().getRule();
@@ -170,7 +172,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		// Set the name and the type of the secondary node:
 		Action action = HenshinActionHelper.getAction(node);
-		if (action!=null && action.getType()==ActionType.PRESERVE) { 
+		if (action!=null && action.getType()==PRESERVE) { 
 			Node rhsNode = rule.getMappings().getImage(node, rule.getRhs());
 			if (rhsNode!=null) {
 				if (name2.length()==0 || name2.equals("?")) {

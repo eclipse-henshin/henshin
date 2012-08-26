@@ -15,11 +15,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -103,11 +105,11 @@ public class EdgeActionParser extends AbstractParser {
 			// The source and the target node must have either the same
 			// action as the edge, or PRESERVE.			
 			if (!srcAction.equals(action) && 
-				!(srcAction.getType()==ActionType.PRESERVE /* && !srcAction.isAmalgamated() */)) {
+				!(srcAction.getType()==PRESERVE /* && !srcAction.isAmalgamated() */)) {
 				HenshinActionHelper.setAction(src, action);
 			}
 			if (!trgAction.equals(action) && 
-				!(trgAction.getType()==ActionType.PRESERVE /* && !trgAction.isAmalgamated() */)) {
+				!(trgAction.getType()==PRESERVE /* && !trgAction.isAmalgamated() */)) {
 				HenshinActionHelper.setAction(trg, action);
 			}
 			

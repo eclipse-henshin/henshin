@@ -1273,6 +1273,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getGraphElement());
 		edgeEClass.getESuperTypes().add(this.getGraphElement());
+		attributeEClass.getESuperTypes().add(this.getGraphElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
 		transformationUnitEClass.getESuperTypes().add(this.getNamedElement());
 		unaryUnitEClass.getESuperTypes().add(this.getTransformationUnit());

@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;

@@ -10,19 +10,23 @@
 package org.eclipse.emf.henshin.diagram.parsers;
 
 import java.text.ParseException;
+import java.util.Arrays;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.Action.Type;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -70,13 +74,22 @@ public class AttributeParser extends AbstractParser {
 		Node actionNode = HenshinActionHelper.getActionNode(attribute.getNode());
 		Action nodeAction = HenshinActionHelper.getAction(actionNode);
 		
-		// We show only FORBID actions:
-		if (action!=null && !action.equals(nodeAction) && action.getType()==ActionType.FORBID) {
-			result = "<<" + action + ">> " + result;
+		// We show only FORBID,REQUIRE and certain multi-actions:
+		if (action!=null) {
+			Type actionType = action.getType();
+			if (!action.equals(nodeAction)) {
+				if (actionType==FORBID || actionType==REQUIRE) {
+					result = NodeActionParser.addActionQuotes(action.toString()) + " " + result;
+				}
+				if (action.isMulti() && actionType==DELETE && !Arrays.equals(action.getArguments(), nodeAction.getArguments())) {
+					Action fake = new Action(PRESERVE, true, action.getArguments());
+					result = NodeActionParser.addActionQuotes(fake.toString()) + " " +result;
+				}
+			}
 		}
 		
 		// Changing attribute?
-		if (nodeAction.getType()==ActionType.PRESERVE) {
+		if (nodeAction.getType()==PRESERVE) {
 			Rule rule = attribute.getNode().getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null && !String.valueOf(attribute.getValue()).equals(String.valueOf(image.getValue()))) {
@@ -138,7 +151,7 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Parse the action:
-		Action action = new Action(ActionType.PRESERVE);		
+		Action action = new Action(PRESERVE);
 		value = value.trim();
 		if (value.startsWith("<<")) {
 			value = value.substring(2);
@@ -154,9 +167,9 @@ public class AttributeParser extends AbstractParser {
 		// The node action must be compatible:
 		Node actionNode = HenshinActionHelper.getActionNode(node);
 		Action nodeAction = HenshinActionHelper.getAction(actionNode);
-		ActionType nodeActionType = nodeAction.getType();
-		boolean compatible = (nodeActionType==ActionType.PRESERVE) || 
-							 (nodeActionType==ActionType.DELETE && action.getType()==ActionType.FORBID);
+		Type nodeActionType = nodeAction.getType();
+		boolean compatible = (nodeActionType==PRESERVE) || 
+							 (nodeActionType==DELETE && action.getType()==FORBID);
 		if (!compatible) {
 			action = nodeAction;
 		}
@@ -190,7 +203,7 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Check if there is are image in the RHS that we need to updated:
-		if (action.getType()==ActionType.PRESERVE) {
+		if (action.getType()==PRESERVE) {
 			Rule rule = node.getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
 			if (image!=null) {

@@ -25,14 +25,16 @@ import org.eclipse.emf.henshin.diagram.edit.commands.EdgeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.commands.NodeDeleteCommand;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import org.eclipse.emf.henshin.model.actions.HenshinActionHelper;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
+
+import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.emf.core.resources.GMFResource;
@@ -133,7 +135,7 @@ public class RootObjectEditHelper {
 			// Now add the new root node to the LHS and RHS:
 			if (!rule.getLhs().getNodes().contains(newRoot)) {
 				rule.getLhs().getNodes().add(0,newRoot);
-				HenshinActionHelper.setAction(newRoot, new Action(ActionType.PRESERVE));
+				HenshinActionHelper.setAction(newRoot, new Action(PRESERVE));
 			}
 			
 			// Now add the containment references:

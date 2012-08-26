@@ -7,12 +7,18 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.model.actions.internal;
+package org.eclipse.emf.henshin.model.actions.impl;
+
+import org.eclipse.emf.henshin.model.Action.Type;
+
+import static org.eclipse.emf.henshin.model.Action.Type.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
@@ -20,9 +26,6 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.actions.Action;
-import org.eclipse.emf.henshin.model.actions.ActionType;
-import static org.eclipse.emf.henshin.model.actions.ActionType.*;
 
 /**
  * @author Christian Krause
@@ -55,7 +58,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		String[] multiParams = getMultiParameters(element, rule);
 		
 		// If the rule is a multi-rule, but the action is not
-		// amalgamated, the element is not an action element.
+		// a multi-action, the element is not an action element.
 		if (kernel!=null && !isMulti) {
 			return null;
 		}
@@ -94,7 +97,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 			// Find out whether it is a PAC, a NAC or something else:
 			NestedCondition nc = (NestedCondition) graph.eContainer();
-			ActionType type = null;
+			Type type = null;
 			if (nc.isPAC()) {
 				type = REQUIRE;
 			} else if (nc.isNAC()) {
@@ -110,12 +113,17 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 
 				// If it has an origin in the LHS, it is a PAC/NAC-action:
 				if (origin==null) {
-					String name = graph.getName();
-					if (name==null || name.trim().length()==0 || "default".equals(name)) {
-						return new Action(type, isMulti);
+					if (isMulti) {
+						return new Action(type, true, multiParams);						
 					} else {
-						return new Action(type, isMulti, name.trim());
-					}
+						String name = graph.getName();
+						if (name==null || name.trim().length()==0 || "default".equals(name)) {
+							return new Action(type, false);
+						} else {
+							return new Action(type, false, name.trim());
+						}
+	
+					}					
 				}
 			}
 		}
@@ -278,7 +286,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 		}
 		
-		// THE ACTION TYPE AND THE AMALGAMATED FLAG ARE CORRECT NOW.
+		// THE ACTION TYPE AND THE MULTI-FLAG ARE CORRECT NOW.
 		
 		// The only thing that can be different now is the name of the multi-rule:
 		if (current.isMulti() && action.isMulti()) {
@@ -291,7 +299,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 	}
 	
-	private void updateMultiElement(Rule kernel, Rule multi, ActionType actionType, E element) {
+	private void updateMultiElement(Rule kernel, Rule multi, Type actionType, E element) {
 		
 		// First make sure the multi-rule is complete.
 		sanitizeMultiRule(multi);
@@ -374,22 +382,20 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		GraphElement elem;
 		if (element instanceof Attribute) {
 			elem = ((Attribute) element).getNode();
-		}
-		else if (element instanceof GraphElement) {
+		} else if (element instanceof GraphElement) {
 			elem = (GraphElement) element;
-		}
-		else {
+		} else {
 			return false;
 		}
 		Graph graph = elem.getGraph();
-		if (elem.getGraph()==null) {
+		if (graph==null) {
 			return false;
 		}
 		Rule rule = graph.getRule();
 		if (rule==null || rule.getKernelRule()==null) {
 			return false;
 		}
-		if (rule.getMultiMappings().getOrigin(elem)!=null) {
+		if (rule.getMultiMappings().getOrigin(element)!=null) {
 			return false;
 		}
 		return true;
@@ -403,11 +409,17 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (!isMulti(element)) {
 			return new String[] {};
 		}
-		String name = multiRule.getName();
-		if (name==null || name.length()==0) {
+		List<String> names = new ArrayList<String>();
+		while (multiRule.isMultiRule()) {
+			String name = multiRule.getName();
+			names.add(name==null ? "" : name.trim());
+			multiRule = multiRule.getKernelRule();
+		}
+		if (names.size()==1 && names.get(0).length()==0) {
 			return new String[] {};
 		} else {
-			return new String[] { name };
+			Collections.reverse(names);
+			return names.toArray(new String[0]);
 		}
 	}
 	

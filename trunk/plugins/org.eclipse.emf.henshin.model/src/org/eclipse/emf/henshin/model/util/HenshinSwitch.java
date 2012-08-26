@@ -156,6 +156,7 @@ public class HenshinSwitch<T> {
 			case HenshinPackage.ATTRIBUTE: {
 				Attribute attribute = (Attribute)theEObject;
 				T result = caseAttribute(attribute);
+				if (result == null) result = caseGraphElement(attribute);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
