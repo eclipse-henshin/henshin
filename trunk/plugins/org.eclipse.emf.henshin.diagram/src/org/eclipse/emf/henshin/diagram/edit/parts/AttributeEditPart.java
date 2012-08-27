@@ -21,16 +21,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.policies.AttributeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextNonResizableEditPolicy;
 import org.eclipse.emf.henshin.diagram.edit.policies.HenshinTextSelectionEditPolicy;
+import org.eclipse.emf.henshin.diagram.parsers.NodeActionParser;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
+import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
-
-import static org.eclipse.emf.henshin.model.Action.Type.*;
-
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
@@ -434,11 +431,11 @@ public class AttributeEditPart extends CompartmentEditPart implements
 	 * @generated NOT
 	 */
 	protected void refreshFontColor() {
-		Attribute attribute = (Attribute) getNotationView().getElement();
-		Action action = HenshinActionHelper.getAction(attribute);
-		// We highlight only FORBID attributes:
-		if (action != null && action.getType() == FORBID) {
-			setFontColor(ActionColorProvider.getColor(action));
+		String text = getLabelText();
+		if (text.startsWith("" + NodeActionParser.ACTION_QUOTE_LEFT)) { // with action?
+			Attribute attribute = (Attribute) getNotationView().getElement();
+			Action action = attribute.getAction();
+			setFontColor(HenshinDiagramColorProvider.getActionColor(action));
 		} else {
 			setFontColor(ColorConstants.black);
 		}

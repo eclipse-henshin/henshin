@@ -11,11 +11,13 @@ package org.eclipse.emf.henshin.model.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.AttributeCondition;
@@ -245,6 +247,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass notEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType actionEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -580,6 +589,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 */
 	public EClass getGraphElement() {
 		return graphElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGraphElement_Action() {
+		return (EAttribute)graphElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1064,6 +1082,15 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getAction() {
+		return actionEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getXor() {
 		return xorEClass;
 	}
@@ -1128,6 +1155,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__DESCRIPTION);
 
 		graphElementEClass = createEClass(GRAPH_ELEMENT);
+		createEAttribute(graphElementEClass, GRAPH_ELEMENT__ACTION);
 
 		transformationSystemEClass = createEClass(TRANSFORMATION_SYSTEM);
 		createEReference(transformationSystemEClass, TRANSFORMATION_SYSTEM__RULES);
@@ -1236,6 +1264,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		xorEClass = createEClass(XOR);
 
 		notEClass = createEClass(NOT);
+
+		// Create data types
+		actionEDataType = createEDataType(ACTION);
 	}
 
 	/**
@@ -1298,6 +1329,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEAttribute(getNamedElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, NamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(graphElementEClass, GraphElement.class, "GraphElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGraphElement_Action(), this.getAction(), "action", null, 0, 1, GraphElement.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(graphElementEClass, this.getGraph(), "getGraph", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1503,6 +1535,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEClass(xorEClass, Xor.class, "Xor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(notEClass, Not.class, "Not", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		// Initialize data types
+		initEDataType(actionEDataType, Action.class, "Action", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -22,10 +22,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.impl.AttributeActionHelper;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +36,7 @@ import org.eclipse.emf.henshin.model.Node;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getAction <em>Action</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getValue <em>Value</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.AttributeImpl#getNode <em>Node</em>}</li>
@@ -45,6 +48,16 @@ import org.eclipse.emf.henshin.model.Node;
  * @generated
  */
 public class AttributeImpl extends EObjectImpl implements Attribute {
+
+	/**
+	 * The default value of the '{@link #getAction() <em>Action</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAction()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Action ACTION_EDEFAULT = null;
 
 	/**
 	 * An adapter that automatically updates the derived fields {@link #constant} and {@link #null_}.
@@ -198,6 +211,24 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.ATTRIBUTE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Action getAction() {
+		return AttributeActionHelper.INSTANCE.getAction(this);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setAction(Action action) {
+		AttributeActionHelper.INSTANCE.setAction(this, action);
 	}
 
 	/**
@@ -380,6 +411,8 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__ACTION:
+				return getAction();
 			case HenshinPackage.ATTRIBUTE__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
@@ -403,6 +436,9 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__ACTION:
+				setAction((Action)newValue);
+				return;
 			case HenshinPackage.ATTRIBUTE__TYPE:
 				setType((EAttribute)newValue);
 				return;
@@ -424,6 +460,9 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__ACTION:
+				setAction(ACTION_EDEFAULT);
+				return;
 			case HenshinPackage.ATTRIBUTE__TYPE:
 				setType((EAttribute)null);
 				return;
@@ -445,6 +484,8 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.ATTRIBUTE__ACTION:
+				return ACTION_EDEFAULT == null ? getAction() != null : !ACTION_EDEFAULT.equals(getAction());
 			case HenshinPackage.ATTRIBUTE__TYPE:
 				return type != null;
 			case HenshinPackage.ATTRIBUTE__VALUE:
@@ -467,6 +508,7 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
+
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (value: ");
 		result.append(value);

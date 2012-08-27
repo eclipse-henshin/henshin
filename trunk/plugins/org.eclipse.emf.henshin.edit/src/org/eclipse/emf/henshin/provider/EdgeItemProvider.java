@@ -24,14 +24,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeSourcePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTargetPropertyDescriptor;
 import org.eclipse.emf.henshin.provider.descriptors.EdgeTypePropertyDescriptor;
+import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
@@ -40,6 +44,7 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * <!-- end-user-doc -->
  * @generated
  */
+@SuppressWarnings("unused")
 public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
@@ -64,6 +69,7 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addActionPropertyDescriptor(object);
 			addSourcePropertyDescriptor(object);
 			addTargetPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
@@ -71,6 +77,28 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		return itemPropertyDescriptors;
 	}
 	
+	/**
+	 * This adds a property descriptor for the Action feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphElement_action_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphElement_action_feature", "_UI_GraphElement_type"),
+				 HenshinPackage.Literals.GRAPH_ELEMENT__ACTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
 	/**
 	 * This adds a property descriptor for the Source feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -281,23 +309,13 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		return HenshinEditPlugin.INSTANCE;
 	}
 	
-	protected boolean isUserEditable(Object object) {
-		return getKernelEdge((Edge)object) == null;
-	}
-	
-	protected Edge getKernelEdge(Edge edge){
+	private Edge getKernelEdge(Edge edge){
 		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
 			Rule rule = edge.getGraph().getRule();
 			return rule.getMultiMappings().getOrigin(edge);
 		}
 		return null;
 	} 
-	
-	@Override
-	public Object getForeground(Object object) {
-		return isUserEditable(object) ? super.getForeground(object) : URI
-				.createURI("color://rgb/0/0/255");
-	}
 	
 	// @Override
 	// protected Command createSetCommand(EditingDomain domain, EObject owner,

@@ -27,7 +27,7 @@
       </edges>
       <formula xsi:type="henshin:Not" xmi:id="_9sjvQXg8EeGZMfr3Iy5Flw">
         <child xsi:type="henshin:NestedCondition" xmi:id="_9rNEYHg8EeGZMfr3Iy5Flw">
-          <conclusion xmi:id="_9rNEYXg8EeGZMfr3Iy5Flw" name="default">
+          <conclusion xmi:id="_9rNEYXg8EeGZMfr3Iy5Flw" name="">
             <nodes xmi:id="_9rNEYng8EeGZMfr3Iy5Flw" outgoing="_9rNrcHg8EeGZMfr3Iy5Flw">
               <type href="bank.ecore#//Bank"/>
             </nodes>

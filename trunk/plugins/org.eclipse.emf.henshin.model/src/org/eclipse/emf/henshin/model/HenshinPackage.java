@@ -11,6 +11,7 @@ package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -151,6 +152,15 @@ public interface HenshinPackage extends EPackage {
 	int GRAPH_ELEMENT = 1;
 
 	/**
+	 * The feature id for the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GRAPH_ELEMENT__ACTION = 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -217,7 +227,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GRAPH_ELEMENT_FEATURE_COUNT = 0;
+	int GRAPH_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -777,13 +787,22 @@ public interface HenshinPackage extends EPackage {
 	int NODE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__ACTION = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__TYPE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int NODE__TYPE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -792,7 +811,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int NODE__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Graph</b></em>' container reference.
@@ -801,7 +820,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__GRAPH = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int NODE__GRAPH = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Incoming</b></em>' reference list.
@@ -810,7 +829,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__INCOMING = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int NODE__INCOMING = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Outgoing</b></em>' reference list.
@@ -819,7 +838,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__OUTGOING = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int NODE__OUTGOING = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>All Edges</b></em>' reference list.
@@ -828,7 +847,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__ALL_EDGES = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int NODE__ALL_EDGES = NAMED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Node</em>' class.
@@ -837,7 +856,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int NODE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDGE__ACTION = GRAPH_ELEMENT__ACTION;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -883,6 +911,15 @@ public interface HenshinPackage extends EPackage {
 	 * @ordered
 	 */
 	int EDGE_FEATURE_COUNT = GRAPH_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Action</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__ACTION = GRAPH_ELEMENT__ACTION;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1740,6 +1777,16 @@ public interface HenshinPackage extends EPackage {
 	int NOT_FEATURE_COUNT = UNARY_FORMULA_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '<em>Action</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.Action
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAction()
+	 * @generated
+	 */
+	int ACTION = 29;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2040,6 +2087,17 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getGraphElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.GraphElement#getAction <em>Action</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Action</em>'.
+	 * @see org.eclipse.emf.henshin.model.GraphElement#getAction()
+	 * @see #getGraphElement()
+	 * @generated
+	 */
+	EAttribute getGraphElement_Action();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Mapping <em>Mapping</em>}'.
@@ -2605,6 +2663,17 @@ public interface HenshinPackage extends EPackage {
 	EClass getNot();
 
 	/**
+	 * Returns the meta object for data type '{@link org.eclipse.emf.henshin.model.Action <em>Action</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Action</em>'.
+	 * @see org.eclipse.emf.henshin.model.Action
+	 * @model instanceClass="org.eclipse.emf.henshin.model.Action"
+	 * @generated
+	 */
+	EDataType getAction();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Xor <em>Xor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2906,6 +2975,14 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass GRAPH_ELEMENT = eINSTANCE.getGraphElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Action</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GRAPH_ELEMENT__ACTION = eINSTANCE.getGraphElement_Action();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
@@ -3370,6 +3447,16 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NOT = eINSTANCE.getNot();
+
+		/**
+		 * The meta object literal for the '<em>Action</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.Action
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAction()
+		 * @generated
+		 */
+		EDataType ACTION = eINSTANCE.getAction();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.XorImpl <em>Xor</em>}' class.

@@ -12,13 +12,17 @@ package org.eclipse.emf.henshin.model.actions.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
@@ -28,7 +32,7 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 	 * Static instance.
 	 */
 	public static final AttributeActionHelper INSTANCE = new AttributeActionHelper();
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.ActionHelper#getActionElements(java.lang.Object, org.eclipse.emf.henshin.diagram.edit.actions.Action)
@@ -37,33 +41,38 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 		
 		// Compute list of candidates:
 		Rule rule = node.getGraph().getRule();
-		List<Attribute> candidates = new ArrayList<Attribute>();
-		
-		// Attributes in the LHS:
-		Node lhsNode = NodeActionHelper.INSTANCE.getLhsNode(node);
-		if (lhsNode!=null) {
-			candidates.addAll(lhsNode.getAttributes());
-			addMultiRuleCandidates(lhsNode, candidates);
-
-			// Attributes in the RHS:
-			Node rhsNode = new NodeMapEditor(rule.getRhs()).getOpposite(lhsNode);
-			if (rhsNode!=null) {
-				candidates.addAll(rhsNode.getAttributes());
-				addMultiRuleCandidates(rhsNode, candidates);
-			}
-
-			// Attributes in the PACs and NACs:
-			for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
-				Node ncNode = new NodeMapEditor(nestedCond.getConclusion()).getOpposite(lhsNode);
-				if (ncNode!=null) {
-					candidates.addAll(ncNode.getAttributes());
-				}
-			}
-		} else {
-			candidates.addAll(node.getAttributes());
-			addMultiRuleCandidates(node, candidates);
+		if (rule.getKernelRule()!=null) {
+			rule = rule.getKernelRule();
 		}
 		
+		// First find all mapped nodes:
+		Set<Node> mappedNodes = new LinkedHashSet<Node>(); 
+		mappedNodes.add(node);
+		boolean changed;
+		do {
+			changed = false;
+			TreeIterator<EObject> it = rule.eAllContents();
+			while (it.hasNext()) {
+				EObject next = it.next();
+				if (next instanceof Mapping) {
+					Mapping m = (Mapping) next;
+					if (m.getImage()==null || m.getOrigin()==null) continue;
+					if (mappedNodes.contains(m.getOrigin())) {
+						if (mappedNodes.add(m.getImage())) changed = true;
+					}
+					else if (mappedNodes.contains(m.getImage())) {
+						if (mappedNodes.add(m.getOrigin())) changed = true;
+					}
+				}
+			}
+		} while (changed);
+		
+		// Now collect all attributes:
+		List<Attribute> candidates = new ArrayList<Attribute>();
+		for (Node n : mappedNodes) {
+			candidates.addAll(n.getAttributes());
+		}
+				
 		// Filter by action:
 		List<Attribute> result = filterElementsByAction(candidates, action);
 		
@@ -81,19 +90,6 @@ public class AttributeActionHelper extends GenericActionHelper<Attribute,Node> {
 		});
 		return result;
 		
-	}
-	
-	private void addMultiRuleCandidates(Node node, List<Attribute> candidates) {
-		for (Rule multiRule : node.getGraph().getRule().getMultiRules()) {
-			Node image = multiRule.getMultiMappings().getImage(node, multiRule.getLhs());
-			if (image==null) {
-				image = multiRule.getMultiMappings().getImage(node, multiRule.getRhs());
-			}
-			if (image!=null) {
-				candidates.addAll(image.getAttributes());
-				addMultiRuleCandidates(image, candidates);
-			}
-		}
 	}
 	
 	/*

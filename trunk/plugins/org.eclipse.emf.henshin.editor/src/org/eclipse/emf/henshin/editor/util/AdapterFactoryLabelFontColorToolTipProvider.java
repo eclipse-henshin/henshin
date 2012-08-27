@@ -33,6 +33,10 @@ public class AdapterFactoryLabelFontColorToolTipProvider extends
 		super(arg0, arg1);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.editor.util.IToolTipProvider#getToolTip(java.lang.Object)
+	 */
 	@Override
 	public Object getToolTip(Object object) {
 		IItemToolTipProvider tipProvider = getItemToolTipProvider(object);

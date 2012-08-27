@@ -25,23 +25,26 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.provider.descriptors.AttributePropertyDescriptor;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Attribute} object.
- * <!-- begin-user-doc
- * --> <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * <!-- end-user-doc -->
  * @generated
  */
+@SuppressWarnings("unused")
 public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public AttributeItemProvider(AdapterFactory adapterFactory) {
@@ -49,9 +52,9 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -59,6 +62,7 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addActionPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addValuePropertyDescriptor(object);
 			addConstantPropertyDescriptor(object);
@@ -68,8 +72,31 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This adds a property descriptor for the Action feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphElement_action_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphElement_action_feature", "_UI_GraphElement_type"),
+				 HenshinPackage.Literals.GRAPH_ELEMENT__ACTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Type feature. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -92,9 +119,9 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Value feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Value feature.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addValuePropertyDescriptor(Object object) {
@@ -159,7 +186,8 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 
 	/**
 	 * This returns Attribute.gif.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -168,8 +196,9 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This returns the label text for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -190,8 +219,8 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -199,6 +228,7 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Attribute.class)) {
+			case HenshinPackage.ATTRIBUTE__ACTION:
 			case HenshinPackage.ATTRIBUTE__VALUE:
 			case HenshinPackage.ATTRIBUTE__CONSTANT:
 			case HenshinPackage.ATTRIBUTE__NULL:
@@ -209,10 +239,10 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -221,9 +251,9 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

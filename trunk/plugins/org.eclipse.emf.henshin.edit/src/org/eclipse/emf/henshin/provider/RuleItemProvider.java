@@ -43,6 +43,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
 
 /**
@@ -220,8 +221,9 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * This returns Rule.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Rule.gif. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -239,8 +241,8 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -250,12 +252,13 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 			getString("_UI_Rule_type") :
 			getString("_UI_Rule_type") + " " + label;
 	}
-	
+		
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -462,6 +465,15 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		}
 		
 		return multiMappingContainer;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#getBackground(java.lang.Object)
+	 */
+	@Override
+	public Object getBackground(Object object) {
+		return HenshinColorProvider.COLOR_RULE.toURI();
 	}
 	
 	// @Override

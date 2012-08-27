@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
@@ -36,6 +37,7 @@ public class MultiUnitItemProvider
 		IItemLabelProvider,
 		IItemPropertySource,
 		IItemColorProvider {
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -123,4 +125,18 @@ public class MultiUnitItemProvider
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
+	/**
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(HenshinPackage.Literals.MULTI_UNIT__SUB_UNITS);
+		}
+		return childrenFeatures;
+	}
+	
 }

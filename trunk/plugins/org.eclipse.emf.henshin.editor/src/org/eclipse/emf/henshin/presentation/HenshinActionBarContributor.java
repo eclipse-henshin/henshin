@@ -42,10 +42,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
 /**
- * This is the action bar contributor for the Henshin model editor. 
+ * This is the action bar contributor for the Henshin model editor.
  * <!-- begin-user-doc --> 
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public class HenshinActionBarContributor extends EditingDomainActionBarContributor implements

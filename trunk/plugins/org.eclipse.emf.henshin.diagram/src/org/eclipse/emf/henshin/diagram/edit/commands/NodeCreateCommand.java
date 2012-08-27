@@ -25,7 +25,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelp
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
-import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
+import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
@@ -36,7 +36,6 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 
 import static org.eclipse.emf.henshin.model.Action.Type;
 
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -52,6 +51,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -177,7 +177,7 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// Finally, we set the user-defined action:
 		if (dialog!=null) {
-			HenshinActionHelper.setAction(lhsNode, dialog.getAction());
+			lhsNode.setAction(dialog.getAction());
 		}
 		
 		// This shouldn't do anything, but we call it to be sure:
@@ -291,7 +291,7 @@ public class NodeCreateCommand extends EditElementCommand {
 	        	final Action current = new Action(type);
 		        Button button = new Button(buttons, SWT.RADIO);
 		        button.setText(type.toString());
-		        button.setForeground(ActionColorProvider.getColor(current));
+		        button.setForeground(HenshinDiagramColorProvider.getActionColor(current));
 		        if (first) {
 		        	button.setSelection(true);
 		        	action = current;

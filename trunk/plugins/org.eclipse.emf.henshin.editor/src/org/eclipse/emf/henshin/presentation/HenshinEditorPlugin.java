@@ -16,10 +16,9 @@ import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 /**
- * This is the central singleton for the Henshin editor plugin. 
+ * This is the central singleton for the Henshin editor plugin.
  * <!-- begin-user-doc --> 
  * <!-- end-user-doc -->
- * 
  * @generated
  */
 public final class HenshinEditorPlugin extends EMFPlugin {
@@ -31,7 +30,7 @@ public final class HenshinEditorPlugin extends EMFPlugin {
 	public static final String ID = "org.eclipse.emf.henshin.editor";
 	
 	/**
-	 * Keep track of the singleton. 
+	 * Keep track of the singleton.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -39,7 +38,7 @@ public final class HenshinEditorPlugin extends EMFPlugin {
 	public static final HenshinEditorPlugin INSTANCE = new HenshinEditorPlugin();
 	
 	/**
-	 * Keep track of the singleton. 
+	 * Keep track of the singleton.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,10 +81,9 @@ public final class HenshinEditorPlugin extends EMFPlugin {
 	}
 	
 	/**
-	 * The actual implementation of the Eclipse <b>Plugin</b>. 
+	 * The actual implementation of the Eclipse <b>Plugin</b>.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static class Implementation extends EclipseUIPlugin {

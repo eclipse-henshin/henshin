@@ -17,6 +17,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GraphElement" abstract="true" interface="true">
     <eOperations name="getGraph" eType="#//Graph"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="action" eType="#//Action"
+        volatile="true" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformationSystem" eSuperTypes="#//NamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
@@ -297,4 +299,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//BinaryFormula"/>
   <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//UnaryFormula"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Action" instanceClassName="org.eclipse.emf.henshin.model.Action"/>
 </ecore:EPackage>

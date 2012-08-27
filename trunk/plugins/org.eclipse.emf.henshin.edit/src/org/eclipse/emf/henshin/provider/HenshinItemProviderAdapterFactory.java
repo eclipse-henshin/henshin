@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
+import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
@@ -76,8 +77,9 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	protected Collection<Object> supportedTypes = new ArrayList<Object>();
 	
 	/**
-	 * This constructs an instance. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
+	 * This constructs an instance. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -89,6 +91,7 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		supportedTypes.add(IItemPropertySource.class);
 		supportedTypes.add(IItemColorProvider.class);
 		supportedTypes.add(IItemToolTipProvider.class);
+		supportedTypes.add(IItemFontProvider.class);
 	}
 	
 	public HenshinItemProviderAdapterFactory(IFilterProvider filterProvider) {

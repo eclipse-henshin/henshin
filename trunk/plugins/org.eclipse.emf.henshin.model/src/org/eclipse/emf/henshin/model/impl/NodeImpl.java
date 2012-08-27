@@ -25,11 +25,14 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,6 +41,7 @@ import org.eclipse.emf.henshin.model.Node;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getAction <em>Action</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getAttributes <em>Attributes</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.NodeImpl#getGraph <em>Graph</em>}</li>
@@ -51,6 +55,16 @@ import org.eclipse.emf.henshin.model.Node;
  */
 public class NodeImpl extends NamedElementImpl implements Node {
 	
+	/**
+	 * The default value of the '{@link #getAction() <em>Action</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAction()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Action ACTION_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -108,6 +122,24 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.NODE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Action getAction() {
+		return NodeActionHelper.INSTANCE.getAction(this);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public void setAction(Action action) {
+		NodeActionHelper.INSTANCE.setAction(this, action);
 	}
 
 	/**
@@ -374,6 +406,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case HenshinPackage.NODE__ACTION:
+				return getAction();
 			case HenshinPackage.NODE__TYPE:
 				if (resolve) return getType();
 				return basicGetType();
@@ -400,6 +434,9 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case HenshinPackage.NODE__ACTION:
+				setAction((Action)newValue);
+				return;
 			case HenshinPackage.NODE__TYPE:
 				setType((EClass)newValue);
 				return;
@@ -430,6 +467,9 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.NODE__ACTION:
+				setAction(ACTION_EDEFAULT);
+				return;
 			case HenshinPackage.NODE__TYPE:
 				setType((EClass)null);
 				return;
@@ -457,6 +497,8 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case HenshinPackage.NODE__ACTION:
+				return ACTION_EDEFAULT == null ? getAction() != null : !ACTION_EDEFAULT.equals(getAction());
 			case HenshinPackage.NODE__TYPE:
 				return type != null;
 			case HenshinPackage.NODE__ATTRIBUTES:
@@ -471,6 +513,38 @@ public class NodeImpl extends NamedElementImpl implements Node {
 				return !getAllEdges().isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == GraphElement.class) {
+			switch (derivedFeatureID) {
+				case HenshinPackage.NODE__ACTION: return HenshinPackage.GRAPH_ELEMENT__ACTION;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == GraphElement.class) {
+			switch (baseFeatureID) {
+				case HenshinPackage.GRAPH_ELEMENT__ACTION: return HenshinPackage.NODE__ACTION;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //NodeImpl

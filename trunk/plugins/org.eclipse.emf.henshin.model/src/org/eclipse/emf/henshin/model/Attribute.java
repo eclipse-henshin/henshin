@@ -103,12 +103,12 @@ public interface Attribute extends GraphElement {
 
 	/**
 	 * Returns the value of the '<em><b>Constant</b></em>' attribute.
-	 * The default value is <code>null</code>.
+	 * The default value is <code>"ACED0005740000"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constant</em>' attribute.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getAttribute_Constant()
-	 * @model default="null" transient="true" changeable="false" derived="true"
+	 * @model default="ACED0005740000" transient="true" changeable="false" derived="true"
 	 * @generated
 	 */
 	Object getConstant();

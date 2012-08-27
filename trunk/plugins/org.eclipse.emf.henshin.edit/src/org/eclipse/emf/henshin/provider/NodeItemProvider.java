@@ -18,7 +18,6 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -30,6 +29,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.Edge;
@@ -41,7 +41,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.provider.descriptors.NodeTypePropertyDescriptor;
 import org.eclipse.emf.henshin.provider.util.IconUtil;
-import org.eclipse.emf.henshin.provider.util.ItemPropertyDescriptorDecorator;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Node} object.
@@ -52,6 +51,7 @@ import org.eclipse.emf.henshin.provider.util.ItemPropertyDescriptorDecorator;
 public class NodeItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	
 	/**
 	 * This constructs an instance from a factory and a notifier. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -66,29 +66,44 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * This returns the property descriptors for the adapted class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
-			
+
+			addActionPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
 			addIncomingPropertyDescriptor(object);
 			addOutgoingPropertyDescriptor(object);
 			addAllEdgesPropertyDescriptor(object);
-			List<IItemPropertyDescriptor> origDescriptors = itemPropertyDescriptors;
-			itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>(origDescriptors.size());
-			for (IItemPropertyDescriptor origDescriptor : origDescriptors)
-				itemPropertyDescriptors.add(new ItemPropertyDescriptorDecorator(origDescriptor) {
-					public boolean canSetProperty(Object object) {
-						return isUserEditable(object) && super.canSetProperty(object);
-					}
-				});
 		}
 		return itemPropertyDescriptors;
 	}
 	
+	/**
+	 * This adds a property descriptor for the Action feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addActionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_GraphElement_action_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_GraphElement_action_feature", "_UI_GraphElement_type"),
+				 HenshinPackage.Literals.GRAPH_ELEMENT__ACTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
 	/**
 	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -267,8 +282,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}// getImage
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This returns the label text for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -362,22 +378,12 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		return cmpCmd.unwrap();
 	}
 	
-	protected boolean isUserEditable(Object object) {
-		return getKernelNode((Node)object) == null;
-	}
-	
-	protected Node getKernelNode(Node node){
+	private Node getKernelNode(Node node){
 		if (node.getGraph() != null && (node.getGraph().isLhs() || node.getGraph().isRhs())) {
 			Rule rule = node.getGraph().getRule();
 			return rule.getMultiMappings().getOrigin(node);
 		}
 		return null;
-	}
-	
-	@Override
-	public Object getForeground(Object object) {
-		return isUserEditable(object) ? super.getForeground(object) : URI
-				.createURI("color://rgb/0/0/255");
 	}
 	
 	public static Collection<Node> getDependentNodes(Node node) {

@@ -259,6 +259,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateXor((Xor)value, diagnostics, context);
 			case HenshinPackage.NOT:
 				return validateNot((Not)value, diagnostics, context);
+			case HenshinPackage.ACTION:
+				return validateAction((Action)value, diagnostics, context);
 			default:
 				return true;
 		}
@@ -1819,6 +1821,15 @@ public class HenshinValidator extends EObjectValidator {
 		return validate_EveryDefaultConstraint(not, diagnostics, context);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAction(Action action, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

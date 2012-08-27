@@ -18,12 +18,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
-import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
+import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
@@ -31,6 +30,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * @generated
@@ -180,9 +180,10 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		Edge edge = (Edge) getNotationView().getElement();
-		Action action = HenshinActionHelper.getAction(edge);
-		if (action != null) {
-			setForegroundColor(ActionColorProvider.getColor(action));
+		Action action = edge.getAction();
+		if (action!=null) {
+			Color color = HenshinDiagramColorProvider.getActionColor(action);
+			setForegroundColor(color);
 		} else {
 			super.refreshForegroundColor();
 		}

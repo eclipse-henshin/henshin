@@ -9,8 +9,12 @@
  */
 package org.eclipse.emf.henshin.diagram.parsers;
 
+import static org.eclipse.emf.henshin.model.Action.Type.DELETE;
+import static org.eclipse.emf.henshin.model.Action.Type.FORBID;
+import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
+import static org.eclipse.emf.henshin.model.Action.Type.REQUIRE;
+
 import java.text.ParseException;
-import java.util.Arrays;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -18,14 +22,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Action.Type;
-
-import static org.eclipse.emf.henshin.model.Action.Type.*;
-
 import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -70,21 +71,17 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Get the action for the attribute and the node:
-		Action action = HenshinActionHelper.getAction(attribute);
+		Action action = attribute.getAction();
 		Node actionNode = HenshinActionHelper.getActionNode(attribute.getNode());
-		Action nodeAction = HenshinActionHelper.getAction(actionNode);
+		Action nodeAction = actionNode.getAction();
 		
 		// We show only FORBID,REQUIRE and certain multi-actions:
 		if (action!=null) {
-			Type actionType = action.getType();
+			//Type actionType = action.getType();
 			if (!action.equals(nodeAction)) {
-				if (actionType==FORBID || actionType==REQUIRE) {
-					result = NodeActionParser.addActionQuotes(action.toString()) + " " + result;
-				}
-				if (action.isMulti() && actionType==DELETE && !Arrays.equals(action.getArguments(), nodeAction.getArguments())) {
-					Action fake = new Action(PRESERVE, true, action.getArguments());
-					result = NodeActionParser.addActionQuotes(fake.toString()) + " " +result;
-				}
+				//if (actionType==FORBID || actionType==REQUIRE) {
+				result = NodeActionParser.addActionQuotes(action.toString()) + " " + result;
+				//}
 			}
 		}
 		
@@ -151,25 +148,34 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// Parse the action:
-		Action action = new Action(PRESERVE);
 		value = value.trim();
+		String actionString = null;
 		if (value.startsWith("<<")) {
 			value = value.substring(2);
 			int end = value.indexOf(">>");
+			actionString = value.substring(0, end);
+			value = value.substring(end+2);
+		} else if (value.startsWith("" + NodeActionParser.ACTION_QUOTE_LEFT)) {
+			value = value.substring(1);
+			int end = value.indexOf("" + NodeActionParser.ACTION_QUOTE_RIGHT);
+			actionString = value.substring(0, end);
+			value = value.substring(end+1);
+		}
+		Action action = new Action(PRESERVE);
+		if (actionString!=null) {
 			try {
-				action = Action.parse(value.substring(0, end));
+				action = Action.parse(actionString);
 			} catch (ParseException e) {
 				return CommandResult.newErrorCommandResult(e);
-			}
-			value = value.substring(end+2);
+			}			
 		}
 		
 		// The node action must be compatible:
 		Node actionNode = HenshinActionHelper.getActionNode(node);
-		Action nodeAction = HenshinActionHelper.getAction(actionNode);
+		Action nodeAction = actionNode.getAction();
 		Type nodeActionType = nodeAction.getType();
 		boolean compatible = (nodeActionType==PRESERVE) || 
-							 (nodeActionType==DELETE && action.getType()==FORBID);
+							 (nodeActionType==DELETE && (action.getType()==FORBID || action.getType()==REQUIRE));
 		if (!compatible) {
 			action = nodeAction;
 		}
@@ -218,9 +224,9 @@ public class AttributeParser extends AbstractParser {
 		attribute.setType(attr);
 		
 		// Set the action:
-		Action currentAction = HenshinActionHelper.getAction(attribute);
+		Action currentAction = attribute.getAction();
 		if (currentAction!=null && !currentAction.equals(action)) {
-			HenshinActionHelper.setAction(attribute, action);
+			attribute.setAction(action);
 		}
 		
 		// Done.

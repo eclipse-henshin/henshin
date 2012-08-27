@@ -106,10 +106,9 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	public static final List<String> FILE_EXTENSIONS = Collections.unmodifiableList(Arrays.asList(HenshinEditorPlugin.INSTANCE.getString("_UI_HenshinEditorFilenameExtensions").split("\\s*,\\s*")));
 	
 	/**
-	 * A formatted list of supported file extensions, suitable for display. 
+	 * A formatted list of supported file extensions, suitable for display.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static final String FORMATTED_FILE_EXTENSIONS = HenshinEditorPlugin.INSTANCE.getString("_UI_HenshinEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");

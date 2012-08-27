@@ -142,7 +142,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// Check the current action.
 		Action current = getAction(element);
 		if (current==null) {
-			throw new IllegalArgumentException();
+			return;   // illegal
 		}
 		if (action.equals(current)) return;
 		

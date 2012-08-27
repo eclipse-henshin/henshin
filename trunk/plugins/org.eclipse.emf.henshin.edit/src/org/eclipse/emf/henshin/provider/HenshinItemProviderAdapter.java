@@ -9,24 +9,34 @@
  */
 package org.eclipse.emf.henshin.provider;
 
+import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.provider.Disposable;
+import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.GraphElement;
+import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
 
 /**
  * Base class for all Henshin ItemProviderAdapters. Adds support for
  * {@link IItemToolTipProvider}.
  * 
- * @author Gregor Bonifer
+ * @author Gregor Bonifer, Christian Krause
  * 
  */
-public class HenshinItemProviderAdapter extends ItemProviderAdapter implements IItemToolTipProvider {
+public class HenshinItemProviderAdapter extends ItemProviderAdapter implements IItemToolTipProvider, IItemFontProvider {
 	
 	public HenshinItemProviderAdapter(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.util.IItemToolTipProvider#getToolTip(java.lang.Object)
+	 */
 	@Override
 	public Object getToolTip(Object object) {
 		return null;
@@ -38,4 +48,22 @@ public class HenshinItemProviderAdapter extends ItemProviderAdapter implements I
 		return wrappers;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getForeground(java.lang.Object)
+	 */
+	@Override
+	public Object getForeground(Object object) {
+		if (object instanceof GraphElement) {
+			Action action = ((GraphElement) object).getAction();
+			if (action==null) {
+				return HenshinColorProvider.COLOR_ACTION_PRESERVE.toURI();  // gray for elements without an action
+			} if (action.getType()==PRESERVE) {
+				return super.getForeground(object);  // default color for preserve-elements
+			}
+			return HenshinColorProvider.getActionColor(action).toURI();  // otherwise take the suggested color			
+		}
+		return super.getForeground(object);
+	}
+
 }

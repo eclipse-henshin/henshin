@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -31,7 +30,10 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
  * @author Christian Krause
  */
 public class NodeActionParser extends AbstractParser {
-
+	
+	public static final char ACTION_QUOTE_LEFT = ((char) 171);
+	public static final char ACTION_QUOTE_RIGHT = ((char) 187);
+	
 	/**
 	 * Default constructor.
 	 */
@@ -45,7 +47,7 @@ public class NodeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Node node = (Node) element.getAdapter(EObject.class);
-		Action action = HenshinActionHelper.getAction(node);
+		Action action = node.getAction();
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -61,7 +63,7 @@ public class NodeActionParser extends AbstractParser {
 	 * Add quotes around an action.
 	 */
 	public static String addActionQuotes(String string) {
-		return ((char) 171) + string + ((char) 187);
+		return ACTION_QUOTE_LEFT + string + ACTION_QUOTE_RIGHT;
 	}
 
 	/*
@@ -95,7 +97,7 @@ public class NodeActionParser extends AbstractParser {
 	private CommandResult doParsing(String value, Node node) {
 		try {
 			Action action = Action.parse(value);
-			HenshinActionHelper.setAction(node, action);
+			node.setAction(action);
 			return CommandResult.newOKCommandResult();
 		} catch (Throwable t) {
 			// t.printStackTrace();

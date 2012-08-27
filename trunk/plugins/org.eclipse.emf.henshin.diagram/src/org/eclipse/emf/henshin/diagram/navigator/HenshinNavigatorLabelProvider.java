@@ -28,14 +28,13 @@ import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
-import org.eclipse.emf.henshin.diagram.providers.ActionColorProvider;
+import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.diagram.providers.HenshinParserProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.henshin.provider.HenshinItemProviderAdapterFactory;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.ParserOptions;
@@ -59,6 +58,7 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
  * @generated
  * @implements IColorProvider
  */
+@SuppressWarnings("unused")
 public class HenshinNavigatorLabelProvider extends LabelProvider implements
 		ICommonLabelProvider, ITreePathLabelProvider, IColorProvider {
 
@@ -413,16 +413,16 @@ public class HenshinNavigatorLabelProvider extends LabelProvider implements
 			if (isOwnView(item.getView())) {
 				View view = item.getView();
 				if (view.getElement() instanceof Node) {
-					Action action = HenshinActionHelper.getAction((Node) view
-							.getElement());
-					if (action != null)
-						return ActionColorProvider.getColor(action);
+					Action action = ((Node) view.getElement()).getAction();
+					if (action != null) {
+						return HenshinDiagramColorProvider.getActionColor(action);
+					}
 				}
 				if (view.getElement() instanceof Edge) {
-					Action action = HenshinActionHelper.getAction((Edge) view
-							.getElement());
-					if (action != null)
-						return ActionColorProvider.getColor(action);
+					Action action = ((Edge) view.getElement()).getAction();
+					if (action != null) {
+						return HenshinDiagramColorProvider.getActionColor(action);
+					}
 				}
 			}
 		}

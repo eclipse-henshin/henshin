@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemColorProvider;
+import org.eclipse.emf.edit.provider.IItemFontProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -33,17 +34,16 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
+import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.TransformationUnit} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.TransformationUnit} object.
+ * <!-- begin-user-doc --> 
+ * <!-- end-user-doc -->
  * @generated
  */
 public class TransformationUnitItemProvider extends NamedElementItemProvider implements
-		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
-		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
 	 * Number of parameters which are shown in an unfold way. Any number above
@@ -305,6 +305,24 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 			(createChildParameter
 				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS,
 				 HenshinFactory.eINSTANCE.createParameterMapping()));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getFont(java.lang.Object)
+	 */
+	@Override
+	public Object getFont(Object object) {
+		return IItemFontProvider.ITALIC_FONT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getBackground(java.lang.Object)
+	 */
+	@Override
+	public Object getBackground(Object object) {
+		return HenshinColorProvider.COLOR_TRANSFORMATION_UNIT.toURI();
 	}
 	
 }
