@@ -27,7 +27,6 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -72,7 +71,7 @@ public class AttributeParser extends AbstractParser {
 		
 		// Get the action for the attribute and the node:
 		Action action = attribute.getAction();
-		Node actionNode = HenshinActionHelper.getActionNode(attribute.getNode());
+		Node actionNode = attribute.getNode().getActionNode();
 		Action nodeAction = actionNode.getAction();
 		
 		// We show only FORBID,REQUIRE and certain multi-actions:
@@ -171,7 +170,7 @@ public class AttributeParser extends AbstractParser {
 		}
 		
 		// The node action must be compatible:
-		Node actionNode = HenshinActionHelper.getActionNode(node);
+		Node actionNode = node.getActionNode();
 		Action nodeAction = actionNode.getAction();
 		Type nodeActionType = nodeAction.getType();
 		boolean compatible = (nodeActionType==PRESERVE) || 

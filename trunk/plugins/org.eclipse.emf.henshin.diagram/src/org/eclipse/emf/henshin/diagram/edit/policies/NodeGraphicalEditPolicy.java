@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.commands.EdgeCreateCommand;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
+import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
@@ -75,10 +75,12 @@ public class NodeGraphicalEditPolicy extends GraphicalNodeEditPolicy {
 		if (src.getType()==null)
 			return new ArrayList<EReference>();
 		
+		Rule rule = src.getGraph().getRule();
+		
 		// Collect all matching references:
 		List<EReference> result = new ArrayList<EReference>();
 		for (EReference reference : src.getType().getEAllReferences()) {
-			if (HenshinActionHelper.canCreateEdge(src, trg, reference)) {
+			if (rule.canCreateEdge(src, trg, reference)) {
 				result.add(reference);
 			}
 		}

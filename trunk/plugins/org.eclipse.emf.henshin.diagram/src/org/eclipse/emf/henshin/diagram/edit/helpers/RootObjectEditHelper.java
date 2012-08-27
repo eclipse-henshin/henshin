@@ -9,6 +9,8 @@
  */
 package org.eclipse.emf.henshin.diagram.edit.helpers;
 
+import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +33,6 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-
-import static org.eclipse.emf.henshin.model.Action.Type.*;
-
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.emf.core.resources.GMFResource;
@@ -139,7 +137,7 @@ public class RootObjectEditHelper {
 			}
 			
 			// Now add the containment references:
-			for (Node node : HenshinActionHelper.getActionNodes(rule, null)) {
+			for (Node node : rule.getActionNodes(null)) {
 				updateRootContainment(ruleView, node);
 			}
 			
@@ -199,7 +197,7 @@ public class RootObjectEditHelper {
 	public static void updateRootContainment(View ruleView, Node node) throws ExecutionException {
 		
 		// First make sure we have an action node:
-		node = HenshinActionHelper.getActionNode(node);
+		node = node.getActionNode();
 		if (node==null) return;
 		
 		// Get the root node first, must be not null:

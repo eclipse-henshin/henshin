@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Attribute;
+import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -78,7 +78,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 		Rule rule = node.getGraph().getRule();
 
 		// Find the corresponding LHS node:
-		Node lhsNode = HenshinActionHelper.getLhsNode(node);
+		Node lhsNode = getLhsNode(node);
 
 		// Create the attribute.
 		Attribute attribute = HenshinFactory.eINSTANCE.createAttribute();
@@ -125,6 +125,22 @@ public class AttributeCreateCommand extends EditElementCommand {
 		} else {
 			node.getAttributes().add(attribute);
 		}
+	}
+
+	/*
+	 * For an arbitrary node in a rule graph, find the corresponding Lhs node.
+	 */
+	public Node getLhsNode(Node node) {
+		Graph lhs = node.getGraph().getRule().getLhs();
+		if (node.getGraph()==lhs) {
+			return node;
+		}
+		Node opposite = node.getActionNode();
+		if (opposite.getGraph()==lhs) {
+			return opposite;
+		}
+		// No corresponding Lhs node:
+		return null;
 	}
 
 	/**

@@ -9,6 +9,8 @@
  */
 package org.eclipse.emf.henshin.diagram.parsers;
 
+import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -18,10 +20,6 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-
-import static org.eclipse.emf.henshin.model.Action.Type.*;
-
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -97,8 +95,8 @@ public class EdgeActionParser extends AbstractParser {
 			Action action = Action.parse(value);
 			
 			// Make sure the action is compatible with the source and target actions:
-			Node src = HenshinActionHelper.getActionNode(edge.getSource());
-			Node trg = HenshinActionHelper.getActionNode(edge.getTarget());
+			Node src = edge.getSource().getActionNode();
+			Node trg = edge.getTarget().getActionNode();
 			Action srcAction = src.getAction();
 			Action trgAction = trg.getAction();
 			

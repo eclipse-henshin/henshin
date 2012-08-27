@@ -127,4 +127,12 @@ public interface Edge extends GraphElement {
 	 */
 	void setGraph(Graph value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Edge getActionEdge();
+
 } // Edge

@@ -19,7 +19,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -133,16 +132,16 @@ public class SetAction extends HenshinTest {
 	 */
 	private List<?> getActionElements(Rule rule, EClass elementType) {
 		if (elementType==HenshinPackage.eINSTANCE.getNode()) {
-			return HenshinActionHelper.getActionNodes(rule, null);
+			return rule.getActionNodes(null);
 		}
 		if (elementType==HenshinPackage.eINSTANCE.getEdge()) {
-			return HenshinActionHelper.getActionEdges(rule, null);
+			return rule.getActionEdges(null);
 		}
 		if (elementType==HenshinPackage.eINSTANCE.getAttribute()) {
-			List<Node> nodes = HenshinActionHelper.getActionNodes(rule, null);
+			List<Node> nodes = rule.getActionNodes(null);
 			List<Attribute> attributes = new ArrayList<Attribute>();
 			for (Node node : nodes) {
-				attributes.addAll(HenshinActionHelper.getActionAttributes(node, null));
+				attributes.addAll(node.getActionAttributes(null));
 			}
 			return attributes;
 		}

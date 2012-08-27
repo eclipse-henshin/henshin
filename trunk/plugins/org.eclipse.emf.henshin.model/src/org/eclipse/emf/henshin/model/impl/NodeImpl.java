@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.model.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -32,6 +33,7 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.impl.AttributeActionHelper;
 import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
 /**
@@ -311,6 +313,27 @@ public class NodeImpl extends NamedElementImpl implements Node {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Attribute> getActionAttributes(Action action) {
+		List<Attribute> result = AttributeActionHelper.INSTANCE.getActionElements(this, action);
+		return ECollections.unmodifiableEList(new BasicEList<Attribute>(result));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Node getActionNode() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**

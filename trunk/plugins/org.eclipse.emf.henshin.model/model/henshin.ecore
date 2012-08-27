@@ -61,8 +61,27 @@
     </eOperations>
     <eOperations name="getAllMultiRules" upperBound="-1" eType="#//Rule"/>
     <eOperations name="getAllNestedConditions" upperBound="-1" eType="#//NestedCondition"/>
+    <eOperations name="getActionNodes" upperBound="-1" eType="#//Node">
+      <eParameters name="action" eType="#//Action"/>
+    </eOperations>
+    <eOperations name="getActionEdges" upperBound="-1" eType="#//Edge">
+      <eParameters name="action" eType="#//Action"/>
+    </eOperations>
     <eOperations name="isMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isTrivialMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="createNode" eType="#//Node">
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eOperations>
+    <eOperations name="createEdge" eType="#//Edge">
+      <eParameters name="source" eType="#//Node"/>
+      <eParameters name="target" eType="#//Node"/>
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
+    <eOperations name="canCreateEdge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="source" eType="#//Node"/>
+      <eParameters name="target" eType="#//Node"/>
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    </eOperations>
     <eOperations name="createPAC" eType="#//NestedCondition">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -166,12 +185,16 @@
       <eParameters name="source" lowerBound="1" eType="#//Node"/>
     </eOperations>
     <eOperations name="getAttribute" eType="#//Attribute">
-      <eParameters name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+      <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    <eOperations name="getActionAttributes" upperBound="-1" eType="#//Attribute">
+      <eParameters name="action" eType="#//Action"/>
+    </eOperations>
+    <eOperations name="getActionNode" eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attribute" containment="true" eOpposite="#//Attribute/node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//Graph"
         eOpposite="#//Graph/nodes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Edge" eOpposite="#//Edge/target"/>
@@ -189,15 +212,17 @@
       <details key="equalParentGraphs" value="source.graph=target.graph"/>
       <details key="equalParentGraphs.Msg" value="_Ocl_Msg_Edge_equalParentGraphs"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-        eType="#//Node" eOpposite="#//Node/outgoing"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-        eType="#//Node" eOpposite="#//Node/incoming"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" lowerBound="1" eType="#//Graph"
+    <eOperations name="getActionEdge" eType="#//Edge"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Node"
+        eOpposite="#//Node/outgoing"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Node"
+        eOpposite="#//Node/incoming"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="graph" eType="#//Graph"
         eOpposite="#//Graph/edges"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//GraphElement">
+    <eOperations name="getActionAttribute" eType="#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" eType="#//Node" eOpposite="#//Node/attributes"/>

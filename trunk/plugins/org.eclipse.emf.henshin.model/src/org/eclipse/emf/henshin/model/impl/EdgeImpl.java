@@ -26,6 +26,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.impl.ActionElementFinder;
 import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
 
 /**
@@ -321,6 +322,15 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.EDGE__GRAPH, newGraph, newGraph));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Edge getActionEdge() {
+		return ActionElementFinder.getActionElement(this, EdgeActionHelper.INSTANCE);
 	}
 
 	/**

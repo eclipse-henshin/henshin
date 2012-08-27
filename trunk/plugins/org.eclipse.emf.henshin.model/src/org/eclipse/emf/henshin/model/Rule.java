@@ -10,6 +10,8 @@
 package org.eclipse.emf.henshin.model;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -193,6 +195,22 @@ public interface Rule extends TransformationUnit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @model actionDataType="org.eclipse.emf.henshin.model.Action"
+	 * @generated
+	 */
+	EList<Node> getActionNodes(Action action);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model actionDataType="org.eclipse.emf.henshin.model.Action"
+	 * @generated
+	 */
+	EList<Edge> getActionEdges(Action action);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -208,6 +226,30 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	boolean isTrivialMultiRule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Node createNode(EClass type);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	Edge createEdge(Node source, Node target, EReference type);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean canCreateEdge(Node source, Node target, EReference type);
 
 	/**
 	 * <!-- begin-user-doc -->

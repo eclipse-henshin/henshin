@@ -40,7 +40,6 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
@@ -83,7 +82,7 @@ public class HenshinDiagramUpdater {
 
 		// Collect all action nodes:
 		Rule rule = (Rule) containerView.getElement();
-		List<Node> actionNodes = HenshinActionHelper.getActionNodes(rule, null);
+		List<Node> actionNodes = rule.getActionNodes(null);
 
 		// Check if we should exclude a root object:
 		Node root = RootObjectEditHelper.getRootObject(containerView);
@@ -123,8 +122,7 @@ public class HenshinDiagramUpdater {
 
 		// Get the node and compute the action attributes:
 		Node node = (Node) containerView.getElement();
-		List<Attribute> attributes = HenshinActionHelper.getActionAttributes(
-				node, null);
+		List<Attribute> attributes = node.getActionAttributes(null);
 
 		// Wrap them into node descriptors:
 		List<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
@@ -294,7 +292,7 @@ public class HenshinDiagramUpdater {
 
 		// Get the action edges:
 		Rule rule = (Rule) view.getElement();
-		List<Edge> edges = HenshinActionHelper.getActionEdges(rule, null);
+		List<Edge> edges = rule.getActionEdges(null);
 
 		// Check if we should exclude a root object:
 		Node root = RootObjectEditHelper.getRootObject(view);
@@ -304,8 +302,8 @@ public class HenshinDiagramUpdater {
 		for (Edge edge : edges) {
 
 			// Get the proper source / target action nodes:
-			Node source = HenshinActionHelper.getActionNode(edge.getSource());
-			Node target = HenshinActionHelper.getActionNode(edge.getTarget());
+			Node source = edge.getSource().getActionNode();
+			Node target = edge.getTarget().getActionNode();
 
 			// Create the descriptor if the edge does not link to the root:
 			if (source != root && target != root) {

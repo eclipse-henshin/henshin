@@ -46,7 +46,7 @@ public interface Node extends NamedElement, GraphElement {
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EClass)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Type()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	EClass getType();
@@ -84,7 +84,7 @@ public interface Node extends NamedElement, GraphElement {
 	 * @see #setGraph(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getNode_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getNodes
-	 * @model opposite="nodes" required="true" transient="false"
+	 * @model opposite="nodes" transient="false"
 	 * @generated
 	 */
 	Graph getGraph();
@@ -199,9 +199,25 @@ public interface Node extends NamedElement, GraphElement {
 	 * Returns an {@link Attribute} instance according to the give attribute
 	 * type. If no such instance can be found, <code>null</code> is returned
 	 * <!-- end-user-doc -->
-	 * @model typeRequired="true"
+	 * @model
 	 * @generated
 	 */
 	Attribute getAttribute(EAttribute type);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model actionDataType="org.eclipse.emf.henshin.model.Action"
+	 * @generated
+	 */
+	EList<Attribute> getActionAttributes(Action action);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Node getActionNode();
 
 } // Node

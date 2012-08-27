@@ -125,4 +125,12 @@ public interface Attribute extends GraphElement {
 	 */
 	boolean isNull();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	Attribute getActionAttribute();
+
 } // Attribute

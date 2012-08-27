@@ -20,7 +20,6 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -102,8 +101,8 @@ public class EdgeCreateCommand extends EditElementCommand {
 			// Check the type as well:
 			EReference type = (EReference) getRequest().getParameter(
 					TYPE_PARAMETER_KEY);
-			return HenshinActionHelper.canCreateEdge(getSource(), getTarget(),
-					type);
+			Rule rule = getSource().getGraph().getRule();
+			return rule.canCreateEdge(getSource(), getTarget(), type);
 		}
 		return true;
 	}
@@ -127,8 +126,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 		Rule rule = getSource().getGraph().getRule();
 
 		// Create the edge:
-		Edge edge = HenshinActionHelper.createEdge(getSource(), getTarget(),
-				type);
+		Edge edge = rule.createEdge(getSource(), getTarget(), type);
 
 		// Update the root containment is the edge is containment / container:
 		if (type.isContainment() || type.isContainer()) {

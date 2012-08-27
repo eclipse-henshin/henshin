@@ -24,7 +24,7 @@ import static org.eclipse.emf.henshin.model.Action.Type.*;
 /**
  * Action element finder class.
  */
-class ActionElementFinder {	
+public class ActionElementFinder {	
 	
 	/*
 	 * Get all elements in a rule that are associated with the given argument action.
@@ -78,7 +78,7 @@ class ActionElementFinder {
 	/*
 	 * For an arbitrary element in a rule graph, find the corresponding action element.
 	 */
-	static <E extends GraphElement> E getActionElement(E element, ActionHelper<E,Rule> helper) {		
+	public static <E extends GraphElement> E getActionElement(E element, ActionHelper<E,?> helper) {		
 		
 		// Is the element itself already an action element?
 		if (helper.getAction(element)!=null) {

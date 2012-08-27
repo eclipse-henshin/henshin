@@ -27,6 +27,7 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.actions.impl.ActionElementFinder;
 import org.eclipse.emf.henshin.model.actions.impl.AttributeActionHelper;
 
 /**
@@ -347,6 +348,15 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 */
 	public boolean isNull() {
 		return null_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Attribute getActionAttribute() {
+		return ActionElementFinder.getActionElement(this, AttributeActionHelper.INSTANCE);
 	}
 
 	/**

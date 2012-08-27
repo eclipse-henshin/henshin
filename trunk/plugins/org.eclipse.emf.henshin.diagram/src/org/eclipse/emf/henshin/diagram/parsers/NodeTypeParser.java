@@ -25,7 +25,6 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 
 import static org.eclipse.emf.henshin.model.Action.Type.*;
 
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;

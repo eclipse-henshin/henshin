@@ -24,12 +24,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.BinaryFormula;
@@ -38,14 +40,16 @@ import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
+import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
 /**
  * <!-- begin-user-doc --> 
@@ -502,6 +506,26 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public EList<Node> getActionNodes(Action action) {
+		List<Node> result = NodeActionHelper.INSTANCE.getActionElements(this, action);
+		return ECollections.unmodifiableEList(new BasicEList<Node>(result));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<Edge> getActionEdges(Action action) {
+		List<Edge> result = EdgeActionHelper.INSTANCE.getActionElements(this, action);
+		return ECollections.unmodifiableEList(new BasicEList<Edge>(result));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public boolean isMultiRule() {
 		return getKernelRule()!=null;
 	}
@@ -523,6 +547,40 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			return false;
 		}
 		return getMultiMappings().isOnto(lhs) && getMultiMappings().isOnto(rhs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Node createNode(EClass type) {
+		Node lhsNode = new NodeImpl();
+		Node rhsNode = new NodeImpl();
+		lhsNode.setType(type);
+		rhsNode.setType(type);
+		getLhs().getNodes().add(lhsNode);
+		getRhs().getNodes().add(rhsNode);
+		getMappings().add(lhsNode, rhsNode);
+		return lhsNode.getActionNode(); // just to make sure the LHS-node is the action node
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Edge createEdge(Node source, Node target, EReference type) {
+		return EdgeActionHelper.INSTANCE.createEdge(source, target, type);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean canCreateEdge(Node source, Node target, EReference type) {
+		return EdgeActionHelper.INSTANCE.canCreateEdge(source, target, type);
 	}
 
 	/**
