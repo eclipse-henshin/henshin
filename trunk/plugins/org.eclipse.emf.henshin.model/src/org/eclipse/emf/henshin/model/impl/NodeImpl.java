@@ -328,12 +328,10 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Node getActionNode() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return NodeActionHelper.INSTANCE.getActionNode(this);
 	}
 
 	/**

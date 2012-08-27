@@ -141,10 +141,8 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// Check the current action.
 		Action current = getAction(element);
-		if (current==null) {
-			return;   // illegal
-		}
-		if (action.equals(current)) return;
+		if (current==null) return; // illegal
+		if (action.equals(current)) return; // nothing to do
 		
 		// Get the container graph and rule.
 		Graph graph = getGraph(element);
@@ -273,7 +271,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// We check now whether the amalgamation parameters are different.
 		if (current.isMulti()!=action.isMulti()) {
 			
-			// Find the amalgamation and the kernel / multi rule.
+			// Find the kernel / multi rule.
 			Rule multi, kernel;
 			if (action.isMulti()) {
 				multi = getOrCreateMultiRule(rule, action.getArguments());
@@ -282,7 +280,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 				kernel = rule.getKernelRule();
 				multi = rule;
 			}
-			updateMultiElement(kernel, multi, action.getType(), element);
+			updateMultiElement(kernel, multi, action, element);
 			
 		}
 		
@@ -293,18 +291,19 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			Rule kernelRule = rule.getKernelRule();
 			Rule newMulti = getOrCreateMultiRule(kernelRule, action.getArguments());
 			if (newMulti!=rule) {
-				updateMultiElement(rule, newMulti, action.getType(), element);
+				updateMultiElement(rule, newMulti, action, element);
 			}
 		}
 			
 	}
 	
-	private void updateMultiElement(Rule kernel, Rule multi, Type actionType, E element) {
+	private void updateMultiElement(Rule kernel, Rule multi, Action action, E element) {
 		
 		// First make sure the multi-rule is complete.
 		sanitizeMultiRule(multi);
 
 		// Move the element(s).
+		Type actionType = action.getType();
 		if (actionType==CREATE) {
 			getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
 		}
@@ -314,6 +313,11 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		else if (actionType==PRESERVE) {
 			MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
 			mappingEditor.moveMappedElement(element);
+		}
+		else if (actionType==FORBID) {
+			NestedCondition kernelNac = ActionACUtil.getOrCreateAC(action, kernel);
+			NestedCondition multiNac = ActionACUtil.getOrCreateAC(action, multi);
+			getMapEditor(kernelNac.getConclusion(), multiNac.getConclusion(), multi.getMultiMappings()).move(element);
 		}
 		
 		// Remove trivial multi-rules:

@@ -27,15 +27,10 @@ import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
 import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
-import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.HenshinFactory;
-import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-
-import static org.eclipse.emf.henshin.model.Action.Type;
-
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -51,7 +46,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -125,30 +119,6 @@ public class NodeCreateCommand extends EditElementCommand {
 
 		// The node is created in the context of a rule (PRESERVE-action):
 		Rule rule = (Rule) getElementToEdit();
-		if (rule.getLhs() == null) {
-			Graph lhs = HenshinFactory.eINSTANCE.createGraph();
-			lhs.setName("LHS");
-			rule.setLhs(lhs);
-		}
-		if (rule.getRhs() == null) {
-			Graph rhs = HenshinFactory.eINSTANCE.createGraph();
-			rhs.setName("RHS");
-			rule.setRhs(rhs);
-		}
-
-		// Create two new node instances:
-		Node lhsNode = HenshinFactory.eINSTANCE.createNode();
-		Node rhsNode = HenshinFactory.eINSTANCE.createNode();
-
-		// Add them to the LHS / RHS:
-		rule.getLhs().getNodes().add(lhsNode);
-		rule.getRhs().getNodes().add(rhsNode);
-
-		// Create a mapping:
-		Mapping mapping = HenshinFactory.eINSTANCE.createMapping();
-		mapping.setOrigin(lhsNode);
-		mapping.setImage(rhsNode);
-		rule.getMappings().add(mapping);
 
 		// Set the type of the nodes:
 		CreateElementRequest request = (CreateElementRequest) getRequest();
@@ -163,28 +133,27 @@ public class NodeCreateCommand extends EditElementCommand {
 			type = dialog.openAndReturnSelection();
 		}
 
-		if (type != null && type instanceof EClass) {
-			EClass eclass = (EClass) type;
-			lhsNode.setType(eclass);
-			rhsNode.setType(eclass);
+		Node node;
+		if (type instanceof EClass) {
+			node = rule.createNode((EClass) type);
 		} else {
 			return CommandResult.newCancelledCommandResult();
 		}
 
 		// Update the root containment for the new node:
 		View ruleView = RootObjectEditHelper.findRuleView(rule);
-		RootObjectEditHelper.updateRootContainment(ruleView, lhsNode);
+		RootObjectEditHelper.updateRootContainment(ruleView, node);
 
 		// Finally, we set the user-defined action:
 		if (dialog!=null) {
-			lhsNode.setAction(dialog.getAction());
+			node.setAction(dialog.getAction());
 		}
 		
 		// This shouldn't do anything, but we call it to be sure:
-		doConfigure(lhsNode, monitor, info);
+		doConfigure(node, monitor, info);
 
-		request.setNewElement(lhsNode);
-		return CommandResult.newOKCommandResult(lhsNode);
+		request.setNewElement(node);
+		return CommandResult.newOKCommandResult(node);
 
 	}
 
@@ -309,8 +278,8 @@ public class NodeCreateCommand extends EditElementCommand {
 		        first = false;
 	        }
 	        
-	        // Amalgamated flag:
-	        createLabel("Amalgamated:", group);
+	        // Multi-flag:
+	        createLabel("Multi-node:", group);
 	        final Button amalgamated = new Button(group, SWT.CHECK);
 	        amalgamated.addSelectionListener(new SelectionListener() {
 				@Override

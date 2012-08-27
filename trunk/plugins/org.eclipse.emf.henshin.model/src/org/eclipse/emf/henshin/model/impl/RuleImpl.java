@@ -555,6 +555,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Node createNode(EClass type) {
+		if (lhs==null) {
+			lhs = new GraphImpl();
+			lhs.setName("LHS");
+		}
+		if (rhs==null) {
+			rhs = new GraphImpl();
+			rhs.setName("RHS");
+		}
 		Node lhsNode = new NodeImpl();
 		Node rhsNode = new NodeImpl();
 		lhsNode.setType(type);

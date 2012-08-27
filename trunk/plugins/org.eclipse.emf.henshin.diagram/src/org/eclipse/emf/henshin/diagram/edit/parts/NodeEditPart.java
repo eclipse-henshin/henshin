@@ -123,13 +123,26 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 * Refresh the action labels and colors.
 	 * @generated NOT
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
+		
+		// Also refresh the the action label:
 		IGraphicalEditPart actionLabel = getChildBySemanticHint(String
 				.valueOf(NodeActionEditPart.VISUAL_ID));
 		if (actionLabel instanceof NodeActionEditPart) {
 			actionLabel.refresh();
+		}
+		
+		// And all source and target connections:
+		List<?> cons = new ArrayList<Object>();
+		cons.addAll(getSourceConnections());
+		cons.addAll(getTargetConnections());
+		for (Object con : cons) {
+			if (con instanceof EdgeEditPart) {
+				((EdgeEditPart) con).refresh();
+			}
 		}
 	}
 
