@@ -160,20 +160,20 @@ public class SetAction extends HenshinTest {
 		Rule rule = getRule((EObject) element);
 		//System.out.println("Setting action " + action + " for " + ((EObject) element).eClass().getName() + " in rule " + ruleName(rule));
 		if (element instanceof Node) {
-			HenshinActionHelper.setAction((Node) element, action);
-			Action action2 = HenshinActionHelper.getAction((Node) element); 
+			((Node) element).setAction(action);
+			Action action2 = ((Node) element).getAction(); 
 			assertTrue("Error setting node action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
 				action.equals(action2));
 		}
 		else if (element instanceof Edge) {
-			HenshinActionHelper.setAction((Edge) element, action);
-			Action action2 = HenshinActionHelper.getAction((Edge) element); 
+			((Edge) element).setAction(action);
+			Action action2 = ((Edge) element).getAction(); 
 			assertTrue("Error setting edge action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
 				action.equals(action2));
 		}
 		else if (element instanceof Attribute) {
-			HenshinActionHelper.setAction((Attribute) element, action);
-			Action action2 = HenshinActionHelper.getAction((Attribute) element); 
+			((Attribute) element).setAction(action);
+			Action action2 = ((Attribute) element).getAction(); 
 			assertTrue("Error setting attribute action " + action + " in rule " + rule.getName() + " (got action " + action2 + ")", 
 				action.equals(action2));
 		}

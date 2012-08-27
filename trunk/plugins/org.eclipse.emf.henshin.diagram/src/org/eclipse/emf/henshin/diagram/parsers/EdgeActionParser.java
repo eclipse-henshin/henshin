@@ -51,7 +51,7 @@ public class EdgeActionParser extends AbstractParser {
 	 */
 	public String getEditString(IAdaptable element, int flags) {
 		Edge edge = (Edge) element.getAdapter(EObject.class);
-		Action action = HenshinActionHelper.getAction(edge);
+		Action action = edge.getAction();
 		return (action!=null) ? action.toString() : "unknown";
 	}
 	
@@ -99,22 +99,22 @@ public class EdgeActionParser extends AbstractParser {
 			// Make sure the action is compatible with the source and target actions:
 			Node src = HenshinActionHelper.getActionNode(edge.getSource());
 			Node trg = HenshinActionHelper.getActionNode(edge.getTarget());
-			Action srcAction = HenshinActionHelper.getAction(src);
-			Action trgAction = HenshinActionHelper.getAction(trg);
+			Action srcAction = src.getAction();
+			Action trgAction = trg.getAction();
 			
 			// The source and the target node must have either the same
 			// action as the edge, or PRESERVE.			
 			if (!srcAction.equals(action) && 
 				!(srcAction.getType()==PRESERVE /* && !srcAction.isAmalgamated() */)) {
-				HenshinActionHelper.setAction(src, action);
+				src.setAction(action);
 			}
 			if (!trgAction.equals(action) && 
 				!(trgAction.getType()==PRESERVE /* && !trgAction.isAmalgamated() */)) {
-				HenshinActionHelper.setAction(trg, action);
+				trg.setAction(action);
 			}
 			
 			// Now we can safely set the action:
-			HenshinActionHelper.setAction(edge, action);
+			edge.setAction(action);
 			return CommandResult.newOKCommandResult();
 			
 		}

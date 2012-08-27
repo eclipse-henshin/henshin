@@ -135,7 +135,7 @@ public class RootObjectEditHelper {
 			// Now add the new root node to the LHS and RHS:
 			if (!rule.getLhs().getNodes().contains(newRoot)) {
 				rule.getLhs().getNodes().add(0,newRoot);
-				HenshinActionHelper.setAction(newRoot, new Action(PRESERVE));
+				newRoot.setAction(new Action(PRESERVE));
 			}
 			
 			// Now add the containment references:

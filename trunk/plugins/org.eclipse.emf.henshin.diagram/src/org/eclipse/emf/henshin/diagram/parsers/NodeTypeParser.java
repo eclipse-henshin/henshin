@@ -65,7 +65,7 @@ public class NodeTypeParser extends AbstractParser {
 		String name = node.getName()!=null ? node.getName().trim() : "";
 		
 		// For <<preserve>>-nodes we offer an arrow notation:
-		Action action = HenshinActionHelper.getAction(node);
+		Action action = node.getAction();
 		if (action!=null && action.getType()==PRESERVE) {
 			
 			// Get the RHS-node and its name:
@@ -171,7 +171,7 @@ public class NodeTypeParser extends AbstractParser {
 		}
 		
 		// Set the name and the type of the secondary node:
-		Action action = HenshinActionHelper.getAction(node);
+		Action action = node.getAction();
 		if (action!=null && action.getType()==PRESERVE) { 
 			Node rhsNode = rule.getMappings().getImage(node, rule.getRhs());
 			if (rhsNode!=null) {

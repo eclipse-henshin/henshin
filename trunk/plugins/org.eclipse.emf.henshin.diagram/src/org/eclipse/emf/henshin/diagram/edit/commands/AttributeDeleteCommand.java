@@ -18,7 +18,6 @@ import org.eclipse.emf.henshin.model.Rule;
 
 import static org.eclipse.emf.henshin.model.Action.Type.*;
 
-import org.eclipse.emf.henshin.model.util.HenshinActionHelper;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -51,7 +50,7 @@ public class AttributeDeleteCommand extends AbstractTransactionalCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
 		// Check for attribute images:
-		Action action = HenshinActionHelper.getAction(attribute);
+		Action action = attribute.getAction();
 		if (action.getType()==PRESERVE) {
 			Rule rule = attribute.getNode().getGraph().getRule();
 			Attribute image = rule.getMappings().getImage(attribute, rule.getRhs());
