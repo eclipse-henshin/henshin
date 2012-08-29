@@ -61,7 +61,7 @@ public class ActionElementFinder {
 
 		// Add PAC and NAC elements:
 		for (Rule rule : rules) {
-			for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
+			for (NestedCondition nestedCond : rule.getLhs().getNestedConditions()) {
 				if (action==null || 
 					(action.getType()==REQUIRE && nestedCond.isPAC()) || 
 					(action.getType()==FORBID && nestedCond.isNAC())) {

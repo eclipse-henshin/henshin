@@ -490,4 +490,13 @@ public class EdgeImpl extends EObjectImpl implements Edge {
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		String type = (this.type!=null) ? this.type.getName() : null;
+		return "Edge (type: " + type + ", source: " + source + ", target: " + target + ")";
+	}
+	
 } //EdgeImpl

@@ -255,17 +255,11 @@ public class AttributeConditionImpl extends NamedElementImpl implements Attribut
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (conditionText: ");
-		result.append(conditionText);
-		result.append(')');
-		return result.toString();
+		return conditionText;
 	}
 	
 } //AttributeConditionImpl

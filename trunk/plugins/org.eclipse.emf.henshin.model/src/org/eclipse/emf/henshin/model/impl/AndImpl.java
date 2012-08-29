@@ -43,16 +43,6 @@ public class AndImpl extends BinaryFormulaImpl implements And {
 	protected EClass eStaticClass() {
 		return HenshinPackage.Literals.AND;
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String toString() {
-		return "(" + left + " && " + right + ")";
-	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,6 +62,16 @@ public class AndImpl extends BinaryFormulaImpl implements And {
 	@Override
 	public boolean isFalse() {
 		return (left!=null && right!=null) && (left.isFalse() || right.isFalse());
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return "(" + left + " && " + right + ")";
 	}
 
 } //AndImpl

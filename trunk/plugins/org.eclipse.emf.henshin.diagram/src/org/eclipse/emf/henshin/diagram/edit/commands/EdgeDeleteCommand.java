@@ -15,9 +15,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -58,11 +58,8 @@ public class EdgeDeleteCommand extends AbstractTransactionalCommand {
 		// Remove the edge.
 		doRemove(edge);
 		
-		// Clean up trivial NACs and multi-rules:
-		for (NestedCondition nestedCond : rule.getAllNestedConditions()) {
-			if (nestedCond.isTrue()) rule.removeNestedCondition(nestedCond);
-		}
-		rule.removeTrivialMultiRules();
+		// Clean up:
+		HenshinModelCleaner.cleanRule(rule);
 
 		// Done.
 		return CommandResult.newOKCommandResult();

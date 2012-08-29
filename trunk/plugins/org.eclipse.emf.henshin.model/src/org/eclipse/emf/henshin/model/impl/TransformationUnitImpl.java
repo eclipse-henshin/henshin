@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -124,6 +126,22 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public TransformationSystem getTransformationSystem() {
+		EObject container = eContainer();
+		while (container!=null) {
+			if (container instanceof TransformationSystem) {
+				return (TransformationSystem) container;
+			}
+			container = container.eContainer();
+		}
+		return null;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
@@ -320,17 +338,26 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (activated: ");
-		result.append(activated);
-		result.append(')');
-		return result.toString();
+		String result = eClass().getName() + " " + name;
+		if (!getParameters().isEmpty()) {
+			result = result + "(";
+			for (int i=0; i<parameters.size(); i++) {
+				Parameter param = parameters.get(i);
+				result = result + param.getName();
+				if (param.getType()!=null) {
+					result = result + ":" + param.getType().getName();
+				}
+				if (i<parameters.size()-1) {
+					result = result + ", ";
+				}
+			}
+			result = result + ")";
+		}
+		return result;		
 	}
 	
 } // TransformationUnitImpl

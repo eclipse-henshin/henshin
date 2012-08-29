@@ -82,6 +82,15 @@ public interface HenshinFactory extends EFactory {
 	Graph createGraph();
 
 	/**
+	 * Returns a new object of class '<em>Graph</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Graph</em>'.
+	 * @generated NOT
+	 */
+	Graph createGraph(String name);
+
+	/**
 	 * Returns a new object of class '<em>Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

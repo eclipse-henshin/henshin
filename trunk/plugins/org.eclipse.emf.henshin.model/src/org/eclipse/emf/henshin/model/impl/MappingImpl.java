@@ -222,4 +222,12 @@ public class MappingImpl extends EObjectImpl implements Mapping {
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return origin + " -> " + image;
+	}
+
 } //MappingImpl

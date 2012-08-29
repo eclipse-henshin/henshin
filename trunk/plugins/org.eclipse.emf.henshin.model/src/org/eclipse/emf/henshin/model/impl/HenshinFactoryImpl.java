@@ -33,16 +33,6 @@ import org.eclipse.emf.henshin.model.*;
 public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	
 	/**
-	 * The default name of LHS graphs.
-	 */
-	public static final String DEFAULT_RULE_LHS_NAME = "LHS";
-
-	/**
-	 * The default name of RHS graphs.
-	 */
-	public static final String DEFAULT_RULE_RHS_NAME = "RHS";
-	
-	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -152,16 +142,10 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public Rule createRule() {
 		RuleImpl rule = new RuleImpl();
-		
-		Graph lhs = createGraph();
-		lhs.setName(DEFAULT_RULE_LHS_NAME);
-		rule.setLhs(lhs);
-		Graph rhs = createGraph();
-		rhs.setName(DEFAULT_RULE_RHS_NAME);
-		rule.setRhs(rhs);
-		
+		rule.setLhs(createGraph("LHS"));
+		rule.setRhs(createGraph("RHS"));
 		return rule;
-	}// createRule
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -199,6 +183,17 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 */
 	public Graph createGraph() {
 		GraphImpl graph = new GraphImpl();
+		return graph;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Graph createGraph(String name) {
+		GraphImpl graph = new GraphImpl();
+		graph.setName(name);
 		return graph;
 	}
 

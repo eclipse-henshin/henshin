@@ -301,6 +301,11 @@ public class HenshinDiagramUpdater {
 		List<HenshinLinkDescriptor> result = new ArrayList<HenshinLinkDescriptor>();
 		for (Edge edge : edges) {
 
+			// Must be a valid edge:
+			if (edge.getSource()==null || edge.getTarget()==null) {
+				continue;
+			}
+			
 			// Get the proper source / target action nodes:
 			Node source = edge.getSource().getActionNode();
 			Node target = edge.getTarget().getActionNode();

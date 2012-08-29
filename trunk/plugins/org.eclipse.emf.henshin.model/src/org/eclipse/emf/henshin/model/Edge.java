@@ -42,7 +42,7 @@ public interface Edge extends GraphElement {
 	 * @see #setSource(Node)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Source()
 	 * @see org.eclipse.emf.henshin.model.Node#getOutgoing
-	 * @model opposite="outgoing" required="true"
+	 * @model opposite="outgoing"
 	 * @generated
 	 */
 	Node getSource();
@@ -66,7 +66,7 @@ public interface Edge extends GraphElement {
 	 * @see #setTarget(Node)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Target()
 	 * @see org.eclipse.emf.henshin.model.Node#getIncoming
-	 * @model opposite="incoming" required="true"
+	 * @model opposite="incoming"
 	 * @generated
 	 */
 	Node getTarget();
@@ -88,7 +88,7 @@ public interface Edge extends GraphElement {
 	 * @return the value of the '<em>Type</em>' reference.
 	 * @see #setType(EReference)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Type()
-	 * @model required="true"
+	 * @model
 	 * @generated
 	 */
 	EReference getType();
@@ -112,7 +112,7 @@ public interface Edge extends GraphElement {
 	 * @see #setGraph(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getEdge_Graph()
 	 * @see org.eclipse.emf.henshin.model.Graph#getEdges
-	 * @model opposite="edges" required="true" transient="false"
+	 * @model opposite="edges" transient="false"
 	 * @generated
 	 */
 	Graph getGraph();

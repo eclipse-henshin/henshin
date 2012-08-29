@@ -12,7 +12,6 @@ package org.eclipse.emf.henshin.model.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -32,22 +31,15 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Action;
-import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.AttributeCondition;
-import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
-import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
-import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
@@ -301,23 +293,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		}
 		return (MappingList) mappings;
 	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public TransformationSystem getTransformationSystem() {
-		EObject container = eContainer();
-		while (container!=null) {
-			if (container instanceof TransformationSystem) {
-				return (TransformationSystem) container;
-			}
-			container = container.eContainer();
-		}
-		return null;
-	}
-	
+		
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -336,10 +312,10 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Rule getRootKernelRule() {
+	public Rule getRootRule() {
 		Rule kernel = getKernelRule();
 		if (kernel==null) {
-			return null;
+			return this;
 		}
 		while (kernel.getKernelRule()!=null) {
 			kernel = kernel.getKernelRule();
@@ -353,11 +329,11 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Rule getMultiRule(String name) {
+		name = (name==null) ? "" : name.trim();
 		for (Rule multiRule : getMultiRules()) {
-			if ((name==null && multiRule.getName()==null) || 
-				(name!=null && name.equals(multiRule.getName()))) {
-				return multiRule;
-			}
+			String n = multiRule.getName();
+			n = (n==null) ? "" : n.trim();
+			if (name.equals(n))	return multiRule;
 		}
 		return null;
 	}
@@ -369,8 +345,8 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 */
 	public boolean removeNode(Node node, boolean removeMapped) {
 		// Must be invoked from the root kernel rule:
-		if (getRootKernelRule()!=null) {
-			return getRootKernelRule().removeNode(node, removeMapped);
+		if (getKernelRule()!=null) {
+			return getKernelRule().removeNode(node, removeMapped);
 		}
 		// Collect all mappings and nodes to delete:
 		Set<Mapping> mappings = new HashSet<Mapping>();
@@ -425,54 +401,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean removeNestedCondition(NestedCondition nestedCondition) {
-		// Nested condition must be contained in this rule:
-		if (!EcoreUtil.isAncestor(this, nestedCondition)) {
-			return false;
-		}
-		// Remember the container and destroy the object:
-		EObject container = nestedCondition.eContainer();
-		EcoreUtil.remove(nestedCondition);
-		// Destroy unary containers:
-		while (container instanceof UnaryFormula) {
-			EObject dummy = container;
-			container = container.eContainer();
-			EcoreUtil.remove(dummy);
-		}
-		// Check if the container was a binary formula:
-		if (container instanceof BinaryFormula) {
-			BinaryFormula binary = (BinaryFormula) container;
-			
-			// Replace the formula by the remaining sub-formula:
-			Formula remainder = (binary.getLeft() != null) ? binary.getLeft() : binary.getRight();
-			EcoreUtil.replace(binary, remainder);
-		}
-		return false;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<Rule> removeTrivialMultiRules() {
-		EList<Rule> removed = new BasicEList<Rule>();
-		Iterator<Rule> iterator = getMultiRules().iterator();
-		while (iterator.hasNext()) {
-			Rule multiRule = iterator.next();
-			if (multiRule.isTrivialMultiRule()) {
-				iterator.remove();
-				removed.add(multiRule);
-			}
-		}
-		return removed;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
 	public EList<Rule> getAllMultiRules() {
 		EList<Rule> allMultiRules = new BasicEList<Rule>();
 		allMultiRules.addAll(getMultiRules());
@@ -480,25 +408,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			allMultiRules.addAll(multiRule.getAllMultiRules());
 		}
 		return ECollections.unmodifiableEList(allMultiRules);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public EList<NestedCondition> getAllNestedConditions() {
-		EList<NestedCondition> result = new BasicEList<NestedCondition>();
-		if (lhs!=null) {
-			TreeIterator<EObject> contents = lhs.eAllContents();
-			while (contents.hasNext()) {
-				EObject next = contents.next();
-				if (next instanceof NestedCondition) {
-					result.add((NestedCondition) next);
-				}
-			}
-		}
-		return ECollections.unmodifiableEList(result);
 	}
 
 	/**
@@ -528,25 +437,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 */
 	public boolean isMultiRule() {
 		return getKernelRule()!=null;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean isTrivialMultiRule() {
-		if (!isMultiRule()) {
-			return false;
-		}
-		for (Rule multiRule : getMultiRules()) {
-			if (!multiRule.isTrivialMultiRule());
-		}
-		Rule kernel = getKernelRule();
-		if (lhs==null || rhs==null || kernel.getLhs()==null || kernel.getRhs()==null) {
-			return false;
-		}
-		return getMultiMappings().isOnto(lhs) && getMultiMappings().isOnto(rhs);
 	}
 
 	/**
@@ -596,58 +486,10 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public NestedCondition createPAC(String name) {
-		// Create the application condition:
-		NestedCondition pac = new NestedConditionImpl();
-		Graph graph = new GraphImpl();
-		graph.setName(name);
-		pac.setConclusion(graph);
-		// Add it to this rule:
-		if (getLhs().getFormula()==null) {
-			getLhs().setFormula(pac);
-		} else {
-			And and = new AndImpl();
-			and.setLeft(getLhs().getFormula());
-			and.setRight(pac);
-			getLhs().setFormula(and);
-		}
-		return pac;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public NestedCondition createNAC(String name) {
-		// Create the application condition:
-		NestedCondition nac = new NestedConditionImpl();
-		Graph graph = new GraphImpl();
-		graph.setName(name);
-		nac.setConclusion(graph);
-		Not formula = new NotImpl();
-		formula.setChild(nac);
-		// Add it to this rule:
-		if (getLhs().getFormula()==null) {
-			getLhs().setFormula(formula);
-		} else {
-			And and = new AndImpl();
-			and.setLeft(getLhs().getFormula());
-			and.setRight(formula);
-			getLhs().setFormula(and);
-		}
-		return nac;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
 	public boolean removeEdge(Edge edge, boolean removeMapped) {		
 		// Must be invoked from the root kernel rule:
-		if (getRootKernelRule()!=null) {
-			return getRootKernelRule().removeEdge(edge, removeMapped);
+		if (getKernelRule()!=null) {
+			return getKernelRule().removeEdge(edge, removeMapped);
 		}
 		Set<Edge> edges = new HashSet<Edge>();
 		edges.add(edge);
@@ -935,19 +777,11 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (checkDangling: ");
-		result.append(checkDangling);
-		result.append(", injectiveMatching: ");
-		result.append(injectiveMatching);
-		result.append(')');
-		return result.toString();
+		return super.toString();
 	}
 
 	/*

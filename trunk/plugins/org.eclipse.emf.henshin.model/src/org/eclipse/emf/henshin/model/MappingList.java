@@ -76,7 +76,7 @@ public interface MappingList extends EList<Mapping> {
 	<T> T getOrigin(T object);
 
 	/**
-	 * Find the image of a node in a given target graph.
+	 * Get the image of a node in a given target graph.
 	 * @param origin Origin node.
 	 * @param imageGraph Image graph.
 	 * @return The image of the node.
@@ -84,7 +84,7 @@ public interface MappingList extends EList<Mapping> {
 	Node getImage(Node origin, Graph imageGraph);
 
 	/**
-	 * Find the image of an edge.
+	 * Get the image of an edge in a given target graph.
 	 * @param origin Origin edge.
 	 * @param imageGraph Image graph.
 	 * @return Edge image.
@@ -92,7 +92,7 @@ public interface MappingList extends EList<Mapping> {
 	Edge getImage(Edge origin, Graph imageGraph);
 
 	/**
-	 * Get the image of an attribute.
+	 * Get the image of an attribute in a given target graph.
 	 * @param origin Origin attribute.
 	 * @param imageGraph Image graph.
 	 * @return The image attribute.
@@ -100,11 +100,10 @@ public interface MappingList extends EList<Mapping> {
 	Attribute getImage(Attribute origin, Graph imageGraph);
 
 	/**
-	 * Get the image of an untyped object. This delegates to
-	 * {@link #getImage(Node)}, {@link #getImage(Edge)} or
-	 * {@link #getImage(Attribute)}. It throws an 
-	 * {@link IllegalArgumentException} if the type of the
-	 * object is unknown.
+	 * Get the image of an untyped object in a target graph. 
+	 * This delegates to {@link #getImage(Node)}, {@link #getImage(Edge)} 
+	 * or {@link #getImage(Attribute)}. It throws an 
+	 * {@link IllegalArgumentException} if the type of the object is unknown.
 	 * @param origin Origin.
 	 * @param imageGraph Image graph.
 	 * @return The image.
@@ -120,10 +119,5 @@ public interface MappingList extends EList<Mapping> {
 	 * @return <code>true</code> if the map is onto.
 	 */
 	boolean isOnto(Graph imageGraph);
-	
-	/**
-	 * Remove all invalid mappings.
-	 */
-	void removeInvalid();
 	
 }

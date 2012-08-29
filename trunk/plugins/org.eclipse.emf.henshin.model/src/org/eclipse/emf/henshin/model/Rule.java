@@ -111,17 +111,6 @@ public interface Rule extends TransformationUnit {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Get the {@link TransformationSystem} instance this rule is
-	 * contained in or <code>null</code> if it is not part of a
-	 * transformation system.
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	TransformationSystem getTransformationSystem();
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
@@ -134,7 +123,7 @@ public interface Rule extends TransformationUnit {
 	 * @model kind="operation"
 	 * @generated
 	 */
-	Rule getRootKernelRule();
+	Rule getRootRule();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -163,34 +152,10 @@ public interface Rule extends TransformationUnit {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean removeNestedCondition(NestedCondition nestedCondition);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	EList<Rule> removeTrivialMultiRules();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<Rule> getAllMultiRules();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<NestedCondition> getAllNestedConditions();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -218,17 +183,6 @@ public interface Rule extends TransformationUnit {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Checks whether this is a trivial multirule. A multirule is trivial if it has no effect
-	 * on the transformation. This is the case if it can never be matched, or if it does perform
-	 * only those modifications that are already defined in the kernel rule.
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	boolean isTrivialMultiRule();
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
@@ -250,22 +204,6 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	boolean canCreateEdge(Node source, Node target, EReference type);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	NestedCondition createPAC(String name);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	NestedCondition createNAC(String name);
 
 	/**
 	 * Returns the value of the '<em><b>Check Dangling</b></em>' attribute.

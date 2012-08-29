@@ -103,7 +103,7 @@ public class AttributeCreateCommand extends EditElementCommand {
 			if (rhsNode != null) {
 				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
 			}
-			for (NestedCondition ac : rule.getAllNestedConditions()) {
+			for (NestedCondition ac : rule.getLhs().getNestedConditions()) {
 				Node acNode = ac.getMappings().getImage(lhsNode, ac.getConclusion());
 				if (acNode != null) {
 					addAttribute(acNode, (Attribute) EcoreUtil.copy(attribute));

@@ -71,6 +71,14 @@ public interface NestedCondition extends Formula {
 	 * @model kind="operation"
 	 * @generated
 	 */
+	Graph getHost();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
 	boolean isPAC();
 
 	/**
@@ -80,13 +88,5 @@ public interface NestedCondition extends Formula {
 	 * @generated
 	 */
 	boolean isNAC();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	Rule getRule();
 
 } // NestedCondition

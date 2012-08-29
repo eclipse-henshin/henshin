@@ -115,6 +115,30 @@ public interface Graph extends NamedElement {
 	 * @model kind="operation"
 	 * @generated
 	 */
+	EList<NestedCondition> getNestedConditions();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition getPAC(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition getNAC(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
 	boolean isLhs();
 
 	/**
@@ -135,6 +159,22 @@ public interface Graph extends NamedElement {
 	
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition createPAC(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	NestedCondition createNAC(String name);
+
+	/**
+	 * <!-- begin-user-doc -->
 	 * Removes the given node from this graph. All attached edges are automatically removed.
 	 * <!-- end-user-doc -->
 	 * @model
@@ -150,5 +190,13 @@ public interface Graph extends NamedElement {
 	 * @generated
 	 */
 	boolean removeEdge(Edge edge);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean removeNestedCondition(NestedCondition nestedCondition);
 
 } // Graph

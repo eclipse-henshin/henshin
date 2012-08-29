@@ -272,7 +272,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 				}
 				
 				// PACs and NACs:
-				for (NestedCondition nested : rule.getAllNestedConditions()) {
+				for (NestedCondition nested : rule.getLhs().getNestedConditions()) {
 					if (nested.isNAC()) {
 						Element nacElem = newElement("NAC", applCondElem, false);
 						convertGraph(nested.getConclusion(), nacElem, "NAC", "Graph");

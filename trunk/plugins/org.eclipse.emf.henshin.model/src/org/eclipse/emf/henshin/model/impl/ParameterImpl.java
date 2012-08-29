@@ -257,4 +257,13 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		String type = (this.type!=null) ? this.type.getName() : null;
+		return "Parameter (name: " + name + ", type: " + type + ")";
+	}
+
 } //ParameterImpl

@@ -9,9 +9,11 @@
  */
 package org.eclipse.emf.henshin.model.actions.impl;
 
-import org.eclipse.emf.henshin.model.Action.Type;
-
-import static org.eclipse.emf.henshin.model.Action.Type.*;
+import static org.eclipse.emf.henshin.model.Action.Type.CREATE;
+import static org.eclipse.emf.henshin.model.Action.Type.DELETE;
+import static org.eclipse.emf.henshin.model.Action.Type.FORBID;
+import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
+import static org.eclipse.emf.henshin.model.Action.Type.REQUIRE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.Action;
+import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.GraphElement;
@@ -26,6 +29,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 
 /**
  * @author Christian Krause
@@ -122,8 +126,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 						} else {
 							return new Action(type, false, name.trim());
 						}
-	
-					}					
+					}			
 				}
 			}
 		}
@@ -137,13 +140,15 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.diagram.edit.actions.ActionHelper#setAction(java.lang.Object, org.eclipse.emf.henshin.diagram.edit.actions.Action)
 	 */
-	public void setAction(E element, Action action) {
+	public void setAction(E element, Action newAction) {
 		
 		// Check the current action.
-		Action current = getAction(element);
-		if (current==null) return; // illegal
-		if (action.equals(current)) return; // nothing to do
-		
+		Action oldAction = getAction(element);
+		if (oldAction==null) return; // illegal
+		if (newAction.equals(oldAction)) return; // nothing to do
+		Type oldType = oldAction.getType();
+		Type newType = newAction.getType();
+				
 		// Get the container graph and rule.
 		Graph graph = getGraph(element);
 		Rule rule = graph.getRule();
@@ -152,30 +157,30 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		MapEditor<E> editor;
 		
 		// Current action type = PRESERVE?
-		if (current.getType()==PRESERVE) {
+		if (oldType==PRESERVE) {
 			
 			// We know that the element is contained in the LHS and that it is mapped to a node in the RHS.
 			editor = getMapEditor(rule.getRhs());
 			E image = editor.getOpposite(element);
 			
 			// For DELETE actions, delete the image in the RHS:
-			if (action.getType()==DELETE) {
+			if (newType==DELETE) {
 				editor.remove(image);
 			}
 			
 			// For CREATE actions, replace the image in the RHS by the origin:
-			else if (action.getType()==CREATE) {
+			else if (newType==CREATE) {
 				editor.replace(image);
 			}
 			
 			// For REQUIRE / FORBID actions, delete the image in the RHS and move the node to the AC:
-			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
+			else if (newType==REQUIRE || newType==FORBID) {
 				
 				// Remove the image in the RHS:
 				editor.remove(image);
 				
 				// Move the node to the AC:
-				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
+				NestedCondition ac = getOrCreateAC(newAction, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 				
@@ -184,24 +189,24 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		
 		// Current action type = CREATE?
-		else if (current.getType()==CREATE) {
+		else if (oldType==CREATE) {
 			
 			// We know that the element is contained in the RHS and that it is not an image of a mapping.
 			editor = getMapEditor(rule.getRhs());
 			
 			// We move the element to the LHS if the action type has changed:
-			if (action.getType()!=CREATE) {
+			if (newType!=CREATE) {
 				editor.move(element);
 			}
 			
 			// For NONE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==PRESERVE) {
+			if (newType==PRESERVE) {
 				editor.copy(element);
 			}
 			
 			// For REQUIRE / FORBID actions, move the element further to the AC:
-			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
-				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
+			else if (newType==REQUIRE || newType==FORBID) {
+				NestedCondition ac = getOrCreateAC(newAction, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 			}	
@@ -209,31 +214,31 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 
 		// Current action type = DELETE?
-		else if (current.getType()==DELETE) {
+		else if (oldType==DELETE) {
 			
 			// We know that the element is contained in the LHS and that it has no image in the RHS.
 			editor = getMapEditor(rule.getRhs());
 			
 			// For PRESERVE actions, create a copy of the element in the RHS and map to it:
-			if (action.getType()==PRESERVE) {
+			if (newType==PRESERVE) {
 				editor.copy(element);
 			}
 			
 			// For CREATE actions, move the element to the RHS:
-			else if (action.getType()==CREATE) {
+			else if (newType==CREATE) {
 				editor.move(element);
 			}
 			
 			// For FORBID actions, move the element to the NAC:
-			else if (action.getType()==REQUIRE ||  action.getType()==FORBID) {
-				NestedCondition ac = ActionACUtil.getOrCreateAC(action, rule);
+			else if (newType==REQUIRE ||  newType==FORBID) {
+				NestedCondition ac = getOrCreateAC(newAction, rule);
 				editor = getMapEditor(ac.getConclusion());
 				editor.move(element);
 			}	
 		}		
 		
 		// Current action type = REQUIRE or FORBID?
-		else if (current.getType()==REQUIRE || current.getType()==FORBID) {
+		else if (oldType==REQUIRE || oldType==FORBID) {
 			
 			// We know that the element is contained in a AC and that it has no origin in the LHS.
 			NestedCondition ac = (NestedCondition) graph.eContainer();
@@ -243,25 +248,20 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			editor.move(element);
 			
 			// For PRESERVE actions, create a copy in the RHS as well:
-			if (action.getType()==PRESERVE) {
+			if (newType==PRESERVE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.copy(element);
 			}
 			// For CREATE actions, move the element to the RHS:
-			else if (action.getType()==CREATE) {
+			else if (newType==CREATE) {
 				editor = getMapEditor(rule.getRhs());
 				editor.move(element);
 			}			
 			// For REQUIRE and FORBID actions, move the element to the new AC:
-			else if (action.getType()==REQUIRE || action.getType()==FORBID) {
-				NestedCondition newAc = ActionACUtil.getOrCreateAC(action, rule);
+			else if (newType==REQUIRE || newType==FORBID) {
+				NestedCondition newAc = getOrCreateAC(newAction, rule);
 				editor = getMapEditor(newAc.getConclusion());
 				editor.move(element);
-			}
-			
-			// Delete the PAC/NAC if it became empty or trivial due to the current change.
-			if (ac.isTrue()) {
-				rule.removeNestedCondition(ac);
 			}
 			
 		}
@@ -269,70 +269,63 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// THE ACTION TYPE IS CORRECT NOW.
 		
 		// We check now whether the amalgamation parameters are different.
-		if (current.isMulti()!=action.isMulti()) {
-			
-			// Find the kernel / multi rule.
+		if (oldAction.isMulti()!=newAction.isMulti()) {
 			Rule multi, kernel;
-			if (action.isMulti()) {
-				multi = getOrCreateMultiRule(rule, action.getArguments());
+			if (newAction.isMulti()) {
+				multi = getOrCreateMultiRule(rule, newAction.getArguments());
 				kernel = rule;
 			} else {
 				kernel = rule.getKernelRule();
 				multi = rule;
 			}
-			updateMultiElement(kernel, multi, action, element);
-			
+			updateMultiElement(kernel, multi, newAction, element);
 		}
 		
 		// THE ACTION TYPE AND THE MULTI-FLAG ARE CORRECT NOW.
 		
 		// The only thing that can be different now is the name of the multi-rule:
-		if (current.isMulti() && action.isMulti()) {
+		if (oldAction.isMulti() && newAction.isMulti()) {
 			Rule kernelRule = rule.getKernelRule();
-			Rule newMulti = getOrCreateMultiRule(kernelRule, action.getArguments());
+			Rule newMulti = getOrCreateMultiRule(kernelRule, newAction.getArguments());
 			if (newMulti!=rule) {
-				updateMultiElement(rule, newMulti, action, element);
+				updateMultiElement(rule, newMulti, newAction, element);
 			}
 		}
+		
+		// CLEAN UP:
+		HenshinModelCleaner.cleanRule(rule.getRootRule());
 			
 	}
 	
-	private void updateMultiElement(Rule kernel, Rule multi, Action action, E element) {
+	private void updateMultiElement(Rule rule1, Rule rule2, Action action, E element) {
 		
-		// First make sure the multi-rule is complete.
-		sanitizeMultiRule(multi);
+		// First make sure the multi-rules are complete.
+		if (rule1.isMultiRule()) {
+			new PreservedElemMapEditor(rule1.getKernelRule(), rule1, rule1.getMultiMappings()).ensureCompleteness();
+		}
+		if (rule2.isMultiRule()) {
+			new PreservedElemMapEditor(rule2.getKernelRule(), rule2, rule2.getMultiMappings()).ensureCompleteness();
+		}
 
 		// Move the element(s).
 		Type actionType = action.getType();
 		if (actionType==CREATE) {
-			getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
+			getMapEditor(rule1.getRhs(), rule2.getRhs(), rule2.getMultiMappings()).move(element);
 		}
 		else if (actionType==DELETE) {
-			getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
+			getMapEditor(rule1.getLhs(), rule2.getLhs(), rule2.getMultiMappings()).move(element);
 		}
 		else if (actionType==PRESERVE) {
-			MappingMapEditor mappingEditor = new MappingMapEditor(kernel, multi, multi.getMultiMappings());
-			mappingEditor.moveMappedElement(element);
+			new PreservedElemMapEditor(rule1, rule2, rule2.getMultiMappings()).moveMappedElement(element);
 		}
-		else if (actionType==FORBID) {
-			NestedCondition kernelNac = ActionACUtil.getOrCreateAC(action, kernel);
-			NestedCondition multiNac = ActionACUtil.getOrCreateAC(action, multi);
-			getMapEditor(kernelNac.getConclusion(), multiNac.getConclusion(), multi.getMultiMappings()).move(element);
+		else if (actionType==FORBID || actionType==REQUIRE) {
+			NestedCondition kernelAC = getOrCreateAC(action, rule1);
+			NestedCondition multiAC = getOrCreateAC(action, rule2);
+			new ConditionElemMapEditor(kernelAC, multiAC).moveConditionElement(element);
 		}
-		
-		// Remove trivial multi-rules:
-		kernel.removeTrivialMultiRules();
-		
+
 	}
 	
-	private void sanitizeMultiRule(Rule multi) {
-		Rule kernelRule = multi.getKernelRule();
-		
-		MappingMapEditor mappingEditor = new MappingMapEditor(
-				kernelRule, multi, 
-				multi.getMultiMappings());
-		mappingEditor.ensureCompleteness();
-	}
 	
 	/*
 	 * Get the container graph for an element.
@@ -450,5 +443,44 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		return multiRule;
 			
 	}
-	
+
+	/**
+	 * Find or create a positive or a negative application condition.
+	 * @param action	FORBID/REQUIRE action
+	 * @param rule		Rule
+	 * @return the application condition.
+	 */
+	public static NestedCondition getOrCreateAC(Action action, Rule rule) {
+		
+		// Check if the action type is ok:
+		if (!((action != null) && 
+			((action.getType() == FORBID) || 
+			 (action.getType() == REQUIRE)))) {
+			throw new IllegalArgumentException("Application conditions can be created only for REQUIRE/FORBID actions");
+		}
+		
+		// Determine whether it is a PAC or a NAC:
+		boolean positive = (action.getType()==REQUIRE);
+		
+		// Get the name of the application condition:
+		String name = null;
+		if (!action.isMulti()) {  // not for multi-actions
+			String[] args = action.getArguments();
+			if (args != null && args.length > 0 && args[0] != null) {
+				name = args[0];
+			}
+		}
+		
+		// Find or create the application condition:
+		NestedCondition ac = positive ? rule.getLhs().getPAC(name) : rule.getLhs().getNAC(name);
+		if (ac==null) {
+			ac = positive ? rule.getLhs().createPAC(name) : rule.getLhs().createNAC(name);
+		}
+				
+		// Done.
+		return ac;
+		
+	}
+
+
 }

@@ -180,6 +180,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void refreshForegroundColor() {
 		Edge edge = (Edge) getNotationView().getElement();
+		if (edge==null) return;
 		Action action = edge.getAction();
 		if (action!=null) {
 			Color color = HenshinDiagramColorProvider.getActionColor(action);
@@ -194,11 +195,13 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	 */
 	@Override
 	public void refreshVisuals() {
-		super.refreshVisuals();
 
 		// Set the decorations:
 		Edge edge = (Edge) getNotationView().getElement();
+		if (edge==null) return;
 		EReference type = edge.getType();
+		
+		super.refreshVisuals();
 
 		if (type != null) {
 

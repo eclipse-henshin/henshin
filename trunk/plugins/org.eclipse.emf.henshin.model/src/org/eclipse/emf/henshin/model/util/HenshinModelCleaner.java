@@ -1,0 +1,350 @@
+/**
+ * <copyright>
+ * Copyright (c) 2010-2012 Henshin developers. All rights reserved. 
+ * This program and the accompanying materials are made available 
+ * under the terms of the Eclipse Public License v1.0 which 
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * </copyright>
+ */
+package org.eclipse.emf.henshin.model.util;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.henshin.HenshinModelPlugin;
+import org.eclipse.emf.henshin.model.BinaryFormula;
+import org.eclipse.emf.henshin.model.ConditionalUnit;
+import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Formula;
+import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.IteratedUnit;
+import org.eclipse.emf.henshin.model.Mapping;
+import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.NestedCondition;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.UnaryFormula;
+import org.eclipse.emf.henshin.model.UnaryUnit;
+
+/**
+ * Utilities methods for cleaning Henshin models.
+ * @author Christian Krause
+ */
+public class HenshinModelCleaner {
+	
+	/**
+	 * Clean a transformation system. This cleans all rules and transformation
+	 * units inside of the transformation system.
+	 * @param system Transformation system to be cleaned.
+	 */
+	public static void cleanTransformationSystem(TransformationSystem system) {
+		
+		// Clean all rules:
+		for (Rule rule : system.getRules()) {
+			cleanRule(rule);
+		}
+
+		// Clean all transformation units and remove invalid ones:
+		List<TransformationUnit> remove = new ArrayList<TransformationUnit>();
+		do {
+			remove.clear();
+			for (TransformationUnit unit : system.getTransformationUnits()) {
+				if (cleanTransformationUnit(unit)==null) {
+					remove.add(unit);
+				}
+			}
+			for (TransformationUnit unit : remove) {
+				system.getTransformationUnits().remove(unit);
+				debug("removed invalid " + unit);
+			}
+		} while (!remove.isEmpty());
+		
+		// Make sure all used packages are imported:
+		
+	}
+	
+	/**
+	 * Clean a transformation unit.
+	 * @param unit Transformation unit.
+	 */
+	public static TransformationUnit cleanTransformationUnit(TransformationUnit unit) {
+		
+		if (unit instanceof Rule) {
+			cleanRule((Rule) unit);
+		}
+		if (unit instanceof UnaryUnit) {
+			TransformationUnit subUnit = ((UnaryUnit) unit).getSubUnit();
+			if (subUnit==null) {
+				return null;
+			}
+		}
+		if (unit instanceof ConditionalUnit) {
+			ConditionalUnit cond = (ConditionalUnit) unit;
+			if (cond.getIf()==null || cond.getThen()==null || cond.getElse()==null) {
+				return null;
+			}
+		}
+		if (unit instanceof IteratedUnit) {
+			String iterations = ((IteratedUnit) unit).getIterations();
+			if (iterations==null || iterations.trim().length()==0) {
+				((IteratedUnit) unit).setIterations("1");
+				debug("set iterations to 1 for " + unit);
+			}
+		}
+		
+		// Everything ok:
+		return unit;
+		
+	}
+	
+	
+	/**
+	 * Clean a rule. This cleans all graphs and multi-rules in the rule including
+	 * their mappings, formulas etc.
+	 * @param rule Rule to be cleaned.
+	 */
+	public static void cleanRule(Rule rule) {
+		
+		// Make sure the LHS and RHS are there:
+		if (rule.getLhs()==null) {
+			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("LHS"));
+			debug("added missing LHS for " + rule);
+		}
+		if (rule.getLhs()==null) {
+			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("RHS"));
+			debug("added missing RHS for " + rule);
+		}
+
+		// Clean LHS and RHS:
+		cleanGraph(rule.getLhs());
+		cleanGraph(rule.getRhs());
+		
+		// RHS graph should have no formula:
+		if (rule.getRhs().getFormula()!=null) {
+			rule.getRhs().setFormula(null);
+			debug("removed formula for RHS of " + rule);
+		}
+		
+		// Remove unnecessary nested conditions:
+		for (NestedCondition cond : rule.getLhs().getNestedConditions()) {
+			if (cond.isTrue() || cond.isFalse()) {
+				rule.getLhs().removeNestedCondition(cond);
+				debug("removed trivial nested condition " + cond);
+			}
+		}
+		
+		// Remove unnecessary multi-rules:
+		Iterator<Rule> iterator = rule.getMultiRules().iterator();
+		while (iterator.hasNext()) {
+			Rule multi = iterator.next();
+			if (canRemoveMultiRule(multi)) {
+				iterator.remove();
+				debug("removed unnecessary Multi-" + multi);
+			}
+		}
+		
+
+	}
+	
+	/**
+	 * Clean a graph. This cleans the contents of the graph and its formula.
+	 * It removes invalid nodes and edges and tries to simplify the formula
+	 * is that is possible.
+	 * @param graph Graph to be cleaned.
+	 */
+	public static void cleanGraph(Graph graph) {
+		
+		// Check the nodes:
+		Iterator<Node> nodes = graph.getNodes().iterator();
+		while (nodes.hasNext()) {
+			Node node = nodes.next();
+			if (node.getType()==null) {
+				node.setType(EcorePackage.eINSTANCE.getEObject());
+				debug("setting EObject node type for " + node);
+			}
+		}
+		
+		// Remove illegal edges:
+		Iterator<Edge> edges = graph.getEdges().iterator();
+		while (edges.hasNext()) {
+			Edge edge = edges.next();
+			if (edge.getSource()==null || edge.getTarget()==null ||
+				edge.getSource().getGraph()!=graph || edge.getTarget().getGraph()!=graph ||
+				edge.getType()==null || !edge.getSource().getType().getEAllReferences().contains(edge.getType())) {
+				
+				edges.remove();
+				debug("removed illegal " + edge);
+			}
+		}
+		
+		// Clean the graph formula:
+		graph.setFormula(cleanFormula(graph.getFormula()));
+		
+	}
+	
+	/**
+	 * Recursively clean a formula. Cleans all nested conditions and tries
+	 * to simplify the formula.
+	 * @param formula Formula to be cleaned.
+	 * @return The cleaned formula (can be <code>null</code>).
+	 */
+	public static Formula cleanFormula(Formula formula) {
+		if (formula==null) {
+			return null;
+		}
+		if (formula instanceof UnaryFormula) {
+			Formula child = cleanFormula(((UnaryFormula) formula).getChild());
+			if (child==null) return null;
+			return formula;
+		}
+		if (formula instanceof BinaryFormula) {
+			BinaryFormula binary = (BinaryFormula) formula;
+			Formula left = cleanFormula(binary.getLeft());
+			Formula right = cleanFormula(binary.getRight());
+			if (left==null) return right;
+			if (right==null) return left;
+			return binary;
+		}
+		if (formula instanceof NestedCondition) {
+			NestedCondition condition = (NestedCondition) formula;
+			cleanNestedCondition(condition);
+			if (condition.isTrue()) {
+				return null;
+			}
+			return condition;
+		}
+		return formula;
+	}
+	
+	/**
+	 * Clean a nested condition. This clean the conclusion graph and the mappings.
+	 * @param condition Nested condition to be cleaned.
+	 */
+	public static void cleanNestedCondition(NestedCondition condition) {
+		
+		// Make sure the conclusion is set:
+		Graph conclusion = condition.getConclusion();
+		if (conclusion==null) {
+			condition.setConclusion(conclusion = HenshinFactory.eINSTANCE.createGraph());
+			debug("created missing conclusion graph for " + condition);
+		}
+		
+		// Clean the conclusion graph:
+		cleanGraph(conclusion);
+		
+		Graph host = condition.getHost();
+		if (host!=null) {
+			
+			// All mappings must go from the host to the conclusion:
+			Map<Graph,List<Graph>> signatures = newSignature(Collections.singletonList(host));
+			signatures.get(host).add(conclusion);
+			cleanMappingList(condition.getMappings(), signatures);
+
+		}
+		
+	}
+	
+	/**
+	 * Clean a mapping list. Removes invalid mappings.
+	 * @param mappings Mapping list to be cleaned.
+	 * @param signatures Signatures of the functions that the mapping list stands for.
+	 */
+	public static void cleanMappingList(MappingList mappings, Map<Graph,List<Graph>> signatures) {
+		
+		// Check which mappings are invalid:
+		Iterator<Mapping> contents = mappings.iterator();		
+		while (contents.hasNext()) {
+			Mapping mapping = contents.next();
+			String msg = "removed invalid mapping " + mapping;
+
+			// Origin and image must be set:
+			if (mapping.getOrigin()==null || mapping.getImage()==null) {
+				contents.remove(); debug(msg); continue;
+			}
+			
+			// Find out from where to where this mapping goes to:
+			Graph from = mapping.getOrigin().getGraph();
+			Graph to = mapping.getImage().getGraph();
+			if (from==null || to==null) {
+				contents.remove(); debug(msg); continue;
+			}
+			
+			// Make sure it is compliant with the signature:
+			List<Graph> codomains = signatures.get(from);
+			if (codomains==null || !codomains.contains(to)) {
+				contents.remove(); debug(msg); continue;
+			}
+			
+			// Check whether the origin has a unique image in the target graph:
+			boolean unique = true;
+			for (Mapping other : mappings) {
+				Node image = other.getImage();
+				if (other!=mapping && other.getOrigin()==mapping.getOrigin() && image!=null && image.getGraph()==to) {
+					unique = false; break;
+				}
+			}
+			if (!unique) {
+				contents.remove(); debug(msg); continue;
+			}
+			
+		}
+		
+	}
+	
+	/*
+	 * Check whether a multi-rule can be safely removed.
+	 */
+	private static boolean canRemoveMultiRule(Rule rule) {
+		
+		// It must be a multi-rule:
+		if (!rule.isMultiRule()) return false;
+		
+		// It must be also ok to remove its children:
+		for (Rule multiRule : rule.getMultiRules()) {
+			if (!canRemoveMultiRule(multiRule)) return false;
+		}
+		
+		// The multi-map must be onto (surjective):
+		if (!rule.getMultiMappings().isOnto(rule.getLhs()) || !rule.getMultiMappings().isOnto(rule.getRhs())) {
+			return false;
+		}
+		
+		// Non-trivial nested conditions?
+		for (NestedCondition nestedCond : rule.getLhs().getNestedConditions()) {
+			if (!nestedCond.isTrue()) return false;
+		}
+
+		// Safe to remove it:
+		return true;
+		
+	}
+	
+	/*
+	 * Create a new signature.
+	 */
+	private static Map<Graph,List<Graph>> newSignature(List<Graph> domains) {
+		Map<Graph,List<Graph>> signatures = new HashMap<Graph,List<Graph>>();
+		for (Graph graph : domains) {
+			signatures.put(graph, new ArrayList<Graph>());
+		}
+		return signatures;
+	}
+	
+	/*
+	 * Print debug messages.
+	 */
+	private static void debug(String message) {
+		HenshinModelPlugin.INSTANCE.log(IStatus.INFO, "CleanUp: " + message, null);
+	}
+	
+}

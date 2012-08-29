@@ -19,32 +19,33 @@ import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * A map editor for mappings. Used for multirules.
+ * A map editor for for preserved elements. Used for multi-rules.
  * This does not implement {@link MapEditor}.
  * @author Christian Krause
  */
-public class MappingMapEditor {
+public class PreservedElemMapEditor {
 	
 	// Source and target rule.
-	private Rule source, target;
+	private final Rule source, target;
 	
 	// Node map editors:
-	private NodeMapEditor lhsNodeMapEditor, rhsNodeMapEditor;
+	private final NodeMapEditor lhsNodeMapEditor, rhsNodeMapEditor;
 
 	// Edge map editors:
-	private EdgeMapEditor lhsEdgeMapEditor, rhsEdgeMapEditor;
+	private final EdgeMapEditor lhsEdgeMapEditor, rhsEdgeMapEditor;
 
-	public MappingMapEditor(Rule source, Rule target, MappingList mappings) {
+	public PreservedElemMapEditor(Rule source, Rule target, MappingList mappings) {
 		
-		// Source and target:
+		// Source, target and the image graphs:
 		this.source = source;
 		this.target = target;
 
-		// LHS and RHS map editors:
+		// Node and edge map editors:
 		lhsNodeMapEditor = new NodeMapEditor(source.getLhs(), target.getLhs(), mappings);
-		rhsNodeMapEditor = new NodeMapEditor(source.getRhs(), target.getRhs(), mappings);
 		lhsEdgeMapEditor = new EdgeMapEditor(source.getLhs(), target.getLhs(), mappings);
+		rhsNodeMapEditor = new NodeMapEditor(source.getRhs(), target.getRhs(), mappings);
 		rhsEdgeMapEditor = new EdgeMapEditor(source.getRhs(), target.getRhs(), mappings);
+		
 	}
 	
 	/**
@@ -60,9 +61,9 @@ public class MappingMapEditor {
 		
 		// Move the mapping:
 		if (graph.getRule()==source) {
-			target.getMappings().add( getLhsRhsMapping(node, opposite) );
+			target.getMappings().add( getHorizontalMapping(node, opposite) );
 		} else if (graph.getRule()==target) {
-			source.getMappings().add( getLhsRhsMapping(node, opposite) );
+			source.getMappings().add( getHorizontalMapping(node, opposite) );
 		}
 
 		// Move the node and the opposite node:
@@ -116,7 +117,7 @@ public class MappingMapEditor {
 		}
 		
 		// Create a copy of the mapping:
-		Mapping mapping = getLhsRhsMapping(node, opposite);
+		Mapping mapping = getHorizontalMapping(node, opposite);
 		if (graph.getRule()==source) {
 			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, target);
 		} else if (graph.getRule()==target) {
@@ -240,7 +241,7 @@ public class MappingMapEditor {
 	}
 	
 	// Get the LHS-RHS mapping for two nodes.
-	private Mapping getLhsRhsMapping(Node n1, Node n2) {
+	private Mapping getHorizontalMapping(Node n1, Node n2) {
 		Mapping mapping = source.getMappings().get(n1, n2);
 		if (mapping==null) {
 			mapping = target.getMappings().get(n1, n2);

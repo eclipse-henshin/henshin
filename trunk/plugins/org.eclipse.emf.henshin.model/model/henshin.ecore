@@ -53,14 +53,12 @@
       <details key="mappingsFromLeft2Right" value="mappings->forAll(mapping : Mapping | &#xD;&#xA;&#x9;lhs.nodes->includes(mapping.origin)&#xD;&#xA;&#x9;and&#xD;&#xA;&#x9;rhs.nodes->includes(mapping.image)&#xD;&#xA;)"/>
       <details key="mappingsFromLeft2Right.Msg" value="_Ocl_Msg_Rule_mappingsFromLeft2Right"/>
     </eAnnotations>
-    <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getKernelRule" eType="#//Rule"/>
-    <eOperations name="getRootKernelRule" eType="#//Rule"/>
+    <eOperations name="getRootRule" eType="#//Rule"/>
     <eOperations name="getMultiRule" eType="#//Rule">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="getAllMultiRules" upperBound="-1" eType="#//Rule"/>
-    <eOperations name="getAllNestedConditions" upperBound="-1" eType="#//NestedCondition"/>
     <eOperations name="getActionNodes" upperBound="-1" eType="#//Node">
       <eParameters name="action" eType="#//Action"/>
     </eOperations>
@@ -68,7 +66,6 @@
       <eParameters name="action" eType="#//Action"/>
     </eOperations>
     <eOperations name="isMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eOperations name="isTrivialMultiRule" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="createNode" eType="#//Node">
       <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eOperations>
@@ -82,12 +79,6 @@
       <eParameters name="target" eType="#//Node"/>
       <eParameters name="type" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
-    <eOperations name="createPAC" eType="#//NestedCondition">
-      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
-    <eOperations name="createNAC" eType="#//NestedCondition">
-      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
     <eOperations name="removeEdge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="edge" eType="#//Edge"/>
       <eParameters name="removeMapped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -96,10 +87,6 @@
       <eParameters name="node" eType="#//Node"/>
       <eParameters name="removeMapped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
-    <eOperations name="removeNestedCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="nestedCondition" eType="#//NestedCondition"/>
-    </eOperations>
-    <eOperations name="removeTrivialMultiRules" upperBound="-1" eType="#//Rule"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributeConditions" upperBound="-1"
@@ -146,14 +133,30 @@
     <eOperations name="getEdges" ordered="false" upperBound="-1" eType="#//Edge">
       <eParameters name="edgeType" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
     </eOperations>
+    <eOperations name="getNestedConditions" upperBound="-1" eType="#//NestedCondition"/>
+    <eOperations name="getPAC" eType="#//NestedCondition">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getNAC" eType="#//NestedCondition">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eOperations name="isLhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isRhs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isNestedCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="createPAC" eType="#//NestedCondition">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="createNAC" eType="#//NestedCondition">
+      <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eOperations name="removeNode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="node" eType="#//Node"/>
     </eOperations>
     <eOperations name="removeEdge" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="edge" lowerBound="1" eType="#//Edge"/>
+    </eOperations>
+    <eOperations name="removeNestedCondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="nestedCondition" eType="#//NestedCondition"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
         eType="#//Node" containment="true" eOpposite="#//Node/graph"/>
@@ -257,6 +260,7 @@
       <details key="uniqueParameterNames" value="parameters->forAll( param1, param2 : Parameter | param1 &lt;> param2 implies param1.name &lt;> param2.name)"/>
       <details key="uniqueParameterNames.Msg" value="_Ocl_Msg_TransformationUnit_uniqueParameterNames"/>
     </eAnnotations>
+    <eOperations name="getTransformationSystem" eType="#//TransformationSystem"/>
     <eOperations name="getSubUnits" ordered="false" upperBound="-1" eType="#//TransformationUnit">
       <eParameters name="deep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
@@ -302,7 +306,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
       <details key="constraints" value="mappingOriginContainedInParentCondition mappingImageContainedInCurrent"/>
     </eAnnotations>
-    <eOperations name="getRule" eType="#//Rule"/>
+    <eOperations name="getHost" eType="#//Graph"/>
     <eOperations name="isPAC" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eOperations name="isNAC" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="conclusion" eType="#//Graph"

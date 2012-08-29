@@ -213,21 +213,6 @@ public class MappingListImpl extends EObjectContainmentEList<Mapping> implements
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.model.MappingList#removeInvalid()
-	 */
-	@Override
-	public void removeInvalid() {
-		for (int i=0; i<size(); i++) {
-			Mapping m = get(i);
-			if (m.getOrigin()==null || m.getImage()==null ||
-				m.getOrigin().eContainer()==null || m.getImage().eContainer()==null) {
-				remove(i--);
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.emf.henshin.model.MappingList#isOnto(org.eclipse.emf.henshin.model.Graph)
 	 */
 	@Override

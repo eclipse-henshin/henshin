@@ -16,22 +16,29 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.henshin.model.And;
+import org.eclipse.emf.henshin.model.BinaryFormula;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
  * <!-- begin-user-doc --> 
@@ -196,7 +203,98 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		getEdges().remove(edge);
 		return true;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean removeNestedCondition(NestedCondition nestedCondition) {
 		
+		// Nested condition must be contained in this rule:
+		if (!EcoreUtil.isAncestor(this, nestedCondition)) {
+			return false;
+		}
+		
+		// Remember the container and destroy the object:
+		EObject container = nestedCondition.eContainer();
+		EcoreUtil.remove(nestedCondition);
+		
+		// Destroy unary containers:
+		while (container instanceof UnaryFormula) {
+			EObject dummy = container;
+			container = container.eContainer();
+			EcoreUtil.remove(dummy);
+		}
+		
+		// Check if the container was a binary formula:
+		if (container instanceof BinaryFormula) {
+			BinaryFormula binary = (BinaryFormula) container;
+			
+			// Replace the formula by the remaining sub-formula:
+			Formula remainder = (binary.getLeft() != null) ? binary.getLeft() : binary.getRight();
+			EcoreUtil.replace(binary, remainder);
+		}
+		
+		// Done.
+		return true;
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition createPAC(String name) {
+		
+		// Create the PAC:
+		NestedCondition pac = new NestedConditionImpl();
+		Graph graph = new GraphImpl();
+		graph.setName(name);
+		pac.setConclusion(graph);
+		
+		// Add it to the formula:
+		if (formula==null) {
+			setFormula(pac);
+		} else {
+			And and = new AndImpl();
+			and.setLeft(formula);
+			and.setRight(pac);
+			setFormula(and);
+		}
+		return pac;
+		
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition createNAC(String name) {
+		
+		// Create the NAC:
+		NestedCondition nac = new NestedConditionImpl();
+		Graph graph = new GraphImpl();
+		graph.setName(name);
+		nac.setConclusion(graph);
+		Not not = new NotImpl();
+		not.setChild(nac);
+		
+		// Add it to the formula:
+		if (formula==null) {
+			setFormula(not);
+		} else {
+			And and = new AndImpl();
+			and.setLeft(formula);
+			and.setRight(not);
+			setFormula(and);
+		}
+		return nac;
+		
+	}
+
 	/**
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
@@ -241,6 +339,57 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		return new BasicEList<Edge>(result);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public EList<NestedCondition> getNestedConditions() {
+		EList<NestedCondition> result = new BasicEList<NestedCondition>();
+		TreeIterator<EObject> contents = eAllContents();
+		while (contents.hasNext()) {
+			EObject next = contents.next();
+			if (next instanceof NestedCondition) {
+				result.add((NestedCondition) next);
+			}
+		}
+		return ECollections.unmodifiableEList(result);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition getPAC(String name) {
+		return getPACorNAC(name, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public NestedCondition getNAC(String name) {
+		return getPACorNAC(name, false);
+	}
+
+	/*
+	 * Get a PAC or a NAC with a given name.
+	 */
+	private NestedCondition getPACorNAC(String name, boolean isPAC) {
+		name = (name==null) ? "" : name.trim();
+		for (NestedCondition cond : getNestedConditions()) {
+			if (cond.getConclusion()==null) continue;
+			if (isPAC && !cond.isPAC()) continue;
+			if (!isPAC && !cond.isNAC()) continue;
+			String n = cond.getConclusion().getName();
+			n = (n==null) ? "" : n.trim();
+			if (name.equals(n))	return cond;
+		}
+		return null;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -395,4 +544,12 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 		return super.eIsSet(featureID);
 	}
 	
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return "Graph (name: " + name + ", formula: " + formula + ")";
+	}
+
 } // GraphImpl

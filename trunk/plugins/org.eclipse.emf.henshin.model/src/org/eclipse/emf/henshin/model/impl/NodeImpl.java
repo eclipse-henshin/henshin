@@ -568,4 +568,13 @@ public class NodeImpl extends NamedElementImpl implements Node {
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		String type = (this.type!=null) ? this.type.getName() : null;
+		return "Node (name: " + name + ", type: " + type + ")";
+	}
+
 } //NodeImpl

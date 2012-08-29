@@ -222,4 +222,12 @@ public class ParameterMappingImpl extends EObjectImpl implements ParameterMappin
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * @generated NOT
+	 */
+	@Override
+	public String toString() {
+		return source + " -> " + target;
+	}
+
 } //ParameterMappingImpl

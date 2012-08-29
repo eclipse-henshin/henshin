@@ -513,21 +513,12 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (value: ");
-		result.append(value);
-		result.append(", constant: ");
-		result.append(constant);
-		result.append(", null: ");
-		result.append(null_);
-		result.append(')');
-		return result.toString();
+		String type = (this.type!=null) ? this.type.getName() : null;
+		return "Attribute (type: " + type + ", value: " + value + ")";
 	}
 
 } //AttributeImpl

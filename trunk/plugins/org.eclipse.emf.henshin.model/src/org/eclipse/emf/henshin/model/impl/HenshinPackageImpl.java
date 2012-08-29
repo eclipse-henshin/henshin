@@ -1355,18 +1355,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getRule_MultiRules(), this.getRule(), null, "multiRules", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_MultiMappings(), this.getMapping(), null, "multiMappings", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(ruleEClass, this.getTransformationSystem(), "getTransformationSystem", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		addEOperation(ruleEClass, this.getRule(), "getKernelRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		addEOperation(ruleEClass, this.getRule(), "getRootKernelRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(ruleEClass, this.getRule(), "getRootRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(ruleEClass, this.getRule(), "getMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(ruleEClass, this.getRule(), "getAllMultiRules", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(ruleEClass, this.getNestedCondition(), "getAllNestedConditions", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(ruleEClass, this.getNode(), "getActionNodes", 0, -1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getAction(), "action", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1375,8 +1371,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		addEParameter(op, this.getAction(), "action", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(ruleEClass, ecorePackage.getEBoolean(), "isMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(ruleEClass, ecorePackage.getEBoolean(), "isTrivialMultiRule", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(ruleEClass, this.getNode(), "createNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEClass(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1391,12 +1385,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		addEParameter(op, this.getNode(), "target", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEReference(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(ruleEClass, this.getNestedCondition(), "createPAC", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(ruleEClass, this.getNestedCondition(), "createNAC", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		op = addEOperation(ruleEClass, ecorePackage.getEBoolean(), "removeEdge", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getEdge(), "edge", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "removeMapped", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1404,11 +1392,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		op = addEOperation(ruleEClass, ecorePackage.getEBoolean(), "removeNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getNode(), "node", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "removeMapped", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(ruleEClass, ecorePackage.getEBoolean(), "removeNestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getNestedCondition(), "nestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(ruleEClass, this.getRule(), "removeTrivialMultiRules", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getParameter_Unit(), this.getTransformationUnit(), this.getTransformationUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1431,17 +1414,34 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		op = addEOperation(graphEClass, this.getEdge(), "getEdges", 0, -1, IS_UNIQUE, !IS_ORDERED);
 		addEParameter(op, ecorePackage.getEReference(), "edgeType", 1, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(graphEClass, this.getNestedCondition(), "getNestedConditions", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(graphEClass, this.getNestedCondition(), "getPAC", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(graphEClass, this.getNestedCondition(), "getNAC", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		addEOperation(graphEClass, ecorePackage.getEBoolean(), "isLhs", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(graphEClass, ecorePackage.getEBoolean(), "isRhs", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(graphEClass, ecorePackage.getEBoolean(), "isNestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		op = addEOperation(graphEClass, this.getNestedCondition(), "createPAC", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(graphEClass, this.getNestedCondition(), "createNAC", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(graphEClass, ecorePackage.getEBoolean(), "removeNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getNode(), "node", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(graphEClass, ecorePackage.getEBoolean(), "removeEdge", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getEdge(), "edge", 1, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(graphEClass, ecorePackage.getEBoolean(), "removeNestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getNestedCondition(), "nestedCondition", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNode_Type(), ecorePackage.getEClass(), null, "type", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1503,6 +1503,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getTransformationUnit_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTransformationUnit_Activated(), ecorePackage.getEBoolean(), "activated", "true", 0, 1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		addEOperation(transformationUnitEClass, this.getTransformationSystem(), "getTransformationSystem", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		op = addEOperation(transformationUnitEClass, this.getTransformationUnit(), "getSubUnits", 0, -1, IS_UNIQUE, !IS_ORDERED);
 		addEParameter(op, ecorePackage.getEBoolean(), "deep", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1543,7 +1545,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getNestedCondition_Conclusion(), this.getGraph(), null, "conclusion", null, 0, 1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNestedCondition_Mappings(), this.getMapping(), null, "mappings", null, 0, -1, NestedCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(nestedConditionEClass, this.getRule(), "getRule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEOperation(nestedConditionEClass, this.getGraph(), "getHost", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(nestedConditionEClass, ecorePackage.getEBoolean(), "isPAC", 0, 1, IS_UNIQUE, IS_ORDERED);
 

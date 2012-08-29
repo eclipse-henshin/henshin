@@ -17,6 +17,7 @@ import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
  * Default {@link HenshinRegistry} implementation.
+ * @deprecated
  */
 public class HenshinRegistryImpl implements HenshinRegistry {
 

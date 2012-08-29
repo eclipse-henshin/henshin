@@ -29,7 +29,6 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Not;
-import org.eclipse.emf.henshin.model.Rule;
 
 /**
  * <!-- begin-user-doc --> 
@@ -147,6 +146,22 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	public Graph getHost() {
+		EObject container = eContainer();
+		while (container!=null) {
+			if (container instanceof Graph) {
+				return (Graph) container;
+			}
+			container = container.eContainer();
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
 	public boolean isPAC() {
 		EObject container = eContainer();
 		while (container instanceof Formula) {
@@ -186,9 +201,15 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	public boolean isTrue() {
 		if (conclusion==null) {
 			return false;
-		} else {
-			return getMappings().isOnto(conclusion);			
 		}
+		Formula formula = conclusion.getFormula();
+		if (formula!=null && !formula.isTrue()) {
+			return false;
+		}
+		if (!getMappings().isOnto(conclusion)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -199,22 +220,6 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	public boolean isFalse() {
 		// There seems to be no situation where we can definitely say it is always false.
 		return false;
-	}
-	
-	/**
-	 * <!-- begin-user-doc --> 
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public Rule getRule() {
-		EObject container = eContainer();
-		while (container!=null) {
-			if (container instanceof Rule) {
-				return (Rule) container;
-			}
-			container = container.eContainer();
-		}
-		return null;
 	}
 
 	/**

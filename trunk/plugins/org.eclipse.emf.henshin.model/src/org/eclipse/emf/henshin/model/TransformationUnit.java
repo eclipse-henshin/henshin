@@ -56,6 +56,14 @@ public interface TransformationUnit extends NamedElement {
 	void setActivated(boolean value);
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	TransformationSystem getTransformationSystem();
+
+	/**
 	 * Returns the value of the '<em><b>Parameters</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Parameter}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}'.
