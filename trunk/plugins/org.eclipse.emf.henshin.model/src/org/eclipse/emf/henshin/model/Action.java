@@ -191,7 +191,7 @@ public final class Action {
 	 * @return Arguments.
 	 */
 	public String[] getArguments() {
-		return arguments;
+		return Arrays.copyOf(arguments , arguments.length);
 	}
 
 	/**
@@ -231,13 +231,18 @@ public final class Action {
 		}
 		if (arguments.length > 0) {
 			result.append(SEPARATOR_TYPE);
-			result.append(arguments[0]);
+			result.append(argumentToString(arguments[0]));
 			for (int i = 1; i < arguments.length; i++) {
 				result.append(SEPARATOR_ARGS);
-				result.append(arguments[i]);
+				result.append(argumentToString(arguments[i]));
 			}
 		}
 		return result.toString();
 	}
-
+	
+	private static String argumentToString(String arg) {
+		if (arg==null || arg.trim().length()==0) return "?";
+		return arg;
+	}
+	
 }

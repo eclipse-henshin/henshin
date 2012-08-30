@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.model.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -125,14 +124,28 @@ public class HenshinModelCleaner {
 			debug("added missing RHS for " + rule);
 		}
 
-		// Clean LHS and RHS:
-		cleanGraph(rule.getLhs());
-		cleanGraph(rule.getRhs());
-		
 		// RHS graph should have no formula:
 		if (rule.getRhs().getFormula()!=null) {
 			rule.getRhs().setFormula(null);
 			debug("removed formula for RHS of " + rule);
+		}
+
+		// Clean LHS and RHS:
+		cleanGraph(rule.getLhs());
+		cleanGraph(rule.getRhs());
+
+		// Clean the LHS-RHS mappings:
+		cleanMappingList(rule.getMappings(), rule.getLhs(), rule.getRhs());
+		
+		// Clean the multi-mappings:
+		if (rule.isMultiRule()) {
+			Rule kernel = rule.getKernelRule();
+			cleanMappingList(rule.getMultiMappings(), kernel.getLhs(), rule.getLhs(), kernel.getRhs(), rule.getRhs());
+		}
+
+		// Recursively clean the multi-rules:
+		for (Rule multi : rule.getMultiRules()) {
+			cleanRule(multi);
 		}
 		
 		// Remove unnecessary nested conditions:
@@ -164,7 +177,8 @@ public class HenshinModelCleaner {
 	 */
 	public static void cleanGraph(Graph graph) {
 		
-		// Check the nodes:
+		// Check the nodes and whether there are illegal edges:
+		Iterator<Edge> edges;
 		Iterator<Node> nodes = graph.getNodes().iterator();
 		while (nodes.hasNext()) {
 			Node node = nodes.next();
@@ -172,10 +186,27 @@ public class HenshinModelCleaner {
 				node.setType(EcorePackage.eINSTANCE.getEObject());
 				debug("setting EObject node type for " + node);
 			}
+			edges = node.getOutgoing().iterator();
+			while (edges.hasNext()) {
+				Edge edge = edges.next();
+				if (edge.getGraph()!=graph) {
+					edges.remove();
+					debug("removed invalid " + edge);
+				}
+			}
+			edges = node.getIncoming().iterator();
+			while (edges.hasNext()) {
+				Edge edge = edges.next();
+				if (edge.getGraph()!=graph) {
+					edges.remove();
+					debug("removed invalid " + edge);
+				}
+			}
+			
 		}
 		
-		// Remove illegal edges:
-		Iterator<Edge> edges = graph.getEdges().iterator();
+		// Remove invalid edges:
+		edges = graph.getEdges().iterator();
 		while (edges.hasNext()) {
 			Edge edge = edges.next();
 			if (edge.getSource()==null || edge.getTarget()==null ||
@@ -183,7 +214,7 @@ public class HenshinModelCleaner {
 				edge.getType()==null || !edge.getSource().getType().getEAllReferences().contains(edge.getType())) {
 				
 				edges.remove();
-				debug("removed illegal " + edge);
+				debug("removed invalid " + edge);
 			}
 		}
 		
@@ -242,14 +273,10 @@ public class HenshinModelCleaner {
 		// Clean the conclusion graph:
 		cleanGraph(conclusion);
 		
+		// All mappings must go from the host to the conclusion:
 		Graph host = condition.getHost();
 		if (host!=null) {
-			
-			// All mappings must go from the host to the conclusion:
-			Map<Graph,List<Graph>> signatures = newSignature(Collections.singletonList(host));
-			signatures.get(host).add(conclusion);
-			cleanMappingList(condition.getMappings(), signatures);
-
+			cleanMappingList(condition.getMappings(), host, conclusion);
 		}
 		
 	}
@@ -259,7 +286,13 @@ public class HenshinModelCleaner {
 	 * @param mappings Mapping list to be cleaned.
 	 * @param signatures Signatures of the functions that the mapping list stands for.
 	 */
-	public static void cleanMappingList(MappingList mappings, Map<Graph,List<Graph>> signatures) {
+	public static void cleanMappingList(MappingList mappings, Graph... graphs) {
+		
+		// Build the signatures:
+		Map<Graph,Graph> signatures = new HashMap<Graph,Graph>();
+		for (int i=0; i<graphs.length; i=i+2) {
+			signatures.put(graphs[i], graphs[i+1]);
+		}
 		
 		// Check which mappings are invalid:
 		Iterator<Mapping> contents = mappings.iterator();		
@@ -279,9 +312,15 @@ public class HenshinModelCleaner {
 				contents.remove(); debug(msg); continue;
 			}
 			
+			// Rule must be either same rule or multi- and kernel rule:
+			Rule r1 = from.getRule();
+			Rule r2 = to.getRule();
+			if (r1==null || r2==null || (r1!=r2 && r1.getKernelRule()!=r2 && r1!=r2.getKernelRule())) {
+				contents.remove(); debug(msg); continue;
+			}
+			
 			// Make sure it is compliant with the signature:
-			List<Graph> codomains = signatures.get(from);
-			if (codomains==null || !codomains.contains(to)) {
+			if (signatures.get(from)!=to) {
 				contents.remove(); debug(msg); continue;
 			}
 			
@@ -330,21 +369,10 @@ public class HenshinModelCleaner {
 	}
 	
 	/*
-	 * Create a new signature.
-	 */
-	private static Map<Graph,List<Graph>> newSignature(List<Graph> domains) {
-		Map<Graph,List<Graph>> signatures = new HashMap<Graph,List<Graph>>();
-		for (Graph graph : domains) {
-			signatures.put(graph, new ArrayList<Graph>());
-		}
-		return signatures;
-	}
-	
-	/*
 	 * Print debug messages.
 	 */
 	private static void debug(String message) {
-		HenshinModelPlugin.INSTANCE.log(IStatus.INFO, "CleanUp: " + message, null);
+		HenshinModelPlugin.INSTANCE.log(IStatus.INFO, "HenshinModelCleaner: " + message, null);
 	}
 	
 }

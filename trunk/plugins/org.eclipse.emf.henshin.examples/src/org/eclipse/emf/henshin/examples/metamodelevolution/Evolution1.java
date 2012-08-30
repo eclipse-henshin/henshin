@@ -270,13 +270,13 @@ public class Evolution1 {
 		Graph rhs = i_rule1.getRhs(); // right-hand side of the rule
 
 		// Create all nodes and edges in the LHS.
-		Node lhs_n_sC = hFac.createNode(lhs, srcType);
-		Node lhs_n_tC = hFac.createNode(lhs, trgType);
+		Node lhs_n_sC = hFac.createNode(lhs, srcType, null);
+		Node lhs_n_tC = hFac.createNode(lhs, trgType, null);
 		Edge lhs_e = hFac.createEdge(lhs_n_sC, lhs_n_tC, refType);
 		// Create all nodes and edges in the RHS.
-		Node rhs_n_sC = hFac.createNode(rhs, srcType);
-		Node rhs_n_tC = hFac.createNode(rhs, trgType);
-		Node rhs_n_rC = hFac.createNode(rhs, refclassType);
+		Node rhs_n_sC = hFac.createNode(rhs, srcType, null);
+		Node rhs_n_tC = hFac.createNode(rhs, trgType, null);
+		Node rhs_n_rC = hFac.createNode(rhs, refclassType, null);
 		Edge rhs_e_st = hFac.createEdge(rhs_n_sC, rhs_n_rC, refSrcTrg);
 		Edge rhs_e_ts = hFac.createEdge(rhs_n_tC, rhs_n_rC, refTrgSrc);
 		// Create mappings to specify creation, deletion and preserve

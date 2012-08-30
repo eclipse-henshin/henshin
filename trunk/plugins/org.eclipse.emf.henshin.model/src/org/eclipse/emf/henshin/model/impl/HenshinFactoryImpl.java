@@ -138,12 +138,22 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public Rule createRule() {
 		RuleImpl rule = new RuleImpl();
-		rule.setLhs(createGraph("LHS"));
-		rule.setRhs(createGraph("RHS"));
+		return rule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Rule createRule(String name) {
+		Rule rule = createRule();
+		rule.setName(name);
 		return rule;
 	}
 
@@ -168,8 +178,11 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	}
 
 	/**
-	 * Create a parameter.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
+	@Override
 	public Parameter createParameter(String name) {
 		ParameterImpl parameter = new ParameterImpl();
 		parameter.setName(name);
@@ -191,6 +204,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Graph createGraph(String name) {
 		GraphImpl graph = new GraphImpl();
 		graph.setName(name);
@@ -212,6 +226,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Mapping createMapping(Node origin, Node image) {
 		Mapping mapping = createMapping();
 		mapping.setOrigin(origin);
@@ -234,7 +249,8 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public Node createNode(Graph graph, EClass type) {
+	@Override
+	public Node createNode(Graph graph, EClass type, String name) {
 		Node node = createNode();
 		node.setType(type);
 		graph.getNodes().add(node);
@@ -256,6 +272,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
+	@Override
 	public Attribute createAttribute(Node node, EAttribute type, String value) {
 		Attribute attribute = createAttribute();
 		attribute.setNode(node);

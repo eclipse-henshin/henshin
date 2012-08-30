@@ -62,7 +62,7 @@ public class RootObjectEditHelper {
 		
 		// Check whether it is the correct view:
 		if (!isRuleView(ruleView)) {
-			throw new IllegalArgumentException();
+			return null;
 		}
 		
 		// Get the root object eAnnotation:
@@ -196,6 +196,11 @@ public class RootObjectEditHelper {
 	 */
 	public static void updateRootContainment(View ruleView, Node node) throws ExecutionException {
 		
+		// Make sure we really have a node in a rule:
+		if (node==null || node.getGraph()==null || node.getGraph().getRule()==null) {
+			return;
+		}
+		
 		// First make sure we have an action node:
 		node = node.getActionNode();
 		if (node==null) return;
@@ -291,7 +296,7 @@ public class RootObjectEditHelper {
 	 */
 	public static boolean isRuleView(View view) {
 		// We allow only the root view for rules.
-		return (view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
+		return (view!=null && view.getElement() instanceof Rule && view.getType().equals(String.valueOf(RuleEditPart.VISUAL_ID)));
 	}
 	
 	/**

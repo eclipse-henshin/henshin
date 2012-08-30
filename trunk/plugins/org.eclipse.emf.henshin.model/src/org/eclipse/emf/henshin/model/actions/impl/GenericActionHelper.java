@@ -16,6 +16,7 @@ import static org.eclipse.emf.henshin.model.Action.Type.PRESERVE;
 import static org.eclipse.emf.henshin.model.Action.Type.REQUIRE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -268,60 +269,68 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		
 		// THE ACTION TYPE IS CORRECT NOW.
 		
-		// We check now whether the amalgamation parameters are different.
-		if (oldAction.isMulti()!=newAction.isMulti()) {
-			Rule multi, kernel;
-			if (newAction.isMulti()) {
-				multi = getOrCreateMultiRule(rule, newAction.getArguments());
-				kernel = rule;
-			} else {
-				kernel = rule.getKernelRule();
-				multi = rule;
-			}
-			updateMultiElement(kernel, multi, newAction, element);
-		}
-		
-		// THE ACTION TYPE AND THE MULTI-FLAG ARE CORRECT NOW.
-		
-		// The only thing that can be different now is the name of the multi-rule:
-		if (oldAction.isMulti() && newAction.isMulti()) {
-			Rule kernelRule = rule.getKernelRule();
-			Rule newMulti = getOrCreateMultiRule(kernelRule, newAction.getArguments());
-			if (newMulti!=rule) {
-				updateMultiElement(rule, newMulti, newAction, element);
+		// Update the multi-rule:
+		oldAction = getAction(element);
+		if (oldAction.isMulti()) {
+			if (!newAction.isMulti() || !Arrays.equals(oldAction.getArguments(), newAction.getArguments())) {
+				moveMultiElement(rule, newAction, element); // move it to the root rule
 			}
 		}
+		oldAction = getAction(element);
+		if (!oldAction.isMulti() && newAction.isMulti()) {
+			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
+			moveMultiElement(multi, newAction, element); // move it to the multi-rule
+		}
+		
+		// NOW EVERYTHING SHOULD BE CORRECT.
 		
 		// CLEAN UP:
 		HenshinModelCleaner.cleanRule(rule.getRootRule());
 			
 	}
 	
-	private void updateMultiElement(Rule rule1, Rule rule2, Action action, E element) {
+	/*
+	 * Move an element either from a multi-rule into the root rule, or vice versa.
+	 */
+	private void moveMultiElement(Rule multi, Action action, E element) {
 		
-		// First make sure the multi-rules are complete.
-		if (rule1.isMultiRule()) {
-			new PreservedElemMapEditor(rule1.getKernelRule(), rule1, rule1.getMultiMappings()).ensureCompleteness();
+		// Find out from where to where we need to move the element:
+		List<Rule> ruleChain = new ArrayList<Rule>();
+		Rule rule = multi;
+		ruleChain.add(rule);
+		while (rule.getKernelRule()!=null) {
+			rule = rule.getKernelRule();
+			ruleChain.add(rule);
 		}
-		if (rule2.isMultiRule()) {
-			new PreservedElemMapEditor(rule2.getKernelRule(), rule2, rule2.getMultiMappings()).ensureCompleteness();
+		if (getGraph(element).getRule()!=multi) {
+			Collections.reverse(ruleChain);
 		}
-
-		// Move the element(s).
+		
+		// Now move the element:
 		Type actionType = action.getType();
-		if (actionType==CREATE) {
-			getMapEditor(rule1.getRhs(), rule2.getRhs(), rule2.getMultiMappings()).move(element);
-		}
-		else if (actionType==DELETE) {
-			getMapEditor(rule1.getLhs(), rule2.getLhs(), rule2.getMultiMappings()).move(element);
-		}
-		else if (actionType==PRESERVE) {
-			new PreservedElemMapEditor(rule1, rule2, rule2.getMultiMappings()).moveMappedElement(element);
-		}
-		else if (actionType==FORBID || actionType==REQUIRE) {
-			NestedCondition kernelAC = getOrCreateAC(action, rule1);
-			NestedCondition multiAC = getOrCreateAC(action, rule2);
-			new ConditionElemMapEditor(kernelAC, multiAC).moveConditionElement(element);
+		for (Rule current : ruleChain) {
+			
+			// Get the kernel rule of the current rule:
+			Rule kernel = current.getKernelRule();
+			if (kernel==null) continue;
+
+			// Decide what and how to move the element:
+			if (actionType==CREATE) {
+				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
+				getMapEditor(kernel.getRhs(), current.getRhs(), current.getMultiMappings()).move(element);
+				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
+			}
+			else if (actionType==DELETE) {
+				getMapEditor(kernel.getLhs(), current.getLhs(), current.getMultiMappings()).move(element);
+			}
+			else if (actionType==PRESERVE) {
+				new MultiRuleMapEditor(kernel, current).moveMappedElement(element);
+			}
+			else if (actionType==FORBID || actionType==REQUIRE) {
+				NestedCondition kernelAC = getOrCreateAC(kernel, null, actionType==REQUIRE);
+				NestedCondition currentAC = getOrCreateAC(current, null, actionType==REQUIRE);
+				new ConditionElemMapEditor(kernelAC, currentAC).moveConditionElement(element);
+			}
 		}
 
 	}
@@ -421,26 +430,38 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	}
 	
 	
-	private Rule getOrCreateMultiRule(Rule kernel, String[] actionArguments) {
+	private Rule getOrCreateMultiRule(Rule root, Action action) {
 		
-		// Derive the multi-rule name:
-		String name = null;
-		if (actionArguments.length>0 && actionArguments[0].trim().length()>0) {
-			name = actionArguments[0].trim();
+		// Must be a multi-action:
+		if (!action.isMulti()) {
+			return null;
+		}
+
+		// Get the names of the multi-rules (must be a modifiable list):
+		List<String> names = new ArrayList<String>(Arrays.asList(action.getArguments()));
+		if (names.isEmpty()) {
+			names.add(null);
 		}
 		
-		// Get or create the multi-rule:
-		Rule multiRule = kernel.getMultiRule(name);
-		if (multiRule==null) {
-			multiRule = HenshinFactory.eINSTANCE.createRule();
-			multiRule.setName(name);
-			if (name==null) {
-				kernel.getMultiRules().add(0, multiRule);
-			} else {
-				kernel.getMultiRules().add(multiRule);
+		// Find or create the multi-rules:
+		Rule rule = root.getRootRule(); // really make sure we start with the root rule
+		for (String name : names) {
+			Rule multi = rule.getMultiRule(name);
+			if (multi==null) {
+				multi = HenshinFactory.eINSTANCE.createRule(name);
+				if (name==null || name.trim().length()==0) {
+					rule.getMultiRules().add(0, multi);
+				} else {
+					rule.getMultiRules().add(multi);
+				}
 			}
+			
+			// Ensure completeness:
+			new MultiRuleMapEditor(rule, multi).ensureCompleteness();
+			
+			rule = multi;
 		}
-		return multiRule;
+		return rule;
 			
 	}
 
@@ -450,17 +471,12 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 	 * @param rule		Rule
 	 * @return the application condition.
 	 */
-	public static NestedCondition getOrCreateAC(Action action, Rule rule) {
+	private NestedCondition getOrCreateAC(Action action, Rule rule) {
 		
 		// Check if the action type is ok:
-		if (!((action != null) && 
-			((action.getType() == FORBID) || 
-			 (action.getType() == REQUIRE)))) {
+		if (action.getType() != FORBID && action.getType() != REQUIRE) {
 			throw new IllegalArgumentException("Application conditions can be created only for REQUIRE/FORBID actions");
-		}
-		
-		// Determine whether it is a PAC or a NAC:
-		boolean positive = (action.getType()==REQUIRE);
+		}	
 		
 		// Get the name of the application condition:
 		String name = null;
@@ -472,15 +488,16 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		
 		// Find or create the application condition:
-		NestedCondition ac = positive ? rule.getLhs().getPAC(name) : rule.getLhs().getNAC(name);
-		if (ac==null) {
-			ac = positive ? rule.getLhs().createPAC(name) : rule.getLhs().createNAC(name);
-		}
-				
-		// Done.
-		return ac;
+		return getOrCreateAC(rule, name, action.getType()==REQUIRE);
 		
 	}
 
+	private NestedCondition getOrCreateAC(Rule rule, String name, boolean isPAC) {
+		NestedCondition ac = isPAC ? rule.getLhs().getPAC(name) : rule.getLhs().getNAC(name);
+		if (ac==null) {
+			ac = isPAC ? rule.getLhs().createPAC(name) : rule.getLhs().createNAC(name);
+		}
+		return ac;
+	}
 
 }

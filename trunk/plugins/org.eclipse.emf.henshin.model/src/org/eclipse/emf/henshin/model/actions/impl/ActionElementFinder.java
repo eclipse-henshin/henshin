@@ -80,6 +80,11 @@ public class ActionElementFinder {
 	 */
 	public static <E extends GraphElement> E getActionElement(E element, ActionHelper<E,?> helper) {		
 		
+		// Check whether its null:
+		if (element==null || element.getGraph()==null) {
+			return null;
+		}
+		
 		// Is the element itself already an action element?
 		if (helper.getAction(element)!=null) {
 			return element;

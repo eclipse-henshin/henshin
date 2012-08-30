@@ -14,19 +14,18 @@ import java.util.List;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Mapping;
-import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 
 /**
- * A map editor for for preserved elements. Used for multi-rules.
+ * A map editor for multi-rule elements. Used for multi-rules.
  * This does not implement {@link MapEditor}.
  * @author Christian Krause
  */
-public class PreservedElemMapEditor {
+public class MultiRuleMapEditor {
 	
-	// Source and target rule.
-	private final Rule source, target;
+	// Kernel and multi-rule.
+	private final Rule kernel, multi;
 	
 	// Node map editors:
 	private final NodeMapEditor lhsNodeMapEditor, rhsNodeMapEditor;
@@ -34,17 +33,17 @@ public class PreservedElemMapEditor {
 	// Edge map editors:
 	private final EdgeMapEditor lhsEdgeMapEditor, rhsEdgeMapEditor;
 
-	public PreservedElemMapEditor(Rule source, Rule target, MappingList mappings) {
+	public MultiRuleMapEditor(Rule kernel, Rule multi) {
 		
 		// Source, target and the image graphs:
-		this.source = source;
-		this.target = target;
+		this.kernel = kernel;
+		this.multi = multi;
 
 		// Node and edge map editors:
-		lhsNodeMapEditor = new NodeMapEditor(source.getLhs(), target.getLhs(), mappings);
-		lhsEdgeMapEditor = new EdgeMapEditor(source.getLhs(), target.getLhs(), mappings);
-		rhsNodeMapEditor = new NodeMapEditor(source.getRhs(), target.getRhs(), mappings);
-		rhsEdgeMapEditor = new EdgeMapEditor(source.getRhs(), target.getRhs(), mappings);
+		lhsNodeMapEditor = new NodeMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings());
+		lhsEdgeMapEditor = new EdgeMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings());
+		rhsNodeMapEditor = new NodeMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings());
+		rhsEdgeMapEditor = new EdgeMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings());
 		
 	}
 	
@@ -60,24 +59,24 @@ public class PreservedElemMapEditor {
 		if (opposite==null || graph==null) return;
 		
 		// Move the mapping:
-		if (graph.getRule()==source) {
-			target.getMappings().add( getHorizontalMapping(node, opposite) );
-		} else if (graph.getRule()==target) {
-			source.getMappings().add( getHorizontalMapping(node, opposite) );
+		if (graph.getRule()==kernel) {
+			multi.getMappings().add( getHorizontalMapping(node, opposite) );
+		} else if (graph.getRule()==multi) {
+			kernel.getMappings().add( getHorizontalMapping(node, opposite) );
 		}
 
 		// Move the node and the opposite node:
-		if (graph==source.getLhs() || graph==target.getLhs()) {
+		if (graph==kernel.getLhs() || graph==multi.getLhs()) {
 			rhsNodeMapEditor.move(opposite);				
 			lhsNodeMapEditor.move(node);
 		}
-		else if (graph==source.getRhs() || graph==target.getRhs()) {
+		else if (graph==kernel.getRhs() || graph==multi.getRhs()) {
 			rhsNodeMapEditor.move(node);				
 			lhsNodeMapEditor.move(opposite);
 		}
 		
 		// It could be that we left an old mapping instance in the multi-rule.
-		removeInvalidMappings(target.getMappings(), target.getLhs(), target.getRhs());
+		removeInvalidMappings(multi.getMappings(), multi.getLhs(), multi.getRhs());
 		
 	}
 
@@ -104,11 +103,11 @@ public class PreservedElemMapEditor {
 
 		// Copy the node and the opposite node:
 		Node copiedNode, copiedOpposite;
-		if (graph==source.getLhs() || graph==target.getLhs()) {
+		if (graph==kernel.getLhs() || graph==multi.getLhs()) {
 			copiedOpposite = rhsNodeMapEditor.copy(opposite);				
 			copiedNode = lhsNodeMapEditor.copy(node);
 		}
-		else if (graph==source.getRhs() || graph==target.getRhs()) {
+		else if (graph==kernel.getRhs() || graph==multi.getRhs()) {
 			copiedNode = rhsNodeMapEditor.copy(node);
 			copiedOpposite = lhsNodeMapEditor.copy(opposite);
 		}
@@ -118,10 +117,10 @@ public class PreservedElemMapEditor {
 		
 		// Create a copy of the mapping:
 		Mapping mapping = getHorizontalMapping(node, opposite);
-		if (graph.getRule()==source) {
-			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, target);
-		} else if (graph.getRule()==target) {
-			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, source);
+		if (graph.getRule()==kernel) {
+			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, multi);
+		} else if (graph.getRule()==multi) {
+			copyMapping(mapping, node, opposite, copiedNode, copiedOpposite, kernel);
 		}
 	
 	}
@@ -140,10 +139,10 @@ public class PreservedElemMapEditor {
 		
 		// Find out from where to where we move...
 		Rule from;
-		if (graph==source.getLhs() || graph==source.getRhs()) {
-			from = source;
-		} else if (graph==target.getLhs() || graph==target.getRhs()) {
-			from = target;
+		if (graph==kernel.getLhs() || graph==kernel.getRhs()) {
+			from = kernel;
+		} else if (graph==multi.getLhs() || graph==multi.getRhs()) {
+			from = multi;
 		} else {
 			return;
 		}
@@ -177,10 +176,10 @@ public class PreservedElemMapEditor {
 	}
 	
 	public void ensureCompleteness() {
-		for (Node node : source.getLhs().getNodes()) {
+		for (Node node : kernel.getLhs().getNodes()) {
 			copyNodeToTarget(node);
 		}
-		for (Edge edge : source.getLhs().getEdges()) {
+		for (Edge edge : kernel.getLhs().getEdges()) {
 			copyEdgeToTarget(edge);
 		}
 	}
@@ -189,9 +188,9 @@ public class PreservedElemMapEditor {
 		if (getOppositeNode(node)!=null) {
 			copyMappedNode(node);
 		} else {
-			if (node.getGraph()==source.getLhs()) {
+			if (node.getGraph()==kernel.getLhs()) {
 				lhsNodeMapEditor.copy(node);
-			} else if (node.getGraph()==source.getRhs()) {
+			} else if (node.getGraph()==kernel.getRhs()) {
 				rhsNodeMapEditor.copy(node);
 			}
 		}
@@ -199,13 +198,13 @@ public class PreservedElemMapEditor {
 
 	private void copyEdgeToTarget(Edge edge) {
 		Edge opposite = getOppositeEdge(edge);
-		if (edge.getGraph()==source.getLhs()) {
+		if (edge.getGraph()==kernel.getLhs()) {
 			lhsEdgeMapEditor.copy(edge);
 			if (opposite!=null) {
 				rhsEdgeMapEditor.copy(opposite);				
 			}
 		}
-		else if (edge.getGraph()==source.getRhs()) {
+		else if (edge.getGraph()==kernel.getRhs()) {
 			rhsEdgeMapEditor.copy(edge);
 			if (opposite!=null) {
 				lhsEdgeMapEditor.copy(opposite);				
@@ -218,10 +217,10 @@ public class PreservedElemMapEditor {
 	 * Get the opposite node.
 	 */
 	private Node getOppositeNode(Node node) {
-		if (node.getGraph().getRule()==source) {
-			return new NodeMapEditor(source.getRhs()).getOpposite(node);
-		} else if (node.getGraph().getRule()==target) {
-			return new NodeMapEditor(target.getRhs()).getOpposite(node);
+		if (node.getGraph().getRule()==kernel) {
+			return new NodeMapEditor(kernel.getRhs()).getOpposite(node);
+		} else if (node.getGraph().getRule()==multi) {
+			return new NodeMapEditor(multi.getRhs()).getOpposite(node);
 		} else {
 			return null;
 		}
@@ -231,10 +230,10 @@ public class PreservedElemMapEditor {
 	 * Get the opposite edge.
 	 */
 	private Edge getOppositeEdge(Edge edge) {
-		if (edge.getGraph().getRule()==source) {
-			return new EdgeMapEditor(source.getRhs()).getOpposite(edge);
-		} else if (edge.getGraph().getRule()==target) {
-			return new EdgeMapEditor(target.getRhs()).getOpposite(edge);
+		if (edge.getGraph().getRule()==kernel) {
+			return new EdgeMapEditor(kernel.getRhs()).getOpposite(edge);
+		} else if (edge.getGraph().getRule()==multi) {
+			return new EdgeMapEditor(multi.getRhs()).getOpposite(edge);
 		} else {
 			return null;
 		}
@@ -242,9 +241,9 @@ public class PreservedElemMapEditor {
 	
 	// Get the LHS-RHS mapping for two nodes.
 	private Mapping getHorizontalMapping(Node n1, Node n2) {
-		Mapping mapping = source.getMappings().get(n1, n2);
+		Mapping mapping = kernel.getMappings().get(n1, n2);
 		if (mapping==null) {
-			mapping = target.getMappings().get(n1, n2);
+			mapping = multi.getMappings().get(n1, n2);
 		}
 		return mapping;
 	}

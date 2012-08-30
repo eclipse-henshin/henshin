@@ -574,7 +574,11 @@ public class NodeImpl extends NamedElementImpl implements Node {
 	@Override
 	public String toString() {
 		String type = (this.type!=null) ? this.type.getName() : null;
-		return "Node (name: " + name + ", type: " + type + ")";
+		if (name!=null) {
+			return "Node (name: " + name + ", type: " + type + ")";
+		} else {
+			return "Node (type: " + type + ")";			
+		}
 	}
 
 } //NodeImpl

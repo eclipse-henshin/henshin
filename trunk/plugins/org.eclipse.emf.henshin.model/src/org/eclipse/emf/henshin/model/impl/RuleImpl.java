@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -34,6 +35,7 @@ import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.AttributeCondition;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
+import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
@@ -187,9 +189,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Graph getLhs() {
+		if (lhs==null) {
+			Graph theLhs = new GraphImpl();
+			theLhs.setName("LHS");
+			setLhs(theLhs);  // required for setting the container feature
+		}
 		return lhs;
 	}
 	
@@ -230,9 +237,14 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public Graph getRhs() {
+		if (rhs==null) {
+			Graph theRhs = new GraphImpl();
+			theRhs.setName("RHS");
+			setRhs(theRhs);  // required for setting the container feature
+		}
 		return rhs;
 	}
 	
@@ -344,10 +356,12 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public boolean removeNode(Node node, boolean removeMapped) {
+		
 		// Must be invoked from the root kernel rule:
 		if (getKernelRule()!=null) {
 			return getKernelRule().removeNode(node, removeMapped);
 		}
+		
 		// Collect all mappings and nodes to delete:
 		Set<Mapping> mappings = new HashSet<Mapping>();
 		Set<Node> nodes = new HashSet<Node>();
@@ -355,6 +369,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 		boolean changed;
 		do {
 			changed = false;
+			
 			// Add all mappings that refer to the nodes:
 			TreeIterator<EObject> it = eAllContents();
 			while (it.hasNext()) {
@@ -372,6 +387,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 					}
 				}
 			}
+			
 			// Add all mapped nodes if necessary:
 			if (changed && removeMapped) {
 				for (Mapping m : mappings) {
@@ -384,6 +400,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 				}
 			}
 		} while (changed);
+		
 		// Now remove the collected mappings and nodes:
 		for (Mapping m : mappings) {
 			m.setOrigin(null);
@@ -394,6 +411,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 			n.getGraph().removeNode(n);
 		}
 		return true;
+		
 	}
 
 	/**
@@ -445,14 +463,6 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Node createNode(EClass type) {
-		if (lhs==null) {
-			lhs = new GraphImpl();
-			lhs.setName("LHS");
-		}
-		if (rhs==null) {
-			rhs = new GraphImpl();
-			rhs.setName("RHS");
-		}
 		Node lhsNode = new NodeImpl();
 		Node rhsNode = new NodeImpl();
 		lhsNode.setType(type);
@@ -469,16 +479,99 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @generated NOT
 	 */
 	public Edge createEdge(Node source, Node target, EReference type) {
-		return EdgeActionHelper.INSTANCE.createEdge(source, target, type);
-	}
+		
+		// Make sure we have the action nodes:
+		source = source.getActionNode();
+		target = target.getActionNode();
+		
+		// Get the source and target actions:
+		Action sourceAction = source.getAction();
+		Action targetAction = target.getAction();
+		
+		// If they are the same, we can just create the edge:
+		if (sourceAction.equals(targetAction)) {
+			return doCreateEdge(source, target, type, sourceAction.getType());
+		}
+		
+		// Otherwise we do a trick and first change the action of the target node:
+		target.setAction(sourceAction);
+		Edge edge = doCreateEdge(source, target, type, sourceAction.getType());
+		target.setAction(targetAction);
+		return edge;
 
+	}
+	
+	/*
+	 * Perform the edge creation.
+	 */
+	private Edge doCreateEdge(Node source, Node target, EReference edgeType, Action.Type actionType) {
+		Edge edge = source.getOutgoing(edgeType, target);
+		if (edge==null) {
+			edge = HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);			
+		}
+		if (actionType==Action.Type.PRESERVE) {
+			source = getMappings().getImage(source, getRhs());
+			target = getMappings().getImage(target, getRhs());
+			if (source.getOutgoing(edgeType, target)==null) {
+				HenshinFactory.eINSTANCE.createEdge(source, target, edgeType);
+			}
+		}
+		return edge;
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public boolean canCreateEdge(Node source, Node target, EReference type) {
-		return EdgeActionHelper.INSTANCE.canCreateEdge(source, target, type);
+	public boolean canCreateEdge(Node source, Node target, EReference edgeType) {
+		
+		// Get the source and target type.
+		EClass targetType = target.getType();
+		EClass sourceType = source.getType();
+
+		// Everything must be set.
+		if (source == null || target == null || sourceType == null
+				|| targetType == null || edgeType == null) {
+			return false;
+		}
+
+		// Reference must be owned by source.
+		if (!sourceType.getEAllReferences().contains(edgeType)) {
+			return false;
+		}
+
+		// Target type must be ok. Extra check for EObjects!!!
+		if (!edgeType.getEReferenceType().isSuperTypeOf(targetType) &&
+			!targetType.isSuperTypeOf(edgeType.getEReferenceType())
+				&& edgeType.getEReferenceType() != EcorePackage.eINSTANCE
+						.getEObject()) {
+			return false;
+		}
+
+		// Check for source/target consistency.
+		Graph sourceGraph = source.getGraph();
+		Graph targetGraph = target.getGraph();
+		if (sourceGraph==null || targetGraph==null) {
+			return false;
+		}
+
+		// Make sure the rules are found and compatible:
+		Rule sourceRule = sourceGraph.getRule();
+		Rule targetRule = targetGraph.getRule();
+		if (sourceRule==null || targetRule==null) {
+			return false;
+		}
+		
+		// Source and target rule must be compatible:
+		if (sourceRule!=targetRule && 
+				!EcoreUtil.isAncestor(sourceRule, targetRule) && 
+				EcoreUtil.isAncestor(targetRule, sourceRule)) {
+			return false;
+		}
+		
+		// Everything alright:
+		return true;
 	}
 
 	/**

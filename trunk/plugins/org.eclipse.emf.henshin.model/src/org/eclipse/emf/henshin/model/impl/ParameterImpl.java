@@ -263,7 +263,11 @@ public class ParameterImpl extends NamedElementImpl implements Parameter {
 	@Override
 	public String toString() {
 		String type = (this.type!=null) ? this.type.getName() : null;
-		return "Parameter (name: " + name + ", type: " + type + ")";
+		if (type!=null) {
+			return "Parameter (name: " + name + ", type: " + type + ")";
+		} else {
+			return "Parameter (name: " + name + ")";			
+		}
 	}
 
 } //ParameterImpl

@@ -44,15 +44,21 @@ public interface HenshinFactory extends EFactory {
 	/**
 	 * Returns a new object of class '<em>Rule</em>'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * Remark: LHS '<em>Graph</em>' and RHS '<em>Graph</em>' are created as well
-	 * and associated with this rule.
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return a new object of class '<em>Rule</em>'.
 	 * @generated
 	 */
 	Rule createRule();
+
+	/**
+	 * Returns a new object of class '<em>Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param name The name of the rule.
+	 * @return a new object of class '<em>Rule</em>'.
+	 * @generated NOT
+	 */
+	Rule createRule(String name);
 
 	/**
 	 * Returns a new object of class '<em>Attribute Condition</em>'.
@@ -73,6 +79,16 @@ public interface HenshinFactory extends EFactory {
 	Parameter createParameter();
 
 	/**
+	 * Returns a new object of class '<em>Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param name Name of the parameter.
+	 * @return a new object of class '<em>Parameter</em>'.
+	 * @generated NOT
+	 */
+	Parameter createParameter(String name);
+
+	/**
 	 * Returns a new object of class '<em>Graph</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -85,6 +101,7 @@ public interface HenshinFactory extends EFactory {
 	 * Returns a new object of class '<em>Graph</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name Name of the graph.
 	 * @return a new object of class '<em>Graph</em>'.
 	 * @generated NOT
 	 */
@@ -100,10 +117,14 @@ public interface HenshinFactory extends EFactory {
 	Mapping createMapping();
 
 	/**
-	 * Creates a mapping for a given node origin and image.
-	 * @param origin Origin node.
-	 * @param image Image node.
-	 * @return The created mapping.
+	 * Returns a new object of class '<em>Mapping</em>'.
+	 * <!-- begin-user-doc -->
+	 * Sets the origin and the image of the created mapping.
+	 * <!-- end-user-doc -->
+	 * @param origin Origin of the mapping.
+	 * @param image Image of the mapping.
+	 * @return a new object of class '<em>Mapping</em>'.
+	 * @generated NOT
 	 */
 	Mapping createMapping(Node origin, Node image);	
 	
@@ -117,12 +138,16 @@ public interface HenshinFactory extends EFactory {
 	Node createNode();
 
 	/**
-	 * Creates a new node and adds it to a graph.
-	 * @param graph Graph to be added to.
-	 * @param type Type of the node.
-	 * @return The created node.
+	 * Create a new node and add it to a given graph.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param graph The graph.
+	 * @param type The type of the node.
+	 * @param name The name of the node.
+	 * @return a new object of class '<em>Node</em>'.
+	 * @generated NOT
 	 */
-	Node createNode(Graph graph, EClass type);
+	Node createNode(Graph graph, EClass type, String name);
 	
 	/**
 	 * Returns a new object of class '<em>Attribute</em>'.
@@ -134,11 +159,13 @@ public interface HenshinFactory extends EFactory {
 	Attribute createAttribute();
 
 	/**
-	 * Create an attribute for a given node, type and value.
-	 * @param node Node to which the attribute is added.
+	 * Returns a new object of class '<em>Attribute</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param type Attribute type.
 	 * @param value Attribute value.
-	 * @return The created attribute.
+	 * @return a new object of class '<em>Attribute</em>'.
+	 * @generated NOT
 	 */
 	Attribute createAttribute(Node node, EAttribute type, String value);
 
@@ -158,6 +185,7 @@ public interface HenshinFactory extends EFactory {
 	 * @param target Target node.
 	 * @param type Edge type.
 	 * @return The created edge.
+	 * @generated NOT
 	 */
 	Edge createEdge(Node source, Node target, EReference type);
 	
