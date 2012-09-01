@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -118,11 +119,15 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 
 				// If it has an origin in the LHS, it is a PAC/NAC-action:
 				if (origin==null) {
+					String name = graph.getName();
 					if (isMulti) {
-						return new Action(type, true, multiParams);						
+						if (name==null || name.trim().length()==0) {
+							return new Action(type, true, multiParams);							
+						} else {
+							return null;
+						}
 					} else {
-						String name = graph.getName();
-						if (name==null || name.trim().length()==0 || "default".equals(name)) {
+						if (name==null || name.trim().length()==0) {
 							return new Action(type, false);
 						} else {
 							return new Action(type, false, name.trim());
@@ -149,7 +154,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		if (newAction.equals(oldAction)) return; // nothing to do
 		Type oldType = oldAction.getType();
 		Type newType = newAction.getType();
-				
+		
 		// Get the container graph and rule.
 		Graph graph = getGraph(element);
 		Rule rule = graph.getRule();
@@ -239,7 +244,7 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}		
 		
 		// Current action type = REQUIRE or FORBID?
-		else if (oldType==REQUIRE || oldType==FORBID) {
+		else if ((oldType==REQUIRE || oldType==FORBID) && (oldType!=newType)) {
 			
 			// We know that the element is contained in a AC and that it has no origin in the LHS.
 			NestedCondition ac = (NestedCondition) graph.eContainer();
@@ -272,14 +277,30 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		// Update the multi-rule:
 		oldAction = getAction(element);
 		if (oldAction.isMulti()) {
-			if (!newAction.isMulti() || !Arrays.equals(oldAction.getArguments(), newAction.getArguments())) {
-				moveMultiElement(rule, newAction, element); // move it to the root rule
+			
+			String[] oldArgs = oldAction.getArguments();
+			String[] newArgs = newAction.getArguments();
+			
+			if (!newAction.isMulti()) {
+				moveMultiElement(rule, rule.getRootRule(), newAction, element); // move it up to the root rule
+			}
+			else if (!Arrays.equals(oldArgs, newArgs)) {
+				List<String> args = new ArrayList<String>();
+				int max = Math.min(oldArgs.length, newArgs.length);
+				for (int i=0; i<max; i++) {
+					if (oldArgs[i].equals(newArgs[i])) {
+						args.add(oldArgs[i]);
+					} else break;
+				}
+				Action common = new Action(oldAction.getType(), true, args.toArray(new String[0]));
+				Rule rx = getOrCreateMultiRule(rule.getRootRule(), common); 
+				moveMultiElement(rule, rx, newAction, element); // move it to the common parent rule
 			}
 		}
 		oldAction = getAction(element);
-		if (!oldAction.isMulti() && newAction.isMulti()) {
+		if (oldAction!=null && !oldAction.equals(newAction)) {
 			Rule multi = getOrCreateMultiRule(rule.getRootRule(), newAction);
-			moveMultiElement(multi, newAction, element); // move it to the multi-rule
+			moveMultiElement(getGraph(element).getRule(), multi, newAction, element); // move it to the multi-rule
 		}
 		
 		// NOW EVERYTHING SHOULD BE CORRECT.
@@ -289,46 +310,75 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 			
 	}
 	
+	
+	
 	/*
-	 * Move an element either from a multi-rule into the root rule, or vice versa.
+	 * Move an element either from a (multi-) rule to another (multi-) rule.
 	 */
-	private void moveMultiElement(Rule multi, Action action, E element) {
+	private void moveMultiElement(Rule rule1, Rule rule2, Action action, E element) {
+		
+		// Nothing to do?
+		if (rule1==rule2) return;
+		if (EcoreUtil.isAncestor(rule2, rule1)) {
+			moveMultiElement(rule2, rule1, action, element);
+			return;
+		}
+
+		// Now we know that rule2 is a direct or indirect child of rule1.
+		
+		// Build the rule chain (from rule1 to rule2):
+		List<Rule> ruleChain = new ArrayList<Rule>();
+		Rule rule = rule2;
+		ruleChain.add(rule);
+		while (rule!=rule1) {
+			rule = rule.getKernelRule();
+			ruleChain.add(0, rule);
+		}
 		
 		// Find out from where to where we need to move the element:
-		List<Rule> ruleChain = new ArrayList<Rule>();
-		Rule rule = multi;
-		ruleChain.add(rule);
-		while (rule.getKernelRule()!=null) {
-			rule = rule.getKernelRule();
-			ruleChain.add(rule);
+		if (getGraph(element).getRule()==rule1) {
+			// correct order already
+		} else if (getGraph(element).getRule()==rule2) {
+			Collections.reverse(ruleChain); // reverse the order
+		} else {
+			return; // something is wrong, so we stop
 		}
-		if (getGraph(element).getRule()!=multi) {
-			Collections.reverse(ruleChain);
-		}
+		
+		// The element is in the first rule of the rule chain.
 		
 		// Now move the element:
 		Type actionType = action.getType();
-		for (Rule current : ruleChain) {
+		for (int i=1; i<ruleChain.size(); i++) {
 			
-			// Get the kernel rule of the current rule:
-			Rule kernel = current.getKernelRule();
-			if (kernel==null) continue;
-
+			// The two 'adjacent' rules:
+			Rule r1 = ruleChain.get(i-1);
+			Rule r2 = ruleChain.get(i);
+			
+			// Which one is the kernel rule, which the multi-rule?
+			Rule kernel, multi;
+			if (r2.getKernelRule()==r1) {
+				kernel = r1;
+				multi = r2;
+			} else {
+				kernel = r2;
+				multi = r1;
+			}
+			
 			// Decide what and how to move the element:
 			if (actionType==CREATE) {
 				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
-				getMapEditor(kernel.getRhs(), current.getRhs(), current.getMultiMappings()).move(element);
+				getMapEditor(kernel.getRhs(), multi.getRhs(), multi.getMultiMappings()).move(element);
 				//HenshinModelCleaner.cleanMappingList(multi.getMultiMappings(), kernel.getLhs(), multi.getLhs(), kernel.getRhs(), multi.getRhs());
 			}
 			else if (actionType==DELETE) {
-				getMapEditor(kernel.getLhs(), current.getLhs(), current.getMultiMappings()).move(element);
+				getMapEditor(kernel.getLhs(), multi.getLhs(), multi.getMultiMappings()).move(element);
 			}
 			else if (actionType==PRESERVE) {
-				new MultiRuleMapEditor(kernel, current).moveMappedElement(element);
+				new MultiRuleMapEditor(kernel, multi).moveMappedElement(element);
 			}
 			else if (actionType==FORBID || actionType==REQUIRE) {
 				NestedCondition kernelAC = getOrCreateAC(kernel, null, actionType==REQUIRE);
-				NestedCondition currentAC = getOrCreateAC(current, null, actionType==REQUIRE);
+				NestedCondition currentAC = getOrCreateAC(multi, null, actionType==REQUIRE);
 				new ConditionElemMapEditor(kernelAC, currentAC).moveConditionElement(element);
 			}
 		}
@@ -423,10 +473,9 @@ public abstract class GenericActionHelper<E extends EObject,C extends EObject> i
 		}
 		if (names.size()==1 && names.get(0).length()==0) {
 			return new String[] {};
-		} else {
-			Collections.reverse(names);
-			return names.toArray(new String[0]);
 		}
+		Collections.reverse(names);
+		return names.toArray(new String[0]);
 	}
 	
 	

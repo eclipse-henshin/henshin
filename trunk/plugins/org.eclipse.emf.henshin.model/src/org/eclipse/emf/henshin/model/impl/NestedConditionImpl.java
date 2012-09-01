@@ -316,13 +316,17 @@ public class NestedConditionImpl extends EObjectImpl implements NestedCondition 
 	 */
 	@Override
 	public String toString() {
+		String name = "NestedCondition";
 		if (conclusion==null) {
-			return null;
+			return name;
+		}
+		if (conclusion.getName()!=null && conclusion.getName().trim().length()!=0) {
+			name = conclusion.getName().trim();
 		}
 		if (conclusion.getFormula()==null) {
-			return conclusion.getName();
+			return name;
 		} else {
-			return "(" + conclusion.getName() + " && " + conclusion.getFormula() + ")";
+			return "(" + name + " && " + conclusion.getFormula() + ")";
 		}		
 	}
 	

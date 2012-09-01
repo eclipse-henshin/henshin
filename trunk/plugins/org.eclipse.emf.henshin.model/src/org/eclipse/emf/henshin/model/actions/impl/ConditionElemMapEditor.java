@@ -1,6 +1,7 @@
 package org.eclipse.emf.henshin.model.actions.impl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.NestedCondition;
@@ -91,8 +92,36 @@ public class ConditionElemMapEditor {
 	 */
 	public void moveConditionEdge(Edge edge) {
 
+		// Check whether it is really a condition edge:
+		if (((NestedCondition) edge.getGraph().eContainer()).getMappings().getOrigin(edge)!=null) {
+			return;
+		}
+		
 		ensureCompleteness(source);
 		ensureCompleteness(target);
+		
+		Graph oppGraph = edge.getGraph()==source.getConclusion() ? target.getConclusion() : source.getConclusion();
+		edge.setSource(getOppositeCondNode(edge.getSource()));
+		edge.setTarget(getOppositeCondNode(edge.getTarget()));
+		edge.setGraph(oppGraph);
+		
+	}
+
+	/**
+	 * Move a condition attribute.
+	 * @param attribute Attribute to be moved.
+	 */
+	public void moveConditionAttribute(Attribute attribute) {
+
+		// Check whether it is really a condition edge:
+		if (((NestedCondition) attribute.getGraph().eContainer()).getMappings().getOrigin(attribute)!=null) {
+			return;
+		}
+		
+		ensureCompleteness(source);
+		ensureCompleteness(target);
+		
+		attribute.setNode(getOppositeCondNode(attribute.getNode()));
 		
 	}
 
@@ -106,8 +135,9 @@ public class ConditionElemMapEditor {
 			moveConditionNode((Node) element);
 		} else if (element instanceof Edge) {
 			moveConditionEdge((Edge) element);
+		} else if (element instanceof Attribute) {
+			moveConditionAttribute((Attribute) element);
 		}
 	}
-	
 	
 }

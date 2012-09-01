@@ -242,7 +242,7 @@
           </nodes>
           <formula xsi:type="henshin:Not" xmi:id="_lTEWkFyKEeGNLar2WzN-hQ">
             <child xsi:type="henshin:NestedCondition" xmi:id="_jaYWoFyKEeGNLar2WzN-hQ">
-              <conclusion xmi:id="_jaYWoVyKEeGNLar2WzN-hQ" name="ClassHasIdAttribute">
+              <conclusion xmi:id="_jaYWoVyKEeGNLar2WzN-hQ" name="">
                 <nodes xmi:id="_jaYWolyKEeGNLar2WzN-hQ" outgoing="_qwXswFyKEeGNLar2WzN-hQ">
                   <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
                 </nodes>
@@ -318,7 +318,7 @@
           <type href="http://www.eclipse.org/emf/2011/Henshin/Trace#//Trace/target"/>
         </edges>
         <formula xsi:type="henshin:NestedCondition" xmi:id="_cgvPMFyTEeGNLar2WzN-hQ">
-          <conclusion xmi:id="_cgvPMVyTEeGNLar2WzN-hQ" name="HasOutgoingRef">
+          <conclusion xmi:id="_cgvPMVyTEeGNLar2WzN-hQ" name="">
             <nodes xmi:id="_cgvPMlyTEeGNLar2WzN-hQ" outgoing="_knt9YFyTEeGNLar2WzN-hQ">
               <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
             </nodes>
