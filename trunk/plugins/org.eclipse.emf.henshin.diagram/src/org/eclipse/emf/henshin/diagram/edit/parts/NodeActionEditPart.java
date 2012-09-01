@@ -478,7 +478,7 @@ public class NodeActionEditPart extends CompartmentEditPart implements
 		Node node = (Node) getNotationView().getElement();
 		Action action = node.getAction();
 		Color color = ColorConstants.gray;
-		if (action!=null) {
+		if (action != null) {
 			color = HenshinDiagramColorProvider.getActionColor(action);
 		}
 		setForegroundColor(color);

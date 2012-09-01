@@ -127,14 +127,14 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void refreshVisuals() {
 		super.refreshVisuals();
-		
+
 		// Also refresh the the action label:
 		IGraphicalEditPart actionLabel = getChildBySemanticHint(String
 				.valueOf(NodeActionEditPart.VISUAL_ID));
 		if (actionLabel instanceof NodeActionEditPart) {
 			actionLabel.refresh();
 		}
-		
+
 		// And all source and target connections:
 		List<?> cons = new ArrayList<Object>();
 		cons.addAll(getSourceConnections());
@@ -192,13 +192,13 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	 */
 	public Action getNodeAction() {
 		Node node = getNode();
-		if (node!=null) {
+		if (node != null) {
 			return node.getAction();
 		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the node for this edit part (model element).
 	 * @return The node.
@@ -206,7 +206,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	public Node getNode() {
 		return (Node) getNotationView().getElement();
 	}
-	
+
 	/**
 	 * @generated
 	 */

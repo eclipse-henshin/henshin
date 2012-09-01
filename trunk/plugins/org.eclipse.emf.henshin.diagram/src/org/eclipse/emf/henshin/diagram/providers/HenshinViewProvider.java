@@ -348,9 +348,9 @@ public class HenshinViewProvider extends AbstractProvider implements
 				persisted, preferencesHint);
 
 		// Set the default background color:
-		ViewUtil.setStructuralFeatureValue(node,
-				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.colorToInteger(HenshinDiagramColorProvider.COLOR_RULE));
+		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE
+				.getFillStyle_FillColor(), FigureUtilities
+				.colorToInteger(HenshinDiagramColorProvider.COLOR_RULE));
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,
@@ -416,9 +416,11 @@ public class HenshinViewProvider extends AbstractProvider implements
 				containerView, index, persisted, preferencesHint);
 
 		// Set the default background color:
-		ViewUtil.setStructuralFeatureValue(node,
+		ViewUtil.setStructuralFeatureValue(
+				node,
 				NotationPackage.eINSTANCE.getFillStyle_FillColor(),
-				FigureUtilities.colorToInteger(HenshinDiagramColorProvider.COLOR_TRANSFORMATION_UNIT));
+				FigureUtilities
+						.colorToInteger(HenshinDiagramColorProvider.COLOR_TRANSFORMATION_UNIT));
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,

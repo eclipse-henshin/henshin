@@ -104,7 +104,8 @@ public class AttributeCreateCommand extends EditElementCommand {
 				addAttribute(rhsNode, (Attribute) EcoreUtil.copy(attribute));
 			}
 			for (NestedCondition ac : rule.getLhs().getNestedConditions()) {
-				Node acNode = ac.getMappings().getImage(lhsNode, ac.getConclusion());
+				Node acNode = ac.getMappings().getImage(lhsNode,
+						ac.getConclusion());
 				if (acNode != null) {
 					addAttribute(acNode, (Attribute) EcoreUtil.copy(attribute));
 				}
@@ -132,11 +133,11 @@ public class AttributeCreateCommand extends EditElementCommand {
 	 */
 	public Node getLhsNode(Node node) {
 		Graph lhs = node.getGraph().getRule().getLhs();
-		if (node.getGraph()==lhs) {
+		if (node.getGraph() == lhs) {
 			return node;
 		}
 		Node opposite = node.getActionNode();
-		if (opposite.getGraph()==lhs) {
+		if (opposite.getGraph() == lhs) {
 			return opposite;
 		}
 		// No corresponding Lhs node:

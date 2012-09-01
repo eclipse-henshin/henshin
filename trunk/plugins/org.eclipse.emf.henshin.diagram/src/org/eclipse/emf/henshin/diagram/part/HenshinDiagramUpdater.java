@@ -302,10 +302,10 @@ public class HenshinDiagramUpdater {
 		for (Edge edge : edges) {
 
 			// Must be a valid edge:
-			if (edge.getSource()==null || edge.getTarget()==null) {
+			if (edge.getSource() == null || edge.getTarget() == null) {
 				continue;
 			}
-			
+
 			// Get the proper source / target action nodes:
 			Node source = edge.getSource().getActionNode();
 			Node target = edge.getTarget().getActionNode();

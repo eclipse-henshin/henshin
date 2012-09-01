@@ -496,7 +496,7 @@ public class EdgeActionEditPart extends LabelEditPart implements
 		Edge edge = (Edge) getNotationView().getElement();
 		Action action = edge.getAction();
 		Color color = ColorConstants.gray;
-		if (action!=null) {
+		if (action != null) {
 			color = HenshinDiagramColorProvider.getActionColor(action);
 		}
 		setForegroundColor(color);

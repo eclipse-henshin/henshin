@@ -194,7 +194,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 	 */
 	private IAdaptable getViewAdapter() {
 		EObject element = getParserElement();
-		if (element!=null) {
+		if (element != null) {
 			return new EObjectAdapter(element) {
 				@Override
 				public Object getAdapter(Class adapter) {
@@ -207,7 +207,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @generated NOT
 	 */
@@ -216,7 +216,8 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 		EObject parserElement = getParserElement();
 		if (parserElement != null && getParser() != null) {
 			// We provide an adapter that include the view!!! (as required by the parser)
-			text = getParser().getPrintString(getViewAdapter(), getParserOptions().intValue());			
+			text = getParser().getPrintString(getViewAdapter(),
+					getParserOptions().intValue());
 		}
 		if (text == null || text.length() == 0) {
 			text = defaultText;
@@ -247,8 +248,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 			return ""; //$NON-NLS-1$
 		}
 		// We provide an adapter that include the view!!! (as required by the parser)
-		return getParser().getEditString(
-				getViewAdapter(),
+		return getParser().getEditString(getViewAdapter(),
 				getParserOptions().intValue());
 	}
 
