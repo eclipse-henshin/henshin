@@ -19,24 +19,23 @@ import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
- * Custom command for adding rules to a transformation system. This
- * automatically initializes the rules by adding a LHS and RHS.
+ * Custom command for adding rules to a modules.
  * 
  * @author Christian Krause
  * @generated NOT
  */
 public class AddRuleCommand extends AddCommand implements Command {
 	
-	public AddRuleCommand(EditingDomain domain, TransformationSystem system, Rule rule, int index) {
-		this(domain, system, Collections.singleton(rule), index);
+	public AddRuleCommand(EditingDomain domain, Module module, Rule rule, int index) {
+		this(domain, module, Collections.singleton(rule), index);
 	}
 	
-	public AddRuleCommand(EditingDomain domain, TransformationSystem system,
+	public AddRuleCommand(EditingDomain domain, Module module,
 			Collection<Rule> rules, int index) {
-		super(domain, system, HenshinPackage.eINSTANCE.getTransformationSystem_Rules(), rules,
+		super(domain, module, HenshinPackage.eINSTANCE.getModule_Rules(), rules,
 				index);
 	}
 	
@@ -61,7 +60,7 @@ public class AddRuleCommand extends AddCommand implements Command {
 			}
 			// Set the name:
 			if (rule.getName() == null) {
-				rule.setName(HenshinModelUtils.generateNewRuleName((TransformationSystem) owner));
+				rule.setName(HenshinModelUtils.generateNewRuleName((Module) owner));
 			}
 		}
 		super.doExecute();

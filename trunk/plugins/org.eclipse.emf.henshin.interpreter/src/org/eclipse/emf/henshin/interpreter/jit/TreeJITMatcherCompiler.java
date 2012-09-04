@@ -157,10 +157,10 @@ public class TreeJITMatcherCompiler extends AbstractJITMatcherCompiler {
 		
 		HenshinResourceSet resourceSet = new HenshinResourceSet(
 				"../org.eclipse.emf.henshin.examples/src/org/eclipse/emf/henshin/examples/probbroadcast");
-		Rule rule = resourceSet.getTransformationSystem("probbroadcast.henshin").getRule("send");
+		Rule rule = resourceSet.getModule("probbroadcast.henshin").getRule("send");
 		
 		JITMatcher finder = JITMatcherCompiler.INSTANCE.generateMatcher(rule, null);
-		EGraph graph = new EGraphImpl(resourceSet.getObject("init-grid4x4.xmi"));
+		EGraph graph = new EGraphImpl(resourceSet.getEObject("init-grid4x4.xmi"));
 		
 		for (Match match : finder.findMatches(graph)) {
 			System.out.println(match);

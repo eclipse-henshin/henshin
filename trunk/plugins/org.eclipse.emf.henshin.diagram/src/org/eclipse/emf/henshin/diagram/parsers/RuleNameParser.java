@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
@@ -125,8 +125,8 @@ public class RuleNameParser extends UnitNameParser {
 
 			// First find the proper class and initialize the new root:
 			EClass rootClass = null;
-			EClassifier[] eclassifiers = TransformationSystemEditHelper
-					.findEClassifierByName(rule.getTransformationSystem(),
+			EClassifier[] eclassifiers = ModuleEditHelper
+					.findEClassifierByName(rule.getModule(),
 							rootType);
 			for (EClassifier ec : eclassifiers) {
 				if (ec instanceof EClass) {

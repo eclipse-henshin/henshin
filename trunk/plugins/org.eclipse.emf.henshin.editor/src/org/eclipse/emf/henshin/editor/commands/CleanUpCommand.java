@@ -7,7 +7,7 @@ import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.util.HenshinModelCleaner;
 
@@ -40,8 +40,8 @@ public class CleanUpCommand extends AbstractCommand {
 		
 		for (Object element : elements) {
 			
-			if (element instanceof TransformationSystem) {
-				HenshinModelCleaner.cleanTransformationSystem((TransformationSystem) element);
+			if (element instanceof Module) {
+				HenshinModelCleaner.cleanModule((Module) element);
 			}
 			if (element instanceof TransformationUnit) {
 				HenshinModelCleaner.cleanTransformationUnit((TransformationUnit) element);

@@ -13,8 +13,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
@@ -69,15 +69,15 @@ public class ImportPackageAction extends org.eclipse.emf.henshin.editor.actions.
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		transformationSystem = null;
+		module = null;
 		if (selection instanceof IStructuredSelection) {
 			Object first = ((IStructuredSelection) selection).getFirstElement();
-			if (first instanceof TransformationSystemEditPart) {
-				TransformationSystemEditPart editpart = (TransformationSystemEditPart) first;
-				transformationSystem = (TransformationSystem) editpart.getNotationView().getElement();
+			if (first instanceof ModuleEditPart) {
+				ModuleEditPart editpart = (ModuleEditPart) first;
+				module = (Module) editpart.getNotationView().getElement();
 			}
 		}
-		action.setEnabled(transformationSystem!=null);
+		action.setEnabled(module!=null);
 	}
 
 }

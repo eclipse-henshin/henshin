@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -63,12 +63,12 @@ public class Ecore2GenmodelTrafo {
 		resourceSet.registerXMIResourceFactories("genmodel");
 		GenModelPackage.eINSTANCE.getName();
 		
-		// Load the transformation system:
-		TransformationSystem system = resourceSet.getTransformationSystem("Ecore2Genmodel.henshin");
+		// Load the module:
+		Module module = resourceSet.getModule("Ecore2Genmodel.henshin");
 		
 		// Load Ecore files:
-		EPackage mappingModel = (EPackage) resourceSet.getObject("ecore2gen.ecore");
-		EPackage ecoreModel = (EPackage) resourceSet.getObject("flowchartdsl.ecore");
+		EPackage mappingModel = (EPackage) resourceSet.getEObject("ecore2gen.ecore");
+		EPackage ecoreModel = (EPackage) resourceSet.getEObject("flowchartdsl.ecore");
 
 		// Create the object graph:
 		EGraph graph = new EGraphImpl(ecoreModel);
@@ -80,7 +80,7 @@ public class Ecore2GenmodelTrafo {
 
 		// Generate genmodel from ecore model (without annotations).
 		unitApp.setEGraph(graph);
-		unitApp.setUnit(system.getTransformationUnit("translateGenModel"));
+		unitApp.setUnit(module.getTransformationUnit("translateGenModel"));
 		
 		// File name and plug-in name cannot be reliably deduced by the model elements, thus need to be set:
 		unitApp.setParameterValue("modelFileName", "flowchartdsl.ecore");
@@ -92,12 +92,12 @@ public class Ecore2GenmodelTrafo {
 		// Get the generated Genmodel:
 		GenModel genModel = (GenModel) unitApp.getResultParameterValue("genModel");
 		
-		graph.addTree(system);
+		graph.addTree(module);
 		graph.addTree(GenModelPackage.eINSTANCE);
 		graph.addTree(mappingModel);
 
 		// Process annotations and generate related Henshin rules:
-		unitApp.setUnit(system.getTransformationUnit("prepareCustomizationUnit"));
+		unitApp.setUnit(module.getTransformationUnit("prepareCustomizationUnit"));
 		InterpreterUtil.executeOrDie(unitApp, null);
 
 		// Apply generated rules to transfer annotations to the genmodel.

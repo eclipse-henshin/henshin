@@ -21,8 +21,8 @@ import org.eclipse.emf.henshin.diagram.edit.policies.EdgeItemSemanticEditPolicy;
 import org.eclipse.emf.henshin.diagram.providers.HenshinDiagramColorProvider;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Edge;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITreeBranchEditPart;
@@ -46,7 +46,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	/**
 	 * @generated NOT
 	 */
-	private TransformationSystemListener transformationListener;
+	private ModuleListener moduleListener;
 
 	/**
 	 * @generated
@@ -70,18 +70,17 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 		Rule rule = edge.getGraph().getRule();
 		if (rule == null)
 			return;
-		TransformationSystem system = rule.getTransformationSystem();
-		transformationListener = new TransformationSystemListener(system,
-				new AdapterImpl() {
-					public void notifyChanged(Notification event) {
-						// Really make sure that the edit part is still valid.
-						if (isActive()
-								&& getNotationView().getElement() instanceof Edge
-								&& getParent() != null) {
-							refreshVisuals();
-						}
-					}
-				});
+		Module module = rule.getModule();
+		moduleListener = new ModuleListener(module, new AdapterImpl() {
+			public void notifyChanged(Notification event) {
+				// Really make sure that the edit part is still valid.
+				if (isActive()
+						&& getNotationView().getElement() instanceof Edge
+						&& getParent() != null) {
+					refreshVisuals();
+				}
+			}
+		});
 	}
 
 	/**
@@ -90,9 +89,9 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (transformationListener != null) {
-			transformationListener.dispose();
-			transformationListener = null;
+		if (moduleListener != null) {
+			moduleListener.dispose();
+			moduleListener = null;
 		}
 	}
 

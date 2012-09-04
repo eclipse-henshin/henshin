@@ -33,11 +33,11 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Formula;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Not;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 
 /**
@@ -412,9 +412,10 @@ public class GraphImpl extends NamedElementImpl implements Graph {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
+	 * @deprecated
 	 */
 	public boolean isHost() {
-		return (eContainer() instanceof TransformationSystem);
+		return (eContainer() instanceof Module);
 	}
 	
 	/**

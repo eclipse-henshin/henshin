@@ -12,7 +12,7 @@ package org.eclipse.emf.henshin.commands;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * Utility class that provides static helper methods for:
@@ -61,9 +61,9 @@ public abstract class HenshinModelUtils {
 	 * Looks up the max Integer-parsable name and returns the next higher
 	 * Integer value as the new name
 	 */
-	public static String generateNewRuleName(TransformationSystem tSys) {
+	public static String generateNewRuleName(Module module) {
 		int max = INITIAL_INDEX;
-		for (Rule rule : tSys.getRules()) {
+		for (Rule rule : module.getRules()) {
 			String name = rule.getName();
 			name = name != null ? name : "";
 			if (name.startsWith(PREFIX_RULE)) {

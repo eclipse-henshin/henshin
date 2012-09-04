@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -52,12 +52,12 @@ public class ALAPBenchmark {
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
-		// Load the transformation system:
-		TransformationSystem trasys = resourceSet
-				.getTransformationSystem("mutualexclusion.henshin");
+		// Load the module:
+		Module trasys = resourceSet
+				.getModule("mutualexclusion.henshin");
 
-		//Load initial model
-		EObject container = resourceSet.getObject("initialgraph.xmi");
+		// Load initial model:
+		EObject container = resourceSet.getEObject("initialgraph.xmi");
 		
 		// Load the rules:
 		Rule newRule = trasys.getRule("newRule");

@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
@@ -162,8 +162,8 @@ public class Evolution1 {
 			EPackage petri, String srcNodeName, String trgNodeName,
 			String refclassName) {
 
-		// initialize henshin package and load Henshin transformation system
-		TransformationSystem tsM = loadPetriTrafoSystemM();
+		// initialize henshin package and load Henshin module
+		Module tsM = loadPetriModuleM();
 
 		// instantiate Henshin interpreter objects
 		EGraph graphM = new EGraphImpl();
@@ -259,7 +259,7 @@ public class Evolution1 {
 		 * not available yet, we create that rule manually.
 		 */
 		HenshinFactory hFac = HenshinFactoryImpl.eINSTANCE;
-		TransformationSystem tsI = hFac.createTransformationSystem();
+		Module tsI = hFac.createModule();
 		tsI.getImports().add(petri);
 
 		Rule i_rule1 = hFac.createRule();
@@ -296,7 +296,7 @@ public class Evolution1 {
 		c_unit.setSubUnit(i_rule1);
 
 		// Remark: Only for debugging purposes! You may comment this out.
-		savePetriInstanceTrafoSystem(tsI);
+		savePetriInstanceModule(tsI);
 
 		// Load the instance model to be changed.
 		EObject net = loadPetriInstanceModel();
@@ -345,7 +345,7 @@ public class Evolution1 {
 			EReference refType) {
 
 		// load Henshin transformation system
-		TransformationSystem tsM = loadPetriTrafoSystemM();
+		Module tsM = loadPetriModuleM();
 
 		// instantiate Henshin interpreter objects
 		EGraph graphM = new EGraphImpl();
@@ -392,7 +392,7 @@ public class Evolution1 {
 	 * 
 	 * @param tsI
 	 */
-	private void savePetriInstanceTrafoSystem(TransformationSystem tsI) {
+	private void savePetriInstanceModule(Module tsI) {
 		//
 		URI iURI = URI.createFileURI(new File(HENSHIN_PETRI_INSTANCE)
 				.getAbsolutePath());
@@ -409,11 +409,11 @@ public class Evolution1 {
 	 * Loads the meta-model related Henshin from {@link #MODEL_PETRI_META} and
 	 * return the root object.
 	 * 
-	 * @return a transformation system for our petri net ecore model.
+	 * @return a module for our petri net ecore model.
 	 */
-	private TransformationSystem loadPetriTrafoSystemM() {
+	private Module loadPetriModuleM() {
 		HenshinPackageImpl.init();
-		TransformationSystem tsM = resourceSet.getTransformationSystem(HENSHIN_PETRI_META);
+		Module tsM = resourceSet.getModule(HENSHIN_PETRI_META);
 		return tsM;
 	}// loadPetriTrafoSystemM
 

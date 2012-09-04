@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * Interface for Henshin model exporters.
@@ -21,10 +21,10 @@ public interface HenshinModelExporter {
 
 	/**
 	 * Perform an export operation.
-	 * @param system Transformation system to be exported.
+	 * @param module Module to be exported.
 	 * @param uri URI where the transformation system should be exported to.
 	 */
-	IStatus doExport(TransformationSystem system, URI uri);
+	IStatus doExport(Module module, URI uri);
 	
 	/**
 	 * Get the name of this exporter.

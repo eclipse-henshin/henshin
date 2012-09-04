@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 
 /**
@@ -172,13 +173,13 @@ public class HenshinResourceSet extends ResourceSetImpl {
 
 	/**
 	 * Loads a resource for the given file name and returns the first
-	 * object contained in it. If the path is relative, it will be resolved 
+	 * EObject contained in it. If the path is relative, it will be resolved 
 	 * using the base directory of this resource set.
 	 * 
 	 * @param path Possible relative path and file name.
 	 * @return The first contained object.
 	 */
-	public EObject getObject(String path) {
+	public EObject getEObject(String path) {
 		Resource resource = getResource(path);
 		if (resource!=null && !resource.getContents().isEmpty()) {
 			return resource.getContents().get(0);
@@ -187,16 +188,30 @@ public class HenshinResourceSet extends ResourceSetImpl {
 	}
 
 	/**
-	 * Convenience method for loading a {@link TransformationSystem} from a 
+	 * @deprecated Use {@link #getEObject(String)}
+	 */
+	public EObject getObject(String path) {
+		return getEObject(path);
+	}
+
+	/**
+	 * @deprecated Use {@link #getModule(String)}
+	 */
+	public TransformationSystem getTransformationSystem(String path) {
+		return (TransformationSystem) getEObject(path);
+	}
+
+	/**
+	 * Convenience method for loading a {@link Module} from a 
 	 * Henshin file given as a path and file name.
 	 * 
 	 * @param path Possible relative path and file name of a Henshin resource.
-	 * @return The contained {@link TransformationSystem}.
+	 * @return The contained {@link Module}.
 	 */
-	public TransformationSystem getTransformationSystem(String path) {
-		return (TransformationSystem) getObject(path);
+	public Module getModule(String path) {
+		return (Module) getEObject(path);
 	}
-	
+
 	/**
 	 * Save an object at a given path. This creates a new resource
 	 * under the given path, adds the object to the resource and saves it.

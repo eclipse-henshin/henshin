@@ -11,8 +11,8 @@ package org.eclipse.emf.henshin.diagram.edit.parts;
 
 import java.util.Collections;
 import java.util.List;
-import org.eclipse.emf.henshin.diagram.edit.policies.TransformationSystemCanonicalEditPolicy;
-import org.eclipse.emf.henshin.diagram.edit.policies.TransformationSystemItemSemanticEditPolicy;
+import org.eclipse.emf.henshin.diagram.edit.policies.ModuleCanonicalEditPolicy;
+import org.eclipse.emf.henshin.diagram.edit.policies.ModuleItemSemanticEditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -26,7 +26,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class TransformationSystemEditPart extends DiagramEditPart {
+public class ModuleEditPart extends DiagramEditPart {
 
 	/**
 	 * @generated
@@ -41,7 +41,7 @@ public class TransformationSystemEditPart extends DiagramEditPart {
 	/**
 	 * @generated
 	 */
-	public TransformationSystemEditPart(View view) {
+	public ModuleEditPart(View view) {
 		super(view);
 	}
 
@@ -51,9 +51,9 @@ public class TransformationSystemEditPart extends DiagramEditPart {
 	protected void createDefaultEditPoliciesGen() {
 		super.createDefaultEditPolicies();
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-				new TransformationSystemItemSemanticEditPolicy());
+				new ModuleItemSemanticEditPolicy());
 		installEditPolicy(EditPolicyRoles.CANONICAL_ROLE,
-				new TransformationSystemCanonicalEditPolicy());
+				new ModuleCanonicalEditPolicy());
 		// removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.POPUPBAR_ROLE);
 	}
 

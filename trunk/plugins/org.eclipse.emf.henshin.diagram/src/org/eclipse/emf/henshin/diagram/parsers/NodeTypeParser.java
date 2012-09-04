@@ -16,12 +16,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 
 import static org.eclipse.emf.henshin.model.Action.Type.*;
 
@@ -136,9 +136,9 @@ public class NodeTypeParser extends AbstractParser {
 	 */
 	private CommandResult doParsing(String value, Node node) {
 
-		// We need the rule and the transformation system:
+		// We need the rule and the module:
 		Rule rule = node.getGraph().getRule();
-		TransformationSystem system = rule.getTransformationSystem();
+		Module module = rule.getModule();
 
 		// Separate name and type:
 		String name, type;
@@ -161,7 +161,7 @@ public class NodeTypeParser extends AbstractParser {
 		
 		// Find the node type:
 		EClass nodeType = null;
-		EClassifier[] classifiers = TransformationSystemEditHelper.findEClassifierByName(system, type);
+		EClassifier[] classifiers = ModuleEditHelper.findEClassifierByName(module, type);
 		for (EClassifier classifier : classifiers) {
 			if (classifier instanceof EClass) {
 				nodeType = (EClass) classifier;

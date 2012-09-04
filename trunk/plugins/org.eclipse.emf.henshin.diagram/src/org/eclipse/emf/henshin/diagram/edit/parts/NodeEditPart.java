@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -76,7 +76,7 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	/**
 	 * @generated NOT
 	 */
-	private TransformationSystemListener transformationListener;
+	private ModuleListener moduleListener;
 
 	/**
 	 * @generated
@@ -93,18 +93,17 @@ public class NodeEditPart extends ShapeNodeEditPart {
 		super.addSemanticListeners();
 		Node node = (Node) (getNotationView().getElement());
 		Rule rule = node.getGraph().getRule();
-		TransformationSystem system = rule.getTransformationSystem();
-		transformationListener = new TransformationSystemListener(system,
-				new AdapterImpl() {
-					public void notifyChanged(Notification event) {
-						// Really make sure that the edit part is still valid.
-						if (isActive()
-								&& getNotationView().getElement() instanceof Node
-								&& getParent() != null) {
-							refreshVisuals();
-						}
-					}
-				});
+		Module module = rule.getModule();
+		moduleListener = new ModuleListener(module, new AdapterImpl() {
+			public void notifyChanged(Notification event) {
+				// Really make sure that the edit part is still valid.
+				if (isActive()
+						&& getNotationView().getElement() instanceof Node
+						&& getParent() != null) {
+					refreshVisuals();
+				}
+			}
+		});
 	}
 
 	/**
@@ -113,9 +112,9 @@ public class NodeEditPart extends ShapeNodeEditPart {
 	@Override
 	public void removeSemanticListeners() {
 		super.removeSemanticListeners();
-		if (transformationListener != null) {
-			transformationListener.dispose();
-			transformationListener = null;
+		if (moduleListener != null) {
+			moduleListener.dispose();
+			moduleListener = null;
 		}
 	}
 

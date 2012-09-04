@@ -14,7 +14,7 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.presentation.HenshinEditor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -35,8 +35,8 @@ public class ImportPackageAction implements IObjectActionDelegate {
 	// Workbench part:
 	protected IWorkbenchPart workbenchPart;
 	
-	// Transformation system:
-	protected TransformationSystem transformationSystem;
+	// Module:
+	protected Module module;
 	
 	/*
 	 * (non-Javadoc)
@@ -46,7 +46,7 @@ public class ImportPackageAction implements IObjectActionDelegate {
 		
 		final EPackage newPackage;
 		Shell shell = workbenchPart.getSite().getShell();
-		ResourceSet resourceSet = transformationSystem.eResource().getResourceSet();
+		ResourceSet resourceSet = module.eResource().getResourceSet();
 		
 		if (FROM_WORKSPACE_ACTION_ID.equals(action.getId())) {
 			newPackage = EcoreSelectionDialogUtil.selectEcoreFilePackage(shell, resourceSet);
@@ -118,20 +118,20 @@ public class ImportPackageAction implements IObjectActionDelegate {
 		
 		// Check if a package with the same nsURI exists already:
 		String nsURI = epackage.getNsURI();
-		for (int i = 0; i < transformationSystem.getImports().size(); i++) {
-			EPackage current = transformationSystem.getImports().get(i);
+		for (int i = 0; i < module.getImports().size(); i++) {
+			EPackage current = module.getImports().get(i);
 			
 			// Replace the current package if it has the same nsURI:
 			if (nsURI.equals(current.getNsURI())) {
 				if (epackage != current) {
-					transformationSystem.getImports().set(i, epackage);
+					module.getImports().set(i, epackage);
 					return;
 				}
 			}
 		}
 		
 		// Otherwise add it:
-		transformationSystem.getImports().add(epackage);
+		module.getImports().add(epackage);
 		
 	}
 	
@@ -153,14 +153,14 @@ public class ImportPackageAction implements IObjectActionDelegate {
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		transformationSystem = null;
+		module = null;
 		if (selection instanceof IStructuredSelection) {
 			Object first = ((IStructuredSelection) selection).getFirstElement();
-			if (first instanceof TransformationSystem) {
-				transformationSystem = (TransformationSystem) first;
+			if (first instanceof Module) {
+				module = (Module) first;
 			}
 		}
-		action.setEnabled(transformationSystem != null);
+		action.setEnabled(module != null);
 	}
 	
 }

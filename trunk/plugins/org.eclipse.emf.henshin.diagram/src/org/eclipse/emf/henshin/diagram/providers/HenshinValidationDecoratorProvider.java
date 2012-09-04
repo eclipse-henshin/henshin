@@ -21,7 +21,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Label;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditor;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -114,8 +114,8 @@ public class HenshinValidationDecoratorProvider extends AbstractProvider
 				.getDecoratorTarget();
 		View view = (View) decoratorTarget.getAdapter(View.class);
 		return view != null
-				&& TransformationSystemEditPart.MODEL_ID
-						.equals(HenshinVisualIDRegistry.getModelID(view));
+				&& ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+						.getModelID(view));
 	}
 
 	/**

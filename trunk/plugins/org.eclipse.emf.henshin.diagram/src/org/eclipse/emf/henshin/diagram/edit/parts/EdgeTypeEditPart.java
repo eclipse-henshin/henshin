@@ -111,7 +111,7 @@ public class EdgeTypeEditPart extends LabelEditPart implements
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE,
 				new HenshinTextSelectionEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
-				new TransformationSystemEditPart.LinkLabelDragPolicy());
+				new ModuleEditPart.LinkLabelDragPolicy());
 	}
 
 	/**

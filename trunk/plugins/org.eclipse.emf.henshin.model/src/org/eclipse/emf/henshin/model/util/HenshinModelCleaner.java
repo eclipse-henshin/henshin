@@ -27,10 +27,10 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
@@ -42,14 +42,14 @@ import org.eclipse.emf.henshin.model.UnaryUnit;
 public class HenshinModelCleaner {
 	
 	/**
-	 * Clean a transformation system. This cleans all rules and transformation
-	 * units inside of the transformation system.
-	 * @param system Transformation system to be cleaned.
+	 * Clean a module. This cleans all rules and transformation
+	 * units inside of the module.
+	 * @param module Module to be cleaned.
 	 */
-	public static void cleanTransformationSystem(TransformationSystem system) {
+	public static void cleanModule(Module module) {
 		
 		// Clean all rules:
-		for (Rule rule : system.getRules()) {
+		for (Rule rule : module.getRules()) {
 			cleanRule(rule);
 		}
 
@@ -57,13 +57,13 @@ public class HenshinModelCleaner {
 		List<TransformationUnit> remove = new ArrayList<TransformationUnit>();
 		do {
 			remove.clear();
-			for (TransformationUnit unit : system.getTransformationUnits()) {
+			for (TransformationUnit unit : module.getTransformationUnits()) {
 				if (cleanTransformationUnit(unit)==null) {
 					remove.add(unit);
 				}
 			}
 			for (TransformationUnit unit : remove) {
-				system.getTransformationUnits().remove(unit);
+				module.getTransformationUnits().remove(unit);
 				debug("removed invalid " + unit);
 			}
 		} while (!remove.isEmpty());

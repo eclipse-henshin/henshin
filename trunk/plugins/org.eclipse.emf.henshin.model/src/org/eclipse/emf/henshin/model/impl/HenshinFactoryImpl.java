@@ -69,7 +69,7 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case HenshinPackage.TRANSFORMATION_SYSTEM: return createTransformationSystem();
+			case HenshinPackage.MODULE: return createModule();
 			case HenshinPackage.RULE: return createRule();
 			case HenshinPackage.PARAMETER: return createParameter();
 			case HenshinPackage.PARAMETER_MAPPING: return createParameterMapping();
@@ -130,9 +130,9 @@ public class HenshinFactoryImpl extends EFactoryImpl implements HenshinFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TransformationSystem createTransformationSystem() {
-		TransformationSystemImpl transformationSystem = new TransformationSystemImpl();
-		return transformationSystem;
+	public Module createModule() {
+		ModuleImpl module = new ModuleImpl();
+		return module;
 	}
 
 	/**

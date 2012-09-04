@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
@@ -39,13 +39,13 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	protected int oldUnitType;
 	protected int newUnitType;
 	protected Collection<?> affectedObjects;
-	protected TransformationSystem ts;
+	protected Module module;
 	
 	public ChangeUnitTypeCommand(TransformationUnit unit, int newUnitType) {
 		this.unit = unit;
 		this.newUnitType = newUnitType;
 		if (unit != null) {
-			ts = (TransformationSystem) unit.eContainer();
+			module = (Module) unit.eContainer();
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	
 	private void replaceUnit() {
 		// get the transformation system that contains the unit
-		TransformationSystem transformationSystem = ts;
+		Module transformationSystem = module;
 		int unitIndex = transformationSystem.getTransformationUnits().indexOf(unit); // get
 																						// the
 																						// unit's
@@ -279,11 +279,11 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 			unit = newUnit;
 			newUnit = tmpUnit;
 			
-			int unitIndex = ts.getTransformationUnits().indexOf(unit);
-			ts.getTransformationUnits().remove(unitIndex);
-			ts.getTransformationUnits().add(unitIndex, newUnit);
+			int unitIndex = module.getTransformationUnits().indexOf(unit);
+			module.getTransformationUnits().remove(unitIndex);
+			module.getTransformationUnits().add(unitIndex, newUnit);
 			
-			for (TransformationUnit tu : ts.getTransformationUnits()) {
+			for (TransformationUnit tu : module.getTransformationUnits()) {
 				if (tu.getSubUnits(true).contains(unit)) {
 					changeParameterMappingsRec(tu, unit, newUnit); // change
 																	// parameter
@@ -305,11 +305,11 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 		unit = newUnit;
 		newUnit = tmpUnit;
 		
-		int unitIndex = ts.getTransformationUnits().indexOf(unit);
-		ts.getTransformationUnits().remove(unitIndex);
-		ts.getTransformationUnits().add(unitIndex, newUnit);
+		int unitIndex = module.getTransformationUnits().indexOf(unit);
+		module.getTransformationUnits().remove(unitIndex);
+		module.getTransformationUnits().add(unitIndex, newUnit);
 		
-		for (TransformationUnit tu : ts.getTransformationUnits()) {
+		for (TransformationUnit tu : module.getTransformationUnits()) {
 			if (tu.getSubUnits(true).contains(unit)) {
 				changeParameterMappingsRec(tu, unit, newUnit); // change
 																// parameter

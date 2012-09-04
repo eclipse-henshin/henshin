@@ -24,11 +24,11 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
@@ -36,9 +36,9 @@ import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.gmf.runtime.notation.View;
 
@@ -52,8 +52,8 @@ public class HenshinDiagramUpdater {
 	 */
 	public static List<HenshinNodeDescriptor> getSemanticChildren(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case TransformationSystemEditPart.VISUAL_ID:
-			return getTransformationSystem_1000SemanticChildren(view);
+		case ModuleEditPart.VISUAL_ID:
+			return getModule_1000SemanticChildren(view);
 		case RuleCompartmentEditPart.VISUAL_ID:
 			return getRuleRuleCompartment_7001SemanticChildren(view);
 		case NodeCompartmentEditPart.VISUAL_ID:
@@ -174,10 +174,10 @@ public class HenshinDiagramUpdater {
 	}
 
 	/**
-	 * Get the semantic children of a transformation system diagram.
+	 * Get the semantic children of a module diagram.
 	 * @generated NOT
 	 */
-	public static List<HenshinNodeDescriptor> getTransformationSystem_1000SemanticChildren(
+	public static List<HenshinNodeDescriptor> getModule_1000SemanticChildren(
 			View view) {
 
 		// Make sure the view is ok:
@@ -185,12 +185,12 @@ public class HenshinDiagramUpdater {
 			return Collections.emptyList();
 		}
 
-		// Get the transformation system:
-		TransformationSystem system = (TransformationSystem) view.getElement();
+		// Get the module:
+		Module module = (Module) view.getElement();
 		LinkedList<HenshinNodeDescriptor> result = new LinkedList<HenshinNodeDescriptor>();
 
 		// Iterate over all rules:
-		for (Rule rule : system.getRules()) {
+		for (Rule rule : module.getRules()) {
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, rule);
 			if (visualID == RuleEditPart.VISUAL_ID) {
 				result.add(new HenshinNodeDescriptor(rule, visualID));
@@ -198,7 +198,7 @@ public class HenshinDiagramUpdater {
 		}
 
 		// Iterate over all transformation units:
-		for (TransformationUnit unit : system.getTransformationUnits()) {
+		for (TransformationUnit unit : module.getTransformationUnits()) {
 			int visualID = HenshinVisualIDRegistry.getNodeVisualID(view, unit);
 			if (visualID == UnitEditPart.VISUAL_ID
 					|| visualID == RuleEditPart.VISUAL_ID) {
@@ -215,8 +215,8 @@ public class HenshinDiagramUpdater {
 	 */
 	public static List<HenshinLinkDescriptor> getContainedLinks(View view) {
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case TransformationSystemEditPart.VISUAL_ID:
-			return getTransformationSystem_1000ContainedLinks(view);
+		case ModuleEditPart.VISUAL_ID:
+			return getModule_1000ContainedLinks(view);
 		case RuleEditPart.VISUAL_ID:
 			return getRule_2001ContainedLinks(view);
 		case UnitEditPart.VISUAL_ID:
@@ -278,7 +278,7 @@ public class HenshinDiagramUpdater {
 	/**
 	 * @generated
 	 */
-	public static List<HenshinLinkDescriptor> getTransformationSystem_1000ContainedLinks(
+	public static List<HenshinLinkDescriptor> getModule_1000ContainedLinks(
 			View view) {
 		return Collections.emptyList();
 	}

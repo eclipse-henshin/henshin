@@ -12,7 +12,7 @@ package org.eclipse.emf.henshin.diagram.providers;
 import java.lang.ref.WeakReference;
 
 import org.eclipse.emf.henshin.diagram.edit.parts.HenshinEditPartFactory;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -130,8 +130,8 @@ public class HenshinEditPartProvider extends AbstractEditPartProvider {
 	public synchronized boolean provides(IOperation operation) {
 		if (operation instanceof CreateGraphicEditPartOperation) {
 			View view = ((IEditPartOperation) operation).getView();
-			if (!TransformationSystemEditPart.MODEL_ID
-					.equals(HenshinVisualIDRegistry.getModelID(view))) {
+			if (!ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+					.getModelID(view))) {
 				return false;
 			}
 			if (isAllowCaching() && getCachedPart(view) != null) {

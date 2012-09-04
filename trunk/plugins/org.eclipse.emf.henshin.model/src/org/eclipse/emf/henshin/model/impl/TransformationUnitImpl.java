@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.HenshinPackage;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.TransformationSystem;
@@ -131,15 +132,24 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public TransformationSystem getTransformationSystem() {
+	public Module getModule() {
 		EObject container = eContainer();
 		while (container!=null) {
-			if (container instanceof TransformationSystem) {
-				return (TransformationSystem) container;
+			if (container instanceof Module) {
+				return (Module) container;
 			}
 			container = container.eContainer();
 		}
 		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public TransformationSystem getTransformationSystem() {
+		return getModule();
 	}
 
 	/**

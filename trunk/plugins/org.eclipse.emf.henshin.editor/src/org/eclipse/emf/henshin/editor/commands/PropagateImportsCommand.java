@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.henshin.model.Attribute;
 import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * This command adds missing imports used by model elements that are pasted from
@@ -39,7 +39,7 @@ public class PropagateImportsCommand extends AbstractCommand implements Command 
 
 	protected CommandParameter commandParameter;
 	protected EditingDomain domain;
-	protected TransformationSystem tSys;
+	protected Module module;
 	protected Set<EPackage> missingPackages = new TreeSet<EPackage>(
 			new Comparator<EPackage>() {
 				public int compare(EPackage o1, EPackage o2) {
@@ -76,10 +76,10 @@ public class PropagateImportsCommand extends AbstractCommand implements Command 
 		/*
 		 * Determine which of the required EPackages are missing.
 		 */
-		tSys = getTransformationSystem(commandParameter.getOwner());
-		if (tSys != null) {
+		module = getTransformationSystem(commandParameter.getOwner());
+		if (module != null) {
 			reqLoop: for (EPackage reqPack : requiredPackages) {
-				for (EPackage existingPack : tSys.getImports())
+				for (EPackage existingPack : module.getImports())
 					if (reqPack.getNsURI().equals(existingPack.getNsURI()))
 						continue reqLoop;
 
@@ -89,14 +89,14 @@ public class PropagateImportsCommand extends AbstractCommand implements Command 
 		return true;
 	}
 
-	private TransformationSystem getTransformationSystem(Object owner) {
+	private Module getTransformationSystem(Object owner) {
 		if (owner instanceof EObject) {
 			EObject eo = (EObject) owner;
-			while (!(eo instanceof TransformationSystem)
+			while (!(eo instanceof Module)
 					&& eo.eContainer() != null)
 				eo = eo.eContainer();
-			if (eo instanceof TransformationSystem)
-				return (TransformationSystem) eo;
+			if (eo instanceof Module)
+				return (Module) eo;
 		}
 		return null;
 	}
@@ -137,9 +137,9 @@ public class PropagateImportsCommand extends AbstractCommand implements Command 
 
 	@Override
 	public void redo() {
-		if (tSys != null)
+		if (module != null)
 			for (EPackage pack : missingPackages)
-				tSys.getImports().add(pack);
+				module.getImports().add(pack);
 	}
 
 	@Override
@@ -149,9 +149,9 @@ public class PropagateImportsCommand extends AbstractCommand implements Command 
 
 	@Override
 	public void undo() {
-		if (tSys != null)
+		if (module != null)
 			for (EPackage pack : missingPackages)
-				tSys.getImports().remove(pack);
+				module.getImports().remove(pack);
 	}
 
 }

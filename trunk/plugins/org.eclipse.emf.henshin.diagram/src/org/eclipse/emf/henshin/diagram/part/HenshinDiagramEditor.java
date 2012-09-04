@@ -25,7 +25,7 @@ import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.henshin.diagram.navigator.HenshinNavigatorItem;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -99,15 +99,15 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 
 		// Check if everything is there:
 		if (getDiagram() == null
-				|| !(getDiagram().getElement() instanceof TransformationSystem)) {
+				|| !(getDiagram().getElement() instanceof Module)) {
 			return;
 		}
 
 		// Collect all packages which cannot be resolved:
-		TransformationSystem system = (TransformationSystem) getDiagram()
+		Module module = (Module) getDiagram()
 				.getElement();
 		List<EPackage> unresolved = new ArrayList<EPackage>();
-		for (EPackage epackage : system.getImports()) {
+		for (EPackage epackage : module.getImports()) {
 			if (epackage.eIsProxy()) {
 				unresolved.add(epackage);
 			}
@@ -138,7 +138,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 		new HenshinPaletteFactory().fillPalette(root);
 
 		// Install the palette updater.
-		TransformationSystem system = (TransformationSystem) getDiagram()
+		Module system = (Module) getDiagram()
 				.getElement();
 		new HenshinPaletteUpdater(root, system);
 

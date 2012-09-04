@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -160,48 +159,70 @@ public class AttributeImpl extends EObjectImpl implements Attribute {
 	 * @generated NOT
 	 */
 	protected void updateDerivedFields() {
-		// null?
+		
+		// Reset constant:
+		constant = null;
+		
+		// Supposed to be null?
 		if (value!=null && value.trim().equalsIgnoreCase("null")) {
-			constant = null;
 			null_ = true;
 			return;
 		}
-		null_ = false; // not null
+		
+		// Otherwise it is not null:
+		null_ = false;
+		
+		// We need the value and the type:
 		if (value==null || type==null) {
-			constant = null;
 			return;
 		}
-			
+		
+		// Need to resolve the data type first?
 		if (type.getEType()==null) {
 			EcoreUtil.resolveAll(this);
 		}
+		
+		// Enum?
 		if (type.getEType() instanceof EEnum) {
-			constant = ((EEnum) type.getEType()).getEEnumLiteral(value);
+			try {
+				constant = ((EEnum) type.getEType()).getEEnumLiteral(value);
+			} catch (Throwable t) {}
 			return;
 		}
+		
+		// Package and factory must be known:
 		if (type.getEType()==null || 
 			type.getEType().getEPackage()==null || 
 			type.getEType().getEPackage().getEFactoryInstance()==null) {
-			constant = null;
 			return;
 		}
-		if (type.getEType()==EcorePackage.eINSTANCE.getEString()) {
-			// For strings we expect surrounding quotes:
+		
+		// Special treatment for strings:
+		if (type.getEType().getInstanceClass()==String.class) {
 			String v = value.trim();
-			if ((v.startsWith("\"") && v.endsWith("\"")) || (v.startsWith("'") && v.endsWith("'"))) {
-				constant = v.substring(1, v.length()-1); // TODO: take care of cases like "x" + "y" or "say \"hello\""
-			} else {
-				constant = null;
+			if (v.startsWith("\"") && v.endsWith("\"")) {	// double quotes
+				v = v.substring(1, v.length()-1);
+				if (v.indexOf("\"")<0) {
+					constant = v;
+					return;
+				}
+			}
+			if (v.startsWith("'") && v.endsWith("'")) {		// single quotes
+				constant = v.substring(1, v.length()-1);
+				if (v.indexOf("'")<0) {
+					constant = v;
+					return;					
+				}
 			}
 			return;
 		}
-		// Try to load it using the factory:
+		
+		// Last chance: try to load it using the factory:
 		try {
 			EFactory factory = type.getEType().getEPackage().getEFactoryInstance();
 			constant = factory.createFromString(type.getEAttributeType(), value);
-		} catch (Throwable t) {
-			constant = null; // this can happen if it is not a constant
-		}
+		} catch (Throwable t) {}
+		
 	}
 
 	/**

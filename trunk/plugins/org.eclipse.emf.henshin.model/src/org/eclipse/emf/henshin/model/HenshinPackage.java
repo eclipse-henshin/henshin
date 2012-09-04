@@ -102,16 +102,6 @@ public interface HenshinPackage extends EPackage {
 	int NAMED_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl <em>Transformation System</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.TransformationSystemImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationSystem()
-	 * @generated
-	 */
-	int TRANSFORMATION_SYSTEM = 2;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -230,13 +220,23 @@ public interface HenshinPackage extends EPackage {
 	int GRAPH_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ModuleImpl <em>Module</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.ModuleImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getModule()
+	 * @generated
+	 */
+	int MODULE = 2;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__NAME = NAMED_ELEMENT__NAME;
+	int MODULE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -245,7 +245,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+	int MODULE__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Sub Modules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__SUB_MODULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
@@ -254,7 +263,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__RULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int MODULE__RULES = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Imports</b></em>' reference list.
@@ -263,7 +272,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int MODULE__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Transformation Units</b></em>' containment reference list.
@@ -272,7 +281,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int MODULE__TRANSFORMATION_UNITS = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
@@ -281,16 +290,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int MODULE__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the '<em>Transformation System</em>' class.
+	 * The number of structural features of the '<em>Module</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_SYSTEM_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1819,61 +1828,6 @@ public interface HenshinPackage extends EPackage {
 	EAttribute getNamedElement_Description();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.TransformationSystem <em>Transformation System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Transformation System</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem
-	 * @generated
-	 */
-	EClass getTransformationSystem();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getRules <em>Rules</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rules</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getRules()
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	EReference getTransformationSystem_Rules();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getImports <em>Imports</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Imports</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getImports()
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	EReference getTransformationSystem_Imports();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits <em>Transformation Units</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Transformation Units</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits()
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	EReference getTransformationSystem_TransformationUnits();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationSystem#getInstances <em>Instances</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Instances</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationSystem#getInstances()
-	 * @see #getTransformationSystem()
-	 * @generated
-	 */
-	@Deprecated
-	EReference getTransformationSystem_Instances();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Rule <em>Rule</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2098,6 +2052,71 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getGraphElement_Action();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Module <em>Module</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Module</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module
+	 * @generated
+	 */
+	EClass getModule();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getSubModules <em>Sub Modules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Modules</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getSubModules()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_SubModules();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getRules <em>Rules</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Rules</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getRules()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_Rules();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Module#getImports <em>Imports</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Imports</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getImports()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_Imports();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getTransformationUnits <em>Transformation Units</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Transformation Units</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getTransformationUnits()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_TransformationUnits();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getInstances <em>Instances</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Instances</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getInstances()
+	 * @see #getModule()
+	 * @generated
+	 */
+	EReference getModule_Instances();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Mapping <em>Mapping</em>}'.
@@ -2764,49 +2783,6 @@ public interface HenshinPackage extends EPackage {
 		EAttribute NAMED_ELEMENT__DESCRIPTION = eINSTANCE.getNamedElement_Description();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.TransformationSystemImpl <em>Transformation System</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.TransformationSystemImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationSystem()
-		 * @generated
-		 */
-		EClass TRANSFORMATION_SYSTEM = eINSTANCE.getTransformationSystem();
-
-		/**
-		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_SYSTEM__RULES = eINSTANCE.getTransformationSystem_Rules();
-
-		/**
-		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_SYSTEM__IMPORTS = eINSTANCE.getTransformationSystem_Imports();
-
-		/**
-		 * The meta object literal for the '<em><b>Transformation Units</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_SYSTEM__TRANSFORMATION_UNITS = eINSTANCE.getTransformationSystem_TransformationUnits();
-
-		/**
-		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		@Deprecated
-		EReference TRANSFORMATION_SYSTEM__INSTANCES = eINSTANCE.getTransformationSystem_Instances();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.RuleImpl <em>Rule</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2983,6 +2959,56 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GRAPH_ELEMENT__ACTION = eINSTANCE.getGraphElement_Action();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.ModuleImpl <em>Module</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.ModuleImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getModule()
+		 * @generated
+		 */
+		EClass MODULE = eINSTANCE.getModule();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Modules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__SUB_MODULES = eINSTANCE.getModule_SubModules();
+
+		/**
+		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__RULES = eINSTANCE.getModule_Rules();
+
+		/**
+		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__IMPORTS = eINSTANCE.getModule_Imports();
+
+		/**
+		 * The meta object literal for the '<em><b>Transformation Units</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__TRANSFORMATION_UNITS = eINSTANCE.getModule_TransformationUnits();
+
+		/**
+		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODULE__INSTANCES = eINSTANCE.getModule_Instances();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.

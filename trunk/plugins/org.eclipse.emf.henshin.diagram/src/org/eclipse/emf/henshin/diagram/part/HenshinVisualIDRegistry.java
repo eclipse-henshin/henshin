@@ -18,6 +18,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -26,12 +27,11 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 
@@ -54,8 +54,8 @@ public class HenshinVisualIDRegistry {
 	 */
 	public static int getVisualID(View view) {
 		if (view instanceof Diagram) {
-			if (TransformationSystemEditPart.MODEL_ID.equals(view.getType())) {
-				return TransformationSystemEditPart.VISUAL_ID;
+			if (ModuleEditPart.MODEL_ID.equals(view.getType())) {
+				return ModuleEditPart.VISUAL_ID;
 			} else {
 				return -1;
 			}
@@ -110,10 +110,10 @@ public class HenshinVisualIDRegistry {
 		if (domainElement == null) {
 			return -1;
 		}
-		if (HenshinPackage.eINSTANCE.getTransformationSystem().isSuperTypeOf(
+		if (HenshinPackage.eINSTANCE.getModule().isSuperTypeOf(
 				domainElement.eClass())
-				&& isDiagram((TransformationSystem) domainElement)) {
-			return TransformationSystemEditPart.VISUAL_ID;
+				&& isDiagram((Module) domainElement)) {
+			return ModuleEditPart.VISUAL_ID;
 		}
 		return -1;
 	}
@@ -127,22 +127,22 @@ public class HenshinVisualIDRegistry {
 		}
 		String containerModelID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
 				.getModelID(containerView);
-		if (!TransformationSystemEditPart.MODEL_ID.equals(containerModelID)) {
+		if (!ModuleEditPart.MODEL_ID.equals(containerModelID)) {
 			return -1;
 		}
 		int containerVisualID;
-		if (TransformationSystemEditPart.MODEL_ID.equals(containerModelID)) {
+		if (ModuleEditPart.MODEL_ID.equals(containerModelID)) {
 			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
 					.getVisualID(containerView);
 		} else {
 			if (containerView instanceof Diagram) {
-				containerVisualID = TransformationSystemEditPart.VISUAL_ID;
+				containerVisualID = ModuleEditPart.VISUAL_ID;
 			} else {
 				return -1;
 			}
 		}
 		switch (containerVisualID) {
-		case TransformationSystemEditPart.VISUAL_ID:
+		case ModuleEditPart.VISUAL_ID:
 			if (HenshinPackage.eINSTANCE.getRule().isSuperTypeOf(
 					domainElement.eClass())) {
 				return RuleEditPart.VISUAL_ID;
@@ -180,22 +180,22 @@ public class HenshinVisualIDRegistry {
 	public static boolean canCreateNode(View containerView, int nodeVisualID) {
 		String containerModelID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
 				.getModelID(containerView);
-		if (!TransformationSystemEditPart.MODEL_ID.equals(containerModelID)) {
+		if (!ModuleEditPart.MODEL_ID.equals(containerModelID)) {
 			return false;
 		}
 		int containerVisualID;
-		if (TransformationSystemEditPart.MODEL_ID.equals(containerModelID)) {
+		if (ModuleEditPart.MODEL_ID.equals(containerModelID)) {
 			containerVisualID = org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry
 					.getVisualID(containerView);
 		} else {
 			if (containerView instanceof Diagram) {
-				containerVisualID = TransformationSystemEditPart.VISUAL_ID;
+				containerVisualID = ModuleEditPart.VISUAL_ID;
 			} else {
 				return false;
 			}
 		}
 		switch (containerVisualID) {
-		case TransformationSystemEditPart.VISUAL_ID:
+		case ModuleEditPart.VISUAL_ID:
 			if (RuleEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
@@ -285,7 +285,7 @@ public class HenshinVisualIDRegistry {
 	 * 
 	 * @generated
 	 */
-	private static boolean isDiagram(TransformationSystem element) {
+	private static boolean isDiagram(Module element) {
 		return true;
 	}
 

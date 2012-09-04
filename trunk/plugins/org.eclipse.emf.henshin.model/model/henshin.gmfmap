@@ -7,7 +7,7 @@
     xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
   <nodes>
     <containmentFeature
-        href="henshin.ecore#//TransformationSystem/rules"/>
+        href="henshin.ecore#//Module/rules"/>
     <ownedChild>
       <domainMetaElement
           href="henshin.ecore#//Rule"/>
@@ -83,7 +83,7 @@
   </nodes>
   <nodes>
     <containmentFeature
-        href="henshin.ecore#//TransformationSystem/transformationUnits"/>
+        href="henshin.ecore#//Module/transformationUnits"/>
     <ownedChild>
       <domainMetaElement
           href="henshin.ecore#//TransformationUnit"/>
@@ -116,7 +116,7 @@
           compartment="//@nodes.1/@ownedChild/@compartments.0"
           referencedChild="//@nodes.1/@ownedChild/@children.1/@ownedChild">
         <containmentFeature
-            href="henshin.ecore#//TransformationSystem/transformationUnits"/>
+            href="henshin.ecore#//Module/transformationUnits"/>
         <ownedChild>
           <domainMetaElement
               href="henshin.ecore#//TransformationUnit"/>
@@ -173,7 +173,7 @@
     <domainModel
         href="henshin.ecore#/"/>
     <domainMetaElement
-        href="henshin.ecore#//TransformationSystem"/>
+        href="henshin.ecore#//Module"/>
     <palette
         href="henshin.gmftool#//@palette"/>
   </diagram>

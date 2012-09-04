@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
 
@@ -41,8 +41,8 @@ public class HenshinPaletteUpdater {
 	// Palette root to be updated.
 	private PaletteRoot palette;
 	
-	// Transformation system to be monitored.
-	private TransformationSystem system;
+	// Module to be monitored.
+	private Module module;
 	
 	// Palette drawers for the packages.
 	private HashMap<EPackage, PaletteDrawer> drawers;
@@ -52,14 +52,14 @@ public class HenshinPaletteUpdater {
 	 * 
 	 * @param palette
 	 *            Palette root.
-	 * @param system
+	 * @param module
 	 *            Transformation system.
 	 */
-	public HenshinPaletteUpdater(PaletteRoot palette, TransformationSystem system) {
+	public HenshinPaletteUpdater(PaletteRoot palette, Module module) {
 		this.palette = palette;
-		this.system = system;
+		this.module = module;
 		this.drawers = new HashMap<EPackage, PaletteDrawer>();
-		system.eAdapters().add(listener);
+		module.eAdapters().add(listener);
 		refresh();
 	}
 	
@@ -72,7 +72,7 @@ public class HenshinPaletteUpdater {
 		drawers.clear();
 		
 		// Create a new drawer for every package:
-		for (EPackage epackage : system.getImports()) {
+		for (EPackage epackage : module.getImports()) {
 			addDrawerForEPackageHelper(epackage, "");
 		}
 		
@@ -106,7 +106,7 @@ public class HenshinPaletteUpdater {
 	}
 	
 	public void dispose() {
-		system.eAdapters().remove(listener);
+		module.eAdapters().remove(listener);
 	}
 	
 	/*
@@ -114,8 +114,8 @@ public class HenshinPaletteUpdater {
 	 */
 	private Adapter listener = new AdapterImpl() {
 		public void notifyChanged(Notification event) {
-			int featureID = event.getFeatureID(TransformationSystem.class);
-			if (featureID == HenshinPackage.TRANSFORMATION_SYSTEM__IMPORTS) {
+			int featureID = event.getFeatureID(Module.class);
+			if (featureID == HenshinPackage.MODULE__IMPORTS) {
 				refresh();
 			}
 		}

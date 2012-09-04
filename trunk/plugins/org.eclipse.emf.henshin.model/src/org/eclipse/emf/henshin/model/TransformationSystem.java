@@ -13,98 +13,21 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
- * <!-- begin-user-doc --> 
- * A representation of the model object '<em><b>Transformation System</b></em>'. 
- * <!-- end-user-doc -->
- *
- * <p>
- * The following features are supported:
- * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getRules <em>Rules</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getImports <em>Imports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getTransformationUnits <em>Transformation Units</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.TransformationSystem#getInstances <em>Instances</em>}</li>
- * </ul>
- * </p>
- *
- * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem()
- * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='uniqueUnitNames noCyclicUnits parameterNamesNotTypeName'"
- *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL uniqueUnitNames='transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)' uniqueUnitNames.Msg='_Ocl_Msg_TransformationSystem_uniqueUnitNames'"
- * @generated
+ * @deprecated Use {@link Module} instead.
  */
 public interface TransformationSystem extends NamedElement {
 	
-	/**
-	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rules</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Rules()
-	 * @model containment="true"
-	 * @generated
-	 */
 	EList<Rule> getRules();
 
-	/**
-	 * Returns the value of the '<em><b>Imports</b></em>' reference list. The
-	 * list contents are of type {@link org.eclipse.emf.ecore.EPackage}. <!--
-	 * begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Imports</em>' reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Imports()
-	 * @model
-	 * @generated
-	 */
 	EList<EPackage> getImports();
 
-	/**
-	 * Returns the value of the '<em><b>Transformation Units</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transformation Units</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_TransformationUnits()
-	 * @model containment="true"
-	 * @generated
-	 */
 	EList<TransformationUnit> getTransformationUnits();
 	
-	/**
-	 * Returns the value of the '<em><b>Instances</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Graph}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Instances</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getTransformationSystem_Instances()
-	 * @model containment="true"
-	 * @generated
-	 */
 	@Deprecated
 	EList<Graph> getInstances();
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * Finds and returns the first occurrence of a transformation unit with the
-	 * given name. If no such unit is found <code>null</code> is returned.
-	 * Please note, while rules are transformations units as well, please use
-	 * {@link #getRule(String)} in such cases.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
 	TransformationUnit getTransformationUnit(String unitName);
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * Finds and returns the first occurrence of a rule with the given name in 
-	 * the rule set of this transformation system. If no such rule is found 
-	 * <code>null</code> is returned.
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
 	Rule getRule(String ruleName);
 
 } // TransformationSystem

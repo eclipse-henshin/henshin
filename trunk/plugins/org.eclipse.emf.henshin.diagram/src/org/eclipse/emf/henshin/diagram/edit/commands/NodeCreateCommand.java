@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
 import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
-import org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
@@ -32,7 +32,7 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Action.Type;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -126,7 +126,7 @@ public class NodeCreateCommand extends EditElementCommand {
 		CreateElementRequest request = (CreateElementRequest) getRequest();
 		Object type = request.getParameter(EClassNodeTool.TYPE_PARAMETER_KEY);
 
-		TransformationSystem ts = rule.getTransformationSystem();
+		Module ts = rule.getModule();
 		SingleEClassifierSelectionDialog dialog = null;
 
 		// if no type has been specified yet, let the user choose one
@@ -188,22 +188,22 @@ public class NodeCreateCommand extends EditElementCommand {
 	private final class SingleEClassifierSelectionDialog extends
 			ElementListSelectionDialog {
 
-		final TransformationSystem ts;
+		final Module module;
 
 		private Action action;
 
 		/**
 		 * Constructor
 		 * 
-		 * @param ts
+		 * @param module
 		 */
-		public SingleEClassifierSelectionDialog(TransformationSystem ts) {
+		public SingleEClassifierSelectionDialog(Module module) {
 			super(shell, labelProvider);
 			this.setMultipleSelection(false);
 			this.setBlockOnOpen(true);
 			this.setTitle(Messages.SingleEClassifierSelectionDialog_title);
 			this.setMessage(Messages.SingleEClassifierSelectionDialog_msg);
-			this.ts = ts;
+			this.module = module;
 			this.action = null;
 		}// constructor
 
@@ -216,8 +216,8 @@ public class NodeCreateCommand extends EditElementCommand {
 		 */
 		public final EClassifier openAndReturnSelection() {
 
-			final List<EClassifier> elements = TransformationSystemEditHelper
-					.collectAllEClassifier(ts);
+			final List<EClassifier> elements = ModuleEditHelper
+					.collectAllEClassifier(module);
 
 			EClassifier result = null;
 			if (elements.size() > 0) {

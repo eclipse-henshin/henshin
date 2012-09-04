@@ -15,29 +15,29 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * @generated NOT
  * @author Christian Krause
  */
-public class TransformationSystemListener {
+public class ModuleListener {
 	
 	// Adapter:
 	private Adapter adapter;
 	
-	// Transformation system:
-	private TransformationSystem system;
+	// Module:
+	private Module module;
 	
 	/**
 	 * Default constructor.
 	 * @param adapter Adapter to be notified.
 	 */
-	public TransformationSystemListener(TransformationSystem system, Adapter adapter) {
-		this.system = system;
+	public ModuleListener(Module module, Adapter adapter) {
+		this.module = module;
 		this.adapter = adapter;
-		system.eAdapters().add(proxy);
-		TreeIterator<Object> it = EcoreUtil.getAllContents(system, true);
+		module.eAdapters().add(proxy);
+		TreeIterator<Object> it = EcoreUtil.getAllContents(module, true);
 		while (it.hasNext()) {
 			Object next = it.next();
 			if (next instanceof Notifier) {
@@ -50,8 +50,8 @@ public class TransformationSystemListener {
 	 * Dispose this listener.
 	 */
 	public void dispose() {
-		system.eAdapters().remove(proxy);
-		TreeIterator<Object> it = EcoreUtil.getAllContents(system, true);
+		module.eAdapters().remove(proxy);
+		TreeIterator<Object> it = EcoreUtil.getAllContents(module, true);
 		while (it.hasNext()) {
 			Object next = it.next();
 			if (next instanceof Notifier) {

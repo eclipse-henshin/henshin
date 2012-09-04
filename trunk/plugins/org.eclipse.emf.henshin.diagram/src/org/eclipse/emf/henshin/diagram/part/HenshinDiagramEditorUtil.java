@@ -34,8 +34,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.model.HenshinFactory;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
@@ -181,11 +182,11 @@ public class HenshinDiagramEditorUtil {
 			protected CommandResult doExecuteWithResult(
 					IProgressMonitor monitor, IAdaptable info)
 					throws ExecutionException {
-				TransformationSystem model = createInitialModel();
+				Module model = createInitialModel();
 				attachModelToResource(model, modelResource);
 
 				Diagram diagram = ViewService.createDiagram(model,
-						TransformationSystemEditPart.MODEL_ID,
+						ModuleEditPart.MODEL_ID,
 						HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				if (diagram != null) {
 					diagramResource.getContents().add(diagram);
@@ -226,8 +227,8 @@ public class HenshinDiagramEditorUtil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static TransformationSystem createInitialModel() {
-		return HenshinFactory.eINSTANCE.createTransformationSystem();
+	private static Module createInitialModel() {
+		return HenshinFactory.eINSTANCE.createModule();
 	}
 
 	/**
@@ -236,8 +237,7 @@ public class HenshinDiagramEditorUtil {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static void attachModelToResource(TransformationSystem model,
-			Resource resource) {
+	private static void attachModelToResource(Module model, Resource resource) {
 		resource.getContents().add(model);
 	}
 

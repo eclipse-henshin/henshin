@@ -417,7 +417,7 @@
     <parameters xmi:id="_Cy04ZGRbEeGG0NrfTXvizQ" name="seqUnit"/>
     <lhs xmi:id="_Cy04ZWRbEeGG0NrfTXvizQ" name="LHS">
       <nodes xmi:id="_DJXJEGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
       </nodes>
       <nodes xmi:id="_DJXJEWRbEeGG0NrfTXvizQ" name="seqUnit">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
@@ -464,7 +464,7 @@
         </attributes>
       </nodes>
       <nodes xmi:id="_Cy04aWRbEeGG0NrfTXvizQ" outgoing="_C4gCkGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
       </nodes>
       <nodes xmi:id="_DIKPMGRbEeGG0NrfTXvizQ" incoming="_Cy04cGRbEeGG0NrfTXvizQ" outgoing="_Cy04c2RbEeGG0NrfTXvizQ _SqkmYL9vEeGVpJhnGUJrLg _Ty_nAL9vEeGVpJhnGUJrLg">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Graph"/>
@@ -527,7 +527,7 @@
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
       </nodes>
       <edges xmi:id="_C4gCkGRbEeGG0NrfTXvizQ" source="_Cy04aWRbEeGG0NrfTXvizQ" target="_DHwmkGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem/rules"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/rules"/>
       </edges>
       <edges xmi:id="_Cy04cGRbEeGG0NrfTXvizQ" source="_DHwmkGRbEeGG0NrfTXvizQ" target="_DIKPMGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/lhs"/>
@@ -614,12 +614,12 @@
     <parameters xmi:id="_DGZ7sWRbEeGG0NrfTXvizQ" name="seqUnit"/>
     <lhs xmi:id="_DJOmMGRbEeGG0NrfTXvizQ" name="LHS">
       <nodes xmi:id="_DJRpgGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
       </nodes>
     </lhs>
     <rhs xmi:id="_DJOmMWRbEeGG0NrfTXvizQ" name="RHS">
       <nodes xmi:id="_DJOmMmRbEeGG0NrfTXvizQ" outgoing="_DJOmN2RbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module"/>
       </nodes>
       <nodes xmi:id="_DJOmM2RbEeGG0NrfTXvizQ" name="seqUnit" incoming="_DJOmN2RbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
@@ -634,7 +634,7 @@
         </attributes>
       </nodes>
       <edges xmi:id="_DJOmN2RbEeGG0NrfTXvizQ" source="_DJOmMmRbEeGG0NrfTXvizQ" target="_DJOmM2RbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationSystem/transformationUnits"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/transformationUnits"/>
       </edges>
     </rhs>
     <mappings xmi:id="_DJOmOGRbEeGG0NrfTXvizQ" origin="_DJRpgGRbEeGG0NrfTXvizQ" image="_DJOmMmRbEeGG0NrfTXvizQ"/>

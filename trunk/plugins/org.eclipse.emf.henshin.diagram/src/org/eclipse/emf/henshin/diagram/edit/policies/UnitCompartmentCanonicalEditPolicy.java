@@ -57,8 +57,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	 * @generated
 	 */
 	protected EStructuralFeature getFeatureToSynchronize() {
-		return HenshinPackage.eINSTANCE
-				.getTransformationSystem_TransformationUnits();
+		return HenshinPackage.eINSTANCE.getModule_TransformationUnits();
 	}
 
 	/**

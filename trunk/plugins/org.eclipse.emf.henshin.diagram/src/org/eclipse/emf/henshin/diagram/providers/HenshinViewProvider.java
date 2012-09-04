@@ -23,6 +23,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.EdgeTypeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeActionEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
@@ -31,7 +32,6 @@ import org.eclipse.emf.henshin.diagram.edit.parts.RuleCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleNameEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitNameEditPart;
@@ -73,7 +73,6 @@ import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 
 /**
@@ -117,8 +116,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 	 * @generated
 	 */
 	protected boolean provides(CreateDiagramViewOperation op) {
-		return TransformationSystemEditPart.MODEL_ID.equals(op
-				.getSemanticHint())
+		return ModuleEditPart.MODEL_ID.equals(op.getSemanticHint())
 				&& HenshinVisualIDRegistry
 						.getDiagramVisualID(getSemanticElement(op
 								.getSemanticAdapter())) != -1;
@@ -163,9 +161,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 					return false; // visual id for node EClass should match visual id from element type
 				}
 			} else {
-				if (!TransformationSystemEditPart.MODEL_ID
-						.equals(HenshinVisualIDRegistry.getModelID(op
-								.getContainerView()))) {
+				if (!ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+						.getModelID(op.getContainerView()))) {
 					return false; // foreign diagram
 				}
 				switch (visualID) {
@@ -229,7 +226,7 @@ public class HenshinViewProvider extends AbstractProvider implements
 			String diagramKind, PreferencesHint preferencesHint) {
 		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 		diagram.getStyles().add(NotationFactory.eINSTANCE.createDiagramStyle());
-		diagram.setType(TransformationSystemEditPart.MODEL_ID);
+		diagram.setType(ModuleEditPart.MODEL_ID);
 		diagram.setElement(getSemanticElement(semanticAdapter));
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
 		return diagram;
@@ -712,13 +709,13 @@ public class HenshinViewProvider extends AbstractProvider implements
 	 * @generated
 	 */
 	private void stampShortcut(View containerView, Node target) {
-		if (!TransformationSystemEditPart.MODEL_ID
-				.equals(HenshinVisualIDRegistry.getModelID(containerView))) {
+		if (!ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+				.getModelID(containerView))) {
 			EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE
 					.createEAnnotation();
 			shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
 			shortcutAnnotation.getDetails().put(
-					"modelID", TransformationSystemEditPart.MODEL_ID); //$NON-NLS-1$
+					"modelID", ModuleEditPart.MODEL_ID); //$NON-NLS-1$
 			target.getEAnnotations().add(shortcutAnnotation);
 		}
 	}

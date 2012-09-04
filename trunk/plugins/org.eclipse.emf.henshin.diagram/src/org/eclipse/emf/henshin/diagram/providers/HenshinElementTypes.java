@@ -23,10 +23,10 @@ import org.eclipse.emf.henshin.diagram.edit.parts.AttributeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.model.HenshinPackage;
@@ -65,11 +65,13 @@ public class HenshinElementTypes {
 	/**
 	 * @generated
 	 */
-	public static final IElementType TransformationSystem_1000 = getElementType("org.eclipse.emf.henshin.diagram.TransformationSystem_1000"); //$NON-NLS-1$
+	public static final IElementType Module_1000 = getElementType("org.eclipse.emf.henshin.diagram.Module_1000"); //$NON-NLS-1$
+
 	/**
 	 * @generated
 	 */
 	public static final IElementType Rule_2001 = getElementType("org.eclipse.emf.henshin.diagram.Rule_2001"); //$NON-NLS-1$
+
 	/**
 	 * @generated
 	 */
@@ -225,8 +227,7 @@ public class HenshinElementTypes {
 		if (elements == null) {
 			elements = new IdentityHashMap<IElementType, ENamedElement>();
 
-			elements.put(TransformationSystem_1000,
-					HenshinPackage.eINSTANCE.getTransformationSystem());
+			elements.put(Module_1000, HenshinPackage.eINSTANCE.getModule());
 
 			elements.put(Rule_2001, HenshinPackage.eINSTANCE.getRule());
 
@@ -259,7 +260,7 @@ public class HenshinElementTypes {
 	public static boolean isKnownElementType(IElementType elementType) {
 		if (KNOWN_ELEMENT_TYPES == null) {
 			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
-			KNOWN_ELEMENT_TYPES.add(TransformationSystem_1000);
+			KNOWN_ELEMENT_TYPES.add(Module_1000);
 			KNOWN_ELEMENT_TYPES.add(Rule_2001);
 			KNOWN_ELEMENT_TYPES.add(TransformationUnit_2002);
 			KNOWN_ELEMENT_TYPES.add(Node_3001);
@@ -277,8 +278,8 @@ public class HenshinElementTypes {
 	 */
 	public static IElementType getElementType(int visualID) {
 		switch (visualID) {
-		case TransformationSystemEditPart.VISUAL_ID:
-			return TransformationSystem_1000;
+		case ModuleEditPart.VISUAL_ID:
+			return Module_1000;
 		case RuleEditPart.VISUAL_ID:
 			return Rule_2001;
 		case UnitEditPart.VISUAL_ID:

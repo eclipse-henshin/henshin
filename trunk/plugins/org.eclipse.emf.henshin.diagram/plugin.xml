@@ -261,10 +261,10 @@
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="org.eclipse.emf.henshin.diagram.providers.HenshinModelingAssistantProvider">
          <Priority name="Lowest"/>
-         <object class="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart" id="TransformationSystem_1000"/>
+         <object class="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart" id="Module_1000"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart" id="Rule_2001"/>
          <object class="org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart" id="TransformationUnit_2002"/>
-         <context elements="TransformationSystem_1000,Rule_2001,TransformationUnit_2002"/>
+         <context elements="Module_1000,Rule_2001,TransformationUnit_2002"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -286,11 +286,11 @@
       <?gmfgen generated="true"?>
       <metamodel nsURI="http://www.eclipse.org/emf/2011/Henshin">
          <metamodelType
-               id="org.eclipse.emf.henshin.diagram.TransformationSystem_1000"
-               name="%metatype.name.TransformationSystem_1000"
+               id="org.eclipse.emf.henshin.diagram.Module_1000"
+               name="%metatype.name.Module_1000"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="TransformationSystem"
-               edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.TransformationSystemEditHelper">
+               eclass="Module"
+               edithelper="org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper">
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
@@ -379,7 +379,7 @@
          </enablement>
       </clientContext> 
       <binding context="org.eclipse.emf.henshin.diagram.TypeContext">
-         <elementType ref="org.eclipse.emf.henshin.diagram.TransformationSystem_1000"/>
+         <elementType ref="org.eclipse.emf.henshin.diagram.Module_1000"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Rule_2001"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.TransformationUnit_2002"/>
          <elementType ref="org.eclipse.emf.henshin.diagram.Node_3001"/>
@@ -535,7 +535,7 @@
                <and>
                   <with variable="activePartId"><equals value="org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorID"/></with>
                   <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart"/>
+                     <instanceof value="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart"/>
                   </iterate></with>
                </and>
             </visibleWhen>
@@ -560,7 +560,7 @@
       <?gmfgen generated="false"?>
       <objectContribution
             id="org.eclipse.emf.henshin.diagram.custom.systems"
-            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart">
+            objectClass="org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart">
          <menu
                icon="../org.eclipse.emf.henshin.editor/icons/full/ctool16/CreateEPackage.gif"
                id="importPackageMenu"

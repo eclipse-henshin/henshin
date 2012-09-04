@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -64,13 +64,13 @@ public class Java2StateMachine {
 		System.out.println("Loading Java2StateMachine transformation system...");
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
-		// Load the transformation system:
-		TransformationSystem system = resourceSet.getTransformationSystem("java2statemachine.henshin");
+		// Load the module:
+		Module module = resourceSet.getModule("java2statemachine.henshin");
 		
 		// Create a "Package" instance to store all "CompilationUnit"s
 		EObject rootPackage = null;
 		List<EObject> compilationUnits = null;
-		for (EPackage imported : system.getImports()) {
+		for (EPackage imported : module.getImports()) {
 			if ("containers".equals(imported.getName())) {
 				EClass packageClass = (EClass) imported.getEClassifier("Package");
 				rootPackage = imported.getEFactoryInstance().create(packageClass);
@@ -99,7 +99,7 @@ public class Java2StateMachine {
 		
 		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setEGraph(graph);
-		unitApp.setUnit(system.getTransformationUnit("Start"));
+		unitApp.setUnit(module.getTransformationUnit("Start"));
 
 		// Execute the transformation:
 		System.out.println("Generating state machine...");

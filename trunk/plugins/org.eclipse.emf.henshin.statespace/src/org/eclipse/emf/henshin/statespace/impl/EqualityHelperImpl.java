@@ -53,7 +53,7 @@ public class EqualityHelperImpl extends MinimalEObjectImpl.Container implements 
 		Map<String,EClass> allTypes = new HashMap<String,EClass>();
 		Map<String,EAttribute> allAttrs = new HashMap<String,EAttribute>();
 		for (Rule rule : stateSpace.getRules()) {
-			for (EPackage pack : rule.getTransformationSystem().getImports()) {
+			for (EPackage pack : rule.getModule().getImports()) {
 				for (EClassifier type : pack.getEClassifiers()) {
 					if (type instanceof EClass) {
 						allTypes.put(type.getName(), (EClass) type);

@@ -14,12 +14,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * @generated
  */
-public class TransformationSystemEditHelper extends HenshinBaseEditHelper {
+public class ModuleEditHelper extends HenshinBaseEditHelper {
 
 	/**
 	 * @param ts
@@ -30,8 +30,7 @@ public class TransformationSystemEditHelper extends HenshinBaseEditHelper {
 	 * @return empty array if no EClassifier could be found, otherwise an array
 	 *         which contains all EClassifier with the given name.
 	 */
-	public static EClassifier[] findEClassifierByName(TransformationSystem ts,
-			String name) {
+	public static EClassifier[] findEClassifierByName(Module ts, String name) {
 
 		if (name == null)
 			return new EClassifier[] {};
@@ -101,8 +100,7 @@ public class TransformationSystemEditHelper extends HenshinBaseEditHelper {
 	 * @param ts
 	 * @return
 	 */
-	public static List<EClassifier> collectAllEClassifier(
-			TransformationSystem ts) {
+	public static List<EClassifier> collectAllEClassifier(Module ts) {
 
 		List<EClassifier> list = new ArrayList<EClassifier>();
 

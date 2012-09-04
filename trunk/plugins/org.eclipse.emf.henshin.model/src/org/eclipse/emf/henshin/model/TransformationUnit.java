@@ -12,8 +12,9 @@ package org.eclipse.emf.henshin.model;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '
- * <em><b>Transformation Unit</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> 
+ * A representation of the model object '<em><b>Transformation Unit</b></em>'. 
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
@@ -60,6 +61,14 @@ public interface TransformationUnit extends NamedElement {
 	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
+	 */
+	Module getModule();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated NOT
 	 */
 	TransformationSystem getTransformationSystem();
 

@@ -23,14 +23,14 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * @generated
  */
-public class TransformationSystemItemSemanticEditPolicy extends
+public class ModuleItemSemanticEditPolicy extends
 		HenshinBaseItemSemanticEditPolicy {
 
 	/**
 	 * @generated
 	 */
-	public TransformationSystemItemSemanticEditPolicy() {
-		super(HenshinElementTypes.TransformationSystem_1000);
+	public ModuleItemSemanticEditPolicy() {
+		super(HenshinElementTypes.Module_1000);
 	}
 
 	/**

@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -48,9 +48,9 @@ public class SierpinskiBenchmark {
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
-		// Load the transformation system and find the rule:
-		TransformationSystem trasys = resourceSet.getTransformationSystem("sierpinski.henshin");
-		Rule rule = trasys.getRule("AddTriangle");
+		// Load the module and find the rule:
+		Module module = resourceSet.getModule("sierpinski.henshin");
+		Rule rule = module.getRule("AddTriangle");
 
 		// Load the first level of the Sierpinski triangle into a graph:
 		Resource resource = resourceSet.getResource("sierpinski-start.xmi");

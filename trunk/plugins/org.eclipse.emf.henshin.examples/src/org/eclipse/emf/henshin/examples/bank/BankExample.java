@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -40,8 +40,8 @@ public class BankExample {
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 		
-		// Load the transformation system:
-		TransformationSystem trasys = resourceSet.getTransformationSystem("bank.henshin");
+		// Load the module:
+		Module module = resourceSet.getModule("bank.henshin");
 
 		// Load the example model into an EGraph:
 		EGraph graph = new EGraphImpl(resourceSet.getResource("example-bank.xmi"));
@@ -52,7 +52,7 @@ public class BankExample {
 		app.setEGraph(graph);
 		
 		// Creating a new account for Alice...
-		app.setRule(trasys.getRule("createAccount"));
+		app.setRule(module.getRule("createAccount"));
 		app.setParameterValue("client", "Alice");
 		app.setParameterValue("accountId", 5);
 		if (!app.execute(null)) {
@@ -60,7 +60,7 @@ public class BankExample {
 		}
 		
 		// Transferring some money:
-		app.setRule(trasys.getRule("transferMoney"));
+		app.setRule(module.getRule("transferMoney"));
 		app.setParameterValue("client", "Alice");
 		app.setParameterValue("fromId", 1);
 		app.setParameterValue("toId", 2);
@@ -70,7 +70,7 @@ public class BankExample {
 		}
 		
 		// Deleting all accounts of Charles:
-		app.setRule(trasys.getRule("deleteAllAccounts"));
+		app.setRule(module.getRule("deleteAllAccounts"));
 		app.setParameterValue("client", "Charles");
 		if (!app.execute(null)) {
 			throw new RuntimeException("Error deleting Charles' accounts");

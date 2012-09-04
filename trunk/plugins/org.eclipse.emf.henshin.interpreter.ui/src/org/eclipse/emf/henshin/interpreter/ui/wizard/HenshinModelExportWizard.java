@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.henshin.HenshinModelExporter;
 import org.eclipse.emf.henshin.HenshinModelPlugin;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -60,8 +60,8 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 	// The workbench:
 	private IWorkbench workbench;
 	
-	// Transformation system to be exported:
-	private TransformationSystem system;
+	// Module to be exported:
+	private Module module;
 	
 	// Selection:
 	private IStructuredSelection selection;
@@ -93,15 +93,15 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 		// Try to extract the state space out of the selection:
 		if (selection!=null) {
 			Iterator<?> iterator = selection.iterator();
-			while (iterator.hasNext() && system==null) {
+			while (iterator.hasNext() && module==null) {
 				Object current = iterator.next();
-				if (current instanceof TransformationSystem) {
-					system = (TransformationSystem) current;
+				if (current instanceof Module) {
+					module = (Module) current;
 				} else if (current instanceof IFile) {
 					HenshinResourceSet resourceSet = new HenshinResourceSet();
 					URI fileURI = URI.createPlatformResourceURI(((IFile) current).getFullPath().toString(), true);
 					try {
-						system = (TransformationSystem) resourceSet.getResource(fileURI, true).getContents().get(0);
+						module = (Module) resourceSet.getResource(fileURI, true).getContents().get(0);
 					} catch (Throwable t) {
 						HenshinModelPlugin.INSTANCE.log(IStatus.ERROR, "Error loading transformation model from file " + fileURI.toFileString(), t);
 					}
@@ -109,13 +109,13 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 			}
 		}
 		
-		// Transformation system must be set by now.
-		if (system==null) {
-			throw new RuntimeException("Transformation system not set");
+		// Module must be set by now.
+		if (module==null) {
+			throw new RuntimeException("Module not set");
 		}
 		
 		// Initialize the default file name for the export:
-		baseName = system.eResource().getURI().trimFileExtension().lastSegment();
+		baseName = module.eResource().getURI().trimFileExtension().lastSegment();
 		
 	}
 	
@@ -134,7 +134,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 	 */
 	private void updateFileName(String ext) {
 		
-		String directory = system.eResource().getURI().trimSegments(1).toPlatformString(true);
+		String directory = module.eResource().getURI().trimSegments(1).toPlatformString(true);
 		IContainer container = (IContainer) ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(directory));
 		fileCreationPage.setContainerFullPath(container.getFullPath());
 		
@@ -160,8 +160,8 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 		return pretty;
 	}
 	
-	public void setTransformationSystem(TransformationSystem system) {
-		this.system = system;
+	public void setModule(Module module) {
+		this.module = module;
 	}
 
 	/*
@@ -209,7 +209,7 @@ public class HenshinModelExportWizard extends Wizard implements IExportWizard {
 		URI fileURI = URI.createFileURI(file.getLocation().toOSString());
 		IStatus status;
 		try {
-			status = exporter.doExport(system, fileURI);
+			status = exporter.doExport(module, fileURI);
 		} catch (Throwable t) {
 			status = new Status(IStatus.ERROR, HenshinModelPlugin.PLUGIN_ID, "Error running exporter", t);
 		} finally {

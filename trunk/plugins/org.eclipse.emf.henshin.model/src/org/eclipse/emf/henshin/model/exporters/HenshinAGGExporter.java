@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -108,10 +108,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.HenshinModelExporter#doExport(org.eclipse.emf.henshin.model.TransformationSystem, org.eclipse.emf.common.util.URI)
+	 * @see org.eclipse.emf.henshin.HenshinModelExporter#doExport(org.eclipse.emf.henshin.model.Module, org.eclipse.emf.common.util.URI)
 	 */
 	@Override
-	public IStatus doExport(TransformationSystem system, URI uri) {
+	public IStatus doExport(Module module, URI uri) {
 
 		// Reset first:
 		reset();
@@ -131,10 +131,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 
 			// Graph transformation system:
 			Element systemElem = newElement("GraphTransformationSystem", root, true);
-			String name = system.getName();
+			String name = module.getName();
 			if (name==null || name.trim().length()==0) {
-				if (system.eResource()!=null) {
-					name = system.eResource().getURI().trimFileExtension().lastSegment();
+				if (module.eResource()!=null) {
+					name = module.eResource().getURI().trimFileExtension().lastSegment();
 				} else {
 					name = "GraGra";
 				}
@@ -161,7 +161,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			typesElem.removeChild(typeGraphElem);
 			
 			// Nodes and attribute types:
-			for (EPackage epackage : system.getImports()) {
+			for (EPackage epackage : module.getImports()) {
 				for (EClassifier eclassifier : epackage.getEClassifiers()) {
 					if (eclassifier instanceof EClass) {
 						EClass eclass = (EClass) eclassifier;
@@ -195,10 +195,10 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			}
 
 			// Check whether the reference names are unique:
-			boolean hasUniqureRefNames = hasUniqueEReferenceNames(system);
+			boolean hasUniqureRefNames = hasUniqueEReferenceNames(module);
 			
 			// Edge types:
-			for (EPackage epackage : system.getImports()) {
+			for (EPackage epackage : module.getImports()) {
 				for (EClassifier eclassifier : epackage.getEClassifiers()) {
 					if (eclassifier instanceof EClass) {
 						EClass eclass = (EClass) eclassifier;
@@ -232,7 +232,7 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 			typesElem.appendChild(typeGraphElem);
 			
 			// Rules:
-			for (Rule rule : system.getRules()) {
+			for (Rule rule : module.getRules()) {
 				Element ruleElem = newElement("Rule", systemElem, true);
 				ruleElem.setAttribute("name", rule.getName());
 				ruleElem.setAttribute("formula", "true");
@@ -525,11 +525,11 @@ public class HenshinAGGExporter implements HenshinModelExporter {
 	}
 	
 	/*
-	 * Check whether all used EReferences in a transformation systems have a unique name.
+	 * Check whether all used EReferences in a module have a unique name.
 	 */
-	private static boolean hasUniqueEReferenceNames(TransformationSystem system) {
+	private static boolean hasUniqueEReferenceNames(Module module) {
 		Set<String> refNames = new HashSet<String>(); 
-		for (EPackage epackage : system.getImports()) {
+		for (EPackage epackage : module.getImports()) {
 			for (EClassifier classifier : epackage.getEClassifiers()) {
 				if (classifier instanceof EClass) {
 					for (EReference ref : ((EClass) classifier).getEReferences()) {

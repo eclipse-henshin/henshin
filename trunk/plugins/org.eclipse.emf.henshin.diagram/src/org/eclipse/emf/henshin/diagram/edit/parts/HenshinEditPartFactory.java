@@ -37,8 +37,8 @@ public class HenshinEditPartFactory implements EditPartFactory {
 			View view = (View) model;
 			switch (HenshinVisualIDRegistry.getVisualID(view)) {
 
-			case TransformationSystemEditPart.VISUAL_ID:
-				return new TransformationSystemEditPart(view);
+			case ModuleEditPart.VISUAL_ID:
+				return new ModuleEditPart(view);
 
 			case RuleEditPart.VISUAL_ID:
 				return new RuleEditPart(view);

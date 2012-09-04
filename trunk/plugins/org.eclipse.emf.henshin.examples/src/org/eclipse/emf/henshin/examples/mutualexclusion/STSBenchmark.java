@@ -20,7 +20,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -52,14 +52,14 @@ public class STSBenchmark {
 		// Create a resource set with a base directory:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
-		// Load the transformation system:
-		TransformationSystem trasys = resourceSet.getTransformationSystem("mutualexclusion.henshin");
-		EObject container = resourceSet.getObject("initialgraph.xmi");
+		// Load the module:
+		Module module = resourceSet.getModule("mutualexclusion.henshin");
+		EObject container = resourceSet.getEObject("initialgraph.xmi");
 
 		// Load the rules:
-		Rule newRule = trasys.getRule("newRule");
-		TransformationUnit stsUnit = trasys.getTransformationUnit("sts");
-		TransformationUnit loopStsUnit = trasys.getTransformationUnit("loopSts");
+		Rule newRule = module.getRule("newRule");
+		TransformationUnit stsUnit = module.getTransformationUnit("sts");
+		TransformationUnit loopStsUnit = module.getTransformationUnit("loopSts");
 
 		
 		//Perform benchmark for several graph sizes

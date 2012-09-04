@@ -49,7 +49,7 @@ import org.eclipse.emf.henshin.interpreter.ui.InterpreterUIPlugin;
 import org.eclipse.emf.henshin.interpreter.ui.util.Capsule;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -103,7 +103,7 @@ public class Henshination {
 	private void registerImportedPackages() {
 		if (this.resourceSet == null || this.transformationUnit == null)
 			return;
-		TransformationSystem tSys = (TransformationSystem) this.transformationUnit.eContainer();
+		Module tSys = transformationUnit.getModule();
 		for (EPackage pack : tSys.getImports())
 			this.resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
 	}
@@ -211,10 +211,10 @@ public class Henshination {
 	}
 	
 	public boolean isModelAffectedByTransformation() {
-		TransformationSystem tSys = (TransformationSystem) transformationUnit.eContainer();
-		for (EPackage ep : tSys.getImports())
+		Module module = transformationUnit.getModule();
+		for (EPackage ep : module.getImports())
 			EcoreUtil.resolveAll(ep);
-		return tSys.getImports().contains(getModel().eClass().getEPackage());
+		return module.getImports().contains(getModel().eClass().getEPackage());
 	}
 	
 	public HenshinationResultView createPreview() throws HenshinationException {

@@ -51,7 +51,7 @@ public class GossipingGirls {
 		
 		// Find the rule for adding a girl and create an engine instance:
 		Rule addGirlRule = stateSpace.getRules().get(0).
-				getTransformationSystem().getRule("addGirl");
+				getModule().getRule("addGirl");
 		Engine engine = new EngineImpl();
 		
 		// Now do the benchmark...

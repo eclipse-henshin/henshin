@@ -30,7 +30,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDescriptor;
 
@@ -359,8 +359,8 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			collectRelatedParameterMappings(tu, para, result);
 			
 			// check the parent unit
-			TransformationSystem ts = (TransformationSystem) tu.eContainer();
-			for (TransformationUnit parent : ts.getTransformationUnits()) {
+			Module module = (Module) tu.eContainer();
+			for (TransformationUnit parent : module.getTransformationUnits()) {
 				if (parent.getSubUnits(false).contains(tu)) {
 					collectRelatedParameterMappings(parent, para, result);
 				}// if

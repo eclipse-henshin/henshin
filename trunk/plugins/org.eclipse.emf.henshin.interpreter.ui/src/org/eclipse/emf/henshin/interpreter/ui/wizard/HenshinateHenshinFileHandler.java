@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -50,9 +50,9 @@ public class HenshinateHenshinFileHandler extends AbstractHandler {
 				
 				if (resource.getContents().size() == 0) return null;
 				EObject root = resource.getContents().get(0);
-				if (root instanceof TransformationSystem) {
-					TransformationSystem tSystem = (TransformationSystem) root;
-					HenshinWizard tWiz = new HenshinWizard(tSystem);
+				if (root instanceof Module) {
+					Module module = (Module) root;
+					HenshinWizard tWiz = new HenshinWizard(module);
 					HenshinWizardDialog dialog = new HenshinWizardDialog(
 							HandlerUtil.getActiveShell(event), tWiz);
 					dialog.open();

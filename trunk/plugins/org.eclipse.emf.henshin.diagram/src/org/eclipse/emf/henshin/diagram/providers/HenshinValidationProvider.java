@@ -9,7 +9,7 @@
  */
 package org.eclipse.emf.henshin.diagram.providers;
 
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -69,9 +69,8 @@ public class HenshinValidationProvider {
 		}
 		if (object instanceof View) {
 			return constraintsActive
-					&& TransformationSystemEditPart.MODEL_ID
-							.equals(HenshinVisualIDRegistry
-									.getModelID((View) object));
+					&& ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+							.getModelID((View) object));
 		}
 		return true;
 	}

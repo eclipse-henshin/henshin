@@ -89,7 +89,7 @@ public class CreateDynamicMC extends MenuContributor {
 	
 	protected Collection<EClass> findSubTypes(EClass superClass) {
 		Collection<EClass> result = new ArrayList<EClass>();
-		for (EPackage pack : graph.getRule().getTransformationSystem().getImports()) {
+		for (EPackage pack : graph.getRule().getModule().getImports()) {
 			for (EClassifier eClassifier : pack.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass) eClassifier;
@@ -226,7 +226,7 @@ public class CreateDynamicMC extends MenuContributor {
 		
 		@Override
 		protected void populateMenu(IMenuManager manager) {
-			for (EPackage importedPackage : graph.getRule().getTransformationSystem()
+			for (EPackage importedPackage : graph.getRule().getModule()
 					.getImports()) {
 				manager.add(new DynamicClassSelectionMenu(importedPackage.getName(),
 						importedPackage));

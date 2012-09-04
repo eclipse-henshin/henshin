@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.core.services.ViewService;
@@ -74,7 +74,7 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 				.setTitle(Messages.HenshinNewDiagramFileWizard_CreationPageTitle);
 		myFileCreationPage.setDescription(NLS.bind(
 				Messages.HenshinNewDiagramFileWizard_CreationPageDescription,
-				TransformationSystemEditPart.MODEL_ID));
+				ModuleEditPart.MODEL_ID));
 		IPath filePath;
 		String fileName = URI.decode(domainModelURI.trimFileExtension()
 				.lastSegment());
@@ -135,13 +135,13 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 				int diagramVID = HenshinVisualIDRegistry
 						.getDiagramVisualID(diagramRootElementSelectionPage
 								.getModelElement());
-				if (diagramVID != TransformationSystemEditPart.VISUAL_ID) {
+				if (diagramVID != ModuleEditPart.VISUAL_ID) {
 					return CommandResult
 							.newErrorCommandResult(Messages.HenshinNewDiagramFileWizard_IncorrectRootError);
 				}
 				Diagram diagram = ViewService.createDiagram(
 						diagramRootElementSelectionPage.getModelElement(),
-						TransformationSystemEditPart.MODEL_ID,
+						ModuleEditPart.MODEL_ID,
 						HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				diagramResource.getContents().add(diagram);
 				return CommandResult.newOKCommandResult();
@@ -198,7 +198,7 @@ public class HenshinNewDiagramFileWizard extends Wizard {
 					.provides(
 							new CreateDiagramViewOperation(
 									new EObjectAdapter(selectedModelElement),
-									TransformationSystemEditPart.MODEL_ID,
+									ModuleEditPart.MODEL_ID,
 									HenshinDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
 			setErrorMessage(result ? null
 					: Messages.HenshinNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);

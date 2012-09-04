@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditor;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
@@ -132,8 +132,8 @@ public class HenshinNavigatorActionProvider extends CommonActionProvider {
 				}
 				if (selectedElement instanceof Diagram) {
 					Diagram diagram = (Diagram) selectedElement;
-					if (TransformationSystemEditPart.MODEL_ID
-							.equals(HenshinVisualIDRegistry.getModelID(diagram))) {
+					if (ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+							.getModelID(diagram))) {
 						myDiagram = diagram;
 					}
 				}

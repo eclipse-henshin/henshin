@@ -190,7 +190,7 @@ public class HenshinModelWizard extends Wizard implements INewWizard {
 	protected Collection<String> getInitialObjectNames() {
 		if (initialObjectNames == null) {
 			initialObjectNames = new ArrayList<String>();
-			initialObjectNames.add(henshinPackage.getTransformationSystem().getName());
+			initialObjectNames.add(henshinPackage.getModule().getName());
 		}
 		return initialObjectNames;
 		

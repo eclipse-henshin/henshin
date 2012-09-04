@@ -9,7 +9,7 @@
  */
 package org.eclipse.emf.henshin.examples.probbroadcast;
 
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.statespace.StateSpace;
 import org.eclipse.emf.henshin.statespace.StateSpaceException;
 import org.eclipse.emf.henshin.statespace.StateSpaceFactory;
@@ -55,8 +55,8 @@ public class ProbBroadcast {
 	public ProbBroadcast(String path) {
 		// Load transformation system and initialize the state space (manager):
 		resourceSet = new StateSpaceResourceSet(path);
-		TransformationSystem system = resourceSet.getTransformationSystem("probbroadcast.henshin");
-		StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace(system);
+		Module module = resourceSet.getModule("probbroadcast.henshin");
+		StateSpace stateSpace = StateSpaceFactory.eINSTANCE.createStateSpace(module);
 		manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
 	}
 	

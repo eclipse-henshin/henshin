@@ -7,9 +7,9 @@
     copyrightText="Copyright (c) 2010-2012 Henshin developers. All rights reserved. &#xA;This program and the accompanying materials are made available &#xA;under the terms of the Eclipse Public License v1.0 which &#xA;accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html">
   <diagram
       visualID="1000"
-      editPartClassName="TransformationSystemEditPart"
-      itemSemanticEditPolicyClassName="TransformationSystemItemSemanticEditPolicy"
-      canonicalEditPolicyClassName="TransformationSystemCanonicalEditPolicy"
+      editPartClassName="ModuleEditPart"
+      itemSemanticEditPolicyClassName="ModuleItemSemanticEditPolicy"
+      canonicalEditPolicyClassName="ModuleCanonicalEditPolicy"
       iconProviderPriority="Low"
       validationProviderPriority="Low"
       validationEnabled="true"
@@ -18,12 +18,12 @@
         href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Diagram"/>
     <elementType
         xsi:type="gmfgen:MetamodelType"
-        editHelperClassName="TransformationSystemEditHelper"/>
+        editHelperClassName="ModuleEditHelper"/>
     <viewmap
         xsi:type="gmfgen:FigureViewmap"
         figureQualifiedClassName="org.eclipse.draw2d.FreeformLayer"/>
     <domainDiagramElement
-        href="henshin.genmodel#//henshin/TransformationSystem"/>
+        href="henshin.genmodel#//henshin/Module"/>
     <childNodes
         visualID="3001"
         editPartClassName="NodeEditPart"
@@ -177,9 +177,9 @@
         <metaClass
             href="henshin.genmodel#//henshin/TransformationUnit"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
       </modelFacet>
       <labels
           visualID="5005"
@@ -229,9 +229,9 @@
         <metaClass
             href="henshin.genmodel#//henshin/Rule"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/rules"/>
+            href="henshin.genmodel#//henshin/Module/rules"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/rules"/>
+            href="henshin.genmodel#//henshin/Module/rules"/>
       </modelFacet>
       <labels
           visualID="5001"
@@ -292,9 +292,9 @@
         <metaClass
             href="henshin.genmodel#//henshin/TransformationUnit"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/TransformationSystem/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
       </modelFacet>
       <labels
           visualID="5004"

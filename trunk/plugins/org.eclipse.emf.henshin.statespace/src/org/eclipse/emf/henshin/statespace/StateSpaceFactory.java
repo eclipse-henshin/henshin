@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin.statespace;
 
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,7 +47,7 @@ public interface StateSpaceFactory extends EFactory {
 	 * @return a new object of class '<em>State Space</em>'.
 	 * @generated NOT
 	 */
-	StateSpace createStateSpace(TransformationSystem system);
+	StateSpace createStateSpace(Module module);
 
 	/**
 	 * Returns a new state space manager.

@@ -32,7 +32,7 @@ import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.ParameterEditTable.
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector;
 import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.UnitSelectionListener;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -67,7 +67,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected TransformationUnit initialUnit;
 	
-	protected TransformationSystem transformationSystem;
+	protected Module module;
 	
 	protected ArrayList<TransformationUnit> availableUnits;
 	
@@ -89,13 +89,13 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		this();
 		unitSelectable = false;
 		this.initialUnit = tUnit;
-		this.transformationSystem = (TransformationSystem) tUnit.eContainer();
+		this.module = (Module) tUnit.eContainer();
 	}
 	
-	public HenshinWizard(TransformationSystem tSystem) {
+	public HenshinWizard(Module tSystem) {
 		this();
 		unitSelectable = true;
-		this.transformationSystem = tSystem;
+		this.module = tSystem;
 	}
 	
 	private HenshinWizard() {
@@ -116,7 +116,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		 */
 
 		ResourceSet rs = new ResourceSetImpl();
-		URI trafoUri = this.transformationSystem.eResource().getURI();
+		URI trafoUri = this.module.eResource().getURI();
 		Resource r = rs.createResource(trafoUri);
 		
 		try {
@@ -124,12 +124,12 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.transformationSystem = (TransformationSystem) r.getContents().get(0);
+		this.module = (Module) r.getContents().get(0);
 		if (this.initialUnit != null) {
 			String id = initialUnit.eResource().getURIFragment(initialUnit);
 			List<TransformationUnit> l = new ArrayList<TransformationUnit>(
-					this.transformationSystem.getRules());
-			l.addAll(this.transformationSystem.getTransformationUnits());
+					this.module.getRules());
+			l.addAll(this.module.getTransformationUnits());
 			for (TransformationUnit unit : l) {
 				if (r.getURIFragment(unit).equals(id)) {
 					this.initialUnit = unit;
@@ -139,8 +139,8 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		}
 		
 		availableUnits = new ArrayList<TransformationUnit>();
-		availableUnits.addAll(transformationSystem.getTransformationUnits());
-		availableUnits.addAll(transformationSystem.getRules());
+		availableUnits.addAll(module.getTransformationUnits());
+		availableUnits.addAll(module.getRules());
 		
 		ArrayList<String> unitLabels = new ArrayList<String>();
 		int initIdx = -1;
@@ -243,8 +243,8 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 				}
 				
 				IResource selected = null;
-				if (transformationSystem!=null) {
-					String path = transformationSystem.eResource().getURI().toPlatformString(true);
+				if (module!=null) {
+					String path = module.eResource().getURI().toPlatformString(true);
 					selected = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 				}
 				

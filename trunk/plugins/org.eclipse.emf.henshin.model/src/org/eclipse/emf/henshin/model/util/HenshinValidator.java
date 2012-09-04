@@ -87,8 +87,8 @@ public class HenshinValidator extends EObjectValidator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static Constraint transformationSystem_uniqueUnitNamesInvOCL;
-	
+	private static Constraint module_uniqueUnitNamesInvOCL;
+
 	/**
 	 * The parsed OCL expression for the definition of the '<em>lhsAndRhsNotNull</em>' invariant constraint.
 	 * <!-- begin-user-doc -->
@@ -205,8 +205,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateNamedElement((NamedElement)value, diagnostics, context);
 			case HenshinPackage.GRAPH_ELEMENT:
 				return validateGraphElement((GraphElement)value, diagnostics, context);
-			case HenshinPackage.TRANSFORMATION_SYSTEM:
-				return validateTransformationSystem((TransformationSystem)value, diagnostics, context);
+			case HenshinPackage.MODULE:
+				return validateModule((Module)value, diagnostics, context);
 			case HenshinPackage.RULE:
 				return validateRule((Rule)value, diagnostics, context);
 			case HenshinPackage.PARAMETER:
@@ -354,174 +354,9 @@ public class HenshinValidator extends EObjectValidator {
 		}
 		return true;
 	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTransformationSystem(TransformationSystem transformationSystem,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationSystem_uniqueUnitNames(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationSystem_noCyclicUnits(transformationSystem, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationSystem_parameterNamesNotTypeName(transformationSystem, diagnostics, context);
-		return result;
-	}
-	
-	/**
-	 * Validates the uniqueUnitNames constraint of '<em>Transformation System</em>'.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTransformationSystem_uniqueUnitNames(
-			TransformationSystem transformationSystem, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (transformationSystem_uniqueUnitNamesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.TRANSFORMATION_SYSTEM);
-			
-			EAnnotation ocl = HenshinPackage.Literals.TRANSFORMATION_SYSTEM.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueUnitNames");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				transformationSystem_uniqueUnitNamesInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			transformationSystem_uniqueUnitNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueUnitNames.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueUnitNames.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
 		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(transformationSystem_uniqueUnitNamesInvOCL);
-		
-		if (!query.check(transformationSystem)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = transformationSystem_uniqueUnitNamesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueUnitNames", getObjectLabel(transformationSystem, context) },
-						 new Object[] { transformationSystem },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the noCyclicUnits constraint of '<em>Transformation System</em>
-	 * '. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 * @generated NOT
-	 */
-	public boolean validateTransformationSystem_noCyclicUnits(
-			TransformationSystem transformationSystem, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		final Stack<TransformationUnit> path = new Stack<TransformationUnit>();
-		final List<TransformationUnit> cyclic = new ArrayList<TransformationUnit>();
-		boolean result = true;
-		
-		for (TransformationUnit unit : transformationSystem.getTransformationUnits()) {
-			path.clear();
-			TransformationUnit cyc = isCyclic(path, unit);
-			if (cyc != null && !cyclic.contains(cyc)) {
-				cyclic.add(cyc);
-				diagnostics.add(createDiagnostic(
-						Diagnostic.WARNING,
-						DIAGNOSTIC_SOURCE,
-						0,
-						"_UI_GenericConstraint_diagnostic",
-						new Object[] { "transformationSystem_noCyclicUnits",
-								getObjectLabel(transformationSystem, context),
-								getObjectLabel(cyc, context) },
-						new Object[] { transformationSystem }, context,
-						"_EcoreConstraint_Msg_TransformationSystem_noCyclicUnits"));
-				result = false;
-			}
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * Validates the parameterNamesNotTypeName constraint of '
-	 * <em>Transformation System</em>'. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 */
-	public boolean validateTransformationSystem_parameterNamesNotTypeName(
-			TransformationSystem transformationSystem, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		
-		for (TransformationUnit tUnit : transformationSystem.getTransformationUnits()) {
-			for (Parameter param : tUnit.getParameters()) {
-				if (containsImportedEClassifier(transformationSystem, param.getName())) {
-					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
-							"_UI_GenericConstraint_diagnostic", new Object[] {
-									"transformationSystem_parameterNamesNotTypeName",
-									getObjectLabel(transformationSystem, context) },
-							new Object[] { transformationSystem }, context,
-							"_EcoreConstraint_Msg_TransformationSystem_parameterNamesNotTypeName"));
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * 
-	 * @param tSys
-	 * @param name
-	 * @return
-	 */
-	protected boolean containsImportedEClassifier(TransformationSystem tSys, String name) {
-		for (EPackage pack : tSys.getImports()) {
+	protected boolean containsImportedEClassifier(Module module, String name) {
+		for (EPackage pack : module.getImports()) {
 			if (pack.getEClassifier(name) != null) return true;
 		}
 		return false;
@@ -1082,6 +917,151 @@ public class HenshinValidator extends EObjectValidator {
 		return validate_EveryDefaultConstraint(graphElement, diagnostics, context);
 	}
 	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateModule(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validateModule_uniqueUnitNames(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validateModule_noCyclicUnits(module, diagnostics, context);
+		if (result || diagnostics != null) result &= validateModule_parameterNamesNotTypeName(module, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * Validates the uniqueUnitNames constraint of '<em>Module</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateModule_uniqueUnitNames(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        if (module_uniqueUnitNamesInvOCL == null) {
+			OCL.Helper helper = OCL_ENV.createOCLHelper();
+			helper.setContext(HenshinPackage.Literals.MODULE);
+			
+			EAnnotation ocl = HenshinPackage.Literals.MODULE.getEAnnotation(OCL_ANNOTATION_SOURCE);
+			String expr = ocl.getDetails().get("uniqueUnitNames");
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
+			
+			try {
+				module_uniqueUnitNamesInvOCL = helper.createInvariant(expr);
+			}
+			catch (ParserException e) {
+				throw new UnsupportedOperationException(e.getLocalizedMessage());
+			}
+			
+			module_uniqueUnitNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("uniqueUnitNames.Msg");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("Msg", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("uniqueUnitNames.Severity");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("Severity",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
+		}
+		
+		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(module_uniqueUnitNamesInvOCL);
+		
+		if (!query.check(module)) {
+			if (diagnostics != null) {
+			
+				EAnnotation henshinAnnotation = module_uniqueUnitNamesInvOCL
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("Severity"))
+						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
+
+				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
+						.getDetails().get("Msg") : null;			
+			
+				diagnostics.add
+					(createDiagnostic
+						(severity,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",
+						 new Object[] { "uniqueUnitNames", getObjectLabel(module, context) },
+						 new Object[] { module },
+						 context, addMsg));
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validates the noCyclicUnits constraint of '<em>Module</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateModule_noCyclicUnits(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		final Stack<TransformationUnit> path = new Stack<TransformationUnit>();
+		final List<TransformationUnit> cyclic = new ArrayList<TransformationUnit>();
+		boolean result = true;
+		for (TransformationUnit unit : module.getTransformationUnits()) {
+			path.clear();
+			TransformationUnit cyc = isCyclic(path, unit);
+			if (cyc != null && !cyclic.contains(cyc)) {
+				cyclic.add(cyc);
+				diagnostics.add(createDiagnostic(
+						Diagnostic.WARNING,
+						DIAGNOSTIC_SOURCE,
+						0,
+						"_UI_GenericConstraint_diagnostic",
+						new Object[] { "module_noCyclicUnits",
+								getObjectLabel(module, context),
+								getObjectLabel(cyc, context) },
+						new Object[] { module }, context,
+						"_EcoreConstraint_Msg_TransformationSystem_noCyclicUnits"));
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Validates the parameterNamesNotTypeName constraint of '<em>Module</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean validateModule_parameterNamesNotTypeName(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		for (TransformationUnit tUnit : module.getTransformationUnits()) {
+			for (Parameter param : tUnit.getParameters()) {
+				if (containsImportedEClassifier(module, param.getName())) {
+					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
+							"_UI_GenericConstraint_diagnostic", new Object[] {
+									"module_parameterNamesNotTypeName",
+									getObjectLabel(module, context) },
+							new Object[] { module }, context,
+							"_EcoreConstraint_Msg_Module_parameterNamesNotTypeName"));
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 
 /**
  * This PropertyDescriptor populates the combobox for the type of a node with
@@ -48,10 +48,10 @@ public class NodeTypePropertyDescriptor extends ItemPropertyDescriptor {
 			EClassifier refType = HenshinPackage.eINSTANCE.getNode_Type()
 					.getEType();
 			Node node = (Node) object;
-			TransformationSystem tSys = getTransformationSystem(node);
-			if (tSys == null)
+			Module module = node.getGraph().getRule().getModule();
+			if (module == null)
 				break c;
-			for (EPackage pack : tSys.getImports()) {
+			for (EPackage pack : module.getImports()) {
 				TreeIterator<EObject> iter = pack.eAllContents();
 				while (iter.hasNext()) {
 					EObject eo = iter.next();
@@ -64,14 +64,4 @@ public class NodeTypePropertyDescriptor extends ItemPropertyDescriptor {
 		return super.getComboBoxObjects(object);
 	}
 
-	private TransformationSystem getTransformationSystem(Node node) {
-		EObject eo = node;
-		while (eo != null && !(eo instanceof TransformationSystem))
-			eo = eo.eContainer();
-		if (eo instanceof TransformationSystem)
-			return (TransformationSystem) eo;
-		else
-			return null;
-
-	}
 }

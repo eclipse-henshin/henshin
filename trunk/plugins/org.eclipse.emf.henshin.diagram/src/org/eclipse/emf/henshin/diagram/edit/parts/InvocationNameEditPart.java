@@ -101,7 +101,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new LabelDirectEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
-				new TransformationSystemEditPart.NodeLabelDragPolicy());
+				new ModuleEditPart.NodeLabelDragPolicy());
 	}
 
 	/**

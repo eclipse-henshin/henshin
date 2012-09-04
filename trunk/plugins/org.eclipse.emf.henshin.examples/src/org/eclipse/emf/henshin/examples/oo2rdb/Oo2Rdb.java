@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
-import org.eclipse.emf.henshin.model.TransformationSystem;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -62,9 +62,9 @@ public class Oo2Rdb {
 		
 		System.out.println("Generating Rdb model for '" + ooModel + "'...");
 		
-		// Load the transformation and the input model:
+		// Load the transformation module and the input model:
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
-		TransformationSystem trafo = resourceSet.getTransformationSystem("oo2rdb.henshin");
+		Module module = resourceSet.getModule("oo2rdb.henshin");
 		Resource carRental = resourceSet.getResource(ooModel);
 		
 		// Initialize the Henshin graph:
@@ -77,7 +77,7 @@ public class Oo2Rdb {
 		
 		// Initialize the interpreter:
 		Engine engine = new EngineImpl();
-		TransformationUnit unit = trafo.getTransformationUnit("Start");
+		TransformationUnit unit = module.getTransformationUnit("Start");
 		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setUnit(unit);
 		unitApp.setEGraph(graph);

@@ -26,9 +26,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.henshin.diagram.edit.parts.EdgeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.LinkEditPart;
+import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.NodeEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.RuleEditPart;
-import org.eclipse.emf.henshin.diagram.edit.parts.TransformationSystemEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkDescriptor;
@@ -55,8 +55,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class TransformationSystemCanonicalEditPolicy extends
-		CanonicalEditPolicy {
+public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 
 	/**
 	 * @generated
@@ -82,9 +81,9 @@ public class TransformationSystemCanonicalEditPolicy extends
 		if (myFeaturesToSynchronize == null) {
 			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
 			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
-					.getTransformationSystem_Rules());
+					.getModule_Rules());
 			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
-					.getTransformationSystem_TransformationUnits());
+					.getModule_TransformationUnits());
 		}
 		return myFeaturesToSynchronize;
 	}
@@ -97,7 +96,7 @@ public class TransformationSystemCanonicalEditPolicy extends
 		View viewObject = (View) getHost().getModel();
 		LinkedList<EObject> result = new LinkedList<EObject>();
 		List<HenshinNodeDescriptor> childDescriptors = HenshinDiagramUpdater
-				.getTransformationSystem_1000SemanticChildren(viewObject);
+				.getModule_1000SemanticChildren(viewObject);
 		for (HenshinNodeDescriptor d : childDescriptors) {
 			result.add(d.getModelElement());
 		}
@@ -131,8 +130,7 @@ public class TransformationSystemCanonicalEditPolicy extends
 		}
 		LinkedList<IAdaptable> createdViews = new LinkedList<IAdaptable>();
 		List<HenshinNodeDescriptor> childDescriptors = HenshinDiagramUpdater
-				.getTransformationSystem_1000SemanticChildren((View) getHost()
-						.getModel());
+				.getModule_1000SemanticChildren((View) getHost().getModel());
 		LinkedList<View> orphaned = new LinkedList<View>();
 		// we care to check only views we recognize as ours
 		LinkedList<View> knownViewChildren = new LinkedList<View>();
@@ -270,16 +268,16 @@ public class TransformationSystemCanonicalEditPolicy extends
 	 */
 	private Collection<HenshinLinkDescriptor> collectAllLinks(View view,
 			Map<EObject, View> domain2NotationMap) {
-		if (!TransformationSystemEditPart.MODEL_ID
-				.equals(HenshinVisualIDRegistry.getModelID(view))) {
+		if (!ModuleEditPart.MODEL_ID.equals(HenshinVisualIDRegistry
+				.getModelID(view))) {
 			return Collections.emptyList();
 		}
 		LinkedList<HenshinLinkDescriptor> result = new LinkedList<HenshinLinkDescriptor>();
 		switch (HenshinVisualIDRegistry.getVisualID(view)) {
-		case TransformationSystemEditPart.VISUAL_ID: {
+		case ModuleEditPart.VISUAL_ID: {
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(HenshinDiagramUpdater
-						.getTransformationSystem_1000ContainedLinks(view));
+						.getModule_1000ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$

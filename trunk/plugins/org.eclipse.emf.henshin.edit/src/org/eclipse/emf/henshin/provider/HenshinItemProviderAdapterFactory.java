@@ -94,6 +94,29 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 		supportedTypes.add(IItemFontProvider.class);
 	}
 	
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.Module} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ModuleItemProvider moduleItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.emf.henshin.model.Module}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createModuleAdapter() {
+		if (moduleItemProvider == null) {
+			moduleItemProvider = new ModuleItemProvider(this);
+		}
+
+		return moduleItemProvider;
+	}
+
 	public HenshinItemProviderAdapterFactory(IFilterProvider filterProvider) {
 		this();
 		this.filterProvider = filterProvider;
@@ -103,29 +126,6 @@ public class HenshinItemProviderAdapterFactory extends HenshinAdapterFactory imp
 	
 	public IFilterProvider getFilterProvider() {
 		return filterProvider;
-	}
-	
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.henshin.model.TransformationSystem} instances.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected TransformationSystemItemProvider transformationSystemItemProvider;
-	
-	/**
-	 * This creates an adapter for a
-	 * {@link org.eclipse.emf.henshin.model.TransformationSystem}. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	@Override
-	public Adapter createTransformationSystemAdapter() {
-		if (transformationSystemItemProvider == null) {
-			transformationSystemItemProvider = new TransformationSystemItemProvider(this);
-		}
-
-		return transformationSystemItemProvider;
 	}
 	
 	/**
