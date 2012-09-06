@@ -17,7 +17,7 @@ import java.util.Map;
 import org.eclipse.emf.henshin.interpreter.Assignment;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Default {@link Assignment} implementation.
@@ -26,8 +26,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  */
 public class AssignmentImpl implements Assignment {
 
-	// The target transformation unit (actually final):
-	protected TransformationUnit unit;
+	// The target unit (actually final):
+	protected Unit unit;
 	
 	// Map for storing the assigned values:
 	protected final Map<Object,Object> values = new HashMap<Object,Object>();
@@ -39,14 +39,14 @@ public class AssignmentImpl implements Assignment {
 	 * Default constructor.
 	 * @param rule Rule to be matched.
 	 */
-	public AssignmentImpl(TransformationUnit unit) {
+	public AssignmentImpl(Unit unit) {
 		this (unit, false);
 	}
 
 	/**
 	 * Constructor.
 	 */
-	public AssignmentImpl(TransformationUnit unit, boolean isResultAssignment) {
+	public AssignmentImpl(Unit unit, boolean isResultAssignment) {
 		this.isResultAssignment = isResultAssignment;
 		setUnit(unit);
 	}
@@ -64,9 +64,9 @@ public class AssignmentImpl implements Assignment {
 	/*
 	 * Set the internal unit for this unit application.
 	 */
-	protected void setUnit(TransformationUnit unit) {
+	protected void setUnit(Unit unit) {
 		if (unit==null) {
-			throw new NullPointerException("Transformation unit cannot be null");
+			throw new NullPointerException("Unit cannot be null");
 		}
 		this.unit = unit;
 	}
@@ -85,7 +85,7 @@ public class AssignmentImpl implements Assignment {
 	 * @see org.eclipse.emf.henshin.interpreter.Assignment#getUnit()
 	 */
 	@Override
-	public TransformationUnit getUnit() {
+	public Unit getUnit() {
 		return unit;
 	}
 

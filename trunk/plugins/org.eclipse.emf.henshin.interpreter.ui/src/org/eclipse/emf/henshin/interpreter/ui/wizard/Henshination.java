@@ -51,6 +51,7 @@ import org.eclipse.emf.henshin.interpreter.ui.util.Tuple;
 import org.eclipse.emf.henshin.interpreter.ui.util.Tuples;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
@@ -64,7 +65,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Henshination {
 	
-	protected TransformationUnit transformationUnit;
+	protected Unit unit;
 	
 	protected Collection<ParameterConfiguration> paramCfgs;
 	
@@ -90,20 +91,20 @@ public class Henshination {
 	}
 	
 	public TransformationUnit getTransformationUnit() {
-		return transformationUnit;
+		return unit;
 	}
 	
-	public void setTransformationUnit(TransformationUnit transformationUnit,
+	public void setTransformationUnit(Unit unit,
 			Collection<ParameterConfiguration> paramCfgs) {
-		this.transformationUnit = transformationUnit;
+		this.unit = unit;
 		this.paramCfgs = paramCfgs;
 		registerImportedPackages();
 	}
 	
 	private void registerImportedPackages() {
-		if (this.resourceSet == null || this.transformationUnit == null)
+		if (this.resourceSet == null || this.unit == null)
 			return;
-		Module tSys = transformationUnit.getModule();
+		Module tSys = unit.getModule();
 		for (EPackage pack : tSys.getImports())
 			this.resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
 	}
@@ -203,7 +204,7 @@ public class Henshination {
 		Engine engine = InterpreterFactory.INSTANCE.createEngine();
 		UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		unitApplication.setEGraph(context);
-		unitApplication.setUnit(transformationUnit);
+		unitApplication.setUnit(unit);
 		for (Entry<String,Object> entry : prepareParameterValues().entrySet()) {
 			unitApplication.setParameterValue(entry.getKey(), entry.getValue());
 		}
@@ -211,7 +212,7 @@ public class Henshination {
 	}
 	
 	public boolean isModelAffectedByTransformation() {
-		Module module = transformationUnit.getModule();
+		Module module = unit.getModule();
 		for (EPackage ep : module.getImports())
 			EcoreUtil.resolveAll(ep);
 		return module.getImports().contains(getModel().eClass().getEPackage());
@@ -293,7 +294,7 @@ public class Henshination {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": " + transformationUnit.getName() + " "
+		return getClass().getSimpleName() + ": " + unit.getName() + " "
 				+ paramCfgs.toString();
 	}
 	

@@ -48,6 +48,7 @@ import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.impl.HenshinFactoryImpl;
 import org.eclipse.emf.henshin.model.impl.HenshinPackageImpl;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceFactory;
@@ -717,7 +718,7 @@ public class Transformation {
 			EObject subUnit = newElements.get(cuh.subUnit);
 			
 			for (int i = 0; i < cuh.count; i++) {
-				su.getSubUnits().add((TransformationUnit) subUnit);
+				su.getSubUnits().add((Unit) subUnit);
 			}
 		}
 	}

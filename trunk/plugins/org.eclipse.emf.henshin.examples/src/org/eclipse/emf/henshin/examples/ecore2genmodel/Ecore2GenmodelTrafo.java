@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -80,7 +80,7 @@ public class Ecore2GenmodelTrafo {
 
 		// Generate genmodel from ecore model (without annotations).
 		unitApp.setEGraph(graph);
-		unitApp.setUnit(module.getTransformationUnit("translateGenModel"));
+		unitApp.setUnit(module.getUnit("translateGenModel"));
 		
 		// File name and plug-in name cannot be reliably deduced by the model elements, thus need to be set:
 		unitApp.setParameterValue("modelFileName", "flowchartdsl.ecore");
@@ -97,11 +97,11 @@ public class Ecore2GenmodelTrafo {
 		graph.addTree(mappingModel);
 
 		// Process annotations and generate related Henshin rules:
-		unitApp.setUnit(module.getTransformationUnit("prepareCustomizationUnit"));
+		unitApp.setUnit(module.getUnit("prepareCustomizationUnit"));
 		InterpreterUtil.executeOrDie(unitApp, null);
 
 		// Apply generated rules to transfer annotations to the genmodel.
-		TransformationUnit customizationUnit = (TransformationUnit) unitApp.getResultParameterValue("seqUnit");
+		Unit customizationUnit = (Unit) unitApp.getResultParameterValue("seqUnit");
 		unitApp.setUnit(customizationUnit);
 		InterpreterUtil.executeOrDie(unitApp, null);
 

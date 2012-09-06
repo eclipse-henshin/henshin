@@ -31,8 +31,8 @@ import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -64,7 +64,7 @@ public class InvocationNameParser extends AbstractParser {
 	public String getPrintString(IAdaptable element, int flags) {		
 		
 		// Get the invoked unit:
-		TransformationUnit invocation = (TransformationUnit) element.getAdapter(EObject.class);
+		Unit invocation = (Unit) element.getAdapter(EObject.class);
 		if (invocation==null || invocation.getName()==null) {
 			return "null";
 		}
@@ -80,7 +80,7 @@ public class InvocationNameParser extends AbstractParser {
 			View invocationView = (View) view.eContainer();
 			View compartmentView = (View) invocationView.eContainer();
 			View unitView = (View) compartmentView.eContainer();
-			TransformationUnit unit = (TransformationUnit) unitView.getElement();
+			Unit unit = (Unit) unitView.getElement();
 			
 			result = result + "(";
 			boolean first = true;
@@ -160,7 +160,7 @@ public class InvocationNameParser extends AbstractParser {
 		View unitView = (View) compartmentView.eContainer();
 		
 		// Get the transformation unit:
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		Unit unit = (Unit) unitView.getElement();
 		
 		// Locate the position of the current invocation view:
 		int position = UnitEditHelper.getInvocationViews(unitView, true).indexOf(invocationView);
@@ -169,13 +169,12 @@ public class InvocationNameParser extends AbstractParser {
 		}
 		
 		// Compute possible target candidates:
-		TransformationSystem system = (TransformationSystem) nameView.getDiagram().getElement();
-		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
-		candidates.addAll(system.getRules());
-		candidates.addAll(system.getTransformationUnits());
+		Module module = (Module) nameView.getDiagram().getElement();
+		List<Unit> candidates = new ArrayList<Unit>();
+		candidates.addAll(module.getUnits());
 
 		// Find the right one:
-		for (TransformationUnit target : candidates) {
+		for (Unit target : candidates) {
 			if (parsed[0].equals(target.getName())) {
 				
 				// Update the parent unit:
@@ -305,7 +304,7 @@ public class InvocationNameParser extends AbstractParser {
 	@Override
 	protected boolean isAffectingFeature(Object feature) {
 		if (feature==HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
-		if (feature==HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()) return true;
+		if (feature==HenshinPackage.eINSTANCE.getUnit_Parameters()) return true;
 		if (feature==EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
 		if (feature==EcorePackage.eINSTANCE.getEAnnotation_References()) return true;
 		return false;

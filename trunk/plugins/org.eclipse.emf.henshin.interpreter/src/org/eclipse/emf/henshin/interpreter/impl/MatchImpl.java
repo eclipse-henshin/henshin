@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.model.Edge;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Default {@link Match} implementation. For result matches, use {@link ResultMatchImpl}.
@@ -66,12 +66,12 @@ public class MatchImpl extends AssignmentImpl implements Match {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl#setUnit(org.eclipse.emf.henshin.model.TransformationUnit)
+	 * @see org.eclipse.emf.henshin.interpreter.impl.AssignmentImpl#setUnit(org.eclipse.emf.henshin.model.Unit)
 	 */
 	@Override
-	protected void setUnit(TransformationUnit unit) {
+	protected void setUnit(Unit unit) {
 		if (!(unit instanceof Rule)) {
-			throw new IllegalArgumentException("Transformation unit must be a rule");
+			throw new IllegalArgumentException("Unit must be a rule");
 		}
 		this.unit = unit;
 		// LHS or RHS nodes?

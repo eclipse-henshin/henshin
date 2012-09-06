@@ -36,10 +36,10 @@ import org.eclipse.emf.henshin.model.Parameter;
 public class ParameterItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ParameterItemProvider(AdapterFactory adapterFactory) {
@@ -47,9 +47,9 @@ public class ParameterItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -85,25 +85,26 @@ public class ParameterItemProvider extends NamedElementItemProvider implements
 	}
 
 	/**
-	 * This returns Parameter.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This returns Parameter.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Parameter.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/Parameter"));
 	}
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String name = ((Parameter)object).getName();
-		EClassifier type = ((Parameter)object).getType();
+		String name = ((Parameter) object).getName();
+		EClassifier type = ((Parameter) object).getType();
 		String typename = (type!=null) ? ":" + type.getName() : "";
 		return name == null || name.length() == 0 ?
 			getString("_UI_Parameter_type") :
@@ -113,24 +114,22 @@ public class ParameterItemProvider extends NamedElementItemProvider implements
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-		
 		fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-
 		super.notifyChanged(notification);
 	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

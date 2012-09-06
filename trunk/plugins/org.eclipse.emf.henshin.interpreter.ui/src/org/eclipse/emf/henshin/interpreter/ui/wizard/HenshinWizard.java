@@ -34,6 +34,7 @@ import org.eclipse.emf.henshin.interpreter.ui.wizard.widgets.UnitSelector.UnitSe
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -65,11 +66,11 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected ParameterEditTable parameterEditor;
 	
-	protected TransformationUnit initialUnit;
+	protected Unit initialUnit;
 	
 	protected Module module;
 	
-	protected ArrayList<TransformationUnit> availableUnits;
+	protected ArrayList<Unit> availableUnits;
 	
 	protected Collection<CompletionListener> completionListeners = new ArrayList<HenshinWizard.CompletionListener>();
 	
@@ -85,7 +86,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	
 	protected boolean unitSelectable = true;
 	
-	public HenshinWizard(TransformationUnit tUnit) {
+	public HenshinWizard(Unit tUnit) {
 		this();
 		unitSelectable = false;
 		this.initialUnit = tUnit;
@@ -104,7 +105,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 				.createFromURL((URL) InterpreterUIPlugin.INSTANCE.getImage("Henshin_small.png")));
 	}
 	
-	protected String getUnitLabel(TransformationUnit unit) {
+	protected String getUnitLabel(Unit unit) {
 		return unit.getName() + "[" + unit.eClass().getName() + "]";
 	}
 	
@@ -127,10 +128,9 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		this.module = (Module) r.getContents().get(0);
 		if (this.initialUnit != null) {
 			String id = initialUnit.eResource().getURIFragment(initialUnit);
-			List<TransformationUnit> l = new ArrayList<TransformationUnit>(
-					this.module.getRules());
-			l.addAll(this.module.getTransformationUnits());
-			for (TransformationUnit unit : l) {
+			List<Unit> l = new ArrayList<Unit>();
+			l.addAll(this.module.getUnits());
+			for (Unit unit : l) {
 				if (r.getURIFragment(unit).equals(id)) {
 					this.initialUnit = unit;
 					break;
@@ -138,15 +138,14 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 			}
 		}
 		
-		availableUnits = new ArrayList<TransformationUnit>();
-		availableUnits.addAll(module.getTransformationUnits());
-		availableUnits.addAll(module.getRules());
+		availableUnits = new ArrayList<Unit>();
+		availableUnits.addAll(module.getUnits());
 		
 		ArrayList<String> unitLabels = new ArrayList<String>();
 		int initIdx = -1;
 		int idx = 0;
-		TransformationUnit selectedUnit = initialUnit;
-		for (TransformationUnit unit : availableUnits) {
+		Unit selectedUnit = initialUnit;
+		for (Unit unit : availableUnits) {
 			unitLabels.add(getUnitLabel(unit));
 			if (initialUnit != null) {
 				if (initialUnit == unit) {
@@ -193,7 +192,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 		parameterEditor.addParameterChangeListener(HenshinWizard.this);
 	}
 	
-	protected List<ParameterConfiguration> getParameterPreferences(TransformationUnit unit) {
+	protected List<ParameterConfiguration> getParameterPreferences(Unit unit) {
 		List<ParameterConfiguration> result = new ArrayList<ParameterConfiguration>();
 		for (Parameter param : unit.getParameters())
 			result.add(ParameterConfiguration.loadConfiguration(store, param.getName()));
@@ -370,7 +369,7 @@ public class HenshinWizard extends Wizard implements UnitSelectionListener, Mode
 	@Override
 	public boolean unitSelected(int idx) {
 		
-		TransformationUnit unit = this.availableUnits.get(idx);
+		Unit unit = this.availableUnits.get(idx);
 		
 		cfg.setTransformationUnit(unit, getParameterPreferences(unit));
 		

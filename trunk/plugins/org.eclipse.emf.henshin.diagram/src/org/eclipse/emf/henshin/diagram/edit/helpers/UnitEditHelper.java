@@ -17,9 +17,9 @@ import org.eclipse.emf.henshin.diagram.edit.parts.InvocationEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
-import org.eclipse.emf.henshin.model.IteratedUnit;
-import org.eclipse.emf.henshin.model.LoopUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.MultiUnit;
+import org.eclipse.emf.henshin.model.UnaryUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.notation.View;
 
@@ -61,13 +61,13 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 				String.valueOf(UnitCompartmentEditPart.VISUAL_ID));
 
 		// Get the transformation unit and its subunits including nulls:
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
-		List<TransformationUnit> subUnits = getSubUnitsWithNulls(unit);
+		Unit unit = (Unit) unitView.getElement();
+		List<Unit> subunits = getSubUnitsWithNulls(unit);
 
 		// Now search for the corresponding views:
-		List<View> invocations = new ArrayList<View>(subUnits.size());
-		for (TransformationUnit subUnit : subUnits) {
-			invocations.add(getInvocationView(unitCompartment, subUnit,
+		List<View> invocations = new ArrayList<View>(subunits.size());
+		for (Unit subunit : subunits) {
+			invocations.add(getInvocationView(unitCompartment, subunit,
 					invocations));
 		}
 		return invocations;
@@ -80,19 +80,16 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	/*
 	 * Get the subUnits of a unit including nulls.
 	 */
-	private static List<TransformationUnit> getSubUnitsWithNulls(
-			TransformationUnit unit) {
-		List<TransformationUnit> subUnits = new ArrayList<TransformationUnit>();
+	private static List<Unit> getSubUnitsWithNulls(Unit unit) {
+		List<Unit> subUnits = new ArrayList<Unit>();
 		if (unit instanceof ConditionalUnit) {
 			subUnits.add(((ConditionalUnit) unit).getIf());
 			subUnits.add(((ConditionalUnit) unit).getThen());
 			subUnits.add(((ConditionalUnit) unit).getElse());
-		} else if (unit instanceof LoopUnit) {
-			subUnits.add(((LoopUnit) unit).getSubUnit());
-		} else if (unit instanceof IteratedUnit) {
-			subUnits.add(((IteratedUnit) unit).getSubUnit());
-		} else {
-			subUnits.addAll(unit.getSubUnits(false));
+		} else if (unit instanceof UnaryUnit) {
+			subUnits.add(((UnaryUnit) unit).getSubUnit());
+		} else if (unit instanceof MultiUnit) {
+			subUnits.addAll(((MultiUnit) unit).getSubUnits());
 		}
 		return subUnits;
 	}
@@ -100,8 +97,8 @@ public class UnitEditHelper extends HenshinBaseEditHelper {
 	/*
 	 * Find an invocation view.
 	 */
-	private static View getInvocationView(View unitCompartment,
-			TransformationUnit target, Collection<View> exclude) {
+	private static View getInvocationView(View unitCompartment, Unit target,
+			Collection<View> exclude) {
 		if (unitCompartment == null || target == null) {
 			return null;
 		}

@@ -41,6 +41,7 @@ public class HenshinReorientConnectionViewCommand extends
 	/**
 	 * @generated
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getAffectedFiles() {
 		View view = (View) edgeAdaptor.getAdapter(View.class);
 		if (view != null) {

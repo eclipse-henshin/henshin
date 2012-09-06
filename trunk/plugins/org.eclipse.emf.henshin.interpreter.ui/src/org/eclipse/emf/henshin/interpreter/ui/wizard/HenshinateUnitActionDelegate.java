@@ -10,6 +10,7 @@
 package org.eclipse.emf.henshin.interpreter.ui.wizard;
 
 import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,7 +25,7 @@ public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
 	
 	protected IWorkbenchPart targetPart;
 	
-	protected TransformationUnit tUnit;
+	protected Unit tUnit;
 	
 	@Override
 	public void run(IAction action) {
@@ -36,7 +37,7 @@ public class HenshinateUnitActionDelegate implements IObjectActionDelegate {
 	@Override
 	public void selectionChanged(IAction action, ISelection sel) {
 		if (sel instanceof IStructuredSelection) {
-			tUnit = (TransformationUnit) ((IStructuredSelection) sel).getFirstElement();
+			tUnit = (Unit) ((IStructuredSelection) sel).getFirstElement();
 		} else {
 			System.out.println("not an IStructuredSelection");
 		}

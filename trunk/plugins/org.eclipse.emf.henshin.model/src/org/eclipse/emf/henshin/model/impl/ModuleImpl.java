@@ -10,10 +10,13 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -23,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationUnit;
 
@@ -34,9 +38,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getSubModules <em>Sub Modules</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getImports <em>Imports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getTransformationUnits <em>Transformation Units</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.impl.ModuleImpl#getInstances <em>Instances</em>}</li>
  * </ul>
  * </p>
@@ -44,6 +47,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @generated
  */
 public class ModuleImpl extends NamedElementImpl implements Module {
+	
 	/**
 	 * The cached value of the '{@link #getSubModules() <em>Sub Modules</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -53,18 +57,6 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * @ordered
 	 */
 	protected EList<Module> subModules;
-
-
-	/**
-	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRules()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Rule> rules;
-
 
 	/**
 	 * The cached value of the '{@link #getImports() <em>Imports</em>}' reference list.
@@ -76,28 +68,26 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 */
 	protected EList<EPackage> imports;
 
-
 	/**
-	 * The cached value of the '{@link #getTransformationUnits() <em>Transformation Units</em>}' containment reference list.
+	 * The cached value of the '{@link #getUnits() <em>Units</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTransformationUnits()
+	 * @see #getUnits()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<TransformationUnit> transformationUnits;
-
+	protected EList<Unit> units;
 
 	/**
 	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
 	 * <!-- end-user-doc -->
 	 * @see #getInstances()
 	 * @generated
 	 * @ordered
 	 */
 	protected EList<Graph> instances;
-
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,18 +125,6 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Rule> getRules() {
-		if (rules == null) {
-			rules = new EObjectContainmentEList<Rule>(Rule.class, this, HenshinPackage.MODULE__RULES);
-		}
-		return rules;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<EPackage> getImports() {
 		if (imports == null) {
 			imports = new EObjectResolvingEList<EPackage>(EPackage.class, this, HenshinPackage.MODULE__IMPORTS);
@@ -159,15 +137,16 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TransformationUnit> getTransformationUnits() {
-		if (transformationUnits == null) {
-			transformationUnits = new EObjectContainmentEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.MODULE__TRANSFORMATION_UNITS);
+	public EList<Unit> getUnits() {
+		if (units == null) {
+			units = new EObjectContainmentEList<Unit>(Unit.class, this, HenshinPackage.MODULE__UNITS);
 		}
-		return transformationUnits;
+		return units;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -183,15 +162,13 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public TransformationUnit getTransformationUnit(String unitName) {
-		for (TransformationUnit unit : getTransformationUnits()) {
-			if (unitName.equals(unit.getName())) {
+	public Unit getUnit(String name) {
+		if (name==null) name = "";
+		for (Unit unit : getUnits()) {
+			String n = unit.getName();
+			if (n==null) n = "";
+			if (name.equals(n)) {
 				return unit;
-			}
-		}
-		for (Rule rule : getRules()) {
-			if (unitName.equals(rule.getName())) {
-				return rule;
 			}
 		}
 		return null;
@@ -201,6 +178,32 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
+	 */
+	public Module getSubModule(String name) {
+		if (name==null) name = "";
+		for (Module subModule : getSubModules()) {
+			String n = subModule.getName();
+			if (n==null) n = "";
+			if (name.equals(n)) {
+				return subModule;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
+	 * <!-- end-user-doc -->
+	 */
+	public TransformationUnit getTransformationUnit(String unitName) {
+		return getUnit(name);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
+	 * <!-- end-user-doc -->
 	 */
 	public Rule getRule(String ruleName) {
 		for (Rule rule : getRules()) {
@@ -215,6 +218,30 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		}
 		return null;
 	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
+	 * <!-- end-user-doc -->
+	 */
+	public EList<Rule> getRules() {
+		EList<Rule> rules = new BasicEList<Rule>();
+		for (Unit unit : getUnits()) {
+			if (unit instanceof Rule) {
+				rules.add((Rule) unit);
+			}
+		}
+		return ECollections.unmodifiableEList(rules);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
+	 * <!-- end-user-doc -->
+	 */
+	public EList<Unit> getTransformationUnits() {
+		return getUnits();
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,10 +253,8 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return ((InternalEList<?>)getSubModules()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.MODULE__RULES:
-				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
-				return ((InternalEList<?>)getTransformationUnits()).basicRemove(otherEnd, msgs);
+			case HenshinPackage.MODULE__UNITS:
+				return ((InternalEList<?>)getUnits()).basicRemove(otherEnd, msgs);
 			case HenshinPackage.MODULE__INSTANCES:
 				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
 		}
@@ -246,16 +271,30 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return getSubModules();
-			case HenshinPackage.MODULE__RULES:
-				return getRules();
 			case HenshinPackage.MODULE__IMPORTS:
 				return getImports();
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
-				return getTransformationUnits();
+			case HenshinPackage.MODULE__UNITS:
+				return getUnits();
 			case HenshinPackage.MODULE__INSTANCES:
 				return getInstances();
 		}
 		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	@Override
+	public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType) {
+		/*
+		 * For backward compatibility to old models:
+		 */
+		if (eFeature==((HenshinPackageImpl) HenshinPackage.eINSTANCE).getFakeRulesFeature()) {
+			return getUnits();
+		}
+		return super.eGet(eFeature, resolve, coreType);
 	}
 
 	/**
@@ -271,17 +310,13 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 				getSubModules().clear();
 				getSubModules().addAll((Collection<? extends Module>)newValue);
 				return;
-			case HenshinPackage.MODULE__RULES:
-				getRules().clear();
-				getRules().addAll((Collection<? extends Rule>)newValue);
-				return;
 			case HenshinPackage.MODULE__IMPORTS:
 				getImports().clear();
 				getImports().addAll((Collection<? extends EPackage>)newValue);
 				return;
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
-				getTransformationUnits().clear();
-				getTransformationUnits().addAll((Collection<? extends TransformationUnit>)newValue);
+			case HenshinPackage.MODULE__UNITS:
+				getUnits().clear();
+				getUnits().addAll((Collection<? extends Unit>)newValue);
 				return;
 			case HenshinPackage.MODULE__INSTANCES:
 				getInstances().clear();
@@ -302,14 +337,11 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				getSubModules().clear();
 				return;
-			case HenshinPackage.MODULE__RULES:
-				getRules().clear();
-				return;
 			case HenshinPackage.MODULE__IMPORTS:
 				getImports().clear();
 				return;
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
-				getTransformationUnits().clear();
+			case HenshinPackage.MODULE__UNITS:
+				getUnits().clear();
 				return;
 			case HenshinPackage.MODULE__INSTANCES:
 				getInstances().clear();
@@ -328,12 +360,10 @@ public class ModuleImpl extends NamedElementImpl implements Module {
 		switch (featureID) {
 			case HenshinPackage.MODULE__SUB_MODULES:
 				return subModules != null && !subModules.isEmpty();
-			case HenshinPackage.MODULE__RULES:
-				return rules != null && !rules.isEmpty();
 			case HenshinPackage.MODULE__IMPORTS:
 				return imports != null && !imports.isEmpty();
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
-				return transformationUnits != null && !transformationUnits.isEmpty();
+			case HenshinPackage.MODULE__UNITS:
+				return units != null && !units.isEmpty();
 			case HenshinPackage.MODULE__INSTANCES:
 				return instances != null && !instances.isEmpty();
 		}

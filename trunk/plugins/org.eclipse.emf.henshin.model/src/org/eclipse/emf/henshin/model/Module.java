@@ -20,9 +20,8 @@ import org.eclipse.emf.ecore.EPackage;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getSubModules <em>Sub Modules</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.Module#getRules <em>Rules</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getImports <em>Imports</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.Module#getTransformationUnits <em>Transformation Units</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.Module#getUnits <em>Units</em>}</li>
  *   <li>{@link org.eclipse.emf.henshin.model.Module#getInstances <em>Instances</em>}</li>
  * </ul>
  * </p>
@@ -38,10 +37,6 @@ public interface Module extends NamedElement, TransformationSystem {
 	 * Returns the value of the '<em><b>Sub Modules</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Module}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Sub Modules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Modules</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_SubModules()
@@ -49,18 +44,6 @@ public interface Module extends NamedElement, TransformationSystem {
 	 * @generated
 	 */
 	EList<Module> getSubModules();
-
-	/**
-	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Rule}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rules</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_Rules()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Rule> getRules();
 
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' reference list.
@@ -75,21 +58,22 @@ public interface Module extends NamedElement, TransformationSystem {
 	EList<EPackage> getImports();
 
 	/**
-	 * Returns the value of the '<em><b>Transformation Units</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
+	 * Returns the value of the '<em><b>Units</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Unit}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Transformation Units</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_TransformationUnits()
+	 * @return the value of the '<em>Units</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_Units()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<TransformationUnit> getTransformationUnits();
+	EList<Unit> getUnits();
 
 	/**
 	 * Returns the value of the '<em><b>Instances</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Graph}.
 	 * <!-- begin-user-doc -->
+	 * @deprecated Will not be supported in the future.
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instances</em>' containment reference list.
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getModule_Instances()
@@ -100,18 +84,20 @@ public interface Module extends NamedElement, TransformationSystem {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get the unit with a specified name.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
-	TransformationUnit getTransformationUnit(String unitName);
+	Unit getUnit(String name);
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Get the submodule with a specified name.
 	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */
-	Rule getRule(String ruleName);
+	Module getSubModule(String name);
 
 } // Module

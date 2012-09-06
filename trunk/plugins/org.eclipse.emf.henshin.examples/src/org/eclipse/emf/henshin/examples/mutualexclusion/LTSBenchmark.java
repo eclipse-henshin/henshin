@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class LTSBenchmark {
@@ -58,15 +58,15 @@ public class LTSBenchmark {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
 		// Load the module:
-		Module trasys = resourceSet.getModule("mutualexclusion.henshin");
+		Module module = resourceSet.getModule("mutualexclusion.henshin");
 		EObject container = resourceSet.getEObject("initialgraph.xmi");
 
 		// Load the rules:
-		Rule newRule = trasys.getRule("newRule");
-		Rule mountAllRule = trasys.getRule("mountAllRule");
-		TransformationUnit ltsUnit = trasys.getTransformationUnit("lts2");
-		TransformationUnit loopStsUnit = trasys.getTransformationUnit("loopLts");
-		TransformationUnit finalStsUnit = trasys.getTransformationUnit("finalLts");
+		Rule newRule = (Rule) module.getUnit("newRule");
+		Rule mountAllRule = (Rule) module.getUnit("mountAllRule");
+		Unit ltsUnit = module.getUnit("lts2");
+		Unit loopStsUnit = module.getUnit("loopLts");
+		Unit finalStsUnit = module.getUnit("finalLts");
 
 		// Perform benchmark for several graph sizes
 		for (int graphSize = GRAPH_SIZE_MIN; graphSize <= GRAPH_SIZE_MAX; graphSize += STEP) {

@@ -18,7 +18,7 @@ import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Creates a {@link ParameterMapping} between two given {@link Parameter}s.
@@ -30,7 +30,7 @@ public class CreateParameterMappingCommand extends AbstractCommand {
 	
 	protected Parameter source;
 	protected Parameter target;
-	TransformationUnit sourceUnit, targetUnit, ownerUnit;
+	Unit sourceUnit, targetUnit, ownerUnit;
 	protected ParameterMapping mapping;
 	protected Collection<?> affectedObjects;
 	

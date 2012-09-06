@@ -10,7 +10,6 @@
 package org.eclipse.emf.henshin.diagram.edit.commands;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -20,8 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.diagram.edit.helpers.EClassComparator;
-import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
+import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinPaletteTools.EClassNodeTool;
 import org.eclipse.emf.henshin.diagram.part.Messages;
@@ -30,9 +29,9 @@ import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Action.Type;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.presentation.HenshinIcons;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -65,8 +64,6 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  * @generated
  */
 public class NodeCreateCommand extends EditElementCommand {
-
-	private static final Comparator<EClassifier> ECLASS_COMPARATOR = new EClassComparator();
 
 	private static final ILabelProvider labelProvider = new LabelProvider() {
 
@@ -222,7 +219,7 @@ public class NodeCreateCommand extends EditElementCommand {
 			EClassifier result = null;
 			if (elements.size() > 0) {
 
-				Collections.sort(elements, ECLASS_COMPARATOR);
+				Collections.sort(elements, new EClassComparator());
 				this.setElements(elements.toArray());
 				int returnCode = this.open();
 				if (returnCode == ElementListSelectionDialog.OK) {

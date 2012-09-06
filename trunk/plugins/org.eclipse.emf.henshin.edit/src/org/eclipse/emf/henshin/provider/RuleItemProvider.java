@@ -52,49 +52,39 @@ import org.eclipse.emf.henshin.provider.util.IconUtil;
  * <!-- end-user-doc -->
  * @generated
  */
-public class RuleItemProvider extends TransformationUnitItemProvider implements
+public class RuleItemProvider extends UnitItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
-	/**
-	 * Number of mappings which are shown in an unfold way. Any number above the
-	 * given leads to a folding of them.
-	 */
-	// private static final int MAX_UNFOLD_MAPPINGS = 5;
-	
+	// Lhs-Rhs mapping container:
 	protected GenericReferenceContainerItemProvider lrMappingContainer;
+	
+	// Multi mapping container:
 	protected GenericReferenceContainerItemProvider multiMappingContainer;
 	
 	/**
-	 * Editor-specific FilterProvider
-	 */
-	// protected FilterProvider filterProvider;
-	
-	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public RuleItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 	
-	// public RuleItemProvider(AdapterFactory adapterFactory, FilterProvider
-	// filterProvider) {
-	// this(adapterFactory);
-	// this.filterProvider = filterProvider;
-	// }
-	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang.Object)
+	 */
 	@Override
 	public Object getParent(Object object) {
 		return super.getParent(object);
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,9 +99,9 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Check Dangling feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Check Dangling feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addCheckDanglingPropertyDescriptor(Object object) {
@@ -131,9 +121,9 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Injective Matching feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Injective Matching feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addInjectiveMatchingPropertyDescriptor(Object object) {
@@ -153,13 +143,11 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -177,7 +165,8 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -190,9 +179,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
-	 * .Object)
+	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#getChildren(java.lang.Object)
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -202,15 +189,20 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		if (!isFiltered(HenshinPackage.eINSTANCE.getRule_Mappings()))
 			childrenList.add(getLrMappingContainer(rule));
 		
-		if (rule.getKernelRule()!=null
-				&& !isFiltered(HenshinPackage.eINSTANCE.getRule_MultiMappings()))
+		if (//rule.getKernelRule()!=null &&
+			!isFiltered(HenshinPackage.eINSTANCE.getRule_MultiMappings()))
 			childrenList.add(getMultiMappingContainer(rule));
 		
 		// childrenList.add(new RuleMultiMappingItemProvider(adapterFactory,
 		// rule));
 		return childrenList;
-	}// getChildren
+	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#isFiltered(org.eclipse.emf.ecore.EStructuralFeature)
+	 */
+	@Override
 	protected boolean isFiltered(EStructuralFeature feature) {
 		if (adapterFactory instanceof HenshinItemProviderAdapterFactory) {
 			IFilterProvider fp = ((HenshinItemProviderAdapterFactory) adapterFactory)
@@ -221,7 +213,7 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	}
 	
 	/**
-	 * This returns Rule.gif. 
+	 * This returns the image for rules. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
@@ -229,13 +221,11 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	@Override
 	public Object getImage(Object object) {
 		Rule rule = (Rule) object;
-		Object ruleImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Rule"));
+		Object ruleImage = overlayImage(object, getResourceLocator().getImage("full/obj16/Rule.gif"));
 		Object deactivatedImage = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-		
 		if (rule.isActivated() == false) {
 			ruleImage = IconUtil.getCompositeImage(ruleImage, deactivatedImage);
 		}
-		
 		return ruleImage;
 	}
 	
@@ -243,14 +233,12 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Rule)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Rule_type") :
-			getString("_UI_Rule_type") + " " + label;
+		// Use the pretty-printer in the rule implementation:
+		return ((Rule) object).toString();
 	}
 		
 	/**
@@ -259,7 +247,6 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	 * it passes to {@link #fireNotifyChanged}. 
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	@Override
@@ -282,12 +269,10 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		super.notifyChanged(notification);
 	}
 	
-	/**
+	/*
 	 * If a mapping is added or removed this directly affect the visualization
 	 * of associated nodes in terms of preserve, create and delete icons.
 	 * Consequently, related nodes are notified to be refreshed visually.
-	 * 
-	 * @param notification
 	 */
 	@SuppressWarnings("unchecked")
 	private void notifyMappedNodes(Notification notification) {
@@ -323,50 +308,61 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 					this.fireNotifyChanged(new ViewerNotification(notification, node, false, true));
 				for (Edge edge : edges)
 					this.fireNotifyChanged(new ViewerNotification(notification, edge, false, true));
-			}// for
-		}// if
-	}// notifyMappedNodes
+			}
+		}
+	}
 	
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		// super.collectNewChildDescriptors(newChildDescriptors, object);
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS,
+
+ 		newChildDescriptors.add(createChildParameter(
+				HenshinPackage.Literals.UNIT__PARAMETERS,
 				HenshinFactory.eINSTANCE.createParameter()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__LHS,
-				HenshinFactory.eINSTANCE.createGraph()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__RHS,
-				HenshinFactory.eINSTANCE.createGraph()));
-		
-		newChildDescriptors.add(createChildParameter(
-				HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS,
-				HenshinFactory.eINSTANCE.createAttributeCondition()));
-		
-		// newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__MAPPINGS,
-		// HenshinFactory.eINSTANCE.createMapping()));
-		
-		newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__MULTI_RULES,
-				HenshinFactory.eINSTANCE.createRule()));
-		
-		// newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.RULE__MULTI_MAPPINGS,
-		// HenshinFactory.eINSTANCE.createMapping()));
+				
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__LHS,
+				 HenshinFactory.eINSTANCE.createGraph()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__RHS,
+				 HenshinFactory.eINSTANCE.createGraph()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__ATTRIBUTE_CONDITIONS,
+				 HenshinFactory.eINSTANCE.createAttributeCondition()));
+
+		//newChildDescriptors.add
+		//	(createChildParameter
+		//		(HenshinPackage.Literals.RULE__MAPPINGS,
+		//		 HenshinFactory.eINSTANCE.createMapping()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(HenshinPackage.Literals.RULE__MULTI_RULES,
+				 HenshinFactory.eINSTANCE.createRule()));
+
+		//newChildDescriptors.add
+		//	(createChildParameter
+		//		(HenshinPackage.Literals.RULE__MULTI_MAPPINGS,
+		//		 HenshinFactory.eINSTANCE.createMapping()));
 	}
 	
 	/**
 	 * This returns the label text for
-	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * {@link org.eclipse.emf.edit.command.CreateChildCommand}. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -389,6 +385,10 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		return super.getCreateChildText(owner, feature, child, selection);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.util.Collection)
+	 */
 	@Override
 	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection) {
@@ -400,29 +400,23 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Object value) {
-		
-		// HenshinPackage pack = HenshinPackage.eINSTANCE;
-		// if (value == SetCommand.UNSET_VALUE && (feature == pack.getRule_Lhs()
-		// || feature == pack.getRule_Rhs()))
-		//
-		
-		if (feature == HenshinPackage.Literals.RULE__LHS
-				|| feature == HenshinPackage.Literals.RULE__RHS)
-			if (value == SetCommand.UNSET_VALUE)
+			EStructuralFeature feature, Object value) {		
+		if (feature == HenshinPackage.Literals.RULE__LHS || feature == HenshinPackage.Literals.RULE__RHS) {
+			if (value == SetCommand.UNSET_VALUE) {
 				return UnexecutableCommand.INSTANCE;
-		// return new GraphComplexUnsetCommand(domain, owner, feature);
-		
+			}
+		}
 		return super.createSetCommand(domain, owner, feature, value);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter#getToolTip(java.lang.Object)
+	 */
 	@Override
 	public Object getToolTip(Object object) {
 		Rule rule = (Rule) object;
@@ -438,6 +432,10 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		return label;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.TransformationUnitItemProvider#isWrappingNeeded(java.lang.Object)
+	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
 		return false;
@@ -476,33 +474,4 @@ public class RuleItemProvider extends TransformationUnitItemProvider implements
 		return HenshinColorProvider.COLOR_RULE.toURI();
 	}
 	
-	// @Override
-	// protected Command createAddCommand(EditingDomain domain, EObject owner,
-	// EStructuralFeature feature, Collection<?> collection, int index) {
-	// HenshinPackage pack = HenshinPackage.eINSTANCE;
-	// if (feature == pack.getRule_Mappings()) {
-	// Rule rule = (Rule) owner;
-	// CompoundCommand cmpCmd = new
-	// CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
-	// for (Object o : collection) {
-	// Mapping mapping = (Mapping) o;
-	// if (mapping.getOrigin() != null && mapping.getImage() != null) {
-	// for (Rule mRule : rule.getMultiRules()) {
-	// Node mappedOrigin = HenshinMultiRuleUtil.getDependentNodeInRule(
-	// mapping.getOrigin(), mRule);
-	// Node mappedImage = HenshinMultiRuleUtil.getDependentNodeInRule(
-	// mapping.getImage(), mRule);
-	// Mapping mappedMapping = HenshinFactory.eINSTANCE.createMapping(
-	// mappedOrigin, mappedImage);
-	// cmpCmd.append(createAddCommand(domain, mRule, feature,
-	// Collections.singleton(mappedMapping), index));
-	// }
-	// }
-	// }
-	// cmpCmd.append(super.createAddCommand(domain, owner, feature,
-	// collection, index));
-	// return cmpCmd.unwrap();
-	// }
-	// return super.createAddCommand(domain, owner, feature, collection, index);
-	// }
 }

@@ -147,7 +147,7 @@
         visualID="3003"
         editPartClassName="InvocationEditPart"
         itemSemanticEditPolicyClassName="InvocationItemSemanticEditPolicy"
-        notationViewFactoryClassName="TransformationUnitViewFactory"
+        notationViewFactoryClassName="InvcationViewFactory"
         canonicalEditPolicyClassName="InvocationCanonicalEditPolicy"
         graphicalNodeEditPolicyClassName="InvocationGraphicalNodeEditPolicy"
         createCommandClassName="InvocationCreateCommand"
@@ -175,17 +175,17 @@
       </viewmap>
       <modelFacet>
         <metaClass
-            href="henshin.genmodel#//henshin/TransformationUnit"/>
+            href="henshin.genmodel#//henshin/Unit"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
       </modelFacet>
       <labels
           visualID="5005"
           editPartClassName="InvocationNameEditPart"
           itemSemanticEditPolicyClassName="InvocationNameItemSemanticEditPolicy"
-          notationViewFactoryClassName="TransformationUnitLabelViewFactory">
+          notationViewFactoryClassName="UnitLabelViewFactory">
         <diagramRunTimeClass
             href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap
@@ -229,9 +229,9 @@
         <metaClass
             href="henshin.genmodel#//henshin/Rule"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/Module/rules"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/Module/rules"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
       </modelFacet>
       <labels
           visualID="5001"
@@ -262,7 +262,7 @@
         visualID="2002"
         editPartClassName="UnitEditPart"
         itemSemanticEditPolicyClassName="UnitItemSemanticEditPolicy"
-        notationViewFactoryClassName="TransformationUnitViewFactory"
+        notationViewFactoryClassName="UnitViewFactory"
         canonicalEditPolicyClassName="UnitCanonicalEditPolicy"
         compartments="//@diagram/@compartments.2"
         graphicalNodeEditPolicyClassName="UnitGraphicalNodeEditPolicy"
@@ -290,17 +290,17 @@
       </viewmap>
       <modelFacet>
         <metaClass
-            href="henshin.genmodel#//henshin/TransformationUnit"/>
+            href="henshin.genmodel#//henshin/Unit"/>
         <containmentMetaFeature
-            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
         <childMetaFeature
-            href="henshin.genmodel#//henshin/Module/transformationUnits"/>
+            href="henshin.genmodel#//henshin/Module/units"/>
       </modelFacet>
       <labels
           visualID="5004"
           editPartClassName="UnitNameEditPart"
           itemSemanticEditPolicyClassName="UnitNameItemSemanticEditPolicy"
-          notationViewFactoryClassName="TransformationUnitNameViewFactory"
+          notationViewFactoryClassName="UnitNameViewFactory"
           elementIcon="true">
         <diagramRunTimeClass
             href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -452,7 +452,7 @@
         visualID="7003"
         editPartClassName="UnitCompartmentEditPart"
         itemSemanticEditPolicyClassName="UnitCompartmentItemSemanticEditPolicy"
-        notationViewFactoryClassName="TransformationUnitUnitViewFactory"
+        notationViewFactoryClassName="UnitCompartmentViewFactory"
         canonicalEditPolicyClassName="UnitCompartmentCanonicalEditPolicy"
         childNodes="//@diagram/@childNodes.2 //@diagram/@childNodes.3"
         title="UnitCompartment"

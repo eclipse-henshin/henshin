@@ -29,7 +29,7 @@ public class InvocationItemSemanticEditPolicy extends
 	 * @generated
 	 */
 	public InvocationItemSemanticEditPolicy() {
-		super(HenshinElementTypes.TransformationUnit_3003);
+		super(HenshinElementTypes.Unit_3003);
 	}
 
 	/**

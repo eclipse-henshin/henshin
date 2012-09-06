@@ -12,7 +12,7 @@ package org.eclipse.emf.henshin.interpreter;
 import java.util.List;
 
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Parameter assignment interface for storing parameter values.
@@ -23,9 +23,9 @@ public interface Assignment {
 
 	/**
 	 * Get the unit that this assignment refers to.
-	 * @return The transformation unit.
+	 * @return The unit.
 	 */
-	TransformationUnit getUnit();
+	Unit getUnit();
 
 	/**
 	 * Get the value assigned to a parameter.

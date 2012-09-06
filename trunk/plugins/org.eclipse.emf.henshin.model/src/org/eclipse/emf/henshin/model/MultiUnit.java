@@ -27,11 +27,11 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface MultiUnit extends TransformationUnit {
+public interface MultiUnit extends Unit {
 	
 	/**
 	 * Returns the value of the '<em><b>Sub Units</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.TransformationUnit}.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Unit}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Units</em>' reference list.
@@ -39,6 +39,6 @@ public interface MultiUnit extends TransformationUnit {
 	 * @model
 	 * @generated
 	 */
-	EList<TransformationUnit> getSubUnits();
+	EList<Unit> getSubUnits();
 
 } // MultiUnit

@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.henshin.diagram.edit.parts.ModuleEditPart;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.EditPart;

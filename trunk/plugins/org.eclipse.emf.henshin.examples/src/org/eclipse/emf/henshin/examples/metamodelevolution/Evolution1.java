@@ -181,7 +181,7 @@ public class Evolution1 {
 		Engine engineM = new EngineImpl();
 
 		// select rule
-		Rule mm_rule1 = tsM.getRule("MM_CreateRefClass");
+		Rule mm_rule1 = (Rule) tsM.getUnit("MM_CreateRefClass");
 
 		/*
 		 * UnitApplication encapsulates a transformation basing on an engine and
@@ -263,7 +263,7 @@ public class Evolution1 {
 		tsI.getImports().add(petri);
 
 		Rule i_rule1 = hFac.createRule();
-		tsI.getRules().add(i_rule1);
+		tsI.getUnits().add(i_rule1);
 		i_rule1.setActivated(true);
 		i_rule1.setName("Migrate Instance Model");
 		Graph lhs = i_rule1.getLhs(); // left-hand side of the rule
@@ -291,7 +291,7 @@ public class Evolution1 {
 		 * <code>false</code>.
 		 */
 		LoopUnit c_unit = hFac.createLoopUnit();		
-		tsI.getTransformationUnits().add(c_unit);
+		tsI.getUnits().add(c_unit);
 		c_unit.setName("MigrationUnit");
 		c_unit.setSubUnit(i_rule1);
 
@@ -353,7 +353,7 @@ public class Evolution1 {
 		Engine engineM = new EngineImpl();
 
 		// select rule
-		Rule mm_rule2 = tsM.getRule("MM_DeleteOldRefs");
+		Rule mm_rule2 = (Rule) tsM.getUnit("MM_DeleteOldRefs");
 
 		/*
 		 * UnitApplication encapsulates a transformation basing on an engine and

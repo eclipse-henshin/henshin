@@ -25,18 +25,18 @@ import org.eclipse.emf.henshin.model.IndependentUnit;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.IndependentUnit} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * {@link org.eclipse.emf.henshin.model.IndependentUnit} object. 
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
  * @generated
  */
 public class IndependentUnitItemProvider extends MultiUnitItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public IndependentUnitItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +44,9 @@ public class IndependentUnitItemProvider extends MultiUnitItemProvider implement
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -59,35 +59,33 @@ public class IndependentUnitItemProvider extends MultiUnitItemProvider implement
 	}
 	
 	/**
-	 * This returns IndependentUnit.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This returns IndependentUnit.gif.
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/IndependentUnit.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/IndependentUnit"));
 	}
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((IndependentUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_IndependentUnit_type") :
-			getString("_UI_IndependentUnit_type") + " " + label;
+		// Use the pretty-printer in the unit implementation:
+		return ((IndependentUnit) object).toString();
 	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -98,9 +96,9 @@ public class IndependentUnitItemProvider extends MultiUnitItemProvider implement
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

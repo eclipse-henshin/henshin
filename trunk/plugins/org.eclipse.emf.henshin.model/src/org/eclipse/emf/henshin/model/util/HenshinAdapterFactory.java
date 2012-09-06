@@ -88,6 +88,10 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 				return createModuleAdapter();
 			}
 			@Override
+			public Adapter caseUnit(Unit object) {
+				return createUnitAdapter();
+			}
+			@Override
 			public Adapter caseRule(Rule object) {
 				return createRuleAdapter();
 			}
@@ -122,10 +126,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMapping(Mapping object) {
 				return createMappingAdapter();
-			}
-			@Override
-			public Adapter caseTransformationUnit(TransformationUnit object) {
-				return createTransformationUnitAdapter();
 			}
 			@Override
 			public Adapter caseUnaryUnit(UnaryUnit object) {
@@ -310,6 +310,20 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Unit <em>Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.henshin.model.Unit
+	 * @generated
+	 */
+	public Adapter createUnitAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.Mapping <em>Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -362,20 +376,6 @@ public class HenshinAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEdgeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.henshin.model.TransformationUnit <em>Transformation Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit
-	 * @generated
-	 */
-	public Adapter createTransformationUnitAdapter() {
 		return null;
 	}
 

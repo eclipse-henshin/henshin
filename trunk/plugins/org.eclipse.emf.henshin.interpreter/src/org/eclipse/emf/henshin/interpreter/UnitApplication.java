@@ -9,7 +9,7 @@
  */
 package org.eclipse.emf.henshin.interpreter;
 
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Unit application interface for executing a {@link TransformationUnit}.
@@ -22,15 +22,15 @@ public interface UnitApplication {
 
 	/**
 	 * Get the unit to be applied.
-	 * @return The transformation unit.
+	 * @return The unit.
 	 */
-	TransformationUnit getUnit();
+	Unit getUnit();
 
 	/**
 	 * Set the unit to be applied.
 	 * @param unit The transformation unit.
 	 */
-	void setUnit(TransformationUnit unit);
+	void setUnit(Unit unit);
 	
 	/**
 	 * Get the {@link EGraph} to be transformed.

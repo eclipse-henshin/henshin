@@ -11,10 +11,10 @@ package org.eclipse.emf.henshin.examples.bank;
 
 import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
-import org.eclipse.emf.henshin.interpreter.RuleApplication;
+import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
-import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
+import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
@@ -48,11 +48,11 @@ public class BankExample {
 		
 		// Create an engine and a rule application:
 		Engine engine = new EngineImpl();
-		RuleApplication app = new RuleApplicationImpl(engine);
+		UnitApplication app = new UnitApplicationImpl(engine);
 		app.setEGraph(graph);
 		
 		// Creating a new account for Alice...
-		app.setRule(module.getRule("createAccount"));
+		app.setUnit(module.getUnit("createAccount"));
 		app.setParameterValue("client", "Alice");
 		app.setParameterValue("accountId", 5);
 		if (!app.execute(null)) {
@@ -60,7 +60,7 @@ public class BankExample {
 		}
 		
 		// Transferring some money:
-		app.setRule(module.getRule("transferMoney"));
+		app.setUnit(module.getUnit("transferMoney"));
 		app.setParameterValue("client", "Alice");
 		app.setParameterValue("fromId", 1);
 		app.setParameterValue("toId", 2);
@@ -70,7 +70,7 @@ public class BankExample {
 		}
 		
 		// Deleting all accounts of Charles:
-		app.setRule(module.getRule("deleteAllAccounts"));
+		app.setUnit(module.getUnit("deleteAllAccounts"));
 		app.setParameterValue("client", "Charles");
 		if (!app.execute(null)) {
 			throw new RuntimeException("Error deleting Charles' accounts");

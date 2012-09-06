@@ -319,7 +319,7 @@ public class InvocationNameEditPart extends CompartmentEditPart implements
 		if (parser == null) {
 			parser = HenshinParserProvider
 					.getParser(
-							HenshinElementTypes.TransformationUnit_3003,
+							HenshinElementTypes.Unit_3003,
 							getParserElement(),
 							HenshinVisualIDRegistry
 									.getType(org.eclipse.emf.henshin.diagram.edit.parts.InvocationNameEditPart.VISUAL_ID));

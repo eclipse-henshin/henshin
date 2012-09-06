@@ -20,7 +20,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.model.PriorityUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -74,7 +74,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	 */
 	private void updateArrow(LinkFigure figure) {
 		if (figure != null) {
-			TransformationUnit unit = getTransformationUnit();
+			Unit unit = getUnit();
 			figure.setTargetDecoration(null); // must be done here because child is cached
 			if (arrow != null) {
 				if (figure.getChildren().contains(arrow)) {
@@ -100,15 +100,14 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 				figure.remove(label);
 				label = null;
 			}
-			if (HenshinLinkUpdater.isIfLink(getTransformationUnit(),
-					getNotationView())) {
+			if (HenshinLinkUpdater.isIfLink(getUnit(), getNotationView())) {
 				figure.add(label = new Label("if"), new LabelLocator(figure, 0,
 						-10));
-			} else if (HenshinLinkUpdater.isThenLink(getTransformationUnit(),
+			} else if (HenshinLinkUpdater.isThenLink(getUnit(),
 					getNotationView())) {
 				figure.add(label = new Label("then"), new LabelLocator(figure,
 						10, -10));
-			} else if (HenshinLinkUpdater.isElseLink(getTransformationUnit(),
+			} else if (HenshinLinkUpdater.isElseLink(getUnit(),
 					getNotationView())) {
 				figure.add(label = new Label("else"), new LabelLocator(figure,
 						10, 10));
@@ -119,7 +118,7 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 	/*
 	 * Get the transformation unit which this link belong to.
 	 */
-	private TransformationUnit getTransformationUnit() {
+	private Unit getUnit() {
 
 		// Get the source node of this link:
 		View sourceNode = ((Edge) getNotationView()).getSource();
@@ -140,8 +139,8 @@ public class LinkEditPart extends ConnectionNodeEditPart implements
 		}
 
 		// Now we can access the unit:
-		if (unitView.getElement() instanceof TransformationUnit) {
-			return (TransformationUnit) unitView.getElement();
+		if (unitView.getElement() instanceof Unit) {
+			return (Unit) unitView.getElement();
 		} else {
 			return null;
 		}

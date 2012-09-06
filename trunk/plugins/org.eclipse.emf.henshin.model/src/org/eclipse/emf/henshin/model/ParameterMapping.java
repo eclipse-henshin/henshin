@@ -37,7 +37,7 @@ public interface ParameterMapping extends EObject {
 	 * @return the value of the '<em>Source</em>' reference.
 	 * @see #setSource(Parameter)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameterMapping_Source()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	Parameter getSource();
@@ -59,7 +59,7 @@ public interface ParameterMapping extends EObject {
 	 * @return the value of the '<em>Target</em>' reference.
 	 * @see #setTarget(Parameter)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameterMapping_Target()
-	 * @model
+	 * @model required="true"
 	 * @generated
 	 */
 	Parameter getTarget();

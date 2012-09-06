@@ -251,8 +251,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 			return createRule_2001(domainElement, containerView, index,
 					persisted, preferencesHint);
 		case UnitEditPart.VISUAL_ID:
-			return createTransformationUnit_2002(domainElement, containerView,
-					index, persisted, preferencesHint);
+			return createUnit_2002(domainElement, containerView, index,
+					persisted, preferencesHint);
 		case NodeEditPart.VISUAL_ID:
 			return createNode_3001(domainElement, containerView, index,
 					persisted, preferencesHint);
@@ -263,8 +263,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 			return createNode_3004(domainElement, containerView, index,
 					persisted, preferencesHint);
 		case InvocationEditPart.VISUAL_ID:
-			return createTransformationUnit_3003(domainElement, containerView,
-					index, persisted, preferencesHint);
+			return createUnit_3003(domainElement, containerView, index,
+					persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
@@ -359,9 +359,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public Node createTransformationUnit_2002Gen(EObject domainElement,
-			View containerView, int index, boolean persisted,
-			PreferencesHint preferencesHint) {
+	public Node createUnit_2002Gen(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
 		node.setType(HenshinVisualIDRegistry.getType(UnitEditPart.VISUAL_ID));
@@ -404,13 +403,12 @@ public class HenshinViewProvider extends AbstractProvider implements
 	/**
 	 * @generated NOT
 	 */
-	public Node createTransformationUnit_2002(EObject domainElement,
-			View containerView, int index, boolean persisted,
-			PreferencesHint preferencesHint) {
+	public Node createUnit_2002(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
 
 		// Create the node:
-		Node node = createTransformationUnit_2002Gen(domainElement,
-				containerView, index, persisted, preferencesHint);
+		Node node = createUnit_2002Gen(domainElement, containerView, index,
+				persisted, preferencesHint);
 
 		// Set the default background color:
 		ViewUtil.setStructuralFeatureValue(
@@ -530,9 +528,8 @@ public class HenshinViewProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	public Node createTransformationUnit_3003Gen(EObject domainElement,
-			View containerView, int index, boolean persisted,
-			PreferencesHint preferencesHint) {
+	public Node createUnit_3003Gen(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
 		node.setType(HenshinVisualIDRegistry
@@ -573,13 +570,12 @@ public class HenshinViewProvider extends AbstractProvider implements
 	 * Create an invocation view.
 	 * @generated NOT
 	 */
-	public Node createTransformationUnit_3003(EObject domainElement,
-			View containerView, int index, boolean persisted,
-			PreferencesHint preferencesHint) {
+	public Node createUnit_3003(EObject domainElement, View containerView,
+			int index, boolean persisted, PreferencesHint preferencesHint) {
 
 		// Create the view:
-		Node node = createTransformationUnit_3003Gen(domainElement,
-				containerView, index, persisted, preferencesHint);
+		Node node = createUnit_3003Gen(domainElement, containerView, index,
+				persisted, preferencesHint);
 
 		// Change the font to italic:
 		ViewUtil.setStructuralFeatureValue(node,

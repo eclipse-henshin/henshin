@@ -104,8 +104,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 		}
 
 		// Collect all packages which cannot be resolved:
-		Module module = (Module) getDiagram()
-				.getElement();
+		Module module = (Module) getDiagram().getElement();
 		List<EPackage> unresolved = new ArrayList<EPackage>();
 		for (EPackage epackage : module.getImports()) {
 			if (epackage.eIsProxy()) {
@@ -138,8 +137,7 @@ public class HenshinDiagramEditor extends DiagramDocumentEditor implements
 		new HenshinPaletteFactory().fillPalette(root);
 
 		// Install the palette updater.
-		Module system = (Module) getDiagram()
-				.getElement();
+		Module system = (Module) getDiagram().getElement();
 		new HenshinPaletteUpdater(root, system);
 
 		// Done.

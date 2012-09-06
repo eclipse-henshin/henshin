@@ -17,17 +17,31 @@ import org.eclipse.emf.ecore.EPackage;
  */
 public interface TransformationSystem extends NamedElement {
 	
+	/**
+	 * @deprecated Use getUnits() instead.
+	 */
 	EList<Rule> getRules();
 
 	EList<EPackage> getImports();
 
-	EList<TransformationUnit> getTransformationUnits();
+	/**
+	 * @deprecated Use getUnits() instead.
+	 */
+	EList<Unit> getTransformationUnits();
 	
-	@Deprecated
+	/**
+	 * @deprecated Will be removed.
+	 */
 	EList<Graph> getInstances();
 
+	/**
+	 * @deprecated Use getUnit(String name) instead.
+	 */
 	TransformationUnit getTransformationUnit(String unitName);
 
+	/**
+	 * @deprecated Use getUnit(String name) instead and cast the result to a rule.
+	 */
 	Rule getRule(String ruleName);
 
 } // TransformationSystem

@@ -33,7 +33,6 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.emf.henshin.model.Edge;
-import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Mapping;
@@ -53,9 +52,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NodeItemProvider(AdapterFactory adapterFactory) {
@@ -63,9 +62,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -105,9 +104,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 
 	/**
-	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Type feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
@@ -119,9 +118,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Incoming feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Incoming feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addIncomingPropertyDescriptor(Object object) {
@@ -141,9 +140,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Outgoing feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Outgoing feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addOutgoingPropertyDescriptor(Object object) {
@@ -163,9 +162,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the All Edges feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the All Edges feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addAllEdgesPropertyDescriptor(Object object) {
@@ -188,7 +187,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -201,7 +201,8 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -214,33 +215,28 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	
 	/**
 	 * <!-- begin-user-doc --> <br>
-	 * This method returns different visualizations of a {@link Node} regarding
-	 * to its occurrence in lhs, rhs, nestedconditions and related mappings.<br>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		Node kernelNode = getKernelNode((Node)object);
-		if(kernelNode != null){
+		Node node = (Node) object;
+		
+		// We use the kernel node:
+		Node kernelNode = getKernelNode(node);
+		if (kernelNode != null){
 			return getImage(kernelNode);
 		}
-		Node node = (Node) object;
-		Object defaultImage = overlayImage(object,
-				getResourceLocator().getImage("full/obj16/Node.png"));
 		
-		if (node.eContainer() == null) {
-			// This is used to return the icon needed for the visual editor.
-			// Otherwise, since the visual editor will create Nodese without
-			// source, target nor type,
-			// a red border will be drawn around the Node icon in the properties
-			// view.
+		// The default image:
+		Object defaultImage = overlayImage(object,
+				getResourceLocator().getImage("full/obj16/Node.gif"));
+		
+		if (node.eContainer()==null) {
 			return defaultImage;
 		}
 		
-		// draw a red border around the icon if the node needs attention
-		// (i.e. has no type)
+		// Draw a red border around the icon if the node needs attention (i.e. has no type):
 		boolean needsAttention = false;
 		needsAttention |= (node.getType() == null);
 		
@@ -248,44 +244,14 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
 			defaultImage = IconUtil.getCompositeImage(defaultImage, attentionOverlay);
 		}
-		
-		// get the container graph
-		Graph graph = node.getGraph();
-		if (graph == null) {
-			return defaultImage;
-		}
-		
-		// get the container
-		Object container = node.getGraph().eContainer();
-		
-		if (container instanceof Rule) {
-			Rule rule = (Rule) container;
-			for (Mapping mapping : rule.getMappings()) {
-				// if this node occurs in the Mapping-List, it is a preserved
-				// node
-				// i.e.
-				// it is source or origin of a mapping from LHS to RHS
-				if ((mapping.getOrigin() == node) || (mapping.getImage() == node))
-					return defaultImage;
-			}// for
-			
-			if (rule.getLhs() == graph) {
-				Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-				return IconUtil.getCompositeImage(defaultImage, deleteOverlay);
-			} else { // rule.getRhs() == graph
-				Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
-				return IconUtil.getCompositeImage(defaultImage, createOverlay);
-			}// if else
-		}
-		
 		return defaultImage;
-	}// getImage
+	
+	}
 	
 	/**
 	 * This returns the label text for the adapted class. 
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	@Override
@@ -311,9 +277,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -332,10 +298,13 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				Node node = (Node) notification.getNotifier();
 				notifyEdges(node, notification);
 				break;
-		}// switch
+		}
 		super.notifyChanged(notification);
-	}// notifyChanged
+	}
 	
+	/*
+	 * Notify edges.
+	 */
 	private void notifyEdges(Node node, Notification notification) {
 		List<Edge> edgeList = new ArrayList<Edge>(node.getIncoming());
 		edgeList.addAll(node.getOutgoing());
@@ -345,15 +314,15 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 			for (Edge edge : edgeList) {
 				Notification notif = new ViewerNotification(notification, edge, false, true);
 				adapter.fireNotifyChanged(notif);
-			}// for
-		}// if
+			}
+		}
 	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -365,7 +334,11 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				(HenshinPackage.Literals.NODE__ATTRIBUTES,
 				 HenshinFactory.eINSTANCE.createAttribute()));
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org.eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
+	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Object value, int index) {
@@ -378,6 +351,9 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		return cmpCmd.unwrap();
 	}
 	
+	/*
+	 * Get the kernel node of a node.
+	 */
 	private Node getKernelNode(Node node){
 		if (node.getGraph() != null && (node.getGraph().isLhs() || node.getGraph().isRhs())) {
 			Rule rule = node.getGraph().getRule();
@@ -386,8 +362,7 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 		return null;
 	}
 	
-	public static Collection<Node> getDependentNodes(Node node) {
-		System.out.print("Dependent Nodes for " + node + ": ");
+	private Collection<Node> getDependentNodes(Node node) {
 		if (node.getGraph().isLhs() || node.getGraph().isRhs()) {
 			Collection<Node> result = new ArrayList<Node>();
 			Rule rule = node.getGraph().getRule();
@@ -396,54 +371,16 @@ public class NodeItemProvider extends NamedElementItemProvider implements
 				if (imgNode != null)
 					result.add(imgNode);
 			}
-			System.out.println(result);
 			return result;
 		}
-		System.out.println("none");
 		return Collections.emptyList();
 	}
 	
-	public static Node getDependentNodeInRule(Node node, Rule rule) {
+	private Node getDependentNodeInRule(Node node, Rule rule) {
 		for (Mapping m : rule.getMultiMappings())
 			if (m.getOrigin() == node)
 				return m.getImage();
 		return null;
 	}
 	
-	public static Collection<Graph> getDependentGraphs(Graph graph) {
-		Collection<Graph> result = new ArrayList<Graph>();
-		Rule rule = graph.getRule();
-		boolean isLeft = graph.isLhs();
-		if (rule == null)
-			return result;
-		for (Rule mRule : rule.getMultiRules())
-			result.add(isLeft ? mRule.getLhs() : mRule.getRhs());
-		return result;
-	}
-	
-	public static Collection<Edge> getDependentEdges(Edge edge) {
-		Collection<Edge> result = new ArrayList<Edge>();
-		if (edge.getGraph() == null || edge.getGraph().getRule() == null)
-			return result;
-		Rule rule = edge.getGraph().getRule();
-		for (Rule dependentRule : rule.getMultiRules()) {
-			Edge dependentEdge = getDependentEdgeInRule(edge, dependentRule);
-			if (dependentEdge != null)
-				result.add(dependentEdge);
-		}
-		return result;
-	}
-	
-	public static Edge getDependentEdgeInRule(Edge edge, Rule rule) {
-		Node dependentSource = getDependentNodeInRule(edge.getSource(), rule);
-		Node dependentTarget = getDependentNodeInRule(edge.getTarget(), rule);
-		for (Edge dependentEdgeCandidate : dependentSource.getOutgoing()) {
-			if (dependentEdgeCandidate.getTarget() == dependentTarget
-					&& dependentEdgeCandidate.getType() == edge.getType()) {
-				return dependentEdgeCandidate;
-			}
-		}
-		return null;
-	}
-
 }

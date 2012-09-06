@@ -26,8 +26,8 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 
 /**
  * <!-- begin-user-doc --> 
@@ -36,16 +36,15 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameters <em>Parameters</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
- *   <li>{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#isActivated <em>Activated</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#getParameters <em>Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#getParameterMappings <em>Parameter Mappings</em>}</li>
+ *   <li>{@link org.eclipse.emf.henshin.model.impl.UnitImpl#isActivated <em>Activated</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class TransformationUnitImpl extends NamedElementImpl implements
-		TransformationUnit {
+public abstract class UnitImpl extends NamedElementImpl implements Unit {
 	
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
@@ -92,7 +91,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TransformationUnitImpl() {
+	protected UnitImpl() {
 		super();
 	}
 	
@@ -103,7 +102,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return HenshinPackage.Literals.TRANSFORMATION_UNIT;
+		return HenshinPackage.Literals.UNIT;
 	}
 	
 	/**
@@ -124,7 +123,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 		boolean oldActivated = activated;
 		activated = newActivated;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED, oldActivated, activated));
+			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.UNIT__ACTIVATED, oldActivated, activated));
 	}
 	
 	/**
@@ -145,6 +144,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * @deprecated Will be removed in the future.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
@@ -159,7 +159,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 */
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
-			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
+			parameters = new EObjectContainmentWithInverseEList<Parameter>(Parameter.class, this, HenshinPackage.UNIT__PARAMETERS, HenshinPackage.PARAMETER__UNIT);
 		}
 		return parameters;
 	}
@@ -171,7 +171,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 */
 	public EList<ParameterMapping> getParameterMappings() {
 		if (parameterMappings == null) {
-			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
+			parameterMappings = new EObjectContainmentEList<ParameterMapping>(ParameterMapping.class, this, HenshinPackage.UNIT__PARAMETER_MAPPINGS);
 		}
 		return parameterMappings;
 	}
@@ -182,15 +182,15 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	protected abstract EList<TransformationUnit> getSubUnits();
+	protected abstract EList<Unit> getSubUnits();
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public final EList<TransformationUnit> getSubUnits(boolean deep) {
-		EList<TransformationUnit> result = new BasicEList<TransformationUnit>();
+	public final EList<Unit> getSubUnits(boolean deep) {
+		EList<Unit> result = new BasicEList<Unit>();
 		result.addAll(getSubUnits());
 		if (deep) {
 			boolean changed;
@@ -198,8 +198,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 				changed = false;
 				int count = result.size();
 				for (int i=0; i<count; i++) {
-					for (TransformationUnit unit : 
-						((TransformationUnitImpl) result.get(i)).getSubUnits()) {
+					for (Unit unit : ((UnitImpl) result.get(i)).getSubUnits()) {
 						if (!result.contains(unit)) {
 							result.add(unit);
 							changed = true;
@@ -241,7 +240,7 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID,
 			NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getParameters()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -256,9 +255,9 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID,
 			NotificationChain msgs) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				return ((InternalEList<?>)getParameterMappings()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -272,11 +271,11 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				return getParameters();
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				return getParameterMappings();
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+			case HenshinPackage.UNIT__ACTIVATED:
 				return isActivated();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -291,15 +290,15 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				getParameters().clear();
 				getParameters().addAll((Collection<? extends Parameter>)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
 				getParameterMappings().addAll((Collection<? extends ParameterMapping>)newValue);
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+			case HenshinPackage.UNIT__ACTIVATED:
 				setActivated((Boolean)newValue);
 				return;
 		}
@@ -314,13 +313,13 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				getParameters().clear();
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				getParameterMappings().clear();
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+			case HenshinPackage.UNIT__ACTIVATED:
 				setActivated(ACTIVATED_EDEFAULT);
 				return;
 		}
@@ -335,11 +334,11 @@ public abstract class TransformationUnitImpl extends NamedElementImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				return parameterMappings != null && !parameterMappings.isEmpty();
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+			case HenshinPackage.UNIT__ACTIVATED:
 				return activated != ACTIVATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

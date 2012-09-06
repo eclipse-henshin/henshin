@@ -31,18 +31,18 @@ import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.filter.IFilterProvider;
 import org.eclipse.emf.henshin.provider.trans.GenericReferenceContainerItemProvider;
 import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.TransformationUnit} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.henshin.model.Unit} object.
  * <!-- begin-user-doc --> 
  * <!-- end-user-doc -->
  * @generated
  */
-public class TransformationUnitItemProvider extends NamedElementItemProvider implements
+public class UnitItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
@@ -58,19 +58,19 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	public static final int MAX_UNFOLD_PARAMETERMAPPINGS = 5;
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TransformationUnitItemProvider(AdapterFactory adapterFactory) {
+	public UnitItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -84,9 +84,9 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	}
 	
 	/**
-	 * This adds a property descriptor for the Name feature. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Name feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addNamePropertyDescriptor(Object object) {
@@ -103,9 +103,9 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	}
 	
 	/**
-	 * This adds a property descriptor for the Activated feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Activated feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addActivatedPropertyDescriptor(Object object) {
@@ -113,9 +113,9 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TransformationUnit_activated_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TransformationUnit_activated_feature", "_UI_TransformationUnit_type"),
-				 HenshinPackage.Literals.TRANSFORMATION_UNIT__ACTIVATED,
+				 getString("_UI_Unit_activated_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Unit_activated_feature", "_UI_Unit_type"),
+				 HenshinPackage.Literals.UNIT__ACTIVATED,
 				 true,
 				 false,
 				 false,
@@ -128,21 +128,23 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS);
-			childrenFeatures.add(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
+			childrenFeatures.add(HenshinPackage.Literals.UNIT__PARAMETERS);
+			childrenFeatures.add(HenshinPackage.Literals.UNIT__PARAMETER_MAPPINGS);
 		}
 		return childrenFeatures;
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -155,14 +157,12 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
-	 * .Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang.Object)
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Collection<?> getChildren(Object object) {
-		TransformationUnit tu = (TransformationUnit) object;
+		Unit tu = (Unit) object;
 		List childrenList = (List) super.getChildren(object);
 		
 		if (tu.getParameterMappings().size() > MAX_UNFOLD_PARAMETERS) {
@@ -174,23 +174,23 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 					break;
 			}// for
 			
-			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()))
+			if (!isFiltered(HenshinPackage.eINSTANCE.getUnit_Parameters()))
 				childrenList.add(offset, new GenericReferenceContainerItemProvider(adapterFactory,
-						tu, HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings(),
-						"_UI_TransformationUnit_parameterMappings_feature",
+						tu, HenshinPackage.eINSTANCE.getUnit_ParameterMappings(),
+						"_UI_Unit_parameterMappings_feature",
 						"full/obj16/ParameterMapping"));
 			
-		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings())) {
+		} else if (isFiltered(HenshinPackage.eINSTANCE.getUnit_ParameterMappings())) {
 			childrenList.removeAll(tu.getParameterMappings());
 		}
 		
 		if (tu.getParameters().size() > MAX_UNFOLD_PARAMETERMAPPINGS) {
 			childrenList.removeAll(tu.getParameters());
-			if (!isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_ParameterMappings()))
+			if (!isFiltered(HenshinPackage.eINSTANCE.getUnit_ParameterMappings()))
 				childrenList.add(0, new GenericReferenceContainerItemProvider(adapterFactory, tu,
-						HenshinPackage.eINSTANCE.getTransformationUnit_Parameters(),
-						"_UI_TransformationUnit_parameters_feature", "full/obj16/Parameter"));
-		} else if (isFiltered(HenshinPackage.eINSTANCE.getTransformationUnit_Parameters())) {
+						HenshinPackage.eINSTANCE.getUnit_Parameters(),
+						"_UI_Unit_parameters_feature", "full/obj16/Parameter"));
+		} else if (isFiltered(HenshinPackage.eINSTANCE.getUnit_Parameters())) {
 			childrenList.removeAll(tu.getParameters());
 		}
 		
@@ -208,35 +208,33 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TransformationUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_TransformationUnit_type") :
-			getString("_UI_TransformationUnit_type") + " " + label;
+		// Use the pretty-printer in the unit implementation:
+		return ((Unit) object).toString();
 	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TransformationUnit.class)) {
-			case HenshinPackage.TRANSFORMATION_UNIT__ACTIVATED:
+		switch (notification.getFeatureID(Unit.class)) {
+			case HenshinPackage.UNIT__ACTIVATED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETERS:
-			case HenshinPackage.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS:
+			case HenshinPackage.UNIT__PARAMETERS:
+			case HenshinPackage.UNIT__PARAMETER_MAPPINGS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -245,26 +243,21 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java
-	 * .lang.Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#isWrappingNeeded(java.lang.Object)
 	 */
 	@Override
 	protected boolean isWrappingNeeded(Object object) {
 		/*
-		 * In contrast to transformation units, whose children units are
-		 * referred to and thus need to be wrapped up, rule have no such referee
-		 * and do not need to wrap their children.
+		 * In contrast to units, whose children units are
+		 * referred to and thus need to be wrapped up, 
+		 * rule have no such referee and do not need to wrap their children.
 		 */
-		return object instanceof TransformationUnit;
-	}// isWrappingNeeded
+		return object instanceof Unit;
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse
-	 * .emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
-	 * java.lang.Object, int)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#createWrapper(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object, int)
 	 */
 	@Override
 	protected Object createWrapper(EObject object, EStructuralFeature feature, Object value,
@@ -273,7 +266,7 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 		if (!isWrappingNeeded(object))
 			return value;
 		
-		if (value instanceof TransformationUnit) {
+		if (value instanceof Unit) {
 			if (value instanceof Rule) {
 				return new ReferencedRuleItemProvider((Rule) value, object, feature, index,
 						adapterFactory);
@@ -287,9 +280,9 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -298,12 +291,12 @@ public class TransformationUnitItemProvider extends NamedElementItemProvider imp
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS,
+				(HenshinPackage.Literals.UNIT__PARAMETERS,
 				 HenshinFactory.eINSTANCE.createParameter()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETER_MAPPINGS,
+				(HenshinPackage.Literals.UNIT__PARAMETER_MAPPINGS,
 				 HenshinFactory.eINSTANCE.createParameterMapping()));
 	}
 	

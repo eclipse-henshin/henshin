@@ -97,7 +97,6 @@ public class AttributeItemProvider extends HenshinItemProviderAdapter implements
 	 * This adds a property descriptor for the Type feature. 
 	 * <!-- begin-user-doc --> 
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {

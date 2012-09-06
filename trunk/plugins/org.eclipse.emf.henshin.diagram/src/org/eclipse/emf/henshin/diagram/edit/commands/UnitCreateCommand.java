@@ -21,10 +21,9 @@ import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
 import org.eclipse.emf.henshin.model.ConditionalUnit;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.IteratedUnit;
-import org.eclipse.emf.henshin.model.LoopUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.UnaryUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.diagram.ui.menus.PopupMenu;
@@ -38,9 +37,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This command creates a new transformation unit.
- * It pops up a drop-down menu for choosing the unit type.
+ * This command creates a new unit. It pops up a drop-down menu for choosing the unit type.
  * @generated NOT
+ * @author Christian Krause
  */
 public class UnitCreateCommand extends EditElementCommand {
 
@@ -106,31 +105,27 @@ public class UnitCreateCommand extends EditElementCommand {
 		}
 
 		// Create the transformation unit:
-		TransformationUnit unit = (TransformationUnit) HenshinFactory.eINSTANCE
-				.create(unitType);
+		Unit unit = (Unit) HenshinFactory.eINSTANCE.create(unitType);
 
 		// Special cases:
-		List<TransformationUnit> targets = getTargetCandidates();
+		List<Unit> targets = getTargetCandidates();
 		if (!targets.isEmpty()) {
 			if (unit instanceof ConditionalUnit) {
-				TransformationUnit ifUnit = targets.remove(0);
-				TransformationUnit thenUnit = targets.isEmpty() ? ifUnit
-						: targets.remove(0);
-				TransformationUnit elseUnit = targets.isEmpty() ? thenUnit
-						: targets.remove(0);
+				Unit ifUnit = targets.remove(0);
+				Unit thenUnit = targets.isEmpty() ? ifUnit : targets.remove(0);
+				Unit elseUnit = targets.isEmpty() ? thenUnit : targets
+						.remove(0);
 				((ConditionalUnit) unit).setIf(ifUnit);
 				((ConditionalUnit) unit).setThen(thenUnit);
 				((ConditionalUnit) unit).setElse(elseUnit);
-			} else if (unit instanceof LoopUnit) {
-				((LoopUnit) unit).setSubUnit(targets.get(0));
-			} else if (unit instanceof IteratedUnit) {
-				((IteratedUnit) unit).setSubUnit(targets.get(0));
+			} else if (unit instanceof UnaryUnit) {
+				((UnaryUnit) unit).setSubUnit(targets.get(0));
 			}
 		}
 
-		// Add it to the transformation system:
-		TransformationSystem system = (TransformationSystem) getElementToEdit();
-		system.getTransformationUnits().add(unit);
+		// Add it to the module:
+		Module system = (Module) getElementToEdit();
+		system.getUnits().add(unit);
 
 		// Configure the unit:
 		doConfigure(unit, monitor, info);
@@ -176,13 +171,13 @@ public class UnitCreateCommand extends EditElementCommand {
 	}
 
 	/*
-	 * Helper method: get the current transformation system.
+	 * Helper method: get the current module.
 	 */
-	private TransformationSystem getTransformationSystem() {
+	private Module getModule() {
 		EObject object = getElementToEdit();
 		while (object != null) {
-			if (object instanceof TransformationSystem) {
-				return (TransformationSystem) object;
+			if (object instanceof Module) {
+				return (Module) object;
 			}
 			object = object.eContainer();
 		}
@@ -192,12 +187,11 @@ public class UnitCreateCommand extends EditElementCommand {
 	/*
 	 * Helper method: get a list of possible target candidate units.
 	 */
-	private List<TransformationUnit> getTargetCandidates() {
-		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
-		TransformationSystem system = getTransformationSystem();
+	private List<Unit> getTargetCandidates() {
+		List<Unit> candidates = new ArrayList<Unit>();
+		Module system = getModule();
 		if (system != null) {
-			candidates.addAll(system.getRules());
-			candidates.addAll(system.getTransformationUnits());
+			candidates.addAll(system.getUnits());
 		}
 		return candidates;
 	}
@@ -205,9 +199,8 @@ public class UnitCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(TransformationUnit newElement,
-			IProgressMonitor monitor, IAdaptable info)
-			throws ExecutionException {
+	protected void doConfigure(Unit newElement, IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
 		IElementType elementType = ((CreateElementRequest) getRequest())
 				.getElementType();
 		ConfigureRequest configureRequest = new ConfigureRequest(

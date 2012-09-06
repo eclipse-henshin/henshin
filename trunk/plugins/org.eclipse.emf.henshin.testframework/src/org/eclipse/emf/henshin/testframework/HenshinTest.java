@@ -22,10 +22,11 @@ import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
+import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResource;
 import org.junit.After;
 
@@ -39,7 +40,7 @@ import org.junit.After;
  * <li>htEmfGraph	 			-- {@link EGraph}</li>
  * <li>htRule	 				-- {@link Rule}</li>
  * <li>htRuleApp	 			-- corresponding {@link RuleApplication}</li>
- * <li>htTransUnit	 			-- {@link TransformationUnit}</li>
+ * <li>htTransUnit	 			-- {@link Unit}</li>
  * <li>htUnitApp	 			-- corresponding {@link UnitApplication}</li>
  * </ul>
  * 
@@ -52,7 +53,7 @@ public class HenshinTest {
 	 * TransformationSystem which has been automatically loaded and set-up for
 	 * you to use.
 	 */
-	protected TransformationSystem htTransformationSystem; // TransformationSystem
+	protected Module htTransformationSystem; // Module
 	
 	/**
 	 * Engine which has been automatically loaded and set-up for you to use.
@@ -76,13 +77,13 @@ public class HenshinTest {
 	protected RuleApplication htRuleApp; // corresponding RuleApplication
 	
 	/**
-	 * When calling loadTu(), this will be the loaded {@link TransformationUnit}
+	 * When calling loadTu(), this will be the loaded {@link Unit}
 	 */
-	protected TransformationUnit htTransUnit; // TransformationUnit
+	protected Unit htTransUnit; // Unit
 	
 	/**
 	 * When calling loadTu(), this will be the {@link UnitApplication} created
-	 * from engine and the loaded {@link TransformationUnit}.
+	 * from engine and the loaded {@link Unit}.
 	 */
 	protected UnitApplication htUnitApp; // corresponding UnitApplication
 	
@@ -117,7 +118,7 @@ public class HenshinTest {
 	 * @throws Exception
 	 */
 	protected void init(String henshinFile) throws Exception {
-		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
+		htTransformationSystem = (Module) HenshinLoaders.loadHenshin(henshinFile);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
 	
@@ -127,7 +128,7 @@ public class HenshinTest {
 	 * 
 	 * @param henshinFile
 	 *            henshin file containing the {@link Rule}s/
-	 *            {@link TransformationUnit}s to test
+	 *            {@link Unit}s to test
 	 * @param modelFile
 	 *            model filename
 	 * @param modelFileExt
@@ -136,7 +137,7 @@ public class HenshinTest {
 	 */
 
 	protected void init(String henshinFile, String modelFile, String modelFileExt) throws Exception {
-		htTransformationSystem = (TransformationSystem) HenshinLoaders.loadHenshin(henshinFile);
+		htTransformationSystem = (Module) HenshinLoaders.loadHenshin(henshinFile);
 		htEGraph = HenshinLoaders.loadGraph(modelFile, modelFileExt);
 		htEngine = InterpreterFactory.INSTANCE.createEngine();
 	}
@@ -147,7 +148,7 @@ public class HenshinTest {
 	 * 
 	 * @param henshinFile
 	 *            henshin file containing the {@link Rule}s/
-	 *            {@link TransformationUnit}s to test
+	 *            {@link Unit}s to test
 	 * @param modelFile
 	 *            model filename
 	 * @param modelFileExt
@@ -214,7 +215,7 @@ public class HenshinTest {
 	 * @param ruleName
 	 */
 	protected void loadRule(String ruleName) {
-		htRule = htTransformationSystem.getRule(ruleName);
+		htRule = (Rule) htTransformationSystem.getUnit(ruleName);
 		htRuleApp = InterpreterFactory.INSTANCE.createRuleApplication(htEngine);
 		htRuleApp.setRule(htRule);
 		htRuleApp.setEGraph(htEGraph);
@@ -259,29 +260,29 @@ public class HenshinTest {
 	}
 	
 	/**
-	 * Load a {@link TransformationUnit}<br />
-	 * As a side effect, the loaded TransformationUnit will be assigned to
+	 * Load a {@link Unit}<br />
+	 * As a side effect, the loaded Unit will be assigned to
 	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
 	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
-	 *            {@link TransformationUnit} to be loaded
+	 *            {@link Unit} to be loaded
 	 */
 	protected void loadTu(String unitName) {
-		htTransUnit = htTransformationSystem.getTransformationUnit(unitName);
+		htTransUnit = htTransformationSystem.getUnit(unitName);
 		htUnitApp = InterpreterFactory.INSTANCE.createUnitApplication(htEngine);
 		htUnitApp.setUnit(htTransUnit);
 		htUnitApp.setEGraph(htEGraph);
 	}
 	
 	/**
-	 * Load a {@link TransformationUnit} with a parameter. <br />
-	 * As a side effect, the loaded TransformationUnit will be assigned to
+	 * Load a {@link Unit} with a parameter. <br />
+	 * As a side effect, the loaded Unit will be assigned to
 	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
 	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
-	 *            {@link TransformationUnit} to be loaded
+	 *            {@link Unit} to be loaded
 	 * @param paramName
 	 *            parameter name
 	 * @param paramValue
@@ -294,12 +295,12 @@ public class HenshinTest {
 	
 	/**
 	 * Load a transformation Unit with parameters. <br />
-	 * As a side effect, the loaded TransformationUnit will be assigned to
+	 * As a side effect, the loaded Unit will be assigned to
 	 * <em>htTransUnit</em> and the corresponding UnitApplication will be assigned to
 	 * <em>htUnitApp</em>.
 	 * 
 	 * @param unitName
-	 *            {@link TransformationUnit} to be loaded
+	 *            {@link Unit} to be loaded
 	 * @param paramMappings
 	 *            {@link Parameter}s
 	 */

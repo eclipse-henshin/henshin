@@ -22,7 +22,7 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IWrapperItemProvider;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.trans.TransientItemProvider;
 
 /**
@@ -37,7 +37,7 @@ public class NonContainmentTransientIPDragAndDropCommand extends AbstractCommand
 		DragAndDropFeedback {
 	
 	protected EditingDomain domain;
-	protected TransformationUnit trafoUnit;
+	protected Unit unit;
 	protected EReference reference;
 	protected Command dragCommand;
 	protected Command dropCommand;
@@ -45,14 +45,14 @@ public class NonContainmentTransientIPDragAndDropCommand extends AbstractCommand
 	
 	/**
 	 * @param domain
-	 * @param trafoUnit
+	 * @param unit
 	 * @param reference
 	 * @param collection
 	 */
 	public NonContainmentTransientIPDragAndDropCommand(EditingDomain domain,
-			TransformationUnit trafoUnit, EReference reference, Collection<?> collection) {
+			Unit unit, EReference reference, Collection<?> collection) {
 		this.domain = domain;
-		this.trafoUnit = trafoUnit;
+		this.unit = unit;
 		this.collection = collection;
 		this.dragCommand = UnexecutableCommand.INSTANCE;
 		this.dropCommand = UnexecutableCommand.INSTANCE;
@@ -86,11 +86,11 @@ public class NonContainmentTransientIPDragAndDropCommand extends AbstractCommand
 			}// for
 			
 			if (reference.isMany()) {
-				dropCommand = AddCommand.create(domain, trafoUnit, reference, collection);
+				dropCommand = AddCommand.create(domain, unit, reference, collection);
 				
 			} else {
 				Object o = collection.toArray()[0];
-				dropCommand = SetCommand.create(domain, trafoUnit, reference, o);
+				dropCommand = SetCommand.create(domain, unit, reference, o);
 			}// if else
 			
 		}// if
@@ -107,7 +107,7 @@ public class NonContainmentTransientIPDragAndDropCommand extends AbstractCommand
 	private boolean checkValidInstanceVariables() {
 		// check for not being null and appropriate types
 		boolean result = (domain != null) //
-				&& (trafoUnit != null) //
+				&& (unit != null) //
 				&& (collection != null);
 		
 		/*

@@ -26,7 +26,7 @@ import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
@@ -74,7 +74,7 @@ public class HenshinLinkUpdater {
 		View compartment = UnitEditHelper.getUnitCompartment(unitView);
 		
 		// Get the unit:
-		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
+		Unit unit = (Unit) ((View) compartment.eContainer()).getElement();
 		
 		// Get the begin and the end symbol:
 		View begin = getSymbol(unit, compartment, SymbolType.UNIT_BEGIN);
@@ -175,7 +175,7 @@ public class HenshinLinkUpdater {
 	/*
 	 * Make sure there exists exactly one link between two nodes.
 	 */
-	private Edge updateLink(TransformationUnit unit, View source, View target) {
+	private Edge updateLink(Unit unit, View source, View target) {
 		if (source!=null && target!=null) {
 			List<Edge> links = getLinks(source, target);
 			if (links.isEmpty()) {
@@ -221,7 +221,7 @@ public class HenshinLinkUpdater {
 		return links;
 	}
 	
-	private View getSymbol(TransformationUnit unit, View compartment, SymbolType type) {
+	private View getSymbol(Unit unit, View compartment, SymbolType type) {
 		if (unit==null || compartment==null || type==null) {
 			return null;
 		}
@@ -232,11 +232,11 @@ public class HenshinLinkUpdater {
 
 	/**
 	 * Check whether a view is an If-link in a ConditionalUnit.
-	 * @param unit Transformation unit.
+	 * @param unit Unit.
 	 * @param link The link view (should be an edge).
 	 * @return <code>true</code> if it is an if-link.
 	 */
-	public static boolean isIfLink(TransformationUnit unit, View link) {
+	public static boolean isIfLink(Unit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
 			View target = ((Edge) link).getTarget();
 			if (target!=null) {
@@ -250,11 +250,11 @@ public class HenshinLinkUpdater {
 
 	/**
 	 * Check whether a view is an Then-link in a ConditionalUnit.
-	 * @param unit Transformation unit.
+	 * @param unit Unit.
 	 * @param link The link view (should be an edge).
 	 * @return <code>true</code> if it is an then-link.
 	 */
-	public static boolean isThenLink(TransformationUnit unit, View link) {
+	public static boolean isThenLink(Unit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
 			View source = ((Edge) link).getSource();
 			View target = ((Edge) link).getTarget();
@@ -270,11 +270,11 @@ public class HenshinLinkUpdater {
 
 	/**
 	 * Check whether a view is an Else-link in a ConditionalUnit.
-	 * @param unit Transformation unit.
+	 * @param unit Unit.
 	 * @param link The link view (should be an edge).
 	 * @return <code>true</code> if it is an else-link.
 	 */
-	public static boolean isElseLink(TransformationUnit unit, View link) {
+	public static boolean isElseLink(Unit unit, View link) {
 		if (unit instanceof ConditionalUnit && link instanceof Edge) {
 			View source = ((Edge) link).getSource();
 			View target = ((Edge) link).getTarget();

@@ -24,8 +24,7 @@ import org.eclipse.emf.henshin.model.LoopUnit;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationSystem;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -68,13 +67,13 @@ public class InvocationCreateCommand extends EditElementCommand {
 	}
 
 	/*
-	 * Helper method: get the current transformation system.
+	 * Helper method: get the current module.
 	 */
-	private TransformationSystem getTransformationSystem() {
+	private Module getModule() {
 		EObject object = getElementToEdit();
 		while (object != null) {
-			if (object instanceof TransformationSystem) {
-				return (TransformationSystem) object;
+			if (object instanceof Module) {
+				return (Module) object;
 			}
 			object = object.eContainer();
 		}
@@ -84,12 +83,11 @@ public class InvocationCreateCommand extends EditElementCommand {
 	/*
 	 * Helper method: get a list of possible target candidate units.
 	 */
-	private List<TransformationUnit> getTargetCandidates() {
-		List<TransformationUnit> candidates = new ArrayList<TransformationUnit>();
-		TransformationSystem system = getTransformationSystem();
+	private List<Unit> getTargetCandidates() {
+		List<Unit> candidates = new ArrayList<Unit>();
+		Module system = getModule();
 		if (system != null) {
-			candidates.addAll(system.getRules());
-			candidates.addAll(system.getTransformationUnits());
+			candidates.addAll(system.getUnits());
 		}
 		return candidates;
 	}
@@ -101,11 +99,11 @@ public class InvocationCreateCommand extends EditElementCommand {
 			IAdaptable info) throws ExecutionException {
 
 		// Get the owner unit and the target candidate units:
-		TransformationUnit owner = (TransformationUnit) getElementToEdit();
-		List<TransformationUnit> candidates = getTargetCandidates();
+		Unit owner = (Unit) getElementToEdit();
+		List<Unit> candidates = getTargetCandidates();
 
 		// Try to be smart: in most cases we don't want duplicate invocations:
-		for (TransformationUnit used : owner.getSubUnits(false)) {
+		for (Unit used : owner.getSubUnits(false)) {
 			if (candidates.size() > 1) {
 				candidates.remove(used);
 			} else
@@ -113,7 +111,7 @@ public class InvocationCreateCommand extends EditElementCommand {
 		}
 
 		// Now we just take the first candidate:
-		TransformationUnit target = candidates.get(0);
+		Unit target = candidates.get(0);
 
 		// Add it to the parent unit:
 		if (owner instanceof SequentialUnit) {
@@ -153,9 +151,8 @@ public class InvocationCreateCommand extends EditElementCommand {
 	/**
 	 * @generated
 	 */
-	protected void doConfigure(TransformationUnit newElement,
-			IProgressMonitor monitor, IAdaptable info)
-			throws ExecutionException {
+	protected void doConfigure(Unit newElement, IProgressMonitor monitor,
+			IAdaptable info) throws ExecutionException {
 		IElementType elementType = ((CreateElementRequest) getRequest())
 				.getElementType();
 		ConfigureRequest configureRequest = new ConfigureRequest(

@@ -46,7 +46,7 @@ public class RuleDeleteCommand extends AbstractTransactionalCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
 		// Nothing to do?
-		if (rule.getTransformationSystem()==null) {
+		if (rule.getModule()==null) {
 			return CommandResult.newOKCommandResult();
 		}
 		

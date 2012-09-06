@@ -33,17 +33,17 @@ public interface Parameter extends NamedElement {
 	
 	/**
 	 * Returns the value of the '<em><b>Unit</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.Unit#getParameters <em>Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Unit</em>' container reference.
-	 * @see #setUnit(TransformationUnit)
+	 * @see #setUnit(Unit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getParameter_Unit()
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameters
+	 * @see org.eclipse.emf.henshin.model.Unit#getParameters
 	 * @model opposite="parameters" transient="false"
 	 * @generated
 	 */
-	TransformationUnit getUnit();
+	Unit getUnit();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.Parameter#getUnit <em>Unit</em>}' container reference.
@@ -53,7 +53,7 @@ public interface Parameter extends NamedElement {
 	 * @see #getUnit()
 	 * @generated
 	 */
-	void setUnit(TransformationUnit value);
+	void setUnit(Unit value);
 
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.

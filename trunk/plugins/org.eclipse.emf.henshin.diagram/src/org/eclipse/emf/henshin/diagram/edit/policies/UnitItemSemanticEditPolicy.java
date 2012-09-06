@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.UnitCompartmentEditPart;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.diagram.providers.HenshinElementTypes;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.common.core.command.ICompositeCommand;
 import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
@@ -38,15 +38,14 @@ public class UnitItemSemanticEditPolicy extends
 	 * @generated
 	 */
 	public UnitItemSemanticEditPolicy() {
-		super(HenshinElementTypes.TransformationUnit_2002);
+		super(HenshinElementTypes.Unit_2002);
 	}
 
 	/**
 	 * @generated NOT
 	 */
 	protected Command getDestroyElementCommand(DestroyElementRequest req) {
-		TransformationUnit unit = (TransformationUnit) ((View) getHost()
-				.getModel()).getElement();
+		Unit unit = (Unit) ((View) getHost().getModel()).getElement();
 		return getGEFWrapper(new UnitDeleteCommand(getEditingDomain(), unit));
 	}
 

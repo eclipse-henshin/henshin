@@ -15,7 +15,7 @@ import org.eclipse.emf.henshin.testframework.GraphTransformations;
 import org.eclipse.emf.henshin.testframework.Graphs;
 import org.eclipse.emf.henshin.testframework.HenshinLoaders;
 import org.eclipse.emf.henshin.testframework.HenshinTest;
-import org.eclipse.emf.henshin.testframework.TransformationUnits;
+import org.eclipse.emf.henshin.testframework.Units;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -175,12 +175,12 @@ public class TransformationUnitTests extends HenshinTest {
 		loadGraph("graphBefore_priorityUnit");
 		loadTu("sequentialUnitTest");
 		// execute tu and undo
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		Units.assertTuCanBeExecuted(htUnitApp);
 		htUnitApp.undo(null);
 		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphBefore_priorityUnit")), 0.9);
 		// execute tu again
 		loadTu("sequentialUnitTest");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		Units.assertTuCanBeExecuted(htUnitApp);
 		Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_sequentialUnit")), 0.9);
 	}
 	
@@ -208,7 +208,7 @@ public class TransformationUnitTests extends HenshinTest {
 		for (int i = 0; i < 100; i++) {
 			loadGraph("graphWithCont");
 			loadTu("independentUnitTest");
-			TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+			Units.assertTuCanBeExecuted(htUnitApp);
 			if (Graphs.graphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9)) {
 				Graphs.assertGraphsEqual(htEGraph, HenshinLoaders.loadGraph(getGraphURI("graphAfter_independentUnit1a")), 0.9);
 				loadTu("independentUnitTest");
@@ -239,7 +239,7 @@ public class TransformationUnitTests extends HenshinTest {
 		//loadRule("amu2_krl");
 		//Tools.printMatches(htRuleApp.findAllMatches());
 		loadTu("loop_amu_attributeInKernelNac");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		Units.assertTuCanBeExecuted(htUnitApp);
 		//Tools.persist(Tools.getGraphRoot(htEmfGraph), "gt_amu2.testmodel");
 	}
 	
@@ -247,7 +247,7 @@ public class TransformationUnitTests extends HenshinTest {
 	public void testEmptyIndependentUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyIndependentUnit");
-		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		Units.assertTuCanNotBeExecuted(htUnitApp);
 		//htUnitApp.undo(null);
 		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
@@ -256,7 +256,7 @@ public class TransformationUnitTests extends HenshinTest {
 	public void testEmptySequentialUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptySequentialUnit");
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		Units.assertTuCanBeExecuted(htUnitApp);
 		htUnitApp.undo(null);
 		GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}
@@ -265,7 +265,7 @@ public class TransformationUnitTests extends HenshinTest {
 	public void testEmptyPriorityUnit() {
 		loadGraph("graphBefore_countedUnit");
 		loadTu("emptyPriorityUnit");
-		TransformationUnits.assertTuCanNotBeExecuted(htUnitApp);
+		Units.assertTuCanNotBeExecuted(htUnitApp);
 		//htUnitApp.undo(null);
 		//GraphTransformations.assertGraphIsNotChanged(htUnitApp, 0.9);
 	}

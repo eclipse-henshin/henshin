@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class STSBenchmark {
@@ -57,9 +57,9 @@ public class STSBenchmark {
 		EObject container = resourceSet.getEObject("initialgraph.xmi");
 
 		// Load the rules:
-		Rule newRule = module.getRule("newRule");
-		TransformationUnit stsUnit = module.getTransformationUnit("sts");
-		TransformationUnit loopStsUnit = module.getTransformationUnit("loopSts");
+		Rule newRule = (Rule) module.getUnit("newRule");
+		Unit stsUnit = module.getUnit("sts");
+		Unit loopStsUnit = module.getUnit("loopSts");
 
 		
 		//Perform benchmark for several graph sizes

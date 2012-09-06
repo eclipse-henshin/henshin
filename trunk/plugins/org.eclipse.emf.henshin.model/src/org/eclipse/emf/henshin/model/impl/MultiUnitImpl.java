@@ -12,14 +12,11 @@ package org.eclipse.emf.henshin.model.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
 import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.MultiUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +31,7 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  *
  * @generated
  */
-public abstract class MultiUnitImpl extends TransformationUnitImpl implements MultiUnit {
+public abstract class MultiUnitImpl extends UnitImpl implements MultiUnit {
 	
 	/**
 	 * The cached value of the '{@link #getSubUnits() <em>Sub Units</em>}' reference list.
@@ -44,7 +41,7 @@ public abstract class MultiUnitImpl extends TransformationUnitImpl implements Mu
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<TransformationUnit> subUnits;
+	protected EList<Unit> subUnits;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -70,9 +67,9 @@ public abstract class MultiUnitImpl extends TransformationUnitImpl implements Mu
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	public final EList<TransformationUnit> getSubUnits() {
+	public final EList<Unit> getSubUnits() {
 		if (subUnits == null) {
-			subUnits = new EObjectResolvingEList<TransformationUnit>(TransformationUnit.class, this, HenshinPackage.MULTI_UNIT__SUB_UNITS) {
+			subUnits = new EObjectResolvingEList<Unit>(Unit.class, this, HenshinPackage.MULTI_UNIT__SUB_UNITS) {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public boolean isUnique() {
@@ -109,7 +106,7 @@ public abstract class MultiUnitImpl extends TransformationUnitImpl implements Mu
 		switch (featureID) {
 			case HenshinPackage.MULTI_UNIT__SUB_UNITS:
 				getSubUnits().clear();
-				getSubUnits().addAll((Collection<? extends TransformationUnit>)newValue);
+				getSubUnits().addAll((Collection<? extends Unit>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

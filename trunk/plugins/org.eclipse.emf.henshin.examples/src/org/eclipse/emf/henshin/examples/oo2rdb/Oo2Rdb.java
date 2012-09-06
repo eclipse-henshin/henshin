@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -77,7 +77,7 @@ public class Oo2Rdb {
 		
 		// Initialize the interpreter:
 		Engine engine = new EngineImpl();
-		TransformationUnit unit = module.getTransformationUnit("Start");
+		Unit unit = module.getUnit("Start");
 		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setUnit(unit);
 		unitApp.setEGraph(graph);

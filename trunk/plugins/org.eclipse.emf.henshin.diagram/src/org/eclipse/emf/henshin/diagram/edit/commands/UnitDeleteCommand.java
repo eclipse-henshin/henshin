@@ -13,7 +13,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -26,14 +26,14 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
 public class UnitDeleteCommand extends AbstractTransactionalCommand {
 
 	// Unit to be deleted.
-	private TransformationUnit unit;
+	private Unit unit;
 	
 	/**
 	 * Default constructor.
 	 * @param domain Editing domain.
 	 * @param unit Unit to be deleted.
 	 */
-	public UnitDeleteCommand(TransactionalEditingDomain domain, TransformationUnit unit) {
+	public UnitDeleteCommand(TransactionalEditingDomain domain, Unit unit) {
 		super(domain, "Delete Unit", null);
 		this.unit = unit;
 	}

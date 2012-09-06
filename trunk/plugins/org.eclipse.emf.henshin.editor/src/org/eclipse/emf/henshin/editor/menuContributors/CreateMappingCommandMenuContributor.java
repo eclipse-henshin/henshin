@@ -19,7 +19,7 @@ import org.eclipse.emf.henshin.editor.commands.QuantUtil;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Parameter;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 
@@ -93,8 +93,8 @@ public class CreateMappingCommandMenuContributor extends MenuContributor {
 			 * One parameter shall be in the "containing" unit, the other one in
 			 * the "contained".
 			 */
-			TransformationUnit sourceUnit = sourceParameter.getUnit();
-			TransformationUnit targetUnit = targetParameter.getUnit();
+			Unit sourceUnit = sourceParameter.getUnit();
+			Unit targetUnit = targetParameter.getUnit();
 			
 			if (!(sourceUnit.getSubUnits(false).contains(targetUnit) || targetUnit.getSubUnits(
 					false).contains(sourceUnit)))

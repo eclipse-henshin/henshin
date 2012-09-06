@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * An implementation of an executable rule application. 
@@ -165,12 +165,12 @@ public class RuleApplicationImpl extends AbstractApplicationImpl implements Rule
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.impl.AbstractApplicationImpl#setUnit(org.eclipse.emf.henshin.model.TransformationUnit)
+	 * @see org.eclipse.emf.henshin.interpreter.impl.AbstractApplicationImpl#setUnit(org.eclipse.emf.henshin.model.Unit)
 	 */
 	@Override
-	public void setUnit(TransformationUnit unit) {
+	public void setUnit(Unit unit) {
 		if (unit!=null && !(unit instanceof Rule)) {
-			throw new NullPointerException("Transformation unit must be a rule");
+			throw new IllegalArgumentException("Unit must be a rule");
 		}
 		if (this.unit!=unit){
 			this.unit = unit;

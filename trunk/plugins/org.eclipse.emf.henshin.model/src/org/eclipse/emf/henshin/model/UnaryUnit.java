@@ -25,19 +25,19 @@ package org.eclipse.emf.henshin.model;
  * @model abstract="true"
  * @generated
  */
-public interface UnaryUnit extends TransformationUnit {
+public interface UnaryUnit extends Unit {
 	
 	/**
 	 * Returns the value of the '<em><b>Sub Unit</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sub Unit</em>' reference.
-	 * @see #setSubUnit(TransformationUnit)
+	 * @see #setSubUnit(Unit)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getUnaryUnit_SubUnit()
 	 * @model
 	 * @generated
 	 */
-	TransformationUnit getSubUnit();
+	Unit getSubUnit();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.emf.henshin.model.UnaryUnit#getSubUnit <em>Sub Unit</em>}' reference.
@@ -47,6 +47,6 @@ public interface UnaryUnit extends TransformationUnit {
 	 * @see #getSubUnit()
 	 * @generated
 	 */
-	void setSubUnit(TransformationUnit value);
+	void setSubUnit(Unit value);
 
 } // UnaryUnit

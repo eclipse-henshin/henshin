@@ -49,9 +49,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EdgeItemProvider(AdapterFactory adapterFactory) {
@@ -59,9 +59,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -100,9 +100,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 
 	/**
-	 * This adds a property descriptor for the Source feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Source feature. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
@@ -115,9 +115,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Target feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Target feature. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
@@ -129,9 +129,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Type feature. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Type feature. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addTypePropertyDescriptor(Object object) {
@@ -143,27 +143,21 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns Edge.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Edge.gif. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
 		Edge kernelEdge = getKernelEdge((Edge) object);		
-		if(kernelEdge != null){
+		if (kernelEdge != null){
 			return getImage(kernelEdge);
 		}
 		Edge edge = (Edge) object;
-		
 		if (edge.eContainer() == null) {
-			// This is used to return the palette icon needed for the visual
-			// editor.
-			// Otherwise, since the visual editor will create an Edge without
-			// source, target nor type,
-			// a red border will be drawn around the Edge icon in the palette.
 			return getResourceLocator().getImage("full/obj16/Edge");
 		}
-		
 		Object edgeImage = null;
 		
 		boolean needsAttention = false;
@@ -172,22 +166,14 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		needsAttention |= (edge.getTarget() == null);
 		
 		if (edge.getType() != null && edge.getType().isContainment()) {
-			edgeImage = getResourceLocator().getImage("full/obj16/ContainmentEdge.png");
+			edgeImage = getResourceLocator().getImage("full/obj16/ContainmentEdge.gif");
 		} else if (edge.getType() != null && edge.getType().isMany()) {
 			edgeImage = IconUtil.getCompositeImage(
-					getResourceLocator().getImage("full/obj16/Edge"), getResourceLocator()
-							.getImage("full/obj16/Edge"), 1, 2);
+					getResourceLocator().getImage("full/obj16/Edge"), 
+					getResourceLocator().getImage("full/obj16/Edge"), 1, 2);
 		} else {
 			edgeImage = getResourceLocator().getImage("full/obj16/Edge");
-		}// if
-		
-		if (isDeletionEdge(edge)) {
-			Object deleteOverlay = getResourceLocator().getImage("full/ovr16/Del_ovr.png");
-			edgeImage = IconUtil.getCompositeImage(edgeImage, deleteOverlay);
-		} else if (isCreationEdge(edge)) {
-			Object createOverlay = getResourceLocator().getImage("full/ovr16/Create_ovr.png");
-			edgeImage = IconUtil.getCompositeImage(edgeImage, createOverlay);
-		}// if
+		}
 		
 		if (needsAttention) {
 			Object attentionOverlay = getResourceLocator().getImage("full/ovr16/Attn_ovr.png");
@@ -195,102 +181,52 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		}
 		
 		return edgeImage;
+		
 	}
-	
+		
 	/**
-	 * Checks if the given edge represents a 'deletion' edge. This is the case,
-	 * if it is contained in a LHS and if there is no corresponding image edge
-	 * in the RHS.<br>
-	 * 
-	 * @param edge
-	 * @return true if the edge could be identified to be a 'deletion' edge. In
-	 *         every other case this method returns false.
-	 */
-	public static boolean isDeletionEdge(Edge edge) {
-		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
-				&& edge.getGraph().getRule() != null) {
-			Rule rule = edge.getGraph().getRule();
-			return edge.getGraph().isLhs() && (rule.getMappings().getImage(edge, rule.getRhs()) == null);
-		} else
-			return false;
-	}// isDeletionEdge
-	
-	/**
-	 * Checks if the given edge represents a 'creation' edge. This is the case,
-	 * if it is contained in a RHS and if there is no corresponding origin edge
-	 * in the LHS.
-	 * 
-	 * @param edge
-	 * @return true if the edge could be identified to be a 'creation' edge. In
-	 *         every other case this method returns false.
-	 */
-	public static boolean isCreationEdge(Edge edge) {
-		if (edge.getSource() != null && edge.getTarget() != null && edge.getGraph() != null
-				&& edge.getGraph().getRule() != null) {
-			Rule rule = edge.getGraph().getRule();
-			return edge.getGraph().isRhs() && (rule.getMappings().getOrigin(edge) == null);
-		} else
-			return false;
-	}// isCreationEdge
-
-	
-	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This returns the label text for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		Edge edge = (Edge) object;
-		String result = getString("_UI_Edge_type");
-		
-		String srcName = (edge.getSource() != null) ? ((edge.getSource().getName() != null) ? edge
-				.getSource().getName() : "_") : "?";
-		String trgName = (edge.getTarget() != null) ? ((edge.getTarget().getName() != null) ? edge
-				.getTarget().getName() : "_") : "?";
-		String edgeType = ("(" + ((edge.getType() != null) ? edge.getType().getName() : "?") + ")");
-		
-		result = result + " " + edgeType + " " + srcName + " -> " + trgName;
-		
-		return result;
-	}// getText
+		// We use the pretty-printer in the edge implementation:
+		return ((Edge) object).toString();
+	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public void notifyChanged(Notification notification) {
-		// System.out.println(notification);
+		
 		if (notification.getEventType() == Notification.SET) {
-			
 			Edge edge = (Edge) notification.getNotifier();
 			Notification notif = new ViewerNotification(notification, edge, false, true);
 			this.fireNotifyChanged(notif);
-			
 			Graph graph = edge.getGraph();
 			if (graph != null) {
 				GraphItemProvider gip = (GraphItemProvider) adapterFactory
 						.adapt(graph, Graph.class);
 				gip.notifyCorrespondingEdges(graph, notification);
 			}
-			
-		}// if		
-		
+		}
 		updateChildren(notification);
 		super.notifyChanged(notification);
-	}// notifyChanged
+	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -299,9 +235,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Return the resource locator for this item provider's resources. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -309,6 +245,9 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		return HenshinEditPlugin.INSTANCE;
 	}
 	
+	/*
+	 * Helper method: get the kernel edge of an edge.
+	 */
 	private Edge getKernelEdge(Edge edge){
 		if (edge.getGraph() != null && (edge.getGraph().isLhs() || edge.getGraph().isRhs())) {
 			Rule rule = edge.getGraph().getRule();
@@ -316,20 +255,5 @@ public class EdgeItemProvider extends HenshinItemProviderAdapter implements
 		}
 		return null;
 	} 
-	
-	// @Override
-	// protected Command createSetCommand(EditingDomain domain, EObject owner,
-	// EStructuralFeature feature, Object value, int index) {
-	// Edge edge = (Edge) owner;
-	// CompoundCommand cmpCmd = new
-	// CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
-	// for (Edge dependentEdge : HenshinMultiRuleUtil.getDependentEdges(edge)) {
-	// cmpCmd.append(createSetCommand(domain, dependentEdge, feature, value,
-	// index));
-	// }
-	// cmpCmd.append(super.createSetCommand(domain, owner, feature, value,
-	// index));
-	// return cmpCmd.unwrap();
-	// }
-	
+		
 }

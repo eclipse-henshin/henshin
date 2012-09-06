@@ -13,10 +13,10 @@ import org.eclipse.emf.henshin.interpreter.EGraph;
 import org.eclipse.emf.henshin.interpreter.Engine;
 import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Assertions for Transformation Units. For assertions on specific objects
+ * Assertions for Units. For assertions on specific objects
  * matched, see {@link Matches}.
  * 
  * @see Matches
@@ -26,7 +26,8 @@ import org.eclipse.emf.henshin.model.TransformationUnit;
  * @author Christian Krause
  * 
  */
-public class TransformationUnits {
+public class Units {
+	
 	/**
 	 * Assert that the specified {@link TransformationUnit} can be executed
 	 * multiple times.
@@ -38,7 +39,7 @@ public class TransformationUnits {
 	 *            executed on
 	 * @throws AssertionError
 	 */
-	public static void assertTransformationUnitCanBeExecutedMultipleTimes(TransformationUnit tu,
+	public static void assertTransformationUnitCanBeExecutedMultipleTimes(Unit tu,
 			EGraph graph, Engine engine) throws AssertionError {
 		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		ua.setUnit(tu);
@@ -82,7 +83,7 @@ public class TransformationUnits {
 	 *            be able to be executed
 	 * @throws AssertionError
 	 */
-	public static void assertTransformationUnitCanBeExecutedNTimes(TransformationUnit tu,
+	public static void assertTransformationUnitCanBeExecutedNTimes(Unit tu,
 			EGraph graph, Engine engine, int n) throws AssertionError {
 		UnitApplication ua = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 		ua.setUnit(tu);

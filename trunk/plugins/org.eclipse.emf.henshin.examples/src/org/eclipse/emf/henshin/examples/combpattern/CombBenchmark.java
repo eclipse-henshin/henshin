@@ -18,9 +18,9 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.util.InterpreterUtil;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 /**
@@ -64,8 +64,8 @@ public class CombBenchmark {
 	public long buildGrid(EGraph graph, int width, int height, boolean sparse) {
 		
 		// Load the module and unit:
-		Module system = resourceSet.getModule(sparse ? "grid-sparse.henshin" : "grid-full.henshin");
-		TransformationUnit unit = system.getTransformationUnit("buildGrid");
+		Module module = resourceSet.getModule(sparse ? "grid-sparse.henshin" : "grid-full.henshin");
+		Unit unit = module.getUnit("buildGrid");
 		
 		// Apply the unit:
 		UnitApplication application = new UnitApplicationImpl(engine);
@@ -98,14 +98,14 @@ public class CombBenchmark {
 	public Rule buildCombPattern(int width) {
 		
 		// Load the module and unit for building the rule:
-		Module system = resourceSet.getModule("comb.henshin");
-		TransformationUnit unit = system.getTransformationUnit("buildCombPattern");
+		Module module = resourceSet.getModule("comb.henshin");
+		Unit unit = module.getUnit("buildCombPattern");
 		
 		// Create a copy of the initial rule and prepare the EGraph:
-		Rule rule = EcoreUtil.copy(system.getRule("combPattern"));
+		Rule rule = EcoreUtil.copy((Rule) module.getUnit("combPattern"));
 		EGraph graph = new EGraphImpl();
 		graph.addTree(rule);
-		for (EPackage epackage : system.getImports()) {
+		for (EPackage epackage : module.getImports()) {
 			graph.addTree(epackage);
 		}
 		

@@ -99,7 +99,7 @@ public class Java2StateMachine {
 		
 		UnitApplication unitApp = new UnitApplicationImpl(engine);
 		unitApp.setEGraph(graph);
-		unitApp.setUnit(module.getTransformationUnit("Start"));
+		unitApp.setUnit(module.getUnit("Start"));
 
 		// Execute the transformation:
 		System.out.println("Generating state machine...");

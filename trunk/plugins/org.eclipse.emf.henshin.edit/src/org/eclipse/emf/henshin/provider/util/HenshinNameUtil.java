@@ -7,12 +7,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * </copyright>
  */
-package org.eclipse.emf.henshin.commands;
+package org.eclipse.emf.henshin.provider.util;
 
 import org.eclipse.emf.henshin.model.Graph;
-import org.eclipse.emf.henshin.model.Node;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
+import org.eclipse.emf.henshin.model.Node;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Utility class that provides static helper methods for:
@@ -24,14 +24,14 @@ import org.eclipse.emf.henshin.model.Module;
  * @author Gregor Bonifer
  * @author Stefan Jurack (sjurack)
  */
-public abstract class HenshinModelUtils {
+public abstract class HenshinNameUtil {
 	
 	protected static final int INITIAL_INDEX = 1;
 	
 	private static final String PREFIX_NODE = "node";
 	private static final String PREFIX_RULE = "rule";
 	
-	protected HenshinModelUtils() {
+	protected HenshinNameUtil() {
 	}
 	
 	/**
@@ -61,10 +61,10 @@ public abstract class HenshinModelUtils {
 	 * Looks up the max Integer-parsable name and returns the next higher
 	 * Integer value as the new name
 	 */
-	public static String generateNewRuleName(Module module) {
+	public static String generateNewUnitName(Module module) {
 		int max = INITIAL_INDEX;
-		for (Rule rule : module.getRules()) {
-			String name = rule.getName();
+		for (Unit unit : module.getUnits()) {
+			String name = unit.getName();
 			name = name != null ? name : "";
 			if (name.startsWith(PREFIX_RULE)) {
 				try {

@@ -21,7 +21,7 @@ import org.eclipse.emf.henshin.diagram.edit.parts.SymbolEditPart;
 import org.eclipse.emf.henshin.diagram.edit.parts.SymbolType;
 import org.eclipse.emf.henshin.diagram.providers.HenshinViewProvider;
 import org.eclipse.emf.henshin.model.IndependentUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.notation.Location;
@@ -60,8 +60,8 @@ public class HenshinSymbolUpdater {
 		
 		// Get the compartment view, the transformation unit and the subUnits:
 		View compartment = UnitEditHelper.getUnitCompartment(unitView);
-		TransformationUnit unit = (TransformationUnit) ((View) compartment.eContainer()).getElement();
-		EList<TransformationUnit> subUnits = unit.getSubUnits(false);
+		Unit unit = (Unit) ((View) compartment.eContainer()).getElement();
+		EList<Unit> subUnits = unit.getSubUnits(false);
 		
 		// Remember the known symbols:
 		Set<View> knownSymbols = new HashSet<View>();
@@ -83,7 +83,7 @@ public class HenshinSymbolUpdater {
 	/*
 	 * Make sure there exists exactly one symbol of the given type.
 	 */
-	public View ensureSingleSymbol(TransformationUnit unit, View compartment, SymbolType type, int x, int y) {
+	public View ensureSingleSymbol(Unit unit, View compartment, SymbolType type, int x, int y) {
 		List<View> symbols = getSymbols(unit, compartment, type);
 		while (symbols.size()>1) {
 			ViewUtil.destroy(symbols.remove(symbols.size()-1));
@@ -98,7 +98,7 @@ public class HenshinSymbolUpdater {
 	/*
 	 * Delete all unknown symbols in a unit compartment.
 	 */
-	private void deleteUnknownSymbols(TransformationUnit unit, View compartment, Collection<View> knownSymbols) {
+	private void deleteUnknownSymbols(Unit unit, View compartment, Collection<View> knownSymbols) {
 		List<View> allSymbols = getSymbols(unit, compartment, null);
 		for (View symbol : allSymbols) {
 			if (!knownSymbols.contains(symbol)) {
@@ -110,7 +110,7 @@ public class HenshinSymbolUpdater {
 	/*
 	 * Get the symbol views in a compartment view.
 	 */
-	public List<View> getSymbols(TransformationUnit unit, View compartment, SymbolType type) {
+	public List<View> getSymbols(Unit unit, View compartment, SymbolType type) {
 		List<View> result = new ArrayList<View>();
 		String visualType = HenshinVisualIDRegistry.getType(SymbolEditPart.VISUAL_ID);
 		for (Object child : compartment.getChildren()) {
@@ -127,7 +127,7 @@ public class HenshinSymbolUpdater {
 	/*
 	 * Private helper method which creates a symbol view in a unit compartment.
 	 */
-	public Node createSymbol(TransformationUnit unit, View compartment, int index, SymbolType type, int x, int y) {
+	public Node createSymbol(Unit unit, View compartment, int index, SymbolType type, int x, int y) {
 
 		// Create a location object:
 		Location location = NotationFactory.eINSTANCE.createLocation();

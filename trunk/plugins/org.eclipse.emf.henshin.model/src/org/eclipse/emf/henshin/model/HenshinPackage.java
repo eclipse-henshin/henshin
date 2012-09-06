@@ -109,7 +109,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getRule()
 	 * @generated
 	 */
-	int RULE = 3;
+	int RULE = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeConditionImpl <em>Attribute Condition</em>}' class.
@@ -119,7 +119,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttributeCondition()
 	 * @generated
 	 */
-	int ATTRIBUTE_CONDITION = 10;
+	int ATTRIBUTE_CONDITION = 11;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.GraphImpl <em>Graph</em>}' class.
@@ -129,7 +129,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getGraph()
 	 * @generated
 	 */
-	int GRAPH = 6;
+	int GRAPH = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.GraphElement <em>Graph Element</em>}' class.
@@ -158,7 +158,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getMapping()
 	 * @generated
 	 */
-	int MAPPING = 11;
+	int MAPPING = 12;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.NodeImpl <em>Node</em>}' class.
@@ -168,7 +168,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getNode()
 	 * @generated
 	 */
-	int NODE = 7;
+	int NODE = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.AttributeImpl <em>Attribute</em>}' class.
@@ -178,7 +178,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getAttribute()
 	 * @generated
 	 */
-	int ATTRIBUTE = 9;
+	int ATTRIBUTE = 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.EdgeImpl <em>Edge</em>}' class.
@@ -188,17 +188,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 8;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
-	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
-	 * @generated
-	 */
-	int TRANSFORMATION_UNIT = 12;
+	int EDGE = 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.ParameterImpl <em>Parameter</em>}' class.
@@ -208,7 +198,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameter()
 	 * @generated
 	 */
-	int PARAMETER = 4;
+	int PARAMETER = 5;
 
 	/**
 	 * The number of structural features of the '<em>Graph Element</em>' class.
@@ -257,31 +247,22 @@ public interface HenshinPackage extends EPackage {
 	int MODULE__SUB_MODULES = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODULE__RULES = NAMED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Imports</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int MODULE__IMPORTS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Transformation Units</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Units</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__TRANSFORMATION_UNITS = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int MODULE__UNITS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
@@ -290,7 +271,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int MODULE__INSTANCES = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Module</em>' class.
@@ -299,7 +280,17 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int MODULE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.emf.henshin.model.impl.UnitImpl <em>Unit</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.henshin.model.impl.UnitImpl
+	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnit()
+	 * @generated
+	 */
+	int UNIT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -308,7 +299,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__NAME = NAMED_ELEMENT__NAME;
+	int UNIT__NAME = NAMED_ELEMENT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -317,7 +308,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
+	int UNIT__DESCRIPTION = NAMED_ELEMENT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -326,7 +317,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__PARAMETERS = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int UNIT__PARAMETERS = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -335,7 +326,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int UNIT__PARAMETER_MAPPINGS = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -344,16 +335,16 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT__ACTIVATED = NAMED_ELEMENT_FEATURE_COUNT + 2;
+	int UNIT__ACTIVATED = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Transformation Unit</em>' class.
+	 * The number of structural features of the '<em>Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSFORMATION_UNIT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int UNIT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -362,7 +353,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__NAME = TRANSFORMATION_UNIT__NAME;
+	int RULE__NAME = UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -371,7 +362,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int RULE__DESCRIPTION = UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -380,7 +371,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+	int RULE__PARAMETERS = UNIT__PARAMETERS;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -389,7 +380,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+	int RULE__PARAMETER_MAPPINGS = UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -398,7 +389,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int RULE__ACTIVATED = UNIT__ACTIVATED;
 
 	/**
 	 * The feature id for the '<em><b>Lhs</b></em>' containment reference.
@@ -407,7 +398,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__LHS = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int RULE__LHS = UNIT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Rhs</b></em>' containment reference.
@@ -416,7 +407,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__RHS = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int RULE__RHS = UNIT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Attribute Conditions</b></em>' containment reference list.
@@ -425,7 +416,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__ATTRIBUTE_CONDITIONS = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
+	int RULE__ATTRIBUTE_CONDITIONS = UNIT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Mappings</b></em>' containment reference list.
@@ -434,7 +425,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
+	int RULE__MAPPINGS = UNIT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Check Dangling</b></em>' attribute.
@@ -443,7 +434,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__CHECK_DANGLING = TRANSFORMATION_UNIT_FEATURE_COUNT + 4;
+	int RULE__CHECK_DANGLING = UNIT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Injective Matching</b></em>' attribute.
@@ -452,7 +443,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__INJECTIVE_MATCHING = TRANSFORMATION_UNIT_FEATURE_COUNT + 5;
+	int RULE__INJECTIVE_MATCHING = UNIT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Multi Rules</b></em>' containment reference list.
@@ -461,7 +452,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__MULTI_RULES = TRANSFORMATION_UNIT_FEATURE_COUNT + 6;
+	int RULE__MULTI_RULES = UNIT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Multi Mappings</b></em>' containment reference list.
@@ -470,7 +461,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE__MULTI_MAPPINGS = TRANSFORMATION_UNIT_FEATURE_COUNT + 7;
+	int RULE__MULTI_MAPPINGS = UNIT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Rule</em>' class.
@@ -479,7 +470,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 8;
+	int RULE_FEATURE_COUNT = UNIT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -694,7 +685,7 @@ public interface HenshinPackage extends EPackage {
 	 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getParameterMapping()
 	 * @generated
 	 */
-	int PARAMETER_MAPPING = 5;
+	int PARAMETER_MAPPING = 6;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1063,7 +1054,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+	int UNARY_UNIT__NAME = UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1072,7 +1063,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int UNARY_UNIT__DESCRIPTION = UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -1081,7 +1072,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+	int UNARY_UNIT__PARAMETERS = UNIT__PARAMETERS;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -1090,7 +1081,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+	int UNARY_UNIT__PARAMETER_MAPPINGS = UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1099,7 +1090,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int UNARY_UNIT__ACTIVATED = UNIT__ACTIVATED;
 
 	/**
 	 * The feature id for the '<em><b>Sub Unit</b></em>' reference.
@@ -1108,7 +1099,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT__SUB_UNIT = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int UNARY_UNIT__SUB_UNIT = UNIT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Unary Unit</em>' class.
@@ -1117,7 +1108,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UNARY_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int UNARY_UNIT_FEATURE_COUNT = UNIT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1126,7 +1117,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+	int MULTI_UNIT__NAME = UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1135,7 +1126,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int MULTI_UNIT__DESCRIPTION = UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -1144,7 +1135,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+	int MULTI_UNIT__PARAMETERS = UNIT__PARAMETERS;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -1153,7 +1144,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+	int MULTI_UNIT__PARAMETER_MAPPINGS = UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1162,7 +1153,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int MULTI_UNIT__ACTIVATED = UNIT__ACTIVATED;
 
 	/**
 	 * The feature id for the '<em><b>Sub Units</b></em>' reference list.
@@ -1171,7 +1162,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT__SUB_UNITS = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int MULTI_UNIT__SUB_UNITS = UNIT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Multi Unit</em>' class.
@@ -1180,7 +1171,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int MULTI_UNIT_FEATURE_COUNT = UNIT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1333,7 +1324,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__NAME = TRANSFORMATION_UNIT__NAME;
+	int CONDITIONAL_UNIT__NAME = UNIT__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1342,7 +1333,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__DESCRIPTION = TRANSFORMATION_UNIT__DESCRIPTION;
+	int CONDITIONAL_UNIT__DESCRIPTION = UNIT__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
@@ -1351,7 +1342,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__PARAMETERS = TRANSFORMATION_UNIT__PARAMETERS;
+	int CONDITIONAL_UNIT__PARAMETERS = UNIT__PARAMETERS;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mappings</b></em>' containment reference list.
@@ -1360,7 +1351,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__PARAMETER_MAPPINGS = TRANSFORMATION_UNIT__PARAMETER_MAPPINGS;
+	int CONDITIONAL_UNIT__PARAMETER_MAPPINGS = UNIT__PARAMETER_MAPPINGS;
 
 	/**
 	 * The feature id for the '<em><b>Activated</b></em>' attribute.
@@ -1369,7 +1360,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__ACTIVATED = TRANSFORMATION_UNIT__ACTIVATED;
+	int CONDITIONAL_UNIT__ACTIVATED = UNIT__ACTIVATED;
 
 	/**
 	 * The feature id for the '<em><b>If</b></em>' reference.
@@ -1378,7 +1369,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__IF = TRANSFORMATION_UNIT_FEATURE_COUNT + 0;
+	int CONDITIONAL_UNIT__IF = UNIT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Then</b></em>' reference.
@@ -1387,7 +1378,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__THEN = TRANSFORMATION_UNIT_FEATURE_COUNT + 1;
+	int CONDITIONAL_UNIT__THEN = UNIT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Else</b></em>' reference.
@@ -1396,7 +1387,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT__ELSE = TRANSFORMATION_UNIT_FEATURE_COUNT + 2;
+	int CONDITIONAL_UNIT__ELSE = UNIT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Conditional Unit</em>' class.
@@ -1405,7 +1396,7 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITIONAL_UNIT_FEATURE_COUNT = TRANSFORMATION_UNIT_FEATURE_COUNT + 3;
+	int CONDITIONAL_UNIT_FEATURE_COUNT = UNIT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2075,17 +2066,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getModule_SubModules();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getRules <em>Rules</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rules</em>'.
-	 * @see org.eclipse.emf.henshin.model.Module#getRules()
-	 * @see #getModule()
-	 * @generated
-	 */
-	EReference getModule_Rules();
-
-	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.emf.henshin.model.Module#getImports <em>Imports</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2097,15 +2077,15 @@ public interface HenshinPackage extends EPackage {
 	EReference getModule_Imports();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getTransformationUnits <em>Transformation Units</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getUnits <em>Units</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Transformation Units</em>'.
-	 * @see org.eclipse.emf.henshin.model.Module#getTransformationUnits()
+	 * @return the meta object for the containment reference list '<em>Units</em>'.
+	 * @see org.eclipse.emf.henshin.model.Module#getUnits()
 	 * @see #getModule()
 	 * @generated
 	 */
-	EReference getModule_TransformationUnits();
+	EReference getModule_Units();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Module#getInstances <em>Instances</em>}'.
@@ -2117,6 +2097,49 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getModule_Instances();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Unit <em>Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Unit</em>'.
+	 * @see org.eclipse.emf.henshin.model.Unit
+	 * @generated
+	 */
+	EClass getUnit();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Unit#getParameters <em>Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
+	 * @see org.eclipse.emf.henshin.model.Unit#getParameters()
+	 * @see #getUnit()
+	 * @generated
+	 */
+	EReference getUnit_Parameters();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.Unit#getParameterMappings <em>Parameter Mappings</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Parameter Mappings</em>'.
+	 * @see org.eclipse.emf.henshin.model.Unit#getParameterMappings()
+	 * @see #getUnit()
+	 * @generated
+	 */
+	EReference getUnit_ParameterMappings();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.Unit#isActivated <em>Activated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Activated</em>'.
+	 * @see org.eclipse.emf.henshin.model.Unit#isActivated()
+	 * @see #getUnit()
+	 * @generated
+	 */
+	EAttribute getUnit_Activated();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.Mapping <em>Mapping</em>}'.
@@ -2346,27 +2369,6 @@ public interface HenshinPackage extends EPackage {
 	EReference getEdge_Graph();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.TransformationUnit <em>Transformation Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Transformation Unit</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit
-	 * @generated
-	 */
-	EClass getTransformationUnit();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.emf.henshin.model.TransformationUnit#isActivated <em>Activated</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Activated</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#isActivated()
-	 * @see #getTransformationUnit()
-	 * @generated
-	 */
-	EAttribute getTransformationUnit_Activated();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.UnaryUnit <em>Unary Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2407,28 +2409,6 @@ public interface HenshinPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMultiUnit_SubUnits();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameters <em>Parameters</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Parameters</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameters()
-	 * @see #getTransformationUnit()
-	 * @generated
-	 */
-	EReference getTransformationUnit_Parameters();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings <em>Parameter Mappings</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Parameter Mappings</em>'.
-	 * @see org.eclipse.emf.henshin.model.TransformationUnit#getParameterMappings()
-	 * @see #getTransformationUnit()
-	 * @generated
-	 */
-	EReference getTransformationUnit_ParameterMappings();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.emf.henshin.model.IndependentUnit <em>Independent Unit</em>}'.
@@ -2979,14 +2959,6 @@ public interface HenshinPackage extends EPackage {
 		EReference MODULE__SUB_MODULES = eINSTANCE.getModule_SubModules();
 
 		/**
-		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MODULE__RULES = eINSTANCE.getModule_Rules();
-
-		/**
 		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2995,12 +2967,12 @@ public interface HenshinPackage extends EPackage {
 		EReference MODULE__IMPORTS = eINSTANCE.getModule_Imports();
 
 		/**
-		 * The meta object literal for the '<em><b>Transformation Units</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Units</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODULE__TRANSFORMATION_UNITS = eINSTANCE.getModule_TransformationUnits();
+		EReference MODULE__UNITS = eINSTANCE.getModule_Units();
 
 		/**
 		 * The meta object literal for the '<em><b>Instances</b></em>' containment reference list feature.
@@ -3009,6 +2981,40 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODULE__INSTANCES = eINSTANCE.getModule_Instances();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.UnitImpl <em>Unit</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.henshin.model.impl.UnitImpl
+		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getUnit()
+		 * @generated
+		 */
+		EClass UNIT = eINSTANCE.getUnit();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIT__PARAMETERS = eINSTANCE.getUnit_Parameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Parameter Mappings</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UNIT__PARAMETER_MAPPINGS = eINSTANCE.getUnit_ParameterMappings();
+
+		/**
+		 * The meta object literal for the '<em><b>Activated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNIT__ACTIVATED = eINSTANCE.getUnit_Activated();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.MappingImpl <em>Mapping</em>}' class.
@@ -3187,24 +3193,6 @@ public interface HenshinPackage extends EPackage {
 		EReference EDGE__GRAPH = eINSTANCE.getEdge_Graph();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.TransformationUnitImpl <em>Transformation Unit</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl
-		 * @see org.eclipse.emf.henshin.model.impl.HenshinPackageImpl#getTransformationUnit()
-		 * @generated
-		 */
-		EClass TRANSFORMATION_UNIT = eINSTANCE.getTransformationUnit();
-
-		/**
-		 * The meta object literal for the '<em><b>Activated</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRANSFORMATION_UNIT__ACTIVATED = eINSTANCE.getTransformationUnit_Activated();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.UnaryUnitImpl <em>Unary Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3239,22 +3227,6 @@ public interface HenshinPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MULTI_UNIT__SUB_UNITS = eINSTANCE.getMultiUnit_SubUnits();
-
-		/**
-		 * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_UNIT__PARAMETERS = eINSTANCE.getTransformationUnit_Parameters();
-
-		/**
-		 * The meta object literal for the '<em><b>Parameter Mappings</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRANSFORMATION_UNIT__PARAMETER_MAPPINGS = eINSTANCE.getTransformationUnit_ParameterMappings();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.emf.henshin.model.impl.IndependentUnitImpl <em>Independent Unit</em>}' class.

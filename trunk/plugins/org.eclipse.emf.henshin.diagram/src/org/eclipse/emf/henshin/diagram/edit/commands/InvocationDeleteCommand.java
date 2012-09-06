@@ -15,10 +15,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.henshin.diagram.part.HenshinDiagramEditorPlugin;
 import org.eclipse.emf.henshin.diagram.part.HenshinLinkUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinSymbolUpdater;
-import org.eclipse.emf.henshin.model.IndependentUnit;
-import org.eclipse.emf.henshin.model.PriorityUnit;
-import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.MultiUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
@@ -68,18 +66,12 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		
 		View unitView = getUnitView();
-		TransformationUnit unit = getUnit();
-		TransformationUnit invocation = getInvocation();
+		Unit unit = getUnit();
+		Unit invocation = getInvocation();
 		
 		// Check the unit type:
-		if (unit instanceof SequentialUnit) {
-			((SequentialUnit) unit).getSubUnits().remove(invocation);
-		}
-		else if (unit instanceof PriorityUnit) {
-			((PriorityUnit) unit).getSubUnits().remove(invocation);
-		}
-		else if (unit instanceof IndependentUnit) {
-			((IndependentUnit) unit).getSubUnits().remove(invocation);
+		if (unit instanceof MultiUnit) {
+			((MultiUnit) unit).getSubUnits().remove(invocation);
 		}
 		else {
 			return CommandResult.newErrorCommandResult("Unsupport unit type: " + unit.eClass().getName());
@@ -95,12 +87,12 @@ public class InvocationDeleteCommand extends AbstractTransactionalCommand {
 		return CommandResult.newOKCommandResult();
 	}
 
-	private TransformationUnit getInvocation() {
-		return (TransformationUnit) invocationView.getElement();
+	private Unit getInvocation() {
+		return (Unit) invocationView.getElement();
 	}
 
-	private TransformationUnit getUnit() {
-		return (TransformationUnit) getUnitView().getElement();
+	private Unit getUnit() {
+		return (Unit) getUnitView().getElement();
 	}
 
 	private View getUnitView() {

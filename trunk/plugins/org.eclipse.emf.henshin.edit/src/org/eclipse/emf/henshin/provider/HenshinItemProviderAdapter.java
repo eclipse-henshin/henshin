@@ -21,14 +21,17 @@ import org.eclipse.emf.henshin.provider.util.HenshinColorProvider;
 import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
 
 /**
- * Base class for all Henshin ItemProviderAdapters. Adds support for
- * {@link IItemToolTipProvider}.
+ * Base class for all Henshin ItemProviderAdapters. 
+ * Adds support for {@link IItemToolTipProvider}.
  * 
  * @author Gregor Bonifer, Christian Krause
- * 
  */
 public class HenshinItemProviderAdapter extends ItemProviderAdapter implements IItemToolTipProvider, IItemFontProvider {
 	
+	/**
+	 * Default constructor.
+	 * @param adapterFactory Adapter factory.
+	 */
 	public HenshinItemProviderAdapter(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
@@ -43,8 +46,9 @@ public class HenshinItemProviderAdapter extends ItemProviderAdapter implements I
 	}
 	
 	protected Disposable getDisposable() {
-		if (wrappers == null)
+		if (wrappers == null) {
 			wrappers = new Disposable();
+		}
 		return wrappers;
 	}
 	

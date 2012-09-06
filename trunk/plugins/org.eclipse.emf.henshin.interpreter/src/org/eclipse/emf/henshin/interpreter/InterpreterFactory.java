@@ -11,7 +11,7 @@ package org.eclipse.emf.henshin.interpreter;
 
 import org.eclipse.emf.henshin.interpreter.impl.InterpreterFactoryImpl;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Factory interface for the Henshin interpreter.
@@ -33,11 +33,11 @@ public interface InterpreterFactory {
 
 	/**
 	 * Create an {@link Assignment} object.
-	 * @param unit Target {@link TransformationUnit}.
+	 * @param unit Target {@link Unit}.
 	 * @param isResultAssignment Determines whether this is a result assignment.
 	 * @return A new {@link Assignment}.
 	 */
-	Assignment createAssignment(TransformationUnit unit, boolean isResultAssignment);
+	Assignment createAssignment(Unit unit, boolean isResultAssignment);
 	
 	/**
 	 * Create a {@link Match}.

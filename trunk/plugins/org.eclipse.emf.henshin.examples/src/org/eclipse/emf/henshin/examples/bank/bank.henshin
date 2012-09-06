@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<henshin:TransformationSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9nqBIHg8EeGZMfr3Iy5Flw">
-  <rules xmi:id="_9pE9cHg8EeGZMfr3Iy5Flw" name="createAccount">
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_9nqBIHg8EeGZMfr3Iy5Flw">
+  <imports href="bank.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_9pE9cHg8EeGZMfr3Iy5Flw" name="createAccount">
     <parameters xmi:id="_9pM5QHg8EeGZMfr3Iy5Flw" name="client"/>
     <parameters xmi:id="_9pFkgHg8EeGZMfr3Iy5Flw" name="accountId"/>
     <lhs xmi:id="_9pOHYHg8EeGZMfr3Iy5Flw" name="LHS">
@@ -83,8 +84,8 @@
     <mappings xmi:id="_9pP8kHg8EeGZMfr3Iy5Flw" origin="_9qYlAHg8EeGZMfr3Iy5Flw" image="_9pl60Hg8EeGZMfr3Iy5Flw"/>
     <mappings xmi:id="_9pP8kXg8EeGZMfr3Iy5Flw" origin="_9qvxYHg8EeGZMfr3Iy5Flw" image="_9pOHYng8EeGZMfr3Iy5Flw"/>
     <mappings xmi:id="_9pP8kng8EeGZMfr3Iy5Flw" origin="_9pzWMHg8EeGZMfr3Iy5Flw" image="_9pOucXg8EeGZMfr3Iy5Flw"/>
-  </rules>
-  <rules xmi:id="_9pFkg3g8EeGZMfr3Iy5Flw" name="transferMoney">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_9pFkg3g8EeGZMfr3Iy5Flw" name="transferMoney">
     <parameters xmi:id="_9pFkhHg8EeGZMfr3Iy5Flw" name="client"/>
     <parameters xmi:id="_9pFkhXg8EeGZMfr3Iy5Flw" name="fromId"/>
     <parameters xmi:id="_9pFkhng8EeGZMfr3Iy5Flw" name="toId"/>
@@ -152,8 +153,8 @@
     <mappings xmi:id="_9pGLl3g8EeGZMfr3Iy5Flw" origin="_9rYDgHg8EeGZMfr3Iy5Flw" image="_9pFking8EeGZMfr3Iy5Flw"/>
     <mappings xmi:id="_9pGLmHg8EeGZMfr3Iy5Flw" origin="_9rYqkXg8EeGZMfr3Iy5Flw" image="_9pGLkXg8EeGZMfr3Iy5Flw"/>
     <mappings xmi:id="_9pGLmXg8EeGZMfr3Iy5Flw" origin="_9rZRoHg8EeGZMfr3Iy5Flw" image="_9pGLlHg8EeGZMfr3Iy5Flw"/>
-  </rules>
-  <rules xmi:id="_9sSCcHg8EeGZMfr3Iy5Flw" name="deleteAllAccounts">
+  </units>
+  <units xsi:type="henshin:Rule" xmi:id="_9sSCcHg8EeGZMfr3Iy5Flw" name="deleteAllAccounts">
     <parameters xmi:id="_9sSCcXg8EeGZMfr3Iy5Flw" name="client"/>
     <lhs xmi:id="_9sSCcng8EeGZMfr3Iy5Flw" name="LHS">
       <nodes xmi:id="_9sSCc3g8EeGZMfr3Iy5Flw" incoming="_9sSpgng8EeGZMfr3Iy5Flw _9sSpg3g8EeGZMfr3Iy5Flw">
@@ -267,6 +268,5 @@
       <multiMappings xmi:id="_9sjIMHg8EeGZMfr3Iy5Flw" origin="_9sSph3g8EeGZMfr3Iy5Flw" image="_9sbzeng8EeGZMfr3Iy5Flw"/>
       <multiMappings xmi:id="_9sjvQHg8EeGZMfr3Iy5Flw" origin="_9sSpiHg8EeGZMfr3Iy5Flw" image="_9sbze3g8EeGZMfr3Iy5Flw"/>
     </multiRules>
-  </rules>
-  <imports href="bank.ecore#/"/>
-</henshin:TransformationSystem>
+  </units>
+</henshin:Module>

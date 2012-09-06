@@ -41,9 +41,9 @@ import org.eclipse.emf.henshin.provider.trans.NestedConditionMappingItemProvider
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.NestedCondition} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * {@link org.eclipse.emf.henshin.model.NestedCondition} object. 
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
  * @generated
  */
 public class NestedConditionItemProvider extends HenshinItemProviderAdapter implements
@@ -51,15 +51,16 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
 	/**
-	 * Number of mappings which are shown in an unfold way. Any number above the
-	 * given leads to a folding of them.
+	 * Number of mappings which are shown in an unfold way. 
+	 * Any number above the given leads to a folding of them.
+	 * @generated NOT
 	 */
 	public static final int MAX_UNFOLD_MAPPINGS = 5;
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public NestedConditionItemProvider(AdapterFactory adapterFactory) {
@@ -67,9 +68,9 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -85,7 +86,8 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -99,7 +101,8 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -111,27 +114,25 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	}
 	
 	/**
-	 * This returns NestedCondition.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This returns NestedCondition.gif. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
 		Object defaultImage = getResourceLocator().getImage("full/obj16/NestedCondition");
 		return defaultImage;
-	}// getImage
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang
-	 * .Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getChildren(java.lang.Object)
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Collection<?> getChildren(Object object) {
-		Collection childrenList = super.getChildren(object);
+		@SuppressWarnings("unchecked")
+		Collection<Object> childrenList = (Collection<Object>) super.getChildren(object);
 		NestedCondition nc = (NestedCondition) object;
 		if (nc.getMappings().size() > MAX_UNFOLD_MAPPINGS) {
 			childrenList.removeAll(nc.getMappings());
@@ -142,8 +143,8 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -154,9 +155,9 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -174,12 +175,10 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 		super.notifyChanged(notification);
 	}
 	
-	/**
+	/*
 	 * If a mapping is added or removed this directly affect the visualization
 	 * of associated nodes in terms of preserve and forbid icons. Consequently,
 	 * related nodes are notified to be refreshed visually.
-	 * 
-	 * @param notification
 	 */
 	@SuppressWarnings("unchecked")
 	private void notifyMappedNodes(Notification notification) {
@@ -197,40 +196,38 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 			case Notification.REMOVE_MANY:
 				mappings.addAll((Collection<Mapping>) notification.getOldValue());
 				break;
-		}// switch
-		
+		}		
 		if (!mappings.isEmpty()) {
 			for (Mapping mapping : mappings) {
-				if (mapping.getImage() != null)
+				if (mapping.getImage() != null) {
 					notifyNodeForRefresh(notification, mapping.getImage());
-				if (mapping.getOrigin() != null)
+				}
+				if (mapping.getOrigin() != null) {
 					notifyNodeForRefresh(notification, mapping.getOrigin());
-			}// for
-		}// if
-	}// notifyMappedNodes
+				}
+			}
+		}
+	}
 	
-	/**
+	/*
 	 * Notifies the given node to refresh its label (only). This affects the
 	 * icon in particular, which shows if the node is created, deleted or
 	 * preserve.
-	 * 
-	 * @param notification
-	 * @param node
 	 */
 	private void notifyNodeForRefresh(Notification notification, Node node) {
 		if (node != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
-					Node.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(node, Node.class);
 			Notification notif = new ViewerNotification(notification, node, false, true);
 			adapter.fireNotifyChanged(notif);
-		}// if
-	}// notifyNodeForRefresh
+		}
+	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -259,32 +256,30 @@ public class NestedConditionItemProvider extends HenshinItemProviderAdapter impl
 		return HenshinEditPlugin.INSTANCE;
 	}
 
+	/**
+	 * @generated NOT
+	 */
 	@Override
 	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection) {
-		HenshinPackage pack = HenshinPackage.eINSTANCE;
-		if (feature == pack.getNestedCondition_Conclusion())
+		if (feature == HenshinPackage.eINSTANCE.getNestedCondition_Conclusion()) {
 			return UnexecutableCommand.INSTANCE;
-		
+		}
 		return super.createRemoveCommand(domain, owner, feature, collection);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	/**
+	 * @generated NOT
 	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Object value) {
-		
-		if (feature == HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION)
-			if (value == SetCommand.UNSET_VALUE)
+			EStructuralFeature feature, Object value) {		
+		if (feature == HenshinPackage.Literals.NESTED_CONDITION__CONCLUSION) {
+			if (value == SetCommand.UNSET_VALUE) {
 				return new GraphComplexUnsetCommand(domain, owner, feature);
-		
+			}
+		}
 		return super.createSetCommand(domain, owner, feature, value);
 	}
 	
-}// class
+}

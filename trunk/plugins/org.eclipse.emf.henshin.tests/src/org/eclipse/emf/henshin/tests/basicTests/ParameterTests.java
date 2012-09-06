@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.testframework.Matches;
 import org.eclipse.emf.henshin.testframework.Parameters;
 import org.eclipse.emf.henshin.testframework.Rules;
 import org.eclipse.emf.henshin.testframework.Tools;
-import org.eclipse.emf.henshin.testframework.TransformationUnits;
+import org.eclipse.emf.henshin.testframework.Units;
 import org.eclipse.emf.henshin.tests.testmodel.Node;
 import org.eclipse.emf.henshin.tests.testmodel.Val;
 import org.junit.Before;
@@ -156,7 +156,7 @@ public class ParameterTests extends HenshinTest {
 		loadTu("parameterUnit", "tu_param_in", "nd1");
 		Node matchedNode = (Node) Tools.getFirstElementFromOCLQueryResult("self.nodename='nd1'", htEGraph);
 				
-		TransformationUnits.assertTuCanBeExecuted(htUnitApp);
+		Units.assertTuCanBeExecuted(htUnitApp);
 		Graphs.assertObjectNotInGraph(matchedNode, htEGraph);
 	}
 	

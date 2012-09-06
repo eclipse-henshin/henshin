@@ -18,13 +18,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Property descriptor for the <code>source</code> and the <code>target</code>
  * feature of model class {@link ParameterMapping}. This descriptor collects
  * {@link Parameter} objects from within the current (containing)
- * {@link TransformationUnit} and its direct subunits.<br>
+ * {@link Unit} and its direct subunits.<br>
  * 
  * @author Stefan Jurack (sjurack)
  * 
@@ -66,7 +66,7 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 		if (object instanceof ParameterMapping) {
 			
 			ParameterMapping pmapping = (ParameterMapping) object;
-			TransformationUnit owningUnit = (TransformationUnit) pmapping.eContainer();
+			Unit owningUnit = (Unit) pmapping.eContainer();
 			// declare the current trafo unit to the item delegator
 			this.pItemDelegator.setCurrentTrafoUnit(owningUnit);
 			
@@ -74,7 +74,7 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 			
 			result.addAll(owningUnit.getParameters());
 			
-			for (TransformationUnit tu : owningUnit.getSubUnits(false)) {
+			for (Unit tu : owningUnit.getSubUnits(false)) {
 				result.addAll(tu.getParameters());
 			}// for
 			
@@ -89,7 +89,7 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 	 * 
 	 */
 	private class ParameterItemDelegator extends ItemDelegator {
-		TransformationUnit currentUnit;
+		Unit currentUnit;
 		
 		public ParameterItemDelegator(AdapterFactory adapterFactory, ResourceLocator resourceLocator) {
 			super(adapterFactory, resourceLocator);
@@ -118,7 +118,7 @@ public class ParameterMappingPropertyDescriptor extends ItemPropertyDescriptor {
 		 * 
 		 * @param unit
 		 */
-		public void setCurrentTrafoUnit(TransformationUnit unit) {
+		public void setCurrentTrafoUnit(Unit unit) {
 			this.currentUnit = unit;
 		}// setCurrentTrafoUnit
 		

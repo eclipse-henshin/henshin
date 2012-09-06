@@ -308,7 +308,7 @@ public class RootObjectEditHelper {
 		for (Resource resource : rule.eResource().getResourceSet().getResources()) {
 			if (resource instanceof GMFResource) {
 				for (EObject object : resource.getContents()) {
-					if (object instanceof Diagram && (((Diagram) object).getElement()==rule.getTransformationSystem())) {
+					if (object instanceof Diagram && (((Diagram) object).getElement()==rule.getModule())) {
 						Diagram diagram = (Diagram) object;
 						for (int i=0; i<diagram.getChildren().size(); i++) {
 							View view = (View) diagram.getChildren().get(i);

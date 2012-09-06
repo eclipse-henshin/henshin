@@ -31,7 +31,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.descriptors.ParameterMappingPropertyDescriptor;
 
 /**
@@ -46,24 +46,23 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource {
 	
-	ParameterListener parameterListener;
+	// Parameter listener:
+	private ParameterListener parameterListener = new ParameterListener();
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public ParameterMappingItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
-		
-		parameterListener = new ParameterListener();
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -78,9 +77,9 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Source feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Source feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addSourcePropertyDescriptor(Object object) {
@@ -93,9 +92,9 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Target feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Target feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addTargetPropertyDescriptor(Object object) {
@@ -108,69 +107,61 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns ParameterMapping.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This returns ParameterMapping.gif. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
 		return overlayImage(object, getResourceLocator()
-				.getImage("full/obj16/ParameterMapping.png"));
+				.getImage("full/obj16/ParameterMapping.gif"));
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This returns the label text for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		ParameterMapping pmapping = (ParameterMapping) object;
-		TransformationUnit unit = (TransformationUnit) pmapping.eContainer();
-		
-		final StringBuffer result = new StringBuffer(getString("_UI_ParameterMapping_type"));
-		final String src = calculateParameterString(pmapping.getSource(), unit);
-		final String trg = calculateParameterString(pmapping.getTarget(), unit);
-		
+		Unit unit = (Unit) pmapping.eContainer();
+		StringBuffer result = new StringBuffer(getString("_UI_ParameterMapping_type"));
+		String src = calculateParameterString(pmapping.getSource(), unit);
+		String trg = calculateParameterString(pmapping.getTarget(), unit);
 		result.append(" ").append(src).append(" -> ").append(trg);
-		
 		return result.toString();
-	}// getText
+	}
 	
-	/**
-	 * @param p
-	 *            the parameter to calculate the string for
-	 * @param owningUnit
-	 *            unit which owns the parameter mapping
-	 * @return
+	/*
+	 * Helper.
 	 */
-	private String calculateParameterString(Parameter p, TransformationUnit owningUnit) {
+	private String calculateParameterString(Parameter p, Unit owningUnit) {
 		final String EMPTY_STRING = "_";
 		final String UNSET_PARAMETER = "?";
-		
 		if (p != null) {
-			final StringBuffer buf = new StringBuffer();
+			StringBuffer buf = new StringBuffer();
 			if (!p.getUnit().equals(owningUnit)) {
 				final String n1 = p.getUnit().getName();
 				buf.append((n1 == null || n1.trim().isEmpty()) ? EMPTY_STRING : n1);
 				buf.append(".");
-			}// if
-			final String n2 = p.getName();
+			}
+			String n2 = p.getName();
 			buf.append((n2 == null || n2.trim().isEmpty()) ? EMPTY_STRING : n2);
 			return buf.toString();
 		} else {
 			return UNSET_PARAMETER;
 		}
-	}// calculateParameterString
+	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -186,16 +177,16 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			Parameter p_old = (Parameter) notification.getOldValue();
 			removeParameterListener(p_old);
 			addParameterListener(p_new);
-		}// if
+		}
 		updateChildren(notification);
 		super.notifyChanged(notification);
 	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -204,9 +195,9 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Return the resource locator for this item provider's resources. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -216,41 +207,35 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse
-	 * .emf.common.notify.Notifier)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	@Override
 	public void setTarget(Notifier target) {
 		super.setTarget(target);
 		
-		// add parameter listeners to fetch parameter renamings in order to
-		// update the parameter mapping visualization
+		// Add parameter listeners to fetch parameter renamings in order to 
+		// update the parameter mapping visualization:
 		ParameterMapping mapping = (ParameterMapping) target;
 		addParameterListener(mapping.getSource());
 		addParameterListener(mapping.getTarget());
-	}// setTarget
+	
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse
-	 * .emf.common.notify.Notifier)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	@Override
 	public void unsetTarget(Notifier target) {
 		super.unsetTarget(target);
 		
-		// remove parameter listeners, if parameter mappings are no longer
-		// visible
+		// Remove parameter listeners, if parameter mappings are no longer visible
 		ParameterMapping mapping = (ParameterMapping) target;
 		removeParameterListener(mapping.getSource());
 		removeParameterListener(mapping.getTarget());
-	}// unsetTarget
 	
-	/**
-	 * @param parameter
-	 */
+	}
+	
 	private void addParameterListener(Parameter parameter) {
 		if (parameter != null) {
 			ItemProviderAdapter parameterAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
@@ -258,15 +243,11 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			parameterAdapter.addListener(parameterListener);
 			
 			ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
-					parameter.getUnit(), TransformationUnit.class);
+					parameter.getUnit(), Unit.class);
 			ruleAdapter.addListener(parameterListener);
-			
-		}// if
-	}// addParameterListener
+		}
+	}
 	
-	/**
-	 * @param parameter
-	 */
 	private void removeParameterListener(Parameter parameter) {
 		if (parameter != null) {
 			ItemProviderAdapter parameterAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
@@ -280,21 +261,23 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			 */
 			if (parameter.getUnit() != null) {
 				ItemProviderAdapter ruleAdapter = (ItemProviderAdapter) this.adapterFactory.adapt(
-						parameter.getUnit(), TransformationUnit.class);
+						parameter.getUnit(), Unit.class);
 				ruleAdapter.removeListener(parameterListener);
-			}// if
-		}// if
-	}// removeParameterListener
+			}
+		}
+	}
 	
 	/**
-	 * This Listener listens for renaming events on parameters and its container
-	 * units.
-	 * 
+	 * This Listener listens for renaming events on parameters and its container units.
 	 * @author Stefan Jurack (sjurack)
 	 * @author Felix Rieger
 	 */
 	private class ParameterListener implements INotifyChangedListener {
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.emf.edit.provider.INotifyChangedListener#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
 		@Override
 		public void notifyChanged(Notification notification) {
 			
@@ -307,27 +290,22 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 							.getNotifier());
 					
 					notifyParameterMappingItemProvider(notification, pms);
-				}// if
+				}
 				
-				// ...and renaming events of parameter's TransformationUnits
-				if (notification.getNotifier() instanceof TransformationUnit) {
+				// ...and renaming events of parameter's Units
+				if (notification.getNotifier() instanceof Unit) {
 					
-					TransformationUnit tu = (TransformationUnit) notification.getNotifier();
-					for (Parameter param : tu.getParameters()) { // get the TU's
-																	// parameters
+					Unit unit = (Unit) notification.getNotifier();
+					for (Parameter param : unit.getParameters()) {
 						List<ParameterMapping> pms = parameterListener.findParameterMappings(param);
 						notifyParameterMappingItemProvider(notification, pms);
-					}// for
-				}// if
+					}
+				}
 				
-			}// if
+			}
 			
-		}// notifyChanged
+		}
 		
-		/**
-		 * @param notification
-		 * @param pms
-		 */
 		private void notifyParameterMappingItemProvider(Notification notification,
 				List<ParameterMapping> pms) {
 			final AdapterFactory fac = ParameterMappingItemProvider.this.adapterFactory;
@@ -337,15 +315,11 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 				ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(pm,
 						ParameterMapping.class);
 				adapter.fireNotifyChanged(notif);
-			}// for
-		}// notifyParameterMappingItemProvider
+			}
+		}
 		
-		/**
-		 * Finds all {@link ParameterMapping}s related to the given
-		 * {@link Parameter}.
-		 * 
-		 * @param para
-		 * @return
+		/*
+		 * Finds all {@link ParameterMapping}s related to the given {@link Parameter}.
 		 */
 		private final List<ParameterMapping> findParameterMappings(Parameter para) {
 			/*
@@ -354,37 +328,32 @@ public class ParameterMappingItemProvider extends ItemProviderAdapter implements
 			 * container as the Parameter or in a parent unit of that container.
 			 */
 			List<ParameterMapping> result = new ArrayList<ParameterMapping>();
-			TransformationUnit tu = (TransformationUnit) para.eContainer();
+			Unit tu = (Unit) para.eContainer();
 			
 			collectRelatedParameterMappings(tu, para, result);
 			
 			// check the parent unit
 			Module module = (Module) tu.eContainer();
-			for (TransformationUnit parent : module.getTransformationUnits()) {
+			for (Unit parent : module.getUnits()) {
 				if (parent.getSubUnits(false).contains(tu)) {
 					collectRelatedParameterMappings(parent, para, result);
-				}// if
-			}// for
+				}
+			}
 			return result;
-		}// findParameterMappings
+		}
 		
 		/**
-		 * Return those {@link ParameterMapping}s contained in <code>tu</code>,
+		 * Return those {@link ParameterMapping}s contained in <code>unit</code>, 
 		 * which refer to <code>para</code>.
-		 * 
-		 * @param para
-		 * @param result
-		 * @param tu
 		 */
-		private void collectRelatedParameterMappings(TransformationUnit tu, Parameter para,
-				List<ParameterMapping> result) {
+		private void collectRelatedParameterMappings(Unit unit, Parameter para, List<ParameterMapping> result) {
 			
-			for (ParameterMapping pm : tu.getParameterMappings()) {
+			for (ParameterMapping pm : unit.getParameterMappings()) {
 				if (pm.getSource() == para || pm.getTarget() == para)
 					result.add(pm);
-			}// for
-		}// collectRelatedParameterMappings
-		
-	}// inner class
+			}
+		}
+
+	}
 	
-}// class
+}

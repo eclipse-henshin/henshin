@@ -50,7 +50,7 @@ public class SierpinskiBenchmark {
 		
 		// Load the module and find the rule:
 		Module module = resourceSet.getModule("sierpinski.henshin");
-		Rule rule = module.getRule("AddTriangle");
+		Rule rule = (Rule) module.getUnit("AddTriangle");
 
 		// Load the first level of the Sierpinski triangle into a graph:
 		Resource resource = resourceSet.getResource("sierpinski-start.xmi");

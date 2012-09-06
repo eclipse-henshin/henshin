@@ -124,7 +124,7 @@
       </children>
     </children>
     <element xmi:type="henshin:Rule" href="bank.henshin#_9pFkg3g8EeGZMfr3Iy5Flw"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="321" width="431" height="234"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIZb8ej2EeCw6tx5JXcQ0g" x="51" y="320" width="431" height="234"/>
   </children>
   <children xmi:type="notation:Shape" xmi:id="_3t8w0Oj3EeCw6tx5JXcQ0g" type="2001" fontName="Sans" italic="true" fillColor="16114135" lineColor="0">
     <children xmi:type="notation:DecorationNode" xmi:id="_3t9-8Oj3EeCw6tx5JXcQ0g" type="5001"/>
@@ -174,7 +174,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3t8w0ej3EeCw6tx5JXcQ0g" x="51" y="595" width="431" height="211"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_0rl4QejlEeC1C75-LeIcxg"/>
-  <element xmi:type="henshin:TransformationSystem" href="bank.henshin#_9nqBIHg8EeGZMfr3Iy5Flw"/>
+  <element xmi:type="henshin:Module" href="bank.henshin#_9nqBIHg8EeGZMfr3Iy5Flw"/>
   <edges xmi:type="notation:Connector" xmi:id="_66HZkOjxEeCw6tx5JXcQ0g" type="4001" source="_0LC5gOjxEeCw6tx5JXcQ0g" target="_4gQmQOjxEeCw6tx5JXcQ0g">
     <children xmi:type="notation:DecorationNode" xmi:id="_66J10OjxEeCw6tx5JXcQ0g" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_66Kc4OjxEeCw6tx5JXcQ0g" x="5" y="-9"/>

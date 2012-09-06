@@ -44,10 +44,11 @@ import org.eclipse.emf.henshin.model.Node;
 public class GraphItemProvider extends NamedElementItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public GraphItemProvider(AdapterFactory adapterFactory) {
@@ -55,9 +56,9 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -73,7 +74,8 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -88,7 +90,8 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -100,28 +103,27 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	}
 	
 	/**
-	 * This returns Graph.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns Graph.gif. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
 		Graph graph = (Graph) object;
-		if (graph.getRule() != null) {
-			if (graph == graph.getRule().getLhs())
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_L.png"));
-			else if (graph == graph.getRule().getRhs())
-				return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph_R.png"));
-			
-		}// if
-		
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Graph.png"));
+		if (graph.isLhs()) {
+			return getResourceLocator().getImage("full/obj16/Graph_L.gif");
+		}
+		if (graph.isRhs()) {
+			return getResourceLocator().getImage("full/obj16/Graph_R.gif");
+		}
+		return getResourceLocator().getImage("full/obj16/Graph.gif");
 	}
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -135,8 +137,8 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -153,25 +155,28 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		super.notifyChanged(notification);
 	}
 	
+	/*
+	 * Notify related edge.
+	 */
 	public void notifyCorrespondingEdges(Graph graph, Notification notification) {
 		if (graph.isLhs()) {
 			Graph rhs = graph.getRule().getRhs();
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(rhs,
-					Graph.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(rhs, Graph.class);
 			adapter.fireNotifyChanged(new ViewerNotification(notification, rhs, true, true));
 		} else if (graph.isRhs()) {
 			Graph lhs = graph.getRule().getLhs();
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(lhs,
-					Graph.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(lhs,Graph.class);
 			adapter.fireNotifyChanged(new ViewerNotification(notification, lhs, true, true));
 		}
 	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -185,7 +190,7 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 				HenshinFactory.eINSTANCE.createEdge()));
 		
 		/*
-		 * If this graph is contained in TransformationSystem directly, it
+		 * If this graph is contained in Module directly, it
 		 * represents a host graph which has no Formulas
 		 */
 		if (((Graph) object).isLhs() || ((Graph) object).isNestedCondition()) {
@@ -204,142 +209,34 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 			newChildDescriptors.add(createChildParameter(HenshinPackage.Literals.GRAPH__FORMULA,
 					HenshinFactory.eINSTANCE.createNot()));
 			
-		}// if
-	}// collectNewChildDescriptors
+		}
+	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createRemoveCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain,
-	 * org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature,
-	 * java.util.Collection)
+	/**
+	 * @generated NOT
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Command createRemoveCommand(EditingDomain domain, EObject owner,
 			EStructuralFeature feature, Collection<?> collection) {
-		HenshinPackage pack = HenshinPackage.eINSTANCE;
-		// if (feature == pack.getGraph_Nodes() || feature ==
-		// pack.getGraph_Edges()) {
-		// Graph graph = (Graph) owner;
-		// if (graph.isLhs() || graph.isRhs()) {
-		// Rule rule = graph.getContainerRule();
-		// for (Object o : collection) {
-		// if (rule.getOriginInKernelRule((GraphElement) o) != null)
-		// return UnexecutableCommand.INSTANCE;
-		// }
-		// }
-		// }
 		
-		if (feature == pack.getGraph_Nodes()) {
+		// Nodes feature?
+		if (feature == HenshinPackage.eINSTANCE.getGraph_Nodes()) {
 			return new NodeComplexRemoveCommand(domain, (Graph) owner,
 					(Collection<Node>) collection);
 		}
 		
-		// Objects might have been removed as side effect of other remove
-		// commands
-		
-		if (feature == pack.getGraph_Edges()) {
-			Command cmd = new NegligentRemoveCommand(domain, owner, feature, collection);
-			return cmd;
+		// Objects might have been removed as side effect of other remove commands
+		if (feature == HenshinPackage.eINSTANCE.getGraph_Edges()) {
+			return new NegligentRemoveCommand(domain, owner, feature, collection);
 		}
 		
 		return super.createRemoveCommand(domain, owner, feature, collection);
-	}
-	
-	@Override
-	protected Command createAddCommand(EditingDomain domain, EObject owner,
-			EStructuralFeature feature, Collection<?> collection, int index) {
 		
-		// HenshinPackage pack = HenshinPackage.eINSTANCE;
-		//
-		// if (feature == pack.getGraph_Nodes())
-		// return createAddNodeCommand(domain, owner, feature, collection,
-		// index);
-		//
-		// else if (feature == pack.getGraph_Edges())
-		// return createAddEdgeCommand(domain, owner, feature, collection,
-		// index);
-		//
-		// else
-		return super.createAddCommand(domain, owner, feature, collection, index);
 	}
 	
 	/**
-	 *
-	 *  
-	 */
-	// protected Command createAddNodeCommand(EditingDomain domain, EObject
-	// owner,
-	// EStructuralFeature feature, Collection<?> collection, int index) {
-	// HenshinPackage pack = HenshinPackage.eINSTANCE;
-	// Graph graph = (Graph) owner;
-	// CompoundCommand cmpCmd = new
-	// CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
-	// for (Graph dependentGraph :
-	// HenshinMultiRuleUtil.getDependentGraphs(graph)) {
-	// Rule dependentRule = dependentGraph.getContainerRule();
-	// for (Object cObj : collection) {
-	// Node node = (Node) cObj;
-	// Node dependentNode = EcoreUtil.copy(node);
-	// cmpCmd.append(createAddCommand(domain, dependentGraph, feature,
-	// Collections.singleton(dependentNode), index));
-	// CommandParameter cmdParam = new CommandParameter(dependentRule,
-	// pack.getRule_MultiMappings(),
-	// Collections.singleton(HenshinFactory.eINSTANCE.createMapping(node,
-	// dependentNode)), CommandParameter.NO_INDEX);
-	// cmpCmd.append(domain.createCommand(AddCommand.class, cmdParam));
-	// }
-	// }
-	// cmpCmd.append(super.createAddCommand(domain, owner, feature, collection,
-	// index));
-	// return cmpCmd.unwrap();
-	// }
-	
-	/**
-	 * 
-	 *
-	 */
-	// protected Command createAddEdgeCommand(EditingDomain domain, EObject
-	// owner,
-	// EStructuralFeature feature, Collection<?> collection, int index) {
-	// Graph graph = (Graph) owner;
-	// CompoundCommand cmpCmd = new
-	// CompoundCommand(CompoundCommand.LAST_COMMAND_ALL);
-	// for (Graph dependentGraph :
-	// HenshinMultiRuleUtil.getDependentGraphs(graph)) {
-	// Rule dependentRule = dependentGraph.getContainerRule();
-	// Collection<Edge> collectionCopy = new ArrayList<Edge>(collection.size());
-	// for (Object o : collection) {
-	// Edge edge = (Edge) o;
-	// Edge dependentEdge = HenshinMultiRuleUtil.getDependentEdgeInRule(edge,
-	// dependentRule);
-	// if (dependentEdge == null) {
-	// Edge edgeCopy = EcoreUtil.copy(edge);
-	// edgeCopy.setSource(HenshinMultiRuleUtil.getDependentNodeInRule(
-	// edge.getSource(), dependentRule));
-	// edgeCopy.setTarget(HenshinMultiRuleUtil.getDependentNodeInRule(
-	// edge.getTarget(), dependentRule));
-	// collectionCopy.add(edgeCopy);
-	// }
-	// }
-	// if (!collectionCopy.isEmpty())
-	// cmpCmd.append(createAddCommand(domain, dependentGraph, feature,
-	// collectionCopy,
-	// index));
-	// }
-	// cmpCmd.append(super.createAddCommand(domain, owner, feature, collection,
-	// index));
-	// return cmpCmd.unwrap();
-	// }
-	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#createSetCommand(org
-	 * .eclipse.emf.edit.domain.EditingDomain, org.eclipse.emf.ecore.EObject,
-	 * org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 * @generated NOT
 	 */
 	@Override
 	protected Command createSetCommand(EditingDomain domain, EObject owner,
@@ -350,11 +247,13 @@ public class GraphItemProvider extends NamedElementItemProvider implements
 		return super.createSetCommand(domain, owner, feature, value);
 	}
 	
+	/**
+	 * @generated NOT
+	 */
 	@Override
 	public Object getToolTip(Object object) {
 		Graph g = (Graph) object;
-		return g.getName() + "(Nodes: " + g.getNodes().size() + ", Edges: " + g.getEdges().size()
-				+ ")";
+		return g.getName() + "(Nodes: " + g.getNodes().size() + ", Edges: " + g.getEdges().size() + ")";
 	}
 	
 }

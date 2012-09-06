@@ -16,8 +16,12 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.henshin.model.Action;
 import org.eclipse.emf.henshin.model.And;
 import org.eclipse.emf.henshin.model.Attribute;
@@ -46,9 +50,9 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.Xor;
 import org.eclipse.emf.henshin.model.util.HenshinValidator;
 
@@ -59,6 +63,16 @@ import org.eclipse.emf.henshin.model.util.HenshinValidator;
  * @generated
  */
 public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
+	
+	/*
+	 * Fake 'rules' feature ID for modules. Only to ensure backward compatibility.
+	 */
+	static final int FAKE_RULES_FEATURE_ID = MODULE_FEATURE_COUNT;
+	
+	/*
+	 * Fake 'rules' feature for modules. Only to ensure backward compatibility.
+	 */
+	private EReference fakeRulesFeature;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -114,6 +128,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass unitEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass mappingEClass = null;
 
 	/**
@@ -136,13 +157,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * @generated
 	 */
 	private EClass edgeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass transformationUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -353,6 +367,47 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		return super.getEClassifier(name);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.ecore.impl.EPackageImpl#createEClass(int)
+	 */
+	@Override
+	protected EClass createEClass(int id) {
+		// Backward compatibility:
+		if (id==MODULE) {
+			EClassImpl c = new EClassImpl() {
+				@Override
+				public EStructuralFeature getEStructuralFeature(String name) {
+					if ("transformationUnits".equals(name)) {
+						return getModule_Units();
+					}
+					if ("rules".equals(name)) {
+						return getFakeRulesFeature();
+					}
+					return super.getEStructuralFeature(name);
+				}
+			};
+			c.setClassifierID(id);
+			getEClassifiers().add(c);
+			return c;
+		}
+		return super.createEClass(id);
+	}
+
+	/*
+	 * Only for backward compatibility.
+	 */
+	EReference getFakeRulesFeature() {
+		if (fakeRulesFeature==null) {
+			fakeRulesFeature = EcoreFactory.eINSTANCE.createEReference();
+			((EReferenceImpl) fakeRulesFeature).setName("rules");
+			((EReferenceImpl) fakeRulesFeature).setFeatureID(FAKE_RULES_FEATURE_ID);
+			((EReferenceImpl) fakeRulesFeature).setEType(getRule());
+			((EReferenceImpl) fakeRulesFeature).setUpperBound(-1);
+		}
+		return fakeRulesFeature;		
+	}
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -592,7 +647,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Rules() {
+	public EReference getModule_Imports() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -601,7 +656,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Imports() {
+	public EReference getModule_Units() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -610,7 +665,7 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_TransformationUnits() {
+	public EReference getModule_Instances() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -619,8 +674,35 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModule_Instances() {
-		return (EReference)moduleEClass.getEStructuralFeatures().get(4);
+	public EClass getUnit() {
+		return unitEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnit_Parameters() {
+		return (EReference)unitEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUnit_ParameterMappings() {
+		return (EReference)unitEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUnit_Activated() {
+		return (EAttribute)unitEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -817,24 +899,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getTransformationUnit() {
-		return transformationUnitEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getTransformationUnit_Activated() {
-		return (EAttribute)transformationUnitEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getUnaryUnit() {
 		return unaryUnitEClass;
 	}
@@ -864,24 +928,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 	 */
 	public EReference getMultiUnit_SubUnits() {
 		return (EReference)multiUnitEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTransformationUnit_Parameters() {
-		return (EReference)transformationUnitEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTransformationUnit_ParameterMappings() {
-		return (EReference)transformationUnitEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1182,10 +1228,14 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		moduleEClass = createEClass(MODULE);
 		createEReference(moduleEClass, MODULE__SUB_MODULES);
-		createEReference(moduleEClass, MODULE__RULES);
 		createEReference(moduleEClass, MODULE__IMPORTS);
-		createEReference(moduleEClass, MODULE__TRANSFORMATION_UNITS);
+		createEReference(moduleEClass, MODULE__UNITS);
 		createEReference(moduleEClass, MODULE__INSTANCES);
+
+		unitEClass = createEClass(UNIT);
+		createEReference(unitEClass, UNIT__PARAMETERS);
+		createEReference(unitEClass, UNIT__PARAMETER_MAPPINGS);
+		createEAttribute(unitEClass, UNIT__ACTIVATED);
 
 		ruleEClass = createEClass(RULE);
 		createEReference(ruleEClass, RULE__LHS);
@@ -1238,11 +1288,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		mappingEClass = createEClass(MAPPING);
 		createEReference(mappingEClass, MAPPING__ORIGIN);
 		createEReference(mappingEClass, MAPPING__IMAGE);
-
-		transformationUnitEClass = createEClass(TRANSFORMATION_UNIT);
-		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PARAMETERS);
-		createEReference(transformationUnitEClass, TRANSFORMATION_UNIT__PARAMETER_MAPPINGS);
-		createEAttribute(transformationUnitEClass, TRANSFORMATION_UNIT__ACTIVATED);
 
 		unaryUnitEClass = createEClass(UNARY_UNIT);
 		createEReference(unaryUnitEClass, UNARY_UNIT__SUB_UNIT);
@@ -1322,7 +1367,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		// Add supertypes to classes
 		moduleEClass.getESuperTypes().add(this.getNamedElement());
-		ruleEClass.getESuperTypes().add(this.getTransformationUnit());
+		unitEClass.getESuperTypes().add(this.getNamedElement());
+		ruleEClass.getESuperTypes().add(this.getUnit());
 		parameterEClass.getESuperTypes().add(this.getNamedElement());
 		graphEClass.getESuperTypes().add(this.getNamedElement());
 		nodeEClass.getESuperTypes().add(this.getNamedElement());
@@ -1330,12 +1376,11 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		edgeEClass.getESuperTypes().add(this.getGraphElement());
 		attributeEClass.getESuperTypes().add(this.getGraphElement());
 		attributeConditionEClass.getESuperTypes().add(this.getNamedElement());
-		transformationUnitEClass.getESuperTypes().add(this.getNamedElement());
-		unaryUnitEClass.getESuperTypes().add(this.getTransformationUnit());
-		multiUnitEClass.getESuperTypes().add(this.getTransformationUnit());
+		unaryUnitEClass.getESuperTypes().add(this.getUnit());
+		multiUnitEClass.getESuperTypes().add(this.getUnit());
 		independentUnitEClass.getESuperTypes().add(this.getMultiUnit());
 		sequentialUnitEClass.getESuperTypes().add(this.getMultiUnit());
-		conditionalUnitEClass.getESuperTypes().add(this.getTransformationUnit());
+		conditionalUnitEClass.getESuperTypes().add(this.getUnit());
 		priorityUnitEClass.getESuperTypes().add(this.getMultiUnit());
 		iteratedUnitEClass.getESuperTypes().add(this.getUnaryUnit());
 		loopUnitEClass.getESuperTypes().add(this.getUnaryUnit());
@@ -1359,20 +1404,32 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 
 		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModule_SubModules(), this.getModule(), null, "subModules", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_Rules(), this.getRule(), null, "rules", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Imports(), ecorePackage.getEPackage(), null, "imports", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_TransformationUnits(), this.getTransformationUnit(), null, "transformationUnits", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_Units(), this.getUnit(), null, "units", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModule_Instances(), this.getGraph(), null, "instances", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		EOperation op = addEOperation(moduleEClass, this.getTransformationUnit(), "getTransformationUnit", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "unitName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = addEOperation(moduleEClass, this.getUnit(), "getUnit", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		op = addEOperation(moduleEClass, this.getRule(), "getRule", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "ruleName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = addEOperation(moduleEClass, this.getModule(), "getSubModule", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(unitEClass, Unit.class, "Unit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUnit_Parameters(), this.getParameter(), this.getParameter_Unit(), "parameters", null, 0, -1, Unit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnit_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, Unit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUnit_Activated(), ecorePackage.getEBoolean(), "activated", "true", 0, 1, Unit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(unitEClass, this.getModule(), "getModule", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(unitEClass, this.getUnit(), "getSubUnits", 0, -1, IS_UNIQUE, !IS_ORDERED);
+		addEParameter(op, ecorePackage.getEBoolean(), "deep", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = addEOperation(unitEClass, this.getParameter(), "getParameter", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "parameter", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRule_Lhs(), this.getGraph(), null, "lhs", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRule_Rhs(), this.getGraph(), null, "rhs", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRule_Lhs(), this.getGraph(), null, "lhs", null, 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRule_Rhs(), this.getGraph(), null, "rhs", null, 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_AttributeConditions(), this.getAttributeCondition(), this.getAttributeCondition_Rule(), "attributeConditions", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRule_Mappings(), this.getMapping(), null, "mappings", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRule_CheckDangling(), ecorePackage.getEBoolean(), "checkDangling", "true", 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1419,12 +1476,12 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		addEParameter(op, ecorePackage.getEBoolean(), "removeMapped", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(parameterEClass, Parameter.class, "Parameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getParameter_Unit(), this.getTransformationUnit(), this.getTransformationUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParameter_Unit(), this.getUnit(), this.getUnit_Parameters(), "unit", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getParameter_Type(), ecorePackage.getEClassifier(), null, "type", null, 0, 1, Parameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(parameterMappingEClass, ParameterMapping.class, "ParameterMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getParameterMapping_Source(), this.getParameter(), null, "source", null, 0, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getParameterMapping_Target(), this.getParameter(), null, "target", null, 0, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParameterMapping_Source(), this.getParameter(), null, "source", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getParameterMapping_Target(), this.getParameter(), null, "target", null, 1, 1, ParameterMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(graphEClass, Graph.class, "Graph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getGraph_Nodes(), this.getNode(), this.getNode_Graph(), "nodes", null, 0, -1, Graph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1499,8 +1556,8 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		addEOperation(nodeEClass, this.getNode(), "getActionNode", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEdge_Source(), this.getNode(), this.getNode_Outgoing(), "source", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEdge_Target(), this.getNode(), this.getNode_Incoming(), "target", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdge_Source(), this.getNode(), this.getNode_Outgoing(), "source", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEdge_Target(), this.getNode(), this.getNode_Incoming(), "target", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEdge_Type(), ecorePackage.getEReference(), null, "type", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEdge_Graph(), this.getGraph(), this.getGraph_Edges(), "graph", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1523,24 +1580,11 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEReference(getMapping_Origin(), this.getNode(), null, "origin", null, 1, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMapping_Image(), this.getNode(), null, "image", null, 1, 1, Mapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(transformationUnitEClass, TransformationUnit.class, "TransformationUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTransformationUnit_Parameters(), this.getParameter(), this.getParameter_Unit(), "parameters", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTransformationUnit_ParameterMappings(), this.getParameterMapping(), null, "parameterMappings", null, 0, -1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTransformationUnit_Activated(), ecorePackage.getEBoolean(), "activated", "true", 0, 1, TransformationUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		addEOperation(transformationUnitEClass, this.getModule(), "getModule", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(transformationUnitEClass, this.getTransformationUnit(), "getSubUnits", 0, -1, IS_UNIQUE, !IS_ORDERED);
-		addEParameter(op, ecorePackage.getEBoolean(), "deep", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(transformationUnitEClass, this.getParameter(), "getParameter", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "parameter", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(unaryUnitEClass, UnaryUnit.class, "UnaryUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUnaryUnit_SubUnit(), this.getTransformationUnit(), null, "subUnit", null, 0, 1, UnaryUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUnaryUnit_SubUnit(), this.getUnit(), null, "subUnit", null, 0, 1, UnaryUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiUnitEClass, MultiUnit.class, "MultiUnit", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMultiUnit_SubUnits(), this.getTransformationUnit(), null, "subUnits", null, 0, -1, MultiUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMultiUnit_SubUnits(), this.getUnit(), null, "subUnits", null, 0, -1, MultiUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(independentUnitEClass, IndependentUnit.class, "IndependentUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1549,9 +1593,9 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		initEAttribute(getSequentialUnit_Rollback(), ecorePackage.getEBoolean(), "rollback", "true", 0, 1, SequentialUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionalUnitEClass, ConditionalUnit.class, "ConditionalUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getConditionalUnit_If(), this.getTransformationUnit(), null, "if", null, 1, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConditionalUnit_Then(), this.getTransformationUnit(), null, "then", null, 1, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getConditionalUnit_Else(), this.getTransformationUnit(), null, "else", null, 0, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConditionalUnit_If(), this.getUnit(), null, "if", null, 1, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConditionalUnit_Then(), this.getUnit(), null, "then", null, 1, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConditionalUnit_Else(), this.getUnit(), null, "else", null, 0, 1, ConditionalUnit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(priorityUnitEClass, PriorityUnit.class, "PriorityUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1625,6 +1669,12 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "uniqueUnitNames noCyclicUnits parameterNamesNotTypeName"
 		   });			
 		addAnnotation
+		  (unitEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "uniqueParameterNames parameterMappingsPointToDirectSubUnit"
+		   });			
+		addAnnotation
 		  (ruleEClass, 
 		   source, 
 		   new String[] {
@@ -1661,12 +1711,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 			 "constraints", "ruleMapping_TypeEquality"
 		   });			
 		addAnnotation
-		  (transformationUnitEClass, 
-		   source, 
-		   new String[] {
-			 "constraints", "uniqueParameterNames parameterMappingsPointToDirectSubUnit"
-		   });			
-		addAnnotation
 		  (nestedConditionEClass, 
 		   source, 
 		   new String[] {
@@ -1696,6 +1740,13 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		   new String[] {
 			 "uniqueUnitNames", "transformationUnits->forAll(unit1,unit2:TransformationUnit | unit1 <> unit2 implies unit1.name <> unit2.name)",
 			 "uniqueUnitNames.Msg", "_Ocl_Msg_TransformationSystem_uniqueUnitNames"
+		   });			
+		addAnnotation
+		  (unitEClass, 
+		   source, 
+		   new String[] {
+			 "uniqueParameterNames", "parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)",
+			 "uniqueParameterNames.Msg", "_Ocl_Msg_TransformationUnit_uniqueParameterNames"
 		   });			
 		addAnnotation
 		  (ruleEClass, 
@@ -1740,13 +1791,6 @@ public class HenshinPackageImpl extends EPackageImpl implements HenshinPackage {
 		   new String[] {
 			 "ruleMapping_TypeEquality", "Rule.allInstances()->exists(rule : Rule | rule.mappings->includes(self)) implies origin.type = image.type",
 			 "ruleMapping_TypeEquality.Msg", "_Ocl_Msg_Mapping_ruleMapping_TypeEquality"
-		   });			
-		addAnnotation
-		  (transformationUnitEClass, 
-		   source, 
-		   new String[] {
-			 "uniqueParameterNames", "parameters->forAll( param1, param2 : Parameter | param1 <> param2 implies param1.name <> param2.name)",
-			 "uniqueParameterNames.Msg", "_Ocl_Msg_TransformationUnit_uniqueParameterNames"
 		   });	
 	}
 

@@ -60,11 +60,6 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
-	private Set<EStructuralFeature> myFeaturesToSynchronize;
-
-	/**
-	 * @generated
-	 */
 	protected void refreshOnActivate() {
 		// Need to activate editpart children before invoking the canonical refresh for EditParts to add event listeners
 		List<?> c = getHost().getChildren();
@@ -77,15 +72,8 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 	/**
 	 * @generated
 	 */
-	protected Set getFeaturesToSynchronize() {
-		if (myFeaturesToSynchronize == null) {
-			myFeaturesToSynchronize = new HashSet<EStructuralFeature>();
-			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
-					.getModule_Rules());
-			myFeaturesToSynchronize.add(HenshinPackage.eINSTANCE
-					.getModule_TransformationUnits());
-		}
-		return myFeaturesToSynchronize;
+	protected EStructuralFeature getFeatureToSynchronize() {
+		return HenshinPackage.eINSTANCE.getModule_Units();
 	}
 
 	/**
@@ -299,7 +287,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 		case UnitEditPart.VISUAL_ID: {
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(HenshinDiagramUpdater
-						.getTransformationUnit_2002ContainedLinks(view));
+						.getUnit_2002ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
@@ -321,7 +309,7 @@ public class ModuleCanonicalEditPolicy extends CanonicalEditPolicy {
 		case InvocationEditPart.VISUAL_ID: {
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(HenshinDiagramUpdater
-						.getTransformationUnit_3003ContainedLinks(view));
+						.getUnit_3003ContainedLinks(view));
 			}
 			if (!domain2NotationMap.containsKey(view.getElement())
 					|| view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$

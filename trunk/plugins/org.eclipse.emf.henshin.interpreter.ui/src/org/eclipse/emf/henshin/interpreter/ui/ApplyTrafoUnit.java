@@ -24,7 +24,7 @@ import org.eclipse.emf.henshin.interpreter.InterpreterFactory;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.HenshinRegistry;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -58,8 +58,8 @@ public class ApplyTrafoUnit extends AbstractHandler {
 			String unitName = event.getParameter("org.eclipse.emf.henshin.UnitParameter");
 			String trafoName = event.getParameter("org.eclipse.emf.henshin.TrafoSystemParameter");
 			
-			Module trafoSystem = (Module) HenshinRegistry.INSTANCE.getTransformationSystemByName(trafoName);
-			TransformationUnit unit = trafoSystem.getTransformationUnit(unitName);
+			Module module = (Module) HenshinRegistry.INSTANCE.getTransformationSystemByName(trafoName);
+			Unit unit = module.getUnit(unitName);
 			
 			UnitApplication unitApplication = InterpreterFactory.INSTANCE.createUnitApplication(engine);
 			unitApplication.setEGraph(graph);

@@ -22,7 +22,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * {@link Matches}.
  * 
  * @see Matches
- * @see TransformationUnits
+ * @see Units
  * @author Felix Rieger
  * @author Stefan Jurack (sjurack)
  * 

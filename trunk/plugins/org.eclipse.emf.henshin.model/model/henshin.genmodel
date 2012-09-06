@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.model/src" editDirectory="/org.eclipse.emf.henshin.edit/src"
-    editorDirectory="/org.eclipse.emf.henshin.editor/src" modelPluginID="org.eclipse.emf.henshin.model"
-    templateDirectory="org.eclipse.emf.henshin.model/ocltemplates" dynamicTemplates="true"
-    modelName="Henshin" modelPluginClass="org.eclipse.emf.henshin.HenshinModelPlugin"
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.henshin.model/src"
+    editDirectory="/org.eclipse.emf.henshin.edit/src" editorDirectory="/org.eclipse.emf.henshin.editor/src"
+    modelPluginID="org.eclipse.emf.henshin.model" templateDirectory="org.eclipse.emf.henshin.model/ocltemplates"
+    dynamicTemplates="true" modelName="Henshin" modelPluginClass="org.eclipse.emf.henshin.HenshinModelPlugin"
     testsDirectory="/org.eclipse.emf.henshin.tests/src" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" providerRootExtendsClass="org.eclipse.emf.henshin.provider.HenshinItemProviderAdapter"
     editPluginID="org.eclipse.emf.henshin.edit" editorPluginID="org.eclipse.emf.henshin.editor"
@@ -24,15 +25,26 @@
     </genClasses>
     <genClasses ecoreClass="henshin.ecore#//Module">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/subModules"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/rules"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/imports"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/transformationUnits"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/units"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Module/instances"/>
-      <genOperations ecoreOperation="henshin.ecore#//Module/getTransformationUnit">
-        <genParameters ecoreParameter="henshin.ecore#//Module/getTransformationUnit/unitName"/>
+      <genOperations ecoreOperation="henshin.ecore#//Module/getUnit">
+        <genParameters ecoreParameter="henshin.ecore#//Module/getUnit/unitName"/>
       </genOperations>
-      <genOperations ecoreOperation="henshin.ecore#//Module/getRule">
-        <genParameters ecoreParameter="henshin.ecore#//Module/getRule/ruleName"/>
+      <genOperations ecoreOperation="henshin.ecore#//Module/getSubModule">
+        <genParameters ecoreParameter="henshin.ecore#//Module/getSubModule/unitName"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="henshin.ecore#//Unit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Unit/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//Unit/parameterMappings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//Unit/activated"/>
+      <genOperations ecoreOperation="henshin.ecore#//Unit/getModule"/>
+      <genOperations ecoreOperation="henshin.ecore#//Unit/getSubUnits">
+        <genParameters ecoreParameter="henshin.ecore#//Unit/getSubUnits/deep"/>
+      </genOperations>
+      <genOperations ecoreOperation="henshin.ecore#//Unit/getParameter">
+        <genParameters ecoreParameter="henshin.ecore#//Unit/getParameter/parameter"/>
       </genOperations>
     </genClasses>
     <genClasses provider="Stateful" ecoreClass="henshin.ecore#//Rule">
@@ -175,18 +187,6 @@
     <genClasses ecoreClass="henshin.ecore#//Mapping">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/origin"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//Mapping/image"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="henshin.ecore#//TransformationUnit">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference henshin.ecore#//TransformationUnit/parameterMappings"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute henshin.ecore#//TransformationUnit/activated"/>
-      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getModule"/>
-      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getSubUnits">
-        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getSubUnits/deep"/>
-      </genOperations>
-      <genOperations ecoreOperation="henshin.ecore#//TransformationUnit/getParameter">
-        <genParameters ecoreParameter="henshin.ecore#//TransformationUnit/getParameter/parameter"/>
-      </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="henshin.ecore#//UnaryUnit">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference henshin.ecore#//UnaryUnit/subUnit"/>

@@ -72,13 +72,13 @@ public class HenshinParserProvider extends AbstractProvider implements
 	/**
 	 * @generated
 	 */
-	private IParser transformationUnitName_5004Parser;
+	private IParser unitName_5004Parser;
 
 	/**
 	 * @generated
 	 */
-	private IParser getTransformationUnitName_5004Parser() {
-		if (transformationUnitName_5004Parser == null) {
+	private IParser getUnitName_5004Parser() {
+		if (unitName_5004Parser == null) {
 			EAttribute[] features = new EAttribute[] { HenshinPackage.eINSTANCE
 					.getNamedElement_Name() };
 			EAttribute[] editableFeatures = new EAttribute[] { HenshinPackage.eINSTANCE
@@ -88,9 +88,9 @@ public class HenshinParserProvider extends AbstractProvider implements
 			parser.setViewPattern("{0}"); //$NON-NLS-1$
 			parser.setEditorPattern("{0}"); //$NON-NLS-1$
 			parser.setEditPattern("{0}"); //$NON-NLS-1$
-			transformationUnitName_5004Parser = parser;
+			unitName_5004Parser = parser;
 		}
-		return transformationUnitName_5004Parser;
+		return unitName_5004Parser;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class HenshinParserProvider extends AbstractProvider implements
 		case RuleNameEditPart.VISUAL_ID:
 			return getRuleName_5001Parser();
 		case UnitNameEditPart.VISUAL_ID:
-			return getTransformationUnitName_5004Parser();
+			return getUnitName_5004Parser();
 		case InvocationNameEditPart.VISUAL_ID:
 			return invocationNameParser;
 		case NodeTypeEditPart.VISUAL_ID:

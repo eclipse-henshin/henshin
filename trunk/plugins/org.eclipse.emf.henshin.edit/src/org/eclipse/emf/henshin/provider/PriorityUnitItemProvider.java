@@ -25,18 +25,19 @@ import org.eclipse.emf.henshin.model.PriorityUnit;
 
 /**
  * This is the item provider adapter for a
- * {@link org.eclipse.emf.henshin.model.PriorityUnit} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * {@link org.eclipse.emf.henshin.model.PriorityUnit} object. 
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
  * @generated
  */
 public class PriorityUnitItemProvider extends MultiUnitItemProvider implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
+	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public PriorityUnitItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +45,9 @@ public class PriorityUnitItemProvider extends MultiUnitItemProvider implements
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -59,35 +60,33 @@ public class PriorityUnitItemProvider extends MultiUnitItemProvider implements
 	}
 	
 	/**
-	 * This returns PriorityUnit.gif. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @generated NOT
+	 * This returns PriorityUnit.gif. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/PriorityUnit.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/PriorityUnit"));
 	}
 	
 	/**
 	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((PriorityUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_PriorityUnit_type") :
-			getString("_UI_PriorityUnit_type") + " " + label;
+		// Use the pretty-printer in the unit implementation:
+		return ((PriorityUnit) object).toString();
 	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
 	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -98,9 +97,9 @@ public class PriorityUnitItemProvider extends MultiUnitItemProvider implements
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

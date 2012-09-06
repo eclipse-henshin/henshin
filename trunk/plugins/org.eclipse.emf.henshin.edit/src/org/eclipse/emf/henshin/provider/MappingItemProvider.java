@@ -50,24 +50,23 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider,
 		IItemLabelProvider, IItemPropertySource, IItemColorProvider {
 	
-	protected NodeListener nodeListener;
+	// We need a node listener:
+	protected NodeListener nodeListener = new NodeListener();
 	
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
+	 * This constructs an instance from a factory and a notifier. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
+	 * @generated
 	 */
 	public MappingItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
-		
-		nodeListener = new NodeListener();
 	}
 	
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -82,9 +81,9 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This adds a property descriptor for the Origin feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Origin feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addOriginPropertyDescriptor(Object object) {
@@ -95,26 +94,12 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 						"_UI_PropertyDescriptor_description", "_UI_Mapping_origin_feature",
 						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__ORIGIN));
 		
-		// itemPropertyDescriptors.add
-		// (createItemPropertyDescriptor
-		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-		// getResourceLocator(),
-		// getString("_UI_Mapping_origin_feature"),
-		// getString("_UI_PropertyDescriptor_description",
-		// "_UI_Mapping_origin_feature", "_UI_Mapping_type"),
-		// HenshinPackage.Literals.MAPPING__ORIGIN,
-		// true,
-		// false,
-		// true,
-		// null,
-		// null,
-		// null));
 	}
 	
 	/**
-	 * This adds a property descriptor for the Image feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Image feature. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	protected void addImagePropertyDescriptor(Object object) {
@@ -125,25 +110,12 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 						"_UI_PropertyDescriptor_description", "_UI_Mapping_image_feature",
 						"_UI_Mapping_type"), HenshinPackage.Literals.MAPPING__IMAGE));
 		
-		// itemPropertyDescriptors.add
-		// (createItemPropertyDescriptor
-		// (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-		// getResourceLocator(),
-		// getString("_UI_Mapping_image_feature"),
-		// getString("_UI_PropertyDescriptor_description",
-		// "_UI_Mapping_image_feature", "_UI_Mapping_type"),
-		// HenshinPackage.Literals.MAPPING__IMAGE,
-		// true,
-		// false,
-		// true,
-		// null,
-		// null,
-		// null));
 	}
 	
 	/**
 	 * This returns Mapping.gif.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -152,61 +124,51 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This returns the label text for the adapted class. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
 		Mapping mapping = (Mapping) object;
-		
 		String result = getString("_UI_Mapping_type");
-		
-		String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping
-				.getOrigin()) : "?";
-		String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping
-				.getImage()) : "?";
-		
+		String origin = (mapping.getOrigin() != null) ? NodeItemProvider.getNodeLabel(mapping.getOrigin()) : "?";
+		String image = (mapping.getImage() != null) ? NodeItemProvider.getNodeLabel(mapping.getImage()) : "?";
 		origin = (origin.isEmpty()) ? "_" : origin;
 		image = (image.isEmpty()) ? "_" : image;
-		
 		result = result + " " + origin + " -> " + image;
-		
 		return result;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang
-	 * .Object)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getParent(java.lang.Object)
 	 */
 	@Override
 	public Object getParent(Object object) {
-		
 		Object o = super.getParent(object);
 		if (o instanceof Rule) {
 			Rule rule = (Rule) o;
 			Mapping mapping = (Mapping) object;
-			
-			RuleItemProvider rip = (RuleItemProvider) getRootAdapterFactory().adapt(rule,
-					IEditingDomainItemProvider.class);
-			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_MultiMappings())
+			RuleItemProvider rip = (RuleItemProvider) getRootAdapterFactory().adapt(rule, IEditingDomainItemProvider.class);
+			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_MultiMappings()) {
 				return rip.getMultiMappingContainer(rule);
-			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_Mappings())
+			}
+			if (mapping.eContainingFeature() == HenshinPackage.eINSTANCE.getRule_Mappings()) {
 				return rip.getLrMappingContainer(rule);
+			}
 			return super.getParent(object);
-		} else
-			return super.getParent(object);
-	}// getParent
+		}
+		return super.getParent(object);
+	}
 	
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to
 	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * it passes to {@link #fireNotifyChanged}. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	@Override
@@ -220,48 +182,51 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 			Node n1 = (Node) notification.getNewValue();
 			Node n2 = (Node) notification.getOldValue();
 			
-			// refresh node labels
+			// Refresh node labels:
 			notifyNodeForRefresh(notification, n1);
 			notifyNodeForRefresh(notification, n2);
-			// refresh the mapping label itself
-			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(),
-					false, true));
 			
+			// Refresh the mapping label itself:
+			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+			
+			// Update the listener:
 			removeNodeListener(n2);
 			addNodeListener(n1);
-			
-		}// if
+		}
+		
+		// Update the children and notify the rest:
 		updateChildren(notification);
 		super.notifyChanged(notification);
+		
 	}
 	
-	/**
-	 * @param node
+	/*
+	 * Add our node listener (helper method).
 	 */
 	private void addNodeListener(Node node) {
 		if (node != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
-					Node.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(node, Node.class);
 			adapter.addListener(nodeListener);
-		}// if
-	}// addNodeListener
+		}
+	}	
 	
-	/**
-	 * @param node
+	/*
+	 * Remove our node listener (helper method).
 	 */
 	private void removeNodeListener(Node node) {
 		if (node != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
-					Node.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(node, Node.class);
 			adapter.removeListener(nodeListener);
-		}// if
-	}// removeNodeListener
+		}
+	}
 	
 	/**
 	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * describing the children that can be created under this object. 
+	 * <!-- begin-user-doc --> 
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -270,100 +235,98 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 	}
 	
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Return the resource locator for this item provider's resources. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
 		return HenshinEditPlugin.INSTANCE;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse
-	 * .emf.common.notify.Notifier)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#unsetTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	@Override
 	public void unsetTarget(Notifier target) {
 		super.unsetTarget(target);
-		// remove node listeners, if mappings are no longer visible
+		
+		// Remove node listeners if mappings are no longer visible:
 		Mapping mapping = (Mapping) target;
 		removeNodeListener(mapping.getImage());
 		removeNodeListener(mapping.getOrigin());
-	}// unsetTarget
+	
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse
-	 * .emf.common.notify.Notifier)
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#setTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	@Override
 	public void setTarget(Notifier target) {
 		super.setTarget(target);
-		// add node listeners to fetch node renamings in order to update the
-		// mapping visualization
+		
+		// Add node listeners to fetch node renamings in order to update the mapping text:
 		Mapping mapping = (Mapping) target;
 		addNodeListener(mapping.getImage());
 		addNodeListener(mapping.getOrigin());
-	}// setTarget
 	
-	/**
+	}
+	
+	/*
 	 * Notifies the given node to refresh its label (only). This affects the
-	 * icon in particular, which shows if the node is created, deleted or
-	 * preserve.
-	 * 
-	 * @param notification
-	 * @param node
+	 * icon in particular, which shows if the node is created, deleted or preserve.
 	 */
 	private void notifyNodeForRefresh(Notification notification, Node node) {
 		if (node != null) {
-			ItemProviderAdapter adapter = (ItemProviderAdapter) this.adapterFactory.adapt(node,
-					Node.class);
+			ItemProviderAdapter adapter = 
+					(ItemProviderAdapter) this.adapterFactory.adapt(node, Node.class);
 			Notification notif = new ViewerNotification(notification, node, false, true);
 			adapter.fireNotifyChanged(notif);
-		}// if
-	}// notifyNodeForRefresh
+		}
+	}
 	
 	/**
-	 * This Listener listens for events on nodes.
-	 * 
+	 * This listener listens for events on nodes.
 	 * @author Stefan Jurack (sjurack)
-	 * 
 	 */
 	protected class NodeListener implements INotifyChangedListener {
 		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.emf.edit.provider.INotifyChangedListener#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
 		@Override
 		public void notifyChanged(Notification notification) {
-			/*
-			 * Listen for Node renaming events.
-			 */
+			
+			// Listen for Node renaming events.
 			if (notification.getFeature() == HenshinPackage.Literals.NAMED_ELEMENT__NAME
 					|| notification.getFeature() == HenshinPackage.Literals.NODE__TYPE) {
-				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
-				if (mappings == null)
-					return;
 				
+				// Find the mappings:
+				List<Mapping> mappings = findMappingsByNode((Node) notification.getNotifier());
+				if (mappings == null) {
+					return;
+				}
+				
+				// Update the mapping texts in the editor:
 				AdapterFactory fac = MappingItemProvider.this.adapterFactory;
 				for (Mapping m : mappings) {
-					// update the mapping visualization in the editor
 					Notification notif = new ViewerNotification(notification, m, false, true);
 					ItemProviderAdapter adapter = (ItemProviderAdapter) fac.adapt(m, Mapping.class);
 					adapter.fireNotifyChanged(notif);
-				}// for
-			}// if
-		}// notifyChanged
+				}
+				
+			}
+		}
 		
-		/**
+		/*
 		 * Finds all mappings related to the given node.
-		 * 
-		 * @param node
-		 * @return
 		 */
 		protected List<Mapping> findMappingsByNode(Node node) {
+			
 			List<Mapping> resultList = new ArrayList<Mapping>();
 			Graph graph = node.getGraph();
 			
@@ -371,49 +334,38 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 			 * In the following some null-checks are included. While these shall
 			 * never occur in normal cases, they might occur in very special
 			 * cases, when other applications modify the model, e.g. delete/move
-			 * model elements, in a inappropriate order while this editor is
-			 * open.
+			 * model elements, in a inappropriate order while this editor is open.
 			 */
-			if (node.getGraph() == null)
+			if (node.getGraph() == null) {
 				return null;
+			}
 			
 			if (graph.eContainer() instanceof Rule) {
 				Rule rule = (Rule) graph.eContainer();
-				if (rule == null)
-					return null;
-				
 				collectMappingHelper(node, rule.getMappings(), resultList);
-			} else if (graph.eContainer() instanceof NestedCondition) {
+			}
+			else if (graph.eContainer() instanceof NestedCondition) {
 				NestedCondition nc = (NestedCondition) graph.eContainer();
-				if (nc == null)
-					return null;
 				List<NestedCondition> allNestedConditions = new ArrayList<NestedCondition>();
 				collectNestedConditions(nc, allNestedConditions);
-				
 				for (NestedCondition n : allNestedConditions) {
 					collectMappingHelper(node, n.getMappings(), resultList);
-				}// for
-				
-			}// if else
-			
+				}
+			}
 			return resultList;
-		}// findMappingsByNode
+		}
 		
-		/**
+		/*
 		 * Iterates over the given mappingList and returns a resultList with all
 		 * mappings the given node is related to, whether as origin or image.
-		 * 
-		 * @param node
-		 * @param mappingList
-		 * @param resultList
 		 */
-		private void collectMappingHelper(Node node, List<Mapping> mappingList,
-				List<Mapping> resultList) {
+		private void collectMappingHelper(Node node, List<Mapping> mappingList, List<Mapping> resultList) {
 			for (Mapping m : mappingList) {
-				if ((m.getImage() == node) || (m.getOrigin() == node))
+				if ((m.getImage() == node) || (m.getOrigin() == node)) {
 					resultList.add(m);
-			}// for
-		}// collectMappingHelper
+				}
+			}
+		}
 		
 		/**
 		 * Collects recursively all {@link NestedCondition}s the given
@@ -423,27 +375,23 @@ public class MappingItemProvider extends HenshinItemProviderAdapter implements
 		 * <code>resultList</code>.<br>
 		 * Remark: Initially the resultList shall be not null. The given formula
 		 * is included in the list if it is a NestedCondition itself.
-		 * 
-		 * @param formula
-		 * @param resultList
 		 */
 		private void collectNestedConditions(Formula formula, List<NestedCondition> resultList) {
-			
-			if (formula == null)
-				return;
 			
 			if (formula instanceof BinaryFormula) {
 				BinaryFormula bf = (BinaryFormula) formula;
 				collectNestedConditions(bf.getLeft(), resultList);
 				collectNestedConditions(bf.getRight(), resultList);
-			} else if (formula instanceof UnaryFormula) {
+			}
+			else if (formula instanceof UnaryFormula) {
 				UnaryFormula uf = (UnaryFormula) formula;
 				collectNestedConditions(uf.getChild(), resultList);
-			} else { // it IS a nested condition
+			}
+			else if (formula instanceof NestedCondition) {
 				resultList.add((NestedCondition) formula);
-			}// if ifelse else
-		}// collectNestedCondition
+			}
+		}
 		
-	}// inner class
+	}
 	
-}// class
+}

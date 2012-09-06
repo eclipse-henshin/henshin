@@ -23,7 +23,7 @@ import org.eclipse.emf.henshin.diagram.part.HenshinDiagramUpdater;
 import org.eclipse.emf.henshin.diagram.part.HenshinNodeDescriptor;
 import org.eclipse.emf.henshin.diagram.part.HenshinVisualIDRegistry;
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
@@ -57,7 +57,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	 * @generated
 	 */
 	protected EStructuralFeature getFeatureToSynchronize() {
-		return HenshinPackage.eINSTANCE.getModule_TransformationUnits();
+		return HenshinPackage.eINSTANCE.getModule_Units();
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 		View viewObject = (View) getHost().getModel();
 		LinkedList<EObject> result = new LinkedList<EObject>();
 		List<HenshinNodeDescriptor> childDescriptors = HenshinDiagramUpdater
-				.getTransformationUnitUnitCompartment_7003SemanticChildren(viewObject);
+				.getUnitUnitCompartment_7003SemanticChildren(viewObject);
 		for (HenshinNodeDescriptor d : childDescriptors) {
 			result.add(d.getModelElement());
 		}
@@ -101,7 +101,7 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 		}
 		LinkedList<IAdaptable> createdViews = new LinkedList<IAdaptable>();
 		List<HenshinNodeDescriptor> childDescriptors = HenshinDiagramUpdater
-				.getTransformationUnitUnitCompartment_7003SemanticChildren((View) getHost()
+				.getUnitUnitCompartment_7003SemanticChildren((View) getHost()
 						.getModel());
 		LinkedList<View> orphaned = new LinkedList<View>();
 		// we care to check only views we recognize as ours
@@ -186,12 +186,10 @@ public class UnitCompartmentCanonicalEditPolicy extends CanonicalEditPolicy {
 	protected boolean shouldDeleteView(View view) {
 		if (String.valueOf(InvocationEditPart.VISUAL_ID).equals(view.getType())) {
 			View unitView = (View) view.eContainer();
-			if (view.getElement() instanceof TransformationUnit
-					&& unitView.getElement() instanceof TransformationUnit) {
-				TransformationUnit unit = (TransformationUnit) unitView
-						.getElement();
-				TransformationUnit subUnit = (TransformationUnit) view
-						.getElement();
+			if (view.getElement() instanceof Unit
+					&& unitView.getElement() instanceof Unit) {
+				Unit unit = (Unit) unitView.getElement();
+				Unit subUnit = (Unit) view.getElement();
 				return !unit.getSubUnits(false).contains(subUnit);
 			}
 		}

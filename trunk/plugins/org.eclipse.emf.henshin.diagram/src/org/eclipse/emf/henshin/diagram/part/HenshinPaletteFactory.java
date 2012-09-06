@@ -129,11 +129,10 @@ public class HenshinPaletteFactory {
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Unit5CreationTool_title,
 				Messages.Unit5CreationTool_desc,
-				Collections
-						.singletonList(HenshinElementTypes.TransformationUnit_2002));
+				Collections.singletonList(HenshinElementTypes.Unit_2002));
 		entry.setId("createUnit5CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.TransformationUnit_2002));
+				.getImageDescriptor(HenshinElementTypes.Unit_2002));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}
@@ -157,11 +156,10 @@ public class HenshinPaletteFactory {
 		NodeToolEntry entry = new NodeToolEntry(
 				Messages.Invocation6CreationTool_title,
 				Messages.Invocation6CreationTool_desc,
-				Collections
-						.singletonList(HenshinElementTypes.TransformationUnit_3003));
+				Collections.singletonList(HenshinElementTypes.Unit_3003));
 		entry.setId("createInvocation6CreationTool"); //$NON-NLS-1$
 		entry.setSmallIcon(HenshinElementTypes
-				.getImageDescriptor(HenshinElementTypes.TransformationUnit_3003));
+				.getImageDescriptor(HenshinElementTypes.Unit_3003));
 		entry.setLargeIcon(entry.getSmallIcon());
 		return entry;
 	}

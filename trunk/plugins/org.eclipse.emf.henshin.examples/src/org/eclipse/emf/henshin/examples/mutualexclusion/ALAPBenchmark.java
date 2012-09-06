@@ -19,9 +19,9 @@ import org.eclipse.emf.henshin.interpreter.impl.EGraphImpl;
 import org.eclipse.emf.henshin.interpreter.impl.EngineImpl;
 import org.eclipse.emf.henshin.interpreter.impl.RuleApplicationImpl;
 import org.eclipse.emf.henshin.interpreter.impl.UnitApplicationImpl;
-import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.resource.HenshinResourceSet;
 
 public class ALAPBenchmark {
@@ -53,15 +53,14 @@ public class ALAPBenchmark {
 		HenshinResourceSet resourceSet = new HenshinResourceSet(path);
 
 		// Load the module:
-		Module trasys = resourceSet
-				.getModule("mutualexclusion.henshin");
+		Module module = resourceSet.getModule("mutualexclusion.henshin");
 
 		// Load initial model:
 		EObject container = resourceSet.getEObject("initialgraph.xmi");
 		
 		// Load the rules:
-		Rule newRule = trasys.getRule("newRule");
-		TransformationUnit alap2Unit = trasys.getTransformationUnit("alap2");
+		Rule newRule = (Rule) module.getUnit("newRule");
+		Unit alap2Unit = module.getUnit("alap2");
 //		LoggingApplicationMonitorImpl monitor = new LoggingApplicationMonitorImpl();
 
 		

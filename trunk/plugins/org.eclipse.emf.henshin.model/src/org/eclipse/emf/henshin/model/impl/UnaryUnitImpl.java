@@ -13,15 +13,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.henshin.model.HenshinPackage;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +33,7 @@ import org.eclipse.emf.henshin.model.UnaryUnit;
  *
  * @generated
  */
-public abstract class UnaryUnitImpl extends TransformationUnitImpl implements UnaryUnit {
+public abstract class UnaryUnitImpl extends UnitImpl implements UnaryUnit {
 	
 	/**
 	 * The cached value of the '{@link #getSubUnit() <em>Sub Unit</em>}' reference.
@@ -46,7 +43,7 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	 * @generated
 	 * @ordered
 	 */
-	protected TransformationUnit subUnit;
+	protected Unit subUnit;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,10 +69,10 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TransformationUnit getSubUnit() {
+	public Unit getSubUnit() {
 		if (subUnit != null && subUnit.eIsProxy()) {
 			InternalEObject oldSubUnit = (InternalEObject)subUnit;
-			subUnit = (TransformationUnit)eResolveProxy(oldSubUnit);
+			subUnit = (Unit)eResolveProxy(oldSubUnit);
 			if (subUnit != oldSubUnit) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, HenshinPackage.UNARY_UNIT__SUB_UNIT, oldSubUnit, subUnit));
@@ -90,9 +87,9 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	 * @generated NOT
 	 */
 	@Override
-	public final EList<TransformationUnit> getSubUnits() {
+	public final EList<Unit> getSubUnits() {
 		if (subUnit!=null) {
-			EList<TransformationUnit> list = new BasicEList<TransformationUnit>();
+			EList<Unit> list = new BasicEList<Unit>();
 			list.add(subUnit);
 			return list;
 		} else {
@@ -105,7 +102,7 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TransformationUnit basicGetSubUnit() {
+	public Unit basicGetSubUnit() {
 		return subUnit;
 	}
 
@@ -114,8 +111,8 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSubUnit(TransformationUnit newSubUnit) {
-		TransformationUnit oldSubUnit = subUnit;
+	public void setSubUnit(Unit newSubUnit) {
+		Unit oldSubUnit = subUnit;
 		subUnit = newSubUnit;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HenshinPackage.UNARY_UNIT__SUB_UNIT, oldSubUnit, subUnit));
@@ -145,7 +142,7 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case HenshinPackage.UNARY_UNIT__SUB_UNIT:
-				setSubUnit((TransformationUnit)newValue);
+				setSubUnit((Unit)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -160,7 +157,7 @@ public abstract class UnaryUnitImpl extends TransformationUnitImpl implements Un
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case HenshinPackage.UNARY_UNIT__SUB_UNIT:
-				setSubUnit((TransformationUnit)null);
+				setSubUnit((Unit)null);
 				return;
 		}
 		super.eUnset(featureID);

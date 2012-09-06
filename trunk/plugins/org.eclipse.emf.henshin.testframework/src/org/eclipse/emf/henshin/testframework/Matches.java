@@ -29,7 +29,7 @@ import org.eclipse.emf.henshin.model.Rule;
  * element groups, etc.
  * 
  * @see Rules
- * @see TransformationUnits
+ * @see Units
  * @see ElementGroups
  * @see Graphs
  * @see GraphTransformations

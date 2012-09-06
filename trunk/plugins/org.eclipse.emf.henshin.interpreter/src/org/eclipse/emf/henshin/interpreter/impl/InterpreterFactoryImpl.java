@@ -18,7 +18,7 @@ import org.eclipse.emf.henshin.interpreter.Match;
 import org.eclipse.emf.henshin.interpreter.RuleApplication;
 import org.eclipse.emf.henshin.interpreter.UnitApplication;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Default interpreter factory.
@@ -38,10 +38,10 @@ public class InterpreterFactoryImpl implements InterpreterFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createAssignment(org.eclipse.emf.henshin.model.TransformationUnit, boolean)
+	 * @see org.eclipse.emf.henshin.interpreter.InterpreterFactory#createAssignment(org.eclipse.emf.henshin.model.Unit, boolean)
 	 */
 	@Override
-	public Assignment createAssignment(TransformationUnit unit, boolean isResultAssignment) {
+	public Assignment createAssignment(Unit unit, boolean isResultAssignment) {
 		return new AssignmentImpl(unit, isResultAssignment);
 	}
 

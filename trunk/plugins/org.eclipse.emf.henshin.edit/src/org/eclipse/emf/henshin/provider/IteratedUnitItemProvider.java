@@ -42,6 +42,7 @@ public class IteratedUnitItemProvider
 		IItemLabelProvider,
 		IItemPropertySource,
 		IItemColorProvider {
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -94,25 +95,23 @@ public class IteratedUnitItemProvider
 	 * This returns IteratedUnit.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/IteratedUnit.png"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/IteratedUnit"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((IteratedUnit)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_IteratedUnit_type") :
-			getString("_UI_IteratedUnit_type") + " " + label;
+		// Use the pretty-printer in the unit implementation:
+		return ((IteratedUnit) object).toString();
 	}
 
 	/**

@@ -40,7 +40,7 @@ public class ModuleItemSemanticEditPolicy extends
 		if (HenshinElementTypes.Rule_2001 == req.getElementType()) {
 			return getGEFWrapper(new RuleCreateCommand(req));
 		}
-		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {
+		if (HenshinElementTypes.Unit_2002 == req.getElementType()) {
 			return getGEFWrapper(new UnitCreateCommand(req));
 		}
 		return super.getCreateCommand(req);
@@ -53,7 +53,7 @@ public class ModuleItemSemanticEditPolicy extends
 
 		// We need to override the default implementation because
 		// the unit create command needs a shell:
-		if (HenshinElementTypes.TransformationUnit_2002 == req.getElementType()) {
+		if (HenshinElementTypes.Unit_2002 == req.getElementType()) {
 			Shell shell = getHost().getViewer().getControl().getShell();
 			return getGEFWrapper(new UnitCreateCommand(req, shell));
 		} else {

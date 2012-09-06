@@ -6,7 +6,6 @@
  */
 package org.eclipse.emf.henshin.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -44,6 +43,7 @@ public class ModuleItemProvider
 		IItemLabelProvider,
 		IItemPropertySource,
 		IItemColorProvider {
+	
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -105,8 +105,7 @@ public class ModuleItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(HenshinPackage.Literals.MODULE__SUB_MODULES);
-			childrenFeatures.add(HenshinPackage.Literals.MODULE__RULES);
-			childrenFeatures.add(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS);
+			childrenFeatures.add(HenshinPackage.Literals.MODULE__UNITS);
 			childrenFeatures.add(HenshinPackage.Literals.MODULE__INSTANCES);
 		}
 		return childrenFeatures;
@@ -163,8 +162,7 @@ public class ModuleItemProvider
 
 		switch (notification.getFeatureID(Module.class)) {
 			case HenshinPackage.MODULE__SUB_MODULES:
-			case HenshinPackage.MODULE__RULES:
-			case HenshinPackage.MODULE__TRANSFORMATION_UNITS:
+			case HenshinPackage.MODULE__UNITS:
 			case HenshinPackage.MODULE__INSTANCES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -190,71 +188,43 @@ public class ModuleItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__RULES,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createRule()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
-				 HenshinFactory.eINSTANCE.createRule()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createIndependentUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createSequentialUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createConditionalUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createPriorityUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createIteratedUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS,
+				(HenshinPackage.Literals.MODULE__UNITS,
 				 HenshinFactory.eINSTANCE.createLoopUnit()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(HenshinPackage.Literals.MODULE__INSTANCES,
 				 HenshinFactory.eINSTANCE.createGraph()));
-	}
-
-	/**
-	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
-		Object childFeature = feature;
-		Object childObject = child;
-
-		boolean qualify =
-			childFeature == HenshinPackage.Literals.MODULE__RULES ||
-			childFeature == HenshinPackage.Literals.MODULE__TRANSFORMATION_UNITS;
-
-		if (qualify) {
-			return getString
-				("_UI_CreateChild_text2",
-				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
-		}
-		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

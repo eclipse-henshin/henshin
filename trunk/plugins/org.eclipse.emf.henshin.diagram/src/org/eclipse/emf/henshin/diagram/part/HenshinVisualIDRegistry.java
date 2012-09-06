@@ -147,7 +147,7 @@ public class HenshinVisualIDRegistry {
 					domainElement.eClass())) {
 				return RuleEditPart.VISUAL_ID;
 			}
-			if (HenshinPackage.eINSTANCE.getTransformationUnit().isSuperTypeOf(
+			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(
 					domainElement.eClass())) {
 				return UnitEditPart.VISUAL_ID;
 			}
@@ -165,7 +165,7 @@ public class HenshinVisualIDRegistry {
 			}
 			break;
 		case UnitCompartmentEditPart.VISUAL_ID:
-			if (HenshinPackage.eINSTANCE.getTransformationUnit().isSuperTypeOf(
+			if (HenshinPackage.eINSTANCE.getUnit().isSuperTypeOf(
 					domainElement.eClass())) {
 				return InvocationEditPart.VISUAL_ID;
 			}

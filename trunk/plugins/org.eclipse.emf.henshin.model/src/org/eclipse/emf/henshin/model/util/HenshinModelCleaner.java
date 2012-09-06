@@ -31,9 +31,9 @@ import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.NestedCondition;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
 import org.eclipse.emf.henshin.model.UnaryFormula;
 import org.eclipse.emf.henshin.model.UnaryUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Utilities methods for cleaning Henshin models.
@@ -48,22 +48,17 @@ public class HenshinModelCleaner {
 	 */
 	public static void cleanModule(Module module) {
 		
-		// Clean all rules:
-		for (Rule rule : module.getRules()) {
-			cleanRule(rule);
-		}
-
-		// Clean all transformation units and remove invalid ones:
-		List<TransformationUnit> remove = new ArrayList<TransformationUnit>();
+		// Clean all units and remove invalid ones:
+		List<Unit> remove = new ArrayList<Unit>();
 		do {
 			remove.clear();
-			for (TransformationUnit unit : module.getTransformationUnits()) {
-				if (cleanTransformationUnit(unit)==null) {
+			for (Unit unit : module.getUnits()) {
+				if (cleanUnit(unit)==null) {
 					remove.add(unit);
 				}
 			}
-			for (TransformationUnit unit : remove) {
-				module.getTransformationUnits().remove(unit);
+			for (Unit unit : remove) {
+				module.getUnits().remove(unit);
 				debug("removed invalid " + unit);
 			}
 		} while (!remove.isEmpty());
@@ -74,15 +69,15 @@ public class HenshinModelCleaner {
 	
 	/**
 	 * Clean a transformation unit.
-	 * @param unit Transformation unit.
+	 * @param unit Unit to be cleaned.
 	 */
-	public static TransformationUnit cleanTransformationUnit(TransformationUnit unit) {
+	public static Unit cleanUnit(Unit unit) {
 		
 		if (unit instanceof Rule) {
 			cleanRule((Rule) unit);
 		}
 		if (unit instanceof UnaryUnit) {
-			TransformationUnit subUnit = ((UnaryUnit) unit).getSubUnit();
+			Unit subUnit = ((UnaryUnit) unit).getSubUnit();
 			if (subUnit==null) {
 				return null;
 			}
@@ -114,20 +109,20 @@ public class HenshinModelCleaner {
 	 */
 	public static void cleanRule(Rule rule) {
 		
-		// Make sure the LHS and RHS are there:
+		// Make sure the Lhs and Rhs are there:
 		if (rule.getLhs()==null) {
-			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("LHS"));
-			debug("added missing LHS for " + rule);
+			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("Lhs"));
+			debug("added missing Lhs for " + rule);
 		}
 		if (rule.getLhs()==null) {
-			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("RHS"));
-			debug("added missing RHS for " + rule);
+			rule.setLhs(HenshinFactory.eINSTANCE.createGraph("Rhs"));
+			debug("added missing Rhs for " + rule);
 		}
 
 		// RHS graph should have no formula:
 		if (rule.getRhs().getFormula()!=null) {
 			rule.getRhs().setFormula(null);
-			debug("removed formula for RHS of " + rule);
+			debug("removed formula for Rhs of " + rule);
 		}
 
 		// Clean LHS and RHS:
@@ -141,6 +136,10 @@ public class HenshinModelCleaner {
 		if (rule.isMultiRule()) {
 			Rule kernel = rule.getKernelRule();
 			cleanMappingList(rule.getMultiMappings(), kernel.getLhs(), rule.getLhs(), kernel.getRhs(), rule.getRhs());
+		}
+		else if (!rule.getMultiMappings().isEmpty()) {
+			rule.getMultiMappings().clear();
+			debug("removed unused multi-mappings of " + rule);
 		}
 
 		// Recursively clean the multi-rules:

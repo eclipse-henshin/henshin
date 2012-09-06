@@ -24,14 +24,14 @@ public class UnitCompartmentItemSemanticEditPolicy extends
 	 * @generated
 	 */
 	public UnitCompartmentItemSemanticEditPolicy() {
-		super(HenshinElementTypes.TransformationUnit_2002);
+		super(HenshinElementTypes.Unit_2002);
 	}
 
 	/**
 	 * @generated
 	 */
 	protected Command getCreateCommand(CreateElementRequest req) {
-		if (HenshinElementTypes.TransformationUnit_3003 == req.getElementType()) {
+		if (HenshinElementTypes.Unit_3003 == req.getElementType()) {
 			return getGEFWrapper(new InvocationCreateCommand(req));
 		}
 		return super.getCreateCommand(req);

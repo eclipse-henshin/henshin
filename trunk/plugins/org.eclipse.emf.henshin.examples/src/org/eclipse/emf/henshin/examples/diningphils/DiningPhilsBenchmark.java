@@ -56,8 +56,7 @@ public class DiningPhilsBenchmark {
 		stateSpace.getProperties().remove(StateSpaceProperties.IDENTITY_TYPES);
 		
 		// Find the rule for adding a philosopher:
-		Rule createPhilRule = stateSpace.getRules().get(0).
-				getModule().getRule("createPhil");
+		Rule createPhilRule = (Rule) stateSpace.getRules().get(0).getModule().getUnit("createPhil");
 
 		// Transformation engine for adding philosophers:
 		Engine engine = new EngineImpl();

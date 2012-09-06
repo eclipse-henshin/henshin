@@ -17,7 +17,7 @@ import org.eclipse.emf.henshin.diagram.edit.helpers.RootObjectEditHelper;
 import org.eclipse.emf.henshin.diagram.edit.helpers.ModuleEditHelper;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.notation.View;
 
@@ -47,10 +47,10 @@ public class RuleNameParser extends UnitNameParser {
 	 * 
 	 * @see
 	 * org.eclipse.emf.henshin.diagram.parsers.UnitNameParser#isUnitEmpty(org
-	 * .eclipse.emf.henshin.model.TransformationUnit)
+	 * .eclipse.emf.henshin.model.Unit)
 	 */
 	@Override
-	protected boolean isUnitEmpty(TransformationUnit unit) {
+	protected boolean isUnitEmpty(Unit unit) {
 		if (unit instanceof Rule) {
 			Rule rule = (Rule) unit;
 			return rule.getLhs().getNodes().isEmpty()

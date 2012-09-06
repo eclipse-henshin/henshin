@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.henshin.commands.HenshinModelUtils;
 import org.eclipse.emf.henshin.model.Graph;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
+import org.eclipse.emf.henshin.provider.util.HenshinNameUtil;
 
 /**
  * Creates one {@link Node} in each {@link Graph} of a given {@link Rule} and a
@@ -57,10 +57,10 @@ public class CreateMappedNodeCommand extends AbstractCommand {
 	public void execute() {
 		HenshinFactory factory = HenshinFactory.eINSTANCE;
 		origNode = factory.createNode();
-		origNode.setName(HenshinModelUtils.generateNewNodeName(rule.getLhs()));
+		origNode.setName(HenshinNameUtil.generateNewNodeName(rule.getLhs()));
 		
 		imgNode = factory.createNode();
-		imgNode.setName(HenshinModelUtils.generateNewNodeName(rule.getRhs()));
+		imgNode.setName(HenshinNameUtil.generateNewNodeName(rule.getRhs()));
 		
 		mapping = factory.createMapping();
 		mapping.setOrigin(origNode);

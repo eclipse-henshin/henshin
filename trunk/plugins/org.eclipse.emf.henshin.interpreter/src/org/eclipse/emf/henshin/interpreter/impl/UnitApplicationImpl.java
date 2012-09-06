@@ -33,7 +33,7 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.Rule;
 import org.eclipse.emf.henshin.model.SequentialUnit;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
  * Default {@link UnitApplication} implementation.
@@ -65,7 +65,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 * @param unit Unit to be used.
 	 * @param assignment Assignment.
 	 */
-	public UnitApplicationImpl(Engine engine, EGraph graph, TransformationUnit unit, Assignment assignment) {
+	public UnitApplicationImpl(Engine engine, EGraph graph, Unit unit, Assignment assignment) {
 		this(engine);
 		setEGraph(graph);
 		setUnit(unit);
@@ -186,7 +186,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	 */
 	protected boolean executeIndependentUnit(ApplicationMonitor monitor) {
 		IndependentUnit indepUnit = (IndependentUnit) unit;
-		List<TransformationUnit> subUnits = new ArrayList<TransformationUnit>(indepUnit.getSubUnits());
+		List<Unit> subUnits = new ArrayList<Unit>(indepUnit.getSubUnits());
 		boolean success = false;
 		while (!subUnits.isEmpty()) {
 			if (monitor.isCanceled()) {
@@ -212,7 +212,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	protected boolean executeSequentialUnit(ApplicationMonitor monitor) {
 		SequentialUnit seqUnit = (SequentialUnit) unit;
 		boolean success = true;
-		for (TransformationUnit subUnit : seqUnit.getSubUnits()) {
+		for (Unit subUnit : seqUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);
 				success = false;
@@ -280,7 +280,7 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	protected boolean executePriorityUnit(ApplicationMonitor monitor) {
 		PriorityUnit priUnit = (PriorityUnit) unit;
 		boolean success = false;
-		for (TransformationUnit subUnit : priUnit.getSubUnits()) {
+		for (Unit subUnit : priUnit.getSubUnits()) {
 			if (monitor.isCanceled()) {
 				if (monitor.isUndo()) undo(monitor);				
 				break;
@@ -404,9 +404,9 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	}
 
 	/*
-	 * Create an ApplicationUnit for a given TransformationUnit.
+	 * Create an ApplicationUnit for a given Unit.
 	 */
-	protected UnitApplicationImpl createApplicationFor(TransformationUnit subUnit) {
+	protected UnitApplicationImpl createApplicationFor(Unit subUnit) {
 		if (resultAssignment==null) {
 			resultAssignment = new AssignmentImpl(unit);
 		}
@@ -496,11 +496,11 @@ public class UnitApplicationImpl extends AbstractApplicationImpl {
 	@Override
 	public void setParameterValue(String paramName, Object value) {
 		if (unit==null) {
-			throw new RuntimeException("Transformation unit not set");
+			throw new RuntimeException("Unit not set");
 		}
 		Parameter param = unit.getParameter(paramName);
 		if (param==null) {
-			throw new RuntimeException("No parameter \"" + paramName + "\" in transformation unit \"" + unit.getName() + "\" found" );
+			throw new RuntimeException("No parameter \"" + paramName + "\" in unit \"" + unit.getName() + "\" found" );
 		}
 		if (assignment==null) {
 			assignment = new AssignmentImpl(unit);

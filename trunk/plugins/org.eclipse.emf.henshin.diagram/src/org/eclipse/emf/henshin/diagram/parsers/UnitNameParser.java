@@ -27,7 +27,7 @@ import org.eclipse.emf.henshin.model.HenshinPackage;
 import org.eclipse.emf.henshin.model.IteratedUnit;
 import org.eclipse.emf.henshin.model.Parameter;
 import org.eclipse.emf.henshin.model.ParameterMapping;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -82,7 +82,7 @@ public class UnitNameParser extends AbstractParser {
 	/*
 	 * Helper method to check whether a unit is empty.
 	 */
-	protected boolean isUnitEmpty(TransformationUnit unit) {
+	protected boolean isUnitEmpty(Unit unit) {
 		return unit.getSubUnits(false).isEmpty() && unit.getParameters().isEmpty();
 	}
 	
@@ -92,7 +92,7 @@ public class UnitNameParser extends AbstractParser {
 	 */
 	@Override
 	public String getEditString(IAdaptable element, int flags) {
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		Unit unit = (Unit) unitView.getElement();
 		
 		final StringBuilder sb = new StringBuilder();
 		
@@ -132,7 +132,7 @@ public class UnitNameParser extends AbstractParser {
 	 */
 	@Override
 	public String getPrintString(IAdaptable element, int flags) {
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		Unit unit = (Unit) unitView.getElement();
 		return unit.eClass().getName() + " " + getEditString(element, flags);
 	}
 	
@@ -172,7 +172,7 @@ public class UnitNameParser extends AbstractParser {
 	protected CommandResult doParsing(String value) throws ExecutionException {
 		
 		// We need the unit:
-		TransformationUnit unit = (TransformationUnit) unitView.getElement();
+		Unit unit = (Unit) unitView.getElement();
 		
 		// Iterated unit? Try to parse the number of iterations:
 		if (unit instanceof IteratedUnit) {
@@ -294,7 +294,7 @@ public class UnitNameParser extends AbstractParser {
 	@Override
 	protected boolean isAffectingFeature(Object feature) {
 		if (feature == HenshinPackage.eINSTANCE.getNamedElement_Name()) return true;
-		if (feature == HenshinPackage.eINSTANCE.getTransformationUnit_Parameters()) return true;
+		if (feature == HenshinPackage.eINSTANCE.getUnit_Parameters()) return true;
 		if (feature == HenshinPackage.eINSTANCE.getIteratedUnit_Iterations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEModelElement_EAnnotations()) return true;
 		if (feature == EcorePackage.eINSTANCE.getEAnnotation_References()) return true;

@@ -90,6 +90,14 @@ public class HenshinValidator extends EObjectValidator {
 	private static Constraint module_uniqueUnitNamesInvOCL;
 
 	/**
+	 * The parsed OCL expression for the definition of the '<em>uniqueParameterNames</em>' invariant constraint.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static Constraint unit_uniqueParameterNamesInvOCL;
+
+	/**
 	 * The parsed OCL expression for the definition of the '<em>lhsAndRhsNotNull</em>' invariant constraint.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -147,14 +155,6 @@ public class HenshinValidator extends EObjectValidator {
 	 */
 	private static Constraint edge_equalParentGraphsInvOCL;
 	
-	/**
-	 * The parsed OCL expression for the definition of the '<em>uniqueParameterNames</em>' invariant constraint.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static Constraint transformationUnit_uniqueParameterNamesInvOCL;
-	
 	private static final String OCL_ANNOTATION_SOURCE = "http://www.eclipse.org/emf/2010/Henshin/OCL";
 	
 	private static final OCL OCL_ENV = OCL.newInstance();
@@ -207,6 +207,8 @@ public class HenshinValidator extends EObjectValidator {
 				return validateGraphElement((GraphElement)value, diagnostics, context);
 			case HenshinPackage.MODULE:
 				return validateModule((Module)value, diagnostics, context);
+			case HenshinPackage.UNIT:
+				return validateUnit((Unit)value, diagnostics, context);
 			case HenshinPackage.RULE:
 				return validateRule((Rule)value, diagnostics, context);
 			case HenshinPackage.PARAMETER:
@@ -225,8 +227,6 @@ public class HenshinValidator extends EObjectValidator {
 				return validateAttributeCondition((AttributeCondition)value, diagnostics, context);
 			case HenshinPackage.MAPPING:
 				return validateMapping((Mapping)value, diagnostics, context);
-			case HenshinPackage.TRANSFORMATION_UNIT:
-				return validateTransformationUnit((TransformationUnit)value, diagnostics, context);
 			case HenshinPackage.UNARY_UNIT:
 				return validateUnaryUnit((UnaryUnit)value, diagnostics, context);
 			case HenshinPackage.MULTI_UNIT:
@@ -370,12 +370,12 @@ public class HenshinValidator extends EObjectValidator {
 	 * @author Stefan Jurack (sjurack)
 	 * @generated NOT
 	 */
-	protected TransformationUnit isCyclic(Stack<TransformationUnit> path, TransformationUnit unit) {
+	protected Unit isCyclic(Stack<Unit> path, Unit unit) {
 		if (path.contains(unit)) return unit;
 		path.push(unit);
-		for (TransformationUnit subUnit : unit.getSubUnits(false)) {
+		for (Unit subUnit : unit.getSubUnits(false)) {
 			if (subUnit != null) {
-				TransformationUnit tu = isCyclic(path, subUnit);
+				Unit tu = isCyclic(path, subUnit);
 				if (tu != null) return tu;
 			}
 		}
@@ -398,8 +398,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(rule, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(rule, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(rule, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_lhsAndRhsNotNull(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_mappingsFromLeft2Right(rule, diagnostics, context);
 		if (result || diagnostics != null) result &= validateRule_createdNodesNotAbstract(rule, diagnostics, context);
@@ -1015,12 +1015,12 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateModule_noCyclicUnits(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		final Stack<TransformationUnit> path = new Stack<TransformationUnit>();
-		final List<TransformationUnit> cyclic = new ArrayList<TransformationUnit>();
+		final Stack<Unit> path = new Stack<Unit>();
+		final List<Unit> cyclic = new ArrayList<Unit>();
 		boolean result = true;
-		for (TransformationUnit unit : module.getTransformationUnits()) {
+		for (Unit unit : module.getUnits()) {
 			path.clear();
-			TransformationUnit cyc = isCyclic(path, unit);
+			Unit cyc = isCyclic(path, unit);
 			if (cyc != null && !cyclic.contains(cyc)) {
 				cyclic.add(cyc);
 				diagnostics.add(createDiagnostic(
@@ -1046,7 +1046,7 @@ public class HenshinValidator extends EObjectValidator {
 	 * @generated NOT
 	 */
 	public boolean validateModule_parameterNamesNotTypeName(Module module, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		for (TransformationUnit tUnit : module.getTransformationUnits()) {
+		for (Unit tUnit : module.getUnits()) {
 			for (Parameter param : tUnit.getParameters()) {
 				if (containsImportedEClassifier(module, param.getName())) {
 					diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
@@ -1060,6 +1060,143 @@ public class HenshinValidator extends EObjectValidator {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateUnit(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		boolean result = validate_NoCircularContainment(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateNamedElement_ValidName(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(unit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unit, diagnostics, context);
+		return result;
+	}
+
+	/**
+	 * Validates the uniqueParameterNames constraint of '<em>Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateUnit_uniqueParameterNames(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        if (unit_uniqueParameterNamesInvOCL == null) {
+			OCL.Helper helper = OCL_ENV.createOCLHelper();
+			helper.setContext(HenshinPackage.Literals.UNIT);
+			
+			EAnnotation ocl = HenshinPackage.Literals.UNIT.getEAnnotation(OCL_ANNOTATION_SOURCE);
+			String expr = ocl.getDetails().get("uniqueParameterNames");
+			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
+			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
+			
+			try {
+				unit_uniqueParameterNamesInvOCL = helper.createInvariant(expr);
+			}
+			catch (ParserException e) {
+				throw new UnsupportedOperationException(e.getLocalizedMessage());
+			}
+			
+			unit_uniqueParameterNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
+			
+			String msg = ocl.getDetails().get("uniqueParameterNames.Msg");
+			if (msg != null && msg.length() > 0) {
+				henshinOclAnnotation.getDetails().put("Msg", msg);
+			}// if
+			
+			String sev = ocl.getDetails().get("uniqueParameterNames.Severity");
+			if (sev != null && sev.length() > 0) {
+				sev = sev.toLowerCase();
+				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
+					henshinOclAnnotation.getDetails().put("Severity",
+							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
+			}// if
+			
+		}
+		
+		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(unit_uniqueParameterNamesInvOCL);
+		
+		if (!query.check(unit)) {
+			if (diagnostics != null) {
+			
+				EAnnotation henshinAnnotation = unit_uniqueParameterNamesInvOCL
+						.getEAnnotation(OCL_ANNOTATION_SOURCE);
+				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
+						.parseInt(henshinAnnotation.getDetails().get("Severity"))
+						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
+
+				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
+						.getDetails().get("Msg") : null;			
+			
+				diagnostics.add
+					(createDiagnostic
+						(severity,
+						 DIAGNOSTIC_SOURCE,
+						 0,
+						 "_UI_GenericConstraint_diagnostic",
+						 new Object[] { "uniqueParameterNames", getObjectLabel(unit, context) },
+						 new Object[] { unit },
+						 context, addMsg));
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Validates the parameterMappingsPointToDirectSubUnit constraint of '<em>Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 * @author Stefan Jurack, Gregor Bonifer
+	 */
+	public boolean validateUnit_parameterMappingsPointToDirectSubUnit(Unit unit, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		for (ParameterMapping pm : unit.getParameterMappings()) {
+			if (unit.getParameters().contains(pm.getSource())) {
+				if (pm.getTarget() != null && !unit.getSubUnits(false).contains(pm.getTarget().getUnit())) {
+					diagnostics
+					.add(createDiagnostic(
+							Diagnostic.ERROR,
+							DIAGNOSTIC_SOURCE,
+							0,
+							"_UI_GenericConstraint_diagnostic",
+							new Object[] {
+									"transformationUnit_parameterMappingsPointToDirectSubUnit",
+									getObjectLabel(unit, context) },
+									new Object[] { unit }, context,
+							"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+					return false;
+				}
+			}
+			if (unit.getParameters().contains(pm.getTarget())) {
+				if (pm.getSource() != null
+						&& !unit.getSubUnits(false).contains(pm.getSource().getUnit())) {
+					diagnostics
+					.add(createDiagnostic(
+							Diagnostic.ERROR,
+							DIAGNOSTIC_SOURCE,
+							0,
+							"_UI_GenericConstraint_diagnostic",
+							new Object[] {
+									"transformationUnit_parameterMappingsPointToDirectSubUnit",
+									getObjectLabel(unit, context) },
+									new Object[] { unit }, context,
+							"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
+					return false;
+				}
+			}
+		}
+		return true;
+
 	}
 
 	/**
@@ -1335,156 +1472,7 @@ public class HenshinValidator extends EObjectValidator {
 		}
 		return true;
 	}
-	
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateTransformationUnit(TransformationUnit transformationUnit,
-			DiagnosticChain diagnostics, Map<Object, Object> context) {
-		boolean result = validate_NoCircularContainment(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMultiplicityConforms(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryDataValueConforms(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryProxyResolves(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_UniqueID(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryKeyUnique(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateNamedElement_ValidName(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(transformationUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(transformationUnit, diagnostics, context);
-		return result;
-	}
-	
-	/**
-	 * Validates the uniqueParameterNames constraint of '
-	 * <em>Transformation Unit</em>'. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @generated
-	 */
-	public boolean validateTransformationUnit_uniqueParameterNames(
-			TransformationUnit transformationUnit, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-        if (transformationUnit_uniqueParameterNamesInvOCL == null) {
-			OCL.Helper helper = OCL_ENV.createOCLHelper();
-			helper.setContext(HenshinPackage.Literals.TRANSFORMATION_UNIT);
-			
-			EAnnotation ocl = HenshinPackage.Literals.TRANSFORMATION_UNIT.getEAnnotation(OCL_ANNOTATION_SOURCE);
-			String expr = ocl.getDetails().get("uniqueParameterNames");
-			EAnnotation henshinOclAnnotation = EcoreFactoryImpl.eINSTANCE.createEAnnotation();
-			henshinOclAnnotation.setSource(OCL_ANNOTATION_SOURCE);
-			
-			try {
-				transformationUnit_uniqueParameterNamesInvOCL = helper.createInvariant(expr);
-			}
-			catch (ParserException e) {
-				throw new UnsupportedOperationException(e.getLocalizedMessage());
-			}
-			
-			transformationUnit_uniqueParameterNamesInvOCL.getEAnnotations().add(henshinOclAnnotation);
-			
-			String msg = ocl.getDetails().get("uniqueParameterNames.Msg");
-			if (msg != null && msg.length() > 0) {
-				henshinOclAnnotation.getDetails().put("Msg", msg);
-			}// if
-			
-			String sev = ocl.getDetails().get("uniqueParameterNames.Severity");
-			if (sev != null && sev.length() > 0) {
-				sev = sev.toLowerCase();
-				if (HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.containsKey(sev))
-					henshinOclAnnotation.getDetails().put("Severity",
-							HENSHIN_SEVERITY_2_DIAGNOSTIC_MAP.get(sev));
-			}// if
-			
-		}
 		
-		Query<EClassifier, ?, ?> query = OCL_ENV.createQuery(transformationUnit_uniqueParameterNamesInvOCL);
-		
-		if (!query.check(transformationUnit)) {
-			if (diagnostics != null) {
-			
-				EAnnotation henshinAnnotation = transformationUnit_uniqueParameterNamesInvOCL
-						.getEAnnotation(OCL_ANNOTATION_SOURCE);
-				int severity = henshinAnnotation.getDetails().containsKey("Severity") ? Integer
-						.parseInt(henshinAnnotation.getDetails().get("Severity"))
-						: Diagnostic.ERROR; //default severity is Diagnostic.ERROR
-
-				String addMsg = henshinAnnotation.getDetails().containsKey("Msg") ? henshinAnnotation
-						.getDetails().get("Msg") : null;			
-			
-				diagnostics.add
-					(createDiagnostic
-						(severity,
-						 DIAGNOSTIC_SOURCE,
-						 0,
-						 "_UI_GenericConstraint_diagnostic",
-						 new Object[] { "uniqueParameterNames", getObjectLabel(transformationUnit, context) },
-						 new Object[] { transformationUnit },
-						 context, addMsg));
-			}
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Validates the parameterMappingsPointToDirectSubUnit constraint of '
-	 * <em>Transformation Unit</em>'. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @generated NOT
-	 * @author Gregor Bonifer
-	 * @author Stefan Jurack (sjurack)
-	 * 
-	 */
-	public boolean validateTransformationUnit_parameterMappingsPointToDirectSubUnit(
-			TransformationUnit transformationUnit, DiagnosticChain diagnostics,
-			Map<Object, Object> context) {
-		
-		for (ParameterMapping pm : transformationUnit.getParameterMappings()) {
-			if (transformationUnit.getParameters().contains(pm.getSource())) {
-				if (pm.getTarget() != null
-						&& !transformationUnit.getSubUnits(false)
-								.contains(pm.getTarget().getUnit())) {
-					diagnostics
-							.add(createDiagnostic(
-									Diagnostic.ERROR,
-									DIAGNOSTIC_SOURCE,
-									0,
-									"_UI_GenericConstraint_diagnostic",
-									new Object[] {
-											"transformationUnit_parameterMappingsPointToDirectSubUnit",
-											getObjectLabel(transformationUnit, context) },
-									new Object[] { transformationUnit }, context,
-									"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
-					return false;
-				}
-			}
-			
-			if (transformationUnit.getParameters().contains(pm.getTarget())) {
-				if (pm.getSource() != null
-						&& !transformationUnit.getSubUnits(false)
-								.contains(pm.getSource().getUnit())) {
-					diagnostics
-							.add(createDiagnostic(
-									Diagnostic.ERROR,
-									DIAGNOSTIC_SOURCE,
-									0,
-									"_UI_GenericConstraint_diagnostic",
-									new Object[] {
-											"transformationUnit_parameterMappingsPointToDirectSubUnit",
-											getObjectLabel(transformationUnit, context) },
-									new Object[] { transformationUnit }, context,
-									"_EcoreConstraint_Msg_TransformationUnit_parameterMappingsPointToDirectSubUnit"));
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1501,8 +1489,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(unaryUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(unaryUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(unaryUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(unaryUnit, diagnostics, context);
 		return result;
 	}
 
@@ -1522,8 +1510,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(multiUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(multiUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(multiUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(multiUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(multiUnit, diagnostics, context);
 		return result;
 	}
 
@@ -1543,8 +1531,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(independentUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(independentUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(independentUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(independentUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(independentUnit, diagnostics, context);
 		return result;
 	}
 	
@@ -1564,8 +1552,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(sequentialUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(sequentialUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(sequentialUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(sequentialUnit, diagnostics, context);
 		return result;
 	}
 	
@@ -1585,8 +1573,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(conditionalUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(conditionalUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(conditionalUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(conditionalUnit, diagnostics, context);
 		return result;
 	}
 	
@@ -1606,8 +1594,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(priorityUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(priorityUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(priorityUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(priorityUnit, diagnostics, context);
 		return result;
 	}
 	
@@ -1627,8 +1615,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(iteratedUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(iteratedUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(iteratedUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(iteratedUnit, diagnostics, context);
 		return result;
 	}
 
@@ -1648,8 +1636,8 @@ public class HenshinValidator extends EObjectValidator {
 		if (result || diagnostics != null) result &= validate_EveryKeyUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique(loopUnit, diagnostics, context);
 		if (result || diagnostics != null) result &= validateNamedElement_ValidName(loopUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_uniqueParameterNames(loopUnit, diagnostics, context);
-		if (result || diagnostics != null) result &= validateTransformationUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_uniqueParameterNames(loopUnit, diagnostics, context);
+		if (result || diagnostics != null) result &= validateUnit_parameterMappingsPointToDirectSubUnit(loopUnit, diagnostics, context);
 		return result;
 	}
 

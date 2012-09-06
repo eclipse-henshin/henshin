@@ -22,33 +22,36 @@ import org.eclipse.emf.henshin.model.ParameterMapping;
 import org.eclipse.emf.henshin.model.PriorityUnit;
 import org.eclipse.emf.henshin.model.SequentialUnit;
 import org.eclipse.emf.henshin.model.Module;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 
 /**
- * Allows {@link TransformationUnit}s to be replaced by other
- * TransformationUnits (Currently implemented: Switch between Sequential,
- * Independent, Priority Units)
+ * Allows {@link Unit}s to be replaced by other Units (currently implemented:
+ * Switch between Sequential, Independent, Priority Units)
  * 
  * @author Felix Rieger
  * 
  */
 public class ChangeUnitTypeCommand extends AbstractCommand {
-	
-	protected TransformationUnit unit; // old unit
-	protected TransformationUnit newUnit; // new unit
+
+	protected Unit unit; // old unit
+	protected Unit newUnit; // new unit
 	protected int oldUnitType;
 	protected int newUnitType;
 	protected Collection<?> affectedObjects;
 	protected Module module;
-	
-	public ChangeUnitTypeCommand(TransformationUnit unit, int newUnitType) {
+
+	public ChangeUnitTypeCommand(Unit unit, int newUnitType) {
 		this.unit = unit;
 		this.newUnitType = newUnitType;
 		if (unit != null) {
 			module = (Module) unit.eContainer();
 		}
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.Command#execute()
+	 */
 	@Override
 	public void execute() {
 		// save the old unit's type for undo
@@ -60,82 +63,40 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 			oldUnitType = 3;
 		}
 		redo();
-		
+
 	}
-	
+
 	private void replaceUnit() {
-		// get the transformation system that contains the unit
-		Module transformationSystem = module;
-		int unitIndex = transformationSystem.getTransformationUnits().indexOf(unit); // get
-																						// the
-																						// unit's
-																						// index
-																						// so
-																						// it
-																						// will
-																						// appear
-																						// at
-																						// the
-																						// same
-																						// place
-																						// as
-																						// the
-																						// old
-																						// unit
-																						// in
-																						// the
-																						// tree
-																						// editor
+		// get the module that contains the unit
+		Module theModule = module;
+		int unitIndex = theModule.getUnits().indexOf(unit); 
+
 		if (unitIndex == -1) {
-			unitIndex = transformationSystem.getTransformationUnits().indexOf(newUnit); // if
-																						// that
-																						// fails
-																						// because
-																						// the
-																						// unit
-																						// doesn't
-																						// exist
-																						// in
-																						// the
-																						// transformation
-																						// system,
-																						// see
-																						// if
-																						// an
-																						// old
-																						// unit's
-																						// index
-																						// can
-																						// be
-																						// found.
-																						// This
-																						// should
-																						// not
-																						// happen.
-			System.err.println("unit index -1:" + unit + "\n trying [result: " + unitIndex + "] "
-					+ newUnit);
+			unitIndex = theModule.getUnits().indexOf(newUnit); 
+			System.err.println("unit index -1:" + unit + "\n trying [result: "
+					+ unitIndex + "] " + newUnit);
 		}
 		newUnit = null; // prepare a new unit
-		EList<TransformationUnit> subUnitList = null; // and its subunits
-		
+		EList<Unit> subUnitList = null; // and its subunits
+
 		// independent, sequential and priority units can be switched
 		switch (newUnitType) {
-			case 1:
-				newUnit = HenshinFactory.eINSTANCE.createIndependentUnit();
-				subUnitList = ((IndependentUnit) newUnit).getSubUnits();
-				break;
-			case 2:
-				newUnit = HenshinFactory.eINSTANCE.createSequentialUnit();
-				subUnitList = ((SequentialUnit) newUnit).getSubUnits();
-				break;
-			case 3:
-				newUnit = HenshinFactory.eINSTANCE.createPriorityUnit();
-				subUnitList = ((PriorityUnit) newUnit).getSubUnits();
-				break;
-			default:
-				return;
+		case 1:
+			newUnit = HenshinFactory.eINSTANCE.createIndependentUnit();
+			subUnitList = ((IndependentUnit) newUnit).getSubUnits();
+			break;
+		case 2:
+			newUnit = HenshinFactory.eINSTANCE.createSequentialUnit();
+			subUnitList = ((SequentialUnit) newUnit).getSubUnits();
+			break;
+		case 3:
+			newUnit = HenshinFactory.eINSTANCE.createPriorityUnit();
+			subUnitList = ((PriorityUnit) newUnit).getSubUnits();
+			break;
+		default:
+			return;
 		}
-		
+
 		// copy the old unit's attributes, subunits, parameters and parameter
 		// mapping
 		subUnitList.addAll(unit.getSubUnits(false));
@@ -146,42 +107,42 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 		newUnit.getParameterMappings().addAll(unit.getParameterMappings());
 		// remove the old unit from the transformation system, add the new unit
 		if (unitIndex != -1) {
-			transformationSystem.getTransformationUnits().remove(unitIndex);
-			transformationSystem.getTransformationUnits().add(unitIndex, newUnit);
+			theModule.getUnits().remove(unitIndex);
+			theModule.getUnits().add(unitIndex, newUnit);
 		} else {
-			System.err.println("COULDN'T FIND UNITS IN TRANSFORMATION SYSTEM, ADDING A NEW ONE");
+			System.err.println("COULDN'T FIND UNITS IN MODULE, ADDING A NEW ONE");
 			System.err.println(unit);
 			System.err.println(newUnit);
-			transformationSystem.getTransformationUnits().add(newUnit);
+			theModule.getUnits().add(newUnit);
 		}
-		
+
 		// search for the old unit in the transformation system
-		for (TransformationUnit tu : transformationSystem.getTransformationUnits()) {
+		for (Unit tu : theModule.getUnits()) {
 			if (tu.getSubUnits(true).contains(unit)) {
 				changeParameterMappingsRec(tu, unit, newUnit); // change
-																// parameter
-																// mappings to
-																// the new unit
+				// parameter
+				// mappings to
+				// the new unit
 				replaceUnitRec(tu, unit, newUnit); // replace references to the
-													// old unit
+				// old unit
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Recursively change parameter mappings
 	 * 
 	 * @param parentUnit
-	 *            the TransformationUnit where the recursion should start
+	 *            the Unit where the recursion should start
 	 * @param oldUnit
 	 *            the unit to be replaced
 	 * @param newUnit
 	 *            the new unit
 	 */
-	private void changeParameterMappingsRec(TransformationUnit parentUnit,
-			TransformationUnit oldUnit, TransformationUnit newUnit) {
-		for (TransformationUnit tu : parentUnit.getSubUnits(false)) {
+	private void changeParameterMappingsRec(Unit parentUnit, Unit oldUnit,
+			Unit newUnit) {
+		for (Unit tu : parentUnit.getSubUnits(false)) {
 			if (tu != parentUnit) { // do not recurse infinitely
 				if (tu.equals(oldUnit)) {
 					changeParameterMappings(parentUnit, tu, newUnit);
@@ -191,9 +152,9 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Recursively replace Units
 	 * 
@@ -204,10 +165,9 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	 * @param newUnit
 	 *            The new Unit
 	 */
-	private void replaceUnitRec(TransformationUnit parentUnit, TransformationUnit oldUnit,
-			TransformationUnit newUnit) {
-		EList<TransformationUnit> subUnitList = null;
-		
+	private void replaceUnitRec(Unit parentUnit, Unit oldUnit, Unit newUnit) {
+		EList<Unit> subUnitList = null;
+
 		if (parentUnit instanceof SequentialUnit) {
 			subUnitList = ((SequentialUnit) parentUnit).getSubUnits();
 		} else if (parentUnit instanceof IndependentUnit) {
@@ -227,25 +187,26 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 			}
 			return;
 		}
-		
+
 		// remove the old unit and replace it with the new unit
 		while (subUnitList.contains(oldUnit)) {
 			int i = subUnitList.indexOf(oldUnit);
 			subUnitList.remove(i);
 			subUnitList.add(i, newUnit);
 		}
-		
+
 		// recursively replace all old units with new units
-		for (TransformationUnit tu : subUnitList) {
+		for (Unit tu : subUnitList) {
 			// do not replace if the current unit is the parent unit, as this
 			// leads to an infinite recursion
-			if ((!(tu.equals(newUnit))) && tu.getSubUnits(true).contains(oldUnit)
+			if ((!(tu.equals(newUnit)))
+					&& tu.getSubUnits(true).contains(oldUnit)
 					&& (tu != parentUnit)) {
 				replaceUnitRec(tu, oldUnit, newUnit);
 			}
 		}
 	}
-	
+
 	/**
 	 * Change parameter mappings.
 	 * 
@@ -253,83 +214,97 @@ public class ChangeUnitTypeCommand extends AbstractCommand {
 	 * @param oldUnit
 	 * @param newUnit
 	 */
-	private void changeParameterMappings(TransformationUnit parentUnit, TransformationUnit oldUnit,
-			TransformationUnit newUnit) {
-		List<ParameterMapping> parameterMappings = parentUnit.getParameterMappings();
+	private void changeParameterMappings(Unit parentUnit, Unit oldUnit,
+			Unit newUnit) {
+		List<ParameterMapping> parameterMappings = parentUnit
+				.getParameterMappings();
 		for (ParameterMapping pm : parameterMappings) {
 			if (pm.getSource().getUnit().equals(oldUnit)) {
-				int oldParameterIndex = oldUnit.getParameters().indexOf(pm.getSource());
-				Parameter newParameter = newUnit.getParameters().get(oldParameterIndex);
+				int oldParameterIndex = oldUnit.getParameters().indexOf(
+						pm.getSource());
+				Parameter newParameter = newUnit.getParameters().get(
+						oldParameterIndex);
 				pm.setSource(newParameter);
 			}
-			
+
 			if (pm.getTarget().getUnit().equals(oldUnit)) {
-				int oldParameterIndex = oldUnit.getParameters().indexOf(pm.getTarget());
-				Parameter newParameter = newUnit.getParameters().get(oldParameterIndex);
+				int oldParameterIndex = oldUnit.getParameters().indexOf(
+						pm.getTarget());
+				Parameter newParameter = newUnit.getParameters().get(
+						oldParameterIndex);
 				pm.setTarget(newParameter);
 			}
 		}
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.Command#redo()
+	 */
 	@Override
 	public void redo() {
 		if (newUnit != null) {
-			
-			TransformationUnit tmpUnit = unit;
+
+			Unit tmpUnit = unit;
 			unit = newUnit;
 			newUnit = tmpUnit;
-			
-			int unitIndex = module.getTransformationUnits().indexOf(unit);
-			module.getTransformationUnits().remove(unitIndex);
-			module.getTransformationUnits().add(unitIndex, newUnit);
-			
-			for (TransformationUnit tu : module.getTransformationUnits()) {
+
+			int unitIndex = module.getUnits().indexOf(unit);
+			module.getUnits().remove(unitIndex);
+			module.getUnits().add(unitIndex, newUnit);
+
+			for (Unit tu : module.getUnits()) {
 				if (tu.getSubUnits(true).contains(unit)) {
 					changeParameterMappingsRec(tu, unit, newUnit); // change
-																	// parameter
-																	// mappings
-																	// to the
-																	// new unit
+					// parameter
+					// mappings
+					// to the
+					// new unit
 					replaceUnitRec(tu, unit, newUnit); // replace references to
-														// the old unit
+					// the old unit
 				}
 			}
 		} else {
 			replaceUnit();
 		}
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#undo()
+	 */
 	@Override
 	public void undo() {
-		TransformationUnit tmpUnit = unit;
+		Unit tmpUnit = unit;
 		unit = newUnit;
 		newUnit = tmpUnit;
-		
-		int unitIndex = module.getTransformationUnits().indexOf(unit);
-		module.getTransformationUnits().remove(unitIndex);
-		module.getTransformationUnits().add(unitIndex, newUnit);
-		
-		for (TransformationUnit tu : module.getTransformationUnits()) {
-			if (tu.getSubUnits(true).contains(unit)) {
-				changeParameterMappingsRec(tu, unit, newUnit); // change
-																// parameter
-																// mappings to
-																// the new unit
-				replaceUnitRec(tu, unit, newUnit); // replace references to the
-													// old unit
+
+		int unitIndex = module.getUnits().indexOf(unit);
+		module.getUnits().remove(unitIndex);
+		module.getUnits().add(unitIndex, newUnit);
+
+		for (Unit current : module.getUnits()) {
+			if (current.getSubUnits(true).contains(unit)) {
+				changeParameterMappingsRec(current, unit, newUnit);
+				replaceUnitRec(current, unit, newUnit);
 			}
 		}
-		
+
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.common.command.AbstractCommand#prepare()
+	 */
 	@Override
 	protected boolean prepare() {
-		if ((unit instanceof IndependentUnit) || (unit instanceof SequentialUnit)
-				|| (unit instanceof PriorityUnit)) {
+		if ((unit instanceof IndependentUnit)
+			|| (unit instanceof SequentialUnit)
+			|| (unit instanceof PriorityUnit)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 }

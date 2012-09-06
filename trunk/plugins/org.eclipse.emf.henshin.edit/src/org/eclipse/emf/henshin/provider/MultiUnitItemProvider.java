@@ -2,7 +2,6 @@
  */
 package org.eclipse.emf.henshin.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import org.eclipse.emf.henshin.model.MultiUnit;
  * @generated
  */
 public class MultiUnitItemProvider
-	extends TransformationUnitItemProvider
+	extends UnitItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

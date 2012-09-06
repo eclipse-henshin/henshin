@@ -2,7 +2,6 @@
  */
 package org.eclipse.emf.henshin.provider;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import org.eclipse.emf.henshin.model.UnaryUnit;
  * @generated
  */
 public class UnaryUnitItemProvider
-	extends TransformationUnitItemProvider
+	extends UnitItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -124,6 +123,10 @@ public class UnaryUnitItemProvider
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.UnitItemProvider#getChildrenFeatures(java.lang.Object)
+	 */
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(
 			Object object) {

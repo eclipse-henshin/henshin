@@ -26,33 +26,24 @@ import org.eclipse.emf.henshin.commands.dnd.DelegatingWrapperFeatureDragAndDropC
  * referred to instead of contained in. In particular, the icon is extended by a
  * link icon.
  * 
- * @author Stefan Jurack (sjurack)
- * 
+ * @author Stefan Jurack, Christian Krause
  */
 public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperItemProvider {
 	
-	private static final Object LINK_OVR;
-	static {
-		LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
-	}
+	// Overlay image for links:
+	private static final Object LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
 	
 	/**
-	 * @param value
-	 * @param owner
-	 * @param feature
-	 * @param index
-	 * @param adapterFactory
+	 * Default constructor.
 	 */
 	public DelegatingWrapperTrafoUnitItemProvider(Object value, Object owner,
 			EStructuralFeature feature, int index, AdapterFactory adapterFactory) {
 		super(value, owner, feature, index, adapterFactory);
-	}// constructor
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider#getImage(
-	 * java.lang.Object)
+	 * @see org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider#getImage(java.lang.Object)
 	 */
 	@Override
 	public Object getImage(Object object) {
@@ -62,43 +53,18 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		images.add(LINK_OVR);
 		image = new ComposedImage(images);
 		return image;
-	}// getImage
+	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.emf.edit.provider.WrapperItemProvider#createDragAndDropCommand
-	 * (org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int,
-	 * int, java.util.Collection)
+	 * @see org.eclipse.emf.edit.provider.WrapperItemProvider#createDragAndDropCommand(org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object, float, int, int, java.util.Collection)
 	 */
 	@Override
 	protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location,
 			int operations, int operation, Collection<?> collection) {
 		return new DelegatingWrapperFeatureDragAndDropCommand(domain, owner, location, collection);
 	}
-	
-	// @Override
-	// public Collection<?> getChildren(Object object) {
-	// System.out.println("getChildren for " + object);
-	// if (isRecursion(object))
-	// return Collections.emptyList();
-	// Collection<?> children = super.getChildren(object);
-	// return children;
-	// }
-	//
-	// private boolean isRecursion(Object object) {
-	// Object value = AdapterFactoryEditingDomain.unwrap(object);
-	// // System.out.println("Checking rec for: " + value);
-	// while (object instanceof DelegatingWrapperItemProvider) {
-	// object = ((DelegatingWrapperItemProvider) object).getParent(object);
-	// System.out.println("step check: " + object);
-	// if (AdapterFactoryEditingDomain.unwrap(object).equals(value))
-	// return true;
-	// }
-	// System.out.println("stop checking with: " + object);
-	// return false;
-	// }
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -111,6 +77,6 @@ public class DelegatingWrapperTrafoUnitItemProvider extends DelegatingWrapperIte
 		sb.append(" (Feature:" + this.feature + ")");
 		sb.append(" (Index:" + this.index + ")");
 		return sb.toString();
-	}// toString
+	}
 	
-}// class
+}

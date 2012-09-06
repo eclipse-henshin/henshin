@@ -50,8 +50,7 @@ public class GossipingGirls {
 		StateSpaceManager manager = StateSpaceFactory.eINSTANCE.createStateSpaceManager(stateSpace);
 		
 		// Find the rule for adding a girl and create an engine instance:
-		Rule addGirlRule = stateSpace.getRules().get(0).
-				getModule().getRule("addGirl");
+		Rule addGirlRule = (Rule) stateSpace.getRules().get(0).getModule().getUnit("addGirl");
 		Engine engine = new EngineImpl();
 		
 		// Now do the benchmark...

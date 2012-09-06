@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EReference;
  *        annotation="http://www.eclipse.org/emf/2010/Henshin/OCL lhsAndRhsNotNull='not lhs->isEmpty() and not rhs->isEmpty()' lhsAndRhsNotNull.Msg='_Ocl_Msg_Rule_lhsAndRhsNotNull' mappingsFromLeft2Right='mappings->forAll(mapping : Mapping | \r\n\tlhs.nodes->includes(mapping.origin)\r\n\tand\r\n\trhs.nodes->includes(mapping.image)\r\n)' mappingsFromLeft2Right.Msg='_Ocl_Msg_Rule_mappingsFromLeft2Right'"
  * @generated
  */
-public interface Rule extends TransformationUnit {
+public interface Rule extends Unit {
 	
 	/**
 	 * Returns the value of the '<em><b>Lhs</b></em>' containment reference.
@@ -46,7 +46,7 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Lhs</em>' containment reference.
 	 * @see #setLhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Lhs()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Graph getLhs();
@@ -68,7 +68,7 @@ public interface Rule extends TransformationUnit {
 	 * @return the value of the '<em>Rhs</em>' containment reference.
 	 * @see #setRhs(Graph)
 	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Rhs()
-	 * @model containment="true"
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Graph getRhs();
@@ -84,6 +84,18 @@ public interface Rule extends TransformationUnit {
 	void setRhs(Graph value);
 
 	/**
+	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Mappings</em>' containment reference list.
+	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Mappings()
+	 * @model containment="true"
+	 * @generated NOT
+	 */
+	MappingList getMappings();
+
+	/**
 	 * Returns the value of the '<em><b>Attribute Conditions</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.emf.henshin.model.AttributeCondition}.
 	 * It is bidirectional and its opposite is '{@link org.eclipse.emf.henshin.model.AttributeCondition#getRule <em>Rule</em>}'.
@@ -96,18 +108,6 @@ public interface Rule extends TransformationUnit {
 	 * @generated
 	 */
 	EList<AttributeCondition> getAttributeConditions();
-
-	/**
-	 * Returns the value of the '<em><b>Mappings</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.emf.henshin.model.Mapping}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mappings</em>' containment reference list.
-	 * @see org.eclipse.emf.henshin.model.HenshinPackage#getRule_Mappings()
-	 * @model containment="true"
-	 * @generated NOT
-	 */
-	MappingList getMappings();
 
 	/**
 	 * <!-- begin-user-doc -->

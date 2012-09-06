@@ -50,7 +50,7 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 		if (editPart instanceof ModuleEditPart) {
 			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
 			types.add(HenshinElementTypes.Rule_2001);
-			types.add(HenshinElementTypes.TransformationUnit_2002);
+			types.add(HenshinElementTypes.Unit_2002);
 			return types;
 		}
 		if (editPart instanceof NodeEditPart) {
@@ -66,7 +66,7 @@ public class HenshinModelingAssistantProvider extends ModelingAssistantProvider 
 		if (editPart instanceof UnitCompartmentEditPart) {
 			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
 			types.add(HenshinElementTypes.Node_3004);
-			types.add(HenshinElementTypes.TransformationUnit_3003);
+			types.add(HenshinElementTypes.Unit_3003);
 			return types;
 		}
 		return Collections.EMPTY_LIST;

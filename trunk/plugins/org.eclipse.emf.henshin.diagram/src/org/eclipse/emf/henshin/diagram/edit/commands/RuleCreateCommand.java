@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.henshin.model.HenshinFactory;
 import org.eclipse.emf.henshin.model.Module;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationSystem;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
@@ -67,9 +66,9 @@ public class RuleCreateCommand extends EditElementCommand {
 		// Create a new rule instance:
 		Rule newRule = HenshinFactory.eINSTANCE.createRule();
 
-		// Add the rule and configure it:
-		TransformationSystem owner = (TransformationSystem) getElementToEdit();
-		owner.getRules().add(newRule);
+		// Add the rule to the module and configure it:
+		Module module = (Module) getElementToEdit();
+		module.getUnits().add(newRule);
 
 		doConfigure(newRule, monitor, info);
 

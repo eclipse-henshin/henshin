@@ -33,9 +33,9 @@ import org.eclipse.emf.henshin.editor.menuContributors.CreateNestedConditionMenu
 import org.eclipse.emf.henshin.editor.menuContributors.FormulaCommandMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.RemoveMappedNodesMenuContributor;
 import org.eclipse.emf.henshin.editor.menuContributors.SimpleCommandMenuContributor;
-import org.eclipse.emf.henshin.editor.menuContributors.TransformationUnitCommandMenuContributor;
+import org.eclipse.emf.henshin.editor.menuContributors.UnitCommandMenuContributor;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.provider.ReferencedRuleItemProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -141,9 +141,9 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 							}
 						});
 			}
-			if (selection.getFirstElement() instanceof TransformationUnit
+			if (selection.getFirstElement() instanceof Unit
 					&& domain instanceof AdapterFactoryEditingDomain) {
-				TransformationUnit unit = (TransformationUnit) selection.getFirstElement();
+				Unit unit = (Unit) selection.getFirstElement();
 				AdapterFactoryEditingDomain aDomain = (AdapterFactoryEditingDomain) domain;
 				
 				IMenuManager usageMenu = new MenuManager(
@@ -228,7 +228,7 @@ public class CustomizedHenshinActionBarContributor extends HenshinActionBarContr
 		CopySubgraphMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection,
 				domain);
 		
-		TransformationUnitCommandMenuContributor.INSTANCE.buildContributions(menuManager,
+		UnitCommandMenuContributor.INSTANCE.buildContributions(menuManager,
 				currentSelection, domain);
 
 		CleanUpCommandMenuContributor.INSTANCE.buildContributions(menuManager, currentSelection, domain);

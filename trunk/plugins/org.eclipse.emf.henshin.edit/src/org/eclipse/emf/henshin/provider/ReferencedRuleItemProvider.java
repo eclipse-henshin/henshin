@@ -29,14 +29,20 @@ import org.eclipse.emf.henshin.provider.util.IItemToolTipProvider;
 /**
  * Represents Rule in the context of TransformationUnits.
  * 
- * @author Gregor Bonifer
- * 
+ * @author Gregor Bonifer, Christian Krause
  */
 public class ReferencedRuleItemProvider extends DelegatingWrapperItemProvider implements
 		IItemToolTipProvider {
+
+	// Overlay image:
+	private static final Object LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
 	
+	// The rule item provider:
 	protected RuleItemProvider ruleItemProvider;
 	
+	/**
+	 * Constructor.
+	 */
 	public ReferencedRuleItemProvider(Rule rule, Object referringUnit, EStructuralFeature feature,
 			int index, AdapterFactory adapterFactory) {
 		super(rule, referringUnit, feature, index, adapterFactory);
@@ -44,11 +50,10 @@ public class ReferencedRuleItemProvider extends DelegatingWrapperItemProvider im
 				ITreeItemContentProvider.class);
 	}
 	
-	private static final Object LINK_OVR;
-	static {
-		LINK_OVR = HenshinEditPlugin.INSTANCE.getImage("full/ovr16/link_ovr");
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider#getImage(java.lang.Object)
+	 */
 	@Override
 	public Object getImage(Object object) {
 		Object image = ruleItemProvider.getImage(value);
@@ -59,22 +64,36 @@ public class ReferencedRuleItemProvider extends DelegatingWrapperItemProvider im
 		return image;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider#getChildren(java.lang.Object)
+	 */
 	@Override
 	public Collection<?> getChildren(Object object) {
 		return ((Rule) value).getParameters();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.edit.provider.DelegatingWrapperItemProvider#getNewChildDescriptors(java.lang.Object, org.eclipse.emf.edit.domain.EditingDomain, java.lang.Object)
+	 */
+	@Override
 	public Collection<?> getNewChildDescriptors(Object object, EditingDomain editingDomain,
 			Object sibling) {
 		return Collections.singleton(new CommandParameter(null,
-				HenshinPackage.Literals.TRANSFORMATION_UNIT__PARAMETERS, HenshinFactory.eINSTANCE
-						.createParameter()));
+				HenshinPackage.Literals.UNIT__PARAMETERS, 
+				HenshinFactory.eINSTANCE.createParameter()));
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.emf.henshin.provider.util.IItemToolTipProvider#getToolTip(java.lang.Object)
+	 */
 	@Override
 	public Object getToolTip(Object object) {
-		if (delegateItemProvider instanceof IItemToolTipProvider)
+		if (delegateItemProvider instanceof IItemToolTipProvider) {
 			return ((IItemToolTipProvider) delegateItemProvider).getToolTip(value);
+		}
 		return null;
 	}
 	

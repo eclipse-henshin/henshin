@@ -41,7 +41,7 @@ import org.eclipse.emf.henshin.model.Mapping;
 import org.eclipse.emf.henshin.model.MappingList;
 import org.eclipse.emf.henshin.model.Node;
 import org.eclipse.emf.henshin.model.Rule;
-import org.eclipse.emf.henshin.model.TransformationUnit;
+import org.eclipse.emf.henshin.model.Unit;
 import org.eclipse.emf.henshin.model.actions.impl.EdgeActionHelper;
 import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
 
@@ -65,7 +65,7 @@ import org.eclipse.emf.henshin.model.actions.impl.NodeActionHelper;
  *
  * @generated
  */
-public class RuleImpl extends TransformationUnitImpl implements Rule {
+public class RuleImpl extends UnitImpl implements Rule {
 	
 	/**
 	 * The cached value of the '{@link #getLhs() <em>Lhs</em>}' containment reference.
@@ -86,7 +86,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected Graph rhs;
-	
+		
 	/**
 	 * The cached value of the '{@link #getAttributeConditions() <em>Attribute Conditions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -96,7 +96,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected EList<AttributeCondition> attributeConditions;
-	
+
 	/**
 	 * The cached value of the '{@link #getMappings() <em>Mappings</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -106,7 +106,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	 * @ordered
 	 */
 	protected EList<Mapping> mappings;
-	
+
 	/**
 	 * The default value of the '{@link #isCheckDangling() <em>Check Dangling</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -194,7 +194,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	public Graph getLhs() {
 		if (lhs==null) {
 			Graph theLhs = new GraphImpl();
-			theLhs.setName("LHS");
+			theLhs.setName("Lhs");
 			setLhs(theLhs);  // required for setting the container feature
 		}
 		return lhs;
@@ -242,7 +242,7 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 	public Graph getRhs() {
 		if (rhs==null) {
 			Graph theRhs = new GraphImpl();
-			theRhs.setName("RHS");
+			theRhs.setName("Rhs");
 			setRhs(theRhs);  // required for setting the container feature
 		}
 		return rhs;
@@ -879,12 +879,12 @@ public class RuleImpl extends TransformationUnitImpl implements Rule {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.emf.henshin.model.impl.TransformationUnitImpl#getSubUnits()
+	 * @see org.eclipse.emf.henshin.model.impl.UnitImpl#getSubUnits()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public EList<TransformationUnit> getSubUnits() {
-		return (EList<TransformationUnit>) ECollections.EMPTY_ELIST;
+	public EList<Unit> getSubUnits() {
+		return (EList<Unit>) ECollections.EMPTY_ELIST;
 	}
 	
 } // RuleImpl
