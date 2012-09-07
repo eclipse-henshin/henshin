@@ -36,6 +36,9 @@
     <rhs xmi:id="_Cy0RVGRbEeGG0NrfTXvizQ" name="RHS">
       <nodes xmi:id="_CzFXEGRbEeGG0NrfTXvizQ" incoming="_CzF-IWRbEeGG0NrfTXvizQ _CzF-ImRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="_CK8eAPkREeG2HPUIMV6WAw" value="pName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_CzFXEWRbEeGG0NrfTXvizQ" outgoing="_CzF-IGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/GenModel#//GenModel"/>
@@ -215,6 +218,9 @@
     <rhs xmi:id="_DGmI92RbEeGG0NrfTXvizQ" name="RHS">
       <nodes xmi:id="_DGmI-GRbEeGG0NrfTXvizQ" incoming="_DGmJAWRbEeGG0NrfTXvizQ _DGmJBGRbEeGG0NrfTXvizQ _DGmJBWRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_E8Yq4PkREeG2HPUIMV6WAw" value="contain">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference/containment"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_DGmI-WRbEeGG0NrfTXvizQ" incoming="_DGmJAmRbEeGG0NrfTXvizQ" outgoing="_DGmJAWRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -330,6 +336,9 @@
       </nodes>
       <nodes xmi:id="_DGjssGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EPackage"/>
+        <attributes xmi:id="__Xb0kPkQEeG2HPUIMV6WAw" value="pName">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
     </rhs>
     <mappings xmi:id="_C7fFIGRbEeGG0NrfTXvizQ" origin="_C7XwY2RbEeGG0NrfTXvizQ" image="_DGjssGRbEeGG0NrfTXvizQ"/>
@@ -487,6 +496,9 @@
       </nodes>
       <nodes xmi:id="_DIKPMmRbEeGG0NrfTXvizQ" incoming="_C3-eIGRbEeGG0NrfTXvizQ _Cy04b2RbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_RX034PkREeG2HPUIMV6WAw" value="genType">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_Cy04amRbEeGG0NrfTXvizQ" incoming="_DGaiwGRbEeGG0NrfTXvizQ" outgoing="_DIhbkGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Attribute"/>
@@ -496,6 +508,9 @@
       </nodes>
       <nodes xmi:id="_C9c0AGRbEeGG0NrfTXvizQ" incoming="_DIhbkGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_SRecsPkREeG2HPUIMV6WAw" value="key">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_C56X0GRbEeGG0NrfTXvizQ" name="seqUnit" outgoing="_DIhbkWRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
@@ -520,18 +535,27 @@
       </nodes>
       <nodes xmi:id="_C8g_4GRbEeGG0NrfTXvizQ" incoming="_DGW4YGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EAttribute"/>
+        <attributes xmi:id="_OcNbUPkREeG2HPUIMV6WAw" value="&quot;uid&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_C5uKkGRbEeGG0NrfTXvizQ" incoming="_SqkmYL9vEeGVpJhnGUJrLg" outgoing="_Cy04cWRbEeGG0NrfTXvizQ _DBdKQGRbEeGG0NrfTXvizQ _Cy04dmRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Edge"/>
       </nodes>
       <nodes xmi:id="_CzBFoGRbEeGG0NrfTXvizQ" incoming="_C7Jt8GRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+        <attributes xmi:id="_PcvEMPkREeG2HPUIMV6WAw" value="&quot;Rel&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_DILdUWRbEeGG0NrfTXvizQ" incoming="_Cy04dmRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EReference"/>
+        <attributes xmi:id="_QU9FoPkREeG2HPUIMV6WAw" value="&quot;genModel&quot;">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//ENamedElement/name"/>
+        </attributes>
       </nodes>
       <edges xmi:id="_C4gCkGRbEeGG0NrfTXvizQ" source="_Cy04aWRbEeGG0NrfTXvizQ" target="_DHwmkGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/rules"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/units"/>
       </edges>
       <edges xmi:id="_Cy04cGRbEeGG0NrfTXvizQ" source="_DHwmkGRbEeGG0NrfTXvizQ" target="_DIKPMGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Rule/lhs"/>
@@ -564,7 +588,7 @@
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Attribute/type"/>
       </edges>
       <edges xmi:id="_DIhbkWRbEeGG0NrfTXvizQ" source="_C56X0GRbEeGG0NrfTXvizQ" target="_DHwmkGRbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit/subUnits"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//MultiUnit/subUnits"/>
       </edges>
       <edges xmi:id="_Cy04bmRbEeGG0NrfTXvizQ" source="_C6HzMGRbEeGG0NrfTXvizQ" target="_DIK2QGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//Node/attributes"/>
@@ -627,9 +651,6 @@
       </nodes>
       <nodes xmi:id="_DJOmM2RbEeGG0NrfTXvizQ" name="seqUnit" incoming="_DJOmN2RbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2011/Henshin#//SequentialUnit"/>
-        <attributes xmi:id="_DJOmNGRbEeGG0NrfTXvizQ" value="true">
-          <type href="http://www.eclipse.org/emf/2011/Henshin#//TransformationUnit/activated"/>
-        </attributes>
         <attributes xmi:id="_DJOmNWRbEeGG0NrfTXvizQ" value="&quot;Adds custom changes to genmodel&quot;">
           <type href="http://www.eclipse.org/emf/2011/Henshin#//NamedElement/description"/>
         </attributes>
@@ -638,7 +659,7 @@
         </attributes>
       </nodes>
       <edges xmi:id="_DJOmN2RbEeGG0NrfTXvizQ" source="_DJOmMmRbEeGG0NrfTXvizQ" target="_DJOmM2RbEeGG0NrfTXvizQ">
-        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/transformationUnits"/>
+        <type href="http://www.eclipse.org/emf/2011/Henshin#//Module/units"/>
       </edges>
     </rhs>
     <mappings xmi:id="_DJOmOGRbEeGG0NrfTXvizQ" origin="_DJRpgGRbEeGG0NrfTXvizQ" image="_DJOmMmRbEeGG0NrfTXvizQ"/>
@@ -711,6 +732,12 @@
       </nodes>
       <nodes xmi:id="_DBkfFGRbEeGG0NrfTXvizQ" incoming="_DBkfGWRbEeGG0NrfTXvizQ _DBkfF2RbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry"/>
+        <attributes xmi:id="_JfnlgPkREeG2HPUIMV6WAw" value="key">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry/key"/>
+        </attributes>
+        <attributes xmi:id="_Kg1x8PkREeG2HPUIMV6WAw" value="value">
+          <type href="http://www.eclipse.org/emf/2002/Ecore#//EStringToStringMapEntry/value"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_DBkfEmRbEeGG0NrfTXvizQ" incoming="_DBkfGGRbEeGG0NrfTXvizQ" outgoing="_DKd8UGRbEeGG0NrfTXvizQ">
         <type href="http://www.eclipse.org/emf/2002/Ecore#//EModelElement"/>
@@ -720,6 +747,12 @@
       </nodes>
       <nodes xmi:id="_DVwmUGRbEeGG0NrfTXvizQ" outgoing="_DBkfGGRbEeGG0NrfTXvizQ _DBkfFmRbEeGG0NrfTXvizQ">
         <type href="ecore2gen.ecore#_RtaQFGRVEeGvhsE8A4EL5A"/>
+        <attributes xmi:id="_LkfnUPkREeG2HPUIMV6WAw" value="genType">
+          <type href="ecore2gen.ecore#_RtaQG2RVEeGvhsE8A4EL5A"/>
+        </attributes>
+        <attributes xmi:id="_MhIOsPkREeG2HPUIMV6WAw" value="uid">
+          <type href="ecore2gen.ecore#_RtaQGWRVEeGvhsE8A4EL5A"/>
+        </attributes>
       </nodes>
       <nodes xmi:id="_DBkfE2RbEeGG0NrfTXvizQ" outgoing="_DBkfF2RbEeGG0NrfTXvizQ">
         <type href="ecore2gen.ecore#_RtaQEWRVEeGvhsE8A4EL5A"/>

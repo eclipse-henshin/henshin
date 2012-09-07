@@ -115,7 +115,7 @@ public class Ecore2GenmodelTrafo {
 	}
 
 	public static void main(String[] args) {
-		runEcore2GenmodelExample(PATH, false);
+		runEcore2GenmodelExample(PATH, true);
 	}
 	
 }

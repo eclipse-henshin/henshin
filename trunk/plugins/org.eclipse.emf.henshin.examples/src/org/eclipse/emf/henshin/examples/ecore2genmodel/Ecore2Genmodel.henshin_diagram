@@ -834,7 +834,7 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dA6sQLuXEeGQGp23zGlW5Q" x="50" y="195" width="510" height="330"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_s2pcMSh9EeCpEKbqdQztQg"/>
-  <element xmi:type="henshin:TransformationSystem" href="Ecore2Genmodel.henshin#_Cut0cGRbEeGG0NrfTXvizQ"/>
+  <element xmi:type="henshin:Module" href="Ecore2Genmodel.henshin#_Cut0cGRbEeGG0NrfTXvizQ"/>
   <edges xmi:type="notation:Connector" xmi:id="_tiCikCh9EeCpEKbqdQztQg" type="4001" source="_tInV8Ch9EeCpEKbqdQztQg" target="_tI2mgCh9EeCpEKbqdQztQg">
     <children xmi:type="notation:DecorationNode" xmi:id="_tiDwsCh9EeCpEKbqdQztQg" type="6001">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_tiDwsSh9EeCpEKbqdQztQg" x="5" y="-55"/>
